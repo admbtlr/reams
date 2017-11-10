@@ -1,0 +1,27 @@
+import {Animated} from 'react-native'
+import {
+  UPDATE_CLAMPED_SCROLL_ANIM,
+  UPDATE_CLAMPED_SCROLL_ANIM_NORMALISED
+} from '../constants.js'
+
+export const initialState = {
+  clampedScrollAnim: new Animated.Value(0),
+  clampedScrollAnimNormalised: new Animated.Value(1)
+}
+
+export function animations (state = initialState, action) {
+  switch (action.type) {
+    case UPDATE_CLAMPED_SCROLL_ANIM:
+      return {
+        ...this.state,
+        clampedScrollAnim: action.animation
+      }
+    case UPDATE_CLAMPED_SCROLL_ANIM_NORMALISED:
+      return {
+        ...this.state,
+        clampedScrollAnimNormalised: action.animation
+      }
+    default:
+      return state
+  }
+}

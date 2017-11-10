@@ -1,0 +1,18 @@
+import {
+  UPDATE_CLAMPED_SCROLL_ANIM,
+  UPDATE_CLAMPED_SCROLL_ANIM_NORMALISED
+} from '../constants.js'
+
+export function updateClampedScrollAnim (animation) {
+  return {
+    type: UPDATE_CLAMPED_SCROLL_ANIM,
+    animation
+  }
+}
+
+export function updateClampedScrollAnimNormalised (animation) {
+  return {
+    type: UPDATE_CLAMPED_SCROLL_ANIM_NORMALISED,
+    animation
+  }
+}
