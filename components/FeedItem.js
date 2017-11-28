@@ -49,7 +49,7 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    let {feed_name, url, title, author, body, leadImg, styles} = this.props.item
+    let {feed_name, url, title, author, content_html, banner_image, styles, date_published} = this.props.item
     // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
     let articleClasses = [...styles.fontClasses, 'itemArticle', styles.color.name].join(' ')
@@ -64,11 +64,12 @@ class FeedItem extends React.Component {
     const scrollingClass = this.scrollOffset === 0
       ? ''
       : 'scrolling'
+    const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
     this.screenDimensions = Dimensions.get('window')
     const height = this.screenDimensions.height
     const calculateHeight = `(document.body && document.body.scrollHeight) ? document.body.scrollHeight : ${height * 2}`
-    body = this.stripInlineStyles(body)
+    content_html = this.stripInlineStyles(content_html)
 
     let server = ''
     if (__DEV__) {
@@ -85,7 +86,7 @@ class FeedItem extends React.Component {
         <link rel="stylesheet" type="text/css" href="${server}webview/css/item-styles.css">
         <script src="${server}webview/js/feed-item.js"></script>
       </head>
-      <body style="margin: 0; padding: 0;" class="${visibleClass} ${scrollingClass}">
+      <body style="margin: 0; padding: 0;" class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
         <article
           class="${articleClasses}">
           <!--div class="overlay" style="height: ${height}px; position: relative;">
@@ -96,7 +97,7 @@ class FeedItem extends React.Component {
           <div class="the-rest" style="position: absolute; top: ${height}px; min-height: ${height}px; width: 100vw;">
             ${authorHeading}
             <h3>${feed_name}</h3>
-            <div class="body">${body}</div>
+            <div class="body">${content_html}</div>
           </div>
         </article>
       </body>
@@ -118,12 +119,10 @@ class FeedItem extends React.Component {
         overflow: 'hidden'
       }}>
         <CoverImage
-          color={styles.coverImageColor}
-          resizeMode={styles.coverImageResizeMode}
+          styles={styles.coverImage}
           onImageLoaded={this.removeBlackHeading}
           scrollOffset={this.scrollOffset}
-          isBW={styles.isBW}
-          isMultiply={styles.isMultiply}
+          imageUrl={banner_image}
         />
         <Animated.ScrollView
           onScroll={Animated.event(
@@ -132,13 +131,16 @@ class FeedItem extends React.Component {
             }}],
             { useNativeDriver: true }
           )}
-          onScrollEndDrag={onScrollEnd}
+          onMomentumScrollBegin={this.onMomentumScrollBegin}
+          onMomentumScrollEnd={this.onMomentumScrollEnd}
+          onScrollEndDrag={this.onScrollEndDrag}
           ref={(ref) => { this.scrollView = ref }}
           scrollEventThrottle={1}
           style={{flex: 1}}
         >
           <ItemTitle
             title={title}
+            date={date_published}
             styles={styles.title}
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses[0]}
@@ -163,6 +165,20 @@ class FeedItem extends React.Component {
         </Animated.ScrollView>
       </View>
     )
+  }
+
+  // nasty workaround to figure out scrollEnd
+  // https://medium.com/appandflow/react-native-collapsible-navbar-e51a049b560a
+  onScrollEndDrag = () => {
+    this.scrollEndTimer = setTimeout(this.onMomentumScrollEnd, 250)
+  }
+
+  onMomentumScrollBegin = () => {
+    clearTimeout(this.scrollEndTimer)
+  }
+
+  onMomentumScrollEnd = () => {
+    onScrollEnd()
   }
 
   //called when HTML was loaded and injected JS executed

@@ -4,6 +4,7 @@ import configureStore from './redux/store/configureStore.js'
 import { AppRegistry, Text, View } from 'react-native'
 import { Sentry } from 'react-native-sentry'
 import App from './components/App.js'
+import Share from './components/Share.js'
 
 let store = configureStore()
 
@@ -26,6 +27,7 @@ export default class Rizzle extends Component {
 }
 
 AppRegistry.registerComponent('rizzle', () => Rizzle)
+AppRegistry.registerComponent('share', () => Share)
 
 // export default class Rizzle extends Component {
 //   render () {

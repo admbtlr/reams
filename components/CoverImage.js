@@ -1,5 +1,5 @@
 import React from 'react'
-import {Animated, Dimensions, Image} from 'react-native'
+import {Animated, Dimensions, Image, InteractionManager } from 'react-native'
 
 import {Surface} from 'gl-react-native'
 import { VibrancyView } from 'react-native-blur'
@@ -14,16 +14,13 @@ class CoverImage extends React.Component {
     super(props)
     this.props = props
 
-    if (!props.imageUrl) {
-      this.fallbackImage = this.getFallbackImage()
-    }
     this.blurRadius = 3
 
     const window = Dimensions.get('window')
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.blendMode = props.isMultiply
+    this.blendMode = props.styles.isMultiply
                     ? 'blendMultiply'
                     : 'none'
 
@@ -32,7 +29,7 @@ class CoverImage extends React.Component {
     this.brightness = 1
 
     // go for all out bw
-    if (props.isBW) {
+    if (props.styles.isBW) {
       this.saturation = 0
       this.contrast = 1.4
       this.brightness = 1.4
@@ -58,14 +55,14 @@ class CoverImage extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.imageUrl && !this.state) {
-      Image.getSize(nextProps.imageUrl, (width, height) => {
+      Image.getSize(nextProps.imageUrl, (imageWidth, imageHeight) => {
         let blur = false
         this.props.onImageLoaded()
-        if (width < this.screenWidth) {
+        if (imageWidth < this.screenWidth) {
           blur = true
         }
-        if (width !== 0 && height !== 0) {
-          this.setState({width, height, blur})
+        if (imageWidth !== 0 && imageHeight !== 0) {
+          InteractionManager.runAfterInteractions(() => this.setState({imageWidth, imageHeight, blur}))
         }
       }, () => {})
     }
@@ -74,8 +71,8 @@ class CoverImage extends React.Component {
   render () {
     const absolute = {
       position: 'absolute',
-      top: this.props.resizeMode === 'contain' ? '-10%' : '0%',
-      height: this.props.resizeMode === 'contain' ? '120%' : '100%',
+      top: this.props.styles.resizeMode === 'contain' ? '-10%' : '0%',
+      height: this.props.styles.resizeMode === 'contain' ? '120%' : '100%',
       left: '-10%',
       width: '120%'
     }
@@ -101,21 +98,21 @@ class CoverImage extends React.Component {
         {translateY}
       ]
     }
-    if (this.props.imageUrl && this.state) {
-      let blendColor = this.convertColorToBlendColor(this.props.color)
-      const center = [0.5, 0]
+    if (this.props.imageUrl && this.state && this.state.imageWidth) {
+      let blendColor = this.convertColorToBlendColor(this.props.styles.color)
+      const center = this.getCenterArray(this.props.styles.align)
       const image = (
         <GLImage
           cache='force-cache'
-          center={this.props.resizeMode === 'cover' ? center : undefined}
+          center={this.props.styles.resizeMode === 'cover' ? center : undefined}
           glReactUseImage
           key='this.props.imageUrl'
           source={{
             uri: this.props.imageUrl,
-            width: this.state.width * 1.2,
-            height: this.state.height * 1.2
+            width: this.state.imageWidth * 1.2,
+            height: this.state.imageHeight * 1.2
           }}
-          resizeMode={this.props.resizeMode}
+          resizeMode={this.props.styles.resizeMode}
         />
       )
       const blur = (
@@ -146,7 +143,7 @@ class CoverImage extends React.Component {
         <Surface
           width={this.screenWidth * 1.2}
           height={this.screenHeight * 1.2}
-          backgroundColor='white'
+          backgroundColor='transparent'
         >
           { this.blendMode === 'none' ? csb : blended }
         </Surface>
@@ -159,15 +156,16 @@ class CoverImage extends React.Component {
       // )
       return (
         <Animated.View style={style}>
-          { this.state.width && surface }
+          { surface }
+          { this.state.blur && blur }
         </Animated.View>
       )
     } else {
       // const radius = this.screenWidth * 0.4
       const cx = this.screenWidth * 0.5
       const cy = this.screenHeight * 0.5
-      const fill = this.flipColours ? 'white' : this.props.color.hex
-      style.backgroundColor = this.flipColours ? this.props.color.hex : 'white'
+      const fill = this.flipColours ? 'white' : this.props.styles.color.hex
+      style.backgroundColor = this.flipColours ? this.props.styles.color.hex : 'white'
       // style.backgroundColor = this.props.color.rgba.replace('0.4', '0.8')
 
       return (
@@ -208,6 +206,15 @@ class CoverImage extends React.Component {
     rgbArray = rgbArray.map((num) => num / 255)
     rgbArray.push(1)
     return rgbArray
+  }
+
+  getCenterArray (align) {
+    const values = {
+      'center': [0.5, 0],
+      'left': [0, 0],
+      'right': [1, 0],
+    }
+    return values[align]
   }
 }
 

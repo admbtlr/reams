@@ -40,7 +40,19 @@ export const getUnreadItems = (dispatch, page) => {
 export const receiveUnreadItems = (dispatch, response, page) => {
   response.json()
     .then((feed) => {
-      const items = [...feed.feed_items]
+      const items = [...feed.feed_items].map((item) => {
+        return {
+          id: item.feed_item_id,
+          url: item.url,
+          external_url: item.url,
+          title: item.title,
+          content_html: item.body,
+          date_published: item.published_at,
+          date_modified: item.updated_at,
+          author: item.author,
+          feed_title: item.feed_name
+        }
+      })
       itemsCache = itemsCache.concat(items)
       if (items.length === itemsFetchBatchSize) {
         getUnreadItems(dispatch, page + 1)

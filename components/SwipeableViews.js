@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { constant, checkIndexBounds, getDisplaySameSlide } from 'react-swipeable-views-core';
 
-import {panHandler, onPanStart, onPanEnd} from '../utils/animationHandlers'
+// import {panHandler, onPanStart, onPanEnd} from '../utils/animationHandlers'
 
 const styles = StyleSheet.create({
   root: {
@@ -209,7 +209,7 @@ class SwipeableViews extends Component {
   }
 
   componentDidMount () {
-    panHandler(this.state.panValue)
+    // panHandler(this.state.panValue)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -298,7 +298,7 @@ class SwipeableViews extends Component {
     if (this.props.onTouchStart) {
       this.props.onTouchStart(event, gestureState);
     }
-    onPanStart(event)
+    // onPanStart(event)
 
     this.startX = gestureState.x0;
     this.startIndex = getAnimatedValue(this.state.indexVirtual);
@@ -425,7 +425,7 @@ class SwipeableViews extends Component {
       //   this.props.onSwitching(indexActualNew, 'end');
       // }
     }
-    onPanEnd({type: 'end'})
+    // onPanEnd({type: 'end'})
   };
 
   setStateAfterInteractions = (state) => {

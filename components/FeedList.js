@@ -29,7 +29,6 @@ class FeedList extends React.Component {
         slideRenderer={this.renderSlide.bind(this)}
         onChangeIndex={this.onChangeIndex.bind(this)}
         slideCount={this.props.numItems}
-        panHandler={this.props.panHandler}
         index={this.props.index}
       />
     } else {

@@ -1,4 +1,4 @@
-@import "./variables.css";
+$step: 26px;
 
 $red1: hsl(355, 56%, 63%);
 $red2: hsl(341, 56%, 49%);
@@ -12,6 +12,21 @@ $blue2: hsl(198, 90%, 44%);
 $purple1: hsl(298, 32%, 56%);
 $purple2: hsl(320, 82%, 66%);
 $brown1: hsl(9, 61%, 71%);
+
+$colors: (
+  red1: hsl(355, 56%, 63%),
+  red2: hsl(341, 56%, 49%),
+  orange1: hsl(23, 100%, 60%),
+  orange2: hsl(33, 93%, 54%),
+  yellow1: hsl(49, 100%, 50%),
+  yellow2: hsl(65, 90%, 64%),
+  green1: hsl(167, 80%, 55%),
+  blue1: hsl(226, 68%, 57%),
+  blue2: hsl(198, 90%, 44%),
+  purple1: hsl(298, 32%, 56%),
+  purple2: hsl(320, 82%, 66%),
+  brown1: hsl(9, 61%, 71%)
+);
 
 * {
   box-sizing: border-box;
@@ -41,7 +56,7 @@ body {
 .cover, .body {
   position: relative;
   margin: 0;
-  /*padding: calc($step * .5);*/
+  /*padding: $step * .5;*/
   width: 100%;
   max-width: 100%;
   overflow: hidden;
@@ -90,7 +105,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  height: calc($step + 15px);
+  height: $step + 15px;
   width: 100%;
   padding-top: 15px;
   text-align: center;
@@ -125,7 +140,7 @@ body {
 
 .header {
   position: absolute;
-  /*width: calc(100% - $step);*/
+  /*width: 100% - $step;*/
 
   opacity: 0;
   transition: opacity .5s;
@@ -138,13 +153,13 @@ body {
 
   h1 {
     color: white;
-    margin: 0 calc($step*.5);
-    font-size: calc($step*1.5);
+    margin: 0 $step*.5;
+    font-size: $step*1.5;
     line-height: 1;
     text-shadow: 1px 1px 1px hsla(0, 0%, 0%, 0.5);
     a {
       color: inherit;
-      text-decoration: none;
+      /*text-decoration: none;*/
     }
 
   }
@@ -152,7 +167,7 @@ body {
 
 .headerSmall {
   h1 {
-    font-size: calc($step*1.2);
+    font-size: $step*1.2;
     line-height: 1;
   }
 }
@@ -179,7 +194,7 @@ h2, aside {
 }
 
 .headerTop {
-  top: calc($step * 2);
+  top: $step * 2;
 }
 
 .headerBottom {
@@ -228,7 +243,7 @@ h2, aside {
   padding: 0;
   h1 {
     display: block !important;
-    padding: calc($step * .25);
+    padding: $step * .25;
     color: white;
     background-color: hsla(0, 0%, 0%, 0.7);
     text-shadow: none;
@@ -239,7 +254,7 @@ h2, aside {
   padding: 0;
   h1 {
     display: block !important;
-    padding: calc($step * .25);
+    padding: $step * .25;
     background-color: hsla(0, 0%, 100%, 0.8);
     color: black;
     text-shadow: none;
@@ -263,16 +278,18 @@ h2, aside {
 
 .the-rest, .body {
   background-color: hsl(60, 17%, 96%);
-  color: hsl(0, 0%, 20%);
+  &, a, a:active, a:visited {
+    color: hsl(0, 0%, 20%);
+  }
 }
 
 .the-rest {
   margin: $step 0;
-  padding-top: calc($step * 2);
-  padding-bottom: calc($step * 3);
+  padding-top: $step * 2;
+  padding-bottom: $step * 3;
   h1, h2, h3 {
-    margin: calc($step * 2) 0 $step;
-    padding: calc($step * .5);
+    margin: $step * 2 0 $step;
+    padding: $step * .5;
     font-family: 'AvenirNext-Regular';
   }
 
@@ -285,7 +302,7 @@ h2, aside {
 .body {
   position: relative;
   z-index: 10;
-  padding: $step calc($step * 0.5);
+  padding: $step $step * 0.5;
   width: 100vw;
   font-family: "Cochin", serif;
   hyphens: auto;
@@ -302,7 +319,7 @@ h2, aside {
     margin: 0 0 $step;
     border: 0;
 
-    &:last-of-type {
+    p &:last-of-type {
       margin-bottom: 0;
     }
   }
@@ -311,7 +328,7 @@ h2, aside {
     width: 100vw;
     max-width: 100vw !important;
     width: 100vw !important;
-    left: calc($step * -0.5);
+    left: $step * -0.5;
     overflow: scroll;
     border-bottom: 1px solid hsl(0, 0%, 93%);
   }
@@ -332,9 +349,9 @@ h2, aside {
     font-size: 0.9em;
     line-height: $step;
     background-color: white;
-    left: calc($step * -0.5);
+    left: $step * -0.5;
     width: 100vw;
-    padding: $step calc($step * 0.5);
+    padding: $step $step * 0.5;
     display: block;
     position: relative;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -351,6 +368,8 @@ h2, aside {
       line-height: 1em;
       padding: 1px .5em;
       text-align: center;
+      margin: $step * 3 0;
+      hyphens: none;
     }
   }
 
@@ -370,7 +389,7 @@ h2, aside {
 
   a.unused, a.unused:active, a.unused:visited {
     color: inherit !important;
-    text-decoration: none;
+    /*text-decoration: none;*/
     background-image: linear-gradient(to bottom, hsla(0, 0%, 0%, 0) 19px, hsla(60, 100%, 39%, 0.3) 19px, hsla(60, 100%, 39%, 0.3) 24px);
     /*display: inline-block;*/
     /*padding-bottom: 0;*/
@@ -384,7 +403,7 @@ h2, aside {
 
   figure {
     padding: 0;
-    margin: 0 0 calc($step * 1.5);
+    margin: 0 0 $step * 1.5;
   }
 
   iframe {
@@ -395,20 +414,20 @@ h2, aside {
     line-height: 1.4;
     overflow: scroll;
     color: hsl(0, 0%, 20%);
-    padding: calc($step * .5);
+    padding: $step * .5;
   }
 
   div:not(:first-of-type) > p:not(.short-para):first-of-type {
-    margin-top: calc($step * 3)
+    margin-top: $step * 3
   }
 }
 
 article {
-  margin-bottom: calc($step * 6);
+  margin-bottom: $step * 6;
 }
 
 article > div:not(:last-of-type) p:last-of-type {
-  margin-bottom: calc($step * 6);
+  margin-bottom: $step * 6;
 }
 
 div > p:not(.short-para):first-of-type {
@@ -446,26 +465,73 @@ div > p:not(.short-para):first-of-type {
   }
 }
 
-.bodyFontSerif1 {
-  .body {
-    font-family: "Cochin", serif;
-    font-size: 22px;
-  }
-}
-
 .bodyFontSerif2 {
   .body {
-    font-family: "Hoefler Text", serif;
+    font-family: "Damascus", serif;
   }
 }
 
 .bodyFontSans2 {
   .body {
-    font-family: "Gill Sans", serif;
+    font-family: "Avenir", serif;
   }
 }
 
-.itemArticle {
+.itemArticle .body {
+  a, a:active, a:visited {
+    /*text-decoration: none;*/
+  }
+}
+
+.feedflare {
+  display: none !important;
+}
+
+
+@each $name, $value in $colors {
+  .itemArticle {
+    &.#{$name} {
+      div > p:not(.short-para):first-of-type {
+        &:before {
+          background-color: $value;
+        }
+
+        &:first-letter {
+          color: $value;
+        }
+      }
+
+      .body {
+        a, a:active, a:visited {
+          -webkit-text-decoration-color: $value;
+        }
+
+        blockquote.short-blockquote {
+          color: $value;
+        }
+      }
+    }
+  }
+}
+
+/*@each $animal, $color in (puma, sea-slug), (black, blue) {
+  .$(animal)-icon {
+    background-image: url('/images/$(animal).png');
+    border: 2px solid $color;
+  }
+}
+*/
+
+/*$icon;
+
+@each $icon in foo, bar, baz {
+  .icon-$(icon) {
+    background: url('icons/$(icon).png');
+  }
+}
+*/
+
+/*.itemArticle {
   .body {
     a, a:active, a:visited {
       text-decoration: none;
@@ -484,7 +550,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($red1 shade(40%));
+        border-bottom: 1px solid $red1;
       }
 
       blockquote.short-blockquote {
@@ -505,7 +571,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($red2 shade(40%));
+        border-bottom: 1px solid $red2;
       }
 
       blockquote.short-blockquote {
@@ -526,7 +592,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($orange1 shade(40%));
+        border-bottom: 1px solid $orange1;
       }
 
       blockquote.short-blockquote {
@@ -547,7 +613,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($orange2 shade(40%));
+        border-bottom: 1px solid $orange2;
       }
 
       blockquote.short-blockquote {
@@ -568,7 +634,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($yellow1 shade(40%));
+        border-bottom: 1px solid $yellow1;
       }
 
       blockquote.short-blockquote {
@@ -589,7 +655,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($yellow2 shade(40%));
+        border-bottom: 1px solid $yellow2;
       }
 
       blockquote.short-blockquote {
@@ -610,7 +676,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($green1 shade(40%));
+        border-bottom: 1px solid $green1;
       }
 
       blockquote.short-blockquote {
@@ -631,7 +697,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($blue1 shade(40%));
+        border-bottom: 1px solid $blue1;
       }
 
       blockquote.short-blockquote {
@@ -652,7 +718,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($blue2 shade(40%));
+        border-bottom: 1px solid $blue2;
       }
 
       blockquote.short-blockquote {
@@ -673,7 +739,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($purple1 shade(40%));
+        border-bottom: 1px solid $purple1;
       }
 
       blockquote.short-blockquote {
@@ -694,7 +760,7 @@ div > p:not(.short-para):first-of-type {
 
     .body {
       a, a:active, a:visited {
-        color: color($brown1 shade(40%));
+        border-bottom: 1px solid $brown1;
       }
 
       blockquote.short-blockquote {
@@ -707,3 +773,4 @@ div > p:not(.short-para):first-of-type {
     display: none;
   }
 }
+*/

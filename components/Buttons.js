@@ -9,7 +9,8 @@ import {
 import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 
 import {
-  getAnimatedValueNormalised
+  getAnimatedValueNormalised,
+  getAnimatedValue
 } from '../utils/animationHandlers'
 
 class Buttons extends React.Component {
@@ -65,15 +66,22 @@ class Buttons extends React.Component {
   render () {
     // this.translateY = this.calculateNewTranslateY()
     const item = this.props.items[this.props.index]
+    const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ? '#f6be3c' : '#ffffff'
     return (
       <Animated.View style={{
-        ...styles.base,
+        ...this.getStyles().base,
         opacity: getAnimatedValueNormalised()
       }}>
         <TouchableOpacity
           style={{
-            ...styles.button,
-            paddingLeft: 3
+            ...this.getStyles().button,
+            paddingLeft: 3,
+            transform: [{
+              translateY: getAnimatedValueNormalised().interpolate({
+                inputRange: [0, 0.33, 1],
+                outputRange: [100, 0, 0]
+              })
+            }]
           }}
           onPress={this.onSavePress}
         >
@@ -87,29 +95,41 @@ class Buttons extends React.Component {
             }}>
             <Polygon
               points='25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321'
-              stroke='#ffffff'
+              stroke={saveStrokeColour}
               strokeWidth='3'
               strokeLineJoin='round'
-              fill={item && item.isSaved ? '#ffffff' : 'none'}
+              fill={item && item.isSaved ? saveStrokeColour : 'none'}
             />
           </Svg>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            ...styles.button,
+            ...this.getStyles().button,
             width: 'auto',
-            paddingHorizontal: 28
+            paddingHorizontal: 28,
+            transform: [{
+              translateY: getAnimatedValueNormalised().interpolate({
+                inputRange: [0, 0.33, 0.66, 1],
+                outputRange: [100, 100, 0, 0]
+              })
+            }]
           }}
           onPress={this.onDisplayPress}
         >
-          <Text style={styles.buttonText}>
+          <Text style={this.getStyles().buttonText}>
             {this.props.index + 1} / {this.props.items.length}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            ...styles.button,
-            paddingLeft: 3
+            ...this.getStyles().button,
+            paddingLeft: 3,
+            transform: [{
+              translateY: getAnimatedValueNormalised().interpolate({
+                inputRange: [0, 0.66, 1],
+                outputRange: [100, 100, 0]
+              })
+            }]
           }}
           onPress={this.showShareActionSheet}
           >
@@ -155,39 +175,42 @@ class Buttons extends React.Component {
       </Animated.View>
     )
   }
-}
 
-const styles = {
-  base: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    zIndex: 10,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 14
-  },
-  button: {
-    backgroundColor: '#4d0d42',
-    opacity: 0.95,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
-    flexDirection: 'column'
-  },
-  buttonSVG: {
-    paddingLeft: 3
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    fontFamily: 'BodoniSvtyTwoOSITCTT-Book',
-    fontSize: 20,
-    marginTop: -6
+  getStyles() {
+    return {
+      base: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        zIndex: 10,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 14
+      },
+      button: {
+        backgroundColor: this.props.displayMode && this.props.displayMode == 'saved' ? '#5f4d2f' : '#51485f',
+        opacity: 0.95,
+        width: 56,
+        height: 56,
+        borderRadius: 28,
+        justifyContent: 'center',
+        flexDirection: 'column'
+      },
+      buttonSVG: {
+        paddingLeft: 3
+      },
+      buttonText: {
+        color: 'white',
+        textAlign: 'center',
+        backgroundColor: 'transparent',
+        // fontFamily: 'BodoniSvtyTwoOSITCTT-Book',
+        fontFamily: 'IBMPlexMono',
+        fontSize: 16,
+      }
+    }
   }
 }
+
 
 export default Buttons

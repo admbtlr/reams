@@ -8,6 +8,8 @@ import {
 
 import FeedListContainer from '../containers/FeedList.js'
 import ToolbarsContainer from '../containers/Toolbars.js'
+import AppStateListenerContainer from '../containers/AppStateListener.js'
+// import ClipboardWatcher from '../containers/ClipboardWatcher.js'
 
 // const App = () => (
 //   <div>
@@ -26,6 +28,7 @@ class App extends React.Component {
   render () {
     return (
       <View style={styles.mainView}>
+        <AppStateListenerContainer />
         <StatusBar barStyle='light-content' />
         <ToolbarsContainer />
         <View style={styles.infoView}>

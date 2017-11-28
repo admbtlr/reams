@@ -10,6 +10,8 @@ export function createItemStyles (item) {
   }
   title.color = color
 
+  const fonts = getFontClasses()
+
   let isBW = false
   let isMultiply = false
   if (Math.random() > 0.5) {
@@ -21,42 +23,58 @@ export function createItemStyles (item) {
   }
 
   let isContain = false
-  if (Math.random() > 0.8) {
+  if (Math.random() > 0.9) {
     isContain = true
     isMultiply = false
+    isBW = false
     title.color = color
   }
 
-  title.fontSize = item.title.length < 100 &&
-    Math.random() > 0.3
-      ? 56
-      : 28
-  if (item.title.length < 20) {
-    title.fontSize = 112
-  } else if (item.title.length < 100) {
-    title.fontSize = 56
-  } else {
-    title.fontSize = 28
+  const longestWord = (text) => {
+    const words = text.split(' ')
+    let longest = 0
+    words.forEach((word) => {
+      longest = word.length > longest ? word.length : longest
+    })
+    return longest
   }
-  title.lineHeight = title.fontSize * ((Math.random() * 0.2) + 0.8)
+
+  if (item.title.length < 20 && longestWord(item.title) < 6) {
+    title.fontSize = 64
+  } else if (item.title.length < 40) {
+    title.fontSize = 48
+  } else if (item.title.length < 80) {
+    title.fontSize = 42
+  } else {
+    title.fontSize = 36
+  }
+  title.lineHeight = Math.floor(title.fontSize * (Math.random() * 0.4 + 0.8))
   title.textAlign = Math.random() > 0.5
     ? 'center'
     : 'left'
   title.title = item.title
-  if (Math.random() > 0.5) {
-    item.title = item.title.toUpperCase()
-  }
+  title.hasShadow = !isContain
+  title.isVertical = item.title.length < 72 && Math.random() > 0.5
+  title.isInline = title.isVertical || Math.random() > 0.5
+  title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
 
   return {
-    fontClasses: getFontClasses(),
+    fontClasses: fonts,
     border: hasBorder(),
+    hasColorBlockquoteBG: Math.random() > 0.5,
     color,
-    isBW,
-    isMultiply,
-    coverImageColor: pickOne(colors(), color),
-    // whether the bg image should be `cover` or just `contain`
-    coverImageResizeMode: isContain ? 'contain' : 'cover',
-    title
+    coverImage: {
+      isBW,
+      isMultiply,
+      color: pickOne(colors(), color),
+      resizeMode: isContain ? 'contain' : 'cover',
+      align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
+    },
+    title: {
+      ...title,
+      valign: Math.random() > 0.5 ? 'center' : ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)],
+      bg: !isBW && !isMultiply && !isContain && !title.isVertical && Math.random() > 0.5 ? true : false
+    }
   }
 }
 

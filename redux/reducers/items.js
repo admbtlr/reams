@@ -29,13 +29,14 @@ export function items (state = initialState, action) {
   switch (action.type) {
     case REHYDRATE:
       // workaround to make up for slideable bug
-      var incoming = action.payload.items
+      let incoming = action.payload.items
       console.log('REHYDRATE!' + action.payload.items)
       if (incoming) {
         return {
           ...state,
           ...incoming,
-          index: incoming.index < 0 ? 0 : incoming.index
+          index: incoming.index < 0 ? 0 : incoming.index,
+          savedIndex: incoming.savedIndex < 0 ? 0 : incoming.savedIndex
         }
       }
       return { ...state }
@@ -65,14 +66,9 @@ export function items (state = initialState, action) {
       }
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
-      const currentItem = state.items[state.index]
+      const currentItem = state.items[state.index] || 0
       items = interleaveItems(state.items, action.items, currentItem)
-        .map((item) => {
-          return {
-            ...item,
-            styles: createItemStyles(item)
-          }
-        })
+        .map(addStylesIfNecessary)
 
       let index = 0
       if (currentItem) {
@@ -111,6 +107,18 @@ export function items (state = initialState, action) {
         saved
       }
 
+    case 'ITEM_SAVE_EXTERNAL_ITEM':
+      savedItem = addStylesIfNecessary(action.item)
+      savedItem.isSaved = true
+      saved.push({
+        ...savedItem,
+        savedAt: Date.now()
+      })
+      return {
+        ...state,
+        saved
+      }
+
     case 'ITEM_UNSAVE_ITEM':
       items = [ ...state.items ]
       let savedIndex = state.savedIndex
@@ -142,16 +150,20 @@ export function items (state = initialState, action) {
       }
 
     case 'ITEM_LOAD_MERCURY_STUFF_SUCCESS':
-      items = state.items.map((item) => {
+      const testAndAddMercury = (item) => {
         if (item._id === action.item._id) {
           return addMercuryStuffToItem(item, action.mercuryStuff)
         } else {
           return item
         }
-      })
+      }
+
+      items = state.items.map(testAndAddMercury).map(addStylesIfNecessary)
+      saved = state.saved.map(testAndAddMercury).map(addStylesIfNecessary)
       return {
         ...state,
-        items
+        items,
+        saved
       }
 
     case 'TOGGLE_DISPLAYED_ITEMS':
@@ -166,15 +178,29 @@ export function items (state = initialState, action) {
   }
 }
 
+function addStylesIfNecessary (item) {
+  if (item.styles && !item.styles.temporary) {
+    return item
+  } else {
+    let styles = createItemStyles(item)
+    if (item.title === 'Loading...') {
+      styles.temporary = true
+    }
+    return {
+      ...item,
+      styles: createItemStyles(item)
+    }
+  }
+}
+
 function mergeDedupe (oldItems, newItems) {
   let items = []
 
   // go through new items, replacing new ones with matching old ones (to get Mercury stuff)
-  // add current item if not present
   newItems.forEach(newItem => {
     let match = false
     oldItems.forEach(oldItem => {
-      if (newItem.feed_item_id === oldItem.feed_item_id) {
+      if (newItem.id === oldItem.id) {
         match = oldItem
       }
     })
@@ -188,7 +214,7 @@ function mergeDedupe (oldItems, newItems) {
   //   }
   // })
 
-  return items
+  return items.filter(item => !item.readAt)
 }
 
 function interleaveItems (oldItems, newItems, currentItem) {
@@ -206,7 +232,7 @@ function interleaveItems (oldItems, newItems, currentItem) {
     }
   }
 
-  items.sort((a, b) => a.created_at - b.created_at)
+  items.sort((a, b) => a.date_published - b.date_published)
   return items
 }
 
@@ -215,12 +241,27 @@ function id () {
 }
 
 function addMercuryStuffToItem (item, mercury) {
-  let content = mercury.content.length && mercury.content.length > item.body.length
+  if (item.is_external) {
+    return {
+      ...item,
+      external_url: item.url,
+      title: mercury.title,
+      content_html: mercury.content,
+      date_published: mercury.date_published,
+      date_modified: mercury.date_published,
+      author: mercury.author,
+      feed_title: mercury.domain,
+      banner_image: mercury.lead_image_url,
+      excerpt: mercury.excerpt
+    }
+  }
+
+  let content = mercury.content && mercury.content.length && mercury.content.length > item.content_html.length
     ? mercury.content
     : item.body
   return {
     ...item,
-    leadImg: mercury.lead_image_url,
+    banner_image: mercury.lead_image_url,
     body: content
   }
 }

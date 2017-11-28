@@ -28,18 +28,20 @@ class TopBar extends React.Component {
 
   getMessage (props = this.props) {
     const feedName = props.items.length > 1
-      ? props.items[this.props.index].feed_name
+      ? props.items[this.props.index].feed_title
       : 'Rizzle'
     return props.toolbar.message || feedName || ''
   }
 
   render () {
     console.log('RENDER TOPBAR!')
+    let topBarStyles = Object.assign({}, styles.topBar, this.props.displayMode == 'saved' ? colorSaved.topBar : colorUnread.topBar)
+    let textHolderStyles = Object.assign({}, styles.textHolder, this.props.displayMode == 'saved' ? colorSaved.textHolder : colorUnread.textHolder)
     return (
       <View style={styles.base}>
-        <View style={styles.topBar} />
+        <View style={topBarStyles} />
         <Animated.View style={{
-          ...styles.textHolder,
+          ...textHolderStyles,
           transform: [{
             translateY: getAnimatedValue()
           }]
@@ -56,6 +58,24 @@ class TopBar extends React.Component {
   }
 }
 
+const colorSaved = {
+  topBar: {
+    backgroundColor: '#5f4d2f'
+  },
+  textHolder: {
+    backgroundColor: '#5f4d2f'
+  }
+}
+
+const colorUnread = {
+  topBar: {
+    backgroundColor: '#51485f'
+  },
+  textHolder: {
+    backgroundColor: '#51485f'
+  }
+}
+
 const styles = {
   base: {
     position: 'absolute',
@@ -65,19 +85,25 @@ const styles = {
   },
   topBar: {
     flex: 1,
-    backgroundColor: '#4d0d42',
     height: 20
   },
   textHolder: {
     flex: 1,
-    backgroundColor: '#4d0d42',
-    height: STATUS_BAR_HEIGHT
+    height: STATUS_BAR_HEIGHT,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowRadius: 1,
+    shadowOpacity: 0.3
   },
   feedName: {
     flex: 1,
     color: 'white',
-    fontSize: 18,
-    fontFamily: 'BodoniSvtyTwoOSITCTT-Book',
+    fontSize: 16,
+    // fontFamily: 'AvenirNext-Regular',
+    fontFamily: 'IBMPlexMono',
     // fontWeight: '700',
     // fontVariant: ['small-caps'],
     textAlign: 'center',

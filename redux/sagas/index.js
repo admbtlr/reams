@@ -1,3 +1,4 @@
+import { delay } from 'redux-saga'
 import { put, takeEvery, select } from 'redux-saga/effects'
 import { markItemRead, loadMercuryStuff } from '../backends'
 import 'whatwg-fetch'
@@ -14,6 +15,7 @@ const getDisplay = (state) => state.items.display
 // const feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
 
 function * markLastItemRead (action) {
+  yield delay (100)
   const display = yield select(getDisplay)
   if (display !== 'unread') {
     return
@@ -29,6 +31,7 @@ function * markLastItemRead (action) {
       index: lastIndex
     })
   } catch (error) {
+    console.log('Mark Item Read Error!')
     yield put({
       type: 'ITEMS_HAS_ERRORED',
       hasErrored: true
@@ -52,6 +55,7 @@ function * markLastItemRead (action) {
 // }
 
 function * loadMercuryForSurroundingItems (action) {
+  yield delay (100)
   const items = yield select(getItems)
   const index = action.index
   const buffer = 2
@@ -65,20 +69,39 @@ function * loadMercuryForSurroundingItems (action) {
 
 function * loadMercuryIfNecessary (item) {
   if (!item.hasLoadedMercuryStuff) {
-    try {
-      const mercuryStuff = yield loadMercuryStuff(item)
-      yield put({
-        type: 'ITEM_LOAD_MERCURY_STUFF_SUCCESS',
-        item,
-        mercuryStuff
-      })
-    } catch (error) {
-      yield put({
-        type: 'ITEMS_HAS_ERRORED',
-        hasErrored: true
-      })
-    }
+    yield loadMercuryForItem(item)
   }
+}
+
+function * loadMercuryForItem (item) {
+  try {
+    const mercuryStuff = yield loadMercuryStuff(item)
+    yield put({
+      type: 'ITEM_LOAD_MERCURY_STUFF_SUCCESS',
+      item,
+      mercuryStuff
+    })
+  } catch (error) {
+    yield put({
+      type: 'ITEMS_HAS_ERRORED',
+      hasErrored: true
+    })
+  }
+}
+
+function * saveExternalURL (action) {
+  let item = {
+    url: action.url,
+    id: Math.random().toString(36).substring(7),
+    title: 'Loading...',
+    content_html: 'Loading...',
+    is_external: true
+  }
+  yield put({
+    type: 'ITEM_SAVE_EXTERNAL_ITEM',
+    item
+  })
+  yield loadMercuryForItem(item)
 }
 
 /*
@@ -88,4 +111,5 @@ function * loadMercuryIfNecessary (item) {
 export function * updateCurrentIndex () {
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', loadMercuryForSurroundingItems)
+  yield takeEvery('SAVE_EXTERNAL_URL', saveExternalURL)
 }

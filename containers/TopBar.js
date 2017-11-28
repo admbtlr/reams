@@ -8,9 +8,8 @@ const mapStateToProps = (state) => {
   return {
     items,
     index,
-    toolbar: state.toolbar
-    // clampedScrollAnim: state.animations.clampedScrollAnim,
-    // clampedScrollAnimNormalised: state.animations.clampedScrollAnimNormalised
+    toolbar: state.toolbar,
+    displayMode: state.items.display
   }
 }
 

@@ -1,13 +1,23 @@
-var postcss = require('gulp-postcss')
+// var postcss = require('gulp-postcss')
 var gulp = require('gulp')
 var webserver = require('gulp-webserver')
 var watch = require('gulp-watch')
 var gls = require('gulp-live-server');
+var sass = require('gulp-sass');
 
+// gulp.task('sass', function () {
+//   return gulp.src('./webview/**/*.scss')
+//     .pipe(sass().on('error', sass.logError))
+//     .pipe(gulp.dest('./ios/webview/css'));
+// });
+
+// gulp.task('sass:watch', function () {
+//   gulp.watch('./sass/**/*.scss', ['sass']);
+// });
 
 gulp.task('css', function () {
-  return gulp.src('webview/*.css')
-    .pipe(postcss())
+  return gulp.src('webview/*.scss')
+    .pipe(sass())
     .pipe(gulp.dest('./ios/webview/css'))
 })
 
@@ -26,7 +36,7 @@ gulp.task('serve', function () {
 
 gulp.task('watch', function() {
   // Watch .scss files
-  gulp.watch('webview/*.css', ['css']);
+  gulp.watch('webview/*.scss', ['css']);
   gulp.watch('webview/*.js', ['js']);
 })
 

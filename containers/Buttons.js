@@ -16,7 +16,8 @@ const mapStateToProps = (state) => {
     items,
     index,
     isSaved: item && item.isSaved,
-    toolbar: state.toolbar
+    toolbar: state.toolbar,
+    displayMode: state.items.display
   }
 }
 
