@@ -23,11 +23,14 @@ export function createItemStyles (item) {
   }
 
   let isContain = false
+  let isCoverInline = false
   if (Math.random() > 0.9) {
     isContain = true
     isMultiply = false
     isBW = false
     title.color = color
+  } else if (Math.random() > 0.9) {
+    isCoverInline = true
   }
 
   const longestWord = (text) => {
@@ -37,6 +40,13 @@ export function createItemStyles (item) {
       longest = word.length > longest ? word.length : longest
     })
     return longest
+  }
+
+  const titleVariance = (text) => {
+    const words = text.split(' ')
+      .sort((a, b) => b.length - a.length)
+    const average = Math.round(words.reduce((avg, word) => avg + word.length, 0) / words.length)
+    return words.reduce((variance, word) => variance + Math.abs(average - word.length), 0) / words.length
   }
 
   if (item.title.length < 20 && longestWord(item.title) < 6) {
@@ -54,7 +64,7 @@ export function createItemStyles (item) {
     : 'left'
   title.title = item.title
   title.hasShadow = !isContain
-  title.isVertical = item.title.length < 72 && Math.random() > 0.5
+  title.isVertical = item.title.length < 72 && titleVariance(item.title) < 1.5
   title.isInline = title.isVertical || Math.random() > 0.5
   title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
 
@@ -63,6 +73,7 @@ export function createItemStyles (item) {
     border: hasBorder(),
     hasColorBlockquoteBG: Math.random() > 0.5,
     color,
+    isCoverInline,
     coverImage: {
       isBW,
       isMultiply,
@@ -185,4 +196,94 @@ const getGradient = function () {
   ]
   const color2 = getColor()
   return `linear-gradient(${pickOne(directions)}, ${color.rgba}, ${pickOne(colors()).rgba})`
+}
+
+export function commonWords () {
+  return [
+    'the',
+    'of',
+    'and',
+    'to',
+    'a',
+    'in',
+    'for',
+    'is',
+    'on',
+    'that',
+    'by',
+    'this',
+    'with',
+    'i',
+    'you',
+    'it',
+    'not',
+    'or',
+    'be',
+    'are',
+    'from',
+    'at',
+    'as',
+    'your',
+    'all',
+    'have',
+    'more',
+    'an',
+    'was',
+    'we',
+    'will',
+    'home',
+    'can',
+    'us',
+    'about',
+    'if',
+    'my',
+    'has',
+    'but',
+    'our',
+    'one',
+    'other',
+    'do',
+    'no',
+    'they',
+    'he',
+    'up',
+    'may',
+    'what',
+    'which',
+    'their',
+    'out',
+    'use',
+    'any',
+    'there',
+    'see',
+    'only',
+    'so',
+    'his',
+    'when',
+    'here',
+    'who',
+    'web',
+    'also',
+    'now',
+    'get',
+    'am',
+    'been',
+    'would',
+    'how',
+    'were',
+    'me',
+    'some',
+    'these',
+    'its',
+    'like',
+    'than',
+    'had',
+    'into',
+    'them',
+    'should',
+    'her',
+    'such',
+    'after',
+    'then'
+  ]
 }

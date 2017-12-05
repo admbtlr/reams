@@ -36,8 +36,107 @@ const fontStyles = {
   },
   headerFontSans7: {
     fontFamily: 'HelveticaNeue-BoldItalic'
+  },
+  bodyFontSans1: {
+    fontFamily: 'GillSans-LightItalic'
+  },
+  bodyFontSans2: {
+    fontFamily: 'Avenir-LightOblique'
+  },
+  bodyFontSerif1: {
+    fontFamily: 'Cochin'
+  },
+  bodyFontSerif2: {
+    fontFamily: 'IowanOldStyle-Roman'
   }
 }
+
+const commonWords = [
+  'the',
+  'of',
+  'and',
+  'to',
+  'a',
+  'in',
+  'for',
+  'is',
+  'on',
+  'that',
+  'by',
+  'this',
+  'with',
+  'i',
+  'you',
+  'it',
+  'not',
+  'or',
+  'be',
+  'are',
+  'from',
+  'at',
+  'as',
+  'your',
+  'all',
+  'have',
+  'more',
+  'an',
+  'was',
+  'we',
+  'will',
+  'home',
+  'can',
+  'us',
+  'about',
+  'if',
+  'my',
+  'has',
+  'but',
+  'our',
+  'one',
+  'other',
+  'do',
+  'no',
+  'they',
+  'he',
+  'up',
+  'may',
+  'what',
+  'which',
+  'their',
+  'out',
+  'use',
+  'any',
+  'there',
+  'see',
+  'only',
+  'so',
+  'his',
+  'when',
+  'here',
+  'who',
+  'also',
+  'now',
+  'get',
+  'am',
+  'been',
+  'would',
+  'how',
+  'were',
+  'me',
+  'some',
+  'these',
+  'its',
+  'like',
+  'than',
+  'had',
+  'into',
+  'them',
+  'should',
+  'her',
+  'such',
+  'after',
+  'then'
+]
 
 class ItemTitle extends React.Component {
   constructor (props) {
@@ -120,6 +219,11 @@ class ItemTitle extends React.Component {
       ...shadowStyle
     }
 
+    const invertedTitleStyle = {
+      backgroundColor: styles.color.hex,
+      color: 'white'
+    }
+
     let server = ''
     if (__DEV__) {
       server = 'http://localhost:8888/'
@@ -160,12 +264,35 @@ class ItemTitle extends React.Component {
       'bottom': 'flex-end'
     }
 
-    if (this.props.styles.isUpperCase) {
-      title = title.toLocaleUpperCase()
-    }
-
-    if (this.props.styles.isVertical) {
-      title = title.trim().replace(/ /g, '\n')
+    // TODO: move these calculations into createItemStyles()
+    const words = title.split(' ')
+    let common = uncommon = 0
+    words.forEach(word => {
+      if (commonWords.find(cw => cw === word.toLowerCase())) {
+        common++
+      } else {
+        uncommon++
+      }
+    })
+    const commonWordRatio = common / uncommon
+    if (commonWordRatio > 0.4) {
+      title = words.map((word, index) => {
+        if (commonWords.find(cw => cw === word.toLowerCase())) {
+          return (<Animated.Text key={index} style={{
+            ...fontStyles[this.props.bodyFont],
+            ...invertedTitleStyle
+          }}>{word} </Animated.Text>)
+        } else {
+          return (<Animated.Text key={index} style={invertedTitleStyle}>{word} </Animated.Text>)
+        }
+      })
+    } else {
+      if (this.props.styles.isUpperCase) {
+        title = title.toLocaleUpperCase()
+      }
+      if (this.props.styles.isVertical) {
+        title = title.trim().replace(/ /g, '\n')
+      }
     }
 
     return (
@@ -179,7 +306,10 @@ class ItemTitle extends React.Component {
         justifyContent: justifiers[styles.valign],
       }}>
         <Animated.View style={innerViewStyle}>
-          <Animated.Text style={textStyle}>{title}{"\n"}<Animated.Text style={dateStyle}>{moment(date * 1000).format('dddd MMM Do, h:mm a')}</Animated.Text></Animated.Text>
+          <Animated.Text style={textStyle}>
+            <Animated.Text>{title}{"\n"}</Animated.Text>
+            <Animated.Text style={dateStyle}>{moment(date * 1000).format('dddd MMM Do, h:mm a')}</Animated.Text>
+          </Animated.Text>
         </Animated.View>
       </View>
     )

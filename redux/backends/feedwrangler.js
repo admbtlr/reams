@@ -68,7 +68,7 @@ export const receiveUnreadItems = (dispatch, response, page) => {
 export const markItemRead = (item) => {
   let url = 'https://feedwrangler.net/api/v2/feed_items/update?'
   url += 'access_token=' + feedWranglerAccessToken
-  url += '&feed_item_id=' + item.feed_item_id
+  url += '&feed_item_id=' + item.id
   url += '&read=true'
   return fetch(url)
     .then((response) => {

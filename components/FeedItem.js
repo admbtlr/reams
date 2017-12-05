@@ -49,7 +49,7 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    let {feed_name, url, title, author, content_html, banner_image, styles, date_published} = this.props.item
+    let {feed_name, url, title, author, body, banner_image, styles, date_published} = this.props.item
     // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
     let articleClasses = [...styles.fontClasses, 'itemArticle', styles.color.name].join(' ')
@@ -69,7 +69,7 @@ class FeedItem extends React.Component {
     this.screenDimensions = Dimensions.get('window')
     const height = this.screenDimensions.height
     const calculateHeight = `(document.body && document.body.scrollHeight) ? document.body.scrollHeight : ${height * 2}`
-    content_html = this.stripInlineStyles(content_html)
+    body = this.stripInlineStyles(body)
 
     let server = ''
     if (__DEV__) {
@@ -97,7 +97,7 @@ class FeedItem extends React.Component {
           <div class="the-rest" style="position: absolute; top: ${height}px; min-height: ${height}px; width: 100vw;">
             ${authorHeading}
             <h3>${feed_name}</h3>
-            <div class="body">${content_html}</div>
+            <div class="body">${body}</div>
           </div>
         </article>
       </body>
@@ -113,17 +113,19 @@ class FeedItem extends React.Component {
       }
     }
 
+    const coverImage = <CoverImage
+            styles={styles.coverImage}
+            onImageLoaded={this.removeBlackHeading}
+            scrollOffset={this.scrollOffset}
+            imageUrl={banner_image}
+          />
+
     return (
       <View style={{
         flex: 1,
         overflow: 'hidden'
       }}>
-        <CoverImage
-          styles={styles.coverImage}
-          onImageLoaded={this.removeBlackHeading}
-          scrollOffset={this.scrollOffset}
-          imageUrl={banner_image}
-        />
+        {!styles.isCoverInline && coverImage}
         <Animated.ScrollView
           onScroll={Animated.event(
             [{ nativeEvent: {
@@ -138,12 +140,14 @@ class FeedItem extends React.Component {
           scrollEventThrottle={1}
           style={{flex: 1}}
         >
+          {styles.isCoverInline && coverImage}
           <ItemTitle
             title={title}
             date={date_published}
             styles={styles.title}
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses[0]}
+            bodyFont={styles.fontClasses[1]}
           />
           <WebView
             decelerationRate='normal'

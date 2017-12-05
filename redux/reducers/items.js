@@ -23,6 +23,7 @@ export function items (state = initialState, action) {
   let newItems = []
   let saved = []
   let savedItem = {}
+  let newState = {}
   const key = state.display === 'unread' ? 'items' : 'savedItems'
   const indexKey = state.display === 'unread' ? 'index' : 'savedIndex'
 
@@ -69,6 +70,12 @@ export function items (state = initialState, action) {
       const currentItem = state.items[state.index] || 0
       items = interleaveItems(state.items, action.items, currentItem)
         .map(addStylesIfNecessary)
+        .map(item => {
+          return {
+            ...item,
+            body: item.content_html
+          }
+        })
 
       let index = 0
       if (currentItem) {
@@ -90,6 +97,17 @@ export function items (state = initialState, action) {
       return {
         ...state,
         items
+      }
+
+    case 'ITEMS_UPDATE_CURRENT_INDEX':
+      if (state.display === 'unread') {
+        newState.index = action.index
+      } else {
+        newState.savedIndex = action.index
+      }
+      return {
+        ...state,
+        ...newState
       }
 
     case 'ITEM_SAVE_ITEM':
@@ -136,8 +154,7 @@ export function items (state = initialState, action) {
         savedIndex
       }
 
-    case 'ITEMS_UPDATE_CURRENT_INDEX':
-      let newState = { ...state }
+      newState = { ...state }
       newState[indexKey] = action.index
       return newState
 
@@ -246,7 +263,7 @@ function addMercuryStuffToItem (item, mercury) {
       ...item,
       external_url: item.url,
       title: mercury.title,
-      content_html: mercury.content,
+      content_mercury: mercury.content,
       date_published: mercury.date_published,
       date_modified: mercury.date_published,
       author: mercury.author,

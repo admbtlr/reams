@@ -212,7 +212,7 @@ h2, aside {
     margin-bottom: 26px; }
   .body img, .body video, .body iframe, .body pre {
     position: relative;
-    max-width: calc(100vw - $step) !important;
+    max-width: calc(100vw - 26px) !important;
     height: auto !important;
     margin: 0 0 26px;
     border: 0; }
@@ -315,7 +315,7 @@ div > p:not(.short-para):first-of-type.firstPara {
   font-family: "Gill Sans", sans-serif; }
 
 .bodyFontSerif2 .body {
-  font-family: "Damascus", serif; }
+  font-family: "Iowan Old Style", serif; }
 
 .bodyFontSans2 .body {
   font-family: "Avenir", serif; }

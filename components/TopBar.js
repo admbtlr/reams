@@ -17,18 +17,15 @@ class TopBar extends React.Component {
   constructor (props) {
     super(props)
     this.props = props
-    this.translateY = STATUS_BAR_HEIGHT
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextProps.item !== this.props.item) {
-
-    }
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.currentItem !== this.props.currentItem
   }
 
   getMessage (props = this.props) {
-    const feedName = props.items.length > 1
-      ? props.items[this.props.index].feed_title
+    const feedName = props.currentItem
+      ? props.currentItem.feed_title
       : 'Rizzle'
     return props.toolbar.message || feedName || ''
   }

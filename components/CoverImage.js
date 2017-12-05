@@ -14,7 +14,7 @@ class CoverImage extends React.Component {
     super(props)
     this.props = props
 
-    this.blurRadius = 3
+    this.blurRadius = 10
 
     const window = Dimensions.get('window')
     this.screenWidth = window.width
@@ -31,8 +31,8 @@ class CoverImage extends React.Component {
     // go for all out bw
     if (props.styles.isBW) {
       this.saturation = 0
-      this.contrast = 1.4
-      this.brightness = 1.4
+      // this.contrast = 1.4
+      // this.brightness = 1.4
     }
 
     this.flipColours = Math.random() > 0.5

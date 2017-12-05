@@ -314,7 +314,7 @@ h2, aside {
 
   img, video, iframe, pre {
     position: relative;
-    max-width: calc(100vw - $step) !important;
+    max-width: calc(100vw - #{$step}) !important;
     height: auto !important;
     margin: 0 0 $step;
     border: 0;
@@ -467,7 +467,7 @@ div > p:not(.short-para):first-of-type {
 
 .bodyFontSerif2 {
   .body {
-    font-family: "Damascus", serif;
+    font-family: "Iowan Old Style", serif;
   }
 }
 
