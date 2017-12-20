@@ -28,8 +28,20 @@ function markShortBlockquotes() {
   })
 }
 
+var toggleCollapsed = (e) => {
+  var expander = document.querySelectorAll('.js-feed-title')[0]
+  if (expander.classList.contains('collapsed')) {
+    expander.classList.remove('collapsed')
+  } else {
+    expander.classList.add('collapsed')
+  }
+}
+
 window.onload = function () {
   markShortBlockquotes()
   markShortParagraphs()
   markImages()
+
+  var expander = document.querySelectorAll('.js-feed-expand')
+  document.querySelectorAll('.js-feed-expand')[0].ontouchend = toggleCollapsed
 }

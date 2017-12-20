@@ -1,5 +1,5 @@
 import React from 'react'
-import {Animated, Dimensions, Image, InteractionManager } from 'react-native'
+import {Animated, Dimensions, Image, InteractionManager, View } from 'react-native'
 
 import {Surface} from 'gl-react-native'
 import { VibrancyView } from 'react-native-blur'
@@ -24,8 +24,8 @@ class CoverImage extends React.Component {
                     ? 'blendMultiply'
                     : 'none'
 
-    this.saturation = Math.round(Math.random() * 0.8)
-    this.contrast = 1
+    this.saturation = 1 //Math.round(Math.random() * 0.8)
+    this.contrast = 1.1
     this.brightness = 1
 
     // go for all out bw
@@ -49,18 +49,15 @@ class CoverImage extends React.Component {
       })
   }
 
-  getFallbackImage () {
-    return require('../img/square-dot-bold-type.svg')
-  }
-
   componentWillReceiveProps (nextProps) {
     if (nextProps.imageUrl && !this.state) {
       Image.getSize(nextProps.imageUrl, (imageWidth, imageHeight) => {
         let blur = false
         this.props.onImageLoaded()
-        if (imageWidth < this.screenWidth) {
+        if (imageWidth < this.screenWidth || imageHeight < this.screenHeight) {
           blur = true
         }
+        blur = true
         if (imageWidth !== 0 && imageHeight !== 0) {
           InteractionManager.runAfterInteractions(() => this.setState({imageWidth, imageHeight, blur}))
         }
@@ -89,6 +86,10 @@ class CoverImage extends React.Component {
       inputRange: [0, this.screenHeight * 0.75, this.screenHeight],
       outputRange: [1, 1, 0]
     })
+    const blurOpacity = scrollOffset.interpolate({
+      inputRange: [-100, -50, 0, 200],
+      outputRange: [0, 0.8, 1, 0]
+    })
     let style = {
       ...absolute,
       backgroundColor: 'white',
@@ -98,29 +99,42 @@ class CoverImage extends React.Component {
         {translateY}
       ]
     }
+    const blurStyle = {
+      ...absolute,
+      opacity
+    }
     if (this.props.imageUrl && this.state && this.state.imageWidth) {
       let blendColor = this.convertColorToBlendColor(this.props.styles.color)
       const center = this.getCenterArray(this.props.styles.align)
       const image = (
         <GLImage
-          cache='force-cache'
           center={this.props.styles.resizeMode === 'cover' ? center : undefined}
-          glReactUseImage
           key='this.props.imageUrl'
           source={{
             uri: this.props.imageUrl,
             width: this.state.imageWidth * 1.2,
             height: this.state.imageHeight * 1.2
-          }}
+         }}
           resizeMode={this.props.styles.resizeMode}
+          imageSize={{
+            width: this.state.imageWidth * 1.2,
+            height: this.state.imageHeight * 1.2
+          }}
         />
       )
       const blur = (
-        <VibrancyView
-          style={absolute}
-          blurType='light'
-          blurAmount={3}
-        />
+        <Animated.View
+          style={{
+            ...absolute,
+            opacity: this.props.blur ? blurOpacity : 1
+          }}
+        >
+          <VibrancyView
+            style={absolute}
+            blurType='light'
+            blurAmount={30}
+          />
+        </Animated.View>
       )
       const csb = (
         <ContrastSaturationBrightness
@@ -157,7 +171,7 @@ class CoverImage extends React.Component {
       return (
         <Animated.View style={style}>
           { surface }
-          { this.state.blur && blur }
+          { this.props.blur && this.state.blur && blur }
         </Animated.View>
       )
     } else {
@@ -167,6 +181,70 @@ class CoverImage extends React.Component {
       const fill = this.flipColours ? 'white' : this.props.styles.color.hex
       style.backgroundColor = this.flipColours ? this.props.styles.color.hex : 'white'
       // style.backgroundColor = this.props.color.rgba.replace('0.4', '0.8')
+
+      const colors = [
+      {
+        name: 'red1',
+        hex: '#D66D75',
+        rgba: 'rgba(214, 109, 117, 0.4)'
+      },
+      {
+        name: 'red2',
+        hex: '#C33764',
+        rgba: 'rgba(195, 55, 100, 0.4)'
+      },
+      {
+        name: 'orange1',
+        hex: '#FF8235',
+        rgba: 'rgba(255, 128, 0, 0.4)'
+      },
+      {
+        name: 'orange2',
+        hex: '#F7971E',
+        rgba: 'rgba(247, 151, 30, 0.4)'
+      },
+      {
+        name: 'yellow1',
+        hex: '#FFD200',
+        rgba: 'rgba(255, 210, 0, 0.4)'
+      },
+      {
+        name: 'yellow2',
+        hex: '#e8f651',
+        rgba: 'rgba(232, 245, 80, 0.4)'
+      },
+      {
+        name: 'green1',
+        hex: '#30E8BF',
+        rgba: 'rgba(48, 232, 191, 0.4)'
+      },
+      {
+        name: 'blue1',
+        hex: '#4568DC',
+        rgba: 'rgba(69, 104, 220, 0.4)'
+      },
+      {
+        name: 'blue2',
+        hex: '#0b99d5',
+        rgba: 'rgba(11, 153, 213, 0.4)'
+      },
+      {
+        name: 'purple1',
+        hex: '#B06AB3',
+        rgba: 'rgba(176, 106, 179, 0.4)'
+      },
+      {
+        name: 'purple2',
+        hex: '#ef61c0',
+        rgba: 'rgba(239, 97, 192, 0.4)'
+      },
+      {
+        name: 'brown1',
+        hex: '#E29587',
+        rgba: 'rgba(226, 149, 135, 0.4)'
+      }
+    ]
+
 
       return (
         <Animated.View

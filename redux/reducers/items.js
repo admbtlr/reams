@@ -24,8 +24,9 @@ export function items (state = initialState, action) {
   let saved = []
   let savedItem = {}
   let newState = {}
-  const key = state.display === 'unread' ? 'items' : 'savedItems'
+  const key = state.display === 'unread' ? 'items' : 'saved'
   const indexKey = state.display === 'unread' ? 'index' : 'savedIndex'
+  const currentItem = state[key][state[indexKey]] || 0
 
   switch (action.type) {
     case REHYDRATE:
@@ -67,7 +68,6 @@ export function items (state = initialState, action) {
       }
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
-      const currentItem = state.items[state.index] || 0
       items = interleaveItems(state.items, action.items, currentItem)
         .map(addStylesIfNecessary)
         .map(item => {
@@ -190,6 +190,34 @@ export function items (state = initialState, action) {
         display
       }
 
+    case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
+      items = state[key]
+      newItems = items.map(item => {
+        if (item._id === action.item._id) {
+          item.styles.title.fontSize = action.fontSize
+          item.styles.title.lineHeight = action.fontSize
+          item.styles.title.fontResized = true
+        }
+        return item
+      })
+      return {
+        ...state,
+        key: items
+      }
+
+    case 'UPDATE_CURRENT_ITEM_TITLE_FONT_RESIZED':
+      items = state[key]
+      newItems = items.map(item => {
+        if (item._id === action.item._id) {
+          item.styles.title.fontResized = true
+        }
+        return item
+      })
+      return {
+        ...state,
+        key: items
+      }
+
     default:
       return state
   }
@@ -224,13 +252,6 @@ function mergeDedupe (oldItems, newItems) {
     items.push(match || newItem)
   })
 
-  // oldItems.forEach(oldItem => {
-  //   if (!items.find((item) => item.feed_item_id === oldItem.feed_item_id) &&
-  //     !oldItem.readAt) {
-  //     items.push(oldItem)
-  //   }
-  // })
-
   return items.filter(item => !item.readAt)
 }
 
@@ -264,6 +285,7 @@ function addMercuryStuffToItem (item, mercury) {
       external_url: item.url,
       title: mercury.title,
       content_mercury: mercury.content,
+      body: mercury.content,
       date_published: mercury.date_published,
       date_modified: mercury.date_published,
       author: mercury.author,

@@ -4,20 +4,20 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLog.h>
 
-@interface Share : ReactNativeShareExtension
+@interface RizzleShare : ReactNativeShareExtension
 @end
 
-@implementation Share
+@implementation RizzleShare
 
 RCT_EXPORT_MODULE();
 
 - (UIView*) shareView {
   NSURL *jsCodeLocation;
   
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.share" fallbackResource:nil];
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
   
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"Share"
+                                                      moduleName:@"RizzleShare"
                                                initialProperties:nil
                                                    launchOptions:nil];
   rootView.backgroundColor = nil;

@@ -39,6 +39,7 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* rizzleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* rizzleTests.m */; };
+		376599488A3146C89F785025 /* Eczar-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5AFA546AE564F3CA9C80D67 /* Eczar-Regular.ttf */; };
 		3AEE388B45774C609A91ED85 /* IBMPlexSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CE22BA4C5E9485ABF1718A0 /* IBMPlexSerif-Bold.ttf */; };
 		3D02833F47B84842A441CCD8 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D1D034C72594500896EBF90 /* IBMPlexMono-Regular.ttf */; };
 		3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */; };
@@ -52,20 +53,26 @@
 		63CFE43A4A5C413EBCD83BBE /* BioRhyme-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8463AC662A634CF786B76B2A /* BioRhyme-ExtraBold.ttf */; };
 		66454BDD1FA6792500D941C5 /* libRNGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66454BDC1FA6791E00D941C5 /* libRNGL.a */; };
 		664B4B281FAB59A9006C6DF9 /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 664B4B271FAB59A9006C6DF9 /* webview */; };
-		6671E2CC1FC378C200E1552E /* libReactNativeShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E383C31FC2CA6800B536D5 /* libReactNativeShareExtension.a */; };
-		66E3838A1FC2C99F00B536D5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66E383881FC2C99F00B536D5 /* MainInterface.storyboard */; };
-		66E3838E1FC2C99F00B536D5 /* share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66E383831FC2C99E00B536D5 /* share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		66E383BD1FC2CA0500B536D5 /* Share.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E383BC1FC2CA0500B536D5 /* Share.m */; };
-		66E383C41FC2CBDB00B536D5 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		66E383C51FC2CBDB00B536D5 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		66E383C61FC2CBDB00B536D5 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		66E383C71FC2CBDB00B536D5 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		66E383C81FC2CBDB00B536D5 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		66E383C91FC2CBDB00B536D5 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		66E383CA1FC2CBDB00B536D5 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		66E383CB1FC2CBDB00B536D5 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		66E383CC1FC2CBDB00B536D5 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
-		66E383CD1FC2CBDB00B536D5 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		668A536A1FDB2CDB00D9DFD5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */; };
+		66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		66ACB1271FD97094002BC66F /* RizzleShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ACB1261FD97094002BC66F /* RizzleShare.m */; };
+		66ACB13A1FD97855002BC66F /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		66ACB13B1FD97855002BC66F /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		66ACB13C1FD97855002BC66F /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		66ACB13D1FD97855002BC66F /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		66ACB13E1FD97855002BC66F /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		66ACB13F1FD97855002BC66F /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		66ACB1401FD97855002BC66F /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		66ACB1411FD97855002BC66F /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		66ACB1421FD97855002BC66F /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		66ACB1431FD97855002BC66F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		66ACB1441FD97855002BC66F /* libReactNativeShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E383C31FC2CA6800B536D5 /* libReactNativeShareExtension.a */; };
+		66ACB1451FD97A20002BC66F /* libRNGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66454BDC1FA6791E00D941C5 /* libRNGL.a */; };
+		66ACB1461FD97A20002BC66F /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 668606121FACBABF0078F13B /* libRNSentry.a */; };
+		66ACB1471FD9924D002BC66F /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		66ACB1491FDAA026002BC66F /* icon-152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB1481FDAA026002BC66F /* icon-152x152.png */; };
+		66C797491FE53E98001FBDEB /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
 		6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */; };
 		754F64E73D264E0DBD0674B7 /* Arvo-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1327B1D4C21489FBBCC6D7A /* Arvo-Italic.ttf */; };
 		7686AA2739064516B43AD49D /* Arvo-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 985E587BCD25407C9639A056 /* Arvo-BoldItalic.ttf */; };
@@ -83,6 +90,7 @@
 		C102E7B205024F1D94EE06FC /* IBMPlexSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */; };
 		D578CB02690743C5A438FA92 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BED908B61D5E49A7A6ADF270 /* libRNSVG.a */; };
 		E338FC2615BA4CEBA32F19AD /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AABBDC5CB6242DCA1F20FA4 /* IBMPlexSans-Regular.ttf */; };
+		EDA28DDB314049C88731F2A0 /* Eczar-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46A6699A3AC4431BA53E862E /* Eczar-ExtraBold.ttf */; };
 		FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */; };
 		FF4BFC3A89D34A7A9A79FD41 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CCE64A198C460AB8A514F6 /* libRNBlur.a */; };
 /* End PBXBuildFile section */
@@ -368,12 +376,19 @@
 			remoteGlobalIDString = 6687CA3D1F9FA05E0011FBE3;
 			remoteInfo = "RNSVG-tvOS";
 		};
-		66E3838C1FC2C99F00B536D5 /* PBXContainerItemProxy */ = {
+		66ACB1201FD9705E002BC66F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 66E383821FC2C99E00B536D5;
-			remoteInfo = share;
+			remoteGlobalIDString = 66ACB1161FD9705E002BC66F;
+			remoteInfo = RizzleShare;
+		};
+		66C797411FE53E7A001FBDEB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66C797191FE53E79001FBDEB /* RNFetchBlob.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A15C300E1CD25C330074CB35;
+			remoteInfo = RNFetchBlob;
 		};
 		66E383C21FC2CA6800B536D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -412,7 +427,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				66E3838E1FC2C99F00B536D5 /* share.appex in Embed App Extensions */,
+				66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +464,7 @@
 		2D1D034C72594500896EBF90 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Regular.ttf"; path = "../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
 		3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Bold.ttf"; path = "../assets/fonts/IBMPlexMono-Bold.ttf"; sourceTree = "<group>"; };
 		43E02F89082E4739AB0CC9AB /* IBMPlexSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Light.ttf"; path = "../assets/fonts/IBMPlexSans-Light.ttf"; sourceTree = "<group>"; };
+		46A6699A3AC4431BA53E862E /* Eczar-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Eczar-ExtraBold.ttf"; path = "../assets/fonts/Eczar-ExtraBold.ttf"; sourceTree = "<group>"; };
 		557BA1C418EC44128A1FE841 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
 		5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Italic.ttf"; path = "../assets/fonts/IBMPlexMono-Italic.ttf"; sourceTree = "<group>"; };
 		5E76F266FA4347AE92C8E288 /* IBMPlexSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -457,10 +473,13 @@
 		66454BD71FA6791E00D941C5 /* RNGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGL.xcodeproj; path = "../node_modules/gl-react-native/ios/RNGL.xcodeproj"; sourceTree = "<group>"; };
 		664B4B271FAB59A9006C6DF9 /* webview */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webview; sourceTree = "<group>"; };
 		6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
-		66E383831FC2C99E00B536D5 /* share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		66E383891FC2C99F00B536D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		66E3838B1FC2C99F00B536D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		66E383BC1FC2CA0500B536D5 /* Share.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Share.m; sourceTree = "<group>"; };
+		66ACB1171FD9705E002BC66F /* RizzleShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RizzleShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		66ACB11D1FD9705E002BC66F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		66ACB11F1FD9705E002BC66F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66ACB1261FD97094002BC66F /* RizzleShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RizzleShare.m; sourceTree = "<group>"; };
+		66ACB1291FD971C4002BC66F /* libSentryStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libSentryStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		66ACB1481FDAA026002BC66F /* icon-152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-152x152.png"; path = "../img/icon-152x152.png"; sourceTree = "<group>"; };
+		66C797191FE53E79001FBDEB /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		66E383BE1FC2CA6800B536D5 /* ReactNativeShareExtension.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeShareExtension.xcodeproj; path = "../node_modules/react-native-share-extension/ios/ReactNativeShareExtension.xcodeproj"; sourceTree = "<group>"; };
 		6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		6E3B529B291E42D18230B4AD /* RNSentry.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
@@ -481,6 +500,7 @@
 		BAC2FB0C9E904B1DA4378E1F /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		BED908B61D5E49A7A6ADF270 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		C1327B1D4C21489FBBCC6D7A /* Arvo-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Italic.ttf"; path = "../assets/fonts/Arvo-Italic.ttf"; sourceTree = "<group>"; };
+		C5AFA546AE564F3CA9C80D67 /* Eczar-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Eczar-Regular.ttf"; path = "../assets/fonts/Eczar-Regular.ttf"; sourceTree = "<group>"; };
 		D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Italic.ttf"; path = "../assets/fonts/IBMPlexSans-Italic.ttf"; sourceTree = "<group>"; };
 		DC41999E643A4C79B08D3438 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		E30329B12BD74B64ADFE7CB7 /* IBMPlexSerif-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Light.ttf"; path = "../assets/fonts/IBMPlexSerif-Light.ttf"; sourceTree = "<group>"; };
@@ -503,6 +523,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66C797491FE53E98001FBDEB /* libRNFetchBlob.a in Frameworks */,
 				66454BDD1FA6792500D941C5 /* libRNGL.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -546,21 +567,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66E383801FC2C99E00B536D5 /* Frameworks */ = {
+		66ACB1141FD9705E002BC66F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6671E2CC1FC378C200E1552E /* libReactNativeShareExtension.a in Frameworks */,
-				66E383C41FC2CBDB00B536D5 /* libRCTActionSheet.a in Frameworks */,
-				66E383C51FC2CBDB00B536D5 /* libRCTGeolocation.a in Frameworks */,
-				66E383C61FC2CBDB00B536D5 /* libRCTImage.a in Frameworks */,
-				66E383C71FC2CBDB00B536D5 /* libRCTLinking.a in Frameworks */,
-				66E383C81FC2CBDB00B536D5 /* libRCTNetwork.a in Frameworks */,
-				66E383C91FC2CBDB00B536D5 /* libRCTSettings.a in Frameworks */,
-				66E383CA1FC2CBDB00B536D5 /* libRCTText.a in Frameworks */,
-				66E383CB1FC2CBDB00B536D5 /* libRCTVibration.a in Frameworks */,
-				66E383CC1FC2CBDB00B536D5 /* libRCTWebSocket.a in Frameworks */,
-				66E383CD1FC2CBDB00B536D5 /* libReact.a in Frameworks */,
+				66ACB1471FD9924D002BC66F /* libRCTAnimation.a in Frameworks */,
+				66ACB1451FD97A20002BC66F /* libRNGL.a in Frameworks */,
+				66ACB1461FD97A20002BC66F /* libRNSentry.a in Frameworks */,
+				66ACB13A1FD97855002BC66F /* libRCTActionSheet.a in Frameworks */,
+				66ACB13B1FD97855002BC66F /* libRCTGeolocation.a in Frameworks */,
+				66ACB13C1FD97855002BC66F /* libRCTImage.a in Frameworks */,
+				66ACB13D1FD97855002BC66F /* libRCTLinking.a in Frameworks */,
+				66ACB13E1FD97855002BC66F /* libRCTNetwork.a in Frameworks */,
+				66ACB13F1FD97855002BC66F /* libRCTSettings.a in Frameworks */,
+				66ACB1401FD97855002BC66F /* libRCTText.a in Frameworks */,
+				66ACB1411FD97855002BC66F /* libRCTVibration.a in Frameworks */,
+				66ACB1421FD97855002BC66F /* libRCTWebSocket.a in Frameworks */,
+				66ACB1431FD97855002BC66F /* libReact.a in Frameworks */,
+				66ACB1441FD97855002BC66F /* libReactNativeShareExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,6 +677,7 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				66ACB1481FDAA026002BC66F /* icon-152x152.png */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -711,6 +736,8 @@
 				E30329B12BD74B64ADFE7CB7 /* IBMPlexSerif-Light.ttf */,
 				EF48A00DF3FF432DA8BAB77F /* IBMPlexSerif-LightItalic.ttf */,
 				021E5CBE69A94E3590CA1E3B /* IBMPlexSerif-Regular.ttf */,
+				46A6699A3AC4431BA53E862E /* Eczar-ExtraBold.ttf */,
+				C5AFA546AE564F3CA9C80D67 /* Eczar-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -752,6 +779,7 @@
 		6687CA2D1F9F9E020011FBE3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66ACB1291FD971C4002BC66F /* libSentryStatic.a */,
 				0EF6FFDB2FD048C38AEF83E8 /* libz.tbd */,
 			);
 			name = Frameworks;
@@ -785,14 +813,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		66E383841FC2C99E00B536D5 /* share */ = {
+		66ACB1181FD9705E002BC66F /* RizzleShare */ = {
 			isa = PBXGroup;
 			children = (
-				66E383881FC2C99F00B536D5 /* MainInterface.storyboard */,
-				66E3838B1FC2C99F00B536D5 /* Info.plist */,
-				66E383BC1FC2CA0500B536D5 /* Share.m */,
+				66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */,
+				66ACB11F1FD9705E002BC66F /* Info.plist */,
+				66ACB1261FD97094002BC66F /* RizzleShare.m */,
 			);
-			path = share;
+			path = RizzleShare;
+			sourceTree = "<group>";
+		};
+		66C7971A1FE53E79001FBDEB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		66E383BF1FC2CA6800B536D5 /* Products */ = {
@@ -815,6 +851,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				66C797191FE53E79001FBDEB /* RNFetchBlob.xcodeproj */,
 				66E383BE1FC2CA6800B536D5 /* ReactNativeShareExtension.xcodeproj */,
 				66454BD71FA6791E00D941C5 /* RNGL.xcodeproj */,
 				6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */,
@@ -852,7 +889,7 @@
 				13B07FAE1A68108700A75B9A /* rizzle */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* rizzleTests */,
-				66E383841FC2C99E00B536D5 /* share */,
+				66ACB1181FD9705E002BC66F /* RizzleShare */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				6687CA2D1F9F9E020011FBE3 /* Frameworks */,
 				6687CA3C1F9FA05E0011FBE3 /* Recovered References */,
@@ -870,7 +907,7 @@
 				00E356EE1AD99517003FC87E /* rizzleTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* rizzle-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* rizzle-tvOSTests.xctest */,
-				66E383831FC2C99E00B536D5 /* share.appex */,
+				66ACB1171FD9705E002BC66F /* RizzleShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -919,7 +956,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				66E3838D1FC2C99F00B536D5 /* PBXTargetDependency */,
+				66ACB1211FD9705E002BC66F /* PBXTargetDependency */,
 			);
 			name = rizzle;
 			productName = "Hello World";
@@ -962,22 +999,22 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* rizzle-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		66E383821FC2C99E00B536D5 /* share */ = {
+		66ACB1161FD9705E002BC66F /* RizzleShare */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 66E383BA1FC2C99F00B536D5 /* Build configuration list for PBXNativeTarget "share" */;
+			buildConfigurationList = 66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "RizzleShare" */;
 			buildPhases = (
-				66E3837F1FC2C99E00B536D5 /* Sources */,
-				66E383801FC2C99E00B536D5 /* Frameworks */,
-				66E383811FC2C99E00B536D5 /* Resources */,
-				66E383CF1FC2CFCA00B536D5 /* ShellScript */,
+				66ACB1131FD9705E002BC66F /* Sources */,
+				66ACB1141FD9705E002BC66F /* Frameworks */,
+				66ACB1151FD9705E002BC66F /* Resources */,
+				668A533F1FDB28D700D9DFD5 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = share;
-			productName = share;
-			productReference = 66E383831FC2C99E00B536D5 /* share.appex */;
+			name = RizzleShare;
+			productName = RizzleShare;
+			productReference = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -1006,10 +1043,10 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
-					66E383821FC2C99E00B536D5 = {
+					66ACB1161FD9705E002BC66F = {
 						CreatedOnToolsVersion = 9.1;
 						DevelopmentTeam = LQ43Q9L9MY;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1082,6 +1119,10 @@
 					ProjectRef = DC41999E643A4C79B08D3438 /* RNBlur.xcodeproj */;
 				},
 				{
+					ProductGroup = 66C7971A1FE53E79001FBDEB /* Products */;
+					ProjectRef = 66C797191FE53E79001FBDEB /* RNFetchBlob.xcodeproj */;
+				},
+				{
 					ProductGroup = 66454BD81FA6791E00D941C5 /* Products */;
 					ProjectRef = 66454BD71FA6791E00D941C5 /* RNGL.xcodeproj */;
 				},
@@ -1104,7 +1145,7 @@
 				00E356ED1AD99517003FC87E /* rizzleTests */,
 				2D02E47A1E0B4A5D006451C7 /* rizzle-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* rizzle-tvOSTests */,
-				66E383821FC2C99E00B536D5 /* share */,
+				66ACB1161FD9705E002BC66F /* RizzleShare */,
 			);
 		};
 /* End PBXProject section */
@@ -1376,6 +1417,13 @@
 			remoteRef = 6687CA771F9FA0CA0011FBE3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFetchBlob.a;
+			remoteRef = 66C797411FE53E7A001FBDEB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		66E383C31FC2CA6800B536D5 /* libReactNativeShareExtension.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1449,6 +1497,8 @@
 				85171AA6C41749D98A737233 /* IBMPlexSerif-Light.ttf in Resources */,
 				95BCA1ECFF20475CBE49AD69 /* IBMPlexSerif-LightItalic.ttf in Resources */,
 				BD4090455B2F401A8B3559FB /* IBMPlexSerif-Regular.ttf in Resources */,
+				EDA28DDB314049C88731F2A0 /* Eczar-ExtraBold.ttf in Resources */,
+				376599488A3146C89F785025 /* Eczar-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,11 +1517,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66E383811FC2C99E00B536D5 /* Resources */ = {
+		66ACB1151FD9705E002BC66F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66E3838A1FC2C99F00B536D5 /* MainInterface.storyboard in Resources */,
+				668A536A1FDB2CDB00D9DFD5 /* Images.xcassets in Resources */,
+				66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */,
+				66ACB1491FDAA026002BC66F /* icon-152x152.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1520,7 +1572,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/sentry-cli-binary/bin/sentry-cli upload-dsym";
 		};
-		66E383CF1FC2CFCA00B536D5 /* ShellScript */ = {
+		668A533F1FDB28D700D9DFD5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1570,11 +1622,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66E3837F1FC2C99E00B536D5 /* Sources */ = {
+		66ACB1131FD9705E002BC66F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66E383BD1FC2CA0500B536D5 /* Share.m in Sources */,
+				66ACB1271FD97094002BC66F /* RizzleShare.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1591,10 +1643,10 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* rizzle-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
-		66E3838D1FC2C99F00B536D5 /* PBXTargetDependency */ = {
+		66ACB1211FD9705E002BC66F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 66E383821FC2C99E00B536D5 /* share */;
-			targetProxy = 66E3838C1FC2C99F00B536D5 /* PBXContainerItemProxy */;
+			target = 66ACB1161FD9705E002BC66F /* RizzleShare */;
+			targetProxy = 66ACB1201FD9705E002BC66F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1608,10 +1660,10 @@
 			path = rizzle;
 			sourceTree = "<group>";
 		};
-		66E383881FC2C99F00B536D5 /* MainInterface.storyboard */ = {
+		66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				66E383891FC2C99F00B536D5 /* Base */,
+				66ACB11D1FD9705E002BC66F /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -1684,6 +1736,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1707,6 +1760,7 @@
 				PRODUCT_NAME = rizzle;
 				PROVISIONING_PROFILE = "cac29bfc-519a-48e8-9753-8892f636df6f";
 				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Development";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1715,6 +1769,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1737,6 +1792,7 @@
 				PRODUCT_NAME = rizzle;
 				PROVISIONING_PROFILE = "cac29bfc-519a-48e8-9753-8892f636df6f";
 				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Development";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1871,7 +1927,7 @@
 			};
 			name = Release;
 		};
-		66E3838F1FC2C99F00B536D5 /* Debug */ = {
+		66ACB1241FD9705E002BC66F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1888,21 +1944,14 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = "";
-				"HEADER_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native/React/**",
-					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
-				);
-				INFOPLIST_FILE = share/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_FILE = RizzleShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1910,14 +1959,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "88303774-86f1-4e54-bde4-1a6dd9872888";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension Development";
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		66E383901FC2C99F00B536D5 /* Release */ = {
+		66ACB1251FD9705E002BC66F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1934,17 +1981,14 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = "";
-				"HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/../node_modules/react-native-share-extension/ios/**";
-				INFOPLIST_FILE = share/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_FILE = RizzleShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1952,10 +1996,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "88303774-86f1-4e54-bde4-1a6dd9872888";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension Development";
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -2090,11 +2132,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		66E383BA1FC2C99F00B536D5 /* Build configuration list for PBXNativeTarget "share" */ = {
+		66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "RizzleShare" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				66E3838F1FC2C99F00B536D5 /* Debug */,
-				66E383901FC2C99F00B536D5 /* Release */,
+				66ACB1241FD9705E002BC66F /* Debug */,
+				66ACB1251FD9705E002BC66F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,10 +1,11 @@
 import React from 'react'
 import {Animated, Dimensions, Linking, ScrollView, View, WebView} from 'react-native'
 import CoverImage from './CoverImage'
-import ItemTitle from './ItemTitle'
+import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
 import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
+
 
 class FeedItem extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    let {feed_name, url, title, author, body, banner_image, styles, date_published} = this.props.item
+    let {feed_title, url, title, author, body, banner_image, styles, date_published, excerpt} = this.props.item
     // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
     let articleClasses = [...styles.fontClasses, 'itemArticle', styles.color.name].join(' ')
@@ -80,7 +81,8 @@ class FeedItem extends React.Component {
       scrollHandler(this.scrollOffset)
     }
 
-    const authorHeading = !!author ? `<h2>${author}</h2>` : ''
+    const authorHeading = !!author ? `<h2 class="author">${author}</h2>` : ''
+    const excerptPara = !!excerpt ? `<p class="excerpt">${excerpt}</p>` : ''
     const html = `<html>
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/item-styles.css">
@@ -95,8 +97,16 @@ class FeedItem extends React.Component {
             </div>
           </div-->
           <div class="the-rest" style="position: absolute; top: ${height}px; min-height: ${height}px; width: 100vw;">
-            ${authorHeading}
-            <h3>${feed_name}</h3>
+            <div class="top-block">
+              ${authorHeading}
+              <div class="feed-title-holder">
+                <div class="feed-title js-feed-title collapsed">
+                  <button class="feed-expand js-feed-expand">${feed_title}</button>
+                  <div class="feed-num-unread">43 unread</div>
+                  <button class="feed-unsubscribe">Unsubscribe</button>
+                </div>
+              </div>
+            </div>
             <div class="body">${body}</div>
           </div>
         </article>
@@ -115,7 +125,12 @@ class FeedItem extends React.Component {
 
     const coverImage = <CoverImage
             styles={styles.coverImage}
-            onImageLoaded={this.removeBlackHeading}
+            onImageLoaded={() => {
+              this.setState({
+                ...this.state,
+                imageLoaded: true
+              })
+            }}
             scrollOffset={this.scrollOffset}
             imageUrl={banner_image}
           />
@@ -141,13 +156,15 @@ class FeedItem extends React.Component {
           style={{flex: 1}}
         >
           {styles.isCoverInline && coverImage}
-          <ItemTitle
+          <ItemTitleContainer
+            item={this.props.item}
             title={title}
             date={date_published}
             styles={styles.title}
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}
+            imagedLoaded={this.state.imageLoaded}
           />
           <WebView
             decelerationRate='normal'

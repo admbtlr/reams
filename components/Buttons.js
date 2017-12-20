@@ -195,7 +195,13 @@ class Buttons extends React.Component {
         height: 56,
         borderRadius: 28,
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        shadowOffset: {
+          width: 0,
+          height: 3
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.3
       },
       buttonSVG: {
         paddingLeft: 3

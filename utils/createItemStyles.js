@@ -3,11 +3,6 @@ import {deepEqual} from '../utils/'
 export function createItemStyles (item) {
   let title = {}
   const color = getColor()
-  const black = {
-    name: 'black',
-    hex: '#000000',
-    rgba: 'rgba(0,0,0,1)'
-  }
   title.color = color
 
   const fonts = getFontClasses()
@@ -16,10 +11,9 @@ export function createItemStyles (item) {
   let isMultiply = false
   if (Math.random() > 0.5) {
     isMultiply = true
-    title.color = Math.random() > 0.8 ? color : black
-  } else if (Math.random() > 0.5) {
+    title.isMonochrome = Math.random() > 0.8
+  } else if (Math.random() > 0.7) {
     isBW = true
-    title.color = color
   }
 
   let isContain = false
@@ -33,8 +27,9 @@ export function createItemStyles (item) {
     isCoverInline = true
   }
 
+  const words = item.title.split(' ')
+
   const longestWord = (text) => {
-    const words = text.split(' ')
     let longest = 0
     words.forEach((word) => {
       longest = word.length > longest ? word.length : longest
@@ -42,31 +37,33 @@ export function createItemStyles (item) {
     return longest
   }
 
-  const titleVariance = (text) => {
-    const words = text.split(' ')
+  const titleVariance = (words) => {
+    const wordsSorted = words
       .sort((a, b) => b.length - a.length)
-    const average = Math.round(words.reduce((avg, word) => avg + word.length, 0) / words.length)
-    return words.reduce((variance, word) => variance + Math.abs(average - word.length), 0) / words.length
+    const average = Math.round(wordsSorted.reduce((avg, word) => avg + word.length, 0) / wordsSorted.length)
+    return wordsSorted.reduce((variance, word) => variance + Math.abs(average - word.length), 0) / wordsSorted.length
   }
 
-  if (item.title.length < 20 && longestWord(item.title) < 6) {
+  if (item.title.length < 40 && longestWord(item.title) < 6) {
     title.fontSize = 64
-  } else if (item.title.length < 40) {
+  } else if (item.title.length < 60 && longestWord(item.title) < 8) {
+    title.fontSize = 54
+  } else if (item.title.length < 80 && longestWord(item.title) < 10) {
     title.fontSize = 48
-  } else if (item.title.length < 80) {
-    title.fontSize = 42
   } else {
     title.fontSize = 36
   }
-  title.lineHeight = Math.floor(title.fontSize * (Math.random() * 0.4 + 0.8))
+  title.lineHeight = Math.floor(title.fontSize * (Math.random() * 0.3 + 1.1))
   title.textAlign = Math.random() > 0.5
     ? 'center'
     : 'left'
   title.title = item.title
   title.hasShadow = !isContain
-  title.isVertical = item.title.length < 72 && titleVariance(item.title) < 1.5
-  title.isInline = title.isVertical || Math.random() > 0.5
+  title.isVertical = item.title.length < 72 && words.length < 8 && titleVariance(words) < 1.5
+  title.isInline = !title.isVertical && Math.random() > 0.5
   title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
+  title.invertBG = Math.random() > 0.7
+  title.isBold = title.isMonochrome ? Math.random() > 0.8 : Math.random() > 0.3
 
   return {
     fontClasses: fonts,
@@ -84,7 +81,7 @@ export function createItemStyles (item) {
     title: {
       ...title,
       valign: Math.random() > 0.5 ? 'center' : ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)],
-      bg: !isBW && !isMultiply && !isContain && !title.isVertical && Math.random() > 0.5 ? true : false
+      bg: !title.invertBG && !isBW && !isMultiply && !isContain && !title.isVertical && Math.random() > 0.7
     }
   }
 }
@@ -94,11 +91,11 @@ const getFontClasses = function () {
   let bodyClass = 'bodyFont'
   if (Math.random() > 0.3) {
     // sans heading, serif body
-    headerClass += 'Sans' + (Math.floor((Math.random() * 7)) + 1)
+    headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
     bodyClass += 'Serif' + (Math.floor((Math.random() * 2)) + 1)
   } else {
     // serif heading, sans body
-    headerClass += 'Serif' + (Math.floor((Math.random()*4))+1)
+    headerClass += 'Serif' + (Math.floor((Math.random()*2))+1)
     bodyClass += 'Sans' + (Math.floor((Math.random()*2))+1)
   }
   return [headerClass, bodyClass]

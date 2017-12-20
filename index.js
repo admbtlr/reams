@@ -27,7 +27,7 @@ export default class Rizzle extends Component {
 }
 
 AppRegistry.registerComponent('rizzle', () => Rizzle)
-AppRegistry.registerComponent('share', () => Share)
+AppRegistry.registerComponent('RizzleShare', () => Share)
 
 // export default class Rizzle extends Component {
 //   render () {

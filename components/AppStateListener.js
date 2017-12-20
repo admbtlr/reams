@@ -14,8 +14,8 @@ class AppStateListener extends React.Component {
 
   handleAppStateChange = (nextAppState) => {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('App has come to the foreground!')
       this.checkClipboard()
+      this.props.fetchData()
     }
   }
 

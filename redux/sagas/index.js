@@ -92,7 +92,7 @@ function * loadMercuryForItem (item) {
 function * saveExternalURL (action) {
   let item = {
     url: action.url,
-    id: Math.random().toString(36).substring(7),
+    _id: Math.random().toString(36).substring(7),
     title: 'Loading...',
     content_html: 'Loading...',
     is_external: true
