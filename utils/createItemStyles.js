@@ -11,9 +11,11 @@ export function createItemStyles (item) {
   let isMultiply = false
   if (Math.random() > 0.5) {
     isMultiply = true
-    title.isMonochrome = Math.random() > 0.8
+    title.isMonochrome = Math.random() > 0.3
   } else if (Math.random() > 0.7) {
     isBW = true
+  } else {
+    title.isMonochrome = Math.random() > 0.5
   }
 
   let isContain = false
@@ -45,15 +47,16 @@ export function createItemStyles (item) {
   }
 
   if (item.title.length < 40 && longestWord(item.title) < 6) {
-    title.fontSize = 64
+    title.fontSizeAsWidthDivisor = 6
   } else if (item.title.length < 60 && longestWord(item.title) < 8) {
-    title.fontSize = 54
+    title.fontSizeAsWidthDivisor = 7
   } else if (item.title.length < 80 && longestWord(item.title) < 10) {
-    title.fontSize = 48
+    title.fontSizeAsWidthDivisor = 8
   } else {
-    title.fontSize = 36
+    title.fontSizeAsWidthDivisor = 10
   }
-  title.lineHeight = Math.floor(title.fontSize * (Math.random() * 0.3 + 1.1))
+  title.lineHeightAsMultiplier = 1.1 + Math.random() * 0.2
+  title.maximiseFont = Math.random() > 0.5
   title.textAlign = Math.random() > 0.5
     ? 'center'
     : 'left'
@@ -62,7 +65,7 @@ export function createItemStyles (item) {
   title.isVertical = item.title.length < 72 && words.length < 8 && titleVariance(words) < 1.5
   title.isInline = !title.isVertical && Math.random() > 0.5
   title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
-  title.invertBG = Math.random() > 0.7
+  title.invertBG = Math.random() > 0.8
   title.isBold = title.isMonochrome ? Math.random() > 0.8 : Math.random() > 0.3
 
   return {

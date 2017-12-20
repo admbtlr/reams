@@ -2,7 +2,9 @@ import { connect } from 'react-redux'
 import ItemTitle from '../components/ItemTitle.js'
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

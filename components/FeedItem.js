@@ -164,7 +164,7 @@ class FeedItem extends React.Component {
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}
-            imagedLoaded={this.state.imageLoaded}
+            imageLoaded={this.state.imageLoaded}
           />
           <WebView
             decelerationRate='normal'

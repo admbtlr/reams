@@ -229,20 +229,22 @@ class ItemTitle extends React.Component {
       outputRange: [0, 1, 1, 1, 0]
     })
 
-    if (!styles.fontResized) {
+    this.fontSize = this.screenWidth / styles.fontSizeAsWidthDivisor
+
+    if (styles.maximiseFont && !styles.fontResized) {
       const totalPadding = styles.bg ? 56 : 28
-      const maxFontSize = this.calculateMaxFontSize(title, this.props.font, styles.isBold, totalPadding)
-      this.fontSize = Math.random() > 0.5 ? maxFontSize : styles.fontSize
-    } else {
-      this.fontSize = styles.fontSize
+      this.fontSize = this.calculateMaxFontSize(title, this.props.font, styles.isBold, totalPadding)
     }
 
     const verticalOffset = fontStyles[this.props.font].verticalOffset ?
       fontStyles[this.props.font].verticalOffset * this.fontSize :
       0
+
+    const color = styles.isMonochrome ? (imageLoaded && !styles.bg ? 'white' : 'black') : styles.color.hex
+
     let fontStyle = {
       fontFamily: fontStyles[this.props.font][styles.isBold ? 'bold' : 'regular'].fontFamily,
-      color: styles.isMonochrome ? (imageLoaded ? 'white' : 'black') : styles.color.hex,
+      color,
       fontSize: this.fontSize,
       lineHeight: this.fontSize,
       textAlign: styles.textAlign,
@@ -271,7 +273,7 @@ class ItemTitle extends React.Component {
 
     let dateStyle = {
       alignSelf: 'flex-start',
-      color: styles.isMonochrome ? '#000000' : styles.color.hex,
+      color,
       backgroundColor: 'transparent',
       fontSize: 14,
       fontFamily: 'IBMPlexMono',
@@ -302,7 +304,7 @@ class ItemTitle extends React.Component {
     }
 
     const invertedTitleWrapperStyle = {
-      backgroundColor: styles.isMonochrome || styles.color.hex === '#ffffff' ? '#000000' : styles.color.hex
+      backgroundColor: color
     }
 
     let server = ''
@@ -412,7 +414,7 @@ class ItemTitle extends React.Component {
         left: 0,
         flexDirection: 'column',
         justifyContent: justifiers[styles.valign],
-        // backgroundColor: 'rgba(0,0,0,0.2)'
+        backgroundColor: imageLoaded ? 'rgba(0,0,0,0.2)' : 'transparent'
       }}>
         <Animated.View
           style={{
