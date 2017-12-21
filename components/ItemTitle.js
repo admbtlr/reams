@@ -240,7 +240,13 @@ class ItemTitle extends React.Component {
       fontStyles[this.props.font].verticalOffset * this.fontSize :
       0
 
-    const color = styles.isMonochrome ? (imageLoaded && !styles.bg ? 'white' : 'black') : styles.color.hex
+    const color = styles.isMonochrome ?
+      (imageLoaded &&
+        !styles.bg &&
+        !styles.invertBG ?
+        'white' :
+        'black') :
+      styles.color.hex
 
     let fontStyle = {
       fontFamily: fontStyles[this.props.font][styles.isBold ? 'bold' : 'regular'].fontFamily,
