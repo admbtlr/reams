@@ -264,6 +264,20 @@ class ItemTitle extends React.Component {
       padding: 14,
       backgroundColor: styles.bg ?  'white' : 'transparent',
       height: 'auto',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+    }
+    const outerViewStyle = {
+      width: this.screenWidth,
+      height: this.screenHeight,
+      position: 'absolute',
+      paddingTop: this.verticalPadding,
+      paddingBottom: this.verticalPadding,
+      top: 0,
+      left: 0,
+      flexDirection: 'column',
+      backgroundColor: imageLoaded ? 'rgba(0,0,0,0.2)' : 'transparent',
       opacity
     }
     let textStyle = {
@@ -404,25 +418,14 @@ class ItemTitle extends React.Component {
 
 
     return (
-      <View style={{
-        width: this.screenWidth,
-        height: this.screenHeight,
-        position: 'absolute',
-        paddingTop: this.verticalPadding,
-        paddingBottom: this.verticalPadding,
-        top: 0,
-        left: 0,
-        flexDirection: 'column',
-        justifyContent: justifiers[styles.valign],
-        backgroundColor: imageLoaded ? 'rgba(0,0,0,0.2)' : 'transparent'
+      <Animated.View style={{
+        ...outerViewStyle,
+        justifyContent: justifiers[styles.valign]
       }}>
-        <Animated.View
+        <View
           style={{
             ...innerViewStyle,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignItems: 'flex-start',
-            justifyContent: aligners[styles.textAlign],
+            justifyContent: aligners[styles.textAlign]
           }}
           onLayout={(event) => {
             this.adjustFontSize(event.nativeEvent.layout.height)
@@ -439,9 +442,9 @@ class ItemTitle extends React.Component {
               <Animated.Text>{title}</Animated.Text>
             </Animated.Text>
           }
-        </Animated.View>
+        </View>
         {dateView}
-      </View>
+      </Animated.View>
     )
   }
 }
