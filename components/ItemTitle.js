@@ -270,10 +270,12 @@ class ItemTitle extends React.Component {
     }
     const outerViewStyle = {
       width: this.screenWidth,
-      height: this.screenHeight,
+      height: this.screenHeight * 1.2,
       position: 'absolute',
       paddingTop: this.verticalPadding,
       paddingBottom: this.verticalPadding,
+      marginTop: this.screnHeight * -0.1,
+      marginBottom: this.screnHeight * -0.1,
       top: 0,
       left: 0,
       flexDirection: 'column',
