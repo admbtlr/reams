@@ -42,7 +42,7 @@ class FeedItem extends React.Component {
     if (isDiff) {
       for (var key in this.state) {
         if (this.state[key] !== nextState[key]) {
-          // console.log(`${key} :: ${JSON.stringify(this.state[key])} / ${JSON.stringify(nextState[key])}`)
+          console.log(`${key} :: ${JSON.stringify(this.state[key])} / ${JSON.stringify(nextState[key])}`)
         }
       }
     }
@@ -152,6 +152,7 @@ class FeedItem extends React.Component {
           onMomentumScrollEnd={this.onMomentumScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
           ref={(ref) => { this.scrollView = ref }}
+          scrollEnabled={ this.state.isActive   }
           scrollEventThrottle={1}
           style={{flex: 1}}
         >
@@ -166,23 +167,26 @@ class FeedItem extends React.Component {
             bodyFont={styles.fontClasses[1]}
             imageLoaded={this.state.imageLoaded}
           />
-          <WebView
-            decelerationRate='normal'
-            injectedJavaScript={calculateHeight}
-            {...openLinksExternallyProp}
-            scalesPageToFit={false}
-            scrollEnabled={false}
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: this.state.webViewHeight,
-              backgroundColor: 'transparent'
-            }}
-            source={{
-              html: html,
-              baseUrl: 'web/'}}
-            onNavigationStateChange={this.updateWebViewHeight}
-          />
+          {this.state.isActive &&
+            <WebView
+              decelerationRate='normal'
+              injectedJavaScript={calculateHeight}
+              {...openLinksExternallyProp}
+              ref={(ref) => { this.webView = ref }}
+              scalesPageToFit={false}
+              scrollEnabled={false}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: this.state.webViewHeight,
+                backgroundColor: 'transparent'
+              }}
+              source={{
+                html: html,
+                baseUrl: 'web/'}}
+              onNavigationStateChange={this.updateWebViewHeight}
+            />
+          }
         </Animated.ScrollView>
       </View>
     )
@@ -205,11 +209,19 @@ class FeedItem extends React.Component {
   //called when HTML was loaded and injected JS executed
   updateWebViewHeight (event) {
     const calculatedHeight = parseInt(event.jsEvaluationValue) || this.screenDimensions.height * 2
-    if (calculatedHeight > this.state.webViewHeight) {
-      this.setState({
-        ...this.state,
-        webViewHeight: calculatedHeight
-      })
+    if (calculatedHeight > this.pendingWebViewHeight) {
+      this.pendingWebViewHeight = calculatedHeight
+    }
+
+    // debounce
+    if (!this.pendingWebViewHeightId) {
+      this.pendingWebViewHeightId = setTimeout(() => {
+        this.setState({
+          ...this.state,
+          webViewHeight: this.pendingWebViewHeight
+        })
+        this.pendingWebViewHeightId = null
+      }, 1000)
     }
   }
 

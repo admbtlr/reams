@@ -189,7 +189,7 @@ class ItemTitle extends React.Component {
       // const fontSize = this.props.styles.fontSize
       // const oversizeFactor = height / maxHeight
       // const newFontSize = Math.round(fontSize / oversizeFactor * 0.9)
-      console.log(this.props.title + ' - NEW FONT SIZE: ' + this.fontSize + ' > ' + Math.floor(this.fontSize * 0.9))
+      // console.log(this.props.title + ' - NEW FONT SIZE: ' + this.fontSize + ' > ' + Math.floor(this.fontSize * 0.9))
       this.props.updateFontSize(this.props.item, Math.floor(this.fontSize * 0.9))
     } else {
       // tell it that the max font we calculated is just fine thank you
@@ -260,7 +260,7 @@ class ItemTitle extends React.Component {
       // borderColor: styles.color.hex,
       // borderBottomWidth: 4
     }
-    console.log(fontStyles[this.props.font][styles.isBold ? 'bold' : 'regular'])
+    // console.log(fontStyles[this.props.font][styles.isBold ? 'bold' : 'regular'])
     const viewStyle = {
       ...position
     }
