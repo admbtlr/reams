@@ -148,7 +148,7 @@ class SwipeableViews extends Component {
       friction: 30,
     },
     threshold: 5,
-    virtualBuffer: 2
+    virtualBuffer: 1
   };
 
   state = {
@@ -472,9 +472,6 @@ class SwipeableViews extends Component {
       indexActual,
       viewLength,
     } = this.state;
-
-    console.log(this.props)
-    console.log(this.state)
 
     const slideStyleObj = [styles.slide, slideStyle]
     let indexStart = indexActual - virtualBuffer
