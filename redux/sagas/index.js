@@ -1,12 +1,13 @@
 import { delay } from 'redux-saga'
 import { put, takeEvery, select } from 'redux-saga/effects'
-import { markItemRead, loadMercuryStuff } from '../backends'
+import { fetchUnreadItems, markItemRead, loadMercuryStuff } from '../backends'
 import 'whatwg-fetch'
+import {REHYDRATE} from 'redux-persist/constants'
 
 // const getUnreadItems = (state) => state.items.items
 
-const getItems = (state) => {
-  const type = state.items.display === 'unread' ? 'items' : state.items.display
+const getItems = (state, type) => {
+  type = type || state.items.display === 'unread' ? 'items' : state.items.display
   return state.items[type]
 }
 
@@ -104,6 +105,28 @@ function * saveExternalURL (action) {
   yield loadMercuryForItem(item)
 }
 
+function * fetchItems () {
+  const items = yield select(getItems, 'items')
+  let latestDate = 0
+  if (items.length > 0) {
+    latestDate = [ ...items ].sort((a, b) => b.created_at - a.created_at)[0].created_at
+  }
+  try {
+    const items = yield fetchUnreadItems(latestDate)
+    yield put({
+      type: 'ITEMS_FETCH_DATA_SUCCESS',
+      items
+    })
+  } catch (error) {
+    yield put({
+      type: 'ITEMS_HAS_ERRORED',
+      hasErrored: true
+    })
+  }
+}
+
+function * addMercuryStuff (action) {}
+
 /*
   Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
   Allows concurrent fetches of user.
@@ -112,4 +135,7 @@ export function * updateCurrentIndex () {
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', loadMercuryForSurroundingItems)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalURL)
+  yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems)
+  yield takeEvery(REHYDRATE, fetchItems)
+  yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', addMercuryStuff)
 }

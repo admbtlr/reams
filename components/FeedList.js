@@ -59,10 +59,6 @@ class FeedList extends React.Component {
     }
     // return <View key={index}></View>
   }
-
-  componentDidMount () {
-    this.props.fetchData()
-  }
 }
 
 export default FeedList

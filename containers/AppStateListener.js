@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { itemsFetchData  } from '../redux/actions/items.js'
 import AppStateListener from '../components/AppStateListener'
 
 const mapStateToProps = (state) => {
@@ -11,7 +10,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: () => dispatch(itemsFetchData()),
+    fetchData: () => dispatch({
+      type: 'ITEMS_FETCH_ITEMS'
+    }),
     updateCurrentAppState: (state) => dispatch(updateCurrentAppState(state)),
     saveURL: (url) => dispatch({
       type: 'SAVE_EXTERNAL_URL',

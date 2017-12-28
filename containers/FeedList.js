@@ -15,7 +15,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: () => dispatch(itemsFetchData()),
     updateCurrentIndex: (index, lastIndex) => dispatch({
       type: 'ITEMS_UPDATE_CURRENT_INDEX',
       index,

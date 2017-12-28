@@ -12,33 +12,42 @@ const itemsFetchBatchSize = 100
 
 let itemsCache = []
 
-export const getUnreadItemsUrl = (page) => {
+export const getUnreadItemsUrl = (createdSince, page) => {
   let url = '/api/unread?thing=1'
   url = 'https://feedwrangler.net/api/v2/feed_items/list?read=false&access_token=' + feedWranglerAccessToken
+  if (createdSince > 0) {
+    url += '&created_since=' + createdSince
+  }
   if (page > 0) {
     url += '&offset=' + (page * itemsFetchBatchSize)
   }
   return url
 }
 
-export const getUnreadItems = (dispatch, page) => {
+export const getUnreadItems = (createdSince, page) => {
+  createdSince = createdSince || 0
   page = page || 0
-  fetch(getUnreadItemsUrl(page))
+  return fetch(getUnreadItemsUrl(createdSince, page))
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText)
       } else {
-        receiveUnreadItems(dispatch, response, page)
+        return receiveUnreadItems(response, createdSince, page)
       }
     })
-    .catch(() => {
-      dispatch(itemsHasErrored(true))
-      dispatch(itemsIsLoading(false))
-    })
+    // .catch(() => {
+    //   dispatch(itemsHasErrored(true))
+    //   dispatch(itemsIsLoading(false))
+    // })
 }
 
-export const receiveUnreadItems = (dispatch, response, page) => {
-  response.json()
+export const fetchUnreadItems = (createdSince) => {
+  itemsCache = []
+  return getUnreadItems(createdSince)
+}
+
+export const receiveUnreadItems = (response, createdSince, page) => {
+  return response.json()
     .then((feed) => {
       const items = [...feed.feed_items].map((item) => {
         return {
@@ -49,20 +58,22 @@ export const receiveUnreadItems = (dispatch, response, page) => {
           content_html: item.body,
           date_published: item.published_at,
           date_modified: item.updated_at,
+          created_at: item.created_at,
           author: item.author,
           feed_title: item.feed_name
         }
       })
       itemsCache = itemsCache.concat(items)
       if (items.length === itemsFetchBatchSize) {
-        getUnreadItems(dispatch, page + 1)
+        return getUnreadItems(createdSince, page + 1)
+      // } else {
+      //   dispatch(itemsIsLoading(false))
+      //   dispatch(itemsFetchDataSuccess(itemsCache))
+      //   itemsCache = []
       } else {
-        dispatch(itemsIsLoading(false))
-        dispatch(itemsFetchDataSuccess(itemsCache))
-        itemsCache = []
+        return Promise.resolve(itemsCache)
       }
     })
-    .catch(() => dispatch(itemsHasErrored(true)))
 }
 
 export const markItemRead = (item) => {
