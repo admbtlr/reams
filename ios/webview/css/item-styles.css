@@ -248,18 +248,16 @@ h2, aside {
 .body {
   position: relative;
   z-index: 10;
-  padding: 0 14px 56px;
+  padding: 56px 14px;
   width: 100vw;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 56px;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
   /* gambling that it's a video */ }
   .body p {
     margin: 0;
     margin-bottom: 28px; }
-  .body > div:first-child p:first-child, .body > p:first-child {
-    margin-top: 56px; }
   .body img, .body video, .body iframe, .body pre {
     position: relative;
     max-width: calc(100vw - 28px) !important;
@@ -278,6 +276,9 @@ h2, aside {
   .body img.img-portrait, .body img.img-small {
     display: block;
     margin: 14px auto; }
+  .body > img.img-portrait, .body > img.img-small {
+    position: relative;
+    top: -56px; }
   .body iframe, .body video {
     height: 55vw !important; }
   .body blockquote {

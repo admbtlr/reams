@@ -370,20 +370,16 @@ h2, aside {
 .body {
   position: relative;
   z-index: 10;
-  padding: 0 $step * 0.5 $step * 2;
+  padding: $step * 2 $step * 0.5;
   width: 100vw;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto $step * 2;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
 
   p {
     margin: 0;
     margin-bottom: $step;
-  }
-
-  & > div:first-child p:first-child, & > p:first-child {
-    margin-top: $step * 2;
   }
 
   img, video, iframe, pre {
@@ -410,6 +406,11 @@ h2, aside {
   img.img-portrait, img.img-small {
     display: block;
     margin: $step/2 auto;
+  }
+
+  & > img.img-portrait, & > img.img-small {
+    position: relative;
+    top: $step * -2
   }
 
   /* gambling that it's a video */
