@@ -338,6 +338,11 @@ h2, aside {
     padding: 14px; }
   .body div:not(:first-of-type) > p:not(.short-para):first-of-type {
     margin-top: 84px; }
+  .body ul {
+    list-style: none;
+    padding-left: 0; }
+  .body li {
+    padding: 14px 0; }
 
 article {
   margin-bottom: 168px; }
