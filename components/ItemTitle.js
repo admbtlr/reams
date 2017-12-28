@@ -278,10 +278,10 @@ class ItemTitle extends React.Component {
       width: this.screenWidth,
       height: this.screenHeight * 1.2,
       position: 'absolute',
-      paddingTop: this.verticalPadding,
-      paddingBottom: this.verticalPadding,
-      marginTop: this.screnHeight * -0.1,
-      marginBottom: this.screnHeight * -0.1,
+      paddingTop: this.verticalPadding + this.screenHeight * 0.1,
+      paddingBottom: this.verticalPadding + this.screenHeight * 0.1,
+      marginTop: this.screenHeight * -0.1,
+      marginBottom: this.screenHeight * -0.1,
       top: 0,
       left: 0,
       flexDirection: 'column',
@@ -294,16 +294,23 @@ class ItemTitle extends React.Component {
     }
 
     let dateStyle = {
-      alignSelf: 'flex-start',
+      position: 'absolute',
+      top: this.screenHeight * 0.6, // because we're * 1.2
       color,
       backgroundColor: 'transparent',
       fontSize: 14,
       fontFamily: 'IBMPlexMono',
       lineHeight: 18,
-      textAlign: 'right',
-      marginLeft: 14,
+      textAlign: 'center',
+      marginLeft: 0,
       marginRight:  0,
-      padding: 0
+      padding: 0,
+      width: this.screenWidth,
+      transform: [
+        {translateY: 100},
+        {translateX: (this.screenWidth / -2) + 10},
+        {rotateZ: '90deg'}
+      ]
     }
 
     let shadowStyle = styles.hasShadow && !styles.bg ? {
