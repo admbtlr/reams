@@ -301,6 +301,8 @@ function addMercuryStuffToItem (item, mercury) {
   return {
     ...item,
     banner_image: mercury.lead_image_url,
-    body: content
+    body: content,
+    content_mercury: content,
+    excerpt: mercury.excerpt
   }
 }
