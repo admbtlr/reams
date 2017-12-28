@@ -308,7 +308,7 @@ class ItemTitle extends React.Component {
       width: this.screenWidth,
       transform: [
         {translateY: 100},
-        {translateX: (this.screenWidth / -2) + 10},
+        {translateX: (this.screenWidth / 2) - 10},
         {rotateZ: '90deg'}
       ]
     }
