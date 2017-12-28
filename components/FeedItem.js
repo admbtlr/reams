@@ -34,17 +34,40 @@ class FeedItem extends React.Component {
     // this.hideFeedFlare()
   }
 
+  diff (a, b, changes = {}) {
+    changes = this.oneWayDiff (a, b, changes)
+    return this.oneWayDiff(b, a, changes)
+  }
+
+  oneWayDiff (a, b, changes) {
+    for (var key in a) {
+      if (a[key] !== b[key] && changes[key] === undefined) {
+        changes[key] = {
+          old: a[key],
+          new: b[key]
+        }
+      }
+    }
+    return changes
+  }
+
   shouldComponentUpdate (nextProps, nextState) {
-    const isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
+    let changes
+    let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
     // console.log('Should update? - '
       // + this.props.item.title
       // + (isDiff ? ' - YES' : ' - NO'))
     if (isDiff) {
-      for (var key in this.state) {
-        if (this.state[key] !== nextState[key]) {
-          console.log(`${key} :: ${JSON.stringify(this.state[key])} / ${JSON.stringify(nextState[key])}`)
-        }
-      }
+      changes = this.diff(this.props, nextProps, this.diff(this.state, nextState))
+      console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
+      console.log(changes)
+    }
+
+    if (changes &&
+        Object.keys(changes).length === 1 &&
+        Object.keys(changes)[0] === 'isVisible') {
+      console.log('Not updating, only `isVisible` has changed')
+      isDiff = false
     }
     return isDiff
   }
@@ -152,7 +175,6 @@ class FeedItem extends React.Component {
           onMomentumScrollEnd={this.onMomentumScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
           ref={(ref) => { this.scrollView = ref }}
-          scrollEnabled={ this.state.isActive   }
           scrollEventThrottle={1}
           style={{flex: 1}}
         >
@@ -167,26 +189,24 @@ class FeedItem extends React.Component {
             bodyFont={styles.fontClasses[1]}
             imageLoaded={this.state.imageLoaded}
           />
-          {this.state.isActive &&
-            <WebView
-              decelerationRate='normal'
-              injectedJavaScript={calculateHeight}
-              {...openLinksExternallyProp}
-              ref={(ref) => { this.webView = ref }}
-              scalesPageToFit={false}
-              scrollEnabled={false}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: this.state.webViewHeight,
-                backgroundColor: 'transparent'
-              }}
-              source={{
-                html: html,
-                baseUrl: 'web/'}}
-              onNavigationStateChange={this.updateWebViewHeight}
-            />
-          }
+          <WebView
+            decelerationRate='normal'
+            injectedJavaScript={calculateHeight}
+            {...openLinksExternallyProp}
+            ref={(ref) => { this.webView = ref }}
+            scalesPageToFit={false}
+            scrollEnabled={false}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: this.state.webViewHeight,
+              backgroundColor: 'transparent'
+            }}
+            source={{
+              html: html,
+              baseUrl: 'web/'}}
+            onNavigationStateChange={this.updateWebViewHeight}
+          />
         </Animated.ScrollView>
       </View>
     )
@@ -209,18 +229,19 @@ class FeedItem extends React.Component {
   //called when HTML was loaded and injected JS executed
   updateWebViewHeight (event) {
     const calculatedHeight = parseInt(event.jsEvaluationValue) || this.screenDimensions.height * 2
-    if (calculatedHeight > this.pendingWebViewHeight) {
+    if (!this.pendingWebViewHeight || calculatedHeight > this.pendingWebViewHeight) {
       this.pendingWebViewHeight = calculatedHeight
     }
 
+    const that = this
     // debounce
     if (!this.pendingWebViewHeightId) {
       this.pendingWebViewHeightId = setTimeout(() => {
-        this.setState({
-          ...this.state,
-          webViewHeight: this.pendingWebViewHeight
+        that.setState({
+          ...that.state,
+          webViewHeight: that.pendingWebViewHeight
         })
-        this.pendingWebViewHeightId = null
+        that.pendingWebViewHeightId = null
       }, 1000)
     }
   }
