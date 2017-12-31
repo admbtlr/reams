@@ -180,7 +180,7 @@ class ItemTitle extends React.Component {
     const width = this.screenWidth - totalPadding
 
     // multiply by 0.9 to give us a buffer
-    return Math.floor(width / maxLength / (multiplier * 0.9))
+    return Math.floor(width / maxLength / (multiplier * 1.2))
   }
 
   adjustFontSize (height) {
@@ -248,6 +248,11 @@ class ItemTitle extends React.Component {
         'black') :
       styles.color.hex
 
+    const invertBGPadding = 5
+    const paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
+    const paddingBottom = styles.invertBG ? invertBGPadding : 0
+    const paddingLeft = styles.invertBG ? invertBGPadding : 0
+
     let fontStyle = {
       fontFamily: fontStyles[this.props.font][styles.isBold ? 'bold' : 'regular'].fontFamily,
       color,
@@ -255,7 +260,9 @@ class ItemTitle extends React.Component {
       lineHeight: this.fontSize,
       textAlign: styles.textAlign,
       letterSpacing: -1,
-      paddingTop: verticalOffset,
+      paddingTop,
+      paddingBottom,
+      paddingLeft
       // paddingTop: 28 // I don't know why, but otherwise it cuts off the top of the first line
       // borderColor: styles.color.hex,
       // borderBottomWidth: 4
@@ -328,8 +335,7 @@ class ItemTitle extends React.Component {
     }
 
     const invertedTitleStyle = {
-      color: 'white',
-      paddingTop: verticalOffset || 6
+      color: 'white'
     }
 
     const invertedTitleWrapperStyle = {
@@ -416,7 +422,7 @@ class ItemTitle extends React.Component {
             ...fontStyle,
             ...(wordStyles && wordStyles[index]),
             ...invertedTitleStyle,
-            height: this.fontSize
+            height: this.fontSize + paddingTop + paddingBottom
           }}>{word} </Text>
           </View>)
         } else {
