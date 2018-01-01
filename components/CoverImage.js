@@ -1,5 +1,5 @@
 import React from 'react'
-import {Animated, Dimensions, Image, InteractionManager, View } from 'react-native'
+import {Animated, Dimensions, Image, View } from 'react-native'
 
 import {Surface} from 'gl-react-native'
 import { VibrancyView } from 'react-native-blur'
@@ -49,22 +49,6 @@ class CoverImage extends React.Component {
       })
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.imageUrl && !this.state) {
-      Image.getSize(nextProps.imageUrl, (imageWidth, imageHeight) => {
-        let blur = false
-        this.props.onImageLoaded()
-        if (imageWidth < this.screenWidth || imageHeight < this.screenHeight) {
-          blur = true
-        }
-        blur = true
-        if (imageWidth !== 0 && imageHeight !== 0) {
-          InteractionManager.runAfterInteractions(() => this.setState({imageWidth, imageHeight, blur}))
-        }
-      }, () => {})
-    }
-  }
-
   render () {
     const absolute = {
       position: 'absolute',
@@ -103,22 +87,25 @@ class CoverImage extends React.Component {
       ...absolute,
       opacity
     }
-    if (this.props.imageUrl && this.state && this.state.imageWidth) {
+    if (this.props.imagePath) {
       let blendColor = this.convertColorToBlendColor(this.props.styles.color)
       const center = this.getCenterArray(this.props.styles.align)
+      const imageToosmall = this.props.imageDimensions.width < this.screenWidth ||
+        this.props.imageDimensions.height < this.screenHeight
+
       const image = (
         <GLImage
           center={this.props.styles.resizeMode === 'cover' ? center : undefined}
           key='this.props.imageUrl'
           source={{
-            uri: this.props.imageUrl,
-            width: this.state.imageWidth * 1.2,
-            height: this.state.imageHeight * 1.2
+            uri: `file://${this.props.imagePath}`,
+            width: this.props.imageDimensions.width * 1.2,
+            height: this.props.imageDimensions.height * 1.2
          }}
           resizeMode={this.props.styles.resizeMode}
           imageSize={{
-            width: this.state.imageWidth * 1.2,
-            height: this.state.imageHeight * 1.2
+            width: this.props.imageDimensions.width * 1.2,
+            height: this.props.imageDimensions.height * 1.2
           }}
         />
       )
@@ -126,7 +113,7 @@ class CoverImage extends React.Component {
         <Animated.View
           style={{
             ...absolute,
-            opacity: this.props.blur ? blurOpacity : 1
+            opacity: imageToosmall ? blurOpacity : 1
           }}
         >
           <VibrancyView
@@ -171,7 +158,7 @@ class CoverImage extends React.Component {
       return (
         <Animated.View style={style}>
           { surface }
-          { this.props.blur && this.state.blur && blur }
+          { this.props.blur && imageToosmall && blur }
         </Animated.View>
       )
     } else {

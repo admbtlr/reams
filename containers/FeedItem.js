@@ -7,7 +7,8 @@ const mapStateToProps = (state, ownProps) => {
   const index = state.items.display === 'unread' ? state.items.index : state.items.savedIndex
   return {
     item: items[ownProps.index],
-    isVisible: ownProps.index === index
+    isVisible: ownProps.index === index,
+    showMercury: !!items[ownProps.index].content_mercury
   }
 }
 

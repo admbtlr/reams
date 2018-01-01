@@ -3,7 +3,6 @@ import { fetchUnreadItems, getUnreadItems, markItemRead } from './feedwrangler'
 
 function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
-  item.hasLoadedMercuryStuff = true
   return fetch(url, {
     'headers': new Headers({
       'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'

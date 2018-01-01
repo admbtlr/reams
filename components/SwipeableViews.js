@@ -295,6 +295,7 @@ class SwipeableViews extends Component {
   startIndex = 0;
 
   handleTouchStart = (event, gestureState) => {
+    this.interactionHandle = InteractionManager.createInteractionHandle()
     if (this.props.onTouchStart) {
       this.props.onTouchStart(event, gestureState);
     }
@@ -414,13 +415,18 @@ class SwipeableViews extends Component {
         if (this.props.onChangeIndex) {
           this.props.onChangeIndex(indexActualNew, indexActualOld);
         }
-        this.setStateAfterInteractions({
+        this.setState({
           ...state,
           indexActual: indexActualNew,
           indexVirtualLast: indexVirtualNew
         })
       }
       this.props.onTransitionEnd && this.props.onTransitionEnd()
+
+      if (this.interactionHandle) {
+        InteractionManager.clearInteractionHandle(this.interactionHandle)
+        this.interactionHandle = null
+      }
       // if (this.props.onSwitching) {
       //   this.props.onSwitching(indexActualNew, 'end');
       // }
@@ -428,19 +434,19 @@ class SwipeableViews extends Component {
     // onPanEnd({type: 'end'})
   };
 
-  setStateAfterInteractions = (state) => {
-    this.interactionHandle = InteractionManager.runAfterInteractions(() => {
-      this.setState({
-        ...state,
-        interactionsComplete: true
-      })
-      this.interactionHandle = null
-    })
-    // this.setState({
-    //   ...state,
-    //   interactionsComplete: false
-    // })
-  }
+  // setStateAfterInteractions = (state) => {
+  //   this.interactionHandle = InteractionManager.runAfterInteractions(() => {
+  //     this.setState({
+  //       ...state,
+  //       interactionsComplete: true
+  //     })
+  //     this.interactionHandle = null
+  //   })
+  //   // this.setState({
+  //   //   ...state,
+  //   //   interactionsComplete: false
+  //   // })
+  // }
 
   handleLayout = (event) => {
     const { width } = event.nativeEvent.layout;

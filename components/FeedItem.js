@@ -1,5 +1,5 @@
 import React from 'react'
-import {Animated, Dimensions, Linking, ScrollView, View, WebView} from 'react-native'
+import {Animated, Dimensions, InteractionManager, Linking, ScrollView, View, WebView} from 'react-native'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual} from '../utils/'
@@ -73,7 +73,19 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    let {feed_title, url, title, author, body, banner_image, styles, date_published, excerpt} = this.props.item
+    let {
+      feed_title,
+      url,
+      title,
+      author,
+      content_html,
+      content_mercury,
+      imagePath,
+      imageDimensions,
+      styles,
+      date_published,
+      excerpt
+    } = this.props.item
     // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
     let articleClasses = [...styles.fontClasses, 'itemArticle', styles.color.name].join(' ')
@@ -93,7 +105,6 @@ class FeedItem extends React.Component {
     this.screenDimensions = Dimensions.get('window')
     const height = this.screenDimensions.height
     const calculateHeight = `(document.body && document.body.scrollHeight) ? document.body.scrollHeight : ${height * 2}`
-    body = this.stripInlineStyles(body)
 
     let server = ''
     if (__DEV__) {
@@ -106,6 +117,10 @@ class FeedItem extends React.Component {
 
     const authorHeading = !!author ? `<h2 class="author">${author}</h2>` : ''
     const excerptPara = !!excerpt ? `<p class="excerpt">${excerpt}</p>` : ''
+
+    let body = this.props.showMercury ? content_mercury : content_html
+    body = this.stripInlineStyles(body)
+
     const html = `<html>
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/item-styles.css">
@@ -148,14 +163,9 @@ class FeedItem extends React.Component {
 
     const coverImage = <CoverImage
             styles={styles.coverImage}
-            onImageLoaded={() => {
-              this.setState({
-                ...this.state,
-                imageLoaded: true
-              })
-            }}
             scrollOffset={this.scrollOffset}
-            imageUrl={banner_image}
+            imagePath={imagePath}
+            imageDimensions={imageDimensions}
           />
 
     return (
@@ -237,11 +247,13 @@ class FeedItem extends React.Component {
     // debounce
     if (!this.pendingWebViewHeightId) {
       this.pendingWebViewHeightId = setTimeout(() => {
-        that.setState({
-          ...that.state,
-          webViewHeight: that.pendingWebViewHeight
+        InteractionManager.runAfterInteractions(() => {
+          that.setState({
+            ...that.state,
+            webViewHeight: that.pendingWebViewHeight
+          })
+          that.pendingWebViewHeightId = null
         })
-        that.pendingWebViewHeightId = null
       }, 1000)
     }
   }

@@ -166,17 +166,18 @@ export function items (state = initialState, action) {
         items: newItems
       }
 
-    case 'ITEM_LOAD_MERCURY_STUFF_SUCCESS':
-      const testAndAddMercury = (item) => {
+    case 'ITEM_DECORATION_SUCCESS':
+      const testAndDecorate = (item) => {
         if (item._id === action.item._id) {
-          return addMercuryStuffToItem(item, action.mercuryStuff)
+          item =  addMercuryStuffToItem(item, action.mercuryStuff)
+          return addCoverImageToItem(item, action.imageStuff)
         } else {
           return item
         }
       }
 
-      items = state.items.map(testAndAddMercury).map(addStylesIfNecessary)
-      saved = state.saved.map(testAndAddMercury).map(addStylesIfNecessary)
+      items = state.items.map(testAndDecorate).map(addStylesIfNecessary)
+      saved = state.saved.map(testAndDecorate).map(addStylesIfNecessary)
       return {
         ...state,
         items,
@@ -239,17 +240,30 @@ function addStylesIfNecessary (item) {
 }
 
 function mergeDedupe (oldItems, newItems) {
-  let items = []
+  let items = [ ...oldItems ]
 
-  // go through new items, replacing new ones with matching old ones (to get Mercury stuff)
+  // // go through new items, replacing new ones with matching old ones (to get Mercury stuff)
+  // // NB this is the old algorithm, when we were fetching all the items all the time
+  // newItems.forEach(newItem => {
+  //   let match = false
+  //   oldItems.forEach(oldItem => {
+  //     if (newItem.id === oldItem.id) {
+  //       match = oldItem
+  //     }
+  //   })
+  //   items.push(match || newItem)
+  // })
+
   newItems.forEach(newItem => {
     let match = false
     oldItems.forEach(oldItem => {
       if (newItem.id === oldItem.id) {
-        match = oldItem
+        match = true
       }
     })
-    items.push(match || newItem)
+    if (!match) {
+      items.push(newItem)
+    }
   })
 
   return items.filter(item => !item.readAt)
@@ -275,7 +289,13 @@ function interleaveItems (oldItems, newItems, currentItem) {
 }
 
 function id () {
-  return Math.random().toString(36).substring(7)
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
 }
 
 function addMercuryStuffToItem (item, mercury) {
@@ -291,18 +311,27 @@ function addMercuryStuffToItem (item, mercury) {
       author: mercury.author,
       feed_title: mercury.domain,
       banner_image: mercury.lead_image_url,
-      excerpt: mercury.excerpt
+      excerpt: mercury.excerpt,
+      hasLoadedMercuryStuff: true
     }
   }
 
-  let content = mercury.content && mercury.content.length && mercury.content.length > item.content_html.length
-    ? mercury.content
-    : item.body
+  // let content = mercury.content && mercury.content.length && mercury.content.length > item.content_html.length
+  //   ? mercury.content
+  //   : item.body
   return {
     ...item,
     banner_image: mercury.lead_image_url,
-    body: content,
-    content_mercury: content,
-    excerpt: mercury.excerpt
+    // body: content,
+    content_mercury: mercury.content,
+    excerpt: mercury.excerpt,
+    hasLoadedMercuryStuff: true
+  }
+}
+
+function addCoverImageToItem (item, imageStuff) {
+  return {
+    ...item,
+    ...imageStuff
   }
 }
