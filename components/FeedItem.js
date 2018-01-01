@@ -70,7 +70,9 @@ class FeedItem extends React.Component {
       isDiff = false
 
       // this is a bit sneaky...
-      scrollHandler(this.scrollOffset)
+      if (this.props.isVisible) {
+        scrollHandler(this.scrollOffset)
+      }
     }
     return isDiff
   }
@@ -251,13 +253,11 @@ class FeedItem extends React.Component {
     // debounce
     if (!this.pendingWebViewHeightId) {
       this.pendingWebViewHeightId = setTimeout(() => {
-        InteractionManager.runAfterInteractions(() => {
-          that.setState({
-            ...that.state,
-            webViewHeight: that.pendingWebViewHeight
-          })
-          that.pendingWebViewHeightId = null
+        that.setState({
+          ...that.state,
+          webViewHeight: that.pendingWebViewHeight
         })
+        that.pendingWebViewHeightId = null
       }, 1000)
     }
   }
