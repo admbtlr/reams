@@ -19,7 +19,7 @@ class FeedItem extends React.Component {
 
     this.state = {
       headerClassList: this.getHeaderClasses(),
-      webViewHeight: 1000
+      webViewHeight: 5000 // a reasonable starting point?
     }
 
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
@@ -68,6 +68,9 @@ class FeedItem extends React.Component {
         Object.keys(changes)[0] === 'isVisible') {
       console.log('Not updating, only `isVisible` has changed')
       isDiff = false
+
+      // this is a bit sneaky...
+      scrollHandler(this.scrollOffset)
     }
     return isDiff
   }
@@ -191,6 +194,7 @@ class FeedItem extends React.Component {
           {styles.isCoverInline && coverImage}
           <ItemTitleContainer
             item={this.props.item}
+            index={this.props.index}
             title={title}
             date={date_published}
             styles={styles.title}

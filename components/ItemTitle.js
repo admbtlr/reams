@@ -168,6 +168,8 @@ class ItemTitle extends React.Component {
     this.screenHeight = window.height
 
     this.verticalPadding = 90
+
+    this.fadeInAnim = new Animated.Value(-1)
   }
 
   calculateMaxFontSize (title, font, isBold, totalPadding) {
@@ -209,7 +211,7 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {styles, title, date, hasImage} = this.props
+    let {styles, title, date, hasImage, isVisible} = this.props
     let position = {
       height: 'auto',
       width: 'auto',
@@ -220,14 +222,22 @@ class ItemTitle extends React.Component {
       width: this.screenWidth - 56
     }
     // console.log(styles)
-    const opacity = this.props.scrollOffset.interpolate({
-      inputRange: [-100, 0, 100],
+    const opacity = Animated.add(this.props.scrollOffset.interpolate({
+      inputRange: [-50, 0, 100],
       outputRange: [0, 1, 0]
-    })
+    }), this.fadeInAnim)
     const shadow = this.props.scrollOffset.interpolate({
       inputRange: [-100, -20, 0, 40, 200],
       outputRange: [0, 1, 1, 1, 0]
     })
+
+    if (isVisible) {
+      Animated.timing(this.fadeInAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start()
+    }
 
     this.fontSize = this.screenWidth / styles.fontSizeAsWidthDivisor
 
@@ -435,8 +445,6 @@ class ItemTitle extends React.Component {
         }
       })
     }
-
-
 
     return (
       <Animated.View style={{
