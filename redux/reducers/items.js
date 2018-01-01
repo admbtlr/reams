@@ -234,7 +234,7 @@ function addStylesIfNecessary (item) {
     }
     return {
       ...item,
-      styles: createItemStyles(item)
+      styles
     }
   }
 }
