@@ -209,7 +209,7 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {styles, title, date, imageLoaded} = this.props
+    let {styles, title, date, hasImage} = this.props
     let position = {
       height: 'auto',
       width: 'auto',
@@ -241,7 +241,7 @@ class ItemTitle extends React.Component {
       0
 
     const color = styles.isMonochrome ?
-      (imageLoaded &&
+      (hasImage &&
         !styles.bg &&
         !styles.invertBG ?
         'white' :
@@ -292,7 +292,7 @@ class ItemTitle extends React.Component {
       top: 0,
       left: 0,
       flexDirection: 'column',
-      backgroundColor: imageLoaded ? 'rgba(0,0,0,0.2)' : 'transparent',
+      backgroundColor: hasImage ? 'rgba(0,0,0,0.2)' : 'transparent',
       opacity
     }
     let textStyle = {
