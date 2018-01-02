@@ -408,10 +408,30 @@ h2, aside {
     margin: $step/2 auto;
   }
 
-  & > img.img-portrait, & > img.img-small {
-    position: relative;
-    top: $step * -2
+  &,
+  & > *:first-child,
+  & > *:first-child > *:first-child,
+  & > *:first-child > *:first-child > *:first-child,
+  & > *:first-child > *:first-child > *:first-child > *:first-child {
+    & > figure:first-child,
+    & > img:first-child {
+      position: relative;
+      top: $step * -2
+    }
   }
+
+  & > *:empty,
+  & > *:empty:first-child + *:first-of-type,
+  & > *:first-child > *:empty,
+  & > *:first-child > *:first-child > *:empty,
+  & > *:first-child > *:first-child > *:first-child > *:empty {
+    & + figure:first-child,
+    & + img:first-child {
+      position: relative;
+      top: $step * -2
+    }
+  }
+
 
   /* gambling that it's a video */
   iframe, video {
@@ -510,8 +530,11 @@ article {
   margin-bottom: $step * 6;
 }
 
-article > div:not(:last-of-type) p:last-of-type {
-  margin-bottom: $step * 6;
+article > div:not(:last-of-type) {
+  p:last-child,
+  figure:last-child {
+    margin-bottom: $step * 4;
+  }
 }
 
 div > p:not(.short-para):first-of-type {
@@ -540,24 +563,40 @@ div > p:not(.short-para):first-of-type {
   .body {
     font-family: "Cochin", serif;
     font-size: 22px;
+
+    figcaption {
+      font-family: "Gill Sans"
+    }
   }
 }
 
 .bodyFontSans1 {
   .body {
     font-family: "Gill Sans", sans-serif;
+
+    figcaption {
+      font-family: "Cochin"
+    }
   }
 }
 
 .bodyFontSerif2 {
   .body {
     font-family: "Iowan Old Style", serif;
+
+    figcaption {
+      font-family: "Gill Sans"
+    }
   }
 }
 
 .bodyFontSans2 {
   .body {
     font-family: "Avenir", serif;
+
+    figcaption {
+      font-family: "Cochin"
+    }
   }
 }
 

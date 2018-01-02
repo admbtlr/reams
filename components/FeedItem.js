@@ -70,7 +70,7 @@ class FeedItem extends React.Component {
       isDiff = false
 
       // this is a bit sneaky...
-      if (this.props.isVisible) {
+      if (nextProps.isVisible) {
         scrollHandler(this.scrollOffset)
       }
     }
@@ -125,6 +125,7 @@ class FeedItem extends React.Component {
 
     let body = this.props.showMercury ? content_mercury : content_html
     body = this.stripInlineStyles(body)
+    body = this.stripEmptyTags(body)
 
     const html = `<html>
       <head>
@@ -273,7 +274,12 @@ class FeedItem extends React.Component {
   }
 
   stripInlineStyles (html) {
-    const pattern = new RegExp(/style=".*"/, 'g')
+    const pattern = new RegExp(/style=".*?"/, 'g')
+    return html.replace(pattern, '')
+  }
+
+  stripEmptyTags (html) {
+    const pattern = new RegExp(/<[^\/<]+?>\s*?<\/.+?>/, 'g')
     return html.replace(pattern, '')
   }
 

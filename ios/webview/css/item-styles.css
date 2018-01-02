@@ -276,7 +276,28 @@ h2, aside {
   .body img.img-portrait, .body img.img-small {
     display: block;
     margin: 14px auto; }
-  .body > img.img-portrait, .body > img.img-small {
+  .body > figure:first-child,
+  .body > img:first-child,
+  .body > *:first-child > figure:first-child,
+  .body > *:first-child > img:first-child,
+  .body > *:first-child > *:first-child > figure:first-child,
+  .body > *:first-child > *:first-child > img:first-child,
+  .body > *:first-child > *:first-child > *:first-child > figure:first-child,
+  .body > *:first-child > *:first-child > *:first-child > img:first-child,
+  .body > *:first-child > *:first-child > *:first-child > *:first-child > figure:first-child,
+  .body > *:first-child > *:first-child > *:first-child > *:first-child > img:first-child {
+    position: relative;
+    top: -56px; }
+  .body > *:empty + figure:first-child,
+  .body > *:empty + img:first-child,
+  .body > *:empty:first-child + *:first-of-type + figure:first-child,
+  .body > *:empty:first-child + *:first-of-type + img:first-child,
+  .body > *:first-child > *:empty + figure:first-child,
+  .body > *:first-child > *:empty + img:first-child,
+  .body > *:first-child > *:first-child > *:empty + figure:first-child,
+  .body > *:first-child > *:first-child > *:empty + img:first-child,
+  .body > *:first-child > *:first-child > *:first-child > *:empty + figure:first-child,
+  .body > *:first-child > *:first-child > *:first-child > *:empty + img:first-child {
     position: relative;
     top: -56px; }
   .body iframe, .body video {
@@ -347,8 +368,9 @@ h2, aside {
 article {
   margin-bottom: 168px; }
 
-article > div:not(:last-of-type) p:last-of-type {
-  margin-bottom: 168px; }
+article > div:not(:last-of-type) p:last-child,
+article > div:not(:last-of-type) figure:last-child {
+  margin-bottom: 112px; }
 
 div > p:not(.short-para):first-of-type:first-letter {
   font-size: 6rem;
@@ -366,15 +388,23 @@ div > p:not(.short-para):first-of-type.firstPara {
 .bodyFontSerif1 .body {
   font-family: "Cochin", serif;
   font-size: 22px; }
+  .bodyFontSerif1 .body figcaption {
+    font-family: "Gill Sans"; }
 
 .bodyFontSans1 .body {
   font-family: "Gill Sans", sans-serif; }
+  .bodyFontSans1 .body figcaption {
+    font-family: "Cochin"; }
 
 .bodyFontSerif2 .body {
   font-family: "Iowan Old Style", serif; }
+  .bodyFontSerif2 .body figcaption {
+    font-family: "Gill Sans"; }
 
 .bodyFontSans2 .body {
   font-family: "Avenir", serif; }
+  .bodyFontSans2 .body figcaption {
+    font-family: "Cochin"; }
 
 .itemArticle .body a, .itemArticle .body a:active, .itemArticle .body a:visited {
   /*text-decoration: none;*/ }
