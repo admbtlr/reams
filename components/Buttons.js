@@ -44,8 +44,8 @@ class Buttons extends React.Component {
   //
   showShareActionSheet () {
     ActionSheetIOS.showShareActionSheetWithOptions({
-      url: this.props.items[this.props.index].url,
-      message: this.props.items[this.props.index].title
+      url: this.props.item.url,
+      message: this.props.item.title
     },
     (error) => {
       console.error(error)
@@ -55,8 +55,7 @@ class Buttons extends React.Component {
   }
 
   onSavePress () {
-    const item = this.props.items[this.props.index]
-    this.props.toggleSaved(item)
+    this.props.toggleSaved(this.props.item)
   }
 
   onDisplayPress () {
@@ -65,7 +64,8 @@ class Buttons extends React.Component {
 
   render () {
     // this.translateY = this.calculateNewTranslateY()
-    const item = this.props.items[this.props.index]
+    console.log('RENDER BUTTONS!')
+    const item = this.props.item
     const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ? '#f6be3c' : '#ffffff'
     return (
       <Animated.View style={{
@@ -117,7 +117,7 @@ class Buttons extends React.Component {
           onPress={this.onDisplayPress}
         >
           <Text style={this.getStyles().buttonText}>
-            {this.props.index + 1} / {this.props.items.length}
+            {this.props.index + 1} / {this.props.numItems}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

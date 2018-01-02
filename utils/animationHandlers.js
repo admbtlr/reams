@@ -9,6 +9,7 @@ let panListeners = []
 let panValueAnimated
 let scrollAnim = new Animated.Value(0)
 
+let clamped
 let clampedAnim = new Animated.Value(0)
 let clampedAnimNormalised = new Animated.Value(1)
 
@@ -66,17 +67,20 @@ function reset () {
       duration: 200,
       useNativeDriver: true,
     }).start()
-  }, 100)
+  }, 500)
   // resetAnim.setValue(0)
 }
 
 export function scrollHandler (value) {
+  if (value === scrollAnim) {
+    return
+  }
   if (initiated) {
     reset()
   }
   initiated = true
   scrollAnim = value
-  const clamped = Animated
+  clamped = Animated
     .diffClamp(
       Animated.add(
         scrollAnim.interpolate({
@@ -112,10 +116,11 @@ export function scrollHandler (value) {
     outputRange: [1, 0],
     extrapolateLeft: 'clamp'
   })
+
+  console.log(clamped._value)
 }
 
-export function onScrollEnd (e) {
-  console.log('Scroll ended!')
+export const onScrollEnd = (e) => {
   const toValue = scrollValue > STATUS_BAR_HEIGHT &&
     clampedScrollValue > (STATUS_BAR_HEIGHT) / 2
     ? resetValue + STATUS_BAR_HEIGHT

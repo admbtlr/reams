@@ -12,9 +12,11 @@ const mapStateToProps = (state) => {
   const items = state.items.display === 'unread' ? state.items.items : state.items.saved
   const index = state.items.display === 'unread' ? state.items.index : state.items.savedIndex
   const item = items[index]
+  const numItems = items.length
   return {
-    items,
+    item,
     index,
+    numItems,
     isSaved: item && item.isSaved,
     toolbar: state.toolbar,
     displayMode: state.items.display
