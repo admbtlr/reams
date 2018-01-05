@@ -27,6 +27,7 @@ export const getUnreadItemsUrl = (createdSince, page) => {
 export const getUnreadItems = (createdSince, page) => {
   createdSince = createdSince || 0
   page = page || 0
+  console.log("Fetching unread items: " + getUnreadItemsUrl(createdSince, page))
   return fetch(getUnreadItemsUrl(createdSince, page))
     .then(response => {
       if (!response.ok) {
@@ -35,10 +36,9 @@ export const getUnreadItems = (createdSince, page) => {
         return receiveUnreadItems(response, createdSince, page)
       }
     })
-    // .catch(() => {
-    //   dispatch(itemsHasErrored(true))
-    //   dispatch(itemsIsLoading(false))
-    // })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 export const fetchUnreadItems = (createdSince) => {
@@ -60,7 +60,8 @@ export const receiveUnreadItems = (response, createdSince, page) => {
           date_modified: item.updated_at,
           created_at: item.created_at,
           author: item.author,
-          feed_title: item.feed_name
+          feed_title: item.feed_name,
+          feed_id: item.feed_id
         }
       })
       itemsCache = itemsCache.concat(items)

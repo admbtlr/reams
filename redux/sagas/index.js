@@ -233,6 +233,8 @@ function pruneCoverImageCache () {
   // const fileNames = readdir
 }
 
+function unsubscribeFromFeed () {}
+
 /*
   Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
   Allows concurrent fetches of user.
@@ -241,7 +243,7 @@ export function * updateCurrentIndex () {
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   // yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', loadMercuryForSurroundingItems)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalURL)
-  yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems)
+  // yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems)
   yield takeEvery(REHYDRATE, fetchItems)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', pruneCoverImageCache)

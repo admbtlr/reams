@@ -10,6 +10,9 @@ function loadMercuryStuff (item) {
     .then((response) => {
       return response.json()
     })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 function getMercuryUrl (item) {
