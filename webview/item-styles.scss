@@ -32,15 +32,19 @@ $colors: (
   box-sizing: border-box;
 }
 
+html {
+  // this is now my rem value
+  // it's the body lineheight
+  font-size: calc(7vw);
+  @media (min-width: 600px) {
+    font-size: calc(4vw);
+  }
+}
+
 body {
   margin: 0;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
-  font-size: calc(7vw / 1.4);
-  @media (min-width: 600px) {
-    font-size: calc(4vw / 1.4);
-  }
-  line-height: 1.3;
   background-color: transparent;
   width: 100vw;
 }
@@ -156,8 +160,8 @@ body {
 
   h1 {
     color: white;
-    margin: 0 $step*.5;
-    font-size: $step*1.5;
+    margin: 0 0.5rem;
+    font-size: 1.5rem;
     line-height: 1;
     text-shadow: 1px 1px 1px hsla(0, 0%, 0%, 0.5);
     a {
@@ -170,7 +174,7 @@ body {
 
 .headerSmall {
   h1 {
-    font-size: $step*1.2;
+    font-size: 1.2rem;
     line-height: 1;
   }
 }
@@ -197,11 +201,11 @@ h2, aside {
 }
 
 .headerTop {
-  top: $step * 2;
+  top: 2rem;
 }
 
 .headerBottom {
-  bottom: $step;
+  bottom: 1rem;
 }
 
 .headerMiddle {
@@ -246,7 +250,7 @@ h2, aside {
   padding: 0;
   h1 {
     display: block !important;
-    padding: $step * .25;
+    padding: 0.25rem;
     color: white;
     background-color: hsla(0, 0%, 0%, 0.7);
     text-shadow: none;
@@ -257,7 +261,7 @@ h2, aside {
   padding: 0;
   h1 {
     display: block !important;
-    padding: $step * .25;
+    padding: 0.25rem;
     background-color: hsla(0, 0%, 100%, 0.8);
     color: black;
     text-shadow: none;
@@ -284,6 +288,9 @@ h2, aside {
   &, a, a:active, a:visited {
     color: hsl(0, 0%, 20%);
   }
+
+  font-size: calc(1rem / 1.4);
+  line-height: 1rem;
 }
 
 .the-rest {
@@ -379,19 +386,24 @@ h2, aside {
 
   p {
     margin: 0;
-    margin-bottom: $step;
+    margin-bottom: 1rem;
   }
 
   img, video, iframe, pre {
     position: relative;
-    max-width: calc(100vw - #{$step}) !important;
+    max-width: calc(100vw - 1rem) !important;
     height: auto !important;
-    margin: 0 0 $step;
+    margin: 0 0 1rem;
     border: 0;
 
     p &:last-of-type {
       margin-bottom: 0;
     }
+  }
+
+  // figure handles its own margin
+  figure img {
+    margin-bottom: 0;
   }
 
   img:not(.img-portrait):not(.img-small), video, iframe, pre {
@@ -405,7 +417,7 @@ h2, aside {
 
   img.img-portrait, img.img-small {
     display: block;
-    margin: $step/2 auto;
+    margin: 0.5rem auto;
   }
 
   &,
@@ -416,7 +428,8 @@ h2, aside {
     & > figure:first-child,
     & > img:first-child {
       position: relative;
-      top: $step * -2
+      top: -4rem;
+      margin-bottom: -2rem;
     }
   }
 
@@ -428,7 +441,8 @@ h2, aside {
     & + figure:first-child,
     & + img:first-child {
       position: relative;
-      top: $step * -2
+      top: -4rem;
+      margin-bottom: -2rem;
     }
   }
 
@@ -442,11 +456,11 @@ h2, aside {
     margin: 0 0 $step;
     font-style: italic;
     font-size: 0.9em;
-    line-height: $step;
+    line-height: 1rem;
     background-color: white;
-    left: $step * -0.5;
+    left: -0.5rem;
     width: 100vw;
-    padding: $step $step * 0.5;
+    padding: 1rem 0.5rem;
     display: block;
     position: relative;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -463,7 +477,7 @@ h2, aside {
       line-height: 1em;
       padding: 1px .5em;
       text-align: center;
-      margin: $step * 3 0;
+      margin: 3rem 0;
       hyphens: none;
     }
   }
@@ -498,7 +512,7 @@ h2, aside {
 
   figure {
     padding: 0;
-    margin: 0 0 $step * 1.5;
+    margin: 0 0 1rem;
   }
 
   iframe {
@@ -562,7 +576,7 @@ div > p:not(.short-para):first-of-type {
 .bodyFontSerif1 {
   .body {
     font-family: "Cochin", serif;
-    font-size: 22px;
+    font-size: calc(1rem / 1.3);
 
     figcaption {
       font-family: "Gill Sans"

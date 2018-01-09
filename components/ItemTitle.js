@@ -291,6 +291,9 @@ class ItemTitle extends React.Component {
       flexWrap: 'wrap',
       alignItems: 'flex-start',
     }
+    const overlayColour = hasImage && !styles.invertBGPadding && !styles.bg ?
+      rgba(0,0,0,0.2) :
+      transparent
     const outerViewStyle = {
       width: this.screenWidth,
       height: this.screenHeight * 1.2,
@@ -302,7 +305,7 @@ class ItemTitle extends React.Component {
       top: 0,
       left: 0,
       flexDirection: 'column',
-      backgroundColor: hasImage ? 'rgba(0,0,0,0.2)' : 'transparent',
+      backgroundColor: overlayColour,
       opacity
     }
     let textStyle = {
