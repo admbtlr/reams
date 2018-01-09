@@ -292,8 +292,8 @@ class ItemTitle extends React.Component {
       alignItems: 'flex-start',
     }
     const overlayColour = hasImage && !styles.invertBGPadding && !styles.bg ?
-      rgba(0,0,0,0.2) :
-      transparent
+      'rgba(0,0,0,0.2)' :
+      'transparent'
     const outerViewStyle = {
       width: this.screenWidth,
       height: this.screenHeight * 1.2,
