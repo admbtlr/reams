@@ -1,6 +1,7 @@
 import { delay } from 'redux-saga'
 import { call, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { fetchUnreadItems, markItemRead, loadMercuryStuff } from '../backends'
+import { mergeItems } from './merge-items'
 import 'whatwg-fetch'
 import { REHYDRATE } from 'redux-persist/constants'
 const RNFS = require('react-native-fs')
@@ -15,6 +16,8 @@ const getItems = (state, type) => {
 }
 
 const getDisplay = (state) => state.items.display
+
+const getCurrentItem = (state) => state.items.items[state.items.index]
 
 function * markLastItemRead (action) {
   yield delay (100)
@@ -102,17 +105,21 @@ function * saveExternalURL (action) {
 }
 
 function * fetchItems () {
-  const items = yield select(getItems, 'items')
+  const oldItems = yield select(getItems, 'items')
+  const currentItem = yield select(getCurrentItem)
   let latestDate = 0
-  if (items.length > 0) {
-    latestDate = [ ...items ].sort((a, b) => b.created_at - a.created_at)[0].created_at
+  if (oldItems.length > 0) {
+    latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
   }
   try {
-    const unreadItems = yield fetchUnreadItems(latestDate)
+    const newItems = yield fetchUnreadItems(latestDate)
+    const { unreadItems, readItems } = mergeItems(oldItems, newItems, currentItem)
     yield put({
       type: 'ITEMS_FETCH_DATA_SUCCESS',
       items: unreadItems
     })
+    // now remove the cached images for all the read items
+    removeCachedCoverImages(oldItems)
   } catch (error) {
     yield put({
       type: 'ITEMS_HAS_ERRORED',
@@ -127,6 +134,8 @@ function * decorateItems (action) {
   let count = 0
   let toDispatch = []
 
+  // this is weird... but it was the only way I could dispatch actions
+  // it's not possible from within the co call below
   yield spawn(function * () {
     while (true) {
       yield call(delay, 500)
@@ -154,10 +163,6 @@ function * decorateItems (action) {
       count++
     }
   }
-}
-
-function * dispatchDecorations () {
-
 }
 
 function * decorateItem(item) {
@@ -219,9 +224,15 @@ function getImageDimensions (fileName) {
   })
 }
 
-function pruneCoverImageCache () {
-  // const items = yield select(getItems, 'items')
-  // const fileNames = readdir
+function removeCachedCoverImages (items) {
+  for (let item of items) {
+    if (item.imagePath) {
+      RNFS.unlink(item.imagePath)
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }
 }
 
 function unsubscribeFromFeed () {}
@@ -237,5 +248,5 @@ export function * updateCurrentIndex () {
   // yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems)
   yield takeEvery(REHYDRATE, fetchItems)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
-  yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', pruneCoverImageCache)
+  yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', removeCachedCoverImages)
 }

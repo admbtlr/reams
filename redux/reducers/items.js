@@ -68,14 +68,8 @@ export function items (state = initialState, action) {
       }
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
-      items = interleaveItems(state.items, action.items, currentItem)
+      items = action.items
         .map(addStylesIfNecessary)
-        .map(item => {
-          return {
-            ...item,
-            body: item.content_html
-          }
-        })
 
       let index = 0
       if (currentItem) {
@@ -237,55 +231,6 @@ function addStylesIfNecessary (item) {
       styles
     }
   }
-}
-
-function mergeDedupe (oldItems, newItems) {
-  let items = [ ...oldItems ]
-
-  // // go through new items, replacing new ones with matching old ones (to get Mercury stuff)
-  // // NB this is the old algorithm, when we were fetching all the items all the time
-  // newItems.forEach(newItem => {
-  //   let match = false
-  //   oldItems.forEach(oldItem => {
-  //     if (newItem.id === oldItem.id) {
-  //       match = oldItem
-  //     }
-  //   })
-  //   items.push(match || newItem)
-  // })
-
-  newItems.forEach(newItem => {
-    let match = false
-    oldItems.forEach(oldItem => {
-      if (newItem.id === oldItem.id) {
-        match = true
-      }
-    })
-    if (!match) {
-      items.push(newItem)
-    }
-  })
-
-  return items.filter(item => !item.readAt)
-}
-
-function interleaveItems (oldItems, newItems, currentItem) {
-  let items = mergeDedupe(oldItems, newItems).map(item => {
-    return {
-      ...item,
-      _id: item._id ? item._id : id()
-    }
-  })
-
-  if (currentItem) {
-    let includesCurrent = items.find(item => item._id === currentItem._id)
-    if (!includesCurrent) {
-      items.push(currentItem)
-    }
-  }
-
-  items.sort((a, b) => a.date_published - b.date_published)
-  return items
 }
 
 function id () {
