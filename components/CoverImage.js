@@ -90,7 +90,7 @@ class CoverImage extends React.Component {
 
     console.log("Yes, I'm using the latest version")
 
-    if (false && this.props.imagePath &&
+    if (this.props.imagePath &&
       this.props.imageDimensions.width > 0 &&
       this.props.imageDimensions.height > 0) {
       let blendColor = this.convertColorToBlendColor(this.props.styles.color)

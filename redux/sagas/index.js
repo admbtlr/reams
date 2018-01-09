@@ -16,9 +16,6 @@ const getItems = (state, type) => {
 
 const getDisplay = (state) => state.items.display
 
-const coverImageCacheDir = RNFS.DocumentDirectoryPath + '/cover-images/'
-// const feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
-
 function * markLastItemRead (action) {
   yield delay (100)
   const display = yield select(getDisplay)
@@ -149,7 +146,9 @@ function * decorateItems (action) {
       yield call(delay, 500)
       InteractionManager.runAfterInteractions(() => {
         return co(decorateItem(item)).then((decoration) => {
-          toDispatch.push(decoration)
+          if (decoration) {
+            toDispatch.push(decoration)
+          }
         })
       })
       count++
@@ -164,10 +163,13 @@ function * dispatchDecorations () {
 function * decorateItem(item) {
   let imageStuff = {}
   const mercuryStuff = yield loadMercuryForItem(item)
-  const coverImageURL = mercuryStuff.lead_image_url
 
-  if (coverImageURL) {
-    let imagePath = yield cacheCoverImage(coverImageURL, item._id)
+  if (!mercuryStuff) {
+    return false
+  }
+
+  if (mercuryStuff.lead_image_url) {
+    let imagePath = yield cacheCoverImage(mercuryStuff.lead_image_url, item._id)
     if (imagePath) {
       try {
         const imageDimensions = yield getImageDimensions(imagePath)
@@ -188,21 +190,10 @@ function * decorateItem(item) {
   }
 }
 
-function * createDirIfNecessary (path) {
-  return RNFS.exists(path).then((exists) => {
-      if (!exists) {
-        return RNFS.mkdir(coverImageCacheDir).catch((err) => {
-          console.log(err)
-        })
-      }
-    })
-}
-
 function cacheCoverImage (imageURL, imageName) {
   const splitted = imageURL.split('.')
   const extension = splitted[splitted.length - 1].split('?')[0]
-  const fileName = `${RNFS.DocumentDirectoryPath}/${imageName}.${extension}`
-  // yield createDirIfNecessary(coverImageCacheDir)
+  const fileName = `${RNFS.CachesDirectoryPath}/${imageName}.${extension}`
   return RNFS.downloadFile({
     fromUrl: imageURL,
     toFile: fileName

@@ -28,15 +28,3 @@ export default class Rizzle extends Component {
 
 AppRegistry.registerComponent('rizzle', () => Rizzle)
 AppRegistry.registerComponent('RizzleShare', () => Share)
-
-// export default class Rizzle extends Component {
-//   render () {
-//     return (
-//       <View style={{flex: 1}}>
-//         <Text style={{flex: 1, textAlign: 'center', fontSize: 32, marginTop: '50%'}}>Rizzle, yo</Text>
-//       </View>
-//     )
-//   }
-// }
-
-// AppRegistry.registerComponent('rizzle', () => Rizzle)
