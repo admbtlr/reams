@@ -66,7 +66,7 @@ body {
   /*padding: $step * .5;*/
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .cover {
@@ -377,10 +377,10 @@ h2, aside {
 .body {
   position: relative;
   z-index: 10;
-  padding: $step * 2 $step * 0.5;
+  padding: 2rem 0.5rem;
   width: 100vw;
   max-width: 600px;
-  margin: 0 auto $step * 2;
+  margin: 0 auto 2rem;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
 
@@ -413,6 +413,11 @@ h2, aside {
     left: $step * -0.5;
     overflow: scroll;
     border-bottom: 1px solid hsl(0, 0%, 93%);
+
+    @media (min-width: 600px) {
+      left: calc(50% - 50vw);
+      max-width: 100% !important;
+    }
   }
 
   img.img-portrait, img.img-small {
@@ -424,12 +429,14 @@ h2, aside {
   & > *:first-child,
   & > *:first-child > *:first-child,
   & > *:first-child > *:first-child > *:first-child,
-  & > *:first-child > *:first-child > *:first-child > *:first-child {
+  & > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child,
+  & > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child,
+  & > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child {
     & > figure:first-child,
     & > img:first-child {
       position: relative;
-      top: -4rem;
-      margin-bottom: -2rem;
+      top: -2rem;
+      margin-bottom: 0;
     }
   }
 
@@ -441,8 +448,8 @@ h2, aside {
     & + figure:first-child,
     & + img:first-child {
       position: relative;
-      top: -4rem;
-      margin-bottom: -2rem;
+      top: -2rem;
+      margin-bottom: 0;
     }
   }
 
@@ -453,7 +460,7 @@ h2, aside {
   }
 
   blockquote {
-    margin: 0 0 $step;
+    margin: 0 0 1rem;
     font-style: italic;
     font-size: 0.9em;
     line-height: 1rem;
@@ -479,12 +486,16 @@ h2, aside {
       text-align: center;
       margin: 3rem 0;
       hyphens: none;
+
+      @media (min-width: 600px) {
+        margin: 3rem calc(50% - 50vw);
+      }
     }
   }
 
   figcaption {
     position: relative;
-    margin: -24px -28px 0;
+    margin: 0 -28px;
     padding: 14px 28px;
     border-bottom: 1px solid hsl(0, 0%, 93%);
     font-size: 16px;
@@ -493,7 +504,21 @@ h2, aside {
     color: hsl(0, 0%, 67%);
     background-color: white;
     position: relative;
-    top: -3px;
+    // top: -3px;
+  }
+
+  figcaption, blockquote {
+    @media (min-width: 600px) {
+      margin: 0 calc(50% - 50vw) 1rem;
+      left: 0;
+      padding: 1rem calc(50vw - 50%);
+    }
+  }
+
+  blockquote {
+    @media (min-width: 600px) {
+      margin-bottom: 1rem;
+    }
   }
 
   a.unused, a.unused:active, a.unused:visited {
