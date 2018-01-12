@@ -20,7 +20,8 @@ class TopBar extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.currentItem !== this.props.currentItem
+    return nextProps.currentItem !== this.props.currentItem ||
+      nextProps.toolbar.message !== this.props.toolbar.message
   }
 
   getMessage (props = this.props) {
