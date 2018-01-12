@@ -3,7 +3,6 @@ import 'whatwg-fetch'
 
 import {
   itemsHasErrored,
-  itemsIsLoading,
   itemsFetchDataSuccess
 } from '../actions/items.js'
 
@@ -67,10 +66,6 @@ export const receiveUnreadItems = (response, createdSince, page) => {
       itemsCache = itemsCache.concat(items)
       if (items.length === itemsFetchBatchSize) {
         return getUnreadItems(createdSince, page + 1)
-      // } else {
-      //   dispatch(itemsIsLoading(false))
-      //   dispatch(itemsFetchDataSuccess(itemsCache))
-      //   itemsCache = []
       } else {
         return Promise.resolve(itemsCache)
       }

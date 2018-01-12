@@ -24,20 +24,6 @@ export function itemHasErrored (bool) {
   }
 }
 
-export function itemsIsLoading (bool, numItems) {
-  return {
-    type: ITEMS_IS_LOADING,
-    isLoading: bool,
-    numItems
-  }
-}
-
-export function itemsKeepCurrentItemUnread () {
-  return {
-    type: 'ITEMS_KEEP_CURRENT_ITEM_UNREAD'
-  }
-}
-
 export function itemsFetchDataSuccess (items) {
   return {
     type: ITEMS_FETCH_DATA_SUCCESS,
