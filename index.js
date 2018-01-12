@@ -6,11 +6,7 @@ import { Sentry } from 'react-native-sentry'
 import App from './components/App.js'
 import Share from './components/Share.js'
 
-let store = configureStore()
-
-// if (window.__DEV__) {
-//   window.getState = store.getState
-// }
+const store = configureStore()
 
 Sentry
   .config('https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309')

@@ -1,4 +1,4 @@
-import {REHYDRATE} from 'redux-persist/constants'
+import {REHYDRATE} from 'redux-persist'
 import {createItemStyles} from '../../utils/createItemStyles'
 
 export const initialState = {
@@ -6,7 +6,8 @@ export const initialState = {
   saved: [],
   index: 0,
   savedIndex: 0,
-  display: 'unread' // currently 'unread' || 'saved'
+  display: 'unread', // currently 'unread' || 'saved'
+  decoratedCoung: 0
 }
 
 export function itemsHasErrored (state = false, action) {
@@ -31,9 +32,9 @@ export function items (state = initialState, action) {
   switch (action.type) {
     case REHYDRATE:
       // workaround to make up for slideable bug
-      let incoming = action.payload.items
-      console.log('REHYDRATE!' + action.payload.items)
+      let incoming = action.payload ? action.payload.items : null
       if (incoming) {
+        console.log('REHYDRATE!' + action.payload.items)
         return {
           ...state,
           ...incoming,
@@ -178,6 +179,12 @@ export function items (state = initialState, action) {
         saved
       }
 
+    case 'ITEM_DECORATION_PROGRESS':
+      return {
+        ...state,
+        decoratedCount: action.decoratedCount
+      }
+
     case 'TOGGLE_DISPLAYED_ITEMS':
       const display = state.display === 'unread' ? 'saved' : 'unread'
       return {
@@ -231,16 +238,6 @@ function addStylesIfNecessary (item) {
       styles
     }
   }
-}
-
-function id () {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
 }
 
 function addMercuryStuffToItem (item, mercury) {

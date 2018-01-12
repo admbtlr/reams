@@ -1,9 +1,10 @@
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import thunk from 'redux-thunk'
-import rootReducer from '../reducers'
+import reducers from '../reducers'
 import {updateCurrentIndex} from '../sagas'
-import {persistStore, autoRehydrate} from 'redux-persist'
+import {persistCombineReducers, persistStore} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import {AsyncStorage} from 'react-native'
 import {composeWithDevTools} from 'remote-redux-devtools'
 
@@ -14,18 +15,24 @@ export default function configureStore (initialState) {
 
   const sagaMiddleware = createSagaMiddleware()
 
-  let store = createStore(
-    rootReducer,
+  const config = {
+    key: 'primary',
+    storage,
+    throttle: 5000
+  }
+  let reducer = persistCombineReducers(config, reducers)
+
+  const store = createStore(
+    reducer,
     initialState,
     composeEnhancers(
       applyMiddleware(thunk),
-      applyMiddleware(sagaMiddleware),
-      autoRehydrate()
+      applyMiddleware(sagaMiddleware)
     )
   )
 
   const onCompletion = () => {}
-  persistStore(store, {storage: AsyncStorage}, onCompletion)
+  persistStore(store, null, onCompletion)
 
   sagaMiddleware.run(updateCurrentIndex)
 

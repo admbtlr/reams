@@ -1,9 +1,9 @@
 import { delay } from 'redux-saga'
 import { call, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { fetchUnreadItems, markItemRead, loadMercuryStuff } from '../backends'
-import { mergeItems } from './merge-items'
+import { mergeItems } from './merge-items.js'
 import 'whatwg-fetch'
-import { REHYDRATE } from 'redux-persist/constants'
+import { REHYDRATE } from 'redux-persist'
 const RNFS = require('react-native-fs')
 import { Image, InteractionManager } from 'react-native'
 const co = require('co')
@@ -112,14 +112,27 @@ function * fetchItems () {
     latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
   }
   try {
+    yield put({
+      type: 'ITEMS_IS_LOADING',
+      isLoading: true
+    })
     const newItems = yield fetchUnreadItems(latestDate)
-    const { unreadItems, readItems } = mergeItems(oldItems, newItems, currentItem)
+    yield put({
+      type: 'ITEMS_IS_LOADING',
+      isLoading: true,
+      numItems: newItems.length
+    })
+    const { read, unread } = mergeItems(oldItems, newItems, currentItem)
     yield put({
       type: 'ITEMS_FETCH_DATA_SUCCESS',
-      items: unreadItems
+      items: unread
+    })
+    yield put({
+      type: 'ITEMS_IS_LOADING',
+      isLoading: false
     })
     // now remove the cached images for all the read items
-    removeCachedCoverImages(oldItems)
+    removeCachedCoverImages(read)
   } catch (error) {
     yield put({
       type: 'ITEMS_HAS_ERRORED',
@@ -137,6 +150,7 @@ function * decorateItems (action) {
   // this is weird... but it was the only way I could dispatch actions
   // it's not possible from within the co call below
   yield spawn(function * () {
+    let items, decoratedCount
     while (true) {
       yield call(delay, 500)
       const dispatchNow = [...toDispatch]
@@ -147,6 +161,14 @@ function * decorateItems (action) {
           ...decoration
         })
       }
+      items = yield select(getItems, 'items')
+      decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
+      console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
+      yield put({
+        type: 'ITEM_DECORATION_PROGRESS',
+        totalCount: items.length,
+        decoratedCount
+      })
     }
   })
 
@@ -242,11 +264,9 @@ function unsubscribeFromFeed () {}
   Allows concurrent fetches of user.
 */
 export function * updateCurrentIndex () {
+  yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
-  // yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', loadMercuryForSurroundingItems)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalURL)
-  // yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems)
   yield takeEvery(REHYDRATE, fetchItems)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
-  yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', removeCachedCoverImages)
 }
