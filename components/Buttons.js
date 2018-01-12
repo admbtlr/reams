@@ -119,6 +119,15 @@ class Buttons extends React.Component {
           <Text style={this.getStyles().buttonText}>
             {this.props.index + 1} / {this.props.items.length}
           </Text>
+          { !!this.props.decoratedCount &&
+            this.props.items.length !== this.props.decoratedCount &&
+            <Text style={{
+              ...this.getStyles().buttonText,
+              ...this.getStyles().smallText
+            }}>
+              Cached: {this.props.decoratedCount}
+            </Text>
+          }
         </TouchableOpacity>
         <TouchableOpacity
           style={{
@@ -213,6 +222,9 @@ class Buttons extends React.Component {
         // fontFamily: 'BodoniSvtyTwoOSITCTT-Book',
         fontFamily: 'IBMPlexMono',
         fontSize: 16,
+      },
+      smallText: {
+        fontSize: 8
       }
     }
   }

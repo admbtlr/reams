@@ -6,7 +6,6 @@ import {
   itemUnsaveItem,
   toggleDisplayedItems
 } from '../redux/actions/items.js'
-import { itemDidScroll } from '../redux/actions/item.js'
 
 const mapStateToProps = (state) => {
   const items = state.items.display === 'unread' ? state.items.items : state.items.saved
@@ -17,7 +16,8 @@ const mapStateToProps = (state) => {
     index,
     isSaved: item && item.isSaved,
     toolbar: state.toolbar,
-    displayMode: state.items.display
+    displayMode: state.items.display,
+    decoratedCount: state.items.decoratedCount
   }
 }
 
@@ -29,8 +29,7 @@ const mapDispatchToProps = (dispatch) => {
         item.isSaved ? dispatch(itemUnsaveItem(item)) : dispatch(itemSaveItem(item))
       }
     },
-    toggleDisplay: () => dispatch(toggleDisplayedItems()),
-    scrollHandler: (e) => dispatch(itemDidScroll(e))
+    toggleDisplay: () => dispatch(toggleDisplayedItems())
   }
 }
 
