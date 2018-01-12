@@ -1,4 +1,4 @@
-export function mergeItems (oldItems, newItems, currentItem) {
+export const mergeItems = (oldItems, newItems, currentItem) => {
   let items = mergeDedupe(oldItems, newItems).map(item => {
     return {
       ...item,
@@ -15,8 +15,7 @@ export function mergeItems (oldItems, newItems, currentItem) {
 
   items.sort((a, b) => a.date_published - b.date_published)
   const extracted = extractReadItems(items)
-  markAllRead(extracted.read)
-  return extracted.unread
+  return extracted
 }
 
 function mergeDedupe (oldItems, newItems) {
@@ -41,3 +40,12 @@ function extractReadItems (items) {
   return { read, unread }
 }
 
+function id () {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
