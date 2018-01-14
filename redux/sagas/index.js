@@ -80,7 +80,7 @@ function * loadMercuryIfNecessary (item) {
 
 function * loadMercuryForItem (item) {
   let mercuryStuff
-  console.log(`Loading Mercury stuff for ${item._id} (${item.title})`)
+  // console.log(`Loading Mercury stuff for ${item._id} (${item.title})`)
   try {
     mercuryStuff = yield loadMercuryStuff(item)
   } catch (error) {
@@ -163,7 +163,7 @@ function * decorateItems (action) {
       }
       items = yield select(getItems, 'items')
       decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
-      console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
+      // console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
       yield put({
         type: 'ITEM_DECORATION_PROGRESS',
         totalCount: items.length,
@@ -225,7 +225,7 @@ function cacheCoverImage (imageURL, imageName) {
     fromUrl: imageURL,
     toFile: fileName
   }).promise.then((result) => {
-    console.log(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
+    // console.log(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
     return fileName
   }).catch((err) => {
     console.log(err)
