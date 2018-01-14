@@ -14,9 +14,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    scrollHandlerAttached: () => dispatch({
+    scrollHandlerAttached: (owner) => dispatch({
       type: 'SCROLL_HANDLER_ATTACHED',
-      owner: this
+      owner: owner
     })
     // scrollHandler: (e) => dispatch(itemDidScroll(e.nativeEvent.contentOffset.y))
   }
