@@ -1,4 +1,3 @@
-import { persistCombineReducers } from 'redux'
 import { items, itemsHasErrored } from './items'
 // import { currentItem } from './currentItem'
 // import { itemDidScroll } from './item'
