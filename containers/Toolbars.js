@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
   const items = state.items.display === 'unread' ? state.items.items : state.items.saved
   const index = state.items.display === 'unread' ? state.items.index : state.items.savedIndex
   return {
-    currentItem: items[index]
+    currentItem: items[index],
+    scrollOwner: state.toolbar.scrollOwner
   }
 }
 

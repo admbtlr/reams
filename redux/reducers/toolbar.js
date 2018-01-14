@@ -1,6 +1,7 @@
 const initialState = {
   isVisible: true,
   message: '',
+  scrollOwner: null,
   scrollDiff: 0
 }
 
@@ -15,6 +16,12 @@ export function toolbar (state = initialState, action) {
             : '')
           : ''
       }
+    case 'SCROLL_HANDLER_ATTACHED': {
+      return {
+        ...state,
+        scrollOwner: action.owner
+      }
+    }
 
     // case 'ITEM_SCROLL_ZERO':
     //   return {

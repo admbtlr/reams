@@ -72,6 +72,8 @@ class FeedItem extends React.Component {
       // this is a bit sneaky...
       if (nextProps.isVisible) {
         scrollHandler(this.scrollOffset)
+        // and let the world (i.e. the topbar and buttons) know that the scroll handler has changed
+        this.props.scrollHandlerAttached()
       }
     }
     return isDiff

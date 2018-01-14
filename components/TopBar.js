@@ -19,10 +19,10 @@ class TopBar extends React.Component {
     this.props = props
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.currentItem !== this.props.currentItem ||
-      nextProps.toolbar.message !== this.props.toolbar.message
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return nextProps.currentItem !== this.props.currentItem ||
+  //     nextProps.toolbar.message !== this.props.toolbar.message
+  // }
 
   getMessage (props = this.props) {
     const feedName = props.currentItem
