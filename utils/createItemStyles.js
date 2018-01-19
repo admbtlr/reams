@@ -67,6 +67,7 @@ export function createItemStyles (item) {
   title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
   title.invertBG = Math.random() > 0.8
   title.isBold = title.isMonochrome ? Math.random() > 0.8 : Math.random() > 0.3
+  title.isBold = title.isBold ? Math.random() > 0.8 : Math.random() > 0.5
 
   return {
     fontClasses: fonts,

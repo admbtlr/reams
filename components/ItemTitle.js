@@ -9,7 +9,15 @@ const fontStyles = {
       fontFamily: 'Eczar-ExtraBold',
       multiplier: 0.57
     },
+    boldItalic: {
+      fontFamily: 'Eczar-ExtraBold',
+      multiplier: 0.57
+    },
     regular: {
+      fontFamily: 'Eczar-Regular',
+      multiplier: 0.51
+    },
+    regularItalic: {
       fontFamily: 'Eczar-Regular',
       multiplier: 0.51
     }
@@ -19,8 +27,34 @@ const fontStyles = {
       fontFamily: 'Arvo-Bold',
       multiplier: 0.58
     },
+    boldItalic: {
+      fontFamily: 'Arvo-BoldItalic',
+      multiplier: 0.58
+    },
     regular: {
       fontFamily: 'Arvo',
+      multiplier: 0.56
+    },
+    regularItalic: {
+      fontFamily: 'Arvo-Italic',
+      multiplier: 0.56
+    }
+  },
+  headerFontSerif2: {
+    bold: {
+      fontFamily: 'PlayfairDisplay-Black',
+      multiplier: 0.58
+    },
+    boldItalic: {
+      fontFamily: 'PlayfairDisplay-BlackItalic',
+      multiplier: 0.58
+    },
+    regular: {
+      fontFamily: 'PlayfairDisplay-Regular',
+      multiplier: 0.56
+    },
+    regularItalic: {
+      fontFamily: 'PlayfairDisplay-RegularItalic',
       multiplier: 0.56
     }
   },
@@ -30,8 +64,16 @@ const fontStyles = {
       fontFamily: 'AvenirNextCondensed-Bold',
       multiplier: 0.46
     },
+    boldItalic: {
+      fontFamily: 'AvenirNextCondensed-BoldItalic',
+      multiplier: 0.46
+    },
     regular: {
       fontFamily: 'AvenirNextCondensed-Medium',
+      multiplier: 0.42
+    },
+    regularItalic: {
+      fontFamily: 'AvenirNextCondensed-MediumItalic',
       multiplier: 0.42
     }
   },
@@ -41,8 +83,16 @@ const fontStyles = {
       fontFamily: 'Montserrat-Bold',
       multiplier: 0.57
     },
+    boldItalic: {
+      fontFamily: 'Montserrat-BoldItalic',
+      multiplier: 0.57
+    },
     regular: {
       fontFamily: 'Montserrat-Light',
+      multiplier: 0.55
+    },
+    regularItalic: {
+      fontFamily: 'Montserrat-LightItalic',
       multiplier: 0.55
     }
   },
@@ -51,8 +101,16 @@ const fontStyles = {
       fontFamily: 'IBMPlexSans-Bold',
       multiplier: 0.54
     },
+    boldItalic: {
+      fontFamily: 'IBMPlexSans-BoldItalic',
+      multiplier: 0.54
+    },
     regular: {
       fontFamily: 'IBMPlexSans-Light',
+      multiplier: 0.51
+    },
+    regularItalic: {
+      fontFamily: 'IBMPlexSans-LightItalic',
       multiplier: 0.51
     }
   },
@@ -263,8 +321,19 @@ class ItemTitle extends React.Component {
     const paddingBottom = styles.invertBG ? invertBGPadding : 0
     const paddingLeft = styles.invertBG ? invertBGPadding : 0
 
+    let fontType
+    if (styles.isBold && styles.isItalic) {
+      fontType = 'boldItalic'
+    } else if (styles.isBold) {
+      fontType = 'bold'
+    } else if (styles.isItalic) {
+      fontType = 'regularItalic'
+    } else {
+      fontType = 'regular'
+    }
+
     let fontStyle = {
-      fontFamily: fontStyles[this.props.font][styles.isBold ? 'bold' : 'regular'].fontFamily,
+      fontFamily: fontStyles[this.props.font][fontType].fontFamily,
       color,
       fontSize: this.fontSize,
       lineHeight: this.fontSize,
@@ -401,7 +470,7 @@ class ItemTitle extends React.Component {
       words.forEach((word, index) => {
         if (commonWords.find(cw => cw === word.toLowerCase())) {
           wordStyles[index] = {
-            fontFamily: fontStyles[this.props.font]['regular'].fontFamily,
+            fontFamily: fontStyles[this.props.font][styles.isItalic ? 'regularItalic' : 'regular'].fontFamily,
             height: this.fontSize
           }
         } else {
