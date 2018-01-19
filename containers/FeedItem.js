@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     item: items[ownProps.index],
     isVisible: ownProps.index === index,
-    showMercury: !!items[ownProps.index].content_mercury
+    showMercuryContent: items[ownProps.index].showMercuryContent
   }
 }
 

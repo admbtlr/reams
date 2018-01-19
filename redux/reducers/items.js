@@ -105,6 +105,17 @@ export function items (state = initialState, action) {
         ...newState
       }
 
+    case 'ITEM_TOGGLE_MERCURY':
+      items = [ ...state.items ]
+      const item = items.find((item) => item._id === action.item._id)
+      if (item.content_mercury) {
+        item.showMercuryContent = !item.showMercuryContent
+      }
+      return {
+        ...state,
+        items
+      }
+
     case 'ITEM_SAVE_ITEM':
       items = [ ...state.items ]
       saved = [ ...state.saved ]
@@ -254,7 +265,8 @@ function addMercuryStuffToItem (item, mercury) {
       feed_title: mercury.domain,
       banner_image: mercury.lead_image_url,
       excerpt: mercury.excerpt,
-      hasLoadedMercuryStuff: true
+      hasLoadedMercuryStuff: true,
+      showMercuryContent: true
     }
   }
 

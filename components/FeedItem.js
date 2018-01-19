@@ -125,7 +125,7 @@ class FeedItem extends React.Component {
     const authorHeading = !!author ? `<h2 class="author">${author}</h2>` : ''
     const excerptPara = !!excerpt ? `<p class="excerpt">${excerpt}</p>` : ''
 
-    let body = this.props.showMercury ? content_mercury : content_html
+    let body = this.props.showMercuryContent ? content_mercury : content_html
     body = this.stripInlineStyles(body)
     body = this.stripEmptyTags(body)
 

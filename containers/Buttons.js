@@ -29,7 +29,15 @@ const mapDispatchToProps = (dispatch) => {
         item.isSaved ? dispatch(itemUnsaveItem(item)) : dispatch(itemSaveItem(item))
       }
     },
-    toggleDisplay: () => dispatch(toggleDisplayedItems())
+    toggleDisplay: () => dispatch(toggleDisplayedItems()),
+    toggleMercury: (item) => {
+      if (item) {
+        dispatch({
+          type: 'ITEM_TOGGLE_MERCURY',
+          item
+        })
+      }
+    }
   }
 }
 
