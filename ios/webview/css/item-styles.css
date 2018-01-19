@@ -284,18 +284,20 @@ h2, aside {
     margin: 0.5rem auto; }
   .body > figure:first-child,
   .body > img:first-child,
-  .body > *:first-child > figure:first-child,
-  .body > *:first-child > img:first-child,
-  .body > *:first-child > *:first-child > figure:first-child,
-  .body > *:first-child > *:first-child > img:first-child,
-  .body > *:first-child > *:first-child > *:first-child > figure:first-child,
-  .body > *:first-child > *:first-child > *:first-child > img:first-child,
-  .body > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > figure:first-child,
-  .body > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > img:first-child,
-  .body > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > figure:first-child,
-  .body > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > img:first-child,
-  .body > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > figure:first-child,
-  .body > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > img:first-child {
+  .body > *:not(figure):first-child > figure:first-child,
+  .body > *:not(figure):first-child > img:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > img:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
+  .body > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child {
     position: relative;
     top: -2rem;
     margin-bottom: 0; }
@@ -372,7 +374,9 @@ h2, aside {
       margin-bottom: -6px; }
   .body figure {
     padding: 0;
-    margin: 0 0 1rem; }
+    margin: 1rem 0; }
+  .body iframe {
+    max-width: 100%; }
   .body pre {
     font-size: 14px;
     line-height: 1.4;
@@ -386,6 +390,10 @@ h2, aside {
     padding-left: 0; }
   .body li {
     padding: 14px 0; }
+  .body header {
+    font-weight: 500; }
+  .body figure input {
+    display: none; }
 
 article {
   margin-bottom: 168px; }

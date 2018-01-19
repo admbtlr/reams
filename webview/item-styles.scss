@@ -424,18 +424,25 @@ h2, aside {
   }
 
   &,
-  & > *:first-child,
-  & > *:first-child > *:first-child,
-  & > *:first-child > *:first-child > *:first-child,
-  & > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child,
-  & > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child,
-  & > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child > *:first-child {
+  & > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child {
     & > figure:first-child,
     & > img:first-child {
       position: relative;
       top: -2rem;
       margin-bottom: 0;
     }
+    // & > figure:first-child figcaption {
+    //   position: relative;
+    //   top: -1rem;
+    //   margin-bottom: 2rem;
+
+    // }
   }
 
   & > *:empty,
@@ -535,10 +542,11 @@ h2, aside {
 
   figure {
     padding: 0;
-    margin: 0 0 1rem;
+    margin: 1rem 0;
   }
 
   iframe {
+    max-width: 100%;
   }
 
   pre {
@@ -561,6 +569,14 @@ h2, aside {
   li {
     padding: 14px 0;
   }
+
+  // guardian specific stuff
+  header {
+    font-weight: 500;
+  }
+  figure input {
+    display: none;
+  }
 }
 
 article {
@@ -573,6 +589,12 @@ article > div:not(:last-of-type) {
     margin-bottom: $step * 4;
   }
 }
+
+// article .content-holder.alternating {
+//   background-color: hsl(60, 17%, 96%);
+//   margin: -3em -0.5em;
+//   padding: 3em 0.5em;
+// }
 
 div > p:not(.short-para):first-of-type {
   &:first-letter {
@@ -675,6 +697,8 @@ div > p:not(.short-para):first-of-type {
       }
 
       .body {
+        // background-color: lighten(desaturate($value, 70%), 40%);
+
         a, a:active, a:visited {
           -webkit-text-decoration-color: $value;
         }
