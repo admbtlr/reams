@@ -44,10 +44,13 @@ class TopBar extends React.Component {
             translateY: getAnimatedValue()
           }]
         }}>
-          <Animated.Text style={{
-            ...styles.feedName,
-            opacity: getAnimatedValueNormalised()
-          }}>
+          <Animated.Text
+            numberOfLines={1}
+            style={{
+              ...styles.feedName,
+              opacity: getAnimatedValueNormalised()
+            }}
+          >
             {this.getMessage()}
           </Animated.Text>
         </Animated.View>
