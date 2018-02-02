@@ -69,7 +69,7 @@ class FeedInfo extends React.Component {
                 height: 42
               }}
               onPress={() => {
-                this.props.markAllRead(this.props.item.feed_title)
+                this.props.markAllRead(this.props.item.feed_id)
                 console.log('MARK ALL READ!')
               }}>
                 <Text style={{
@@ -108,8 +108,7 @@ class FeedInfo extends React.Component {
             alignItems: 'center',
             marginBottom: isVisible ? 14 : 28,
             width: 100,
-            height: 42,
-            backgroundColor: 'rgba(255, 255, 255, 0.2)'
+            height: 42
           }}>
             <View style={{
               width: 1,

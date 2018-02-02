@@ -5,21 +5,22 @@ import FeedInfo from '../components/FeedInfo.js'
 const mapStateToProps = (state, ownProps) => {
   const items = state.items.display === 'unread' ? state.items.items : state.items.saved
   const index = state.items.display === 'unread' ? state.items.index : state.items.savedIndex
-  const numFeedItems = 43
+  const item = items[ownProps.index]
+  const numFeedItems = items.filter(i => i.feed_id === item.feed_id).length
   return {
-    item: items[ownProps.index],
+    item,
     numFeedItems
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    markAllRead: (feedName) => dispatch({
+    markAllRead: (feedId) => dispatch({
       type: 'ITEMS_MARK_ALL_READ',
-      feedName
+      feedId
     }),
-    unsubscribe: (feedName) => {
-      console.log(`Unsubscribe from ${feedName}`)
+    unsubscribe: (feedId) => {
+      console.log(`Unsubscribe from ${feedId}`)
     }
   }
 }

@@ -105,6 +105,25 @@ export function items (state = initialState, action) {
         ...newState
       }
 
+    case 'ITEMS_MARK_ALL_READ':
+      const feedId = action.feedId
+      const currentItem = state.items[state.index]
+      items = [ ...state.items ].filter((item) => {
+        return item.feed_id !== action.feedId &&
+          item._id !== currentItem._id
+      })
+      let newIndex
+      items.forEach((item, index) => {
+        if (item._id === currentItem._id) {
+          newIndex = index
+        }
+      })
+      return {
+        ...state,
+        items,
+        newIndex
+      }
+
     case 'ITEM_TOGGLE_MERCURY':
       items = [ ...state.items ]
       const item = items.find((item) => item._id === action.item._id)
