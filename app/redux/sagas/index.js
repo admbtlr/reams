@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga'
 import { call, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { fetchUnreadItems, markItemRead, loadMercuryStuff } from '../backends'
-import { mergeItems } from './merge-items.js'
+import { mergeItems, id } from './merge-items.js'
 import { REHYDRATE } from 'redux-persist'
 const RNFS = require('react-native-fs')
 import { Image, InteractionManager } from 'react-native'
@@ -91,7 +91,7 @@ function * loadMercuryForItem (item) {
 function * saveExternalURL (action) {
   let item = {
     url: action.url,
-    _id: Math.random().toString(36).substring(7),
+    _id: id(),
     title: 'Loading...',
     content_html: 'Loading...',
     is_external: true
@@ -100,7 +100,11 @@ function * saveExternalURL (action) {
     type: 'ITEM_SAVE_EXTERNAL_ITEM',
     item
   })
-  yield loadMercuryForItem(item)
+  const decoration = yield decorateItem(item)
+  yield put({
+    type: 'ITEM_DECORATION_SUCCESS',
+    ...decoration
+  })
 }
 
 function * fetchItems () {

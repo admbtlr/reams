@@ -151,6 +151,7 @@ export function items (state = initialState, action) {
       }
 
     case 'ITEM_SAVE_EXTERNAL_ITEM':
+      saved = [ ...state.saved ]
       savedItem = addStylesIfNecessary(action.item)
       savedItem.isSaved = true
       saved.push({
