@@ -25,6 +25,7 @@ class FeedInfo extends React.Component {
       marginBottom: 28
     }
     const isVisible = this.state && this.state.detailsVisible || false
+    const { author, feed_title } = this.props.item
 
     return (
       <View style={{
@@ -42,7 +43,7 @@ class FeedInfo extends React.Component {
           marginTop: 28
         }} />
         { this.props.item.author &&
-          <Text style={ textStyles }>{this.props.item.author}</Text>
+          <Text style={ textStyles }>{ author && author.trim() }</Text>
         }
         { this.props.item.author &&
           <View style={{
@@ -55,7 +56,7 @@ class FeedInfo extends React.Component {
         <Text style={{
           ...textStyles,
           fontFamily: 'IBMPlexMono-Bold'
-        }}>{this.props.item.feed_title}</Text>
+        }}>{ feed_title && feed_title.trim() }</Text>
         { isVisible &&
           <View>
             <Text style={{
