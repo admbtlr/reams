@@ -7,6 +7,15 @@ function markShortParagraphs () {
   })
 }
 
+function markSingleCharParagraphs () {
+  const paras = document.querySelectorAll('p')
+  Array.prototype.forEach.call(paras, function (el, i) {
+    if (el.innerText.length === 1) {
+      el.classList.add('single-char-para')
+    }
+  })
+}
+
 function markImages () {
   const imgs = document.querySelectorAll('img')
   Array.prototype.forEach.call(imgs, function (el, i) {

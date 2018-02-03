@@ -607,8 +607,13 @@ div > p:not(.short-para):first-of-type {
   }
 }
 
-.short-para {
+div > p:first-of-type:first-line {
+  font-variant: small-caps;
+}
 
+.single-char-para {
+  text-align: center;
+  margin: 2rem;
 }
 
 

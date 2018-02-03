@@ -427,6 +427,13 @@ div > p:not(.short-para):first-of-type.firstPara {
   border-top: 0;
   padding-top: 0; }
 
+div > p:first-of-type:first-line {
+  font-variant: small-caps; }
+
+.single-char-para {
+  text-align: center;
+  margin: 2rem; }
+
 .bodyFontSerif1 .body {
   font-family: "LibreBaskerville-Regular", serif;
   font-size: calc(1rem / 1.7); }
