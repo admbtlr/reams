@@ -6,21 +6,20 @@ import {hslString} from '../utils/colors'
 
 const fontStyles = {
   headerFontSerif1: {
-    verticalOffset: 0.475,
     bold: {
-      fontFamily: 'Eczar-ExtraBold',
+      fontFamily: 'IBMPlexSerif-Bold',
       multiplier: 0.57
     },
     boldItalic: {
-      fontFamily: 'Eczar-ExtraBold',
+      fontFamily: 'IBMPlexSerif-BoldItalic',
       multiplier: 0.57
     },
     regular: {
-      fontFamily: 'Eczar-Regular',
+      fontFamily: 'IBMPlexSerif-Light',
       multiplier: 0.51
     },
     regularItalic: {
-      fontFamily: 'Eczar-Regular',
+      fontFamily: 'IBMPlexSerif-LightItalic',
       multiplier: 0.51
     }
   },
@@ -344,16 +343,18 @@ class ItemTitle extends React.Component {
       paddingTop,
       paddingBottom,
       paddingLeft
-      // paddingTop: 28 // I don't know why, but otherwise it cuts off the top of the first line
-      // borderColor: styles.color.hex,
-      // borderBottomWidth: 4
     }
-    // console.log(fontStyles[this.props.font][styles.isBold ? 'bold' : 'regular'])
     const viewStyle = {
       ...position
     }
+
+    // if center aligned and not full width, add left margin
+    const marginLeft = styles.textAlign === 'center' && styles.widthPercentage ?
+      (100 - styles.widthPercentage) / 100 * this.screenWidth / 2 :
+      0
+
     const innerViewStyle = {
-      marginLeft: styles.bg ? 28 : 0,
+      marginLeft: styles.bg ? 28 + marginLeft : marginLeft,
       marginRight:  styles.bg ? 28 : 0,
       padding: 14,
       backgroundColor: styles.bg ?  'white' : 'transparent',
@@ -361,6 +362,7 @@ class ItemTitle extends React.Component {
       flexDirection: 'row',
       flexWrap: 'wrap',
       alignItems: 'flex-start',
+      width: styles.widthPercentage ? styles.widthPercentage + '%' : undefined,
     }
     const overlayColour = hasImage && !styles.invertBGPadding && !styles.bg ?
       'rgba(0,0,0,0.2)' :
