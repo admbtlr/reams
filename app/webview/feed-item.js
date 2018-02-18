@@ -69,12 +69,26 @@ var toggleCollapsed = (e) => {
   }
 }
 
+function setFontSize (fontSize) {
+  const html = document.getElementsByTagName('html')[0]
+  let fontSizeClass
+  html.classList.forEach((c) => {
+    if (c.substring(0, 9) === 'font-size') {
+      fontSizeClass = c
+    }
+  })
+  html.classList.remove(fontSizeClass)
+  html.classList.add(`font-size-${fontSize}`)
+}
+
+function toggleDarkBackground(isDarkBackground) {
+  const html = document.getElementsByTagName('html')[0]
+  html.classList.toggle('dark-background')
+}
+
 window.onload = function () {
   markShortBlockquotes()
   markShortParagraphs()
   markImages()
   markContentHoldingDivs()
-
-  var expander = document.querySelectorAll('.js-feed-expand')
-  document.querySelectorAll('.js-feed-expand')[0].ontouchend = toggleCollapsed
 }

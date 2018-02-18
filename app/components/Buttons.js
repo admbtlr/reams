@@ -7,7 +7,7 @@ import {
   View
 } from 'react-native'
 import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
-
+import RizzleButton from './RizzleButton'
 import {
   getAnimatedValueNormalised,
   getAnimatedValue
@@ -25,24 +25,6 @@ class Buttons extends React.Component {
     this.onMercuryPress = this.onMercuryPress.bind(this)
   }
 
-  // calculateNewTranslateY () {
-  //   let newTranslateY = 0
-  //   if (typeof this.props.toolbar.scrollOffset === 'number' &&
-  //     this.props.toolbar.scrollOffset <= 0) {
-  //     return this.props.toolbar.scrollOffset
-  //   }
-  //
-  //   if (typeof this.props.toolbar.scrollDiff === 'number') {
-  //     newTranslateY = this.translateY - this.props.toolbar.scrollDiff
-  //   }
-  //   if (newTranslateY > 0) {
-  //     newTranslateY = 0
-  //   } if (newTranslateY < 0 - STATUS_BAR_HEIGHT) {
-  //     newTranslateY = 0 - STATUS_BAR_HEIGHT
-  //   }
-  //   return newTranslateY
-  // }
-  //
   showShareActionSheet () {
     ActionSheetIOS.showShareActionSheetWithOptions({
       url: this.props.items[this.props.index].url,
@@ -78,15 +60,14 @@ class Buttons extends React.Component {
         ...this.getStyles().base,
         opacity: getAnimatedValueNormalised()
       }}>
-        <TouchableOpacity
+        <RizzleButton
           style={{
-            ...this.getStyles().button,
             width: 'auto',
             paddingHorizontal: 28,
             transform: [{
               translateY: getAnimatedValueNormalised().interpolate({
-                inputRange: [0, 0.33, 0.66, 1],
-                outputRange: [100, 100, 0, 0]
+                inputRange: [0, 0.2, 0.25, 1],
+                outputRange: [70, -10, 0, 0]
               })
             }]
           }}
@@ -108,15 +89,14 @@ class Buttons extends React.Component {
               Cached: {this.props.decoratedCount}
             </Text>
           }
-        </TouchableOpacity>
-        <TouchableOpacity
+        </RizzleButton>
+        <RizzleButton
           style={{
-            ...this.getStyles().button,
             paddingLeft: 3,
             transform: [{
               translateY: getAnimatedValueNormalised().interpolate({
-                inputRange: [0, 0.33, 1],
-                outputRange: [100, 0, 0]
+                inputRange: [0, 0.25, 0.45, 0.5, 1],
+                outputRange: [70, 70, -10, 0, 0]
               })
             }]
           }}
@@ -138,15 +118,14 @@ class Buttons extends React.Component {
               fill={item && item.isSaved ? saveStrokeColour : 'none'}
             />
           </Svg>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </RizzleButton>
+        <RizzleButton
           style={{
-            ...this.getStyles().button,
             paddingLeft: 3,
             transform: [{
               translateY: getAnimatedValueNormalised().interpolate({
-                inputRange: [0, 0.66, 1],
-                outputRange: [100, 100, 0]
+                inputRange: [0, 0.5, 0.7, 0.75, 1],
+                outputRange: [70, 70, -10, 0, 0]
               })
             }]
           }}
@@ -192,15 +171,14 @@ class Buttons extends React.Component {
               strokeWidth='3'
             />
           </Svg>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </RizzleButton>
+        <RizzleButton
           style={{
-            ...this.getStyles().button,
             paddingLeft: 3,
             transform: [{
               translateY: getAnimatedValueNormalised().interpolate({
-                inputRange: [0, 0.66, 1],
-                outputRange: [100, 100, 0]
+                inputRange: [0, 0.75, 0.95, 1],
+                outputRange: [70, 70, -10, 0]
               })
             }]
           }}
@@ -225,7 +203,7 @@ class Buttons extends React.Component {
               strokeWidth='1'
             />
           </Svg>
-        </TouchableOpacity>
+        </RizzleButton>
       </Animated.View>
     )
   }
@@ -241,21 +219,6 @@ class Buttons extends React.Component {
         flexDirection: 'row',
         justifyContent: 'space-around',
         marginBottom: 14
-      },
-      button: {
-        backgroundColor: this.props.displayMode && this.props.displayMode == 'saved' ? '#5f4d2f' : '#51485f',
-        opacity: 0.95,
-        width: 56,
-        height: 56,
-        borderRadius: 28,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        shadowOffset: {
-          width: 0,
-          height: 3
-        },
-        shadowRadius: 3,
-        shadowOpacity: 0.3
       },
       buttonSVG: {
         paddingLeft: 3
@@ -274,6 +237,5 @@ class Buttons extends React.Component {
     }
   }
 }
-
 
 export default Buttons

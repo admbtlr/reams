@@ -64,17 +64,28 @@ class FeedItem extends React.Component {
       console.log(changes)
     }
 
-    if (changes &&
-        Object.keys(changes).length === 1 &&
-        Object.keys(changes)[0] === 'isVisible') {
-      console.log('Not updating, only `isVisible` has changed')
-      isDiff = false
+    // various special cases
+    if (changes && Object.keys(changes).length === 1) {
+      switch (Object.keys(changes)[0]) {
+        case 'isVisible':
+          isDiff = false
+          // this is a bit sneaky...
+          if (nextProps.isVisible) {
+            scrollHandler(this.scrollOffset)
+            // and let the world (i.e. the topbar and buttons) know that the scroll handler has changed
+            this.props.scrollHandlerAttached(this.props.item._id)
+          }
+          break
 
-      // this is a bit sneaky...
-      if (nextProps.isVisible) {
-        scrollHandler(this.scrollOffset)
-        // and let the world (i.e. the topbar and buttons) know that the scroll handler has changed
-        this.props.scrollHandlerAttached(this.props.item._id)
+        case 'fontSize':
+          isDiff = false
+          this.webView.injectJavaScript(`setFontSize(${nextProps.fontSize})`)
+          break
+
+        case 'isDarkBackground':
+          isDiff = false
+          this.webView.injectJavaScript(`toggleDarkBackground(${nextProps.isDarkBackground})`)
+          break
       }
     }
     return isDiff
@@ -130,7 +141,7 @@ class FeedItem extends React.Component {
     body = this.stripInlineStyles(body)
     body = this.stripEmptyTags(body)
 
-    const html = `<html>
+    const html = `<html class="font-size-${this.props.fontSize}">
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/item-styles.css">
         <script src="${server}webview/js/feed-item.js"></script>
@@ -139,7 +150,7 @@ class FeedItem extends React.Component {
         <article
           class="${articleClasses}">
           <div class="the-rest" style="min-height: ${height}px; width: 100vw;">
-            <div class="body">${body}</div>
+            <div class="body ${this.props.isDarkBackground ? 'dark-background' : ''}">${body}</div>
           </div>
         </article>
       </body>

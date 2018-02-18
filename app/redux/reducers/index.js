@@ -2,12 +2,13 @@ import { items, itemsHasErrored } from './items'
 // import { currentItem } from './currentItem'
 // import { itemDidScroll } from './item'
 import { toolbar } from './toolbar'
-import { app } from './app'
+import { ui } from './ui'
+import { webView } from './webView'
 
 export default {
   items,
   itemsHasErrored,
-  // currentItem,
-  // itemDidScroll,
-  toolbar
+  toolbar,
+  ui,
+  webView
 }

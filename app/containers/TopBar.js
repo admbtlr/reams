@@ -15,7 +15,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateCurrentIndex: (index) => dispatch(itemsUpdateCurrentIndex(index))
+    toggleViewButtons: () => dispatch({
+      type: 'UI_TOGGLE_VIEW_BUTTONS'
+    })
   }
 }
 

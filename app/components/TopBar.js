@@ -2,9 +2,9 @@ import React from 'react'
 import {
   Animated,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
-
 import {
   getAnimatedValue,
   getAnimatedValueNormalised
@@ -48,11 +48,30 @@ class TopBar extends React.Component {
             numberOfLines={1}
             style={{
               ...styles.feedName,
-              opacity: getAnimatedValueNormalised()
+              opacity: getAnimatedValueNormalised(),
+              marginLeft: 35
             }}
           >
             {this.getMessage()}
           </Animated.Text>
+          <TouchableOpacity
+            style={{
+              marginRight: 7,
+              marginTop: 3,
+              width: 28,
+              height: 28,
+              borderRadius: 14,
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }}
+            onPress={this.props.toggleViewButtons}
+          >
+            <Text style={{
+              fontFamily: 'IBMPlexMono',
+              color: 'white',
+              paddingLeft: 6,
+              paddingTop: 3
+            }}>z<Text style={{ color: 'black' }}>z</Text></Text>
+          </TouchableOpacity>
         </Animated.View>
       </View>
     )
@@ -90,6 +109,7 @@ const styles = {
   },
   textHolder: {
     flex: 1,
+    flexDirection: 'row',
     height: STATUS_BAR_HEIGHT,
     shadowColor: '#000000',
     shadowOffset: {

@@ -1,11 +1,20 @@
+import {Dimensions} from 'react-native'
+
 import {deepEqual} from '../utils/'
 import {colors} from '../utils/color-definitions'
 import {getNames} from '../utils/colors'
+
+let deviceWidth
 
 export function createItemStyles (item) {
   let title = {}
   const color = pickOne(getNames())
   title.color = color
+
+  if (!deviceWidth) {
+    const {height, width} = Dimensions.get('window')
+    deviceWidth = width
+  }
 
   const fonts = getFontClasses()
 
@@ -57,6 +66,13 @@ export function createItemStyles (item) {
   } else {
     title.fontSizeAsWidthDivisor = 10
   }
+
+  // this is an attempt to rationalise font sizes for larger screens
+  if (deviceWidth > 500) {
+    title.fontSizeAsWidthDivisor = title.fontSizeAsWidthDivisor * (deviceWidth / 500)
+    title.widthPercentage = 100 - (Math.floor(Math.random() * 50))
+  }
+
   title.lineHeightAsMultiplier = 1.1 + Math.random() * 0.2
   title.maximiseFont = Math.random() > 0.5
   title.textAlign = Math.random() > 0.5
@@ -87,7 +103,7 @@ export function createItemStyles (item) {
     },
     title: {
       ...title,
-      valign: Math.random() > 0.5 ? 'center' : ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)],
+      valign: Math.random() > 0.5 ? 'middle' : ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)],
       bg: !title.invertBG && !isBW && !isMultiply && !isContain && !title.isVertical && Math.random() > 0.7
     }
   }

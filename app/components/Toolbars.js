@@ -2,6 +2,7 @@ import React from 'react'
 import {View} from 'react-native'
 import TopBarContainer from '../containers/TopBar.js'
 import ButtonsContainer from '../containers/Buttons.js'
+import ViewButtonsContainer from '../containers/ViewButtons.js'
 
 class Toolbars extends React.PureComponent {
   // shouldComponentUpdate (nextProps, nextState) {
@@ -14,6 +15,7 @@ class Toolbars extends React.PureComponent {
         pointerEvents='box-none'>
         <TopBarContainer />
         <ButtonsContainer />
+        <ViewButtonsContainer />
       </View>
     )
   }
