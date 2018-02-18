@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import FeedItem from '../components/FeedItem.js'
-// import { itemDidScroll } from '../redux/actions/item.js'
 
 const mapStateToProps = (state, ownProps) => {
   const items = state.items.display === 'unread' ? state.items.items : state.items.saved
@@ -8,7 +7,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     item: items[ownProps.index],
     isVisible: ownProps.index === index,
-    showMercuryContent: items[ownProps.index].showMercuryContent
+    showMercuryContent: items[ownProps.index].showMercuryContent,
+    ...state.webView
   }
 }
 
