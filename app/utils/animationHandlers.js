@@ -59,7 +59,6 @@ function reset () {
   resetValue = 0
   scrollAnim.removeAllListeners()
   resetAnim.removeAllListeners()
-  // TODO fix this!
   // this animation needs to happen AFTER swipeable views has re-rendered
   this.setTimeout(() => {
     Animated.timing(resetAnim, {
@@ -101,7 +100,6 @@ export function scrollHandler (value) {
     resetValue = value;
   })
 
-
   clampedAnim = clamped.interpolate({
     inputRange: [0, STATUS_BAR_HEIGHT],
     outputRange: [0, - STATUS_BAR_HEIGHT],
@@ -121,15 +119,12 @@ export function onScrollEnd (e) {
     ? resetValue + STATUS_BAR_HEIGHT
     : resetValue - STATUS_BAR_HEIGHT
 
-
   console.log('Scroll ended! Need to animate ' + toValue)
   Animated.timing(resetAnim, {
     toValue,
     duration: 200,
     useNativeDriver: true,
-  }).start(() => {
-    // resetAnim.setValue(0)
-  })
+  }).start( )
 }
 
 export function getScrollValueAnimated () {
