@@ -1,13 +1,14 @@
 {
-  "name": "Rizzle Server",
+  "name": "rizzle-server",
   "version": "0.0.1",
   "private": true,
-  "scripts": {},
   "dependencies": {
     "babel-register": "^6.26.0",
     "express": "^4.16.2",
     "feedparser": "^2.2.8",
-    "request": "^2.83.0"
+    "iconv": "^2.3.0",
+    "request": "^2.83.0",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "babel": "^6.23.0",
