@@ -56,10 +56,12 @@ class Buttons extends React.Component {
     const item = this.props.items[this.props.index]
     const saveStrokeColour = false && this.props.displayMode && this.props.displayMode == 'unread' ? '#f6be3c' : '#ffffff'
     return (
-      <Animated.View style={{
-        ...this.getStyles().base,
-        opacity: getAnimatedValueNormalised()
-      }}>
+      <Animated.View
+        pointerEvents: 'box-none'
+        style={{
+          ...this.getStyles().base,
+          opacity: getAnimatedValueNormalised()
+        }}>
         <RizzleButton
           style={{
             width: 'auto',

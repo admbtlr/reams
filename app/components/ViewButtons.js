@@ -38,9 +38,11 @@ class ViewButtons extends React.Component {
   render () {
     const saveStrokeColour = '#ffffff'
     return (
-      <Animated.View style={{
+      <Animated.View
+        pointerEvents: 'box-none'
+        style={{
         ...this.getStyles().base,
-      }}>
+        }}>
         <RizzleButton
           style={{
             marginBottom: 14,
