@@ -44,13 +44,13 @@ class Share extends React.Component {
       else {
         // Otherwise reject with the status text
         // which will hopefully be a meaningful error
-        reject(Error(req.statusText));
+        throw req.statusText;
       }
     };
 
     // Handle network errors
     req.onerror = function() {
-      reject(Error("Network Error"));
+      throw "Network Error";
     };
 
     // Make the request
@@ -75,6 +75,12 @@ class Share extends React.Component {
   closing = () => this.setState({ isOpen: false });
 
   render() {
+    const textStyle = {
+      color: '#f6be3c',
+      fontFamily: 'IBMPlexMono',
+      fontSize: 18,
+      textAlign: 'center'
+    }
     return (
       <Modal
         backdrop={false}
@@ -84,12 +90,35 @@ class Share extends React.Component {
         onClosed={this.onClose}
       >
         <View style={{ alignItems: 'center', justifyContent:'center', flex: 1 }}>
-          <View style={{ borderColor: 'green', borderWidth: 1, backgroundColor: 'white', height: 200, width: 300 }}>
+          <View style={{
+            backgroundColor: '#51485f',
+            width: 300,
+            height: 300,
+            padding: 14,
+            borderRadius: 14
+          }}>
             <TouchableOpacity onPress={this.closing}>
               <Text>Close</Text>
-              <Text>type: { this.state.type }</Text>
-              <Text>value: { this.state.value }</Text>
-              <Text>RSS: { this.state.rssURL }</Text>
+            </TouchableOpacity>
+            { this.state.rssURL &&
+              <TouchableOpacity
+                style={{
+                  padding: 28,
+                  paddingBottom: 0
+                }}
+                onPress={this.closing}>
+                <Text style={textStyle}>Add this site to your Rizzle feed</Text>
+                <View style={{
+                  height: 1,
+                  marginTop: 28,
+                  backgroundColor: 'white'
+                }}/>
+              </TouchableOpacity>
+            }
+            <TouchableOpacity
+              style={{ padding: 28 }}
+              onPress={this.closing}>
+              <Text style={textStyle}>Save this page to read in Rizzle</Text>
             </TouchableOpacity>
           </View>
         </View>
