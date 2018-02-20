@@ -39,7 +39,7 @@ class ViewButtons extends React.Component {
     const saveStrokeColour = '#ffffff'
     return (
       <Animated.View
-        pointerEvents: 'box-none'
+        pointerEvents='box-none'
         style={{
         ...this.getStyles().base,
         }}>
