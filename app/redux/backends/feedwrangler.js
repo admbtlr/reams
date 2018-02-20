@@ -1,8 +1,3 @@
-import {
-  itemsHasErrored,
-  itemsFetchDataSuccess
-} from '../actions/items.js'
-
 const feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
 const itemsFetchBatchSize = 100
 
