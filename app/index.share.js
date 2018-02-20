@@ -27,7 +27,7 @@ import Share from './components/Share.js'
 // }
 
 // AppRegistry.registerComponent('rizzle', () => Rizzle)
-AppRegistry.registerComponent('share', () => Share)
+AppRegistry.registerComponent('RizzleShare', () => Share)
 
 // export default class Rizzle extends Component {
 //   render () {

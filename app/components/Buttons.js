@@ -57,7 +57,7 @@ class Buttons extends React.Component {
     const saveStrokeColour = false && this.props.displayMode && this.props.displayMode == 'unread' ? '#f6be3c' : '#ffffff'
     return (
       <Animated.View
-        pointerEvents: 'box-none'
+        pointerEvents='box-none'
         style={{
           ...this.getStyles().base,
           opacity: getAnimatedValueNormalised()

@@ -224,6 +224,7 @@ function cacheCoverImage (imageURL, imageName) {
   const splitted = imageURL.split('.')
   const extension = splitted[splitted.length - 1].split('?')[0]
   const fileName = `${RNFS.DocumentDirectoryPath}/${imageName}.${extension}`
+  console.log(`Cached image file name: ${fileName}`)
   return RNFS.downloadFile({
     fromUrl: imageURL,
     toFile: fileName
