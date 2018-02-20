@@ -8,16 +8,15 @@ import {
 } from 'react-native'
 import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import RizzleButton from './RizzleButton'
-import {
-  getAnimatedValueNormalised,
-  getAnimatedValue
-} from '../utils/animationHandlers'
 
 class Buttons extends React.Component {
+  state = {
+    visibleAnim: new Animated.Value(0)
+  }
+
   constructor (props) {
     super(props)
     this.props = props
-    // this.translateY = STATUS_BAR_HEIGHT
 
     this.showShareActionSheet = this.showShareActionSheet.bind(this)
     this.onSavePress = this.onSavePress.bind(this)
@@ -51,8 +50,20 @@ class Buttons extends React.Component {
     this.props.toggleMercury(item)
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.visible !== this.props.visible) {
+      Animated.spring(
+        this.state.visibleAnim,
+        {
+          toValue: this.props.visible ? 0 : 70,
+          duration: 200,
+          useNativeDriver: true
+        }
+      ).start()
+    }
+  }
+
   render () {
-    // this.translateY = this.calculateNewTranslateY()
     const item = this.props.items[this.props.index]
     const saveStrokeColour = false && this.props.displayMode && this.props.displayMode == 'unread' ? '#f6be3c' : '#ffffff'
     return (
@@ -60,17 +71,14 @@ class Buttons extends React.Component {
         pointerEvents='box-none'
         style={{
           ...this.getStyles().base,
-          opacity: getAnimatedValueNormalised()
+          // opacity: getAnimatedValueNormalised()
         }}>
         <RizzleButton
           style={{
             width: 'auto',
             paddingHorizontal: 28,
             transform: [{
-              translateY: getAnimatedValueNormalised().interpolate({
-                inputRange: [0, 0.2, 0.25, 1],
-                outputRange: [70, -10, 0, 0]
-              })
+              translateY: this.state.visibleAnim
             }]
           }}
           onPress={this.onDisplayPress}
@@ -96,10 +104,7 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 3,
             transform: [{
-              translateY: getAnimatedValueNormalised().interpolate({
-                inputRange: [0, 0.25, 0.45, 0.5, 1],
-                outputRange: [70, 70, -10, 0, 0]
-              })
+              translateY: this.state.visibleAnim
             }]
           }}
           onPress={this.onSavePress}
@@ -125,10 +130,7 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 3,
             transform: [{
-              translateY: getAnimatedValueNormalised().interpolate({
-                inputRange: [0, 0.5, 0.7, 0.75, 1],
-                outputRange: [70, 70, -10, 0, 0]
-              })
+              translateY: this.state.visibleAnim
             }]
           }}
           onPress={this.showShareActionSheet}
@@ -178,10 +180,7 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 3,
             transform: [{
-              translateY: getAnimatedValueNormalised().interpolate({
-                inputRange: [0, 0.75, 0.95, 1],
-                outputRange: [70, 70, -10, 0]
-              })
+              translateY: this.state.visibleAnim
             }]
           }}
           onPress={this.onMercuryPress}

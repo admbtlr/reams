@@ -17,7 +17,13 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggleViewButtons: () => dispatch({
       type: 'UI_TOGGLE_VIEW_BUTTONS'
-    })
+    }),
+    showItemButtons: () => dispatch({
+      type: 'UI_SHOW_ITEM_BUTTONS'
+    }),
+    hideAllButtons: () => dispatch({
+      type: 'UI_HIDE_ALL_BUTTONS'
+    }),
   }
 }
 

@@ -7,7 +7,8 @@ import {
 } from 'react-native'
 import {
   getAnimatedValue,
-  getAnimatedValueNormalised
+  getAnimatedValueNormalised,
+  addScrollListener
 } from '../utils/animationHandlers'
 
 export const STATUS_BAR_HEIGHT = 40
@@ -17,8 +18,20 @@ class TopBar extends React.Component {
   constructor (props) {
     super(props)
     this.props = props
+
+    this.onStatusBarDown = this.onStatusBarDown.bind(this)
+    this.onStatusBarUp = this.onStatusBarUp.bind(this)
+
+    addScrollListener(this)
   }
 
+  onStatusBarDown () {
+    this.props.showItemButtons()
+  }
+
+  onStatusBarUp () {
+    this.props.hideAllButtons()
+  }
   // shouldComponentUpdate(nextProps, nextState) {
   //   return nextProps.currentItem !== this.props.currentItem ||
   //     nextProps.toolbar.message !== this.props.toolbar.message
@@ -32,7 +45,6 @@ class TopBar extends React.Component {
   }
 
   render () {
-    console.log('RENDER TOPBAR!')
     let topBarStyles = Object.assign({}, styles.topBar, this.props.displayMode == 'saved' ? colorSaved.topBar : colorUnread.topBar)
     let textHolderStyles = Object.assign({}, styles.textHolder, this.props.displayMode == 'saved' ? colorSaved.textHolder : colorUnread.textHolder)
     return (

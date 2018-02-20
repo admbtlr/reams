@@ -17,7 +17,8 @@ const mapStateToProps = (state) => {
     isSaved: item && item.isSaved,
     toolbar: state.toolbar,
     displayMode: state.items.display,
-    decoratedCount: state.items.decoratedCount
+    decoratedCount: state.items.decoratedCount,
+    visible: state.ui.itemButtonsVisible
   }
 }
 

@@ -21,38 +21,6 @@ let resetValue = 0
 
 let initiated = false
 
-// export function onScrollStart (e) {
-//   scrollListeners.forEach((listener) => listener('start', e))
-// }
-
-// export function registerScrollListener (listener) {
-//   scrollListeners.push(listener)
-// }
-
-// export function registerScrollHandlerChangeListener (listener) {
-//   scrollHandlerChangeListeners.push(listener)
-// }
-
-// export function onPanStart (e) {
-//   panListeners.forEach((listener) => listener('start', e))
-// }
-
-// export function onPanEnd (e) {
-//   panListeners.forEach((listener) => listener('end', e))
-// }
-
-// export function registerPanListener (listener) {
-//   panListeners.push(listener)
-// }
-
-// export function panHandler (value) {
-//   panValueAnimated = value
-// }
-
-// export function getPanValueAnimated () {
-//   return panValueAnimated
-// }
-
 function reset () {
   scrollValue = 0
   clampedScrollValue = 0
@@ -90,11 +58,22 @@ export function scrollHandler (value) {
   // because of https://github.com/facebook/react-native/pull/12620
   scrollAnim.addListener(({ value }) => {
     const diff = value - scrollValue
+    const wasntDown = clampedScrollValue > 0
+    const wasntUp = clampedScrollValue < STATUS_BAR_HEIGHT
     scrollValue = value
     clampedScrollValue = Math.min(
       Math.max(clampedScrollValue + diff, 0),
       STATUS_BAR_HEIGHT,
     )
+    if (wasntDown && clampedScrollValue === 0) {
+      scrollListeners.forEach((listener) => {
+        listener.onStatusBarDown()
+      })
+    } else if (wasntUp && clampedScrollValue >= STATUS_BAR_HEIGHT) {
+      scrollListeners.forEach((listener) => {
+        listener.onStatusBarUp()
+      })
+    }
   })
   resetAnim.addListener(({ value }) => {
     resetValue = value;
@@ -137,4 +116,8 @@ export function getAnimatedValue () {
 
 export function getAnimatedValueNormalised () {
   return clampedAnimNormalised
+}
+
+export function addScrollListener (listener) {
+  scrollListeners.push(listener)
 }
