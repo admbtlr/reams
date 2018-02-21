@@ -1,5 +1,6 @@
 const initialState = {
-  viewButtonsVisible: 'false'
+  viewButtonsVisible: false,
+  itemButtonsVisible: false
 }
 
 export function ui (state = initialState, action) {
@@ -8,6 +9,19 @@ export function ui (state = initialState, action) {
       return {
         ...state,
         viewButtonsVisible: !state.viewButtonsVisible
+      }
+
+    case 'UI_SHOW_ITEM_BUTTONS':
+      return {
+        ...state,
+        itemButtonsVisible: true
+      }
+
+    case 'UI_HIDE_ALL_BUTTONS':
+      return {
+        ...state,
+        viewButtonsVisible: false,
+        itemButtonsVisible: false
       }
 
     default:

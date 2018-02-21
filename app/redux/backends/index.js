@@ -1,5 +1,6 @@
 /* global fetch, Headers */
-import { fetchUnreadItems, getUnreadItems, markItemRead } from './feedwrangler'
+import { fetchUnreadItems, markItemRead } from './feedwrangler'
+// import { fetchUnreadItems, markItemRead } from './rizzle'
 
 function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
@@ -21,4 +22,4 @@ function getMercuryUrl (item) {
   return url
 }
 
-export { fetchUnreadItems, getUnreadItems, markItemRead, loadMercuryStuff }
+export { fetchUnreadItems, markItemRead, loadMercuryStuff }
