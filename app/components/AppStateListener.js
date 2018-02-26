@@ -1,8 +1,11 @@
 import React from 'react'
-import { AppState, Clipboard, Modal, Text, TouchableHighlight, View } from 'react-native'
-
+import { AppState, Clipboard, Text, TouchableHighlight, View } from 'react-native'
+import Modal from 'react-native-modalbox'
+import { RNSKBucket } from 'react-native-swiss-knife'
 
 class AppStateListener extends React.Component {
+
+  group = 'group.com.adam-butler.rizzle'
 
   constructor (props) {
     super(props)
@@ -15,6 +18,8 @@ class AppStateListener extends React.Component {
   handleAppStateChange = (nextAppState) => {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.checkClipboard()
+      this.checkPageBucket()
+      this.checkFeedBucket()
       this.props.fetchData()
     }
   }
@@ -35,6 +40,20 @@ class AppStateListener extends React.Component {
     }
   }
 
+  checkPageBucket () {
+    RNSKBucket.get('page', this.group).then(value => {
+      RNSKBucket.set('page', null, this.group)
+      console.log(`Got a page to save: ${value}`)
+    })
+  }
+
+  checkFeedBucket () {
+    RNSKBucket.get('feed', this.group).then(value => {
+      RNSKBucket.set('feed', null, this.group)
+      console.log(`Got a feed to subscribe to: ${value}`)
+    })
+  }
+
   showModal (isShown) {
     this.setState({
       ...this.state,
@@ -46,9 +65,10 @@ class AppStateListener extends React.Component {
     if (this.state && this.state.showModal) {
       return (
         <Modal
-          animationType={"slide"}
-          transparent={true}
-          visible={this.state.showModal}
+          backdrop={false}
+          style={{ backgroundColor: 'transparent' }}
+          position="center"
+          isOpen={this.state.showModal}
           >
          <View style={{
             flex: 1,
