@@ -466,7 +466,7 @@ class ItemTitle extends React.Component {
       }
     })
     const commonWordRatio = common / uncommon
-    if (commonWordRatio > 0.4 && common > 3) {
+    if (commonWordRatio > 0.5 && common > 3) {
       // create a parallel array of objects that we can convert into jsx below
       // (make objects first because whether we use Text or Animated.Text depends on whether to invert)
       // (because shadow)
