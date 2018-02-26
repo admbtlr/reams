@@ -34,6 +34,7 @@
     "react-native-sentry": "^0.14.10",
     "react-native-share-extension": "^1.2.1",
     "react-native-svg": "^6.0.0",
+    "react-native-swiss-knife": "0.0.5",
     "react-native-webview-autoheight": "^1.0.4",
     "react-redux": "5.0.4",
     "react-swipeable-views-native": "^0.12.8",
