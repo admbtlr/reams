@@ -23,6 +23,9 @@ export function * fetchItems () {
       isLoading: true,
       numItems: newItems.length
     })
+    if (__DEV__) {
+      newItems = newItems.slice(0, 100)
+    }
     console.log(`Fetched ${newItems.length} items`)
     console.log(newItems)
     const { read, unread } = mergeItems(oldItems, newItems, currentItem)
