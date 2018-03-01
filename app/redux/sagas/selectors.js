@@ -14,3 +14,7 @@ export function getCurrentItem (state) {
 export function getFeeds (state) {
   return state.feeds.feeds
 }
+
+export function getRemoteActions (state) {
+  return state.remoteActionQueue.actions
+}

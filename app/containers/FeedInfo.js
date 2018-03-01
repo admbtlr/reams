@@ -15,12 +15,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    markAllRead: (feedId) => dispatch({
-      type: 'ITEMS_MARK_ALL_READ',
-      feedId
+    markAllRead: (id) => dispatch({
+      type: 'FEED_MARK_READ',
+      id
     }),
-    unsubscribe: (feedId) => {
-      console.log(`Unsubscribe from ${feedId}`)
+    unsubscribe: (id) => {
+      console.log(`Unsubscribe from ${id}`)
     }
   }
 }

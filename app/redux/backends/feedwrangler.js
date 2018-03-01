@@ -65,9 +65,10 @@ export const receiveUnreadItems = (response, createdSince, page) => {
 }
 
 export const markItemRead = (item) => {
+  const id = typeof item === 'object' ? item.id : item
   let url = 'https://feedwrangler.net/api/v2/feed_items/update?'
   url += 'access_token=' + feedWranglerAccessToken
-  url += '&feed_item_id=' + item.id
+  url += '&feed_item_id=' + id
   url += '&read=true'
   return fetch(url)
     .then((response) => {
@@ -77,4 +78,22 @@ export const markItemRead = (item) => {
       return response
     })
     .then((response) => response.json())
+}
+
+export const markFeedRead = (item) => {
+  const id = typeof item === 'object' ? item.id : item
+  let url = 'https://feedwrangler.net/api/v2/feed_items/mark_all_read?'
+  url += 'access_token=' + feedWranglerAccessToken
+  url += '&feed_id=' + id
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+    .then(json => {
+      console.log(json)
+    })
 }

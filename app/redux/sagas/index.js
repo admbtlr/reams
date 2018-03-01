@@ -11,6 +11,7 @@ import { decorateItems } from './decorate-items'
 import { fetchItems } from './fetch-items'
 import { markLastItemRead } from './mark-read'
 import { saveExternalUrl } from './external-items'
+import { executeRemoteActions } from './remote-action-queue'
 
 function unsubscribeFromFeed () {}
 
@@ -19,5 +20,6 @@ export function * updateCurrentIndex () {
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
   yield takeEvery(REHYDRATE, fetchItems)
+  yield takeEvery(REHYDRATE, executeRemoteActions)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
 }

@@ -13,19 +13,32 @@ export function * markLastItemRead (action) {
   const lastIndex = action.lastIndex
   const unreadItems = yield select(getItems)
   const item = unreadItems[lastIndex]
-  try {
-    yield markItemRead(item)
-    yield put({
-      type: 'ITEM_MARK_READ_SUCCESS',
-      item,
-      index: lastIndex
-    })
-  } catch (error) {
-    console.log('Mark Item Read Error!')
-    yield put({
-      type: 'ITEMS_HAS_ERRORED',
-      hasErrored: true
-    })
-  }
+  yield put ({
+    type: 'ITEM_MARK_READ',
+    item
+  })
 }
 
+// export function * itemMarkRead (item) {
+//   try {
+//     yield markItemRead(item)
+//   } catch (error) {
+//     console.log('Mark Item Read Error!')
+//     yield put({
+//       type: 'ITEMS_HAS_ERRORED',
+//       hasErrored: true
+//     })
+//   }
+// }
+
+// export function * feedMarkRead (feed) {
+//   try {
+//     yield put({
+//       type: 'FEED_MARK_READ',
+//       feed
+//     })
+//     yield markFeedRead(feed)
+//   } catch (error) {
+//     console.log('Mark Feed Read Error!')
+//   }
+// }

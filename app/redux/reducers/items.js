@@ -86,13 +86,16 @@ export function items (state = initialState, action) {
         index
       }
 
-    case 'ITEM_MARK_READ_SUCCESS':
-      items = state[key]
-      items[action.index].readAt = Date.now()
-      return {
-        ...state,
-        items
-      }
+    case 'ITEM_MARK_READ':
+      items = state[key].map(item => {
+        if (item._id === action.item._id) {
+          item.readAt = Date.now()
+        }
+        return item
+      })
+      newState = { ...state }
+      newState[key] = items
+      return newState
 
     case 'ITEMS_UPDATE_CURRENT_INDEX':
       if (state.display === 'unread') {
@@ -105,23 +108,34 @@ export function items (state = initialState, action) {
         ...newState
       }
 
-    case 'ITEMS_MARK_ALL_READ':
-      const feedId = action.feedId
+    case 'FEED_MARK_READ':
+      const feedId = action.id
       const currentItem = state.items[state.index]
       items = [ ...state.items ].filter((item) => {
-        return item.feed_id !== action.feedId &&
+        return item.feed_id !== feedId &&
           item._id !== currentItem._id
       })
-      let newIndex
+      let newIndex = 0
       items.forEach((item, index) => {
         if (item._id === currentItem._id) {
           newIndex = index
         }
       })
+      if (newIndex == 0) {
+        // find the first unread item and start there
+        let i = 0
+        for (let item of items) {
+          if (!item.readAt) {
+            newIndex = i
+            break
+          }
+          i++
+        }
+      }
       return {
         ...state,
         items,
-        newIndex
+        index: newIndex
       }
 
     case 'ITEM_TOGGLE_MERCURY':

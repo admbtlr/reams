@@ -109,7 +109,7 @@ function cacheCoverImage (imageURL, imageName) {
     fromUrl: imageURL,
     toFile: fileName
   }).promise.then((result) => {
-    console.log(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
+    // console.log(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
     return fileName
   }).catch((err) => {
     console.log(err)
