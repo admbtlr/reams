@@ -3,6 +3,7 @@ import { call, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
 import { Image, InteractionManager } from 'react-native'
+import { getCachedImagePath } from '../../utils'
 const co = require('co')
 
 import { getItems, getCurrentItem, getDisplay } from './selectors'
@@ -78,12 +79,12 @@ function * decorateItem(item) {
   }
 
   if (mercuryStuff.lead_image_url) {
-    let imagePath = yield cacheCoverImage(mercuryStuff.lead_image_url, item._id)
-    if (imagePath) {
+    let hasCoverImage = yield cacheCoverImage(item, mercuryStuff.lead_image_url)
+    if (hasCoverImage) {
       try {
-        const imageDimensions = yield getImageDimensions(imagePath)
+        const imageDimensions = yield getImageDimensions(item)
         imageStuff = {
-          imagePath,
+          hasCoverImage,
           imageDimensions
         }
       } catch (error) {
@@ -99,26 +100,26 @@ function * decorateItem(item) {
   }
 }
 
-function cacheCoverImage (imageURL, imageName) {
+function cacheCoverImage (item, imageURL) {
   const splitted = imageURL.split('.')
   // const extension = splitted[splitted.length - 1].split('?')[0].split('%')[0]
   // making a big assumption on the .jpg extension here...
   // and it seems like Image adds '.png' to a filename if there's no extension
-  const fileName = `${RNFS.DocumentDirectoryPath}/${imageName}.jpg`
+  const fileName = getCachedImagePath(item)
   return RNFS.downloadFile({
     fromUrl: imageURL,
     toFile: fileName
   }).promise.then((result) => {
     // console.log(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
-    return fileName
+    return true
   }).catch((err) => {
     console.log(err)
   })
 }
 
-function getImageDimensions (fileName) {
+function getImageDimensions (item) {
   return new Promise((resolve, reject) => {
-    Image.getSize(`file://${fileName}`, (imageWidth, imageHeight) => {
+    Image.getSize(`file://${getCachedImagePath(item)}`, (imageWidth, imageHeight) => {
       resolve({
         width: imageWidth,
         height: imageHeight

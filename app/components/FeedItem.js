@@ -6,7 +6,7 @@ import FeedInfoContainer from '../containers/FeedInfo'
 import {deepEqual} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
 import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
-
+import { getCachedImagePath } from '../utils'
 
 class FeedItem extends React.Component {
   constructor(props) {
@@ -99,7 +99,7 @@ class FeedItem extends React.Component {
       author,
       content_html,
       content_mercury,
-      imagePath,
+      hasCoverImage,
       imageDimensions,
       styles,
       date_published,
@@ -169,8 +169,8 @@ class FeedItem extends React.Component {
     const coverImage = <CoverImage
             styles={styles.coverImage}
             scrollOffset={this.scrollOffset}
-            imagePath={imagePath}
-            imageDimensions={imageDimensions}
+            imagePath={!!hasCoverImage && getCachedImagePath(this.props.item)}
+            imageDimensions={!!hasCoverImage && imageDimensions}
           />
 
     return (
@@ -203,7 +203,7 @@ class FeedItem extends React.Component {
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}
-            hasImage={!!imagePath}
+            hasImage={!!getCachedImagePath(this.props.item)}
           />
           <FeedInfoContainer
             index={this.props.index}

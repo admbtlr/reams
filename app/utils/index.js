@@ -1,3 +1,4 @@
+const RNFS = require('react-native-fs')
 
 export function deepEqual (a, b, ignoreNull = false) {
   if (!(a instanceof Object) || !(b instanceof Object)) {
@@ -35,4 +36,8 @@ export function deepEqual (a, b, ignoreNull = false) {
     }
   }
   return true
+}
+
+export function getCachedImagePath (item) {
+  return `${RNFS.DocumentDirectoryPath}/${item._id}.jpg`
 }
