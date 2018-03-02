@@ -124,7 +124,7 @@ class CoverImage extends React.Component {
           <VibrancyView
             style={absolute}
             blurType='light'
-            blurAmount={30}
+            blurAmount={100}
           />
         </Animated.View>
       )

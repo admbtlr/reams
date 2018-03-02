@@ -1151,7 +1151,7 @@
 					66ACB1161FD9705E002BC66F = {
 						CreatedOnToolsVersion = 9.1;
 						DevelopmentTeam = LQ43Q9L9MY;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -1908,6 +1908,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = rizzle/rizzle.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1930,7 +1931,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
 				PRODUCT_NAME = rizzle;
-				PROVISIONING_PROFILE = "cac29bfc-519a-48e8-9753-8892f636df6f";
+				PROVISIONING_PROFILE = "17c847ba-6126-4981-85a9-120fc34fab45";
 				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Development";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1944,6 +1945,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = rizzle/rizzle.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
@@ -1965,8 +1967,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
 				PRODUCT_NAME = rizzle;
-				PROVISIONING_PROFILE = "cac29bfc-519a-48e8-9753-8892f636df6f";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Development";
+				PROVISIONING_PROFILE = "7ce17c38-fb6c-4a94-beb5-c82f33426323";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle App Store";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2132,7 +2134,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -2157,6 +2159,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "88ffb5b8-2236-45a5-8f61-0bb41c4771dc";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension Development";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2180,7 +2184,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
@@ -2205,6 +2210,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7e474486-339d-4efe-bbf7-02b53209e00b";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension App Store";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

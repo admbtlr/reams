@@ -184,26 +184,47 @@ class Buttons extends React.Component {
             }]
           }}
           onPress={this.onMercuryPress}
-          >
-          <Svg
-            height='56'
-            width='56'
-            style={{
-              transform: [{
-                translateX: 8
-              },
-              {
-                translateY: 14
-              }]
-            }}>
-            <Path
-              d='M0.5463856,14.8257151 L9.28657345,10.9473761 C11.4036417,7.04700903 14.2125552,4.23809546 17.7133142,2.52063542 C21.2140731,0.803175389 24.952614,0.171289301 28.928937,0.624977161 C29.2413278,4.87808002 28.523773,8.53095226 26.7762726,11.5835939 C25.0287722,14.6362355 22.2198586,17.4451491 18.3495319,20.0103346 L14.0891071,28.3684366 L12.0212829,22.8502948 L9.8182432,24.0975727 L4.73976736,19.0190969 L5.83633186,16.6653438 L0.5463856,14.8257151 Z M6.44060191,22.3026021 L6.65367018,24.2196375 L1.6052423,27.1379617 L4.54274845,22.1087158 L6.44060191,22.3026021 Z M19.009005,9.92845381 C20.0421593,10.9616081 21.7172334,10.9616081 22.7503877,9.92845381 C23.783542,8.8952995 23.783542,7.22022541 22.7503877,6.1870711 C21.7172334,5.1539168 20.0421593,5.1539168 19.009005,6.1870711 C17.9758507,7.22022541 17.9758507,8.8952995 19.009005,9.92845381 Z'
-              fill={item && item.showMercuryContent ? saveStrokeColour : 'none'}
-              stroke={saveStrokeColour}
-              strokeLinecap='round'
-              strokeWidth='1'
-            />
-          </Svg>
+        >
+          { item && item.showMercuryContent &&
+            <Svg
+              style={{
+                transform: [{
+                  translateX: 7
+                }, {
+                  translateY: 0
+                }]
+              }}
+              height='32'
+              width='34'>
+              <Path d="M10.5,1.5 L32.5,1.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M10.5,7.5 L32.5,7.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
+              <Rect fill="#F6BE3C" x="0" y="0" width="7" height="9"></Rect>
+              <Path d="M1.5,13.5 L32.5,13.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M1.5,19.5 L32.5,19.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M1.5,25.5 L32.5,25.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M1.5,31.5 L32.5,31.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
+            </Svg>
+          }
+          { !(item && item.showMercuryContent) &&
+            <Svg
+              style={{
+                transform: [{
+                  translateX: 7
+                }, {
+                  translateY: 0
+                }]
+              }}
+              height='32'
+              width='34'>
+              <Path d="M0.5,1.5 L31.5,1.5" strokeWidth="3" stroke='#FFFFFF'></Path>
+              <Path d="M0.5,7.5 L31.5,7.5" strokeWidth="3" stroke='#FFFFFF'></Path>
+              <Path d="M0.5,13.5 L31.5,13.5" opacity="0.200577446" stroke='#FFFFFF'></Path>
+              <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke='#FFFFFF'></Path>
+              <Path d="M0.5,19.5 L31.5,19.5" opacity="0.200577446" stroke='#FFFFFF'></Path>
+              <Path d="M0.5,25.5 L31.5,25.5" opacity="0.200577446" stroke='#FFFFFF'></Path>
+              <Path d="M0.5,31.5 L31.5,31.5" opacity="0.200577446" stroke='#FFFFFF'></Path>
+            </Svg>
+          }
         </RizzleButton>
       </Animated.View>
     )

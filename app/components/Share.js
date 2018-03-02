@@ -93,7 +93,7 @@ class Share extends React.Component {
   savePage = () => {
     console.log(RNSKBucket)
     RNSKBucket.set('page', this.state.value, this.group)
-    // this.closing()
+    this.closing()
   }
 
   render() {
