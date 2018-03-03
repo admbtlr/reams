@@ -187,7 +187,7 @@ class CoverImage extends React.Component {
                 x={cx - 40}
                 y='0'
                 fontSize='1400'
-                fontFamily='AvenirNext-Heavy'
+                fontFamily='IBMPlexMono'
                 fontWeight='bold'
                 fill={fill}
                 fillOpacity='0.4'
