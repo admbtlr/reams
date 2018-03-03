@@ -38,7 +38,7 @@ function * executeAction (action) {
     case 'ITEM_MARK_READ':
       console.log('Marking item read...')
       try {
-        yield markItemRead(action.id)
+        yield markItemRead(action.item)
         console.log('Marking item read... done')
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
