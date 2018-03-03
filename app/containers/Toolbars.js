@@ -6,19 +6,11 @@ import {
 } from '../redux/actions/items.js'
 
 const mapStateToProps = (state) => {
-  const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  const index = state.items.display === 'unread' ? state.items.index : state.items.savedIndex
-  return {
-    currentItem: items[index],
-    scrollOwner: state.toolbar.scrollOwner
-  }
+  return {}
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    updateClampedScrollAnim: anim => dispatch(updateClampedScrollAnim(anim)),
-    updateClampedScrollAnimNormalised: anim => dispatch(updateClampedScrollAnimNormalised(anim))
-  }
+  return {}
 }
 
 let ToolbarsContainer = connect(

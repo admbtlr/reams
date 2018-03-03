@@ -26,8 +26,8 @@ class Buttons extends React.Component {
 
   showShareActionSheet () {
     ActionSheetIOS.showShareActionSheetWithOptions({
-      url: this.props.items[this.props.index].url,
-      message: this.props.items[this.props.index].title
+      url: this.props.item.url,
+      message: this.props.item.title
     },
     (error) => {
       console.error(error)
@@ -37,8 +37,7 @@ class Buttons extends React.Component {
   }
 
   onSavePress () {
-    const item = this.props.items[this.props.index]
-    this.props.toggleSaved(item)
+    this.props.toggleSaved(this.props.item)
   }
 
   onDisplayPress () {
@@ -46,8 +45,7 @@ class Buttons extends React.Component {
   }
 
   onMercuryPress () {
-    const item = this.props.items[this.props.index]
-    this.props.toggleMercury(item)
+    this.props.toggleMercury(this.props.item)
   }
 
   componentDidUpdate (prevProps) {
@@ -64,7 +62,7 @@ class Buttons extends React.Component {
   }
 
   render () {
-    const item = this.props.items[this.props.index]
+    const { item } = this.props
     const saveStrokeColour = false && this.props.displayMode && this.props.displayMode == 'unread' ? '#f6be3c' : '#ffffff'
     return (
       <Animated.View
@@ -87,10 +85,10 @@ class Buttons extends React.Component {
             ...this.getStyles().buttonText,
             color: saveStrokeColour
           }}>
-            {this.props.index + 1} / {this.props.items.length}
+            {this.props.index + 1} / {this.props.numItems}
           </Text>
           { !!this.props.decoratedCount &&
-            this.props.items.length !== this.props.decoratedCount &&
+            this.props.numItems !== this.props.decoratedCount &&
             <Text style={{
               ...this.getStyles().buttonText,
               ...this.getStyles().smallText,
