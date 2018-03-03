@@ -20,9 +20,12 @@ export function createItemStyles (item) {
 
   let isBW = false
   let isMultiply = false
-  if (Math.random() > 0.5) {
+  if (Math.random() > 0.3) {
     isMultiply = true
     title.isMonochrome = Math.random() > 0.3
+    if (Math.random() > 0.2) {
+      isBW = true
+    }
   } else if (Math.random() > 0.7) {
     isBW = true
   } else {
