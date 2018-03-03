@@ -80,8 +80,8 @@ export const markItemRead = (item) => {
     .then((response) => response.json())
 }
 
-export const markFeedRead = (item) => {
-  const id = typeof item === 'object' ? item.id : item
+export const markFeedRead = (feed) => {
+  const id = typeof feed === 'object' ? feed.id : feed
   let url = 'https://feedwrangler.net/api/v2/feed_items/mark_all_read?'
   url += 'access_token=' + feedWranglerAccessToken
   url += '&feed_id=' + id
