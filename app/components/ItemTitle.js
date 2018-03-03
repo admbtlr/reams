@@ -82,11 +82,11 @@ const fontStyles = {
     verticalOffset: -0.1,
     bold: {
       fontFamily: 'Montserrat-Bold',
-      multiplier: 0.57
+      multiplier: 0.75
     },
     boldItalic: {
       fontFamily: 'Montserrat-BoldItalic',
-      multiplier: 0.57
+      multiplier: 0.75
     },
     regular: {
       fontFamily: 'Montserrat-Light',
