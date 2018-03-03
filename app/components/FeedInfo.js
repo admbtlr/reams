@@ -117,6 +117,24 @@ class FeedInfo extends React.Component {
               backgroundColor: 'white',
               transform: isVisible ? [{rotateZ: '90deg'}] : []
             }} />
+            <View style={{
+              width: 1,
+              height: 42,
+              top: -42,
+              marginBottom: -42,
+              backgroundColor: 'white',
+              transform: isVisible ? [
+                  { rotateZ: '90deg' }
+                ] : [
+                ],
+              shadowRadius: 5,
+              shadowColor: 'white',
+              shadowOpacity: 1,
+              shadowOffset: {
+                width: 0,
+                height: 0
+              }
+            }} />
           </View>
         </TouchableWithoutFeedback>
       </View>
