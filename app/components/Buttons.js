@@ -54,17 +54,13 @@ class Buttons extends React.Component {
   componentDidUpdate (prevProps) {
     const springConfig =         {
       speed: 20,
-      bounciness: 10,
+      bounciness: 12,
       toValue: this.props.visible ? 0 : 70,
       duration: 200,
       useNativeDriver: true
     }
-    // Animated.spring(
-    //   springConfig,
-    //   this.state.visibleAnimCount,
-    // ).start()
     if (prevProps.visible !== this.props.visible) {
-      Animated.stagger(100, [
+      Animated.stagger(50, [
         Animated.spring(
           this.state.visibleAnimCount,
           springConfig

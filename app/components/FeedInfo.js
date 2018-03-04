@@ -10,6 +10,12 @@ class FeedInfo extends React.Component {
     super(props)
     this.props = props
     this.pulseOpacity = new Animated.Value(0)
+    this.detailsHeight = new Animated.Value(0)
+    this.detailsOpacity = new Animated.Value(0)
+
+    this.state = {
+      detailsVisible: false
+    }
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -18,6 +24,13 @@ class FeedInfo extends React.Component {
 
   componentDidMount () {
     this.pulseAnimation()
+    this.expandAnimation()
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (prevState.detailsVisible !== this.state.detailsVisible) {
+      this.expandAnimation()
+    }
   }
 
   pulseAnimation () {
@@ -41,6 +54,27 @@ class FeedInfo extends React.Component {
         this.pulseAnimation()
       }
     })
+  }
+
+  expandAnimation () {
+    const springConfig = {
+      speed: 20,
+      bounciness: 12,
+      toValue: this.state.detailsVisible ? 168 : 0,
+      duration: 200,
+      // useNativeDriver: true
+    }
+    Animated.spring(
+      this.detailsHeight,
+      springConfig
+    ).start()
+    Animated.spring(
+      this.detailsOpacity,
+      {
+        ...springConfig,
+        toValue: this.state.detailsVisible ? 1 : 0
+      }
+    ).start()
   }
 
   render () {
@@ -85,46 +119,47 @@ class FeedInfo extends React.Component {
           ...textStyles,
           fontFamily: 'IBMPlexMono-Bold'
         }}>{ feed_title && feed_title.trim() }</Text>
-        { isVisible &&
-          <View>
-            <Text style={{
-              ...textStyles,
-              color: 'rgba(0, 0, 0, 0.8)'
-            }}>{this.props.numFeedItems} unread</Text>
-            <TouchableOpacity
-              style={{
-                alignItems: 'center',
-                marginBottom: 28,
-                height: 42
-              }}
-              onPress={() => {
-                this.props.markAllRead(this.props.item.feed_id)
-                console.log('MARK ALL READ!')
-              }}>
-                <Text style={{
-                  ...textStyles,
-                  textDecorationLine: 'underline',
-                  color: 'rgba(0, 0, 0, 0.8)'
-                }}>Mark all read</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                console.log('UNSUBSCRIBE!')
-              }}>
-              <View style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 42,
-              }}>
-                <Text style={{
-                  ...textStyles,
-                  textDecorationLine: 'underline',
-                  color: 'rgba(0, 0, 0, 0.8)'
-                }}>Unsubscribe</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        }
+        <Animated.View style={{
+          height: this.detailsHeight,
+          opacity: this.detailsOpacity
+        }}>
+          <Text style={{
+            ...textStyles,
+            color: 'rgba(0, 0, 0, 0.8)'
+          }}>{this.props.numFeedItems} unread</Text>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              marginBottom: 28,
+              height: 42
+            }}
+            onPress={() => {
+              this.props.markAllRead(this.props.item.feed_id)
+              console.log('MARK ALL READ!')
+            }}>
+              <Text style={{
+                ...textStyles,
+                textDecorationLine: 'underline',
+                color: 'rgba(0, 0, 0, 0.8)'
+              }}>Mark all read</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              console.log('UNSUBSCRIBE!')
+            }}>
+            <View style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 42,
+            }}>
+              <Text style={{
+                ...textStyles,
+                textDecorationLine: 'underline',
+                color: 'rgba(0, 0, 0, 0.8)'
+              }}>Unsubscribe</Text>
+            </View>
+          </TouchableOpacity>
+        </Animated.View>
         <TouchableWithoutFeedback
           onPress={() => {
             console.log('BUTTON PRESSED!')

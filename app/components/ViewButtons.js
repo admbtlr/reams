@@ -14,7 +14,9 @@ import {
 
 class ViewButtons extends React.Component {
   state = {
-    visibleAnim: new Animated.Value(100)
+    visibleAnimIncreaseFont: new Animated.Value(100),
+    visibleAnimDecreaseFont: new Animated.Value(100),
+    visibleAnimDarkBg: new Animated.Value(100),
   }
 
   constructor (props) {
@@ -23,15 +25,28 @@ class ViewButtons extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
+    const springConfig =         {
+      speed: 20,
+      bounciness: 12,
+      toValue: this.props.visible ? 0 : 70,
+      duration: 200,
+      useNativeDriver: true
+    }
     if (prevProps.visible !== this.props.visible) {
-      Animated.spring(
-        this.state.visibleAnim,
-        {
-          toValue: this.props.visible ? 0 : 100,
-          duration: 200,
-          useNativeDriver: true
-        }
-      ).start()
+      Animated.stagger(50, [
+        Animated.spring(
+          this.state.visibleAnimIncreaseFont,
+          springConfig
+        ),
+        Animated.spring(
+          this.state.visibleAnimDecreaseFont,
+          springConfig
+        ),
+        Animated.spring(
+          this.state.visibleAnimDarkBg,
+          springConfig
+        )
+      ]).start()
     }
   }
 
@@ -47,7 +62,7 @@ class ViewButtons extends React.Component {
           style={{
             marginBottom: 14,
             transform: [{
-              translateX: this.state.visibleAnim
+              translateX: this.state.visibleAnimIncreaseFont
             }]
           }}
           onPress={this.props.increaseFontSize}
@@ -61,7 +76,7 @@ class ViewButtons extends React.Component {
           style={{
             marginBottom: 14,
             transform: [{
-              translateX: this.state.visibleAnim
+              translateX: this.state.visibleAnimDecreaseFont
             }]
           }}
           onPress={this.props.decreaseFontSize}
@@ -76,7 +91,7 @@ class ViewButtons extends React.Component {
           style={{
             paddingLeft: 3,
             transform: [{
-              translateX: this.state.visibleAnim
+              translateX: this.state.visibleAnimDarkBg
             }]
           }}
           onPress={this.props.toggleDarkBackground}
