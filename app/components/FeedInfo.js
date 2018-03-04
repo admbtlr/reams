@@ -1,6 +1,6 @@
 import React from 'react'
 import FeedItemContainer from '../containers/FeedItem.js'
-import {Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native'
+import {Animated, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native'
 import SwipeableViews from './SwipeableViews'
 
 import {hslString} from '../utils/colors'
@@ -9,10 +9,38 @@ class FeedInfo extends React.Component {
   constructor(props) {
     super(props)
     this.props = props
+    this.pulseOpacity = new Animated.Value(0)
   }
 
   shouldComponentUpdate (nextProps, nextState) {
     return true
+  }
+
+  componentDidMount () {
+    this.pulseAnimation()
+  }
+
+  pulseAnimation () {
+    Animated.sequence([
+      Animated.timing(
+        this.pulseOpacity,
+        {
+          toValue: 1,
+          duration: 1000,
+        }
+      ),
+      Animated.timing(
+        this.pulseOpacity,
+        {
+          toValue: 0,
+          duration: 1000,
+        }
+      )
+    ]).start(event => {
+      if (event.finished) {
+        this.pulseAnimation()
+      }
+    })
   }
 
   render () {
@@ -117,12 +145,13 @@ class FeedInfo extends React.Component {
               backgroundColor: 'white',
               transform: isVisible ? [{rotateZ: '90deg'}] : []
             }} />
-            <View style={{
-              width: 1,
+            <Animated.View style={{
+              width: 3,
               height: 42,
               top: -42,
               marginBottom: -42,
               backgroundColor: 'white',
+              opacity: this.pulseOpacity,
               transform: isVisible ? [
                   { rotateZ: '90deg' }
                 ] : [
