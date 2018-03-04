@@ -11,7 +11,10 @@ import RizzleButton from './RizzleButton'
 
 class Buttons extends React.Component {
   state = {
-    visibleAnim: new Animated.Value(0)
+    visibleAnimCount: new Animated.Value(0),
+    visibleAnimSave: new Animated.Value(0),
+    visibleAnimShare: new Animated.Value(0),
+    visibleAnimMercury: new Animated.Value(0)
   }
 
   constructor (props) {
@@ -49,15 +52,36 @@ class Buttons extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
+    const springConfig =         {
+      speed: 20,
+      bounciness: 10,
+      toValue: this.props.visible ? 0 : 70,
+      duration: 200,
+      useNativeDriver: true
+    }
+    // Animated.spring(
+    //   springConfig,
+    //   this.state.visibleAnimCount,
+    // ).start()
     if (prevProps.visible !== this.props.visible) {
-      Animated.spring(
-        this.state.visibleAnim,
-        {
-          toValue: this.props.visible ? 0 : 70,
-          duration: 200,
-          useNativeDriver: true
-        }
-      ).start()
+      Animated.stagger(100, [
+        Animated.spring(
+          this.state.visibleAnimCount,
+          springConfig
+        ),
+        Animated.spring(
+          this.state.visibleAnimSave,
+          springConfig
+        ),
+        Animated.spring(
+          this.state.visibleAnimShare,
+          springConfig
+        ),
+        Animated.spring(
+          this.state.visibleAnimMercury,
+          springConfig
+        )
+      ]).start()
     }
   }
 
@@ -76,7 +100,7 @@ class Buttons extends React.Component {
             width: 'auto',
             paddingHorizontal: 28,
             transform: [{
-              translateY: this.state.visibleAnim
+              translateY: this.state.visibleAnimCount
             }]
           }}
           onPress={this.onDisplayPress}
@@ -102,7 +126,7 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 3,
             transform: [{
-              translateY: this.state.visibleAnim
+              translateY: this.state.visibleAnimSave
             }]
           }}
           onPress={this.onSavePress}
@@ -128,7 +152,7 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 3,
             transform: [{
-              translateY: this.state.visibleAnim
+              translateY: this.state.visibleAnimShare
             }]
           }}
           onPress={this.showShareActionSheet}
@@ -178,7 +202,7 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 3,
             transform: [{
-              translateY: this.state.visibleAnim
+              translateY: this.state.visibleAnimMercury
             }]
           }}
           onPress={this.onMercuryPress}
