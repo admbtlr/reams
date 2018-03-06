@@ -40,6 +40,7 @@ class FeedInfo extends React.Component {
         {
           toValue: 1,
           duration: 1000,
+          isInteraction: false
         }
       ),
       Animated.timing(
@@ -47,6 +48,7 @@ class FeedInfo extends React.Component {
         {
           toValue: 0,
           duration: 1000,
+          isInteraction: false
         }
       )
     ]).start(event => {
