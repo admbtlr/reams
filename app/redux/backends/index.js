@@ -1,5 +1,5 @@
 /* global fetch, Headers */
-import { fetchUnreadItems, markItemRead, markFeedRead } from './feedwrangler'
+const { fetchUnreadItems, markItemRead, markFeedRead } = require('./feedwrangler')
 // import { fetchUnreadItems, markItemRead } from './rizzle'
 
 function loadMercuryStuff (item) {
