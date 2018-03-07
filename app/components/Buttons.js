@@ -55,7 +55,7 @@ class Buttons extends React.Component {
     const springConfig =         {
       speed: 20,
       bounciness: 12,
-      toValue: this.props.visible ? 0 : 70,
+      toValue: this.props.visible ? 0 : 80,
       duration: 200,
       useNativeDriver: true
     }
@@ -108,7 +108,6 @@ class Buttons extends React.Component {
             {this.props.index + 1} / {this.props.numItems}
           </Text>
           { !!this.props.decoratedCount &&
-            this.props.numItems !== this.props.decoratedCount &&
             <Text style={{
               ...this.getStyles().buttonText,
               ...this.getStyles().smallText,
