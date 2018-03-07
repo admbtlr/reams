@@ -42,15 +42,20 @@ class AppStateListener extends React.Component {
 
   checkPageBucket () {
     RNSKBucket.get('page', this.group).then(value => {
-      RNSKBucket.set('page', null, this.group)
-      console.log(`Got a page to save: ${value}`)
+      if (value !== null) {
+        RNSKBucket.set('page', null, this.group)
+        console.log(`Got a page to save: ${value}`)
+        this.props.saveURL(value)
+      }
     })
   }
 
   checkFeedBucket () {
     RNSKBucket.get('feed', this.group).then(value => {
-      RNSKBucket.set('feed', null, this.group)
-      console.log(`Got a feed to subscribe to: ${value}`)
+      if (value !== null) {
+        RNSKBucket.set('feed', null, this.group)
+        console.log(`Got a feed to subscribe to: ${value}`)
+      }
     })
   }
 
