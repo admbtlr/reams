@@ -87,9 +87,16 @@ export function createItemStyles (item) {
   title.isInline = !title.isVertical && Math.random() > 0.5
   title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
   title.invertBG = Math.random() > 0.8
-  title.isBold = title.isMonochrome ? Math.random() > 0.8 : Math.random() > 0.3
-  title.isBold = title.isBold ? Math.random() > 0.8 : Math.random() > 0.5
   title.isItalic = Math.random() > 0.8
+  title.bg = !title.invertBG && !isBW && !isMultiply && !isContain && !title.isVertical && Math.random() > 0.7
+  title.valign = Math.random() > 0.5 ?
+    'middle' :
+    ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)]
+  title.isBold = !title.isMonochrome && isMultiply ?
+    false :
+    (title.isMonochrome ?
+      Math.random() > 0.8 :
+      Math.random() > 0.3)
 
   return {
     fontClasses: fonts,
@@ -106,8 +113,7 @@ export function createItemStyles (item) {
     },
     title: {
       ...title,
-      valign: Math.random() > 0.5 ? 'middle' : ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)],
-      bg: !title.invertBG && !isBW && !isMultiply && !isContain && !title.isVertical && Math.random() > 0.7
+      valign: Math.random() > 0.5 ? 'middle' : ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)]
     }
   }
 }
