@@ -70,9 +70,11 @@ function * loadMercuryForItem (item) {
   return mercuryStuff
 }
 
-function * decorateItem(item) {
+export function * decorateItem(item) {
   let imageStuff = {}
+  console.log(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield loadMercuryForItem(item)
+  console.log(`Loading Mercury stuff for ${item._id} done`)
 
   if (!mercuryStuff) {
     return false
@@ -106,14 +108,18 @@ function cacheCoverImage (item, imageURL) {
   // making a big assumption on the .jpg extension here...
   // and it seems like Image adds '.png' to a filename if there's no extension
   const fileName = getCachedImagePath(item)
+  console.log(`Loading cover image for ${item._id}...`)
   return RNFS.downloadFile({
     fromUrl: imageURL,
     toFile: fileName
   }).promise.then((result) => {
     // console.log(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
+    console.log(`Loading cover image for ${item._id} done`)
     return true
   }).catch((err) => {
+    console.log(`Loading cover image for ${item._id} failed :(`)
     console.log(err)
+    return false
   })
 }
 
