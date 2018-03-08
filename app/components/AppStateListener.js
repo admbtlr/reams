@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppState, Clipboard, Text, TouchableHighlight, View } from 'react-native'
+import { Alert, AppState, Clipboard, Text, TouchableHighlight, View } from 'react-native'
 import Modal from 'react-native-modalbox'
 import { RNSKBucket } from 'react-native-swiss-knife'
 
@@ -17,6 +17,7 @@ class AppStateListener extends React.Component {
 
   handleAppStateChange = (nextAppState) => {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
+      Alert.alert('AppState changed to ACTIVE from ' + this.props.appState)
       this.checkClipboard()
       this.checkPageBucket()
       this.checkFeedBucket()
