@@ -37,6 +37,15 @@ function markShortBlockquotes() {
   })
 }
 
+function markQuoteBlockquotes() {
+  const paras = document.querySelectorAll('blockquote')
+  Array.prototype.forEach.call(paras, function (el, i) {
+    if (prev.innerText.trim().substr(-1) == ':') {
+      el.classList.add('quote-blockquote')
+    }
+  })
+}
+
 function markContentHoldingDivs() {
   const divs = document.querySelectorAll('div')
   let isContentHolder
