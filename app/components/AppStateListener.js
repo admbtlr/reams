@@ -17,11 +17,14 @@ class AppStateListener extends React.Component {
 
   handleAppStateChange = (nextAppState) => {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
-      Alert.alert('AppState changed to ACTIVE from ' + this.props.appState)
+      // Alert.alert('AppState changed to ACTIVE from ' + this.props.appState)
       this.checkClipboard()
       this.checkPageBucket()
       this.checkFeedBucket()
-      this.props.fetchData()
+      // see Rizzle component
+      if (!global.isStarting) {
+        this.props.fetchData()
+      }
     }
   }
 
@@ -35,8 +38,11 @@ class AppStateListener extends React.Component {
     // TODO make this more robust
     if (contents.substring(0, 4) === 'http') {
       this.setState({
-        url: contents,
-        showModal: true
+        url: value,
+        modalText: `Save this page? ${value}`,
+        modalShowCancel: true,
+        modalShow: true,
+        modalOnOk: () => { this.props.saveURL(value) }
       })
     }
   }
@@ -46,7 +52,14 @@ class AppStateListener extends React.Component {
       if (value !== null) {
         RNSKBucket.set('page', null, this.group)
         console.log(`Got a page to save: ${value}`)
-        this.props.saveURL(value)
+        this.props.saveURL(value).
+          then(() => {
+            this.setState({
+              modalText: `Saved page: ${value}`,
+              modalShowCancel: false,
+              modalShow: true
+            })
+          })
       }
     })
   }
@@ -56,6 +69,7 @@ class AppStateListener extends React.Component {
       if (value !== null) {
         RNSKBucket.set('feed', null, this.group)
         console.log(`Got a feed to subscribe to: ${value}`)
+        this.props.addFeed(value)
       }
     })
   }
@@ -63,18 +77,18 @@ class AppStateListener extends React.Component {
   showModal (isShown) {
     this.setState({
       ...this.state,
-      showModal: isShown
+      modalShow: isShown
     })
   }
 
   render () {
-    if (this.state && this.state.showModal) {
+    if (this.state && this.state.modalShow) {
       return (
         <Modal
           backdrop={false}
           style={{ backgroundColor: 'transparent' }}
           position="center"
-          isOpen={this.state.showModal}
+          isOpen={this.state.modalShow}
           >
          <View style={{
             flex: 1,
@@ -86,17 +100,18 @@ class AppStateListener extends React.Component {
             backgroundColor: 'white',
             padding: 30
           }}>
-            <Text>Save this page?</Text>
-            <Text>{this.state.url}</Text>
+            <Text>{this.state.modalText}</Text>
 
+            { this.modalShowcancel &&
+              <TouchableHighlight onPress={() => {
+                this.modalShow(false)
+              }}>
+                <Text>Cancel</Text>
+              </TouchableHighlight>
+            }
             <TouchableHighlight onPress={() => {
-              this.showModal(false)
-            }}>
-              <Text>No</Text>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => {
-              this.props.saveURL(this.state.url)
-              this.showModal(false)
+              this.props.modalOnOk()
+              this.modalShow(false)
             }}>
               <Text>Yes</Text>
             </TouchableHighlight>
