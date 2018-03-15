@@ -41,8 +41,8 @@ class CoverImage extends React.Component {
 
     let index
     const options = 'RIZLErizle•'
-    this.letters = [0, 0, 0, 0, 0, 0]
-      .splice(0, Math.floor(Math.random() * 5) + 1).map((l) => {
+    this.letters = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      .splice(0, Math.floor(Math.random() * 8) + 1).map((l) => {
         index = Math.floor(Math.random() * options.length)
         return {
           letter: options.substring(index, index + 1),
