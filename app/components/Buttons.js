@@ -256,8 +256,10 @@ class Buttons extends React.Component {
         zIndex: 10,
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginBottom: 14
+        justifyContent: 'space-between',
+        marginBottom: 16,
+        paddingLeft: 16,
+        paddingRight: 16
       },
       buttonSVG: {
         paddingLeft: 3
