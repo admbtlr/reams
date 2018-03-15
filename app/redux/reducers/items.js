@@ -304,10 +304,8 @@ function addMercuryStuffToItem (item, mercury) {
     }
   }
 
-  // let content = mercury.content && mercury.content.length && mercury.content.length > item.content_html.length
-  //   ? mercury.content
-  //   : item.body
-  return {
+  // if excerpt == content_html, showMercury
+  let decoratedItem = {
     ...item,
     banner_image: mercury.lead_image_url,
     // body: content,
@@ -315,6 +313,24 @@ function addMercuryStuffToItem (item, mercury) {
     excerpt: mercury.excerpt,
     hasLoadedMercuryStuff: true
   }
+  if (!isExcerptUseful(decoratedItem)) {
+    decoratedItem.excerpt = undefined
+  } else if (isExcerptExtract(decoratedItem)) {
+    decoratedItem.showMercuryContent = true
+  }
+
+  return decoratedItem
+}
+
+function isExcerptUseful (item) {
+  return item.excerpt && item.excerpt.length < 200
+}
+
+function isExcerptExtract (item) {
+  let isExcerptExtract
+  const excerptWithoutEllipsis = item.excerpt.substring(0, item.excerpt.length - 4)
+  const bodyWithoutHtml = item.content_html.replace(/<.*?>/g, '')
+  return bodyWithoutHtml.substring(0, excerptWithoutEllipsis.length) == excerptWithoutEllipsis
 }
 
 function addCoverImageToItem (item, imageStuff) {

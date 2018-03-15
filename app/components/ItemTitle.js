@@ -60,7 +60,7 @@ const fontStyles = {
     }
   },
   headerFontSans1: {
-    verticalOffset: 0.15,
+    verticalOffset: 0.1,
     bold: {
       fontFamily: 'AvenirNextCondensed-Bold',
       multiplier: 0.46
@@ -79,7 +79,6 @@ const fontStyles = {
     }
   },
   headerFontSans2: {
-    verticalOffset: -0.1,
     bold: {
       fontFamily: 'Montserrat-Bold',
       multiplier: 0.75
@@ -226,7 +225,7 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.verticalPadding = 90
+    this.verticalPadding = 80
 
     this.fadeInAnim = new Animated.Value(-1)
   }
@@ -270,7 +269,7 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {styles, title, date, hasImage, isVisible} = this.props
+    let {styles, title, date, hasCoverImage, isVisible} = this.props
     let position = {
       height: 'auto',
       width: 'auto',
@@ -298,7 +297,8 @@ class ItemTitle extends React.Component {
       }).start()
     }
 
-    this.fontSize = this.screenWidth / styles.fontSizeAsWidthDivisor
+    // account for landscape mode
+    this.fontSize = Math.min(this.screenWidth, this.screenHeight) / styles.fontSizeAsWidthDivisor
 
     if (styles.maximiseFont && !styles.fontResized) {
       const totalPadding = styles.bg ? 56 : 28
@@ -310,7 +310,7 @@ class ItemTitle extends React.Component {
       0
 
     const color = styles.isMonochrome ?
-      (hasImage &&
+      (hasCoverImage &&
         !styles.bg &&
         !styles.invertBG ?
         'white' :
@@ -337,7 +337,7 @@ class ItemTitle extends React.Component {
       fontFamily: fontStyles[this.props.font][fontType].fontFamily,
       color,
       fontSize: this.fontSize,
-      lineHeight: this.fontSize,
+      lineHeight: this.fontSize * 1.05,
       textAlign: styles.textAlign,
       letterSpacing: -1,
       paddingTop,
@@ -348,24 +348,48 @@ class ItemTitle extends React.Component {
       ...position
     }
 
+    const borderWidth = styles.invertBG ? 0 : styles.borderWidth
+    const borderTop = { borderTopWidth: borderWidth }
+    const borderBottom = { borderBottomWidth: borderWidth }
+    const borderAll = { borderWidth }
+    const border = styles.valign === 'top' ?
+      borderBottom :
+      (styles.valign === 'bottom' ? borderTop :
+        (styles.textAlign === 'center' ?
+          borderAll :
+          {
+            ...borderTop,
+            ...borderBottom
+          }
+        ))
+
     // if center aligned and not full width, add left margin
-    const marginLeft = styles.textAlign === 'center' && styles.widthPercentage ?
-      (100 - styles.widthPercentage) / 100 * this.screenWidth / 2 :
-      0
+    const defaultHorizontalMargin = 16 // allow space for date
+    const widthPercentage = styles.widthPercentage || 100
+    const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
+    const horizontalMargin = (this.screenWidth - width) / 2
+
+    const hasLeftPadding = styles.bg || styles.textAlign === 'center' && styles.valign === 'middle'
 
     const innerViewStyle = {
-      marginLeft: styles.bg ? 28 + marginLeft : marginLeft,
-      marginRight:  styles.bg ? 28 : 0,
-      padding: 14,
+      // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
+      // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
+      marginLeft: horizontalMargin,
+      marginRight:  horizontalMargin,
+      padding: 16,
+      paddingLeft: hasLeftPadding ? 16 : 0,
+      paddingRight: hasLeftPadding ? 16 : 0,
       backgroundColor: styles.bg ?  'white' : 'transparent',
       height: 'auto',
       flexDirection: 'row',
       flexWrap: 'wrap',
       alignItems: 'flex-start',
-      width: styles.widthPercentage ? styles.widthPercentage + '%' : undefined,
+      width,
+      ...border,
+      borderColor: color
     }
-    const overlayColour = hasImage && !styles.invertBGPadding && !styles.bg ?
-      'rgba(0,0,0,0.2)' :
+    const overlayColour = hasCoverImage && !styles.invertBGPadding && !styles.bg ?
+      (styles.isMonochrome ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.5)') :
       'transparent'
     const outerViewStyle = {
       width: this.screenWidth,
@@ -388,10 +412,10 @@ class ItemTitle extends React.Component {
 
     let dateStyle = {
       position: 'absolute',
-      top: this.screenHeight * (styles.valign === 'bottom' ? 0.2 : 0.6), // heuristic
+      top: this.screenHeight * (styles.valign === 'bottom' ? 0.2 : 0.7), // heuristic
       color,
       backgroundColor: 'transparent',
-      fontSize: 14,
+      fontSize: 12,
       fontFamily: 'IBMPlexMono',
       lineHeight: 18,
       textAlign: 'center',
@@ -401,7 +425,7 @@ class ItemTitle extends React.Component {
       width: this.screenWidth,
       transform: [
         {translateY: 100},
-        {translateX: (this.screenWidth / 2) - 10},
+        {translateX: (this.screenWidth / 2) - 6},
         {rotateZ: '90deg'}
       ]
     }
@@ -452,6 +476,10 @@ class ItemTitle extends React.Component {
       'left': 'flex-start',
       'center': 'center'
     }
+
+    title = title.replace(/\n/g, '')
+    // TODO: actually replace italics?
+    title = title.replace(/<.*?>/g, '')
 
     const words = title.split(' ')
     let wordStyles = null
@@ -522,6 +550,27 @@ class ItemTitle extends React.Component {
       })
     }
 
+    const excerptColor = styles.isMonochrome ?
+      (hasCoverImage ?
+        'white' :
+        'black') :
+      hslString(styles.color)
+    const excerptView = (<View style={{
+        ...innerViewStyle,
+        borderTopWidth: 0
+      }}>
+        <Animated.Text style={{
+          justifyContent: aligners[styles.textAlign],
+          ...fontStyle,
+          ...shadowStyle,
+          color: excerptColor,
+          fontFamily: fontStyles[this.props.font]['regular'].fontFamily,
+          fontSize: this.fontSize / 3,
+          lineHeight: this.fontSize / 3,
+          letterSpacing: 0,
+        }}>{this.props.excerpt}</Animated.Text>
+      </View>)
+
     return (
       <Animated.View style={{
         ...outerViewStyle,
@@ -548,10 +597,12 @@ class ItemTitle extends React.Component {
             </Animated.Text>
           }
         </View>
+        { this.props.item.extract && excerptView }
         {dateView}
       </Animated.View>
     )
   }
+
 }
 
 export default ItemTitle

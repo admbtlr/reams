@@ -198,12 +198,13 @@ class FeedItem extends React.Component {
             item={this.props.item}
             index={this.props.index}
             title={title}
+            excerpt={this.props.item.excerpt}
             date={date_published}
             styles={styles.title}
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}
-            hasImage={!!getCachedImagePath(this.props.item)}
+            hasCoverImage={hasCoverImage}
           />
           <FeedInfoContainer
             index={this.props.index}
