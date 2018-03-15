@@ -5,15 +5,17 @@ import {colors} from '../utils/color-definitions'
 import {getNames} from '../utils/colors'
 
 let deviceWidth
+let deviceHeight
 
 export function createItemStyles (item) {
   let title = {}
   const color = pickOne(getNames())
   title.color = color
 
-  if (!deviceWidth) {
-    const {height, width} = Dimensions.get('window')
-    deviceWidth = width
+  if (!deviceWidth || !deviceHeight) {
+     const {height, width} = Dimensions.get('window')
+     deviceHeight = height
+     deviceWidth = width
   }
 
   const fonts = getFontClasses()
@@ -71,9 +73,10 @@ export function createItemStyles (item) {
   }
 
   // this is an attempt to rationalise font sizes for larger screens
-  if (deviceWidth > 500) {
+  // (account for landscape)
+  if (Math.min(deviceWidth, deviceHeight) > 500) {
     title.fontSizeAsWidthDivisor = title.fontSizeAsWidthDivisor * (deviceWidth / 500)
-    title.widthPercentage = 100 - (Math.floor(Math.random() * 50))
+    title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
   }
 
   title.lineHeightAsMultiplier = 1.1 + Math.random() * 0.2
@@ -88,15 +91,22 @@ export function createItemStyles (item) {
   title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
   title.invertBG = Math.random() > 0.8
   title.isItalic = Math.random() > 0.8
-  title.bg = !title.invertBG && !isBW && !isMultiply && !isContain && !title.isVertical && Math.random() > 0.7
+  title.bg = !title.invertBG && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
   title.valign = Math.random() > 0.5 ?
     'middle' :
     ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)]
-  title.isBold = !title.isMonochrome && isMultiply ?
-    false :
+  title.isBold = !title.isMonochrome && !title.bg ?
+    true :
     (title.isMonochrome ?
       Math.random() > 0.8 :
       Math.random() > 0.3)
+  title.borderWidth = title.invertBG || title.isVertical ? 0 :
+    (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
+
+  // to stop the predominance of white on black titles
+  if (title.invertBG) {
+    title.isMonochrome = Math.random() > 0.7
+  }
 
   return {
     fontClasses: fonts,
