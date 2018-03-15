@@ -97,3 +97,20 @@ export const markFeedRead = (feed) => {
       console.log(json)
     })
 }
+
+export const addFeed = (feedUrl) => {
+  let url = 'https://feedwrangler.net/api/v2/subscriptions/add_feed?'
+  url += 'access_token=' + feedWranglerAccessToken
+  url += '&feed_url=' + feedUrl
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+    .then(json => {
+      console.log(json)
+    })
+}

@@ -17,6 +17,10 @@ const mapDispatchToProps = (dispatch) => {
     saveURL: (url) => dispatch({
       type: 'SAVE_EXTERNAL_URL',
       url
+    }),
+    addFeed: (url) => dispatch({
+      type: 'FEEDS_ADD_FEED',
+      url
     })
   }
 }

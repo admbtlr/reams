@@ -1,6 +1,5 @@
-/* global fetch, Headers */
-const { fetchUnreadItems, markItemRead, markFeedRead } = require('./feedwrangler')
-// import { fetchUnreadItems, markItemRead } from './rizzle'
+const feedwrangler = require('./feedwrangler')
+const rizzle = require('./rizzle')
 
 function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
@@ -22,4 +21,20 @@ function getMercuryUrl (item) {
   return url
 }
 
-export { fetchUnreadItems, markItemRead, markFeedRead, loadMercuryStuff }
+function fetchUnreadItems () {
+  return feedwrangler.fetchUnreadItems()
+}
+
+function markItemRead (item) {
+  return feedwrangler.markItemRead(item)
+}
+
+function markFeedRead (feed) {
+  return feedwrangler.markFeedRead(feed)
+}
+
+function addFeed (url) {
+  return feedwrangler.addFeed(url)
+}
+
+export { fetchUnreadItems, markItemRead, addFeed, markFeedRead, loadMercuryStuff }
