@@ -14,6 +14,13 @@ export default class Rizzle extends Component {
     Sentry
       .config('https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309')
       .install()
+
+    // this is a stupid hack to stop AppState firing on startup
+    // which is does on the device in some circumstances
+    global.isStarting = true
+    setTimeout(() => {
+      global.isStarting = false
+    }, 5000)
   }
 
   render () {
