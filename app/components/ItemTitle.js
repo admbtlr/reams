@@ -228,6 +228,7 @@ class ItemTitle extends React.Component {
     this.verticalPadding = 80
 
     this.fadeInAnim = new Animated.Value(-1)
+    this.fadeInAnim2 = new Animated.Value(-1)
   }
 
   calculateMaxFontSize (title, font, isBold, totalPadding) {
@@ -284,17 +285,28 @@ class ItemTitle extends React.Component {
       inputRange: [-50, 0, 100],
       outputRange: [0, 1, 0]
     }), this.fadeInAnim)
+    const excerptOpacity = Animated.add(this.props.scrollOffset.interpolate({
+      inputRange: [-50, 0, 100],
+      outputRange: [0, 1, 0]
+    }), this.fadeInAnim2)
     const shadow = this.props.scrollOffset.interpolate({
       inputRange: [-100, -20, 0, 40, 200],
       outputRange: [0, 1, 1, 1, 0]
     })
 
     if (isVisible) {
-      Animated.timing(this.fadeInAnim, {
-        toValue: 0,
-        duration: 500,
-        useNativeDriver: true,
-      }).start()
+      Animated.stagger(500, [
+        Animated.timing(this.fadeInAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this.fadeInAnim2, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        })
+      ]).start()
     }
 
     // account for landscape mode
@@ -551,13 +563,17 @@ class ItemTitle extends React.Component {
     }
 
     const excerptColor = styles.isMonochrome ?
-      (hasCoverImage ?
+      (hasCoverImage && !styles.bg ?
         'white' :
         'black') :
       hslString(styles.color)
-    const excerptView = (<View style={{
+    const excerptFontSize = this.screenWidth > this.screenHeight ?
+      this.screenWidth / 42 :
+      this.screenHeight / 42
+    const excerptView = (<Animated.View style={{
         ...innerViewStyle,
-        borderTopWidth: 0
+        borderTopWidth: 0,
+        opacity: excerptOpacity
       }}>
         <Animated.Text style={{
           justifyContent: aligners[styles.textAlign],
@@ -565,11 +581,11 @@ class ItemTitle extends React.Component {
           ...shadowStyle,
           color: excerptColor,
           fontFamily: fontStyles[this.props.font]['regular'].fontFamily,
-          fontSize: this.fontSize / 3,
-          lineHeight: this.fontSize / 3,
+          fontSize: excerptFontSize,
+          lineHeight: excerptFontSize * 1.2,
           letterSpacing: 0,
         }}>{this.props.excerpt}</Animated.Text>
-      </View>)
+      </Animated.View>)
 
     return (
       <Animated.View style={{
@@ -597,7 +613,10 @@ class ItemTitle extends React.Component {
             </Animated.Text>
           }
         </View>
-        { this.props.item.extract && excerptView }
+        { this.props.item.excerpt &&
+          !this.props.item.excerpt.includes('ellip') &&
+          !this.props.item.excerpt.includes('…') &&
+          excerptView }
         {dateView}
       </Animated.View>
     )
