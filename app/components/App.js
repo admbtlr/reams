@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 
 import FeedListContainer from '../containers/FeedList.js'
+import RizzleModalContainer from '../containers/RizzleModal.js'
 import ToolbarsContainer from '../containers/Toolbars.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
 // import ClipboardWatcher from '../containers/ClipboardWatcher.js'
@@ -30,6 +31,7 @@ class App extends React.Component {
       <View style={styles.mainView}>
         <AppStateListenerContainer />
         <StatusBar barStyle='light-content' />
+        <RizzleModalContainer />
         <ToolbarsContainer />
         <View style={styles.infoView}>
           <Text style={styles.infoText}>Loading items...</Text>
