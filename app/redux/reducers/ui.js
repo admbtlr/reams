@@ -1,6 +1,8 @@
 const initialState = {
   viewButtonsVisible: false,
-  itemButtonsVisible: false
+  itemButtonsVisible: false,
+  modalVisible: false,
+  modalProps: {}
 }
 
 export function ui (state = initialState, action) {
@@ -22,6 +24,20 @@ export function ui (state = initialState, action) {
         ...state,
         viewButtonsVisible: false,
         itemButtonsVisible: false
+      }
+
+    case 'UI_SHOW_MODAL':
+      console.log(action)
+      return {
+        ...state,
+        modalVisible: true,
+        modalProps: action.modalProps
+      }
+
+    case 'UI_HIDE_MODAL':
+      return {
+        ...state,
+        modalVisible: false
       }
 
     default:
