@@ -31,9 +31,14 @@ function reset () {
   this.setTimeout(() => {
     Animated.timing(resetAnim, {
       toValue: 0,
-      duration: 200,
+      duration: 400,
       useNativeDriver: true,
-    }).start()
+    }).start(() => {
+      scrollListeners.forEach((listener) => {
+        console.log('Status bar down!')
+        listener.onStatusBarDown()
+      })
+    })
   }, 100)
 }
 
@@ -67,10 +72,12 @@ export function scrollHandler (value) {
     )
     if (wasntDown && clampedScrollValue === 0) {
       scrollListeners.forEach((listener) => {
+        console.log('Status bar down!')
         listener.onStatusBarDown()
       })
-    } else if (wasntUp && clampedScrollValue >= STATUS_BAR_HEIGHT) {
+    } else if (wasntUp && clampedScrollValue >= STATUS_BAR_HEIGHT && value > 0) {
       scrollListeners.forEach((listener) => {
+        console.log('Status bar up!')
         listener.onStatusBarUp()
       })
     }
@@ -92,13 +99,13 @@ export function scrollHandler (value) {
 }
 
 export function onScrollEnd (e) {
-  console.log('Scroll ended!')
+  // console.log('Scroll ended!')
   const toValue = scrollValue > STATUS_BAR_HEIGHT &&
     clampedScrollValue > (STATUS_BAR_HEIGHT) / 2
     ? resetValue + STATUS_BAR_HEIGHT
     : resetValue - STATUS_BAR_HEIGHT
 
-  console.log('Scroll ended! Need to animate ' + toValue)
+  // console.log('Scroll ended! Need to animate ' + toValue)
   Animated.timing(resetAnim, {
     toValue,
     duration: 200,
