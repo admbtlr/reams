@@ -21,6 +21,10 @@ const mapDispatchToProps = (dispatch) => {
     addFeed: (url) => dispatch({
       type: 'FEEDS_ADD_FEED',
       url
+    }),
+    showModal: (modalProps) => dispatch({
+      type: 'UI_SHOW_MODAL',
+      modalProps
     })
   }
 }
