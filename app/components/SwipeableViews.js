@@ -230,7 +230,7 @@ class SwipeableViews extends Component {
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    console.log('Should swipeable views update?')
+    // console.log('Should swipeable views update?')
     return true
   }
 
@@ -485,7 +485,7 @@ class SwipeableViews extends Component {
     let indexEnd = indexActual + virtualBuffer
     indexEnd = indexEnd > slideCount - 1 ? slideCount - 1 : indexEnd
 
-    console.log('SwipeableViews rendering!')
+    // console.log('SwipeableViews rendering!')
 
     this.children = []
 
