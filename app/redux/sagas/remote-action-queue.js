@@ -5,7 +5,7 @@ import { markItemRead, markFeedRead } from '../backends'
 
 import { getRemoteActions } from './selectors'
 
-const INITIAL_INTERVAL = 1000
+const INITIAL_INTERVAL = 500
 let interval = INITIAL_INTERVAL
 
 export function * executeRemoteActions () {
@@ -20,7 +20,7 @@ export function * executeRemoteActions () {
 function * executeOldestAction () {
   const isOnline = yield checkOnline()
   if (isOnline) {
-    interval = 1000
+    interval = INITIAL_INTERVAL
     actions = yield select(getRemoteActions)
     if (actions.length > 0) {
       console.log(`${actions.length} remote actions to do`)
