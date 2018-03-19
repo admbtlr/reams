@@ -95,9 +95,75 @@ function toggleDarkBackground(isDarkBackground) {
   html.classList.toggle('dark-background')
 }
 
+function capitaliseFirstWords() {
+  const divs = document.getElementsByTagName('div')
+  Array.prototype.forEach.call(divs, function (el) {
+    if (el.children) {
+      for (var i = 0; i < el.children.length; i++) {
+        if (el.children[i].tagName === 'P') {
+          var p = el.children[i]
+          console.log(p)
+          var text = p.innerText
+          if (text.split(/[,\.;:\?!]/, 2)[0].length < 25) {
+            var splitted = text.split(/([,\.;:\?!])/)
+            splitted[0] = splitted[0].toUpperCase()
+            p.innerText = splitted.join('')
+          } else {
+            var splitted = text.split(' ')
+            let totalLength = 0
+            p.innerText = splitted.map((word, index) => {
+              totalLength += word.length
+              return totalLength < 18 ? word.toUpperCase() : word
+            }).join(' ')
+          }
+          break
+        }
+      }
+    }
+  })
+}
+
+function removeSourceTags() {
+  var sources = document.getElementsByTagName('source')
+  for (var i = sources.length - 1; i >= 0; i--) {
+    sources[i].remove()
+  }
+}
+
+function removeFiguresWithoutImages() {
+  var figures = document.getElementsByTagName('figure')
+  for (var i = figures.length - 1; i >= 0; i--) {
+    if (figures[i].getElementsByTagName('img').length === 0) {
+      figures[i].remove()
+    }
+  }
+}
+
+function markPullQuotes() {
+  var blockquotes = document.getElementsByTagName('blockquote')
+  Array.prototype.forEach.call(blockquotes, function (blockquote) {
+    var previousPara = blockquote.previousSibling().innerText
+    if (previousPara.substring(previousPara.length - 2) !== ':') {
+      blockquote.classList.add('pullquote')
+    }
+  })
+}
+
+function removeAllBrs() {
+  var brs = document.getElementsByTagName('br')
+  for (var i = brs.length - 1; i >= 0; i--) {
+    brs[i].remove()
+  }
+}
+
 window.onload = function () {
   markShortBlockquotes()
   markShortParagraphs()
   markImages()
   markContentHoldingDivs()
+  capitaliseFirstWords()
+  removeSourceTags()
+  removeFiguresWithoutImages()
+  markPullQuotes()
+  removeAllBrs()
 }

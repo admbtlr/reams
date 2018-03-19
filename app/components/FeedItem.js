@@ -107,7 +107,14 @@ class FeedItem extends React.Component {
     } = this.props.item
     // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
-    let articleClasses = [...styles.fontClasses, 'itemArticle', styles.color].join(' ')
+    let articleClasses = [
+      ...styles.fontClasses,
+      'itemArticle',
+      styles.color,
+      styles.dropCapFamily === 'header' ? 'dropCapFamilyHeader' : '',
+      styles.dropCapIsMonochrome ? 'dropCapIsMonochrome' : '',
+      `dropCapSize${styles.dropCapSize}`,
+      styles.dropCapIsDrop ? 'dropCapIsDrop' : ''].join(' ')
 
     let headerClasses = this.state.headerClassList.join(' ')
 
@@ -253,6 +260,7 @@ class FeedItem extends React.Component {
       this.pendingWebViewHeight = calculatedHeight
     }
 
+    console.log(`updateWebViewHeight! ${calculatedHeight}`)
     const that = this
     // debounce
     if (!this.pendingWebViewHeightId) {
