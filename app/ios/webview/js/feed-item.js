@@ -141,10 +141,14 @@ function removeFiguresWithoutImages() {
 
 function markPullQuotes() {
   var blockquotes = document.getElementsByTagName('blockquote')
-  Array.prototype.forEach.call(blockquotes, function (blockquote) {
-    var previousPara = blockquote.previousSibling().innerText
-    if (previousPara.substring(previousPara.length - 2) !== ':') {
-      blockquote.classList.add('pullquote')
+  Array.prototype.forEach.call(blockquotes, function (bq) {
+    var sibling = bq.previousElementSibling ||
+      bq.parentElement.previousElementSibling
+    if (sibling && sibling.innerText) {
+      var prevPara = sibling.innerText
+      if (prevPara.substring(prevPara.length - 2) !== ':') {
+        bq.classList.add('pullquote')
+      }
     }
   })
 }

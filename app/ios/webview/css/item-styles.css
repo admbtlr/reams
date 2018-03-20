@@ -263,41 +263,55 @@ article > div:not(:last-of-type) figure:last-child {
   margin-bottom: 112px; }
 
 .body > p:not(.short-para):first-of-type:first-letter,
-.body > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.body > *:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 4rem;
   line-height: .6;
   display: block;
   margin: .1em 0 0 0; }
 
 .dropCapSize5 .body > p:not(.short-para):first-of-type:first-letter, .dropCapSize5
-.body > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize5
-.body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.body > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize5
+.body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize5
+.body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize5
+.body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 5rem; }
 
 .dropCapSize6 .body > p:not(.short-para):first-of-type:first-letter, .dropCapSize6
-.body > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize6
-.body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.body > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize6
+.body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize6
+.body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize6
+.body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 6rem; }
 
 .dropCapSize7 .body > p:not(.short-para):first-of-type:first-letter, .dropCapSize7
-.body > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize7
-.body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.body > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize7
+.body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize7
+.body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapSize7
+.body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 7rem; }
 
 .dropCapIsDrop .body > p:not(.short-para):first-of-type:first-letter, .dropCapIsDrop
-.body > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapIsDrop
-.body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.body > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapIsDrop
+.body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapIsDrop
+.body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapIsDrop
+.body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter {
   float: left; }
 
 .dropCapIsBold .body > p:not(.short-para):first-of-type:first-letter, .dropCapIsBold
-.body > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapIsBold
-.body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.body > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapIsBold
+.body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapIsBold
+.body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter, .dropCapIsBold
+.body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-weight: 700; }
 
 .body > p:not(.short-para):first-of-type.firstPara,
-.body > div:first-of-type > p:not(.short-para):first-of-type.firstPara,
-.body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type.firstPara {
+.body > *:first-of-type > p:not(.short-para):first-of-type.firstPara,
+.body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type.firstPara,
+.body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type.firstPara,
+.body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type.firstPara {
   border-top: 0;
   padding-top: 0; }
 

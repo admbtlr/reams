@@ -385,8 +385,10 @@ article > div:not(:last-of-type) {
 }
 
 .body > p:not(.short-para):first-of-type,
-  .body > div:first-of-type > p:not(.short-para):first-of-type,
-  .body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  .body > *:first-of-type > p:not(.short-para):first-of-type,
+  .body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type,
+  .body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type,
+  .body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type {
 
   &:first-letter {
     font-size: 4rem;
