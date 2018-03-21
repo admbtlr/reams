@@ -307,7 +307,7 @@ article > div:not(:last-of-type) figure:last-child {
 
 .bodyFontSerif1 .body {
   font-family: "LibreBaskerville-Regular", serif;
-  font-size: calc(1rem / 1.7); }
+  font-size: calc(1rem / 1.9); }
   .bodyFontSerif1 .body h1, .bodyFontSerif1 .body h2, .bodyFontSerif1 .body h3, .bodyFontSerif1 .body figcaption {
     font-family: "Gill Sans"; }
 
