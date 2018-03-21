@@ -8,30 +8,30 @@ html {
     html {
       font-size: calc(4vw); } }
   html.font-size-1 {
-    font-size: calc(5vw); }
-    @media (min-width: 600px) {
-      html.font-size-1 {
-        font-size: calc(3vw); } }
-  html.font-size-2 {
     font-size: calc(6vw); }
     @media (min-width: 600px) {
-      html.font-size-2 {
+      html.font-size-1 {
         font-size: calc(3.5vw); } }
-  html.font-size-3 {
+  html.font-size-2 {
     font-size: calc(7vw); }
     @media (min-width: 600px) {
-      html.font-size-3 {
+      html.font-size-2 {
         font-size: calc(4vw); } }
-  html.font-size-4 {
+  html.font-size-3 {
     font-size: calc(8vw); }
     @media (min-width: 600px) {
-      html.font-size-4 {
+      html.font-size-3 {
         font-size: calc(4.5vw); } }
-  html.font-size-5 {
+  html.font-size-4 {
     font-size: calc(9vw); }
     @media (min-width: 600px) {
-      html.font-size-5 {
+      html.font-size-4 {
         font-size: calc(5vw); } }
+  html.font-size-5 {
+    font-size: calc(10vw); }
+    @media (min-width: 600px) {
+      html.font-size-5 {
+        font-size: calc(5.5vw); } }
 
 body {
   margin: 0;
@@ -62,7 +62,7 @@ body {
   max-width: 100%; }
 
 .the-rest, .body {
-  font-size: calc(1rem / 1.5);
+  font-size: calc(1rem / 1.7);
   line-height: 1rem; }
 
 .the-rest {
@@ -89,7 +89,7 @@ body {
     margin: 0;
     margin-bottom: 1rem; }
   .body img, .body video, .body iframe, .body pre {
-    position: relative;
+    position: relative !important;
     max-width: calc(100vw - 1rem) !important;
     height: auto !important;
     margin: 0 0 1rem;

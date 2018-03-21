@@ -30,37 +30,37 @@ html {
   transition: font-size 0.2s;
 
   &.font-size-1 {
-    font-size: calc(5vw);
-    @media (min-width: 600px) {
-      font-size: calc(3vw);
-    }
-  }
-
-  &.font-size-2 {
     font-size: calc(6vw);
     @media (min-width: 600px) {
       font-size: calc(3.5vw);
     }
   }
 
-  &.font-size-3 {
+  &.font-size-2 {
     font-size: calc(7vw);
     @media (min-width: 600px) {
       font-size: calc(4vw);
     }
   }
 
-  &.font-size-4 {
+  &.font-size-3 {
     font-size: calc(8vw);
     @media (min-width: 600px) {
       font-size: calc(4.5vw);
     }
   }
 
-  &.font-size-5 {
+  &.font-size-4 {
     font-size: calc(9vw);
     @media (min-width: 600px) {
       font-size: calc(5vw);
+    }
+  }
+
+  &.font-size-5 {
+    font-size: calc(10vw);
+    @media (min-width: 600px) {
+      font-size: calc(5.5vw);
     }
   }
 }
@@ -104,7 +104,7 @@ body {
 }
 
 .the-rest, .body {
-  font-size: calc(1rem / 1.5);
+  font-size: calc(1rem / 1.7);
   line-height: 1rem;
 }
 
@@ -138,7 +138,7 @@ body {
   }
 
   img, video, iframe, pre {
-    position: relative;
+    position: relative !important;
     max-width: calc(100vw - 1rem) !important;
     height: auto !important;
     margin: 0 0 1rem;

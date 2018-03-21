@@ -11,6 +11,8 @@ import {
   getAnimatedValueNormalised,
   getAnimatedValue
 } from '../utils/animationHandlers'
+import {hslString} from '../utils/colors'
+
 
 class ViewButtons extends React.Component {
   state = {
@@ -121,6 +123,7 @@ class ViewButtons extends React.Component {
   }
 
   getStyles() {
+    const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleBG')
     return {
       base: {
         position: 'absolute',
@@ -134,8 +137,7 @@ class ViewButtons extends React.Component {
         alignItems: 'flex-end'
       },
       button: {
-        // backgroundColor: this.props.displayMode && this.props.displayMode == 'saved' ? '#5f4d2f' : '#51485f',
-        backgroundColor: '#51485f',
+        backgroundColor,
         opacity: 0.95,
         width: 56,
         height: 56,
