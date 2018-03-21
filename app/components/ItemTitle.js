@@ -245,12 +245,9 @@ class ItemTitle extends React.Component {
   }
 
   adjustFontSize (height) {
-    const maxHeight = this.screenHeight - this.verticalPadding * 2
+    // added a random 40 to allow for the excerpt... probably a TODO
+    const maxHeight = this.screenHeight - this.verticalPadding * 2 - 40
     if (height > maxHeight) {
-      // const fontSize = this.props.styles.fontSize
-      // const oversizeFactor = height / maxHeight
-      // const newFontSize = Math.round(fontSize / oversizeFactor * 0.9)
-      // console.log(this.props.title + ' - NEW FONT SIZE: ' + this.fontSize + ' > ' + Math.floor(this.fontSize * 0.9))
       this.props.updateFontSize(this.props.item, Math.floor(this.fontSize * 0.9))
     } else {
       // tell it that the max font we calculated is just fine thank you
