@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import Modal from 'react-native-modalbox'
+import {hslString} from '../utils/colors'
 
 class RizzleModal extends React.Component {
 
@@ -72,7 +73,7 @@ class RizzleModal extends React.Component {
         alignItems: 'center'
       },
       inner: {
-        backgroundColor: '#51485f',
+        backgroundColor: hslString('rizzleBG'),
         borderRadius: 20,
         width: '80%'
       },

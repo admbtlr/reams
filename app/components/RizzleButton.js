@@ -3,6 +3,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import {hslString} from '../utils/colors'
 
 class RizzleButton extends React.Component {
   constructor (props) {
@@ -11,12 +12,15 @@ class RizzleButton extends React.Component {
   }
 
   getStyles () {
+    const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleBG')
     return {
-        backgroundColor: this.props.displayMode && this.props.displayMode == 'saved' ? '#5f4d2f' : '#51485f',
+        backgroundColor,
         opacity: 0.95,
         width: 56,
         height: 56,
         borderRadius: 28,
+        borderColor: hslString('rizzleFG'),
+        borderWidth: 1,
         justifyContent: 'center',
         flexDirection: 'column',
         shadowOffset: {

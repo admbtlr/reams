@@ -11,6 +11,8 @@ import {
   addScrollListener
 } from '../utils/animationHandlers'
 
+import {hslString} from '../utils/colors'
+
 export const STATUS_BAR_HEIGHT = 40
 
 class TopBar extends React.Component {
@@ -45,10 +47,21 @@ class TopBar extends React.Component {
   }
 
   render () {
-    let topBarStyles = Object.assign({}, styles.topBar, this.props.displayMode == 'saved' ? colorSaved.topBar : colorUnread.topBar)
-    let textHolderStyles = Object.assign({}, styles.textHolder, this.props.displayMode == 'saved' ? colorSaved.textHolder : colorUnread.textHolder)
+    console.log(hslString('rizzleBGAlt'))
+    // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleFG')
+    const backgroundColor = hslString('rizzleFG')
+    const borderBottomColor = this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleFG')
+    let topBarStyles = {
+      ...this.getStyles().topBar,
+      backgroundColor
+    }
+    let textHolderStyles = {
+      ...this.getStyles().textHolder,
+      backgroundColor,
+      borderBottomColor
+    }
     return (
-      <View style={styles.base}>
+      <View style={this.getStyles().base}>
         <View style={topBarStyles} />
         <Animated.View style={{
           ...textHolderStyles,
@@ -59,7 +72,7 @@ class TopBar extends React.Component {
           <Animated.Text
             numberOfLines={1}
             style={{
-              ...styles.feedName,
+              ...this.getStyles().feedName,
               opacity: getAnimatedValueNormalised(),
               marginLeft: 35
             }}
@@ -88,60 +101,46 @@ class TopBar extends React.Component {
       </View>
     )
   }
-}
 
-const colorSaved = {
-  topBar: {
-    backgroundColor: '#5f4d2f'
-  },
-  textHolder: {
-    backgroundColor: '#5f4d2f'
+  getStyles() {
+    return {
+      base: {
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        zIndex: 10
+      },
+      topBar: {
+        flex: 1,
+        height: 20
+      },
+      textHolder: {
+        flex: 1,
+        flexDirection: 'row',
+        height: STATUS_BAR_HEIGHT,
+        borderBottomWidth: 1,
+        shadowColor: '#000000',
+        shadowOffset: {
+          width: 0,
+          height: 1
+        },
+        shadowRadius: 1,
+        shadowOpacity: 0.3
+      },
+      feedName: {
+        flex: 1,
+        color: this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleBG'),
+        fontSize: 16,
+        // fontFamily: 'AvenirNext-Regular',
+        fontFamily: 'IBMPlexMono',
+        // fontWeight: '700',
+        // fontVariant: ['small-caps'],
+        textAlign: 'center',
+        padding: 10
+      }
+    }
   }
 }
 
-const colorUnread = {
-  topBar: {
-    backgroundColor: '#51485f'
-  },
-  textHolder: {
-    backgroundColor: '#51485f'
-  }
-}
-
-const styles = {
-  base: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    zIndex: 10
-  },
-  topBar: {
-    flex: 1,
-    height: 20
-  },
-  textHolder: {
-    flex: 1,
-    flexDirection: 'row',
-    height: STATUS_BAR_HEIGHT,
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowRadius: 1,
-    shadowOpacity: 0.3
-  },
-  feedName: {
-    flex: 1,
-    color: 'white',
-    fontSize: 16,
-    // fontFamily: 'AvenirNext-Regular',
-    fontFamily: 'IBMPlexMono',
-    // fontWeight: '700',
-    // fontVariant: ['small-caps'],
-    textAlign: 'center',
-    padding: 10
-  }
-}
 
 export default TopBar

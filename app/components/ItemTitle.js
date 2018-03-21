@@ -232,11 +232,7 @@ class ItemTitle extends React.Component {
   }
 
   calculateMaxFontSize (title, font, isBold, totalPadding) {
-    const maxLength = title.split(' ').reduce((length, word) => {
-      if (word.length > length)
-        length = word.length
-      return length
-    }, 0)
+    const maxLength = this.getLongestWord(title)
     const multiplier = fontStyles[this.props.font][isBold ? 'bold' : 'regular'].multiplier
     const width = this.screenWidth - totalPadding
 
@@ -253,6 +249,14 @@ class ItemTitle extends React.Component {
       // tell it that the max font we calculated is just fine thank you
       this.props.updateFontSize(this.props.item, Math.floor(this.fontSize))
     }
+  }
+
+  getLongestWord (title) {
+    return title.split(' ').reduce((length, word) => {
+      if (word.length > length)
+        length = word.length
+      return length
+    }, 0)
   }
 
   componentDidMount () {
@@ -348,7 +352,7 @@ class ItemTitle extends React.Component {
       fontSize: this.fontSize,
       lineHeight: this.fontSize * 1.05,
       textAlign: styles.textAlign,
-      letterSpacing: -1,
+      letterSpacing: this.getLongestWord(title) < 6 ? 1 : -1,
       paddingTop,
       paddingBottom,
       paddingLeft

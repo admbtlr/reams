@@ -103,18 +103,24 @@ function capitaliseFirstWords() {
         if (el.children[i].tagName === 'P') {
           var p = el.children[i]
           console.log(p)
-          var text = p.innerText
-          if (text.split(/[,\.;:\?!]/, 2)[0].length < 25) {
-            var splitted = text.split(/([,\.;:\?!])/)
-            splitted[0] = splitted[0].toUpperCase()
-            p.innerText = splitted.join('')
-          } else {
-            var splitted = text.split(' ')
-            let totalLength = 0
-            p.innerText = splitted.map((word, index) => {
-              totalLength += word.length
-              return totalLength < 18 ? word.toUpperCase() : word
-            }).join(' ')
+          var childNodes = p.childNodes
+          for (var j = 0; j < childNodes.length; j++) {
+            if (childNodes[j].nodeType === 3) {
+              var text = childNodes[j].nodeValue
+              if (text.split(/[,\.;:\?!]/, 2)[0].length < 25) {
+                var splitted = text.split(/([,\.;:\?!])/)
+                splitted[0] = splitted[0].toUpperCase()
+                childNodes[j].nodeValue = splitted.join('')
+              } else {
+                var splitted = text.split(' ')
+                let totalLength = 0
+                childNodes[j].nodeValue = splitted.map((word, index) => {
+                  totalLength += word.length
+                  return totalLength < 18 ? word.toUpperCase() : word
+                }).join(' ')
+              }
+              break
+            }
           }
           break
         }

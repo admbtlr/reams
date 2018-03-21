@@ -8,6 +8,8 @@ import Modal from 'react-native-modalbox'
 import ShareExtension from 'react-native-share-extension'
 import { Sentry } from 'react-native-sentry'
 import { RNSKBucket } from 'react-native-swiss-knife'
+import {hslString} from '../utils/colors'
+
 
 class Share extends React.Component {
 
@@ -116,7 +118,7 @@ class Share extends React.Component {
       >
         <View style={{ alignItems: 'center', justifyContent:'center', flex: 1 }}>
           <View style={{
-            backgroundColor: '#51485f',
+            backgroundColor: hslString('rizzleBG'),
             width: 300,
             height: 300,
             padding: 14,

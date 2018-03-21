@@ -1,4 +1,4 @@
-import {colors, colorsHsl} from './color-definitions'
+import {colors, colorsHsl, uiColorsHsl} from './color-definitions'
 
 // taken from https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion#9493060
 /**
@@ -72,9 +72,9 @@ export function getNames () {
 }
 
 export function blendColor (colorName) {
-  return hslStringToBlendColor(colorsHsl[colorName])
+  return hslStringToBlendColor(hslString(colorName))
 }
 
 export function hslString (colorName) {
-  return colorsHsl[colorName]
+  return colorsHsl[colorName] || uiColorsHsl[colorName]
 }
