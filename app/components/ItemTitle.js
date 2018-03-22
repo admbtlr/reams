@@ -1,8 +1,10 @@
 import React from 'react'
 import {Animated, Dimensions, Text, View, WebView} from 'react-native'
+import {BlurView} from 'react-native-blur'
 import moment from 'moment'
 
 import {hslString} from '../utils/colors'
+import {isIphoneX} from '../utils'
 
 const fontStyles = {
   headerFontSerif1: {
@@ -225,7 +227,7 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.verticalPadding = 80
+    this.verticalPadding = 85
 
     this.fadeInAnim = new Animated.Value(-1)
     this.fadeInAnim2 = new Animated.Value(-1)
@@ -271,7 +273,7 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {styles, title, date, hasCoverImage, isVisible} = this.props
+    let {styles, title, date, hasCoverImage, coverImageStyles, isVisible} = this.props
     let position = {
       height: 'auto',
       width: 'auto',
@@ -352,10 +354,13 @@ class ItemTitle extends React.Component {
       fontSize: this.fontSize,
       lineHeight: this.fontSize * 1.05,
       textAlign: styles.textAlign,
-      letterSpacing: this.getLongestWord(title) < 6 ? 1 : -1,
+      letterSpacing: styles.isVertical ?
+        (this.getLongestWord(title) < 6 ? 5 : 3) :
+        (this.getLongestWord(title) < 6 ? 3 : -1),
       paddingTop,
       paddingBottom,
-      paddingLeft
+      paddingLeft,
+      // marginBottom: this.props.styles.isUpperCase ? this.fontSize * -0.3 : 0
     }
     const viewStyle = {
       ...position
@@ -402,13 +407,17 @@ class ItemTitle extends React.Component {
       borderColor: color
     }
     const overlayColour = hasCoverImage && !styles.invertBGPadding && !styles.bg ?
-      (styles.isMonochrome ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.5)') :
+      (styles.isMonochrome || coverImageStyles.isBW || coverImageStyles.isMultiply ?
+        'rgba(0,0,0,0.1)' :
+        'rgba(0,0,0,0.3)') :
       'transparent'
     const outerViewStyle = {
       width: this.screenWidth,
       height: this.screenHeight * 1.2,
       // position: 'absolute',
-      paddingTop: this.verticalPadding + this.screenHeight * 0.1,
+      paddingTop: isIphoneX() ?
+        this.verticalPadding * 1.25 + this.screenHeight * 0.1 :
+        this.verticalPadding + this.screenHeight * 0.1,
       paddingBottom: this.verticalPadding + this.screenHeight * 0.1,
       marginTop: this.screenHeight * -0.1,
       marginBottom: this.screenHeight * -0.1,
@@ -563,11 +572,14 @@ class ItemTitle extends React.Component {
       })
     }
 
-    const excerptColor = styles.isMonochrome ?
-      (hasCoverImage && !styles.bg ?
-        'white' :
-        'black') :
-      hslString(styles.color)
+    // const excerptColor = styles.isMonochrome ?
+    //   (hasCoverImage && !styles.bg ?
+    //     'white' :
+    //     'black') :
+    //   hslString(styles.color)
+    const excerptColor = styles.bg ?
+      (styles.isMonochrome ? 'black' : hslString(styles.color)) :
+      (hasCoverImage ? 'white' : 'black')
     const excerptFontSize = this.screenWidth > this.screenHeight ?
       this.screenWidth / 42 :
       this.screenHeight / 42
@@ -578,6 +590,7 @@ class ItemTitle extends React.Component {
       }}>
         <Animated.Text style={{
           justifyContent: aligners[styles.textAlign],
+          flex: 1,
           ...fontStyle,
           ...shadowStyle,
           color: excerptColor,

@@ -158,7 +158,7 @@ body {
     width: 100vw;
     max-width: 100vw !important;
     width: 100vw !important;
-    left: $step * -0.5;
+    left: -0.5rem;
     overflow: scroll;
     border-bottom: 1px solid hsl(0, 0%, 93%);
 
@@ -390,11 +390,17 @@ article > div:not(:last-of-type) {
   .body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type,
   .body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type {
 
+  margin-top: 2rem;
+
   &:first-letter {
     font-size: 4rem;
     line-height: .6;
     display: block;
     margin: .1em 0 0 0;
+  }
+
+  .dropCapIsDrop & {
+    margin-top: 0;
   }
 
   .dropCapSize5 &:first-letter {
