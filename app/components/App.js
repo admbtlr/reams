@@ -10,6 +10,7 @@ import FeedListContainer from '../containers/FeedList.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
 import ToolbarsContainer from '../containers/Toolbars.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
+import { VibrancyView } from 'react-native-blur'
 // import ClipboardWatcher from '../containers/ClipboardWatcher.js'
 
 // const App = () => (
@@ -33,9 +34,7 @@ class App extends React.Component {
         <StatusBar barStyle='light-content' />
         <RizzleModalContainer />
         <ToolbarsContainer />
-        <View style={styles.infoView}>
-          <Text style={styles.infoText}>Loading items...</Text>
-        </View>
+        <View style={styles.infoView} />
         <FeedListContainer
           style={styles.feedList}
         />
@@ -55,7 +54,8 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#332233'
+    // backgroundColor: '#332233'
+    backgroundColor: 'white'
   },
   infoText: {
     fontFamily: 'Avenir',
