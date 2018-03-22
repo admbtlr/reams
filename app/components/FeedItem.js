@@ -212,6 +212,7 @@ class FeedItem extends React.Component {
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}
             hasCoverImage={hasCoverImage}
+            coverImageStyles={styles.coverImage}
           />
           <FeedInfoContainer
             index={this.props.index}
