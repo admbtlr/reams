@@ -11,6 +11,7 @@ import {
   addScrollListener
 } from '../utils/animationHandlers'
 
+import {isIphoneX} from '../utils'
 import {hslString} from '../utils/colors'
 
 export const STATUS_BAR_HEIGHT = 40
@@ -47,10 +48,9 @@ class TopBar extends React.Component {
   }
 
   render () {
-    console.log(hslString('rizzleBGAlt'))
     // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleFG')
-    const backgroundColor = hslString('rizzleFG')
-    const borderBottomColor = this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleFG')
+    const backgroundColor = hslString('rizzleBG')
+    const borderBottomColor = this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleBG')
     let topBarStyles = {
       ...this.getStyles().topBar,
       backgroundColor
@@ -112,7 +112,7 @@ class TopBar extends React.Component {
       },
       topBar: {
         flex: 1,
-        height: 20
+        height: isIphoneX() ? 40 : 20
       },
       textHolder: {
         flex: 1,
@@ -129,7 +129,7 @@ class TopBar extends React.Component {
       },
       feedName: {
         flex: 1,
-        color: this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleBG'),
+        color: this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleFG'),
         fontSize: 16,
         // fontFamily: 'AvenirNext-Regular',
         fontFamily: 'IBMPlexMono',

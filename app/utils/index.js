@@ -1,4 +1,5 @@
 const RNFS = require('react-native-fs')
+import { Dimensions, Platform } from 'react-native'
 
 export function deepEqual (a, b, ignoreNull = false) {
   if (!(a instanceof Object) || !(b instanceof Object)) {
@@ -40,4 +41,15 @@ export function deepEqual (a, b, ignoreNull = false) {
 
 export function getCachedImagePath (item) {
   return `${RNFS.DocumentDirectoryPath}/${item._id}.jpg`
+}
+
+export const isIphoneX = () => {
+  let d = Dimensions.get('window');
+  const { height, width } = d;
+
+  return (
+    Platform.OS === 'ios' &&
+      // Accounting for the height in either orientation
+      (height === 812 || width === 812)
+  );
 }
