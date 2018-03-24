@@ -73,7 +73,7 @@ body {
 
   background-color: hsl(60, 17%, 96%);
   &, a, a:active, a:visited {
-    color: hsl(0, 0%, 20%);
+    color: hsl(0, 0%, 25%);
   }
   transition: background-color, color 0.2s;
 
@@ -103,16 +103,13 @@ body {
   // overflow: hidden;
 }
 
-.the-rest, .body {
+.itemArticle {
   font-size: calc(1rem / 1.7);
   line-height: 1rem;
-}
-
-.the-rest {
   margin: 0;
   h1, h2, h3 {
-    margin: $step * 2 0 $step;
-    padding: $step * .5 0;
+    margin: 2rem 0 1rem;
+    padding: 0;
     font-family: 'AvenirNext-Regular';
   }
 
@@ -122,7 +119,7 @@ body {
   }
 }
 
-.body {
+.itemArticle {
   position: relative;
   z-index: 10;
   padding: 2rem 0.5rem;
@@ -131,13 +128,14 @@ body {
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
+  -webkit-text-size-adjust:none;
 
   p {
     margin: 0;
     margin-bottom: 1rem;
   }
 
-  img, video, iframe, pre {
+  figure, img, video, iframe, pre {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
     height: auto !important;
@@ -149,17 +147,13 @@ body {
     }
   }
 
-  // figure handles its own margin
-  figure img, figure iframe {
-    margin-bottom: 0;
-  }
-
-  img:not(.img-portrait):not(.img-small), video, iframe, pre {
+  figure, img, video, iframe, pre {
     width: 100vw;
     max-width: 100vw !important;
     width: 100vw !important;
     left: -0.5rem;
     overflow: scroll;
+    background-color: white;
     border-bottom: 1px solid hsl(0, 0%, 93%);
 
     @media (min-width: 600px) {
@@ -167,9 +161,27 @@ body {
     }
   }
 
+  img:not(.img-portrait):not(.img-small) {
+    width: 100vw !important;
+  }
+
   img.img-portrait, img.img-small {
-    display: block;
-    margin: 0.5rem auto;
+    // display: block;
+    margin: 0.5rem;
+    max-width: calc(100vw - 1rem) !important;
+    width: 100% !important;
+
+    figure & {
+      width: calc(100% - 1rem);
+    }
+
+  }
+
+  // figure handles its own margin
+  figure img, figure iframe {
+    margin: 0;
+    left: 0;
+    border-bottom: 0;
   }
 
   &,
@@ -256,12 +268,11 @@ body {
 
   figcaption {
     position: relative;
-    margin: 0 -28px;
-    padding: 14px 28px;
+    padding: .5rem;
     border-bottom: 1px solid hsl(0, 0%, 93%);
-    font-size: 0.3rem;
+    font-size: 0.5rem;
     font-weight: 300;
-    line-height: 1.6;
+    line-height: 0.66rem;
     color: hsl(0, 0%, 67%);
     background-color: white;
     position: relative;
@@ -314,7 +325,7 @@ body {
   }
 
   // breaks between sections
-  article > div:not(:first-of-type) {
+  & > div:not(:first-of-type) {
 
     &:before {
       content: '';
@@ -324,7 +335,7 @@ body {
       transform: rotateZ(-30deg);
     }
 
-    & > div:first-of-type > p:first-of-type {
+    & > p:first-of-type {
       margin-top: $step * 4
     }
   }
@@ -384,46 +395,100 @@ article > div:not(:last-of-type) {
   }
 }
 
-.body > p:not(.short-para):first-of-type,
-  .body > *:first-of-type > p:not(.short-para):first-of-type,
-  .body > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type,
-  .body > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type,
-  .body > *:first-of-type > *:first-of-type > *:first-of-type > *:first-of-type > p:not(.short-para):first-of-type {
+.itemArticle {
+  & > p:not(.short-para):first-of-type,
+  & > div:first-of-type > p:not(.short-para):first-of-type,
+  & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
 
-  margin-top: 2rem;
+    margin-top: 2rem;
 
-  &:first-letter {
-    font-size: 4rem;
-    line-height: .6;
-    display: block;
-    margin: .1em 0 0 0;
+    &:first-letter {
+      font-size: 4rem;
+      line-height: .6;
+      display: block;
+      margin: .1em 0 0 0;
+    }
+
+    &.firstPara {
+      border-top: 0;
+      padding-top: 0;
+    }
   }
 
-  .dropCapIsDrop & {
-    margin-top: 0;
+  &.dropCapIsDrop {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        margin-top: 0;
+        float: left;
+      }
+    }
   }
 
-  .dropCapSize5 &:first-letter {
-    font-size: 5rem;
-  }
-  .dropCapSize6 &:first-letter {
-    font-size: 6rem;
-  }
-  .dropCapSize7 &:first-letter {
-    font-size: 7rem;
-  }
-
-  .dropCapIsDrop &:first-letter {
-    float: left;
+  &.dropCapSize3 {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-size: 3.2rem;
+        margin-top: 0.3rem;
+      }
+    }
   }
 
-  .dropCapIsBold &:first-letter {
-    font-weight: 700;
+  &.dropCapSize4 {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-size: 4.5rem;
+        margin-top: 0.4rem;
+      }
+    }
   }
 
-  &.firstPara {
-    border-top: 0;
-    padding-top: 0;
+  &.dropCapSize5 {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-size: 5.8rem;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+
+  &.dropCapSize6 {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-size: 7.1rem;
+        margin-top: 0.6rem;
+      }
+    }
+  }
+
+  &.dropCapSize7 {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-size: 7.1rem;
+        margin-top: 0.6rem;
+      }
+    }
+  }
+
+  &.dropCapIsBold {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-weight: 700;
+      }
+    }
   }
 }
 
@@ -434,40 +499,32 @@ article > div:not(:last-of-type) {
 
 
 .bodyFontSerif1 {
-  .body {
-    font-family: "LibreBaskerville-Regular", serif;
-    font-size: calc(1rem / 1.9);
+  font-family: "LibreBaskerville-Regular", serif;
+  font-size: calc(1rem / 1.9);
 
-    h1, h2, h3, figcaption {
-      font-family: "Gill Sans"
-    }
+  h1, h2, h3, figcaption {
+    font-family: "Gill Sans"
   }
 }
 
 .bodyFontSans1 {
-  .body {
-    font-family: "Gill Sans", sans-serif;
+  font-family: "Gill Sans", sans-serif;
 
-    h1, h2, h3, figcaption {
-      font-family: "LibreBaskerville-Regular"
-    }
+  h1, h2, h3, figcaption {
+    font-family: "LibreBaskerville-Regular"
   }
 }
 
 .bodyFontSerif2 {
-  .body {
-    font-family: "Iowan Old Style", serif;
+  font-family: "Iowan Old Style", serif;
 
-    h1, h2, h3, figcaption {
-      font-family: "Gill Sans"
-    }
+  h1, h2, h3, figcaption {
+    font-family: "Gill Sans"
   }
 }
 
 .bodyFontSans2 {
-  .body {
-    font-family: "Avenir", serif;
-  }
+  font-family: "Avenir", serif;
 }
 
 .headerFontSans1 {
@@ -524,7 +581,7 @@ article > div:not(:last-of-type) {
   }
 }
 
-.itemArticle .body {
+.itemArticle {
   a, a:active, a:visited {
     /*text-decoration: none;*/
   }
@@ -538,28 +595,49 @@ article > div:not(:last-of-type) {
 @each $name, $value in $colors {
   .itemArticle {
     &.#{$name} {
-      .body > p:not(.short-para):first-of-type,
-        .body > div:first-of-type > p:not(.short-para):first-of-type,
-        .body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-        &:first-letter {
-          color: $value;
+      a, a:active, a:visited {
+        -webkit-text-decoration-color: $value;
+      }
+
+      blockquote.short-blockquote, .pullquote {
+        color: $value;
+      }
+
+      *:not(:first-of-type) div,
+        * div:not(:first-of-type),
+        div:not(:first-of-type) {
+        &:before {
+          background-color: $value;
         }
       }
 
-      .body {
-        a, a:active, a:visited {
-          -webkit-text-decoration-color: $value;
+      &:not(.dropCapIsMonochrome) {
+        & > p:not(.short-para):first-of-type,
+          & > div:first-of-type > p:not(.short-para):first-of-type,
+          & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+          &:first-letter {
+            color: $value;
+          }
         }
+      }
 
-        blockquote.short-blockquote, .pullquote {
-          color: $value;
+      &.dropCapIsStroke {
+         & > p:not(.short-para):first-of-type,
+          & > div:first-of-type > p:not(.short-para):first-of-type,
+          & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+          &:first-letter {
+            color: transparent;
+            -webkit-text-stroke: 1px #444444;
+          }
         }
+      }
 
-        *:not(:first-of-type) div,
-          * div:not(:first-of-type),
-          div:not(:first-of-type) {
-          &:before {
-            background-color: $value;
+      &.dropCapIsStroke:not(.dropCapIsMonochrome) {
+         & > p:not(.short-para):first-of-type,
+          & > div:first-of-type > p:not(.short-para):first-of-type,
+          & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+          &:first-letter {
+            -webkit-text-stroke-color: $value;
           }
         }
       }
@@ -567,6 +645,6 @@ article > div:not(:last-of-type) {
   }
 }
 
-body .itemArticle.dropCapIsMonochrome div > p:not(.short-para):first-of-type:first-letter {
+body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
   color: inherit;
 }

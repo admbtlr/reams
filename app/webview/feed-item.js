@@ -1,3 +1,73 @@
+function removeDivsInDivs () {
+  const divs = document.querySelector('article').querySelectorAll('div')
+  const toRemove = []
+  for (var i = divs.length - 1; i >= 0; i--) {
+    var parent = divs[i].parentNode
+    var nextSibling = divs[i].nextElementSibling
+    var prevSibling = divs[i].prevElementSibling
+    console.log(parent)
+    if (parent.tagName === 'DIV' &&
+      !parent.classList.contains('body') &&
+      !nextSibling &&
+      !prevSibling) {
+      // move this up to a sibling of the parent
+      var grandparent = parent.parentNode
+      grandparent.insertBefore(divs[i].cloneNode(true), parent)
+      toRemove.push(parent)
+    }
+  }
+
+  for (var i = toRemove.length - 1; i >= 0; i--) {
+    toRemove[i].remove()
+  }
+}
+
+function removeArticles () {
+  const articles = document.querySelector('article').querySelectorAll('article')
+  for (var i = 0; i < articles.length; i++) {
+    var article = articles[i]
+    var children = article.childNodes
+    var parent = article.parentNode
+    for (var j = 0; j < children.length; j++) {
+      parent.insertBefore(children[j].cloneNode(true), article)
+    }
+    article.remove()
+  }
+}
+
+function removeSoloSurroundingDiv () {
+  const nodeList = document.querySelectorAll('article > *')
+  if (nodeList.length === 1 && nodeList[0].tagName === 'DIV') {
+    const div = nodeList[0]
+    const children = div.childNodes
+    const article = document.querySelector('article')
+    let toRemove = []
+    for (var i = 0; i < children.length; i++) {
+      article.insertBefore(children[i].cloneNode(true), div)
+      toRemove.push(children[i])
+    }
+
+    for (var i = toRemove.length - 1; i >= 0; i--) {
+      toRemove[i].remove()
+    }
+  }
+}
+
+function removeEmptyParagraphs () {
+  const paras = document.querySelectorAll('p')
+  let toRemove = []
+  Array.prototype.forEach.call(paras, function (el, i) {
+    if (el.innerText.trim().length === 0 &&
+      el.childElementCount === 0) {
+      toRemove.push(el)
+    }
+  })
+
+  for (var i = toRemove.length - 1; i >= 0; i--) {
+    toRemove[i].remove()
+  }
+}
+
 function markShortParagraphs () {
   const paras = document.querySelectorAll('p')
   Array.prototype.forEach.call(paras, function (el, i) {
@@ -96,37 +166,42 @@ function toggleDarkBackground(isDarkBackground) {
 }
 
 function capitaliseFirstWords() {
+  const article = document.querySelector('article')
+  capitaliseFirstChildP(article)
   const divs = document.getElementsByTagName('div')
-  Array.prototype.forEach.call(divs, function (el) {
-    if (el.children) {
-      for (var i = 0; i < el.children.length; i++) {
-        if (el.children[i].tagName === 'P') {
-          var p = el.children[i]
-          console.log(p)
-          var childNodes = p.childNodes
-          for (var j = 0; j < childNodes.length; j++) {
-            if (childNodes[j].nodeType === 3) {
-              var text = childNodes[j].nodeValue
-              if (text.split(/[,\.;:\?!]/, 2)[0].length < 25) {
-                var splitted = text.split(/([,\.;:\?!])/)
-                splitted[0] = splitted[0].toUpperCase()
-                childNodes[j].nodeValue = splitted.join('')
-              } else {
-                var splitted = text.split(' ')
-                let totalLength = 0
-                childNodes[j].nodeValue = splitted.map((word, index) => {
-                  totalLength += word.length
-                  return totalLength < 18 ? word.toUpperCase() : word
-                }).join(' ')
-              }
-              break
-            }
+  Array.prototype.forEach.call(divs, capitaliseFirstChildP)
+}
+
+function capitaliseFirstChildP(el) {
+  if (!el.children) {
+   return
+  }
+  for (var i = 0; i < el.children.length; i++) {
+    if (el.children[i].tagName === 'P') {
+      var p = el.children[i]
+      console.log(p)
+      var childNodes = p.childNodes
+      for (var j = 0; j < childNodes.length; j++) {
+        if (childNodes[j].nodeType === 3) {
+          var text = childNodes[j].nodeValue
+          if (text.split(/[,\.;:\?!]/, 2)[0].length < 25) {
+            var splitted = text.split(/([,\.;:\?!])/)
+            splitted[0] = splitted[0].toUpperCase()
+            childNodes[j].nodeValue = splitted.join('')
+          } else {
+            var splitted = text.split(' ')
+            let totalLength = 0
+            childNodes[j].nodeValue = splitted.map((word, index) => {
+              totalLength += word.length
+              return totalLength < 18 ? word.toUpperCase() : word
+            }).join(' ')
           }
           break
         }
       }
+      break
     }
-  })
+  }
 }
 
 function removeSourceTags() {
@@ -161,19 +236,34 @@ function markPullQuotes() {
 
 function removeAllBrs() {
   var brs = document.getElementsByTagName('br')
+  let toRemove = []
   for (var i = brs.length - 1; i >= 0; i--) {
-    brs[i].remove()
+    toRemove.push(brs[i])
+  }
+  for (var i = toRemove.length - 1; i >= 0; i--) {
+    toRemove[i].remove()
   }
 }
 
-window.onload = function () {
-  markShortBlockquotes()
-  markShortParagraphs()
+// what?
+for (var i = 0; i < 5; i++) {
+  removeDivsInDivs()
+}
+removeArticles()
+removeSoloSurroundingDiv()
+removeEmptyParagraphs()
+markShortParagraphs()
+markShortBlockquotes()
+markContentHoldingDivs()
+capitaliseFirstWords()
+removeSourceTags()
+removeFiguresWithoutImages()
+markPullQuotes()
+removeAllBrs()
+
+window.onload = function() {
   markImages()
-  markContentHoldingDivs()
-  capitaliseFirstWords()
-  removeSourceTags()
-  removeFiguresWithoutImages()
-  markPullQuotes()
   removeAllBrs()
 }
+
+// }

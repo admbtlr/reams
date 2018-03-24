@@ -114,7 +114,9 @@ class FeedItem extends React.Component {
       styles.dropCapFamily === 'header' ? 'dropCapFamilyHeader' : '',
       styles.dropCapIsMonochrome ? 'dropCapIsMonochrome' : '',
       `dropCapSize${styles.dropCapSize}`,
-      styles.dropCapIsDrop ? 'dropCapIsDrop' : ''].join(' ')
+      styles.dropCapIsDrop ? 'dropCapIsDrop' : '',
+      styles.dropCapIsBold ? 'dropCapIsBold' : '',
+      styles.dropCapIsStroke ? 'dropCapIsStroke' : ''].join(' ')
 
     let headerClasses = this.state.headerClassList.join(' ')
 
@@ -147,20 +149,20 @@ class FeedItem extends React.Component {
     let body = this.props.showMercuryContent ? content_mercury : content_html
     body = this.stripInlineStyles(body)
     body = this.stripEmptyTags(body)
+    body = this.stripUTags(body)
 
     const html = `<html class="font-size-${this.props.fontSize}">
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/item-styles.css">
-        <script src="${server}webview/js/feed-item.js"></script>
       </head>
       <body style="margin: 0; padding: 0;" class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
         <article
-          class="${articleClasses}">
-          <div class="the-rest" style="min-height: ${height}px; width: 100vw;">
-            <div class="body ${this.props.isDarkBackground ? 'dark-background' : ''}">${body}</div>
-          </div>
+          class="${articleClasses} ${this.props.isDarkBackground ? 'dark-background' : ''}"
+          style="min-height: ${height}px; width: 100vw;">
+          ${body}
         </article>
       </body>
+      <script src="${server}webview/js/feed-item.js"></script>
     </html>`
     const openLinksExternallyProp = __DEV__ ? {} : {
       onShouldStartLoadWithRequest: (e) => {
@@ -288,6 +290,11 @@ class FeedItem extends React.Component {
 
   stripEmptyTags (html) {
     const pattern = new RegExp(/<[^\/<]+?>\s*?<\/.+?>/, 'g')
+    return html.replace(pattern, '')
+  }
+
+  stripUTags (html) {
+    const pattern = new RegExp(/<\/?u>/, 'g')
     return html.replace(pattern, '')
   }
 

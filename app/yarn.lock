@@ -6453,6 +6453,10 @@ react-native-fs@^2.9.6:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
 
+react-native-html-parser@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-html-parser/-/react-native-html-parser-0.0.5.tgz#210a76626b7a472a4b5f5a85cb24b37b10344126"
+
 react-native-image-cache-hoc@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-native-image-cache-hoc/-/react-native-image-cache-hoc-1.4.0.tgz#2afc503069561010ecf456a308c91dd89ac99108"
@@ -6493,6 +6497,10 @@ react-native-sentry@^0.14.10:
 react-native-share-extension@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-share-extension/-/react-native-share-extension-1.2.1.tgz#e71b87126f7c3c2b400f2c5f3d7d30e72ed9c0ad"
+
+react-native-splash-screen@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.0.6.tgz#c0bbf2c8ae40a313c4c7044f55e569414ff68332"
 
 react-native-svg@^6.0.0:
   version "6.0.0"
