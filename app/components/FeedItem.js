@@ -147,6 +147,7 @@ class FeedItem extends React.Component {
     let body = this.props.showMercuryContent ? content_mercury : content_html
     body = this.stripInlineStyles(body)
     body = this.stripEmptyTags(body)
+    body = this.stripUTags(body)
 
     const html = `<html class="font-size-${this.props.fontSize}">
       <head>
@@ -287,6 +288,11 @@ class FeedItem extends React.Component {
 
   stripEmptyTags (html) {
     const pattern = new RegExp(/<[^\/<]+?>\s*?<\/.+?>/, 'g')
+    return html.replace(pattern, '')
+  }
+
+  stripUTags (html) {
+    const pattern = new RegExp(/<\/?u>/, 'g')
     return html.replace(pattern, '')
   }
 
