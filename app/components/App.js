@@ -11,6 +11,7 @@ import RizzleModalContainer from '../containers/RizzleModal.js'
 import ToolbarsContainer from '../containers/Toolbars.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
 import { VibrancyView } from 'react-native-blur'
+import SplashScreen from 'react-native-splash-screen';
 // import ClipboardWatcher from '../containers/ClipboardWatcher.js'
 
 // const App = () => (
@@ -25,6 +26,10 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.props = props
+  }
+
+  componentDidMount() {
+    SplashScreen.hide()
   }
 
   render () {
