@@ -29,6 +29,7 @@
     "react-native-blur": "^3.1.2",
     "react-native-dash": "0.0.8",
     "react-native-fs": "^2.9.6",
+    "react-native-html-parser": "0.0.5",
     "react-native-image-cache-hoc": "^1.4.0",
     "react-native-modalbox": "^1.4.2",
     "react-native-sentry": "^0.14.10",
