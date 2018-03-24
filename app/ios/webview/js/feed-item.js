@@ -1,3 +1,40 @@
+function removeDivsInDivs () {
+  const divs = document.querySelector('.body').querySelectorAll('div')
+  const toRemove = []
+  for (var i = divs.length - 1; i >= 0; i--) {
+    var parent = divs[i].parentNode
+    var nextSibling = divs[i].nextElementSibling
+    var prevSibling = divs[i].prevElementSibling
+    console.log(parent)
+    if (parent.tagName === 'DIV' &&
+      !parent.classList.contains('body') &&
+      !nextSibling &&
+      !prevSibling) {
+      // move this up to a sibling of the parent
+      var grandparent = parent.parentNode
+      grandparent.insertBefore(divs[i].cloneNode(true), parent)
+      toRemove.push(parent)
+    }
+  }
+
+  for (var i = toRemove.length - 1; i >= 0; i--) {
+    toRemove[i].remove()
+  }
+}
+
+function removeArticles () {
+  const articles = document.querySelector('.body').querySelectorAll('article')
+  for (var i = 0; i < articles.length; i++) {
+    var article = articles[i]
+    var children = article.childNodes
+    var parent = article.parentNode
+    for (var j = 0; j < children.length; j++) {
+      parent.insertBefore(children[j].cloneNode(true), article)
+    }
+    article.remove()
+  }
+}
+
 function markShortParagraphs () {
   const paras = document.querySelectorAll('p')
   Array.prototype.forEach.call(paras, function (el, i) {
@@ -149,7 +186,8 @@ function markPullQuotes() {
   var blockquotes = document.getElementsByTagName('blockquote')
   Array.prototype.forEach.call(blockquotes, function (blockquote) {
     var previousPara = blockquote.previousSibling().innerText
-    if (previousPara.substring(previousPara.length - 2) !== ':') {
+    if (previousPara.substring(previousPara.length - 2) !== ':' &&
+      blockquote.innerText.length < 400) {
       blockquote.classList.add('pullquote')
     }
   })
@@ -162,14 +200,15 @@ function removeAllBrs() {
   }
 }
 
-window.onload = function () {
-  markShortBlockquotes()
-  markShortParagraphs()
-  markImages()
-  markContentHoldingDivs()
-  capitaliseFirstWords()
-  removeSourceTags()
-  removeFiguresWithoutImages()
-  markPullQuotes()
-  removeAllBrs()
-}
+// window.onload = function () {
+// removeDivsInDivs()
+markShortBlockquotes()
+markShortParagraphs()
+markImages()
+markContentHoldingDivs()
+capitaliseFirstWords()
+removeSourceTags()
+removeFiguresWithoutImages()
+markPullQuotes()
+removeAllBrs()
+// }

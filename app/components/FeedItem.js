@@ -151,7 +151,6 @@ class FeedItem extends React.Component {
     const html = `<html class="font-size-${this.props.fontSize}">
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/item-styles.css">
-        <script src="${server}webview/js/feed-item.js"></script>
       </head>
       <body style="margin: 0; padding: 0;" class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
         <article
@@ -161,6 +160,7 @@ class FeedItem extends React.Component {
           </div>
         </article>
       </body>
+      <script src="${server}webview/js/feed-item.js"></script>
     </html>`
     const openLinksExternallyProp = __DEV__ ? {} : {
       onShouldStartLoadWithRequest: (e) => {
