@@ -233,8 +233,12 @@ function markPullQuotes() {
 
 function removeAllBrs() {
   var brs = document.getElementsByTagName('br')
+  let toRemove = []
   for (var i = brs.length - 1; i >= 0; i--) {
-    brs[i].remove()
+    toRemove.push(brs[i])
+  }
+  for (var i = toRemove.length - 1; i >= 0; i--) {
+    toRemove[i].remove()
   }
 }
 
@@ -256,6 +260,7 @@ removeAllBrs()
 
 window.onload = function() {
   markImages()
+  removeAllBrs()
 }
 
 // }

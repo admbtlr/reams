@@ -114,7 +114,9 @@ class FeedItem extends React.Component {
       styles.dropCapFamily === 'header' ? 'dropCapFamilyHeader' : '',
       styles.dropCapIsMonochrome ? 'dropCapIsMonochrome' : '',
       `dropCapSize${styles.dropCapSize}`,
-      styles.dropCapIsDrop ? 'dropCapIsDrop' : ''].join(' ')
+      styles.dropCapIsDrop ? 'dropCapIsDrop' : '',
+      styles.dropCapIsBold ? 'dropCapIsBold' : '',
+      styles.dropCapIsStroke ? 'dropCapIsStroke' : ''].join(' ')
 
     let headerClasses = this.state.headerClassList.join(' ')
 
