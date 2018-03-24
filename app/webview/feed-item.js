@@ -152,7 +152,7 @@ function markPullQuotes() {
       bq.parentElement.previousElementSibling
     if (sibling && sibling.innerText) {
       var prevPara = sibling.innerText
-      if (prevPara.substring(prevPara.length - 2) !== ':') {
+      if (prevPara.substring(prevPara.length - 1) !== ':') {
         bq.classList.add('pullquote')
       }
     }
