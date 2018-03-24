@@ -154,10 +154,9 @@ class FeedItem extends React.Component {
       </head>
       <body style="margin: 0; padding: 0;" class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
         <article
-          class="${articleClasses}">
-          <div class="the-rest" style="min-height: ${height}px; width: 100vw;">
-            <div class="body ${this.props.isDarkBackground ? 'dark-background' : ''}">${body}</div>
-          </div>
+          class="${articleClasses} ${this.props.isDarkBackground ? 'dark-background' : ''}"
+          style="min-height: ${height}px; width: 100vw;">
+          ${body}
         </article>
       </body>
       <script src="${server}webview/js/feed-item.js"></script>

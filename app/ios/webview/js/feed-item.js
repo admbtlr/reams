@@ -1,5 +1,5 @@
 function removeDivsInDivs () {
-  const divs = document.querySelector('.body').querySelectorAll('div')
+  const divs = document.querySelector('article').querySelectorAll('div')
   const toRemove = []
   for (var i = divs.length - 1; i >= 0; i--) {
     var parent = divs[i].parentNode
@@ -23,7 +23,7 @@ function removeDivsInDivs () {
 }
 
 function removeArticles () {
-  const articles = document.querySelector('.body').querySelectorAll('article')
+  const articles = document.querySelector('article').querySelectorAll('article')
   for (var i = 0; i < articles.length; i++) {
     var article = articles[i]
     var children = article.childNodes

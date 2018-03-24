@@ -103,16 +103,13 @@ body {
   // overflow: hidden;
 }
 
-.the-rest, .body {
+.itemArticle {
   font-size: calc(1rem / 1.7);
   line-height: 1rem;
-}
-
-.the-rest {
   margin: 0;
   h1, h2, h3 {
-    margin: $step * 2 0 $step;
-    padding: $step * .5 0;
+    margin: 2rem 0 1rem;
+    padding: 0;
     font-family: 'AvenirNext-Regular';
   }
 
@@ -122,7 +119,7 @@ body {
   }
 }
 
-.body {
+.itemArticle {
   position: relative;
   z-index: 10;
   padding: 2rem 0.5rem;
@@ -384,9 +381,9 @@ article > div:not(:last-of-type) {
   }
 }
 
-.body > p:not(.short-para):first-of-type,
-  .body > div:first-of-type > p:not(.short-para):first-of-type,
-  .body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+.itemArticle > p:not(.short-para):first-of-type,
+  .itemArticle > div:first-of-type > p:not(.short-para):first-of-type,
+  .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
 
   margin-top: 2rem;
 
@@ -432,40 +429,32 @@ article > div:not(:last-of-type) {
 
 
 .bodyFontSerif1 {
-  .body {
-    font-family: "LibreBaskerville-Regular", serif;
-    font-size: calc(1rem / 1.9);
+  font-family: "LibreBaskerville-Regular", serif;
+  font-size: calc(1rem / 1.9);
 
-    h1, h2, h3, figcaption {
-      font-family: "Gill Sans"
-    }
+  h1, h2, h3, figcaption {
+    font-family: "Gill Sans"
   }
 }
 
 .bodyFontSans1 {
-  .body {
-    font-family: "Gill Sans", sans-serif;
+  font-family: "Gill Sans", sans-serif;
 
-    h1, h2, h3, figcaption {
-      font-family: "LibreBaskerville-Regular"
-    }
+  h1, h2, h3, figcaption {
+    font-family: "LibreBaskerville-Regular"
   }
 }
 
 .bodyFontSerif2 {
-  .body {
-    font-family: "Iowan Old Style", serif;
+  font-family: "Iowan Old Style", serif;
 
-    h1, h2, h3, figcaption {
-      font-family: "Gill Sans"
-    }
+  h1, h2, h3, figcaption {
+    font-family: "Gill Sans"
   }
 }
 
 .bodyFontSans2 {
-  .body {
-    font-family: "Avenir", serif;
-  }
+  font-family: "Avenir", serif;
 }
 
 .headerFontSans1 {
@@ -522,7 +511,7 @@ article > div:not(:last-of-type) {
   }
 }
 
-.itemArticle .body {
+.itemArticle {
   a, a:active, a:visited {
     /*text-decoration: none;*/
   }
@@ -536,35 +525,33 @@ article > div:not(:last-of-type) {
 @each $name, $value in $colors {
   .itemArticle {
     &.#{$name} {
-      .body > p:not(.short-para):first-of-type,
-        .body > div:first-of-type > p:not(.short-para):first-of-type,
-        .body > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      & > p:not(.short-para):first-of-type,
+        & > div:first-of-type > p:not(.short-para):first-of-type,
+        & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
         &:first-letter {
           color: $value;
         }
       }
 
-      .body {
-        a, a:active, a:visited {
-          -webkit-text-decoration-color: $value;
-        }
+      a, a:active, a:visited {
+        -webkit-text-decoration-color: $value;
+      }
 
-        blockquote.short-blockquote, .pullquote {
-          color: $value;
-        }
+      blockquote.short-blockquote, .pullquote {
+        color: $value;
+      }
 
-        *:not(:first-of-type) div,
-          * div:not(:first-of-type),
-          div:not(:first-of-type) {
-          &:before {
-            background-color: $value;
-          }
+      *:not(:first-of-type) div,
+        * div:not(:first-of-type),
+        div:not(:first-of-type) {
+        &:before {
+          background-color: $value;
         }
       }
     }
   }
 }
 
-body .itemArticle.dropCapIsMonochrome div > p:not(.short-para):first-of-type:first-letter {
+body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
   color: inherit;
 }
