@@ -222,7 +222,6 @@ function removeFiguresWithoutImages() {
 
 function markPullQuotes() {
   var blockquotes = document.getElementsByTagName('blockquote')
-<<<<<<< HEAD
   Array.prototype.forEach.call(blockquotes, function (bq) {
     var sibling = bq.previousElementSibling ||
       bq.parentElement.previousElementSibling
@@ -231,13 +230,6 @@ function markPullQuotes() {
       if (prevPara.substring(prevPara.length - 1) !== ':') {
         bq.classList.add('pullquote')
       }
-=======
-  Array.prototype.forEach.call(blockquotes, function (blockquote) {
-    var previousPara = blockquote.previousSibling().innerText
-    if (previousPara.substring(previousPara.length - 2) !== ':' &&
-      blockquote.innerText.length < 400) {
-      blockquote.classList.add('pullquote')
->>>>>>> 3350067c96579aa1b23c1169bf38036c705b4012
     }
   })
 }

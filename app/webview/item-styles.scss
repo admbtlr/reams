@@ -331,8 +331,12 @@ body {
       content: '';
       height: 2px;
       display: block;
-      margin: 0 4rem;
+      margin: 0 calc(50% - 2rem);
       transform: rotateZ(-30deg);
+    }
+
+    &:nth-of-type(2n+1):before {
+      transform: rotateZ(30deg);
     }
 
     & > p:first-of-type {

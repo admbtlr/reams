@@ -167,8 +167,8 @@ body {
   .itemArticle blockquote, .itemArticle .pullquote {
     margin: 0 0 1rem;
     font-style: italic;
-    font-size: 0.9em;
-    line-height: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
     background-color: white;
     left: -0.5rem;
     width: 100vw;
@@ -235,8 +235,10 @@ body {
     content: '';
     height: 2px;
     display: block;
-    margin: 0 4rem;
+    margin: 0 calc(50% - 2rem);
     transform: rotateZ(-30deg); }
+  .itemArticle > div:not(:first-of-type):nth-of-type(2n+1):before {
+    transform: rotateZ(30deg); }
   .itemArticle > div:not(:first-of-type) > p:first-of-type {
     margin-top: 112px; }
   .itemArticle ul {
