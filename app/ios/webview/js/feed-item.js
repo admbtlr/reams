@@ -53,8 +53,8 @@ function removeSoloSurroundingDiv () {
   }
 }
 
-function removeEmptyParagraphs () {
-  const paras = document.querySelectorAll('p')
+function removeEmptyElements (tagName) {
+  const paras = document.querySelectorAll(tagName)
   let toRemove = []
   Array.prototype.forEach.call(paras, function (el, i) {
     if (el.innerText.trim().length === 0 &&
@@ -251,7 +251,8 @@ for (var i = 0; i < 5; i++) {
 }
 removeArticles()
 removeSoloSurroundingDiv()
-removeEmptyParagraphs()
+removeEmptyElements('p')
+removeEmptyElements('div')
 markShortParagraphs()
 markShortBlockquotes()
 markContentHoldingDivs()
