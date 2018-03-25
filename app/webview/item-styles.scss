@@ -234,8 +234,8 @@ body {
   blockquote, .pullquote {
     margin: 0 0 1rem;
     font-style: italic;
-    font-size: 1.1rem;
-    line-height: 1.5rem;
+    font-size: 0.5rem;
+    line-height: 1rem;
     background-color: white;
     left: -0.5rem;
     width: 100vw;
@@ -254,8 +254,8 @@ body {
   blockquote.short-blockquote, .pullquote {
     background-color: transparent;
     border: none;
-    font-size: 2em;
-    line-height: 1.2em;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
     padding: 1px .5em;
     text-align: center;
     margin: 3rem 0;
@@ -430,6 +430,17 @@ article > div:not(:last-of-type) {
     }
   }
 
+  &.dropCapSize2 {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-size: 2.2rem;
+        margin-top: 0.1rem;
+      }
+    }
+  }
+
   &.dropCapSize3 {
     &,
       & > div:first-of-type,
@@ -535,7 +546,7 @@ article > div:not(:last-of-type) {
   h1, h2, h3 {
     font-family: "AvenirNextCondensed-Bold"
   }
-  figcaption {
+  figcaption, blockquote {
     font-family: "AvenirNextCondensed-Medium"
   }
 }
@@ -544,7 +555,7 @@ article > div:not(:last-of-type) {
   h1, h2, h3 {
     font-family: "Montserrat-Bold"
   }
-  figcaption {
+  figcaption, blockquote {
     font-family: "Montserrat-Light"
   }
 }
@@ -553,7 +564,7 @@ article > div:not(:last-of-type) {
   h1, h2, h3 {
     font-family: "IBMPlexSans-Bold"
   }
-  figcaption {
+  figcaption, blockquote {
     font-family: "IBMPlexSans-Light"
   }
 }
@@ -562,7 +573,7 @@ article > div:not(:last-of-type) {
   h1, h2, h3 {
     font-family: "IBMPlexSerif-Bold"
   }
-  figcaption {
+  figcaption, blockquote {
     font-family: "IBMPlexSerif-Light"
   }
 }
@@ -571,7 +582,7 @@ article > div:not(:last-of-type) {
   h1, h2, h3 {
     font-family: "Arvo-Bold"
   }
-  figcaption {
+  figcaption, blockquote {
     font-family: "Arvo"
   }
 }
@@ -580,7 +591,7 @@ article > div:not(:last-of-type) {
   h1, h2, h3 {
     font-family: "PlayfairDisplay-Black"
   }
-  figcaption {
+  figcaption, blockquote {
     font-family: "PlayfairDisplay-Regular"
   }
 }
@@ -631,7 +642,7 @@ article > div:not(:last-of-type) {
           & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
           &:first-letter {
             color: transparent;
-            -webkit-text-stroke: 1px #444444;
+            -webkit-text-stroke: 2px #444444;
           }
         }
       }

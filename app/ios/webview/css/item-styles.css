@@ -167,8 +167,8 @@ body {
   .itemArticle blockquote, .itemArticle .pullquote {
     margin: 0 0 1rem;
     font-style: italic;
-    font-size: 1.1rem;
-    line-height: 1.5rem;
+    font-size: 0.5rem;
+    line-height: 1rem;
     background-color: white;
     left: -0.5rem;
     width: 100vw;
@@ -183,8 +183,8 @@ body {
   .itemArticle blockquote.short-blockquote, .itemArticle .pullquote {
     background-color: transparent;
     border: none;
-    font-size: 2em;
-    line-height: 1.2em;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
     padding: 1px .5em;
     text-align: center;
     margin: 3rem 0;
@@ -293,6 +293,12 @@ article > div:not(:last-of-type) figure:last-child {
   margin-top: 0;
   float: left; }
 
+.itemArticle.dropCapSize2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.2rem;
+  margin-top: 0.1rem; }
+
 .itemArticle.dropCapSize3 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -354,37 +360,37 @@ article > div:not(:last-of-type) figure:last-child {
 .headerFontSans1 h1, .headerFontSans1 h2, .headerFontSans1 h3 {
   font-family: "AvenirNextCondensed-Bold"; }
 
-.headerFontSans1 figcaption {
+.headerFontSans1 figcaption, .headerFontSans1 blockquote {
   font-family: "AvenirNextCondensed-Medium"; }
 
 .headerFontSans2 h1, .headerFontSans2 h2, .headerFontSans2 h3 {
   font-family: "Montserrat-Bold"; }
 
-.headerFontSans2 figcaption {
+.headerFontSans2 figcaption, .headerFontSans2 blockquote {
   font-family: "Montserrat-Light"; }
 
 .headerFontSans3 h1, .headerFontSans3 h2, .headerFontSans3 h3 {
   font-family: "IBMPlexSans-Bold"; }
 
-.headerFontSans3 figcaption {
+.headerFontSans3 figcaption, .headerFontSans3 blockquote {
   font-family: "IBMPlexSans-Light"; }
 
 .headerFontSerif1 h1, .headerFontSerif1 h2, .headerFontSerif1 h3 {
   font-family: "IBMPlexSerif-Bold"; }
 
-.headerFontSerif1 figcaption {
+.headerFontSerif1 figcaption, .headerFontSerif1 blockquote {
   font-family: "IBMPlexSerif-Light"; }
 
 .headerFontSerif2 h1, .headerFontSerif2 h2, .headerFontSerif2 h3 {
   font-family: "Arvo-Bold"; }
 
-.headerFontSerif2 figcaption {
+.headerFontSerif2 figcaption, .headerFontSerif2 blockquote {
   font-family: "Arvo"; }
 
 .headerFontSerif3 h1, .headerFontSerif3 h2, .headerFontSerif3 h3 {
   font-family: "PlayfairDisplay-Black"; }
 
-.headerFontSerif3 figcaption {
+.headerFontSerif3 figcaption, .headerFontSerif3 blockquote {
   font-family: "PlayfairDisplay-Regular"; }
 
 .itemArticle a, .itemArticle a:active, .itemArticle a:visited {
@@ -413,7 +419,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.red1.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.red1.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.red1.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.red1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -440,7 +446,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.red2.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.red2.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.red2.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.red2.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -467,7 +473,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.orange1.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.orange1.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.orange1.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.orange1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -494,7 +500,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.orange2.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.orange2.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.orange2.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.orange2.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -521,7 +527,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.yellow1.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow1.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.yellow1.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -548,7 +554,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.yellow2.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow2.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.yellow2.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow2.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -575,7 +581,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.green1.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.green1.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.green1.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.green1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -602,7 +608,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.blue1.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.blue1.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.blue1.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.blue1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -629,7 +635,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.blue2.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.blue2.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.blue2.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.blue2.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -656,7 +662,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.purple1.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.purple1.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.purple1.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.purple1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -683,7 +689,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.purple2.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.purple2.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.purple2.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.purple2.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -710,7 +716,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.brown1.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.brown1.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 1px #444444; }
+  -webkit-text-stroke: 2px #444444; }
 
 .itemArticle.brown1.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.brown1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
