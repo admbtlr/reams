@@ -25,6 +25,14 @@ function fetchUnreadItems () {
   return feedwrangler.fetchUnreadItems()
 }
 
+function fetchUnreadIds () {
+  return feedwrangler.fetchUnreadIds()
+}
+
+function getItemsByIds (ids) {
+  return feedwrangler.getItemsByIds(ids)
+}
+
 function markItemRead (item) {
   return feedwrangler.markItemRead(item)
 }
@@ -37,4 +45,4 @@ function addFeed (url) {
   return feedwrangler.addFeed(url)
 }
 
-export { fetchUnreadItems, markItemRead, addFeed, markFeedRead, loadMercuryStuff }
+export { fetchUnreadItems, fetchUnreadIds, getItemsByIds, markItemRead, addFeed, markFeedRead, loadMercuryStuff }

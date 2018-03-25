@@ -1,3 +1,5 @@
+import {id} from '../../utils'
+
 const feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
 const itemsFetchBatchSize = 100
 
@@ -37,6 +39,50 @@ export const fetchUnreadItems = (createdSince) => {
   return getUnreadItems(createdSince)
 }
 
+export const fetchUnreadIds = () => {
+  return getUnreadIds().then((unreadIds) => {
+    return unreadIds.feed_items.map((feed_item) => {
+      return {
+        id: feed_item.feed_item_id
+      }
+    })
+  })
+}
+
+export const getItemsByIds = (itemIds) => {
+  let url = 'https://feedwrangler.net/api/v2/feed_items/get?'
+  url += 'access_token=' + feedWranglerAccessToken
+  url += '&feed_item_ids=' + itemIds.reduce((accum, id) => `${accum}${id.id},`, '')
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      return json.feed_items.map(mapFeedwranglerItemToRizzleItem)
+    })
+}
+
+const mapFeedwranglerItemToRizzleItem = (item) => {
+  return {
+    _id: id(),
+    id: item.feed_item_id,
+    url: item.url,
+    external_url: item.url,
+    title: item.title,
+    content_html: item.body,
+    date_published: item.published_at,
+    date_modified: item.updated_at,
+    created_at: item.created_at,
+    author: item.author,
+    feed_title: item.feed_name,
+    feed_id: item.feed_id
+  }
+}
+
 export const receiveUnreadItems = (response, createdSince, page) => {
   return response.json()
     .then((feed) => {
@@ -62,6 +108,20 @@ export const receiveUnreadItems = (response, createdSince, page) => {
         return Promise.resolve(itemsCache)
       }
     })
+}
+
+const getUnreadIds = () => {
+  let url = 'https://feedwrangler.net/api/v2/feed_items/list_ids?'
+  url += 'access_token=' + feedWranglerAccessToken
+  url += '&read=false'
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
 }
 
 export const markItemRead = (item) => {
