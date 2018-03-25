@@ -22,7 +22,7 @@ export function * fetchItems2 () {
     newItems = mergeExpanded(newItems, expandedItems)
   }
   const currentItem = yield select(getCurrentItem)
-  if (!newItems.find((item) => item._id === currentItem._id)) {
+  if (currentItem && !newItems.find((item) => item._id === currentItem._id)) {
     newItems.push(currentItem)
   }
   newItems.sort((a, b) => a.date_published - b.date_published)
