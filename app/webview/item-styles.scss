@@ -335,8 +335,20 @@ body {
       transform: rotateZ(-30deg);
     }
 
-    &:nth-of-type(2n+1):before {
+    &:nth-of-type(4n+1):before {
+      transform: rotateZ(0deg);
+    }
+
+    &:nth-of-type(4n+2):before {
       transform: rotateZ(30deg);
+    }
+
+    &:nth-of-type(4n+3):before {
+      transform: rotateZ(90deg);
+    }
+
+    &:nth-of-type(4n+4):before {
+      transform: rotateZ(150deg);
     }
 
     & > p:first-of-type {
@@ -410,7 +422,7 @@ article > div:not(:last-of-type) {
       font-size: 4rem;
       line-height: .6;
       display: block;
-      margin: .1em 0 0 0;
+      margin-right: 0.1rem;
     }
 
     &.firstPara {
@@ -436,7 +448,7 @@ article > div:not(:last-of-type) {
       & > div:first-of-type > div:first-of-type {
       & > p:not(.short-para):first-of-type:first-letter {
         font-size: 2.2rem;
-        margin-top: 0.1rem;
+        margin-top: 0.4rem;
       }
     }
   }
@@ -446,8 +458,8 @@ article > div:not(:last-of-type) {
       & > div:first-of-type,
       & > div:first-of-type > div:first-of-type {
       & > p:not(.short-para):first-of-type:first-letter {
-        font-size: 3.2rem;
-        margin-top: 0.3rem;
+        font-size: 3.6rem;
+        margin-top: 0.5rem;
       }
     }
   }
@@ -457,8 +469,8 @@ article > div:not(:last-of-type) {
       & > div:first-of-type,
       & > div:first-of-type > div:first-of-type {
       & > p:not(.short-para):first-of-type:first-letter {
-        font-size: 4.5rem;
-        margin-top: 0.4rem;
+        font-size: 4.7rem;
+        margin-top: 0.6rem;
       }
     }
   }
