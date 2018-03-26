@@ -575,14 +575,14 @@ class ItemTitle extends React.Component {
       })
     }
 
-    // const excerptColor = styles.isMonochrome ?
-    //   (hasCoverImage && !styles.bg ?
-    //     'white' :
-    //     'black') :
-    //   hslString(styles.color)
-    const excerptColor = styles.bg ?
-      (styles.isMonochrome ? 'black' : hslString(styles.color)) :
-      (hasCoverImage ? 'white' : 'black')
+    const excerptColor = styles.isMonochrome ?
+      (hasCoverImage && !styles.bg ?
+        'white' :
+        'black') :
+      hslString(styles.color)
+    // const excerptColor = styles.bg ?
+    //   (styles.isMonochrome ? 'black' : hslString(styles.color)) :
+    //   (hasCoverImage ? 'white' : 'black')
     const excerptFontSize = this.screenWidth > this.screenHeight ?
       this.screenWidth / 42 :
       this.screenHeight / 42
@@ -596,6 +596,8 @@ class ItemTitle extends React.Component {
           flex: 1,
           ...fontStyle,
           ...shadowStyle,
+          textShadowColor: 'rgba(0,0,0,0.4)',
+          textShadowRadius: 20,
           color: excerptColor,
           fontFamily: fontStyles[this.props.font]['regular'].fontFamily,
           fontSize: excerptFontSize,
