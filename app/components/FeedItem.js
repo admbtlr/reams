@@ -180,6 +180,7 @@ class FeedItem extends React.Component {
             scrollOffset={this.scrollOffset}
             imagePath={!!hasCoverImage && getCachedImagePath(this.props.item)}
             imageDimensions={!!hasCoverImage && imageDimensions}
+            feedTitle={this.props.item.feed_title}
           />
 
     return (

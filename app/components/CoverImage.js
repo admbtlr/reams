@@ -40,13 +40,15 @@ class CoverImage extends React.Component {
     this.flipColours = Math.random() > 0.5
 
     let index
-    const options = 'RIZLErizle•'
-    this.letters = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-      .splice(0, Math.floor(Math.random() * 8) + 1).map((l) => {
+    const options = `${this.props.feedTitle}${this.props.feedTitle.toUpperCase()}`
+    this.letters = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      .splice(0, Math.floor(Math.random() * 16) + 1).map((l) => {
         index = Math.floor(Math.random() * options.length)
         return {
           letter: options.substring(index, index + 1),
-          rotation: Math.round(Math.random() * 12) * 30
+          rotation: Math.round(Math.random() * 12) * 30,
+          weight: ['bold', 'normal', '100'][Math.floor(Math.random() * 3)],
+          size: Math.round((.5 + Math.random()) * this.screenHeight)
         }
       })
   }
@@ -184,13 +186,13 @@ class CoverImage extends React.Component {
           >
             {this.letters.map((l, i) =>
               (<Text
-                x={cx - 40}
-                y='0'
-                fontSize='1400'
+                x={cx * 1.6}
+                y={cy}
+                fontSize={l.size}
                 fontFamily='IBMPlexMono'
-                fontWeight='bold'
+                fontWeight={l.weight}
                 fill={fill}
-                fillOpacity='0.4'
+                fillOpacity='0.5'
                 originX={cx}
                 originY={cy}
                 rotate={l.rotation}
