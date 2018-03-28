@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#332233'
-    backgroundColor: 'white'
+    backgroundColor: '#332233'
+    // backgroundColor: 'white'
   },
   infoText: {
     fontFamily: 'Avenir',

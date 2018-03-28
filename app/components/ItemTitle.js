@@ -227,7 +227,7 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.verticalPadding = 85
+    this.verticalPadding = props.coverImageStyles.isInline ? 0 : 85
 
     this.fadeInAnim = new Animated.Value(-1)
     this.fadeInAnim2 = new Animated.Value(-1)
@@ -416,7 +416,7 @@ class ItemTitle extends React.Component {
       'transparent'
     const outerViewStyle = {
       width: this.screenWidth,
-      height: this.screenHeight * 1.2,
+      height: coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
       // position: 'absolute',
       paddingTop: isIphoneX() ?
         this.verticalPadding * 1.25 + this.screenHeight * 0.1 :
@@ -427,7 +427,9 @@ class ItemTitle extends React.Component {
       top: 0,
       left: 0,
       flexDirection: 'column',
-      backgroundColor: overlayColour,
+      backgroundColor: coverImageStyles.isInline && coverImageStyles.isMultiply ?
+        hslString(coverImageStyles.color) :
+        overlayColour,
       opacity
     }
     let textStyle = {

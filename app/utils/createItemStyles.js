@@ -22,7 +22,7 @@ export function createItemStyles (item) {
 
   let isBW = false
   let isMultiply = false
-  if (Math.random() > 0.3) {
+  if (Math.random() > 0.4) {
     isMultiply = true
     title.isMonochrome = Math.random() > 0.3
     if (Math.random() > 0.2) {
@@ -38,10 +38,10 @@ export function createItemStyles (item) {
   let isCoverInline = false
   if (Math.random() > 0.9) {
     isContain = true
-    isMultiply = false
-    isBW = false
+    // isMultiply = false
+    // isBW = false
     title.color = color
-  } else if (Math.random() > 0.9) {
+  } else if (Math.random() > 0.1) {
     isCoverInline = true
   }
 
@@ -125,7 +125,8 @@ export function createItemStyles (item) {
       isMultiply,
       color: pickOne(getNames(), color),
       resizeMode: isContain ? 'contain' : 'cover',
-      align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
+      align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)],
+      isInline: isCoverInline
     },
     title: {
       ...title,
