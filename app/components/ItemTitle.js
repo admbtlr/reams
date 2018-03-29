@@ -227,7 +227,21 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.verticalPadding = props.coverImageStyles.isInline ? 0 : 85
+    this.verticalMargin = props.coverImageStyles.isInline ?
+      0 :
+      this.screenHeight * -0.1
+
+    // um...
+    const verticalPadding = 85
+    // double um...
+    this.paddingTop = isIphoneX() ?
+        verticalPadding * 1.25 + this.screenHeight * 0.1 :
+        verticalPadding + this.screenHeight * 0.1
+    this.paddingBottom = verticalPadding + this.screenHeight * 0.1
+
+    if (this.props.coverImageStyles.isInline) {
+      this.paddingTop = this.paddingBottom = 28
+    }
 
     this.fadeInAnim = new Animated.Value(-1)
     this.fadeInAnim2 = new Animated.Value(-1)
@@ -243,7 +257,7 @@ class ItemTitle extends React.Component {
   }
 
   adjustFontSize (height) {
-    const maxHeight = this.screenHeight - this.verticalPadding * 2
+    const maxHeight = this.screenHeight - this.paddingTop - this.paddingBottom
     if (height > maxHeight) {
       // const fontSize = this.props.styles.fontSize
       // const oversizeFactor = height / maxHeight
@@ -407,7 +421,8 @@ class ItemTitle extends React.Component {
       alignItems: 'flex-start',
       width,
       ...border,
-      borderColor: color
+      borderColor: color,
+      opacity: coverImageStyles.isInline ? opacity : 1
     }
     const overlayColour = hasCoverImage && !styles.invertBGPadding && !styles.bg ?
       (styles.isMonochrome || coverImageStyles.isBW || coverImageStyles.isMultiply ?
@@ -422,15 +437,17 @@ class ItemTitle extends React.Component {
         this.verticalPadding * 1.25 + this.screenHeight * 0.1 :
         this.verticalPadding + this.screenHeight * 0.1,
       paddingBottom: this.verticalPadding + this.screenHeight * 0.1,
-      marginTop: this.screenHeight * -0.1,
-      marginBottom: this.screenHeight * -0.1,
+      marginTop: this.verticalMargin,
+      marginBottom: this.verticalMargin,
       top: 0,
       left: 0,
       flexDirection: 'column',
-      backgroundColor: coverImageStyles.isInline && coverImageStyles.isMultiply ?
-        hslString(coverImageStyles.color) :
+      backgroundColor: coverImageStyles.isInline ?
+        (coverImageStyles.isMultiply ?
+          hslString(coverImageStyles.color) :
+          'white') :
         overlayColour,
-      opacity
+      opacity: coverImageStyles.isInline ? 1 : opacity
     }
     let textStyle = {
       ...fontStyle,
@@ -457,7 +474,7 @@ class ItemTitle extends React.Component {
       ]
     }
 
-    let shadowStyle = styles.hasShadow && !styles.bg ? {
+    let shadowStyle = styles.hasShadow && !styles.bg && !coverImageStyles.isInline ? {
       textShadowColor: 'rgba(0,0,0,0.1)',
       textShadowOffset: { width: shadow, height: shadow }
     } : {}
@@ -613,7 +630,7 @@ class ItemTitle extends React.Component {
         ...outerViewStyle,
         justifyContent: justifiers[styles.valign]
       }}>
-        <View
+        <Animated.View
           style={{
             ...innerViewStyle,
             justifyContent: aligners[styles.textAlign]
@@ -633,7 +650,7 @@ class ItemTitle extends React.Component {
               <Animated.Text>{title}</Animated.Text>
             </Animated.Text>
           }
-        </View>
+        </Animated.View>
         { this.props.item.excerpt &&
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&

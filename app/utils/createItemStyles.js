@@ -41,7 +41,7 @@ export function createItemStyles (item) {
     // isMultiply = false
     // isBW = false
     title.color = color
-  } else if (Math.random() > 0.1) {
+  } else if (Math.random() > 0.7) {
     isCoverInline = true
   }
 
