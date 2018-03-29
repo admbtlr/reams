@@ -91,6 +91,11 @@ class FeedItem extends React.Component {
     return isDiff
   }
 
+  isCoverImagePortrait () {
+    const {imageDimensions} = this.props.item
+    return imageDimensions.height > imageDimensions.width
+  }
+
   render () {
     let {
       feed_title,
@@ -143,7 +148,7 @@ class FeedItem extends React.Component {
       scrollHandler(this.scrollOffset)
     }
 
-    if (!hasCoverImage) {
+    if (!hasCoverImage || this.isCoverImagePortrait()) {
       styles.coverImage.isInline = false
     }
 
