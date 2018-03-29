@@ -143,6 +143,10 @@ class FeedItem extends React.Component {
       scrollHandler(this.scrollOffset)
     }
 
+    if (!hasCoverImage) {
+      styles.coverImage.isInline = false
+    }
+
     const authorHeading = !!author ? `<h2 class="author">${author}</h2>` : ''
     const excerptPara = !!excerpt ? `<p class="excerpt">${excerpt}</p>` : ''
 

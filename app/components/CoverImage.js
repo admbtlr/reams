@@ -48,7 +48,7 @@ class CoverImage extends React.Component {
           letter: options.substring(index, index + 1),
           rotation: Math.round(Math.random() * 12) * 30,
           weight: ['bold', 'normal', '100'][Math.floor(Math.random() * 3)],
-          size: Math.round((.5 + Math.random()) * this.screenHeight)
+          size: Math.round((.75 + Math.random()) * this.screenHeight)
         }
       })
   }
@@ -65,7 +65,7 @@ class CoverImage extends React.Component {
     const inline = {
       flex: 1,
       width: '100%',
-      marginTop: 92
+      marginTop: 80
     }
     const position = isInline ? inline : absolute
     const scrollOffset = this.props.scrollOffset || 0
@@ -165,7 +165,7 @@ class CoverImage extends React.Component {
         <Surface
           width={isInline ? this.screenWidth : this.screenWidth * 1.2}
           height={isInline ? inlineImageHeight : this.screenHeight * 1.2}
-          backgroundColor='white'
+          backgroundColor="#000"
         >
           { this.blendMode === 'none' ? csb : blended }
         </Surface>

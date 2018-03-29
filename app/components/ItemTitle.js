@@ -240,11 +240,12 @@ class ItemTitle extends React.Component {
     this.paddingBottom = verticalPadding + this.screenHeight * 0.1
 
     if (this.props.coverImageStyles.isInline) {
-      this.paddingTop = this.paddingBottom = 28
+      this.paddingTop = 16
+      this.paddingBottom = 0
     }
 
-    this.fadeInAnim = new Animated.Value(-1)
-    this.fadeInAnim2 = new Animated.Value(-1)
+    this.fadeInAnim = props.coverImageStyles.isInline ? new Animated.Value(-1) :  new Animated.Value(0)
+    this.fadeInAnim2 = props.coverImageStyles.isInline ? new Animated.Value(-1) :  new Animated.Value(0)
   }
 
   calculateMaxFontSize (title, font, isBold, totalPadding) {
@@ -300,29 +301,19 @@ class ItemTitle extends React.Component {
     const fullWidthStyle = {
       width: this.screenWidth - 56
     }
-    // console.log(styles)
-    const opacity = Animated.add(this.props.scrollOffset.interpolate({
-      inputRange: [-50, 0, 100],
-      outputRange: [0, 1, 0]
-    }), this.fadeInAnim)
-    const excerptOpacity = Animated.add(this.props.scrollOffset.interpolate({
-      inputRange: [-50, 0, 100],
-      outputRange: [0, 1, 0]
-    }), this.fadeInAnim2)
-    const shadow = this.props.scrollOffset.interpolate({
-      inputRange: [-100, -20, 0, 40, 200],
-      outputRange: [0, 1, 1, 1, 0]
-    })
+
+    const {opacity, excerptOpacity, shadow} = this.getOpacityValues()
+    const toValue = coverImageStyles.isVisible ? 1 : 0
 
     if (isVisible) {
       Animated.stagger(500, [
         Animated.timing(this.fadeInAnim, {
-          toValue: 0,
+          toValue,
           duration: 500,
           useNativeDriver: true,
         }),
         Animated.timing(this.fadeInAnim2, {
-          toValue: 0,
+          toValue,
           duration: 500,
           useNativeDriver: true,
         })
@@ -342,9 +333,7 @@ class ItemTitle extends React.Component {
       0
 
     const color = styles.isMonochrome ?
-      (hasCoverImage &&
-        !styles.bg &&
-        !styles.invertBG ?
+      (hasCoverImage && !styles.bg ?
         'white' :
         'black') :
       hslString(styles.color)
@@ -387,7 +376,7 @@ class ItemTitle extends React.Component {
     const borderTop = { borderTopWidth: borderWidth }
     const borderBottom = { borderBottomWidth: borderWidth }
     const borderAll = { borderWidth }
-    const border = styles.valign === 'top' ?
+    let border = styles.valign === 'top' ?
       borderBottom :
       (styles.valign === 'bottom' ? borderTop :
         (styles.textAlign === 'center' ?
@@ -397,23 +386,27 @@ class ItemTitle extends React.Component {
             ...borderBottom
           }
         ))
+    if (coverImageStyles.isInline) border = {}
 
     // if center aligned and not full width, add left margin
-    const defaultHorizontalMargin = 16 // allow space for date
+    const defaultHorizontalMargin = coverImageStyles.isInline ? 8 : 16 // allow space for date
     const widthPercentage = styles.widthPercentage || 100
     const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
     const horizontalMargin = (this.screenWidth - width) / 2
 
-    const hasLeftPadding = styles.bg || styles.textAlign === 'center' && styles.valign === 'middle'
+    const hasLeftPadding = styles.bg || styles.textAlign === 'center' &&
+      styles.valign === 'middle' &&
+      !coverImageStyles.isInline
 
     const innerViewStyle = {
       // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: horizontalMargin,
       marginRight:  horizontalMargin,
-      padding: 16,
       paddingLeft: hasLeftPadding ? 16 : 0,
       paddingRight: hasLeftPadding ? 16 : 0,
+      paddingBottom: 16,
+      paddingTop: coverImageStyles.isInline ? 0 : 16,
       backgroundColor: styles.bg ?  'white' : 'transparent',
       height: 'auto',
       flexDirection: 'row',
@@ -433,19 +426,15 @@ class ItemTitle extends React.Component {
       width: this.screenWidth,
       height: coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
       // position: 'absolute',
-      paddingTop: isIphoneX() ?
-        this.verticalPadding * 1.25 + this.screenHeight * 0.1 :
-        this.verticalPadding + this.screenHeight * 0.1,
-      paddingBottom: this.verticalPadding + this.screenHeight * 0.1,
+      paddingTop: this.paddingTop,
+      paddingBottom: this.paddingBottom,
       marginTop: this.verticalMargin,
       marginBottom: this.verticalMargin,
       top: 0,
       left: 0,
       flexDirection: 'column',
       backgroundColor: coverImageStyles.isInline ?
-        (coverImageStyles.isMultiply ?
-          hslString(coverImageStyles.color) :
-          'white') :
+        hslString(coverImageStyles.color) :
         overlayColour,
       opacity: coverImageStyles.isInline ? 1 : opacity
     }
@@ -489,11 +478,11 @@ class ItemTitle extends React.Component {
     }
 
     const invertedTitleStyle = {
-      color: 'white'
+      color: styles.isMonochrome ? 'black' : 'white'
     }
 
     const invertedTitleWrapperStyle = {
-      backgroundColor: color
+      backgroundColor: styles.isMonochrome ? 'white' : color
     }
 
     let server = ''
@@ -645,7 +634,8 @@ class ItemTitle extends React.Component {
             <Animated.Text style={{
               // ...fullWidthStyle,
               ...fontStyle,
-              ...shadowStyle
+              ...shadowStyle,
+              marginBottom: this.props.styles.isUpperCase ? this.fontSize * -0.3 : 0
             }}>
               <Animated.Text>{title}</Animated.Text>
             </Animated.Text>
@@ -658,6 +648,30 @@ class ItemTitle extends React.Component {
         {dateView}
       </Animated.View>
     )
+  }
+
+  getOpacityValues () {
+    if (this.props.coverImageStyles.isInline) {
+      return {
+        opacity: 1,
+        excerptOpacity: 1,
+        shadow: 1
+      }
+    }
+    return {
+      opacity: Animated.add(this.props.scrollOffset.interpolate({
+          inputRange: [-50, 0, 100],
+          outputRange: [0, 1, 0]
+        }), this.fadeInAnim),
+      excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
+          inputRange: [-50, 0, 100],
+          outputRange: [0, 1, 0]
+        }), this.fadeInAnim2),
+      shadow: this.props.scrollOffset.interpolate({
+          inputRange: [-100, -20, 0, 40, 200],
+          outputRange: [0, 1, 1, 1, 0]
+        })
+    }
   }
 
 }
