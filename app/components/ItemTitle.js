@@ -290,6 +290,19 @@ class ItemTitle extends React.Component {
     // }
   }
 
+  componentWillMount () {
+    const {title, styles, coverImageStyles} = this.props
+    // account for landscape mode
+    this.fontSize = Math.min(this.screenWidth, this.screenHeight) / styles.fontSizeAsWidthDivisor
+
+    if (styles.maximiseFont && !styles.fontResized) {
+      const totalPadding = styles.bg ? 56 :
+        coverImageStyles.isInline ? 16: 28
+      this.fontSize = this.calculateMaxFontSize(title, this.props.font, styles.isBold, totalPadding)
+      this.props.updateFontSize(this.props.item, this.fontSize)
+    }
+  }
+
   render () {
     let {styles, title, date, hasCoverImage, coverImageStyles, isVisible} = this.props
     let position = {
@@ -318,14 +331,6 @@ class ItemTitle extends React.Component {
           useNativeDriver: true,
         })
       ]).start()
-    }
-
-    // account for landscape mode
-    this.fontSize = Math.min(this.screenWidth, this.screenHeight) / styles.fontSizeAsWidthDivisor
-
-    if (styles.maximiseFont && !styles.fontResized) {
-      const totalPadding = styles.bg ? 56 : 28
-      this.fontSize = this.calculateMaxFontSize(title, this.props.font, styles.isBold, totalPadding)
     }
 
     const verticalOffset = fontStyles[this.props.font].verticalOffset ?

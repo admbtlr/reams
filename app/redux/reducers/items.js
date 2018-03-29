@@ -249,7 +249,7 @@ export function items (state = initialState, action) {
       })
       return {
         ...state,
-        key: items
+        [key]: newItems
       }
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_RESIZED':
@@ -262,7 +262,7 @@ export function items (state = initialState, action) {
       })
       return {
         ...state,
-        key: items
+        [key]: newItems
       }
 
     default:
