@@ -45,7 +45,7 @@ export function hslStringToRgbString (hslString) {
 
 export function hslStringToHSL (hslString) {
   let hsl = hslString.substring(4, hslString.length - 1).split(',')
-  hsl[0] = hsl[0] / 255
+  hsl[0] = hsl[0] / 360
   hsl[1] = hsl[1].substring(0, hsl[1].length - 1) / 100
   hsl[2] = hsl[2].substring(0, hsl[2].length - 1) / 100
   return hsl

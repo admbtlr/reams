@@ -39,7 +39,7 @@ export function items (state = initialState, action) {
           ...state,
           ...incoming,
           index: incoming.index < 0 ? 0 : incoming.index,
-          savedIndex: incoming.savedIndex < 0 ? 0 : incoming.savedIndex
+          savedIndex: incoming.savedIndex < 0 ? 0 : incoming.savedIndex,
         }
       }
       return { ...state }
@@ -238,19 +238,24 @@ export function items (state = initialState, action) {
       }
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
+      let stateChanged = false
       items = state[key]
       newItems = items.map(item => {
         if (item._id === action.item._id) {
-          item.styles.title.fontSize = action.fontSize
-          item.styles.title.lineHeight = action.fontSize
-          item.styles.title.fontResized = true
+          if (item.styles.title.fontSize !== action.fontSize) {
+            item.styles.title.fontSize = action.fontSize
+            item.styles.title.lineHeight = action.fontSize * 1.1
+            item.styles.title.fontResized = true
+            stateChanged = true
+          }
         }
         return item
       })
-      return {
-        ...state,
-        key: items
-      }
+      return stateChanged ?
+        {
+          ...state,
+          [key]: newItems
+        } : state
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_RESIZED':
       items = state[key]
@@ -262,7 +267,7 @@ export function items (state = initialState, action) {
       })
       return {
         ...state,
-        key: items
+        [key]: newItems
       }
 
     default:
