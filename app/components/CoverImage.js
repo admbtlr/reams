@@ -54,7 +54,7 @@ class CoverImage extends React.Component {
   }
 
   render () {
-    const {isInline, resizeMode} = this.props.styles
+    const {isInline, resizeMode, isMultiply, color} = this.props.styles
     const absolute = {
       position: 'absolute',
       top: resizeMode === 'contain' ? '-10%' : '0%',
@@ -65,7 +65,7 @@ class CoverImage extends React.Component {
     const inline = {
       flex: 1,
       width: '100%',
-      marginTop: 80
+      marginTop: 60
     }
     const position = isInline ? inline : absolute
     const scrollOffset = this.props.scrollOffset || 0
@@ -87,7 +87,7 @@ class CoverImage extends React.Component {
     })
     let style = {
       ...position,
-      backgroundColor: 'white',
+      backgroundColor: isMultiply ? hslString(color) : 'white',
       opacity
     }
     if (!isInline) {
@@ -97,6 +97,15 @@ class CoverImage extends React.Component {
           {scale},
           {translateY}
         ]
+      }
+    }
+    if (resizeMode === 'contain') {
+      style = {
+        ...style,
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
       }
     }
     const blurStyle = {
@@ -115,7 +124,7 @@ class CoverImage extends React.Component {
 
       const image = (
         <GLImage
-          center={this.props.styles.resizeMode === 'cover' ? center : undefined}
+          center={resizeMode === 'cover' ? center : undefined}
           key={this.props.imagePath}
           source={{
             uri: `file://${this.props.imagePath}`,
@@ -164,8 +173,9 @@ class CoverImage extends React.Component {
       const surface = (
         <Surface
           width={isInline ? this.screenWidth : this.screenWidth * 1.2}
-          height={isInline ? inlineImageHeight : this.screenHeight * 1.2}
+          height={isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight * 1.2}
           backgroundColor="#000"
+          key="456"
         >
           { this.blendMode === 'none' ? csb : blended }
         </Surface>
