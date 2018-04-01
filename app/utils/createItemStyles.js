@@ -18,8 +18,6 @@ export function createItemStyles (item) {
      deviceWidth = width
   }
 
-  const fonts = getFontClasses()
-
   let isBW = false
   let isMultiply = false
   if (Math.random() > 0.4) {
@@ -36,15 +34,16 @@ export function createItemStyles (item) {
 
   let isContain = false
   let isCoverInline = false
-  if (Math.random() > 0.9) {
+  if (item.imageDimensions && item.imageDimensions.width < deviceWidth || Math.random() > 0.7) {
+    isCoverInline = true
+  } else if (Math.random() > 0.9) {
     isContain = true
     // isMultiply = false
     // isBW = false
     title.color = color
-  } else if (Math.random() > 0.7) {
-    isCoverInline = true
   }
 
+  const fonts = getFontClasses()
   const words = item.title.split(' ')
 
   const longestWord = (text) => {
@@ -53,13 +52,6 @@ export function createItemStyles (item) {
       longest = word.length > longest ? word.length : longest
     })
     return longest
-  }
-
-  const titleVariance = (words) => {
-    const wordsSorted = words
-      .sort((a, b) => b.length - a.length)
-    const average = Math.round(wordsSorted.reduce((avg, word) => avg + word.length, 0) / wordsSorted.length)
-    return wordsSorted.reduce((variance, word) => variance + Math.abs(average - word.length), 0) / wordsSorted.length
   }
 
   if (item.title.length < 40 && longestWord(item.title) < 6) {
@@ -79,6 +71,7 @@ export function createItemStyles (item) {
     title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
   }
 
+  title.interBolded = interBold(item.title)
   title.lineHeightAsMultiplier = 1.1 + Math.random() * 0.2
   title.maximiseFont = isCoverInline || Math.random() > 0.5
   title.textAlign = Math.random() > 0.5
@@ -86,20 +79,20 @@ export function createItemStyles (item) {
     : 'left'
   title.title = item.title
   title.hasShadow = !isContain
-  title.isVertical = item.title.length < 72 && words.length < 8 && titleVariance(words) < 1.5
+  title.isVertical = isCoverInline ? false : shouldBeVertical(item.title)
   title.isInline = !title.isVertical && Math.random() > 0.5
-  title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
+  title.isUpperCase = false//fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
   title.invertBG = Math.random() > 0.8 && !isCoverInline
-  title.isItalic = Math.random() > 0.8
+  title.isItalic = false//Math.random() > 0.8
   title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
   title.valign = Math.random() > 0.5 ?
     'middle' :
     ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)]
-  title.isBold = !title.isMonochrome && !title.bg ?
-    true :
-    (title.isMonochrome ?
-      Math.random() > 0.8 :
-      Math.random() > 0.3)
+  title.isBold = false//(!title.isMonochrome && !title.bg) || fonts[0].indexOf('Montserrat') > 0 ?
+    // true :
+    // (title.isMonochrome ?
+    //   Math.random() > 0.8 :
+    //   Math.random() > 0.3)
   title.borderWidth = title.invertBG || title.isVertical ? 0 :
     (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
 
@@ -135,10 +128,50 @@ export function createItemStyles (item) {
   }
 }
 
+const shouldBeVertical = (title) => {
+  const words = title.split(' ')
+  return proportionWordsOver10Chars(words) > 0.25 ||
+    (title.length < 72 && words.length < 8 && titleVariance(words) < 1.5) ||
+    (words.length < 6 && Math.random() > 0.5)
+}
+
+const proportionWordsOver10Chars = (words) => {
+  let over = 0
+  words.forEach((word) => {
+    if (word.length >= 10) over += 1
+  })
+  return over / words.length
+}
+
+const titleVariance = (words) => {
+  const wordsSorted = words
+    .sort((a, b) => b.length - a.length)
+  const average = Math.round(wordsSorted.reduce((avg, word) => avg + word.length, 0) / wordsSorted.length)
+  return wordsSorted.reduce((variance, word) => variance + Math.abs(average - word.length), 0) / wordsSorted.length
+}
+
+const interBold = (title) => {
+  const words = title.split(' ')
+  let common = uncommon = 0
+  words.forEach(word => {
+    if (commonWords.find(cw => cw === word.toLowerCase())) {
+      common++
+    } else {
+      uncommon++
+    }
+  })
+  const commonWordRatio = common / uncommon
+  if (commonWordRatio > 0.5 && common > 3) {
+    return words.map(word => !commonWords.find(cw => cw === word.toLowerCase()))
+  }
+  return false
+}
+
+
 const getFontClasses = function () {
   let headerClass = 'headerFont'
   let bodyClass = 'bodyFont'
-  if (Math.random() > 0.3) {
+  if (Math.random() > /*0.3*/1) {
     // sans heading, serif body
     headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
     bodyClass += 'Serif' + (Math.floor((Math.random() * 2)) + 1)
@@ -146,10 +179,6 @@ const getFontClasses = function () {
     // serif heading, sans body
     headerClass += 'Serif' + (Math.floor((Math.random()*3))+1)
     bodyClass += 'Sans' + (Math.floor((Math.random()*2))+1)
-  }
-  let isHeader
-  if (Math.random() > 0.8) {
-
   }
   return [headerClass, bodyClass]
 }
@@ -288,92 +317,89 @@ const pickOne = function (arr, notThisOne) {
 
 // }
 
-export function commonWords () {
-  return [
-    'the',
-    'of',
-    'and',
-    'to',
-    'a',
-    'in',
-    'for',
-    'is',
-    'on',
-    'that',
-    'by',
-    'this',
-    'with',
-    'i',
-    'you',
-    'it',
-    'not',
-    'or',
-    'be',
-    'are',
-    'from',
-    'at',
-    'as',
-    'your',
-    'all',
-    'have',
-    'more',
-    'an',
-    'was',
-    'we',
-    'will',
-    'home',
-    'can',
-    'us',
-    'about',
-    'if',
-    'my',
-    'has',
-    'but',
-    'our',
-    'one',
-    'other',
-    'do',
-    'no',
-    'they',
-    'he',
-    'up',
-    'may',
-    'what',
-    'which',
-    'their',
-    'out',
-    'use',
-    'any',
-    'there',
-    'see',
-    'only',
-    'so',
-    'his',
-    'when',
-    'here',
-    'who',
-    'web',
-    'also',
-    'now',
-    'get',
-    'am',
-    'been',
-    'would',
-    'how',
-    'were',
-    'me',
-    'some',
-    'these',
-    'its',
-    'like',
-    'than',
-    'had',
-    'into',
-    'them',
-    'should',
-    'her',
-    'such',
-    'after',
-    'then'
-  ]
-}
+const commonWords = [
+  'the',
+  'of',
+  'and',
+  'to',
+  'a',
+  'in',
+  'for',
+  'is',
+  'on',
+  'that',
+  'by',
+  'this',
+  'with',
+  'i',
+  'you',
+  'it',
+  'not',
+  'or',
+  'be',
+  'are',
+  'from',
+  'at',
+  'as',
+  'your',
+  'all',
+  'have',
+  'more',
+  'an',
+  'was',
+  'we',
+  'will',
+  'home',
+  'can',
+  'us',
+  'about',
+  'if',
+  'my',
+  'has',
+  'but',
+  'our',
+  'one',
+  'other',
+  'do',
+  'no',
+  'they',
+  'he',
+  'up',
+  'may',
+  'what',
+  'which',
+  'their',
+  'out',
+  'use',
+  'any',
+  'there',
+  'see',
+  'only',
+  'so',
+  'his',
+  'when',
+  'here',
+  'who',
+  'also',
+  'now',
+  'get',
+  'am',
+  'been',
+  'would',
+  'how',
+  'were',
+  'me',
+  'some',
+  'these',
+  'its',
+  'like',
+  'than',
+  'had',
+  'into',
+  'them',
+  'should',
+  'her',
+  'such',
+  'after',
+  'then'
+]

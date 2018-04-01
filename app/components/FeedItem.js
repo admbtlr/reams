@@ -219,7 +219,6 @@ class FeedItem extends React.Component {
             title={title}
             excerpt={this.props.item.excerpt}
             date={date_published}
-            styles={styles.title}
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}
