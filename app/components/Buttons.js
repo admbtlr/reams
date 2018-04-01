@@ -125,7 +125,8 @@ class Buttons extends React.Component {
             paddingLeft: 3,
             transform: [{
               translateY: this.state.visibleAnimSave
-            }]
+            }],
+            borderColor: item && item.isSaved ? hslString('rizzleHighlight') : 'transparent'
           }}
           onPress={this.onSavePress}
         >
@@ -201,7 +202,8 @@ class Buttons extends React.Component {
             paddingLeft: 3,
             transform: [{
               translateY: this.state.visibleAnimMercury
-            }]
+            }],
+            borderColor: item && item.showMercuryContent ? hslString('rizzleHighlight') : 'transparent'
           }}
           onPress={this.onMercuryPress}
         >
