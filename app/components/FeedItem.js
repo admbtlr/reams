@@ -91,6 +91,11 @@ class FeedItem extends React.Component {
     return isDiff
   }
 
+  isCoverImagePortrait () {
+    const {imageDimensions} = this.props.item
+    return imageDimensions.height > imageDimensions.width
+  }
+
   render () {
     let {
       feed_title,
@@ -141,6 +146,10 @@ class FeedItem extends React.Component {
 
     if (this.props.isVisible) {
       scrollHandler(this.scrollOffset)
+    }
+
+    if (!hasCoverImage || this.isCoverImagePortrait()) {
+      styles.coverImage.isInline = false
     }
 
     const authorHeading = !!author ? `<h2 class="author">${author}</h2>` : ''

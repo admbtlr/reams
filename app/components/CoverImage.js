@@ -48,19 +48,26 @@ class CoverImage extends React.Component {
           letter: options.substring(index, index + 1),
           rotation: Math.round(Math.random() * 12) * 30,
           weight: ['bold', 'normal', '100'][Math.floor(Math.random() * 3)],
-          size: Math.round((.5 + Math.random()) * this.screenHeight)
+          size: Math.round((.75 + Math.random()) * this.screenHeight)
         }
       })
   }
 
   render () {
+    const {isInline, resizeMode, isMultiply, color} = this.props.styles
     const absolute = {
       position: 'absolute',
-      top: this.props.styles.resizeMode === 'contain' ? '-10%' : '0%',
-      height: this.props.styles.resizeMode === 'contain' ? '120%' : '100%',
+      top: resizeMode === 'contain' ? '-10%' : '0%',
+      height: resizeMode === 'contain' ? '120%' : '100%',
       left: '-10%',
       width: '120%'
     }
+    const inline = {
+      flex: 1,
+      width: '100%',
+      marginTop: 60
+    }
+    const position = isInline ? inline : absolute
     const scrollOffset = this.props.scrollOffset || 0
     const scale = scrollOffset.interpolate({
       inputRange: [0, this.screenHeight],
@@ -79,13 +86,27 @@ class CoverImage extends React.Component {
       outputRange: [0, 0.8, 1, 0]
     })
     let style = {
-      ...absolute,
-      backgroundColor: 'white',
-      opacity,
-      transform: [
-        {scale},
-        {translateY}
-      ]
+      ...position,
+      backgroundColor: isMultiply ? hslString(color) : 'white',
+      opacity
+    }
+    if (!isInline) {
+      style = {
+        ...style,
+        transform: [
+          {scale},
+          {translateY}
+        ]
+      }
+    }
+    if (resizeMode === 'contain') {
+      style = {
+        ...style,
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }
     }
     const blurStyle = {
       ...absolute,
@@ -99,27 +120,28 @@ class CoverImage extends React.Component {
       const imageToosmall = this.props.imageDimensions.width < this.screenWidth ||
         this.props.imageDimensions.height < this.screenHeight
       const colorBlendingColor = blendColor(this.props.styles.color)
+      // const colorBlendingColor = [1, 0, 0, 1]
 
       const image = (
         <GLImage
-          center={this.props.styles.resizeMode === 'cover' ? center : undefined}
-          key='this.props.imageUrl'
+          center={resizeMode === 'cover' ? center : undefined}
+          key={this.props.imagePath}
           source={{
             uri: `file://${this.props.imagePath}`,
-            width: this.props.imageDimensions.width * 1.2,
-            height: this.props.imageDimensions.height * 1.2
+            width: this.props.imageDimensions.width * (isInline ? 1 : 1.2),
+            height: this.props.imageDimensions.height * (isInline ? 1 : 1.2)
          }}
           resizeMode={this.props.styles.resizeMode}
           imageSize={{
-            width: this.props.imageDimensions.width * 1.2,
-            height: this.props.imageDimensions.height * 1.2
+            width: this.props.imageDimensions.width * (isInline ? 1 : 1.2),
+            height: this.props.imageDimensions.height * (isInline ? 1 : 1.2)
           }}
         />
       )
       const blur = (
         <Animated.View
           style={{
-            ...absolute,
+            ...position,
             opacity: imageToosmall ? blurOpacity : 1
           }}
         >
@@ -147,11 +169,13 @@ class CoverImage extends React.Component {
           {csb}
         </ColorBlending>
       )
+      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width * this.props.imageDimensions.height
       const surface = (
         <Surface
-          width={this.screenWidth * 1.2}
-          height={this.screenHeight * 1.2}
-          backgroundColor='transparent'
+          width={isInline ? this.screenWidth : this.screenWidth * 1.2}
+          height={isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight * 1.2}
+          backgroundColor="#000"
+          key="456"
         >
           { this.blendMode === 'none' ? csb : blended }
         </Surface>

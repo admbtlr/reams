@@ -193,7 +193,9 @@ body {
   & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
   & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child {
     & > figure:first-child,
-    & > img:first-child {
+    & > img:first-child,
+    & > iframe:first-child,
+    & > p > iframe:first-child, {
       position: relative;
       top: -2rem;
       margin-top: 0;
@@ -422,6 +424,17 @@ article > div:not(:last-of-type) {
       & > p:not(.short-para):first-of-type:first-letter {
         margin-top: 0;
         float: left;
+      }
+    }
+  }
+
+  &.dropCapSize2 {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-size: 2.1rem;
+        margin-top: 0.2rem;
       }
     }
   }

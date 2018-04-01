@@ -227,10 +227,25 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.verticalPadding = 85
+    this.verticalMargin = props.coverImageStyles.isInline ?
+      0 :
+      this.screenHeight * -0.1
 
-    this.fadeInAnim = new Animated.Value(-1)
-    this.fadeInAnim2 = new Animated.Value(-1)
+    // um...
+    const verticalPadding = 85
+    // double um...
+    this.paddingTop = isIphoneX() ?
+        verticalPadding * 1.25 + this.screenHeight * 0.1 :
+        verticalPadding + this.screenHeight * 0.1
+    this.paddingBottom = verticalPadding + this.screenHeight * 0.1
+
+    if (this.props.coverImageStyles.isInline) {
+      this.paddingTop = 16
+      this.paddingBottom = 0
+    }
+
+    this.fadeInAnim = props.coverImageStyles.isInline ? new Animated.Value(-1) :  new Animated.Value(0)
+    this.fadeInAnim2 = props.coverImageStyles.isInline ? new Animated.Value(-1) :  new Animated.Value(0)
   }
 
   calculateMaxFontSize (title, font, isBold, totalPadding) {
@@ -243,7 +258,7 @@ class ItemTitle extends React.Component {
   }
 
   adjustFontSize (height) {
-    const maxHeight = this.screenHeight - this.verticalPadding * 2
+    const maxHeight = this.screenHeight - this.paddingTop - this.paddingBottom
     if (height > maxHeight) {
       // const fontSize = this.props.styles.fontSize
       // const oversizeFactor = height / maxHeight
@@ -275,6 +290,19 @@ class ItemTitle extends React.Component {
     // }
   }
 
+  componentWillMount () {
+    const {title, styles, coverImageStyles} = this.props
+    // account for landscape mode
+    this.fontSize = Math.min(this.screenWidth, this.screenHeight) / styles.fontSizeAsWidthDivisor
+
+    if (styles.maximiseFont && !styles.fontResized) {
+      const totalPadding = styles.bg ? 56 :
+        coverImageStyles.isInline ? 16: 28
+      this.fontSize = this.calculateMaxFontSize(title, this.props.font, styles.isBold, totalPadding)
+      this.props.updateFontSize(this.props.item, this.fontSize)
+    }
+  }
+
   render () {
     let {styles, title, date, hasCoverImage, coverImageStyles, isVisible} = this.props
     let position = {
@@ -286,41 +314,23 @@ class ItemTitle extends React.Component {
     const fullWidthStyle = {
       width: this.screenWidth - 56
     }
-    // console.log(styles)
-    const opacity = Animated.add(this.props.scrollOffset.interpolate({
-      inputRange: [-50, 0, 100],
-      outputRange: [0, 1, 0]
-    }), this.fadeInAnim)
-    const excerptOpacity = Animated.add(this.props.scrollOffset.interpolate({
-      inputRange: [-50, 0, 100],
-      outputRange: [0, 1, 0]
-    }), this.fadeInAnim2)
-    const shadow = this.props.scrollOffset.interpolate({
-      inputRange: [-100, -20, 0, 40, 200],
-      outputRange: [0, 1, 1, 1, 0]
-    })
+
+    const {opacity, excerptOpacity, shadow} = this.getOpacityValues()
+    const toValue = coverImageStyles.isVisible ? 1 : 0
 
     if (isVisible) {
       Animated.stagger(500, [
         Animated.timing(this.fadeInAnim, {
-          toValue: 0,
+          toValue,
           duration: 500,
           useNativeDriver: true,
         }),
         Animated.timing(this.fadeInAnim2, {
-          toValue: 0,
+          toValue,
           duration: 500,
           useNativeDriver: true,
         })
       ]).start()
-    }
-
-    // account for landscape mode
-    this.fontSize = Math.min(this.screenWidth, this.screenHeight) / styles.fontSizeAsWidthDivisor
-
-    if (styles.maximiseFont && !styles.fontResized) {
-      const totalPadding = styles.bg ? 56 : 28
-      this.fontSize = this.calculateMaxFontSize(title, this.props.font, styles.isBold, totalPadding)
     }
 
     const verticalOffset = fontStyles[this.props.font].verticalOffset ?
@@ -328,9 +338,7 @@ class ItemTitle extends React.Component {
       0
 
     const color = styles.isMonochrome ?
-      (hasCoverImage &&
-        !styles.bg &&
-        !styles.invertBG ?
+      (hasCoverImage && !styles.bg ?
         'white' :
         'black') :
       hslString(styles.color)
@@ -373,7 +381,7 @@ class ItemTitle extends React.Component {
     const borderTop = { borderTopWidth: borderWidth }
     const borderBottom = { borderBottomWidth: borderWidth }
     const borderAll = { borderWidth }
-    const border = styles.valign === 'top' ?
+    let border = styles.valign === 'top' ?
       borderBottom :
       (styles.valign === 'bottom' ? borderTop :
         (styles.textAlign === 'center' ?
@@ -383,23 +391,27 @@ class ItemTitle extends React.Component {
             ...borderBottom
           }
         ))
+    if (coverImageStyles.isInline) border = {}
 
     // if center aligned and not full width, add left margin
-    const defaultHorizontalMargin = 16 // allow space for date
+    const defaultHorizontalMargin = coverImageStyles.isInline ? 8 : 16 // allow space for date
     const widthPercentage = styles.widthPercentage || 100
     const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
     const horizontalMargin = (this.screenWidth - width) / 2
 
-    const hasLeftPadding = styles.bg || styles.textAlign === 'center' && styles.valign === 'middle'
+    const hasLeftPadding = styles.bg || styles.textAlign === 'center' &&
+      styles.valign === 'middle' &&
+      !coverImageStyles.isInline
 
     const innerViewStyle = {
       // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: horizontalMargin,
       marginRight:  horizontalMargin,
-      padding: 16,
       paddingLeft: hasLeftPadding ? 16 : 0,
       paddingRight: hasLeftPadding ? 16 : 0,
+      paddingBottom: 16,
+      paddingTop: coverImageStyles.isInline ? 0 : 16,
       backgroundColor: styles.bg ?  'white' : 'transparent',
       height: 'auto',
       flexDirection: 'row',
@@ -407,7 +419,8 @@ class ItemTitle extends React.Component {
       alignItems: 'flex-start',
       width,
       ...border,
-      borderColor: color
+      borderColor: color,
+      opacity: coverImageStyles.isInline ? opacity : 1
     }
     const overlayColour = hasCoverImage && !styles.invertBGPadding && !styles.bg ?
       (styles.isMonochrome || coverImageStyles.isBW || coverImageStyles.isMultiply ?
@@ -416,19 +429,19 @@ class ItemTitle extends React.Component {
       'transparent'
     const outerViewStyle = {
       width: this.screenWidth,
-      height: this.screenHeight * 1.2,
+      height: coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
       // position: 'absolute',
-      paddingTop: isIphoneX() ?
-        this.verticalPadding * 1.25 + this.screenHeight * 0.1 :
-        this.verticalPadding + this.screenHeight * 0.1,
-      paddingBottom: this.verticalPadding + this.screenHeight * 0.1,
-      marginTop: this.screenHeight * -0.1,
-      marginBottom: this.screenHeight * -0.1,
+      paddingTop: this.paddingTop,
+      paddingBottom: this.paddingBottom,
+      marginTop: this.verticalMargin,
+      marginBottom: this.verticalMargin,
       top: 0,
       left: 0,
       flexDirection: 'column',
-      backgroundColor: overlayColour,
-      opacity
+      backgroundColor: coverImageStyles.isInline ?
+        hslString(coverImageStyles.color) :
+        overlayColour,
+      opacity: coverImageStyles.isInline ? 1 : opacity
     }
     let textStyle = {
       ...fontStyle,
@@ -455,7 +468,7 @@ class ItemTitle extends React.Component {
       ]
     }
 
-    let shadowStyle = styles.hasShadow && !styles.bg ? {
+    let shadowStyle = styles.hasShadow && !styles.bg && !coverImageStyles.isInline ? {
       textShadowColor: 'rgba(0,0,0,0.1)',
       textShadowOffset: { width: shadow, height: shadow }
     } : {}
@@ -470,11 +483,11 @@ class ItemTitle extends React.Component {
     }
 
     const invertedTitleStyle = {
-      color: 'white'
+      color: styles.isMonochrome ? 'black' : 'white'
     }
 
     const invertedTitleWrapperStyle = {
-      backgroundColor: color
+      backgroundColor: styles.isMonochrome ? 'white' : color
     }
 
     let server = ''
@@ -611,7 +624,7 @@ class ItemTitle extends React.Component {
         ...outerViewStyle,
         justifyContent: justifiers[styles.valign]
       }}>
-        <View
+        <Animated.View
           style={{
             ...innerViewStyle,
             justifyContent: aligners[styles.textAlign]
@@ -626,12 +639,13 @@ class ItemTitle extends React.Component {
             <Animated.Text style={{
               // ...fullWidthStyle,
               ...fontStyle,
-              ...shadowStyle
+              ...shadowStyle,
+              marginBottom: this.props.styles.isUpperCase ? this.fontSize * -0.3 : 0
             }}>
               <Animated.Text>{title}</Animated.Text>
             </Animated.Text>
           }
-        </View>
+        </Animated.View>
         { this.props.item.excerpt &&
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&
@@ -639,6 +653,30 @@ class ItemTitle extends React.Component {
         {dateView}
       </Animated.View>
     )
+  }
+
+  getOpacityValues () {
+    if (this.props.coverImageStyles.isInline) {
+      return {
+        opacity: 1,
+        excerptOpacity: 1,
+        shadow: 1
+      }
+    }
+    return {
+      opacity: Animated.add(this.props.scrollOffset.interpolate({
+          inputRange: [-50, 0, 100],
+          outputRange: [0, 1, 0]
+        }), this.fadeInAnim),
+      excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
+          inputRange: [-50, 0, 100],
+          outputRange: [0, 1, 0]
+        }), this.fadeInAnim2),
+      shadow: this.props.scrollOffset.interpolate({
+          inputRange: [-100, -20, 0, 40, 200],
+          outputRange: [0, 1, 1, 1, 0]
+        })
+    }
   }
 
 }

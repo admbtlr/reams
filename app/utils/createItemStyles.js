@@ -22,7 +22,7 @@ export function createItemStyles (item) {
 
   let isBW = false
   let isMultiply = false
-  if (Math.random() > 0.3) {
+  if (Math.random() > 0.4) {
     isMultiply = true
     title.isMonochrome = Math.random() > 0.3
     if (Math.random() > 0.2) {
@@ -38,10 +38,10 @@ export function createItemStyles (item) {
   let isCoverInline = false
   if (Math.random() > 0.9) {
     isContain = true
-    isMultiply = false
-    isBW = false
+    // isMultiply = false
+    // isBW = false
     title.color = color
-  } else if (Math.random() > 0.9) {
+  } else if (Math.random() > 0.7) {
     isCoverInline = true
   }
 
@@ -80,7 +80,7 @@ export function createItemStyles (item) {
   }
 
   title.lineHeightAsMultiplier = 1.1 + Math.random() * 0.2
-  title.maximiseFont = Math.random() > 0.5
+  title.maximiseFont = isCoverInline || Math.random() > 0.5
   title.textAlign = Math.random() > 0.5
     ? 'center'
     : 'left'
@@ -89,9 +89,9 @@ export function createItemStyles (item) {
   title.isVertical = item.title.length < 72 && words.length < 8 && titleVariance(words) < 1.5
   title.isInline = !title.isVertical && Math.random() > 0.5
   title.isUpperCase = fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
-  title.invertBG = Math.random() > 0.8
+  title.invertBG = Math.random() > 0.8 && !isCoverInline
   title.isItalic = Math.random() > 0.8
-  title.bg = !title.invertBG && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
+  title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
   title.valign = Math.random() > 0.5 ?
     'middle' :
     ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)]
@@ -114,7 +114,7 @@ export function createItemStyles (item) {
     hasColorBlockquoteBG: Math.random() > 0.5,
     dropCapFamily: Math.random() > 0.5 ? 'body' : 'header',
     dropCapIsMonochrome: Math.random() > 0.5,
-    dropCapSize: Math.floor(Math.random() * 4) + 3,
+    dropCapSize: Math.floor(Math.random() * 4) + 2,
     dropCapIsDrop: Math.random() > 0.3,
     dropCapIsBold: Math.random() > 0.5,
     dropCapIsStroke: Math.random() > 0.8,
@@ -125,7 +125,8 @@ export function createItemStyles (item) {
       isMultiply,
       color: pickOne(getNames(), color),
       resizeMode: isContain ? 'contain' : 'cover',
-      align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
+      align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)],
+      isInline: isCoverInline
     },
     title: {
       ...title,
