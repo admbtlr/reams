@@ -327,7 +327,7 @@ body {
   }
 
   // breaks between sections
-  & > div:not(:first-of-type) {
+  & > div + div:not(:first-of-type) {
 
     &:before {
       content: '';
@@ -413,6 +413,26 @@ article > div:not(:last-of-type) {
   }
 }
 
+@mixin dropCapFontSize($size) {
+  &,
+  & > div:first-of-type,
+  & > div:first-of-type > div:first-of-type {
+    & > p:not(.short-para):first-of-type:first-letter {
+      font-size: $size;
+    }
+  }
+}
+
+@mixin dropCapMarginTop($margin) {
+  &,
+  & > div:first-of-type,
+  & > div:first-of-type > div:first-of-type {
+    & > p:not(.short-para):first-of-type:first-letter {
+      margin-top: $margin;
+    }
+  }
+}
+
 .itemArticle {
   & > p:not(.short-para):first-of-type,
   & > div:first-of-type > p:not(.short-para):first-of-type,
@@ -445,69 +465,89 @@ article > div:not(:last-of-type) {
   }
 
   &.dropCapSize2 {
-    &,
-      & > div:first-of-type,
-      & > div:first-of-type > div:first-of-type {
-      & > p:not(.short-para):first-of-type:first-letter {
-        font-size: 2.1rem;
-        margin-top: 0.2rem;
-      }
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(1.9rem);
+      @include dropCapMarginTop(0.42rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(2.2rem);
+      @include dropCapMarginTop(0.3rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(2.21rem);
+      @include dropCapMarginTop(0.35rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(2.1rem);
+      @include dropCapMarginTop(0.4rem);
     }
   }
 
   &.dropCapSize3 {
-    &,
-      & > div:first-of-type,
-      & > div:first-of-type > div:first-of-type {
-      & > p:not(.short-para):first-of-type:first-letter {
-        font-size: 3.6rem;
-        margin-top: 0.5rem;
-      }
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(3.15rem);
+      @include dropCapMarginTop(0.6rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(3.5rem);
+      @include dropCapMarginTop(0.43rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(3.52rem);
+      @include dropCapMarginTop(0.38rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(3.5rem);
+      @include dropCapMarginTop(0.55rem);
     }
   }
 
   &.dropCapSize4 {
-    &,
-      & > div:first-of-type,
-      & > div:first-of-type > div:first-of-type {
-      & > p:not(.short-para):first-of-type:first-letter {
-        font-size: 4.7rem;
-        margin-top: 0.6rem;
-      }
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(4.45rem);
+      @include dropCapMarginTop(0.8rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(4.95rem);
+      @include dropCapMarginTop(0.5rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(5rem);
+      @include dropCapMarginTop(0.4rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(4.9rem);
+      @include dropCapMarginTop(0.67rem);
     }
   }
 
   &.dropCapSize5 {
-    &,
-      & > div:first-of-type,
-      & > div:first-of-type > div:first-of-type {
-      & > p:not(.short-para):first-of-type:first-letter {
-        font-size: 5.8rem;
-        margin-top: 0.5rem;
-      }
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(5.7rem);
+      @include dropCapMarginTop(0.95rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(6.4rem);
+      @include dropCapMarginTop(0.55rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(6.4rem);
+      @include dropCapMarginTop(0.45rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(6.3rem);
+      @include dropCapMarginTop(0.8rem);
     }
   }
 
   &.dropCapSize6 {
-    &,
-      & > div:first-of-type,
-      & > div:first-of-type > div:first-of-type {
-      & > p:not(.short-para):first-of-type:first-letter {
-        font-size: 7.1rem;
-        margin-top: 0.6rem;
-      }
-    }
+    @include dropCapFontSize(7.1rem);
+    @include dropCapMarginTop(0.6rem);
   }
 
   &.dropCapSize7 {
-    &,
-      & > div:first-of-type,
-      & > div:first-of-type > div:first-of-type {
-      & > p:not(.short-para):first-of-type:first-letter {
-        font-size: 7.1rem;
-        margin-top: 0.6rem;
-      }
-    }
+    @include dropCapFontSize(7.1rem);
+    @include dropCapMarginTop(0.6rem);
   }
 
   &.dropCapIsBold {
@@ -537,7 +577,7 @@ article > div:not(:last-of-type) {
 }
 
 .bodyFontSans1 {
-  font-family: "Gill Sans", sans-serif;
+  font-family: "IBMPlexSans-Light", sans-serif;
 
   h1, h2, h3, figcaption {
     font-family: "LibreBaskerville-Regular"
@@ -554,6 +594,10 @@ article > div:not(:last-of-type) {
 
 .bodyFontSans2 {
   font-family: "Avenir", serif;
+
+  h1, h2, h3, figcaption {
+    font-family: "Iowan Old Style"
+  }
 }
 
 .headerFontSans1 {

@@ -10,6 +10,7 @@ import ColorBlending from 'gl-react-color-blending'
 const {Image: GLImage} = require('gl-react-image')
 
 import { blendColor, hslString } from '../utils/colors'
+import { isIphoneX } from '../utils'
 
 class CoverImage extends React.Component {
   constructor (props) {
@@ -65,7 +66,7 @@ class CoverImage extends React.Component {
     const inline = {
       flex: 1,
       width: '100%',
-      marginTop: 60
+      marginTop: isIphoneX() ? 80 : 60
     }
     const position = isInline ? inline : absolute
     const scrollOffset = this.props.scrollOffset || 0

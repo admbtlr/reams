@@ -46,7 +46,6 @@
 		3AEE388B45774C609A91ED85 /* IBMPlexSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CE22BA4C5E9485ABF1718A0 /* IBMPlexSerif-Bold.ttf */; };
 		3D02833F47B84842A441CCD8 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D1D034C72594500896EBF90 /* IBMPlexMono-Regular.ttf */; };
 		3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */; };
-		4419603D4BDB44C3BA8CE738 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12AB6EFCF770400785DBC345 /* libRealmReact.a */; };
 		45852DA026DE45819C2E6132 /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */; };
 		4DA1B3EEF1E74D8D885D44DF /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64AD0B7FA26449D4ABC8E4CB /* Montserrat-LightItalic.ttf */; };
 		5DF4197A629E44F69156997B /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08245B2253D44286A4B4DD40 /* libSplashScreen.a */; };
@@ -632,7 +631,6 @@
 				24E45C75021443BE8B9FF316 /* libRNSentry.a in Frameworks */,
 				76BDCD76AF4D40B9BE42F48E /* libz.tbd in Frameworks */,
 				9C316B8BA4884B8388B127AD /* libRNSKBucket.a in Frameworks */,
-				4419603D4BDB44C3BA8CE738 /* libRealmReact.a in Frameworks */,
 				BC1932B8C968421EA8E85FFC /* libc++.tbd in Frameworks */,
 				5DF4197A629E44F69156997B /* libSplashScreen.a in Frameworks */,
 				ACCC149267274D0C957E8139 /* libRNMeasureText.a in Frameworks */,
@@ -2008,7 +2006,6 @@
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-measure-text-with-fontfamily/ios",
 				);
@@ -2047,7 +2044,6 @@
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-measure-text-with-fontfamily/ios",
 				);
@@ -2256,7 +2252,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-measure-text-with-fontfamily/ios",
 				);
@@ -2313,7 +2308,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-measure-text-with-fontfamily/ios",
 				);
