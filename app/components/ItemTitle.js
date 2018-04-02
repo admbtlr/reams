@@ -222,7 +222,7 @@ class ItemTitle extends React.Component {
     const longestWord = this.getLongestWord(title)
     let sizes = []
     let i = 70
-    while (i > 40) {
+    while (i > 30) {
       sizes.push(i--)
     }
 
@@ -330,6 +330,8 @@ class ItemTitle extends React.Component {
 
       // this avoids shrinking the font size too much
       if (maxViable / optimal > 1.5) optimal = maxViable
+
+      if (maxViable < 35) optimal = maxViable
 
       // this is a bit sketchy...
       if (styles.invertBG) optimal = Math.round(optimal * 0.9)
@@ -639,7 +641,9 @@ class ItemTitle extends React.Component {
       title = words.map((word, index) => {
         if (styles.invertBG) {
           return (<View key={index} style={{
-            ...invertedTitleWrapperStyle
+            ...invertedTitleWrapperStyle,
+            position: 'relative',
+            left: 0 - index // this is to fill in occasional 1px gaps between words
           }}><Text style={{
             ...fontStyle,
             ...(wordStyles && wordStyles[index]),
