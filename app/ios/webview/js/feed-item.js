@@ -1,3 +1,13 @@
+function replaceSectionsWithDivs () {
+  const sections = document.querySelector('article').querySelectorAll('section')
+  let div
+  for (var i = sections.length - 1; i >= 0; i--) {
+    div = document.createElement('div')
+    div.innerHTML = sections[i].innerHTML
+    sections[i].parentNode.replaceChild(div, sections[i])
+  }
+}
+
 function removeDivsInDivs () {
   const divs = document.querySelector('article').querySelectorAll('div')
   const toRemove = []
@@ -53,10 +63,36 @@ function removeSoloSurroundingDiv () {
   }
 }
 
+function removeDivsWithOrphanFigures () {
+  const figures = document.querySelectorAll('figure')
+  Array.prototype.forEach.call(figures, function (figure, i) {
+    const parent = figure.parentNode
+    if (parent.tagName == 'DIV' && parent.childElementCount === 1) {
+      parent.parentNode.insertBefore(figure.cloneNode(true), parent)
+      parent.remove()
+    }
+  })
+}
+
 function removeEmptyParagraphs () {
   const paras = document.querySelectorAll('p')
   let toRemove = []
   Array.prototype.forEach.call(paras, function (el, i) {
+    if (el.innerText.trim().length === 0 &&
+      el.childElementCount === 0) {
+      toRemove.push(el)
+    }
+  })
+
+  for (var i = toRemove.length - 1; i >= 0; i--) {
+    toRemove[i].remove()
+  }
+}
+
+function removeEmptyDivs () {
+  const divs = document.querySelectorAll('div')
+  let toRemove = []
+  Array.prototype.forEach.call(divs, function (el, i) {
     if (el.innerText.trim().length === 0 &&
       el.childElementCount === 0) {
       toRemove.push(el)
@@ -243,12 +279,15 @@ function removeAllBrs() {
 }
 
 // what?
+replaceSectionsWithDivs()
 for (var i = 0; i < 5; i++) {
   removeDivsInDivs()
 }
 removeArticles()
 removeSoloSurroundingDiv()
 removeEmptyParagraphs()
+removeEmptyDivs()
+removeDivsWithOrphanFigures()
 markShortParagraphs()
 markShortBlockquotes()
 markContentHoldingDivs()
