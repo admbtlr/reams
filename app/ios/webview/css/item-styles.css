@@ -247,13 +247,13 @@ body {
     overflow: scroll;
     color: #333333;
     padding: 14px; }
-  .itemArticle > div:not(:first-of-type):before {
+  .itemArticle > div + div:not(:first-of-type):before {
     content: '';
     height: 2px;
     display: block;
     margin: 0 4rem;
     transform: rotateZ(-30deg); }
-  .itemArticle > div:not(:first-of-type) > p:first-of-type {
+  .itemArticle > div + div:not(:first-of-type) > p:first-of-type {
     margin-top: 112px; }
   .itemArticle ul {
     list-style: none;
@@ -307,40 +307,184 @@ article > div:not(:last-of-type) figure:last-child {
   margin-top: 0;
   float: left; }
 
-.itemArticle.dropCapSize2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 2.1rem;
-  margin-top: 0.2rem; }
+.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 1.9rem; }
 
-.itemArticle.dropCapSize3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 3.2rem;
+.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.42rem; }
+
+.itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.2rem; }
+
+.itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.3rem; }
 
-.itemArticle.dropCapSize4 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 4.5rem;
+.itemArticle.dropCapSize2.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.21rem; }
+
+.itemArticle.dropCapSize2.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.35rem; }
+
+.itemArticle.dropCapSize2.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.1rem; }
+
+.itemArticle.dropCapSize2.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.4rem; }
 
-.itemArticle.dropCapSize5 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 5.8rem;
+.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.15rem; }
+
+.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.6rem; }
+
+.itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.5rem; }
+
+.itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.43rem; }
+
+.itemArticle.dropCapSize3.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.52rem; }
+
+.itemArticle.dropCapSize3.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.38rem; }
+
+.itemArticle.dropCapSize3.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.5rem; }
+
+.itemArticle.dropCapSize3.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.55rem; }
+
+.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 4.45rem; }
+
+.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.8rem; }
+
+.itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 4.95rem; }
+
+.itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.5rem; }
+
+.itemArticle.dropCapSize4.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 5rem; }
+
+.itemArticle.dropCapSize4.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.4rem; }
+
+.itemArticle.dropCapSize4.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 4.9rem; }
+
+.itemArticle.dropCapSize4.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.67rem; }
+
+.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 5.7rem; }
+
+.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.95rem; }
+
+.itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 6.4rem; }
+
+.itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.55rem; }
+
+.itemArticle.dropCapSize5.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 6.4rem; }
+
+.itemArticle.dropCapSize5.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.45rem; }
+
+.itemArticle.dropCapSize5.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 6.3rem; }
+
+.itemArticle.dropCapSize5.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.8rem; }
 
 .itemArticle.dropCapSize6 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize6 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize6 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 7.1rem;
+  font-size: 7.1rem; }
+
+.itemArticle.dropCapSize6 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize6 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize6 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.6rem; }
 
 .itemArticle.dropCapSize7 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize7 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize7 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 7.1rem;
+  font-size: 7.1rem; }
+
+.itemArticle.dropCapSize7 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize7 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize7 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.6rem; }
 
 .itemArticle.dropCapIsBold > p:not(.short-para):first-of-type:first-letter,
@@ -359,7 +503,7 @@ article > div:not(:last-of-type) figure:last-child {
     font-family: "Gill Sans"; }
 
 .bodyFontSans1 {
-  font-family: "Gill Sans", sans-serif; }
+  font-family: "IBMPlexSans-Light", sans-serif; }
   .bodyFontSans1 h1, .bodyFontSans1 h2, .bodyFontSans1 h3, .bodyFontSans1 figcaption {
     font-family: "LibreBaskerville-Regular"; }
 
@@ -370,6 +514,8 @@ article > div:not(:last-of-type) figure:last-child {
 
 .bodyFontSans2 {
   font-family: "Avenir", serif; }
+  .bodyFontSans2 h1, .bodyFontSans2 h2, .bodyFontSans2 h3, .bodyFontSans2 figcaption {
+    font-family: "Iowan Old Style"; }
 
 .headerFontSans1 h1, .headerFontSans1 h2, .headerFontSans1 h3 {
   font-family: "AvenirNextCondensed-Bold"; }
