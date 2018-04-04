@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert, AppState, Clipboard, Text, TouchableHighlight, View } from 'react-native'
 import { RNSKBucket } from 'react-native-swiss-knife'
+import { parseString } from 'react-native-xml2js'
 // import { RizzleModal } from './RizzleModal'
 
 class AppStateListener extends React.Component {
@@ -68,7 +69,34 @@ class AppStateListener extends React.Component {
       if (value !== null) {
         RNSKBucket.set('feed', null, this.group)
         console.log(`Got a feed to subscribe to: ${value}`)
-        this.props.addFeed(value)
+        // TODO check that value is a feed url
+        fetch(value)
+          .then((response) => {
+            if (!response.ok) {
+              throw Error(response.statusText)
+            }
+            return response
+          })
+          .then((response) => {
+            return response.text()
+          })
+          .then((xml) => {
+            let parsed = parseString(xml, (error, result) => {
+              const title = result.rss.channel[0].title[0]
+              const description = result.rss.channel[0].description[0]
+              this.props.showModal({
+                modalText: `Add this feed?\n\n${title}\n${description}`,
+                modalHideCancel: false,
+                modalShow: true,
+                modalOnOk: () => { this.props.addFeed({
+                  url: value,
+                  title,
+                  description
+                })}
+              })
+            })
+          })
+        // this.props.addFeed(value)
       }
     })
   }

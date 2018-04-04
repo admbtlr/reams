@@ -18,9 +18,9 @@ const mapDispatchToProps = (dispatch) => {
       type: 'SAVE_EXTERNAL_URL',
       url
     }),
-    addFeed: (url) => dispatch({
+    addFeed: (feed) => dispatch({
       type: 'FEEDS_ADD_FEED',
-      url
+      feed
     }),
     showModal: (modalProps) => dispatch({
       type: 'UI_SHOW_MODAL',

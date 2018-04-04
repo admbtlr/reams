@@ -38,6 +38,7 @@
     "react-native-svg": "^6.0.0",
     "react-native-swiss-knife": "0.0.5",
     "react-native-webview-autoheight": "^1.0.4",
+    "react-native-xml2js": "^1.0.3",
     "react-redux": "5.0.4",
     "react-swipeable-views-native": "^0.12.8",
     "redux": "3.6.0",
