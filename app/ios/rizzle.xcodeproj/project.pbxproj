@@ -61,6 +61,7 @@
 		667377AC203EB25D00572989 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
 		667378112043106000572989 /* libRNSKBucket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6673781020430E9400572989 /* libRNSKBucket.a */; };
 		6673781520431A0100572989 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 667378142043199F00572989 /* IBMPlexMono-Regular.ttf */; };
+		6685A3502072B936007D3C09 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6685A34F2072B936007D3C09 /* splash@2x.png */; };
 		668A536A1FDB2CDB00D9DFD5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */; };
 		66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -82,7 +83,6 @@
 		66ACB1491FDAA026002BC66F /* icon-152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB1481FDAA026002BC66F /* icon-152x152.png */; };
 		66C797491FE53E98001FBDEB /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
 		66CF6320205FC6F10037124C /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AF94191FF7E69000336BA7 /* libRNFS.a */; };
-		66CF63B42066CFC70037124C /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF63B32066CFC60037124C /* splash.png */; };
 		6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */; };
 		754F64E73D264E0DBD0674B7 /* Arvo-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1327B1D4C21489FBBCC6D7A /* Arvo-Italic.ttf */; };
 		7686AA2739064516B43AD49D /* Arvo-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 985E587BCD25407C9639A056 /* Arvo-BoldItalic.ttf */; };
@@ -553,6 +553,7 @@
 		66737812204314A900572989 /* rizzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rizzle.entitlements; path = rizzle/rizzle.entitlements; sourceTree = "<group>"; };
 		66737813204315E300572989 /* RizzleShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RizzleShare.entitlements; sourceTree = "<group>"; };
 		667378142043199F00572989 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IBMPlexMono-Regular.ttf"; path = "../../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
+		6685A34F2072B936007D3C09 /* splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash@2x.png"; path = "../assets/images/splash@2x.png"; sourceTree = "<group>"; };
 		6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		66ACB1171FD9705E002BC66F /* RizzleShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RizzleShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		66ACB11D1FD9705E002BC66F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -561,7 +562,6 @@
 		66ACB1291FD971C4002BC66F /* libSentryStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libSentryStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		66ACB1481FDAA026002BC66F /* icon-152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-152x152.png"; path = "../img/icon-152x152.png"; sourceTree = "<group>"; };
 		66C797191FE53E79001FBDEB /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
-		66CF63B32066CFC60037124C /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash.png; path = ../assets/images/splash.png; sourceTree = "<group>"; };
 		66E383BE1FC2CA6800B536D5 /* ReactNativeShareExtension.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeShareExtension.xcodeproj; path = "../node_modules/react-native-share-extension/ios/ReactNativeShareExtension.xcodeproj"; sourceTree = "<group>"; };
 		6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		6E3B529B291E42D18230B4AD /* RNSentry.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
@@ -777,7 +777,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				66CF63B32066CFC60037124C /* splash.png */,
+				6685A34F2072B936007D3C09 /* splash@2x.png */,
 				664B4B271FAB59A9006C6DF9 /* webview */,
 			);
 			name = rizzle;
@@ -1699,7 +1699,6 @@
 				63CFE43A4A5C413EBCD83BBE /* BioRhyme-ExtraBold.ttf in Resources */,
 				0577C8B37D014A9691D30EB8 /* Arvo-Bold.ttf in Resources */,
 				7686AA2739064516B43AD49D /* Arvo-BoldItalic.ttf in Resources */,
-				66CF63B42066CFC70037124C /* splash.png in Resources */,
 				754F64E73D264E0DBD0674B7 /* Arvo-Italic.ttf in Resources */,
 				997F4F704557494DBFDDEBE4 /* Arvo-Regular.ttf in Resources */,
 				0A318D5E3DC347B8A70ED4DF /* Montserrat-Bold.ttf in Resources */,
@@ -1727,6 +1726,7 @@
 				EDA28DDB314049C88731F2A0 /* Eczar-ExtraBold.ttf in Resources */,
 				376599488A3146C89F785025 /* Eczar-Regular.ttf in Resources */,
 				3879B63A958B4889A3DC58BD /* PlayfairDisplay-Black.ttf in Resources */,
+				6685A3502072B936007D3C09 /* splash@2x.png in Resources */,
 				979551B6C5B64A3B982AAF0E /* PlayfairDisplay-BlackItalic.ttf in Resources */,
 				F2E6111401F945D1A0E5D590 /* PlayfairDisplay-Italic.ttf in Resources */,
 				17E475145E6F4DB1A5140583 /* PlayfairDisplay-Regular.ttf in Resources */,

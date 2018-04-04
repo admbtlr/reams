@@ -1,5 +1,7 @@
 import React from 'react'
 import {
+  Dimensions,
+  Image,
   StatusBar,
   StyleSheet,
   Text,
@@ -33,6 +35,7 @@ class App extends React.Component {
   }
 
   render () {
+    const {height, width} = Dimensions.get('window')
     return (
       <View style={styles.mainView}>
         <AppStateListenerContainer />
@@ -40,9 +43,16 @@ class App extends React.Component {
         <RizzleModalContainer />
         <ToolbarsContainer />
         <View style={styles.infoView} />
-        <FeedListContainer
-          style={styles.feedList}
-        />
+        <Image
+          source={require('../assets/images/rzl.png')}
+          style={{
+            position: 'absolute',
+            top: height / 2 - 24,
+            left: width / 2 - 48,
+            width: 96,
+            height: 48
+          }}
+          />
       </View>
     )
   }
