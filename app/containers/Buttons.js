@@ -17,6 +17,7 @@ const mapStateToProps = (state) => {
     numItems,
     index,
     isSaved: item && item.isSaved,
+    showMercuryContent: item && item.showMercuryContent,
     toolbar: state.toolbar,
     displayMode: state.items.display,
     decoratedCount: state.items.decoratedCount,

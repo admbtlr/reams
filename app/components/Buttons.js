@@ -82,8 +82,13 @@ class Buttons extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(nextProps)
+    return true
+  }
+
   render () {
-    const { item } = this.props
+    const { item, showMercuryContent } = this.props
     const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ?
       hslString('rizzleFG') :
       hslString('rizzleHighlight')
@@ -203,11 +208,11 @@ class Buttons extends React.Component {
             transform: [{
               translateY: this.state.visibleAnimMercury
             }],
-            borderColor: item && item.showMercuryContent ? hslString('rizzleHighlight') : 'transparent'
+            borderColor: showMercuryContent ? hslString('rizzleHighlight') : 'transparent'
           }}
           onPress={this.onMercuryPress}
         >
-          { item && item.showMercuryContent &&
+          { showMercuryContent &&
             <Svg
               style={{
                 transform: [{
@@ -227,7 +232,7 @@ class Buttons extends React.Component {
               <Path d="M1.5,31.5 L32.5,31.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
             </Svg>
           }
-          { !(item && item.showMercuryContent) &&
+          { !(showMercuryContent) &&
             <Svg
               style={{
                 transform: [{
