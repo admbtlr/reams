@@ -252,8 +252,8 @@ class ItemTitle extends React.Component {
     const {styles} = this.props
     const lineHeight = fontSize ? fontSize * 1.1 : styles.lineHeight
     return lineHeight > 60 ?
-      Math.round(lineHeight / 4) :
-      Math.round(lineHeight / 2)
+      Math.round(lineHeight / 8) :
+      Math.round(lineHeight / 4)
   }
 
   // NB returns an object, {paddingTop, paddingBottom}
@@ -327,6 +327,11 @@ class ItemTitle extends React.Component {
       // (b) jumps down a line
       const initialNumLines = values[0].numLines
       let optimal = values.find(v => v.numLines < initialNumLines).size
+      // (c) if we go down to 4 lines, is the fontSize > 30?
+      let fourLines = values.find(v => v.numLines === 4)
+      if (fourLines && fourLines.size && fourLines.size < optimal && fourLines.size > 30) {
+        optimal = fourLines.size
+      }
 
       // this avoids shrinking the font size too much
       if (maxViable / optimal > 1.5) optimal = maxViable
@@ -511,7 +516,7 @@ class ItemTitle extends React.Component {
       borderColor: color,
       opacity: coverImageStyles.isInline ? opacity : 1
     }
-    const overlayColour = hasCoverImage && !styles.invertBGPadding && !styles.bg ?
+    const overlayColour = hasCoverImage && !styles.invertBGPadding && !styles.bg && coverImageStyles.resizeMode === 'cover' ?
       (styles.isMonochrome || coverImageStyles.isBW || coverImageStyles.isMultiply ?
         'rgba(0,0,0,0.1)' :
         'rgba(0,0,0,0.3)') :
@@ -631,7 +636,9 @@ class ItemTitle extends React.Component {
       }
     }
 
-    const dateView = <Animated.Text style={dateStyle}>{moment(date * 1000).format('dddd MMM Do, h:mm a')}</Animated.Text>
+    // TODO this is feedwrangler... fix it
+    if (typeof date === 'number') date = date * 1000
+    const dateView = <Animated.Text style={dateStyle}>{moment(date).format('dddd MMM Do, h:mm a')}</Animated.Text>
 
     const shouldSplitIntoWords = () => {
       return styles.interBolded || styles.invertBG
@@ -641,9 +648,7 @@ class ItemTitle extends React.Component {
       title = words.map((word, index) => {
         if (styles.invertBG) {
           return (<View key={index} style={{
-            ...invertedTitleWrapperStyle,
-            position: 'relative',
-            left: 0 - index // this is to fill in occasional 1px gaps between words
+            ...invertedTitleWrapperStyle
           }}><Text style={{
             ...fontStyle,
             ...(wordStyles && wordStyles[index]),
@@ -695,7 +700,7 @@ class ItemTitle extends React.Component {
           fontSize: Math.round(excerptLineHeight / 1.4),
           lineHeight: excerptLineHeight,
           letterSpacing: 0,
-        }}>{this.props.excerpt}</Animated.Text>
+        }}>{this.widowFix(this.props.excerpt)}</Animated.Text>
       </Animated.View>)
 
     return (
@@ -733,14 +738,27 @@ class ItemTitle extends React.Component {
     )
   }
 
+  widowFix (text) {
+    return text && text.replace(/\s([^\s<]+)\s*$/,'\u00A0$1')
+  }
+
   getOpacityValues () {
-    // if (this.props.coverImageStyles.isInline) {
-    //   return {
-    //     opacity: 1,
-    //     excerptOpacity: 1,
-    //     shadow: 1
-    //   }
-    // }
+    if (this.props.coverImageStyles.isInline) {
+      return {
+        opacity: Animated.add(this.props.scrollOffset.interpolate({
+            inputRange: [-50, 0, 200],
+            outputRange: [1, 1, 0]
+          }), this.fadeInAnim),
+        excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
+            inputRange: [-50, 0, 400],
+            outputRange: [1, 1, 0]
+          }), this.fadeInAnim2),
+        shadow: this.props.scrollOffset.interpolate({
+            inputRange: [-100, -20, 0, 40, 400],
+            outputRange: [1, 1, 1, 1, 0]
+          })
+      }
+    }
     return {
       opacity: Animated.add(this.props.scrollOffset.interpolate({
           inputRange: [-50, 0, 100],
