@@ -65,11 +65,13 @@ class AppStateListener extends React.Component {
   }
 
   checkFeedBucket () {
+    const that = this
     RNSKBucket.get('feed', this.group).then(value => {
       if (value !== null) {
         RNSKBucket.set('feed', null, this.group)
         console.log(`Got a feed to subscribe to: ${value}`)
         // TODO check that value is a feed url
+        // TODO check that feed is not already subscribed!
         fetch(value)
           .then((response) => {
             if (!response.ok) {
@@ -82,17 +84,27 @@ class AppStateListener extends React.Component {
           })
           .then((xml) => {
             let parsed = parseString(xml, (error, result) => {
-              const title = result.rss.channel[0].title[0]
-              const description = result.rss.channel[0].description[0]
+              let title, description
+              if (result.rss) {
+                title = result.rss.channel[0].title[0]
+                description = result.rss.channel[0].description[0]
+              } else if (result.feed) {
+                // atom
+                title = result.feed.title[0]
+                description = result.feed.subtitle[0]
+              }
               this.props.showModal({
                 modalText: `Add this feed?\n\n${title}\n${description}`,
                 modalHideCancel: false,
                 modalShow: true,
-                modalOnOk: () => { this.props.addFeed({
-                  url: value,
-                  title,
-                  description
-                })}
+                modalOnOk: () => {
+                  that.props.addFeed({
+                    url: value,
+                    title,
+                    description
+                  })
+                  this.props.fetchData()
+                }
               })
             })
           })

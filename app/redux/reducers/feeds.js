@@ -4,13 +4,18 @@ const initialState = {
 
 export function feeds (state = initialState, action) {
   switch (action.type) {
-    case 'FEEDS_ADD_FEED':
+    case 'FEEDS_ADD_FEED_SUCCESS':
+      let cleanedFeeds = state.feeds.filter(feed => !!feed)
       return {
         feeds: [
-          ...state.feeds,
+          ...cleanedFeeds,
           action.feed
         ]
       }
+    case 'FEEDS_ADD_FEED':
+      console.log(action)
+      return state
+
     case 'FEEDS_REMOVE_FEED':
       return state.feeds.filter(feed => feed !== action.feed)
 

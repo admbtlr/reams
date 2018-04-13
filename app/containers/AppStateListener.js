@@ -25,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
     showModal: (modalProps) => dispatch({
       type: 'UI_SHOW_MODAL',
       modalProps
+    }),
+    finishedCheckingBuckets: () => dispatch({
+      type: 'UI_FINSHED_CHECKING_BUCKETS'
     })
   }
 }

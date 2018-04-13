@@ -147,6 +147,7 @@ class FeedInfo extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
+              this.props.unsubscribe(this.props.item.feed_id)
               console.log('UNSUBSCRIBE!')
             }}>
             <View style={{
