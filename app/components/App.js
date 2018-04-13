@@ -47,12 +47,13 @@ class App extends React.Component {
           source={require('../assets/images/rzl.png')}
           style={{
             position: 'absolute',
-            top: height / 2 - 24,
+            top: height / 2 - 20,
             left: width / 2 - 48,
             width: 96,
             height: 48
           }}
           />
+        <FeedListContainer style={styles.feedList} />
       </View>
     )
   }
