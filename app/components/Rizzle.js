@@ -3,11 +3,14 @@ import { Provider } from 'react-redux'
 import configureStore from '../redux/store/configureStore.js'
 import { Sentry } from 'react-native-sentry'
 import App from './App.js'
+import { setBackend } from '../redux/backends'
 
 export default class Rizzle extends Component {
   constructor (props) {
     super(props)
     this.props = props
+
+    setBackend('rizzle')
 
     this.store = configureStore()
 
@@ -16,7 +19,7 @@ export default class Rizzle extends Component {
       .install()
 
     // this is a stupid hack to stop AppState firing on startup
-    // which is does on the device in some circumstances
+    // which it does on the device in some circumstances
     global.isStarting = true
     setTimeout(() => {
       global.isStarting = false

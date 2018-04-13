@@ -50,6 +50,8 @@ export const fetchUnreadIds = () => {
 }
 
 export const getItemsByIds = (itemIds) => {
+  // TODO: fix this
+  itemIds = itemIds.slice(0, 100)
   let url = 'https://feedwrangler.net/api/v2/feed_items/get?'
   url += 'access_token=' + feedWranglerAccessToken
   url += '&feed_item_ids=' + itemIds.reduce((accum, id) => `${accum}${id.id},`, '')
