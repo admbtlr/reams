@@ -1,4 +1,5 @@
 import { mergeItems, id } from '../../utils/merge-items'
+import { filterItemsForStale } from '../realm/stale-items'
 
 const feedwrangler = require('./feedwrangler')
 const rizzle = require('./rizzle')
@@ -51,9 +52,11 @@ function * fetchUnreadItems (oldItems, currentItem, feeds) {
       console.log(`Fetched ${newItems.length} items`)
       console.log(newItems)
       const { read, unread } = mergeItems(oldItems, newItems, currentItem)
+      unread = yield filterItemsForStale(unread)
+
       console.log(`And now I have ${unread.length} unread items`)
       console.log(unread)
-      readItems = read
+      readItems = read.sort((a, b) => a.date_published > b.date_published)
       newItems = unread
     } catch (error) {
       console.log(error)

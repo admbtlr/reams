@@ -74,6 +74,7 @@ export function * fetchItems () {
 }
 
 function removeCachedCoverImages (items) {
+  if (!items) return
   for (let item of items) {
     if (item.imagePath) {
       RNFS.unlink(item.imagePath)

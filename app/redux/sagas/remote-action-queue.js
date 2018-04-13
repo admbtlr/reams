@@ -2,7 +2,7 @@ import { NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
-import { addReadItem } from '../realm/read-items'
+import { addStaleItem } from '../realm/stale-items'
 import { getRemoteActions } from './selectors'
 
 const INITIAL_INTERVAL = 500
@@ -39,7 +39,7 @@ function * executeAction (action) {
       console.log('Marking item read...')
       try {
         yield markItemRead(action.item)
-        yield addReadItem(action.item)
+        yield addStaleItem(action.item)
         console.log('Marking item read... done')
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',

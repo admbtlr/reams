@@ -40,7 +40,7 @@ export function createItemStyles (item) {
     isContain = true
     // isMultiply = false
     // isBW = false
-    title.color = color
+    // title.color = color
     title.isMonochrome = isMultiply
   }
 
@@ -92,7 +92,7 @@ export function createItemStyles (item) {
   title.isBold = (!title.isMonochrome && !title.bg) || fonts[0].indexOf('Montserrat') > 0 ?
     true :
     (title.isMonochrome ?
-      Math.random() > 0.8 :
+      Math.random() > 0.5 :
       Math.random() > 0.3)
   title.borderWidth = title.invertBG || title.isVertical ? 0 :
     (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
