@@ -49,7 +49,7 @@ class CoverImage extends React.Component {
           letter: options.substring(index, index + 1),
           rotation: Math.round(Math.random() * 12) * 30,
           weight: ['bold', 'normal', '100'][Math.floor(Math.random() * 3)],
-          size: Math.round((.75 + Math.random()) * this.screenHeight)
+          size: Math.round((.75 + Math.random() * 2) * this.screenHeight)
         }
       })
   }
