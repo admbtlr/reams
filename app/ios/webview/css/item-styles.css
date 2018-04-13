@@ -253,6 +253,14 @@ body {
     display: block;
     margin: 0 calc(50% - 2rem);
     transform: rotateZ(-30deg); }
+  .itemArticle > div + div:not(:first-of-type):nth-of-type(4n+1):before {
+    transform: rotateZ(0deg); }
+  .itemArticle > div + div:not(:first-of-type):nth-of-type(4n+2):before {
+    transform: rotateZ(30deg); }
+  .itemArticle > div + div:not(:first-of-type):nth-of-type(4n+3):before {
+    transform: rotateZ(90deg); }
+  .itemArticle > div + div:not(:first-of-type):nth-of-type(4n+4):before {
+    transform: rotateZ(150deg); }
   .itemArticle > div + div:not(:first-of-type) > p:first-of-type {
     margin-top: 112px; }
   .itemArticle ul {
@@ -503,7 +511,8 @@ article > div:not(:last-of-type) figure:last-child {
     font-family: "Gill Sans"; }
 
 .bodyFontSans1 {
-  font-family: "IBMPlexSans-Light", sans-serif; }
+  font-family: "IBMPlexSans-Light", sans-serif;
+  font-size: calc(1rem / 1.9); }
   .bodyFontSans1 h1, .bodyFontSans1 h2, .bodyFontSans1 h3, .bodyFontSans1 figcaption {
     font-family: "LibreBaskerville-Regular"; }
 

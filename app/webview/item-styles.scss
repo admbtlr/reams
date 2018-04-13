@@ -578,6 +578,7 @@ article > div:not(:last-of-type) {
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans-Light", sans-serif;
+  font-size: calc(1rem / 1.9);
 
   h1, h2, h3, figcaption {
     font-family: "LibreBaskerville-Regular"

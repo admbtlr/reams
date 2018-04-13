@@ -281,6 +281,13 @@ function removeAllBrs() {
   }
 }
 
+function removeWidows() {
+  const paras = document.querySelectorAll('p')
+  Array.prototype.forEach.call(paras, function (el, i) {
+    console.log(innerHtml)
+  })
+}
+
 // what?
 replaceSectionsWithDivs()
 for (var i = 0; i < 5; i++) {
@@ -299,6 +306,7 @@ removeSourceTags()
 removeFiguresWithoutImages()
 markPullQuotes()
 removeAllBrs()
+// removeWidows()
 
 window.onload = function() {
   markImages()
