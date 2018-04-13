@@ -12,16 +12,38 @@ import { fetchItems, fetchItems2 } from './fetch-items'
 import { markLastItemRead } from './mark-read'
 import { saveExternalUrl } from './external-items'
 import { executeRemoteActions } from './remote-action-queue'
-import { addFeedUrl } from './add-feed'
+import { subscribeToFeed } from './add-feed'
 
 function unsubscribeFromFeed () {}
+
+
+// let rehydrated = false
+// let checkedBuckets = false
+// function * waitForBoth (action) {
+//   console.log(action)
+//   switch (action.type) {
+//     case REHYDRATE:
+//       rehydrated = true
+//       break
+//     case 'UI_FINISHED_CHECKING_BUCKETS':
+//       checkedBuckets = true
+//       break
+//   }
+
+//   if (rehydrated && checkedBuckets) {
+//     yield fetchItems2()
+//     rehydrated = false
+//     checkedBuckets = false
+//   }
+// }
 
 export function * updateCurrentIndex () {
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems2)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
-  yield takeEvery('FEEDS_ADD_FEED', addFeedUrl)
+  yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   yield takeEvery(REHYDRATE, fetchItems2)
   yield takeEvery(REHYDRATE, executeRemoteActions)
+  yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
 }

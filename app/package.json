@@ -41,6 +41,7 @@
     "react-native-xml2js": "^1.0.3",
     "react-redux": "5.0.4",
     "react-swipeable-views-native": "^0.12.8",
+    "realm": "2.2.18",
     "redux": "3.6.0",
     "redux-persist": "^5.4.0",
     "redux-persist-filesystem-storage": "^1.1.1",
