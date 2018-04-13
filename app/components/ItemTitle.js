@@ -209,7 +209,7 @@ class ItemTitle extends React.Component {
   // }
 
   getLongestWord (title) {
-    return title.split(' ').reduce((longest, word) => {
+    return title.split(/[ \-—]/).reduce((longest, word) => {
       if (word.length > longest.length) return word
       return longest
     }, '')
@@ -252,8 +252,8 @@ class ItemTitle extends React.Component {
     const {styles} = this.props
     const lineHeight = fontSize ? fontSize * 1.1 : styles.lineHeight
     return lineHeight > 60 ?
-      Math.round(lineHeight / 8) :
-      Math.round(lineHeight / 4)
+      Math.round(lineHeight / 4) :
+      Math.round(lineHeight / 2)
   }
 
   // NB returns an object, {paddingTop, paddingBottom}
@@ -318,7 +318,7 @@ class ItemTitle extends React.Component {
 
       console.log(title)
       console.log(values)
-      const maxHeight = this.screenHeight / 2
+      const maxHeight = this.screenHeight / 1.5
       // now go through them and find the first one that
       // (a) is less than 50% screen height
       values = values.filter(v => v.height < maxHeight)
