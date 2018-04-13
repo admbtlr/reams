@@ -12,10 +12,10 @@ import {hslString} from '../utils/colors'
 
 class Buttons extends React.Component {
   state = {
-    visibleAnimCount: new Animated.Value(0),
-    visibleAnimSave: new Animated.Value(0),
-    visibleAnimShare: new Animated.Value(0),
-    visibleAnimMercury: new Animated.Value(0)
+    visibleAnimCount: new Animated.Value(80),
+    visibleAnimSave: new Animated.Value(80),
+    visibleAnimShare: new Animated.Value(80),
+    visibleAnimMercury: new Animated.Value(80)
   }
 
   constructor (props) {
