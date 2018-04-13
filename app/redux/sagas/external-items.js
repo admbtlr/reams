@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects'
 import { decorateItem } from './decorate-items'
-import { id } from './merge-items.js'
+import { id } from '../../utils/merge-items.js'
 
 export function * saveExternalUrl (action) {
   let item = {

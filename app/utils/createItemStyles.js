@@ -34,13 +34,14 @@ export function createItemStyles (item) {
 
   let isContain = false
   let isCoverInline = false
-  if (item.imageDimensions && item.imageDimensions.width < deviceWidth || Math.random() > 0.7) {
+  if (item.imageDimensions && item.imageDimensions.width < deviceWidth || Math.random() > 0.8) {
     isCoverInline = true
   } else if (Math.random() > 0.9) {
     isContain = true
     // isMultiply = false
     // isBW = false
     title.color = color
+    title.isMonochrome = isMultiply
   }
 
   const fonts = getFontClasses()
@@ -88,11 +89,11 @@ export function createItemStyles (item) {
   title.valign = Math.random() > 0.5 ?
     'middle' :
     ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)]
-  title.isBold = false//(!title.isMonochrome && !title.bg) || fonts[0].indexOf('Montserrat') > 0 ?
-    // true :
-    // (title.isMonochrome ?
-    //   Math.random() > 0.8 :
-    //   Math.random() > 0.3)
+  title.isBold = (!title.isMonochrome && !title.bg) || fonts[0].indexOf('Montserrat') > 0 ?
+    true :
+    (title.isMonochrome ?
+      Math.random() > 0.8 :
+      Math.random() > 0.3)
   title.borderWidth = title.invertBG || title.isVertical ? 0 :
     (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
 
@@ -171,7 +172,7 @@ const interBold = (title) => {
 const getFontClasses = function () {
   let headerClass = 'headerFont'
   let bodyClass = 'bodyFont'
-  if (Math.random() > /*0.3*/1) {
+  if (Math.random() > 0.3) {
     // sans heading, serif body
     headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
     bodyClass += 'Serif' + (Math.floor((Math.random() * 2)) + 1)
