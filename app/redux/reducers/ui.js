@@ -2,7 +2,8 @@ const initialState = {
   viewButtonsVisible: false,
   itemButtonsVisible: false,
   modalVisible: false,
-  modalProps: {}
+  modalProps: {},
+  showLoadingAnimation: true
 }
 
 export function ui (state = initialState, action) {
@@ -38,6 +39,13 @@ export function ui (state = initialState, action) {
       return {
         ...state,
         modalVisible: false
+      }
+
+    case 'UI_HIDE_LOADING_ANIMATION':
+    case 'ITEMS_FETCH_DATA_SUCCESS':
+      return {
+        ...state,
+        showLoadingAnimation: false
       }
 
     default:
