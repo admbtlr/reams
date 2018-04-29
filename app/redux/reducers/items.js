@@ -70,6 +70,7 @@ export function items (state = initialState, action) {
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
       items = action.items
+        .map(nullValuesToEmptyStrings)
         .map(addStylesIfNecessary)
 
       let index = 0
@@ -166,7 +167,8 @@ export function items (state = initialState, action) {
 
     case 'ITEM_SAVE_EXTERNAL_ITEM':
       saved = [ ...state.saved ]
-      savedItem = addStylesIfNecessary(action.item)
+      savedItem = nullValuesToEmptyStrings(action.item)
+      savedItem = addStylesIfNecessary(savedItem)
       savedItem.isSaved = true
       saved.push({
         ...savedItem,
@@ -290,6 +292,12 @@ function addStylesIfNecessary (item) {
   }
 }
 
+function nullValuesToEmptyStrings (item) {
+  item.title = item.title ? item.title : ''
+  item.html_content = item.content_html ? item.html_content : ''
+  return item
+}
+
 function addMercuryStuffToItem (item, mercury) {
   if (item.is_external) {
     return {
@@ -332,6 +340,7 @@ function isExcerptUseful (item) {
 }
 
 function isExcerptExtract (item) {
+  if (!item.content_html) return false
   let isExcerptExtract
   const excerptWithoutEllipsis = item.excerpt.substring(0, item.excerpt.length - 4)
   const bodyWithoutHtml = item.content_html.replace(/<.*?>/g, '')

@@ -1,5 +1,6 @@
 import { mergeItems, id } from '../../utils/merge-items'
 import { filterItemsForStale } from '../realm/stale-items'
+import moment from 'moment'
 
 const feedwrangler = require('./feedwrangler')
 const rizzle = require('./rizzle')
@@ -45,6 +46,9 @@ function * fetchUnreadItems (oldItems, currentItem, feeds) {
     }
     try {
       const unreadItemArrays = yield rizzle.fetchUnreadItems(feeds)
+
+      unreadItemArrays = extractErroredFeeds(unreadItemArrays)
+
       newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
       if (__DEV__) {
         newItems = newItems.slice(0, 100)
@@ -52,12 +56,14 @@ function * fetchUnreadItems (oldItems, currentItem, feeds) {
       console.log(`Fetched ${newItems.length} items`)
       console.log(newItems)
       const { read, unread } = mergeItems(oldItems, newItems, currentItem)
-      unread = yield filterItemsForStale(unread)
+
+      // RealmJS is too slow in devtools
+      if (!__DEV__) {
+        unread = yield filterItemsForStale(unread)
+      }
 
       console.log(`And now I have ${unread.length} unread items`)
-      console.log(unread)
-      readItems = read.sort((a, b) => a.date_published > b.date_published)
-      newItems = unread
+      newItems = unread.sort((a, b) => moment(a.date_published).unix() - moment(b.date_published).unix());
     } catch (error) {
       console.log(error)
     }
@@ -86,6 +92,14 @@ function * fetchUnreadItems (oldItems, currentItem, feeds) {
   }
 
   return {newItems, readItems}
+}
+
+function extractErroredFeeds (unreadItemsArrays) {
+  let errored = unreadItemsArrays.filter(uia => uia.message)
+  errored.forEach(({feed, message}) => {
+    console.log(`${feed.title} has errored: ${message}`)
+  })
+  return unreadItemsArrays.filter(uia => uia.length)
 }
 
 function mergeExpanded (mixedItems, expandedItems) {

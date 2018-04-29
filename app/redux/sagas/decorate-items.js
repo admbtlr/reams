@@ -9,7 +9,9 @@ const co = require('co')
 import { getItems, getCurrentItem, getDisplay } from './selectors'
 
 export function * decorateItems (action) {
-  const items = yield select(getItems, 'items')
+  let items
+  let item
+  let pendingDecoration = [] // a local cache
   let count = 0
   let toDispatch = []
 
@@ -18,7 +20,7 @@ export function * decorateItems (action) {
   yield spawn(function * () {
     let items, decoratedCount
     while (true) {
-      yield call(delay, 500)
+      yield call(delay, 300)
       const dispatchNow = [...toDispatch]
       toDispatch = []
       for (decoration of dispatchNow) {
@@ -38,17 +40,25 @@ export function * decorateItems (action) {
     }
   })
 
-  for (let item of items) {
-    if (!item.hasLoadedMercuryStuff) {
-      yield call(delay, 500)
+  while (true) {
+    yield call(delay, 500)
+    items = yield select(getItems, 'items')
+    item = items.find(item => !item.hasLoadedMercuryStuff && !pendingDecoration.find(pd => pd._id === item._id))
+    if (item) {
+      console.log(`Got item: ${item.title}`)
+      pendingDecoration.push(item)
+      const itemToDecorate = item
       InteractionManager.runAfterInteractions(() => {
-        return co(decorateItem(item)).then((decoration) => {
+        if (!itemToDecorate) return // somehow item can become undefined here...?
+        return co(decorateItem(itemToDecorate)).then((decoration) => {
+          pendingDecoration = pendingDecoration.filter(pending => pending._id !== itemToDecorate._id)
           if (decoration) {
             toDispatch.push(decoration)
           }
+        }).catch(error => {
+          pendingDecoration = pendingDecoration.filter(pending => pending._id !== itemToDecorate._id)
         })
       })
-      count++
     }
   }
 }

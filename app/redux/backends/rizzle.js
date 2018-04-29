@@ -7,7 +7,10 @@ export const fetchUnreadItems = (feeds) => {
       return { response, feed }
     }).then(({response, feed}) => {
         if (!response.ok) {
-          throw Error(response.statusText)
+          throw {
+            feed,
+            message: response.statusText
+          }
         }
         return response.json().then(json => {
           return { json, feed }
@@ -18,7 +21,9 @@ export const fetchUnreadItems = (feeds) => {
         feed_title: feed.title,
         feed_id: feed._id
       }
-    }))
+    })).catch(({feed, message}) => {
+      return {feed, message}
+    })
 
     //   if (!response.ok) {
     //     throw Error(response.statusText)
