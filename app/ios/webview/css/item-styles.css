@@ -704,20 +704,20 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-stroke-color: #ffd000; }
 
 .itemArticle.yellow2 a, .itemArticle.yellow2 a:active, .itemArticle.yellow2 a:visited {
-  -webkit-text-decoration-color: #d9e363; }
+  -webkit-text-decoration-color: #aab814; }
 
 .itemArticle.yellow2 blockquote.short-blockquote, .itemArticle.yellow2 .pullquote {
-  color: #d9e363; }
+  color: #aab814; }
 
 .itemArticle.yellow2 *:not(:first-of-type) div:before,
 .itemArticle.yellow2 * div:not(:first-of-type):before,
 .itemArticle.yellow2 div:not(:first-of-type):before {
-  background-color: #d9e363; }
+  background-color: #aab814; }
 
 .itemArticle.yellow2:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow2:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow2:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  color: #d9e363; }
+  color: #aab814; }
 
 .itemArticle.yellow2.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow2.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -728,7 +728,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.yellow2.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow2.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.yellow2.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  -webkit-text-stroke-color: #d9e363; }
+  -webkit-text-stroke-color: #aab814; }
 
 .itemArticle.green1 a, .itemArticle.green1 a:active, .itemArticle.green1 a:visited {
   -webkit-text-decoration-color: #30e8c0; }

@@ -4,6 +4,8 @@ import {deepEqual} from '../utils/'
 import {colors} from '../utils/color-definitions'
 import {getNames} from '../utils/colors'
 
+const entities = require('entities')
+
 let deviceWidth
 let deviceHeight
 
@@ -34,7 +36,7 @@ export function createItemStyles (item) {
 
   let isContain = false
   let isCoverInline = false
-  if (item.imageDimensions && item.imageDimensions.width < deviceWidth || Math.random() > 0.8) {
+  if (item.title && item.title.length > 24 && Math.random() > 0.8) {
     isCoverInline = true
   } else if (Math.random() > 0.9) {
     isContain = true
@@ -45,25 +47,6 @@ export function createItemStyles (item) {
   }
 
   const fonts = getFontClasses()
-  const words = item.title.split(' ')
-
-  const longestWord = (text) => {
-    let longest = 0
-    words.forEach((word) => {
-      longest = word.length > longest ? word.length : longest
-    })
-    return longest
-  }
-
-  if (item.title.length < 40 && longestWord(item.title) < 6) {
-    title.fontSizeAsWidthDivisor = 6
-  } else if (item.title.length < 60 && longestWord(item.title) < 8) {
-    title.fontSizeAsWidthDivisor = 7
-  } else if (item.title.length < 80 && longestWord(item.title) < 10) {
-    title.fontSizeAsWidthDivisor = 8
-  } else {
-    title.fontSizeAsWidthDivisor = 10
-  }
 
   // this is an attempt to rationalise font sizes for larger screens
   // (account for landscape)
@@ -72,7 +55,7 @@ export function createItemStyles (item) {
     title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
   }
 
-  title.interBolded = interBold(item.title)
+  title.interBolded = interBold(entities.decode(item.title))
   title.lineHeightAsMultiplier = 1.1 + Math.random() * 0.2
   title.maximiseFont = isCoverInline || Math.random() > 0.5
   title.textAlign = Math.random() > 0.5
@@ -80,21 +63,21 @@ export function createItemStyles (item) {
     : 'left'
   title.title = item.title
   title.hasShadow = !isContain
-  title.isVertical = isCoverInline ? false : shouldBeVertical(item.title)
+  title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.5
-  title.isUpperCase = false//fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3
+  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3) || Math.random() > 0.7
   title.invertBG = Math.random() > 0.8 && !isCoverInline
-  title.isItalic = false//Math.random() > 0.8
+  title.isItalic = Math.random() > 0.8
   title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
-  title.valign = Math.random() > 0.5 ?
+  title.valign = Math.random() > 0.5 && !isContain ? // isContain means image is in the middle
     'middle' :
-    ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)]
+    ['top', 'bottom'][Math.floor(Math.random() * 2)]
   title.isBold = (!title.isMonochrome && !title.bg) || fonts[0].indexOf('Montserrat') > 0 ?
     true :
     (title.isMonochrome ?
       Math.random() > 0.5 :
       Math.random() > 0.3)
-  title.borderWidth = title.invertBG || title.isVertical ? 0 :
+  title.borderWidth = title.invertBG || title.isVertical || isContain ? 0 :
     (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
 
   // to stop the predominance of white on black titles
@@ -122,24 +105,25 @@ export function createItemStyles (item) {
       align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)],
       isInline: isCoverInline
     },
-    title: {
-      ...title,
-      valign: Math.random() > 0.5 ? 'middle' : ['top', 'middle', 'bottom'][Math.floor(Math.random() * 3)]
-    }
+    title
   }
 }
 
 const shouldBeVertical = (title) => {
   const words = title.split(' ')
-  return proportionWordsOver10Chars(words) > 0.25 ||
-    (title.length < 72 && words.length < 8 && titleVariance(words) < 1.5) ||
-    (words.length < 6 && Math.random() > 0.5)
+  if (proportionWordsOver12Chars(words) > 0.25 ||
+    (title.length < 72 && words.length < 6 && titleVariance(words) < 1.5) ||
+    (words.length < 4 && Math.random() > 0.5)) {
+    return true
+  } else {
+    return false
+  }
 }
 
-const proportionWordsOver10Chars = (words) => {
+const proportionWordsOver12Chars = (words) => {
   let over = 0
   words.forEach((word) => {
-    if (word.length >= 10) over += 1
+    if (word.length >= 12) over += 1
   })
   return over / words.length
 }

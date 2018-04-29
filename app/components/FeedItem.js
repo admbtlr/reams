@@ -293,6 +293,7 @@ class FeedItem extends React.Component {
   }
 
   stripInlineStyles (html) {
+    if (!html) return html
     const pattern = new RegExp(/style=".*?"/, 'g')
     return html.replace(pattern, '')
   }
@@ -345,7 +346,7 @@ class FeedItem extends React.Component {
     } else if (Math.random() > 0.9) {
       classes.push('headerBlockInverse')
     }
-    if (this.props.item.title.length > 80) {
+    if (this.props.item.title && this.props.item.title.length > 80) {
       classes.push('headerSmall')
     // } else if (Math.random() > 0.8 &&
     //     classes.indexOf('headerBlock') === -1 &&

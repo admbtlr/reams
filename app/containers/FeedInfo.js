@@ -19,9 +19,10 @@ const mapDispatchToProps = (dispatch) => {
       type: 'FEED_MARK_READ',
       id
     }),
-    unsubscribe: (id) => {
-      console.log(`Unsubscribe from ${id}`)
-    }
+    unsubscribe: (id) => dispatch({
+      type: 'FEEDS_REMOVE_FEED',
+      id
+    })
   }
 }
 
