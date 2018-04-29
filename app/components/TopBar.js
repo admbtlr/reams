@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import AnimatedEllipsis from 'react-native-animated-ellipsis'
 import {
   getAnimatedValue,
   getAnimatedValueNormalised,
@@ -48,6 +49,7 @@ class TopBar extends React.Component {
   }
 
   render () {
+    const { toolbar, toggleViewButtons } = this.props
     // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleFG')
     const backgroundColor = hslString('rizzleBG')
     const borderBottomColor = this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleBG')
@@ -55,6 +57,7 @@ class TopBar extends React.Component {
       ...this.getStyles().topBar,
       backgroundColor
     }
+    const isMessage = toolbar.message
     let textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor,
@@ -73,11 +76,19 @@ class TopBar extends React.Component {
             numberOfLines={1}
             style={{
               ...this.getStyles().feedName,
+              fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
               opacity: getAnimatedValueNormalised(),
               marginLeft: 35
             }}
           >
             {this.getMessage()}
+            {isMessage &&
+              <AnimatedEllipsis style={{
+                color: 'white',
+                fontSize: 16,
+                letterSpacing: -5
+              }}/>
+            }
           </Animated.Text>
           <TouchableOpacity
             style={{
@@ -88,7 +99,7 @@ class TopBar extends React.Component {
               borderRadius: 14,
               backgroundColor: 'rgba(255, 255, 255, 0.1)'
             }}
-            onPress={this.props.toggleViewButtons}
+            onPress={toggleViewButtons}
           >
             <Text style={{
               fontFamily: 'IBMPlexMono',
