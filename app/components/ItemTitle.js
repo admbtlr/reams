@@ -3,155 +3,98 @@ import {Animated, Dimensions, Text, View, WebView} from 'react-native'
 import {BlurView} from 'react-native-blur'
 import MeasureText from 'react-native-measure-text-with-fontfamily'
 import moment from 'moment'
+import quote from 'headline-quotes'
 
 import {hslString} from '../utils/colors'
 import {isIphoneX} from '../utils'
 
+const entities = require('entities')
+
 const fontStyles = {
   headerFontSerif1: {
     bold: {
-      fontFamily: 'IBMPlexSerif-Bold',
-      multiplier: 0.7,
-      multiplierUpperCase: 0.85
+      fontFamily: 'IBMPlexSerif-Bold'
     },
     boldItalic: {
-      fontFamily: 'IBMPlexSerif-BoldItalic',
-      multiplier: 0.7,
-      multiplierUpperCase: 0.75
+      fontFamily: 'IBMPlexSerif-BoldItalic'
     },
     regular: {
-      fontFamily: 'IBMPlexSerif-Light',
-      multiplier: 0.7,
-      multiplierUpperCase: 0.75
+      fontFamily: 'IBMPlexSerif-Light'
     },
     regularItalic: {
-      fontFamily: 'IBMPlexSerif-LightItalic',
-      multiplier: 0.6,
-      multiplierUpperCase: 0.72
+      fontFamily: 'IBMPlexSerif-LightItalic'
     }
   },
   headerFontSerif2: {
     bold: {
-      fontFamily: 'Arvo-Bold',
-      multiplier: 0.7,
-      multiplierUpperCase: 0.9
+      fontFamily: 'Arvo-Bold'
     },
     boldItalic: {
-      fontFamily: 'Arvo-BoldItalic',
-      multiplier: 0.75,
-      multiplierUpperCase: 0.9
+      fontFamily: 'Arvo-BoldItalic'
     },
     regular: {
-      fontFamily: 'Arvo',
-      multiplier: 0.75,
-      multiplierUpperCase: 0.9
+      fontFamily: 'Arvo'
     },
     regularItalic: {
-      fontFamily: 'Arvo-Italic',
-      multiplier: 0.72,
-      multiplierUpperCase: 0.9
+      fontFamily: 'Arvo-Italic'
     }
   },
   headerFontSerif3: {
     bold: {
-      fontFamily: 'PlayfairDisplay-Black',
-      multiplier: 0.53,
-      multiplierUpperCase: 0.8
+      fontFamily: 'PlayfairDisplay-Black'
     },
     boldItalic: {
-      fontFamily: 'PlayfairDisplay-BlackItalic',
-      multiplier: 0.68,
-      multiplierUpperCase: 0.82
+      fontFamily: 'PlayfairDisplay-BlackItalic'
     },
     regular: {
-      fontFamily: 'PlayfairDisplay-Regular',
-      multiplier: 0.65,
-      multiplierUpperCase: 0.75
+      fontFamily: 'PlayfairDisplay-Regular'
     },
     regularItalic: {
-      fontFamily: 'PlayfairDisplay-Italic',
-      multiplier: 0.6,
-      multiplierUpperCase: 0.75
+      fontFamily: 'PlayfairDisplay-Italic'
     }
   },
   headerFontSans1: {
     verticalOffset: 0.1,
     bold: {
-      fontFamily: 'AvenirNextCondensed-Bold',
-      multiplier: 0.55,
-      multiplierUpperCase: 0.55
+      fontFamily: 'AvenirNextCondensed-Bold'
     },
     boldItalic: {
-      fontFamily: 'AvenirNextCondensed-BoldItalic',
-      multiplier: 0.55,
-      multiplierUpperCase: 0.55
+      fontFamily: 'AvenirNextCondensed-BoldItalic'
     },
     regular: {
-      fontFamily: 'AvenirNextCondensed-Medium',
-      multiplier: 0.42,
-      multiplierUpperCase: 0.42
+      fontFamily: 'AvenirNextCondensed-Medium'
     },
     regularItalic: {
-      fontFamily: 'AvenirNextCondensed-MediumItalic',
-      multiplier: 0.42,
-      multiplierUpperCase: 0.42
+      fontFamily: 'AvenirNextCondensed-MediumItalic'
     }
   },
   headerFontSans2: {
     bold: {
-      fontFamily: 'Montserrat-Bold',
-      multiplier: 0.75,
-      multiplierUpperCase: 0.75
+      fontFamily: 'Montserrat-Bold'
     },
     boldItalic: {
-      fontFamily: 'Montserrat-BoldItalic',
-      multiplier: 0.75,
-      multiplierUpperCase: 0.75
+      fontFamily: 'Montserrat-BoldItalic'
     },
     regular: {
-      fontFamily: 'Montserrat-Light',
-      multiplier: 0.6,
-      multiplierUpperCase: 0.6
+      fontFamily: 'Montserrat-Light'
     },
     regularItalic: {
-      fontFamily: 'Montserrat-LightItalic',
-      multiplier: 0.6,
-      multiplierUpperCase: 0.6
+      fontFamily: 'Montserrat-LightItalic'
     }
   },
   headerFontSans3: {
     bold: {
-      fontFamily: 'IBMPlexSans-Bold',
-      multiplier: 0.58,
-      multiplierUpperCase: 0.58
+      fontFamily: 'IBMPlexSans-Bold'
     },
     boldItalic: {
-      fontFamily: 'IBMPlexSans-BoldItalic',
-      multiplier: 0.58,
-      multiplierUpperCase: 0.58
+      fontFamily: 'IBMPlexSans-Bold'
     },
     regular: {
-      fontFamily: 'IBMPlexSans-Light',
-      multiplier: 0.55,
-      multiplierUpperCase: 0.55
+      fontFamily: 'IBMPlexSans-Light'
     },
     regularItalic: {
-      fontFamily: 'IBMPlexSans-LightItalic',
-      multiplier: 0.55,
-      multiplierUpperCase: 0.55
+      fontFamily: 'IBMPlexSans-Light'
     }
-  },
-  bodyFontSans1: {
-    fontFamily: 'GillSans-LightItalic'
-  },
-  bodyFontSans2: {
-    fontFamily: 'Avenir-LightOblique'
-  },
-  bodyFontSerif1: {
-    fontFamily: 'Cochin'
-  },
-  bodyFontSerif2: {
-    fontFamily: 'IowanOldStyle-Roman'
   }
 }
 
@@ -170,56 +113,33 @@ class ItemTitle extends React.Component {
       0 :
       this.screenHeight * -0.1
 
-    // this.fadeInAnim = props.coverImageStyles.isInline ? new Animated.Value(-1) :  new Animated.Value(0)
-    // this.fadeInAnim2 = props.coverImageStyles.isInline ? new Animated.Value(-1) :  new Animated.Value(0)
     this.fadeInAnim = new Animated.Value(-1)
     this.fadeInAnim2 = new Animated.Value(-1)
   }
 
-  // calculateMaxFontSize (title, font, isBold, isUpperCase, totalPadding) {
-  //   const maxLength = this.getLongestWord(title).length
-  //   const mult = isUpperCase ? 'multiplierUpperCase' : 'multiplier'
-  //   const multiplier = this.getFontObject()[mult]
-  //   const width = this.screenWidth - totalPadding
-  //   // do something here with letter spacing
-  //   const letterSpacing = this.getLetterSpacing()
+  getRenderedTitle (title) {
+    let rendered = title
+      .replace(/<i>/ig, '|||Text style={italic}||||')
+      .replace(/<\/i>/ig, '|||/Text||||')
+      .replace(/<b>/ig, '|||Text style={bold}||||')
+      .replace(/<\/b>/ig, '|||/Text||||')
+      .replace('|||', '<')
+      .replace('||||', '>')
+    return this.fixWidowIfNecessary(rendered)
+  }
 
-  //   // console.log(`MAX FONT SIZE (${title}) (${this.getFontFamily()}): ${multiplier} :: ${Math.floor(width / maxLength / (multiplier * 1.2 + letterSpacing / 50))}`)
-
-
-
-
-  //   // multiply by 1.2 to give us a buffer
-  //   return Math.floor(width / maxLength / (multiplier + letterSpacing / 50))
-  // }
-
-  // adjustFontSize (height) {
-  //   const {fontSize, fontResized} = this.props.styles
-  //   const maxHeight = this.screenHeight - this.paddingTop - this.paddingBottom
-  //   if (height > maxHeight) {
-  //     // const fontSize = this.props.styles.fontSize
-  //     // const oversizeFactor = height / maxHeight
-  //     // const newFontSize = Math.round(fontSize / oversizeFactor * 0.9)
-  //     // console.log(this.props.title + ' - NEW FONT SIZE: ' + styles.fontSize + ' > ' + Math.floor(styles.fontSize * 0.9))
-  //     this.props.updateFontSize(this.props.item, Math.floor(fontSize * 0.9))
-  //   } else if (!fontResized) {
-  //     // tell it that the max font we calculated is just fine thank you
-  //     this.props.updateFontSize(this.props.item, Math.floor(fontSize))
-  //   }
-  // }
-
-  getLongestWord (title) {
-    return title.split(/[ \-—]/).reduce((longest, word) => {
+  getLongestWord () {
+    return this.displayTitle.split(/[ \-—]/).reduce((longest, word) => {
       if (word.length > longest.length) return word
       return longest
     }, '')
   }
 
   async getMaxFontSize () {
-    const { title, styles } = this.props
+    let { styles } = this.props
     const that = this
     let maxSize
-    const longestWord = this.getLongestWord(title)
+    const longestWord = this.getLongestWord()
     let sizes = []
     let i = 70
     while (i > 30) {
@@ -250,7 +170,7 @@ class ItemTitle extends React.Component {
 
   getInnerVerticalPadding (fontSize) {
     const {styles} = this.props
-    const lineHeight = fontSize ? fontSize * 1.1 : styles.lineHeight
+    const lineHeight = fontSize ? fontSize * styles.lineHeightAsMultiplier : styles.lineHeight
     return lineHeight > 60 ?
       Math.round(lineHeight / 4) :
       Math.round(lineHeight / 2)
@@ -277,23 +197,35 @@ class ItemTitle extends React.Component {
   }
 
   getInnerHorizontalPadding (fontSize) {
-    const {styles, coverImageStyles, textAlign,  title} = this.props
-    const lineHeight = fontSize ? fontSize * 1.1 : styles.lineHeight
+    const {styles, coverImageStyles, textAlign} = this.props
     const relativePadding = this.getInnerVerticalPadding(fontSize || styles.fontSize)
-    return coverImageStyles.isInline ? 8 :
-      styles.bg || styles.textAlign === 'center' ? (16 + relativePadding) : 16
+    if (coverImageStyles.isInline) {
+      return 8 // where did this number come from?
+    } else if (styles.bg || styles.textAlign === 'center' && styles.valign === 'middle') {
+      return relativePadding
+    } else {
+      return 0
+    }
+  }
+
+  getInnerHorizontalMargin () {
+    return this.props.coverImageStyles.isInline ? 8 : 16 // allow space for date
   }
 
   getInnerWidth (fontSize) {
-    return Math.min(this.screenWidth, this.screenHeight) - this.getInnerHorizontalPadding(fontSize) * 2
+    return Math.min(this.screenWidth, this.screenHeight) -
+      this.getInnerHorizontalPadding(fontSize) * 2 -
+      this.getInnerHorizontalMargin(fontSize) * 2
   }
 
-  async componentWillMount () {
-    const {styles, coverImageStyles, textAlign,  title} = this.props
+  async componentDidUpdate () {
+    const {styles, coverImageStyles, textAlign} = this.props
+
+    if (styles.fontResized) return
 
     // first get max font size
     const maxFontSize = await this.getMaxFontSize()
-    console.log(`MAX FONT SIZE (${title}): ${maxFontSize}`)
+    console.log(`MAX FONT SIZE (${this.displayTitle}): ${maxFontSize}`)
 
     let sizes = []
     let i = maxFontSize
@@ -302,7 +234,7 @@ class ItemTitle extends React.Component {
     }
 
     Promise.all(sizes.map((size) => MeasureText.measureSizes({
-        texts: [styles.isUpperCase ? title.toLocaleUpperCase() : title],
+        texts: [styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle],
         width: this.getInnerWidth(size),
         fontSize: size,
         fontFamily: this.getFontFamily()
@@ -316,27 +248,38 @@ class ItemTitle extends React.Component {
         }
       })
 
-      console.log(title)
+      console.log(this.displayTitle)
       console.log(values)
       const maxHeight = this.screenHeight / 1.5
       // now go through them and find the first one that
-      // (a) is less than 50% screen height
+      // (a) is less than 66% screen height
       values = values.filter(v => v.height < maxHeight)
       const maxViable = values[0].size
-      console.log(`MAX VIABLE FONT SIZE (${title}): ${maxViable}`)
+      let optimal
+      console.log(`MAX VIABLE FONT SIZE (${this.displayTitle}): ${maxViable}`)
+
       // (b) jumps down a line
       const initialNumLines = values[0].numLines
-      let optimal = values.find(v => v.numLines < initialNumLines).size
-      // (c) if we go down to 4 lines, is the fontSize > 30?
+      let downALine = values.find((v, i) => {
+        return values[i - 1] &&
+          v.numLines < values[i - 1].numLines &&
+          v.numLines < 7
+      })
+      optimal = downALine ? downALine.size : maxViable
+
+      // (c) if we go down to 4 lines, is the fontSize < 42?
       let fourLines = values.find(v => v.numLines === 4)
-      if (fourLines && fourLines.size && fourLines.size < optimal && fourLines.size > 30) {
+      if (fourLines && fourLines.size && fourLines.size > optimal && fourLines.size < 42) {
         optimal = fourLines.size
       }
 
-      // this avoids shrinking the font size too much
-      if (maxViable / optimal > 1.5) optimal = maxViable
+      // was maxViable actually four lines or less?
+      if (values[0].numLines <= 4) optimal = maxViable
 
-      if (maxViable < 35) optimal = maxViable
+      // this avoids shrinking the font size too much
+      if (maxViable / optimal > 2) optimal = maxViable
+
+      if (maxViable < 42) optimal = maxViable
 
       // this is a bit sketchy...
       if (styles.invertBG) optimal = Math.round(optimal * 0.9)
@@ -351,39 +294,17 @@ class ItemTitle extends React.Component {
       // often out by 1...
       optimal--
 
-      console.log(`OPTIMAL FONT SIZE (${this.props.title}): ${optimal}`)
+      console.log(`OPTIMAL FONT SIZE (${this.displayTitle}): ${optimal}`)
       this.props.updateFontSize(this.props.item, optimal)
     })
-
-    // const metrics = MeasureText.measureSizes({
-    //     texts: [this.props.title],
-    //     width: this.screenWidth - totalPadding,
-    //     fontSize: 50,
-    //     fontFamily: this.getFontFamily()
-    // })
-    // console.log(metrics)
   }
-
-  // componentWillMount () {
-  //   const {title, styles, coverImageStyles} = this.props
-  //   // if (styles.fontResized) return
-
-  //   // account for landscape mode
-  //   let fontSize = Math.floor(Math.min(this.screenWidth, this.screenHeight) / styles.fontSizeAsWidthDivisor)
-  //   if (styles.maximiseFont) {
-  //     const totalPadding = styles.bg ? 56 :
-  //       coverImageStyles.isInline ? 16: 28
-  //     fontSize = this.calculateMaxFontSize(title, this.props.font, styles.isBold, styles.isUpperCase, totalPadding)
-  //   }
-  //   this.props.updateFontSize(this.props.item, fontSize)
-  // }
 
   getLetterSpacing () {
     return 0
-    const {styles, title} = this.props
+    const {styles} = this.props
     return styles.isVertical ?
-            (this.getLongestWord(title).length < 6 ? 5 : 3) :
-            (this.getLongestWord(title).length < 6 ? 3 : -1)
+            (this.getLongestWord().length < 6 ? 5 : 3) :
+            (this.getLongestWord().length < 6 ? 3 : -1)
   }
 
   getFontFamily (fontType) {
@@ -408,12 +329,22 @@ class ItemTitle extends React.Component {
     return fontStyles[font][fontType]
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return nextProps !== this.props || nextState !== this.state
-  }
+  // shouldComponentUpdate (nextProps, nextState) {
+  //   return nextProps !== this.props || nextState !== this.state
+  // }
 
   render () {
     let {styles, title, date, hasCoverImage, coverImageStyles, isVisible} = this.props
+
+    // we need 3 different versions of the title
+    // 1. originalTitle (Here&rquo;s a story about a <i>Thing</i>)
+    // 2. displayTitle (Here’s a story about a Thing)
+    // 3. renderedTitle (Here’s a story about a <Text style={italic}>Thing</Text>
+    this.originalTitle = this.props.title
+    this.decodedTitle = quote(entities.decodeHTML(this.props.title).replace(/\n/g, ''))
+    this.displayTitle = this.decodedTitle.replace(/<.*>/g, '')
+    this.renderedTitle = this.getRenderedTitle(this.decodedTitle)
+
     let position = {
       height: 'auto',
       width: 'auto',
@@ -488,22 +419,20 @@ class ItemTitle extends React.Component {
     const innerPadding = this.getInnerVerticalPadding()
 
     // if center aligned and not full width, add left margin
-    const defaultHorizontalMargin = coverImageStyles.isInline ? 8 : 16 // allow space for date
+    const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = styles.widthPercentage || 100
     const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
     const horizontalMargin = (this.screenWidth - width) / 2
 
-    const hasLeftPadding = styles.bg || styles.textAlign === 'center' &&
-      styles.valign === 'middle' &&
-      !coverImageStyles.isInline
+    const horizontalPadding = this.getInnerHorizontalPadding()
 
     const innerViewStyle = {
       // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: horizontalMargin,
       marginRight:  horizontalMargin,
-      paddingLeft: hasLeftPadding ? innerPadding : 0,
-      paddingRight: hasLeftPadding ? innerPadding : 0,
+      paddingLeft: horizontalPadding,
+      paddingRight: horizontalPadding,
       paddingBottom: styles.bg || styles.textAlign === 'center' || styles.borderWidth || coverImageStyles.isInline ? innerPadding : styles.lineHeight,
       paddingTop: innerPadding,
       backgroundColor: styles.bg ?  'rgba(255,255,255,0.9)' : 'transparent',
@@ -518,7 +447,7 @@ class ItemTitle extends React.Component {
     }
     const overlayColour = hasCoverImage && !styles.invertBGPadding && !styles.bg && coverImageStyles.resizeMode === 'cover' ?
       (styles.isMonochrome || coverImageStyles.isBW || coverImageStyles.isMultiply ?
-        'rgba(0,0,0,0.1)' :
+        'rgba(0,0,0,0.2)' :
         'rgba(0,0,0,0.3)') :
       'transparent'
     const outerPadding = this.getOuterVerticalPadding()
@@ -544,8 +473,6 @@ class ItemTitle extends React.Component {
     }
 
     let dateStyle = {
-      position: 'absolute',
-      top: this.screenHeight * (styles.valign === 'bottom' ? 0.2 : 0.7), // heuristic
       color,
       backgroundColor: 'transparent',
       fontSize: 12,
@@ -554,9 +481,19 @@ class ItemTitle extends React.Component {
       textAlign: 'center',
       marginLeft: 0,
       marginRight:  0,
+      marginBottom: 18,
       padding: 0,
       width: this.screenWidth,
-      transform: [
+      // top: -10 // magic number!
+    }
+
+    if (!coverImageStyles.isInline) {
+      dateStyle.position = 'absolute'
+      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.2 : 0.7) // heuristic
+    }
+
+    if (!coverImageStyles.isInline && styles.valign !== 'middle') {
+      dateStyle.transform = [
         {translateY: 100},
         {translateX: (this.screenWidth / 2) - 6},
         {rotateZ: '90deg'}
@@ -592,16 +529,6 @@ class ItemTitle extends React.Component {
       server = 'http://localhost:8888/'
     }
 
-    const html = `<html>
-      <head>
-        <link rel="stylesheet" type="text/css" href="${server}webview/css/item-styles.css">
-        <script src="${server}webview/js/feed-item.js"></script>
-      </head>
-      <body style="margin: 0; padding: 0;">
-        <h1>${title.replace(' ', '\n')}</h1>
-      </body>
-    </html>`
-
     const justifiers = {
       'top': 'flex-start',
       'middle': 'center',
@@ -612,11 +539,7 @@ class ItemTitle extends React.Component {
       'center': 'center'
     }
 
-    title = title.replace(/\n/g, '')
-    // TODO: actually replace italics?
-    title = title.replace(/<.*?>/g, '')
-
-    const words = title.split(' ')
+    const words = this.displayTitle.split(' ')
     let wordStyles = null
     if (styles.interBolded) {
       wordStyles = styles.interBolded.map(isBold => {
@@ -629,10 +552,10 @@ class ItemTitle extends React.Component {
       })
     } else {
       if (this.props.styles.isUpperCase) {
-        title = title.toLocaleUpperCase()
+        this.renderedTitle = this.getRenderedTitle(this.decodedTitle.toLocaleUpperCase())
       }
       if (this.props.styles.isVertical) {
-        title = title.trim().replace(/ /g, '\n')
+        this.renderedTitle = this.getRenderedTitle(this.decodedTitle.replace(/ /g, '\n'))
       }
     }
 
@@ -645,7 +568,7 @@ class ItemTitle extends React.Component {
     }
 
     if (shouldSplitIntoWords()) {
-      title = words.map((word, index) => {
+      this.renderedTitle = words.map((word, index) => {
         if (styles.invertBG) {
           return (<View key={index} style={{
             ...invertedTitleWrapperStyle
@@ -675,15 +598,16 @@ class ItemTitle extends React.Component {
     // const excerptColor = styles.bg ?
     //   (styles.isMonochrome ? 'black' : hslString(styles.color)) :
     //   (hasCoverImage ? 'white' : 'black')
-    const excerptLineHeight = styles.lineHeight > 60 ?
-      Math.round(styles.lineHeight / 3) :
-        (styles.lineHeight > 36 ?
-        Math.round(styles.lineHeight / 2) :
-        Math.round(styles.lineHeight / 1.5))
+    // const excerptLineHeight = styles.lineHeight > 60 ?
+    //   Math.round(styles.lineHeight / 3) :
+    //     (styles.lineHeight > 36 ?
+    //     Math.round(styles.lineHeight / 2) :
+    //     Math.round(styles.lineHeight / 1.5))
+    const excerptLineHeight = Math.min(this.screenHeight, this.screenWidth) / 18
     const excerptView = (<Animated.View style={{
         ...innerViewStyle,
-        paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight : 0,
-        paddingBottom: excerptLineHeight,
+        paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
+        paddingBottom: (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : this.getInnerVerticalPadding(),
         borderTopWidth: 0,
         opacity: excerptOpacity,
         marginTop: styles.bg && !styles.borderWidth ? 1 : 0
@@ -693,10 +617,10 @@ class ItemTitle extends React.Component {
           flex: 1,
           ...fontStyle,
           ...shadowStyle,
-          textShadowColor: 'rgba(0,0,0,0.4)',
-          textShadowRadius: 20,
+          // textShadowColor: 'rgba(0,0,0,0.4)',
+          // textShadowRadius: 20,
           color: excerptColor,
-          fontFamily: this.getFontFamily('regular'),
+          fontFamily: this.getFontFamily(coverImageStyles.isInline || styles.bg ? 'regular' : 'bold'),
           fontSize: Math.round(excerptLineHeight / 1.4),
           lineHeight: excerptLineHeight,
           letterSpacing: 0,
@@ -718,14 +642,14 @@ class ItemTitle extends React.Component {
           // }}
           ref={(view) => { this.innerView = view }}
         >
-          {typeof(title) === 'object' && title}
-          {typeof(title) === 'string' &&
+          {typeof(this.renderedTitle) === 'object' && this.renderedTitle}
+          {typeof(this.renderedTitle) === 'string' &&
             <Animated.Text style={{
               ...fontStyle,
               ...shadowStyle,
               marginBottom: this.props.styles.isUpperCase ? styles.fontSize * -0.3 : 0
             }}>
-              <Animated.Text>{title}</Animated.Text>
+              <Animated.Text>{this.renderedTitle}</Animated.Text>
             </Animated.Text>
           }
         </Animated.View>
@@ -736,6 +660,17 @@ class ItemTitle extends React.Component {
         {dateView}
       </Animated.View>
     )
+  }
+
+  fixWidowIfNecessary (text) {
+    return this.needsWidowFix(text) ? this.widowFix(text) : text
+  }
+
+  needsWidowFix (text) {
+    const words = text.split(' ')
+    return words.length > 7 &&
+      words[words.length - 1].length < 5 &&
+      words[words.length - 2].length < 5
   }
 
   widowFix (text) {
