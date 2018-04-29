@@ -17,6 +17,7 @@ class Share extends React.Component {
 
   constructor(props, context) {
     super(props, context)
+    console.log('Constructor!')
     this.state = {
       isOpen: true,
       type: '',
@@ -29,6 +30,7 @@ class Share extends React.Component {
   }
 
   checkForRSSHeader (url) {
+    const that = this
     let matches = url.match(/(http[s]*:\/\/.+?(\/|$))/)
     if (!matches || matches.length === 0) {
       return
@@ -37,22 +39,31 @@ class Share extends React.Component {
     console.log(`Checking ${homeUrl}`)
 
     return fetch(homeUrl)
-      .then(res => res.text())
+      .then(res => {
+        console.log(res)
+        return res.text()
+      })
       .then(body => {
         // <link rel="alternate" href="https://www.theguardian.com/international/rss" title="RSS" type="application/rss+xml">
         matches = body.match(/(\<link[^>]*?rel="alternate".*?(rss|atom)\+xml.*\>)/)
-        if (!matches || matches.length === 0) {
-          console.log('No RSS here')
-        } else {
+        if (matches && matches.length > 0) {
           let linkTag = matches[1]
           console.log(linkTag)
-          let rssUrl = linkTag && linkTag.match(/href="(.*?)"/)[1]
-          console.log('MATCHING...')
-          if (!rssUrl.startsWith('http')) {
-            rssUrl = (homeUrl + rssUrl)
-            rssUrl = rssUrl.replace(/([^:])\/\//, '$1/')
+          return that.parseLinkTag(linkTag, homeUrl)
+        } else {
+          console.log('Now checking for links to rss files')
+          console.log(body)
+          // look for links to rss files
+          matches = body.match(/<a.*?href.*?\.(rss|atom).*?>/)
+          if (!matches || matches.length === 0) {
+            // look for links with "rss" in the text
+            matches = body.match(/<a.*?href.*?>[^<]*?(rss|atom).*?>/)
           }
-          return rssUrl
+          if (matches && matches.length > 0) {
+            console.log('Got one!')
+            linkTag = matches[0]
+            return that.parseLinkTag(linkTag, homeUrl)
+          }
         }
       })
       .catch((error) => {
@@ -61,10 +72,22 @@ class Share extends React.Component {
       })
   }
 
+  parseLinkTag (linkTag, homeUrl) {
+    let rssUrl = linkTag && linkTag.match(/href="(.*?)"/)[1]
+    console.log('MATCHING...')
+    if (!rssUrl.startsWith('http')) {
+      rssUrl = (homeUrl + rssUrl)
+      rssUrl = rssUrl.replace(/([^:])\/\//, '$1/')
+    }
+    console.log(`Found an RSS feed: ${rssUrl}`)
+    return rssUrl
+  }
+
   async componentDidMount() {
     try {
       const { type, value } = await ShareExtension.data()
       this.setState({
+        isOpen: true,
         type,
         value,
         searchingForRss: true
@@ -83,7 +106,15 @@ class Share extends React.Component {
     }
   }
 
-  onClose = () => ShareExtension.close()
+  componentDidUpdate () {
+    console.log('COMPONENT DID UPDATE!')
+  }
+
+  onClose = () => {
+    ShareExtension.close()
+    // https://github.com/alinz/react-native-share-extension/issues/64
+    crashMe()
+  }
 
   closing = () => this.setState({ isOpen: false })
 
