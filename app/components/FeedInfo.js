@@ -107,7 +107,9 @@ class FeedInfo extends React.Component {
           marginTop: 28
         }} />
         { this.props.item.author &&
-          <Text style={ textStyles }>{ author && author.trim() }</Text>
+          <Text style={{
+            ...textStyles,
+            fontFamily: 'IBMPlexMono-LightItalic' }}>{ author && author.trim() }</Text>
         }
         { this.props.item.author &&
           <View style={{
