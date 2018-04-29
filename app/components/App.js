@@ -37,6 +37,7 @@ class App extends React.Component {
   }
 
   render () {
+    const {height, width} = Dimensions.get('window')
     return (
       <View style={styles.mainView}>
         <AppStateListenerContainer />
@@ -44,6 +45,15 @@ class App extends React.Component {
         <RizzleModalContainer />
         <ToolbarsContainer />
         <View style={styles.infoView} />
+        <Image
+          source={require('../assets/images/dark-splash.png')}
+          style={{
+            width: 1024,
+            height: 1366,
+            top: (height - 1366) / 2,
+            left: (width - 1024) / 2
+          }}
+        />
         <LogoSpinnerContainer />
         <FeedListContainer style={styles.feedList} />
       </View>
@@ -62,7 +72,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#332233'
+    backgroundColor: '#443344'
     // backgroundColor: 'white'
   },
   infoText: {

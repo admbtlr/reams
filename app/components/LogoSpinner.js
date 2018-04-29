@@ -31,8 +31,8 @@ class LogoSpinner extends React.Component {
   componentDidUpdate () {
     if (this.props.showLoadingAnimation) {
       this.animation.start()
-    } else {
-      this.animation.stop()
+    // } else {
+      // this.animation.stop()
     }
   }
 
@@ -45,7 +45,7 @@ class LogoSpinner extends React.Component {
     return (
       <View style={{
             position: 'absolute',
-            top: height / 2 - 20,
+            top: height / 2 - 15,
             left: width / 2 - 48,
             width: 96,
             height: 48,
