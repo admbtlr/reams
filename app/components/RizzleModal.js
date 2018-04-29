@@ -21,6 +21,23 @@ class RizzleModal extends React.Component {
     this.props.modalHide()
   }
 
+  formatText (text) {
+    if (!text) return text
+    if (typeof text === 'string') {
+      return (<Text>{text}</Text>)
+    } else {
+      return text.map((el, i) => {
+        let style = el.style ? el.style.reduce((accum, tag) => {
+          return {
+            ...accum,
+            ...this.getStyles()[tag]
+          }
+        }, this.getStyles().text) : null
+        return (<Text style={style} key={i}>{el.text}</Text>)
+      })
+    }
+  }
+
   render () {
     return (
       <Modal
@@ -31,8 +48,7 @@ class RizzleModal extends React.Component {
         >
        <View style={{...this.getStyles().base}}>
         <View style={{...this.getStyles().inner}}>
-          <Text style={{...this.getStyles().text}}>{this.props.modalProps.modalText}</Text>
-
+          <View style={{...this.getStyles().textHolder}}>{this.formatText(this.props.modalProps.modalText)}</View>
           <View style={{...this.getStyles().buttonHolder}}>
             { this.props.modalProps.modalHideCancel ||
               <TouchableHighlight
@@ -44,7 +60,8 @@ class RizzleModal extends React.Component {
                 <Text
                   style={{
                     ...this.getStyles().text,
-                    ...this.getStyles().buttonText
+                    ...this.getStyles().buttonText,
+                    ...this.getStyles().yellow
                   }}>Cancel</Text>
               </TouchableHighlight>
             }
@@ -54,7 +71,9 @@ class RizzleModal extends React.Component {
               <Text
                 style={{
                   ...this.getStyles().text,
-                  ...this.getStyles().buttonText
+                  ...this.getStyles().buttonText,
+                  ...this.getStyles().yellow,
+                  ...this.getStyles().strong
                 }}>OK</Text>
             </TouchableHighlight>
           </View>
@@ -83,11 +102,35 @@ class RizzleModal extends React.Component {
         borderTopWidth: 1,
         borderColor: 'rgba(0,0,0,0.3)'
       },
+      textHolder: {
+        margin: 20,
+        marginTop: 15
+      },
       text: {
         color: 'white',
         fontFamily: 'IBMPlexMono',
         fontSize: 16,
-        margin: 20,
+        textAlign: 'center'
+      },
+      title: {
+        // color: hslString('rizzleHighlight'),
+        marginBottom: 10,
+        fontFamily: 'IBMPlexMono-Bold'
+      },
+      em: {
+        fontFamily: 'IBMPlexMono-Italic'
+      },
+      strong: {
+        fontFamily: 'IBMPlexMono-Bold'
+      },
+      strong_em: {
+        fontFamily: 'IBMPlexMono-BoldItalic'
+      },
+      smaller: {
+        fontSize: 15
+      },
+      yellow: {
+        color: hslString('rizzleHighlight')
       },
       touchable: {
         flex: 1,

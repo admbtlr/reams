@@ -72,6 +72,8 @@ class AppStateListener extends React.Component {
         console.log(`Got a feed to subscribe to: ${value}`)
         // TODO check that value is a feed url
         // TODO check that feed is not already subscribed!
+        // right now it will just get ignored if it's already subscribed
+        // but it might be nice to say that in the message
         fetch(value)
           .then((response) => {
             if (!response.ok) {
@@ -87,14 +89,31 @@ class AppStateListener extends React.Component {
               let title, description
               if (result.rss) {
                 title = result.rss.channel[0].title[0]
-                description = result.rss.channel[0].description[0]
+                description = result.rss.channel[0].description ?
+                  result.rss.channel[0].description[0] :
+                  ''
               } else if (result.feed) {
                 // atom
                 title = result.feed.title[0]
-                description = result.feed.subtitle[0]
+                description = result.feed.subtitle ?
+                  result.feed.subtitle[0] :
+                  ''
               }
               this.props.showModal({
-                modalText: `Add this feed?\n\n${title}\n${description}`,
+                modalText: [
+                  {
+                    text: 'Add this feed?',
+                    style: ['title']
+                  },
+                  {
+                    text: title,
+                    style: ['em']
+                  },
+                  {
+                    text: description,
+                    style: ['em', 'smaller']
+                  }
+                ],
                 modalHideCancel: false,
                 modalShow: true,
                 modalOnOk: () => {
@@ -108,7 +127,6 @@ class AppStateListener extends React.Component {
               })
             })
           })
-        // this.props.addFeed(value)
       }
     })
   }
