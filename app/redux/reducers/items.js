@@ -71,6 +71,7 @@ export function items (state = initialState, action) {
     case 'ITEMS_FETCH_DATA_SUCCESS':
       items = action.items
         .map(nullValuesToEmptyStrings)
+        .map(fixRelativePaths)
         .map(addStylesIfNecessary)
 
       let index = 0
@@ -277,11 +278,12 @@ export function items (state = initialState, action) {
   }
 }
 
-function addStylesIfNecessary (item) {
+function addStylesIfNecessary (item, index, items) {
   if (item.styles && !item.styles.temporary) {
     return item
   } else {
-    let styles = createItemStyles(item)
+    const prevStyles = index > 0 ? items[index-1].styles : null
+    let styles = createItemStyles(item, prevStyles)
     if (item.title === 'Loading...') {
       styles.temporary = true
     }
@@ -290,6 +292,15 @@ function addStylesIfNecessary (item) {
       styles
     }
   }
+}
+
+function fixRelativePaths (item) {
+  const host = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)[0]
+  const derelativise = s => s.replace(/src="\//g, `src="${host}/`)
+  item.content_html = derelativise(item.content_html)
+  if (item.content_mercury) item.content_mercury = derelativise(item.content_mercury)
+  if (item.body) item.body = derelativise(item.body)
+  return item
 }
 
 function nullValuesToEmptyStrings (item) {
@@ -304,8 +315,8 @@ function addMercuryStuffToItem (item, mercury) {
       ...item,
       external_url: item.url,
       title: mercury.title,
-      content_mercury: mercury.content,
-      body: mercury.content,
+      content_mercury: mercury.content ? mercury.content : '',
+      body: mercury.content ? mercury.content : '',
       date_published: mercury.date_published,
       date_modified: mercury.date_published,
       author: mercury.author,
@@ -322,7 +333,7 @@ function addMercuryStuffToItem (item, mercury) {
     ...item,
     banner_image: mercury.lead_image_url,
     // body: content,
-    content_mercury: mercury.content,
+    content_mercury: mercury.content ? mercury.content : '',
     excerpt: mercury.excerpt,
     hasLoadedMercuryStuff: true
   }
