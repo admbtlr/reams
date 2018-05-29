@@ -3,7 +3,9 @@ const initialState = {
   itemButtonsVisible: false,
   modalVisible: false,
   modalProps: {},
-  showLoadingAnimation: true
+  showLoadingAnimation: true,
+  imageViewerVisible: false,
+  imageViewerUrl: ''
 }
 
 export function ui (state = initialState, action) {
@@ -28,7 +30,6 @@ export function ui (state = initialState, action) {
       }
 
     case 'UI_SHOW_MODAL':
-      console.log(action)
       return {
         ...state,
         modalVisible: true,
@@ -46,6 +47,20 @@ export function ui (state = initialState, action) {
       return {
         ...state,
         showLoadingAnimation: false
+      }
+
+    case 'UI_SHOW_IMAGE_VIEWER':
+      return {
+        ...state,
+        imageViewerVisible: true,
+        imageViewerUrl: action.url
+      }
+
+    case 'UI_HIDE_IMAGE_VIEWER':
+      return {
+        ...state,
+        imageViewerVisible: false,
+        imageViewerUrl: ''
       }
 
     default:

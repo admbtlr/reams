@@ -24,8 +24,10 @@ class CoverImage extends React.Component {
     this.screenHeight = window.height
 
     this.blendMode = props.styles.isMultiply
-                    ? 'blendMultiply'
-                    : 'none'
+      ? 'blendMultiply'
+      : (props.styles.isScreen
+        ? 'blendScreen'
+        : 'none')
 
     this.saturation = 1 //Math.round(Math.random() * 0.8)
     this.contrast = 1.1
@@ -55,7 +57,7 @@ class CoverImage extends React.Component {
   }
 
   render () {
-    const {isInline, resizeMode, isMultiply, color} = this.props.styles
+    const {isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
     const absolute = {
       position: 'absolute',
       top: resizeMode === 'contain' ? '-10%' : '0%',
@@ -70,14 +72,24 @@ class CoverImage extends React.Component {
     }
     const position = isInline ? inline : absolute
     const scrollOffset = this.props.scrollOffset || 0
-    const scale = scrollOffset.interpolate({
-      inputRange: [0, this.screenHeight],
-      outputRange: [1, 0.85]
-    })
-    const translateY = scrollOffset.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, -0.333]
-    })
+    const scale = isInline ?
+      scrollOffset.interpolate({
+        inputRange: [-100, 0, this.screenHeight],
+        outputRange: [1.5, 1, 1]
+      }) :
+      scrollOffset.interpolate({
+        inputRange: [-100, 0, this.screenHeight],
+        outputRange: [1.3, 1, 0.8]
+      })
+    const translateY = isInline ?
+      scrollOffset.interpolate({
+        inputRange: [-1, 0, 1],
+        outputRange: [-0.25, 0, 0]
+      }) :
+      scrollOffset.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -0.333]
+      })
     const opacity = scrollOffset.interpolate({
       inputRange: [0, this.screenHeight * 0.75, this.screenHeight],
       outputRange: [1, 1, 0]
@@ -88,18 +100,30 @@ class CoverImage extends React.Component {
     })
     let style = {
       ...position,
-      backgroundColor: isMultiply ? hslString(color) : 'white',
-      opacity
+      backgroundColor: isMultiply || isScreen ? hslString(color) : 'white',
+      opacity,
+      transform: [
+        {scale},
+        {translateY}
+      ]
     }
-    if (!isInline) {
-      style = {
-        ...style,
-        transform: [
-          {scale},
-          {translateY}
-        ]
-      }
-    }
+    // if (!isInline) {
+    //   style = {
+    //     ...style,
+    //     transform: [
+    //       {scale},
+    //       {translateY}
+    //     ]
+    //   }
+    // } else {
+    //   style = {
+    //     ...style,
+    //     transform: [
+    //       {scaleTest},
+    //       {translateYTest}
+    //     ]
+    //   }
+    // }
     if (resizeMode === 'contain') {
       style = {
         ...style,
@@ -112,6 +136,15 @@ class CoverImage extends React.Component {
     const blurStyle = {
       ...absolute,
       opacity
+    }
+    const borderStyle = {
+      position: 'absolute',
+      top: '0%',
+      height: '100%',
+      left: '0%',
+      width: '100%',
+      borderWidth: 50,
+      borderColor: 'white'
     }
 
     if (this.props.imagePath &&

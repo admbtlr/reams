@@ -1,11 +1,15 @@
 import { put, select } from 'redux-saga/effects'
 import { fetchUnreadItems, fetchUnreadIds, getItemsByIds } from '../backends'
 import { mergeItems, id } from '../../utils/merge-items.js'
+import { checkOnline } from './check-online'
 const RNFS = require('react-native-fs')
 
 import { getItems, getCurrentItem, getFeeds } from './selectors'
 
 export function * fetchItems2 () {
+  const isOnline = yield checkOnline()
+  if (!isOnline) return
+
   yield put({
     type: 'ITEMS_IS_LOADING',
     isLoading: true

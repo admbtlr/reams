@@ -84,16 +84,16 @@ const fontStyles = {
   },
   headerFontSans3: {
     bold: {
-      fontFamily: 'IBMPlexSans-Bold'
+      fontFamily: 'Futura-CondensedExtraBold'
     },
     boldItalic: {
-      fontFamily: 'IBMPlexSans-Bold'
+      fontFamily: 'Futura-CondensedExtraBold'
     },
     regular: {
-      fontFamily: 'IBMPlexSans-Light'
+      fontFamily: 'Futura-Medium'
     },
     regularItalic: {
-      fontFamily: 'IBMPlexSans-Light'
+      fontFamily: 'Futura-MediumItalic'
     }
   }
 }
@@ -200,7 +200,7 @@ class ItemTitle extends React.Component {
     const {styles, coverImageStyles, textAlign} = this.props
     const relativePadding = this.getInnerVerticalPadding(fontSize || styles.fontSize)
     if (coverImageStyles.isInline) {
-      return 8 // where did this number come from?
+      return 0 // where did this number come from?
     } else if (styles.bg || styles.textAlign === 'center' && styles.valign === 'middle') {
       return relativePadding
     } else {
@@ -218,6 +218,10 @@ class ItemTitle extends React.Component {
       this.getInnerHorizontalMargin(fontSize) * 2
   }
 
+  async componentDidMount () {
+    this.componentDidUpdate()
+  }
+
   async componentDidUpdate () {
     const {styles, coverImageStyles, textAlign} = this.props
 
@@ -225,7 +229,7 @@ class ItemTitle extends React.Component {
 
     // first get max font size
     const maxFontSize = await this.getMaxFontSize()
-    console.log(`MAX FONT SIZE (${this.displayTitle}): ${maxFontSize}`)
+    // console.log(`MAX FONT SIZE (${this.displayTitle}): ${maxFontSize}`)
 
     let sizes = []
     let i = maxFontSize
@@ -248,15 +252,15 @@ class ItemTitle extends React.Component {
         }
       })
 
-      console.log(this.displayTitle)
-      console.log(values)
+      // console.log(this.displayTitle)
+      // console.log(values)
       const maxHeight = this.screenHeight / 1.5
       // now go through them and find the first one that
       // (a) is less than 66% screen height
       values = values.filter(v => v.height < maxHeight)
       const maxViable = values[0].size
       let optimal
-      console.log(`MAX VIABLE FONT SIZE (${this.displayTitle}): ${maxViable}`)
+      // console.log(`MAX VIABLE FONT SIZE (${this.displayTitle}): ${maxViable}`)
 
       // (b) jumps down a line
       const initialNumLines = values[0].numLines
@@ -267,9 +271,9 @@ class ItemTitle extends React.Component {
       })
       optimal = downALine ? downALine.size : maxViable
 
-      // (c) if we go down to 4 lines, is the fontSize < 42?
+      // (c) if we go down to 4 lines, is the fontSize > 42?
       let fourLines = values.find(v => v.numLines === 4)
-      if (fourLines && fourLines.size && fourLines.size > optimal && fourLines.size < 42) {
+      if (fourLines && fourLines.size && fourLines.size > optimal && fourLines.size > 42) {
         optimal = fourLines.size
       }
 
@@ -294,7 +298,7 @@ class ItemTitle extends React.Component {
       // often out by 1...
       optimal--
 
-      console.log(`OPTIMAL FONT SIZE (${this.displayTitle}): ${optimal}`)
+      // console.log(`OPTIMAL FONT SIZE (${this.displayTitle}): ${optimal}`)
       this.props.updateFontSize(this.props.item, optimal)
     })
   }
@@ -377,12 +381,20 @@ class ItemTitle extends React.Component {
       (hasCoverImage && !styles.bg ?
         'white' :
         'black') :
-      hslString(styles.color)
+      (styles.isTone ?
+        (styles.isMainColorDarker ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)') :
+      hslString(styles.color))
 
     const invertBGPadding = 5
-    const paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
+    let paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
     const paddingBottom = styles.invertBG ? invertBGPadding : 0
     const paddingLeft = styles.invertBG ? invertBGPadding : 0
+
+    // https://github.com/facebook/react-native/issues/7687
+    // (9 is a heuristic value)
+    const extraPadding = styles.fontSize / 9
+    paddingTop += extraPadding
+    const marginTop = 0 - extraPadding
 
     let fontStyle = {
       fontFamily: this.getFontFamily(),
@@ -394,6 +406,7 @@ class ItemTitle extends React.Component {
       paddingTop,
       paddingBottom,
       paddingLeft,
+      marginTop
       // marginBottom: this.props.styles.isUpperCase ? styles.fontSize * -0.3 : 0
     }
     const viewStyle = {
@@ -435,7 +448,7 @@ class ItemTitle extends React.Component {
       paddingRight: horizontalPadding,
       paddingBottom: styles.bg || styles.textAlign === 'center' || styles.borderWidth || coverImageStyles.isInline ? innerPadding : styles.lineHeight,
       paddingTop: innerPadding,
-      backgroundColor: styles.bg ?  'rgba(255,255,255,0.9)' : 'transparent',
+      backgroundColor: styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       height: 'auto',
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -445,11 +458,7 @@ class ItemTitle extends React.Component {
       borderColor: color,
       opacity: coverImageStyles.isInline ? opacity : 1
     }
-    const overlayColour = hasCoverImage && !styles.invertBGPadding && !styles.bg && coverImageStyles.resizeMode === 'cover' ?
-      (styles.isMonochrome || coverImageStyles.isBW || coverImageStyles.isMultiply ?
-        'rgba(0,0,0,0.2)' :
-        'rgba(0,0,0,0.3)') :
-      'transparent'
+    const overlayColour = this.getOverlayColor()
     const outerPadding = this.getOuterVerticalPadding()
     const outerViewStyle = {
       width: this.screenWidth,
@@ -532,7 +541,8 @@ class ItemTitle extends React.Component {
     const justifiers = {
       'top': 'flex-start',
       'middle': 'center',
-      'bottom': 'flex-end'
+      'bottom': 'flex-end',
+      'top-bottom': 'space-between'
     }
     const aligners = {
       'left': 'flex-start',
@@ -594,7 +604,9 @@ class ItemTitle extends React.Component {
       (hasCoverImage && !styles.bg ?
         'white' :
         'black') :
-      hslString(styles.color)
+      (styles.isExcerptTone ?
+        (styles.isMainColorDarker ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)')
+       : hslString(styles.color))
     // const excerptColor = styles.bg ?
     //   (styles.isMonochrome ? 'black' : hslString(styles.color)) :
     //   (hasCoverImage ? 'white' : 'black')
@@ -662,6 +674,23 @@ class ItemTitle extends React.Component {
     )
   }
 
+  getOverlayColor () {
+    const { hasCoverImage, item, styles, coverImageStyles } = this.props
+    if (!hasCoverImage || styles.invertBGPadding || styles.bg || coverImageStyles.resizeMode === 'contain' ||
+      (item.styles.isCoverImageColorDarker && coverImageStyles.isMultiply)) {
+      return 'transparent'
+    } else if (item.styles.isMainColorDarker && !styles.isMonochrome) {
+      return 'rgba(255,255,255,0.3)'
+    } else if (styles.isMonochrome ||
+      coverImageStyles.isBW ||
+      coverImageStyles.isMultiply ||
+      coverImageStyles.isScreen) {
+      return 'rgba(0,0,0,0.2)'
+    } else {
+      return 'rgba(0,0,0,0.3)'
+    }
+  }
+
   fixWidowIfNecessary (text) {
     return this.needsWidowFix(text) ? this.widowFix(text) : text
   }
@@ -681,11 +710,11 @@ class ItemTitle extends React.Component {
     if (this.props.coverImageStyles.isInline) {
       return {
         opacity: Animated.add(this.props.scrollOffset.interpolate({
-            inputRange: [-50, 0, 200],
+            inputRange: [-50, 100, 300],
             outputRange: [1, 1, 0]
           }), this.fadeInAnim),
         excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
-            inputRange: [-50, 0, 400],
+            inputRange: [-50, 300, 500],
             outputRange: [1, 1, 0]
           }), this.fadeInAnim2),
         shadow: this.props.scrollOffset.interpolate({
@@ -696,11 +725,11 @@ class ItemTitle extends React.Component {
     }
     return {
       opacity: Animated.add(this.props.scrollOffset.interpolate({
-          inputRange: [-50, 0, 100],
-          outputRange: [0, 1, 0]
+          inputRange: [-50, -25, 0, 100, 200],
+          outputRange: [0, 1, 1, 1, 0]
         }), this.fadeInAnim),
       excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
-          inputRange: [-50, 0, 100],
+          inputRange: [-25, 0, 100],
           outputRange: [0, 1, 0]
         }), this.fadeInAnim2),
       shadow: this.props.scrollOffset.interpolate({

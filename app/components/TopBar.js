@@ -51,8 +51,10 @@ class TopBar extends React.Component {
   render () {
     const { toolbar, toggleViewButtons } = this.props
     // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleFG')
-    const backgroundColor = hslString('rizzleBG')
-    const borderBottomColor = this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleBG')
+    const backgroundColor = this.props.displayMode == 'saved' ?
+      hslString('rizzleBGAlt') :
+      hslString('rizzleBG')
+    // const borderBottomColor = this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleBG')
     let topBarStyles = {
       ...this.getStyles().topBar,
       backgroundColor
@@ -61,7 +63,7 @@ class TopBar extends React.Component {
     let textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor,
-      borderBottomColor
+      // borderBottomColor
     }
     return (
       <View style={this.getStyles().base}>
@@ -129,7 +131,6 @@ class TopBar extends React.Component {
         flex: 1,
         flexDirection: 'row',
         height: STATUS_BAR_HEIGHT,
-        borderBottomWidth: 1,
         shadowColor: '#000000',
         shadowOffset: {
           width: 0,
@@ -140,7 +141,7 @@ class TopBar extends React.Component {
       },
       feedName: {
         flex: 1,
-        color: this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleFG'),
+        color: hslString('rizzleFG'),
         fontSize: 16,
         // fontFamily: 'AvenirNext-Regular',
         fontFamily: 'IBMPlexMono',

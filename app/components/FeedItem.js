@@ -20,7 +20,8 @@ class FeedItem extends React.Component {
 
     this.state = {
       headerClassList: this.getHeaderClasses(),
-      webViewHeight: 500
+      webViewHeight: 500,
+      scaleAnim: new Animated.Value(1)
     }
 
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
@@ -53,6 +54,7 @@ class FeedItem extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
+    if (this.isAnimating) return true
     let changes
     let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
     // console.log('Should update? - '
@@ -60,8 +62,8 @@ class FeedItem extends React.Component {
       // + (isDiff ? ' - YES' : ' - NO'))
     if (isDiff) {
       changes = this.diff(this.props, nextProps, this.diff(this.state, nextState))
-      console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
-      console.log(changes)
+      // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
+      // console.log(changes)
     }
 
     // various special cases
@@ -86,6 +88,27 @@ class FeedItem extends React.Component {
           isDiff = false
           this.webView.injectJavaScript(`toggleDarkBackground(${nextProps.isDarkBackground})`)
           break
+
+        case 'isImageViewerVisible':
+          isDiff = false
+          if (!this.props.isVisible) break
+          this.isAnimating = true
+          let toValue = 1
+          const that = this
+          if (nextProps.isImageViewerVisible) {
+            toValue = 0.9
+          }
+          Animated.timing(
+            this.state.scaleAnim,
+            { toValue }).start(() => {
+              setTimeout(() => {
+                that.isAnimating = false
+              }, 2000)
+            })
+          break
+
+        case 'scaleAnim':
+          isDiff = false
       }
     }
     return isDiff
@@ -156,6 +179,7 @@ class FeedItem extends React.Component {
     const excerptPara = !!excerpt ? `<p class="excerpt">${excerpt}</p>` : ''
 
     let body = this.props.showMercuryContent ? content_mercury : content_html
+    body = body || ''
     body = this.stripInlineStyles(body)
     body = this.stripEmptyTags(body)
     body = this.stripUTags(body)
@@ -192,10 +216,16 @@ class FeedItem extends React.Component {
             feedTitle={this.props.item.feed_title}
           />
 
+    const that = this
+
     return (
-      <View style={{
+      <Animated.View style={{
         flex: 1,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        transform: [
+          { scaleX: this.state.scaleAnim },
+          { scaleY: this.state.scaleAnim }
+        ]
       }}>
         {!styles.isCoverInline && coverImage}
         <Animated.ScrollView
@@ -231,6 +261,17 @@ class FeedItem extends React.Component {
           <WebView
             decelerationRate='normal'
             injectedJavaScript={calculateHeight}
+            onMessage={(event) => {
+              const msg = event.nativeEvent.data
+              if (msg.substring(0, 6) === 'image:') {
+                that.props.showImageViewer(msg.substring(6))
+              } else if (msg.substring(0, 5) === 'link:') {
+                const url = msg.substring(5)
+                // console.log('OPEN LINK: ' + url)
+                if (!__DEV__) {
+                  Linking.openURL(url)                }
+              }
+            }}
             {...openLinksExternallyProp}
             ref={(ref) => { this.webView = ref }}
             scalesPageToFit={false}
@@ -247,8 +288,12 @@ class FeedItem extends React.Component {
             onNavigationStateChange={this.updateWebViewHeight}
           />
         </Animated.ScrollView>
-      </View>
+      </Animated.View>
     )
+  }
+
+  launchImageViewer (url) {
+    this.props.showImageViewer(url)
   }
 
   // nasty workaround to figure out scrollEnd
@@ -272,7 +317,7 @@ class FeedItem extends React.Component {
       this.pendingWebViewHeight = calculatedHeight
     }
 
-    console.log(`updateWebViewHeight! ${calculatedHeight}`)
+    // console.log(`updateWebViewHeight! ${calculatedHeight}`)
     const that = this
     // debounce
     if (!this.pendingWebViewHeightId) {
@@ -300,7 +345,7 @@ class FeedItem extends React.Component {
 
   stripEmptyTags (html) {
     const pattern = new RegExp(/<[^\/<]+?>\s*?<\/.+?>/, 'g')
-    return html.replace(pattern, '')
+    return html ? html.replace(pattern, '') : html
   }
 
   stripUTags (html) {

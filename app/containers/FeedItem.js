@@ -8,7 +8,8 @@ const mapStateToProps = (state, ownProps) => {
     item: items[ownProps.index],
     isVisible: ownProps.index === index,
     showMercuryContent: items[ownProps.index].showMercuryContent,
-    ...state.webView
+    ...state.webView,
+    isImageViewerVisible: state.ui.imageViewerVisible
   }
 }
 
@@ -17,6 +18,10 @@ const mapDispatchToProps = (dispatch) => {
     scrollHandlerAttached: (owner) => dispatch({
       type: 'SCROLL_HANDLER_ATTACHED',
       owner: owner
+    }),
+    showImageViewer: (url) => dispatch({
+      type: 'UI_SHOW_IMAGE_VIEWER',
+      url
     })
     // scrollHandler: (e) => dispatch(itemDidScroll(e.nativeEvent.contentOffset.y))
   }

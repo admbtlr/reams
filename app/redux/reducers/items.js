@@ -247,7 +247,7 @@ export function items (state = initialState, action) {
         if (item._id === action.item._id) {
           if (item.styles.title.fontSize !== action.fontSize) {
             item.styles.title.fontSize = action.fontSize
-            item.styles.title.lineHeight = action.fontSize * 1.1
+            item.styles.title.lineHeight = action.fontSize
             item.styles.title.fontResized = true
             stateChanged = true
           }
@@ -297,7 +297,7 @@ function addStylesIfNecessary (item, index, items) {
 function fixRelativePaths (item) {
   const host = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)[0]
   const derelativise = s => s.replace(/src="\//g, `src="${host}/`)
-  item.content_html = derelativise(item.content_html)
+  if (item.content_html) item.content_html = derelativise(item.content_html)
   if (item.content_mercury) item.content_mercury = derelativise(item.content_mercury)
   if (item.body) item.body = derelativise(item.body)
   return item
@@ -305,7 +305,7 @@ function fixRelativePaths (item) {
 
 function nullValuesToEmptyStrings (item) {
   item.title = item.title ? item.title : ''
-  item.html_content = item.content_html ? item.html_content : ''
+  item.content_html = item.content_html ? item.content_html : ''
   return item
 }
 

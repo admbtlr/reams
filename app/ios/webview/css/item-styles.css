@@ -36,7 +36,6 @@ html {
 body {
   margin: 0;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 300;
   width: 100vw;
   background-color: #f7f7f3;
   transition: background-color, color 0.2s; }
@@ -197,20 +196,20 @@ body {
     .itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type {
       margin-bottom: 0; }
   .itemArticle blockquote.short-blockquote, .itemArticle .pullquote {
+    color: white;
     background-color: transparent;
     border: none;
-    font-size: 1.1rem;
-    line-height: 1.5rem;
-    padding: 1px .5em;
-    text-align: center;
-    margin: 3rem 0;
-    -webkit-hyphens: auto; }
+    font-size: 0.8rem;
+    line-height: 1rem;
+    font-style: normal;
+    padding: 1rem .5em;
+    margin: 1rem 0; }
     @media (min-width: 600px) {
       .itemArticle blockquote.short-blockquote, .itemArticle .pullquote {
         margin: 3rem calc(50% - 50vw); } }
   .itemArticle figcaption {
     position: relative;
-    padding: .5rem;
+    padding: .25rem .5rem .5rem;
     border-bottom: 1px solid #ededed;
     font-size: 0.5rem;
     font-weight: 300;
@@ -249,9 +248,9 @@ body {
     padding: 14px; }
   .itemArticle > div + div:not(:first-of-type):before {
     content: '';
-    height: 2px;
+    height: 10px;
     display: block;
-    margin: 0 calc(50% - 2rem);
+    margin: 0 calc(50% - 1.5rem);
     transform: rotateZ(-30deg); }
   .itemArticle > div + div:not(:first-of-type):nth-of-type(4n+1):before {
     transform: rotateZ(0deg); }
@@ -335,6 +334,16 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.3rem; }
 
+.itemArticle.dropCapSize2.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.2rem; }
+
+.itemArticle.dropCapSize2.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.3rem; }
+
 .itemArticle.dropCapSize2.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -374,6 +383,16 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.43rem; }
+
+.itemArticle.dropCapSize3.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.2rem; }
+
+.itemArticle.dropCapSize3.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.3rem; }
 
 .itemArticle.dropCapSize3.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -415,6 +434,16 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.5rem; }
 
+.itemArticle.dropCapSize4.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.2rem; }
+
+.itemArticle.dropCapSize4.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.3rem; }
+
 .itemArticle.dropCapSize4.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -454,6 +483,16 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.55rem; }
+
+.itemArticle.dropCapSize5.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.2rem; }
+
+.itemArticle.dropCapSize5.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.3rem; }
 
 .itemArticle.dropCapSize5.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
@@ -508,29 +547,35 @@ article > div:not(:last-of-type) figure:last-child {
   font-family: "LibreBaskerville-Regular", serif;
   font-size: calc(1rem / 1.9); }
   .bodyFontSerif1 h1, .bodyFontSerif1 h2, .bodyFontSerif1 h3, .bodyFontSerif1 figcaption {
-    font-family: "Gill Sans"; }
+    font-family: "Avenir"; }
 
 .bodyFontSans1 {
-  font-family: "IBMPlexSans-Light", sans-serif;
-  font-size: calc(1rem / 1.9); }
+  font-family: "IBMPlexSans", sans-serif;
+  font-size: calc(1rem / 1.75); }
   .bodyFontSans1 h1, .bodyFontSans1 h2, .bodyFontSans1 h3, .bodyFontSans1 figcaption {
     font-family: "LibreBaskerville-Regular"; }
 
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif; }
   .bodyFontSerif2 h1, .bodyFontSerif2 h2, .bodyFontSerif2 h3, .bodyFontSerif2 figcaption {
-    font-family: "Gill Sans"; }
+    font-family: "AvenirNext"; }
 
 .bodyFontSans2 {
-  font-family: "Avenir", serif; }
+  font-family: "AvenirNext-Regular", serif; }
   .bodyFontSans2 h1, .bodyFontSans2 h2, .bodyFontSans2 h3, .bodyFontSans2 figcaption {
     font-family: "Iowan Old Style"; }
+
+.bodyFontSerif3 {
+  font-family: "IBM Plex Serif", serif;
+  font-size: calc(1rem / 1.8); }
+  .bodyFontSerif3 h1, .bodyFontSerif3 h2, .bodyFontSerif3 h3, .bodyFontSerif3 figcaption {
+    font-family: "IBM Plex Sans"; }
 
 .headerFontSans1 h1, .headerFontSans1 h2, .headerFontSans1 h3 {
   font-family: "AvenirNextCondensed-Bold"; }
 
 .headerFontSans1 figcaption, .headerFontSans1 blockquote {
-  font-family: "AvenirNextCondensed-Medium"; }
+  font-family: "AvenirNext-Medium"; }
 
 .headerFontSans2 h1, .headerFontSans2 h2, .headerFontSans2 h3 {
   font-family: "Montserrat-Bold"; }
@@ -572,7 +617,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #d56c75; }
 
 .itemArticle.red1 blockquote.short-blockquote, .itemArticle.red1 .pullquote {
-  color: #d56c75; }
+  background-color: #d56c75; }
 
 .itemArticle.red1 *:not(:first-of-type) div:before,
 .itemArticle.red1 * div:not(:first-of-type):before,
@@ -599,7 +644,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #c33763; }
 
 .itemArticle.red2 blockquote.short-blockquote, .itemArticle.red2 .pullquote {
-  color: #c33763; }
+  background-color: #c33763; }
 
 .itemArticle.red2 *:not(:first-of-type) div:before,
 .itemArticle.red2 * div:not(:first-of-type):before,
@@ -626,7 +671,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #ff8133; }
 
 .itemArticle.orange1 blockquote.short-blockquote, .itemArticle.orange1 .pullquote {
-  color: #ff8133; }
+  background-color: #ff8133; }
 
 .itemArticle.orange1 *:not(:first-of-type) div:before,
 .itemArticle.orange1 * div:not(:first-of-type):before,
@@ -653,7 +698,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #f7951d; }
 
 .itemArticle.orange2 blockquote.short-blockquote, .itemArticle.orange2 .pullquote {
-  color: #f7951d; }
+  background-color: #f7951d; }
 
 .itemArticle.orange2 *:not(:first-of-type) div:before,
 .itemArticle.orange2 * div:not(:first-of-type):before,
@@ -680,7 +725,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #ffd000; }
 
 .itemArticle.yellow1 blockquote.short-blockquote, .itemArticle.yellow1 .pullquote {
-  color: #ffd000; }
+  background-color: #ffd000; }
 
 .itemArticle.yellow1 *:not(:first-of-type) div:before,
 .itemArticle.yellow1 * div:not(:first-of-type):before,
@@ -707,7 +752,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #aab814; }
 
 .itemArticle.yellow2 blockquote.short-blockquote, .itemArticle.yellow2 .pullquote {
-  color: #aab814; }
+  background-color: #aab814; }
 
 .itemArticle.yellow2 *:not(:first-of-type) div:before,
 .itemArticle.yellow2 * div:not(:first-of-type):before,
@@ -734,7 +779,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #30e8c0; }
 
 .itemArticle.green1 blockquote.short-blockquote, .itemArticle.green1 .pullquote {
-  color: #30e8c0; }
+  background-color: #30e8c0; }
 
 .itemArticle.green1 *:not(:first-of-type) div:before,
 .itemArticle.green1 * div:not(:first-of-type):before,
@@ -761,7 +806,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #476adc; }
 
 .itemArticle.blue1 blockquote.short-blockquote, .itemArticle.blue1 .pullquote {
-  color: #476adc; }
+  background-color: #476adc; }
 
 .itemArticle.blue1 *:not(:first-of-type) div:before,
 .itemArticle.blue1 * div:not(:first-of-type):before,
@@ -788,7 +833,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #0b99d5; }
 
 .itemArticle.blue2 blockquote.short-blockquote, .itemArticle.blue2 .pullquote {
-  color: #0b99d5; }
+  background-color: #0b99d5; }
 
 .itemArticle.blue2 *:not(:first-of-type) div:before,
 .itemArticle.blue2 * div:not(:first-of-type):before,
@@ -815,7 +860,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #b06bb3; }
 
 .itemArticle.purple1 blockquote.short-blockquote, .itemArticle.purple1 .pullquote {
-  color: #b06bb3; }
+  background-color: #b06bb3; }
 
 .itemArticle.purple1 *:not(:first-of-type) div:before,
 .itemArticle.purple1 * div:not(:first-of-type):before,
@@ -842,7 +887,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #ef61c0; }
 
 .itemArticle.purple2 blockquote.short-blockquote, .itemArticle.purple2 .pullquote {
-  color: #ef61c0; }
+  background-color: #ef61c0; }
 
 .itemArticle.purple2 *:not(:first-of-type) div:before,
 .itemArticle.purple2 * div:not(:first-of-type):before,
@@ -869,7 +914,7 @@ article > div:not(:last-of-type) figure:last-child {
   -webkit-text-decoration-color: #e29588; }
 
 .itemArticle.brown1 blockquote.short-blockquote, .itemArticle.brown1 .pullquote {
-  color: #e29588; }
+  background-color: #e29588; }
 
 .itemArticle.brown1 *:not(:first-of-type) div:before,
 .itemArticle.brown1 * div:not(:first-of-type):before,
@@ -891,6 +936,330 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.brown1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.brown1.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   -webkit-text-stroke-color: #e29588; }
+
+.itemArticle.red1Darker a, .itemArticle.red1Darker a:active, .itemArticle.red1Darker a:visited {
+  -webkit-text-decoration-color: #5b1a1f; }
+
+.itemArticle.red1Darker blockquote.short-blockquote, .itemArticle.red1Darker .pullquote {
+  background-color: #5b1a1f; }
+
+.itemArticle.red1Darker *:not(:first-of-type) div:before,
+.itemArticle.red1Darker * div:not(:first-of-type):before,
+.itemArticle.red1Darker div:not(:first-of-type):before {
+  background-color: #5b1a1f; }
+
+.itemArticle.red1Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red1Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red1Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #5b1a1f; }
+
+.itemArticle.red1Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red1Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red1Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.red1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #5b1a1f; }
+
+.itemArticle.red2Darker a, .itemArticle.red2Darker a:active, .itemArticle.red2Darker a:visited {
+  -webkit-text-decoration-color: #4c1527; }
+
+.itemArticle.red2Darker blockquote.short-blockquote, .itemArticle.red2Darker .pullquote {
+  background-color: #4c1527; }
+
+.itemArticle.red2Darker *:not(:first-of-type) div:before,
+.itemArticle.red2Darker * div:not(:first-of-type):before,
+.itemArticle.red2Darker div:not(:first-of-type):before {
+  background-color: #4c1527; }
+
+.itemArticle.red2Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red2Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red2Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #4c1527; }
+
+.itemArticle.red2Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red2Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red2Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.red2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.red2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #4c1527; }
+
+.itemArticle.orange1Darker a, .itemArticle.orange1Darker a:active, .itemArticle.orange1Darker a:visited {
+  -webkit-text-decoration-color: #662700; }
+
+.itemArticle.orange1Darker blockquote.short-blockquote, .itemArticle.orange1Darker .pullquote {
+  background-color: #662700; }
+
+.itemArticle.orange1Darker *:not(:first-of-type) div:before,
+.itemArticle.orange1Darker * div:not(:first-of-type):before,
+.itemArticle.orange1Darker div:not(:first-of-type):before {
+  background-color: #662700; }
+
+.itemArticle.orange1Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange1Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange1Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #662700; }
+
+.itemArticle.orange1Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange1Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange1Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.orange1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #662700; }
+
+.itemArticle.orange2Darker a, .itemArticle.orange2Darker a:active, .itemArticle.orange2Darker a:visited {
+  -webkit-text-decoration-color: #764304; }
+
+.itemArticle.orange2Darker blockquote.short-blockquote, .itemArticle.orange2Darker .pullquote {
+  background-color: #764304; }
+
+.itemArticle.orange2Darker *:not(:first-of-type) div:before,
+.itemArticle.orange2Darker * div:not(:first-of-type):before,
+.itemArticle.orange2Darker div:not(:first-of-type):before {
+  background-color: #764304; }
+
+.itemArticle.orange2Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange2Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange2Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #764304; }
+
+.itemArticle.orange2Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange2Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange2Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.orange2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.orange2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #764304; }
+
+.itemArticle.yellow1Darker a, .itemArticle.yellow1Darker a:active, .itemArticle.yellow1Darker a:visited {
+  -webkit-text-decoration-color: #665300; }
+
+.itemArticle.yellow1Darker blockquote.short-blockquote, .itemArticle.yellow1Darker .pullquote {
+  background-color: #665300; }
+
+.itemArticle.yellow1Darker *:not(:first-of-type) div:before,
+.itemArticle.yellow1Darker * div:not(:first-of-type):before,
+.itemArticle.yellow1Darker div:not(:first-of-type):before {
+  background-color: #665300; }
+
+.itemArticle.yellow1Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow1Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow1Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #665300; }
+
+.itemArticle.yellow1Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow1Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow1Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.yellow1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #665300; }
+
+.itemArticle.yellow2Darker a, .itemArticle.yellow2Darker a:active, .itemArticle.yellow2Darker a:visited {
+  -webkit-text-decoration-color: #404508; }
+
+.itemArticle.yellow2Darker blockquote.short-blockquote, .itemArticle.yellow2Darker .pullquote {
+  background-color: #404508; }
+
+.itemArticle.yellow2Darker *:not(:first-of-type) div:before,
+.itemArticle.yellow2Darker * div:not(:first-of-type):before,
+.itemArticle.yellow2Darker div:not(:first-of-type):before {
+  background-color: #404508; }
+
+.itemArticle.yellow2Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow2Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow2Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #404508; }
+
+.itemArticle.yellow2Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow2Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow2Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.yellow2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.yellow2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #404508; }
+
+.itemArticle.green1Darker a, .itemArticle.green1Darker a:active, .itemArticle.green1Darker a:visited {
+  -webkit-text-decoration-color: #084538; }
+
+.itemArticle.green1Darker blockquote.short-blockquote, .itemArticle.green1Darker .pullquote {
+  background-color: #084538; }
+
+.itemArticle.green1Darker *:not(:first-of-type) div:before,
+.itemArticle.green1Darker * div:not(:first-of-type):before,
+.itemArticle.green1Darker div:not(:first-of-type):before {
+  background-color: #084538; }
+
+.itemArticle.green1Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.green1Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.green1Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #084538; }
+
+.itemArticle.green1Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.green1Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.green1Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.green1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.green1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.green1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #084538; }
+
+.itemArticle.blue1Darker a, .itemArticle.blue1Darker a:active, .itemArticle.blue1Darker a:visited {
+  -webkit-text-decoration-color: #162c74; }
+
+.itemArticle.blue1Darker blockquote.short-blockquote, .itemArticle.blue1Darker .pullquote {
+  background-color: #162c74; }
+
+.itemArticle.blue1Darker *:not(:first-of-type) div:before,
+.itemArticle.blue1Darker * div:not(:first-of-type):before,
+.itemArticle.blue1Darker div:not(:first-of-type):before {
+  background-color: #162c74; }
+
+.itemArticle.blue1Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue1Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue1Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #162c74; }
+
+.itemArticle.blue1Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue1Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue1Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.blue1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #162c74; }
+
+.itemArticle.blue2Darker a, .itemArticle.blue2Darker a:active, .itemArticle.blue2Darker a:visited {
+  -webkit-text-decoration-color: #043144; }
+
+.itemArticle.blue2Darker blockquote.short-blockquote, .itemArticle.blue2Darker .pullquote {
+  background-color: #043144; }
+
+.itemArticle.blue2Darker *:not(:first-of-type) div:before,
+.itemArticle.blue2Darker * div:not(:first-of-type):before,
+.itemArticle.blue2Darker div:not(:first-of-type):before {
+  background-color: #043144; }
+
+.itemArticle.blue2Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue2Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue2Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #043144; }
+
+.itemArticle.blue2Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue2Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue2Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.blue2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.blue2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #043144; }
+
+.itemArticle.purple1Darker a, .itemArticle.purple1Darker a:active, .itemArticle.purple1Darker a:visited {
+  -webkit-text-decoration-color: #562d58; }
+
+.itemArticle.purple1Darker blockquote.short-blockquote, .itemArticle.purple1Darker .pullquote {
+  background-color: #562d58; }
+
+.itemArticle.purple1Darker *:not(:first-of-type) div:before,
+.itemArticle.purple1Darker * div:not(:first-of-type):before,
+.itemArticle.purple1Darker div:not(:first-of-type):before {
+  background-color: #562d58; }
+
+.itemArticle.purple1Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple1Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple1Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #562d58; }
+
+.itemArticle.purple1Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple1Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple1Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.purple1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #562d58; }
+
+.itemArticle.purple2Darker a, .itemArticle.purple2Darker a:active, .itemArticle.purple2Darker a:visited {
+  -webkit-text-decoration-color: #790c54; }
+
+.itemArticle.purple2Darker blockquote.short-blockquote, .itemArticle.purple2Darker .pullquote {
+  background-color: #790c54; }
+
+.itemArticle.purple2Darker *:not(:first-of-type) div:before,
+.itemArticle.purple2Darker * div:not(:first-of-type):before,
+.itemArticle.purple2Darker div:not(:first-of-type):before {
+  background-color: #790c54; }
+
+.itemArticle.purple2Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple2Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple2Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #790c54; }
+
+.itemArticle.purple2Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple2Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple2Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.purple2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.purple2Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #790c54; }
+
+.itemArticle.brown1Darker a, .itemArticle.brown1Darker a:active, .itemArticle.brown1Darker a:visited {
+  -webkit-text-decoration-color: #561f15; }
+
+.itemArticle.brown1Darker blockquote.short-blockquote, .itemArticle.brown1Darker .pullquote {
+  background-color: #561f15; }
+
+.itemArticle.brown1Darker *:not(:first-of-type) div:before,
+.itemArticle.brown1Darker * div:not(:first-of-type):before,
+.itemArticle.brown1Darker div:not(:first-of-type):before {
+  background-color: #561f15; }
+
+.itemArticle.brown1Darker:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.brown1Darker:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.brown1Darker:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: #561f15; }
+
+.itemArticle.brown1Darker.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.brown1Darker.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.brown1Darker.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: transparent;
+  -webkit-text-stroke: 2px #444444; }
+
+.itemArticle.brown1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.brown1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.brown1Darker.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: #561f15; }
 
 body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
   color: inherit; }

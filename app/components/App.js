@@ -11,6 +11,7 @@ import {
 
 import FeedListContainer from '../containers/FeedList.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
+import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import ToolbarsContainer from '../containers/Toolbars.js'
 import LogoSpinnerContainer from '../containers/LogoSpinner.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
@@ -32,12 +33,11 @@ class App extends React.Component {
     this.props = props
   }
 
-  componentDidMount() {
-    SplashScreen.hide()
-  }
+  // componentDidMount() {
+  //   SplashScreen.hide()
+  // }
 
   render () {
-    const {height, width} = Dimensions.get('window')
     return (
       <View style={styles.mainView}>
         <AppStateListenerContainer />
@@ -47,19 +47,20 @@ class App extends React.Component {
         <View style={styles.infoView} />
         <Image
           source={require('../assets/images/dark-splash.png')}
-          style={{
-            width: 1024,
-            height: 1366,
-            top: (height - 1366) / 2,
-            left: (width - 1024) / 2
+          style={styles.image}
+          onLoad={() => {
+            SplashScreen.hide()
           }}
         />
         <LogoSpinnerContainer />
         <FeedListContainer style={styles.feedList} />
+        <RizzleImageViewerContainer />
       </View>
     )
   }
 }
+
+const {height, width} = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   mainView: {
@@ -82,6 +83,13 @@ const styles = StyleSheet.create({
   feedList: {
     flex: 1,
     justifyContent: 'center'
+  },
+  image: {
+    position: 'absolute',
+    width: 1024,
+    height: 1366,
+    top: (height - 1366) / 2,
+    left: (width - 1024) / 2
   }
 })
 

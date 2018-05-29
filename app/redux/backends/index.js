@@ -53,8 +53,8 @@ function * fetchUnreadItems (oldItems, currentItem, feeds) {
       if (__DEV__) {
         newItems = newItems.slice(0, 100)
       }
-      console.log(`Fetched ${newItems.length} items`)
-      console.log(newItems)
+      // console.log(`Fetched ${newItems.length} items`)
+      // console.log(newItems)
       const { read, unread } = mergeItems(oldItems, newItems, currentItem)
 
       // RealmJS is too slow in devtools
@@ -62,7 +62,7 @@ function * fetchUnreadItems (oldItems, currentItem, feeds) {
         unread = yield filterItemsForStale(unread)
       }
 
-      console.log(`And now I have ${unread.length} unread items`)
+      // console.log(`And now I have ${unread.length} unread items`)
       newItems = unread.sort((a, b) => moment(a.date_published).unix() - moment(b.date_published).unix());
     } catch (error) {
       console.log(error)

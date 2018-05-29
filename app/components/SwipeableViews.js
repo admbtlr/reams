@@ -219,7 +219,7 @@ class SwipeableViews extends Component {
       virtualBuffer
     } = nextProps;
 
-    console.log('SwipeableViews received props!')
+    // console.log('SwipeableViews received props!')
 
     if (typeof index === 'number' &&
       (!this.state.indexActual ||

@@ -12,7 +12,34 @@ $colors: (
   blue2: hsl(198, 90%, 44%),
   purple1: hsl(298, 32%, 56%),
   purple2: hsl(320, 82%, 66%),
-  brown1: hsl(9, 61%, 71%)
+  brown1: hsl(9, 61%, 71%),
+  red1Darker: hsl(355, 56%, 23%),
+  red2Darker: hsl(341, 56%, 19%),
+  orange1Darker: hsl(23, 100%, 20%),
+  orange2Darker: hsl(33, 93%, 24%),
+  yellow1Darker: hsl(49, 100%, 20%),
+  yellow2Darker: hsl(65, 80%, 15%),
+  green1Darker: hsl(167, 80%, 15%),
+  blue1Darker: hsl(226, 68%, 27%),
+  blue2Darker: hsl(198, 90%, 14%),
+  purple1Darker: hsl(298, 32%, 26%),
+  purple2Darker: hsl(320, 82%, 26%),
+  brown1Darker: hsl(9, 61%, 21%)
+);
+
+$desaturated: (
+  red1: hsl(355, 26%, 63%),
+  red2: hsl(341, 26%, 49%),
+  orange1: hsl(23, 60%, 60%),
+  orange2: hsl(33, 53%, 54%),
+  yellow1: hsl(49, 50%, 50%),
+  yellow2: hsl(65, 30%, 40%),
+  green1: hsl(167, 30%, 55%),
+  blue1: hsl(226, 28%, 57%),
+  blue2: hsl(198, 50%, 44%),
+  purple1: hsl(298, 12%, 56%),
+  purple2: hsl(320, 42%, 66%),
+  brown1: hsl(9, 21%, 71%),
 );
 
 * {
@@ -68,7 +95,6 @@ html {
 body {
   margin: 0;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 300;
   width: 100vw;
 
   background-color: hsl(60, 17%, 96%);
@@ -254,14 +280,14 @@ body {
   }
 
   blockquote.short-blockquote, .pullquote {
+    color: white;
     background-color: transparent;
     border: none;
-    font-size: 1.1rem;
-    line-height: 1.5rem;
-    padding: 1px .5em;
-    text-align: center;
-    margin: 3rem 0;
-    -webkit-hyphens: auto;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    font-style: normal;
+    padding: 1rem .5em;
+    margin: 1rem 0;
 
     @media (min-width: 600px) {
       margin: 3rem calc(50% - 50vw);
@@ -270,7 +296,7 @@ body {
 
   figcaption {
     position: relative;
-    padding: .5rem;
+    padding: .25rem .5rem .5rem;
     border-bottom: 1px solid hsl(0, 0%, 93%);
     font-size: 0.5rem;
     font-weight: 300;
@@ -294,6 +320,16 @@ body {
       margin-bottom: 1rem;
     }
   }
+
+  // fade on scroll
+  // blockquote, figure {
+  //   opacity: 1;
+  //   transition: opacity 2s;
+
+  //   &:not(in-viewport) {
+  //     opacity: 0;
+  //   }
+  // }
 
   a.unused, a.unused:active, a.unused:visited {
     color: inherit !important;
@@ -331,9 +367,9 @@ body {
 
     &:before {
       content: '';
-      height: 2px;
+      height: 10px;
       display: block;
-      margin: 0 calc(50% - 2rem);
+      margin: 0 calc(50% - 1.5rem);
       transform: rotateZ(-30deg);
     }
 
@@ -473,6 +509,10 @@ article > div:not(:last-of-type) {
       @include dropCapFontSize(2.2rem);
       @include dropCapMarginTop(0.3rem);
     }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(2.2rem);
+      @include dropCapMarginTop(0.3rem);
+    }
     &.bodyFontSans1 {
       @include dropCapFontSize(2.21rem);
       @include dropCapMarginTop(0.35rem);
@@ -491,6 +531,10 @@ article > div:not(:last-of-type) {
     &.bodyFontSerif2 {
       @include dropCapFontSize(3.5rem);
       @include dropCapMarginTop(0.43rem);
+    }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(2.2rem);
+      @include dropCapMarginTop(0.3rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(3.52rem);
@@ -511,6 +555,10 @@ article > div:not(:last-of-type) {
       @include dropCapFontSize(4.95rem);
       @include dropCapMarginTop(0.5rem);
     }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(2.2rem);
+      @include dropCapMarginTop(0.3rem);
+    }
     &.bodyFontSans1 {
       @include dropCapFontSize(5rem);
       @include dropCapMarginTop(0.4rem);
@@ -529,6 +577,10 @@ article > div:not(:last-of-type) {
     &.bodyFontSerif2 {
       @include dropCapFontSize(6.4rem);
       @include dropCapMarginTop(0.55rem);
+    }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(2.2rem);
+      @include dropCapMarginTop(0.3rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(6.4rem);
@@ -572,13 +624,13 @@ article > div:not(:last-of-type) {
   font-size: calc(1rem / 1.9);
 
   h1, h2, h3, figcaption {
-    font-family: "Gill Sans"
+    font-family: "Avenir"
   }
 }
 
 .bodyFontSans1 {
-  font-family: "IBMPlexSans-Light", sans-serif;
-  font-size: calc(1rem / 1.9);
+  font-family: "IBMPlexSans", sans-serif;
+  font-size: calc(1rem / 1.75);
 
   h1, h2, h3, figcaption {
     font-family: "LibreBaskerville-Regular"
@@ -589,15 +641,24 @@ article > div:not(:last-of-type) {
   font-family: "Iowan Old Style", serif;
 
   h1, h2, h3, figcaption {
-    font-family: "Gill Sans"
+    font-family: "AvenirNext"
   }
 }
 
 .bodyFontSans2 {
-  font-family: "Avenir", serif;
+  font-family: "AvenirNext-Regular", serif;
 
   h1, h2, h3, figcaption {
     font-family: "Iowan Old Style"
+  }
+}
+
+.bodyFontSerif3 {
+  font-family: "IBM Plex Serif", serif;
+  font-size: calc(1rem / 1.8);
+
+  h1, h2, h3, figcaption {
+    font-family: "IBM Plex Sans"
   }
 }
 
@@ -606,7 +667,7 @@ article > div:not(:last-of-type) {
     font-family: "AvenirNextCondensed-Bold"
   }
   figcaption, blockquote {
-    font-family: "AvenirNextCondensed-Medium"
+    font-family: "AvenirNext-Medium"
   }
 }
 
@@ -674,7 +735,7 @@ article > div:not(:last-of-type) {
       }
 
       blockquote.short-blockquote, .pullquote {
-        color: $value;
+        background-color: $value;
       }
 
       *:not(:first-of-type) div,

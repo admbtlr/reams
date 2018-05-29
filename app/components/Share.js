@@ -65,6 +65,7 @@ class Share extends React.Component {
             return that.parseLinkTag(linkTag, homeUrl)
           }
         }
+        return null
       })
       .catch((error) => {
         console.log(`Error fetching page: ${error.message}`)

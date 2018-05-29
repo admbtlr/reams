@@ -54,14 +54,14 @@ class Buttons extends React.Component {
 
   componentDidUpdate (prevProps) {
     const springConfig =         {
-      speed: 20,
+      speed: 30,
       bounciness: 12,
       toValue: this.props.visible ? 0 : 80,
       duration: 200,
       useNativeDriver: true
     }
     if (prevProps.visible !== this.props.visible) {
-      Animated.stagger(50, [
+      Animated.stagger(70, [
         Animated.spring(
           this.state.visibleAnimCount,
           springConfig
@@ -83,7 +83,7 @@ class Buttons extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(nextProps)
+    // console.log(nextProps)
     return true
   }
 
@@ -91,7 +91,10 @@ class Buttons extends React.Component {
     const { item, showMercuryContent } = this.props
     const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ?
       hslString('rizzleFG') :
-      hslString('rizzleHighlight')
+      hslString('rizzleFG')
+    const backgroundColor = this.props.displayMode && this.props.displayMode == 'unread' ?
+      hslString('rizzleBG') :
+      hslString('rizzleBGAlt')
     return (
       <Animated.View
         pointerEvents='box-none'
@@ -100,6 +103,7 @@ class Buttons extends React.Component {
           // opacity: getAnimatedValueNormalised()
         }}>
         <RizzleButton
+          backgroundColor={backgroundColor}
           style={{
             width: 'auto',
             paddingHorizontal: 28,
@@ -126,12 +130,12 @@ class Buttons extends React.Component {
           }
         </RizzleButton>
         <RizzleButton
+          backgroundColor={backgroundColor}
           style={{
             paddingLeft: 3,
             transform: [{
               translateY: this.state.visibleAnimSave
-            }],
-            borderColor: item && item.isSaved ? hslString('rizzleHighlight') : 'transparent'
+            }]
           }}
           onPress={this.onSavePress}
         >
@@ -153,6 +157,7 @@ class Buttons extends React.Component {
           </Svg>
         </RizzleButton>
         <RizzleButton
+          backgroundColor={backgroundColor}
           style={{
             paddingLeft: 3,
             transform: [{
@@ -203,12 +208,12 @@ class Buttons extends React.Component {
           </Svg>
         </RizzleButton>
         <RizzleButton
+          backgroundColor={backgroundColor}
           style={{
             paddingLeft: 3,
             transform: [{
               translateY: this.state.visibleAnimMercury
-            }],
-            borderColor: showMercuryContent ? hslString('rizzleHighlight') : 'transparent'
+            }]
           }}
           onPress={this.onMercuryPress}
         >

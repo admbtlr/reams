@@ -48,7 +48,7 @@ export function * decorateItems (action) {
       console.log(`Got item: ${item.title}`)
       pendingDecoration.push(item)
       const itemToDecorate = item
-      InteractionManager.runAfterInteractions(() => {
+      setTimeout(() => {
         if (!itemToDecorate) return // somehow item can become undefined here...?
         return co(decorateItem(itemToDecorate)).then((decoration) => {
           pendingDecoration = pendingDecoration.filter(pending => pending._id !== itemToDecorate._id)
@@ -58,7 +58,7 @@ export function * decorateItems (action) {
         }).catch(error => {
           pendingDecoration = pendingDecoration.filter(pending => pending._id !== itemToDecorate._id)
         })
-      })
+      }, 500)
     }
   }
 }

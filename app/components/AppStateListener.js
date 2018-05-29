@@ -52,14 +52,23 @@ class AppStateListener extends React.Component {
       if (value !== null) {
         RNSKBucket.set('page', null, this.group)
         console.log(`Got a page to save: ${value}`)
-        this.props.saveURL(value)
-          // then(() => {
-          //   this.props.showRizzleModal({
-          //     modalText: `Saved page: ${value}`,
-          //     modalShowCancel: false,
-          //     modalShow: true
-          //   })
-          // })
+        this.props.showModal({
+          modalText: [
+            {
+              text: 'Save this page?',
+              style: ['title']
+            },
+            {
+              text: value,
+              style: ['em']
+            }
+          ],
+          modalHideCancel: false,
+          modalShow: true,
+          modalOnOk: () => {
+            this.props.saveURL(value)
+          }
+        })
       }
     })
   }

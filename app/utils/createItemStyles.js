@@ -9,9 +9,13 @@ const entities = require('entities')
 let deviceWidth
 let deviceHeight
 
-export function createItemStyles (item) {
+export function createItemStyles (item, prevStyles) {
   let title = {}
-  const color = pickOne(getNames())
+  const isMainColorDarker = Math.random() > 0.6
+  const isMainColorDesaturated = Math.random() > 0.6
+  const isCoverImageColorDarker = isMainColorDarker ? false : Math.random() > 0.2
+  const isCoverImageColorDesaturated = isMainColorDarker ? false : Math.random() > 0.2
+  const color = pickOne(getNames(), isMainColorDarker, prevStyles && prevStyles.color)
   title.color = color
 
   if (!deviceWidth || !deviceHeight) {
@@ -22,9 +26,10 @@ export function createItemStyles (item) {
 
   let isBW = false
   let isMultiply = false
-  if (Math.random() > 0.4) {
-    isMultiply = true
-    title.isMonochrome = Math.random() > 0.3
+  let isScreen = false
+  if (Math.random() > 0.4 && !(prevStyles && prevStyles.coverImage.isMultiply)) {
+    isCoverImageColorDarker ? isScreen = true : isMultiply = true
+    title.isMonochrome = Math.random() > 0.3 && !(prevStyles && prevStyles.isMonochrome)
     if (Math.random() > 0.2) {
       isBW = true
     }
@@ -36,14 +41,16 @@ export function createItemStyles (item) {
 
   let isContain = false
   let isCoverInline = false
-  if (item.title && item.title.length > 24 && Math.random() > 0.8) {
+  if (item.title && item.title.length > 24 && Math.random() > 0.8 && !(prevStyles && prevStyles.isCoverInline)) {
     isCoverInline = true
-  } else if (Math.random() > 0.9) {
+    title.isTone = Math.random() > 0.5
+    title.isExcerptTone = Math.random() > 0.5
+  } else if (Math.random() > 0.9 && !(prevStyles && prevStyles.coverImage.resizeMode == 'contain')) {
     isContain = true
     // isMultiply = false
     // isBW = false
     // title.color = color
-    title.isMonochrome = isMultiply
+    title.isMonochrome = isMultiply || isScreen
   }
 
   const fonts = getFontClasses()
@@ -56,9 +63,9 @@ export function createItemStyles (item) {
   }
 
   title.interBolded = interBold(entities.decode(item.title))
-  title.lineHeightAsMultiplier = 1.1 + Math.random() * 0.2
+  title.lineHeightAsMultiplier = 0.9 + Math.random() * 0.2
   title.maximiseFont = isCoverInline || Math.random() > 0.5
-  title.textAlign = Math.random() > 0.5
+  title.textAlign = Math.random() > 0.8
     ? 'center'
     : 'left'
   title.title = item.title
@@ -69,9 +76,10 @@ export function createItemStyles (item) {
   title.invertBG = Math.random() > 0.8 && !isCoverInline
   title.isItalic = Math.random() > 0.8
   title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
-  title.valign = Math.random() > 0.5 && !isContain ? // isContain means image is in the middle
-    'middle' :
-    ['top', 'bottom'][Math.floor(Math.random() * 2)]
+  title.valign = isContain ? 'top-bottom' : // isContain means image is in the middle
+    (Math.random() > 0.5 ?
+      'middle' :
+      ['top', 'bottom'][Math.floor(Math.random() * 2)])
   title.isBold = (!title.isMonochrome && !title.bg) || fonts[0].indexOf('Montserrat') > 0 ?
     true :
     (title.isMonochrome ?
@@ -96,11 +104,14 @@ export function createItemStyles (item) {
     dropCapIsBold: Math.random() > 0.5,
     dropCapIsStroke: Math.random() > 0.8,
     color,
+    isMainColorDarker,
+    isCoverImageColorDarker,
     isCoverInline,
     coverImage: {
       isBW,
       isMultiply,
-      color: pickOne(getNames(), color),
+      isScreen,
+      color: pickOne(getNames(), isCoverImageColorDarker, color),
       resizeMode: isContain ? 'contain' : 'cover',
       align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)],
       isInline: isCoverInline
@@ -159,7 +170,7 @@ const getFontClasses = function () {
   if (Math.random() > 0.3) {
     // sans heading, serif body
     headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
-    bodyClass += 'Serif' + (Math.floor((Math.random() * 2)) + 1)
+    bodyClass += 'Serif' + (Math.floor((Math.random() * 3)) + 1)
   } else {
     // serif heading, sans body
     headerClass += 'Serif' + (Math.floor((Math.random()*3))+1)
@@ -176,7 +187,8 @@ const hasBorder = function () {
   return Math.random() > 0.7
 }
 
-const pickOne = function (arr, notThisOne) {
+const pickOne = function (arr, darker, notThisOne) {
+  arr = darker ? arr.slice(arr.length / 2) : arr.slice(0, arr.length / 2)
   let attempt = arr[Math.round(Math.random() * (arr.length - 1))]
   while (attempt === 'black' || attempt === 'white' || attempt === notThisOne) {
     attempt = arr[Math.round(Math.random() * (arr.length - 1))]

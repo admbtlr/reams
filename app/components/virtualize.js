@@ -214,8 +214,8 @@ export default function virtualize(MyComponent) {
     }
 
     render() {
-      console.log('RENDER')
-      console.log(this.state)
+      // console.log('RENDER')
+      // console.log(this.state)
       const {
         children, // eslint-disable-line no-unused-vars
         index: indexProp, // eslint-disable-line no-unused-vars

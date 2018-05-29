@@ -111,14 +111,6 @@ class FeedInfo extends React.Component {
             ...textStyles,
             fontFamily: 'IBMPlexMono-LightItalic' }}>{ author && author.trim() }</Text>
         }
-        { this.props.item.author &&
-          <View style={{
-            width: 1,
-            height: 42,
-            backgroundColor: 'white',
-            marginBottom: 28
-          }} />
-        }
         <Text style={{
           ...textStyles,
           fontFamily: 'IBMPlexMono-Bold'

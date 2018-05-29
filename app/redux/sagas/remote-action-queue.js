@@ -4,6 +4,7 @@ import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
 import { addStaleItem } from '../realm/stale-items'
 import { getRemoteActions } from './selectors'
+import { checkOnline } from './check-online'
 
 const INITIAL_INTERVAL = 500
 let interval = INITIAL_INTERVAL
@@ -23,24 +24,24 @@ function * executeOldestAction () {
     interval = INITIAL_INTERVAL
     actions = yield select(getRemoteActions)
     if (actions.length > 0) {
-      console.log(`${actions.length} remote actions to do`)
+      // console.log(`${actions.length} remote actions to do`)
       yield executeAction(actions[0])
     }
   } else {
     interval = interval * 2
     interval = interval > 60000 ? 60000 : interval
-    console.log(`Offline, setting remote action queue interval to ${interval}`)
+    // console.log(`Offline, setting remote action queue interval to ${interval}`)
   }
 }
 
 function * executeAction (action) {
   switch (action.type) {
     case 'ITEM_MARK_READ':
-      console.log('Marking item read...')
+      // console.log('Marking item read...')
       try {
         yield markItemRead(action.item)
         yield addStaleItem(action.item)
-        console.log('Marking item read... done')
+        // console.log('Marking item read... done')
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action
@@ -50,10 +51,10 @@ function * executeAction (action) {
       }
       break
     case 'FEED_MARK_READ':
-      console.log('Marking feed read...')
+      // console.log('Marking feed read...')
       try {
         yield markFeedRead(action.id)
-        console.log('Marking feed read... done')
+        // console.log('Marking feed read... done')
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action
@@ -63,19 +64,4 @@ function * executeAction (action) {
       }
       break
   }
-}
-
-function checkOnline () {
-  return fetch('https://www.google.com').then(response => {
-    return response.status === 200
-  }).catch(error => {
-    return false
-  })
-  // return NetInfo.getConnectionInfo()
-  //   .then((connectionInfo) => {
-  //     return connectionInfo.type !== 'none'
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
 }

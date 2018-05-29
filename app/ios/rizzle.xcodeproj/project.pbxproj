@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -103,6 +104,7 @@
 		ACCC149267274D0C957E8139 /* libRNMeasureText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF696CF914ED4646AE79580C /* libRNMeasureText.a */; };
 		AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A52A25ECE9284C6BB3598823 /* IBMPlexMono-LightItalic.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		B8635EEB890C4BD7933F53BE /* BebasNeueFixBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1077762CFD4B4865BB3BB773 /* BebasNeueFixBold.ttf */; };
 		BA08A49489AA4D5BAE6DDA05 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D58706C270664DF7939C3B41 /* libRealmReact.a */; };
 		BD4090455B2F401A8B3559FB /* IBMPlexSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 021E5CBE69A94E3590CA1E3B /* IBMPlexSerif-Regular.ttf */; };
 		C102E7B205024F1D94EE06FC /* IBMPlexSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */; };
@@ -526,6 +528,7 @@
 		07494965D1654349867F914D /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		08245B2253D44286A4B4DD40 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		0B26201DAB06487C9C51EBFE /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		1077762CFD4B4865BB3BB773 /* BebasNeueFixBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BebasNeueFixBold.ttf; path = ../assets/fonts/BebasNeueFixBold.ttf; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* rizzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rizzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -865,6 +868,7 @@
 				FEE11FC07939469CBB76F7F2 /* BebasNeue-Light.otf */,
 				A1FECDA0B8574575AAB8D809 /* BebasNeue Bold.ttf */,
 				98B48A9380AA4541B31F3902 /* BebasNeue Light.ttf */,
+				1077762CFD4B4865BB3BB773 /* BebasNeueFixBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1100,14 +1104,6 @@
 				6687CA0F1F9F9D840011FBE3 /* libRCTBlob-tvOS.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		D24F448430C5429896B94B7B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1784,6 +1780,7 @@
 				165F6C9F0D804EC790DC575E /* LibreBaskerville-Regular.ttf in Resources */,
 				599AAA9DB10D4DC9B56509F4 /* BebasNeue Bold.ttf in Resources */,
 				2703FB0CAEEF49FA8D82BBBE /* BebasNeue Light.ttf in Resources */,
+				B8635EEB890C4BD7933F53BE /* BebasNeueFixBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -259,6 +259,7 @@ function removeFiguresWithoutImages() {
 function markPullQuotes() {
   var blockquotes = document.getElementsByTagName('blockquote')
   Array.prototype.forEach.call(blockquotes, function (bq) {
+    if (bq.innerText.length > 200) return
     var sibling = bq.previousElementSibling ||
       bq.parentElement.previousElementSibling
     if (sibling && sibling.innerText) {
@@ -281,11 +282,71 @@ function removeAllBrs() {
   }
 }
 
+function remove1pxImages() {
+  Array.from(document.querySelectorAll('img'))
+    .filter(img => img.getAttribute('height') === '1')
+    .forEach(img => {
+      img.remove()
+    })
+}
+
 function removeWidows() {
   const paras = document.querySelectorAll('p')
   Array.prototype.forEach.call(paras, function (el, i) {
     console.log(innerHtml)
   })
+}
+
+// obviously this doesn't work, cos it's the ScrollView that scrolls, not the WebView
+function fadeIntoView() {
+  console.log('fadeIntoView')
+  var fadables = Array.from(document.querySelectorAll('figure'))
+    .concat(Array.from(document.querySelectorAll('blockquote')))
+  window.addEventListener('scroll', function(e) {
+    console.log("We're scrolling!")
+    fadables.forEach(function(fadable) {
+      if (isInViewport(fadable)) {
+        fadable.classList.add('in-viewport')
+      }
+    })
+  }, false)
+}
+
+function addTapMessageToImages () {
+  addTapMessageToElements('img', 'image:', 'src')
+  // var images = document.querySelectorAll('img')
+  // Array.prototype.forEach.call(images, function (image, i) {
+  //   image.onclick = function (event) {
+  //     window.postMessage('image:' + image.src)
+  //   }
+  // })
+}
+
+function addTapMessageToLinks () {
+  addTapMessageToElements('a', 'link:', 'href')
+}
+
+function addTapMessageToElements (tag, msg, attr) {
+  var els = document.querySelectorAll(tag)
+  Array.prototype.forEach.call(els, function (el, i) {
+    el.onclick = function (event) {
+      window.postMessage(msg + el[attr])
+      event.stopPropagation()
+      event.preventDefault()
+      return false
+    }
+  })
+}
+
+function removeNYTImageText () {
+  removeNodes('figure div span')
+}
+
+function removeNodes (query) {
+  const nodes = document.querySelectorAll(query)
+  for (var i = nodes.length - 1; i >= 0; i--) {
+    nodes[i].remove()
+  }
 }
 
 // what?
@@ -306,11 +367,14 @@ removeSourceTags()
 removeFiguresWithoutImages()
 markPullQuotes()
 removeAllBrs()
+remove1pxImages()
+removeNYTImageText()
+removeNodes('time')
 // removeWidows()
 
 window.onload = function() {
   markImages()
+  addTapMessageToImages()
+  // addTapMessageToLinks()
   removeAllBrs()
 }
-
-// }

@@ -62,7 +62,19 @@ export const colorsHsl = {
   blue2: 'hsl(198, 90%, 44%)',
   purple1: 'hsl(298, 32%, 56%)',
   purple2: 'hsl(320, 82%, 66%)',
-  brown1: 'hsl(9, 61%, 71%)'
+  brown1: 'hsl(9, 61%, 71%)',
+  red1Darker: 'hsl(355, 56%, 23%)',
+  red2Darker: 'hsl(341, 56%, 19%)',
+  orange1Darker: 'hsl(23, 100%, 30%)',
+  orange2Darker: 'hsl(33, 93%, 24%)',
+  yellow1Darker: 'hsl(49, 100%, 20%)',
+  yellow2Darker: 'hsl(65, 80%, 15%)',
+  green1Darker: 'hsl(167, 80%, 25%)',
+  blue1Darker: 'hsl(226, 68%, 27%)',
+  blue2Darker: 'hsl(198, 90%, 14%)',
+  purple1Darker: 'hsl(298, 32%, 26%)',
+  purple2Darker: 'hsl(320, 82%, 36%)',
+  brown1Darker: 'hsl(9, 61%, 41%)'
 }
 
 export const uiColorsHsl = {
@@ -71,7 +83,7 @@ export const uiColorsHsl = {
   // rizzleFG: 'hsl(320, 82%, 66%)',
   // rizzleBG: 'hsl(263, 14%, 33%)',
   rizzleFG: 'hsl(263, 14%, 100%)',
-  rizzleBG: 'hsl(263, 15%, 13%)',
-  rizzleBGAlt: 'hsl(37, 34%, 28%)',
+  rizzleBG: 'hsl(263, 18%, 22%)',
+  rizzleBGAlt: 'hsl(11, 21%, 16%)',
   rizzleHighlight: 'hsl(42, 91%, 60%)'
 }

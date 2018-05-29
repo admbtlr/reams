@@ -1,0 +1,217 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=contain">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:300,300i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:600" rel="stylesheet">
+    <style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-size: 18px;
+}
+body {
+  background-color: hsl(263, 22%, 18%);
+  color: white;
+  font-family: "IBM Plex Mono", monospace;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 4vw;
+}
+h1, h2 {
+  font-weight: 200;
+  line-height: 1;
+  text-align: center;
+}
+h1 {
+  color: hsl(42, 91%, 60%);
+  font-size: 2rem;
+  letter-spacing: -.05em;
+  margin-bottom: 0;
+}
+h2 {
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.66rem;
+  padding: 2rem 0 0;
+  margin: 2rem 0;
+  border-top: 1px solid;
+  opacity: 0.8;
+}
+h3 {
+  font-family: "IBM Plex Sans";
+  font-size: 1rem;
+  line-height: 1.2rem;
+  margin: 0;
+  padding: 0;
+  color: hsl(42, 91%, 60%);
+  font-weight: 600;
+}
+p {
+  margin: 0 0 1rem;
+  opacity: 0.85;
+}
+.header {
+  background-image: url('img/dark-splash.png');
+  background-size: cover;
+  padding: 4rem 1rem 0;
+  text-align: center;
+  width: 100vw;
+}
+.logo img {
+  width: 60px;
+  margin: 0 -6px;
+}
+.logo .z {
+  animation: 5s spinner infinite;
+}
+.iframe-holder {
+  position: relative;
+  left: -1rem;
+}
+.content {
+  width: 100%;
+  margin: 0;
+  padding: 3rem 1rem 4rem;
+  font-size: 0.6rem;
+  line-height: 1rem;
+}
+ul {
+  list-style: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+li {
+  margin-bottom: 2rem;
+}
+em {
+  font-weight: normal;
+  color: hsl(42, 91%, 60%);
+}
+footer {
+  font-size: .5rem;
+  opacity: 0.5;
+  text-align: center;
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(-30deg); }
+  15% { transform: rotate(390deg); }
+  25% { transform: rotate(360deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media only screen
+  and (min-width: 800px) {
+  html {
+    font-size: 20px;
+  }
+  .header, .content {
+    padding: 4rem 6rem;
+  }
+
+  .iframe-holder {
+    left: 0;
+  }
+}
+
+@media only screen
+  and (min-width: 1040px) {
+  .header-holder, .content, iframe, .iframe-holder {
+    width: 900px;
+    margin: 0 auto;
+  }
+
+  .header {
+    padding-bottom: 4rem;
+  }
+}
+
+#mc_embed_signup {
+  margin-bottom: 4rem;
+}
+
+#mc_embed_signup input.email, #mc_embed_signup .button {
+  font-family: inherit;
+}
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="header-holder">
+        <div class="logo">
+          <img src="img/r.png" alt="rzl">
+          <img src="img/z.png" alt="rzl" class="z">
+          <img src="img/l.png" alt="rzl">
+        </div>
+        <h2><em>Rizzle</em> is a next level RSS (& Atom & JSONFeed) reader for iOS. It is currently in beta.</h2>
+      </div>
+      <div class="iframe-holder">
+        <iframe style="opacity: 0; transition: opacity 2s" width="90" height="50.6" src="https://www.youtube.com/embed/WgJeZrJaA78?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="content">
+      <h2 style="border-top: 0; margin: 0; padding: 0;">Get notified when Rizzle launches</h2>
+      <!-- Begin MailChimp Signup Form -->
+      <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+      <style type="text/css">
+        #mc_embed_signup{background:transparent; clear:left; font:14px "IBM Plex Mono", monospace; width:100%;}
+        /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+      </style>
+      <div id="mc_embed_signup">
+      <form action="https://rizzle.us18.list-manage.com/subscribe/post?u=a8892686bce2a2a66d89d433f&amp;id=961c5a1a82" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+          <div id="mc_embed_signup_scroll">
+
+        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Your email here" required>
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a8892686bce2a2a66d89d433f_961c5a1a82" tabindex="-1" value=""></div>
+          <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+          </div>
+      </form>
+      </div>
+
+      <!--End mc_embed_signup-->
+      <ul>
+        <li>
+          <h3>Really simple feed management</h3>
+          <p>Using the Rizzle share extension, it’s simple to discover and subscribe to feeds on your favourite web sites, without leaving Safari</p>
+        </li>
+        <li>
+          <h3>Machine generated art direction</h3>
+          <p>Using text analysis, expert systems and (soon) machine learning, Rizzle creates sleek, unique layouts for every story in your feed</p>
+        </li>
+        <li>
+          <h3>Server side included</h3>
+          <p>Rizzle has its own, transparently simple server so no need for a subscription with services like Feedly, Feedwrangler, etc.</p>
+        </li>
+        <li>
+          <h3>Optimised for ocular pleasure</h3>
+          <p>Whether browsing at leisure or studying in depth, Rizzle's advanced layout engine will remind you why you fell in love with the web in the first place</p>
+        </li>
+      </ul>
+    </div>
+    <footer>Copyright 2018 Adam Butler</footer>
+  </body>
+  <script>
+window.onload = function() {
+  var width = document.querySelector('body').getBoundingClientRect().width
+  var iframe = document.querySelector('iframe')
+  if (width < 800) {
+    iframe.setAttribute('width', width)
+    iframe.setAttribute('height', width * 0.5625)
+  } else if (width < 1040) {
+    iframe.setAttribute('width', width - 240) // 240 = 6rem * 2
+    iframe.setAttribute('height', (width - 240) * 0.5625)
+  } else {
+    iframe.setAttribute('width', 900)
+    iframe.setAttribute('height', 900 * 0.5625)
+  }
+  window.setTimeout(function() {
+    iframe.style.opacity = 1
+  })
+}
+  </script>
+</html>
