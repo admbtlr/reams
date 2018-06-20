@@ -99,6 +99,18 @@ export function items (state = initialState, action) {
       newState[key] = items
       return newState
 
+    case 'ITEM_SET_SCROLL_OFFSET':
+      items = state[key].map(item => {
+        if (item._id === action.item._id) {
+          item.scrollOffset = action.offset.y
+        }
+        return item
+      })
+      newState = { ...state }
+      newState[key] = items
+      return newState
+
+
     case 'ITEMS_UPDATE_CURRENT_INDEX':
       if (state.display === 'unread') {
         newState.index = action.index
@@ -143,7 +155,7 @@ export function items (state = initialState, action) {
     case 'ITEM_TOGGLE_MERCURY':
       items = [ ...state.items ]
       const item = items.find((item) => item._id === action.item._id)
-      if (item.content_mercury) {
+      if (item && item.content_mercury) {
         item.showMercuryContent = !item.showMercuryContent
       }
       return {
@@ -340,7 +352,13 @@ function addMercuryStuffToItem (item, mercury) {
   if (!isExcerptUseful(decoratedItem)) {
     decoratedItem.excerpt = undefined
   } else if (isExcerptExtract(decoratedItem)) {
-    decoratedItem.showMercuryContent = true
+    if (!decoratedItem.content_mercury ||
+      decoratedItem.content_mercury == '' ||
+      isExcerptExtract(decoratedItem, true)) {
+      decoratedItem.excerpt = undefined
+    } else {
+      decoratedItem.showMercuryContent = true
+    }
   }
 
   return decoratedItem
@@ -350,12 +368,22 @@ function isExcerptUseful (item) {
   return item.excerpt && item.excerpt.length < 200
 }
 
-function isExcerptExtract (item) {
+function isExcerptExtract (item, isMercury = false) {
   if (!item.content_html) return false
   let isExcerptExtract
   const excerptWithoutEllipsis = item.excerpt.substring(0, item.excerpt.length - 4)
-  const bodyWithoutHtml = item.content_html.replace(/<.*?>/g, '')
-  return bodyWithoutHtml.substring(0, excerptWithoutEllipsis.length) == excerptWithoutEllipsis
+  return strip(item.content_html).substring(0, excerptWithoutEllipsis.length) === excerptWithoutEllipsis
+}
+
+function strip(content) {
+  return content
+    .replace(/<.*?>/g, '')
+    .replace(/&lsquo;/g, "'")
+    .replace(/&rsquo;/g, "'")
+    .replace(/&ldquo;/g, '"')
+    .replace(/&rdquo;/g, '"')
+    .replace(/&apos;/g, "'")
+    .trim()
 }
 
 function addCoverImageToItem (item, imageStuff) {

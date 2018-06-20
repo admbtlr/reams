@@ -45,7 +45,7 @@ export function * decorateItems (action) {
     items = yield select(getItems, 'items')
     item = items.find(item => !item.hasLoadedMercuryStuff && !pendingDecoration.find(pd => pd._id === item._id))
     if (item) {
-      console.log(`Got item: ${item.title}`)
+      // console.log(`Got item: ${item.title}`)
       pendingDecoration.push(item)
       const itemToDecorate = item
       setTimeout(() => {

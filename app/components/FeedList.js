@@ -1,5 +1,6 @@
 import React from 'react'
 import FeedItemContainer from '../containers/FeedItem.js'
+import OnboardingContainer from '../containers/Onboarding.js'
 import {View} from 'react-native'
 import SwipeableViews from './SwipeableViews'
 
@@ -22,13 +23,13 @@ class FeedList extends React.Component {
   }
 
   render () {
-    if (this.props.numItems > 0) {
+    if (this.props.numItems > 0 || this.props.isOnboarding) {
       return <SwipeableViews
         overscanSlideAfter={BUFFER_LENGTH}
         overscanSlideBefore={BUFFER_LENGTH}
         slideRenderer={this.renderSlide.bind(this)}
         onChangeIndex={this.onChangeIndex.bind(this)}
-        slideCount={this.props.numItems}
+        slideCount={this.props.isOnboarding ? 13 : this.props.numItems}
         index={this.props.index}
       />
     } else {
@@ -38,26 +39,27 @@ class FeedList extends React.Component {
   }
 
   onChangeIndex (index, lastIndex) {
-    console.log(`${index} :: ${lastIndex}`)
+    // workaround for a weird bug
     if (index % 1 !== 0) {
       return
     }
     this.incomingIndex = index
-    this.props.updateCurrentIndex(index, lastIndex)
+    this.props.updateCurrentIndex(index, lastIndex, this.props.isOnboarding)
   }
 
   renderSlide ({key, index}) {
+    if (this.props.isOnboarding) {
+      return <OnboardingContainer
+        index={index}
+        key={index}
+      />
+    }
     if (index >= 0 && index < this.props.numItems) {
       return <FeedItemContainer
         index={index}
         key={index}
-        // item={item}
-        // key={item.feed_item_id}
-        // isVisible={this.props.index === index}
-        // isPending={index - BUFFER_LENGTH < item.index < index + BUFFER_LENGTH}
       />
     }
-    // return <View key={index}></View>
   }
 }
 

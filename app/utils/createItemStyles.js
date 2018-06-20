@@ -63,7 +63,6 @@ export function createItemStyles (item, prevStyles) {
   }
 
   title.interBolded = interBold(entities.decode(item.title))
-  title.lineHeightAsMultiplier = 0.9 + Math.random() * 0.2
   title.maximiseFont = isCoverInline || Math.random() > 0.5
   title.textAlign = Math.random() > 0.8
     ? 'center'
@@ -73,6 +72,9 @@ export function createItemStyles (item, prevStyles) {
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.5
   title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3) || Math.random() > 0.7
+  title.lineHeightAsMultiplier = title.isUpperCase ?
+    0.7 + Math.random() * 0.2 :
+    0.9 + Math.random() * 0.2
   title.invertBG = Math.random() > 0.8 && !isCoverInline
   title.isItalic = Math.random() > 0.8
   title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
@@ -91,6 +93,10 @@ export function createItemStyles (item, prevStyles) {
   // to stop the predominance of white on black titles
   if (title.invertBG) {
     title.isMonochrome = Math.random() > 0.7
+  }
+
+  if (!title.bg && !title.invertBG) {
+    title.excerptInvertBG = Math.random() > 0.7
   }
 
   return {
@@ -188,6 +194,14 @@ const hasBorder = function () {
 }
 
 const pickOne = function (arr, darker, notThisOne) {
+  const primaries = ['red1', 'blue1', 'yellow1']
+  if (notThisOne) {
+    isPrimary = arr.find(primary => notThisOne.substring(0, primary.length) === primary)
+    if (!isPrimary) {
+      let attempt = primaries[Math.round(Math.random() * 2)]
+      return darker ? attempt + 'Darker' : attempt
+    }
+  }
   arr = darker ? arr.slice(arr.length / 2) : arr.slice(0, arr.length / 2)
   let attempt = arr[Math.round(Math.random() * (arr.length - 1))]
   while (attempt === 'black' || attempt === 'white' || attempt === notThisOne) {

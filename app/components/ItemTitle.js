@@ -142,7 +142,7 @@ class ItemTitle extends React.Component {
     const longestWord = this.getLongestWord()
     let sizes = []
     let i = 70
-    while (i > 30) {
+    while (i > 20) {
       sizes.push(i--)
     }
 
@@ -169,6 +169,9 @@ class ItemTitle extends React.Component {
   }
 
   getInnerVerticalPadding (fontSize) {
+    if (this.props.styles.bg) {
+      return this.getInnerHorizontalMargin()
+    }
     const {styles} = this.props
     const lineHeight = fontSize ? fontSize * styles.lineHeightAsMultiplier : styles.lineHeight
     return lineHeight > 60 ?
@@ -197,6 +200,9 @@ class ItemTitle extends React.Component {
   }
 
   getInnerHorizontalPadding (fontSize) {
+    if (this.props.styles.bg) {
+      return this.getInnerHorizontalMargin()
+    }
     const {styles, coverImageStyles, textAlign} = this.props
     const relativePadding = this.getInnerVerticalPadding(fontSize || styles.fontSize)
     if (coverImageStyles.isInline) {
@@ -225,7 +231,7 @@ class ItemTitle extends React.Component {
   async componentDidUpdate () {
     const {styles, coverImageStyles, textAlign} = this.props
 
-    if (styles.fontResized) return
+    // if (styles.fontResized) return
 
     // first get max font size
     const maxFontSize = await this.getMaxFontSize()
@@ -258,7 +264,7 @@ class ItemTitle extends React.Component {
       // now go through them and find the first one that
       // (a) is less than 66% screen height
       values = values.filter(v => v.height < maxHeight)
-      const maxViable = values[0].size
+      const maxViable = values[0]
       let optimal
       // console.log(`MAX VIABLE FONT SIZE (${this.displayTitle}): ${maxViable}`)
 
@@ -266,15 +272,15 @@ class ItemTitle extends React.Component {
       const initialNumLines = values[0].numLines
       let downALine = values.find((v, i) => {
         return values[i - 1] &&
-          v.numLines < values[i - 1].numLines &&
-          v.numLines < 7
+          v.numLines < values[i - 1].numLines /*&&
+          v.numLines < 7*/
       })
-      optimal = downALine ? downALine.size : maxViable
+      optimal = downALine || maxViable
 
       // (c) if we go down to 4 lines, is the fontSize > 42?
       let fourLines = values.find(v => v.numLines === 4)
       if (fourLines && fourLines.size && fourLines.size > optimal && fourLines.size > 42) {
-        optimal = fourLines.size
+        optimal = fourLines
       }
 
       // was maxViable actually four lines or less?
@@ -286,7 +292,7 @@ class ItemTitle extends React.Component {
       if (maxViable < 42) optimal = maxViable
 
       // this is a bit sketchy...
-      if (styles.invertBG) optimal = Math.round(optimal * 0.9)
+      if (styles.invertBG) optimal.size = Math.round(optimal.size * 0.9)
 
       // TODO - need to account for interbolding, which need to move to createItemStyles
 
@@ -296,10 +302,11 @@ class ItemTitle extends React.Component {
       // https://developer.apple.com/documentation/uikit/nskernattributename
 
       // often out by 1...
-      optimal--
+      optimal.size--
 
       // console.log(`OPTIMAL FONT SIZE (${this.displayTitle}): ${optimal}`)
-      this.props.updateFontSize(this.props.item, optimal)
+      this.props.updateFontSize(this.props.item, optimal.size)
+      this.titleHeight = optimal.height
     })
   }
 
@@ -382,12 +389,12 @@ class ItemTitle extends React.Component {
         'white' :
         'black') :
       (styles.isTone ?
-        (styles.isMainColorDarker ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)') :
+        (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
       hslString(styles.color))
 
     const invertBGPadding = 5
     let paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
-    const paddingBottom = styles.invertBG ? invertBGPadding : 0
+    const paddingBottom = styles.invertBG ? 2 : 0
     const paddingLeft = styles.invertBG ? invertBGPadding : 0
 
     // https://github.com/facebook/react-native/issues/7687
@@ -447,7 +454,7 @@ class ItemTitle extends React.Component {
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
       paddingBottom: styles.bg || styles.textAlign === 'center' || styles.borderWidth || coverImageStyles.isInline ? innerPadding : styles.lineHeight,
-      paddingTop: innerPadding,
+      paddingTop: innerPadding + borderWidth,
       backgroundColor: styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       height: 'auto',
       flexDirection: 'row',
@@ -481,34 +488,6 @@ class ItemTitle extends React.Component {
       // ...viewStyle
     }
 
-    let dateStyle = {
-      color,
-      backgroundColor: 'transparent',
-      fontSize: 12,
-      fontFamily: 'IBMPlexMono',
-      lineHeight: 18,
-      textAlign: 'center',
-      marginLeft: 0,
-      marginRight:  0,
-      marginBottom: 18,
-      padding: 0,
-      width: this.screenWidth,
-      // top: -10 // magic number!
-    }
-
-    if (!coverImageStyles.isInline) {
-      dateStyle.position = 'absolute'
-      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.2 : 0.7) // heuristic
-    }
-
-    if (!coverImageStyles.isInline && styles.valign !== 'middle') {
-      dateStyle.transform = [
-        {translateY: 100},
-        {translateX: (this.screenWidth / 2) - 6},
-        {rotateZ: '90deg'}
-      ]
-    }
-
     let shadowStyle = styles.hasShadow && !styles.bg && !coverImageStyles.isInline ? {
       textShadowColor: 'rgba(0,0,0,0.1)',
       textShadowOffset: { width: shadow, height: shadow }
@@ -516,10 +495,6 @@ class ItemTitle extends React.Component {
 
     textStyle = {
       ...fontStyle,
-      ...shadowStyle
-    }
-    dateStyle = {
-      ...dateStyle,
       ...shadowStyle
     }
 
@@ -555,9 +530,11 @@ class ItemTitle extends React.Component {
       wordStyles = styles.interBolded.map(isBold => {
         const fontFamily = this.getFontFamily(isBold ? 'bold' :
           (styles.isItalic ? 'regularItalic' : 'regular'))
+        const fontSize = isBold ? styles.fontSize : styles.fontSize // / 1.333
         return {
           fontFamily,
-          height: styles.fontSize
+          fontSize,
+          height: fontSize
         }
       })
     } else {
@@ -568,10 +545,6 @@ class ItemTitle extends React.Component {
         this.renderedTitle = this.getRenderedTitle(this.decodedTitle.replace(/ /g, '\n'))
       }
     }
-
-    // TODO this is feedwrangler... fix it
-    if (typeof date === 'number') date = date * 1000
-    const dateView = <Animated.Text style={dateStyle}>{moment(date).format('dddd MMM Do, h:mm a')}</Animated.Text>
 
     const shouldSplitIntoWords = () => {
       return styles.interBolded || styles.invertBG
@@ -586,7 +559,7 @@ class ItemTitle extends React.Component {
             ...fontStyle,
             ...(wordStyles && wordStyles[index]),
             ...invertedTitleStyle,
-            height: styles.fontSize + paddingTop + paddingBottom
+            height: styles.lineHeight + paddingTop + paddingBottom
           }}>{word} </Text>
           </View>)
         } else {
@@ -600,13 +573,35 @@ class ItemTitle extends React.Component {
       })
     }
 
-    const excerptColor = styles.isMonochrome ?
-      (hasCoverImage && !styles.bg ?
+    let excerptShadowStyle
+    let excerptColor
+    if (styles.isMonochrome || styles.invertBG) {
+      excerptColor = hasCoverImage && !styles.bg ?
         'white' :
-        'black') :
-      (styles.isExcerptTone ?
-        (styles.isMainColorDarker ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)')
-       : hslString(styles.color))
+        'black'
+    } else if (styles.isExcerptTone) {
+      excerptColor = this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'
+    } else {
+      excerptColor = hslString(styles.color)
+    }
+
+    let excerptBg = {}
+    if (!coverImageStyles.isInline) {
+      excerptBg = styles.excerptInvertBG ? {
+        backgroundColor: excerptColor,
+        paddingLeft: 8,
+        paddingRight: 8,
+        paddingTop: 8,
+        paddingBottom: 8
+      }: {}
+      excerptColor = styles.excerptInvertBG ?
+        (excerptColor === 'white' ? 'black' : 'white') :
+        excerptColor
+      excerptShadowStyle = styles.excerptInvertBG ? {
+        textShadowColor: 'transparent'
+      }: {}
+    }
+
     // const excerptColor = styles.bg ?
     //   (styles.isMonochrome ? 'black' : hslString(styles.color)) :
     //   (hasCoverImage ? 'white' : 'black')
@@ -615,11 +610,14 @@ class ItemTitle extends React.Component {
     //     (styles.lineHeight > 36 ?
     //     Math.round(styles.lineHeight / 2) :
     //     Math.round(styles.lineHeight / 1.5))
-    const excerptLineHeight = Math.min(this.screenHeight, this.screenWidth) / 18
+    const excerptLineHeight = coverImageStyles.isInline ?
+      Math.min(this.screenHeight, this.screenWidth) / 10 :
+      Math.min(this.screenHeight, this.screenWidth) / 18
     const excerptView = (<Animated.View style={{
         ...innerViewStyle,
         paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
         paddingBottom: (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : this.getInnerVerticalPadding(),
+        ...excerptBg,
         borderTopWidth: 0,
         opacity: excerptOpacity,
         marginTop: styles.bg && !styles.borderWidth ? 1 : 0
@@ -629,15 +627,54 @@ class ItemTitle extends React.Component {
           flex: 1,
           ...fontStyle,
           ...shadowStyle,
+          ...excerptShadowStyle,
+          marginTop: 0,
+          paddingTop: 0,
           // textShadowColor: 'rgba(0,0,0,0.4)',
           // textShadowRadius: 20,
           color: excerptColor,
-          fontFamily: this.getFontFamily(coverImageStyles.isInline || styles.bg ? 'regular' : 'bold'),
+          fontFamily: this.getFontFamily(coverImageStyles.isInline ||
+            excerptBg.backgroundColor ||
+            !hasCoverImage ?
+            'regular' :
+            'bold'),
           fontSize: Math.round(excerptLineHeight / 1.4),
           lineHeight: excerptLineHeight,
           letterSpacing: 0,
         }}>{this.widowFix(this.props.excerpt)}</Animated.Text>
       </Animated.View>)
+
+    let dateStyle = {
+      color: excerptColor,
+      backgroundColor: 'transparent',
+      fontSize: 12,
+      fontFamily: 'IBMPlexMono',
+      lineHeight: 18,
+      textAlign: 'center',
+      marginLeft: 0,
+      marginRight:  0,
+      marginBottom: 18,
+      padding: 0,
+      width: this.screenWidth,
+      ...shadowStyle
+    }
+
+    if (!coverImageStyles.isInline) {
+      dateStyle.position = 'absolute'
+      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.2 : 0.7) // heuristic
+    }
+
+    if (!coverImageStyles.isInline && styles.valign !== 'middle') {
+      dateStyle.transform = [
+        {translateY: 100},
+        {translateX: (this.screenWidth / 2) - 6},
+        {rotateZ: '90deg'}
+      ]
+    }
+
+    // TODO this is feedwrangler... fix it
+    if (typeof date === 'number') date = date * 1000
+    const dateView = <Animated.Text style={dateStyle}>{moment(date).format('dddd MMM Do, h:mm a')}</Animated.Text>
 
     return (
       <Animated.View style={{
@@ -680,14 +717,14 @@ class ItemTitle extends React.Component {
       (item.styles.isCoverImageColorDarker && coverImageStyles.isMultiply)) {
       return 'transparent'
     } else if (item.styles.isMainColorDarker && !styles.isMonochrome) {
-      return 'rgba(255,255,255,0.3)'
+      return 'rgba(255,255,255,0.4)'
     } else if (styles.isMonochrome ||
       coverImageStyles.isBW ||
       coverImageStyles.isMultiply ||
       coverImageStyles.isScreen) {
       return 'rgba(0,0,0,0.2)'
     } else {
-      return 'rgba(0,0,0,0.3)'
+      return 'rgba(0,0,0,0.4)'
     }
   }
 

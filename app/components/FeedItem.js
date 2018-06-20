@@ -186,7 +186,7 @@ class FeedItem extends React.Component {
 
     const html = `<html class="font-size-${this.props.fontSize}">
       <head>
-        <link rel="stylesheet" type="text/css" href="${server}webview/css/item-styles.css">
+        <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
       </head>
       <body style="margin: 0; padding: 0;" class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
         <article
@@ -298,15 +298,20 @@ class FeedItem extends React.Component {
 
   // nasty workaround to figure out scrollEnd
   // https://medium.com/appandflow/react-native-collapsible-navbar-e51a049b560a
-  onScrollEndDrag = () => {
-    this.scrollEndTimer = setTimeout(this.onMomentumScrollEnd, 250)
+  onScrollEndDrag = (e) => {
+    const that = this
+    const offset = e.nativeEvent.contentOffset.y
+    this.scrollEndTimer = setTimeout(() => {
+      that.onMomentumScrollEnd.apply(that, [offset])
+    }, 250)
   }
 
-  onMomentumScrollBegin = () => {
+  onMomentumScrollBegin = (e) => {
     clearTimeout(this.scrollEndTimer)
   }
 
-  onMomentumScrollEnd = () => {
+  onMomentumScrollEnd = (scrollOffset) => {
+    this.props.setScrollOffset(this.props.item, scrollOffset)
     onScrollEnd()
   }
 

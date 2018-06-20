@@ -7,7 +7,7 @@ import {persistCombineReducers, persistStore} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import {AsyncStorage} from 'react-native'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
-import {composeWithDevTools} from 'remote-redux-devtools'
+import {composeWithDevTools} from 'redux-devtools-extension'
 
 export default function configureStore (initialState) {
   const composeEnhancers = composeWithDevTools({

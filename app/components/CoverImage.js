@@ -75,7 +75,7 @@ class CoverImage extends React.Component {
     const scale = isInline ?
       scrollOffset.interpolate({
         inputRange: [-100, 0, this.screenHeight],
-        outputRange: [1.5, 1, 1]
+        outputRange: [1.75, 1, 1]
       }) :
       scrollOffset.interpolate({
         inputRange: [-100, 0, this.screenHeight],
@@ -84,11 +84,11 @@ class CoverImage extends React.Component {
     const translateY = isInline ?
       scrollOffset.interpolate({
         inputRange: [-1, 0, 1],
-        outputRange: [-0.25, 0, 0]
+        outputRange: [-0.333, 0, 0]
       }) :
       scrollOffset.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, -0.333]
+        inputRange: [-1, 0, 1],
+        outputRange: [0, 0, -0.333]
       })
     const opacity = scrollOffset.interpolate({
       inputRange: [0, this.screenHeight * 0.75, this.screenHeight],
@@ -103,8 +103,8 @@ class CoverImage extends React.Component {
       backgroundColor: isMultiply || isScreen ? hslString(color) : 'white',
       opacity,
       transform: [
-        {scale},
-        {translateY}
+        {translateY},
+        {scale}
       ]
     }
     // if (!isInline) {

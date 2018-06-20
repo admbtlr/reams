@@ -2,8 +2,10 @@
 var gulp = require('gulp')
 var webserver = require('gulp-webserver')
 var watch = require('gulp-watch')
+var concat = require('gulp-concat')
 var gls = require('gulp-live-server');
 var sass = require('gulp-sass');
+var jsonSass = require('gulp-json-sass');
 
 // gulp.task('sass', function () {
 //   return gulp.src('./webview/**/*.scss')
@@ -16,7 +18,9 @@ var sass = require('gulp-sass');
 // });
 
 gulp.task('css', function () {
-  return gulp.src('webview/*.scss')
+  return gulp.src(['utils/colors.json', 'webview/*.scss'])
+    .pipe(jsonSass())
+    .pipe(concat('output.scss'))
     .pipe(sass())
     .pipe(gulp.dest('./ios/webview/css'))
 })

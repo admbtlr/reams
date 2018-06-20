@@ -37,6 +37,7 @@ class LogoSpinner extends React.Component {
   }
 
   render () {
+    if (!this.props.showLoadingAnimation) return null
     const {height, width} = Dimensions.get('window')
     const spin = this.state.rotate.interpolate({
       inputRange: [0, 1],

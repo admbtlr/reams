@@ -88,7 +88,7 @@ class Buttons extends React.Component {
   }
 
   render () {
-    const { item, showMercuryContent } = this.props
+    const { item, showMercuryContent, isMercuryButtonEnabled } = this.props
     const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ?
       hslString('rizzleFG') :
       hslString('rizzleFG')
@@ -215,7 +215,7 @@ class Buttons extends React.Component {
               translateY: this.state.visibleAnimMercury
             }]
           }}
-          onPress={this.onMercuryPress}
+          onPress={isMercuryButtonEnabled ? this.onMercuryPress : () => false}
         >
           { showMercuryContent &&
             <Svg
@@ -244,17 +244,18 @@ class Buttons extends React.Component {
                   translateX: 7
                 }, {
                   translateY: 0
-                }]
+                }],
+                opacity: isMercuryButtonEnabled ? 1 : 0.3
               }}
               height='32'
               width='34'>
               <Path d="M0.5,1.5 L31.5,1.5" strokeWidth="3" stroke={hslString('rizzleFG')}></Path>
               <Path d="M0.5,7.5 L31.5,7.5" strokeWidth="3" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,13.5 L31.5,13.5" opacity="0.200577446" stroke={hslString('rizzleFG')}></Path>
+              <Path d="M0.5,13.5 L31.5,13.5" opacity="0.2" stroke={hslString('rizzleFG')}></Path>
               <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,19.5 L31.5,19.5" opacity="0.200577446" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,25.5 L31.5,25.5" opacity="0.200577446" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,31.5 L31.5,31.5" opacity="0.200577446" stroke={hslString('rizzleFG')}></Path>
+              <Path d="M0.5,19.5 L31.5,19.5" opacity="0.2" stroke={hslString('rizzleFG')}></Path>
+              <Path d="M0.5,25.5 L31.5,25.5" opacity="0.2" stroke={hslString('rizzleFG')}></Path>
+              <Path d="M0.5,31.5 L31.5,31.5" opacity="0.2" stroke={hslString('rizzleFG')}></Path>
             </Svg>
           }
         </RizzleButton>

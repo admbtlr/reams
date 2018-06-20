@@ -131,9 +131,6 @@ class Share extends React.Component {
   }
 
   render() {
-    console.log('Rendering')
-    console.log(`this.state.rssUrl is ${this.state.rssUrl}`)
-    console.log(this.state)
     const textStyle = {
       color: '#f6be3c',
       fontFamily: 'IBMPlexMono',

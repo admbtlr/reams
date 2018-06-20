@@ -3,6 +3,7 @@ import { feeds } from './feeds'
 import { toolbar } from './toolbar'
 import { ui } from './ui'
 import { webView } from './webView'
+import { config } from './config'
 import { remoteActionQueue } from './remote-action-queue'
 
 export default {
@@ -12,5 +13,6 @@ export default {
   toolbar,
   ui,
   webView,
-  remoteActionQueue
+  remoteActionQueue,
+  config
 }

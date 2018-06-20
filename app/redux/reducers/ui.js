@@ -16,6 +16,12 @@ export function ui (state = initialState, action) {
         viewButtonsVisible: !state.viewButtonsVisible
       }
 
+    case 'UI_SHOW_VIEW_BUTTONS':
+      return {
+        ...state,
+        viewButtonsVisible: true
+      }
+
     case 'UI_SHOW_ITEM_BUTTONS':
       return {
         ...state,

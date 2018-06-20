@@ -22,6 +22,11 @@ const mapDispatchToProps = (dispatch) => {
     showImageViewer: (url) => dispatch({
       type: 'UI_SHOW_IMAGE_VIEWER',
       url
+    }),
+    setScrollOffset: (item, offset) => dispatch({
+      type: 'ITEM_SET_SCROLL_OFFSET',
+      item,
+      offset
     })
     // scrollHandler: (e) => dispatch(itemDidScroll(e.nativeEvent.contentOffset.y))
   }

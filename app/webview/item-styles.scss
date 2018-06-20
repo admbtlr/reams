@@ -1,46 +1,5 @@
 $step: 28px;
 
-$colors: (
-  red1: hsl(355, 56%, 63%),
-  red2: hsl(341, 56%, 49%),
-  orange1: hsl(23, 100%, 60%),
-  orange2: hsl(33, 93%, 54%),
-  yellow1: hsl(49, 100%, 50%),
-  yellow2: hsl(65, 80%, 40%),
-  green1: hsl(167, 80%, 55%),
-  blue1: hsl(226, 68%, 57%),
-  blue2: hsl(198, 90%, 44%),
-  purple1: hsl(298, 32%, 56%),
-  purple2: hsl(320, 82%, 66%),
-  brown1: hsl(9, 61%, 71%),
-  red1Darker: hsl(355, 56%, 23%),
-  red2Darker: hsl(341, 56%, 19%),
-  orange1Darker: hsl(23, 100%, 20%),
-  orange2Darker: hsl(33, 93%, 24%),
-  yellow1Darker: hsl(49, 100%, 20%),
-  yellow2Darker: hsl(65, 80%, 15%),
-  green1Darker: hsl(167, 80%, 15%),
-  blue1Darker: hsl(226, 68%, 27%),
-  blue2Darker: hsl(198, 90%, 14%),
-  purple1Darker: hsl(298, 32%, 26%),
-  purple2Darker: hsl(320, 82%, 26%),
-  brown1Darker: hsl(9, 61%, 21%)
-);
-
-$desaturated: (
-  red1: hsl(355, 26%, 63%),
-  red2: hsl(341, 26%, 49%),
-  orange1: hsl(23, 60%, 60%),
-  orange2: hsl(33, 53%, 54%),
-  yellow1: hsl(49, 50%, 50%),
-  yellow2: hsl(65, 30%, 40%),
-  green1: hsl(167, 30%, 55%),
-  blue1: hsl(226, 28%, 57%),
-  blue2: hsl(198, 50%, 44%),
-  purple1: hsl(298, 12%, 56%),
-  purple2: hsl(320, 42%, 66%),
-  brown1: hsl(9, 21%, 71%),
-);
 
 * {
   box-sizing: border-box;
@@ -161,16 +120,24 @@ body {
     margin-bottom: 1rem;
   }
 
+  sup {
+    line-height: 0;
+  }
+
   figure, img, video, iframe, pre {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
     height: auto !important;
     margin: 0 0 1rem;
     border: 0;
+  }
 
-    p &:last-of-type {
-      margin-bottom: 0;
-    }
+  p figure:last-child,
+    p img:last-child,
+    p video:last-child,
+    p iframe:last-child,
+    p pre:last-child {
+    margin-bottom: 0;
   }
 
   figure, img, video, iframe, pre {
@@ -221,15 +188,15 @@ body {
     & > figure:first-child,
     & > img:first-child,
     & > iframe:first-child,
-    & > p > iframe:first-child, {
+    & > p:first-child > iframe:first-child, {
       position: relative;
       top: -2rem;
       margin-top: 0;
       margin-bottom: 0rem;
     }
     & > img.img-portrait:first-child {
-      top: -0.5rem;
-      margin-bottom: 0;
+      top: -1.5rem;
+      margin-bottom: -1.5rem;
     }
     // & > figure:first-child figcaption {
     //   position: relative;
@@ -369,7 +336,7 @@ body {
       content: '';
       height: 10px;
       display: block;
-      margin: 0 calc(50% - 1.5rem);
+      margin: 0 calc(50% - 1rem) 2rem;
       transform: rotateZ(-30deg);
     }
 
@@ -445,7 +412,7 @@ article {
 article > div:not(:last-of-type) {
   p:last-child,
   figure:last-child {
-    margin-bottom: $step * 4;
+    margin-bottom: 2rem;
   }
 }
 

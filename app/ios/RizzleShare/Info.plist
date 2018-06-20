@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Save to rizzle</string>
+	<string>Save to Rizzle</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -28,9 +28,9 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.144</string>
+	<string>0.149</string>
 	<key>CFBundleVersion</key>
-	<string>213</string>
+	<string>218</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
