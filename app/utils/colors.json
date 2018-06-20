@@ -1,0 +1,42 @@
+{
+  "colors": {
+    "red1": "hsl(355, 84%, 45%)",
+    "red2": "hsl(341, 56%, 49%)",
+    "orange1": "hsl(23, 100%, 60%)",
+    "orange2": "hsl(33, 93%, 54%)",
+    "yellow1": "hsl(49, 100%, 50%)",
+    "yellow2": "hsl(65, 80%, 40%)",
+    "green1": "hsl(167, 80%, 55%)",
+    "blue1": "hsl(226, 68%, 57%)",
+    "blue2": "hsl(198, 90%, 44%)",
+    "purple1": "hsl(298, 32%, 56%)",
+    "purple2": "hsl(320, 82%, 66%)",
+    "brown1": "hsl(355, 56%, 63%)",
+    "red1Darker": "hsl(355, 84%, 25%)",
+    "red2Darker": "hsl(341, 56%, 29%)",
+    "orange1Darker": "hsl(23, 100%, 30%)",
+    "orange2Darker": "hsl(33, 93%, 34%)",
+    "yellow1Darker": "hsl(49, 100%, 20%)",
+    "yellow2Darker": "hsl(65, 80%, 15%)",
+    "green1Darker": "hsl(167, 80%, 25%)",
+    "blue1Darker": "hsl(226, 68%, 27%)",
+    "blue2Darker": "hsl(198, 90%, 24%)",
+    "purple1Darker": "hsl(298, 32%, 26%)",
+    "purple2Darker": "hsl(320, 82%, 26%)",
+    "brown1Darker": "hsl(355, 56%, 21%)"
+  },
+  "desaturated": {
+    "red1": "hsl(355, 26%, 55%)",
+    "red2": "hsl(341, 16%, 59%)",
+    "orange1": "hsl(23, 40%, 60%)",
+    "orange2": "hsl(33, 33%, 64%)",
+    "yellow1": "hsl(49, 30%, 50%)",
+    "yellow2": "hsl(65, 30%, 60%)",
+    "green1": "hsl(167, 30%, 55%)",
+    "blue1": "hsl(226, 18%, 57%)",
+    "blue2": "hsl(198, 20%, 54%)",
+    "purple1": "hsl(298, 12%, 66%)",
+    "purple2": "hsl(320, 22%, 66%)",
+    "brown1": "hsl(355, 21%, 65%)"
+  }
+}

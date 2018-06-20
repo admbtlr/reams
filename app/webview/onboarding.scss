@@ -1,0 +1,52 @@
+
+html.onboarding {
+  // this is now my rem value
+  // it's the body lineheight
+  font-size: calc(7vw);
+  @media (min-width: 600px) {
+    font-size: calc(4vw);
+  }
+
+  body {
+    margin: 0;
+    font-family: "IBMPlexMono";
+    width: 100vw;
+    background-color: transparent;
+    padding: .5rem;
+    padding-top: 3rem;
+    color: white;
+  }
+
+  h1 {
+    color: hsl(42, 91%, 60%);
+    font-size: 1.3rem;
+    line-height: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  p {
+    font-size: 0.666rem;
+    line-height: 1rem;
+    margin: 0 0 1rem;
+  }
+
+  a {
+    color: white;
+  }
+
+  .swipe {
+    position: absolute;
+    width: 100%;
+    bottom: 1rem;
+    text-align: center;
+    font-size: 0.666rem;
+    color: hsl(42, 91%, 60%);
+  }
+
+  img {
+    display: block;
+    margin: 0 auto 1rem;
+  }
+}
+
