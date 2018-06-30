@@ -68,7 +68,7 @@ class Onboarding extends React.Component {
     ]
 
     const swipeArrow = this.props.index < 8 ?
-      '<div class="swipe"><em>(Swipe to continue)</em></div>' :
+      `<div class="swipe"><em>(Swipe to continue)</em></div>` :
       ''
 
     const html = `<html class="onboarding font-size-3">

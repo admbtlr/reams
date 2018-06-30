@@ -13,9 +13,10 @@ export function createItemStyles (item, prevStyles) {
   let title = {}
   const isMainColorDarker = Math.random() > 0.6
   const isMainColorDesaturated = Math.random() > 0.6
-  const isCoverImageColorDarker = isMainColorDarker ? false : Math.random() > 0.2
+  let isCoverImageColorDarker = false
+  let isCoverImageColorLighter = false
   const isCoverImageColorDesaturated = isMainColorDarker ? false : Math.random() > 0.2
-  const color = pickOne(getNames(), isMainColorDarker, prevStyles && prevStyles.color)
+  const color = pickOne(getNames(), isMainColorDarker ? 'Darker' : '', prevStyles && prevStyles.color)
   title.color = color
 
   if (!deviceWidth || !deviceHeight) {
@@ -28,7 +29,13 @@ export function createItemStyles (item, prevStyles) {
   let isMultiply = false
   let isScreen = false
   if (Math.random() > 0.4 && !(prevStyles && prevStyles.coverImage.isMultiply)) {
-    isCoverImageColorDarker ? isScreen = true : isMultiply = true
+    if (Math.random() > 0.5) {
+      isScreen = true
+      isCoverImageColorDarker = true
+    } else {
+      isMultiply = true
+      isCoverImageLighter = true
+    }
     title.isMonochrome = Math.random() > 0.3 && !(prevStyles && prevStyles.isMonochrome)
     if (Math.random() > 0.2) {
       isBW = true
@@ -99,6 +106,9 @@ export function createItemStyles (item, prevStyles) {
     title.excerptInvertBG = Math.random() > 0.7
   }
 
+  const colorModifier = isCoverImageColorDarker ? 'Darker' :
+    (isCoverImageColorLighter ? 'Lighter' : '')
+
   return {
     fontClasses: fonts,
     border: hasBorder(),
@@ -117,7 +127,7 @@ export function createItemStyles (item, prevStyles) {
       isBW,
       isMultiply,
       isScreen,
-      color: pickOne(getNames(), isCoverImageColorDarker, color),
+      color: pickOne(getNames(), colorModifier, color),
       resizeMode: isContain ? 'contain' : 'cover',
       align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)],
       isInline: isCoverInline
@@ -193,21 +203,22 @@ const hasBorder = function () {
   return Math.random() > 0.7
 }
 
-const pickOne = function (arr, darker, notThisOne) {
+// `colorModifier` is either `Darker`, `Lighter` or ``
+const pickOne = function (arr, colorModifier, notThisOne) {
   const primaries = ['red1', 'blue1', 'yellow1']
   if (notThisOne) {
     isPrimary = arr.find(primary => notThisOne.substring(0, primary.length) === primary)
     if (!isPrimary) {
       let attempt = primaries[Math.round(Math.random() * 2)]
-      return darker ? attempt + 'Darker' : attempt
+      return attempt + colorModifier
     }
   }
-  arr = darker ? arr.slice(arr.length / 2) : arr.slice(0, arr.length / 2)
+  arr = arr.slice(0, arr.length / 3)
   let attempt = arr[Math.round(Math.random() * (arr.length - 1))]
   while (attempt === 'black' || attempt === 'white' || attempt === notThisOne) {
     attempt = arr[Math.round(Math.random() * (arr.length - 1))]
   }
-  return attempt
+  return attempt + colorModifier
 }
 
 // const colors = () => {

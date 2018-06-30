@@ -1,11 +1,13 @@
 import React from 'react'
 import {
+  Image,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
 import Modal from 'react-native-modalbox'
 import ShareExtension from 'react-native-share-extension'
+import AnimatedEllipsis from 'react-native-animated-ellipsis'
 import { Sentry } from 'react-native-sentry'
 import { RNSKBucket } from 'react-native-swiss-knife'
 import {hslString} from '../utils/colors'
@@ -29,8 +31,37 @@ class Share extends React.Component {
       .install()
   }
 
-  checkForRSSHeader (url) {
-    const that = this
+ checkForRSSHeader (body) {
+  matches = body.match(/(\<link[^>]*?rel="alternate".*?(rss|atom)\+xml.*\>)/)
+  return (matches && matches.length > 0) ?
+    matches[1] :
+    null
+}
+
+ checkForLinkToRssFile (body) {
+  console.log('Full body length: ' + body.length)
+  console.log('Now checking for links to rss files')
+  body = body.replace(/<script[^]*?<\/script>/mg, '')
+  // console.log(body)
+  console.log('Scriptless body length: ' + body.length)
+  // look for links to rss files
+  matches = body.match(/<a.*?href.*?\.(rss|atom).*?>/)
+  return (matches && matches.length > 0) ?
+    matches[1] :
+    null
+}
+
+ checkForLinkWithRssInText (body) {
+  console.log('Checking for link with RSS in text')
+  body = body.replace(/<script[^]*?<\/script>/mg, '')
+  matches = body.match(/href[^>]*?>(rss|atom)/i)
+  console.log(matches[0])
+  return (matches && matches.length > 0) ?
+    matches[0] :
+    null
+}
+
+async searchForRSS (url) {
     let matches = url.match(/(http[s]*:\/\/.+?(\/|$))/)
     if (!matches || matches.length === 0) {
       return
@@ -38,39 +69,24 @@ class Share extends React.Component {
     let homeUrl = matches[1]
     console.log(`Checking ${homeUrl}`)
 
-    return fetch(homeUrl)
-      .then(res => {
-        console.log(res)
-        return res.text()
-      })
-      .then(body => {
-        // <link rel="alternate" href="https://www.theguardian.com/international/rss" title="RSS" type="application/rss+xml">
-        matches = body.match(/(\<link[^>]*?rel="alternate".*?(rss|atom)\+xml.*\>)/)
-        if (matches && matches.length > 0) {
-          let linkTag = matches[1]
-          console.log(linkTag)
-          return that.parseLinkTag(linkTag, homeUrl)
-        } else {
-          console.log('Now checking for links to rss files')
-          console.log(body)
-          // look for links to rss files
-          matches = body.match(/<a.*?href.*?\.(rss|atom).*?>/)
-          if (!matches || matches.length === 0) {
-            // look for links with "rss" in the text
-            matches = body.match(/<a.*?href.*?>[^<]*?(rss|atom).*?>/)
-          }
-          if (matches && matches.length > 0) {
-            console.log('Got one!')
-            linkTag = matches[0]
-            return that.parseLinkTag(linkTag, homeUrl)
-          }
-        }
-        return null
-      })
-      .catch((error) => {
-        console.log(`Error fetching page: ${error.message}`)
-        throw `Error fetching page: ${error.message}`
-      })
+    try {
+      const res = await fetch(homeUrl)
+      const body = await res.text()
+
+      let linkTag = this.checkForRSSHeader(body)
+      if (linkTag) return this.parseLinkTag(linkTag, homeUrl)
+
+      linkTag = this.checkForLinkToRssFile(body)
+      if (linkTag) return this.parseLinkTag(linkTag, homeUrl)
+
+      linkTag = this.checkForLinkWithRssInText(body)
+      if (linkTag) return this.parseLinkTag(linkTag, homeUrl)
+
+      return null
+    } catch (error) {
+      console.log(`Error fetching page: ${error.message}`)
+      throw `Error fetching page: ${error.message}`
+    }
   }
 
   parseLinkTag (linkTag, homeUrl) {
@@ -93,11 +109,12 @@ class Share extends React.Component {
         value,
         searchingForRss: true
       })
-      const rssUrl = await this.checkForRSSHeader(value)
+      const rssUrl = await this.searchForRSS(value)
       let state = {
         ...this.state,
         searchingForRss: false
       }
+      console.log(`Value of rssUrl is ${rssUrl}`)
       if (rssUrl) {
         state.rssUrl = rssUrl
       }
@@ -149,47 +166,80 @@ class Share extends React.Component {
           <View style={{
             backgroundColor: hslString('rizzleBG'),
             width: 300,
-            height: 300,
+            height: 250,
             padding: 14,
             borderRadius: 14
           }}>
-            <TouchableOpacity onPress={this.closing}>
-              <Text>Close</Text>
-            </TouchableOpacity>
-            { this.state.searchingForRss &&
-              <Text
+            <View style={{
+              flex: 1,
+              justifyContent: 'center'
+            }}>
+              { this.state.searchingForRss &&
+                <Text
+                  style={{
+                    ...textStyle,
+                    color: 'white',
+                    paddingLeft: 20,
+                    paddingRight: 20
+                  }}>Looking for an available feed<AnimatedEllipsis style={{
+                  color: 'white',
+                  fontSize: 16,
+                  letterSpacing: -5
+                }}/></Text>
+              }
+              { (!this.state.searchingForRss && !this.state.rssUrl) &&
+                <Text
+                  style={{
+                    ...textStyle,
+                    color: 'white'
+                  }}>No feed found :(</Text>
+              }
+              { this.state.rssUrl &&
+                <TouchableOpacity
+                  style={{
+                    padding: 28,
+                    // paddingBottom: 0
+                  }}
+                  onPress={this.addFeed}>
+                  <Text style={textStyle}>Add this site to your Rizzle feed</Text>
+                </TouchableOpacity>
+              }
+            </View>
+            <View style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingLeft: 10,
+              paddingRight: 10
+            }}>
+              <View style={{
+                height: 1,
+                width: 70,
+                backgroundColor: 'white'
+              }}/>
+              <Image
+                source={require('../assets/images/logo.png')}
                 style={{
-                  ...textStyle,
-                  color: 'white'
-                }}>Looking for an RSS feed...</Text>
-            }
-            { (!this.state.searchingForRss && !this.state.rssUrl) &&
-              <Text
-                style={{
-                  ...textStyle,
-                  color: 'white'
-                }}>No RSS feed found :(</Text>
-            }
-            { this.state.rssUrl &&
-              <TouchableOpacity
-                style={{
-                  padding: 28,
-                  paddingBottom: 0
-                }}
-                onPress={this.addFeed}>
-                <Text style={textStyle}>Add this site to your Rizzle feed</Text>
-                <View style={{
-                  height: 1,
-                  marginTop: 28,
-                  backgroundColor: 'white'
+                  width: 60,
+                  height: 60
                 }}/>
+              <View style={{
+                height: 1,
+                width: 70,
+                backgroundColor: 'white'
+              }}/>
+            </View>
+            <View style={{
+              flex: 1,
+              justifyContent: 'center'
+            }}>
+              <TouchableOpacity
+                style={{ padding: 28 }}
+                onPress={this.savePage}>
+                <Text style={textStyle}>Save this page to read in Rizzle</Text>
               </TouchableOpacity>
-            }
-            <TouchableOpacity
-              style={{ padding: 28 }}
-              onPress={this.savePage}>
-              <Text style={textStyle}>Save this page to read in Rizzle</Text>
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>

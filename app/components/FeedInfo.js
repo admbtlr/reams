@@ -89,14 +89,14 @@ class FeedInfo extends React.Component {
       marginBottom: 28
     }
     const isVisible = this.state && this.state.detailsVisible || false
-    const { author, feed_title } = this.props.item
+    const { author, feed_color, feed_title, styles } = this.props.item
 
     return (
       <View style={{
         justifyContent: 'center',
         alignItems: 'center',
         padding: 14,
-        backgroundColor: hslString(this.props.item.styles.color),
+        backgroundColor: hslString(feed_color ||  styles.color),
         marginBottom: 0
       }}>
         <View style={{

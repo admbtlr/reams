@@ -29,6 +29,7 @@ class Buttons extends React.Component {
   }
 
   showShareActionSheet () {
+    if (!this.props.item) return
     ActionSheetIOS.showShareActionSheetWithOptions({
       url: this.props.item.url,
       message: this.props.item.title
@@ -92,9 +93,14 @@ class Buttons extends React.Component {
     const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ?
       hslString('rizzleFG') :
       hslString('rizzleFG')
-    const backgroundColor = this.props.displayMode && this.props.displayMode == 'unread' ?
+    // const backgroundColor = this.props.displayMode && this.props.displayMode == 'unread' ?
+    //   hslString('rizzleBG') :
+    //   hslString('rizzleBGAlt')
+    const feedColor = item ? item.feed_color : null
+    // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleFG')
+    const backgroundColor = this.props.displayMode == 'saved' ?
       hslString('rizzleBG') :
-      hslString('rizzleBGAlt')
+      hslString(feedColor || 'rizzleBG')
     return (
       <Animated.View
         pointerEvents='box-none'
@@ -174,6 +180,8 @@ class Buttons extends React.Component {
                 scale: 0.5
               }, {
                 translateY: -2
+              }, {
+                translateX: -1
               }]
             }}>
             <Polyline

@@ -77,5 +77,5 @@ export function blendColor (colorName) {
 }
 
 export function hslString (colorName) {
-  return colors[colorName] || uiColorsHsl[colorName]
+  return colors[colorName] || desaturated[colorName] || uiColorsHsl[colorName]
 }

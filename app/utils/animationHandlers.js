@@ -110,7 +110,7 @@ export function onScrollEnd (e) {
     toValue,
     duration: 200,
     useNativeDriver: true,
-  }).start( )
+  }).start()
 }
 
 export function getScrollValueAnimated () {

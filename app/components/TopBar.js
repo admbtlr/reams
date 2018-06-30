@@ -23,6 +23,12 @@ class TopBar extends React.Component {
     super(props)
     this.props = props
 
+    this.state = {
+      bgColorValue: 0,
+      prevBgColor: undefined
+    }
+    this.isAnimating = false
+
     this.onStatusBarDown = this.onStatusBarDown.bind(this)
     this.onStatusBarUp = this.onStatusBarUp.bind(this)
 
@@ -48,13 +54,44 @@ class TopBar extends React.Component {
     return props.toolbar.message || feedName || ''
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    const { currentItem } = this.props
+    const { prevItem } = prevProps
+    if (!this.isAnimating &&
+      prevItem &&
+      prevItem.feed_color !== currentItem.feed_color &&
+      this.state.prevBgColor !== (prevItem.feed_color || hslString('rizzleBG'))) {
+      this.state.bgColorValue = new Animated.Value(0)
+      this.state.prevBgColor = prevItem.feed_color || hslString('rizzleBG')
+    }
+  }
+
   render () {
-    const { toolbar, toggleViewButtons } = this.props
-    // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleFG')
-    const backgroundColor = this.props.displayMode == 'saved' ?
-      hslString('rizzleBGAlt') :
-      hslString('rizzleBG')
-    // const borderBottomColor = this.props.displayMode == 'saved' ? hslString('rizzleHighlight') : hslString('rizzleBG')
+    const { currentItem, toolbar, toggleViewButtons } = this.props
+    const feedColor = currentItem ? currentItem.feed_color : null
+
+    let backgroundColor = this.props.displayMode == 'saved' ?
+      hslString('rizzleBG') :
+      hslString(feedColor || 'rizzleBG')
+
+    if (this.state.prevBgColor) {
+      let that = this
+      backgroundColor = this.state.bgColorValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [this.state.prevBgColor, backgroundColor]
+      })
+      Animated.timing(
+        this.state.bgColorValue,
+        {
+          toValue: 1,
+          duration: 1000
+        }
+      ).start(() => {
+        that.isAnimating = false
+      })
+      this.isAnimating = true
+    }
+
     let topBarStyles = {
       ...this.getStyles().topBar,
       backgroundColor
@@ -67,9 +104,17 @@ class TopBar extends React.Component {
     }
     return (
       <View style={this.getStyles().base}>
-        <View style={topBarStyles} />
+        <Animated.View style={topBarStyles} />
         <Animated.View style={{
           ...textHolderStyles,
+          shadowOffset: {
+            width: 0,
+            height: getAnimatedValueNormalised()
+          },
+          // shadowColor: getAnimatedValueNormalised().interpolate({
+          //   inputRange: [0 ,1],
+          //   outputRange: ['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0)']
+          // }),
           transform: [{
             translateY: getAnimatedValue()
           }]
@@ -132,12 +177,9 @@ class TopBar extends React.Component {
         flexDirection: 'row',
         height: STATUS_BAR_HEIGHT,
         shadowColor: '#000000',
-        shadowOffset: {
-          width: 0,
-          height: 1
-        },
         shadowRadius: 1,
-        shadowOpacity: 0.3
+        shadowOpacity: 0.3,
+        zIndex: -1
       },
       feedName: {
         flex: 1,

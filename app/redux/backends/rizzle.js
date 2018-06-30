@@ -19,7 +19,8 @@ export const fetchUnreadItems = (feeds) => {
       return {
         ...item,
         feed_title: feed.title,
-        feed_id: feed._id
+        feed_id: feed._id,
+        feed_color: feed.color
       }
     })).catch(({feed, message}) => {
       return {feed, message}

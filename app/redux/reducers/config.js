@@ -19,13 +19,13 @@ export function config (state = initialState, action) {
         ...state,
         isOnboarding,
         onboardingIndex: action.index
-      }  
+      }
 
     case 'CONFIG_TOGGLE_ONBOARDING':
       return {
         ...state,
         isOnboarding: action.isOnboarding
-      }  
+      }
 
     default:
       return state

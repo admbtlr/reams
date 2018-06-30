@@ -31,7 +31,7 @@ class CoverImage extends React.Component {
 
     this.saturation = 1 //Math.round(Math.random() * 0.8)
     this.contrast = 1.1
-    this.brightness = 1
+    this.brightness = this.blendMode == 'blendMultiply' ? 1.5 : 1
 
     // go for all out bw
     if (props.styles.isBW) {

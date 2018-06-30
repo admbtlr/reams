@@ -15,6 +15,7 @@ import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import ToolbarsContainer from '../containers/Toolbars.js'
 import LogoSpinnerContainer from '../containers/LogoSpinner.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
+// import Share from './Share.js'
 import { VibrancyView } from 'react-native-blur'
 import SplashScreen from 'react-native-splash-screen';
 // import ClipboardWatcher from '../containers/ClipboardWatcher.js'
@@ -33,9 +34,9 @@ class App extends React.Component {
     this.props = props
   }
 
-  // componentDidMount() {
-  //   SplashScreen.hide()
-  // }
+  componentDidMount() {
+    SplashScreen.hide()
+  }
 
   render () {
     return (
@@ -58,6 +59,14 @@ class App extends React.Component {
       </View>
     )
   }
+
+  // render () {
+  //   return (
+  //     <View style={styles.mainView}>
+  //       <Share />
+  //     </View>
+  //   )
+  // }
 }
 
 const {height, width} = Dimensions.get('window')
