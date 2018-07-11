@@ -8,6 +8,8 @@ import {
 } from 'react-native'
 import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import RizzleButton from './RizzleButton'
+import {id} from '../utils'
+import {getPanValue} from '../utils/animationHandlers'
 import {hslString} from '../utils/colors'
 
 class Buttons extends React.Component {
@@ -29,10 +31,10 @@ class Buttons extends React.Component {
   }
 
   showShareActionSheet () {
-    if (!this.props.item) return
+    if (!this.props.currentItem) return
     ActionSheetIOS.showShareActionSheetWithOptions({
-      url: this.props.item.url,
-      message: this.props.item.title
+      url: this.props.currentItem.url,
+      message: this.props.currentItem.title
     },
     (error) => {
       console.error(error)
@@ -42,7 +44,7 @@ class Buttons extends React.Component {
   }
 
   onSavePress () {
-    this.props.toggleSaved(this.props.item)
+    this.props.toggleSaved(this.props.currentItem)
   }
 
   onDisplayPress () {
@@ -50,7 +52,7 @@ class Buttons extends React.Component {
   }
 
   onMercuryPress () {
-    this.props.toggleMercury(this.props.item)
+    this.props.toggleMercury(this.props.currentItem)
   }
 
   componentDidUpdate (prevProps) {
@@ -83,13 +85,44 @@ class Buttons extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // console.log(nextProps)
-    return true
+  getBackgroundColor (item) {
+    const feedColor = item ? item.feed_color : null
+    return this.props.displayMode == 'saved' ?
+      hslString('rizzleBG') :
+      hslString(feedColor || 'rizzleBG')
   }
 
   render () {
-    const { item, showMercuryContent, isMercuryButtonEnabled } = this.props
+    const {prevItem, currentItem, nextItem} = this.props
+    const items = prevItem ?
+      [prevItem, currentItem, nextItem] :
+      [currentItem, nextItem]
+    const panAnim = getPanValue()
+
+    const opacityRanges = [
+      {
+        inputRange: [0, 1, 2],
+        outputRange: [1, 1, 1]
+      }, {
+        inputRange: [0, 1, 2],
+        outputRange: [0, 1, 1]
+      }, {
+        inputRange: [0, 1, 2],
+        outputRange: [0, 0, 1]
+      }
+    ]
+    const opacityAnims = items.map((item, i) => panAnim ?
+        panAnim.interpolate(opacityRanges[i]) :
+        1)
+
+    return items.map((item, i) => this.
+      renderButtons(item, opacityAnims[i], item === currentItem))
+    // return this.renderButtons(currentItem)
+  }
+
+  renderButtons (item, opacityAnim, isCurrent) {
+    const showMercuryContent = item && item.showMercuryContent
+    const isMercuryButtonEnabled = item && item.content_mercury
     const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ?
       hslString('rizzleFG') :
       hslString('rizzleFG')
@@ -103,10 +136,11 @@ class Buttons extends React.Component {
       hslString(feedColor || 'rizzleBG')
     return (
       <Animated.View
-        pointerEvents='box-none'
+        pointerEvents={isCurrent ? 'box-none' : 'none'}
+        key={id()}
         style={{
           ...this.getStyles().base,
-          // opacity: getAnimatedValueNormalised()
+          opacity: opacityAnim
         }}>
         <RizzleButton
           backgroundColor={backgroundColor}
@@ -225,7 +259,7 @@ class Buttons extends React.Component {
           }}
           onPress={isMercuryButtonEnabled ? this.onMercuryPress : () => false}
         >
-          { showMercuryContent &&
+          { item && item.showMercuryContent &&
             <Svg
               style={{
                 transform: [{
@@ -245,7 +279,7 @@ class Buttons extends React.Component {
               <Path d="M1.5,31.5 L32.5,31.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
             </Svg>
           }
-          { !(showMercuryContent) &&
+          { !(item && item.showMercuryContent) &&
             <Svg
               style={{
                 transform: [{

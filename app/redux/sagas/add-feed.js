@@ -13,10 +13,21 @@ export function * subscribeToFeed (action) {
   yield addFeed(feed.url)
   console.log(`Added feed: ${feed.title}`)
   feed._id = id()
-  const colorNames = Object.keys(desaturated)
-  feed.color = colorNames[Math.floor(Math.random() * colorNames.length)]
+  feed.color = getFeedColor(feeds)
   yield put ({
     type: 'FEEDS_ADD_FEED_SUCCESS',
     feed
   })
+}
+
+function getFeedColor (feeds) {
+  const colorNames = Object.keys(desaturated)
+  const taken = feeds.length < 12 ?
+    feeds.map(feed => feed.color) :
+    undefined
+  let randomIndex = Math.floor(Math.random() * colorNames.length)
+  while (taken && taken.indexOf(colorNames[randomIndex]) !== -1) {
+    randomIndex = Math.floor(Math.random() * colorNames.length)
+  }
+  return colorNames[randomIndex]
 }

@@ -38,17 +38,17 @@
     "brown1Lighter": "hsl(355, 56%, 61%)"
   },
   "desaturated": {
-    "red1Desaturated": "hsl(355, 26%, 35%)",
-    "red2Desaturated": "hsl(341, 16%, 39%)",
-    "orange1Desaturated": "hsl(23, 40%, 40%)",
-    "orange2Desaturated": "hsl(33, 33%, 44%)",
-    "yellow1Desaturated": "hsl(49, 30%, 30%)",
-    "yellow2Desaturated": "hsl(65, 30%, 40%)",
-    "green1Desaturated": "hsl(167, 30%, 35%)",
-    "blue1Desaturated": "hsl(226, 18%, 37%)",
-    "blue2Desaturated": "hsl(198, 20%, 34%)",
-    "purple1Desaturated": "hsl(298, 12%, 46%)",
-    "purple2Desaturated": "hsl(320, 22%, 46%)",
-    "brown1Desaturated": "hsl(355, 21%, 45%)"
+    "red1Desaturated": "hsl(4, 26%, 25%)",
+    "red2Desaturated": "hsl(341, 16%, 29%)",
+    "orange1Desaturated": "hsl(23, 40%, 30%)",
+    "orange2Desaturated": "hsl(33, 33%, 34%)",
+    "yellow1Desaturated": "hsl(49, 30%, 20%)",
+    "yellow2Desaturated": "hsl(65, 30%, 30%)",
+    "green1Desaturated": "hsl(167, 30%, 25%)",
+    "blue1Desaturated": "hsl(226, 18%, 27%)",
+    "blue2Desaturated": "hsl(198, 20%, 24%)",
+    "purple1Desaturated": "hsl(253, 12%, 36%)",
+    "purple2Desaturated": "hsl(291, 22%, 36%)",
+    "brown1Desaturated": "hsl(355, 21%, 35%)"
   }
 }

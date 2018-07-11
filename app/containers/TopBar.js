@@ -6,8 +6,12 @@ const mapStateToProps = (state) => {
   const items = state.items.display === 'unread' ? state.items.items : state.items.saved
   const index = state.items.display === 'unread' ? state.items.index : state.items.savedIndex
   const currentItem = items.length > 1 ? items[index] : null
+  const prevItem = index > 0 ? items[index - 1] : null
+  const nextItem = index < items.length - 1 ? items[index + 1] : null
   return {
+    prevItem,
     currentItem,
+    nextItem,
     toolbar: state.toolbar,
     displayMode: state.items.display
   }

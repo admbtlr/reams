@@ -11,8 +11,7 @@ import {
   View,
 } from 'react-native';
 import { constant, checkIndexBounds, getDisplaySameSlide } from 'react-swipeable-views-core';
-
-// import {panHandler, onPanStart, onPanEnd} from '../utils/animationHandlers'
+import { panHandler } from '../utils/animationHandlers'
 
 const styles = StyleSheet.create({
   root: {
@@ -177,6 +176,8 @@ class SwipeableViews extends Component {
       })
     }
 
+    panHandler(indexVirtualAnimated)
+
     return {
       indexActual: index, // based on the total set of slides
       indexVirtualLast: indexVirtual,
@@ -303,6 +304,8 @@ class SwipeableViews extends Component {
 
     this.startX = gestureState.x0;
     this.startIndex = getAnimatedValue(this.state.indexVirtual);
+
+    // console.log('ANIMATED VALUE: ' + getAnimatedValue(this.state.indexVirtual))
   };
 
   handleTouchMove = (event, gestureState) => {
@@ -332,6 +335,8 @@ class SwipeableViews extends Component {
     if (onSwitching) {
       onSwitching(index, 'move');
     }
+
+    // console.log('ANIMATED VALUE: ' + getAnimatedValue(this.state.indexVirtual))
   };
 
   handleTouchEnd = (event, gestureState) => {
@@ -378,6 +383,7 @@ class SwipeableViews extends Component {
     // })
     this.animateIndexVirtual(indexVirtualNew);
 
+    // console.log('ANIMATED VALUE: ' + getAnimatedValue(this.state.indexVirtual))
   };
 
   animateIndexVirtual (indexVirtualNew) {
@@ -386,6 +392,7 @@ class SwipeableViews extends Component {
       Animated.spring(this.state.indexVirtual, {
         toValue: indexVirtualNew,
         ...this.props.springConfig,
+        useNativeDriver: true
       }).start(this.handleAnimationFinished.bind(this, {
         finished: true,
         indexVirtualNew

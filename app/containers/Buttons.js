@@ -11,20 +11,24 @@ const mapStateToProps = (state) => {
   const items = state.items.display === 'unread' ? state.items.items : state.items.saved
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :
-    state.items.display === 'unread' ? 
-      state.items.index : 
+    state.items.display === 'unread' ?
+      state.items.index :
       state.items.savedIndex
-  const item = items[index]
-  const numItems = state.config.isOnboarding ? 
+  const currentItem = items.length > 1 ? items[index] : null
+  const prevItem = index > 0 ? items[index - 1] : null
+  const nextItem = index < items.length - 1 ? items[index + 1] : null
+  const numItems = state.config.isOnboarding ?
     state.config.onboardingLength :
     items.length
   return {
-    item,
+    prevItem,
+    currentItem,
+    nextItem,
     numItems,
     index,
-    isSaved: item && item.isSaved,
-    showMercuryContent: item && item.showMercuryContent,
-    isMercuryButtonEnabled: item && item.content_mercury,
+    isCurrentItemSaved: currentItem && currentItem.isSaved,
+    showMercuryContent: currentItem && currentItem.showMercuryContent,
+    isCurrentItemMercuryButtonEnabled: currentItem && currentItem.content_mercury,
     toolbar: state.toolbar,
     displayMode: state.items.display,
     decoratedCount: state.items.decoratedCount,

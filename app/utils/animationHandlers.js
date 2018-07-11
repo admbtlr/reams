@@ -6,7 +6,7 @@ let scrollHandlerChangeListeners = []
 
 let panListeners = []
 
-let panValueAnimated
+let panAnim = new Animated.Value(0)
 let scrollAnim = new Animated.Value(0)
 
 let clamped
@@ -21,16 +21,17 @@ let resetValue = 0
 
 let initiated = false
 
-function reset () {
+function reset (newScrollAnimValue) {
+  const toValue = 0 - newScrollAnimValue
   scrollValue = 0
   clampedScrollValue = 0
   resetValue = 0
   scrollAnim.removeAllListeners()
   resetAnim.removeAllListeners()
   // this animation needs to happen AFTER swipeable views has re-rendered
-  this.setTimeout(() => {
+  // this.setTimeout(() => {
     Animated.timing(resetAnim, {
-      toValue: 0,
+      toValue,
       duration: 400,
       useNativeDriver: true,
     }).start(() => {
@@ -39,15 +40,24 @@ function reset () {
         listener.onStatusBarDown()
       })
     })
-  }, 100)
+  // }, 100)
+}
+
+export function panHandler (value) {
+  panAnim = value
+}
+
+export function getPanValue () {
+  return panAnim
 }
 
 export function scrollHandler (value) {
   if (initiated) {
-    reset()
+    reset(value._value)
   }
   initiated = true
   scrollAnim = value
+  resetAnim = new Animated.Value(0 - value._value)
   clamped = Animated
     .diffClamp(
       Animated.add(

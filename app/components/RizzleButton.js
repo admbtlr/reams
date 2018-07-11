@@ -25,10 +25,10 @@ class RizzleButton extends React.Component {
         flexDirection: 'column',
         shadowOffset: {
           width: 0,
-          height: 3
+          height: 2
         },
-        shadowRadius: 3,
-        shadowOpacity: 0.3
+        shadowRadius: 2,
+        shadowOpacity: 0.1
     }
   }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import configureStore from '../redux/store/configureStore.js'
 import { Sentry } from 'react-native-sentry'
+import SplashScreen from 'react-native-splash-screen';
 import App from './App.js'
 import { setBackend } from '../redux/backends'
 
@@ -17,6 +18,8 @@ export default class Rizzle extends Component {
     Sentry
       .config('https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309')
       .install()
+
+    if (__DEV__) SplashScreen.hide()
 
     // this is a stupid hack to stop AppState firing on startup
     // which it does on the device in some circumstances

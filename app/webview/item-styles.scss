@@ -92,15 +92,34 @@ body {
   font-size: calc(1rem / 1.7);
   line-height: 1rem;
   margin: 0;
-  h1, h2, h3 {
-    margin: 2rem 0 1rem;
+  h1, h2, h3, h4, h5 {
     padding: 0;
-    font-family: 'AvenirNext-Regular';
+    line-height: 1em;
+    -webkit-hyphens: none;
   }
 
-  h3 {
-    font-weight: 300;
-    text-align: center;
+  h1, h2 {
+    font-size: 2rem;
+    margin: 4rem 0 1rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid;
+  }
+  h2, h4 {
+    font-weight: normal;
+  }
+  h3, h4 {
+    font-size: 1rem;
+    margin: 2rem 0 1rem;
+  }
+  h5, h6 {
+    font-size: calc(1rem / 1.7);
+    line-height: 1rem;
+    margin: 1rem 0 0;
+  }
+  h4 {
+    font-style: italic;
   }
 }
 
@@ -115,7 +134,7 @@ body {
   -webkit-hyphens: auto;
   -webkit-text-size-adjust:none;
 
-  p {
+  p, center {
     margin: 0;
     margin-bottom: 1rem;
   }
@@ -590,7 +609,7 @@ article > div:not(:last-of-type) {
   font-family: "LibreBaskerville-Regular", serif;
   font-size: calc(1rem / 1.9);
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "Avenir"
   }
 }
@@ -599,7 +618,7 @@ article > div:not(:last-of-type) {
   font-family: "IBMPlexSans", sans-serif;
   font-size: calc(1rem / 1.75);
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "LibreBaskerville-Regular"
   }
 }
@@ -607,7 +626,7 @@ article > div:not(:last-of-type) {
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif;
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "AvenirNext"
   }
 }
@@ -615,7 +634,7 @@ article > div:not(:last-of-type) {
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif;
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "Iowan Old Style"
   }
 }
@@ -624,61 +643,61 @@ article > div:not(:last-of-type) {
   font-family: "IBM Plex Serif", serif;
   font-size: calc(1rem / 1.8);
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "IBM Plex Sans"
   }
 }
 
 .headerFontSans1 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "AvenirNext-Medium"
   }
 }
 
 .headerFontSans2 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "Montserrat-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "Montserrat-Light"
   }
 }
 
 .headerFontSans3 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "IBMPlexSans-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "IBMPlexSans-Light"
   }
 }
 
 .headerFontSerif1 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "IBMPlexSerif-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "IBMPlexSerif-Light"
   }
 }
 
 .headerFontSerif2 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "Arvo-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "Arvo"
   }
 }
 
 .headerFontSerif3 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "PlayfairDisplay-Black"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "PlayfairDisplay-Regular"
   }
 }

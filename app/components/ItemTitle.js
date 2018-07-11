@@ -634,6 +634,7 @@ class ItemTitle extends React.Component {
           // textShadowRadius: 20,
           color: excerptColor,
           fontFamily: this.getFontFamily(coverImageStyles.isInline ||
+            coverImageStyles.resizeMode === 'contain' ||
             excerptBg.backgroundColor ||
             !hasCoverImage ?
             'regular' :

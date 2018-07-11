@@ -48,7 +48,11 @@ export function createItemStyles (item, prevStyles) {
 
   let isContain = false
   let isCoverInline = false
-  if (item.title && item.title.length > 24 && Math.random() > 0.8 && !(prevStyles && prevStyles.isCoverInline)) {
+  if (item.title &&
+    item.title.length > 24 &&
+    item.excerpt &&
+    Math.random() > 0.8 &&
+    !(prevStyles && prevStyles.isCoverInline)) {
     isCoverInline = true
     title.isTone = Math.random() > 0.5
     title.isExcerptTone = Math.random() > 0.5
