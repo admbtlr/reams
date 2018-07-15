@@ -38,12 +38,8 @@ class AppStateListener extends React.Component {
     console.log(contents.substring(0, 4))
     // TODO make this more robust
     if (contents.substring(0, 4) === 'http') {
-      this.props.showModal({
-        modalText: `Save this page? ${contents}`,
-        modalHideCancel: false,
-        modalShow: true,
-        modalOnOk: () => { this.props.saveURL(contents) }
-      })
+      this.showSavePageModal(contents)
+    } else if (contents.substring(0, 6) === '<opml>') {
     }
   }
 
@@ -52,23 +48,7 @@ class AppStateListener extends React.Component {
       if (value !== null) {
         RNSKBucket.set('page', null, this.group)
         console.log(`Got a page to save: ${value}`)
-        this.props.showModal({
-          modalText: [
-            {
-              text: 'Save this page?',
-              style: ['title']
-            },
-            {
-              text: value,
-              style: ['em']
-            }
-          ],
-          modalHideCancel: false,
-          modalShow: true,
-          modalOnOk: () => {
-            this.props.saveURL(value)
-          }
-        })
+        this.showSavePageModal(value)
       }
     })
   }
@@ -77,13 +57,14 @@ class AppStateListener extends React.Component {
     const that = this
     RNSKBucket.get('feed', this.group).then(value => {
       if (value !== null) {
+        const url = value
         RNSKBucket.set('feed', null, this.group)
-        console.log(`Got a feed to subscribe to: ${value}`)
+        console.log(`Got a feed to subscribe to: ${url}`)
         // TODO check that value is a feed url
         // TODO check that feed is not already subscribed!
         // right now it will just get ignored if it's already subscribed
         // but it might be nice to say that in the message
-        fetch(value)
+        fetch(url)
           .then((response) => {
             if (!response.ok) {
               throw Error(response.statusText)
@@ -108,34 +89,58 @@ class AppStateListener extends React.Component {
                   result.feed.subtitle[0] :
                   ''
               }
-              this.props.showModal({
-                modalText: [
-                  {
-                    text: 'Add this feed?',
-                    style: ['title']
-                  },
-                  {
-                    text: title,
-                    style: ['em']
-                  },
-                  {
-                    text: description,
-                    style: ['em', 'smaller']
-                  }
-                ],
-                modalHideCancel: false,
-                modalShow: true,
-                modalOnOk: () => {
-                  that.props.addFeed({
-                    url: value,
-                    title,
-                    description
-                  })
-                  this.props.fetchData()
-                }
-              })
+              this.showSaveFeedModal(url, title, description)
             })
           })
+      }
+    })
+  }
+
+  showSavePageModal (url) {
+    this.props.showModal({
+      modalText: [
+        {
+          text: 'Save this page?',
+          style: ['title']
+        },
+        {
+          text: value,
+          style: ['em']
+        }
+      ],
+      modalHideCancel: false,
+      modalShow: true,
+      modalOnOk: () => {
+        this.props.saveURL(value)
+      }
+    })
+  }
+
+  showSaveFeedModal (url, title, description) {
+    this.props.showModal({
+      modalText: [
+        {
+          text: 'Add this feed?',
+          style: ['title']
+        },
+        {
+          text: title,
+          style: ['em']
+        },
+        {
+          text: description,
+          style: ['em', 'smaller']
+        }
+      ],
+      modalHideCancel: false,
+      modalShow: true,
+      modalOnOk: () => {
+        that.props.addFeed({
+          url,
+          title,
+          description
+        })
+        this.props.fetchData()
       }
     })
   }
