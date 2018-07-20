@@ -96,7 +96,7 @@ class FeedInfo extends React.Component {
         justifyContent: 'center',
         alignItems: 'center',
         padding: 14,
-        backgroundColor: hslString(feed_color ||  styles.color),
+        backgroundColor: hslString(feed_color ||  styles.color, 'desaturated'),
         marginBottom: 0
       }}>
         <View style={{

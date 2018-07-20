@@ -89,7 +89,7 @@ class AppStateListener extends React.Component {
                   result.feed.subtitle[0] :
                   ''
               }
-              this.showSaveFeedModal(url, title, description)
+              this.showSaveFeedModal(url, title, description, that)
             })
           })
       }
@@ -116,8 +116,8 @@ class AppStateListener extends React.Component {
     })
   }
 
-  showSaveFeedModal (url, title, description) {
-    this.props.showModal({
+  showSaveFeedModal (url, title, description, scope) {
+    scope.props.showModal({
       modalText: [
         {
           text: 'Add this feed?',
@@ -135,12 +135,12 @@ class AppStateListener extends React.Component {
       modalHideCancel: false,
       modalShow: true,
       modalOnOk: () => {
-        that.props.addFeed({
+        scope.props.addFeed({
           url,
           title,
           description
         })
-        this.props.fetchData()
+        scope.props.fetchData()
       }
     })
   }

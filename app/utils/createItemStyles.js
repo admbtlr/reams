@@ -110,9 +110,6 @@ export function createItemStyles (item, prevStyles) {
     title.excerptInvertBG = Math.random() > 0.7
   }
 
-  const colorModifier = isCoverImageColorDarker ? 'Darker' :
-    (isCoverImageColorLighter ? 'Lighter' : '')
-
   return {
     fontClasses: fonts,
     border: hasBorder(),
@@ -131,7 +128,9 @@ export function createItemStyles (item, prevStyles) {
       isBW,
       isMultiply,
       isScreen,
-      color: pickOne(getNames(), colorModifier, color),
+      isCoverImageColorDarker,
+      isCoverImageColorLighter,
+      color: pickOne(getNames(), color),
       resizeMode: isContain ? 'contain' : 'cover',
       align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)],
       isInline: isCoverInline
@@ -207,22 +206,20 @@ const hasBorder = function () {
   return Math.random() > 0.7
 }
 
-// `colorModifier` is either `Darker`, `Lighter` or ``
-const pickOne = function (arr, colorModifier, notThisOne) {
+const pickOne = function (arr, notThisOne) {
   const primaries = ['red1', 'blue1', 'yellow1']
   if (notThisOne) {
     isPrimary = arr.find(primary => notThisOne.substring(0, primary.length) === primary)
     if (!isPrimary) {
       let attempt = primaries[Math.round(Math.random() * 2)]
-      return attempt + colorModifier
+      return attempt
     }
   }
-  arr = arr.slice(0, arr.length / 3)
   let attempt = arr[Math.round(Math.random() * (arr.length - 1))]
   while (attempt === 'black' || attempt === 'white' || attempt === notThisOne) {
     attempt = arr[Math.round(Math.random() * (arr.length - 1))]
   }
-  return attempt + colorModifier
+  return attempt
 }
 
 // const colors = () => {

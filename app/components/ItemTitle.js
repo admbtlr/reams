@@ -467,6 +467,11 @@ class ItemTitle extends React.Component {
     }
     const overlayColour = this.getOverlayColor()
     const outerPadding = this.getOuterVerticalPadding()
+    const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
+      'darker' :
+      (coverImageStyles.isCoverImageColorLighter ?
+        'lighter' :
+        '')
     const outerViewStyle = {
       width: this.screenWidth,
       height: coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
@@ -479,7 +484,7 @@ class ItemTitle extends React.Component {
       left: 0,
       flexDirection: 'column',
       backgroundColor: coverImageStyles.isInline ?
-        hslString(coverImageStyles.color) :
+        hslString(coverImageStyles.color, coverImageColorPalette) :
         overlayColour,
       opacity: coverImageStyles.isInline ? 1 : opacity
     }

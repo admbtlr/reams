@@ -1,4 +1,4 @@
-const { colors, desaturated } = require('./colors.json')
+const { colors, darker, lighter, desaturated, desaturatedDarker } = require('./colors.json')
 import {uiColorsHsl} from './color-definitions'
 
 // taken from https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion#9493060
@@ -76,6 +76,23 @@ export function blendColor (colorName) {
   return hslStringToBlendColor(hslString(colorName))
 }
 
-export function hslString (colorName) {
-  return colors[colorName] || desaturated[colorName] || uiColorsHsl[colorName]
+export function hslString (colorName, modifier = '') {
+  let palette
+  switch (modifier) {
+    case 'darker':
+      palette = darker
+      break
+    case 'lighter':
+      palette = lighter
+      break
+    case 'desaturated':
+      palette = desaturated
+      break
+    case 'desaturatedDarker':
+      palette = desaturatedDarker
+      break
+    default:
+      palette = colors
+  }
+  return palette[colorName] || uiColorsHsl[colorName]
 }

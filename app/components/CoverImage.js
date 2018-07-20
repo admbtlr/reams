@@ -56,6 +56,14 @@ class CoverImage extends React.Component {
       })
   }
 
+  getColor () {
+    const {color, isCoverImageDarker, isCoverImageLighter} = this.props.styles
+    let palette = ''
+    if (isCoverImageLighter) palette = 'lighter'
+    if (isCoverImageDarker) palette = 'darker'
+    return hslString(color, palette)
+  }
+
   render () {
     const {isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
     const absolute = {
@@ -68,7 +76,10 @@ class CoverImage extends React.Component {
     const inline = {
       flex: 1,
       width: '100%',
-      marginTop: isIphoneX() ? 80 : 60
+      marginTop: isIphoneX() ? 80 : 60,
+      // weird bug with the top pixel row of images
+      top: -1,
+      marginBottom: -1
     }
     const position = isInline ? inline : absolute
     const scrollOffset = this.props.scrollOffset || 0
@@ -100,7 +111,7 @@ class CoverImage extends React.Component {
     })
     let style = {
       ...position,
-      backgroundColor: isMultiply || isScreen ? hslString(color) : 'white',
+      backgroundColor: isMultiply || isScreen ? this.getColor() : 'white',
       opacity,
       transform: [
         {translateY},
@@ -230,8 +241,8 @@ class CoverImage extends React.Component {
       // const radius = this.screenWidth * 0.4
       const cx = this.screenWidth * 0.5
       const cy = this.screenHeight * 0.5
-      const fill = this.flipColours ? 'white' : hslString(this.props.styles.color)
-      style.backgroundColor = this.flipColours ? hslString(this.props.styles.color) : 'white'
+      const fill = this.flipColours ? 'white' : this.getColor()
+      style.backgroundColor = this.flipColours ? this.getColor() : 'white'
 
       return (
         <Animated.View
