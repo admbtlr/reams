@@ -89,7 +89,9 @@ class Buttons extends React.Component {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
       hslString('rizzleBG') :
-      hslString(feedColor || 'rizzleBG')
+      (feedColor ?
+        hslString(feedColor, 'desaturatedDarker') :
+        hslString('rizzleBG'))
   }
 
   render () {
@@ -131,9 +133,7 @@ class Buttons extends React.Component {
     //   hslString('rizzleBGAlt')
     const feedColor = item ? item.feed_color : null
     // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleFG')
-    const backgroundColor = this.props.displayMode == 'saved' ?
-      hslString('rizzleBG') :
-      hslString(feedColor || 'rizzleBG')
+    const backgroundColor = this.getBackgroundColor(item)
     return (
       <Animated.View
         pointerEvents={isCurrent ? 'box-none' : 'none'}

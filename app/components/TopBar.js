@@ -128,7 +128,9 @@ class TopBar extends React.Component {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
       hslString('rizzleBG') :
-      hslString(feedColor || 'rizzleBG')
+      (feedColor ?
+        hslString(feedColor, 'desaturatedDarker') :
+        hslString('rizzleBG'))
   }
 
   renderTopBar (item, opacityAnim) {
