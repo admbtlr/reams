@@ -47,6 +47,7 @@ function fetch (feed, done) {
     method: 'HEAD',
     followAllRedirects: true
   }, (err, response, body) => {
+    console.log('ERROR: ' + err)
     console.log(response.request.href)
     finalUrl = response.request.href
 

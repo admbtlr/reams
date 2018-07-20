@@ -15,6 +15,10 @@ export function getFeeds (state) {
   return state.feeds.feeds
 }
 
+export function isFirstTime (state) {
+  return state.config.isFirstTime
+}
+
 export function getRemoteActions (state) {
   return state.remoteActionQueue.actions
 }

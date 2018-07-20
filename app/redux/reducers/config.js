@@ -1,6 +1,7 @@
 const initialState = {
   backend: 'rizzle',
-  isOnboarding: true,
+  isFirstTime: true,
+  isOnboarding: false,
   onboardingIndex: 0,
   onboardingLength: 13
 }
@@ -25,6 +26,12 @@ export function config (state = initialState, action) {
       return {
         ...state,
         isOnboarding: action.isOnboarding
+      }
+
+    case 'CONFIG_TOGGLE_FIRST_TIME':
+      return {
+        ...state,
+        isFirstTime: action.isFirstTime
       }
 
     default:

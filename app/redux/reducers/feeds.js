@@ -9,7 +9,15 @@ export function feeds (state = initialState, action) {
       return {
         feeds: [
           ...cleanedFeeds,
-          action.feed
+          action.addedFeed
+        ]
+      }
+    case 'FEEDS_ADD_FEEDS_SUCCESS':
+      let newFeeds = action.addedFeeds.filter(addedFeed => !state.feeds.find(feed => feed.url === addedFeed.url))
+      return {
+        feeds: [
+          ...state.feeds,
+          ...newFeeds
         ]
       }
     case 'FEEDS_ADD_FEED':
