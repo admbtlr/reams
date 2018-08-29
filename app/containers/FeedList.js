@@ -1,20 +1,25 @@
 import { connect } from 'react-redux'
 import FeedList from '../components/FeedList.js'
+import {
+  getUnreadItems,
+  getSavedItems
+} from '../redux/selectors/items'
 
 const mapStateToProps = (state) => {
-  const items = state.items.display === 'unread' ? state.items.items : state.items.saved
+  // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
+  const items = state.itemsMeta.display === 'unread' ? getUnreadItems(state) : getSavedItems(state)
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :
-    state.items.display === 'unread' ?
-      state.items.index :
-      state.items.savedIndex
+    state.itemsMeta.display === 'unread' ?
+      state.itemsMeta.index :
+      state.itemsMeta.savedIndex
   const numItems = state.config.isOnboarding ?
     state.config.onboardingLength :
     items.length
   return {
     numItems,
     index,
-    displayMode: state.items.display,
+    displayMode: state.itemsMeta.display,
     isOnboarding: state.config.isOnboarding
   }
 }

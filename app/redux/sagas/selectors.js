@@ -1,14 +1,17 @@
+import {getUnreadItems, getCurrentUnreadItem} from '../selectors/items'
+
 export function getItems (state, type) {
-  type = type || state.items.display === 'unread' ? 'items' : state.items.display
-  return state.items[type]
+  return type || state.itemsMeta.display === 'unread' ?
+    getUnreadItems(state) :
+    state.itemsSaved.items
 }
 
 export function getDisplay (state) {
-  return state.items.display
+  return state.itemsMeta.display
 }
 
 export function getCurrentItem (state) {
-  return state.items.items[state.items.index]
+  return getCurrentUnreadItem(state)
 }
 
 export function getFeeds (state) {

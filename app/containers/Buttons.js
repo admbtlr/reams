@@ -6,14 +6,18 @@ import {
   itemUnsaveItem,
   toggleDisplayedItems
 } from '../redux/actions/items.js'
+import {
+  getUnreadItems,
+  getSavedItems
+} from '../redux/selectors/items'
 
 const mapStateToProps = (state) => {
-  const items = state.items.display === 'unread' ? state.items.items : state.items.saved
+  const items = state.itemsMeta.display === 'unread' ? getUnreadItems(state) : getSavedItems(state)
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :
-    state.items.display === 'unread' ?
-      state.items.index :
-      state.items.savedIndex
+    state.itemsMeta.display === 'unread' ?
+      state.itemsMeta.index :
+      state.itemsMeta.savedIndex
   const currentItem = items.length > 1 ? items[index] : null
   const prevItem = index > 0 ? items[index - 1] : null
   const nextItem = index < items.length - 1 ? items[index + 1] : null
@@ -30,8 +34,8 @@ const mapStateToProps = (state) => {
     showMercuryContent: currentItem && currentItem.showMercuryContent,
     isCurrentItemMercuryButtonEnabled: currentItem && currentItem.content_mercury,
     toolbar: state.toolbar,
-    displayMode: state.items.display,
-    decoratedCount: state.items.decoratedCount,
+    displayMode: state.itemsMeta.display,
+    decoratedCount: state.itemsMeta.decoratedCount,
     visible: state.ui.itemButtonsVisible
   }
 }

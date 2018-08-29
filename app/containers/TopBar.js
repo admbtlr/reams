@@ -1,19 +1,27 @@
 import { connect } from 'react-redux'
 import TopBar from '../components/TopBar.js'
 import { itemsUpdateCurrentIndex } from '../redux/actions/items.js'
+import {
+  getUnreadItems,
+  getSavedItems
+} from '../redux/selectors/items'
 
 const mapStateToProps = (state) => {
-  const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  const index = state.items.display === 'unread' ? state.items.index : state.items.savedIndex
-  const currentItem = items.length > 1 ? items[index] : null
-  const prevItem = index > 0 ? items[index - 1] : null
-  const nextItem = index < items.length - 1 ? items[index + 1] : null
+  const items = state.itemsMeta.display === 'unread' ?
+    getUnreadItems(state) :
+    getSavedItems(state)
+  const index = state.itemsMeta.display === 'unread' ?
+    state.itemsMeta.index :
+    state.itemsMeta.savedIndex
+  const currentItem = (items && items.length > 1) ? items[index] : null
+  const prevItem = (items && index > 0) ? items[index - 1] : null
+  const nextItem = (items && index < items.length - 1) ? items[index + 1] : null
   return {
     prevItem,
     currentItem,
     nextItem,
     toolbar: state.toolbar,
-    displayMode: state.items.display
+    displayMode: state.itemsMeta.display
   }
 }
 
