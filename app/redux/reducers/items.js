@@ -307,7 +307,12 @@ function addStylesIfNecessary (item, index, items) {
 }
 
 function fixRelativePaths (item) {
-  const host = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)[0]
+  const matches = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)
+  if (!matches) {
+    console.log('`item.url` is null')
+    return item
+  }
+  const host = matches[0]
   const derelativise = s => s.replace(/src="\//g, `src="${host}/`)
   if (item.content_html) item.content_html = derelativise(item.content_html)
   if (item.content_mercury) item.content_mercury = derelativise(item.content_mercury)
