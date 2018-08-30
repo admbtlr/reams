@@ -5,7 +5,7 @@ import {
 } from '../../utils/item-utils.js'
 
 export const itemMarkRead = (action, state) => {
-  let items = state[key].map(item => {
+  const items = state.items.map(item => {
     if (item._id === action.item._id) {
       item.readAt = Date.now()
     }
@@ -18,15 +18,16 @@ export const itemMarkRead = (action, state) => {
 }
 
 export const itemSetScrollOffset = (action, state) => {
-  let items = state[key].map(item => {
+  let items = state.items.map(item => {
     if (item._id === action.item._id) {
       item.scrollOffset = action.offset.y
     }
     return item
   })
-  newState = { ...state }
-  newState[key] = items
-  return newState
+  return {
+    ...state,
+    items
+  }
 }
 
 export const itemToggleMercury = (action, state) => {

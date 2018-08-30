@@ -1,3 +1,5 @@
+import { REHYDRATE } from 'redux-persist'
+
 export const initialState = {
   index: 0,
   savedIndex: 0,
@@ -9,6 +11,10 @@ export function itemsMeta (state = initialState, action) {
   let newState = {}
 
   switch (action.type) {
+
+    case REHYDRATE:
+      console.log('Rehydrated!')
+
     case 'ITEMS_UPDATE_CURRENT_INDEX':
       if (state.display === 'unread') {
         newState.index = action.index

@@ -20,7 +20,8 @@ export default function configureStore (initialState) {
   const config = {
     key: 'primary',
     storage: FilesystemStorage,
-    throttle: 5000
+    throttle: 5000,
+    debug: true
   }
   let reducer = persistCombineReducers(config, {
     ...reducers,
@@ -52,7 +53,9 @@ export default function configureStore (initialState) {
     )
   )
 
-  const onCompletion = () => {}
+  const onCompletion = () => {
+    console.log('Store persisted')
+  }
   persistStore(store, null, onCompletion)
 
   sagaMiddleware.run(updateCurrentIndex)
