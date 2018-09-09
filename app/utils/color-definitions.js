@@ -85,5 +85,6 @@ export const uiColorsHsl = {
   rizzleFG: 'hsl(263, 14%, 100%)',
   rizzleBG: 'hsl(263, 18%, 22%)',
   rizzleBGAlt: 'hsl(11, 21%, 16%)',
-  rizzleHighlight: 'hsl(42, 91%, 60%)'
+  rizzleHighlight: 'hsl(42, 91%, 60%)',
+  bodyBGLight: 'hsl(60, 17%, 96%)'
 }

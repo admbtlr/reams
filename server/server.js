@@ -26,7 +26,7 @@ app.get('/mercury/', (req, res) => {
 app.get('/feed/', (req, res) => {
   const feedUrl = req.query.url || 'https://www.theguardian.com/world/rss'
   fetch(feedUrl, (items) => {
-    res.send(items)
+    res.send(items.slice(0, 10))
   })
 })
 

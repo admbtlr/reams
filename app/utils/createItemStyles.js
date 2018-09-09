@@ -17,7 +17,8 @@ export function createItemStyles (item, prevStyles) {
   let isCoverImageColorLighter = false
   const isCoverImageColorDesaturated = isMainColorDarker ? false : Math.random() > 0.2
   const color = pickOne(getNames(), isMainColorDarker ? 'Darker' : '', prevStyles && prevStyles.color)
-  title.color = color
+  // title.color = color
+  title.color = 'white'
 
   if (!deviceWidth || !deviceHeight) {
      const {height, width} = Dimensions.get('window')
@@ -49,14 +50,14 @@ export function createItemStyles (item, prevStyles) {
   let isContain = false
   let isCoverInline = false
   if (item.title &&
-    item.title.length > 24 &&
-    item.excerpt &&
-    Math.random() > 0.8 &&
+    // item.title.length > 24 &&
+    // item.excerpt &&
+    (item.imageDimensions && item.imageDimensions.height < deviceHeight) &&
     !(prevStyles && prevStyles.isCoverInline)) {
     isCoverInline = true
-    title.isTone = Math.random() > 0.5
-    title.isExcerptTone = Math.random() > 0.5
-  } else if (Math.random() > 0.9 && !(prevStyles && prevStyles.coverImage.resizeMode == 'contain')) {
+    // title.isTone = Math.random() > 0.5
+    // title.isExcerptTone = Math.random() > 0.5
+  } else if (Math.random() > 0.5 && !(prevStyles && prevStyles.coverImage.resizeMode == 'contain')) {
     isContain = true
     // isMultiply = false
     // isBW = false
@@ -132,7 +133,7 @@ export function createItemStyles (item, prevStyles) {
       isCoverImageColorLighter,
       color: pickOne(getNames(), color),
       resizeMode: isContain ? 'contain' : 'cover',
-      align: ['left', 'center', 'right'][Math.floor(Math.random() * 3)],
+      align: ['left', 'center', 'right', 'center', 'center'][Math.floor(Math.random() * 5)],
       isInline: isCoverInline
     },
     title
@@ -188,11 +189,13 @@ const getFontClasses = function () {
   let bodyClass = 'bodyFont'
   if (Math.random() > 0.3) {
     // sans heading, serif body
-    headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
+    // headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
+    headerClass += 'Sans1'
     bodyClass += 'Serif' + (Math.floor((Math.random() * 3)) + 1)
   } else {
     // serif heading, sans body
-    headerClass += 'Serif' + (Math.floor((Math.random()*3))+1)
+    // headerClass += 'Serif' + (Math.floor((Math.random()*3))+1)
+    headerClass += 'Serif1'
     bodyClass += 'Sans' + (Math.floor((Math.random()*2))+1)
   }
   return [headerClass, bodyClass]

@@ -291,7 +291,7 @@ export function items (state = initialState, action) {
 }
 
 function addStylesIfNecessary (item, index, items) {
-  if (item.styles && !item.styles.temporary) {
+  if (/*item.styles && !item.styles.temporary*/false) {
     return item
   } else {
     const prevStyles = index > 0 ? items[index-1].styles : null

@@ -129,7 +129,7 @@ class TopBar extends React.Component {
     return this.props.displayMode == 'saved' ?
       hslString('rizzleBG') :
       (feedColor ?
-        hslString(feedColor, 'desaturatedDarker') :
+        hslString(feedColor, 'desaturated') :
         hslString('rizzleBG'))
   }
 
@@ -151,26 +151,26 @@ class TopBar extends React.Component {
     }
     return (
       <Animated.View key={id()} style={{
-      ...textHolderStyles,
-      overflow: 'hidden',
-      shadowOffset: {
-        width: 0,
-        height: getAnimatedValueNormalised().interpolate({
-          inputRange: [0 ,1],
-          outputRange: [1, 0]
-        })
-      },
-      // shadowColor: getAnimatedValueNormalised().interpolate({
-      //   inputRange: [0 ,1],
-      //   outputRange: ['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0)']
-      // }),
-      transform: [{
-        translateY: Animated.diffClamp(
-          Animated.add(getAnimatedValue(), panTransformAnim),
-          -STATUS_BAR_HEIGHT,
-          0)
-      }]
-    }}>
+        ...textHolderStyles,
+        overflow: 'hidden',
+        shadowOffset: {
+          width: 0,
+          height: getAnimatedValueNormalised().interpolate({
+            inputRange: [0 ,1],
+            outputRange: [1, 0]
+          })
+        },
+        // shadowColor: getAnimatedValueNormalised().interpolate({
+        //   inputRange: [0 ,1],
+        //   outputRange: ['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0)']
+        // }),
+        transform: [{
+          translateY: Animated.diffClamp(
+            Animated.add(getAnimatedValue(), panTransformAnim),
+            -STATUS_BAR_HEIGHT,
+            0)
+        }]
+      }}>
       <Animated.Text
         numberOfLines={1}
         style={{

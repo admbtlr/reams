@@ -36,7 +36,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>BioRhyme-Regular.ttf</string>
@@ -76,6 +76,12 @@
 		<string>LibreBaskerville-Bold.ttf</string>
 		<string>LibreBaskerville-Italic.ttf</string>
 		<string>LibreBaskerville-Regular.ttf</string>
+		<string>IBMPlexSansCondensed-Bold.ttf</string>
+		<string>IBMPlexSansCondensed-BoldItalic.ttf</string>
+		<string>IBMPlexSansCondensed-ExtraLight.ttf</string>
+		<string>IBMPlexSansCondensed-ExtraLightItalic.ttf</string>
+		<string>IBMPlexSerif-Thin.ttf</string>
+		<string>IBMPlexSerif-ThinItalic.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

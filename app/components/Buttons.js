@@ -90,7 +90,7 @@ class Buttons extends React.Component {
     return this.props.displayMode == 'saved' ?
       hslString('rizzleBG') :
       (feedColor ?
-        hslString(feedColor, 'desaturatedDarker') :
+        hslString(feedColor, 'desaturated') :
         hslString('rizzleBG'))
   }
 

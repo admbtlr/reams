@@ -19,10 +19,10 @@ const fontStyles = {
       fontFamily: 'IBMPlexSerif-BoldItalic'
     },
     regular: {
-      fontFamily: 'IBMPlexSerif-Light'
+      fontFamily: 'IBMPlexSerif-Thin'
     },
     regularItalic: {
-      fontFamily: 'IBMPlexSerif-LightItalic'
+      fontFamily: 'IBMPlexSerif-ThinItalic'
     }
   },
   headerFontSerif2: {
@@ -53,19 +53,33 @@ const fontStyles = {
       fontFamily: 'PlayfairDisplay-Italic'
     }
   },
+  // headerFontSans1: {
+  //   verticalOffset: 0.1,
+  //   bold: {
+  //     fontFamily: 'AvenirNextCondensed-Bold'
+  //   },
+  //   boldItalic: {
+  //     fontFamily: 'AvenirNextCondensed-BoldItalic'
+  //   },
+  //   regular: {
+  //     fontFamily: 'AvenirNextCondensed-Medium'
+  //   },
+  //   regularItalic: {
+  //     fontFamily: 'AvenirNextCondensed-MediumItalic'
+  //   }
+  // },
   headerFontSans1: {
-    verticalOffset: 0.1,
     bold: {
-      fontFamily: 'AvenirNextCondensed-Bold'
+      fontFamily: 'IBMPlexSansCond-Bold'
     },
     boldItalic: {
-      fontFamily: 'AvenirNextCondensed-BoldItalic'
+      fontFamily: 'IBMPlexSansCond-BoldItalic'
     },
     regular: {
-      fontFamily: 'AvenirNextCondensed-Medium'
+      fontFamily: 'IBMPlexSansCond-ExtraLight'
     },
     regularItalic: {
-      fontFamily: 'AvenirNextCondensed-MediumItalic'
+      fontFamily: 'IBMPlexSansCond-ExtraLightItalic'
     }
   },
   headerFontSans2: {
@@ -125,6 +139,9 @@ class ItemTitle extends React.Component {
       .replace(/<\/b>/ig, '|||/Text||||')
       .replace('|||', '<')
       .replace('||||', '>')
+      .replace('and ', '& ')
+      .replace('And ', '& ')
+      .replace('AND ', '& ')
     return this.fixWidowIfNecessary(rendered)
   }
 
@@ -384,13 +401,14 @@ class ItemTitle extends React.Component {
       this.getFontObject().verticalOffset * styles.fontSize :
       0
 
-    const color = styles.isMonochrome ?
+    let color = styles.isMonochrome ?
       (hasCoverImage && !styles.bg ?
         'white' :
         'black') :
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
       hslString(styles.color))
+    if (coverImageStyles.isInline) color = 'black'
 
     const invertBGPadding = 5
     let paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
@@ -484,7 +502,9 @@ class ItemTitle extends React.Component {
       left: 0,
       flexDirection: 'column',
       backgroundColor: coverImageStyles.isInline ?
-        hslString(coverImageStyles.color, coverImageColorPalette) :
+        // hslString(coverImageStyles.color, coverImageColorPalette) :
+        // 'white' :
+        hslString('bodyBGLight') :
         overlayColour,
       opacity: coverImageStyles.isInline ? 1 : opacity
     }
@@ -582,7 +602,8 @@ class ItemTitle extends React.Component {
     let excerptColor
     if (styles.isMonochrome || styles.invertBG) {
       excerptColor = hasCoverImage && !styles.bg ?
-        'white' :
+        // 'white' :
+        'black' :
         'black'
     } else if (styles.isExcerptTone) {
       excerptColor = this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'
@@ -616,7 +637,7 @@ class ItemTitle extends React.Component {
     //     Math.round(styles.lineHeight / 2) :
     //     Math.round(styles.lineHeight / 1.5))
     const excerptLineHeight = coverImageStyles.isInline ?
-      Math.min(this.screenHeight, this.screenWidth) / 10 :
+      Math.min(this.screenHeight, this.screenWidth) / 18 :
       Math.min(this.screenHeight, this.screenWidth) / 18
     const excerptView = (<Animated.View style={{
         ...innerViewStyle,
@@ -712,7 +733,6 @@ class ItemTitle extends React.Component {
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&
           excerptView }
-        {dateView}
       </Animated.View>
     )
   }

@@ -24,16 +24,8 @@ const feeds = [
     url: 'http://www.therestisnoise.com/index.rdf'
   },
   {
-    title: 'ANDREW GALLIX',
-    url: 'http://andrewgallix.com/feed/'
-  },
-  {
     title: 'Stratechery by Ben Thompson',
     url: 'http://stratechery.com/feed/'
-  },
-  {
-    title: 'Blog of a Bookslut',
-    url: 'http://www.bookslut.com/blog/index.rdf'
   },
   {
     title: 'booktwo.org',
@@ -56,24 +48,12 @@ const feeds = [
     url: 'http://doctorzamalek2.wordpress.com/feed/'
   },
   {
-    title: 'The Elegant Variation',
-    url: 'http://marksarvas.blogs.com/elegvar/atom.xml'
-  },
-  {
     title: 'Ampersand',
     url: 'http://andotherstoriespublishing.tumblr.com/rss'
   },
   {
     title: 'blissblog',
     url: 'http://blissout.blogspot.com/feeds/posts/default'
-  },
-  {
-    title: 'THE ABLETON COOKBOOK',
-    url: 'http://www.anthonyarroyodotcom.com/theabletoncookbook/feed/'
-  },
-  {
-    title: 'AudioMulch Blog',
-    url: 'http://www.audiomulch.com/blog/feed'
   },
   {
     title: ' Analog Industries',
@@ -86,10 +66,6 @@ const feeds = [
   {
     title: 'do you read me?!',
     url: 'http://www.doyoureadme.de/feed/'
-  },
-  {
-    title: 'Charlie Brooker | The Guardian',
-    url: 'http://feeds.guardian.co.uk/theguardian/profile/charliebrooker/rss'
   },
   {
     title: 'paperpools',
@@ -112,10 +88,6 @@ const feeds = [
     url: 'http://feeds.feedburner.com/nyrblog'
   },
   {
-    title: 'Readability Blog',
-    url: 'http://blog.readability.com/feed/'
-  },
-  {
     title: 'maudnewton.com',
     url: 'http://maudnewton.com/feed/'
   },
@@ -132,10 +104,6 @@ const feeds = [
     url: 'http://feeds.feedburner.com/createdigitalmusic'
   },
   {
-    title: 'Gradwell Communications Ltd Status - Incident History',
-    url: 'http://www.gradwellstatus.com/feed/'
-  },
-  {
     title: 'CR',
     url: 'http://feeds.feedburner.com/ConversationalReading'
   },
@@ -148,20 +116,12 @@ const feeds = [
     url: 'https://www.technologyreview.com/topnews.rss'
   },
   {
-    title: 'Rouge\'s Foam',
-    url: 'http://rougesfoam.blogspot.com/feeds/posts/default?alt=rss'
-  },
-  {
     title: 'ActivistLab',
     url: 'http://www.activistlab.org/feed/'
   },
   {
     title: 'Fitzcarraldo Editions',
     url: 'http://blog.fitzcarraldoeditions.com/?feed=rss2'
-  },
-  {
-    title: 'G2 | The Guardian',
-    url: 'https://www.theguardian.com/theguardian/g2/rss'
   },
   {
     title: 'www.disassociated.com',
@@ -178,10 +138,6 @@ const feeds = [
   {
     title: 'things magazine',
     url: 'http://feeds.feedburner.com/ThingsMagazine'
-  },
-  {
-    title: 'NYT &gt; Home Page',
-    url: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
   },
   {
     title: 'The Baffler',
@@ -216,20 +172,8 @@ const feeds = [
     url: 'https://firstlook.org/theintercept/feed/?rss'
   },
   {
-    title: 'Useful Mac',
-    url: 'http://usefulmac.com/rss'
-  },
-  {
-    title: 'Wait But Why',
-    url: 'http://waitbutwhy.com/feed'
-  },
-  {
     title: 'Aeon',
     url: 'https://aeon.co/feed.rss'
-  },
-  {
-    title: 'DevTools Tips',
-    url: 'http://devtoolstips.com/rss'
   },
   {
     title: 'Put This On',
@@ -246,10 +190,6 @@ const feeds = [
   {
     title: 'Hacker News Daily',
     url: 'http://www.daemonology.net/hn-daily/index.rss'
-  },
-  {
-    title: 'Radical Theory Berlin',
-    url: 'http://radicaltheoryberlin.blogspot.com/feeds/posts/default'
   },
   {
     title: 'The Sartorialist',
@@ -292,14 +232,6 @@ const feeds = [
     url: 'http://magicalnihilism.wordpress.com/feed/'
   },
   {
-    title: 'Clay Shirky',
-    url: 'http://www.shirky.com/weblog/feed/'
-  },
-  {
-    title: 'PhoneGap',
-    url: 'http://phonegap.com/rss.xml'
-  },
-  {
     title: 'Brand New',
     url: 'http://feeds.feedburner.com/ucllc/brandnew'
   },
@@ -310,10 +242,6 @@ const feeds = [
   {
     title: 'Sidebar',
     url: 'http://feeds.feedburner.com/SidebarFeed'
-  },
-  {
-    title: 'the selby',
-    url: 'http://feeds.feedburner.com/Theselby-PhotosInYourSpace'
   },
   {
     title: 'This Space',
@@ -336,24 +264,8 @@ const feeds = [
     url: 'http://rss.badassjs.com/'
   },
   {
-    title: 'Best of Wikipedia',
-    url: 'http://feeds.feedburner.com/bestofwikipedia'
-  },
-  {
-    title: 'ulysses – Infinite Zombies',
-    url: 'http://infinitezombies.wordpress.com/tag/ulysses/feed/'
-  },
-  {
     title: 'The Millions',
     url: 'http://feeds2.feedburner.com/themillionsblog/fedw'
-  },
-  {
-    title: 'k-punk',
-    url: 'http://k-punk.abstractdynamics.org/index.rdf'
-  },
-  {
-    title: 'http://xhmujbnnptbc.com/',
-    url: 'http://feeds.feedburner.com/wumingfoundation'
   },
   {
     title: 'The Outline',
@@ -362,10 +274,6 @@ const feeds = [
   {
     title: 'Language Log',
     url: 'http://languagelog.ldc.upenn.edu/nll/?feed=rss2'
-  },
-  {
-    title: 'News, Politics, Opinion, Commentary, and Analysis—The New Yorker',
-    url: 'http://www.newyorker.com/online/blogs/hendrikhertzberg/rss.xml'
   },
   {
     title: 'FutureBook blogs',

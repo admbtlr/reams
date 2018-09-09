@@ -116,7 +116,7 @@ class FeedItem extends React.Component {
 
   isCoverImagePortrait () {
     const {imageDimensions} = this.props.item
-    return imageDimensions.height > imageDimensions.width
+    return imageDimensions && imageDimensions.height > imageDimensions.width
   }
 
   render () {
@@ -255,9 +255,10 @@ class FeedItem extends React.Component {
             hasCoverImage={hasCoverImage}
             coverImageStyles={styles.coverImage}
           />
+          {false &&
           <FeedInfoContainer
             index={this.props.index}
-          />
+          />}
           <WebView
             decelerationRate='normal'
             injectedJavaScript={calculateHeight}
