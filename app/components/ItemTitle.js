@@ -492,7 +492,8 @@ class ItemTitle extends React.Component {
         '')
     const outerViewStyle = {
       width: this.screenWidth,
-      height: coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
+      // height: coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
+      height: 'auto',
       // position: 'absolute',
       paddingTop: coverImageStyles.isInline ? 0 : outerPadding.paddingTop,
       paddingBottom: outerPadding.paddingBottom,

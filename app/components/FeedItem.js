@@ -227,7 +227,7 @@ class FeedItem extends React.Component {
           { scaleY: this.state.scaleAnim }
         ]
       }}>
-        {!styles.isCoverInline && coverImage}
+        {false && !styles.isCoverInline && coverImage}
         <Animated.ScrollView
           onScroll={Animated.event(
             [{ nativeEvent: {
