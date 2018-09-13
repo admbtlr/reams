@@ -10,15 +10,17 @@ let deviceWidth
 let deviceHeight
 
 export function createItemStyles (item, prevStyles) {
-  let title = {}
+  let title = {
+    isMonochrome: true
+  }
   const isMainColorDarker = Math.random() > 0.6
   const isMainColorDesaturated = Math.random() > 0.6
   let isCoverImageColorDarker = false
   let isCoverImageColorLighter = false
   const isCoverImageColorDesaturated = isMainColorDarker ? false : Math.random() > 0.2
   const color = pickOne(getNames(), isMainColorDarker ? 'Darker' : '', prevStyles && prevStyles.color)
-  // title.color = color
-  title.color = 'white'
+  title.color = color
+  // title.color = 'white'
 
   if (!deviceWidth || !deviceHeight) {
      const {height, width} = Dimensions.get('window')
@@ -29,7 +31,7 @@ export function createItemStyles (item, prevStyles) {
   let isBW = false
   let isMultiply = false
   let isScreen = false
-  if (Math.random() > 0.4 && !(prevStyles && prevStyles.coverImage.isMultiply)) {
+  if (Math.random() > 0.9 && !(prevStyles && prevStyles.coverImage.isMultiply)) {
     if (Math.random() > 0.5) {
       isScreen = true
       isCoverImageColorDarker = true
@@ -37,20 +39,19 @@ export function createItemStyles (item, prevStyles) {
       isMultiply = true
       isCoverImageLighter = true
     }
-    title.isMonochrome = Math.random() > 0.3 && !(prevStyles && prevStyles.isMonochrome)
+    // title.isMonochrome = Math.random() > 0.3 && !(prevStyles && prevStyles.isMonochrome)
     if (Math.random() > 0.2) {
       isBW = true
     }
   } else if (Math.random() > 0.7) {
     isBW = true
   } else {
-    title.isMonochrome = Math.random() > 0.5
+    // title.isMonochrome = Math.random() > 0.5
   }
 
   let isContain = false
   let isCoverInline = false
-  if (false &&
-    item.title &&
+  if (item.title &&
     // item.title.length > 24 &&
     // item.excerpt &&
     (item.imageDimensions && item.imageDimensions.height < deviceHeight) &&
@@ -63,7 +64,7 @@ export function createItemStyles (item, prevStyles) {
     // isMultiply = false
     // isBW = false
     // title.color = color
-    title.isMonochrome = isMultiply || isScreen
+    // title.isMonochrome = isMultiply || isScreen
   }
 
   const fonts = getFontClasses()
@@ -95,18 +96,16 @@ export function createItemStyles (item, prevStyles) {
     (Math.random() > 0.5 ?
       'middle' :
       ['top', 'bottom'][Math.floor(Math.random() * 2)])
-  title.isBold = (!title.isMonochrome && !title.bg) || fonts[0].indexOf('Montserrat') > 0 ?
-    true :
-    (title.isMonochrome ?
+  title.isBold = title.isMonochrome ?
       Math.random() > 0.5 :
-      Math.random() > 0.3)
+      Math.random() > 0.3
   title.borderWidth = title.invertBG || title.isVertical || isContain ? 0 :
     (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
 
   // to stop the predominance of white on black titles
-  if (title.invertBG) {
-    title.isMonochrome = Math.random() > 0.7
-  }
+  // if (title.invertBG) {
+  //   title.isMonochrome = Math.random() > 0.7
+  // }
 
   if (!title.bg && !title.invertBG) {
     title.excerptInvertBG = Math.random() > 0.7
@@ -118,7 +117,7 @@ export function createItemStyles (item, prevStyles) {
     hasColorBlockquoteBG: Math.random() > 0.5,
     dropCapFamily: Math.random() > 0.5 ? 'body' : 'header',
     dropCapIsMonochrome: Math.random() > 0.5,
-    dropCapSize: Math.floor(Math.random() * 3) + 2,
+    dropCapSize: Math.floor(Math.random() * 2) + 2,
     dropCapIsDrop: Math.random() > 0.3,
     dropCapIsBold: Math.random() > 0.5,
     dropCapIsStroke: Math.random() > 0.8,
@@ -126,6 +125,7 @@ export function createItemStyles (item, prevStyles) {
     isMainColorDarker,
     isCoverImageColorDarker,
     isCoverInline,
+    showCoverImage: false,
     coverImage: {
       showCoverImage: false,
       isBW,

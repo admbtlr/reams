@@ -129,6 +129,7 @@ class FeedItem extends React.Component {
       content_mercury,
       hasCoverImage,
       imageDimensions,
+      showCoverImage,
       styles,
       date_published,
       excerpt
@@ -171,7 +172,7 @@ class FeedItem extends React.Component {
       scrollHandler(this.scrollOffset)
     }
 
-    if (!hasCoverImage || this.isCoverImagePortrait()) {
+    if (!showCoverImage || this.isCoverImagePortrait()) {
       styles.coverImage.isInline = false
     }
 
@@ -227,7 +228,7 @@ class FeedItem extends React.Component {
           { scaleY: this.state.scaleAnim }
         ]
       }}>
-        {styles.coverImage.showCoverImage && !styles.isCoverInline && coverImage}
+        {showCoverImage && !styles.isCoverInline && coverImage}
         <Animated.ScrollView
           onScroll={Animated.event(
             [{ nativeEvent: {
@@ -242,7 +243,7 @@ class FeedItem extends React.Component {
           scrollEventThrottle={1}
           style={{flex: 1}}
         >
-          {false && styles.isCoverInline && coverImage}
+          {showCoverImage && styles.isCoverInline && coverImage}
           <ItemTitleContainer
             item={this.props.item}
             index={this.props.index}
@@ -253,6 +254,7 @@ class FeedItem extends React.Component {
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}
             hasCoverImage={hasCoverImage}
+            showCoverImage={showCoverImage}
             coverImageStyles={styles.coverImage}
           />
           {false &&

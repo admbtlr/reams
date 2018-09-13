@@ -154,7 +154,8 @@ class ItemTitle extends React.Component {
     let maxSize
     const longestWord = this.getLongestWord()
     let sizes = []
-    let i = 70
+    const absMax = 100
+    let i = absMax
     while (i > 20) {
       sizes.push(i--)
     }
@@ -168,7 +169,7 @@ class ItemTitle extends React.Component {
       values = values.map((v, i) => {
         return {
           width: v[0].width,
-          size: 70 - i
+          size: absMax - i
         }
       })
       for (var i = 0; i < values.length; i++) {
@@ -195,14 +196,16 @@ class ItemTitle extends React.Component {
   // NB returns an object, {paddingTop, paddingBottom}
   getOuterVerticalPadding () {
     let paddingTop, paddingBottom
-    const {coverImageStyles, styles} = this.props
+    const {showCoverImage, coverImageStyles, styles} = this.props
     const verticalPadding = 85
     paddingTop = isIphoneX() ?
       verticalPadding * 1.25 + this.screenHeight * 0.1 :
       verticalPadding + this.screenHeight * 0.1
     paddingBottom = verticalPadding + this.screenHeight * 0.1
 
-    if (coverImageStyles.isInline) {
+    if (!showCoverImage) {
+      paddingBottom = 48
+    } else if (coverImageStyles.isInline) {
       paddingTop = Math.round(styles.lineHeight / 2)
       paddingBottom = 0
     }
@@ -236,9 +239,10 @@ class ItemTitle extends React.Component {
   }
 
   getOuterVerticalMargin () {
-    return (!this.props.coverImageStyles.showCoverImage || this.props.coverImageStyles.isInline) ?
+    return (!this.props.showCoverImage || this.props.coverImageStyles.isInline) ?
       0 :
-      this.screenHeight * -0.1
+      // this.screenHeight * -0.1 (why is this here?)
+      0
   }
 
   async componentDidMount () {
@@ -362,7 +366,7 @@ class ItemTitle extends React.Component {
   // }
 
   render () {
-    let {styles, title, date, hasCoverImage, coverImageStyles, isVisible} = this.props
+    let {styles, title, date, showCoverImage, coverImageStyles, isVisible} = this.props
 
     // we need 3 different versions of the title
     // 1. originalTitle (Here&rquo;s a story about a <i>Thing</i>)
@@ -402,7 +406,7 @@ class ItemTitle extends React.Component {
       0
 
     let color = styles.isMonochrome ?
-      (hasCoverImage && coverImageStyles.showCoverImage && !styles.bg ?
+      (showCoverImage && !styles.bg ?
         'white' :
         'black') :
       (styles.isTone ?
@@ -474,8 +478,7 @@ class ItemTitle extends React.Component {
       paddingRight: horizontalPadding,
       paddingBottom: styles.bg || styles.textAlign === 'center' || styles.borderWidth || coverImageStyles.isInline ? innerPadding : styles.lineHeight,
       paddingTop: innerPadding + borderWidth,
-      // backgroundColor: styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
-      backgroundColor: hslString('bodyBGLight'),
+      backgroundColor: showCoverImage && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       height: 'auto',
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -494,18 +497,19 @@ class ItemTitle extends React.Component {
         '')
     const outerViewStyle = {
       width: this.screenWidth,
-      // height: coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
-      height: 'auto',
+      height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
+      // height: 'auto',
       // position: 'absolute',
       // paddingTop: coverImageStyles.isInline ? 0 : outerPadding.paddingTop,
-      paddingTop: 100,
+      paddingTop: coverImageStyles.isInline ? 0 : 100,
+      // paddingTop: 100,
       paddingBottom: outerPadding.paddingBottom,
       marginTop: this.getOuterVerticalMargin(),
       marginBottom: this.getOuterVerticalMargin(),
       top: 0,
       left: 0,
       flexDirection: 'column',
-      backgroundColor: true || coverImageStyles.isInline ?
+      backgroundColor: !showCoverImage || coverImageStyles.isInline ?
         // hslString(coverImageStyles.color, coverImageColorPalette) :
         // 'white' :
         hslString('bodyBGLight') :
@@ -606,11 +610,11 @@ class ItemTitle extends React.Component {
     let excerptShadowStyle
     let excerptColor
     if (styles.isMonochrome || styles.invertBG) {
-      excerptColor = hasCoverImage && !styles.bg ?
+      excerptColor = showCoverImage && !styles.bg ?
         // 'white' :
         'black' :
         'black'
-    } else if (styles.isExcerptTone) {
+    } else if (showCoverImage && styles.isExcerptTone) {
       excerptColor = this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'
     } else {
       excerptColor = hslString(styles.color)
@@ -635,7 +639,7 @@ class ItemTitle extends React.Component {
 
     // const excerptColor = styles.bg ?
     //   (styles.isMonochrome ? 'black' : hslString(styles.color)) :
-    //   (hasCoverImage ? 'white' : 'black')
+    //   (showCoverImage ? 'white' : 'black')
     // const excerptLineHeight = styles.lineHeight > 60 ?
     //   Math.round(styles.lineHeight / 3) :
     //     (styles.lineHeight > 36 ?
@@ -667,7 +671,7 @@ class ItemTitle extends React.Component {
           fontFamily: this.getFontFamily(coverImageStyles.isInline ||
             coverImageStyles.resizeMode === 'contain' ||
             excerptBg.backgroundColor ||
-            !hasCoverImage ?
+            !showCoverImage ?
             'regular' :
             'bold'),
           fontSize: Math.round(excerptLineHeight / 1.4),
@@ -691,12 +695,12 @@ class ItemTitle extends React.Component {
       // ...shadowStyle
     }
 
-    if (!coverImageStyles.isInline) {
+    if (showCoverImage && !coverImageStyles.isInline) {
       dateStyle.position = 'absolute'
       dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.2 : 0.7) // heuristic
     }
 
-    if (!coverImageStyles.isInline && styles.valign !== 'middle') {
+    if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {
       dateStyle.transform = [
         {translateY: 100},
         {translateX: (this.screenWidth / 2) - 6},
@@ -744,9 +748,8 @@ class ItemTitle extends React.Component {
   }
 
   getOverlayColor () {
-    const { hasCoverImage, item, styles, coverImageStyles } = this.props
-    if (!hasCoverImage ||
-      !coverImageStyles.showCoverImage ||
+    const { showCoverImage, item, styles, coverImageStyles } = this.props
+    if (!showCoverImage ||
       styles.invertBGPadding ||
       styles.bg ||
       coverImageStyles.resizeMode === 'contain' ||

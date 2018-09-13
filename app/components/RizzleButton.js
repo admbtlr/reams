@@ -13,13 +13,14 @@ class RizzleButton extends React.Component {
 
   getStyles () {
     const backgroundColor = this.props.backgroundColor || hslString('rizzleBG')
+    const borderColor = this.props.borderColor || hslString('rizzleBG')
     return {
         backgroundColor,
         opacity: 0.95,
         width: 56,
         height: 56,
         borderRadius: 28,
-        borderColor: backgroundColor,
+        borderColor: borderColor,
         borderWidth: 1,
         justifyContent: 'center',
         flexDirection: 'column',

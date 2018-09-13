@@ -73,6 +73,7 @@ export function items (state = initialState, action) {
         .map(nullValuesToEmptyStrings)
         .map(fixRelativePaths)
         .map(addStylesIfNecessary)
+        .map(setShowCoverImage)
 
       let index = 0
       if (currentItem) {
@@ -303,6 +304,18 @@ function addStylesIfNecessary (item, index, items) {
       ...item,
       styles
     }
+  }
+}
+
+function setShowCoverImage (item) {
+  let showCoverImage = false
+  // arbitrary length...
+  if (item.hasCoverImage && item.content_html.length > 2000) {
+    showCoverImage = true
+  }
+  return {
+    ...item,
+    showCoverImage
   }
 }
 

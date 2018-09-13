@@ -86,12 +86,13 @@ class Buttons extends React.Component {
   }
 
   getBackgroundColor (item) {
-    const feedColor = item ? item.feed_color : null
-    return this.props.displayMode == 'saved' ?
-      hslString('rizzleBG') :
-      (feedColor ?
-        hslString(feedColor, 'desaturated') :
-        hslString('rizzleBG'))
+    return hslString('bodyBGLight')
+    // const feedColor = item ? item.feed_color : null
+    // return this.props.displayMode == 'saved' ?
+    //   hslString('rizzleBG') :
+    //   (feedColor ?
+    //     hslString(feedColor, 'desaturated') :
+    //     hslString('rizzleBG'))
   }
 
   render () {
@@ -123,16 +124,17 @@ class Buttons extends React.Component {
   }
 
   renderButtons (item, opacityAnim, isCurrent) {
+    const strokeColor = 'black'
     const showMercuryContent = item && item.showMercuryContent
     const isMercuryButtonEnabled = item && item.content_mercury
     const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ?
-      hslString('rizzleFG') :
-      hslString('rizzleFG')
+      strokeColor :
+      strokeColor
     // const backgroundColor = this.props.displayMode && this.props.displayMode == 'unread' ?
     //   hslString('rizzleBG') :
     //   hslString('rizzleBGAlt')
-    const feedColor = item ? item.feed_color : null
-    // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleFG')
+    const feedColor = item ? hslString(item.feed_color) : null
+    // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : strokeColor
     const backgroundColor = this.getBackgroundColor(item)
     return (
       <Animated.View
@@ -144,6 +146,7 @@ class Buttons extends React.Component {
         }}>
         <RizzleButton
           backgroundColor={backgroundColor}
+          borderColor={feedColor}
           style={{
             width: 'auto',
             paddingHorizontal: 28,
@@ -171,6 +174,7 @@ class Buttons extends React.Component {
         </RizzleButton>
         <RizzleButton
           backgroundColor={backgroundColor}
+          borderColor={feedColor}
           style={{
             paddingLeft: 3,
             transform: [{
@@ -189,7 +193,7 @@ class Buttons extends React.Component {
             }}>
             <Polygon
               points='25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321'
-              stroke={item && item.isSaved ? hslString('rizzleHighlight') : hslString('rizzleFG')}
+              stroke={item && item.isSaved ? hslString('rizzleHighlight') : strokeColor}
               strokeWidth='3'
               strokeLineJoin='round'
               fill='none'
@@ -198,6 +202,7 @@ class Buttons extends React.Component {
         </RizzleButton>
         <RizzleButton
           backgroundColor={backgroundColor}
+          borderColor={feedColor}
           style={{
             paddingLeft: 3,
             transform: [{
@@ -221,13 +226,13 @@ class Buttons extends React.Component {
             <Polyline
               fill='none'
               points='17,10 25,2 33,10'
-              stroke={hslString('rizzleFG')}
+              stroke={strokeColor}
               strokeLinecap='round'
               strokeWidth='3'
             />
             <Line
               fill='none'
-              stroke={hslString('rizzleFG')}
+              stroke={strokeColor}
               strokeLinecap='round'
               strokeWidth='3'
               x1='25'
@@ -243,7 +248,7 @@ class Buttons extends React.Component {
             <Path
               d='M17,17H8v32h34V17h-9'
               fill='none'
-              stroke={hslString('rizzleFG')}
+              stroke={strokeColor}
               strokeLinecap='round'
               strokeWidth='3'
             />
@@ -251,6 +256,7 @@ class Buttons extends React.Component {
         </RizzleButton>
         <RizzleButton
           backgroundColor={backgroundColor}
+          borderColor={feedColor}
           style={{
             paddingLeft: 3,
             transform: [{
@@ -291,13 +297,13 @@ class Buttons extends React.Component {
               }}
               height='32'
               width='34'>
-              <Path d="M0.5,1.5 L31.5,1.5" strokeWidth="3" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,7.5 L31.5,7.5" strokeWidth="3" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,13.5 L31.5,13.5" opacity="0.2" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,19.5 L31.5,19.5" opacity="0.2" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,25.5 L31.5,25.5" opacity="0.2" stroke={hslString('rizzleFG')}></Path>
-              <Path d="M0.5,31.5 L31.5,31.5" opacity="0.2" stroke={hslString('rizzleFG')}></Path>
+              <Path d="M0.5,1.5 L31.5,1.5" strokeWidth="3" stroke={strokeColor}></Path>
+              <Path d="M0.5,7.5 L31.5,7.5" strokeWidth="3" stroke={strokeColor}></Path>
+              <Path d="M0.5,13.5 L31.5,13.5" opacity="0.2" stroke={strokeColor}></Path>
+              <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke={strokeColor}></Path>
+              <Path d="M0.5,19.5 L31.5,19.5" opacity="0.2" stroke={strokeColor}></Path>
+              <Path d="M0.5,25.5 L31.5,25.5" opacity="0.2" stroke={strokeColor}></Path>
+              <Path d="M0.5,31.5 L31.5,31.5" opacity="0.2" stroke={strokeColor}></Path>
             </Svg>
           }
         </RizzleButton>
