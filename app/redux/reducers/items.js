@@ -291,7 +291,7 @@ export function items (state = initialState, action) {
 }
 
 function addStylesIfNecessary (item, index, items) {
-  if (/*item.styles && !item.styles.temporary*/false) {
+  if (item.styles && !item.styles.temporary) {
     return item
   } else {
     const prevStyles = index > 0 ? items[index-1].styles : null
@@ -307,6 +307,7 @@ function addStylesIfNecessary (item, index, items) {
 }
 
 function fixRelativePaths (item) {
+  if (!item.url) return item
   const host = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)[0]
   const derelativise = s => s.replace(/src="\//g, `src="${host}/`)
   if (item.content_html) item.content_html = derelativise(item.content_html)

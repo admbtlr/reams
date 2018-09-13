@@ -13,7 +13,7 @@ class FeedItem extends React.Component {
     super(props)
     this.props = props
 
-    if (__DEV__ || !this.props.item.styles) {
+    if (!this.props.item.styles) {
       this.props.item.styles = createItemStyles(this.props.item)
     }
     this.scrollOffset = new Animated.Value(0)
@@ -227,7 +227,7 @@ class FeedItem extends React.Component {
           { scaleY: this.state.scaleAnim }
         ]
       }}>
-        {false && !styles.isCoverInline && coverImage}
+        {styles.coverImage.showCoverImage && !styles.isCoverInline && coverImage}
         <Animated.ScrollView
           onScroll={Animated.event(
             [{ nativeEvent: {
@@ -242,7 +242,7 @@ class FeedItem extends React.Component {
           scrollEventThrottle={1}
           style={{flex: 1}}
         >
-          {styles.isCoverInline && coverImage}
+          {false && styles.isCoverInline && coverImage}
           <ItemTitleContainer
             item={this.props.item}
             index={this.props.index}

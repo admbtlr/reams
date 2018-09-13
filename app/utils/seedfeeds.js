@@ -8,10 +8,6 @@ const feeds = [
     url: 'http://www.languagehat.com/index.rdf'
   },
   {
-    title: 'Velcro City Tourist Board',
-    url: 'http://www.velcro-city.co.uk/feed/'
-  },
-  {
     title: 'Technology | The Atlantic',
     url: 'https://www.theatlantic.com/feed/channel/technology/'
   },

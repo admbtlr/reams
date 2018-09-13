@@ -125,6 +125,16 @@ class TopBar extends React.Component {
   }
 
   getBackgroundColor (item) {
+    // const feedColor = item ? item.feed_color : null
+    // return this.props.displayMode == 'saved' ?
+    //   hslString('rizzleBG') :
+    //   (feedColor ?
+    //     hslString(feedColor, 'desaturated') :
+    //     hslString('rizzleBG'))
+    return hslString('rizzleChrome')
+  }
+
+  getBorderBottomColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
       hslString('rizzleBG') :
@@ -147,6 +157,8 @@ class TopBar extends React.Component {
     const textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor: this.getBackgroundColor(item),
+      borderBottomColor: this.getBorderBottomColor(item),
+      borderBottomWidth: 3,
       opacity: opacityAnim
     }
     return (
@@ -180,13 +192,14 @@ class TopBar extends React.Component {
           marginLeft: 35,
           transform: [{
             translateY: transformAnim
-          }]
+          }],
+          color: this.getBorderBottomColor(item)
         }}
       >
         {this.getMessage(item)}
         {isMessage &&
           <AnimatedEllipsis style={{
-            color: 'white',
+            color: this.getBorderBottomColor(item),
             fontSize: 16,
             letterSpacing: -5
           }}/>

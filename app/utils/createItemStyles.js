@@ -49,7 +49,8 @@ export function createItemStyles (item, prevStyles) {
 
   let isContain = false
   let isCoverInline = false
-  if (item.title &&
+  if (false &&
+    item.title &&
     // item.title.length > 24 &&
     // item.excerpt &&
     (item.imageDimensions && item.imageDimensions.height < deviceHeight) &&
@@ -126,6 +127,7 @@ export function createItemStyles (item, prevStyles) {
     isCoverImageColorDarker,
     isCoverInline,
     coverImage: {
+      showCoverImage: false,
       isBW,
       isMultiply,
       isScreen,
