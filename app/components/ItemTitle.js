@@ -750,6 +750,7 @@ class ItemTitle extends React.Component {
         {!showCoverImage && <View style={{
           marginTop: 24,
           marginLeft: horizontalMargin,
+          marginRight: horizontalMargin,
           width: 83,
           height: 16,
           backgroundColor: hslString(this.props.item.feed_color)
