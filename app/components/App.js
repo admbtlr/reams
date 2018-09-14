@@ -30,7 +30,7 @@ class App extends React.Component {
     return (
       <View style={styles.mainView}>
         <AppStateListenerContainer />
-        <StatusBar barStyle='light-content' />
+        <StatusBar barStyle='dark-content' />
         <RizzleModalContainer />
         <ToolbarsContainer />
         <View style={styles.infoView} />
