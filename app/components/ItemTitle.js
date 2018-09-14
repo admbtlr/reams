@@ -204,7 +204,7 @@ class ItemTitle extends React.Component {
     paddingBottom = verticalPadding + this.screenHeight * 0.1
 
     if (!showCoverImage) {
-      paddingBottom = 48
+      paddingBottom = 0
     } else if (coverImageStyles.isInline) {
       paddingTop = Math.round(styles.lineHeight / 2)
       paddingBottom = 0
@@ -229,7 +229,9 @@ class ItemTitle extends React.Component {
   }
 
   getInnerHorizontalMargin () {
-    return this.props.coverImageStyles.isInline ? 8 : 16 // allow space for date
+    return this.props.coverImageStyles.isInline || !this.props.showCoverImage ?
+      this.screenWidth * 0.025 :
+      this.screenWidth * 0.05 // allow space for date
   }
 
   getInnerWidth (fontSize) {
@@ -456,7 +458,7 @@ class ItemTitle extends React.Component {
             ...borderBottom
           }
         ))
-    if (coverImageStyles.isInline) border = {}
+    if (!showCoverImage || coverImageStyles.isInline) border = {}
 
     const innerPadding = this.getInnerVerticalPadding()
 
@@ -464,7 +466,7 @@ class ItemTitle extends React.Component {
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = styles.widthPercentage || 100
     const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
-    const horizontalMargin = (this.screenWidth - width) / 2
+    const horizontalMargin = this.screenWidth * 0.05
 
     const horizontalPadding = this.getInnerHorizontalPadding()
 
@@ -538,7 +540,9 @@ class ItemTitle extends React.Component {
     }
 
     const invertedTitleWrapperStyle = {
-      backgroundColor: styles.isMonochrome ? 'white' : color
+      backgroundColor: showCoverImage ?
+        (styles.isMonochrome ? 'white' : color) :
+        'transparent'
     }
 
     let server = ''
@@ -687,8 +691,8 @@ class ItemTitle extends React.Component {
       fontFamily: 'IBMPlexMono',
       lineHeight: 24,
       textAlign: styles.textAlign,
-      marginLeft: horizontalMargin,
-      marginRight: horizontalMargin,
+      paddingLeft: horizontalMargin,
+      paddingRight: horizontalMargin,
       marginBottom: 18,
       padding: 0,
       width: this.screenWidth,
@@ -743,6 +747,13 @@ class ItemTitle extends React.Component {
           !this.props.item.excerpt.includes('…') &&
           excerptView }
         { dateView }
+        {!showCoverImage && <View style={{
+          marginTop: 24,
+          marginLeft: horizontalMargin,
+          width: 83,
+          height: 16,
+          backgroundColor: hslString(this.props.item.feed_color)
+        }} />}
       </Animated.View>
     )
   }

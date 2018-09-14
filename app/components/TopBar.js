@@ -82,13 +82,13 @@ class TopBar extends React.Component {
     const transformRanges = [
       {
         inputRange: [0, 1, 2],
-        outputRange: [0, -40, -40]
+        outputRange: [0, -20, -20]
       }, {
         inputRange: [0, 1, 2],
-        outputRange: [40, 0, -40]
+        outputRange: [30, 0, -20]
       }, {
         inputRange: [0, 1, 2],
-        outputRange: [40, 40, 0]
+        outputRange: [30, 30, 0]
       }
     ]
 
@@ -158,24 +158,27 @@ class TopBar extends React.Component {
       ...this.getStyles().textHolder,
       backgroundColor: this.getBackgroundColor(item),
       borderBottomColor: this.getBorderBottomColor(item),
-      borderBottomWidth: 3,
+      borderBottomWidth: 1,
       opacity: opacityAnim
     }
     return (
       <Animated.View key={id()} style={{
         ...textHolderStyles,
-        overflow: 'hidden',
-        shadowOffset: {
-          width: 0,
-          height: getAnimatedValueNormalised().interpolate({
-            inputRange: [0 ,1],
-            outputRange: [1, 0]
-          })
-        },
-        // shadowColor: getAnimatedValueNormalised().interpolate({
-        //   inputRange: [0 ,1],
-        //   outputRange: ['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0)']
-        // }),
+        // overflow: 'hidden',
+        // shadowOffset: {
+        //   width: 0,
+        //   height: getAnimatedValueNormalised().interpolate({
+        //     inputRange: [0 ,1],
+        //     outputRange: [1, 0]
+        //   })
+        // },
+        // shadowOffset: {
+        //   width: 0,
+        //   height: 10
+        // },
+        // shadowRadius: 10,
+        // shadowOpacity: 1,
+        // shadowColor: 'rgba(0, 0, 0, 1)',
         transform: [{
           translateY: Animated.diffClamp(
             Animated.add(getAnimatedValue(), panTransformAnim),
@@ -248,9 +251,15 @@ class TopBar extends React.Component {
         width: '100%',
         flexDirection: 'row',
         height: STATUS_BAR_HEIGHT,
-        shadowColor: '#000000',
-        shadowRadius: 1,
-        shadowOpacity: 0.3,
+        overflow: 'hidden',
+        backgroundColor: 'transparent',
+        // shadowColor: '#000000',
+        // shadowRadius: 1,
+        // shadowOpacity: 0.1,
+        // shadowOffset: {
+        //   height: 1,
+        //   width: 0
+        // }
         zIndex: -1
       },
       feedName: {
