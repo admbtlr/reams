@@ -32,8 +32,8 @@ app.get('/feed/', (req, res) => {
 
 // Serve index page
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/build/index.html');
-});
+  res.sendFile(__dirname + '/build/index.html')
+})
 
 function fetch (feed, done) {
   let items = []
@@ -43,14 +43,18 @@ function fetch (feed, done) {
   // make sure we're getting the last redirect URL
   var finalUrl = feed
 
+  var done = done
+
   var redirectReq = request(feed, {
     method: 'HEAD',
     followAllRedirects: true
   }, (err, response, body) => {
-    console.log('ERROR: ' + err)
-    console.log(response.request.href)
+    if (err) {
+      console.log('ERROR: ' + err)
+      done(items)
+      return
+    }
     finalUrl = response.request.href
-
     console.log(finalUrl)
     var req = request(finalUrl, {
       timeout: 10000,
@@ -63,10 +67,13 @@ function fetch (feed, done) {
     req.setHeader('accept', 'text/html,application/xhtml+xml')
 
     // Define our handlers
-    req.on('response', function(res) {
-      if (res.statusCode != 200) return this.emit('error', new Error('Bad status code'))
+    req.on('response', function (res) {
+      if (res.statusCode !== 200) {
+        done(items)
+        return
+      }
       var encoding = res.headers['content-encoding'] || 'identity'
-        , charset = getParams(res.headers['content-type'] || '').charset
+      var charset = getParams(res.headers['content-type'] || '').charset
       res = maybeDecompress(res, encoding)
       res = maybeTranslate(res, charset)
       res.pipe(feedparser)
@@ -75,13 +82,14 @@ function fetch (feed, done) {
 
   feedparser.on('error', (error) => {
     console.log(error)
+    done([])
   })
 
   feedparser.on('end', () => {
     done(items)
   })
 
-  feedparser.on('readable', function() {
+  feedparser.on('readable', function () {
     let item
     while (item = this.read()) {
       items.push(item)
@@ -120,7 +128,7 @@ function maybeTranslate (res, charset) {
   return res
 }
 
-function getParams(str) {
+function getParams (str) {
   var params = str.split(';').reduce(function (params, param) {
     var parts = param.split('=').map(function (part) { return part.trim(); })
       if (parts.length === 2) {
@@ -136,5 +144,5 @@ const server = app.listen(port, () => {
   const host = server.address().address
   const port = server.address().port
 
-  console.log('Essential React listening at http://%s:%s', host, port)
+  console.log('Rizzle API listening at http://%s:%s', host, port)
 });

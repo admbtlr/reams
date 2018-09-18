@@ -714,7 +714,11 @@ class ItemTitle extends React.Component {
 
     // TODO this is feedwrangler... fix it
     if (typeof date === 'number') date = date * 1000
-    const dateView = <Animated.Text style={dateStyle}>{moment(date).format('dddd MMM Do, h:mm a')}</Animated.Text>
+    let showYear = (moment(date).year() !== moment().year())
+    const formattedDate = moment(date)
+      .format('dddd MMM Do' + (showYear ? ' YYYY' : '') + ', h:mm a')
+
+    const dateView = <Animated.Text style={dateStyle}>{formattedDate}</Animated.Text>
 
     return (
       <Animated.View style={{
