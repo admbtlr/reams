@@ -3,8 +3,10 @@ import AppStateListener from '../components/AppStateListener'
 
 const mapStateToProps = (state) => {
   const appState = state.appState || 'inactive'
+  const lastUpdated = state.config.lastUpdated || 0
   return {
-    appState
+    appState,
+    lastUpdated
   }
 }
 
@@ -21,6 +23,10 @@ const mapDispatchToProps = (dispatch) => {
     addFeed: (feed) => dispatch({
       type: 'FEEDS_ADD_FEED',
       feed
+    }),
+    setUpdated: () => dispatch({
+      type: 'CONFIG_LAST_UPDATED',
+      lastUpdate: Date.now()
     }),
     showModal: (modalProps) => dispatch({
       type: 'UI_SHOW_MODAL',

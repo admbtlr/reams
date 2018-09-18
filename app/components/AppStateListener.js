@@ -8,6 +8,8 @@ class AppStateListener extends React.Component {
 
   group = 'group.com.adam-butler.rizzle'
 
+  const MINIMUM_UPDATE_INTERVAL = 600000 // 10 minutes
+
   constructor (props) {
     super(props)
     this.props = props
@@ -23,8 +25,10 @@ class AppStateListener extends React.Component {
       this.checkPageBucket()
       this.checkFeedBucket()
       // see Rizzle component
-      if (!global.isStarting) {
+
+      if (!global.isStarting && Date.now() - this.props.lastUpdated > MINIMUM_UPDATE_INTERVAL) {
         this.props.fetchData()
+        this.props.setUpdated()
       }
     }
   }

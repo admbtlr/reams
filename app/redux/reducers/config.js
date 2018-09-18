@@ -2,8 +2,9 @@ const initialState = {
   backend: 'rizzle',
   isFirstTime: true,
   isOnboarding: false,
+  lastUpdated: 0,
   onboardingIndex: 0,
-  onboardingLength: 13
+  onboardingLength: 13,
 }
 
 export function config (state = initialState, action) {
@@ -32,6 +33,12 @@ export function config (state = initialState, action) {
       return {
         ...state,
         isFirstTime: action.isFirstTime
+      }
+
+    case 'CONFIG_SET_LAST_UPDATED':
+      return {
+        ...state,
+        lastUpdated: action.lastUpdated
       }
 
     default:
