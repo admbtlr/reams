@@ -11,14 +11,15 @@ let deviceHeight
 
 export function createItemStyles (item, prevStyles) {
   let title = {
-    isMonochrome: true
+    isMonochrome: Math.random() > 0.5
   }
   const isMainColorDarker = Math.random() > 0.6
   const isMainColorDesaturated = Math.random() > 0.6
   let isCoverImageColorDarker = false
   let isCoverImageColorLighter = false
   const isCoverImageColorDesaturated = isMainColorDarker ? false : Math.random() > 0.2
-  const color = pickOne(getNames(), isMainColorDarker ? 'Darker' : '', prevStyles && prevStyles.color)
+  // const color = pickOne(getNames(), isMainColorDarker ? 'Darker' : '', prevStyles && prevStyles.color)
+  const color = item.feed_color
   title.color = color
   // title.color = 'white'
 
@@ -43,7 +44,7 @@ export function createItemStyles (item, prevStyles) {
     if (Math.random() > 0.2) {
       isBW = true
     }
-  } else if (Math.random() > 0.7) {
+  } else if (Math.random() > 0.9) {
     isBW = true
   } else {
     // title.isMonochrome = Math.random() > 0.5

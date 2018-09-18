@@ -189,7 +189,7 @@ class FeedItem extends React.Component {
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
       </head>
-      <body style="margin: 0; padding: 0;" class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
+      <body class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
         <article
           class="${articleClasses} ${this.props.isDarkBackground ? 'dark-background' : ''}"
           style="min-height: ${height}px; width: 100vw;">
