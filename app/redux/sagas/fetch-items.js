@@ -25,6 +25,10 @@ export function * fetchItems2 () {
     items: newItems
   })
   yield put({
+    type: 'FEEDS_SET_LAST_UPDATED',
+    lastUpdated: Date.now()
+  })
+  yield put({
     type: 'ITEMS_IS_LOADING',
     isLoading: false
   })

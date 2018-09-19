@@ -172,13 +172,13 @@ class TopBar extends React.Component {
         //     outputRange: [1, 0]
         //   })
         // },
-        // shadowOffset: {
-        //   width: 0,
-        //   height: 10
-        // },
-        // shadowRadius: 10,
-        // shadowOpacity: 1,
-        // shadowColor: 'rgba(0, 0, 0, 1)',
+        shadowOffset: {
+          width: 0,
+          height: 10
+        },
+        shadowRadius: 10,
+        shadowOpacity: 1,
+        shadowColor: 'rgba(0, 0, 0, 1)',
         transform: [{
           translateY: Animated.diffClamp(
             Animated.add(getAnimatedValue(), panTransformAnim),
