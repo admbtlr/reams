@@ -173,7 +173,7 @@ class Buttons extends React.Component {
           }
         </RizzleButton>
         <RizzleButton
-          backgroundColor={backgroundColor}
+          backgroundColor={item && item.isSaved ? feedColor : backgroundColor}
           borderColor={feedColor}
           style={{
             paddingLeft: 3,
@@ -193,7 +193,7 @@ class Buttons extends React.Component {
             }}>
             <Polygon
               points='25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321'
-              stroke={item && item.isSaved ? hslString('rizzleHighlight') : strokeColor}
+              stroke={item && item.isSaved ? backgroundColor : strokeColor}
               strokeWidth='3'
               strokeLineJoin='round'
               fill='none'
@@ -255,8 +255,8 @@ class Buttons extends React.Component {
           </Svg>
         </RizzleButton>
         <RizzleButton
-          backgroundColor={backgroundColor}
-          borderColor={feedColor}
+          backgroundColor={item && item.showMercuryContent ? feedColor : backgroundColor}
+          borderColor={isMercuryButtonEnabled ? feedColor : backgroundColor}
           style={{
             paddingLeft: 3,
             transform: [{
@@ -276,13 +276,13 @@ class Buttons extends React.Component {
               }}
               height='32'
               width='34'>
-              <Path d="M10.5,1.5 L32.5,1.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
-              <Path d="M10.5,7.5 L32.5,7.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
-              <Rect fill="#F6BE3C" x="0" y="0" width="7" height="9"></Rect>
-              <Path d="M1.5,13.5 L32.5,13.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
-              <Path d="M1.5,19.5 L32.5,19.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
-              <Path d="M1.5,25.5 L32.5,25.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
-              <Path d="M1.5,31.5 L32.5,31.5" stroke="#F6BE3C" strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M10.5,1.5 L32.5,1.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M10.5,7.5 L32.5,7.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Rect fill={backgroundColor} x="0" y="0" width="7" height="9"></Rect>
+              <Path d="M1.5,13.5 L32.5,13.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M1.5,19.5 L32.5,19.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M1.5,25.5 L32.5,25.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M1.5,31.5 L32.5,31.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
             </Svg>
           }
           { !(item && item.showMercuryContent) &&

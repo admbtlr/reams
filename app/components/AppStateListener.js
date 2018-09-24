@@ -26,7 +26,7 @@ class AppStateListener extends React.Component {
       this.checkFeedBucket()
       // see Rizzle component
 
-      if (!global.isStarting && Date.now() - this.props.lastUpdated > MINIMUM_UPDATE_INTERVAL) {
+      if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
         this.props.fetchData()
       }
     }

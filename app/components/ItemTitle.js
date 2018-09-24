@@ -7,16 +7,17 @@ import quote from 'headline-quotes'
 
 import {hslString} from '../utils/colors'
 import {isIphoneX} from '../utils'
+import {getTopBarHeight} from './TopBar'
 
 const entities = require('entities')
 
 const fontStyles = {
   headerFontSerif1: {
     bold: {
-      fontFamily: 'PlayfairDisplay-Black'
+      fontFamily: 'PlayfairDisplay-Bold'
     },
     boldItalic: {
-      fontFamily: 'PlayfairDisplay-BlackItalic'
+      fontFamily: 'PlayfairDisplay-BoldItalic'
     },
     regular: {
       fontFamily: 'PlayfairDisplay-Regular'
@@ -173,7 +174,7 @@ class ItemTitle extends React.Component {
         }
       })
       for (var i = 0; i < values.length; i++) {
-        if (values[i].width < that.getInnerWidth(values[i].size)) {
+        if (values[i].width < that.getInnerWidth(values[i].size, styles.isItalic)) {
           return values[i].size
         }
       }
@@ -239,10 +240,11 @@ class ItemTitle extends React.Component {
         this.screenWidth * 0.05) // allow space for date
   }
 
-  getInnerWidth (fontSize) {
+  getInnerWidth (fontSize, isItalic) {
     return Math.min(this.screenWidth, this.screenHeight) -
       this.getInnerHorizontalPadding(fontSize) * 2 -
-      this.getInnerHorizontalMargin(fontSize) * 2
+      this.getInnerHorizontalMargin(fontSize) * 2 -
+      (isItalic ? fontSize * 0.1 : 0)
   }
 
   getOuterVerticalMargin () {
@@ -273,7 +275,7 @@ class ItemTitle extends React.Component {
 
     Promise.all(sizes.map((size) => MeasureText.measureSizes({
         texts: [styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle],
-        width: this.getInnerWidth(size),
+        width: this.getInnerWidth(size, styles.isItalic),
         fontSize: size,
         fontFamily: this.getFontFamily()
     }))).then((values) => {
@@ -418,13 +420,17 @@ class ItemTitle extends React.Component {
         'black') :
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
-      hslString(styles.color))
-    if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = 'black'
+      hslString(this.props.item.feed_color))
+    if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color)
+    if (!showCoverImage) color = 'black'
 
     const invertBGPadding = 5
     let paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
     const paddingBottom = styles.invertBG ? 2 : 0
-    const paddingLeft = styles.invertBG ? invertBGPadding : 0
+    let paddingLeft = styles.invertBG ? invertBGPadding : 0
+    if (styles.isItalic) {
+      paddingLeft += styles.fontSize * 0.1
+    }
 
     // https://github.com/facebook/react-native/issues/7687
     // (9 is a heuristic value)
@@ -442,7 +448,8 @@ class ItemTitle extends React.Component {
       paddingTop,
       paddingBottom,
       paddingLeft,
-      marginTop
+      marginTop,
+      overflow: 'visible'
       // marginBottom: this.props.styles.isUpperCase ? styles.fontSize * -0.3 : 0
     }
     const viewStyle = {
@@ -491,6 +498,7 @@ class ItemTitle extends React.Component {
       paddingTop: innerPadding + borderWidth,
       backgroundColor: showCoverImage && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       height: 'auto',
+      overflow: 'visible',
       flexDirection: 'row',
       flexWrap: 'wrap',
       alignItems: 'flex-start',
@@ -512,7 +520,7 @@ class ItemTitle extends React.Component {
       // height: 'auto',
       // position: 'absolute',
       // paddingTop: coverImageStyles.isInline ? 0 : outerPadding.paddingTop,
-      paddingTop: coverImageStyles.isInline ? 0 : 100,
+      paddingTop: coverImageStyles.isInline ? 0 : getTopBarHeight() + 30,
       // paddingTop: 100,
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
       marginTop: this.getOuterVerticalMargin(),
@@ -532,7 +540,10 @@ class ItemTitle extends React.Component {
       // ...viewStyle
     }
 
-    let shadowStyle = styles.hasShadow && !styles.bg && !coverImageStyles.isInline ? {
+    let shadowStyle = (styles.hasShadow &&
+      !styles.bg &&
+      !coverImageStyles.isInline &&
+      showCoverImage) ? {
       textShadowColor: 'rgba(0,0,0,0.1)',
       textShadowOffset: { width: shadow, height: shadow }
     } : {}
@@ -550,7 +561,7 @@ class ItemTitle extends React.Component {
 
     const invertedTitleWrapperStyle = {
       backgroundColor: showCoverImage ?
-        (styles.isMonochrome ? 'white' : color) :
+        (styles.isMonochrome ? 'white' : hslString(this.props.item.feed_color)) :
         'transparent'
     }
 
@@ -588,7 +599,7 @@ class ItemTitle extends React.Component {
         // check for small caps in font
         this.renderedTitle = this.getRenderedTitle(this.decodedTitle.toLocaleUpperCase())
       }
-      if (this.props.styles.isVertical) {
+      if (this.props.showCoverImage && this.props.styles.isVertical) {
         this.renderedTitle = this.getRenderedTitle(this.decodedTitle.replace(/ /g, '\n'))
       }
     }
@@ -624,12 +635,12 @@ class ItemTitle extends React.Component {
     let excerptColor
     if (!showCoverImage) {
       excerptColor = 'black'
-    } else if (styles.isMonochrome || styles.invertBG) {
+    } else if (styles.invertBG) {
       excerptColor = 'black'
     } else if (showCoverImage && styles.isExcerptTone) {
       excerptColor = this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'
     } else {
-      excerptColor = hslString(styles.color)
+      excerptColor = 'white'
     }
 
     let excerptBg = {}
@@ -699,7 +710,7 @@ class ItemTitle extends React.Component {
     let dateStyle = {
       color: hslString(this.props.item.feed_color),
       backgroundColor: 'transparent',
-      fontSize: 16,
+      fontSize: showCoverImage ? 12 : 16,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: 24,
       textAlign: styles.textAlign,
@@ -764,7 +775,7 @@ class ItemTitle extends React.Component {
           !this.props.item.excerpt.includes('…') &&
           excerptView }
         { dateView }
-        {!showCoverImage && <View style={{
+        {!showCoverImage && !this.itemStartsWithImage() && <View style={{
           marginLeft: horizontalMargin,
           marginRight: horizontalMargin,
           width: 83,
@@ -773,6 +784,15 @@ class ItemTitle extends React.Component {
         }} />}
       </Animated.View>
     )
+  }
+
+  itemStartsWithImage () {
+    const item = this.props.item
+    const html = item.showMercuryContent ? item.content_mercury : item.content_html
+    const stripped = html.replace(/<(p|div|span).*?>/g, '').trim()
+    return stripped.startsWith('<img') ||
+      stripped.startsWith('<figure') ||
+      stripped.startsWith('<iframe')
   }
 
   getOverlayColor () {

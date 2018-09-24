@@ -21,7 +21,7 @@ class RizzleButton extends React.Component {
         height: 56,
         borderRadius: 28,
         borderColor: borderColor,
-        borderWidth: 1,
+        borderWidth: 2,
         justifyContent: 'center',
         flexDirection: 'column',
         shadowOffset: {
