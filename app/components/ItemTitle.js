@@ -155,7 +155,7 @@ class ItemTitle extends React.Component {
     let maxSize
     const longestWord = this.getLongestWord()
     let sizes = []
-    const absMax = 100
+    const absMax = 80
     let i = absMax
     while (i > 20) {
       sizes.push(i--)
