@@ -25,7 +25,7 @@
     "prop-types": "^15.6.0",
     "react": "16.2.0",
     "react-devtools": "^3.0.0",
-    "react-native": "^0.52.0",
+    "react-native": "^0.53.0",
     "react-native-animated-ellipsis": "^1.1.0",
     "react-native-blur": "^3.1.2",
     "react-native-dash": "0.0.8",
