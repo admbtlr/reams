@@ -3,10 +3,9 @@ import {Animated, Dimensions, InteractionManager, Linking, ScrollView, View, Web
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import FeedInfoContainer from '../containers/FeedInfo'
-import {deepEqual} from '../utils/'
+import {deepEqual, getCachedImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
 import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
-import { getCachedImagePath } from '../utils'
 
 class FeedItem extends React.Component {
   constructor(props) {
