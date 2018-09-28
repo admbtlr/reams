@@ -414,13 +414,19 @@ class ItemTitle extends React.Component {
       this.getFontObject().verticalOffset * styles.fontSize :
       0
 
+    const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
+      'darker' :
+      (coverImageStyles.isCoverImageColorLighter ?
+        'lighter' :
+        '')
+
     let color = styles.isMonochrome ?
       (showCoverImage && !styles.bg ?
         'white' :
         'black') :
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
-      hslString(this.props.item.feed_color))
+        hslString(this.props.item.feed_color, coverImageColorPalette))
     if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color)
     if (!showCoverImage) color = 'black'
 
@@ -487,7 +493,9 @@ class ItemTitle extends React.Component {
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: defaultHorizontalMargin,
       marginRight:  defaultHorizontalMargin,
-      marginBottom: !showCoverImage ? 0 : this.getInnerVerticalPadding(styles.fontSize),
+      // marginBottom: !showCoverImage ? 0 : this.getInnerVerticalPadding(styles.fontSize),
+      marginBottom: 0,
+      marginTop: styles.bg ? defaultHorizontalMargin : 0,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
       paddingBottom: !showCoverImage ?
@@ -509,18 +517,13 @@ class ItemTitle extends React.Component {
     }
     const overlayColour = this.getOverlayColor()
     const outerPadding = this.getOuterVerticalPadding()
-    const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
-      'darker' :
-      (coverImageStyles.isCoverImageColorLighter ?
-        'lighter' :
-        '')
     const outerViewStyle = {
       width: this.screenWidth,
       height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight/* * 1.2*/,
       // height: 'auto',
       // position: 'absolute',
       // paddingTop: coverImageStyles.isInline ? 0 : outerPadding.paddingTop,
-      paddingTop: coverImageStyles.isInline ? 0 : getTopBarHeight() + 30,
+      paddingTop: coverImageStyles.isInline ? 0 : getTopBarHeight(),
       // paddingTop: 100,
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
       marginTop: this.getOuterVerticalMargin(),
@@ -544,8 +547,10 @@ class ItemTitle extends React.Component {
       !styles.bg &&
       !coverImageStyles.isInline &&
       showCoverImage) ? {
-      textShadowColor: 'rgba(0,0,0,0.1)',
-      textShadowOffset: { width: shadow, height: shadow }
+      textShadowColor: 'rgba(0,0,0,0.3)',
+      // textShadowOffset: { width: shadow, height: shadow }
+      textShadowOffset: { width: 1, height: 1 },
+      textShadowRadius: 2
     } : {}
 
     textStyle = {
@@ -554,7 +559,9 @@ class ItemTitle extends React.Component {
     }
 
     const invertedTitleStyle = {
-      color: styles.isMonochrome ? 'black' : 'white',
+      color: showCoverImage ?
+        (styles.isMonochrome ? 'black' : 'white') :
+        color,
       paddingLeft: 2,
       paddingRight: 2
     }
@@ -689,7 +696,7 @@ class ItemTitle extends React.Component {
     } else if (showCoverImage && styles.isExcerptTone) {
       excerptColor = styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'
     } else {
-      excerptColor = 'white'
+      excerptColor = styles.isCoverImageColorDarker ? 'white' : 'black'
     }
 
     let excerptBg = {}
@@ -737,7 +744,7 @@ class ItemTitle extends React.Component {
           justifyContent: this.aligners[styles.textAlign],
           flex: 1,
           ...fontStyle,
-          ...shadowStyle,
+          // ...shadowStyle,
           ...excerptShadowStyle,
           marginTop: 0,
           paddingTop: 0,
@@ -793,13 +800,13 @@ class ItemTitle extends React.Component {
     const formattedDate = moment(theDate)
       .format('dddd MMM Do' + (showYear ? ' YYYY' : '') + ', h:mm a')
 
-    const dateView = <Animated.Text style={dateStyle}>{formattedDate}</Animated.Text>
+    return dateView = <Animated.Text style={dateStyle}>{formattedDate}</Animated.Text>
   }
 
   itemStartsWithImage () {
     const item = this.props.item
     const html = item.showMercuryContent ? item.content_mercury : item.content_html
-    const stripped = html.replace(/<(p|div|span).*?>/g, '').trim()
+    const stripped = html.replace(/<(p|div|span|a).*?>/g, '').trim()
     return stripped.startsWith('<img') ||
       stripped.startsWith('<figure') ||
       stripped.startsWith('<iframe')
