@@ -275,6 +275,7 @@ class FeedItem extends React.Component {
               }
             }}
             {...openLinksExternallyProp}
+            originWhitelist={['*']}
             ref={(ref) => { this.webView = ref }}
             scalesPageToFit={false}
             scrollEnabled={false}

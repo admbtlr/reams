@@ -408,7 +408,7 @@ class SwipeableViews extends Component {
     // The animation can be aborted.
     // We only want to call onTransitionEnd when the animation is finished.
     if (params.finished) {
-      const indexVirtualNew = params.indexVirtualNew
+      let indexVirtualNew = params.indexVirtualNew
       // const indexVirtualOld = getAnimatedValue(this.state.indexVirtual)
       const delta = indexVirtualNew - this.state.indexVirtualLast
 
