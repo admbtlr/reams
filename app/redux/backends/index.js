@@ -45,7 +45,7 @@ function * fetchUnreadItems (oldItems, currentItem, feeds) {
       latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
     }
     try {
-      const unreadItemArrays = yield rizzle.fetchUnreadItems(feeds)
+      let unreadItemArrays = yield rizzle.fetchUnreadItems(feeds)
 
       unreadItemArrays = extractErroredFeeds(unreadItemArrays)
 
@@ -55,7 +55,7 @@ function * fetchUnreadItems (oldItems, currentItem, feeds) {
       }
       // console.log(`Fetched ${newItems.length} items`)
       // console.log(newItems)
-      const { read, unread } = mergeItems(oldItems, newItems, currentItem)
+      let { read, unread } = mergeItems(oldItems, newItems, currentItem)
 
       // RealmJS is too slow in devtools
       if (!__DEV__) {

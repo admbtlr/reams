@@ -478,7 +478,7 @@ class ItemTitle extends React.Component {
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = styles.widthPercentage || 100
     const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
-    const horizontalMargin = this.screenWidth * 0.05
+    this.horizontalMargin = this.screenWidth * 0.05
 
     const horizontalPadding = this.getInnerHorizontalPadding()
 
@@ -576,7 +576,7 @@ class ItemTitle extends React.Component {
       'bottom': 'flex-end',
       'top-bottom': 'space-between'
     }
-    const aligners = {
+    this.aligners = {
       'left': 'flex-start',
       'center': 'center'
     }
@@ -631,6 +631,55 @@ class ItemTitle extends React.Component {
       })
     }
 
+    const excerptView = this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle)
+    const dateView = this.renderDate()
+
+    return (
+      <Animated.View style={{
+        ...outerViewStyle,
+        justifyContent: justifiers[styles.valign],
+        alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start'
+      }}>
+        <Animated.View
+          style={{
+            ...innerViewStyle,
+            justifyContent: this.aligners[styles.textAlign]
+          }}
+          // onLayout={(event) => {
+          //   this.adjustFontSize(event.nativeEvent.layout.height)
+          // }}
+          ref={(view) => { this.innerView = view }}
+        >
+          {typeof(this.renderedTitle) === 'object' && this.renderedTitle}
+          {typeof(this.renderedTitle) === 'string' &&
+            <Animated.Text style={{
+              ...fontStyle,
+              ...shadowStyle,
+              marginBottom: this.props.styles.isUpperCase ? styles.fontSize * -0.3 : 0
+            }}>
+              <Animated.Text>{this.renderedTitle}</Animated.Text>
+            </Animated.Text>
+          }
+        </Animated.View>
+        { this.props.item.excerpt &&
+          !this.props.item.excerpt.includes('ellip') &&
+          !this.props.item.excerpt.includes('…') &&
+          excerptView }
+        { dateView }
+        {!showCoverImage && !this.itemStartsWithImage() && <View style={{
+          marginLeft: this.horizontalMargin,
+          marginRight: this.horizontalMargin,
+          width: 83,
+          height: 16,
+          backgroundColor: hslString(this.props.item.feed_color)
+        }} />}
+      </Animated.View>
+    )
+  }
+
+  renderExcerpt (innerViewStyle, fontStyle, shadowStyle) {
+    const { coverImageStyles, showCoverImage, item, styles } = this.props
+    const { excerptOpacity } = this.getOpacityValues()
     let excerptShadowStyle
     let excerptColor
     if (!showCoverImage) {
@@ -638,7 +687,7 @@ class ItemTitle extends React.Component {
     } else if (styles.invertBG) {
       excerptColor = 'black'
     } else if (showCoverImage && styles.isExcerptTone) {
-      excerptColor = this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'
+      excerptColor = styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'
     } else {
       excerptColor = 'white'
     }
@@ -671,7 +720,7 @@ class ItemTitle extends React.Component {
     const excerptLineHeight = coverImageStyles.isInline || !showCoverImage ?
       Math.min(this.screenHeight, this.screenWidth) / 14 :
       Math.min(this.screenHeight, this.screenWidth) / 16
-    const excerptView = (<Animated.View style={{
+    return (<Animated.View style={{
         ...innerViewStyle,
         paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
         paddingBottom: !showCoverImage ?
@@ -685,7 +734,7 @@ class ItemTitle extends React.Component {
         marginTop: styles.bg && !styles.borderWidth ? 1 : 0
       }}>
         <Animated.Text style={{
-          justifyContent: aligners[styles.textAlign],
+          justifyContent: this.aligners[styles.textAlign],
           flex: 1,
           ...fontStyle,
           ...shadowStyle,
@@ -706,16 +755,19 @@ class ItemTitle extends React.Component {
           letterSpacing: 0,
         }}>{this.widowFix(this.props.excerpt)}</Animated.Text>
       </Animated.View>)
+  }
 
+  renderDate () {
+    const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let dateStyle = {
-      color: hslString(this.props.item.feed_color),
+      color: hslString(item.feed_color),
       backgroundColor: 'transparent',
       fontSize: showCoverImage ? 12 : 16,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: 24,
       textAlign: styles.textAlign,
-      paddingLeft: horizontalMargin,
-      paddingRight: horizontalMargin,
+      paddingLeft: this.horizontalMargin,
+      paddingRight: this.horizontalMargin,
       marginBottom: !showCoverImage ? this.screenWidth * 0.1 : 18,
       padding: 0,
       width: this.screenWidth,
@@ -736,54 +788,12 @@ class ItemTitle extends React.Component {
     }
 
     // TODO this is feedwrangler... fix it
-    if (typeof date === 'number') date = date * 1000
-    let showYear = (moment(date).year() !== moment().year())
-    const formattedDate = moment(date)
+    const theDate = (typeof date === 'number') ? date * 1000 : date
+    let showYear = (moment(theDate).year() !== moment().year())
+    const formattedDate = moment(theDate)
       .format('dddd MMM Do' + (showYear ? ' YYYY' : '') + ', h:mm a')
 
     const dateView = <Animated.Text style={dateStyle}>{formattedDate}</Animated.Text>
-
-    return (
-      <Animated.View style={{
-        ...outerViewStyle,
-        justifyContent: justifiers[styles.valign],
-        alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start'
-      }}>
-        <Animated.View
-          style={{
-            ...innerViewStyle,
-            justifyContent: aligners[styles.textAlign]
-          }}
-          // onLayout={(event) => {
-          //   this.adjustFontSize(event.nativeEvent.layout.height)
-          // }}
-          ref={(view) => { this.innerView = view }}
-        >
-          {typeof(this.renderedTitle) === 'object' && this.renderedTitle}
-          {typeof(this.renderedTitle) === 'string' &&
-            <Animated.Text style={{
-              ...fontStyle,
-              ...shadowStyle,
-              marginBottom: this.props.styles.isUpperCase ? styles.fontSize * -0.3 : 0
-            }}>
-              <Animated.Text>{this.renderedTitle}</Animated.Text>
-            </Animated.Text>
-          }
-        </Animated.View>
-        { this.props.item.excerpt &&
-          !this.props.item.excerpt.includes('ellip') &&
-          !this.props.item.excerpt.includes('…') &&
-          excerptView }
-        { dateView }
-        {!showCoverImage && !this.itemStartsWithImage() && <View style={{
-          marginLeft: horizontalMargin,
-          marginRight: horizontalMargin,
-          width: 83,
-          height: 16,
-          backgroundColor: hslString(this.props.item.feed_color)
-        }} />}
-      </Animated.View>
-    )
   }
 
   itemStartsWithImage () {
