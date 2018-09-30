@@ -4,9 +4,14 @@ import configureStore from '../redux/store/configureStore.js'
 import { Sentry } from 'react-native-sentry'
 import SplashScreen from 'react-native-splash-screen'
 import AppContainer from '../containers/App.js'
+import ActionExtensionScreen from './Action'
 import { setBackend } from '../redux/backends'
 
 export default class Rizzle extends Component {
+  static defaultProps = {
+    isActionExtension: false
+  }
+
   constructor (props) {
     super(props)
     this.props = props
@@ -30,9 +35,13 @@ export default class Rizzle extends Component {
   }
 
   render () {
+    const component = this.props.isActionExtension ?
+      <ActionExtensionScreen /> :
+      <AppContainer />
+
     return (
       <Provider store={this.store}>
-        <AppContainer />
+        { component }
       </Provider>
     )
   }
