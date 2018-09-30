@@ -63,11 +63,11 @@ export function * decorateItems (action) {
   }
 }
 
-function * loadMercuryIfNecessary (item) {
-  if (!item.hasLoadedMercuryStuff) {
-    return yield loadMercuryForItem(item)
-  }
-}
+// function * loadMercuryIfNecessary (item) {
+//   if (!item.hasLoadedMercuryStuff) {
+//     return yield loadMercuryForItem(item)
+//   }
+// }
 
 function * loadMercuryForItem (item) {
   let mercuryStuff

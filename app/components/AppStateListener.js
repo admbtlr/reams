@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert, AppState, Clipboard, Text, TouchableHighlight, View } from 'react-native'
-import { RNSKBucket } from 'react-native-swiss-knife'
+// import { RNSKBucket } from 'react-native-swiss-knife'
+import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { parseString } from 'react-native-xml2js'
 // import { RizzleModal } from './RizzleModal'
 
@@ -18,12 +19,12 @@ class AppStateListener extends React.Component {
     AppState.addEventListener('change', this.handleAppStateChange)
   }
 
-  handleAppStateChange = (nextAppState) => {
+  async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       // Alert.alert('AppState changed to ACTIVE from ' + this.props.appState)
       this.checkClipboard()
-      this.checkPageBucket()
-      this.checkFeedBucket()
+      await this.checkPageBucket()
+      await this.checkFeedBucket()
       // see Rizzle component
 
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
@@ -46,22 +47,22 @@ class AppStateListener extends React.Component {
     }
   }
 
-  checkPageBucket () {
-    RNSKBucket.get('page', this.group).then(value => {
+  async checkPageBucket () {
+    SharedGroupPreferences.getItem('page', this.group).then(value => {
       if (value !== null) {
-        RNSKBucket.set('page', null, this.group)
+        SharedGroupPreferences.setItem('page', null, this.group)
         console.log(`Got a page to save: ${value}`)
         this.showSavePageModal(value)
       }
     })
   }
 
-  checkFeedBucket () {
+  async checkFeedBucket () {
     const that = this
-    RNSKBucket.get('feed', this.group).then(value => {
+    SharedGroupPreferences.getItem('feed', this.group).then(value => {
       if (value !== null) {
         const url = value
-        RNSKBucket.set('feed', null, this.group)
+        SharedGroupPreferences.setItem('feed', null, this.group)
         console.log(`Got a feed to subscribe to: ${url}`)
         // TODO check that value is a feed url
         // TODO check that feed is not already subscribed!

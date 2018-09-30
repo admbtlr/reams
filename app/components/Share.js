@@ -9,7 +9,9 @@ import Modal from 'react-native-modalbox'
 import ShareExtension from 'react-native-share-extension'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
 import { Sentry } from 'react-native-sentry'
-import { RNSKBucket } from 'react-native-swiss-knife'
+// import { RNSKBucket } from 'react-native-swiss-knife'
+import SharedGroupPreferences from 'react-native-shared-group-preferences'
+
 import {hslString} from '../utils/colors'
 
 
@@ -136,14 +138,14 @@ async searchForRSS (url) {
 
   closing = () => this.setState({ isOpen: false })
 
-  addFeed = () => {
-    RNSKBucket.set('feed', this.state.rssUrl, this.group)
+  async addFeed () {
+    await SharedGroupPreferences.setItem('feed', this.state.rssUrl, this.group)
     this.closing()
   }
 
-  savePage = () => {
-    console.log(RNSKBucket)
-    RNSKBucket.set('page', this.state.value, this.group)
+  async savePage () {
+    console.log(SharedGroupPreferences)
+    await SharedGroupPreferences.setItem('page', this.state.value, this.group)
     this.closing()
   }
 

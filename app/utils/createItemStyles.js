@@ -32,7 +32,7 @@ export function createItemStyles (item, prevStyles) {
   let isBW = false
   let isMultiply = false
   let isScreen = false
-  if (Math.random() > 0.9 && !(prevStyles && prevStyles.coverImage.isMultiply)) {
+  if (Math.random() > 0.6 && !(prevStyles && prevStyles.coverImage.isMultiply)) {
     if (Math.random() > 0.5) {
       isScreen = true
       isCoverImageColorDarker = true
@@ -91,7 +91,7 @@ export function createItemStyles (item, prevStyles) {
     0.7 + Math.random() * 0.2 :
     0.9 + Math.random() * 0.2
   title.invertBG = Math.random() > 0.8 && !isCoverInline
-  title.isItalic = Math.random() > 0.8
+  title.isItalic = !title.isUpperCase && Math.random() > 0.7
   title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
   title.valign = isContain ? 'top-bottom' : // isContain means image is in the middle
     (Math.random() > 0.5 ?

@@ -150,7 +150,8 @@ class TopBar extends React.Component {
     return this.props.displayMode == 'saved' ?
       hslString('rizzleBG') :
       (feedColor ?
-        hslString(feedColor, 'desaturated') :
+        // hslString(feedColor, 'desaturated') :
+        hslString(feedColor) :
         hslString('rizzleBG'))
   }
 

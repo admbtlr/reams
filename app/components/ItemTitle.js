@@ -395,7 +395,7 @@ class ItemTitle extends React.Component {
     const {opacity, excerptOpacity, shadow} = this.getOpacityValues()
     const toValue = coverImageStyles.isVisible ? 1 : 0
 
-    if (isVisible) {
+    if (isVisible && showCoverImage) {
       Animated.stagger(250, [
         Animated.timing(this.fadeInAnim, {
           toValue,
@@ -408,6 +408,12 @@ class ItemTitle extends React.Component {
           useNativeDriver: true,
         })
       ]).start()
+    } else if (showCoverImage) {
+      Animated.timing(this.fadeInAnim2, {
+        toValue,
+        duration: 250,
+        useNativeDriver: true,
+      }).start()
     }
 
     const verticalOffset = this.getFontObject().verticalOffset ?
@@ -495,7 +501,7 @@ class ItemTitle extends React.Component {
       marginRight:  defaultHorizontalMargin,
       // marginBottom: !showCoverImage ? 0 : this.getInnerVerticalPadding(styles.fontSize),
       marginBottom: 0,
-      marginTop: styles.bg ? defaultHorizontalMargin : 0,
+      marginTop: defaultHorizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
       paddingBottom: !showCoverImage ?
