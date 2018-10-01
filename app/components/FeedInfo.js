@@ -80,31 +80,149 @@ class FeedInfo extends React.Component {
   }
 
   render () {
+    const { author, feed_color, feed_title, styles } = this.props.item
+    // const textStyles = {
+    //   color: 'white',
+    //   fontFamily: 'IBMPlexMono-Light',
+    //   fontSize: 22,
+    //   lineHeight: 28,
+    //   textAlign: 'center',
+    //   marginBottom: 28
+    // }
     const textStyles = {
-      color: 'white',
+      color: hslString(feed_color ||  styles.color, 'desaturated'),
       fontFamily: 'IBMPlexMono-Light',
       fontSize: 22,
       lineHeight: 28,
       textAlign: 'center',
-      marginBottom: 28
+      marginBottom: 14
     }
     const isVisible = this.state && this.state.detailsVisible || false
-    const { author, feed_color, feed_title, styles } = this.props.item
+
+    // return (
+    //   <View style={{
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     padding: 14,
+    //     backgroundColor: hslString(feed_color ||  styles.color, 'desaturated'),
+    //     marginBottom: 0
+    //   }}>
+    //     <View style={{
+    //       width: 1,
+    //       height: 42,
+    //       backgroundColor: 'white',
+    //       marginBottom: 28,
+    //       marginTop: 28
+    //     }} />
+    //     { this.props.item.author &&
+    //       <Text style={{
+    //         ...textStyles,
+    //         fontFamily: 'IBMPlexMono-LightItalic' }}>{ author && author.trim() }</Text>
+    //     }
+    //     <Text style={{
+    //       ...textStyles,
+    //       fontFamily: 'IBMPlexMono-Bold'
+    //     }}>{ feed_title && feed_title.trim() }</Text>
+    //     <Animated.View style={{
+    //       height: this.detailsHeight,
+    //       opacity: this.detailsOpacity
+    //     }}>
+    //       <Text style={{
+    //         ...textStyles,
+    //         color: 'rgba(0, 0, 0, 0.8)'
+    //       }}>{this.props.numFeedItems} unread</Text>
+    //       <TouchableOpacity
+    //         style={{
+    //           alignItems: 'center',
+    //           marginBottom: 28,
+    //           height: 42
+    //         }}
+    //         onPress={() => {
+    //           this.props.markAllRead(this.props.item.feed_id)
+    //           console.log('MARK ALL READ!')
+    //         }}>
+    //           <Text style={{
+    //             ...textStyles,
+    //             textDecorationLine: 'underline',
+    //             color: 'rgba(0, 0, 0, 0.8)'
+    //           }}>Mark all read</Text>
+    //       </TouchableOpacity>
+    //       <TouchableOpacity
+    //         onPress={() => {
+    //           this.props.unsubscribe(this.props.item.feed_id)
+    //           console.log('UNSUBSCRIBE!')
+    //         }}>
+    //         <View style={{
+    //           justifyContent: 'center',
+    //           alignItems: 'center',
+    //           height: 42,
+    //         }}>
+    //           <Text style={{
+    //             ...textStyles,
+    //             textDecorationLine: 'underline',
+    //             color: 'rgba(0, 0, 0, 0.8)'
+    //           }}>Unsubscribe</Text>
+    //         </View>
+    //       </TouchableOpacity>
+    //     </Animated.View>
+    //     <TouchableWithoutFeedback
+    //       onPress={() => {
+    //         console.log('BUTTON PRESSED!')
+    //         this.setState({
+    //           detailsVisible: !isVisible
+    //         })
+    //       }}>
+    //       <View style={{
+    //         justifyContent: 'center',
+    //         alignItems: 'center',
+    //         marginBottom: isVisible ? 14 : 28,
+    //         width: 100,
+    //         height: 42
+    //       }}>
+    //         <View style={{
+    //           width: 1,
+    //           height: 42,
+    //           backgroundColor: 'white',
+    //           transform: isVisible ? [{rotateZ: '90deg'}] : []
+    //         }} />
+    //         <Animated.View style={{
+    //           width: 3,
+    //           height: 42,
+    //           top: -42,
+    //           marginBottom: -42,
+    //           backgroundColor: 'white',
+    //           opacity: this.pulseOpacity,
+    //           transform: isVisible ? [
+    //               { rotateZ: '90deg' }
+    //             ] : [
+    //             ],
+    //           shadowRadius: 5,
+    //           shadowColor: 'white',
+    //           shadowOpacity: 1,
+    //           shadowOffset: {
+    //             width: 0,
+    //             height: 0
+    //           }
+    //         }} />
+    //       </View>
+    //     </TouchableWithoutFeedback>
+    //   </View>
+    // )
 
     return (
       <View style={{
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         padding: 14,
-        backgroundColor: hslString(feed_color ||  styles.color, 'desaturated'),
+        backgroundColor: hslString('bodyBGLight'), // TODO!
         marginBottom: 0
       }}>
         <View style={{
-          width: 1,
-          height: 42,
-          backgroundColor: 'white',
-          marginBottom: 28,
-          marginTop: 28
+          width: 28,
+          height: 2,
+          backgroundColor: hslString(feed_color ||  styles.color, 'desaturated'),
+          marginBottom: 14,
+          marginTop: 14
         }} />
         { this.props.item.author &&
           <Text style={{
@@ -125,7 +243,7 @@ class FeedInfo extends React.Component {
           }}>{this.props.numFeedItems} unread</Text>
           <TouchableOpacity
             style={{
-              alignItems: 'center',
+              alignItems: 'flex-start',
               marginBottom: 28,
               height: 42
             }}
@@ -147,7 +265,7 @@ class FeedInfo extends React.Component {
             <View style={{
               justifyContent: 'center',
               alignItems: 'center',
-              height: 42,
+              height: 28,
             }}>
               <Text style={{
                 ...textStyles,
@@ -168,24 +286,24 @@ class FeedInfo extends React.Component {
             justifyContent: 'center',
             alignItems: 'center',
             marginBottom: isVisible ? 14 : 28,
-            width: 100,
-            height: 42
+            width: 28,
+            height: 28
           }}>
             <View style={{
-              width: 1,
-              height: 42,
-              backgroundColor: 'white',
-              transform: isVisible ? [{rotateZ: '90deg'}] : []
+              height: 2,
+              width: 28,
+              backgroundColor: hslString(feed_color ||  styles.color, 'desaturated'),
+              transform: isVisible ? [{rotateZ: '0deg'}] : []
             }} />
             <Animated.View style={{
-              width: 3,
-              height: 42,
-              top: -42,
-              marginBottom: -42,
-              backgroundColor: 'white',
+              height: 5,
+              width: 28,
+              top: -3,
+              marginBottom: -5,
+              backgroundColor: hslString(feed_color ||  styles.color, 'desaturated'),
               opacity: this.pulseOpacity,
               transform: isVisible ? [
-                  { rotateZ: '90deg' }
+                  { rotateZ: '0deg' }
                 ] : [
                 ],
               shadowRadius: 5,

@@ -41,6 +41,8 @@ export const fetchUnreadItems = (feeds) => {
 
 export const markItemRead = (item) => {}
 
+export const markFeedRead = (item) => {}
+
 const mapRizzleServerItemToRizzleItem = (item) => {
   return {
     _id: id(),

@@ -13,7 +13,8 @@ import {
   fixRelativePaths,
   nullValuesToEmptyStrings,
   addMercuryStuffToItem,
-  addCoverImageToItem
+  addCoverImageToItem,
+  setShowCoverImage
 } from '../../utils/item-utils.js'
 
 export const initialState = {
@@ -85,6 +86,7 @@ export const itemsUnreadReducer = batch => (state = initialState, action) => {
         .map(nullValuesToEmptyStrings)
         .map(fixRelativePaths)
         .map(addStylesIfNecessary)
+        .map(setShowCoverImage)
 
       // let index = 0
       // TODO what about the index?

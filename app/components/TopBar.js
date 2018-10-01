@@ -1,8 +1,10 @@
 import React from 'react'
 import {
   Animated,
+  Dimensions,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View
 } from 'react-native'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
@@ -24,9 +26,12 @@ class TopBar extends React.Component {
     super(props)
     this.props = props
 
+    this.detailsHeight = new Animated.Value(0)
+
     this.state = {
-      bgColorValue: 0,
-      prevBgColor: undefined
+      // bgColorValue: 0,
+      // prevBgColor: undefined,
+      detailsVisible: false
     }
 
     this.onStatusBarDown = this.onStatusBarDown.bind(this)
@@ -46,6 +51,12 @@ class TopBar extends React.Component {
   //   return nextProps.currentItem !== this.props.currentItem ||
   //     nextProps.toolbar.message !== this.props.toolbar.message
   // }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (prevState.detailsVisible !== this.state.detailsVisible) {
+      this.expandAnimation()
+    }
+  }
 
   getMessage (item) {
     const feedName = item
@@ -68,27 +79,27 @@ class TopBar extends React.Component {
 
     const opacityRanges = [
       {
-        inputRange: [0, 1, 2],
-        outputRange: [1, 1, 1]
+        inputRange: [0, 0.9, 1, 2],
+        outputRange: [0.98, 0.98, 0, 0]
+      }, {
+        inputRange: [0, 1, 1.9, 2],
+        outputRange: [0, 0.98, 0.98, 0]
       }, {
         inputRange: [0, 1, 2],
-        outputRange: [0, 1, 1]
-      }, {
-        inputRange: [0, 1, 2],
-        outputRange: [0, 0, 1]
+        outputRange: [0, 0, 0.98]
       }
     ]
 
     const transformRanges = [
       {
         inputRange: [0, 1, 2],
-        outputRange: [0, -40, -40]
+        outputRange: [0, -20, -20]
       }, {
         inputRange: [0, 1, 2],
-        outputRange: [40, 0, -40]
+        outputRange: [30, 0, -20]
       }, {
         inputRange: [0, 1, 2],
-        outputRange: [40, 40, 0]
+        outputRange: [30, 30, 0]
       }
     ]
 
@@ -114,7 +125,7 @@ class TopBar extends React.Component {
 
     const views = items.map((item, i) => [
       this.renderTopBar(item, opacityAnims[i]),
-      this.renderStatusBar(item, opacityAnims[i], titleTransformAnims[i], panTransformAnim)
+      this.renderStatusBar(item, opacityAnims[i], titleTransformAnims[i], panTransformAnim, prevItem ? i === 1 : i === 0)
     ])
 
     return (
@@ -125,12 +136,43 @@ class TopBar extends React.Component {
   }
 
   getBackgroundColor (item) {
+    // const feedColor = item ? item.feed_color : null
+    // return this.props.displayMode == 'saved' ?
+    //   hslString('rizzleBG') :
+    //   (feedColor ?
+    //     hslString(feedColor, 'desaturated') :
+    //     hslString('rizzleBG'))
+    return hslString('rizzleChrome')
+  }
+
+  getBorderBottomColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
       hslString('rizzleBG') :
       (feedColor ?
-        hslString(feedColor, 'desaturatedDarker') :
+        hslString(feedColor, 'desaturated') :
         hslString('rizzleBG'))
+  }
+
+  expandAnimation () {
+    const springConfig = {
+      speed: 20,
+      bounciness: 8,
+      toValue: this.state.detailsVisible ? 260 : 0,
+      duration: 200,
+      useNativeDriver: true
+    }
+    Animated.spring(
+      this.detailsHeight,
+      springConfig
+    ).start()
+    // Animated.spring(
+    //   this.detailsOpacity,
+    //   {
+    //     ...springConfig,
+    //     toValue: this.state.detailsVisible ? 1 : 0
+    //   }
+    // ).start()
   }
 
   renderTopBar (item, opacityAnim) {
@@ -142,75 +184,149 @@ class TopBar extends React.Component {
     return <Animated.View style={topBarStyles} key={id()} />
   }
 
-  renderStatusBar (item, opacityAnim, transformAnim, panTransformAnim) {
+  renderStatusBar (item, opacityAnim, transformAnim, panTransformAnim, isVisible) {
     const isMessage = this.props.toolbar.message
     const textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor: this.getBackgroundColor(item),
+      borderBottomColor: this.getBorderBottomColor(item),
+      borderBottomWidth: 2,
       opacity: opacityAnim
     }
+    const areDetailsVisible = this.state && this.state.detailsVisible || false
+
     return (
-      <Animated.View key={id()} style={{
-      ...textHolderStyles,
-      overflow: 'hidden',
-      shadowOffset: {
-        width: 0,
-        height: getAnimatedValueNormalised().interpolate({
-          inputRange: [0 ,1],
-          outputRange: [1, 0]
-        })
-      },
-      // shadowColor: getAnimatedValueNormalised().interpolate({
-      //   inputRange: [0 ,1],
-      //   outputRange: ['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0)']
-      // }),
-      transform: [{
-        translateY: Animated.diffClamp(
-          Animated.add(getAnimatedValue(), panTransformAnim),
-          -STATUS_BAR_HEIGHT,
-          0)
-      }]
-    }}>
-      <Animated.Text
-        numberOfLines={1}
+      <Animated.View
+        key={id()}
+        pointerEvents={isVisible ? 'auto' : 'none'}
         style={{
-          ...this.getStyles().feedName,
-          fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
-          // opacity: getAnimatedValueNormalised(),
-          marginLeft: 35,
+          ...textHolderStyles,
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          height: 320,
+          paddingTop: 80,
+          position: 'absolute',
+          top: isIphoneX() ? -240 : -260,
+          shadowOffset: {
+            width: 0,
+            height: 1
+          },
+          shadowRadius: 1,
+          shadowOpacity: 0.1,
+          shadowColor: 'rgba(0, 0, 0, 1)',
           transform: [{
-            translateY: transformAnim
+            translateY: Animated.add(Animated.diffClamp(
+              Animated.add(getAnimatedValue(), panTransformAnim),
+              -STATUS_BAR_HEIGHT,
+              0
+            ), this.detailsHeight)
           }]
         }}
       >
-        {this.getMessage(item)}
-        {isMessage &&
-          <AnimatedEllipsis style={{
-            color: 'white',
-            fontSize: 16,
-            letterSpacing: -5
-          }}/>
-        }
-      </Animated.Text>
-      <TouchableOpacity
-        style={{
-          marginRight: 7,
-          marginTop: 3,
-          width: 28,
-          height: 28,
-          borderRadius: 14,
-          backgroundColor: 'rgba(255, 255, 255, 0.1)'
-        }}
-        onPress={this.props.toggleViewButtons}
-      >
         <Text style={{
-          fontFamily: 'IBMPlexMono',
-          color: 'white',
-          paddingLeft: 6,
-          paddingTop: 3
-        }}>z<Text style={{ color: 'black' }}>z</Text></Text>
-      </TouchableOpacity>
-    </Animated.View>)
+            ...this.getStyles().feedActions,
+            fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
+            // opacity: getAnimatedValueNormalised(),
+            height: 36,
+            backgroundColor: this.getBorderBottomColor(item),
+            color: 'white',
+            marginLeft: Dimensions.get('window').width * 0.5 - 80,
+            marginRight: Dimensions.get('window').width * 0.5 - 80,
+            paddingBottom: 20,
+            marginBottom: 30,
+            borderRadius: 10
+          }}
+        >12 Unread</Text>
+        <TouchableOpacity
+          onPress={() => {
+            this.props.markAllRead(item.feed_id)
+            console.log('MARK ALL READ!')
+        }}>
+          <Text style={{
+              ...this.getStyles().feedActions,
+              fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
+              // opacity: getAnimatedValueNormalised(),
+              height: 36,
+              color: this.getBorderBottomColor(item),
+              paddingBottom: 40,
+              textDecorationLine: 'underline'
+            }}
+          >Mark all read</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            this.props.unsubscribe(item.feed_id)
+            console.log('UNSUBSCRIBE!')
+          }}>
+          <Text style={{
+              ...this.getStyles().feedActions,
+              fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
+              // opacity: getAnimatedValueNormalised(),
+              height: 36,
+              color: this.getBorderBottomColor(item),
+              paddingBottom: 60,
+              textDecorationLine: 'underline'
+            }}
+          >Unsubscribe</Text>
+        </TouchableOpacity>
+        <TouchableWithoutFeedback
+          key={`inner-{id()}`}
+          onPress={() => {
+            console.log('BUTTON PRESSED!')
+            this.setState({
+              detailsVisible: !areDetailsVisible
+            })
+          }}
+          style={{
+            backgroundColor: 'transparent',
+            width: Dimensions.get('window').width - 35,
+            overflow: 'hidden',
+            height: 36,
+          }}>
+          <Animated.Text
+            numberOfLines={1}
+            style={{
+              ...this.getStyles().feedName,
+              fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
+              // opacity: getAnimatedValueNormalised(),
+              height: 36,
+              // marginLeft: 35,
+              transform: [{
+                translateY: transformAnim
+              }],
+              color: this.getBorderBottomColor(item)
+            }}
+          >
+            {this.getMessage(item)}
+            {isMessage &&
+              <AnimatedEllipsis style={{
+                color: this.getBorderBottomColor(item),
+                fontSize: 16,
+                letterSpacing: -5
+              }}/>
+            }
+          </Animated.Text>
+        </TouchableWithoutFeedback>
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            right: 7,
+            marginTop: 3,
+            width: 28,
+            height: 28,
+            borderRadius: 14,
+            backgroundColor: 'rgba(255, 255, 255, 0.1)'
+          }}
+          onPress={this.props.toggleViewButtons}
+        >
+          <Text style={{
+            fontFamily: 'IBMPlexMono',
+            color: 'white',
+            paddingLeft: 6,
+            paddingTop: 3
+          }}>z<Text style={{ color: 'black' }}>z</Text></Text>
+        </TouchableOpacity>
+      </Animated.View>)
   }
 
   getStyles() {
@@ -235,9 +351,15 @@ class TopBar extends React.Component {
         width: '100%',
         flexDirection: 'row',
         height: STATUS_BAR_HEIGHT,
-        shadowColor: '#000000',
-        shadowRadius: 1,
-        shadowOpacity: 0.3,
+        // overflow: 'hidden',
+        backgroundColor: 'transparent',
+        // shadowColor: '#000000',
+        // shadowRadius: 1,
+        // shadowOpacity: 0.1,
+        // shadowOffset: {
+        //   height: 1,
+        //   width: 0
+        // }
         zIndex: -1
       },
       feedName: {
@@ -250,10 +372,23 @@ class TopBar extends React.Component {
         // fontVariant: ['small-caps'],
         textAlign: 'center',
         padding: 10
+      },
+      feedActions: {
+        flex: 1,
+        color: hslString('rizzleFG'),
+        fontSize: 20,
+        // fontFamily: 'AvenirNext-Regular',
+        fontFamily: 'IBMPlexMono',
+        // fontWeight: '700',
+        // fontVariant: ['small-caps'],
+        textAlign: 'center',
+        padding: 10
       }
     }
   }
 }
 
+export const getTopBarHeight = () => STATUS_BAR_HEIGHT +
+  (isIphoneX() ? 40 : 20)
 
 export default TopBar

@@ -36,6 +36,14 @@ const mapDispatchToProps = (dispatch) => {
     hideAllButtons: () => dispatch({
       type: 'UI_HIDE_ALL_BUTTONS'
     }),
+    markAllRead: (id) => dispatch({
+      type: 'FEED_MARK_READ',
+      id
+    }),
+    unsubscribe: (id) => dispatch({
+      type: 'FEEDS_REMOVE_FEED',
+      id
+    })
   }
 }
 

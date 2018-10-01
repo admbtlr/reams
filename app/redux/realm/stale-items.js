@@ -10,24 +10,45 @@ const staleItemSchema = {
   }
 }
 
-export function addStaleItem (item) {
+export function addStaleItems (items) {
   Realm.open({schema: [staleItemSchema]})
     .then(realm => {
       // Create Realm objects and write to local storage
       realm.write(() => {
-        const staleItem = realm.create('StaleItem', {
-          id: item.id || item._id,
-          feedId: item.feed_id,
-          title: item.title,
-          datePublished: item.date_published,
-          itemUrl: item.url
-        })
+        items.forEach(item => writeItemToRealm(item, realm))
+        // const staleItem = writeItemToRealm(item, realm)
       })
       realm.close()
     })
     .catch(error => {
       console.log(error);
     })
+}
+
+
+export function addStaleItem (item) {
+  addStaleItems([item])
+  // Realm.open({schema: [staleItemSchema]})
+  //   .then(realm => {
+  //     // Create Realm objects and write to local storage
+  //     realm.write(() => {
+  //       const staleItem = writeItemToRealm(item, realm)
+  //     })
+  //     realm.close()
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   })
+}
+
+function writeItemToRealm (item, realm) {
+  return realm.create('StaleItem', {
+    id: item.id || item._id,
+    feedId: item.feed_id,
+    title: item.title,
+    datePublished: item.date_published,
+    itemUrl: item.url
+  })
 }
 
 export function getStaleItems () {

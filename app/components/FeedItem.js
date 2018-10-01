@@ -3,17 +3,16 @@ import {Animated, Dimensions, InteractionManager, Linking, ScrollView, View, Web
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import FeedInfoContainer from '../containers/FeedInfo'
-import {deepEqual} from '../utils/'
+import {deepEqual, getCachedImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
 import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
-import { getCachedImagePath } from '../utils'
 
 class FeedItem extends React.Component {
   constructor(props) {
     super(props)
     this.props = props
 
-    if (__DEV__ || !this.props.item.styles) {
+    if (!this.props.item.styles) {
       this.props.item.styles = createItemStyles(this.props.item)
     }
     this.scrollOffset = new Animated.Value(0)
@@ -116,7 +115,7 @@ class FeedItem extends React.Component {
 
   isCoverImagePortrait () {
     const {imageDimensions} = this.props.item
-    return imageDimensions.height > imageDimensions.width
+    return imageDimensions && imageDimensions.height > imageDimensions.width
   }
 
   render () {
@@ -129,6 +128,7 @@ class FeedItem extends React.Component {
       content_mercury,
       hasCoverImage,
       imageDimensions,
+      showCoverImage,
       styles,
       date_published,
       excerpt
@@ -171,7 +171,7 @@ class FeedItem extends React.Component {
       scrollHandler(this.scrollOffset)
     }
 
-    if (!hasCoverImage || this.isCoverImagePortrait()) {
+    if (!showCoverImage || this.isCoverImagePortrait()) {
       styles.coverImage.isInline = false
     }
 
@@ -188,7 +188,7 @@ class FeedItem extends React.Component {
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
       </head>
-      <body style="margin: 0; padding: 0;" class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
+      <body class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
         <article
           class="${articleClasses} ${this.props.isDarkBackground ? 'dark-background' : ''}"
           style="min-height: ${height}px; width: 100vw;">
@@ -227,7 +227,7 @@ class FeedItem extends React.Component {
           { scaleY: this.state.scaleAnim }
         ]
       }}>
-        {!styles.isCoverInline && coverImage}
+        {showCoverImage && !styles.isCoverInline && coverImage}
         <Animated.ScrollView
           onScroll={Animated.event(
             [{ nativeEvent: {
@@ -242,7 +242,7 @@ class FeedItem extends React.Component {
           scrollEventThrottle={1}
           style={{flex: 1}}
         >
-          {styles.isCoverInline && coverImage}
+          {showCoverImage && styles.isCoverInline && coverImage}
           <ItemTitleContainer
             item={this.props.item}
             index={this.props.index}
@@ -253,11 +253,13 @@ class FeedItem extends React.Component {
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}
             hasCoverImage={hasCoverImage}
+            showCoverImage={showCoverImage}
             coverImageStyles={styles.coverImage}
           />
+          {false &&
           <FeedInfoContainer
             index={this.props.index}
-          />
+          />}
           <WebView
             decelerationRate='normal'
             injectedJavaScript={calculateHeight}
@@ -273,6 +275,7 @@ class FeedItem extends React.Component {
               }
             }}
             {...openLinksExternallyProp}
+            originWhitelist={['*']}
             ref={(ref) => { this.webView = ref }}
             scalesPageToFit={false}
             scrollEnabled={false}

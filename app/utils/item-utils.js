@@ -17,7 +17,10 @@ export function addStylesIfNecessary (item, index, items) {
 }
 
 export function fixRelativePaths (item) {
-  const host = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)[0]
+  if (!item.url) return item
+  const matches = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)
+  if (!matches) return item
+  const host = matches[0]
   const derelativise = s => s.replace(/src="\//g, `src="${host}/`)
   if (item.content_html) item.content_html = derelativise(item.content_html)
   if (item.content_mercury) item.content_mercury = derelativise(item.content_mercury)
@@ -100,5 +103,17 @@ export function addCoverImageToItem (item, imageStuff) {
   return {
     ...item,
     ...imageStuff
+  }
+}
+
+export function setShowCoverImage (item) {
+  let showCoverImage = false
+  // arbitrary length...
+  if (item.hasCoverImage && item.content_html.length > 2000) {
+    showCoverImage = true
+  }
+  return {
+    ...item,
+    showCoverImage
   }
 }
