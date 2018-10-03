@@ -55,7 +55,7 @@ export function * fetchItems () {
       numItems: newItems.length
     })
     if (__DEV__) {
-      newItems = newItems.slice(0, 100)
+      newItems = newItems.slice(-100)
     }
     console.log(`Fetched ${newItems.length} items`)
     console.log(newItems)

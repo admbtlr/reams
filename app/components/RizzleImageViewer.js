@@ -27,6 +27,7 @@ class RizzleImageViewer extends React.Component {
               url: this.props.url
             }]}
             loadingRender={() => <LogoSpinner />}
+            maxOverflow={0}
             onSwipeDown={this.props.hideImageViewer}/>
         </Modal>
       </View>

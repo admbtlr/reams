@@ -21,6 +21,7 @@ gulp.task('css', function () {
   return gulp.src(['utils/colors.json', 'webview/*.scss'])
     .pipe(jsonSass())
     .pipe(concat('output.scss'))
+    .pipe(gulp.dest('./ios/webview/css'))
     .pipe(sass())
     .pipe(gulp.dest('./ios/webview/css'))
 })
