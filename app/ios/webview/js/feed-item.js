@@ -229,7 +229,7 @@ function capitaliseFirstChildP(el) {
             let totalLength = 0
             childNodes[j].nodeValue = splitted.map((word, index) => {
               totalLength += word.length
-              return totalLength < 18 ? word.toUpperCase() : word
+              return totalLength < 12 ? word.toUpperCase() : word
             }).join(' ')
           }
           break
