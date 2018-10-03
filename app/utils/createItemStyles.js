@@ -15,8 +15,7 @@ export function createItemStyles (item, prevStyles) {
   }
   const isMainColorDarker = Math.random() > 0.6
   const isMainColorDesaturated = Math.random() > 0.6
-  let isCoverImageColorDarker = false
-  let isCoverImageColorLighter = false
+  let isCoverImageColorDarker = Math.random() > 0.4
   const isCoverImageColorDesaturated = isMainColorDarker ? false : Math.random() > 0.2
   // const color = pickOne(getNames(), isMainColorDarker ? 'Darker' : '', prevStyles && prevStyles.color)
   const color = item.feed_color
@@ -38,7 +37,7 @@ export function createItemStyles (item, prevStyles) {
       isCoverImageColorDarker = true
     } else {
       isMultiply = true
-      isCoverImageLighter = true
+      isCoverImageColorDarker = false
     }
     // title.isMonochrome = Math.random() > 0.3 && !(prevStyles && prevStyles.isMonochrome)
     if (Math.random() > 0.2) {
@@ -83,7 +82,6 @@ export function createItemStyles (item, prevStyles) {
     ? 'center'
     : 'left'
   title.title = item.title
-  title.hasShadow = !isContain
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.5
   title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3) || Math.random() > 0.7
@@ -93,6 +91,9 @@ export function createItemStyles (item, prevStyles) {
   title.invertBG = Math.random() > 0.8 && !isCoverInline
   title.isItalic = !title.isUpperCase && Math.random() > 0.7
   title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
+  title.hasShadow = !title.bg &&
+      !isCoverInline &&
+      !isMultiply
   title.valign = isContain ? 'top-bottom' : // isContain means image is in the middle
     (Math.random() > 0.5 ?
       'middle' :
@@ -133,7 +134,6 @@ export function createItemStyles (item, prevStyles) {
       isMultiply,
       isScreen,
       isCoverImageColorDarker,
-      isCoverImageColorLighter,
       color: pickOne(getNames(), color),
       resizeMode: isContain ? 'contain' : 'cover',
       align: ['left', 'center', 'right', 'center', 'center'][Math.floor(Math.random() * 5)],
