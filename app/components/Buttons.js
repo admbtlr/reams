@@ -176,7 +176,7 @@ class Buttons extends React.Component {
           backgroundColor={item && item.isSaved ? feedColor : backgroundColor}
           borderColor={feedColor}
           style={{
-            paddingLeft: 3,
+            paddingLeft: 1,
             transform: [{
               translateY: this.state.visibleAnimSave
             }]
@@ -204,7 +204,7 @@ class Buttons extends React.Component {
           backgroundColor={backgroundColor}
           borderColor={feedColor}
           style={{
-            paddingLeft: 3,
+            paddingLeft: 1,
             transform: [{
               translateY: this.state.visibleAnimShare
             }]
@@ -258,7 +258,7 @@ class Buttons extends React.Component {
           backgroundColor={item && item.showMercuryContent ? feedColor : backgroundColor}
           borderColor={isMercuryButtonEnabled ? feedColor : backgroundColor}
           style={{
-            paddingLeft: 3,
+            paddingLeft: 2,
             transform: [{
               translateY: this.state.visibleAnimMercury
             }]
@@ -271,7 +271,7 @@ class Buttons extends React.Component {
                 transform: [{
                   translateX: 7
                 }, {
-                  translateY: 0
+                  translateY: -1
                 }]
               }}
               height='32'
