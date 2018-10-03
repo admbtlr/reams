@@ -815,13 +815,14 @@ class ItemTitle extends React.Component {
   getOverlayColor () {
     const { showCoverImage, item, styles, coverImageStyles } = this.props
     if (!showCoverImage ||
-      styles.invertBGPadding ||
+      styles.invertBG ||
       styles.bg ||
-      (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply)) {
+      (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply) ||
+      (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isScreen)) {
       return 'transparent'
     } else if (!item.styles.isCoverImageColorDarker ||
       (coverImageStyles.resizeMode === 'contain' && !coverImageStyles.isMultiply)) {
-      return 'rgba(255,255,255,0.4)'
+      return 'rgba(255,255,255,0.3)'
     } else if (styles.isMonochrome ||
       coverImageStyles.isBW ||
       coverImageStyles.isMultiply ||
