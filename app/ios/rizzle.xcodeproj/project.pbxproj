@@ -60,6 +60,7 @@
 		660CEF70207B4DB800C7D04E /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 663FE496207AB10900C1292A /* libRealmReact.a */; };
 		66454BDD1FA6792500D941C5 /* libRNGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66454BDC1FA6791E00D941C5 /* libRNGL.a */; };
 		664B4B281FAB59A9006C6DF9 /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 664B4B271FAB59A9006C6DF9 /* webview */; };
+		6671295E2165EDE200EB1B5E /* libRNMeasureText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 667129572165EDB900EB1B5E /* libRNMeasureText.a */; };
 		6673777E203EB21800572989 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AF94191FF7E69000336BA7 /* libRNFS.a */; };
 		667377AC203EB25D00572989 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
 		6673781520431A0100572989 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 667378142043199F00572989 /* IBMPlexMono-Regular.ttf */; };
@@ -99,7 +100,6 @@
 		999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A4E7B3216F441182F2D8AC /* libz.tbd */; };
 		9B29B4BC3A004A7489FE2344 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */; };
 		A349A74FBB2D4F8CA20CEB21 /* IBMPlexSansCondensed-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 663AF2295D934BFCBB5928D4 /* IBMPlexSansCondensed-ExtraLightItalic.ttf */; };
-		ACCC149267274D0C957E8139 /* libRNMeasureText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF696CF914ED4646AE79580C /* libRNMeasureText.a */; };
 		AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A52A25ECE9284C6BB3598823 /* IBMPlexMono-LightItalic.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		BA08A49489AA4D5BAE6DDA05 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D58706C270664DF7939C3B41 /* libRealmReact.a */; };
@@ -359,13 +359,6 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
-		661E5B68206FA18F0065D983 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 58B084FD8F2843E39B02F85E /* RNMeasureText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNMeasureText;
-		};
 		663FE495207AB10900C1292A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EAF44BD12B044E58AF6A0A90 /* RealmReact.xcodeproj */;
@@ -414,6 +407,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 94DDAC5C1F3D024300EED511;
 			remoteInfo = "RNSVG-tvOS";
+		};
+		667129562165EDB900EB1B5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 667129252165EDB900EB1B5E /* RNMeasureText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNMeasureText;
 		};
 		668606111FACBABF0078F13B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -555,7 +555,6 @@
 		46A6699A3AC4431BA53E862E /* Eczar-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Eczar-ExtraBold.ttf"; path = "../assets/fonts/Eczar-ExtraBold.ttf"; sourceTree = "<group>"; };
 		4974C6777A63466CB6FD84D9 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		557BA1C418EC44128A1FE841 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
-		58B084FD8F2843E39B02F85E /* RNMeasureText.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMeasureText.xcodeproj; path = "../node_modules/react-native-measure-text-with-fontfamily/ios/RNMeasureText.xcodeproj"; sourceTree = "<group>"; };
 		5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Italic.ttf"; path = "../assets/fonts/IBMPlexMono-Italic.ttf"; sourceTree = "<group>"; };
 		5E76F266FA4347AE92C8E288 /* IBMPlexSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -565,6 +564,7 @@
 		663AF2295D934BFCBB5928D4 /* IBMPlexSansCondensed-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCondensed-ExtraLightItalic.ttf"; path = "../assets/fonts/IBMPlexSansCondensed-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		66454BD71FA6791E00D941C5 /* RNGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGL.xcodeproj; path = "../node_modules/gl-react-native/ios/RNGL.xcodeproj"; sourceTree = "<group>"; };
 		664B4B271FAB59A9006C6DF9 /* webview */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webview; sourceTree = "<group>"; };
+		667129252165EDB900EB1B5E /* RNMeasureText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMeasureText.xcodeproj; path = "../node_modules/react-native-measure-text/ios/RNMeasureText.xcodeproj"; sourceTree = "<group>"; };
 		66737812204314A900572989 /* rizzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rizzle.entitlements; path = rizzle/rizzle.entitlements; sourceTree = "<group>"; };
 		66737813204315E300572989 /* RizzleShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RizzleShare.entitlements; sourceTree = "<group>"; };
 		667378142043199F00572989 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IBMPlexMono-Regular.ttf"; path = "../../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
@@ -649,6 +649,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6671295E2165EDE200EB1B5E /* libRNMeasureText.a in Frameworks */,
 				66CF6320205FC6F10037124C /* libRNFS.a in Frameworks */,
 				66C797491FE53E98001FBDEB /* libRNFetchBlob.a in Frameworks */,
 				66454BDD1FA6792500D941C5 /* libRNGL.a in Frameworks */,
@@ -668,7 +669,6 @@
 				FF4BFC3A89D34A7A9A79FD41 /* libRNBlur.a in Frameworks */,
 				24E45C75021443BE8B9FF316 /* libRNSentry.a in Frameworks */,
 				5DF4197A629E44F69156997B /* libSplashScreen.a in Frameworks */,
-				ACCC149267274D0C957E8139 /* libRNMeasureText.a in Frameworks */,
 				BA08A49489AA4D5BAE6DDA05 /* libRealmReact.a in Frameworks */,
 				0E2C9BF2DC4C48C5A81D87DC /* libc++.tbd in Frameworks */,
 				999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */,
@@ -919,14 +919,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		661E5B65206FA18F0065D983 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				661E5B69206FA18F0065D983 /* libRNMeasureText.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		663FE492207AB10900C1292A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -957,6 +949,14 @@
 			children = (
 				664B90B420ED25A2005B5B9F /* libRNSVG.a */,
 				664B90B620ED25A2005B5B9F /* libRNSVG-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		667129262165EDB900EB1B5E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				667129572165EDB900EB1B5E /* libRNMeasureText.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1053,6 +1053,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				667129252165EDB900EB1B5E /* RNMeasureText.xcodeproj */,
 				66C797191FE53E79001FBDEB /* RNFetchBlob.xcodeproj */,
 				66E383BE1FC2CA6800B536D5 /* ReactNativeShareExtension.xcodeproj */,
 				66454BD71FA6791E00D941C5 /* RNGL.xcodeproj */,
@@ -1072,7 +1073,6 @@
 				6E3B529B291E42D18230B4AD /* RNSentry.xcodeproj */,
 				639F86229DE44386927EAA6E /* RNFS.xcodeproj */,
 				3321D8D7543747B2A40595E9 /* SplashScreen.xcodeproj */,
-				58B084FD8F2843E39B02F85E /* RNMeasureText.xcodeproj */,
 				EAF44BD12B044E58AF6A0A90 /* RealmReact.xcodeproj */,
 				B268AF01A81441C4BC8278BF /* RNSVG.xcodeproj */,
 			);
@@ -1360,8 +1360,8 @@
 					ProjectRef = 66454BD71FA6791E00D941C5 /* RNGL.xcodeproj */;
 				},
 				{
-					ProductGroup = 661E5B65206FA18F0065D983 /* Products */;
-					ProjectRef = 58B084FD8F2843E39B02F85E /* RNMeasureText.xcodeproj */;
+					ProductGroup = 667129262165EDB900EB1B5E /* Products */;
+					ProjectRef = 667129252165EDB900EB1B5E /* RNMeasureText.xcodeproj */;
 				},
 				{
 					ProductGroup = 6686060E1FACBABF0078F13B /* Products */;
@@ -1623,13 +1623,6 @@
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		661E5B69206FA18F0065D983 /* libRNMeasureText.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNMeasureText.a;
-			remoteRef = 661E5B68206FA18F0065D983 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		663FE496207AB10900C1292A /* libRealmReact.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1677,6 +1670,13 @@
 			fileType = archive.ar;
 			path = "libRNSVG-tvOS.a";
 			remoteRef = 664B90B520ED25A2005B5B9F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		667129572165EDB900EB1B5E /* libRNMeasureText.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMeasureText.a;
+			remoteRef = 667129562165EDB900EB1B5E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		668606121FACBABF0078F13B /* libRNSentry.a */ = {

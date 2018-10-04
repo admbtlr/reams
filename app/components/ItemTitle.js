@@ -169,7 +169,7 @@ class ItemTitle extends React.Component {
     }))).then((values) => {
       values = values.map((v, i) => {
         return {
-          width: v[0].width,
+          width: v[0],
           size: absMax - i
         }
       })
@@ -266,7 +266,7 @@ class ItemTitle extends React.Component {
       sizes.push(i--)
     }
 
-    Promise.all(sizes.map((size) => MeasureText.measureSizes({
+    Promise.all(sizes.map((size) => MeasureText.heights({
         texts: [styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle],
         width: this.getInnerWidth(size, styles.isItalic),
         fontSize: size,
@@ -275,9 +275,9 @@ class ItemTitle extends React.Component {
       values = values.map((v, i) => {
         const size = maxFontSize - i
         return {
-          height: v[0].height,
+          height: v[0],
           size,
-          numLines: Math.floor(v[0].height / size)
+          numLines: Math.floor(v[0] / size)
         }
       })
 
