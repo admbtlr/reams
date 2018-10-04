@@ -13,7 +13,9 @@ class Toolbars extends React.PureComponent {
       <View
         style={styles.base}
         pointerEvents='box-none'>
-        <TopBarContainer />
+        <TopBarContainer
+          navigation={this.props.navigation}
+        />
         <ButtonsContainer />
         <ViewButtonsContainer />
       </View>

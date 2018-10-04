@@ -225,6 +225,25 @@ class TopBar extends React.Component {
           }]
         }}
       >
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            zIndex: 5,
+            left: 7,
+            marginTop: 3,
+            width: 28,
+            height: 28,
+            borderRadius: 14
+          }}
+          onPress={() => this.props.navigation.navigate('Feeds')}
+        >
+          <Text style={{
+            fontFamily: 'IBMPlexMono',
+            color: 'black',
+            paddingLeft: 6,
+            paddingTop: 3
+          }}>X</Text>
+        </TouchableOpacity>
         <Text style={{
             ...this.getStyles().feedActions,
             fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
@@ -317,7 +336,7 @@ class TopBar extends React.Component {
             width: 28,
             height: 28,
             borderRadius: 14,
-            backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            backgroundColor: 'rgba(0, 0, 0, 0.3)'
           }}
           onPress={this.props.toggleViewButtons}
         >
