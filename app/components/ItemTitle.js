@@ -1,7 +1,7 @@
 import React from 'react'
 import {Animated, Dimensions, Text, View, WebView} from 'react-native'
 import {BlurView} from 'react-native-blur'
-import MeasureText from 'react-native-measure-text-with-fontfamily'
+import MeasureText from 'react-native-measure-text'
 import moment from 'moment'
 import quote from 'headline-quotes'
 
@@ -161,7 +161,7 @@ class ItemTitle extends React.Component {
       sizes.push(i--)
     }
 
-    return Promise.all(sizes.map((size) => MeasureText.measureSizes({
+    return Promise.all(sizes.map((size) => MeasureText.widths({
         texts: [styles.isUpperCase ? longestWord.toLocaleUpperCase() : longestWord],
         fontSize: size,
         fontFamily: this.getFontFamily(),
