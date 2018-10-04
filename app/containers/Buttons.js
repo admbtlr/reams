@@ -6,13 +6,9 @@ import {
   itemUnsaveItem,
   toggleDisplayedItems
 } from '../redux/actions/items.js'
-import {
-  getUnreadItems,
-  getSavedItems
-} from '../redux/selectors/items'
 
 const mapStateToProps = (state) => {
-  const items = state.itemsMeta.display === 'unread' ? getUnreadItems(state) : getSavedItems(state)
+  const items = state.itemsMeta.display === 'unread' ? state.itemsUnread : state.itemsSaved
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :
     state.itemsMeta.display === 'unread' ?

@@ -63,12 +63,6 @@ export function * decorateItems (action) {
   }
 }
 
-function * loadMercuryIfNecessary (item) {
-  if (!item.hasLoadedMercuryStuff) {
-    return yield loadMercuryForItem(item)
-  }
-}
-
 function * loadMercuryForItem (item) {
   let mercuryStuff
   // console.log(`Loading Mercury stuff for ${item._id} (${item.title})`)

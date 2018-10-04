@@ -1,17 +1,16 @@
+import {REHYDRATE} from 'redux-persist'
 import {
   itemMarkRead,
   itemSetScrollOffset,
   itemToggleMercury,
   itemDecorationSuccess,
-  updateCurrentItemTitleFontResized,
+  updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
 } from './items-common'
 
-export const initialState = {
-  items: []
-}
+export const initialState = []
 
-export const itemsSavedReducer = (state = initialState, action) => {
+export const itemsSaved = (state = initialState, action) => {
   let items = []
   let newItems = []
   let saved = []

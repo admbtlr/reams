@@ -17,9 +17,11 @@ import {
   setShowCoverImage
 } from '../../utils/item-utils.js'
 
-export const initialState = {
-  items: []
-}
+// export const initialState = {
+//   items: []
+// }
+
+export const initialState = []
 
 export function itemsHasErrored (state = false, action) {
   switch (action.type) {
@@ -30,11 +32,11 @@ export function itemsHasErrored (state = false, action) {
   }
 }
 
-export const createItemsUnreadReducer = key => combineReducers({
-  items: itemsUnreadReducer(key)
-})
+// export const createItemsUnreadReducer = key => combineReducers({
+//   items: itemsUnreadReducer(key)
+// })
 
-export const itemsUnreadReducer = batch => (state = initialState, action) => {
+export const itemsUnread = (state = initialState, action) => {
   let items = []
   let newItems = []
   let saved = []
@@ -82,7 +84,6 @@ export const itemsUnreadReducer = batch => (state = initialState, action) => {
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
       items = action.items
-        .filter(item => item._id[0].toUpperCase() === batch)
         .map(nullValuesToEmptyStrings)
         .map(fixRelativePaths)
         .map(addStylesIfNecessary)

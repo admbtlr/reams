@@ -1,13 +1,9 @@
 import { connect } from 'react-redux'
 import FeedItem from '../components/FeedItem.js'
-import {
-  getUnreadItems,
-  getSavedItems
-} from '../redux/selectors/items'
 
 const mapStateToProps = (state, ownProps) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  const items = state.itemsMeta.display === 'unread' ? getUnreadItems(state) : getSavedItems(state)
+  const items = state.itemsMeta.display === 'unread' ? state.itemsUnread : state.itemsSaved
   const index = state.itemsMeta.display === 'unread' ?
     state.itemsMeta.index :
     state.itemsMeta.savedIndex

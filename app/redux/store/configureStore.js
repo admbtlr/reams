@@ -23,25 +23,7 @@ export default function configureStore (initialState) {
     throttle: 5000,
     debug: true
   }
-  let reducer = persistCombineReducers(config, {
-    ...reducers,
-    itemsData0: createItemsUnreadReducer('0'),
-    itemsData1: createItemsUnreadReducer('1'),
-    itemsData2: createItemsUnreadReducer('2'),
-    itemsData3: createItemsUnreadReducer('3'),
-    itemsData4: createItemsUnreadReducer('4'),
-    itemsData5: createItemsUnreadReducer('5'),
-    itemsData6: createItemsUnreadReducer('6'),
-    itemsData7: createItemsUnreadReducer('7'),
-    itemsData8: createItemsUnreadReducer('8'),
-    itemsData9: createItemsUnreadReducer('9'),
-    itemsDataA: createItemsUnreadReducer('A'),
-    itemsDataB: createItemsUnreadReducer('B'),
-    itemsDataC: createItemsUnreadReducer('C'),
-    itemsDataD: createItemsUnreadReducer('D'),
-    itemsDataE: createItemsUnreadReducer('E'),
-    itemsDataF: createItemsUnreadReducer('F'),
-  })
+  let reducer = persistCombineReducers(config, reducers)
 
   const store = createStore(
     reducer,

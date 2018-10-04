@@ -1,4 +1,5 @@
-import { itemsUnreadReducer, itemsHasErrored } from './items-unread'
+import { itemsUnread, itemsHasErrored } from './items-unread'
+import { itemsSaved } from './items-saved'
 import { itemsMeta } from './items-meta'
 import { feeds } from './feeds'
 import { toolbar } from './toolbar'
@@ -8,7 +9,8 @@ import { config } from './config'
 import { remoteActionQueue } from './remote-action-queue'
 
 export default {
-  // items,
+  itemsUnread,
+  itemsSaved,
   itemsMeta,
   itemsHasErrored,
   feeds,
