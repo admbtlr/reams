@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import FeedList from '../components/FeedList.js'
+import ItemCarousel from '../components/ItemCarousel.js'
 
 const mapStateToProps = (state) => {
   const items = state.items.display === 'unread' ? state.items.items : state.items.saved
@@ -39,9 +39,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-let FeedListContainer = connect(
+let ItemCarouselContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(FeedList)
+)(ItemCarousel)
 
-export default FeedListContainer
+export default ItemCarouselContainer

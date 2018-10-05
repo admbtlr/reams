@@ -9,7 +9,8 @@ import {
   View
 } from 'react-native'
 
-import FeedListContainer from '../containers/FeedList.js'
+import FeedsScreenContainer from '../containers/FeedsScreen.js'
+import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import ToolbarsContainer from '../containers/Toolbars.js'
@@ -19,7 +20,7 @@ import SplashScreen from 'react-native-splash-screen'
 import { createStackNavigator } from 'react-navigation';
 
 // temporary hacky approach
-class ItemsView extends React.Component {
+class ItemsScreen extends React.Component {
   render = () => (
     <View style={{flex: 1}}>
       <ToolbarsContainer navigation={this.props.navigation}/>
@@ -32,20 +33,8 @@ class ItemsView extends React.Component {
         }}
       />
       <LogoSpinnerContainer />
-      <FeedListContainer style={styles.feedList} />
+      <ItemCarouselContainer style={styles.ItemCarousel} />
       <RizzleImageViewerContainer />
-      <Button
-        title="Go to Details"
-        onPress={() => this.props.navigation.navigate('Feeds')}
-      />
-    </View>
-  )
-}
-
-class DetailsScreen extends React.Component {
-  render = () =>(
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
     </View>
   )
 }
@@ -75,8 +64,8 @@ class DetailsScreen extends React.Component {
 
 export default createStackNavigator(
   {
-    Feeds: DetailsScreen,
-    Items: ItemsView
+    Feeds: FeedsScreenContainer,
+    Items: ItemsScreen
   },
   {
     initialRouteName: 'Items',
@@ -108,7 +97,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Avenir',
     color: '#f6f6f6'
   },
-  feedList: {
+  ItemCarousel: {
     flex: 1,
     justifyContent: 'center'
   },
