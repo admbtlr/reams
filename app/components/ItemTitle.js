@@ -426,7 +426,7 @@ class ItemTitle extends React.Component {
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
         hslString(this.props.item.feed_color, coverImageColorPalette))
-    if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color)
+    if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
     if (!showCoverImage) color = 'black'
 
     const invertBGPadding = 5
@@ -566,7 +566,7 @@ class ItemTitle extends React.Component {
 
     const invertedTitleWrapperStyle = {
       backgroundColor: showCoverImage ?
-        (styles.isMonochrome ? 'white' : hslString(this.props.item.feed_color)) :
+        (styles.isMonochrome ? 'white' : hslString(this.props.item.feed_color, 'desaturated')) :
         'transparent'
     }
 
@@ -676,7 +676,7 @@ class ItemTitle extends React.Component {
           marginRight: this.horizontalMargin,
           width: 83,
           height: 16,
-          backgroundColor: hslString(this.props.item.feed_color)
+          backgroundColor: hslString(this.props.item.feed_color, 'desaturated')
         }} />}
       </Animated.View>
     )
@@ -702,7 +702,7 @@ class ItemTitle extends React.Component {
     let excerptBg = {}
     if (showCoverImage && !coverImageStyles.isInline) {
       excerptBg = styles.excerptInvertBG ? {
-        backgroundColor: hslString(item.feed_color),
+        backgroundColor: hslString(item.feed_color, 'desaturated'),
         paddingLeft: 8,
         paddingRight: 8,
         paddingTop: 8,
@@ -767,7 +767,7 @@ class ItemTitle extends React.Component {
   renderDate () {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let dateStyle = {
-      color: hslString(item.feed_color),
+      color: hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
       fontSize: showCoverImage ? 12 : 16,
       fontFamily: 'IBMPlexMono-Light',

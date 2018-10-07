@@ -26,6 +26,10 @@ class FeedsScreen extends React.Component {
           data={this.props.feeds}
           renderItem={this.renderFeed}
           keyExtractor={feed => feed._id}
+          contentContainerStyle={{
+            marginLeft: margin,
+            marginRight: margin
+          }}
         />
     </View>
     )

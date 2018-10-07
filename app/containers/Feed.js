@@ -8,11 +8,17 @@ const mapStateToProps = (state, ownProps) => {
   const feedItems = items.filter(i => i.feed_id === feed._id)
   const numFeedItems = feedItems.length
   const coverImageItem = feedItems.find(item => item.banner_image)
-  const coverImagePath = coverImageItem ? getCachedImagePath(coverImageItem) : null
+  const coverImagePath = coverImageItem ?
+    getCachedImagePath(coverImageItem) :
+    null
+  const coverImageDimensions = coverImageItem ?
+    coverImageItem.imageDimensions :
+    null
   return {
     ...ownProps,
     numFeedItems,
-    coverImagePath
+    coverImagePath,
+    coverImageDimensions
   }
 }
 
