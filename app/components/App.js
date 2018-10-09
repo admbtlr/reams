@@ -17,7 +17,7 @@ import ToolbarsContainer from '../containers/Toolbars.js'
 import LogoSpinnerContainer from '../containers/LogoSpinner.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
 import SplashScreen from 'react-native-splash-screen'
-import { createStackNavigator } from 'react-navigation';
+import { FluidNavigator } from 'react-navigation-fluid-transitions'
 
 // temporary hacky approach
 class ItemsScreen extends React.Component {
@@ -62,17 +62,17 @@ class ItemsScreen extends React.Component {
 //   }
 // }
 
-export default createStackNavigator(
+export default FluidNavigator(
   {
-    Feeds: FeedsScreenContainer,
-    Items: ItemsScreen
-  },
-  {
-    initialRouteName: 'Items',
-    headerMode: 'none',
-    navigationOptions: {
-      headerVisible: false
-    }
+    Feeds: {screen: FeedsScreenContainer},
+    Items: {screen: ItemsScreen}
+  // },
+  // {
+  //   initialRouteName: 'Items',
+  //   headerMode: 'none',
+  //   navigationOptions: {
+  //     headerVisible: false
+  //   }
 
   }
 )
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#443344'
+    backgroundColor: 'hsl(42, 12%, 95%)'
     // backgroundColor: 'white'
   },
   infoText: {

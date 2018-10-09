@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import FeedsScreen from '../components/FeedsScreen.js'
 // import { itemDidScroll } from '../redux/actions/item.js'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const items = state.items.items
   const feeds = state.feeds.feeds.map(feed => {
     return {
@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
     }
   }).sort((a, b) => b.numItems - a.numItems)
   return {
+    ...ownProps,
     feeds
   }
 }

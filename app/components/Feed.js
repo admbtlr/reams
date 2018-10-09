@@ -6,9 +6,12 @@ import {
   Text,
   View
 } from 'react-native'
+import {Transition} from 'react-navigation-fluid-transitions'
 import {Surface} from 'gl-react-native'
 const {Image: GLImage} = require('gl-react-image')
-import { hslString } from '../utils/colors'
+import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
+import ColorBlending from 'gl-react-color-blending'
+import { blendColor, hslString } from '../utils/colors'
 
 class Feed extends React.Component {
 
@@ -32,29 +35,40 @@ class Feed extends React.Component {
     const margin = width * 0.05
     const cardWidth = width - margin * 2
     const coverImageUrl = coverImagePath ? `file://${coverImagePath}` : null
-    const coverImage = coverImageUrl ?
+    const coverImage = coverImageUrl && coverImageDimensions ?
       (
-        <Surface
-          width={cardWidth}
-          height={cardWidth * 0.5}
-          backgroundColor="#000"
-          key="456"
-        >
-          <GLImage
-            center={[0.5, 0]}
-            key={coverImagePath}
-            resizeMode='cover'
-            source={{
-              uri: coverImageUrl,
-              width: coverImageDimensions.width,
-              height: coverImageDimensions.height
-            }}
-            imageSize={{
-              width: cardWidth,
-              height: cardWidth * 0.5
-            }}
-          />
-        </Surface>
+       <Surface
+         width={cardWidth}
+         height={cardWidth * 0.5}
+         backgroundColor="#000"
+         key="456"
+       >
+         <ColorBlending
+           color={blendColor(feed.color)}
+           blendMode='blendMultiply'
+         >
+           <ContrastSaturationBrightness
+             saturation={0}
+             contrast={0.5}
+             brightness={1.3}
+           >
+             <GLImage
+               center={[0.5, 0]}
+               key={coverImagePath}
+               resizeMode='cover'
+               source={{
+                 uri: coverImageUrl,
+                 width: coverImageDimensions.width,
+                 height: coverImageDimensions.height
+               }}
+               imageSize={{
+                 width: coverImageDimensions.width,
+                 height: coverImageDimensions.height
+               }}
+             />
+           </ContrastSaturationBrightness>
+         </ColorBlending>
+       </Surface>
       ) :
       null
 
@@ -83,7 +97,7 @@ class Feed extends React.Component {
             spring: 30,
             bounciness: 12,
             useNative: true
-          }).start()
+          }).start(() => that.props.navigation.navigate('Items'))
         }}
         style={{
           height: cardWidth / 2,
@@ -108,7 +122,14 @@ class Feed extends React.Component {
             { scaleY: this.scaleAnim }
           ]
         }}>
-        {coverImage}
+          <View shouldRasterizeIOS={true} style={{
+            height: '100%',
+            width: '100%',
+            borderRadius: 20,
+            overflow: 'hidden'
+          }}>
+            {coverImage}
+          </View>
         <View style={{
           // borderTopLeftRadius: 19,
           // borderTopRightRadius: 19,

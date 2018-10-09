@@ -60,8 +60,8 @@ export const isIphoneX = () => {
   return (
     Platform.OS === 'ios' &&
       // Accounting for the height in either orientation
-      (height === 812 || width === 812)
-  );
+      (height === 812 || width === 812 || height === 896 || width === 896)
+  )
 }
 
 export function id () {

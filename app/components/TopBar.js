@@ -322,7 +322,7 @@ class TopBar extends React.Component {
             {this.getMessage(item)}
             {isMessage &&
               <AnimatedEllipsis style={{
-                color: this.getBorderBottomColor(item),
+                color: 'white',
                 fontSize: 16,
                 letterSpacing: -5
               }}/>

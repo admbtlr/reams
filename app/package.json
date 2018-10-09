@@ -43,6 +43,7 @@
     "react-native-webview-autoheight": "^1.0.4",
     "react-native-xml2js": "^1.0.3",
     "react-navigation": "^2.17.0",
+    "react-navigation-fluid-transitions": "^0.2.72",
     "react-redux": "5.0.4",
     "react-swipeable-views-native": "^0.12.8",
     "realm": "2.2.18",
