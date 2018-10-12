@@ -4,16 +4,20 @@ import {
   Dimensions,
   Image,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
+import TouchableScale from 'react-native-touchable-scale'
 import {Transition} from 'react-navigation-fluid-transitions'
 import {Surface} from 'gl-react-native'
 const {Image: GLImage} = require('gl-react-image')
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
 import ColorBlending from 'gl-react-color-blending'
 import { blendColor, hslString } from '../utils/colors'
+import FeedCoverImage from './FeedCoverImage'
+import FeedUnreadCounter from './FeedUnreadCounter'
 
-class Feed extends React.Component {
+class Feed extends React.PureComponent {
 
   constructor (props) {
     super(props)
@@ -22,163 +26,119 @@ class Feed extends React.Component {
     this.scaleAnim = new Animated.Value(1)
   }
 
+  // shouldComponentUpdate (nextProps, nextState) {
+  //   console.log(`${this.props.feedTitle} - ${this.props.numFeedItems} :: ${nextProps.numFeedItems}`)
+  //   return this.props.navigation.state.routeName === 'Feeds' &&
+  //     this.props.numFeedItems !== nextProps.numFeedItems
+  // }
+
   render = () => {
+    console.log(`Render ${this.props.feedTitle}`)
     const {
       coverImageDimensions,
       coverImagePath,
-      feed,
+      feedTitle,
+      feedColor,
+      feedId,
       numFeedItems
     } = this.props
-
+    console.log('Render feed: ' + feedTitle)
     const that = this
     const width = Dimensions.get('window').width
     const margin = width * 0.05
     const cardWidth = width - margin * 2
-    const coverImageUrl = coverImagePath ? `file://${coverImagePath}` : null
-    const coverImage = coverImageUrl && coverImageDimensions ?
-      (
-       <Surface
-         width={cardWidth}
-         height={cardWidth * 0.5}
-         backgroundColor="#000"
-         key="456"
-       >
-         <ColorBlending
-           color={blendColor(feed.color)}
-           blendMode='blendMultiply'
-         >
-           <ContrastSaturationBrightness
-             saturation={0}
-             contrast={0.5}
-             brightness={1.3}
-           >
-             <GLImage
-               center={[0.5, 0]}
-               key={coverImagePath}
-               resizeMode='cover'
-               source={{
-                 uri: coverImageUrl,
-                 width: coverImageDimensions.width,
-                 height: coverImageDimensions.height
-               }}
-               imageSize={{
-                 width: coverImageDimensions.width,
-                 height: coverImageDimensions.height
-               }}
-             />
-           </ContrastSaturationBrightness>
-         </ColorBlending>
-       </Surface>
-      ) :
-      null
-
     const textStyles = {
       color: 'white',
       fontFamily: 'IBMPlexMono-Light',
       textAlign: 'center'
     }
 
+    const shouldSetResponder = e => true
+
     return (
-      <Animated.View
-        onStartShouldSetResponder={e => true}
-        onResponderGrant={e => {
-          console.log('Something happened')
-          Animated.timing(that.scaleAnim, {
-            toValue: 0.95,
-            duration: 100,
-            useNative: true
-          }).start()
-        }}
-        onResponderRelease={e => {
-          console.log('Something happened')
-          Animated.spring(that.scaleAnim, {
-            toValue: 1,
-            duration: 150,
-            spring: 30,
-            bounciness: 12,
-            useNative: true
-          }).start(() => that.props.navigation.navigate('Items'))
-        }}
-        style={{
-          height: cardWidth / 2,
-          width: cardWidth,
-          borderRadius: 20,
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          backgroundColor: hslString(feed.color, 'desaturated'),
-          marginBottom: margin,
-          overflow: 'hidden',
-          position: 'relative',
-          shadowColor: 'black',
-          shadowRadius: 10,
-          shadowOpacity: 0.3,
-          // shadowOffset: {
-          //   width: 10,
-          //   height: 10
-          // },
-          overflow: 'visible',
-          transform: [
-            { scaleX: this.scaleAnim },
-            { scaleY: this.scaleAnim }
-          ]
-        }}>
-          <View shouldRasterizeIOS={true} style={{
-            height: '100%',
-            width: '100%',
-            borderRadius: 20,
-            overflow: 'hidden'
-          }}>
-            {coverImage}
+      <Transition appear='left'>
+        <TouchableScale
+          friction={1}
+          onPress={() => that.props.navigation.navigate('FeedInfo', {
+          feedTitle,
+          feedColor,
+          feedId,
+          coverImageDimensions,
+          coverImagePath,
+          numFeedItems
+        })}>
+          <View
+            style={{
+              height: cardWidth / 2,
+              width: cardWidth,
+              borderRadius: 20,
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              backgroundColor: hslString(feedColor, 'desaturated'),
+              marginBottom: margin,
+              overflow: 'hidden',
+              position: 'relative',
+              shadowColor: 'black',
+              shadowRadius: 10,
+              shadowOpacity: 0.3,
+              // shadowOffset: {
+              //   width: 10,
+              //   height: 10
+              // },
+              overflow: 'visible'
+            }}>
+            <Transition shared={`feed-cover-${feedId}`}>
+              <View style={{
+                height: '100%',
+                width: '100%',
+                borderRadius: 20,
+                overflow: 'hidden'
+              }}>
+                <FeedCoverImage
+                  feedColor={this.props.feed}
+                  coverImagePath={this.props.coverImagePath}
+                  coverImageDimensions={this.props.coverImageDimensions}
+                  width={cardWidth}
+                  height={cardWidth * 0.5} />
+              </View>
+            </Transition>
+            <View style={{
+              // borderTopLeftRadius: 19,
+              // borderTopRightRadius: 19,
+              // height: cardWidth / 2,
+              width: '100%',
+              height: '100%',
+              borderRadius: 20,
+              paddingTop: margin * .5,
+              paddingLeft: margin,
+              paddingRight: margin,
+              position: 'absolute',
+              flex: 1,
+              flexDirection: 'column',
+              // justifyContent: 'center',
+              alignItems: 'center',
+              // justifyContent: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.2)'
+            }}>
+              <Transition shared={`feed-title-${feedId}`}>
+                <Text style={{
+                  ...textStyles,
+                  color: hslString(feedColor, 'desaturated'),
+                  fontFamily: 'IBMPlexSansCond-Bold',
+                  fontSize: 20,
+                  height: 60
+                }}>{feedTitle}</Text>
+              </Transition>
+              <Transition shared={`feed-unread-counter-${feedId}`}>
+                <FeedUnreadCounter
+                  numFeedItems={numFeedItems}
+                  feedColor={feedColor}
+                />
+              </Transition>
+            </View>
           </View>
-        <View style={{
-          // borderTopLeftRadius: 19,
-          // borderTopRightRadius: 19,
-          // height: cardWidth / 2,
-          width: '100%',
-          height: '100%',
-          borderRadius: 20,
-          paddingTop: margin,
-          paddingLeft: margin,
-          paddingRight: margin,
-          position: 'absolute',
-          flex: 1,
-          flexDirection: 'column',
-          // justifyContent: 'center',
-          // alignItems: 'center',
-          // justifyContent: 'center',
-          backgroundColor: 'rgba(0, 0, 0, 0.2)'
-        }}>
-          <Text style={{
-            ...textStyles,
-            fontSize: 20,
-            marginBottom: 12
-          }}>{feed.title}</Text>
-          <Text style={{
-            ...textStyles,
-            fontSize: 16
-          }}>{numFeedItems} unread</Text>
-          <View style={{
-            position: 'absolute',
-            bottom: margin,
-            left: margin,
-            alignSelf: 'baseline',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%'
-          }}>
-            <Text style={{
-              ...textStyles,
-              textDecorationLine: 'underline',
-              fontSize: 16
-            }}>Remove all</Text>
-            <Text style={{
-              ...textStyles,
-              textDecorationLine: 'underline',
-              fontSize: 16
-            }}>Unsubscribe</Text>
-          </View>
-        </View>
-      </Animated.View>
+        </TouchableScale>
+      </Transition>
     )
   }
 }

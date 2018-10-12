@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Button,
   Dimensions,
+  Easing,
   Image,
   StatusBar,
   StyleSheet,
@@ -10,6 +11,7 @@ import {
 } from 'react-native'
 
 import FeedsScreenContainer from '../containers/FeedsScreen.js'
+import FeedInfoScreenContainer from '../containers/FeedInfoScreen.js'
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
@@ -21,8 +23,15 @@ import { FluidNavigator } from 'react-navigation-fluid-transitions'
 
 // temporary hacky approach
 class ItemsScreen extends React.Component {
+
+  componentDidMount () {
+    SplashScreen.hide()
+  }
+
   render = () => (
     <View style={{flex: 1}}>
+      <StatusBar barStyle='light-content' />
+      <AppStateListenerContainer />
       <ToolbarsContainer navigation={this.props.navigation}/>
       <View style={styles.infoView} />
       <Image
@@ -37,6 +46,24 @@ class ItemsScreen extends React.Component {
       <RizzleImageViewerContainer />
     </View>
   )
+
+  // render = () => (
+  //   <View style={{flex: 1}}>
+  //     <StatusBar barStyle='light-content' />
+  //     <AppStateListenerContainer />
+  //     <ToolbarsContainer navigation={this.props.navigation}/>
+  //     <View style={styles.infoView} />
+  //     <Image
+  //       source={require('../assets/images/dark-splash.png')}
+  //       style={styles.image}
+  //       onLoad={() => {
+  //         SplashScreen.hide()
+  //       }}
+  //     />
+  //     <LogoSpinnerContainer />
+  //     <RizzleImageViewerContainer />
+  //   </View>
+  // )
 }
 
 // class App extends React.Component {
@@ -62,18 +89,22 @@ class ItemsScreen extends React.Component {
 //   }
 // }
 
+const transitionConfig = {
+  duration: 300,
+  // timing: Animated.timing,
+  easing: Easing.out(Easing.elastic(1)),
+  // useNativeDriver: true
+}
+
 export default FluidNavigator(
   {
     Feeds: {screen: FeedsScreenContainer},
-    Items: {screen: ItemsScreen}
-  // },
-  // {
-  //   initialRouteName: 'Items',
-  //   headerMode: 'none',
-  //   navigationOptions: {
-  //     headerVisible: false
-  //   }
-
+    FeedInfo: {screen: FeedInfoScreenContainer, navigationOption: { gesturesEnabled: true }},
+    Items: {screen: ItemsScreen},
+  },
+  {
+    initialRouteName: 'Items',
+    transitionConfig
   }
 )
 

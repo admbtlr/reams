@@ -32,7 +32,7 @@
       NSLog(@" %@", name);
     }
   }
-  
+
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
@@ -50,7 +50,7 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-  [SplashScreen show];
+  // [SplashScreen show];
   return YES;
 }
 

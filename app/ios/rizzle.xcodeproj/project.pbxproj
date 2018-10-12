@@ -52,7 +52,6 @@
 		497A4D2419654AD0897AEA42 /* IBMPlexSansCondensed-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A0FFBD179074A1590A3895E /* IBMPlexSansCondensed-BoldItalic.ttf */; };
 		4DA1B3EEF1E74D8D885D44DF /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64AD0B7FA26449D4ABC8E4CB /* Montserrat-LightItalic.ttf */; };
 		50797229E0BE442B98C3A263 /* IBMPlexSerif-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF76841FECC148EBB9E7A18C /* IBMPlexSerif-Thin.ttf */; };
-		5DF4197A629E44F69156997B /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08245B2253D44286A4B4DD40 /* libSplashScreen.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		6034DA6C49924802AEE91A48 /* IBMPlexSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06F5F314CAEB4FF99200CCB4 /* IBMPlexSerif-Italic.ttf */; };
 		616C5FFAE3F945AA9F771E4E /* IBMPlexSerif-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E76F266FA4347AE92C8E288 /* IBMPlexSerif-BoldItalic.ttf */; };
@@ -64,6 +63,8 @@
 		6673777E203EB21800572989 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AF94191FF7E69000336BA7 /* libRNFS.a */; };
 		667377AC203EB25D00572989 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
 		6673781520431A0100572989 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 667378142043199F00572989 /* IBMPlexMono-Regular.ttf */; };
+		667BD116216CC45300DB6B05 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF63B22066CC9F0037124C /* libSplashScreen.a */; };
+		667BD117216CC5D100DB6B05 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF63B22066CC9F0037124C /* libSplashScreen.a */; };
 		668CE94B2153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9492153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf */; };
 		668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
@@ -649,6 +650,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				667BD116216CC45300DB6B05 /* libSplashScreen.a in Frameworks */,
 				6671295E2165EDE200EB1B5E /* libRNMeasureText.a in Frameworks */,
 				66CF6320205FC6F10037124C /* libRNFS.a in Frameworks */,
 				66C797491FE53E98001FBDEB /* libRNFetchBlob.a in Frameworks */,
@@ -668,7 +670,6 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				FF4BFC3A89D34A7A9A79FD41 /* libRNBlur.a in Frameworks */,
 				24E45C75021443BE8B9FF316 /* libRNSentry.a in Frameworks */,
-				5DF4197A629E44F69156997B /* libSplashScreen.a in Frameworks */,
 				BA08A49489AA4D5BAE6DDA05 /* libRealmReact.a in Frameworks */,
 				0E2C9BF2DC4C48C5A81D87DC /* libc++.tbd in Frameworks */,
 				999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */,
@@ -702,6 +703,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				667BD117216CC5D100DB6B05 /* libSplashScreen.a in Frameworks */,
 				660CEF70207B4DB800C7D04E /* libRealmReact.a in Frameworks */,
 				667377AC203EB25D00572989 /* libRNFetchBlob.a in Frameworks */,
 				6673777E203EB21800572989 /* libRNFS.a in Frameworks */,
@@ -2063,7 +2065,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 33;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2103,7 +2105,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2127,7 +2129,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
 				PRODUCT_NAME = rizzle;
 				PROVISIONING_PROFILE = "7ce17c38-fb6c-4a94-beb5-c82f33426323";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle App Store";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle App Store (work)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2372,7 +2374,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7e474486-339d-4efe-bbf7-02b53209e00b";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension App Store";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension App Store (work)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2415,10 +2417,12 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				"HEADER_SEARCH_PATHS[arch=*]" = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2458,10 +2462,12 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				"HEADER_SEARCH_PATHS[arch=*]" = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;

@@ -9,8 +9,10 @@ import {
 import Feed from '../containers/Feed'
 import { hslString } from '../utils/colors'
 
-class FeedsScreen extends React.Component {
+class FeedsScreen extends React.PureComponent {
+
   render = () => {
+    console.log('Render feeds screen!')
     const width = Dimensions.get('window').width
     const margin = width * 0.05
 
@@ -20,13 +22,29 @@ class FeedsScreen extends React.Component {
       numItems: this.props.feeds.reduce((accum, item) => accum + item.numItems, 0)
     }
 
+    // return (
+    //   <View style={{
+    //     flex: 1,
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     backgroundColor: hslString('rizzleBG'),
+    //     // marginTop: margin
+    //   }}>
+    //   <Feed
+    //     feedTitle='Your feed here'
+    //     feedColor='red1'
+    //     feedId='999'
+    //     navigation={this.props.navigation}
+    //   />
+    // </View>
+    // )
     return (
       <View style={{
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: hslString('rizzleBG'),
-        marginTop: margin
+        // marginTop: margin
       }}>
         <FlatList
           data={[everything].concat(this.props.feeds)}
@@ -50,8 +68,10 @@ class FeedsScreen extends React.Component {
   }
 
   renderFeed = ({item}) => {
-    return <Feed
-      feed={item}
+    return item && <Feed
+      feedTitle={item.title}
+      feedColor={item.color}
+      feedId={item._id}
       navigation={this.props.navigation}
     />
   }
