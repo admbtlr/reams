@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  PanResponder,
   Text,
   TouchableOpacity,
   View
@@ -23,14 +24,183 @@ class Feed extends React.PureComponent {
     super(props)
     this.props = props
 
-    this.scaleAnim = new Animated.Value(1)
+    const dim = Dimensions.get('window')
+    this.screenWidth = dim.width
+    this.margin = this.screenWidth * 0.05
+    this.cardWidth = this.screenWidth - this.margin * 2
+    this.screenHeight = dim.height
+
+    this.state = {
+      translateXAnim: new Animated.Value(0),
+      translateYAnim: new Animated.Value(0),
+      imageHeightAnim: new Animated.Value(this.cardWidth / 2),
+      detailsHeightAnim: new Animated.Value(0),
+      widthAnim: new Animated.Value(this.cardWidth),
+      transformXAnim: new Animated.Value(0),
+      borderRadiusAnim: new Animated.Value(20),
+      scaleAnim: new Animated.Value(1),
+      blockDrag: false
+    }
+    this.mode = 'list' // list || screen
+
+    this.currentY = 0
+
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => false,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+      onMoveShouldSetPanResponder: (evt, gestureState) => false,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
+    })
+
+    this.onPress = this.onPress.bind(this)
+    this.onRelease = this.onRelease.bind(this)
+    this.onDrag = this.onDrag.bind(this)
+    this.measured = this.measured.bind(this)
   }
 
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   console.log(`${this.props.feedTitle} - ${this.props.numFeedItems} :: ${nextProps.numFeedItems}`)
-  //   return this.props.navigation.state.routeName === 'Feeds' &&
-  //     this.props.numFeedItems !== nextProps.numFeedItems
-  // }
+  createPanResponder (shouldCreatePanResponder) {
+    if (shouldCreatePanResponder) {
+      console.log("Time to block drags")
+      this._panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: (evt, gestureState) => true,
+        onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+        onMoveShouldSetPanResponder: (evt, gestureState) => true,
+        onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+
+        onPanResponderMove: (evt, gestureState) => {
+          // The most recent move distance is gestureState.move{X,Y}
+
+          // The accumulated gesture distance since becoming responder is
+          // gestureState.d{x,y}
+          if (gestureState.d.y < 0) return
+          if (gestureState.d.y < 100) {
+            this.state.translateYAnim.setValue(gestureState.d.y / 10)
+            this.state.detailsHeightAnim.setValue(this.screenHeight / gestureState.d.y)
+            this.state.widthAnim.setValue(this.cardWidth +
+              (this.screenWidth - this.cardWidth) * (gestureState.d.y / 100))
+          }
+        },
+        onPanResponderTerminationRequest: (evt, gestureState) => true,
+        onPanResponderRelease: (evt, gestureState) => {
+          // The user has released all touches while this view is the
+          // responder. This typically means a gesture has succeeded
+        },
+        onPanResponderTerminate: (evt, gestureState) => {
+          // Another component has become the responder, so this gesture
+          // should be cancelled
+        },
+        onShouldBlockNativeResponder: (evt, gestureState) => {
+          // Returns whether this component should block native components from becoming the JS
+          // responder. Returns true by default. Is currently only supported on android.
+          return true;
+        },
+      })
+    } else {
+      this._panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: (evt, gestureState) => false,
+        onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+        onMoveShouldSetPanResponder: (evt, gestureState) => false,
+        onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
+      })
+    }
+  }
+
+  scaleDown = () => {
+    // Animated.decay(this.state.scaleAnim, {
+    //   toValue: 0.8,
+    //   duration: 300
+    // }).start()
+  }
+
+  scaleUp = () => {
+    // Animated.decay(this.state.scaleAnim, {
+    //   toValue: 1,
+    //   duration: 300
+    // }).start()
+  }
+
+  onPress = () => {
+    this.scaleDown()
+  }
+
+  onRelease = () => {
+    if (this.isDragging) {
+      this.isDragging = false
+      return
+    }
+    console.log('Pressed! ' + this.outerView)
+    // can only happen in list mode
+    // this.createPanResponder(true)
+    this.imageView.measure(this.measured)
+  }
+
+  onDrag = () => {
+    this.isDragging = true
+    this.scaleUp()
+  }
+
+  measured = (x, y, width, height, px, py) => {
+    this.currentY = py
+    this.grow()
+  }
+
+  grow = () => {
+    Animated.spring(this.state.translateXAnim, {
+      toValue: 0 - this.margin,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.scale, {
+      toValue: 1,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.translateYAnim, {
+      toValue: 0 - this.currentY,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.imageHeightAnim, {
+      toValue: this.screenHeight / 2,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.detailsHeightAnim, {
+      toValue: this.screenHeight / 2,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.widthAnim, {
+      toValue: this.screenWidth,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.borderRadiusAnim, {
+      toValue: 0,
+      duration: 1000
+    }).start()
+  }
+
+  shrink = () => {
+    Animated.spring(this.state.translateXAnim, {
+      toValue: 0,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.translateYAnim, {
+      toValue: 0,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.imageHeightAnim, {
+      toValue: this.cardWidth / 2,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.detailsHeightAnim, {
+      toValue: 0,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.widthAnim, {
+      toValue: this.cardWidth,
+      duration: 1000
+    }).start()
+    Animated.spring(this.state.borderRadiusAnim, {
+      toValue: 20,
+      duration: 1000
+    }).start()
+  }
 
   render = () => {
     console.log(`Render ${this.props.feedTitle}`)
@@ -43,10 +213,6 @@ class Feed extends React.PureComponent {
       numFeedItems
     } = this.props
     console.log('Render feed: ' + feedTitle)
-    const that = this
-    const width = Dimensions.get('window').width
-    const margin = width * 0.05
-    const cardWidth = width - margin * 2
     const textStyles = {
       color: 'white',
       fontFamily: 'IBMPlexMono-Light',
@@ -56,89 +222,107 @@ class Feed extends React.PureComponent {
     const shouldSetResponder = e => true
 
     return (
-      <Transition appear='left'>
-        <TouchableScale
-          friction={1}
-          onPress={() => that.props.navigation.navigate('FeedInfo', {
-          feedTitle,
-          feedColor,
-          feedId,
-          coverImageDimensions,
-          coverImagePath,
-          numFeedItems
-        })}>
-          <View
-            style={{
-              height: cardWidth / 2,
-              width: cardWidth,
-              borderRadius: 20,
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
-              backgroundColor: hslString(feedColor, 'desaturated'),
-              marginBottom: margin,
-              overflow: 'hidden',
-              position: 'relative',
-              shadowColor: 'black',
-              shadowRadius: 10,
-              shadowOpacity: 0.3,
-              // shadowOffset: {
-              //   width: 10,
-              //   height: 10
-              // },
-              overflow: 'visible'
-            }}>
-            <Transition shared={`feed-cover-${feedId}`}>
-              <View style={{
+      <Animated.View
+        style={{
+            flex: 1,
+            marginBottom: this.margin,
+            transform: [
+              { translateY: this.state.translateYAnim },
+              { translateX: this.state.translateXAnim },
+              { scaleX: this.state.scaleAnim },
+              { scaleY: this.state.scaleAnim }
+            ] }}
+        ref={c => this.outerView = c}
+        {...this._panResponder.panhandlers}
+      >
+        <Animated.View
+          onStartShouldSetResponder={e => true}
+          onResponderGrant={this.onPress}
+          onResponderMove={this.onDrag}
+          onResponderRelease={this.onRelease}
+          onMoveShouldSetResponder={e => this.state.blockDrag}
+          style={{
+            height: this.state.imageHeightAnim,
+            width: this.state.widthAnim,
+            borderRadius: this.state.borderRadiusAnim,
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+            backgroundColor: hslString(feedColor, 'desaturated'),
+            // overflow: 'hidden',
+            position: 'relative',
+            shadowColor: 'black',
+            shadowRadius: 10,
+            shadowOpacity: 0.3,
+            // shadowOffset: {
+            //   width: 10,
+            //   height: 10
+            // },
+            overflow: 'visible'
+          }}>
+            <View
+              ref={c => this.imageView = c}
+              style={{
                 height: '100%',
                 width: '100%',
                 borderRadius: 20,
                 overflow: 'hidden'
               }}>
-                <FeedCoverImage
-                  feedColor={this.props.feed}
-                  coverImagePath={this.props.coverImagePath}
-                  coverImageDimensions={this.props.coverImageDimensions}
-                  width={cardWidth}
-                  height={cardWidth * 0.5} />
-              </View>
-            </Transition>
-            <View style={{
-              // borderTopLeftRadius: 19,
-              // borderTopRightRadius: 19,
-              // height: cardWidth / 2,
-              width: '100%',
-              height: '100%',
-              borderRadius: 20,
-              paddingTop: margin * .5,
-              paddingLeft: margin,
-              paddingRight: margin,
-              position: 'absolute',
-              flex: 1,
-              flexDirection: 'column',
-              // justifyContent: 'center',
-              alignItems: 'center',
-              // justifyContent: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.2)'
-            }}>
-              <Transition shared={`feed-title-${feedId}`}>
-                <Text style={{
-                  ...textStyles,
-                  color: hslString(feedColor, 'desaturated'),
-                  fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: 20,
-                  height: 60
-                }}>{feedTitle}</Text>
-              </Transition>
-              <Transition shared={`feed-unread-counter-${feedId}`}>
-                <FeedUnreadCounter
-                  numFeedItems={numFeedItems}
-                  feedColor={feedColor}
-                />
-              </Transition>
+              <FeedCoverImage
+                feedColor={this.props.feedColor}
+                coverImagePath={this.props.coverImagePath}
+                coverImageDimensions={this.props.coverImageDimensions}
+                width={this.cardWidth}
+                height={this.screenHeight * 0.5} />
             </View>
-          </View>
-        </TouchableScale>
-      </Transition>
+          <Animated.View style={{
+            // borderTopLeftRadius: 19,
+            // borderTopRightRadius: 19,
+            // height: cardWidth / 2,
+            width: '100%',
+            height: '100%',
+            borderRadius: this.borderRadiusAnim,
+            paddingTop: this.margin * .5,
+            paddingLeft: this.margin,
+            paddingRight: this.margin,
+            position: 'absolute',
+            flex: 1,
+            flexDirection: 'column',
+            // justifyContent: 'center',
+            alignItems: 'center',
+            // justifyContent: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.2)'
+          }}>
+            <Text style={{
+              ...textStyles,
+              color: hslString(feedColor, 'desaturated'),
+              fontFamily: 'IBMPlexSansCond-Bold',
+              fontSize: 20,
+              height: 60
+            }}>{feedTitle}</Text>
+            <FeedUnreadCounter
+              numFeedItems={numFeedItems}
+              feedColor={feedColor}
+            />
+          </Animated.View>
+        </Animated.View>
+        <Animated.View style={{
+          height: this.state.detailsHeightAnim,
+          backgroundColor: 'white'
+        }}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Items')}>
+            <View style={{ padding: 20 }}>
+              <Text>Go to items</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.shrink()}>
+            <View style={{ padding: 20 }}>
+              <Text>Shrink me</Text>
+            </View>
+          </TouchableOpacity>
+        </Animated.View>
+      </Animated.View>
     )
   }
 }

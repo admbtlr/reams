@@ -99,7 +99,6 @@ const transitionConfig = {
 export default FluidNavigator(
   {
     Feeds: {screen: FeedsScreenContainer},
-    FeedInfo: {screen: FeedInfoScreenContainer, navigationOption: { gesturesEnabled: true }},
     Items: {screen: ItemsScreen},
   },
   {

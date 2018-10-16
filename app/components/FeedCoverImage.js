@@ -31,41 +31,41 @@ class FeedCoverImage extends React.Component {
 
     const that = this
     const coverImageUrl = coverImagePath ? `file://${coverImagePath}` : null
-    return coverImageUrl && coverImageDimensions ?
-      // (
-      //  <Surface
-      //    width={width}
-      //    height={height}
-      //    backgroundColor="#000"
-      //    key="456"
-      //  >
-      //    <ColorBlending
-      //      color={blendColor(feed.color)}
-      //      blendMode='blendMultiply'
-      //    >
-      //      <ContrastSaturationBrightness
-      //        saturation={0}
-      //        contrast={0.5}
-      //        brightness={1.3}
-      //      >
-      //        <GLImage
-      //          center={[0.5, 0]}
-      //          key={coverImagePath}
-      //          resizeMode='cover'
-      //          source={{
-      //            uri: coverImageUrl,
-      //            width: coverImageDimensions.width,
-      //            height: coverImageDimensions.height
-      //          }}
-      //          imageSize={{
-      //            width: coverImageDimensions.width,
-      //            height: coverImageDimensions.height
-      //          }}
-      //        />
-      //      </ContrastSaturationBrightness>
-      //    </ColorBlending>
-      //  </Surface>
-      // ) :
+    return (coverImageUrl && coverImageDimensions) ?
+      (
+       <Surface
+         width={width}
+         height={height}
+         backgroundColor="#000"
+         key="456"
+       >
+         <ColorBlending
+           color={blendColor(feedColor)}
+           blendMode='blendMultiply'
+         >
+           <ContrastSaturationBrightness
+             saturation={0}
+             contrast={0.5}
+             brightness={1.3}
+           >
+             <GLImage
+               center={[0.5, 0]}
+               key={coverImagePath}
+               resizeMode='cover'
+               source={{
+                 uri: coverImageUrl,
+                 width: coverImageDimensions.width,
+                 height: coverImageDimensions.height
+               }}
+               imageSize={{
+                 width: coverImageDimensions.width,
+                 height: coverImageDimensions.height
+               }}
+             />
+           </ContrastSaturationBrightness>
+         </ColorBlending>
+       </Surface>
+      ) :
       // <Image
       //   resizeMode='cover'
       //   source={{uri: coverImageUrl}}
@@ -73,11 +73,11 @@ class FeedCoverImage extends React.Component {
       //     width: coverImageDimensions.width,
       //     height: coverImageDimensions.height,
       // }} /> :
-      <View style={{
-        backgroundColor: hslString(feedColor, 'unsaturated'),
-        width,
-        height
-      }} /> :
+      // <View style={{
+      //   backgroundColor: hslString(feedColor, 'unsaturated'),
+      //   width,
+      //   height
+      // }} /> :
       null
 
   }

@@ -9,7 +9,15 @@ import {
 import Feed from '../containers/Feed'
 import { hslString } from '../utils/colors'
 
-class FeedsScreen extends React.PureComponent {
+class FeedsScreen extends React.Component {
+
+  constructor (props) {
+    super(props)
+    this.props = props
+    this.state = {
+      disableScroll: false
+    }
+  }
 
   render = () => {
     console.log('Render feeds screen!')
@@ -48,7 +56,6 @@ class FeedsScreen extends React.PureComponent {
       }}>
         <FlatList
           data={[everything].concat(this.props.feeds)}
-          renderItem={this.renderFeed}
           keyExtractor={feed => feed._id}
           contentContainerStyle={{
             marginLeft: margin,
@@ -62,6 +69,8 @@ class FeedsScreen extends React.PureComponent {
             textAlign: 'center',
             color: 'rgba(100,0,0,0.3)'
           }}>Your Feeds</Text>}
+          renderItem={this.renderFeed}
+          scrollEnabled={!this.disableScroll}
         />
     </View>
     )
