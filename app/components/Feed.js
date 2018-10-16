@@ -106,21 +106,22 @@ class Feed extends React.PureComponent {
   }
 
   scaleDown = () => {
-    // Animated.decay(this.state.scaleAnim, {
-    //   toValue: 0.8,
-    //   duration: 300
-    // }).start()
+    Animated.spring(this.state.scaleAnim, {
+      toValue: 0.95,
+      duration: 300
+    }).start()
   }
 
   scaleUp = () => {
-    // Animated.decay(this.state.scaleAnim, {
-    //   toValue: 1,
-    //   duration: 300
-    // }).start()
+    Animated.spring(this.state.scaleAnim, {
+      toValue: 1,
+      duration: 300
+    }).start()
   }
 
   onPress = () => {
     this.scaleDown()
+    this.props.disableScroll(true)
   }
 
   onRelease = () => {
@@ -132,6 +133,7 @@ class Feed extends React.PureComponent {
     // can only happen in list mode
     // this.createPanResponder(true)
     this.imageView.measure(this.measured)
+    this.props.disableScroll(true)
   }
 
   onDrag = () => {
@@ -149,7 +151,7 @@ class Feed extends React.PureComponent {
       toValue: 0 - this.margin,
       duration: 1000
     }).start()
-    Animated.spring(this.state.scale, {
+    Animated.spring(this.state.scaleAnim, {
       toValue: 1,
       duration: 1000
     }).start()
@@ -173,9 +175,11 @@ class Feed extends React.PureComponent {
       toValue: 0,
       duration: 1000
     }).start()
+    this.props.disableScroll(true)
   }
 
   shrink = () => {
+    this.props.disableScroll(false)
     Animated.spring(this.state.translateXAnim, {
       toValue: 0,
       duration: 1000
@@ -294,7 +298,6 @@ class Feed extends React.PureComponent {
           }}>
             <Text style={{
               ...textStyles,
-              color: hslString(feedColor, 'desaturated'),
               fontFamily: 'IBMPlexSansCond-Bold',
               fontSize: 20,
               height: 60

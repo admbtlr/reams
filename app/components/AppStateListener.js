@@ -16,6 +16,8 @@ class AppStateListener extends React.Component {
     this.props = props
 
     this.checkClipboardContents = this.checkClipboardContents.bind(this)
+    this.handleAppStateChange = this.handleAppStateChange.bind(this)
+
     AppState.addEventListener('change', this.handleAppStateChange)
   }
 

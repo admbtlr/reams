@@ -15,8 +15,10 @@ class FeedsScreen extends React.Component {
     super(props)
     this.props = props
     this.state = {
-      disableScroll: false
+      scrollEnabled: true
     }
+
+    this.disableScroll = this.disableScroll.bind(this)
   }
 
   render = () => {
@@ -70,10 +72,16 @@ class FeedsScreen extends React.Component {
             color: 'rgba(100,0,0,0.3)'
           }}>Your Feeds</Text>}
           renderItem={this.renderFeed}
-          scrollEnabled={!this.disableScroll}
+          scrollEnabled={this.state.scrollEnabled}
         />
     </View>
     )
+  }
+
+  disableScroll = (disable) => {
+    this.setState({
+      scrollEnabled: !disable
+    })
   }
 
   renderFeed = ({item}) => {
@@ -82,6 +90,7 @@ class FeedsScreen extends React.Component {
       feedColor={item.color}
       feedId={item._id}
       navigation={this.props.navigation}
+      disableScroll={this.disableScroll}
     />
   }
 }
