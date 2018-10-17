@@ -34,7 +34,7 @@
     "react-native-image-zoom-viewer": "git://github.com/adamvert/react-native-image-viewer",
     "react-native-measure-text": "1.0.0-beta",
     "react-native-modalbox": "^1.4.2",
-    "react-native-sentry": "^0.14.10",
+    "react-native-sentry": "^0.39.0",
     "react-native-share-extension": "^1.2.1",
     "react-native-shared-group-preferences": "^1.1.13",
     "react-native-splash-screen": "^3.0.6",
