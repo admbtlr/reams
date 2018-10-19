@@ -21,7 +21,7 @@ class FeedUnreadCounter extends React.Component {
     }
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{ ...this.props.style }}>
         <View style={{
           width: 50,
           height: 50,
@@ -31,6 +31,7 @@ class FeedUnreadCounter extends React.Component {
         }}>
           <Text style={{
             ...textStyles,
+            fontFamily: 'IBMPlexMono-Bold',
             color: hslString(feedColor, 'desaturated'),
             fontSize: 24
           }}>{numFeedItems}</Text>

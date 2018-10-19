@@ -40,7 +40,7 @@ class FeedCoverImage extends React.Component {
          key="456"
        >
          <ColorBlending
-           color={blendColor(feedColor)}
+           color={blendColor(feedColor, 'lighter')}
            blendMode='blendMultiply'
          >
            <ContrastSaturationBrightness

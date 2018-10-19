@@ -79,9 +79,11 @@ class FeedsScreen extends React.Component {
   }
 
   disableScroll = (disable) => {
-    this.setState({
-      scrollEnabled: !disable
-    })
+    if (this.state.scrollEnabled !== !disable) {
+      this.setState({
+        scrollEnabled: !disable
+      })
+    }
   }
 
   renderFeed = ({item}) => {

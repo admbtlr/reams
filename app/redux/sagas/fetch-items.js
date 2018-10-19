@@ -58,10 +58,8 @@ export function * fetchItems () {
       newItems = newItems.slice(-100)
     }
     console.log(`Fetched ${newItems.length} items`)
-    console.log(newItems)
     const { read, unread } = mergeItems(oldItems, newItems, currentItem)
     console.log(`And now I have ${unread.length} unread items`)
-    console.log(unread)
     yield put({
       type: 'ITEMS_FETCH_DATA_SUCCESS',
       items: unread

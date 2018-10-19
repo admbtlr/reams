@@ -96,14 +96,19 @@ const transitionConfig = {
   // useNativeDriver: true
 }
 
+const navigationOptions = {
+  gesturesEnabled: false
+}
+
 export default FluidNavigator(
   {
     Feeds: {screen: FeedsScreenContainer},
     Items: {screen: ItemsScreen},
   },
   {
-    initialRouteName: 'Items',
-    transitionConfig
+    initialRouteName: 'Feeds',
+    transitionConfig,
+    navigationOptions
   }
 )
 

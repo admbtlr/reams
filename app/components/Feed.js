@@ -18,6 +18,8 @@ import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
 
+const DRAG_THRESHOLD = 10
+
 class Feed extends React.PureComponent {
 
   constructor (props) {
@@ -39,7 +41,9 @@ class Feed extends React.PureComponent {
       transformXAnim: new Animated.Value(0),
       borderRadiusAnim: new Animated.Value(20),
       scaleAnim: new Animated.Value(1),
-      blockDrag: false
+      normalisedAnimatedValue: new Animated.Value(0),
+      blockDrag: false,
+      isExpanded: false
     }
     this.mode = 'list' // list || screen
 
@@ -119,26 +123,36 @@ class Feed extends React.PureComponent {
     }).start()
   }
 
-  onPress = () => {
-    this.scaleDown()
-    this.props.disableScroll(true)
+  onPress = (e) => {
+    console.log('Pressed')
+    if (!this.state.isExpanded) {
+      this.scaleDown()
+      this.touchDownYCoord = e.nativeEvent.pageY
+    }
   }
 
   onRelease = () => {
+    console.log('Released')
     if (this.isDragging) {
       this.isDragging = false
       return
     }
-    console.log('Pressed! ' + this.outerView)
-    // can only happen in list mode
-    // this.createPanResponder(true)
-    this.imageView.measure(this.measured)
-    this.props.disableScroll(true)
+    if (!this.state.isExpanded) {
+      // this.createPanResponder(true)
+      this.scaleUp()
+      this.imageView.measure(this.measured)
+      this.props.disableScroll(true)
+    }
   }
 
-  onDrag = () => {
-    this.isDragging = true
-    this.scaleUp()
+  onDrag = (e) => {
+    console.log('Dragged')
+    const dY = Math.abs(e.nativeEvent.pageY - this.touchDownYCoord)
+    if (!this.state.isExpanded && dY > DRAG_THRESHOLD) {
+      this.isDragging = true
+      this.props.disableScroll(false)
+      this.scaleUp()
+    }
   }
 
   measured = (x, y, width, height, px, py) => {
@@ -175,6 +189,11 @@ class Feed extends React.PureComponent {
       toValue: 0,
       duration: 1000
     }).start()
+    Animated.spring(this.state.normalisedAnimatedValue, {
+      toValue: 1,
+      duration: 1000
+    }).start()
+    this.state.isExpanded = true
     this.props.disableScroll(true)
   }
 
@@ -204,6 +223,11 @@ class Feed extends React.PureComponent {
       toValue: 20,
       duration: 1000
     }).start()
+    Animated.spring(this.state.normalisedAnimatedValue, {
+      toValue: 0,
+      duration: 1000
+    }).start()
+    this.state.isExpanded = false
   }
 
   render = () => {
@@ -225,6 +249,8 @@ class Feed extends React.PureComponent {
 
     const shouldSetResponder = e => true
 
+//        {...this._panResponder.panhandlers}
+
     return (
       <Animated.View
         style={{
@@ -237,14 +263,12 @@ class Feed extends React.PureComponent {
               { scaleY: this.state.scaleAnim }
             ] }}
         ref={c => this.outerView = c}
-        {...this._panResponder.panhandlers}
       >
         <Animated.View
-          onStartShouldSetResponder={e => true}
+          onStartShouldSetResponder={shouldSetResponder}
           onResponderGrant={this.onPress}
           onResponderMove={this.onDrag}
           onResponderRelease={this.onRelease}
-          onMoveShouldSetResponder={e => this.state.blockDrag}
           style={{
             height: this.state.imageHeightAnim,
             width: this.state.widthAnim,
@@ -275,7 +299,7 @@ class Feed extends React.PureComponent {
                 feedColor={this.props.feedColor}
                 coverImagePath={this.props.coverImagePath}
                 coverImageDimensions={this.props.coverImageDimensions}
-                width={this.cardWidth}
+                width={this.screenWidth}
                 height={this.screenHeight * 0.5} />
             </View>
           <Animated.View style={{
@@ -284,8 +308,8 @@ class Feed extends React.PureComponent {
             // height: cardWidth / 2,
             width: '100%',
             height: '100%',
-            borderRadius: this.borderRadiusAnim,
-            paddingTop: this.margin * .5,
+            borderRadius: this.state.borderRadiusAnim,
+            // paddingTop: this.margin * .5,
             paddingLeft: this.margin,
             paddingRight: this.margin,
             position: 'absolute',
@@ -296,15 +320,25 @@ class Feed extends React.PureComponent {
             // justifyContent: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.2)'
           }}>
+            <Animated.View style={{
+              flex: 1,
+              height: 1,
+              width: '100%'
+            }} />
             <Text style={{
               ...textStyles,
+              flex: 4,
+              flexWrap: 'wrap',
               fontFamily: 'IBMPlexSansCond-Bold',
-              fontSize: 20,
-              height: 60
+              fontSize: 20
             }}>{feedTitle}</Text>
             <FeedUnreadCounter
               numFeedItems={numFeedItems}
               feedColor={feedColor}
+              normalisedAnimatedValue={this.state.normalisedAnimatedValue}
+              style={{
+                flex: 5
+              }}
             />
           </Animated.View>
         </Animated.View>

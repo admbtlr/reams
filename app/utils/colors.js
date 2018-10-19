@@ -72,8 +72,8 @@ export function getNames () {
   return Object.keys(colors)
 }
 
-export function blendColor (colorName) {
-  return hslStringToBlendColor(hslString(colorName))
+export function blendColor (colorName, modifier = '') {
+  return hslStringToBlendColor(hslString(colorName, modifier))
 }
 
 export function hslString (colorName, modifier = '') {
