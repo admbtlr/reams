@@ -7,7 +7,6 @@ import {
   View
 } from 'react-native'
 import Feed from '../containers/Feed'
-import FeedDetails from './FeedDetails'
 import { hslString } from '../utils/colors'
 
 class FeedsScreen extends React.Component {
@@ -65,7 +64,8 @@ class FeedsScreen extends React.Component {
           <Feed {...this.state.selectedFeedElement.props}
             extraStyle={{
               position: 'absolute',
-              top: this.state.selectedFeedElementYCoord
+              top: this.state.selectedFeedElementYCoord,
+              left: margin
             }}
             growMe={true}
             yCoord={this.state.selectedFeedElementYCoord}

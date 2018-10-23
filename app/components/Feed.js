@@ -165,11 +165,11 @@ class Feed extends React.PureComponent {
   }
 
   grow = () => {
-    // Animated.spring(this.state.translateXAnim, {
-    //   toValue: 0 - this.margin,
-    //   duration: 1000,
-    //   useNative: true
-    // }).start()
+    Animated.spring(this.state.translateXAnim, {
+      toValue: 0 - this.margin,
+      duration: 1000,
+      useNative: true
+    }).start()
     Animated.spring(this.state.scaleAnim, {
       toValue: 1,
       duration: 1000,
@@ -295,8 +295,8 @@ class Feed extends React.PureComponent {
       color: 'white',
       borderRadius: 8,
       marginRight: this.margin,
-      marginBottom: this.margin,
-      width: this.screenWidth / 2 - this.margin * 1.5 - 10
+      marginTop: this.margin,
+      width: this.screenWidth / 2 - this.margin * 1.5
     }
     const buttonTextStyle = {
       color: 'white',
@@ -308,6 +308,17 @@ class Feed extends React.PureComponent {
     const shouldSetResponder = e => true
 
 //        {...this._panResponder.panhandlers}
+    const shadowStyle = this.props.growMe ? {} :
+      {
+        shadowColor: 'black',
+        shadowRadius: 10,
+        shadowOpacity: 0.3,
+        shadowOffset: {
+          width: 0,
+          height: 5
+        }
+      }
+
 
     return (
       <Animated.View
@@ -339,14 +350,8 @@ class Feed extends React.PureComponent {
             justifyContent: 'flex-start',
             backgroundColor: hslString(feedColor, 'desaturated'),
             position: 'relative',
-            shadowColor: 'black',
-            shadowRadius: 10,
-            shadowOpacity: 0.3,
-            shadowOffset: {
-              width: 0,
-              height: 5
-            },
-            overflow: 'visible'
+            overflow: 'visible',
+            ...shadowStyle
           }}>
             <View
               ref={c => this.imageView = c}
@@ -409,6 +414,7 @@ class Feed extends React.PureComponent {
             height: this.state.detailsHeightAnim,
             opacity: this.state.normalisedAnimatedValue,
             padding: this.margin,
+            width: this.screenWidth
           }}>
             <Text style={{
               color: '#666666',
@@ -418,6 +424,8 @@ class Feed extends React.PureComponent {
             }}>{ feedDescription || 'This is where the feed description will go, eventually, when we have them' }</Text>
             { feedStats }
             <View style={{
+              alignItems: 'flex-end',
+              justifyContent: 'flex-end',
               alignSelf: 'flex-end',
               flex: 1,
               flexDirection: 'column',
