@@ -548,7 +548,7 @@ class ItemTitle extends React.Component {
       textShadowColor: 'rgba(0,0,0,0.3)',
       // textShadowOffset: { width: shadow, height: shadow }
       textShadowOffset: { width: 1, height: 1 },
-      textShadowRadius: 2
+      textShadowRadius: 10
     } : {}
 
     textStyle = {

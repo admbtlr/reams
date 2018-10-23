@@ -7,6 +7,7 @@ import {
   View
 } from 'react-native'
 import Feed from '../containers/Feed'
+import FeedDetails from './FeedDetails'
 import { hslString } from '../utils/colors'
 
 class FeedsScreen extends React.Component {
@@ -15,10 +16,12 @@ class FeedsScreen extends React.Component {
     super(props)
     this.props = props
     this.state = {
-      scrollEnabled: true
+      scrollEnabled: true,
+      selectedFeedElement: null
     }
 
     this.disableScroll = this.disableScroll.bind(this)
+    this.renderFeed = this.renderFeed.bind(this)
   }
 
   render = () => {
@@ -32,22 +35,6 @@ class FeedsScreen extends React.Component {
       numItems: this.props.feeds.reduce((accum, item) => accum + item.numItems, 0)
     }
 
-    // return (
-    //   <View style={{
-    //     flex: 1,
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     backgroundColor: hslString('rizzleBG'),
-    //     // marginTop: margin
-    //   }}>
-    //   <Feed
-    //     feedTitle='Your feed here'
-    //     feedColor='red1'
-    //     feedId='999'
-    //     navigation={this.props.navigation}
-    //   />
-    // </View>
-    // )
     return (
       <View style={{
         flex: 1,
@@ -74,6 +61,16 @@ class FeedsScreen extends React.Component {
           renderItem={this.renderFeed}
           scrollEnabled={this.state.scrollEnabled}
         />
+        { this.state.selectedFeedElement &&
+          <Feed {...this.state.selectedFeedElement.props}
+            extraStyle={{
+              position: 'absolute',
+              top: this.state.selectedFeedElementYCoord
+            }}
+            growMe={true}
+            yCoord={this.state.selectedFeedElementYCoord}
+          />
+        }
     </View>
     )
   }
@@ -81,7 +78,18 @@ class FeedsScreen extends React.Component {
   disableScroll = (disable) => {
     if (this.state.scrollEnabled !== !disable) {
       this.setState({
+        ...this.state,
         scrollEnabled: !disable
+      })
+    }
+  }
+
+  selectFeed = (feed, yCoord) => {
+    if (this.state.selectedFeedElement !== feed) {
+      this.setState({
+        ...this.state,
+        selectedFeedElement: feed,
+        selectedFeedElementYCoord: yCoord
       })
     }
   }
@@ -93,6 +101,7 @@ class FeedsScreen extends React.Component {
       feedId={item._id}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
+      selectFeed={this.selectFeed}
     />
   }
 }
