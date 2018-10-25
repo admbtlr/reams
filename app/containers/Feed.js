@@ -24,6 +24,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    filterItems: (id) => dispatch({
+      type: 'CONFIG_SET_FEED_FILTER',
+      feedFilter: id
+    }),
     markAllRead: (id) => dispatch({
       type: 'FEED_MARK_READ',
       id

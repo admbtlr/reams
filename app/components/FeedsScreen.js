@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   ScrollView,
+  StatusBar,
   Text,
   View
 } from 'react-native'
@@ -42,6 +43,7 @@ class FeedsScreen extends React.Component {
         backgroundColor: hslString('rizzleBG'),
         // marginTop: margin
       }}>
+        <StatusBar showHidTransition="slide"/>
         <FlatList
           data={[everything].concat(this.props.feeds)}
           keyExtractor={feed => feed._id}

@@ -4,6 +4,7 @@ import {
   Dimensions,
   Image,
   PanResponder,
+  ScrollView,
   StatusBar,
   Text,
   TouchableOpacity,
@@ -50,12 +51,7 @@ class Feed extends React.PureComponent {
 
     this.currentY = this.props.yCoord || 0
 
-    this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => false,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
-      onMoveShouldSetPanResponder: (evt, gestureState) => false,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
-    })
+    this.panResponder = this.createPanResponder(this.props.growMe)
 
     this.onPress = this.onPress.bind(this)
     this.onRelease = this.onRelease.bind(this)
@@ -66,17 +62,23 @@ class Feed extends React.PureComponent {
   createPanResponder (shouldCreatePanResponder) {
     if (shouldCreatePanResponder) {
       console.log("Time to block drags")
-      this._panResponder = PanResponder.create({
+      return PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => true,
         onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
         onMoveShouldSetPanResponder: (evt, gestureState) => true,
         onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+        onPanResponderGrant: (evt, gestureState) => {
+          // The gesture has started. Show visual feedback so the user knows
+          // what is happening!
+          console.log('We\'re moving!')
 
+          // gestureState.d{x,y} will be set to zero now
+        },
         onPanResponderMove: (evt, gestureState) => {
           // The most recent move distance is gestureState.move{X,Y}
-
           // The accumulated gesture distance since becoming responder is
           // gestureState.d{x,y}
+          console.log(gestureState.d)
           if (gestureState.d.y < 0) return
           if (gestureState.d.y < 100) {
             this.state.translateYAnim.setValue(gestureState.d.y / 10)
@@ -101,7 +103,7 @@ class Feed extends React.PureComponent {
         },
       })
     } else {
-      this._panResponder = PanResponder.create({
+      return PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => false,
         onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
         onMoveShouldSetPanResponder: (evt, gestureState) => false,
@@ -138,10 +140,10 @@ class Feed extends React.PureComponent {
     console.log('Released')
     if (this.isDragging) {
       this.isDragging = false
+      this.scaleUp()
       return
     }
     if (!this.state.isExpanded) {
-      // this.createPanResponder(true)
       this.scaleUp()
       this.imageView.measure(this.measured)
       this.props.disableScroll(true)
@@ -202,6 +204,7 @@ class Feed extends React.PureComponent {
     }).start()
     this.state.isExpanded = true
     this.props.disableScroll(true)
+    this.createPanResponder(true)
   }
 
   shrink = () => {
@@ -248,7 +251,6 @@ class Feed extends React.PureComponent {
   }
 
   render = () => {
-    console.log(`Render ${this.props.feedTitle}`)
     const {
       coverImageDimensions,
       coverImagePath,
@@ -258,7 +260,6 @@ class Feed extends React.PureComponent {
       feedId,
       numFeedItems
     } = this.props
-    console.log('Render feed: ' + feedTitle)
     const textStyles = {
       color: 'white',
       fontFamily: 'IBMPlexMono-Light',
@@ -277,15 +278,15 @@ class Feed extends React.PureComponent {
         color: '#666666',
         fontFamily: 'IBMPlexMono-Light',
         fontSize: 16,
-        marginTop: this.margin * 2,
-        marginBottom: this.margin
+        // marginTop: this.margin * 2,
+        // marginBottom: this.margin
       }}>You’ve read
         <Text style={bold}> 233 </Text>
         stories from
         <Text style={italic}> {feedTitle} </Text>
         over the course of
         <Text style={bold}> 17 hours</Text>.
-        It’s taken you an average of
+        It takes you an average of
         <Text style={bold}> 3:43 </Text>
         to read each story.</Text>)
 
@@ -293,8 +294,9 @@ class Feed extends React.PureComponent {
       backgroundColor: hslString(feedColor, 'desaturated'),
       padding: this.margin*.5,
       color: 'white',
+      // flex: 1,
       borderRadius: 8,
-      marginRight: this.margin,
+      // marginRight: this.margin,
       marginTop: this.margin,
       width: this.screenWidth / 2 - this.margin * 1.5
     }
@@ -305,7 +307,7 @@ class Feed extends React.PureComponent {
       textAlign: 'center'
     }
 
-    const shouldSetResponder = e => true
+    const shouldSetResponder = e => !this.state.isExpanded
 
 //        {...this._panResponder.panhandlers}
     const shadowStyle = this.props.growMe ? {} :
@@ -318,7 +320,6 @@ class Feed extends React.PureComponent {
           height: 5
         }
       }
-
 
     return (
       <Animated.View
@@ -338,6 +339,7 @@ class Feed extends React.PureComponent {
         ref={c => this.outerView = c}
       >
         <Animated.View
+          { ...this.panResponder.panhandlers }
           onStartShouldSetResponder={shouldSetResponder}
           onResponderGrant={this.onPress}
           onResponderMove={this.onDrag}
@@ -413,50 +415,71 @@ class Feed extends React.PureComponent {
             backgroundColor: 'white',
             height: this.state.detailsHeightAnim,
             opacity: this.state.normalisedAnimatedValue,
-            padding: this.margin,
             width: this.screenWidth
           }}>
-            <Text style={{
-              color: '#666666',
-              fontFamily: 'IBMPlexSans-Bold',
-              fontSize: 24,
-              textAlign: 'center'
-            }}>{ feedDescription || 'This is where the feed description will go, eventually, when we have them' }</Text>
-            { feedStats }
-            <View style={{
-              alignItems: 'flex-end',
-              justifyContent: 'flex-end',
-              alignSelf: 'flex-end',
-              flex: 1,
-              flexDirection: 'column',
-              flexWrap: 'wrap',
-              width: '100%'
-            }}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Items')}>
-                <View style={ buttonStyle }>
-                  <Text style={ buttonTextStyle }>Go to items</Text>
+            <ScrollView
+              contentContainerStyle={{
+                flex: 1,
+                justifyContent: 'space-between',
+                padding: this.margin
+              }}>
+              <Text style={{
+                color: '#666666',
+                fontFamily: 'IBMPlexSans-Bold',
+                fontSize: 24,
+                textAlign: 'center'
+              }}>{ feedDescription || 'This is where the feed description will go, eventually, when we have them' }</Text>
+              { feedStats }
+              <View style={{
+                alignItems: 'flex-end'
+              }}>
+                <View style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-between',
+                  width: '100%'
+                }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      console.log('Pressed Go to items ' + feedId)
+                      this.props.filterItems(feedId)
+                      this.props.navigation.navigate('Items')
+                    }}
+                    style={ buttonStyle }>
+                    <View>
+                      <Text style={ buttonTextStyle }>Go to items</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => this.shrink()}
+                    style={{
+                      ...buttonStyle,
+                      marginRight: 0
+                    }}>
+                    <View>
+                      <Text style={ buttonTextStyle }>Shrink me</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('Items')}
+                    style={ buttonStyle }>
+                    <View>
+                      <Text style={ buttonTextStyle }>Mark all read</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => this.shrink()}
+                    style={{
+                      ...buttonStyle,
+                      marginRight: 0
+                    }}>
+                    <View>
+                      <Text style={ buttonTextStyle }>Unsubscribe</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.shrink()}>
-                <View style={ buttonStyle }>
-                  <Text style={ buttonTextStyle }>Shrink me</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Items')}>
-                <View style={ buttonStyle }>
-                  <Text style={ buttonTextStyle }>Mark all read</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.shrink()}>
-                <View style={ buttonStyle }>
-                  <Text style={ buttonTextStyle }>Unsubscribe</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+              </View>
+            </ScrollView>
           </Animated.View>
         }
       </Animated.View>

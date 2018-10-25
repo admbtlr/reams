@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -67,6 +68,8 @@
 		668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
 		668CE9EE2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
+		66AA13872180EF2F000C9A7F /* libRNReactNativeSharedGroupPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664FF8FD217715B200107D67 /* libRNReactNativeSharedGroupPreferences.a */; };
+		66AA13882180EF41000C9A7F /* libRNReactNativeSharedGroupPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664FF8FD217715B200107D67 /* libRNReactNativeSharedGroupPreferences.a */; };
 		66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */; };
 		66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		66ACB1271FD97094002BC66F /* RizzleShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ACB1261FD97094002BC66F /* RizzleShare.m */; };
@@ -104,7 +107,6 @@
 		BA08A49489AA4D5BAE6DDA05 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D58706C270664DF7939C3B41 /* libRealmReact.a */; };
 		BD4090455B2F401A8B3559FB /* IBMPlexSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 021E5CBE69A94E3590CA1E3B /* IBMPlexSerif-Regular.ttf */; };
 		C102E7B205024F1D94EE06FC /* IBMPlexSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */; };
-		C85DDA6D06684C91B3B0466D /* libRNReactNativeSharedGroupPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEAE4CD40F9748418924D42E /* libRNReactNativeSharedGroupPreferences.a */; };
 		CA950E66A737450B801A5604 /* LibreBaskerville-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6510B8E2ED0459A9D932B12 /* LibreBaskerville-Italic.ttf */; };
 		E338FC2615BA4CEBA32F19AD /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AABBDC5CB6242DCA1F20FA4 /* IBMPlexSans-Regular.ttf */; };
 		F2E6111401F945D1A0E5D590 /* PlayfairDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */; };
@@ -666,6 +668,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66AA13872180EF2F000C9A7F /* libRNReactNativeSharedGroupPreferences.a in Frameworks */,
 				667BD116216CC45300DB6B05 /* libSplashScreen.a in Frameworks */,
 				6671295E2165EDE200EB1B5E /* libRNMeasureText.a in Frameworks */,
 				66CF6320205FC6F10037124C /* libRNFS.a in Frameworks */,
@@ -689,7 +692,6 @@
 				0E2C9BF2DC4C48C5A81D87DC /* libc++.tbd in Frameworks */,
 				999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */,
 				FA23F99F447E4D35AA3A4FD5 /* libRNSVG.a in Frameworks */,
-				C85DDA6D06684C91B3B0466D /* libRNReactNativeSharedGroupPreferences.a in Frameworks */,
 				6A37F853605141C4996889E5 /* libRNSentry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -720,6 +722,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66AA13882180EF41000C9A7F /* libRNReactNativeSharedGroupPreferences.a in Frameworks */,
 				667BD117216CC5D100DB6B05 /* libSplashScreen.a in Frameworks */,
 				660CEF70207B4DB800C7D04E /* libRealmReact.a in Frameworks */,
 				667377AC203EB25D00572989 /* libRNFetchBlob.a in Frameworks */,
@@ -1171,14 +1174,6 @@
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		7E503C814DA84D4BB9B47BAE /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1939,6 +1934,20 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		5BC6D436EC724A75BBD205C6 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
+		};
 		668A533F1FDB28D700D9DFD5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1951,20 +1960,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		5BC6D436EC724A75BBD205C6 /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			name = "Upload Debug Symbols to Sentry";
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2132,7 +2127,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 52;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2174,7 +2169,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
