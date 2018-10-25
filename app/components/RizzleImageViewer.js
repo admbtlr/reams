@@ -23,10 +23,14 @@ class RizzleImageViewer extends React.Component {
           >
           <ImageViewer
             backgroundColor='rgba(30,30,30,0.8)'
+            enableSwipeDown={true}
             imageUrls={[{
               url: this.props.url
             }]}
             loadingRender={() => <LogoSpinner />}
+            renderIndicator={(currentIndex, allSize) => null}
+            saveToLocalByLongPress={false}
+            maxOverflow={0}
             onSwipeDown={this.props.hideImageViewer}/>
         </Modal>
       </View>

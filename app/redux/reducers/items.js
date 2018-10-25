@@ -386,7 +386,6 @@ function isExcerptUseful (item) {
 
 function isExcerptExtract (item, isMercury = false) {
   if (!item.content_html) return false
-  let isExcerptExtract
   const excerptWithoutEllipsis = item.excerpt.substring(0, item.excerpt.length - 4)
   return strip(item.content_html).substring(0, excerptWithoutEllipsis.length) === excerptWithoutEllipsis
 }

@@ -8,6 +8,7 @@ import {
   View
 } from 'react-native'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
+import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import {
   getAnimatedValue,
   getAnimatedValueNormalised,
@@ -66,6 +67,7 @@ class TopBar extends React.Component {
   }
 
   render () {
+    console.log('Render Top Bar!')
     const { prevItem, currentItem, nextItem } = this.props
     const {
       prevOpacityAnim,
@@ -136,13 +138,13 @@ class TopBar extends React.Component {
   }
 
   getBackgroundColor (item) {
-    // const feedColor = item ? item.feed_color : null
-    // return this.props.displayMode == 'saved' ?
-    //   hslString('rizzleBG') :
-    //   (feedColor ?
-    //     hslString(feedColor, 'desaturated') :
-    //     hslString('rizzleBG'))
-    return hslString('rizzleChrome')
+    const feedColor = item ? item.feed_color : null
+    return this.props.displayMode == 'saved' ?
+      hslString('rizzleBG') :
+      (feedColor ?
+        hslString(feedColor, 'desaturated') :
+        hslString('rizzleBG'))
+    // return hslString('rizzleChrome')
   }
 
   getBorderBottomColor (item) {
@@ -190,8 +192,8 @@ class TopBar extends React.Component {
     const textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor: this.getBackgroundColor(item),
-      borderBottomColor: this.getBorderBottomColor(item),
-      borderBottomWidth: 2,
+      // borderBottomColor: this.getBorderBottomColor(item),
+      // borderBottomWidth: 2,
       opacity: opacityAnim
     }
     const areDetailsVisible = this.state && this.state.detailsVisible || false
@@ -204,7 +206,8 @@ class TopBar extends React.Component {
           ...textHolderStyles,
           flexDirection: 'column',
           justifyContent: 'flex-end',
-          height: 320,
+          height: 321,
+          overflow: 'hidden',
           paddingTop: 80,
           position: 'absolute',
           top: isIphoneX() ? -240 : -260,
@@ -224,6 +227,53 @@ class TopBar extends React.Component {
           }]
         }}
       >
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            zIndex: 5,
+            left: 10,
+            marginTop: 3,
+            width: 28,
+            height: 28,
+            borderRadius: 14
+          }}
+          onPress={() => this.props.navigation.navigate('Feeds')}
+        >
+          <Svg
+            height='22'
+            width='28'>
+            <Line
+              fill='none'
+              stroke='white'
+              strokeLinecap='round'
+              strokeWidth='2'
+              x1='2'
+              x2='24'
+              y1='1'
+              y2='1'
+            />
+            <Line
+              fill='none'
+              stroke='white'
+              strokeLinecap='round'
+              strokeWidth='2'
+              x1='2'
+              x2='24'
+              y1='8'
+              y2='8'
+            />
+            <Line
+              fill='none'
+              stroke='white'
+              strokeLinecap='round'
+              strokeWidth='2'
+              x1='2'
+              x2='24'
+              y1='15'
+              y2='15'
+            />
+          </Svg>
+        </TouchableOpacity>
         <Text style={{
             ...this.getStyles().feedActions,
             fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
@@ -295,13 +345,14 @@ class TopBar extends React.Component {
               transform: [{
                 translateY: transformAnim
               }],
-              color: this.getBorderBottomColor(item)
+              // color: this.getBorderBottomColor(item)
+              color: 'white'
             }}
           >
             {this.getMessage(item)}
             {isMessage &&
               <AnimatedEllipsis style={{
-                color: this.getBorderBottomColor(item),
+                color: 'white',
                 fontSize: 16,
                 letterSpacing: -5
               }}/>
@@ -311,21 +362,21 @@ class TopBar extends React.Component {
         <TouchableOpacity
           style={{
             position: 'absolute',
-            right: 7,
-            marginTop: 3,
+            right: 10,
+            marginTop: 0,
             width: 28,
-            height: 28,
-            borderRadius: 14,
-            backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            height: 38,
+            // borderRadius: 14,
+            // backgroundColor: 'rgba(0, 0, 0, 0.3)'
           }}
           onPress={this.props.toggleViewButtons}
         >
           <Text style={{
-            fontFamily: 'IBMPlexMono',
+            fontFamily: 'IBMPlexMono-Bold',
             color: 'white',
             paddingLeft: 6,
             paddingTop: 3
-          }}>z<Text style={{ color: 'black' }}>z</Text></Text>
+          }}>A<Text style={{ color: 'rgba(0,0,0,0.8)', fontSize: 22 }}>Z</Text></Text>
         </TouchableOpacity>
       </Animated.View>)
   }

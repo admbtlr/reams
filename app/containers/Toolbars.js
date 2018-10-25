@@ -5,8 +5,10 @@ import {
   updateClampedScrollAnimNormalised
 } from '../redux/actions/items.js'
 
-const mapStateToProps = (state) => {
-  return {}
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

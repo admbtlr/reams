@@ -5,6 +5,7 @@ const initialState = {
   lastUpdated: 0,
   onboardingIndex: 0,
   onboardingLength: 13,
+  feedFilter: null
 }
 
 export function config (state = initialState, action) {
@@ -39,6 +40,12 @@ export function config (state = initialState, action) {
       return {
         ...state,
         lastUpdated: action.lastUpdated
+      }
+
+    case 'CONFIG_SET_FEED_FILTER':
+      return {
+        ...state,
+        feedFilter: action.feedFilter
       }
 
     default:
