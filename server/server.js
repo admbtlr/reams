@@ -6,6 +6,8 @@ const zlib = require('zlib')
 
 const app = express()
 
+const MIN_ITEMS_PER_FEED = 5
+
 app.get('/unread/', (req, res) => {
   const unreadUrl = 'https://feedwrangler.net/api/v2/feed_items/list?access_token=07de039941196f956e9e86e202574419&read=false'
   request(unreadUrl).pipe(res)
@@ -26,7 +28,16 @@ app.get('/mercury/', (req, res) => {
 app.get('/feed/', (req, res) => {
   const feedUrl = req.query.url || 'https://www.theguardian.com/world/rss'
   fetch(feedUrl, (items) => {
-    res.send(items.slice(0, 10))
+    // res.send(items.slice(0, 10))
+    // only get items from the last 60 days
+    // but make sure that there are at least MIN_ITEMS_PER_FEED per feed
+    const cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60
+    let filteredItems = items.filter(item => item.pubdate > cutoff)
+    if (filteredItems.length < MIN_ITEMS_PER_FEED) {
+      filteredItems = items.sort((a, b) => a.pubdate - b.pubdate)
+        .slice(0 - MIN_ITEMS_PER_FEED)
+    }
+    res.send(filteredItems)
   })
 })
 
