@@ -346,13 +346,13 @@ class ItemTitle extends React.Component {
   }
 
   getFontObject (fontType) {
-    const {font, styles} = this.props
+    const {font, styles, item} = this.props
 
     if (fontType) {
 
     } else if (styles.isBold && styles.isItalic) {
       fontType = 'boldItalic'
-    } else if (styles.isBold) {
+    } else if (styles.isBold || item.showCoverImage) {
       fontType = 'bold'
     } else if (styles.isItalic) {
       fontType = 'regularItalic'
@@ -420,7 +420,7 @@ class ItemTitle extends React.Component {
         '')
 
     let color = styles.isMonochrome ?
-      (showCoverImage && !styles.bg && coverImageStyles.isCoverImageColorDarker ?
+      (showCoverImage ?
         'white' :
         'black') :
       (styles.isTone ?
@@ -461,7 +461,8 @@ class ItemTitle extends React.Component {
       ...position
     }
 
-    const borderWidth = styles.invertBG ? 0 : styles.borderWidth
+    // const borderWidth = styles.invertBG ? 0 : styles.borderWidth
+    const borderWidth = 0
     const borderTop = { borderTopWidth: borderWidth }
     const borderBottom = { borderBottomWidth: borderWidth }
     const borderAll = { borderWidth }
@@ -483,7 +484,9 @@ class ItemTitle extends React.Component {
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = styles.widthPercentage || 100
     const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
-    this.horizontalMargin = this.screenWidth * 0.05
+    this.horizontalMargin = (showCoverImage && this.props.coverImageStyles.isInline) ?
+        this.screenWidth * 0.025 :
+        this.screenWidth * 0.05
 
     const horizontalPadding = this.getInnerHorizontalPadding()
 
@@ -497,7 +500,7 @@ class ItemTitle extends React.Component {
       marginTop: showCoverImage ? defaultHorizontalMargin : defaultHorizontalMargin * 2,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
-      paddingBottom: !showCoverImage ?
+      paddingBottom: (!showCoverImage || coverImageStyles.isInline) ?
         this.screenWidth * 0.1 :
         ((styles.bg || styles.textAlign === 'center' || styles.borderWidth || coverImageStyles.isInline) ?
           innerPadding :
@@ -512,7 +515,7 @@ class ItemTitle extends React.Component {
       width,
       ...border,
       borderColor: color,
-      opacity: coverImageStyles.isInline ? opacity : 1
+      // opacity: coverImageStyles.isInline ? opacity : 1
     }
     const overlayColour = this.getOverlayColor()
     const outerPadding = this.getOuterVerticalPadding()
@@ -525,7 +528,7 @@ class ItemTitle extends React.Component {
       paddingTop: coverImageStyles.isInline ? 0 : getTopBarHeight(),
       // paddingTop: 100,
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
-      marginTop: (!this.props.showCoverImage || this.props.coverImageStyles.isInline) ? 20 : 0,
+      marginTop: (!this.props.showCoverImage) ? 20 : 0,
       marginBottom: 0,
       top: 0,
       left: 0,
@@ -545,7 +548,7 @@ class ItemTitle extends React.Component {
 
     // TODO: if I decide that images with contain need shadow, change createItemStyles:86
     let shadowStyle = showCoverImage && styles.hasShadow ? {
-      textShadowColor: 'rgba(0,0,0,0.3)',
+      textShadowColor: 'rgba(0,0,0,0.2)',
       // textShadowOffset: { width: shadow, height: shadow }
       textShadowOffset: { width: 1, height: 1 },
       textShadowRadius: 10
@@ -636,7 +639,8 @@ class ItemTitle extends React.Component {
       })
     }
 
-    const excerptView = this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle)
+    const barView = this.renderBar()
+    const excerptView = this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView)
     const dateView = this.renderDate()
 
     return (
@@ -671,32 +675,40 @@ class ItemTitle extends React.Component {
           !this.props.item.excerpt.includes('…') &&
           excerptView }
         { dateView }
-        {!showCoverImage && !this.itemStartsWithImage() && <View style={{
-          marginLeft: this.horizontalMargin,
-          marginRight: this.horizontalMargin,
-          width: 83,
-          height: 16,
-          backgroundColor: hslString(this.props.item.feed_color, 'desaturated')
-        }} />}
+        {(!showCoverImage && this.itemStartsWithImage()) ||
+          (showCoverImage && styles.excerptInvertBG) ||
+          (showCoverImage && coverImageStyles.resizeMode === 'contain') ||
+          barView
+        }
       </Animated.View>
     )
   }
 
-  renderExcerpt (innerViewStyle, fontStyle, shadowStyle) {
+  renderBar () {
+    return <View style={{
+      marginLeft: this.horizontalMargin,
+      marginRight: this.horizontalMargin,
+      width: 83,
+      height: 16,
+      backgroundColor: hslString(this.props.item.feed_color, 'desaturated')
+    }} />
+  }
+
+  // barView gets passed in here because we need to include it in the excerptView
+  // when using an coverImage with contain, for the flex layout
+  renderExcerpt (innerViewStyle, fontStyle, shadowStyle, barView) {
     const { coverImageStyles, showCoverImage, item, styles } = this.props
     const { excerptOpacity } = this.getOpacityValues()
     let excerptShadowStyle
     let excerptColor
-    if (!showCoverImage) {
+    if (!showCoverImage || coverImageStyles.isInline) {
       excerptColor = 'black'
     // } else if (styles.invertBG) {
     //   excerptColor = 'black'
     } else if (showCoverImage && styles.isExcerptTone) {
       excerptColor = styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'
     } else {
-      excerptColor = styles.isCoverImageColorDarker || coverImageStyles.isMultiply ?
-        'white' :
-        'black'
+      excerptColor = 'white'
     }
 
     let excerptBg = {}
@@ -709,7 +721,7 @@ class ItemTitle extends React.Component {
         paddingBottom: 8
       }: {}
       excerptColor = styles.excerptInvertBG ?
-        (excerptColor === 'white' ? 'black' : 'white') :
+        'white' :
         excerptColor
       excerptShadowStyle = styles.excerptInvertBG ? {
         textShadowColor: 'transparent'
@@ -725,43 +737,58 @@ class ItemTitle extends React.Component {
     //     Math.round(styles.lineHeight / 2) :
     //     Math.round(styles.lineHeight / 1.5))
     const excerptLineHeight = coverImageStyles.isInline || !showCoverImage ?
-      Math.min(this.screenHeight, this.screenWidth) / 14 :
+      Math.min(this.screenHeight, this.screenWidth) / 16 :
       Math.min(this.screenHeight, this.screenWidth) / 16
-    return (<Animated.View style={{
-        ...innerViewStyle,
-        paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
-        paddingBottom: !showCoverImage ?
-          this.screenWidth * 0.1 :
-          ((styles.borderWidth || styles.bg) ?
-            excerptLineHeight / 2 :
-            this.getInnerVerticalPadding()),
-        ...excerptBg,
-        borderTopWidth: 0,
-        // opacity: excerptOpacity,
-        marginTop: styles.bg && !styles.borderWidth ? 1 : 0
-      }}>
-        <Animated.Text style={{
-          justifyContent: this.aligners[styles.textAlign],
-          flex: 1,
-          ...fontStyle,
-          // ...shadowStyle,
-          ...excerptShadowStyle,
-          marginTop: 0,
-          paddingTop: 0,
-          // textShadowColor: 'rgba(0,0,0,0.4)',
-          // textShadowRadius: 20,
-          color: excerptColor,
-          fontFamily: this.getFontFamily(coverImageStyles.isInline ||
-            coverImageStyles.resizeMode === 'contain' ||
-            excerptBg.backgroundColor ||
-            !showCoverImage ?
-            'regular' :
-            'bold'),
-          fontSize: Math.round(excerptLineHeight / 1.6),
-          lineHeight: excerptLineHeight,
-          letterSpacing: 0,
-        }}>{this.widowFix(this.props.excerpt)}</Animated.Text>
-      </Animated.View>)
+    return (
+      <React.Fragment>
+        <Animated.View style={{
+          ...innerViewStyle,
+          paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
+          paddingBottom: !showCoverImage ?
+            this.screenWidth * 0.1 :
+            ((styles.borderWidth || styles.bg) ?
+              excerptLineHeight / 2 :
+              this.getInnerVerticalPadding()),
+          ...excerptBg,
+          borderTopWidth: 0,
+          // opacity: excerptOpacity,
+          marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
+          width: (!showCoverImage || styles.excerptFullWidth) ?
+            'auto' :
+            this.screenWidth * 0.666,
+          alignSelf: {
+            'left': 'flex-start',
+            'center': 'center',
+            'right': 'flex-end'
+          }[styles.excerptHorizontalAlign]
+        }}>
+          <Animated.Text style={{
+            justifyContent: this.aligners[styles.textAlign],
+            flex: 1,
+            ...fontStyle,
+            // ...shadowStyle,
+            ...excerptShadowStyle,
+            marginTop: 0,
+            paddingTop: 0,
+            // textShadowColor: 'rgba(0,0,0,0.4)',
+            // textShadowRadius: 20,
+            color: excerptColor,
+            fontFamily: this.getFontFamily(coverImageStyles.isInline ||
+              coverImageStyles.resizeMode === 'contain' ||
+              excerptBg.backgroundColor ||
+              !showCoverImage ?
+              'regular' :
+              'bold'),
+            fontSize: Math.round(excerptLineHeight / 1.4),
+            lineHeight: excerptLineHeight,
+            letterSpacing: 0
+          }}>{this.widowFix(this.props.excerpt)}</Animated.Text>
+        </Animated.View>
+        { showCoverImage &&
+          !styles.excerptInvertBG &&
+          coverImageStyles.resizeMode === 'contain' &&
+          barView }
+      </React.Fragment>)
   }
 
   renderDate () {
@@ -775,7 +802,8 @@ class ItemTitle extends React.Component {
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
-      marginBottom: !showCoverImage ? this.screenWidth * 0.1 : 18,
+      marginBottom: (!showCoverImage || coverImageStyles.isInline) ?
+        this.screenWidth * 0.1 : 18,
       padding: 0,
       width: this.screenWidth,
       // ...shadowStyle
@@ -783,7 +811,7 @@ class ItemTitle extends React.Component {
 
     if (showCoverImage && !coverImageStyles.isInline) {
       dateStyle.position = 'absolute'
-      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.1 : 0.5) // heuristic
+      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
     }
 
     if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {
@@ -820,9 +848,8 @@ class ItemTitle extends React.Component {
       (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply) ||
       (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isScreen)) {
       return 'transparent'
-    } else if (!item.styles.isCoverImageColorDarker ||
-      (coverImageStyles.resizeMode === 'contain' && !coverImageStyles.isMultiply)) {
-      return 'rgba(255,255,255,0.3)'
+    } else if (coverImageStyles.resizeMode === 'contain' && !coverImageStyles.isMultiply) {
+      return 'rgba(255,255,255,0.2)'
     } else if (styles.isMonochrome ||
       coverImageStyles.isBW ||
       coverImageStyles.isMultiply ||

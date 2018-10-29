@@ -3,6 +3,7 @@ import {id} from '../../utils'
 export const fetchUnreadItems = (feeds) => {
   const promises = feeds.filter(feed => !!feed).map(feed => {
     const url = `https://api.rizzle.net/feed/?url=${feed.url}`
+    // const url = `http://localhost:8080/feed/?url=${feed.url}`
     return fetch(url).then(response => {
       return { response, feed }
     }).then(({response, feed}) => {

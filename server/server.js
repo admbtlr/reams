@@ -28,16 +28,19 @@ app.get('/mercury/', (req, res) => {
 app.get('/feed/', (req, res) => {
   const feedUrl = req.query.url || 'https://www.theguardian.com/world/rss'
   fetch(feedUrl, (items) => {
-    // res.send(items.slice(0, 10))
-    // only get items from the last 60 days
-    // but make sure that there are at least MIN_ITEMS_PER_FEED per feed
-    const cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60
-    let filteredItems = items.filter(item => item.pubdate > cutoff)
-    if (filteredItems.length < MIN_ITEMS_PER_FEED) {
-      filteredItems = items.sort((a, b) => a.pubdate - b.pubdate)
-        .slice(0 - MIN_ITEMS_PER_FEED)
+    if (items && items.length) {
+      // only get items from the last 60 days
+      // but make sure that there are at least MIN_ITEMS_PER_FEED per feed
+      const cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60
+      let filteredItems = items.filter(item => item.pubdate > cutoff)
+      if (filteredItems.length < MIN_ITEMS_PER_FEED) {
+        filteredItems = items.sort((a, b) => a.pubdate - b.pubdate)
+          .slice(0 - MIN_ITEMS_PER_FEED)
+      }
+      res.send(filteredItems)
+    } else {
+      res.send(items)
     }
-    res.send(filteredItems)
   })
 })
 
@@ -92,8 +95,9 @@ function fetch (feed, done) {
   })
 
   feedparser.on('error', (error) => {
-    console.log(error)
-    done([])
+    console.log("That's an error...")
+    // console.log(error)
+    // done([])
   })
 
   feedparser.on('end', () => {

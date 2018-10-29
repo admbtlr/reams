@@ -39,6 +39,7 @@ export function createItemStyles (item, prevStyles) {
       isMultiply = true
       isCoverImageColorDarker = false
     }
+    title.isMonochrome = true
     // title.isMonochrome = Math.random() > 0.3 && !(prevStyles && prevStyles.isMonochrome)
     if (Math.random() > 0.2) {
       isBW = true
@@ -52,19 +53,8 @@ export function createItemStyles (item, prevStyles) {
   let isContain = false
   let isCoverInline = false
   if (item.title &&
-    // item.title.length > 24 &&
-    // item.excerpt &&
-    (item.imageDimensions && item.imageDimensions.height < deviceHeight) &&
-    !(prevStyles && prevStyles.isCoverInline)) {
-    isCoverInline = true
-    // title.isTone = Math.random() > 0.5
-    // title.isExcerptTone = Math.random() > 0.5
-  } else if (Math.random() > 0.5 && !(prevStyles && prevStyles.coverImage.resizeMode == 'contain')) {
-    isContain = true
-    // isMultiply = false
-    // isBW = false
-    // title.color = color
-    // title.isMonochrome = isMultiply || isScreen
+    (item.imageDimensions && item.imageDimensions.height < deviceHeight)) {
+    Math.random() > 0.7 ? isCoverInline = true : isContain = true
   }
 
   const fonts = getFontClasses()
@@ -101,8 +91,9 @@ export function createItemStyles (item, prevStyles) {
   title.isBold = title.isMonochrome ?
       Math.random() > 0.5 :
       Math.random() > 0.3
-  title.borderWidth = title.invertBG || title.isVertical || isContain ? 0 :
-    (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
+  // title.borderWidth = title.invertBG || title.isVertical || isContain ? 0 :
+  //   (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
+  title.borderWidth = 0
 
   // to stop the predominance of white on black titles
   // if (title.invertBG) {
@@ -112,6 +103,9 @@ export function createItemStyles (item, prevStyles) {
   if (!title.bg && !title.invertBG) {
     title.excerptInvertBG = Math.random() > 0.7
   }
+
+  title.excerptFullWidth = Math.random() > 0.5
+  title.excerptHorizontalAlign = ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
 
   return {
     fontClasses: fonts,

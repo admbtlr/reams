@@ -37,13 +37,8 @@
 RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"rizzle"
                                                initialProperties:nil
-                                                   launchOptions:launchOptions];
-<<<<<<< HEAD
-=======
+                                                   launchOptions:launchOptions];  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 [RNSentry installWithRootView:rootView];
-
->>>>>>> master
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

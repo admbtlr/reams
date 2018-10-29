@@ -2,7 +2,8 @@ import { connect } from 'react-redux'
 import FeedItem from '../components/FeedItem.js'
 
 const mapStateToProps = (state, ownProps) => {
-  const feedFilter = state.config.feedFilter
+  // const feedFilter = state.config.feedFilter
+  const feedFilter = false
   const items = state.items.display === 'unread' ?
     (feedFilter ?
       state.items.items.filter(item => item.feed_id === feedFilter) :

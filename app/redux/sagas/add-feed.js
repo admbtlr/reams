@@ -44,10 +44,10 @@ export function * seedFeeds () {
   const shouldSeed = yield select(isFirstTime)
   if (shouldSeed) {
     yield subscribeToFeeds({feeds})
-    yield put({
-      type: 'CONFIG_TOGGLE_FIRST_TIME',
-      isFirstTime: false
-    })
+    // yield put({
+    //   type: 'CONFIG_TOGGLE_FIRST_TIME',
+    //   isFirstTime: false
+    // })
   }
 }
 

@@ -28,15 +28,15 @@ export function * decorateItems (action) {
           type: 'ITEM_DECORATION_SUCCESS',
           ...decoration
         })
+        items = yield select(getItems, 'items')
+        decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
+        // console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
+        yield put({
+          type: 'ITEM_DECORATION_PROGRESS',
+          totalCount: items.length,
+          decoratedCount
+        })
       }
-      items = yield select(getItems, 'items')
-      decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
-      // console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
-      yield put({
-        type: 'ITEM_DECORATION_PROGRESS',
-        totalCount: items.length,
-        decoratedCount
-      })
     }
   })
 
