@@ -12,7 +12,6 @@ import {
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import LogoSpinnerContainer from '../containers/LogoSpinner.js'
-import AppStateListenerContainer from '../containers/AppStateListener.js'
 import SplashScreen from 'react-native-splash-screen'
 import ToolbarsContainer from '../containers/Toolbars.js'
 import { hslString } from '../utils/colors'
@@ -25,10 +24,6 @@ class ItemsScreen extends React.Component {
 
   render = () => (
     <View style={{flex: 1}}>
-      <StatusBar
-        barStyle='light-content'
-        hidden={false} />
-      <AppStateListenerContainer />
       <ToolbarsContainer navigation={this.props.navigation}/>
       <View style={styles.infoView} />
       <Image

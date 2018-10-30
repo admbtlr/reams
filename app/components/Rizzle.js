@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
+import {
+  StatusBar,
+  View
+} from 'react-native'
 import configureStore from '../redux/store/configureStore.js'
 import { Sentry } from 'react-native-sentry'
 import SplashScreen from 'react-native-splash-screen'
 import AppContainer from '../containers/App.js'
+import AppStateListenerContainer from '../containers/AppStateListener.js'
+import RizzleModalContainer from '../containers/RizzleModal.js'
 import ActionExtensionScreen from './Action'
 import { setBackend } from '../redux/backends'
 
@@ -37,7 +43,14 @@ export default class Rizzle extends Component {
   render () {
     const component = this.props.isActionExtension ?
       <ActionExtensionScreen /> :
-      <AppContainer />
+      (<View style={{flex: 1}}>
+        <RizzleModalContainer />
+        <StatusBar
+          barStyle='light-content'
+          hidden={false} />
+        <AppStateListenerContainer />
+        <AppContainer />
+      </View>)
 
     return (
       <Provider store={this.store}>

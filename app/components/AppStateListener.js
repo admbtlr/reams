@@ -112,14 +112,14 @@ class AppStateListener extends React.Component {
           style: ['title']
         },
         {
-          text: value,
+          text: url,
           style: ['em']
         }
       ],
       modalHideCancel: false,
       modalShow: true,
       modalOnOk: () => {
-        this.props.saveURL(value)
+        this.props.saveURL(url)
       }
     })
   }
