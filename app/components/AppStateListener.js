@@ -25,7 +25,6 @@ class AppStateListener extends React.Component {
 
   async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
-      Alert.alert('AppState changed to ACTIVE from ' + this.props.appState)
       this.checkClipboard()
       await this.checkPageBucket()
       await this.checkFeedBucket()
@@ -41,8 +40,6 @@ class AppStateListener extends React.Component {
     console.log('Checking clipboard')
     const that = this
     Clipboard.getString().then(contents => {
-      console.log('Clipboard contents: ' + contents)
-      console.log(contents.substring(0, 4))
       // TODO make this more robust
       if (contents.substring(0, 4) === 'http') {
         that.showSavePageModal(contents)
