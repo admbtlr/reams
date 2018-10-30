@@ -31,6 +31,9 @@ class Share extends React.Component {
     Sentry
       .config('https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309')
       .install()
+
+    this.addFeed = this.addFeed.bind(this)
+    this.savePage = this.savePage.bind(this)
   }
 
  checkForRSSHeader (body) {
@@ -139,6 +142,7 @@ async searchForRSS (url) {
   closing = () => this.setState({ isOpen: false })
 
   async addFeed () {
+    console.log(this.state.rssUrl)
     await SharedGroupPreferences.setItem('feed', this.state.rssUrl, this.group)
     this.closing()
   }
@@ -180,7 +184,7 @@ async searchForRSS (url) {
                 <Text
                   style={{
                     ...textStyle,
-                    color: 'white',
+                    color: 'black',
                     paddingLeft: 20,
                     paddingRight: 20
                   }}>Looking for an available feed<AnimatedEllipsis style={{
@@ -196,11 +200,10 @@ async searchForRSS (url) {
                     color: 'white'
                   }}>No feed found :(</Text>
               }
-              { this.state.rssUrl &&
+              { !!this.state.rssUrl &&
                 <TouchableOpacity
                   style={{
-                    padding: 28,
-                    // paddingBottom: 0
+                    padding: 28
                   }}
                   onPress={this.addFeed}>
                   <Text style={textStyle}>Add this site to your Rizzle feed</Text>

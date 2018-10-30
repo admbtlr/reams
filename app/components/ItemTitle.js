@@ -420,7 +420,7 @@ class ItemTitle extends React.Component {
         '')
 
     let color = styles.isMonochrome ?
-      (showCoverImage ?
+      ((showCoverImage && !styles.bg) ?
         'white' :
         'black') :
       (styles.isTone ?
@@ -701,7 +701,7 @@ class ItemTitle extends React.Component {
     const { excerptOpacity } = this.getOpacityValues()
     let excerptShadowStyle
     let excerptColor
-    if (!showCoverImage || coverImageStyles.isInline) {
+    if (!showCoverImage || coverImageStyles.isInline || coverImageStyles.isContain) {
       excerptColor = 'black'
     // } else if (styles.invertBG) {
     //   excerptColor = 'black'
@@ -713,19 +713,22 @@ class ItemTitle extends React.Component {
 
     let excerptBg = {}
     if (showCoverImage && !coverImageStyles.isInline) {
-      excerptBg = styles.excerptInvertBG ? {
-        backgroundColor: hslString(item.feed_color, 'desaturated'),
-        paddingLeft: 8,
-        paddingRight: 8,
-        paddingTop: 8,
-        paddingBottom: 8
+      excerptBg = (styles.excerptInvertBG || styles.bg) ? {
+        backgroundColor: styles.bg ?
+          'rgba(255,255,255,0.95)' :
+          hslString(item.feed_color, 'desaturated'),
+        paddingLeft: this.getInnerHorizontalPadding(),
+        paddingRight: this.getInnerHorizontalPadding(),
+        paddingTop: this.getInnerHorizontalPadding(),
+        paddingBottom: this.getInnerHorizontalPadding()
       }: {}
-      excerptColor = styles.excerptInvertBG ?
+      excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
         'white' :
         excerptColor
       excerptShadowStyle = styles.excerptInvertBG ? {
         textShadowColor: 'transparent'
       }: {}
+      if (styles.bg) excerptColor = 'black'
     }
 
     // const excerptColor = styles.bg ?
@@ -740,7 +743,7 @@ class ItemTitle extends React.Component {
       Math.min(this.screenHeight, this.screenWidth) / 16 :
       Math.min(this.screenHeight, this.screenWidth) / 16
     return (
-      <React.Fragment>
+      <View>
         <Animated.View style={{
           ...innerViewStyle,
           paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
@@ -788,7 +791,7 @@ class ItemTitle extends React.Component {
           !styles.excerptInvertBG &&
           coverImageStyles.resizeMode === 'contain' &&
           barView }
-      </React.Fragment>)
+      </View>)
   }
 
   renderDate () {

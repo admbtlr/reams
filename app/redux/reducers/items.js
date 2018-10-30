@@ -225,8 +225,8 @@ export function items (state = initialState, action) {
     case 'ITEM_DECORATION_SUCCESS':
       const testAndDecorate = (item) => {
         if (item._id === action.item._id) {
-          item =  addMercuryStuffToItem(item, action.mercuryStuff)
-          return addCoverImageToItem(item, action.imageStuff)
+          item = addMercuryStuffToItem(item, action.mercuryStuff)
+          return setShowCoverImage(addCoverImageToItem(item, action.imageStuff))
         } else {
           return item
         }

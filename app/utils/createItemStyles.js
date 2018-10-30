@@ -11,7 +11,7 @@ let deviceHeight
 
 export function createItemStyles (item, prevStyles) {
   let title = {
-    isMonochrome: Math.random() > 0.5
+    isMonochrome: Math.random() > 0.3
   }
   const isMainColorDarker = Math.random() > 0.6
   const isMainColorDesaturated = Math.random() > 0.6
@@ -31,7 +31,7 @@ export function createItemStyles (item, prevStyles) {
   let isBW = false
   let isMultiply = false
   let isScreen = false
-  if (Math.random() > 0.6 && !(prevStyles && prevStyles.coverImage.isMultiply)) {
+  if (Math.random() > 0.7) {
     if (Math.random() > 0.5) {
       isScreen = true
       isCoverImageColorDarker = true
@@ -53,8 +53,9 @@ export function createItemStyles (item, prevStyles) {
   let isContain = false
   let isCoverInline = false
   if (item.title &&
-    (item.imageDimensions && item.imageDimensions.height < deviceHeight)) {
+    (item.imageDimensions && item.imageDimensions.height < deviceHeight * 0.7)) {
     Math.random() > 0.7 ? isCoverInline = true : isContain = true
+    isScreen = isMultiply = false
   }
 
   const fonts = getFontClasses()
@@ -74,7 +75,7 @@ export function createItemStyles (item, prevStyles) {
   title.title = item.title
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.5
-  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3) || Math.random() > 0.7
+  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.5) || Math.random() > 0.7
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.7 + Math.random() * 0.2 :
     0.9 + Math.random() * 0.2
@@ -104,7 +105,7 @@ export function createItemStyles (item, prevStyles) {
     title.excerptInvertBG = Math.random() > 0.7
   }
 
-  title.excerptFullWidth = Math.random() > 0.5
+  title.excerptFullWidth = isCoverInline || Math.random() > 0.5
   title.excerptHorizontalAlign = ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
 
   return {

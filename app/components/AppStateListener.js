@@ -15,8 +15,10 @@ class AppStateListener extends React.Component {
     super(props)
     this.props = props
 
-    this.checkClipboardContents = this.checkClipboardContents.bind(this)
+    this.checkClipboard = this.checkClipboard.bind(this)
     this.handleAppStateChange = this.handleAppStateChange.bind(this)
+    this.showSavePageModal = this.showSavePageModal.bind(this)
+    this.showSaveFeedModal = this.showSaveFeedModal.bind(this)
 
     AppState.addEventListener('change', this.handleAppStateChange)
   }
@@ -25,8 +27,8 @@ class AppStateListener extends React.Component {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       Alert.alert('AppState changed to ACTIVE from ' + this.props.appState)
       this.checkClipboard()
-      // await this.checkPageBucket()
-      // await this.checkFeedBucket()
+      await this.checkPageBucket()
+      await this.checkFeedBucket()
       // see Rizzle component
 
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
@@ -37,17 +39,16 @@ class AppStateListener extends React.Component {
 
   checkClipboard () {
     console.log('Checking clipboard')
-    Clipboard.getString().then(this.checkClipboardContents())
-  }
-
-  checkClipboardContents (contents) {
-    console.log('Clipboard contents: ' + contents)
-    console.log(contents.substring(0, 4))
-    // TODO make this more robust
-    if (contents.substring(0, 4) === 'http') {
-      this.showSavePageModal(contents)
-    } else if (contents.substring(0, 6) === '<opml>') {
-    }
+    const that = this
+    Clipboard.getString().then(contents => {
+      console.log('Clipboard contents: ' + contents)
+      console.log(contents.substring(0, 4))
+      // TODO make this more robust
+      if (contents.substring(0, 4) === 'http') {
+        that.showSavePageModal(contents)
+      } else if (contents.substring(0, 6) === '<opml>') {
+      }
+    })
   }
 
   async checkPageBucket () {

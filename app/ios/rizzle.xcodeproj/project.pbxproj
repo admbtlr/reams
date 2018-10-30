@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -88,20 +89,6 @@
 		66ACB1491FDAA026002BC66F /* icon-152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB1481FDAA026002BC66F /* icon-152x152.png */; };
 		66C797491FE53E98001FBDEB /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
 		66CF6320205FC6F10037124C /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AF94191FF7E69000336BA7 /* libRNFS.a */; };
-		66DE3DA1216108040066BDFA /* ActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DE3DA0216108040066BDFA /* ActionViewController.m */; };
-		66DE3DA4216108040066BDFA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66DE3DA2216108040066BDFA /* MainInterface.storyboard */; };
-		66DE3DA8216108040066BDFA /* RizzleAction.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66DE3D9D216108040066BDFA /* RizzleAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		66DE3DE12161085E0066BDFA /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
-		66DE3DE2216108690066BDFA /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		66DE3DE3216108710066BDFA /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		66DE3DE42161087A0066BDFA /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		66DE3DE5216108840066BDFA /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		66DE3DE62161088F0066BDFA /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		66DE3DE7216108980066BDFA /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		66DE3DE8216108A10066BDFA /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		66DE3DE9216108AB0066BDFA /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		66DE3DEA216108B40066BDFA /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		66DE3DEB216108BD0066BDFA /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		66E0C6F320767C5900819DDA /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E0C6F220767C5800819DDA /* splash.png */; };
 		6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */; };
 		79DC44BDD1334F7B80DD977D /* IBMPlexSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 930C4464DBC241C1BCBEFEC2 /* IBMPlexSans-BoldItalic.ttf */; };
@@ -500,13 +487,6 @@
 			remoteGlobalIDString = 3D7682761D8E76B80014119E;
 			remoteInfo = SplashScreen;
 		};
-		66DE3DA6216108040066BDFA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 66DE3D9C216108040066BDFA;
-			remoteInfo = RizzleAction;
-		};
 		66E383C21FC2CA6800B536D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 66E383BE1FC2CA6800B536D5 /* ReactNativeShareExtension.xcodeproj */;
@@ -544,7 +524,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				66DE3DA8216108040066BDFA /* RizzleAction.appex in Embed App Extensions */,
 				66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -623,11 +602,6 @@
 		66ACB1261FD97094002BC66F /* RizzleShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RizzleShare.m; sourceTree = "<group>"; };
 		66ACB1481FDAA026002BC66F /* icon-152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-152x152.png"; path = "../img/icon-152x152.png"; sourceTree = "<group>"; };
 		66C797191FE53E79001FBDEB /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
-		66DE3D9D216108040066BDFA /* RizzleAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RizzleAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		66DE3D9F216108040066BDFA /* ActionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActionViewController.h; sourceTree = "<group>"; };
-		66DE3DA0216108040066BDFA /* ActionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActionViewController.m; sourceTree = "<group>"; };
-		66DE3DA3216108040066BDFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		66DE3DA5216108040066BDFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66E0C6F220767C5800819DDA /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash.png; path = ../assets/images/splash.png; sourceTree = "<group>"; };
 		66E383BE1FC2CA6800B536D5 /* ReactNativeShareExtension.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeShareExtension.xcodeproj; path = "../node_modules/react-native-share-extension/ios/ReactNativeShareExtension.xcodeproj"; sourceTree = "<group>"; };
 		6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSans-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -766,24 +740,6 @@
 				66ACB1421FD97855002BC66F /* libRCTWebSocket.a in Frameworks */,
 				66ACB1431FD97855002BC66F /* libReact.a in Frameworks */,
 				66ACB1441FD97855002BC66F /* libReactNativeShareExtension.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		66DE3D9A216108040066BDFA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				66DE3DEB216108BD0066BDFA /* libRCTAnimation.a in Frameworks */,
-				66DE3DE9216108AB0066BDFA /* libRCTActionSheet.a in Frameworks */,
-				66DE3DE8216108A10066BDFA /* libRCTGeolocation.a in Frameworks */,
-				66DE3DE7216108980066BDFA /* libRCTImage.a in Frameworks */,
-				66DE3DE62161088F0066BDFA /* libRCTLinking.a in Frameworks */,
-				66DE3DE5216108840066BDFA /* libRCTNetwork.a in Frameworks */,
-				66DE3DE42161087A0066BDFA /* libRCTSettings.a in Frameworks */,
-				66DE3DE3216108710066BDFA /* libRCTText.a in Frameworks */,
-				66DE3DE2216108690066BDFA /* libRCTVibration.a in Frameworks */,
-				66DE3DE12161085E0066BDFA /* libRCTWebSocket.a in Frameworks */,
-				66DE3DEA216108B40066BDFA /* libReact.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1115,17 +1071,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		66DE3D9E216108040066BDFA /* RizzleAction */ = {
-			isa = PBXGroup;
-			children = (
-				66DE3D9F216108040066BDFA /* ActionViewController.h */,
-				66DE3DA0216108040066BDFA /* ActionViewController.m */,
-				66DE3DA2216108040066BDFA /* MainInterface.storyboard */,
-				66DE3DA5216108040066BDFA /* Info.plist */,
-			);
-			path = RizzleAction;
-			sourceTree = "<group>";
-		};
 		66E383BF1FC2CA6800B536D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1200,7 +1145,6 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* rizzleTests */,
 				66ACB1181FD9705E002BC66F /* RizzleShare */,
-				66DE3D9E216108040066BDFA /* RizzleAction */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				6687CA3C1F9FA05E0011FBE3 /* Recovered References */,
@@ -1219,7 +1163,6 @@
 				2D02E47B1E0B4A5D006451C7 /* rizzle-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* rizzle-tvOSTests.xctest */,
 				66ACB1171FD9705E002BC66F /* RizzleShare.appex */,
-				66DE3D9D216108040066BDFA /* RizzleAction.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1231,14 +1174,6 @@
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		687E1499EAE94E18AEB6602D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1277,7 +1212,6 @@
 			);
 			dependencies = (
 				66ACB1211FD9705E002BC66F /* PBXTargetDependency */,
-				66DE3DA7216108040066BDFA /* PBXTargetDependency */,
 			);
 			name = rizzle;
 			productName = "Hello World";
@@ -1338,23 +1272,6 @@
 			productReference = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		66DE3D9C216108040066BDFA /* RizzleAction */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 66DE3DE0216108040066BDFA /* Build configuration list for PBXNativeTarget "RizzleAction" */;
-			buildPhases = (
-				66DE3D99216108040066BDFA /* Sources */,
-				66DE3D9A216108040066BDFA /* Frameworks */,
-				66DE3D9B216108040066BDFA /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = RizzleAction;
-			productName = RizzleAction;
-			productReference = 66DE3D9D216108040066BDFA /* RizzleAction.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1395,11 +1312,6 @@
 								enabled = 1;
 							};
 						};
-					};
-					66DE3D9C216108040066BDFA = {
-						CreatedOnToolsVersion = 10.0;
-						DevelopmentTeam = LQ43Q9L9MY;
-						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -1523,7 +1435,6 @@
 				2D02E47A1E0B4A5D006451C7 /* rizzle-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* rizzle-tvOSTests */,
 				66ACB1161FD9705E002BC66F /* RizzleShare */,
-				66DE3D9C216108040066BDFA /* RizzleAction */,
 			);
 		};
 /* End PBXProject section */
@@ -1992,14 +1903,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66DE3D9B216108040066BDFA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				66DE3DA4216108040066BDFA /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -2031,6 +1934,20 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		4DF0AD3068794031917E75B6 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\n";
+		};
 		668A533F1FDB28D700D9DFD5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2043,20 +1960,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		4DF0AD3068794031917E75B6 /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			name = "Upload Debug Symbols to Sentry";
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2103,14 +2006,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66DE3D99216108040066BDFA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				66DE3DA1216108040066BDFA /* ActionViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2129,11 +2024,6 @@
 			target = 66ACB1161FD9705E002BC66F /* RizzleShare */;
 			targetProxy = 66ACB1201FD9705E002BC66F /* PBXContainerItemProxy */;
 		};
-		66DE3DA7216108040066BDFA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 66DE3D9C216108040066BDFA /* RizzleAction */;
-			targetProxy = 66DE3DA6216108040066BDFA /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2150,14 +2040,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				66ACB11D1FD9705E002BC66F /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-		66DE3DA2216108040066BDFA /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				66DE3DA3216108040066BDFA /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -2568,111 +2450,6 @@
 			};
 			name = Release;
 		};
-		66DE3DA9216108040066BDFA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = LQ43Q9L9MY;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
-				);
-				"HEADER_SEARCH_PATHS[arch=*]" = "$(inherited)";
-				INFOPLIST_FILE = RizzleAction/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.RizzleAction";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Action Extension Developement";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		66DE3DAA216108040066BDFA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = LQ43Q9L9MY;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
-				);
-				"HEADER_SEARCH_PATHS[arch=*]" = "$(inherited)";
-				INFOPLIST_FILE = RizzleAction/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.RizzleAction";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Action Extension";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2813,15 +2590,6 @@
 			buildConfigurations = (
 				66ACB1241FD9705E002BC66F /* Debug */,
 				66ACB1251FD9705E002BC66F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		66DE3DE0216108040066BDFA /* Build configuration list for PBXNativeTarget "RizzleAction" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				66DE3DA9216108040066BDFA /* Debug */,
-				66DE3DAA216108040066BDFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
