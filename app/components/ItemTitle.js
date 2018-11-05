@@ -341,13 +341,19 @@ class ItemTitle extends React.Component {
             (this.getLongestWord().length < 6 ? 3 : -1)
   }
 
-  getFontFamily (fontType) {
-    return this.getFontObject(fontType).fontFamily
+  getFontFamily (fontType, fontVariant) {
+    return this.getFontObject(fontType, fontVariant).fontFamily
   }
 
-  getFontObject (fontType) {
+  getFontObject (fontType, fontVariant) {
     const {font, styles, item} = this.props
+    let fontFamily = font
 
+    if (fontVariant && fontVariant === 'alternate') {
+      fontFamily = font.indexOf('Serif') !== -1 ?
+        font.replace('Serif', 'Sans') :
+        font.replace('Sans', 'Serif')
+    }
     if (fontType) {
 
     } else if (styles.isBold && styles.isItalic) {
@@ -360,7 +366,7 @@ class ItemTitle extends React.Component {
       fontType = 'regular'
     }
 
-    return fontStyles[font][fontType]
+    return fontStyles[fontFamily][fontType]
   }
 
   // shouldComponentUpdate (nextProps, nextState) {
@@ -591,7 +597,19 @@ class ItemTitle extends React.Component {
 
     const words = this.displayTitle.split(' ')
     let wordStyles = null
-    if (styles.interBolded) {
+    if (styles.interStyled) {
+      wordStyles = styles.interBolded.map(isAlternateStyle => {
+        const fontFamily = this.getFontFamily(null, isAlternateStyle ?
+          'alternate' :
+          null)
+        const fontSize = styles.fontSize
+        return {
+          fontFamily,
+          fontSize,
+          height: fontSize
+        }
+      })
+    } else if (styles.interBolded) {
       wordStyles = styles.interBolded.map(isBold => {
         const fontFamily = this.getFontFamily(isBold ? 'bold' :
           (styles.isItalic ? 'regularItalic' : 'regular'))
@@ -717,10 +735,10 @@ class ItemTitle extends React.Component {
         backgroundColor: styles.bg ?
           'rgba(255,255,255,0.95)' :
           hslString(item.feed_color, 'desaturated'),
-        paddingLeft: this.getInnerHorizontalPadding(),
-        paddingRight: this.getInnerHorizontalPadding(),
-        paddingTop: this.getInnerHorizontalPadding(),
-        paddingBottom: this.getInnerHorizontalPadding()
+        paddingLeft: this.screenWidth * 0.05,
+        paddingRight: this.screenWidth * 0.05,
+        paddingTop: this.screenWidth * 0.05,
+        paddingBottom: this.screenWidth * 0.05
       }: {}
       excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
         'white' :

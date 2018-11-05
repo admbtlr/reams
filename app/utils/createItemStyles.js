@@ -67,7 +67,8 @@ export function createItemStyles (item, prevStyles) {
     title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
   }
 
-  title.interBolded = interBold(entities.decode(item.title))
+  title.interBolded = shouldInterBold(entities.decode(item.title))
+  title.interStyled = title.interBolded && Math.random() > 0.5
   title.maximiseFont = isCoverInline || Math.random() > 0.5
   title.textAlign = Math.random() > 0.8
     ? 'center'
@@ -164,7 +165,7 @@ const titleVariance = (words) => {
   return wordsSorted.reduce((variance, word) => variance + Math.abs(average - word.length), 0) / wordsSorted.length
 }
 
-const interBold = (title) => {
+const shouldInterBold = (title) => {
   const words = title.split(' ')
   let common = uncommon = 0
   words.forEach(word => {
