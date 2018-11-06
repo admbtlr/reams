@@ -420,9 +420,9 @@ class ItemTitle extends React.Component {
       0
 
     const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
-      'darker' :
+      'lighter' :
       (coverImageStyles.isCoverImageColorLighter ?
-        'lighter' :
+        'darker' :
         '')
 
     let color = styles.isMonochrome ?
@@ -706,6 +706,9 @@ class ItemTitle extends React.Component {
     return <View style={{
       marginLeft: this.horizontalMargin,
       marginRight: this.horizontalMargin,
+      marginTop: this.props.showCoverImage ?
+        this.horizontalMargin * 4 :
+        0,
       width: 83,
       height: 16,
       backgroundColor: hslString(this.props.item.feed_color, 'desaturated')
@@ -817,7 +820,7 @@ class ItemTitle extends React.Component {
     let dateStyle = {
       color: hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
-      fontSize: showCoverImage ? 12 : 16,
+      fontSize: showCoverImage ? 16 : 16,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: 24,
       textAlign: styles.textAlign,
@@ -832,15 +835,16 @@ class ItemTitle extends React.Component {
 
     if (showCoverImage && !coverImageStyles.isInline) {
       dateStyle.position = 'absolute'
-      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
+      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.1 : 0.5) // heuristic
     }
 
     if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {
       dateStyle.transform = [
         {translateY: 150},
-        {translateX: (this.screenWidth / 2) - 6},
+        {translateX: (this.screenWidth / 2) - 10},
         {rotateZ: '90deg'}
       ]
+      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
     }
 
     // TODO this is feedwrangler... fix it
@@ -864,8 +868,8 @@ class ItemTitle extends React.Component {
   getOverlayColor () {
     const { showCoverImage, item, styles, coverImageStyles } = this.props
     if (!showCoverImage ||
-      styles.invertBG ||
-      styles.bg ||
+      // styles.invertBG ||
+      // styles.bg ||
       (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply) ||
       (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isScreen)) {
       return 'transparent'

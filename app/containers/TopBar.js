@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
       state.items.items) :
     state.items.saved
   const index = state.items.display === 'unread' ?
-    (feedFilter ? 0 : state.items.index) :
+    state.items.index :
     state.items.savedIndex
   const currentItem = items.length > 1 ? items[index] : null
   const prevItem = index > 0 ? items[index - 1] : null
@@ -21,6 +21,7 @@ const mapStateToProps = (state, ownProps) => {
     nextItem,
     toolbar: state.toolbar,
     displayMode: state.items.display,
+    isFiltered: !!feedFilter,
     ...ownProps
   }
 }

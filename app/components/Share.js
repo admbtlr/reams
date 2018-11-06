@@ -188,7 +188,7 @@ async searchForRSS (url) {
                     paddingLeft: 20,
                     paddingRight: 20
                   }}>Looking for an available feed<AnimatedEllipsis style={{
-                  color: 'white',
+                  color: 'black',
                   fontSize: 16,
                   letterSpacing: -5
                 }}/></Text>
@@ -240,7 +240,12 @@ async searchForRSS (url) {
               justifyContent: 'center'
             }}>
               <TouchableOpacity
-                style={{ padding: 28 }}
+                style={{
+                  backgroundColor: 'red',
+                  flex: 1,
+                  height: 'auto',
+                  padding: 7
+                }}
                 onPress={this.savePage}>
                 <Text style={textStyle}>Save this page to read in Rizzle</Text>
               </TouchableOpacity>

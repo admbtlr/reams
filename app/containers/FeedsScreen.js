@@ -44,6 +44,13 @@ const mapDispatchToProps = (dispatch) => {
     unsubscribe: (id) => dispatch({
       type: 'FEEDS_REMOVE_FEED',
       id
+    }),
+    clearReadItems: () => dispatch({
+      type: 'ITEMS_CLEAR_READ'
+    }),
+    clearFeedFilter: () => dispatch({
+      type: 'CONFIG_SET_FEED_FILTER',
+      feedId: null
     })
   }
 }

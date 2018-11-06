@@ -222,6 +222,13 @@ export function items (state = initialState, action) {
         items: newItems
       }
 
+    case 'ITEMS_CLEAR_READ':
+      return {
+        ...state,
+        index: 0,
+        items: state.items.filter(item => !item.readAt)
+      }
+
     case 'ITEM_DECORATION_SUCCESS':
       const testAndDecorate = (item) => {
         if (item._id === action.item._id) {

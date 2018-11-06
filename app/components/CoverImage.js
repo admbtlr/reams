@@ -169,17 +169,17 @@ class CoverImage extends React.Component {
 
       const image = (
         <GLImage
-          center={resizeMode === 'cover' ? center : undefined}
+          center={isInline || resizeMode === 'cover' ? center : undefined}
           key={this.props.imagePath}
           source={{
             uri: `file://${this.props.imagePath}`,
-            width: this.props.imageDimensions.width * (isInline ? 1 : 1.2),
-            height: this.props.imageDimensions.height * (isInline ? 1 : 1.2)
+            width: this.props.imageDimensions.width * (1.2),
+            height: this.props.imageDimensions.height * (1.2)
          }}
           resizeMode={this.props.styles.resizeMode}
           imageSize={{
-            width: this.props.imageDimensions.width * (isInline ? 1 : 1.2),
-            height: this.props.imageDimensions.height * (isInline ? 1 : 1.2)
+            width: this.props.imageDimensions.width * (1.2),
+            height: this.props.imageDimensions.height * (1.2)
           }}
         />
       )
@@ -214,10 +214,10 @@ class CoverImage extends React.Component {
           {csb}
         </ColorBlending>
       )
-      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width * this.props.imageDimensions.height
+      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width * this.props.imageDimensions.height * 1.2
       const surface = (
         <Surface
-          width={isInline ? this.screenWidth : this.screenWidth * 1.2}
+          width={this.screenWidth * 1.2}
           height={isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight * 1.2}
           backgroundColor="#000"
           key="456"

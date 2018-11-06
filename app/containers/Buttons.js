@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :
     state.items.display === 'unread' ?
-    (feedFilter ? 0 : state.items.index) :
+      state.items.index :
       state.items.savedIndex
   const currentItem = items.length > 1 ? items[index] : null
   const prevItem = index > 0 ? items[index - 1] : null

@@ -442,6 +442,7 @@ class Feed extends React.PureComponent {
                   <TouchableOpacity
                     onPress={() => {
                       console.log('Pressed Go to items ' + feedId)
+                      this.props.clearReadItems()
                       this.props.filterItems(feedId)
                       this.props.navigation.navigate('Items')
                     }}

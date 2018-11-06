@@ -157,6 +157,13 @@ class TopBar extends React.Component {
         hslString('rizzleBG'))
   }
 
+  getHamburgerColor (item) {
+    const feedColor = item ? item.feed_color : null
+    return this.props.isFiltered ?
+      hslString(feedColor, 'darker') :
+      'white'
+  }
+
   expandAnimation () {
     const springConfig = {
       speed: 20,
@@ -244,7 +251,7 @@ class TopBar extends React.Component {
             width='28'>
             <Line
               fill='none'
-              stroke='white'
+              stroke={this.getHamburgerColor(item)}
               strokeLinecap='round'
               strokeWidth='2'
               x1='2'
@@ -254,7 +261,7 @@ class TopBar extends React.Component {
             />
             <Line
               fill='none'
-              stroke='white'
+              stroke={this.getHamburgerColor(item)}
               strokeLinecap='round'
               strokeWidth='2'
               x1='2'
@@ -264,7 +271,7 @@ class TopBar extends React.Component {
             />
             <Line
               fill='none'
-              stroke='white'
+              stroke={this.getHamburgerColor(item)}
               strokeLinecap='round'
               strokeWidth='2'
               x1='2'

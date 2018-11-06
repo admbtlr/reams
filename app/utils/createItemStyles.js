@@ -54,7 +54,7 @@ export function createItemStyles (item, prevStyles) {
   let isCoverInline = false
   if (item.title &&
     (item.imageDimensions && item.imageDimensions.height < deviceHeight * 0.7)) {
-    Math.random() > 0.7 ? isCoverInline = true : isContain = true
+    Math.random() > 0.4 ? isCoverInline = true : isContain = true
     isScreen = isMultiply = false
   }
 
@@ -70,13 +70,13 @@ export function createItemStyles (item, prevStyles) {
   title.interBolded = shouldInterBold(entities.decode(item.title))
   title.interStyled = title.interBolded && Math.random() > 0.5
   title.maximiseFont = isCoverInline || Math.random() > 0.5
-  title.textAlign = Math.random() > 0.8
+  title.textAlign = (item.showCoverImage && !isCoverInline && Math.random() > 0.5) || Math.random() > 0.8
     ? 'center'
     : 'left'
   title.title = item.title
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.5
-  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.5) || Math.random() > 0.7
+  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) || Math.random() > 0.8
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.7 + Math.random() * 0.2 :
     0.9 + Math.random() * 0.2
@@ -87,7 +87,7 @@ export function createItemStyles (item, prevStyles) {
       !isCoverInline &&
       !isMultiply
   title.valign = isContain ? 'top-bottom' : // isContain means image is in the middle
-    (Math.random() > 0.5 ?
+    ((item.showCoverImage && Math.random() > 0.3) || Math.random() > 0.5 ?
       'middle' :
       ['top', 'bottom'][Math.floor(Math.random() * 2)])
   title.isBold = title.isMonochrome ?
