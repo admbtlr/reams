@@ -19,6 +19,7 @@ import ColorBlending from 'gl-react-color-blending'
 import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
+import TextButton from './TextButton'
 
 const DRAG_THRESHOLD = 10
 
@@ -429,6 +430,12 @@ class Feed extends React.PureComponent {
                 fontSize: 24,
                 textAlign: 'center'
               }}>{ feedDescription || 'This is where the feed description will go, eventually, when we have them' }</Text>
+              <View style={{
+                height: 1,
+                backgroundColor: 'hsl(300, 20%, 20%)',
+                opacity: 0.2,
+                marginBottom: 16
+              }} />
               { feedStats }
               <View style={{
                 alignItems: 'flex-end'
@@ -439,45 +446,35 @@ class Feed extends React.PureComponent {
                   justifyContent: 'space-between',
                   width: '100%'
                 }}>
-                  <TouchableOpacity
+                  <TextButton
+                    buttonStyle={{ minWidth: this.screenWidth / 2 - this.margin * 1.5 }}
+                    bgColor={hslString(feedColor, 'desaturated')}
+                    fgColor="white"
                     onPress={() => {
                       console.log('Pressed Go to items ' + feedId)
                       this.props.clearReadItems()
                       this.props.filterItems(feedId)
                       this.props.navigation.navigate('Items')
                     }}
-                    style={ buttonStyle }>
-                    <View>
-                      <Text style={ buttonTextStyle }>Go to items</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                    text="Go to items" />
+                  <TextButton
+                    buttonStyle={{ minWidth: this.screenWidth / 2 - this.margin * 1.5 }}
+                    bgColor={hslString(feedColor, 'desaturated')}
+                    fgColor="white"
                     onPress={() => this.shrink()}
-                    style={{
-                      ...buttonStyle,
-                      marginRight: 0
-                    }}>
-                    <View>
-                      <Text style={ buttonTextStyle }>Shrink me</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                    text="Shrink me" />
+                  <TextButton
+                    buttonStyle={{ minWidth: this.screenWidth / 2 - this.margin * 1.5 }}
+                    bgColor={hslString(feedColor, 'desaturated')}
+                    fgColor="white"
                     onPress={() => this.props.navigation.navigate('Items')}
-                    style={ buttonStyle }>
-                    <View>
-                      <Text style={ buttonTextStyle }>Mark all read</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                    text="Mark all read" />
+                  <TextButton
+                    buttonStyle={{ minWidth: this.screenWidth / 2 - this.margin * 1.5 }}
+                    bgColor={hslString(feedColor, 'desaturated')}
+                    fgColor="white"
                     onPress={() => this.shrink()}
-                    style={{
-                      ...buttonStyle,
-                      marginRight: 0
-                    }}>
-                    <View>
-                      <Text style={ buttonTextStyle }>Unsubscribe</Text>
-                    </View>
-                  </TouchableOpacity>
+                    text="Unsubscribe" />
                 </View>
               </View>
             </ScrollView>

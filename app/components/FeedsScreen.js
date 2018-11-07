@@ -9,6 +9,7 @@ import {
   View
 } from 'react-native'
 import Feed from '../containers/Feed'
+import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
 
 class ListHeaderComponent extends React.Component {
@@ -17,78 +18,55 @@ class ListHeaderComponent extends React.Component {
     this.props = props
   }
 
-  render = () => (<View>
-    <Text style={{
-      fontFamily: 'IBMPlexMono',
-      fontSize: 32,
-      marginTop: 48,
-      marginBottom: 24,
-      textAlign: 'center',
-      color: 'hsl(300, 20%, 20%)'
-    }}>Your Feeds</Text>
-    <Text style={{
-      fontFamily: 'IBMPlexMono',
+  render = () => {
+    const textStyles = {
+      fontFamily: 'IBMPlexSans',
       fontSize: 20,
       lineHeight: 32,
-      marginBottom: 24,
+      marginTop: 16,
+      marginBottom: 26,
       padding: 8,
       textAlign: 'left',
       color: 'hsl(300, 20%, 20%)'
-    }}>You are currently using <Text style={{ fontFamily: 'IBMPlexMono-Bold'}}>Rizzle</Text> to manage your feeds. You are subscribed to <Text style={{ fontFamily: 'IBMPlexMono-Bold'}}>43 feeds</Text> and have <Text style={{ fontFamily: 'IBMPlexMono-Bold'}}>574 unread items</Text>.</Text>
-    <TouchableOpacity style={{
-      backgroundColor: 'transparent',
-      color: 'hsl(300, 20%, 20%)',
-      width: '100%',
-      marginBottom: 24,
-      height: 60
-    }}>
-      <Text style={{
-        fontFamily: 'IBMPlexMono',
-        fontSize: 20,
-        textAlign: 'center',
-        textDecorationLine: 'underline',
-        color: 'hsl(300, 20%, 20%)'
-      }}>Use a different account</Text>
-    </TouchableOpacity>
-    <View style={{
-      flexDirection: 'row',
-      marginBottom: 36
-    }}>
-      <TouchableOpacity style={{
-        backgroundColor: 'hsl(300, 20%, 20%)',
-        borderRadius: 12,
-        marginRight: 24,
-        paddingTop: 16,
-        paddingBottom: 16,
-        flex: 1
+    }
+    return (
+      <View style={{
+        marginBottom: 64
       }}>
         <Text style={{
-        fontFamily: 'IBMPlexMono',
-        fontSize: 18,
-        textAlign: 'center',
-        color: '#F2ECD9'}}>Mark all read</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
+          fontFamily: 'IBMPlexSerif-Bold',
+          fontSize: 32,
+          lineHeight: 32,
+          marginTop: 60,
+          marginBottom: 8,
+          textAlign: 'left',
+          color: 'hsl(300, 20%, 20%)',
+        }}>Your Feeds</Text>
+        <View style={{
+          height: 1,
           backgroundColor: 'hsl(300, 20%, 20%)',
-          borderRadius: 12,
-          paddingTop: 16,
-          paddingBottom: 16,
-          flex: 1
-        }}
-        onPress={() => {
-          this.props.clearFeedFilter()
-          this.props.navigation.navigate('Items')
+          opacity: 0.2,
+          marginBottom: 16
+        }} />
+        <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
+        <TextButton text="Use a different account" />
+        <Text style={textStyles}>You have subscribed to <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>43 feeds</Text> and have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>574 unread items</Text>.</Text>
+        <View style={{
+          flexDirection: 'row',
+          marginBottom: 16
         }}>
-        <Text style={{
-        fontFamily: 'IBMPlexMono',
-        fontSize: 18,
-        textAlign: 'center',
-        color: '#F2ECD9'}}>Go to items</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-  )
+          <TextButton text="Remove items" />
+          <TextButton
+            onPress={() => {
+              this.props.clearFeedFilter()
+              this.props.navigation.navigate('Items')
+            }}
+            text="Go to items" />
+        </View>
+        <TextButton text="Add a new feed" />
+      </View>
+    )
+  }
 }
 
 
