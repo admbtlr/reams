@@ -20,6 +20,7 @@ import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import TextButton from './TextButton'
+import XButton from './XButton'
 
 const DRAG_THRESHOLD = 10
 
@@ -252,6 +253,7 @@ class Feed extends React.PureComponent {
   }
 
   render = () => {
+    console.log('Render feed ' + this.state.isExpanded ? 'expanded!' : 'contracted')
     const {
       coverImageDimensions,
       coverImagePath,
@@ -261,6 +263,7 @@ class Feed extends React.PureComponent {
       feedId,
       numFeedItems
     } = this.props
+    const { isExpanded } = this.state
     const textStyles = {
       color: 'white',
       fontFamily: 'IBMPlexMono-Light',
@@ -280,7 +283,7 @@ class Feed extends React.PureComponent {
         fontFamily: 'IBMPlexMono-Light',
         fontSize: 16,
         // marginTop: this.margin * 2,
-        // marginBottom: this.margin
+        marginBottom: this.margin
       }}>You’ve read
         <Text style={bold}> 233 </Text>
         stories from
@@ -392,8 +395,15 @@ class Feed extends React.PureComponent {
             <Animated.View style={{
               flex: 1,
               height: 1,
+              opacity: this.state.normalisedAnimatedValue,
               width: '100%'
-            }} />
+            }}>
+              <XButton
+                isLight={true}
+                onPress={() => this.shrink()}
+                style={{ top: 40 }}
+              />
+            </Animated.View>
             <Text style={{
               ...textStyles,
               flex: 4,
@@ -434,7 +444,7 @@ class Feed extends React.PureComponent {
                 height: 1,
                 backgroundColor: 'hsl(300, 20%, 20%)',
                 opacity: 0.2,
-                marginBottom: 16
+                marginBottom: this.margin
               }} />
               { feedStats }
               <View style={{
@@ -447,7 +457,11 @@ class Feed extends React.PureComponent {
                   width: '100%'
                 }}>
                   <TextButton
-                    buttonStyle={{ minWidth: this.screenWidth / 2 - this.margin * 1.5 }}
+                    buttonStyle={{
+                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
+                      marginRight: this.margin,
+                      marginBottom: this.margin
+                    }}
                     bgColor={hslString(feedColor, 'desaturated')}
                     fgColor="white"
                     onPress={() => {
@@ -458,19 +472,27 @@ class Feed extends React.PureComponent {
                     }}
                     text="Go to items" />
                   <TextButton
-                    buttonStyle={{ minWidth: this.screenWidth / 2 - this.margin * 1.5 }}
+                    buttonStyle={{
+                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
+                      marginBottom: this.margin
+                    }}
                     bgColor={hslString(feedColor, 'desaturated')}
                     fgColor="white"
                     onPress={() => this.shrink()}
-                    text="Shrink me" />
+                    text="Open in Safari" />
                   <TextButton
-                    buttonStyle={{ minWidth: this.screenWidth / 2 - this.margin * 1.5 }}
+                    buttonStyle={{
+                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
+                      marginRight: this.margin
+                    }}
                     bgColor={hslString(feedColor, 'desaturated')}
                     fgColor="white"
                     onPress={() => this.props.navigation.navigate('Items')}
                     text="Mark all read" />
                   <TextButton
-                    buttonStyle={{ minWidth: this.screenWidth / 2 - this.margin * 1.5 }}
+                    buttonStyle={{
+                      minWidth: this.screenWidth / 2 - this.margin * 1.5
+                    }}
                     bgColor={hslString(feedColor, 'desaturated')}
                     fgColor="white"
                     onPress={() => this.shrink()}

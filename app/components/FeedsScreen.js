@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import Feed from '../containers/Feed'
 import TextButton from './TextButton'
+import XButton from './XButton'
 import { hslString } from '../utils/colors'
 
 class ListHeaderComponent extends React.Component {
@@ -19,29 +20,37 @@ class ListHeaderComponent extends React.Component {
   }
 
   render = () => {
+    const margin = Dimensions.get('window').width * 0.05
     const textStyles = {
       fontFamily: 'IBMPlexSans',
       fontSize: 20,
       lineHeight: 32,
-      marginTop: 16,
-      marginBottom: 26,
+      marginTop: margin,
+      marginBottom: margin,
       padding: 8,
       textAlign: 'left',
       color: 'hsl(300, 20%, 20%)'
     }
     return (
       <View style={{
+        marginTop: 55,
         marginBottom: 64
       }}>
         <Text style={{
           fontFamily: 'IBMPlexSerif-Bold',
           fontSize: 32,
           lineHeight: 32,
-          marginTop: 60,
-          marginBottom: 8,
+          marginBottom: 4,
           textAlign: 'left',
           color: 'hsl(300, 20%, 20%)',
         }}>Your Feeds</Text>
+        <XButton
+          onPress={() => {
+            this.props.clearFeedFilter()
+            this.props.navigation.navigate('Items')
+          }}
+          style={{ top: -5 }}
+        />
         <View style={{
           height: 1,
           backgroundColor: 'hsl(300, 20%, 20%)',
@@ -53,13 +62,17 @@ class ListHeaderComponent extends React.Component {
         <Text style={textStyles}>You have subscribed to <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>43 feeds</Text> and have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>574 unread items</Text>.</Text>
         <View style={{
           flexDirection: 'row',
-          marginBottom: 16
+          marginBottom: margin,
+          marginRight: 0 - margin
         }}>
-          <TextButton text="Remove items" />
           <TextButton
-            onPress={() => {
-              this.props.clearFeedFilter()
-              this.props.navigation.navigate('Items')
+            buttonStyle={{
+              marginRight: margin
+            }}
+            text="Remove items" />
+          <TextButton
+            buttonStyle={{
+              marginRight: margin
             }}
             text="Go to items" />
         </View>

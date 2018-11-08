@@ -14,7 +14,7 @@ class TextButton extends React.Component {
   render () {
     const { isInverted, onPress, text } = this.props
     const fgColor = this.props.fgColor || 'hsl(300, 20%, 20%)'
-    const bgColor = this.props.bgColor || '#F2ECD9'
+    const bgColor = this.props.bgColor || 'white'
     return (
       <TouchableOpacity
         onPress={onPress}
