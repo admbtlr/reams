@@ -253,7 +253,7 @@ class Feed extends React.PureComponent {
   }
 
   render = () => {
-    console.log('Render feed ' + this.state.isExpanded ? 'expanded!' : 'contracted')
+    console.log('Render feed ' + (this.state.isExpanded ? 'expanded!' : 'contracted'))
     const {
       coverImageDimensions,
       coverImagePath,
@@ -487,7 +487,10 @@ class Feed extends React.PureComponent {
                     }}
                     bgColor={hslString(feedColor, 'desaturated')}
                     fgColor="white"
-                    onPress={() => this.props.navigation.navigate('Items')}
+                    onPress={() => {
+                      this.props.markAllRead(feedId)
+                      this.shrink()
+                    }}
                     text="Mark all read" />
                   <TextButton
                     buttonStyle={{
@@ -495,7 +498,10 @@ class Feed extends React.PureComponent {
                     }}
                     bgColor={hslString(feedColor, 'desaturated')}
                     fgColor="white"
-                    onPress={() => this.shrink()}
+                    onPress={() => {
+                      this.props.unsubscribe(feedId)
+                      this.shrink()
+                    }}
                     text="Unsubscribe" />
                 </View>
               </View>
