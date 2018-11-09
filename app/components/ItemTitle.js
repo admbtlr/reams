@@ -254,7 +254,7 @@ class ItemTitle extends React.Component {
   async componentDidUpdate () {
     const {styles, coverImageStyles, textAlign} = this.props
 
-    // if (styles.fontResized) return
+    if (styles.fontResized) return
 
     // first get max font size
     const maxFontSize = await this.getMaxFontSize()
