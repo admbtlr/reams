@@ -39,7 +39,7 @@ export function * updateCurrentIndex () {
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
-  yield takeEvery(REHYDRATE, seedFeeds)
+  // yield takeEvery(REHYDRATE, seedFeeds)
   yield takeEvery(REHYDRATE, fetchItems2)
   yield takeEvery(REHYDRATE, executeRemoteActions)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)

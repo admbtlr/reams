@@ -1,5 +1,5 @@
 const initialState = {
-  backend: 'rizzle',
+  backend: 'feedwrangler',
   isFirstTime: true,
   isOnboarding: false,
   lastUpdated: 0,
