@@ -39,6 +39,21 @@ export function feeds (state = initialState, action) {
         lastUpdated: action.lastUpdated
       }
 
+    case 'ITEMS_FETCH_DATA_SUCCESS':
+      const feeds = state.feeds
+      action.items.forEach(item => {
+        if (!state.feeds.find(feed => feed.id === item.feed_id)) {
+          feeds.push({
+            id: item.feed_id,
+            title: item.feed_title
+          })
+        }
+      })
+      return {
+        ...state,
+        feeds
+      }
+
     default:
       return state
   }

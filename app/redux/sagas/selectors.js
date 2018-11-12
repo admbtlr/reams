@@ -22,3 +22,7 @@ export function isFirstTime (state) {
 export function getRemoteActions (state) {
   return state.remoteActionQueue.actions
 }
+
+export function getConfig (state) {
+  return state.config
+}

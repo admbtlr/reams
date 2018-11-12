@@ -59,7 +59,7 @@ class ListHeaderComponent extends React.Component {
         }} />
         <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
         <TextButton text="Use a different account" />
-        <Text style={textStyles}>You have subscribed to <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>43 feeds</Text> and have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>574 unread items</Text>.</Text>
+        <Text style={textStyles}>You have subscribed to <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numFeeds } feeds</Text> and have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
         <View style={{
           flexDirection: 'row',
           marginBottom: margin,
@@ -128,6 +128,8 @@ class FeedsScreen extends React.Component {
           ListHeaderComponent={<ListHeaderComponent
             clearFeedFilter={this.clearFeedFilter}
             navigation={this.props.navigation}
+            numItems={this.props.numItems}
+            numFeeds={this.props.feeds.length}
           />}
           renderItem={this.renderFeed}
           scrollEnabled={this.state.scrollEnabled}

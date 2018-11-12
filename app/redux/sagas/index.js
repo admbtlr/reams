@@ -13,6 +13,7 @@ import { markLastItemRead } from './mark-read'
 import { saveExternalUrl } from './external-items'
 import { executeRemoteActions } from './remote-action-queue'
 import { subscribeToFeed, seedFeeds } from './add-feed'
+import { initialConfig } from './initial-config'
 
 // let rehydrated = false
 // let checkedBuckets = false
@@ -34,13 +35,19 @@ import { subscribeToFeed, seedFeeds } from './add-feed'
 //   }
 // }
 
+function * init () {
+  yield initialConfig()
+  yield fetchItems2()
+}
+
 export function * updateCurrentIndex () {
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems2)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   // yield takeEvery(REHYDRATE, seedFeeds)
-  yield takeEvery(REHYDRATE, fetchItems2)
+  yield takeEvery(REHYDRATE, init)
+  // yield takeEvery(REHYDRATE, fetchItems2)
   yield takeEvery(REHYDRATE, executeRemoteActions)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)

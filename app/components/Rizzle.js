@@ -22,8 +22,6 @@ export default class Rizzle extends Component {
     super(props)
     this.props = props
 
-    setBackend('rizzle')
-
     this.store = configureStore()
 
     Sentry

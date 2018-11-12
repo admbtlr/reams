@@ -31,7 +31,8 @@ const mapStateToProps = (state) => {
   }
 
   return {
-    feeds: feedsCache
+    feeds: feedsCache,
+    numItems: items.length,
   }
 }
 
