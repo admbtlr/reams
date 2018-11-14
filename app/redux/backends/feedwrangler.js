@@ -17,21 +17,42 @@ export const getUnreadItemsUrl = (createdSince, page) => {
   return url
 }
 
-export const getUnreadItems = (createdSince, page) => {
-  createdSince = createdSince || 0
-  page = page || 0
-  console.log("Fetching unread items: " + getUnreadItemsUrl(createdSince, page))
-  return fetch(getUnreadItemsUrl(createdSince, page))
-    .then(response => {
-      if (!response.ok) {
-        throw Error(response.statusText)
-      } else {
-        return receiveUnreadItems(response, createdSince, page)
-      }
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+// export const getUnreadItems = (createdSince, page) => {
+  // createdSince = createdSince || 0
+  // page = page || 0
+  // console.log("Fetching unread items: " + getUnreadItemsUrl(createdSince, page))
+  // return fetch(getUnreadItemsUrl(createdSince, page))
+  //   .then(response => {
+  //     if (!response.ok) {
+  //       throw Error(response.statusText)
+  //     } else {
+  //       return receiveUnreadItems(response, createdSince, page)
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.log(error)
+  //   })
+
+export const getUnreadItems = async function (oldItems, currentItem, feeds) {
+  let newItems, readItems
+  const newIds = await fetchUnreadIds()
+  newItems = newIds.map((item) => {
+    return oldItems.find((oldItem) => oldItem.id === item.id) || item
+  })
+  readItems = oldItems.filter((oldItem) => newItems.find((newItem) => newItem.id === oldItem.id) === undefined)
+  const idsToExpand = newItems.filter(item => !!!item._id)
+
+  if (idsToExpand.length > 0) {
+    const expandedItems = await getItemsByIds(idsToExpand)
+    newItems = mergeExpanded(newItems, expandedItems)
+  }
+  if (currentItem && !newItems.find((item) => {
+    return item && item._id === currentItem._id
+  })) {
+    newItems.push(currentItem)
+  }
+  newItems.sort((a, b) => a.date_published - b.date_published)
+  return {newItems, readItems}
 }
 
 export const fetchUnreadItems = (createdSince) => {
@@ -39,7 +60,13 @@ export const fetchUnreadItems = (createdSince) => {
   return getUnreadItems(createdSince)
 }
 
-export const fetchUnreadIds = () => {
+const mergeExpanded = (mixedItems, expandedItems) => {
+  return mixedItems.map((item) => {
+    return item._id ? item : expandedItems.find((expanded) => expanded.id === item.id)
+  })
+}
+
+const fetchUnreadIds = () => {
   return getUnreadIds().then((unreadIds) => {
     return unreadIds.feed_items.map((feed_item) => {
       return {
@@ -50,22 +77,42 @@ export const fetchUnreadIds = () => {
 }
 
 export const getItemsByIds = (itemIds) => {
-  // TODO: fix this
-  itemIds = itemIds.slice(0, 100)
-  let url = 'https://feedwrangler.net/api/v2/feed_items/get?'
-  url += 'access_token=' + feedWranglerAccessToken
-  url += '&feed_item_ids=' + itemIds.reduce((accum, id) => `${accum}${id.id},`, '')
-  return fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw Error(response.statusText)
-      }
-      return response
+  const chunkArray = (arr) => {
+    let i, j
+    let temparray = []
+    const chunk = 100
+    for (i = 0, j = itemIds.length; i < j; i += chunk) {
+      temparray.push(itemIds.slice(i, i + chunk))
+    }
+    return temparray
+  }
+  const chunkedItemsIds = chunkArray(itemIds)
+  const promises = chunkedItemsIds.map(itemIdChunk => {
+    let url = 'https://feedwrangler.net/api/v2/feed_items/get?'
+    url += 'access_token=' + feedWranglerAccessToken
+    url += '&feed_item_ids=' + itemIdChunk.reduce((accum, id) => `${accum}${id.id},`, '')
+    return fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+        return response
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        return json.feed_items.map(mapFeedwranglerItemToRizzleItem)
+      })
+  })
+  return Promise.all(promises)
+    .then(chunkedItems => {
+      return chunkedItems.reduce((accum, val) => {
+        return accum.concat(val)
+      }, [])
     })
-    .then((response) => response.json())
-    .then((json) => {
-      return json.feed_items.map(mapFeedwranglerItemToRizzleItem)
-    })
+
+
+  // // TODO: fix this
+  // itemIds = itemIds.slice(0, 100)
 }
 
 const mapFeedwranglerItemToRizzleItem = (item) => {

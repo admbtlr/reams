@@ -15,7 +15,10 @@ export function feeds (state = initialState, action) {
         ]
       }
     case 'FEEDS_ADD_FEEDS_SUCCESS':
-      let newFeeds = action.addedFeeds.filter(addedFeed => !state.feeds.find(feed => feed.url === addedFeed.url))
+      let newFeeds = action.addedFeeds.filter(addedFeed => {
+        return !state.feeds
+          .find(feed => feed.url === addedFeed.url || feed._id === addedFeed._id)
+      })
       return {
         ...state,
         feeds: [
@@ -42,7 +45,7 @@ export function feeds (state = initialState, action) {
     case 'ITEMS_FETCH_DATA_SUCCESS':
       const feeds = state.feeds
       action.items.forEach(item => {
-        if (!state.feeds.find(feed => feed.id === item.feed_id)) {
+        if (!state.feeds.find(feed => feed._id === item.feed_id)) {
           feeds.push({
             id: item.feed_id,
             title: item.feed_title

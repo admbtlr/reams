@@ -1,6 +1,7 @@
 import { put, select } from 'redux-saga/effects'
 import { fetchUnreadItems, fetchUnreadIds, getItemsByIds } from '../backends'
 import { mergeItems, id } from '../../utils/merge-items.js'
+import { getFeedColor } from '../../utils/'
 import { checkOnline } from './check-online'
 const RNFS = require('react-native-fs')
 
@@ -20,9 +21,12 @@ export function * fetchItems2 () {
   const feeds = yield select(getFeeds)
   const { newItems, readItems } = yield fetchUnreadItems(oldItems, currentItem, feeds)
 
+  const newFeeds = yield createFeedsWhereNeeded(newItems, feeds)
+  const readyItems = addFeedInfoToItems(newItems, feeds, newFeeds)
+
   yield put({
     type: 'ITEMS_FETCH_DATA_SUCCESS',
-    items: newItems
+    items: readyItems
   })
   yield put({
     type: 'FEEDS_SET_LAST_UPDATED',
@@ -34,6 +38,40 @@ export function * fetchItems2 () {
   })
   // now remove the cached images for all the read items
   removeCachedCoverImages(readItems)
+}
+
+function addFeedInfoToItems(items, feeds, moreFeeds) {
+  let allFeeds = []
+  if (feeds) allFeeds = feeds
+  if (moreFeeds) allFeeds = concat(allFeeds, moreFeeds)
+  return items.map(item => {
+    const feed = feeds.find(feed => feed.id === item.feed_id)
+    return {
+      ...item,
+      feed_id: feed._id,
+      feed_color: feed ? feed.color : null
+    }
+  })
+}
+
+function * createFeedsWhereNeeded (items, feeds) {
+  let newFeeds = []
+  items.forEach(item => {
+    if (!feeds.find(feed => feed.id === item.feed_id)) {
+      const newFeed = {
+        id: item.feed_id,
+        _id: id(),
+        title: item.feed_title,
+        color: getFeedColor(feeds)
+      }
+      newFeeds.push(newFeed)
+      feeds.push(newFeed)
+    }
+  })
+  yield put({
+    type: 'FEEDS_ADD_FEEDS_SUCCESS',
+    addedFeeds: newFeeds
+  })
 }
 
 export function * fetchItems () {

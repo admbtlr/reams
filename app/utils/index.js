@@ -73,3 +73,16 @@ export function id () {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
+
+export function getFeedColor (feeds) {
+  const { desaturated } = require('./colors.json')
+  const colorNames = Object.keys(desaturated)
+  const taken = feeds.length < 12 ?
+    feeds.map(feed => feed.color) :
+    undefined
+  let randomIndex = Math.floor(Math.random() * colorNames.length)
+  while (taken && taken.indexOf(colorNames[randomIndex]) !== -1) {
+    randomIndex = Math.floor(Math.random() * colorNames.length)
+  }
+  return colorNames[randomIndex]
+}

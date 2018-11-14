@@ -1,6 +1,46 @@
 import {id} from '../../utils'
 
-export const fetchUnreadItems = (feeds) => {
+export const getUnreadItems = async function (oldItems, currentItem, feeds) {
+  let newItems
+  let latestDate = 0
+  if (oldItems.length > 0) {
+    latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
+  }
+  try {
+    let unreadItemArrays = await fetchUnreadItems(feeds)
+
+    unreadItemArrays = extractErroredFeeds(unreadItemArrays)
+
+    newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
+    if (__DEV__) {
+      newItems = newItems.slice(0, 100)
+    }
+    // console.log(`Fetched ${newItems.length} items`)
+    // console.log(newItems)
+    let { read, unread } = mergeItems(oldItems, newItems, currentItem)
+
+    // RealmJS is too slow in devtools
+    if (!__DEV__) {
+      unread = await filterItemsForStale(unread)
+    }
+
+    // console.log(`And now I have ${unread.length} unread items`)
+    newItems = unread.sort((a, b) => moment(a.date_published).unix() - moment(b.date_published).unix());
+  } catch (error) {
+    console.log(error)
+  }
+  return { newItems, readItems: read }
+}
+
+function extractErroredFeeds (unreadItemsArrays) {
+  let errored = unreadItemsArrays.filter(uia => uia.message)
+  errored.forEach(({feed, message}) => {
+    console.log(`${feed.title} has errored: ${message}`)
+  })
+  return unreadItemsArrays.filter(uia => uia.length)
+}
+
+const fetchUnreadItems = (feeds) => {
   const promises = feeds.filter(feed => !!feed).map(feed => {
     const url = `https://api.rizzle.net/feed/?url=${feed.url}`
     // const url = `http://localhost:8080/feed/?url=${feed.url}`
