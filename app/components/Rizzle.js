@@ -24,9 +24,7 @@ export default class Rizzle extends Component {
 
     this.store = configureStore()
 
-    Sentry
-      .config('https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309')
-      .install()
+    Sentry.config('https://1dad862b663640649e6c46afed28a37f@sentry.io/195309').install()
 
     if (__DEV__) SplashScreen.hide()
 
