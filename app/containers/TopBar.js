@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
     currentItem,
     nextItem,
     toolbar: state.toolbar,
-    displayMode: state.itemsMeta.display
+    displayMode: state.itemsMeta.display,
     isFiltered: !!feedFilter,
     ...ownProps
   }

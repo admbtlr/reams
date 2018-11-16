@@ -31,11 +31,7 @@
     "react-native-fs": "^2.9.6",
     "react-native-html-parser": "0.0.5",
     "react-native-image-cache-hoc": "^1.4.0",
-<<<<<<< HEAD
-    "react-native-image-zoom-viewer": "^2.2.1",
-=======
     "react-native-image-zoom-viewer": "git://github.com/adamvert/react-native-image-viewer",
->>>>>>> master
     "react-native-measure-text": "1.0.0-beta",
     "react-native-modalbox": "^1.4.2",
     "react-native-sentry": "^0.39.1",

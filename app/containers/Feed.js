@@ -4,7 +4,7 @@ import {getCachedImagePath} from '../utils/'
 
 const mapStateToProps = (state, ownProps) => {
   const feedId = ownProps.feedId
-  const items = state.items.items
+  const items = state.itemsUnread
   const feedItems = items.filter(i => i.feed_id === feedId)
   const numFeedItems = feedItems.length
   const coverImageItem = feedItems.find(item => item.banner_image)
