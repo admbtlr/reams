@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert, AppState, Clipboard, Text, TouchableHighlight, View } from 'react-native'
-import { RNSKBucket } from 'react-native-swiss-knife'
+// import { RNSKBucket } from 'react-native-swiss-knife'
+import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { parseString } from 'react-native-xml2js'
 // import { RizzleModal } from './RizzleModal'
 
@@ -14,16 +15,19 @@ class AppStateListener extends React.Component {
     super(props)
     this.props = props
 
-    this.checkClipboardContents = this.checkClipboardContents.bind(this)
+    this.checkClipboard = this.checkClipboard.bind(this)
+    this.handleAppStateChange = this.handleAppStateChange.bind(this)
+    this.showSavePageModal = this.showSavePageModal.bind(this)
+    this.showSaveFeedModal = this.showSaveFeedModal.bind(this)
+
     AppState.addEventListener('change', this.handleAppStateChange)
   }
 
-  handleAppStateChange = (nextAppState) => {
+  async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
-      // Alert.alert('AppState changed to ACTIVE from ' + this.props.appState)
       this.checkClipboard()
-      this.checkPageBucket()
-      this.checkFeedBucket()
+      await this.checkPageBucket()
+      await this.checkFeedBucket()
       // see Rizzle component
 
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
@@ -33,35 +37,33 @@ class AppStateListener extends React.Component {
   }
 
   checkClipboard () {
-    Clipboard.getString().then(this.checkClipboardContents.bind(this))
+    console.log('Checking clipboard')
+    const that = this
+    Clipboard.getString().then(contents => {
+      // TODO make this more robust
+      if (contents.substring(0, 4) === 'http') {
+        that.showSavePageModal(contents)
+      } else if (contents.substring(0, 6) === '<opml>') {
+      }
+    })
   }
 
-  checkClipboardContents (contents) {
-    console.log(contents)
-    console.log(contents.substring(0, 4))
-    // TODO make this more robust
-    if (contents.substring(0, 4) === 'http') {
-      this.showSavePageModal(contents)
-    } else if (contents.substring(0, 6) === '<opml>') {
-    }
-  }
-
-  checkPageBucket () {
-    RNSKBucket.get('page', this.group).then(value => {
+  async checkPageBucket () {
+    SharedGroupPreferences.getItem('page', this.group).then(value => {
       if (value !== null) {
-        RNSKBucket.set('page', null, this.group)
+        SharedGroupPreferences.setItem('page', null, this.group)
         console.log(`Got a page to save: ${value}`)
         this.showSavePageModal(value)
       }
     })
   }
 
-  checkFeedBucket () {
+  async checkFeedBucket () {
     const that = this
-    RNSKBucket.get('feed', this.group).then(value => {
+    SharedGroupPreferences.getItem('feed', this.group).then(value => {
       if (value !== null) {
         const url = value
-        RNSKBucket.set('feed', null, this.group)
+        SharedGroupPreferences.setItem('feed', null, this.group)
         console.log(`Got a feed to subscribe to: ${url}`)
         // TODO check that value is a feed url
         // TODO check that feed is not already subscribed!
@@ -107,14 +109,14 @@ class AppStateListener extends React.Component {
           style: ['title']
         },
         {
-          text: value,
+          text: url,
           style: ['em']
         }
       ],
       modalHideCancel: false,
       modalShow: true,
       modalOnOk: () => {
-        this.props.saveURL(value)
+        this.props.saveURL(url)
       }
     })
   }

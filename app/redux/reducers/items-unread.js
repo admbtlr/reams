@@ -89,19 +89,14 @@ export const itemsUnread = (state = initialState, action) => {
         .map(addStylesIfNecessary)
         .map(setShowCoverImage)
 
-      // let index = 0
-      // TODO what about the index?
-      // if (currentItem) {
-      //   items.forEach((item, i) => {
-      //     if (item._id === currentItem._id) {
-      //       index = i
-      //     }
-      //   })
-      // }
       return {
         ...state,
-        items,
-        // index
+        items
+      }
+
+    case 'ITEMS_CLEAR_READ':
+      return {
+        items: state.items.filter(item => !item.readAt)
       }
 
     case 'ITEM_MARK_READ':
@@ -117,33 +112,6 @@ export const itemsUnread = (state = initialState, action) => {
         return item.feed_id !== feedId &&
           item._id !== currentItem._id
       })
-      // let newIndex = 0
-      // items.forEach((item, index) => {
-      //   if (item._id === currentItem._id) {
-      //     newIndex = index
-      //   }
-      // })
-      // if (newIndex == 0) {
-      //   // find the first unread item and start there
-      //   let i = 0
-      //   for (let item of items) {
-      //     if (!item.readAt) {
-      //       newIndex = i
-      //       break
-      //     }
-      //     i++
-      //   }
-      // }
-      return {
-        ...state,
-        items,
-        // index: newIndex
-      }
-
-    case 'ITEM_SAVE_ITEM':
-      items = [ ...state.items ]
-      let savedItem = items.find((item) => item._id === action.item._id)
-      if (savedItem) savedItem.isSaved = true
       return {
         ...state,
         items
@@ -151,65 +119,6 @@ export const itemsUnread = (state = initialState, action) => {
 
     case 'ITEM_TOGGLE_MERCURY':
       return itemToggleMercury(action, state)
-
-    case 'ITEM_SAVE_ITEM':
-      items = [ ...state.items ]
-      saved = [ ...state.saved ]
-      savedItem = items.find((item) => item._id === action.item._id)
-      savedItem.isSaved = true
-      saved.push({
-        ...savedItem,
-        savedAt: Date.now()
-      })
-      return {
-        ...state,
-        items,
-        saved
-      }
-
-    case 'ITEM_SAVE_EXTERNAL_ITEM':
-      saved = [ ...state.saved ]
-      savedItem = nullValuesToEmptyStrings(action.item)
-      savedItem = addStylesIfNecessary(savedItem)
-      savedItem.isSaved = true
-      saved.push({
-        ...savedItem,
-        savedAt: Date.now()
-      })
-      return {
-        ...state,
-        saved
-      }
-
-    // TODO; saved index
-    case 'ITEM_UNSAVE_ITEM':
-      items = [ ...state.items ]
-      let savedIndex = state.savedIndex
-      savedItem = state.saved.find((item) => item._id === action.item._id)
-      saved = state.saved.filter((item) => item._id !== action.item._id)
-      savedItem = items.find((item) => item._id === action.item._id)
-      if (savedItem) savedItem.isSaved = false
-      if (savedIndex > saved.length - 1) {
-        savedIndex = saved.length - 1
-      }
-      return {
-        ...state,
-        items,
-        saved,
-        savedIndex
-      }
-
-      newState = { ...state }
-      newState[indexKey] = action.index
-      return newState
-
-    // case 'ITEMS_KEEP_CURRENT_ITEM_UNREAD':
-    //   newItems = state.items
-    //   newItems[state.index].keepUnread = true
-    //   return {
-    //     ...state,
-    //     items: newItems
-    //   }
 
     case 'ITEM_DECORATION_SUCCESS':
       return itemDecorationSuccess(action, state)

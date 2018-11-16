@@ -3,7 +3,11 @@ import FeedItem from '../components/FeedItem.js'
 
 const mapStateToProps = (state, ownProps) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  const items = state.itemsMeta.display === 'unread' ? state.itemsUnread : state.itemsSaved
+  const items = state.itemsMeta.display === 'unread' ?
+    (feedFilter ?
+      state.itemsUnread.filter(item => item.feed_id === feedFilter) :
+      state.itemsUnread) :
+    state.itemsSaved
   const index = state.itemsMeta.display === 'unread' ?
     state.itemsMeta.index :
     state.itemsMeta.savedIndex

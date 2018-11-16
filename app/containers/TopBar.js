@@ -3,7 +3,12 @@ import TopBar from '../components/TopBar.js'
 import { itemsUpdateCurrentIndex } from '../redux/actions/items.js'
 
 const mapStateToProps = (state) => {
-  const items = state.itemsMeta.display === 'unread' ? state.itemsUnread : state.itemsSaved
+  const feedFilter = state.config.feedFilter
+  const items = state.itemsMeta.display === 'unread' ?
+    (feedFilter ?
+      state.itemsUnread.filter(item => item.feed_id === feedFilter) :
+      state.itemsUnread) :
+    state.itemsSaved
   const index = state.itemsMeta.display === 'unread' ?
     state.itemsMeta.index :
     state.itemsMeta.savedIndex
@@ -16,6 +21,8 @@ const mapStateToProps = (state) => {
     nextItem,
     toolbar: state.toolbar,
     displayMode: state.itemsMeta.display
+    isFiltered: !!feedFilter,
+    ...ownProps
   }
 }
 

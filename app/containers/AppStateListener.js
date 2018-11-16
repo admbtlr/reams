@@ -24,10 +24,13 @@ const mapDispatchToProps = (dispatch) => {
       type: 'FEEDS_ADD_FEED',
       feed
     }),
-    showModal: (modalProps) => dispatch({
-      type: 'UI_SHOW_MODAL',
-      modalProps
-    }),
+    showModal: (modalProps) => {
+      console.log("SHOW MODAL!")
+      dispatch({
+        type: 'UI_SHOW_MODAL',
+        modalProps
+      })
+    },
     finishedCheckingBuckets: () => dispatch({
       type: 'UI_FINSHED_CHECKING_BUCKETS'
     })

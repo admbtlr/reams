@@ -60,8 +60,7 @@ class RizzleModal extends React.Component {
                 <Text
                   style={{
                     ...this.getStyles().text,
-                    ...this.getStyles().buttonText,
-                    ...this.getStyles().yellow
+                    ...this.getStyles().buttonText
                   }}>Cancel</Text>
               </TouchableHighlight>
             }
@@ -72,7 +71,6 @@ class RizzleModal extends React.Component {
                 style={{
                   ...this.getStyles().text,
                   ...this.getStyles().buttonText,
-                  ...this.getStyles().yellow,
                   ...this.getStyles().strong
                 }}>OK</Text>
             </TouchableHighlight>
@@ -107,7 +105,7 @@ class RizzleModal extends React.Component {
         marginTop: 15
       },
       text: {
-        color: 'white',
+        color: 'black',
         fontFamily: 'IBMPlexMono',
         fontSize: 16,
         textAlign: 'center'

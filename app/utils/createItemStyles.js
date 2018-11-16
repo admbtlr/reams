@@ -11,12 +11,11 @@ let deviceHeight
 
 export function createItemStyles (item, prevStyles) {
   let title = {
-    isMonochrome: Math.random() > 0.5
+    isMonochrome: Math.random() > 0.3
   }
   const isMainColorDarker = Math.random() > 0.6
   const isMainColorDesaturated = Math.random() > 0.6
-  let isCoverImageColorDarker = false
-  let isCoverImageColorLighter = false
+  let isCoverImageColorDarker = Math.random() > 0.4
   const isCoverImageColorDesaturated = isMainColorDarker ? false : Math.random() > 0.2
   // const color = pickOne(getNames(), isMainColorDarker ? 'Darker' : '', prevStyles && prevStyles.color)
   const color = item.feed_color
@@ -32,14 +31,15 @@ export function createItemStyles (item, prevStyles) {
   let isBW = false
   let isMultiply = false
   let isScreen = false
-  if (Math.random() > 0.9 && !(prevStyles && prevStyles.coverImage.isMultiply)) {
+  if (Math.random() > 0.7) {
     if (Math.random() > 0.5) {
       isScreen = true
       isCoverImageColorDarker = true
     } else {
       isMultiply = true
-      isCoverImageLighter = true
+      isCoverImageColorDarker = false
     }
+    title.isMonochrome = true
     // title.isMonochrome = Math.random() > 0.3 && !(prevStyles && prevStyles.isMonochrome)
     if (Math.random() > 0.2) {
       isBW = true
@@ -53,19 +53,9 @@ export function createItemStyles (item, prevStyles) {
   let isContain = false
   let isCoverInline = false
   if (item.title &&
-    // item.title.length > 24 &&
-    // item.excerpt &&
-    (item.imageDimensions && item.imageDimensions.height < deviceHeight) &&
-    !(prevStyles && prevStyles.isCoverInline)) {
-    isCoverInline = true
-    // title.isTone = Math.random() > 0.5
-    // title.isExcerptTone = Math.random() > 0.5
-  } else if (Math.random() > 0.5 && !(prevStyles && prevStyles.coverImage.resizeMode == 'contain')) {
-    isContain = true
-    // isMultiply = false
-    // isBW = false
-    // title.color = color
-    // title.isMonochrome = isMultiply || isScreen
+    (item.imageDimensions && item.imageDimensions.height < deviceHeight * 0.7)) {
+    Math.random() > 0.4 ? isCoverInline = true : isContain = true
+    isScreen = isMultiply = false
   }
 
   const fonts = getFontClasses()
@@ -77,31 +67,35 @@ export function createItemStyles (item, prevStyles) {
     title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
   }
 
-  title.interBolded = interBold(entities.decode(item.title))
+  title.interBolded = shouldInterBold(entities.decode(item.title))
+  title.interStyled = title.interBolded && Math.random() > 0.5
   title.maximiseFont = isCoverInline || Math.random() > 0.5
-  title.textAlign = Math.random() > 0.8
+  title.textAlign = (item.showCoverImage && !isCoverInline && Math.random() > 0.5) || Math.random() > 0.8
     ? 'center'
     : 'left'
   title.title = item.title
-  title.hasShadow = !isContain
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.5
-  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.3) || Math.random() > 0.7
+  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) || Math.random() > 0.8
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.7 + Math.random() * 0.2 :
     0.9 + Math.random() * 0.2
   title.invertBG = Math.random() > 0.8 && !isCoverInline
-  title.isItalic = Math.random() > 0.8
+  title.isItalic = !title.isUpperCase && Math.random() > 0.7
   title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
+  title.hasShadow = !title.bg &&
+      !isCoverInline &&
+      !isMultiply
   title.valign = isContain ? 'top-bottom' : // isContain means image is in the middle
-    (Math.random() > 0.5 ?
+    ((item.showCoverImage && Math.random() > 0.3) || Math.random() > 0.5 ?
       'middle' :
       ['top', 'bottom'][Math.floor(Math.random() * 2)])
   title.isBold = title.isMonochrome ?
       Math.random() > 0.5 :
       Math.random() > 0.3
-  title.borderWidth = title.invertBG || title.isVertical || isContain ? 0 :
-    (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
+  // title.borderWidth = title.invertBG || title.isVertical || isContain ? 0 :
+  //   (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
+  title.borderWidth = 0
 
   // to stop the predominance of white on black titles
   // if (title.invertBG) {
@@ -111,6 +105,9 @@ export function createItemStyles (item, prevStyles) {
   if (!title.bg && !title.invertBG) {
     title.excerptInvertBG = Math.random() > 0.7
   }
+
+  title.excerptFullWidth = isCoverInline || Math.random() > 0.5
+  title.excerptHorizontalAlign = ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
 
   return {
     fontClasses: fonts,
@@ -133,7 +130,6 @@ export function createItemStyles (item, prevStyles) {
       isMultiply,
       isScreen,
       isCoverImageColorDarker,
-      isCoverImageColorLighter,
       color: pickOne(getNames(), color),
       resizeMode: isContain ? 'contain' : 'cover',
       align: ['left', 'center', 'right', 'center', 'center'][Math.floor(Math.random() * 5)],
@@ -169,7 +165,7 @@ const titleVariance = (words) => {
   return wordsSorted.reduce((variance, word) => variance + Math.abs(average - word.length), 0) / wordsSorted.length
 }
 
-const interBold = (title) => {
+const shouldInterBold = (title) => {
   const words = title.split(' ')
   let common = uncommon = 0
   words.forEach(word => {

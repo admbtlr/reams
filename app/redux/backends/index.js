@@ -35,77 +35,23 @@ function getMercuryUrl (item) {
   return url
 }
 
-function * fetchUnreadItems (oldItems, currentItem, feeds) {
-  let readItems
-  let newItems
+const fetchUnreadItems = async function (oldItems, currentItem, feeds) {
+
+  // { readItems, newItems }
+  let items
 
   if (backend === 'rizzle') {
-    let latestDate = 0
-    if (oldItems.length > 0) {
-      latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
-    }
-    try {
-      let unreadItemArrays = yield rizzle.fetchUnreadItems(feeds)
-
-      unreadItemArrays = extractErroredFeeds(unreadItemArrays)
-
-      newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
-      if (__DEV__) {
-        newItems = newItems.slice(0, 100)
-      }
-      // console.log(`Fetched ${newItems.length} items`)
-      // console.log(newItems)
-      let { read, unread } = mergeItems(oldItems, newItems, currentItem)
-
-      // RealmJS is too slow in devtools
-      if (!__DEV__) {
-        unread = yield filterItemsForStale(unread)
-      }
-
-      // console.log(`And now I have ${unread.length} unread items`)
-      newItems = unread.sort((a, b) => moment(a.date_published).unix() - moment(b.date_published).unix());
-    } catch (error) {
-      console.log(error)
-    }
+    items = await rizzle.getUnreadItems(oldItems, currentItem, feeds)
   } else if (backend === 'feedwrangler') {
-    const newIds = yield feedwrangler.fetchUnreadIds()
-    newItems = newIds.map((item) => {
-      return oldItems.find((oldItem) => oldItem.id === item.id) || item
-    })
-    readItems = oldItems.filter((oldItem) => newItems.find((newItem) => newItem.id === oldItem.id) === undefined)
-    const idsToExpand = newItems.filter(item => !!!item._id)
-    if (idsToExpand.length > 0) {
-      const expandedItems = yield feedwrangler.getItemsByIds(idsToExpand)
-      newItems = mergeExpanded(newItems, expandedItems)
-    }
-    if (currentItem && !newItems.find((item) => {
-      return item && item._id === currentItem._id
-    })) {
-      newItems.push(currentItem)
-    }
-    newItems.sort((a, b) => a.date_published - b.date_published)
-
-    if (__DEV__) {
-      newItems = newItems.slice(0, 100)
-    }
-
+    items = await feedwrangler.getUnreadItems(oldItems, currentItem, feeds)
   }
 
-  return {newItems, readItems}
-}
+  // if (__DEV__) {
+  //   items.newItems = items.newItems.slice(0, 100)
+  // }
 
-function extractErroredFeeds (unreadItemsArrays) {
-  let errored = unreadItemsArrays.filter(uia => uia.message)
-  errored.forEach(({feed, message}) => {
-    console.log(`${feed.title} has errored: ${message}`)
-  })
-  return unreadItemsArrays.filter(uia => uia.length)
-}
-
-function mergeExpanded (mixedItems, expandedItems) {
-  return mixedItems.map((item) => {
-    return item._id ? item : expandedItems.find((expanded) => expanded.id === item.id)
-  })
+  // return {newItems, readItems}
+  return items
 }
 
 function fetchUnreadIds () {

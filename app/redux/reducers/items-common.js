@@ -1,7 +1,8 @@
 import {
   addStylesIfNecessary,
   addMercuryStuffToItem,
-  addCoverImageToItem
+  addCoverImageToItem,
+  setShowCoverImage
 } from '../../utils/item-utils.js'
 
 export const itemMarkRead = (action, state) => {
@@ -45,8 +46,8 @@ export const itemToggleMercury = (action, state) => {
 export const itemDecorationSuccess = (action, state) => {
   const testAndDecorate = (item) => {
     if (item._id === action.item._id) {
-      item =  addMercuryStuffToItem(item, action.mercuryStuff)
-      return addCoverImageToItem(item, action.imageStuff)
+      item = addMercuryStuffToItem(item, action.mercuryStuff)
+      return setShowCoverImage(addCoverImageToItem(item, action.imageStuff))
     } else {
       return item
     }

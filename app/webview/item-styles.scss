@@ -59,7 +59,7 @@ body {
 
   background-color: hsl(60, 17%, 96%);
   &, a, a:active, a:visited {
-    color: hsl(0, 0%, 25%);
+    color: hsl(0, 0%, 35%);
   }
   transition: background-color, color 0.2s;
 
@@ -152,13 +152,13 @@ body {
     border: 0;
   }
 
-  p figure:last-child,
-    p img:last-child,
-    p video:last-child,
-    p iframe:last-child,
-    p pre:last-child {
-    margin-bottom: 0;
-  }
+  // p figure:last-child,
+  //   p img:last-child,
+  //   p video:last-child,
+  //   p iframe:last-child,
+  //   p pre:last-child {
+  //   margin-bottom: 0;
+  // }
 
   figure, img, video, iframe, pre {
     width: 100vw;
@@ -461,7 +461,7 @@ article > div:not(:last-of-type) {
   & > div:first-of-type > p:not(.short-para):first-of-type,
   & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
 
-    margin-top: 2rem;
+    // margin-top: 2rem;
 
     &:first-letter {
       font-size: 4rem;
@@ -768,5 +768,9 @@ article > div:not(:last-of-type) {
 }
 
 body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
-  color: inherit;
+  color: #000;
+}
+
+body .itemArticle.dropCapIsMonochrome.dark-background > p:not(.short-para):first-of-type:first-letter {
+  color: #fff;
 }

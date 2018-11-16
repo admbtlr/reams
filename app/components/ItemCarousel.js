@@ -6,7 +6,7 @@ import SwipeableViews from './SwipeableViews'
 
 const BUFFER_LENGTH = 1
 
-class FeedList extends React.Component {
+class ItemCarousel extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {
     // don't update if the items haven't changed (unread <> saved)
     // AND (nextProps.index is the same as incomingIndex
@@ -63,4 +63,4 @@ class FeedList extends React.Component {
   }
 }
 
-export default FeedList
+export default ItemCarousel

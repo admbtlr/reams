@@ -19,22 +19,22 @@ export function * executeRemoteActions () {
 }
 
 function * executeOldestAction () {
-  const isOnline = yield checkOnline()
-  if (isOnline) {
-    interval = INITIAL_INTERVAL
-    actions = yield select(getRemoteActions)
-    if (actions.length > 0) {
-      // console.log(`${actions.length} remote actions to do`)
+  const actions = yield select(getRemoteActions)
+  if (actions.length > 0) {
+    const isOnline = yield checkOnline()
+    if (isOnline) {
+      interval = INITIAL_INTERVAL
       yield executeAction(actions[0])
+    } else {
+      interval = interval * 2
+      interval = interval > 60000 ? 60000 : interval
+      // console.log(`Offline, setting remote action queue interval to ${interval}`)
     }
-  } else {
-    interval = interval * 2
-    interval = interval > 60000 ? 60000 : interval
-    // console.log(`Offline, setting remote action queue interval to ${interval}`)
   }
 }
 
 function * executeAction (action) {
+  console.log('Executing action: ' + action.type)
   switch (action.type) {
     case 'ITEM_MARK_READ':
       // console.log('Marking item read...')

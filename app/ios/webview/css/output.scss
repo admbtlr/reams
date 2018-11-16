@@ -11,32 +11,62 @@ $colors: (
   purple1: hsl(298, 32%, 56%),
   purple2: hsl(320, 82%, 66%),
   brown1: hsl(355, 56%, 63%),
-  red1Darker: hsl(355, 84%, 25%),
-  red2Darker: hsl(341, 56%, 29%),
-  orange1Darker: hsl(23, 100%, 30%),
-  orange2Darker: hsl(33, 93%, 34%),
-  yellow1Darker: hsl(49, 100%, 20%),
-  yellow2Darker: hsl(65, 80%, 15%),
-  green1Darker: hsl(167, 80%, 25%),
-  blue1Darker: hsl(226, 68%, 27%),
-  blue2Darker: hsl(198, 90%, 24%),
-  purple1Darker: hsl(298, 32%, 26%),
-  purple2Darker: hsl(320, 82%, 26%),
-  brown1Darker: hsl(355, 56%, 21%),
+);
+$darker: (
+  red1: hsl(355, 84%, 25%),
+  red2: hsl(341, 56%, 29%),
+  orange1: hsl(23, 100%, 30%),
+  orange2: hsl(33, 93%, 34%),
+  yellow1: hsl(49, 100%, 20%),
+  yellow2: hsl(65, 80%, 15%),
+  green1: hsl(167, 80%, 25%),
+  blue1: hsl(226, 68%, 27%),
+  blue2: hsl(198, 90%, 24%),
+  purple1: hsl(298, 32%, 26%),
+  purple2: hsl(320, 82%, 26%),
+  brown1: hsl(355, 56%, 21%),
+);
+$lighter: (
+  red1: hsl(355, 84%, 65%),
+  red2: hsl(341, 56%, 69%),
+  orange1: hsl(23, 100%, 70%),
+  orange2: hsl(33, 93%, 74%),
+  yellow1: hsl(49, 100%, 60%),
+  yellow2: hsl(65, 80%, 55%),
+  green1: hsl(167, 80%, 65%),
+  blue1: hsl(226, 68%, 67%),
+  blue2: hsl(198, 90%, 64%),
+  purple1: hsl(246, 52%, 56%),
+  purple2: hsl(320, 82%, 66%),
+  brown1: hsl(355, 56%, 61%),
 );
 $desaturated: (
-  red1: hsl(355, 26%, 55%),
-  red2: hsl(341, 16%, 59%),
-  orange1: hsl(23, 40%, 60%),
-  orange2: hsl(33, 33%, 64%),
-  yellow1: hsl(49, 30%, 50%),
-  yellow2: hsl(65, 30%, 60%),
-  green1: hsl(167, 30%, 55%),
-  blue1: hsl(226, 18%, 57%),
-  blue2: hsl(198, 20%, 54%),
-  purple1: hsl(298, 12%, 66%),
-  purple2: hsl(320, 22%, 66%),
-  brown1: hsl(355, 21%, 65%),
+  red1: hsl(355, 64%, 45%),
+  red2: hsl(341, 36%, 49%),
+  orange1: hsl(23, 80%, 60%),
+  orange2: hsl(33, 73%, 54%),
+  yellow1: hsl(49, 80%, 50%),
+  yellow2: hsl(65, 60%, 40%),
+  green1: hsl(167, 60%, 55%),
+  blue1: hsl(226, 48%, 57%),
+  blue2: hsl(198, 70%, 44%),
+  purple1: hsl(246, 36%, 56%),
+  purple2: hsl(320, 62%, 66%),
+  brown1: hsl(355, 36%, 63%),
+);
+$desaturatedDarker: (
+  red1: hsl(5, 27%, 28%),
+  red2: hsl(341, 16%, 29%),
+  orange1: hsl(23, 40%, 30%),
+  orange2: hsl(33, 33%, 34%),
+  yellow1: hsl(49, 30%, 20%),
+  yellow2: hsl(65, 30%, 30%),
+  green1: hsl(167, 30%, 25%),
+  blue1: hsl(226, 18%, 27%),
+  blue2: hsl(198, 20%, 24%),
+  purple1: hsl(253, 12%, 36%),
+  purple2: hsl(291, 22%, 36%),
+  brown1: hsl(355, 21%, 35%),
 );
 $step: 28px;
 
@@ -93,12 +123,13 @@ html {
 
 body {
   margin: 0;
+  padding: 0;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   width: 100vw;
 
   background-color: hsl(60, 17%, 96%);
   &, a, a:active, a:visited {
-    color: hsl(0, 0%, 25%);
+    color: hsl(0, 0%, 35%);
   }
   transition: background-color, color 0.2s;
 
@@ -132,15 +163,34 @@ body {
   font-size: calc(1rem / 1.7);
   line-height: 1rem;
   margin: 0;
-  h1, h2, h3 {
-    margin: 2rem 0 1rem;
+  h1, h2, h3, h4, h5 {
     padding: 0;
-    font-family: 'AvenirNext-Regular';
+    line-height: 1em;
+    -webkit-hyphens: none;
   }
 
-  h3 {
-    font-weight: 300;
-    text-align: center;
+  h1, h2 {
+    font-size: 2rem;
+    margin: 4rem 0 1rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid;
+  }
+  h2, h4 {
+    font-weight: normal;
+  }
+  h3, h4 {
+    font-size: 1rem;
+    margin: 2rem 0 1rem;
+  }
+  h5, h6 {
+    font-size: calc(1rem / 1.7);
+    line-height: 1rem;
+    margin: 1rem 0 0;
+  }
+  h4 {
+    font-style: italic;
   }
 }
 
@@ -155,9 +205,13 @@ body {
   -webkit-hyphens: auto;
   -webkit-text-size-adjust:none;
 
-  p {
+  p, center {
     margin: 0;
     margin-bottom: 1rem;
+  }
+
+  sup {
+    line-height: 0;
   }
 
   figure, img, video, iframe, pre {
@@ -166,11 +220,15 @@ body {
     height: auto !important;
     margin: 0 0 1rem;
     border: 0;
-
-    p &:last-of-type {
-      margin-bottom: 0;
-    }
   }
+
+  // p figure:last-child,
+  //   p img:last-child,
+  //   p video:last-child,
+  //   p iframe:last-child,
+  //   p pre:last-child {
+  //   margin-bottom: 0;
+  // }
 
   figure, img, video, iframe, pre {
     width: 100vw;
@@ -220,15 +278,15 @@ body {
     & > figure:first-child,
     & > img:first-child,
     & > iframe:first-child,
-    & > p > iframe:first-child, {
+    & > p:first-child > iframe:first-child, {
       position: relative;
       top: -2rem;
       margin-top: 0;
       margin-bottom: 0rem;
     }
     & > img.img-portrait:first-child {
-      top: -0.5rem;
-      margin-bottom: 0;
+      top: -1.5rem;
+      margin-bottom: -1.5rem;
     }
     // & > figure:first-child figcaption {
     //   position: relative;
@@ -368,7 +426,7 @@ body {
       content: '';
       height: 10px;
       display: block;
-      margin: 0 calc(50% - 1.5rem);
+      margin: 0 calc(50% - 1rem) 2rem;
       transform: rotateZ(-30deg);
     }
 
@@ -444,7 +502,7 @@ article {
 article > div:not(:last-of-type) {
   p:last-child,
   figure:last-child {
-    margin-bottom: $step * 4;
+    margin-bottom: 2rem;
   }
 }
 
@@ -473,7 +531,7 @@ article > div:not(:last-of-type) {
   & > div:first-of-type > p:not(.short-para):first-of-type,
   & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
 
-    margin-top: 2rem;
+    // margin-top: 2rem;
 
     &:first-letter {
       font-size: 4rem;
@@ -622,7 +680,7 @@ article > div:not(:last-of-type) {
   font-family: "LibreBaskerville-Regular", serif;
   font-size: calc(1rem / 1.9);
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "Avenir"
   }
 }
@@ -631,7 +689,7 @@ article > div:not(:last-of-type) {
   font-family: "IBMPlexSans", sans-serif;
   font-size: calc(1rem / 1.75);
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "LibreBaskerville-Regular"
   }
 }
@@ -639,7 +697,7 @@ article > div:not(:last-of-type) {
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif;
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "AvenirNext"
   }
 }
@@ -647,7 +705,7 @@ article > div:not(:last-of-type) {
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif;
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "Iowan Old Style"
   }
 }
@@ -656,61 +714,61 @@ article > div:not(:last-of-type) {
   font-family: "IBM Plex Serif", serif;
   font-size: calc(1rem / 1.8);
 
-  h1, h2, h3, figcaption {
+  h1, h2, h3, h4, h5, figcaption {
     font-family: "IBM Plex Sans"
   }
 }
 
 .headerFontSans1 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "AvenirNext-Medium"
   }
 }
 
 .headerFontSans2 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "Montserrat-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "Montserrat-Light"
   }
 }
 
 .headerFontSans3 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "IBMPlexSans-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "IBMPlexSans-Light"
   }
 }
 
 .headerFontSerif1 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "IBMPlexSerif-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "IBMPlexSerif-Light"
   }
 }
 
 .headerFontSerif2 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "Arvo-Bold"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "Arvo"
   }
 }
 
 .headerFontSerif3 {
-  h1, h2, h3 {
+  h1, h3, h5 {
     font-family: "PlayfairDisplay-Black"
   }
-  figcaption, blockquote {
+  h2, h4, figcaption, blockquote {
     font-family: "PlayfairDisplay-Regular"
   }
 }
@@ -780,7 +838,11 @@ article > div:not(:last-of-type) {
 }
 
 body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
-  color: inherit;
+  color: #000;
+}
+
+body .itemArticle.dropCapIsMonochrome.dark-background > p:not(.short-para):first-of-type:first-letter {
+  color: #fff;
 }
 
 
@@ -798,7 +860,7 @@ html.onboarding {
     width: 100vw;
     background-color: transparent;
     padding: .5rem;
-    padding-top: 4rem;
+    padding-top: 3rem;
     color: white;
   }
 
@@ -806,7 +868,7 @@ html.onboarding {
     color: hsl(42, 91%, 60%);
     font-size: 1.3rem;
     line-height: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     text-align: center;
   }
 
@@ -823,10 +885,16 @@ html.onboarding {
   .swipe {
     position: absolute;
     width: 100%;
-    bottom: 4rem;
+    bottom: 1rem;
     text-align: center;
     font-size: 0.666rem;
     color: hsl(42, 91%, 60%);
+    background-image: url(webview/img/share-arrow.png)
+  }
+
+  img {
+    display: block;
+    margin: 0 auto 1rem;
   }
 }
 

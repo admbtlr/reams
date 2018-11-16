@@ -2,7 +2,11 @@ import { connect } from 'react-redux'
 import ItemTitle from '../components/ItemTitle.js'
 
 const mapStateToProps = (state, ownProps) => {
-  const items = state.itemsMeta.display === 'unread' ? state.itemsUnread : state.itemsSaved
+  const items = state.itemsMeta.display === 'unread' ?
+    (feedFilter ?
+      state.itemsUnread.filter(item => item.feed_id === feedFilter) :
+      state.itemsUnread) :
+    state.itemsSaved
   const index = state.itemsMeta.display === 'unread' ?
     state.itemsMeta.index :
     state.itemsMeta.savedIndex
