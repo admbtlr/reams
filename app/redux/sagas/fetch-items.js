@@ -45,7 +45,7 @@ function addFeedInfoToItems(items, feeds, moreFeeds) {
   if (feeds) allFeeds = feeds
   if (moreFeeds) allFeeds = concat(allFeeds, moreFeeds)
   return items.map(item => {
-    const feed = feeds.find(feed => feed.id === item.feed_id)
+    const feed = feeds.find(feed => feed.id === item.feed_id || feed._id === item.feed_id)
     return {
       ...item,
       feed_id: feed._id,
@@ -57,7 +57,9 @@ function addFeedInfoToItems(items, feeds, moreFeeds) {
 function * createFeedsWhereNeeded (items, feeds) {
   let newFeeds = []
   items.forEach(item => {
-    if (!feeds.find(feed => feed.id === item.feed_id)) {
+    if (!feeds.find(feed => {
+        return feed.id === item.feed_id || feed._id === item.feed_id
+      })) {
       const newFeed = {
         id: item.feed_id,
         _id: id(),

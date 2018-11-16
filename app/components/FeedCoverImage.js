@@ -31,13 +31,12 @@ class FeedCoverImage extends React.Component {
 
     const that = this
     const coverImageUrl = coverImagePath ? `file://${coverImagePath}` : null
-    return (coverImageUrl && coverImageDimensions) ?
+    return (feedColor && coverImageUrl && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
       (
        <Surface
          width={width}
          height={height}
          backgroundColor="#000"
-         key="456"
        >
          <ColorBlending
            color={blendColor(feedColor, 'lighter')}
@@ -50,7 +49,6 @@ class FeedCoverImage extends React.Component {
            >
              <GLImage
                center={[0.5, 0]}
-               key={coverImagePath}
                resizeMode='cover'
                source={{
                  uri: coverImageUrl,
