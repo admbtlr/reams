@@ -1,17 +1,9 @@
 import React from 'react'
-import {
-  Animated,
-  Dimensions,
-  Image,
-  Text,
-  View
-} from 'react-native'
-import {Transition} from 'react-navigation-fluid-transitions'
 import {Surface} from 'gl-react-native'
 const {Image: GLImage} = require('gl-react-image')
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
 import ColorBlending from 'gl-react-color-blending'
-import { blendColor, hslString } from '../utils/colors'
+import { blendColor } from '../utils/colors'
 
 class FeedCoverImage extends React.Component {
 
@@ -29,7 +21,6 @@ class FeedCoverImage extends React.Component {
       height
     } = this.props
 
-    const that = this
     const coverImageUrl = coverImagePath ? `file://${coverImagePath}` : null
     return (feedColor && coverImageUrl && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
       (
@@ -37,6 +28,8 @@ class FeedCoverImage extends React.Component {
          width={width}
          height={height}
          backgroundColor="#000"
+         backgroundColor='#000'
+         key='456'
        >
          <ColorBlending
            color={blendColor(feedColor, 'lighter')}
@@ -64,18 +57,6 @@ class FeedCoverImage extends React.Component {
          </ColorBlending>
        </Surface>
       ) :
-      // <Image
-      //   resizeMode='cover'
-      //   source={{uri: coverImageUrl}}
-      //   style={{
-      //     width: coverImageDimensions.width,
-      //     height: coverImageDimensions.height,
-      // }} /> :
-      // <View style={{
-      //   backgroundColor: hslString(feedColor, 'unsaturated'),
-      //   width,
-      //   height
-      // }} /> :
       null
 
   }
