@@ -18,7 +18,7 @@ const areFeedsListsEqual = (a, b) => {
 }
 
 const mapStateToProps = (state) => {
-  const items = state.itemsUnread
+  const items = state.itemsUnread.items
   const feeds = state.feeds.feeds.map(feed => {
     return {
       ...feed,

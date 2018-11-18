@@ -8,11 +8,12 @@ import {
 } from '../redux/actions/items.js'
 
 const mapStateToProps = (state) => {
+  const feedFilter = state.config.feedFilter
   const items = state.itemsMeta.display === 'unread' ?
     (feedFilter ?
-      state.itemsUnread.filter(item => item.feed_id === feedFilter) :
-      state.itemsUnread) :
-    state.itemsSaved
+      state.itemsUnread.items.filter(item => item.feed_id === feedFilter) :
+      state.itemsUnread.items) :
+    state.itemsSaved.items
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :
     state.itemsMeta.display === 'unread' ?

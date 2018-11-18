@@ -3,7 +3,12 @@ import ItemCarousel from '../components/ItemCarousel.js'
 
 const mapStateToProps = (state) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  const items = state.itemsMeta.display === 'unread' ? state.itemsUnread : state.itemsSaved
+  const feedFilter = state.config.feedFilter
+  const items = state.itemsMeta.display === 'unread' ?
+    (feedFilter ?
+      state.itemsUnread.items.filter(item => item.feed_id === feedFilter) :
+      state.itemsUnread.items) :
+    state.itemsSaved.items
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :
     state.itemsMeta.display === 'unread' ?

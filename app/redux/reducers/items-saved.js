@@ -8,7 +8,9 @@ import {
   updateCurrentItemTitleFontResized
 } from './items-common'
 
-export const initialState = []
+export const initialState = {
+  items: []
+}
 
 export const itemsSaved = (state = initialState, action) => {
   let items = []

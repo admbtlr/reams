@@ -21,7 +21,9 @@ import {
 //   items: []
 // }
 
-export const initialState = []
+export const initialState = {
+  items: []
+}
 
 export function itemsHasErrored (state = false, action) {
   switch (action.type) {
