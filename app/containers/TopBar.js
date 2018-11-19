@@ -1,17 +1,12 @@
 import { connect } from 'react-redux'
 import TopBar from '../components/TopBar.js'
 import { itemsUpdateCurrentIndex } from '../redux/actions/items.js'
+import { getItems, getIndex } from '../utils/get-item'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const feedFilter = state.config.feedFilter
-  const items = state.itemsMeta.display === 'unread' ?
-    (feedFilter ?
-      state.itemsUnread.items.filter(item => item.feed_id === feedFilter) :
-      state.itemsUnread.items) :
-    state.itemsSaved.items
-  const index = state.itemsMeta.display === 'unread' ?
-    state.itemsMeta.index :
-    state.itemsMeta.savedIndex
+  const items = getItems(state)
+  const index = getIndex(state)
   const currentItem = (items && items.length > 1) ? items[index] : null
   const prevItem = (items && index > 0) ? items[index - 1] : null
   const nextItem = (items && index < items.length - 1) ? items[index + 1] : null

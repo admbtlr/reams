@@ -6,19 +6,12 @@ import {
   itemUnsaveItem,
   toggleDisplayedItems
 } from '../redux/actions/items.js'
+import { getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state) => {
   const feedFilter = state.config.feedFilter
-  const items = state.itemsMeta.display === 'unread' ?
-    (feedFilter ?
-      state.itemsUnread.items.filter(item => item.feed_id === feedFilter) :
-      state.itemsUnread.items) :
-    state.itemsSaved.items
-  const index = state.config.isOnboarding ?
-    state.config.onboardingIndex :
-    state.itemsMeta.display === 'unread' ?
-      state.itemsMeta.index :
-      state.itemsMeta.savedIndex
+  const items = getItems(state)
+  const index = getIndex(state)
   const currentItem = items.length > 1 ? items[index] : null
   const prevItem = index > 0 ? items[index - 1] : null
   const nextItem = index < items.length - 1 ? items[index + 1] : null

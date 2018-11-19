@@ -46,9 +46,9 @@ const fetchUnreadItems = async function (oldItems, currentItem, feeds) {
     items = await feedwrangler.getUnreadItems(oldItems, currentItem, feeds)
   }
 
-  // if (__DEV__) {
-  //   items.newItems = items.newItems.slice(0, 100)
-  // }
+  if (__DEV__) {
+    items.newItems = items.newItems.slice(-100)
+  }
 
   // return {newItems, readItems}
   return items

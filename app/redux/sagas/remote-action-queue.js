@@ -40,7 +40,11 @@ function * executeAction (action) {
       // console.log('Marking item read...')
       try {
         yield markItemRead(action.item)
-        yield addStaleItem(action.item)
+
+        if (!__DEV__) {
+          yield addStaleItem(action.item)
+        }
+
         // console.log('Marking item read... done')
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',

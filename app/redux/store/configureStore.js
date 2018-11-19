@@ -30,7 +30,7 @@ export default function configureStore (initialState) {
     // combineReducers(reducers),
     initialState,
     composeEnhancers(
-      applyMiddleware(thunk),
+      // applyMiddleware(thunk),
       applyMiddleware(sagaMiddleware)
     )
   )

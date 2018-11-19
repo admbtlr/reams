@@ -1,18 +1,13 @@
 import { connect } from 'react-redux'
 import FeedItem from '../components/FeedItem.js'
+import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state, ownProps) => {
-  const feedFilter = state.config.feedFilter
-  const items = state.itemsMeta.display === 'unread' ?
-    (feedFilter ?
-      state.itemsUnread.items.filter(item => item.feed_id === feedFilter) :
-      state.itemsUnread.items) :
-    state.itemsSaved.items
-  const index = state.itemsMeta.display === 'unread' ?
-    state.itemsMeta.index :
-    state.itemsMeta.savedIndex
+  const items = getItems(state)
+  const index = getIndex(state)
+  const item = items[ownProps.index]
   return {
-    item: items[ownProps.index],
+    item,
     isVisible: ownProps.index === index,
     showMercuryContent: items[ownProps.index].showMercuryContent,
     ...state.webView,

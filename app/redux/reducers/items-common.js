@@ -61,19 +61,6 @@ export const itemDecorationSuccess = (action, state) => {
 }
 
 export const updateCurrentItemTitleFontSize = (action, state) => {
-  const newItems = state.items.map(item => {
-    if (item._id === action.item._id) {
-      item.styles.title.fontResized = true
-    }
-    return item
-  })
-  return {
-    ...state,
-    items: newItems
-  }
-}
-
-export const updateCurrentItemTitleFontResized = (action, state) => {
   let stateChanged = false
   const newItems = state.items.map(item => {
     if (item._id === action.item._id) {
@@ -90,5 +77,19 @@ export const updateCurrentItemTitleFontResized = (action, state) => {
     {
       ...state,
       items: newItems
-    } : state
+    } :
+    state
+}
+
+export const updateCurrentItemTitleFontResized = (action, state) => {
+  const newItems = state.items.map(item => {
+    if (item._id === action.item._id) {
+      item.styles.title.fontResized = true
+    }
+    return item
+  })
+  return {
+    ...state,
+    items: newItems
+  }
 }

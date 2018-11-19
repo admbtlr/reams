@@ -1,11 +1,9 @@
 import { connect } from 'react-redux'
-import { getItems } from 'get-item'
+import { getIndex, getItems } from '../utils/get-item'
 import ItemTitle from '../components/ItemTitle.js'
 
 const mapStateToProps = (state, ownProps) => {
-  const index = state.itemsMeta.display === 'unread' ?
-    state.itemsMeta.index :
-    state.itemsMeta.savedIndex
+  const index = getIndex(state)
   const items = getItems(state)
   return {
     isVisible: ownProps.index === index,

@@ -243,7 +243,7 @@ body {
   .itemArticle a.unused, .itemArticle a.unused:active, .itemArticle a.unused:visited {
     color: inherit !important;
     /*text-decoration: none;*/
-    background-image: linear-gradient(to bottom, transparent 19px, rgba(199, 199, 0, 0.3) 19px, rgba(199, 199, 0, 0.3) 24px);
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 19px, rgba(199, 199, 0, 0.3) 19px, rgba(199, 199, 0, 0.3) 24px);
     /*display: inline-block;*/
     /*padding-bottom: 0;*/
     /*line-height: .5;*/ }

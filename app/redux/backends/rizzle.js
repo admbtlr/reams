@@ -12,9 +12,9 @@ export const getUnreadItems = async function (oldItems, currentItem, feeds) {
     unreadItemArrays = extractErroredFeeds(unreadItemArrays)
 
     newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
-    if (__DEV__) {
-      newItems = newItems.slice(0, 100)
-    }
+    // if (__DEV__) {
+    //   newItems = newItems.slice(0, 100)
+    // }
     // console.log(`Fetched ${newItems.length} items`)
     // console.log(newItems)
     let { read, unread } = mergeItems(oldItems, newItems, currentItem)

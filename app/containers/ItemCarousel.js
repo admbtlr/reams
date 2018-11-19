@@ -1,19 +1,11 @@
 import { connect } from 'react-redux'
 import ItemCarousel from '../components/ItemCarousel.js'
+import { getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  const feedFilter = state.config.feedFilter
-  const items = state.itemsMeta.display === 'unread' ?
-    (feedFilter ?
-      state.itemsUnread.items.filter(item => item.feed_id === feedFilter) :
-      state.itemsUnread.items) :
-    state.itemsSaved.items
-  const index = state.config.isOnboarding ?
-    state.config.onboardingIndex :
-    state.itemsMeta.display === 'unread' ?
-      state.itemsMeta.index :
-      state.itemsMeta.savedIndex
+  const items = getItems(state)
+  const index = getIndex(state)
   const numItems = state.config.isOnboarding ?
     state.config.onboardingLength :
     items.length
