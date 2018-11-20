@@ -1,3 +1,4 @@
+import {Dimensions} from 'react-native'
 import {createItemStyles} from './createItemStyles'
 
 export function addStylesIfNecessary (item, index, items) {
@@ -106,11 +107,9 @@ export function addCoverImageToItem (item, imageStuff) {
 }
 
 export function setShowCoverImage (item) {
-  let showCoverImage = false
-  // arbitrary length...
-  if (item.hasCoverImage && item.content_html.length > 2000) {
-    showCoverImage = true
-  }
+  const {deviceHeight, deviceWidth} = Dimensions.get('window')
+  let showCoverImage = item.hasCoverImage &&
+    item.content_html.length > 2000
   return {
     ...item,
     showCoverImage

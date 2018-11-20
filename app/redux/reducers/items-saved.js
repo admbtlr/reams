@@ -7,6 +7,14 @@ import {
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
 } from './items-common'
+import {
+  addStylesIfNecessary,
+  fixRelativePaths,
+  nullValuesToEmptyStrings,
+  addMercuryStuffToItem,
+  addCoverImageToItem,
+  setShowCoverImage
+} from '../../utils/item-utils.js'
 
 export const initialState = {
   items: []
@@ -55,40 +63,37 @@ export const itemsSaved = (state = initialState, action) => {
       }
 
     case 'ITEM_SAVE_EXTERNAL_ITEM':
-      saved = [ ...state.saved ]
+      items = [ ...state.items ]
       savedItem = nullValuesToEmptyStrings(action.item)
       savedItem = addStylesIfNecessary(savedItem)
       savedItem.isSaved = true
-      saved.push({
+      items.push({
         ...savedItem,
         savedAt: Date.now()
       })
       return {
         ...state,
-        saved
+        items
       }
 
     // TODO; saved index
     case 'ITEM_UNSAVE_ITEM':
-      items = [ ...state.items ]
-      let savedIndex = state.savedIndex
-      savedItem = state.saved.find((item) => item._id === action.item._id)
-      saved = state.saved.filter((item) => item._id !== action.item._id)
-      savedItem = items.find((item) => item._id === action.item._id)
+      let savedIndex = state.items.indexOf(item) || 0
+      savedItem = state.items.find((item) => item._id === action.item._id)
+      savedItem = state.items.find((item) => item._id === action.item._id)
+      items = items.filter((item) => item._id !== action.item._id)
       if (savedItem) savedItem.isSaved = false
-      if (savedIndex > saved.length - 1) {
-        savedIndex = saved.length - 1
+      if (savedIndex > items.length - 1) {
+        savedIndex = items.length - 1
       }
       return {
         ...state,
-        items,
-        saved,
-        savedIndex
+        items
       }
 
-      newState = { ...state }
-      newState[indexKey] = action.index
-      return newState
+      // newState = { ...state }
+      // newState[indexKey] = action.index
+      // return newState
 
     // case 'ITEMS_KEEP_CURRENT_ITEM_UNREAD':
     //   newItems = state.items
@@ -102,9 +107,10 @@ export const itemsSaved = (state = initialState, action) => {
       return itemDecorationSuccess(action, state)
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
-      return updateCurrentItemTitleFontResized(action, state)
+      return updateCurrentItemTitleFontSize(action, state)
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_RESIZED':
+      if (action.item.title === 'Loading...') return state
       return updateCurrentItemTitleFontResized(action, state)
 
     default:

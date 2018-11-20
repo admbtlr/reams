@@ -62,13 +62,14 @@ export function createItemStyles (item, prevStyles) {
 
   // this is an attempt to rationalise font sizes for larger screens
   // (account for landscape)
-  if (Math.min(deviceWidth, deviceHeight) > 500) {
-    title.fontSizeAsWidthDivisor = title.fontSizeAsWidthDivisor * (deviceWidth / 500)
-    title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
-  }
+  // if (Math.min(deviceWidth, deviceHeight) > 500) {
+  //   title.fontSizeAsWidthDivisor = title.fontSizeAsWidthDivisor * (deviceWidth / 500)
+  //   title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
+  // }
 
   title.interBolded = shouldInterBold(entities.decode(item.title))
-  title.interStyled = title.interBolded && Math.random() > 0.5
+  // this is probably just too ugly to be allowed...
+  // title.interStyled = title.interBolded && Math.random() > 0.5
   title.maximiseFont = isCoverInline || Math.random() > 0.5
   title.textAlign = (item.showCoverImage && !isCoverInline && Math.random() > 0.5) || Math.random() > 0.8
     ? 'center'
@@ -136,6 +137,19 @@ export function createItemStyles (item, prevStyles) {
       isInline: isCoverInline
     },
     title
+  }
+}
+
+export function createCoverImageStyles (item) {
+  let styles = {
+    isContain: false,
+    isCoverInline: false
+  }
+  if (item.title &&
+    (item.imageDimensions && item.imageDimensions.height < deviceHeight * 0.7)) {
+    // TODO base this decision on title length
+    Math.random() > 0.2 ? styles.isCoverInline = true : styles.isContain = true
+    style.isScreen = styles.isMultiply = false
   }
 }
 
