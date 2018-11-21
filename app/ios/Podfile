@@ -1,0 +1,38 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '10.0'
+
+pod 'Firebase/Core', '~> 5.11.0'
+
+target 'rizzle' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for rizzle
+
+  target 'rizzleTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'rizzle-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for rizzle-tvOS
+
+  target 'rizzle-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'RizzleShare' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for RizzleShare
+
+end
