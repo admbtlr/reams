@@ -3,11 +3,17 @@ import { fetchUnreadItems, fetchUnreadIds, getItemsByIds } from '../backends'
 import { mergeItems, id } from '../../utils/merge-items.js'
 import { getFeedColor } from '../../utils/'
 import { checkOnline } from './check-online'
+import { nullValuesToEmptyStrings,
+  fixRelativePaths,
+  addStylesIfNecessary,
+  setShowCoverImage,
+} from '../../utils/item-utils'
+
 const RNFS = require('react-native-fs')
 
 import { getItems, getCurrentItem, getFeeds } from './selectors'
 
-export function * fetchItems2 () {
+export function * fetchItems2 (getFirebase) {
   const isOnline = yield checkOnline()
   if (!isOnline) return
 
@@ -23,6 +29,18 @@ export function * fetchItems2 () {
 
   const newFeeds = yield createFeedsWhereNeeded(newItems, feeds)
   const readyItems = addFeedInfoToItems(newItems, feeds, newFeeds)
+    .map(nullValuesToEmptyStrings)
+    .map(fixRelativePaths)
+    .map(addStylesIfNecessary)
+    .map(setShowCoverImage)
+
+  // const collection =.collection('/items/unread')
+  const db = getFirebase().firestore()
+  let ref
+  for (var i = 0; i < readyItems.length; i++) {
+    ref = db.collection('items-unread').doc(readyItems[i]._id)
+    ref.set(readyItems[i])
+  }
 
   yield put({
     type: 'ITEMS_FETCH_DATA_SUCCESS',

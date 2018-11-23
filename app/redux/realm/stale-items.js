@@ -1,4 +1,6 @@
-const Realm = require('realm')
+// const Realm = require('realm')
+
+const Realm = 'REMOVE ME'
 
 const staleItemSchema = {
   name: 'StaleItem',

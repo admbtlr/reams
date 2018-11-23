@@ -46,14 +46,12 @@ export const itemsUnread = (state = initialState, action) => {
   let newState = {}
 
   switch (action.type) {
-    case REHYDRATE:
+    case 'ITEMS_REHYDRATE_UNREAD':
       // workaround to make up for slideable bug
-      let incoming = action.payload ? action.payload.items : null
-      if (incoming) {
-        console.log('REHYDRATE!' + action.payload.items)
+      if (action.items) {
+        console.log('REHYDRATE UNREAD ITEMS!')
         return {
-          ...state,
-          ...incoming,
+          items: action.items
           // index: incoming.index < 0 ? 0 : incoming.index,
           // savedIndex: incoming.savedIndex < 0 ? 0 : incoming.savedIndex,
         }
@@ -86,10 +84,6 @@ export const itemsUnread = (state = initialState, action) => {
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
       items = action.items
-        .map(nullValuesToEmptyStrings)
-        .map(fixRelativePaths)
-        .map(addStylesIfNecessary)
-        .map(setShowCoverImage)
 
       return {
         ...state,

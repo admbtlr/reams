@@ -1,5 +1,4 @@
 import { mergeItems, id } from '../../utils/merge-items'
-import { filterItemsForStale } from '../realm/stale-items'
 import moment from 'moment'
 
 const feedwrangler = require('./feedwrangler')

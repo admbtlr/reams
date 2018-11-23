@@ -1,16 +1,11 @@
-// import { delay } from 'redux-saga'
 import { takeEvery } from 'redux-saga/effects'
-// import { fetchUnreadItems, markItemRead, loadMercuryStuff } from '../backends'
-// import { mergeItems, id } from './merge-items.js'
 import { REHYDRATE } from 'redux-persist'
-// const RNFS = require('react-native-fs')
-
-// import { getItems, getCurrentItem, getFeeds, getDisplay } from './selectors'
 
 import { decorateItems } from './decorate-items'
 import { fetchItems2 } from './fetch-items'
 import { markLastItemRead } from './mark-read'
 import { saveExternalUrl } from './external-items'
+import { rehydrateItems } from './rehydrate-items'
 import { executeRemoteActions } from './remote-action-queue'
 import { subscribeToFeed, seedFeeds } from './add-feed'
 import { initialConfig } from './initial-config'
@@ -35,20 +30,22 @@ import { initialConfig } from './initial-config'
 //   }
 // }
 
-function * init () {
+let getFirebaseFn
+
+function * init (getFirebase) {
   yield initialConfig()
-  yield fetchItems2()
+  yield rehydrateItems(getFirebaseFn)
+  yield fetchItems2(getFirebaseFn)
+  yield executeRemoteActions(getFirebaseFn)
 }
 
-export function * updateCurrentIndex () {
+export function * updateCurrentIndex (getFirebase) {
+  getFirebaseFn = getFirebase
+  yield takeEvery(REHYDRATE, init)
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems2)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
-  // yield takeEvery(REHYDRATE, seedFeeds)
-  yield takeEvery(REHYDRATE, init)
-  // yield takeEvery(REHYDRATE, fetchItems2)
-  yield takeEvery(REHYDRATE, executeRemoteActions)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
 }

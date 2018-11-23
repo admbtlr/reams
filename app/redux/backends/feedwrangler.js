@@ -66,14 +66,36 @@ const mergeExpanded = (mixedItems, expandedItems) => {
   })
 }
 
-const fetchUnreadIds = () => {
-  return getUnreadIds().then((unreadIds) => {
-    return unreadIds.feed_items.map((feed_item) => {
+async function fetchUnreadIds () {
+  const pageSize = 1000
+  let unreadIds = []
+  let unreadIdBatch
+
+  const recursiveGetIds = (offset = 0) => {
+    return getUnreadIds(offset)
+      .then(unreadIdBatch => {
+        unreadIds = unreadIds.concat(unreadIdBatch)
+        if (unreadIdBatch.length === pageSize) {
+          return recursiveGetIds(offset + pageSize)
+        } else {
+          return true
+        }
+      })
+  }
+
+  return recursiveGetIds().then(_ => {
+    return unreadIds.map((feed_item) => {
       return {
         id: feed_item.feed_item_id
       }
     })
   })
+  // unreadIdBatch  = await getUnreadIds()
+  // unreadIds = unreadIds.concat(unreadIdBatch)
+  // while (unreadIdBatch.length === pageSize) {
+  //   unreadIdBatch  = await getUnreadIds()
+  //   unreadIds = unreadIds.concat(unreadIdBatch)
+  // }
 }
 
 export const getItemsByIds = (itemIds) => {
@@ -159,10 +181,11 @@ export const receiveUnreadItems = (response, createdSince, page) => {
     })
 }
 
-const getUnreadIds = () => {
+function getUnreadIds (offset = 0) {
   let url = 'https://feedwrangler.net/api/v2/feed_items/list_ids?'
   url += 'access_token=' + feedWranglerAccessToken
   url += '&read=false'
+  url += '&offset='+offset
   return fetch(url)
     .then((response) => {
       if (!response.ok) {
@@ -171,6 +194,7 @@ const getUnreadIds = () => {
       return response
     })
     .then((response) => response.json())
+    .then(json => json.feed_items)
 }
 
 export const markItemRead = (item) => {

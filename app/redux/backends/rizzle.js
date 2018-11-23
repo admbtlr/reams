@@ -1,4 +1,6 @@
 import {id} from '../../utils'
+// import { filterItemsForStale } from '../realm/stale-items'
+
 
 export const getUnreadItems = async function (oldItems, currentItem, feeds) {
   let newItems
@@ -20,9 +22,10 @@ export const getUnreadItems = async function (oldItems, currentItem, feeds) {
     let { read, unread } = mergeItems(oldItems, newItems, currentItem)
 
     // RealmJS is too slow in devtools
-    if (!__DEV__) {
-      unread = await filterItemsForStale(unread)
-    }
+    // TODO reimplement in Firestore!
+    // if (!__DEV__) {
+    //   unread = await filterItemsForStale(unread)
+    // }
 
     // console.log(`And now I have ${unread.length} unread items`)
     newItems = unread.sort((a, b) => moment(a.date_published).unix() - moment(b.date_published).unix());

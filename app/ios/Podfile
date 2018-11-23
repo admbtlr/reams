@@ -2,6 +2,8 @@
 platform :ios, '10.0'
 
 pod 'Firebase/Core', '~> 5.11.0'
+pod 'Firebase/Auth', '~> 5.11.0'
+pod 'Firebase/Firestore', '~> 5.11.0'
 
 target 'rizzle' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks

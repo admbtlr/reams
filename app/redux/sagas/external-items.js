@@ -7,7 +7,7 @@ export function * saveExternalUrl (action) {
     url: action.url,
     _id: id(),
     title: 'Loading...',
-    content_html: 'Loading...',
+    content_html: '',
     is_external: true
   }
   yield put({

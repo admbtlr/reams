@@ -28,14 +28,12 @@ export const itemsSaved = (state = initialState, action) => {
   let newState = {}
 
   switch (action.type) {
-    case REHYDRATE:
+    case 'ITEMS_REHYDRATE_SAVED':
       // workaround to make up for slideable bug
-      let incoming = action.payload ? action.payload.items : null
-      if (incoming) {
-        console.log('REHYDRATE!' + action.payload.items)
+      if (action.items) {
+        console.log('REHYDRATE SAVED ITEMS!')
         return {
-          ...state,
-          ...incoming
+          items: action.items
         }
       }
       return { ...state }
