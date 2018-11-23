@@ -44,7 +44,7 @@ export function * updateCurrentIndex (getFirebase) {
   yield takeEvery(REHYDRATE, init)
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems2)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
-  yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
+  yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl, getFirebase)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)

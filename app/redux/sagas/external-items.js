@@ -2,7 +2,7 @@ import { put } from 'redux-saga/effects'
 import { decorateItem } from './decorate-items'
 import { id } from '../../utils/merge-items.js'
 
-export function * saveExternalUrl (action) {
+export function * saveExternalUrl (action, getFirebase) {
   let item = {
     url: action.url,
     _id: id(),
@@ -19,5 +19,12 @@ export function * saveExternalUrl (action) {
     type: 'ITEM_DECORATION_SUCCESS',
     ...decoration
   })
+
+  const items = yield select(getItems, 'saved')
+  item = items.find(i => i._id = item._id)
+
+  let ref = getFirebase().firestore()
+    .collection('items-saved').doc(item._id)
+  ref.set(item)
 }
 

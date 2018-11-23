@@ -1,5 +1,6 @@
 export function getItems (state, type) {
-  return type || state.itemsMeta.display === 'unread' ?
+  return type  === 'unread'
+    || state.itemsMeta.display === 'unread' ?
     state.itemsUnread.items :
     state.itemsSaved.items
 }
