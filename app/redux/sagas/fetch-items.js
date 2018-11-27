@@ -66,9 +66,10 @@ function * receiveItems (newItems) {
 
   co(function* () {
     yield put({
-    type: 'ITEMS_FETCH_DATA_SUCCESS',
-    items: readyItems
-  }))
+      type: 'ITEMS_FETCH_DATA_SUCCESS',
+      items: readyItems
+    })
+  }).then(_ => console.log('Done'))
 }
 
 function addToFirestore (items) {
