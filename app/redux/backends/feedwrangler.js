@@ -33,9 +33,12 @@ export const getUnreadItemsUrl = (createdSince, page) => {
   //     console.log(error)
   //   })
 
-export const getUnreadItems = async function (oldItems, currentItem, feeds) {
+export const getUnreadItems = async function (oldItems, currentItem, feeds, cb) {
   let newItems, readItems
-  const newIds = await fetchUnreadIds()
+  const lastFetchDate = oldItems ?
+    oldItems[oldItems.length - 1].created_at :
+    0
+  const newIds = await fetchUnreadIds(lastFetchDate)
   newItems = newIds.map((item) => {
     return oldItems.find((oldItem) => oldItem.id === item.id) || item
   })
@@ -43,16 +46,9 @@ export const getUnreadItems = async function (oldItems, currentItem, feeds) {
   const idsToExpand = newItems.filter(item => !!!item._id)
 
   if (idsToExpand.length > 0) {
-    const expandedItems = await getItemsByIds(idsToExpand)
-    newItems = mergeExpanded(newItems, expandedItems)
+    const expandedItems = await getItemsByIds(idsToExpand, cb)
   }
-  if (currentItem && !newItems.find((item) => {
-    return item && item._id === currentItem._id
-  })) {
-    newItems.push(currentItem)
-  }
-  newItems.sort((a, b) => a.date_published - b.date_published)
-  return {newItems, readItems}
+  return true
 }
 
 export const fetchUnreadItems = (createdSince) => {
@@ -66,13 +62,13 @@ const mergeExpanded = (mixedItems, expandedItems) => {
   })
 }
 
-async function fetchUnreadIds () {
+async function fetchUnreadIds (createdSince) {
   const pageSize = 1000
   let unreadIds = []
   let unreadIdBatch
 
   const recursiveGetIds = (offset = 0) => {
-    return getUnreadIds(offset)
+    return getUnreadIds(createdSince, offset)
       .then(unreadIdBatch => {
         unreadIds = unreadIds.concat(unreadIdBatch)
         if (unreadIdBatch.length === pageSize) {
@@ -98,7 +94,7 @@ async function fetchUnreadIds () {
   // }
 }
 
-export const getItemsByIds = (itemIds) => {
+export const getItemsByIds = (itemIds, callback) => {
   const chunkArray = (arr) => {
     let i, j
     let temparray = []
@@ -122,19 +118,12 @@ export const getItemsByIds = (itemIds) => {
       })
       .then((response) => response.json())
       .then((json) => {
-        return json.feed_items.map(mapFeedwranglerItemToRizzleItem)
+        callback(json.feed_items.map(mapFeedwranglerItemToRizzleItem))
+        return true
       })
   })
   return Promise.all(promises)
-    .then(chunkedItems => {
-      return chunkedItems.reduce((accum, val) => {
-        return accum.concat(val)
-      }, [])
-    })
-
-
-  // // TODO: fix this
-  // itemIds = itemIds.slice(0, 100)
+    .then(_ => true)
 }
 
 const mapFeedwranglerItemToRizzleItem = (item) => {
@@ -181,10 +170,11 @@ export const receiveUnreadItems = (response, createdSince, page) => {
     })
 }
 
-function getUnreadIds (offset = 0) {
+function getUnreadIds (createdSince, offset = 0) {
   let url = 'https://feedwrangler.net/api/v2/feed_items/list_ids?'
   url += 'access_token=' + feedWranglerAccessToken
   url += '&read=false'
+  url += createdSince ? ('&created_since=' + createdSince) : ''
   url += '&offset='+offset
   return fetch(url)
     .then((response) => {

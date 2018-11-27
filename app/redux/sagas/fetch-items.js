@@ -1,5 +1,6 @@
 import { put, select } from 'redux-saga/effects'
-import { fetchUnreadItems, fetchUnreadIds, getItemsByIds } from '../backends'
+const co = require('co')
+import { fetchUnreadItems } from '../backends'
 import { mergeItems, id } from '../../utils/merge-items.js'
 import { getFeedColor } from '../../utils/'
 import { checkOnline } from './check-online'
@@ -13,7 +14,10 @@ const RNFS = require('react-native-fs')
 
 import { getItems, getCurrentItem, getFeeds } from './selectors'
 
-export function * fetchItems2 (getFirebase) {
+let feeds
+let getFirebase
+
+export function * fetchItems2 (getFirebaseFn) {
   const isOnline = yield checkOnline()
   if (!isOnline) return
 
@@ -22,30 +26,13 @@ export function * fetchItems2 (getFirebase) {
     isLoading: true
   })
 
+  getFirebase = getFirebaseFn
+
+  feeds = yield select(getFeeds)
   const oldItems = yield select(getItems, 'items')
   const currentItem = yield select(getCurrentItem)
-  const feeds = yield select(getFeeds)
-  const { newItems, readItems } = yield fetchUnreadItems(oldItems, currentItem, feeds)
+  yield fetchUnreadItems(oldItems, currentItem, feeds, co.wrap(receiveItems, feeds))
 
-  const newFeeds = yield createFeedsWhereNeeded(newItems, feeds)
-  const readyItems = addFeedInfoToItems(newItems, feeds, newFeeds)
-    .map(nullValuesToEmptyStrings)
-    .map(fixRelativePaths)
-    .map(addStylesIfNecessary)
-    .map(setShowCoverImage)
-
-  // const collection =.collection('/items/unread')
-  const db = getFirebase().firestore()
-  let ref
-  for (var i = 0; i < readyItems.length; i++) {
-    ref = db.collection('items-unread').doc(readyItems[i]._id)
-    ref.set(readyItems[i])
-  }
-
-  yield put({
-    type: 'ITEMS_FETCH_DATA_SUCCESS',
-    items: readyItems
-  })
   yield put({
     type: 'FEEDS_SET_LAST_UPDATED',
     lastUpdated: Date.now()
@@ -54,8 +41,43 @@ export function * fetchItems2 (getFirebase) {
     type: 'ITEMS_IS_LOADING',
     isLoading: false
   })
-  // now remove the cached images for all the read items
-  removeCachedCoverImages(readItems)
+
+  // TODO: now remove the cached images for all the read items
+  // removeCachedCoverImages(readItems)
+}
+
+function * receiveItems (newItems) {
+  console.log('Received ' + newItems.length + ' new items')
+  feeds = yield createFeedsWhereNeeded(newItems, feeds)
+  const readyItems = addFeedInfoToItems(newItems, feeds)
+    .map(nullValuesToEmptyStrings)
+    .map(fixRelativePaths)
+    .map(addStylesIfNecessary)
+    .map(setShowCoverImage)
+    .map(item => {
+      return {
+        ...item,
+        date_fetched: Math.round(Date.now() / 1000)
+      }
+    })
+
+
+  addToFirestore(readyItems)
+
+  co(function* () {
+    yield put({
+    type: 'ITEMS_FETCH_DATA_SUCCESS',
+    items: readyItems
+  }))
+}
+
+function addToFirestore (items) {
+  const db = getFirebase().firestore()
+  let ref
+  for (var i = 0; i < items.length; i++) {
+    ref = db.collection('items-unread').doc(items[i]._id)
+    ref.set(items[i])
+  }
 }
 
 function addFeedInfoToItems(items, feeds, moreFeeds) {
@@ -92,6 +114,7 @@ function * createFeedsWhereNeeded (items, feeds) {
     type: 'FEEDS_ADD_FEEDS_SUCCESS',
     addedFeeds: newFeeds
   })
+  return feeds
 }
 
 export function * fetchItems () {

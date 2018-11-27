@@ -83,7 +83,25 @@ export const itemsUnread = (state = initialState, action) => {
     //   }
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
-      items = action.items
+      // merge with existing items
+      items = [...state.items]
+      newItems = action.items
+      newItems.forEach(newItem => {
+        const itemToUpdate = items.find(item => item.id === newItem.id || item._id === newItem._id)
+        if (itemToUpdate) {
+          itemToUpdate = newItem
+        } else {
+          items.push(newItem)
+        }
+      })
+
+      // check for current item
+      if (currentItem && !items.find(item => item && item._id === currentItem._id)) {
+        items.push(currentItem)
+      }
+
+      // order by date
+      items.sort((a, b) => a.date_published - b.date_published)
 
       return {
         ...state,

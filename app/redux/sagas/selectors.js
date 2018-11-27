@@ -14,6 +14,8 @@ export function getCurrentItem (state) {
 }
 
 export function getFeeds (state) {
+  console.log(state)
+  console.log(state.feeds.feeds)
   return state.feeds.feeds
 }
 
