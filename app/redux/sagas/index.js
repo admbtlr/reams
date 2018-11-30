@@ -6,6 +6,7 @@ import { fetchItems2 } from './fetch-items'
 import { markLastItemRead } from './mark-read'
 import { saveExternalUrl } from './external-items'
 import { rehydrateItems } from './rehydrate-items'
+import { inflateItems } from './inflate-items'
 import { executeRemoteActions } from './remote-action-queue'
 import { subscribeToFeed, seedFeeds } from './add-feed'
 import { initialConfig } from './initial-config'
@@ -32,7 +33,10 @@ import { initialConfig } from './initial-config'
 
 let getFirebaseFn
 
-function * init (getFirebase) {
+
+
+function * init (action, getFirebase) {
+  if (action.key !== 'primary') return
   yield initialConfig()
   yield rehydrateItems(getFirebaseFn)
   yield fetchItems2(getFirebaseFn)
@@ -43,6 +47,7 @@ export function * updateCurrentIndex (getFirebase) {
   getFirebaseFn = getFirebase
   yield takeEvery(REHYDRATE, init)
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems2)
+  yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl, getFirebase)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)

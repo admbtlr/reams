@@ -13,6 +13,10 @@ export function getCurrentItem (state) {
   return state.itemsUnread[state.itemsMeta.index]
 }
 
+export function getIndex (state) {
+  return state.itemsMeta.index
+}
+
 export function getFeeds (state) {
   console.log(state)
   console.log(state.feeds.feeds)
@@ -29,4 +33,8 @@ export function getRemoteActions (state) {
 
 export function getConfig (state) {
   return state.config
+}
+
+export function getUid (state) {
+  return state.user.uid
 }

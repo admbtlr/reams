@@ -1,5 +1,6 @@
-import { put, select } from 'redux-saga/effects'
-const co = require('co')
+import { call, put, select, take } from 'redux-saga/effects'
+import { eventChannel, END } from 'redux-saga'
+
 import { fetchUnreadItems } from '../backends'
 import { mergeItems, id } from '../../utils/merge-items.js'
 import { getFeedColor } from '../../utils/'
@@ -9,10 +10,10 @@ import { nullValuesToEmptyStrings,
   addStylesIfNecessary,
   setShowCoverImage,
 } from '../../utils/item-utils'
+import { getItems, getCurrentItem, getFeeds, getIndex, getUid } from './selectors'
 
 const RNFS = require('react-native-fs')
 
-import { getItems, getCurrentItem, getFeeds } from './selectors'
 
 let feeds
 let getFirebase
@@ -28,28 +29,55 @@ export function * fetchItems2 (getFirebaseFn) {
 
   getFirebase = getFirebaseFn
 
-  feeds = yield select(getFeeds)
+  const feeds = yield select(getFeeds)
   const oldItems = yield select(getItems, 'items')
   const currentItem = yield select(getCurrentItem)
-  yield fetchUnreadItems(oldItems, currentItem, feeds, co.wrap(receiveItems, feeds))
+  const index = yield select(getIndex)
 
-  yield put({
-    type: 'FEEDS_SET_LAST_UPDATED',
-    lastUpdated: Date.now()
-  })
-  yield put({
-    type: 'ITEMS_IS_LOADING',
-    isLoading: false
-  })
+  const itemsChannel = yield call(fetchItemsChannel, oldItems, currentItem, feeds)
 
-  // TODO: now remove the cached images for all the read items
-  // removeCachedCoverImages(readItems)
+  try {
+    while (true) {
+      let items = yield take(itemsChannel)
+      yield receiveItems(items)
+      console.log(items.length)
+    }
+  } finally {
+    yield put({
+      type: 'FEEDS_SET_LAST_UPDATED',
+      lastUpdated: Date.now()
+    })
+    yield put({
+      type: 'ITEMS_FETCH_DATA_SUCCESS'
+    })
+    yield put({
+      type: 'ITEMS_IS_LOADING',
+      isLoading: false
+    })
+    yield put({
+      type: 'ITEMS_UPDATE_CURRENT_INDEX',
+      index: 0
+    })
+    // TODO: now remove the cached images for all the read items
+    // removeCachedCoverImages(readItems)
+  }
+}
+
+function fetchItemsChannel (oldItems, currentItem, feeds) {
+  return eventChannel(emitter => {
+    fetchUnreadItems(oldItems, currentItem, feeds, emitter)
+      .then(_ => emitter.END)
+    return _ => {
+      console.log('Channel closed')
+    }
+  })
 }
 
 function * receiveItems (newItems) {
   console.log('Received ' + newItems.length + ' new items')
+  let feeds = yield select(getFeeds)
   feeds = yield createFeedsWhereNeeded(newItems, feeds)
-  const readyItems = addFeedInfoToItems(newItems, feeds)
+  const items = addFeedInfoToItems(newItems, feeds)
     .map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
@@ -61,22 +89,35 @@ function * receiveItems (newItems) {
       }
     })
 
+  yield addToFirestore(items)
 
-  addToFirestore(readyItems)
-
-  co(function* () {
-    yield put({
-      type: 'ITEMS_FETCH_DATA_SUCCESS',
-      items: readyItems
+  let itemsLite = []
+  for (var i = 0; i < items.length; i++) {
+    itemsLite.push({
+      _id: items[i]._id,
+      id: items[i].id, // needed to match existing copy in store
+      feed_id: items[i].feed_id,
+      title: items[i].title,
+      created_at: items[i].created_at,
+      banner_image: items[i].bannerImage // needed by the feed component
     })
-  }).then(_ => console.log('Done'))
+  }
+
+  yield put({
+    type: 'ITEMS_BATCH_FETCHED',
+    items: itemsLite
+  })
 }
 
-function addToFirestore (items) {
+function * addToFirestore (items) {
+  const uid = yield select(getUid)
   const db = getFirebase().firestore()
+  const userCollection = db.collection('users')
+  const userRef = userCollection.doc(uid)
+  const itemsCollection = userRef.collection('items-unread')
   let ref
   for (var i = 0; i < items.length; i++) {
-    ref = db.collection('items-unread').doc(items[i]._id)
+    ref = itemsCollection.doc(items[i]._id)
     ref.set(items[i])
   }
 }

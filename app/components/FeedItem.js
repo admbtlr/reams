@@ -130,7 +130,7 @@ class FeedItem extends React.Component {
       imageDimensions,
       showCoverImage,
       styles,
-      date_published,
+      created_at,
       excerpt
     } = this.props.item
     // console.log(`-------- RENDER: ${title} ---------`)
@@ -248,7 +248,7 @@ class FeedItem extends React.Component {
             index={this.props.index}
             title={title}
             excerpt={this.props.item.excerpt}
-            date={date_published}
+            date={created_at}
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses[0]}
             bodyFont={styles.fontClasses[1]}

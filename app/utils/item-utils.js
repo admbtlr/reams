@@ -17,6 +17,21 @@ export function addStylesIfNecessary (item, index, items) {
   }
 }
 
+export function deflateItem (item) {
+  return {
+    _id: item._id,
+    id: item.id, // needed to match existing copy in store
+    feed_id: item.feed_id,
+    title: item.title,
+    created_at: item.created_at,
+    banner_image: item.bannerImage // needed by the feed component
+  }
+}
+
+export function isInflated (item) {
+  return Object.keys(item).indexOf('content_html') !== -1
+}
+
 export function fixRelativePaths (item) {
   if (!item.url) return item
   const matches = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)

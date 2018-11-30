@@ -10,6 +10,7 @@ import { itemsMeta } from './items-meta'
 import { feeds } from './feeds'
 import { toolbar } from './toolbar'
 import { ui } from './ui'
+import { user } from './user'
 import { webView } from './webView'
 import { config } from './config'
 import { remoteActionQueue } from './remote-action-queue'
@@ -46,6 +47,7 @@ export default function makeRootReducer () {
     ui,
     webView,
     remoteActionQueue,
-    config
+    config,
+    user
   })
 }

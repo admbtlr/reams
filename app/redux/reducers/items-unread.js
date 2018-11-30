@@ -82,14 +82,13 @@ export const itemsUnread = (state = initialState, action) => {
     //     ]
     //   }
 
-    case 'ITEMS_FETCH_DATA_SUCCESS':
-      // merge with existing items
+    case 'ITEMS_BATCH_FETCHED':
       items = [...state.items]
       newItems = action.items
       newItems.forEach(newItem => {
-        const itemToUpdate = items.find(item => item.id === newItem.id || item._id === newItem._id)
-        if (itemToUpdate) {
-          itemToUpdate = newItem
+        let indexToUpdate = items.findIndex(item => item.id === newItem.id || item._id === newItem._id)
+        if (indexToUpdate !== -1) {
+          items[indexToUpdate] = newItem
         } else {
           items.push(newItem)
         }
@@ -101,12 +100,25 @@ export const itemsUnread = (state = initialState, action) => {
       }
 
       // order by date
-      items.sort((a, b) => a.date_published - b.date_published)
+      items.sort((a, b) => a.created_at - b.created_at)
 
       return {
         ...state,
         items
       }
+
+    case 'ITEMS_FETCH_DATA_SUCCESS':
+      // merge with existing items
+
+    case 'ITEMS_FLATE':
+      const flatedItems = action.itemsToInflate
+        .concat(action.itemsToDeflate)
+      items = [...state.items]
+      flatedItems.forEach(fi => {
+        const index = items.findIndex(item => item._id === fi._id)
+        items[index] = fi
+      })
+      return items
 
     case 'ITEMS_CLEAR_READ':
       return {

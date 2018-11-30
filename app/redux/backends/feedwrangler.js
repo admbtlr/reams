@@ -34,8 +34,9 @@ export const getUnreadItemsUrl = (createdSince, page) => {
   //   })
 
 export const getUnreadItems = async function (oldItems, currentItem, feeds, cb) {
+  console.log("Inside feedwrangler.getUnreadItems")
   let newItems, readItems
-  const lastFetchDate = oldItems ?
+  const lastFetchDate = (oldItems && oldItems.length > 0) ?
     oldItems[oldItems.length - 1].created_at :
     0
   const newIds = await fetchUnreadIds(lastFetchDate)
@@ -47,6 +48,7 @@ export const getUnreadItems = async function (oldItems, currentItem, feeds, cb) 
 
   if (idsToExpand.length > 0) {
     const expandedItems = await getItemsByIds(idsToExpand, cb)
+    return true
   }
   return true
 }
@@ -66,6 +68,7 @@ async function fetchUnreadIds (createdSince) {
   const pageSize = 1000
   let unreadIds = []
   let unreadIdBatch
+  console.log("Inside feedwrangler.getUnreadItems")
 
   const recursiveGetIds = (offset = 0) => {
     return getUnreadIds(createdSince, offset)

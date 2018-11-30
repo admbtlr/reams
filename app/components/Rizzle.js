@@ -4,6 +4,7 @@ import {
   StatusBar,
   View
 } from 'react-native'
+import firebase from 'react-native-firebase'
 import configureStore from '../redux/store/configureStore.js'
 import { Sentry } from 'react-native-sentry'
 import SplashScreen from 'react-native-splash-screen'
@@ -22,7 +23,27 @@ export default class Rizzle extends Component {
     super(props)
     this.props = props
 
-    this.store = configureStore()
+    this.state = {}
+    this.store = null
+
+    // const firebaseConfig = {
+    //   apiKey: "AIzaSyDsV89U3hnA0OInti2aAlCVk_Ymi04-A-o",
+    //   authDomain: "rizzle-base.firebaseapp.com",
+    //   databaseURL: "https://rizzle-base.firebaseio.com",
+    //   storageBucket: "rizzle-base.appspot.com",
+    //   messagingSenderId: "801044191408"
+    // }
+
+    firebase.auth()
+      .signInAnonymously()
+      .then(credential => {
+        this.store = configureStore()
+        this.store.dispatch({
+          type: 'USER_SET_UID',
+          uid: credential.user.uid
+        })
+        this.setState({ credential })
+      })
 
     Sentry.config('https://1dad862b663640649e6c46afed28a37f@sentry.io/195309').install()
 
@@ -37,6 +58,11 @@ export default class Rizzle extends Component {
   }
 
   render () {
+    if (!this.state.credential) {
+      console.log('Returning null')
+      return null
+    }
+
     const component = this.props.isActionExtension ?
       <ActionExtensionScreen /> :
       (<View style={{flex: 1}}>
