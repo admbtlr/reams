@@ -109,6 +109,9 @@ export const itemsUnread = (state = initialState, action) => {
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
       // merge with existing items
+      return {
+        ...state
+      }
 
     case 'ITEMS_FLATE':
       const flatedItems = action.itemsToInflate

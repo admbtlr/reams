@@ -38,7 +38,7 @@ let getFirebaseFn
 function * init (action, getFirebase) {
   if (action.key !== 'primary') return
   yield initialConfig()
-  yield rehydrateItems(getFirebaseFn)
+  // yield rehydrateItems(getFirebaseFn)
   yield fetchItems2(getFirebaseFn)
   yield executeRemoteActions(getFirebaseFn)
 }
@@ -47,7 +47,7 @@ export function * updateCurrentIndex (getFirebase) {
   getFirebaseFn = getFirebase
   yield takeEvery(REHYDRATE, init)
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems2)
-  yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems)
+  yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems, getFirebase)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl, getFirebase)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)

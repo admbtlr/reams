@@ -9,7 +9,8 @@ export function * rehydrateItems (getFirebase) {
   const uid = yield select(getUid)
   try {
     let items = []
-    let querySnapshot = yield db.collection(`users/${uid}/items-unread`).get(getOptions)
+    let collection = db.collection(`users/${uid}/items-unread`)
+    let querySnapshot = yield collection.get(getOptions)
     querySnapshot.docs.forEach(doc => {
       items.push(doc.data())
     })

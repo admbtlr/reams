@@ -1,12 +1,12 @@
 import { put, select } from 'redux-saga/effects'
 
 import { deflateItem, isInflated } from '../../utils/item-utils'
-import { getItems } from './selectors'
+import { getUnreadItems, getUid } from './selectors'
 
-export function * inflateItems (action, getFirebase) {
+export function * inflateItems (getFirebase, action) {
   const db = getFirebase().firestore()
   const index = action.index
-  const items = yield select('getItems')
+  const items = yield select(getUnreadItems)
   let inflatedItems = items.filter(isInflated)
   let activeItems = [
     items[index]
@@ -28,7 +28,7 @@ export function * inflateItems (action, getFirebase) {
     console.log('Error inflating items: ' + err)
   }
 
-  function * getItemsFromFirestore(items) {
+  function * getItemsFromFirestore (items) {
     let firestoreItems = []
     let item
     for (var i = 0; i < items.length; i++) {

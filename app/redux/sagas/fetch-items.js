@@ -66,7 +66,9 @@ export function * fetchItems2 (getFirebaseFn) {
 function fetchItemsChannel (oldItems, currentItem, feeds) {
   return eventChannel(emitter => {
     fetchUnreadItems(oldItems, currentItem, feeds, emitter)
-      .then(_ => emitter.END)
+      .then(() => {
+        emitter(END)
+      })
     return _ => {
       console.log('Channel closed')
     }

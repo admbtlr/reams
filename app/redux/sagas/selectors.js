@@ -5,6 +5,10 @@ export function getItems (state, type) {
     state.itemsSaved.items
 }
 
+export function getUnreadItems (state) {
+  return state.itemsUnread.items
+}
+
 export function getDisplay (state) {
   return state.itemsMeta.display
 }

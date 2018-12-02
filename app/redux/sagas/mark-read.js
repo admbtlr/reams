@@ -7,7 +7,7 @@ import { getItems, getCurrentItem, getFeeds, getDisplay } from './selectors'
 export function * markLastItemRead (action) {
   yield delay (100)
   const display = yield select(getDisplay)
-  if (display !== 'unread') {
+  if (display !== 'unread' || !action.lastIndex) {
     return
   }
   const lastIndex = action.lastIndex
