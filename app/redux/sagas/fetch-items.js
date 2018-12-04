@@ -2,6 +2,7 @@ import { call, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 
 import { fetchUnreadItems } from '../backends'
+import { addUnreadItemsToFirestore } from '../firestore/'
 import { mergeItems, id } from '../../utils/merge-items.js'
 import { getFeedColor } from '../../utils/'
 import { checkOnline } from './check-online'
@@ -17,9 +18,8 @@ const RNFS = require('react-native-fs')
 
 
 let feeds
-let getFirebase
 
-export function * fetchItems2 (getFirebaseFn) {
+export function * fetchItems2 () {
   const isOnline = yield checkOnline()
   if (!isOnline) return
 
@@ -27,8 +27,6 @@ export function * fetchItems2 (getFirebaseFn) {
     type: 'ITEMS_IS_LOADING',
     isLoading: true
   })
-
-  getFirebase = getFirebaseFn
 
   const feeds = yield select(getFeeds)
   const oldItems = yield select(getItems, 'items')
@@ -45,7 +43,7 @@ export function * fetchItems2 (getFirebaseFn) {
       if (isFirstBatch) {
         isFirstBatch = false
         // this is a little hacky, just getting ready to view some items
-        yield inflateItems(getFirebase, { index })
+        yield inflateItems({ index })
       }
       console.log(items.length)
     }
@@ -98,7 +96,8 @@ function * receiveItems (newItems) {
       }
     })
 
-  yield addToFirestore(items)
+  // no need to wait until this has completed...
+  addUnreadItemsToFirestore(items)
 
   let itemsLite = []
   for (var i = 0; i < items.length; i++) {
@@ -116,19 +115,6 @@ function * receiveItems (newItems) {
     type: 'ITEMS_BATCH_FETCHED',
     items: itemsLite
   })
-}
-
-function * addToFirestore (items) {
-  const uid = yield select(getUid)
-  const db = getFirebase().firestore()
-  const userCollection = db.collection('users')
-  const userRef = userCollection.doc(uid)
-  const itemsCollection = userRef.collection('items-unread')
-  let ref
-  for (var i = 0; i < items.length; i++) {
-    ref = itemsCollection.doc(items[i]._id)
-    ref.set(items[i])
-  }
 }
 
 function addFeedInfoToItems(items, feeds, moreFeeds) {

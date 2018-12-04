@@ -2,16 +2,15 @@ import { NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
+import { removeUnreadItem, addReadItem } from '../firestore/'
 // import { addStaleItem } from '../realm/stale-items'
 import { getRemoteActions } from './selectors'
 import { checkOnline } from './check-online'
 
 const INITIAL_INTERVAL = 500
 let interval = INITIAL_INTERVAL
-let getFirebase
 
-export function * executeRemoteActions (getFirebaseFn) {
-  getFirebase = getFirebaseFn
+export function * executeRemoteActions () {
   yield spawn(function * () {
     while (true) {
       yield call(delay, interval)
@@ -43,10 +42,8 @@ function * executeAction (action) {
       try {
         yield markItemRead(action.item)
 
-        const db = getFirebase().firestore()
-        let ref = db.collection('items-read').doc(action.item._id)
-        ref.set(action.item)
-        db.collection('items-unread').doc(action.item._id).delete()
+        removeUnreadItem(item)
+        addReadItem(item)
 
         // console.log('Marking item read... done')
         yield put({

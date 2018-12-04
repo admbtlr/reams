@@ -1,13 +1,8 @@
 import { put, select } from 'redux-saga/effects'
 import { getUid } from './selectors'
 
-export function rehydrateItems (getFirebase) {
-  const db = getFirebase().firestore()
-  window.db = db
-  const getOptions = {
-    source: 'cache'
-  }
-  getCollectionFromFirestore()
+export function rehydrateItems (getFirebase, uid) {
+  return getCollection('items-unread', true)
 
   // const uid = yield select(getUid)
   // // try {
@@ -58,18 +53,17 @@ export function rehydrateItems (getFirebase) {
   // } catch (err) {
   //   console.log('Error rehydrating saved items: ' + err)
   // }
-  function getCollectionFromFirestore (collectionName) {
+  function getCollectionFromFirestore (collectionName, uid) {
     let items = []
     // const uid = yield select(getUid)
-    const uid = 'SSh8TApFBHOl3UaEaGSpmFUaHr92'
+    // const uid = 'SSh8TApFBHOl3UaEaGSpmFUaHr92'
     const path = `users/${uid}/${collectionName}`
     console.log(path)
-    db.collection(path).get()
+    return db.disableNetwork()
+      .then(() => db.collection(path).get())
       .then(qs => qs.docs)
-      .then(items => {
-        items.forEach(item => {
-          console.log(item)
-        })
+      .catch(e => {
+        console.log('FIRESTORE ERROR: ' + e)
       })
     // const collectionRef = db.collection(path)
     // const querySnapshot = yield collectionRef.get()
@@ -80,7 +74,6 @@ export function rehydrateItems (getFirebase) {
     // for (var i = 0; i < documentSnapshots.length; i++) {
     //   items.push(documentSnapshots[i])
     // }
-    return items
   }
 
 }

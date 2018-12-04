@@ -1,5 +1,8 @@
-import { takeEvery } from 'redux-saga/effects'
+import { call, takeEvery, select } from 'redux-saga/effects'
+import { getUid } from './selectors'
 import { REHYDRATE } from 'redux-persist'
+
+import { setUid, setDb } from '../firebase/'
 
 import { decorateItems } from './decorate-items'
 import { fetchItems2 } from './fetch-items'
@@ -31,21 +34,21 @@ import { initialConfig } from './initial-config'
 //   }
 // }
 
-let getFirebaseFn
-
-
-
 function * init (action, getFirebase) {
   if (action.key !== 'primary') return
-  yield initialConfig()
-  rehydrateItems(getFirebaseFn)
-  yield fetchItems2(getFirebaseFn)
-  yield executeRemoteActions(getFirebaseFn)
+  const uid = yield select(getUid)
+
+  setDb(getFirebase().firestore())
+  setUid(uid)
+
+  yield call(initialConfig)
+  yield call(rehydrateItems)
+  yield call(fetchItems2)
+  yield call(executeRemoteActions)
 }
 
 export function * updateCurrentIndex (getFirebase) {
-  getFirebaseFn = getFirebase
-  yield takeEvery(REHYDRATE, init)
+  yield takeEvery(REHYDRATE, init, getFirebase)
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems2)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems, getFirebase)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
