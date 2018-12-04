@@ -1,3 +1,5 @@
+import { InteractionManager } from 'react-native'
+
 import {id} from '../../utils'
 
 const feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
@@ -112,7 +114,8 @@ export const getItemsByIds = (itemIds, callback) => {
     let url = 'https://feedwrangler.net/api/v2/feed_items/get?'
     url += 'access_token=' + feedWranglerAccessToken
     url += '&feed_item_ids=' + itemIdChunk.reduce((accum, id) => `${accum}${id.id},`, '')
-    return fetch(url)
+    return InteractionManager.runAfterInteractions()
+      .then(() => fetch(url))
       .then((response) => {
         if (!response.ok) {
           throw Error(response.statusText)

@@ -12,9 +12,6 @@ class FeedItem extends React.Component {
     super(props)
     this.props = props
 
-    if (__DEV__ || !this.props.item.styles) {
-      this.props.item.styles = createItemStyles(this.props.item)
-    }
     this.scrollOffset = new Animated.Value(0)
 
     this.state = {
@@ -118,7 +115,18 @@ class FeedItem extends React.Component {
     return imageDimensions && imageDimensions.height > imageDimensions.width
   }
 
+  isInflated () {
+    return typeof this.props.item.content_html !== 'undefined'
+  }
+
   render () {
+    if (!this.isInflated()) {
+      return <View style={{ flex: 1 }} />
+    }
+
+    if (__DEV__ || !this.props.item.styles) {
+      this.props.item.styles = createItemStyles(this.props.item)
+    }
     let {
       feed_title,
       url,

@@ -376,6 +376,9 @@ class ItemTitle extends React.Component {
   render () {
     let {styles, title, date, showCoverImage, coverImageStyles, isVisible} = this.props
 
+    // this means the item hasn't been inflated from Firebase yet
+    if (!styles) return null
+
     // we need 3 different versions of the title
     // 1. originalTitle (Here&rquo;s a story about a <i>Thing</i>)
     // 2. displayTitle (Here’s a story about a Thing)

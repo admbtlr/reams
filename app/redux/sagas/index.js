@@ -38,7 +38,7 @@ let getFirebaseFn
 function * init (action, getFirebase) {
   if (action.key !== 'primary') return
   yield initialConfig()
-  // yield rehydrateItems(getFirebaseFn)
+  rehydrateItems(getFirebaseFn)
   yield fetchItems2(getFirebaseFn)
   yield executeRemoteActions(getFirebaseFn)
 }

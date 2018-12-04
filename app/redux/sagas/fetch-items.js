@@ -5,6 +5,7 @@ import { fetchUnreadItems } from '../backends'
 import { mergeItems, id } from '../../utils/merge-items.js'
 import { getFeedColor } from '../../utils/'
 import { checkOnline } from './check-online'
+import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,
   fixRelativePaths,
   addStylesIfNecessary,
@@ -36,10 +37,16 @@ export function * fetchItems2 (getFirebaseFn) {
 
   const itemsChannel = yield call(fetchItemsChannel, oldItems, currentItem, feeds)
 
+  let isFirstBatch = true
   try {
     while (true) {
       let items = yield take(itemsChannel)
       yield receiveItems(items)
+      if (isFirstBatch) {
+        isFirstBatch = false
+        // this is a little hacky, just getting ready to view some items
+        yield inflateItems(getFirebase, { index })
+      }
       console.log(items.length)
     }
   } finally {

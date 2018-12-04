@@ -5,7 +5,9 @@ import { getUnreadItems, getUid } from './selectors'
 
 export function * inflateItems (getFirebase, action) {
   const db = getFirebase().firestore()
-  const index = action.index
+  // there's an issue with the index getting setting to undefined at init
+  // no idea why
+  const index = action.index || 0
   const items = yield select(getUnreadItems)
   let inflatedItems = items.filter(isInflated)
   let activeItems = [
@@ -38,9 +40,10 @@ export function * inflateItems (getFirebase, action) {
     return firestoreItems
   }
 
-  function * getItemFromFirestore (id) {
+  function * getItemFromFirestore (_id) {
     const uid = yield select(getUid)
-    const item = yield db.doc(`users/${uid}/items-unread/${item._id}`).get()
-    return item
+    const documentRef = yield db.doc(`users/${uid}/items-unread/${_id}`)
+    const documentSnapshot = yield documentRef.get()
+    return documentSnapshot.data()
   }
 }

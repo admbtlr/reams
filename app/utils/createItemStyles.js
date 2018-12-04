@@ -67,6 +67,8 @@ export function createItemStyles (item, prevStyles) {
   //   title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
   // }
 
+  const coverImageStyles = createCoverImageStyles(item)
+
   title.interBolded = shouldInterBold(entities.decode(item.title))
   // this is probably just too ugly to be allowed...
   // title.interStyled = title.interBolded && Math.random() > 0.5
@@ -149,7 +151,7 @@ export function createCoverImageStyles (item) {
     (item.imageDimensions && item.imageDimensions.height < deviceHeight * 0.7)) {
     // TODO base this decision on title length
     Math.random() > 0.2 ? styles.isCoverInline = true : styles.isContain = true
-    style.isScreen = styles.isMultiply = false
+    styles.isScreen = styles.isMultiply = false
   }
 }
 

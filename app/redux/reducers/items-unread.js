@@ -121,7 +121,10 @@ export const itemsUnread = (state = initialState, action) => {
         const index = items.findIndex(item => item._id === fi._id)
         items[index] = fi
       })
-      return items
+      return {
+        ...state,
+        items
+      }
 
     case 'ITEMS_CLEAR_READ':
       return {
