@@ -147,6 +147,12 @@ class TopBar extends React.Component {
     // return hslString('rizzleChrome')
   }
 
+  getForegroundColor (item) {
+    return this.props.displayMode == 'saved' ?
+      hslString('black') :
+      hslString('white')
+  }
+
   getBorderBottomColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
@@ -159,9 +165,11 @@ class TopBar extends React.Component {
 
   getHamburgerColor (item) {
     const feedColor = item ? item.feed_color : null
-    return this.props.isFiltered ?
-      hslString(feedColor, 'darker') :
-      'white'
+    return this.props.displayMode == 'saved' ?
+      this.getForegroundColor() :
+      (this.props.isFiltered ?
+        hslString(feedColor, 'darker') :
+        'white')
   }
 
   expandAnimation () {
@@ -353,7 +361,7 @@ class TopBar extends React.Component {
                 translateY: transformAnim
               }],
               // color: this.getBorderBottomColor(item)
-              color: 'white'
+              color: this.getForegroundColor()
             }}
           >
             {this.getMessage(item)}

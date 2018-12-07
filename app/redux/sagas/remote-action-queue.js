@@ -42,8 +42,8 @@ function * executeAction (action) {
       try {
         yield markItemRead(action.item)
 
-        removeUnreadItem(item)
-        addReadItem(item)
+        removeUnreadItem(action.item)
+        addReadItem(action.item)
 
         // console.log('Marking item read... done')
         yield put({

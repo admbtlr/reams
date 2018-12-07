@@ -23,7 +23,7 @@ export const initialState = {
 export const itemsSaved = (state = initialState, action) => {
   let items = []
   let newItems = []
-  let saved = []
+  let savedItems = []
   let savedItem = {}
   let newState = {}
 
@@ -49,9 +49,9 @@ export const itemsSaved = (state = initialState, action) => {
 
     case 'ITEM_SAVE_ITEM':
       items = [ ...state.items ]
-      savedItem = items.find((item) => item._id === action.item._id)
+      savedItem = action.item
       savedItem.isSaved = true
-      saved.push({
+      items.push({
         ...savedItem,
         savedAt: Date.now()
       })
@@ -76,7 +76,7 @@ export const itemsSaved = (state = initialState, action) => {
 
     // TODO; saved index
     case 'ITEM_UNSAVE_ITEM':
-      let savedIndex = state.items.indexOf(item) || 0
+      let savedIndex = state.items.indexOf(action.item) || 0
       savedItem = state.items.find((item) => item._id === action.item._id)
       savedItem = state.items.find((item) => item._id === action.item._id)
       items = items.filter((item) => item._id !== action.item._id)

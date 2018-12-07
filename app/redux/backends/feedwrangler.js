@@ -89,7 +89,7 @@ async function fetchUnreadIds (createdSince) {
       return {
         id: feed_item.feed_item_id
       }
-    })
+    }).slice(0, 500)
   })
   // unreadIdBatch  = await getUnreadIds()
   // unreadIds = unreadIds.concat(unreadIdBatch)

@@ -25,7 +25,7 @@ export default function configureStore () {
     storage: FilesystemStorage,
     throttle: 5000,
     debug: true,
-    blackList: ['itemsUnread', 'itemsSaved']
+    blacklist: ['itemsUnread', 'itemsSaved']
   }
 
   const reactReduxFirebaseConfig = {

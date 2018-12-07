@@ -252,6 +252,12 @@ class Feed extends React.PureComponent {
     }
   }
 
+  // shouldComponentUpdate = (nextProps, nextState) => {
+  //   if (!this.props.navigation.isFocused() || !nextProps.navigation.isFocused()) {
+  //     return false
+  //   }
+  // }
+
   render = () => {
     console.log('Render feed ' +
       this.props.feedTitle + ' ' +

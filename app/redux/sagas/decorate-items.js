@@ -7,6 +7,7 @@ import { getCachedImagePath } from '../../utils'
 const co = require('co')
 
 import { getItems, getCurrentItem, getDisplay } from './selectors'
+import { updateItemInFirestore } from '../firestore'
 
 export function * decorateItems (action) {
   let items
@@ -36,6 +37,9 @@ export function * decorateItems (action) {
           totalCount: items.length,
           decoratedCount
         })
+
+        const item = items.find(item => item._id === decoration.item._id)
+        updateItemInFirestore(item)
       }
     }
   })

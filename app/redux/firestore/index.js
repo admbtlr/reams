@@ -9,12 +9,17 @@ export function setDb (firebaseDb) {
   db = firebaseDb
 }
 
+function getUserDb () {
+  return db.collection('users').doc(uid)
+}
+
 export function getItemsFromFirestore (items) {
-  let promises
+  let promises = []
   for (var i = 0; i < items.length; i++) {
     promises.push(getItemFromFirestore(items[i]._id))
   }
   return Promise.all(promises)
+    .then(items => items)
 }
 
 function getItemFromFirestore (_id) {
@@ -22,19 +27,65 @@ function getItemFromFirestore (_id) {
     .then(ds => ds.data())
 }
 
-export function * addUnreadItemsToFirestore (items) {
-  const itemsCollection = db.collection('users').doc(uid).collection('items-unread')
+export function updateItemInFirestore (item) {
+  const docRef = getUserDb().collection('items-unread').doc(item._id)
+  return docRef.set(item)
+    .then(item => item)
+    .catch(e => {
+      console.log(e)
+    })
+}
+
+export function addUnreadItemsToFirestore (items) {
+  const itemsCollection = getUserDb().collection('items-unread')
   for (var i = 0; i < items.length; i++) {
     itemsCollection.doc(items[i]._id).set(items[i])
+      .then(items => {
+        console.log('Added unread items')
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 }
 
 export function removeUnreadItem (item) {
-  db.collection('items-unread').doc(item._id).delete()
+  return getUserDb().collection('items-unread').doc(item._id).delete()
+    .then(item => {
+      console.log('Removed unread item')
+      return item
+    })
+    .catch(e => {
+      console.log(e)
+    })
 }
 
 export function addReadItem (item) {
-  db.collection('items-read').doc(item._id).set(item)
+  return getUserDb().collection('items-read').doc(item._id)
+    .set({
+      _id: item._id,
+      feed_id: item.feed_id,
+      title: item.title
+    })
+    .then(item => {
+      console.log('Added read item')
+      return item
+    })
+    .catch(e => {
+      console.log(e)
+    })
+}
+
+export function addSavedItemToFirestore (item) {
+  return getUserDb().collection('items-saved').doc(item._id)
+    .set(item)
+    .then(item => {
+      console.log('Added saved item')
+      return item
+    })
+    .catch(e => {
+      console.log(e)
+    })
 }
 
 export function getCollection (collectionName, fromCache) {
@@ -50,7 +101,14 @@ export function getCollection (collectionName, fromCache) {
     firstCall = db.collection(path).get(getOptions)
   }
 
-  return firstCall.then(qs => qs.docs)
+  return firstCall
+    .then(qs => {
+      let items = []
+      qs.forEach(ds => {
+        items.push(ds.data())
+      })
+      return items
+    })
     .catch(e => {
       console.log('FIRESTORE ERROR: ' + e)
     })

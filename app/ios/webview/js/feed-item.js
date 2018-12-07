@@ -219,25 +219,32 @@ function capitaliseFirstChildP(el) {
       var childNodes = p.childNodes
       for (var j = 0; j < childNodes.length; j++) {
         if (childNodes[j].nodeType === 3) {
-          var text = childNodes[j].nodeValue
-          if (text.split(/[,\.;:\?!]/, 2)[0].length < 25) {
-            var splitted = text.split(/([,\.;:\?!])/)
-            splitted[0] = splitted[0].toUpperCase()
-            childNodes[j].nodeValue = splitted.join('')
-          } else {
-            var splitted = text.split(' ')
-            let totalLength = 0
-            childNodes[j].nodeValue = splitted.map((word, index) => {
-              totalLength += word.length
-              return totalLength < 12 ? word.toUpperCase() : word
-            }).join(' ')
-          }
+          childNodes[j].nodeValue = capitaliseText(childNodes[j].nodeValue)
+          break
+        } else if (childNodes[j].nodeType === 3 && childNodes[j].innerText.length > 0) {
+          childNodes[j].innerText = capitaliseText(childNodes[j].innerText)
           break
         }
       }
       break
     }
   }
+}
+
+function capitaliseText (text) {
+  if (text.split(/[,\.;:\?!]/, 2)[0].length < 25) {
+    var splitted = text.split(/([,\.;:\?!])/)
+    splitted[0] = splitted[0].toUpperCase()
+    return splitted.join('')
+  } else {
+    var splitted = text.split(' ')
+    let totalLength = 0
+    return splitted.map((word, index) => {
+      totalLength += word.length
+      return totalLength < 12 ? word.toUpperCase() : word
+    }).join(' ')
+  }
+
 }
 
 function removeSourceTags() {
