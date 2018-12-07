@@ -36,10 +36,7 @@ import { initialConfig } from './initial-config'
 // }
 
 function * init (getFirebase, action) {
-  console.log(action)
-  if (action.key !== 'primary') {
-    return
-  }
+  if (action.key !== 'primary') return
   const uid = yield select(getUid)
 
   setDb(getFirebase().firestore())
