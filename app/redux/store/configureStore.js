@@ -1,16 +1,13 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 // import thunk from 'redux-thunk'
 import makeRootReducer from '../reducers'
-import {createItemsUnreadReducer} from '../reducers/items-unread'
 import {updateCurrentIndex} from '../sagas'
 import {persistReducer, persistStore} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import {AsyncStorage} from 'react-native'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import firebase from 'react-native-firebase'
-import { firebaseReducer, getFirebase, reactReduxFirebase } from 'react-redux-firebase'
-import { reduxFirestore, firestoreReducer } from 'redux-firestore'
+import { getFirebase, reactReduxFirebase } from 'react-redux-firebase'
+import { reduxFirestore } from 'redux-firestore'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
 export default function configureStore () {
@@ -31,6 +28,7 @@ export default function configureStore () {
   const reactReduxFirebaseConfig = {
     userProfile: 'users', // firebase root where user profiles are stored
     // enableLogging: false, // enable/disable Firebase's database logging
+    enableRedirectHandling: false // https://github.com/invertase/react-native-firebase/issues/431
   }
 
   firebase.firestore()
