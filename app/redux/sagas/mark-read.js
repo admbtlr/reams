@@ -1,6 +1,7 @@
 import { delay } from 'redux-saga'
 import { put, select } from 'redux-saga/effects'
 import { markItemRead } from '../backends'
+import { removeItems } from '../firestore'
 
 import { getItems, getCurrentItem, getFeeds, getDisplay } from './selectors'
 
@@ -19,26 +20,7 @@ export function * markLastItemRead (action) {
   })
 }
 
-// export function * itemMarkRead (item) {
-//   try {
-//     yield markItemRead(item)
-//   } catch (error) {
-//     console.log('Mark Item Read Error!')
-//     yield put({
-//       type: 'ITEMS_HAS_ERRORED',
-//       hasErrored: true
-//     })
-//   }
-// }
-
-// export function * feedMarkRead (feed) {
-//   try {
-//     yield put({
-//       type: 'FEED_MARK_READ',
-//       feed
-//     })
-//     yield markFeedRead(feed)
-//   } catch (error) {
-//     console.log('Mark Feed Read Error!')
-//   }
-// }
+export function * clearReadItems () {
+  // TODO figure out a query on readAt to remove read items
+  // yield removeItems()
+}

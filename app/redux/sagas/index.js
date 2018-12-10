@@ -6,7 +6,7 @@ import { setUid, setDb } from '../firestore/'
 
 import { decorateItems } from './decorate-items'
 import { fetchItems2 } from './fetch-items'
-import { markLastItemRead } from './mark-read'
+import { markLastItemRead, clearReadItems } from './mark-read'
 import { saveExternalUrl } from './external-items'
 import { rehydrateItems } from './rehydrate-items'
 import { inflateItems } from './inflate-items'
@@ -61,4 +61,5 @@ export function * updateCurrentIndex (getFirebase) {
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
+  yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
 }

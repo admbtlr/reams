@@ -1,6 +1,6 @@
 import { put, select } from 'redux-saga/effects'
 
-import { isInflated } from '../../utils/item-utils'
+import { isInflated, deflateItem } from '../../utils/item-utils'
 import { getUnreadItems } from './selectors'
 
 import { getItemsFromFirestore } from '../firestore/'
@@ -17,8 +17,10 @@ export function * inflateItems (action) {
   if (index > 0) activeItems.push(items[index - 1])
   if (index < items.length - 1) activeItems.push(items[index + 1])
 
-  const itemsToDeflate = inflatedItems.filter(item => activeItems.indexOf(item) === -1)
-  let itemsToInflate = activeItems.filter(item => inflatedItems.indexOf(item) === -1)
+  const itemsToDeflate = inflatedItems
+    .filter(item => !!!activeItems.find(ai => ai._id === item._id))
+    .map(deflateItem)
+  let itemsToInflate = activeItems.filter(item => !!!inflatedItems.find(ai => ai._id === item._id))
 
   try {
     itemsToInflate = yield getItemsFromFirestore(itemsToInflate)

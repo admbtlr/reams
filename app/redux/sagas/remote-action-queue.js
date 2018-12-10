@@ -2,7 +2,7 @@ import { NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
-import { removeUnreadItem, addReadItem } from '../firestore/'
+import { updateItemInFirestore, addReadItem } from '../firestore/'
 // import { addStaleItem } from '../realm/stale-items'
 import { getRemoteActions } from './selectors'
 import { checkOnline } from './check-online'
@@ -42,7 +42,13 @@ function * executeAction (action) {
       try {
         yield markItemRead(action.item)
 
-        removeUnreadItem(action.item)
+        // mark item read in Firestore
+        // NB this will mean that Firebase's readAt value is different to the Redux store
+        // does this matter? who knows...?
+        updateItemInFirestore({
+          ...action.item,
+          readAt: Date.now()
+        })
         addReadItem(action.item)
 
         // console.log('Marking item read... done')

@@ -24,12 +24,18 @@ export function getItemsFromFirestore (items) {
 
 function getItemFromFirestore (_id) {
   return db.doc(`users/${uid}/items-unread/${_id}`).get()
-    .then(ds => ds.data())
+    .then(ds => {
+      const data = ds.data()
+      return data
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 export function updateItemInFirestore (item) {
   const docRef = getUserDb().collection('items-unread').doc(item._id)
-  return docRef.set(item)
+  return docRef.update(item)
     .then(item => item)
     .catch(e => {
       console.log(e)
@@ -88,7 +94,7 @@ export function addSavedItemToFirestore (item) {
     })
 }
 
-export function getCollection (collectionName, fromCache) {
+export function getCollection (collectionName, orderBy = 'created_at', fromCache) {
   const path = `users/${uid}/${collectionName}`
   let getOptions = {}
   if (fromCache) getOptions.source = 'cache'
@@ -96,9 +102,9 @@ export function getCollection (collectionName, fromCache) {
   let firstCall
   if (fromCache) {
     firstCall = db.disableNetwork()
-      .then(() => db.collection(path).get(getOptions))
+      .then(() => db.collection(path).orderBy(orderBy).get(getOptions))
   } else {
-    firstCall = db.collection(path).get(getOptions)
+    firstCall = db.collection(path).orderBy(orderBy).get(getOptions)
   }
 
   return firstCall

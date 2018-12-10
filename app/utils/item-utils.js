@@ -22,9 +22,14 @@ export function deflateItem (item) {
     _id: item._id,
     id: item.id, // needed to match existing copy in store
     feed_id: item.feed_id,
+    feed_color: item.feed_color,
     title: item.title,
     created_at: item.created_at,
-    banner_image: item.bannerImage // needed by the feed component
+    hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
+    banner_image: item.bannerImage, // needed by the feed component
+    styles: item.styles,
+    url: item.url,
+    content_length: item.content_html.length
   }
 }
 
@@ -124,7 +129,7 @@ export function addCoverImageToItem (item, imageStuff) {
 export function setShowCoverImage (item) {
   const {deviceHeight, deviceWidth} = Dimensions.get('window')
   let showCoverImage = item.hasCoverImage &&
-    item.content_html.length > 2000
+    item.content_length > 2000
   return {
     ...item,
     showCoverImage

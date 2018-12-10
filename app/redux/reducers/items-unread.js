@@ -34,9 +34,32 @@ export function itemsHasErrored (state = false, action) {
   }
 }
 
-// export const createItemsUnreadReducer = key => combineReducers({
-//   items: itemsUnreadReducer(key)
-// })
+// Rehydrated items are just:
+// - _id
+// - id
+// - title
+// - created_at
+// - feed_id
+// - feed_color
+// - hasLoadedMercuryStuff
+//
+// Inflated items also have:
+// - content_mercury
+// - url
+// - hasCoverImage
+// - styles
+// - content_html
+// - banner_image
+// - imageDimensions
+// - feed_title
+// - showCoverImage
+// - external_url
+// - excerpt
+// - author
+//
+// The Mercury stuff is held in AsyncStorage to save $$$
+// - content_mercury
+
 
 export const itemsUnread = (state = initialState, action) => {
   let items = []
