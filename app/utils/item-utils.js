@@ -20,17 +20,17 @@ export function addStylesIfNecessary (item, index, items) {
 export function deflateItem (item) {
   return {
     _id: item._id,
-    id: item.id, // needed to match existing copy in store
+    banner_image: item.bannerImage, // needed by the feed component
+    content_length: item.content_html.length,
+    created_at: item.created_at,
     feed_id: item.feed_id,
     feed_color: item.feed_color,
-    title: item.title,
-    created_at: item.created_at,
     hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
-    banner_image: item.bannerImage, // needed by the feed component
+    id: item.id, // needed to match existing copy in store
+    readAt: item.readAt,
     styles: item.styles,
+    title: item.title,
     url: item.url,
-    content_length: item.content_html.length,
-    banner_image: item.banner_image // needed by the feed component
   }
 }
 

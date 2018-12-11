@@ -67,7 +67,6 @@ class TopBar extends React.Component {
   }
 
   render () {
-    console.log('Render Top Bar!')
     const { prevItem, currentItem, nextItem } = this.props
     const {
       prevOpacityAnim,
