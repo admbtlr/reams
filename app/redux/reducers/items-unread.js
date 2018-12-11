@@ -141,8 +141,14 @@ export const itemsUnread = (state = initialState, action) => {
         .concat(action.itemsToDeflate)
       items = [...state.items]
       flatedItems.forEach(fi => {
-        const index = items.findIndex(item => item._id === fi._id)
-        items[index] = fi
+        // some of the items might have been deleted in Firebase
+        // which means that they will come back as undefined
+        // I think we can just ignore them
+        // TODO check whether this is really the case!
+        if (fi) {
+          const index = items.findIndex(item => item._id === fi._id)
+          items[index] = fi
+        }
       })
       return {
         ...state,

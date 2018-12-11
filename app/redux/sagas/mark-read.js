@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga'
 import { put, select } from 'redux-saga/effects'
 import { markItemRead } from '../backends'
-import { removeItems } from '../firestore'
+import { deleteReadItemsFromFirestore } from '../firestore'
 
 import { getItems, getCurrentItem, getFeeds, getDisplay } from './selectors'
 
@@ -21,6 +21,11 @@ export function * markLastItemRead (action) {
 }
 
 export function * clearReadItems () {
-  // TODO figure out a query on readAt to remove read items
-  // yield removeItems()
+  // let redux clear its read items first
+  // yeah, yeah, I know
+  yield delay (100)
+  yield deleteReadItemsFromFirestore()
+
+  // TODO: now remove the cached images for all the read items
+  // removeCachedCoverImages(readItems)
 }

@@ -29,7 +29,8 @@ export function deflateItem (item) {
     banner_image: item.bannerImage, // needed by the feed component
     styles: item.styles,
     url: item.url,
-    content_length: item.content_html.length
+    content_length: item.content_html.length,
+    banner_image: item.banner_image // needed by the feed component
   }
 }
 

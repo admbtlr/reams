@@ -1,3 +1,5 @@
+import { deflateItem } from '../../utils/item-utils'
+
 let uid
 let db
 
@@ -55,6 +57,24 @@ export function addUnreadItemsToFirestore (items) {
   }
 }
 
+export function deleteReadItemsFromFirestore () {
+  getUserDb()
+    .collection('items-unread')
+    .where('readAt', '>', 0)
+    .get()
+    .then(querySnapshot => {
+      console.log(querySnapshot)
+      querySnapshot.docs.forEach(doc => {
+        doc.ref.delete().then(_ => {
+          console.log('Item deleted')
+        })
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 export function removeUnreadItem (item) {
   return getUserDb().collection('items-unread').doc(item._id).delete()
     .then(item => {
@@ -94,9 +114,10 @@ export function addSavedItemToFirestore (item) {
     })
 }
 
-export function getCollection (collectionName, orderBy = 'created_at', fromCache) {
+export function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {
   const path = `users/${uid}/${collectionName}`
   let getOptions = {}
+  let data
   if (fromCache) getOptions.source = 'cache'
 
   let firstCall
@@ -111,7 +132,11 @@ export function getCollection (collectionName, orderBy = 'created_at', fromCache
     .then(qs => {
       let items = []
       qs.forEach(ds => {
-        items.push(ds.data())
+        data = ds.data()
+        if (deflate) {
+          data = deflateItem(data)
+        }
+        items.push(data)
       })
       return items
     })

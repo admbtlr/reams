@@ -63,8 +63,6 @@ export function * fetchItems2 () {
       type: 'ITEMS_UPDATE_CURRENT_INDEX',
       index: 0
     })
-    // TODO: now remove the cached images for all the read items
-    // removeCachedCoverImages(readItems)
   }
 }
 
