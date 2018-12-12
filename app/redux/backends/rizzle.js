@@ -21,12 +21,6 @@ export const getUnreadItems = async function (oldItems, currentItem, feeds) {
     // console.log(newItems)
     let { read, unread } = mergeItems(oldItems, newItems, currentItem)
 
-    // RealmJS is too slow in devtools
-    // TODO reimplement in Firestore!
-    // if (!__DEV__) {
-    //   unread = await filterItemsForStale(unread)
-    // }
-
     // console.log(`And now I have ${unread.length} unread items`)
     newItems = unread.sort((a, b) => moment(a.date_published).unix() - moment(b.date_published).unix());
   } catch (error) {

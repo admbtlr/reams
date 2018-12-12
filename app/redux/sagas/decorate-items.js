@@ -47,6 +47,7 @@ export function * decorateItems (action) {
   while (true) {
     yield call(delay, 500)
     items = yield select(getItems, 'items')
+    if (items.filter(item => item.hasLoadedMercuryStuff).length >= 100) continue
     item = items.find(item => !item.hasLoadedMercuryStuff && !pendingDecoration.find(pd => pd._id === item._id))
     if (item) {
       // console.log(`Got item: ${item.title}`)

@@ -4,6 +4,8 @@ import moment from 'moment'
 const feedwrangler = require('./feedwrangler')
 const rizzle = require('./rizzle')
 
+const MAX_ITEMS_TO_DOWNLOAD = 5000
+
 let backend
 let backends = {
   feedwrangler,
@@ -40,9 +42,9 @@ const fetchUnreadItems = async function (oldItems, currentItem, feeds, cb) {
   let items
 
   if (backend === 'rizzle') {
-    items = await rizzle.getUnreadItems(oldItems, currentItem, feeds, cb)
+    items = await rizzle.getUnreadItems(oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD, cb)
   } else if (backend === 'feedwrangler') {
-    items = await feedwrangler.getUnreadItems(oldItems, currentItem, feeds, cb)
+    items = await feedwrangler.getUnreadItems(oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD, cb)
   }
 
   // if (__DEV__) {
