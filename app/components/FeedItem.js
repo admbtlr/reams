@@ -124,7 +124,7 @@ class FeedItem extends React.Component {
       return <View style={{ flex: 1 }} />
     }
 
-    if (__DEV__ || !this.props.item.styles) {
+    if (/*__DEV__ || */!this.props.item.styles) {
       this.props.item.styles = createItemStyles(this.props.item)
     }
     let {

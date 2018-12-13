@@ -86,7 +86,7 @@ export function removeUnreadItem (item) {
     })
 }
 
-export function addReadItem (item) {
+export function addReadItemToFirestore (item) {
   return getUserDb().collection('items-read').doc(item._id)
     .set({
       _id: item._id,

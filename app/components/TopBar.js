@@ -350,11 +350,15 @@ class TopBar extends React.Component {
           }}>
           <Animated.Text
             numberOfLines={1}
+            ellipsizeMode='tail'
             style={{
               ...this.getStyles().feedName,
               fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
               // opacity: getAnimatedValueNormalised(),
               height: 36,
+              width: Dimensions.get('window').width - 56,
+              marginLeft: 28,
+              marginRight: 28,
               // marginLeft: 35,
               transform: [{
                 translateY: transformAnim

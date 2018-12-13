@@ -44,6 +44,7 @@ export const getUnreadItems = async function (oldItems, currentItem, feeds, maxN
   let newIds = await fetchUnreadIds(lastFetchDate)
   console.log(`Got ${newIds.length} new item ids to expand`)
 
+  // feedwrangler always orders DESC
   if (typeof(maxNum) === 'number') newIds = newIds.slice(0, maxNum)
   console.log(`Sliced down to ${newIds.length} new item ids to expand`)
 

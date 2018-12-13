@@ -20,6 +20,8 @@ class Buttons extends React.Component {
     visibleAnimMercury: new Animated.Value(80)
   }
 
+  areButtonsVisible = false
+
   constructor (props) {
     super(props)
     this.props = props
@@ -63,8 +65,9 @@ class Buttons extends React.Component {
       duration: 200,
       useNativeDriver: true
     }
-    if (prevProps.visible !== this.props.visible) {
-      Animated.stagger(70, [
+    if (prevProps.visible !== this.props.visible ||
+      this.props.visible !== this.areButtonsVisible) {
+      Animated.stagger(100, [
         Animated.spring(
           this.state.visibleAnimCount,
           springConfig
@@ -81,7 +84,9 @@ class Buttons extends React.Component {
           this.state.visibleAnimMercury,
           springConfig
         )
-      ]).start()
+      ]).start(_ => {
+        this.areButtonsVisible = this.props.visible
+      })
     }
   }
 

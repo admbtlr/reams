@@ -131,7 +131,9 @@ class ItemTitle extends React.Component {
   getRenderedTitle (title) {
     let rendered = title
       .replace(/<i>/ig, '|||Text style={italic}||||')
+      .replace(/<em>/ig, '|||Text style={italic}||||')
       .replace(/<\/i>/ig, '|||/Text||||')
+      .replace(/<\/em>/ig, '|||/Text||||')
       .replace(/<b>/ig, '|||Text style={bold}||||')
       .replace(/<\/b>/ig, '|||/Text||||')
       .replace('|||', '<')

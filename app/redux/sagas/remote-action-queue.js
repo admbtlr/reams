@@ -2,7 +2,7 @@ import { NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
-import { updateItemInFirestore, addReadItem } from '../firestore/'
+import { updateItemInFirestore, addReadItemToFirestore } from '../firestore/'
 // import { addStaleItem } from '../realm/stale-items'
 import { getRemoteActions } from './selectors'
 import { checkOnline } from './check-online'
@@ -49,7 +49,7 @@ function * executeAction (action) {
           ...action.item,
           readAt: Date.now()
         })
-        addReadItem(action.item)
+        addReadItemToFirestore(action.item)
 
         // console.log('Marking item read... done')
         yield put({
