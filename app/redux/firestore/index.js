@@ -114,6 +114,30 @@ export function addSavedItemToFirestore (item) {
     })
 }
 
+export function addFeedToFirestore (feed) {
+  const collectionRef = getUserDb().collection('feeds')
+  return addFeed(feed, collectionRef)
+}
+
+function addFeed (feed, collectionRef) {
+  return collectionRef.doc(feed._id)
+    .set(feed)
+    .then(feed => {
+      console.log('Added feed')
+      return feed
+    })
+    .catch(e => {
+      console.log(e)
+    })
+}
+
+export function addFeedsToFirestore (feeds) {
+  const collectionRef = getUserDb().collection('feeds')
+  feeds.forEach(feed => {
+    addFeed(feed, collectionRef)
+  })
+}
+
 export function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {
   const path = `users/${uid}/${collectionName}`
   let getOptions = {}

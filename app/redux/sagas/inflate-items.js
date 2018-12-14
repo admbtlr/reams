@@ -14,8 +14,15 @@ export function * inflateItems (action) {
   let activeItems = [
     items[index]
   ]
-  if (index > 0) activeItems.push(items[index - 1])
-  if (index < items.length - 1) activeItems.push(items[index + 1])
+
+  // inflate up to 3 items either side of the current
+  const buffer = 3
+  let counter = 1
+  for (var i = -buffer; i < buffer; i++) {
+    if (index + i > 0 && index + i < items.length) {
+      activeItems.push(items[index + i])
+    }
+  }
 
   const itemsToDeflate = inflatedItems
     .filter(item => !!!activeItems.find(ai => ai._id === item._id))
