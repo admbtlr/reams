@@ -3,7 +3,7 @@ import { put, select } from 'redux-saga/effects'
 import { addFeed } from '../backends'
 import { id, getFeedColor } from '../../utils/'
 import feeds from '../../utils/seedfeeds.js'
-import { addFeedsToFirestore, addFeedToFirestore } from '../firestore/'
+import { upsertFeedsFS, addFeedToFirestore } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 
 import { getFeeds, isFirstTime } from './selectors'
@@ -32,7 +32,7 @@ export function * subscribeToFeed (action) {
   })
 }
 
-export function * subscribeToFeeds (action) {
+export async function * subscribeToFeeds (action) {
   let {feeds} = action
   let addedFeeds = []
   for (var i = 0; i < feeds.length; i++) {
@@ -40,8 +40,7 @@ export function * subscribeToFeeds (action) {
     if (f) addedFeeds.push(f)
   }
 
-  // no need to wait until this has completed...
-  addFeedsToFirestore(addedFeeds)
+  await upsertFeedsFS(addedFeeds)
 
   yield put({
     type: 'FEEDS_ADD_FEEDS_SUCCESS',

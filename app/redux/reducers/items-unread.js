@@ -57,7 +57,7 @@ export function itemsHasErrored (state = false, action) {
 // - excerpt
 // - author
 //
-// The Mercury stuff is held in AsyncStorage to save $$$
+// The Mercury stuff will be held in AsyncStorage to save $$$
 // - content_mercury
 
 

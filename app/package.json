@@ -60,9 +60,11 @@
     "webpack": "^2.4.1"
   },
   "devDependencies": {
+    "@babel/helper-remap-async-to-generator": "^7.1.0",
+    "@babel/plugin-transform-async-to-generator": "^7.2.0",
     "babel-jest": "23.6.0",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-react-native": "5.0.2",
+    "babel-plugin-transform-async-generator-functions": "^6.24.1",
     "browser-sync": "^2.26.3",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",

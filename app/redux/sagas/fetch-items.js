@@ -2,7 +2,12 @@ import { call, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 
 import { fetchUnreadItems } from '../backends'
-import { addUnreadItemsToFirestore, addFeedsToFirestore } from '../firestore/'
+import {
+  addUnreadItemsToFirestore,
+  upsertFeedsFS,
+  incrementUnreadCountFS,
+  updateFeedsFS
+} from '../firestore/'
 import { mergeItems, id } from '../../utils/merge-items.js'
 import { getFeedColor } from '../../utils/'
 import { checkOnline } from './check-online'
@@ -82,8 +87,8 @@ function fetchItemsChannel (oldItems, currentItem, feeds) {
 
 function * receiveItems (newItems) {
   console.log('Received ' + newItems.length + ' new items')
-  let feeds = yield select(getFeeds)
-  let items = yield createFeedsWhereNeededAndAddInfo(newItems, feeds)
+  let currentFeeds = yield select(getFeeds)
+  let { feeds, items } = yield createFeedsWhereNeededAndAddInfo(newItems, currentFeeds)
   items = items.map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
@@ -95,8 +100,10 @@ function * receiveItems (newItems) {
       }
     })
 
-  // no need to wait until this has completed...
-  addUnreadItemsToFirestore(items)
+  yield call(addUnreadItemsToFirestore, items)
+  yield call(incrementUnreadCountFS, items.length)
+  feeds = incrementFeedUnreadCounts(items, feeds)
+  yield call(upsertFeedsFS, feeds)
 
   let itemsLite = []
   for (var i = 0; i < items.length; i++) {
@@ -116,6 +123,18 @@ function * receiveItems (newItems) {
   })
 }
 
+function incrementFeedUnreadCounts (items, feeds) {
+  for (feed in feeds) {
+    const numUnreadInBatch = items.find(item => item.feed_id === feed._id).length
+    if (feed.number_unread) {
+      feed.number_unread += numUnreadInBatch
+    } else {
+      feed.number_unread = numUnreadInBatch
+    }
+  }
+  return feeds
+}
+
 // function addFeedInfoToItems(items, feeds, moreFeeds) {
 //   let allFeeds = []
 //   if (feeds) allFeeds = feeds
@@ -133,6 +152,7 @@ function * receiveItems (newItems) {
 function * createFeedsWhereNeededAndAddInfo (items, feeds) {
   let feed
   let newFeeds = []
+  let oldFeeds = []
   items.forEach(item => {
     feed = feeds.find(feed => feed.id === item.feed_id || feed._id === item.feed_id)
     if (!feed) {
@@ -142,22 +162,12 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
         title: item.feed_title,
         color: getFeedColor(feeds)
       }
-      newFeeds.push(feed)
       feeds.push(feed)
     }
     item.feed_id = feed._id
     item.feed_color = feed.color
   })
-
-  // no need to wait until this has completed...
-  addFeedsToFirestore(newFeeds)
-
-  yield put({
-    type: 'FEEDS_ADD_FEEDS_SUCCESS',
-    addedFeeds: newFeeds
-  })
-
-  return items
+  return { feeds, items }
 }
 
 export function * fetchItems () {

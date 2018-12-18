@@ -35,6 +35,14 @@ function getItemFromFirestore (_id) {
     })
 }
 
+export async function incrementUnreadCountFS (increment) {
+  const unreadDoc = await getUserDb().get()
+  const numUnread = unreadDoc.get('number_unread')
+  unreadDoc.ref.update({
+    'number_unread': numUnread + increment
+  })
+}
+
 export function updateItemInFirestore (item) {
   const docRef = getUserDb().collection('items-unread').doc(item._id)
   return docRef.update(item)
@@ -57,22 +65,17 @@ export function addUnreadItemsToFirestore (items) {
   }
 }
 
-export function deleteReadItemsFromFirestore () {
-  getUserDb()
+export async function deleteReadItemsFromFirestore () {
+  const readItemsSnapshot = await getUserDb()
     .collection('items-unread')
     .where('readAt', '>', 0)
     .get()
-    .then(querySnapshot => {
-      console.log(querySnapshot)
-      querySnapshot.docs.forEach(doc => {
-        doc.ref.delete().then(_ => {
-          console.log('Item deleted')
-        })
-      })
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  const readItems = readItemsSnapshot.docs
+  const numRead = readItems.length
+  readItems.forEach(doc => {
+    doc.ref.delete()
+  })
+  incrementUnreadCountFS(0 - numRead)
 }
 
 export function removeUnreadItem (item) {
@@ -116,26 +119,26 @@ export function addSavedItemToFirestore (item) {
 
 export function addFeedToFirestore (feed) {
   const collectionRef = getUserDb().collection('feeds')
-  return addFeed(feed, collectionRef)
+  return upsertFeed(feed, collectionRef)
 }
 
-function addFeed (feed, collectionRef) {
+function upsertFeed (feed, collectionRef) {
   return collectionRef.doc(feed._id)
     .set(feed)
     .then(feed => {
-      console.log('Added feed')
+      console.log('Upserted feed')
       return feed
     })
     .catch(e => {
-      console.log(e)
+      console.log('Error upserting feed: ' + e)
     })
 }
 
-export function addFeedsToFirestore (feeds) {
+export async function upsertFeedsFS (feeds) {
   const collectionRef = getUserDb().collection('feeds')
-  feeds.forEach(feed => {
-    addFeed(feed, collectionRef)
-  })
+  for (feed of feeds) {
+    await upsertFeed(feed, collectionRef)
+  }
 }
 
 export function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {

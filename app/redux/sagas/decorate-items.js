@@ -61,6 +61,7 @@ export function * decorateItems (action) {
             toDispatch.push(decoration)
           }
         }).catch(error => {
+          console.log('Error decorating item, trying again next time around')
           pendingDecoration = pendingDecoration.filter(pending => pending._id !== itemToDecorate._id)
         })
       }, 500)
