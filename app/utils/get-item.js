@@ -1,6 +1,7 @@
-export const getItems = (state) => {
+export const getItems = (state, type) => {
   const feedFilter = state.config.feedFilter
-  return state.itemsMeta.display === 'unread' ?
+  type = type || state.itemsMeta.display
+  return type === 'unread' ?
     (feedFilter ?
       state.itemsUnread.items.filter(item => item.feed_id === feedFilter) :
       state.itemsUnread.items) :

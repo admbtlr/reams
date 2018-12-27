@@ -1,12 +1,11 @@
+import { getItems as getItemsUtils } from '../../utils/get-item'
+
 export function getItems (state, type) {
-  return type  === 'unread'
-    || state.itemsMeta.display === 'unread' ?
-    state.itemsUnread.items :
-    state.itemsSaved.items
+  return getItemsUtils(state, type)
 }
 
 export function getUnreadItems (state) {
-  return state.itemsUnread.items
+  return getItemsUtils(state, 'unread')
 }
 
 export function getDisplay (state) {

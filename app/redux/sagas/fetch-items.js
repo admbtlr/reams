@@ -124,14 +124,14 @@ function * receiveItems (newItems) {
 }
 
 function incrementFeedUnreadCounts (items, feeds) {
-  for (feed in feeds) {
+  feeds.forEach(feed => {
     const numUnreadInBatch = items.find(item => item.feed_id === feed._id).length
     if (feed.number_unread) {
       feed.number_unread += numUnreadInBatch
     } else {
       feed.number_unread = numUnreadInBatch
     }
-  }
+  })
   return feeds
 }
 

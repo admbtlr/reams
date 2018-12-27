@@ -15,7 +15,7 @@ function getUserDb () {
   return db.collection('users').doc(uid)
 }
 
-export function getItemsFromFirestore (items) {
+export function getItemsFS (items) {
   let promises = []
   for (var i = 0; i < items.length; i++) {
     promises.push(getItemFromFirestore(items[i]._id))
