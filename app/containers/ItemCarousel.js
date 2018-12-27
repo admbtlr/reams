@@ -4,11 +4,11 @@ import { getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  const items = getItems(state)
+  // const items = getItems(state)
   const index = getIndex(state)
   const numItems = state.config.isOnboarding ?
     state.config.onboardingLength :
-    items.length
+    state.itemsMeta.unreadCount
   return {
     numItems,
     index,

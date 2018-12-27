@@ -69,17 +69,17 @@ export const itemsUnread = (state = initialState, action) => {
   let newState = {}
 
   switch (action.type) {
-    case 'ITEMS_REHYDRATE_UNREAD':
-      // workaround to make up for slideable bug
-      if (action.items) {
-        console.log('REHYDRATE UNREAD ITEMS!')
-        return {
-          items: action.items
-          // index: incoming.index < 0 ? 0 : incoming.index,
-          // savedIndex: incoming.savedIndex < 0 ? 0 : incoming.savedIndex,
-        }
-      }
-      return { ...state }
+    // case 'ITEMS_REHYDRATE_UNREAD':
+    //   // workaround to make up for slideable bug
+    //   if (action.items) {
+    //     console.log('REHYDRATE UNREAD ITEMS!')
+    //     return {
+    //       items: action.items
+    //       // index: incoming.index < 0 ? 0 : incoming.index,
+    //       // savedIndex: incoming.savedIndex < 0 ? 0 : incoming.savedIndex,
+    //     }
+    //   }
+    //   return { ...state }
 
     // case 'UPDATE_ITEM':
     //   items = state[key]
@@ -105,60 +105,98 @@ export const itemsUnread = (state = initialState, action) => {
     //     ]
     //   }
 
-    case 'ITEMS_BATCH_FETCHED':
-      items = [...state.items]
-      newItems = action.items
-      newItems.forEach(newItem => {
-        let indexToUpdate = items.findIndex(item => item.id === newItem.id || item._id === newItem._id)
-        if (indexToUpdate !== -1) {
-          items[indexToUpdate] = newItem
+    // case 'ITEMS_BATCH_FETCHED':
+    //   items = [...state.items]
+    //   newItems = action.items
+    //   newItems.forEach(newItem => {
+    //     let indexToUpdate = items.findIndex(item => item.id === newItem.id || item._id === newItem._id)
+    //     if (indexToUpdate !== -1) {
+    //       items[indexToUpdate] = newItem
+    //     } else {
+    //       items.push(newItem)
+    //     }
+    //   })
+
+    //   // check for current item
+    //   if (currentItem && !items.find(item => item && item._id === currentItem._id)) {
+    //     items.push(currentItem)
+    //   }
+
+    //   // order by date
+    //   items.sort((a, b) => a.created_at - b.created_at)
+
+    //   return {
+    //     ...state,
+    //     items
+    //   }
+
+    // case 'ITEMS_FETCH_DATA_SUCCESS':
+    //   // merge with existing items
+    //   return {
+    //     ...state
+    //   }
+
+    // case 'ITEMS_FLATE':
+    //   const flatedItems = action.itemsToInflate
+    //     .concat(action.itemsToDeflate)
+    //   items = [...state.items]
+    //   flatedItems.forEach(fi => {
+    //     // some of the items might have been deleted in Firebase
+    //     // which means that they will come back as undefined
+    //     // I think we can just ignore them
+    //     // TODO check whether this is really the case!
+    //     if (fi) {
+    //       const index = items.findIndex(item => item._id === fi._id)
+    //       items[index] = fi
+    //     }
+    //   })
+    //   return {
+    //     ...state,
+    //     items
+    //   }
+
+    case 'ITEMS_GET_ITEMS_BUFFERED':
+      debugger
+      const { buffer, index, inflatedItems } = action
+      let startAt = index - buffer < 0 ?
+        0 :
+        index - buffer
+      let endAt = index + buffer >= items.length ?
+        items.length - 1 :
+        index + buffer
+      let newItems = [ ...state.items ]
+      for (var i = 0; i < newItems.length; i++) {
+        if (i >= startAt && i <= endAt) {
+          newItems[i] = inflatedItems[i - startAt]
         } else {
-          items.push(newItem)
+          newItems[i] = null
         }
-      })
-
-      // check for current item
-      if (currentItem && !items.find(item => item && item._id === currentItem._id)) {
-        items.push(currentItem)
+      }
+      return {
+        ...state,
+        items: newItems
       }
 
-      // order by date
-      items.sort((a, b) => a.created_at - b.created_at)
-
+    case 'ITEMS_META_SET_UNREAD_COUNT':
+      debugger
+      let items = [ ...state.items ]
+      if (items.length !== action.unreadCount) {
+        const difference = action.unreadCount - items.length
+        if (difference > 0) {
+          items = items.concat(new Array(difference).fill(undefined))
+        } else {
+          items = items.slice(0, difference)
+        }
+      }
       return {
         ...state,
         items
       }
 
-    case 'ITEMS_FETCH_DATA_SUCCESS':
-      // merge with existing items
-      return {
-        ...state
-      }
-
-    case 'ITEMS_FLATE':
-      const flatedItems = action.itemsToInflate
-        .concat(action.itemsToDeflate)
-      items = [...state.items]
-      flatedItems.forEach(fi => {
-        // some of the items might have been deleted in Firebase
-        // which means that they will come back as undefined
-        // I think we can just ignore them
-        // TODO check whether this is really the case!
-        if (fi) {
-          const index = items.findIndex(item => item._id === fi._id)
-          items[index] = fi
-        }
-      })
-      return {
-        ...state,
-        items
-      }
-
-    case 'ITEMS_CLEAR_READ':
-      return {
-        items: state.items.filter(item => !item.readAt)
-      }
+    // case 'ITEMS_CLEAR_READ':
+    //   return {
+    //     items: state.items.filter(item => !item.readAt)
+    //   }
 
     case 'ITEM_MARK_READ':
       return itemMarkRead(action, state)

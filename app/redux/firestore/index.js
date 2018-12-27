@@ -15,6 +15,15 @@ function getUserDb () {
   return db.collection('users').doc(uid)
 }
 
+export function setLastInitDate (date) {
+  getUserDb().set({
+    lastInitDate: date
+  },
+  {
+    merge: true
+  })
+}
+
 export function getItemsFromFirestore (items) {
   let promises = []
   for (var i = 0; i < items.length; i++) {
@@ -35,11 +44,24 @@ function getItemFromFirestore (_id) {
     })
 }
 
+export async function getUnreadCountFS () {
+  const unreadDoc = await getUserDb().get()
+  return unreadDoc.data().unread_count
+}
+
+export async function listenToUnreadCountFS (cb) {
+  await getUserDb().onSnapshot(snapshot => {
+    cb(snapshot.unread_count || 0)
+  }, error => {
+    console.log('Error listening to unread count changes')
+  })
+}
+
 export async function incrementUnreadCountFS (increment) {
   const unreadDoc = await getUserDb().get()
-  const numUnread = unreadDoc.get('number_unread')
+  const numUnread = unreadDoc.get('unread_count') || 0
   unreadDoc.ref.update({
-    'number_unread': numUnread + increment
+    'unread_count': numUnread + increment
   })
 }
 
@@ -140,6 +162,17 @@ export async function upsertFeedsFS (feeds) {
     await upsertFeed(feed, collectionRef)
   }
 }
+
+export async function getUnreadItemsFS (startAt, endAt) {
+  const path = `users/${uid}/items-unread`
+  await db.disableNetwork()
+  const querySnapshot = await db.collection(path).orderBy('created_at').get()
+  const unread = querySnapshot.docs
+  // no need to wait for this to complete
+  db.enableNetwork()
+  return unread.slice(startAt, endAt).map(docSnapshot => docSnapshot.data())
+}
+
 
 export function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {
   const path = `users/${uid}/${collectionName}`

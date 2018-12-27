@@ -86,6 +86,7 @@ function fetchItemsChannel (oldItems, currentItem, feeds) {
 }
 
 function * receiveItems (newItems) {
+  debugger
   console.log('Received ' + newItems.length + ' new items')
   let currentFeeds = yield select(getFeeds)
   let { feeds, items } = yield createFeedsWhereNeededAndAddInfo(newItems, currentFeeds)
@@ -100,38 +101,40 @@ function * receiveItems (newItems) {
       }
     })
 
+  debugger
   yield call(addUnreadItemsToFirestore, items)
   yield call(incrementUnreadCountFS, items.length)
   feeds = incrementFeedUnreadCounts(items, feeds)
   yield call(upsertFeedsFS, feeds)
 
-  let itemsLite = []
-  for (var i = 0; i < items.length; i++) {
-    itemsLite.push({
-      _id: items[i]._id,
-      id: items[i].id, // needed to match existing copy in store
-      feed_id: items[i].feed_id,
-      title: items[i].title,
-      created_at: items[i].created_at,
-      banner_image: items[i].bannerImage // needed by the feed component
-    })
-  }
+  // let itemsLite = []
+  // for (var i = 0; i < items.length; i++) {
+  //   itemsLite.push({
+  //     _id: items[i]._id,
+  //     id: items[i].id, // needed to match existing copy in store
+  //     feed_id: items[i].feed_id,
+  //     title: items[i].title,
+  //     created_at: items[i].created_at,
+  //     banner_image: items[i].bannerImage // needed by the feed component
+  //   })
+  // }
 
-  yield put({
-    type: 'ITEMS_BATCH_FETCHED',
-    items: itemsLite
-  })
+  // yield put({
+  //   type: 'ITEMS_BATCH_FETCHED',
+  //   items: itemsLite
+  // })
 }
 
 function incrementFeedUnreadCounts (items, feeds) {
-  for (feed in feeds) {
-    const numUnreadInBatch = items.find(item => item.feed_id === feed._id).length
-    if (feed.number_unread) {
-      feed.number_unread += numUnreadInBatch
+  feeds.forEach(feed => {
+    const unreadInBatch = items.find(item => item.feed_id === feed._id)
+    const numUnreadInBatch = unreadInBatch ? unreadInBatch.length : 0
+    if (feed.unread_count) {
+      feed.unread_count += numUnreadInBatch
     } else {
-      feed.number_unread = numUnreadInBatch
+      feed.unread_count = numUnreadInBatch
     }
-  }
+  })
   return feeds
 }
 

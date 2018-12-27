@@ -4,7 +4,8 @@ export const initialState = {
   index: 0,
   savedIndex: 0,
   display: 'unread', // currently 'unread' || 'saved'
-  decoratedCount: 0
+  decoratedCount: 0,
+  unreadCount: 0
 }
 
 export function itemsMeta (state = initialState, action) {
@@ -24,6 +25,12 @@ export function itemsMeta (state = initialState, action) {
       return {
         ...state,
         ...newState
+      }
+
+    case 'ITEMS_META_SET_UNREAD_COUNT':
+      return {
+        ...state,
+        unreadCount: action.unreadCount
       }
 
     case 'ITEM_DECORATION_PROGRESS':

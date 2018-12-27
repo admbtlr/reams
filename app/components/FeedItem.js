@@ -15,7 +15,7 @@ class FeedItem extends React.Component {
     this.scrollOffset = new Animated.Value(0)
 
     this.state = {
-      headerClassList: this.getHeaderClasses(),
+      headerClassList: this.props.item ? this.getHeaderClasses() : [],
       webViewHeight: 500,
       scaleAnim: new Animated.Value(1)
     }
@@ -116,7 +116,7 @@ class FeedItem extends React.Component {
   }
 
   isInflated () {
-    return typeof this.props.item.content_html !== 'undefined'
+    return this.props.item && typeof this.props.item.content_html !== 'undefined'
   }
 
   render () {

@@ -2,7 +2,7 @@ import { call, takeEvery, select } from 'redux-saga/effects'
 import { getUid } from './selectors'
 import { REHYDRATE } from 'redux-persist'
 
-import { setUid, setDb } from '../firestore/'
+import { setUid, setDb, setLastInitDate } from '../firestore/'
 
 import { decorateItems } from './decorate-items'
 import { fetchItems2 } from './fetch-items'
@@ -14,6 +14,7 @@ import { saveItem } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
 import { subscribeToFeed, seedFeeds } from './add-feed'
 import { initialConfig } from './initial-config'
+import { initUnreadCount } from './init-unread-count'
 
 // let rehydrated = false
 // let checkedBuckets = false
@@ -41,9 +42,11 @@ function * init (getFirebase, action) {
 
   setDb(getFirebase().firestore())
   setUid(uid)
+  setLastInitDate(Date.now())
 
   yield call(initialConfig)
-  yield call(rehydrateItems)
+  // yield call(rehydrateItems)
+  yield call(initUnreadCount)
   yield call(fetchItems2)
   yield call(executeRemoteActions)
 }

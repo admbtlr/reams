@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     item,
     isVisible: ownProps.index === index,
-    showMercuryContent: items[ownProps.index].showMercuryContent,
+    showMercuryContent: item && item.showMercuryContent,
     ...state.webView,
     isImageViewerVisible: state.ui.imageViewerVisible
   }

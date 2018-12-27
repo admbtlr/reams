@@ -42,3 +42,7 @@ export function getConfig (state) {
 export function getUid (state) {
   return state.user.uid
 }
+
+export function getUnreadCount (state) {
+  return state.itemsMeta.unreadCount
+}
