@@ -7,7 +7,7 @@ import { getCachedImagePath } from '../../utils'
 const co = require('co')
 
 import { getItems, getCurrentItem, getDisplay } from './selectors'
-import { updateItemInFirestore } from '../firestore'
+import { updateItemFS } from '../firestore'
 
 export function * decorateItems (action) {
   let items
@@ -29,7 +29,7 @@ export function * decorateItems (action) {
           type: 'ITEM_DECORATION_SUCCESS',
           ...decoration
         })
-        items = yield select(getItems, 'items')
+        items = yield select(getItems)
         decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
         // console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
         yield put({
@@ -39,14 +39,14 @@ export function * decorateItems (action) {
         })
 
         const item = items.find(item => item._id === decoration.item._id)
-        updateItemInFirestore(item)
+        updateItemFS(item)
       }
     }
   })
 
   while (true) {
     yield call(delay, 500)
-    items = yield select(getItems, 'items')
+    items = yield select(getItems)
     if (items.filter(item => item.hasLoadedMercuryStuff).length >= 100) continue
     item = items.find(item => !item.hasLoadedMercuryStuff && !pendingDecoration.find(pd => pd._id === item._id))
     if (item) {

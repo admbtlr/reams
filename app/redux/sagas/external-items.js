@@ -6,7 +6,7 @@ import { addSavedItemToFirestore } from '../firestore/'
 export function * saveExternalUrl (action) {
   let item = {
     url: action.url,
-    _id: id(),
+    _id: id(action.url),
     title: 'Loading...',
     content_html: '',
     is_external: true

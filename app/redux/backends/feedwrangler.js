@@ -105,7 +105,7 @@ async function fetchUnreadIds (createdSince, maxNum) {
   // }
 }
 
-export const getItemsByIds = (itemIds, callback) => {
+async function getItemsByIds (itemIds, callback) {
   const chunkArray = (arr) => {
     let i, j
     let temparray = []
@@ -140,7 +140,7 @@ export const getItemsByIds = (itemIds, callback) => {
 
 const mapFeedwranglerItemToRizzleItem = (item) => {
   return {
-    _id: id(),
+    _id: id(item),
     id: item.feed_item_id,
     url: item.url,
     external_url: item.url,
@@ -215,11 +215,12 @@ export const markItemRead = (item) => {
     .then((response) => response.json())
 }
 
-export const markFeedRead = (feed) => {
+export const markFeedRead = (feed, olderThan) => {
   const id = typeof feed === 'object' ? feed.id : feed
   let url = 'https://feedwrangler.net/api/v2/feed_items/mark_all_read?'
   url += 'access_token=' + feedWranglerAccessToken
   url += '&feed_id=' + id
+  url += '&created_on_before=' + olderThan
   return fetch(url)
     .then((response) => {
       if (!response.ok) {

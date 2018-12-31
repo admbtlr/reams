@@ -2,7 +2,7 @@ import { NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
-import { updateItemInFirestore, addReadItemToFirestore } from '../firestore/'
+import { markFeedReadFS, updateItemFS, addReadItemFS } from '../firestore/'
 // import { addStaleItem } from '../realm/stale-items'
 import { getRemoteActions } from './selectors'
 import { checkOnline } from './check-online'
@@ -45,11 +45,11 @@ function * executeAction (action) {
         // mark item read in Firestore
         // NB this will mean that Firebase's readAt value is different to the Redux store
         // does this matter? who knows...?
-        updateItemInFirestore({
+        updateItemFS({
           ...action.item,
           readAt: Date.now()
         })
-        addReadItemToFirestore(action.item)
+        addReadItemFS(action.item)
 
         // console.log('Marking item read... done')
         yield put({
@@ -63,8 +63,9 @@ function * executeAction (action) {
     case 'FEED_MARK_READ':
       // console.log('Marking feed read...')
       try {
-        yield markFeedRead(action.id)
-        // console.log('Marking feed read... done')
+        // markFeedRead is a backend function that needs to take the backend's feed id
+        yield call(markFeedRead, action.originalId, action.olderThan || (Date.now() / 1000))
+        yield call(markFeedReadFS, action.id, action.olderThan)
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action

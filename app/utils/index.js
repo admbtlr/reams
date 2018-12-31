@@ -64,15 +64,41 @@ export const isIphoneX = () => {
   )
 }
 
-export function id () {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
+export function id (item) {
+  if (item) {
+    if (typeof item === 'String') {
+      return hashFnv32a(item, true)
+    } else {
+      return hashFnv32a(item.url, true) + '-' + item.created_at
+    }
+  } else {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
   }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
 }
+
+// https://stackoverflow.com/a/22429679/1788521
+function hashFnv32a(str, asString, seed) {
+  /*jshint bitwise:false */
+  var i, l,
+    hval = (seed === undefined) ? 0x811c9dc5 : seed;
+
+  for (i = 0, l = str.length; i < l; i++) {
+    hval ^= str.charCodeAt(i);
+    hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
+  }
+  if( asString ){
+    // Convert to 8 digit hex string
+    return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
+  }
+  return hval >>> 0;
+}
+
 
 export function getFeedColor (feeds) {
   const { desaturated } = require('./colors.json')

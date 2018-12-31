@@ -58,32 +58,27 @@ const fetchUnreadItems = async function (oldItems, currentItem, feeds, cb) {
 function fetchUnreadIds () {
   switch (backend) {
     case 'rizzle':
+      return
     case 'feedwrangler':
       return feedwrangler.fetchUnreadIds()
-  }
-}
-
-function getItemsByIds (ids) {
-  switch (backend) {
-    case 'rizzle':
-    case 'feedwrangler':
-      return feedwrangler.getItemsByIds(ids)
   }
 }
 
 function markItemRead (item) {
   switch (backend) {
     case 'rizzle':
+      return
     case 'feedwrangler':
       return feedwrangler.markItemRead(item)
   }
 }
 
-function markFeedRead (feed) {
+function markFeedRead (feed, olderThan) {
   switch (backend) {
     case 'rizzle':
+      return
     case 'feedwrangler':
-      return feedwrangler.markFeedRead(feed)
+      return feedwrangler.markFeedRead(feed, olderThan)
   }
 }
 
@@ -96,4 +91,4 @@ function addFeed (url) {
   }
 }
 
-export { setBackend, fetchUnreadItems, fetchUnreadIds, getItemsByIds, markItemRead, addFeed, markFeedRead, loadMercuryStuff }
+export { setBackend, fetchUnreadItems, fetchUnreadIds, markItemRead, addFeed, markFeedRead, loadMercuryStuff }

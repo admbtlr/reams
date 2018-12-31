@@ -83,7 +83,7 @@ export const markFeedRead = (item) => {}
 
 const mapRizzleServerItemToRizzleItem = (item) => {
   return {
-    _id: id(),
+    _id: id(item),
     id: item.guid,
     url: item.link,
     external_url: item.link,

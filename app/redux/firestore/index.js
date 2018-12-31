@@ -1,3 +1,7 @@
+// thinking about it, only saved items and read items need to go in firestore
+// everything else is pretty much deterministic
+
+import { log } from '../../utils/log'
 import { deflateItem } from '../../utils/item-utils'
 
 let uid
@@ -22,6 +26,9 @@ export function getItemsFS (items) {
   }
   return Promise.all(promises)
     .then(items => items)
+    .catch(err => {
+      log('getItemsFS', err)
+    })
 }
 
 function getItemFromFirestore (_id) {
@@ -31,7 +38,7 @@ function getItemFromFirestore (_id) {
       return data
     })
     .catch(err => {
-      console.log(err)
+      log('getItemsFromFirestore', err)
     })
 }
 
@@ -43,12 +50,12 @@ export async function incrementUnreadCountFS (increment) {
   })
 }
 
-export function updateItemInFirestore (item) {
+export function updateItemFS (item) {
   const docRef = getUserDb().collection('items-unread').doc(item._id)
   return docRef.update(item)
     .then(item => item)
-    .catch(e => {
-      console.log(e)
+    .catch(err => {
+      log('updateItemFS', err)
     })
 }
 
@@ -59,8 +66,8 @@ export function addUnreadItemsToFirestore (items) {
       .then(items => {
         console.log('Added unread items')
       })
-      .catch(e => {
-        console.log(e)
+      .catch(err => {
+        log('addUnreadItemsToFirestore', err)
       })
   }
 }
@@ -70,12 +77,12 @@ export async function deleteReadItemsFromFirestore () {
     .collection('items-unread')
     .where('readAt', '>', 0)
     .get()
+
   const readItems = readItemsSnapshot.docs
   const numRead = readItems.length
   readItems.forEach(doc => {
     doc.ref.delete()
   })
-  incrementUnreadCountFS(0 - numRead)
 }
 
 export function removeUnreadItem (item) {
@@ -84,12 +91,12 @@ export function removeUnreadItem (item) {
       console.log('Removed unread item')
       return item
     })
-    .catch(e => {
-      console.log(e)
+    .catch(err => {
+      log('removeUnreadItem', err)
     })
 }
 
-export function addReadItemToFirestore (item) {
+export function addReadItemFS (item) {
   return getUserDb().collection('items-read').doc(item._id)
     .set({
       _id: item._id,
@@ -100,9 +107,36 @@ export function addReadItemToFirestore (item) {
       console.log('Added read item')
       return item
     })
-    .catch(e => {
-      console.log(e)
+    .catch(err => {
+      log('addReadItemFS', err)
     })
+}
+
+// TODO: why doesn't my compound index work here?
+// I should be able to use two where()'s, but I get the error
+// Firestore: Operation was rejected because the system is not in a state required for the operation`s execution. (firestore/failed-precondition).
+// According to https://stackoverflow.com/questions/47029227/how-to-create-subcollection-indexes-at-cloud-firestore
+// I need to create a compound index, which I did, but it doesn't seem to work
+export function markFeedReadFS (feedId, olderThan) {
+  const writeBatch = db.batch()
+  return getUserDb().collection('items-unread')
+    .where('feed_id', '==', feedId)
+    // .where('created_at', '<', olderThan)
+    .get()
+    .then(qs => {
+      qs.forEach(docSnapshot => {
+        const doc = docSnapshot.data()
+        if (doc.created_at < olderThan) {
+          writeBatch.delete(docSnapshot.ref)
+          addReadItemFS(doc)
+        }
+      })
+      writeBatch.commit()
+    })
+    .catch(err => {
+      log('markFeedReadFS', err)
+    })
+
 }
 
 export function addSavedItemToFirestore (item) {
@@ -112,8 +146,8 @@ export function addSavedItemToFirestore (item) {
       console.log('Added saved item')
       return item
     })
-    .catch(e => {
-      console.log(e)
+    .catch(err => {
+      log('addSavedItemToFirestore', err)
     })
 }
 
@@ -129,16 +163,17 @@ function upsertFeed (feed, collectionRef) {
       console.log('Upserted feed')
       return feed
     })
-    .catch(e => {
-      console.log('Error upserting feed: ' + e)
+    .catch(err => {
+      log('addFeedToFirestore', err)
     })
 }
 
-export async function upsertFeedsFS (feeds) {
+export function upsertFeedsFS (feeds) {
   const collectionRef = getUserDb().collection('feeds')
-  for (feed of feeds) {
-    await upsertFeed(feed, collectionRef)
-  }
+  feeds.forEach(feed => {
+    // upsertFeed will never resolve if offline, so no need to await it
+    upsertFeed(feed, collectionRef)
+  })
 }
 
 export function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {
@@ -147,27 +182,41 @@ export function getCollection (collectionName, orderBy = 'created_at', fromCache
   let data
   if (fromCache) getOptions.source = 'cache'
 
-  let firstCall
-  if (fromCache) {
-    firstCall = db.disableNetwork()
-      .then(() => db.collection(path).orderBy(orderBy).get(getOptions))
-  } else {
-    firstCall = db.collection(path).orderBy(orderBy).get(getOptions)
-  }
+  const PAGE_SIZE = 1000
 
-  return firstCall
+  // let firstCall
+  // if (fromCache) {
+  //   firstCall = db.disableNetwork()
+  //     .then(() => db.collection(path).orderBy(orderBy).limit(PAGE_SIZE).get())
+  // } else {
+  //   firstCall = db.collection(path).orderBy(orderBy).limit(PAGE_SIZE).get()
+  // }
+
+  let now = Date.now()
+  const getPage = (startAfter) => startAfter ?
+    db.collection(path).orderBy(orderBy).limit(PAGE_SIZE).startAfter(startAfter).get() :
+    db.collection(path).orderBy(orderBy).limit(PAGE_SIZE).get()
+
+  return getPage()
     .then(qs => {
+      if (qs.docs.length < PAGE_SIZE) {
+        // get another page
+
+      }
+      console.log('getCollection firstCall took ' + (Date.now() - now) + 'ms')
+      now = Date.now()
       let items = []
-      qs.forEach(ds => {
+      qs.docs.forEach(ds => {
         data = ds.data()
         if (deflate) {
           data = deflateItem(data)
         }
         items.push(data)
       })
+      console.log('Deflating items took ' + (Date.now() - now) + 'ms')
       return items
     })
-    .catch(e => {
-      console.log('FIRESTORE ERROR: ' + e)
+    .catch(err => {
+      log('getCollection', err)
     })
 }

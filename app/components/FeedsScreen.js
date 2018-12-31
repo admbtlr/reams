@@ -173,6 +173,7 @@ class FeedsScreen extends React.Component {
       feedTitle={item.title}
       feedColor={item.color}
       feedId={item._id}
+      feedOriginalId={item.id}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
       selectFeed={this.selectFeed}

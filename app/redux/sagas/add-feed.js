@@ -40,7 +40,7 @@ export async function * subscribeToFeeds (action) {
     if (f) addedFeeds.push(f)
   }
 
-  await upsertFeedsFS(addedFeeds)
+  upsertFeedsFS(addedFeeds)
 
   yield put({
     type: 'FEEDS_ADD_FEEDS_SUCCESS',

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Alert, AppState, Clipboard, Text, TouchableHighlight, View } from 'react-native'
-// import { RNSKBucket } from 'react-native-swiss-knife'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { parseString } from 'react-native-xml2js'
-// import { RizzleModal } from './RizzleModal'
+
+import { log } from '../utils/log'
 
 class AppStateListener extends React.Component {
 
@@ -39,23 +39,31 @@ class AppStateListener extends React.Component {
   checkClipboard () {
     console.log('Checking clipboard')
     const that = this
-    Clipboard.getString().then(contents => {
-      // TODO make this more robust
-      if (contents.substring(0, 4) === 'http') {
-        that.showSavePageModal(contents)
-      } else if (contents.substring(0, 6) === '<opml>') {
-      }
-    })
+    Clipboard.getString()
+      .then(contents => {
+        // TODO make this more robust
+        if (contents.substring(0, 4) === 'http') {
+          that.showSavePageModal(contents)
+        } else if (contents.substring(0, 6) === '<opml>') {
+        }
+      })
+      .catch(err => {
+        log('checkClipboard', err)
+      })
   }
 
   async checkPageBucket () {
-    SharedGroupPreferences.getItem('page', this.group).then(value => {
-      if (value !== null) {
-        SharedGroupPreferences.setItem('page', null, this.group)
-        console.log(`Got a page to save: ${value}`)
-        this.showSavePageModal(value)
-      }
-    })
+    SharedGroupPreferences.getItem('page', this.group)
+      .then(value => {
+        if (value !== null) {
+          SharedGroupPreferences.setItem('page', null, this.group)
+          console.log(`Got a page to save: ${value}`)
+          this.showSavePageModal(value)
+        }
+      })
+      .catch(err => {
+        log('checkPageBucket', err)
+      })
   }
 
   async checkFeedBucket () {
@@ -96,6 +104,9 @@ class AppStateListener extends React.Component {
               }
               this.showSaveFeedModal(url, title, description, that)
             })
+          })
+          .catch(err => {
+            log('checkFeedBucket', err)
           })
       }
     })

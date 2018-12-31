@@ -52,7 +52,7 @@ export default FluidNavigator(
     Items: {screen: ItemsScreen},
   },
   {
-    initialRouteName: 'Feeds',
+    initialRouteName: 'Items',
     transitionConfig,
     navigationOptions
   }

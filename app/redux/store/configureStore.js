@@ -20,9 +20,8 @@ export default function configureStore () {
   const persistConfig = {
     key: 'primary',
     storage: FilesystemStorage,
-    throttle: 5000,
-    debug: true,
-    blacklist: ['itemsUnread', 'itemsSaved']
+    // debug: true,
+    // blacklist: ['itemsUnread', 'itemsSaved']
   }
 
   const reactReduxFirebaseConfig = {

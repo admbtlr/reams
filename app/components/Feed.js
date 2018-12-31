@@ -270,6 +270,7 @@ class Feed extends React.PureComponent {
       feedColor,
       feedDescription,
       feedId,
+      feedOriginalId,
       numFeedItems
     } = this.props
     const { isExpanded } = this.state
@@ -432,7 +433,7 @@ class Feed extends React.PureComponent {
         </Animated.View>
         { this.props.growMe &&
           <Animated.View style={{
-            backgroundColor: 'white',
+            backgroundColor: '#F2ECD9',
             height: this.state.detailsHeightAnim,
             opacity: this.state.normalisedAnimatedValue,
             width: this.screenWidth
@@ -471,8 +472,6 @@ class Feed extends React.PureComponent {
                       marginRight: this.margin,
                       marginBottom: this.margin
                     }}
-                    bgColor={hslString(feedColor, 'desaturated')}
-                    fgColor="white"
                     onPress={() => {
                       console.log('Pressed Go to items ' + feedId)
                       this.props.clearReadItems()
@@ -485,28 +484,25 @@ class Feed extends React.PureComponent {
                       minWidth: this.screenWidth / 2 - this.margin * 1.5,
                       marginBottom: this.margin
                     }}
-                    bgColor={hslString(feedColor, 'desaturated')}
-                    fgColor="white"
-                    onPress={() => this.shrink()}
-                    text="Open in Safari" />
+                    onPress={() => {
+                      this.props.markAllRead(feedId, feedOriginalId, Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+                      this.shrink()
+                    }}
+                    text="Remove older" />
                   <TextButton
                     buttonStyle={{
                       minWidth: this.screenWidth / 2 - this.margin * 1.5,
                       marginRight: this.margin
                     }}
-                    bgColor={hslString(feedColor, 'desaturated')}
-                    fgColor="white"
                     onPress={() => {
-                      this.props.markAllRead(feedId)
+                      this.props.markAllRead(feedId, feedOriginalId)
                       this.shrink()
                     }}
-                    text="Mark all read" />
+                    text="Remove all" />
                   <TextButton
                     buttonStyle={{
                       minWidth: this.screenWidth / 2 - this.margin * 1.5
                     }}
-                    bgColor={hslString(feedColor, 'desaturated')}
-                    fgColor="white"
                     onPress={() => {
                       this.props.unsubscribe(feedId)
                       this.shrink()

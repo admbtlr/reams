@@ -168,10 +168,12 @@ export const itemsUnread = (state = initialState, action) => {
 
     case 'FEED_MARK_READ':
       const feedId = action.id
+      const olderThan = action.olderThan || Math.floor(Date.now() / 1000)
       const currentItem = state.items[state.index]
       items = [ ...state.items ].filter((item) => {
-        return item.feed_id !== feedId &&
-          item._id !== currentItem._id
+        return item.feed_id === feedId ?
+          (item.created_at > olderThan) :
+          true
       })
       return {
         ...state,

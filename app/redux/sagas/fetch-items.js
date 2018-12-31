@@ -17,6 +17,7 @@ import { nullValuesToEmptyStrings,
   addStylesIfNecessary,
   setShowCoverImage,
 } from '../../utils/item-utils'
+import { log } from '../../utils/log'
 import { getItems, getCurrentItem, getFeeds, getIndex, getUid } from './selectors'
 
 const RNFS = require('react-native-fs')
@@ -28,13 +29,13 @@ export function * fetchItems2 () {
   const isOnline = yield checkOnline()
   if (!isOnline) return
 
-  yield put({
-    type: 'ITEMS_IS_LOADING',
-    isLoading: true
-  })
+  // yield put({
+  //   type: 'ITEMS_IS_LOADING',
+  //   isLoading: true
+  // })
 
   const feeds = yield select(getFeeds)
-  const oldItems = yield select(getItems, 'items')
+  const oldItems = yield select(getItems)
   const currentItem = yield select(getCurrentItem)
   const index = yield select(getIndex)
 
@@ -50,7 +51,6 @@ export function * fetchItems2 () {
         // this is a little hacky, just getting ready to view some items
         yield inflateItems({ index })
       }
-      console.log(items.length)
     }
   } catch (err) {
     console.log('ERROR FETCHING ITEMS: ' + err)
@@ -79,6 +79,9 @@ function fetchItemsChannel (oldItems, currentItem, feeds) {
       .then(() => {
         emitter(END)
       })
+      .catch(err => {
+        log('fetchItemsChannel', err)
+      })
     return _ => {
       console.log('Channel closed')
     }
@@ -101,9 +104,9 @@ function * receiveItems (newItems) {
     })
 
   yield call(addUnreadItemsToFirestore, items)
-  yield call(incrementUnreadCountFS, items.length)
+  // yield call(incrementUnreadCountFS, items.length)
   feeds = incrementFeedUnreadCounts(items, feeds)
-  yield call(upsertFeedsFS, feeds)
+  upsertFeedsFS(feeds)
 
   let itemsLite = []
   for (var i = 0; i < items.length; i++) {
@@ -125,7 +128,7 @@ function * receiveItems (newItems) {
 
 function incrementFeedUnreadCounts (items, feeds) {
   feeds.forEach(feed => {
-    const numUnreadInBatch = items.find(item => item.feed_id === feed._id).length
+    const numUnreadInBatch = items.filter(item => item.feed_id === feed._id).length
     if (feed.number_unread) {
       feed.number_unread += numUnreadInBatch
     } else {

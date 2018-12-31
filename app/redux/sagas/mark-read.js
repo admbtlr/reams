@@ -5,6 +5,8 @@ import { deleteReadItemsFromFirestore } from '../firestore'
 
 import { getItems, getCurrentItem, getFeeds, getDisplay } from './selectors'
 
+import { log } from '../../utils/log'
+
 export function * markLastItemRead (action) {
   yield delay (100)
   const display = yield select(getDisplay)
@@ -32,7 +34,12 @@ export function * clearReadItems () {
     index: 0
   })
 
-  yield deleteReadItemsFromFirestore()
+  try {
+    yield deleteReadItemsFromFirestore()
+  } catch(err) {
+    log('deleteReadItemsFromFirestore', err)
+  }
+
 
   // TODO: now remove the cached images for all the read items
   // removeCachedCoverImages(readItems)
