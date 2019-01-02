@@ -112,6 +112,22 @@ export function addReadItemFS (item) {
     })
 }
 
+export function addReadItemsFS (items) {
+  const writeBatch = db.batch()
+  items.forEach(item => {
+    const docRef = getUserDb().collection('items-read').doc(item._id)
+    writeBatch.set(docRef, {
+      _id: item._id,
+      feed_id: item.feed_id,
+      title: item.title
+    })
+  })
+  return writeBatch.commit()
+    .catch(err => {
+      log('addReadItemsFS', err)
+    })
+}
+
 // TODO: why doesn't my compound index work here?
 // I should be able to use two where()'s, but I get the error
 // Firestore: Operation was rejected because the system is not in a state required for the operation`s execution. (firestore/failed-precondition).

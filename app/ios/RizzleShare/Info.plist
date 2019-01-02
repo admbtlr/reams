@@ -28,9 +28,9 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.159</string>
+	<string>0.160</string>
 	<key>CFBundleVersion</key>
-	<string>70</string>
+	<string>82</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

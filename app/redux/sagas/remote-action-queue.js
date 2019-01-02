@@ -2,9 +2,10 @@ import { NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
-import { markFeedReadFS, updateItemFS, addReadItemFS } from '../firestore/'
+import { markFeedReadFS, updateItemFS, addReadItemFS, addReadItemsFS } from '../firestore/'
+import { deleteItemsAS, updateItemAS } from '../async-storage/'
 // import { addStaleItem } from '../realm/stale-items'
-import { getRemoteActions } from './selectors'
+import { getRemoteActions, getUnreadItems } from './selectors'
 import { checkOnline } from './check-online'
 
 const INITIAL_INTERVAL = 500
@@ -45,7 +46,7 @@ function * executeAction (action) {
         // mark item read in Firestore
         // NB this will mean that Firebase's readAt value is different to the Redux store
         // does this matter? who knows...?
-        updateItemFS({
+        updateItemAS({
           ...action.item,
           readAt: Date.now()
         })
@@ -63,9 +64,18 @@ function * executeAction (action) {
     case 'FEED_MARK_READ':
       // console.log('Marking feed read...')
       try {
+        const olderThan = action.olderThan || (Date.now() / 1000)
+
+        // first, the backend
         // markFeedRead is a backend function that needs to take the backend's feed id
-        yield call(markFeedRead, action.originalId, action.olderThan || (Date.now() / 1000))
-        yield call(markFeedReadFS, action.id, action.olderThan)
+        yield call(markFeedRead, action.originalId, olderThan)
+
+        // now rizzle
+        const items = yield select(getUnreadItems)
+        const itemsToMarkRead = items.filter(item => item.feed_id === action.id &&
+          item.created_at < olderThan)
+        yield call(addReadItemsFS, itemsToMarkRead)
+        yield call(deleteItemsAS, itemsToMarkRead)
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action

@@ -3,6 +3,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLog.h>
+#import <Firebase.h>
 
 @interface RizzleShare : ReactNativeShareExtension
 @end

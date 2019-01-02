@@ -1,4 +1,4 @@
-import { call, takeEvery, select } from 'redux-saga/effects'
+import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { getUid } from './selectors'
 import { REHYDRATE } from 'redux-persist'
 
@@ -44,6 +44,9 @@ function * init (getFirebase, action) {
 
   yield call(initialConfig)
   yield call(rehydrateItems)
+  yield put({
+    type: 'ITEMS_CLEAR_READ'
+  })
   yield call(fetchItems2)
   yield call(executeRemoteActions)
 }

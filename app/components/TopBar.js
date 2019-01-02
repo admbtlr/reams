@@ -356,9 +356,9 @@ class TopBar extends React.Component {
               fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
               // opacity: getAnimatedValueNormalised(),
               height: 36,
-              width: Dimensions.get('window').width - 56,
-              marginLeft: 28,
-              marginRight: 28,
+              width: Dimensions.get('window').width - 72,
+              marginLeft: 36,
+              marginRight: 36,
               // marginLeft: 35,
               transform: [{
                 translateY: transformAnim

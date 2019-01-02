@@ -8,6 +8,7 @@ import {
   incrementUnreadCountFS,
   updateFeedsFS
 } from '../firestore/'
+import { clearItemsAS, setItemsAS } from '../async-storage/'
 import { mergeItems, id } from '../../utils/merge-items.js'
 import { getFeedColor } from '../../utils/'
 import { checkOnline } from './check-online'
@@ -15,12 +16,12 @@ import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,
   fixRelativePaths,
   addStylesIfNecessary,
+  removeCachedCoverImages,
   setShowCoverImage,
+  deflateItem
 } from '../../utils/item-utils'
 import { log } from '../../utils/log'
 import { getItems, getCurrentItem, getFeeds, getIndex, getUid } from './selectors'
-
-const RNFS = require('react-native-fs')
 
 
 let feeds
@@ -29,10 +30,10 @@ export function * fetchItems2 () {
   const isOnline = yield checkOnline()
   if (!isOnline) return
 
-  // yield put({
-  //   type: 'ITEMS_IS_LOADING',
-  //   isLoading: true
-  // })
+  yield put({
+    type: 'ITEMS_IS_LOADING',
+    isLoading: true
+  })
 
   const feeds = yield select(getFeeds)
   const oldItems = yield select(getItems)
@@ -103,22 +104,23 @@ function * receiveItems (newItems) {
       }
     })
 
-  yield call(addUnreadItemsToFirestore, items)
+  // yield call(addUnreadItemsToFirestore, items)
+  yield call(setItemsAS, items)
   // yield call(incrementUnreadCountFS, items.length)
   feeds = incrementFeedUnreadCounts(items, feeds)
-  upsertFeedsFS(feeds)
+  // upsertFeedsFS(feeds)
 
-  let itemsLite = []
-  for (var i = 0; i < items.length; i++) {
-    itemsLite.push({
-      _id: items[i]._id,
-      id: items[i].id, // needed to match existing copy in store
-      feed_id: items[i].feed_id,
-      title: items[i].title,
-      created_at: items[i].created_at,
-      banner_image: items[i].bannerImage // needed by the feed component
-    })
-  }
+  let itemsLite = items.map(deflateItem)
+  // for (var i = 0; i < items.length; i++) {
+  //   itemsLite.push({
+  //     _id: items[i]._id,
+  //     id: items[i].id, // needed to match existing copy in store
+  //     feed_id: items[i].feed_id,
+  //     title: items[i].title,
+  //     created_at: items[i].created_at,
+  //     banner_image: items[i].bannerImage // needed by the feed component
+  //   })
+  // }
 
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
@@ -213,18 +215,6 @@ export function * fetchItems () {
       hasErrored: true,
       error
     })
-  }
-}
-
-function removeCachedCoverImages (items) {
-  if (!items) return
-  for (let item of items) {
-    if (item.imagePath) {
-      RNFS.unlink(item.imagePath)
-        .catch((error) => {
-          console.log(error)
-        })
-    }
   }
 }
 

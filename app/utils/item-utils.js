@@ -1,5 +1,6 @@
 import {Dimensions} from 'react-native'
 import {createItemStyles} from './createItemStyles'
+const RNFS = require('react-native-fs')
 
 export function addStylesIfNecessary (item, index, items) {
   if (item.styles && !item.styles.temporary) {
@@ -136,3 +137,16 @@ export function setShowCoverImage (item) {
     showCoverImage
   }
 }
+
+export function removeCachedCoverImages (items) {
+  if (!items) return
+  for (let item of items) {
+    if (item.imagePath) {
+      RNFS.unlink(item.imagePath)
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }
+}
+

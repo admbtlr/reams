@@ -155,7 +155,7 @@ export const itemsUnread = (state = initialState, action) => {
         items
       }
 
-    case 'ITEMS_CLEAR_READ':
+    case 'ITEMS_CLEAR_READ_SUCCESS':
       return {
         items: state.items.filter(item => !item.readAt)
       }

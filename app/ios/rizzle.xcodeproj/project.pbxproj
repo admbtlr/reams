@@ -64,6 +64,7 @@
 		6673781520431A0100572989 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 667378142043199F00572989 /* IBMPlexMono-Regular.ttf */; };
 		667BD116216CC45300DB6B05 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF63B22066CC9F0037124C /* libSplashScreen.a */; };
 		667BD117216CC5D100DB6B05 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF63B22066CC9F0037124C /* libSplashScreen.a */; };
+		667D13A021D66D1F0047425F /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F510021B7C2D90064F485 /* libRNFirebase.a */; };
 		668CE94B2153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9492153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf */; };
 		668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
@@ -743,6 +744,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				667D13A021D66D1F0047425F /* libRNFirebase.a in Frameworks */,
 				66AA13882180EF41000C9A7F /* libRNReactNativeSharedGroupPreferences.a in Frameworks */,
 				667BD117216CC5D100DB6B05 /* libSplashScreen.a in Frameworks */,
 				667377AC203EB25D00572989 /* libRNFetchBlob.a in Frameworks */,
@@ -2359,7 +2361,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 82;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2402,7 +2404,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 82;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2619,6 +2621,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
@@ -2677,6 +2680,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);

@@ -25,7 +25,8 @@ platform :ios do
       xcodeproj: "rizzle.xcodeproj")
     build_app(
       scheme: "rizzle",
-      include_bitcode: false)
+      include_bitcode: false,
+      xcargs: "UseModernBuildSystem=0")
     upload_to_testflight
   end
 end

@@ -4,10 +4,11 @@ import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
 import { Image, InteractionManager } from 'react-native'
 import { getCachedImagePath } from '../../utils'
+import log from '../../utils/log'
 const co = require('co')
 
 import { getItems, getCurrentItem, getDisplay } from './selectors'
-import { updateItemFS } from '../firestore'
+import { updateItemAS } from '../async-storage'
 
 export function * decorateItems (action) {
   let items
@@ -39,7 +40,12 @@ export function * decorateItems (action) {
         })
 
         const item = items.find(item => item._id === decoration.item._id)
-        updateItemFS(item)
+        try {
+          updateItemAS(item)
+        } catch(err) {
+          log('decorateItems', err)
+        }
+
       }
     }
   })

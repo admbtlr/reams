@@ -1,9 +1,9 @@
-import { put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { isInflated, deflateItem } from '../../utils/item-utils'
 import { getUnreadItems } from './selectors'
 
-import { getItemsFS } from '../firestore/'
+import { getItemsAS } from '../async-storage/'
 
 export function * inflateItems (action) {
   // there's an issue with the index getting setting to undefined at init
@@ -30,7 +30,7 @@ export function * inflateItems (action) {
   let itemsToInflate = activeItems.filter(item => !!!inflatedItems.find(ai => ai._id === item._id))
 
   try {
-    itemsToInflate = yield getItemsFS(itemsToInflate)
+    itemsToInflate = yield call(getItemsAS, itemsToInflate)
     yield put({
       type: 'ITEMS_FLATE',
       itemsToInflate,

@@ -120,8 +120,7 @@ async function getItemsByIds (itemIds, callback) {
     let url = 'https://feedwrangler.net/api/v2/feed_items/get?'
     url += 'access_token=' + feedWranglerAccessToken
     url += '&feed_item_ids=' + itemIdChunk.reduce((accum, id) => `${accum}${id.id},`, '')
-    return InteractionManager.runAfterInteractions()
-      .then(() => fetch(url))
+    return fetch(url)
       .then((response) => {
         if (!response.ok) {
           throw Error(response.statusText)

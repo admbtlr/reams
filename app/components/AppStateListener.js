@@ -25,9 +25,9 @@ class AppStateListener extends React.Component {
 
   async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
-      this.checkClipboard()
+      await this.checkClipboard()
       await this.checkPageBucket()
-      await this.checkFeedBucket()
+      this.checkFeedBucket()
       // see Rizzle component
 
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
@@ -36,38 +36,34 @@ class AppStateListener extends React.Component {
     }
   }
 
-  checkClipboard () {
+  async checkClipboard () {
     console.log('Checking clipboard')
-    const that = this
-    Clipboard.getString()
-      .then(contents => {
-        // TODO make this more robust
-        if (contents.substring(0, 4) === 'http') {
-          that.showSavePageModal(contents)
-        } else if (contents.substring(0, 6) === '<opml>') {
-        }
-      })
-      .catch(err => {
-        log('checkClipboard', err)
-      })
+    try {
+      const contents = await Clipboard.getString()
+      // TODO make this more robust
+      if (contents.substring(0, 4) === 'http') {
+        this.showSavePageModal(contents)
+      } else if (contents.substring(0, 6) === '<opml>') {
+      }
+    } catch(err) {
+      log('checkClipboard', err)
+    }
   }
 
   async checkPageBucket () {
-    SharedGroupPreferences.getItem('page', this.group)
-      .then(value => {
-        if (value !== null) {
-          SharedGroupPreferences.setItem('page', null, this.group)
-          console.log(`Got a page to save: ${value}`)
-          this.showSavePageModal(value)
-        }
-      })
-      .catch(err => {
-        log('checkPageBucket', err)
-      })
+    try {
+      const value = await SharedGroupPreferences.getItem('page', this.group)
+      if (value !== null) {
+        SharedGroupPreferences.setItem('page', null, this.group)
+        console.log(`Got a page to save: ${value}`)
+        this.showSavePageModal(value)
+      }
+    } catch(err) {
+      log('checkPageBucket', err)
+    }
   }
 
-  async checkFeedBucket () {
-    const that = this
+  checkFeedBucket () {
     SharedGroupPreferences.getItem('feed', this.group).then(value => {
       if (value !== null) {
         const url = value
