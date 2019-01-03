@@ -7,7 +7,7 @@ import { getCachedImagePath } from '../../utils'
 import log from '../../utils/log'
 const co = require('co')
 
-import { getItems, getCurrentItem, getDisplay } from './selectors'
+import { getItems, getCurrentItem, getDisplay, getFeeds } from './selectors'
 import { updateItemAS } from '../async-storage'
 
 export function * decorateItems (action) {
@@ -20,7 +20,7 @@ export function * decorateItems (action) {
   // this is weird... but it was the only way I could dispatch actions
   // it's not possible from within the co call below
   yield spawn(function * () {
-    let items, decoratedCount
+    let decoratedCount
     while (true) {
       yield call(delay, 300)
       const dispatchNow = [...toDispatch]
@@ -52,27 +52,45 @@ export function * decorateItems (action) {
 
   while (true) {
     yield call(delay, 500)
-    items = yield select(getItems)
-    if (items.filter(item => item.hasLoadedMercuryStuff).length >= 100) continue
-    item = items.find(item => !item.hasLoadedMercuryStuff && !pendingDecoration.find(pd => pd._id === item._id))
-    if (item) {
+    const nextItem = yield getNextItemToDecorate()
+    if (nextItem) {
       // console.log(`Got item: ${item.title}`)
-      pendingDecoration.push(item)
-      const itemToDecorate = item
+      pendingDecoration.push(nextItem)
       setTimeout(() => {
-        if (!itemToDecorate) return // somehow item can become undefined here...?
-        return co(decorateItem(itemToDecorate)).then((decoration) => {
-          pendingDecoration = pendingDecoration.filter(pending => pending._id !== itemToDecorate._id)
+        if (!nextItem) return // somehow item can become undefined here...?
+        return co(decorateItem(nextItem)).then((decoration) => {
+          pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
           if (decoration) {
             toDispatch.push(decoration)
           }
         }).catch(error => {
           console.log('Error decorating item, trying again next time around')
-          pendingDecoration = pendingDecoration.filter(pending => pending._id !== itemToDecorate._id)
+          pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
         })
       }, 500)
     }
   }
+}
+
+function * getNextItemToDecorate () {
+  let nextItem
+  const items = yield select(getItems)
+  const feeds = yield select(getFeeds)
+  const feedsWithoutDecoration = feeds.filter(feed => {
+    return items.filter(i => !i.readAt && i.feed_id === feed._id)
+      .findIndex(item => typeof item.banner_image === 'undefined') === -1
+  })
+  if (feedsWithoutDecoration.length > 0) {
+    const feed = feedsWithoutDecoration[0]
+    nextItem = items.find(i => !i.readAt && i.feed_id === feed._id && !i.hasLoadedMercuryStuff)
+  }
+  if (!nextItem) {
+    if (items.filter(item => item.hasLoadedMercuryStuff && !item.readAt).length < 100) {
+      nextItem = items.find(item => !item.hasLoadedMercuryStuff
+        && !pendingDecoration.find(pd => pd._id === item._id))
+    }
+  }
+  return nextItem
 }
 
 function * loadMercuryForItem (item) {

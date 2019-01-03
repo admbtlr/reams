@@ -1,7 +1,8 @@
-import { put } from 'redux-saga/effects'
+import { put, select } from 'redux-saga/effects'
 import { decorateItem } from './decorate-items'
 import { id } from '../../utils/merge-items.js'
 import { addSavedItemToFirestore } from '../firestore/'
+import { getItems } from './selectors'
 
 export function * saveExternalUrl (action) {
   let item = {
