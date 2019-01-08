@@ -52,7 +52,7 @@ export function * decorateItems (action) {
 
   while (true) {
     yield call(delay, 500)
-    const nextItem = yield getNextItemToDecorate()
+    const nextItem = yield getNextItemToDecorate(pendingDecoration)
     if (nextItem) {
       // console.log(`Got item: ${item.title}`)
       pendingDecoration.push(nextItem)
@@ -72,7 +72,7 @@ export function * decorateItems (action) {
   }
 }
 
-function * getNextItemToDecorate () {
+function * getNextItemToDecorate (pendingDecoration) {
   let nextItem
   const items = yield select(getItems)
   const feeds = yield select(getFeeds)

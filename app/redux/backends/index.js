@@ -23,7 +23,11 @@ function loadMercuryStuff (item) {
       'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
     })})
     .then((response) => {
-      return response.json()
+      try {
+        return response.json()
+      } catch (e) {
+        console.log(e)
+      }
     })
     .catch((error) => {
       console.log(error)

@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import Feed from '../containers/Feed'
 import TextButton from './TextButton'
+import Heading from './Heading'
 import XButton from './XButton'
 import { hslString } from '../utils/colors'
 
@@ -36,29 +37,18 @@ class ListHeaderComponent extends React.Component {
         marginTop: 55,
         marginBottom: 64
       }}>
-        <Text style={{
-          fontFamily: 'IBMPlexSerif-Bold',
-          fontSize: 32,
-          lineHeight: 32,
-          marginBottom: 4,
-          textAlign: 'left',
-          color: 'hsl(300, 20%, 20%)',
-        }}>Your Feeds</Text>
-        <XButton
-          onPress={() => {
+        <Heading
+          title='Your Feeds'
+          showClose={true}
+          onClose={() => {
             this.props.clearFeedFilter()
             this.props.navigation.navigate('Items')
           }}
-          style={{ top: -5 }}
         />
-        <View style={{
-          height: 1,
-          backgroundColor: 'hsl(300, 20%, 20%)',
-          opacity: 0.2,
-          marginBottom: 16
-        }} />
         <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
-        <TextButton text="Use a different account" />
+        <TextButton
+          text="Use a different account"
+          onClick={() => this.props.navigation.navigate('Accounts')} />
         <Text style={textStyles}>You have subscribed to <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numFeeds } feeds</Text> and have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
         <View style={{
           flexDirection: 'row',

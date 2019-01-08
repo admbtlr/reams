@@ -48,6 +48,7 @@ const navigationOptions = {
 
 export default FluidNavigator(
   {
+    Accounts: {screen: AccountsScreen},
     Feeds: {screen: FeedsScreenContainer},
     Items: {screen: ItemsScreen},
   },
