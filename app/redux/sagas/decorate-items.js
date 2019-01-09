@@ -41,7 +41,7 @@ export function * decorateItems (action) {
 
         const item = items.find(item => item._id === decoration.item._id)
         try {
-          updateItemAS(item)
+          item && updateItemAS(item)
         } catch(err) {
           log('decorateItems', err)
         }
