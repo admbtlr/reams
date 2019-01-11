@@ -48,7 +48,7 @@ class ListHeaderComponent extends React.Component {
         <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
         <TextButton
           text="Use a different account"
-          onClick={() => this.props.navigation.navigate('Accounts')} />
+          onPress={() => this.props.navigation.navigate('Account')} />
         <Text style={textStyles}>You have subscribed to <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numFeeds } feeds</Text> and have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
         <View style={{
           flexDirection: 'row',
@@ -103,7 +103,6 @@ class FeedsScreen extends React.Component {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        // backgroundColor: hslString('rizzleBG'),
         backgroundColor: '#F2ECD9'
         // marginTop: margin
       }}>

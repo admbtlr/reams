@@ -4,6 +4,7 @@ import {
 } from 'react-native'
 
 import ItemsScreen from './ItemsScreen.js'
+import AccountScreen from './AccountScreen.js'
 import FeedsScreenContainer from '../containers/FeedsScreen.js'
 import FeedInfoScreenContainer from '../containers/FeedInfoScreen.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
@@ -48,12 +49,12 @@ const navigationOptions = {
 
 export default FluidNavigator(
   {
-    Accounts: {screen: AccountsScreen},
+    Account: {screen: AccountScreen},
     Feeds: {screen: FeedsScreenContainer},
     Items: {screen: ItemsScreen},
   },
   {
-    initialRouteName: 'Items',
+    initialRouteName: 'Account',
     transitionConfig,
     navigationOptions
   }

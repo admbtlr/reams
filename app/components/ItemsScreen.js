@@ -22,17 +22,36 @@ class ItemsScreen extends React.Component {
     SplashScreen.hide()
   }
 
+  // render = () => (
+  //   <View style={{flex: 1}}>
+  //     <StatusBar
+  //       showHideTransition="slide"
+  //       barStyle="light-content" />
+  //     <ToolbarsContainer navigation={this.props.navigation}/>
+  //     <View style={styles.infoView} />
+  //     <Image
+  //       source={require('../assets/images/dark-splash.png')}
+  //       style={styles.image}
+  //       onLoad={() => {
+  //         SplashScreen.hide()
+  //       }}
+  //     />
+  //     <LogoSpinnerContainer />
+  //     <ItemCarouselContainer style={styles.ItemCarousel} />
+  //     <RizzleImageViewerContainer />
+  //   </View>
+  // )
+
   render = () => (
-    <View style={{flex: 1}}>
+    <View style={{
+      flex: 1,
+      backgroundColor: hslString('bodyBGLight')
+    }}>
+      <StatusBar
+        showHideTransition="slide"
+        barStyle="light-content" />
       <ToolbarsContainer navigation={this.props.navigation}/>
       <View style={styles.infoView} />
-      <Image
-        source={require('../assets/images/dark-splash.png')}
-        style={styles.image}
-        onLoad={() => {
-          SplashScreen.hide()
-        }}
-      />
       <LogoSpinnerContainer />
       <ItemCarouselContainer style={styles.ItemCarousel} />
       <RizzleImageViewerContainer />
