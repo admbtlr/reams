@@ -80,8 +80,10 @@ function * getNextItemToDecorate (pendingDecoration) {
     return items.filter(i => !i.readAt && i.feed_id === feed._id)
       .findIndex(item => typeof item.banner_image === 'undefined') === -1
   })
-  if (feedsWithoutDecoration.length > 0) {
-    const feed = feedsWithoutDecoration[0]
+  let count = 0
+  let feed
+  while (feedsWithoutDecoration.length > 0 && count < feedsWithoutDecoration.length && !nextItem) {
+    feed = feedsWithoutDecoration[count++]
     nextItem = items.find(i => !i.readAt && i.feed_id === feed._id && !i.hasLoadedMercuryStuff)
   }
   if (!nextItem) {
