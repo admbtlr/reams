@@ -31,14 +31,14 @@ class TextButton extends React.Component {
     const { isExpandable, isInverted, onPress, text } = this.props
     const fgColor = this.props.fgColor || 'hsl(300, 20%, 20%)'
     const bgColor = this.props.bgColor || 'white'
-    const buttonStyle = {
+    let buttonStyle = {
       borderColor: fgColor,
       backgroundColor: bgColor,
       borderWidth: 1,
       borderRadius: 21,
       paddingTop: 14,
       paddingBottom: 8,
-      flex: 1,
+      // flex: 1,
       height: 42,
       maxHeight: 42,
       ...this.props.buttonStyle
@@ -64,10 +64,14 @@ class TextButton extends React.Component {
           >
             <Text style={textStyle}>{text}</Text>
           </TouchableOpacity>
-          <AccountCredentialsForm />
+          { this.props.renderExpandedView() }
         </View>
       )
     } else {
+      buttonStyle = {
+        ...buttonStyle,
+        flex: 1
+      }
       return (
         <TouchableOpacity
           onPress={onPress}

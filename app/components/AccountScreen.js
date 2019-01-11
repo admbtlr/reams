@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import Feed from '../containers/Feed'
 import TextButton from './TextButton'
-import Heading from './Heading'
+import AccountCredentialsForm from './AccountCredentialsForm'
 import XButton from './XButton'
 import { hslString } from '../utils/colors'
 
@@ -72,15 +72,21 @@ class AccountScreen extends React.Component {
             <TextButton
               text="Feed Wrangler"
               buttonStyle={{ marginBottom: 42 }}
-              isExpandable = {true} />
+              isExpandable={true}
+              renderExpandedView={() => <AccountCredentialsForm service='feedwrangler' />}
+            />
             <TextButton
               text="Feedbin"
               buttonStyle={{ marginBottom: 42 }}
-              isExpandable = {true} />
+              isExpandable={true}
+              renderExpandedView={() => <AccountCredentialsForm service='feedbin' />}
+            />
             <TextButton
               text="Feedly"
               buttonStyle={{ marginBottom: 42 }}
-              isExpandable = {true} />
+              isExpandable={true}
+              renderExpandedView={() => <AccountCredentialsForm service='feedly' />}
+            />
           </View>
         </View>
       </ScrollView>
