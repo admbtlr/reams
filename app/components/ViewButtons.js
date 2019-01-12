@@ -122,7 +122,7 @@ class ViewButtons extends React.Component {
     return {
       base: {
         position: 'absolute',
-        top: 74,
+        top: 100,
         right: 10,
         width: '100%',
         zIndex: 10,
