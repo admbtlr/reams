@@ -121,13 +121,14 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-Notification-2.png",
-      "scale" : "1x"
+      "filename" : "Icon-76@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-76@2x.png",
-      "scale" : "2x"
+      "filename" : "Icon-Notification-2.png",
+      "unassigned" : true,
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",

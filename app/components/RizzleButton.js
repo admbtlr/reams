@@ -12,8 +12,8 @@ class RizzleButton extends React.Component {
   }
 
   getStyles () {
-    const backgroundColor = this.props.backgroundColor || hslString('rizzleBG')
-    const borderColor = this.props.borderColor || hslString('rizzleBG')
+    const backgroundColor = this.props.backgroundColor || hslString('rizzleSaved')
+    const borderColor = this.props.borderColor || hslString('rizzleSaved')
     return {
         backgroundColor,
         opacity: 0.95,

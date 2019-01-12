@@ -139,27 +139,27 @@ class TopBar extends React.Component {
   getBackgroundColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
-      hslString('rizzleBG') :
+      hslString('rizzleSaved') :
       (feedColor ?
         hslString(feedColor, 'desaturated') :
-        hslString('rizzleBG'))
+        hslString('rizzleSaved'))
     // return hslString('rizzleChrome')
   }
 
   getForegroundColor (item) {
     return this.props.displayMode == 'saved' ?
-      hslString('black') :
+      hslString('white') :
       hslString('white')
   }
 
   getBorderBottomColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
-      hslString('rizzleBG') :
+      hslString('rizzleSaved') :
       (feedColor ?
         // hslString(feedColor, 'desaturated') :
         hslString(feedColor) :
-        hslString('rizzleBG'))
+        hslString('rizzleSaved'))
   }
 
   getHamburgerColor (item) {
