@@ -131,7 +131,11 @@ export function addCoverImageToItem (item, imageStuff) {
 export function setShowCoverImage (item) {
   const {deviceHeight, deviceWidth} = Dimensions.get('window')
   let showCoverImage = item.hasCoverImage &&
-    item.content_length > 2000
+    item.content_length ?
+      item.content_length > 2000 :
+      (item.content_mercury ?
+        item.content_mercury.length > 2000 :
+        item.content_html.length > 2000)
   return {
     ...item,
     showCoverImage
