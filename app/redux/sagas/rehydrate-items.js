@@ -10,10 +10,10 @@ export function * rehydrateItems (getFirebase, uid) {
     items: readItems
   })
 
-  const savedItems = yield getCollection('items-saved', 'created_at', false)
-  yield put({
-    type: 'ITEMS_REHYDRATE_SAVED',
-    items: savedItems
-  })
+  // const savedItems = yield getCollection('items-saved', 'created_at', false)
+  // yield put({
+  //   type: 'ITEMS_REHYDRATE_SAVED',
+  //   items: savedItems
+  // })
 }
 
