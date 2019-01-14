@@ -1,15 +1,20 @@
 import { AsyncStorage } from 'react-native'
+import log from '../../utils/log'
 
-export async function getItemAS (key) {
+// export async function getItemAS (key) {
 
-}
+// }
 
 export async function getItemsAS (keys) {
   if (typeof keys[0] === 'object') {
     keys = keys.map(item => item._id)
   }
-  const keyVals = await AsyncStorage.multiGet(keys)
-  return keyVals.map(keyVal => JSON.parse(keyVal[1]))
+  try {
+    const keyVals = await AsyncStorage.multiGet(keys)
+    return keyVals.map(keyVal => JSON.parse(keyVal[1]))
+  } catch (err) {
+
+  }
 }
 
 export async function setItemAS (item) {
@@ -25,7 +30,11 @@ export async function setItemsAS (items) {
     item._id,
     JSON.stringify(item)
   ])
-  return AsyncStorage.multiSet(keyVals)
+  try {
+    return AsyncStorage.multiSet(keyVals)
+  } catch (err) {
+    log(err)
+  }
 }
 
 export async function deleteItemAS (key) {
