@@ -869,11 +869,13 @@ article > div:not(:last-of-type) {
 }
 
 
-@each $name, $value in $colors {
+@each $name, $value in $desaturated {
   .itemArticle {
     &.#{$name} {
       a, a:active, a:visited {
-        -webkit-text-decoration-color: $value;
+        color: $value;
+        text-decoration: none;
+        // -webkit-text-decoration-color: $value;
       }
 
       blockquote.short-blockquote, .pullquote {
