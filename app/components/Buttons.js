@@ -91,7 +91,8 @@ class Buttons extends React.Component {
   }
 
   getBackgroundColor (item) {
-    return hslString('bodyBGLight')
+    // return hslString('rizzleBG')
+    return '#eeeeee'
     // const feedColor = item ? item.feed_color : null
     // return this.props.displayMode == 'saved' ?
     //   hslString('rizzleBG') :

@@ -16,7 +16,7 @@ class RizzleButton extends React.Component {
     const borderColor = this.props.borderColor || hslString('rizzleSaved')
     return {
         backgroundColor,
-        opacity: 0.95,
+        // opacity: 0.95,
         width: 56,
         height: 56,
         borderRadius: 28,
@@ -24,12 +24,13 @@ class RizzleButton extends React.Component {
         borderWidth: 2,
         justifyContent: 'center',
         flexDirection: 'column',
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowRadius: 2,
-        shadowOpacity: 0.1
+        // shadowOffset: {
+        //   width: 0,
+        //   height: 2
+        // },
+        opacity: 0.8
+        // shadowRadius: 2,
+        // shadowOpacity: 0.1
     }
   }
 
