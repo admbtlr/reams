@@ -328,8 +328,8 @@ class FeedItem extends React.Component {
 
   //called when HTML was loaded and injected JS executed
   updateWebViewHeight (event) {
-    const calculatedHeight = parseInt(event.jsEvaluationValue) || this.screenDimensions.height * 2
-    if (!this.pendingWebViewHeight || calculatedHeight > this.pendingWebViewHeight) {
+    const calculatedHeight = parseInt(event.jsEvaluationValue) || this.screenDimensions.height// * 2
+    if (!this.pendingWebViewHeight || calculatedHeight !== this.pendingWebViewHeight) {
       this.pendingWebViewHeight = calculatedHeight
     }
 
