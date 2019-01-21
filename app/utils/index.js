@@ -65,12 +65,10 @@ export const isIphoneX = () => {
 }
 
 export function id (item) {
-  if (item) {
-    if (typeof item === 'String') {
-      return hashFnv32a(item, true)
-    } else {
-      return hashFnv32a(item.url, true) + '-' + item.created_at
-    }
+  if (item && typeof item === 'String') {
+    return hashFnv32a(item, true)
+  } else if (item && item.url) {
+    return hashFnv32a(item.url, true) + '-' + item.created_at
   } else {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
