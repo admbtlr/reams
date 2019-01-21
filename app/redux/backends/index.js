@@ -40,15 +40,16 @@ function getMercuryUrl (item) {
   return url
 }
 
-const fetchUnreadItems = async function (oldItems, currentItem, feeds, cb) {
+// old items are (fetched items + read items)
+const fetchUnreadItems = async function (oldItems, readItems, currentItem, feeds, cb) {
 
   // { readItems, newItems }
   let items
 
   if (backend === 'rizzle') {
-    items = await rizzle.getUnreadItems(oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD, cb)
+    items = await rizzle.getUnreadItems(oldItems, readItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD, cb)
   } else if (backend === 'feedwrangler') {
-    items = await feedwrangler.getUnreadItems(oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD, cb)
+    items = await feedwrangler.getUnreadItems(oldItems, readItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD, cb)
   }
 
   // if (__DEV__) {
@@ -82,7 +83,7 @@ function markFeedRead (feed, olderThan) {
     case 'rizzle':
       return
     case 'feedwrangler':
-      return feedwrangler.markFeedRead(feed, olderThan)
+      // return feedwrangler.markFeedRead(feed, olderThan)
   }
 }
 

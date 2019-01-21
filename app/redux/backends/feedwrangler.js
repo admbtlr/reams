@@ -35,13 +35,14 @@ export const getUnreadItemsUrl = (createdSince, page) => {
   //     console.log(error)
   //   })
 
-export const getUnreadItems = async function (oldItems, currentItem, feeds, maxNum, cb) {
+export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds, maxNum, cb) {
   console.log("Inside feedwrangler.getUnreadItems")
-  let newItems, readItems
+  let newItems
   const lastFetchDate = (oldItems && oldItems.length > 0) ?
     oldItems[oldItems.length - 1].created_at :
     0
   let newIds = await fetchUnreadIds(lastFetchDate)
+  newIds = newIds || []
   console.log(`Got ${newIds.length} new item ids to expand`)
 
   // feedwrangler always orders DESC
@@ -51,10 +52,10 @@ export const getUnreadItems = async function (oldItems, currentItem, feeds, maxN
   newItems = newIds.map((item) => {
     return oldItems.find((oldItem) => oldItem.id === item.id) || item
   })
-  readItems = oldItems.filter((oldItem) => newItems.find((newItem) => newItem.id === oldItem.id) === undefined)
+  // readItems = oldItems.filter((oldItem) => newItems.find((newItem) => newItem.id === oldItem.id) === undefined)
   const idsToExpand = newItems.filter(item => !!!item._id)
 
-  if (idsToExpand.length > 0) {
+  if (idsToExpand && idsToExpand.length > 0) {
     const expandedItems = await getItemsByIds(idsToExpand, cb)
     return true
   }
@@ -81,6 +82,7 @@ async function fetchUnreadIds (createdSince, maxNum) {
   const recursiveGetIds = (offset = 0) => {
     return getUnreadIds(createdSince, offset)
       .then(unreadIdBatch => {
+        unreadIdBatch = unreadIdBatch || []
         unreadIds = unreadIds.concat(unreadIdBatch)
         if (unreadIdBatch.length === pageSize) {
           return recursiveGetIds(offset + pageSize)
@@ -110,6 +112,7 @@ async function getItemsByIds (itemIds, callback) {
     let i, j
     let temparray = []
     const chunk = 100
+    itemIds = itemIds || []
     for (i = 0, j = itemIds.length; i < j; i += chunk) {
       temparray.push(itemIds.slice(i, i + chunk))
     }
@@ -215,10 +218,11 @@ export const markItemRead = (item) => {
 }
 
 export const markFeedRead = (feed, olderThan) => {
+  const isAll = !feed
   const id = typeof feed === 'object' ? feed.id : feed
   let url = 'https://feedwrangler.net/api/v2/feed_items/mark_all_read?'
   url += 'access_token=' + feedWranglerAccessToken
-  url += '&feed_id=' + id
+  url += isAll ? '' : '&feed_id=' + id
   url += '&created_on_before=' + olderThan
   return fetch(url)
     .then((response) => {

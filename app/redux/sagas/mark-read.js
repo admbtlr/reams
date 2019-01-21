@@ -5,7 +5,7 @@ import { deleteItemsAS } from '../async-storage'
 
 import { getItems, getCurrentItem, getFeeds, getDisplay, getUnreadItems } from './selectors'
 
-import { log } from '../../utils/log'
+import log from '../../utils/log'
 import { removeCachedCoverImages } from '../../utils/item-utils'
 
 export function * markLastItemRead (action) {

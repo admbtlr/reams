@@ -20,7 +20,7 @@ import { nullValuesToEmptyStrings,
   setShowCoverImage,
   deflateItem
 } from '../../utils/item-utils'
-import { log } from '../../utils/log'
+import log from '../../utils/log'
 import { getItems, getCurrentItem, getFeeds, getIndex, getUid } from './selectors'
 
 
@@ -37,10 +37,11 @@ export function * fetchItems2 () {
 
   const feeds = yield select(getFeeds)
   const oldItems = yield select(getItems)
+  const readItems = []
   const currentItem = yield select(getCurrentItem)
   const index = yield select(getIndex)
 
-  const itemsChannel = yield call(fetchItemsChannel, oldItems, currentItem, feeds)
+  const itemsChannel = yield call(fetchItemsChannel, oldItems, readItems, currentItem, feeds)
 
   let isFirstBatch = true
   try {
@@ -74,14 +75,16 @@ export function * fetchItems2 () {
   }
 }
 
-function fetchItemsChannel (oldItems, currentItem, feeds) {
+function fetchItemsChannel (oldItems, readItems, currentItem, feeds) {
+  const logger = log
   return eventChannel(emitter => {
-    fetchUnreadItems(oldItems, currentItem, feeds, emitter)
+    fetchUnreadItems(oldItems, readItems, currentItem, feeds, emitter)
       .then(() => {
         emitter(END)
       })
       .catch(err => {
-        log('fetchItemsChannel', err)
+        debugger
+        logger('fetchItemsChannel', err)
       })
     return _ => {
       console.log('Channel closed')

@@ -1,7 +1,7 @@
 // thinking about it, only saved items and read items need to go in firestore
 // everything else is pretty much deterministic
 
-import { log } from '../../utils/log'
+import log from '../../utils/log'
 import { deflateItem } from '../../utils/item-utils'
 
 let uid
@@ -100,6 +100,7 @@ export function addReadItemFS (item) {
   return getUserDb().collection('items-read').doc(item._id)
     .set({
       _id: item._id,
+      id: item.id,
       feed_id: item.feed_id,
       title: item.title
     })
@@ -118,6 +119,7 @@ export function addReadItemsFS (items) {
     const docRef = getUserDb().collection('items-read').doc(item._id)
     writeBatch.set(docRef, {
       _id: item._id,
+      id: item.id,
       feed_id: item.feed_id,
       title: item.title
     })
@@ -128,32 +130,33 @@ export function addReadItemsFS (items) {
     })
 }
 
-// TODO: why doesn't my compound index work here?
-// I should be able to use two where()'s, but I get the error
-// Firestore: Operation was rejected because the system is not in a state required for the operation`s execution. (firestore/failed-precondition).
-// According to https://stackoverflow.com/questions/47029227/how-to-create-subcollection-indexes-at-cloud-firestore
-// I need to create a compound index, which I did, but it doesn't seem to work
-export function markFeedReadFS (feedId, olderThan) {
-  const writeBatch = db.batch()
-  return getUserDb().collection('items-unread')
-    .where('feed_id', '==', feedId)
-    // .where('created_at', '<', olderThan)
-    .get()
-    .then(qs => {
-      qs.forEach(docSnapshot => {
-        const doc = docSnapshot.data()
-        if (doc.created_at < olderThan) {
-          writeBatch.delete(docSnapshot.ref)
-          addReadItemFS(doc)
-        }
-      })
-      writeBatch.commit()
-    })
-    .catch(err => {
-      log('markFeedReadFS', err)
-    })
+// TODO: delete me
+// // TODO: why doesn't my compound index work here?
+// // I should be able to use two where()'s, but I get the error
+// // Firestore: Operation was rejected because the system is not in a state required for the operation`s execution. (firestore/failed-precondition).
+// // According to https://stackoverflow.com/questions/47029227/how-to-create-subcollection-indexes-at-cloud-firestore
+// // I need to create a compound index, which I did, but it doesn't seem to work
+// export function markFeedReadFS (feedId, olderThan) {
+//   const writeBatch = db.batch()
+//   return getUserDb().collection('items-unread')
+//     .where('feed_id', '==', feedId)
+//     // .where('created_at', '<', olderThan)
+//     .get()
+//     .then(qs => {
+//       qs.forEach(docSnapshot => {
+//         const doc = docSnapshot.data()
+//         if (doc.created_at < olderThan) {
+//           writeBatch.delete(docSnapshot.ref)
+//           addReadItemFS(doc)
+//         }
+//       })
+//       writeBatch.commit()
+//     })
+//     .catch(err => {
+//       log('markFeedReadFS', err)
+//     })
 
-}
+// }
 
 export function addSavedItemToFirestore (item) {
   return getUserDb().collection('items-saved').doc(item._id)

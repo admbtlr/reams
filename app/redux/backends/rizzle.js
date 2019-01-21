@@ -2,7 +2,7 @@ import {id} from '../../utils'
 // import { filterItemsForStale } from '../realm/stale-items'
 
 
-export const getUnreadItems = async function (oldItems, currentItem, feeds) {
+export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds) {
   let newItems
   let latestDate = 0
   if (oldItems.length > 0) {
