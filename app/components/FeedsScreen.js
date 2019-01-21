@@ -59,13 +59,23 @@ class ListHeaderComponent extends React.Component {
             buttonStyle={{
               marginRight: margin
             }}
-            text="Remove items" />
+            onPress={() => {
+              this.props.markAllRead()
+            }}
+            text="Remove all items" />
           <TextButton
             buttonStyle={{
               marginRight: margin
             }}
-            text="Go to items" />
+            onPress={() => {
+              this.props.markAllRead(Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+            }}
+            text="Remove old items" />
         </View>
+        <TextButton text="Start reading" />
+        <View style={{ height: margin*2 }} />
+        <Heading title='' />
+        <View style={{ height: margin*2 }} />
         <TextButton text="Add a new feed" />
       </View>
     )
@@ -103,7 +113,7 @@ class FeedsScreen extends React.Component {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F2ECD9'
+        backgroundColor: hslString('rizzleBG')
         // marginTop: margin
       }}>
         <StatusBar showHideTransition="slide"/>
@@ -119,6 +129,7 @@ class FeedsScreen extends React.Component {
             navigation={this.props.navigation}
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}
+            markAllRead={this.props.markAllRead}
           />}
           renderItem={this.renderFeed}
           scrollEnabled={this.state.scrollEnabled}
