@@ -38,9 +38,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    markAllRead: (id) => dispatch({
+    markAllRead: (olderThan) => dispatch({
       type: 'FEED_MARK_READ',
-      id
+      id: null,
+      originalId: null,
+      olderThan: olderThan || Math.floor(Date.now() / 1000)
     }),
     unsubscribe: (id) => dispatch({
       type: 'FEEDS_REMOVE_FEED',
