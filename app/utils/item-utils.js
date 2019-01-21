@@ -129,16 +129,24 @@ export function addCoverImageToItem (item, imageStuff) {
 }
 
 export function setShowCoverImage (item) {
-  const {deviceHeight, deviceWidth} = Dimensions.get('window')
-  let showCoverImage = item.hasCoverImage &&
-    item.content_length ?
-      item.content_length > 2000 :
-      (item.content_mercury ?
-        item.content_mercury.length > 2000 :
-        item.content_html.length > 2000)
+  const getLongestContentLength = (item) => {
+    const hasMercury = item.content_mercury && typeof item.content_mercury === 'string'
+    const hasHtml = item.content_html && typeof item.content_mercury === 'string'
+    const mercuryLength = hasMercury ?
+      item.content_mercury.length :
+      0
+    const htmlLength = hasHtml ?
+      item.content_html.length :
+      0
+    return mercuryLength > htmlLength ?
+      mercuryLength :
+      htmlLength
+  }
+
   return {
     ...item,
-    showCoverImage
+    showCoverImage: item.hasCoverImage &&
+      (getLongestContentLength(item) > 2000)
   }
 }
 
