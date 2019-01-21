@@ -70,15 +70,16 @@ body {
     line-height: 1em;
     -webkit-hyphens: none; }
   .itemArticle h1, .itemArticle h2 {
-    font-size: 2rem;
+    font-size: 1rem;
     margin: 4rem 0 1rem; }
   .itemArticle h2 {
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-bottom: 1px solid; }
   .itemArticle h2, .itemArticle h4 {
     font-weight: normal; }
   .itemArticle h3, .itemArticle h4 {
-    font-size: 1rem;
+    font-size: 0.8rem;
+    line-height: 1rem;
     margin: 2rem 0 1rem; }
   .itemArticle h5, .itemArticle h6 {
     font-size: calc(1rem / 1.7);
@@ -278,7 +279,7 @@ body {
   .itemArticle > div + div:not(:first-of-type) > p:first-of-type {
     margin-top: 112px; }
   .itemArticle ul {
-    list-style: none;
+    list-style: circle inside;
     padding-left: 0; }
   .itemArticle li {
     padding: 14px 0; }
