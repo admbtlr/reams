@@ -59,7 +59,8 @@
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
-    "webpack": "^2.4.1"
+    "webpack": "^2.4.1",
+    "yup": "^0.26.7"
   },
   "devDependencies": {
     "@babel/helper-remap-async-to-generator": "^7.1.0",

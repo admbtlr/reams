@@ -96,4 +96,13 @@ function addFeed (url) {
   }
 }
 
-export { setBackend, fetchUnreadItems, fetchUnreadIds, markItemRead, addFeed, markFeedRead, loadMercuryStuff }
+function authenticate (username, password, backend) {
+  switch (backend) {
+    case 'rizzle':
+      return
+    case 'feedwrangler':
+      return feedwrangler.authenticate(username, password)
+  }
+}
+
+export { authenticate, setBackend, fetchUnreadItems, fetchUnreadIds, markItemRead, addFeed, markFeedRead, loadMercuryStuff }

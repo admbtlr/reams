@@ -38,13 +38,12 @@ class AccountScreen extends React.Component {
     return (
       <ScrollView style={{
         flex: 1,
-        backgroundColor: '#F2ECD9'
+        backgroundColor: hslString('rizzleBG')
       }}>
         <View style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          // backgroundColor: hslString('rizzleBG'),
         }}>
           <StatusBar
             showHideTransition="slide"

@@ -7,6 +7,26 @@ const itemsFetchBatchSize = 100
 
 let itemsCache = []
 
+const CLIENT_KEY = 'fdc257afbb554f67888c2aee80481e8e'
+
+export const authenticate = (username, password) => {
+  let url = 'https://feedwrangler.net/api/v2/users/authorize?'
+  url += 'email=' + username
+  url += '&password=' + password
+  url += '&client_key=' + CLIENT_KEY
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+    .then(json => {
+      console.log(json)
+    })
+}
+
 export const getUnreadItemsUrl = (createdSince, page) => {
   let url = '/api/unread?thing=1'
   url = 'https://feedwrangler.net/api/v2/feed_items/list?read=false&access_token=' + feedWranglerAccessToken
