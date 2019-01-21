@@ -3,7 +3,7 @@ import { Alert, AppState, Clipboard, Text, TouchableHighlight, View } from 'reac
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { parseString } from 'react-native-xml2js'
 
-import { log } from '../utils/log'
+import log from '../utils/log'
 
 class AppStateListener extends React.Component {
 
