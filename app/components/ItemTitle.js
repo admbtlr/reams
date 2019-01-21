@@ -823,9 +823,9 @@ class ItemTitle extends React.Component {
   renderDate () {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let dateStyle = {
-      color: hslString(item.feed_color, 'desaturated'),
+      color: showCoverImage ? 'white' : hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
-      fontSize: showCoverImage ? 16 : 16,
+      fontSize: showCoverImage ? 14 : 14,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: 24,
       textAlign: styles.textAlign,
@@ -856,7 +856,7 @@ class ItemTitle extends React.Component {
     const theDate = (typeof date === 'number') ? date * 1000 : date
     let showYear = (moment(theDate).year() !== moment().year())
     const formattedDate = moment(theDate)
-      .format('dddd MMM Do' + (showYear ? ' YYYY' : '') + ', h:mm a')
+      .format('Do MMM' + (showYear ? ' YYYY' : '') + ', h:mm a')
 
     return dateView = <Animated.Text style={dateStyle}>{formattedDate}</Animated.Text>
   }
