@@ -170,8 +170,10 @@ export const itemsUnread = (state = initialState, action) => {
       const feedId = action.id
       const olderThan = action.olderThan || Math.floor(Date.now() / 1000)
       const currentItem = state.items[state.index]
+      // if no feedId specified, then we mean ALL items
+      const isInFeed = (item) => feedId ? item.feed_id === feedId : true
       items = [ ...state.items ].filter((item) => {
-        return item.feed_id === feedId ?
+        return isInFeed(item) ?
           (item.created_at > olderThan) :
           true
       })

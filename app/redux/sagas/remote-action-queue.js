@@ -2,7 +2,7 @@ import { NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
-import { markFeedReadFS, updateItemFS, addReadItemFS, addReadItemsFS } from '../firestore/'
+import { updateItemFS, addReadItemFS, addReadItemsFS } from '../firestore/'
 import { deleteItemsAS, updateItemAS } from '../async-storage/'
 // import { addStaleItem } from '../realm/stale-items'
 import { getRemoteActions, getUnreadItems } from './selectors'
@@ -72,7 +72,9 @@ function * executeAction (action) {
 
         // now rizzle
         const items = yield select(getUnreadItems)
-        const itemsToMarkRead = items.filter(item => item.feed_id === action.id &&
+        // if no feedId specified, then we mean ALL items
+        const itemsToMarkRead = items.filter(item => (!action.id ||
+          item.feed_id === action.id) &&
           item.created_at < olderThan)
         yield call(addReadItemsFS, itemsToMarkRead)
         yield call(deleteItemsAS, itemsToMarkRead)
