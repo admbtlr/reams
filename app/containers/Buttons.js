@@ -1,11 +1,5 @@
 import { connect } from 'react-redux'
 import Buttons from '../components/Buttons.js'
-import {
-  itemsUpdateCurrentIndex,
-  itemSaveItem,
-  itemUnsaveItem,
-  toggleDisplayedItems
-} from '../redux/actions/items.js'
 import { getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state) => {
@@ -36,13 +30,20 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateCurrentIndex: (index) => dispatch(itemsUpdateCurrentIndex(index)),
     toggleSaved: (item) => {
       if (item) {
-        item.isSaved ? dispatch(itemUnsaveItem(item)) : dispatch(itemSaveItem(item))
+        item.isSaved ?
+          dispatch({
+            type: 'ITEM_UNSAVE_ITEM',
+            item
+          }) :
+          dispatch({
+            type: 'ITEM_SAVE_ITEM',
+            item
+          })
       }
     },
-    toggleDisplay: () => dispatch(toggleDisplayedItems()),
+    toggleDisplay: () => dispatch({ type: 'TOGGLE_DISPLAYED_ITEMS' }),
     toggleMercury: (item) => {
       if (item) {
         dispatch({
