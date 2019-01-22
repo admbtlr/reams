@@ -77,9 +77,8 @@ export const itemsSaved = (state = initialState, action) => {
     // TODO; saved index
     case 'ITEM_UNSAVE_ITEM':
       let savedIndex = state.items.indexOf(action.item) || 0
-      savedItem = state.items.find((item) => item._id === action.item._id)
-      savedItem = state.items.find((item) => item._id === action.item._id)
-      items = items.filter((item) => item._id !== action.item._id)
+      savedItem = state.items[savedIndex]
+      items = state.items.filter((item) => item._id !== action.item._id)
       if (savedItem) savedItem.isSaved = false
       if (savedIndex > items.length - 1) {
         savedIndex = items.length - 1
