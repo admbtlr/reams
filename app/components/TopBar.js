@@ -81,13 +81,13 @@ class TopBar extends React.Component {
     const opacityRanges = [
       {
         inputRange: [0, 0.9, 1, 2],
-        outputRange: [0.98, 0.98, 0, 0]
+        outputRange: [1, 1, 0, 0]
       }, {
         inputRange: [0, 1, 1.9, 2],
-        outputRange: [0, 0.98, 0.98, 0]
+        outputRange: [0, 1, 1, 0]
       }, {
         inputRange: [0, 1, 2],
-        outputRange: [0, 0, 0.98]
+        outputRange: [0, 0, 1]
       }
     ]
 
