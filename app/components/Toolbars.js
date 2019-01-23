@@ -30,7 +30,10 @@ const styles = {
     top: 0,
     width: '100%',
     zIndex: 10,
-    height: '100%'
+    height: '100%',
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 }
 export default Toolbars

@@ -120,7 +120,8 @@ body {
     border-bottom: 1px solid #ededed; }
     @media (min-width: 600px) {
       .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
-        left: calc(50% - 50vw); } }
+        left: calc(50% - 50vw);
+        margin: 0; } }
   .itemArticle img:not(.img-portrait):not(.img-small) {
     width: 100vw !important; }
   .itemArticle img.img-portrait, .itemArticle img.img-small {
@@ -129,6 +130,9 @@ body {
     width: 100% !important; }
     figure .itemArticle img.img-portrait, figure .itemArticle img.img-small {
       width: calc(100% - 1rem); }
+    @media (min-width: 600px) {
+      .itemArticle img.img-portrait, .itemArticle img.img-small {
+        left: 0; } }
   .itemArticle figure img, .itemArticle figure iframe {
     margin: 0;
     left: 0;

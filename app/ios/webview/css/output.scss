@@ -338,6 +338,7 @@ body {
 
     @media (min-width: 600px) {
       left: calc(50% - 50vw);
+      margin: 0;
     }
   }
 
@@ -355,6 +356,9 @@ body {
       width: calc(100% - 1rem);
     }
 
+    @media (min-width: 600px) {
+      left: 0;
+    }
   }
 
   // figure handles its own margin

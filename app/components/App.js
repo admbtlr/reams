@@ -6,8 +6,6 @@ import {
 import ItemsScreen from './ItemsScreen.js'
 import AccountScreen from './AccountScreen.js'
 import FeedsScreenContainer from '../containers/FeedsScreen.js'
-import FeedInfoScreenContainer from '../containers/FeedInfoScreen.js'
-import RizzleModalContainer from '../containers/RizzleModal.js'
 import { FluidNavigator } from 'react-navigation-fluid-transitions'
 
 // temporary hacky approach
@@ -54,7 +52,7 @@ export default FluidNavigator(
     Items: {screen: ItemsScreen},
   },
   {
-    initialRouteName: 'Account',
+    initialRouteName: 'Feeds',
     transitionConfig,
     navigationOptions
   }

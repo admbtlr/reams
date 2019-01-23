@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import SplashScreen from 'react-native-splash-screen'
 import Feed from '../containers/Feed'
 import TextButton from './TextButton'
 import Heading from './Heading'
@@ -96,6 +97,10 @@ class FeedsScreen extends React.Component {
     this.disableScroll = this.disableScroll.bind(this)
     this.renderFeed = this.renderFeed.bind(this)
     this.clearFeedFilter = this.clearFeedFilter.bind(this)
+  }
+
+  componentDidMount = () => {
+    SplashScreen.hide()
   }
 
   clearFeedFilter = () => {

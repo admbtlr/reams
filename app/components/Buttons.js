@@ -2,6 +2,7 @@ import React from 'react'
 import {
   ActionSheetIOS,
   Animated,
+  Dimensions,
   Text,
   TouchableOpacity,
   View
@@ -25,6 +26,8 @@ class Buttons extends React.Component {
   constructor (props) {
     super(props)
     this.props = props
+
+    this.screenDimensions = Dimensions.get('window')
 
     this.showShareActionSheet = this.showShareActionSheet.bind(this)
     this.onSavePress = this.onSavePress.bind(this)
@@ -322,7 +325,9 @@ class Buttons extends React.Component {
       base: {
         position: 'absolute',
         bottom: 0,
-        width: '100%',
+        width: this.screenDimensions.width < 500 ?
+          '100%' :
+          500,
         zIndex: 10,
         flex: 1,
         flexDirection: 'row',

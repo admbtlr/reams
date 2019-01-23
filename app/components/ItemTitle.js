@@ -181,7 +181,7 @@ class ItemTitle extends React.Component {
         }
       }
       return null
-    })
+    }).then(maxSize => maxSize > 50 ? 50 : maxSize)
 
   }
 
@@ -223,7 +223,7 @@ class ItemTitle extends React.Component {
       return this.screenWidth * 0.05
     }
     if (this.props.styles.bg) {
-      return this.getInnerHorizontalMargin()
+      return this.screenWidth * 0.025
     }
     const {styles} = this.props
     const relativePadding = this.getInnerVerticalPadding(fontSize || styles.fontSize)
@@ -235,6 +235,9 @@ class ItemTitle extends React.Component {
   }
 
   getInnerHorizontalMargin () {
+    if (this.props.styles.bg) {
+      return this.screenWidth * 0.025
+    }
     return !this.props.showCoverImage ?
       0 :
       (this.props.coverImageStyles.isInline ?
@@ -743,10 +746,10 @@ class ItemTitle extends React.Component {
         backgroundColor: styles.bg ?
           'rgba(255,255,255,0.95)' :
           hslString(item.feed_color, 'desaturated'),
-        paddingLeft: this.screenWidth * 0.05,
-        paddingRight: this.screenWidth * 0.05,
-        paddingTop: this.screenWidth * 0.05,
-        paddingBottom: this.screenWidth * 0.05
+        paddingLeft: this.screenWidth * 0.025,
+        paddingRight: this.screenWidth * 0.025,
+        paddingTop: this.screenWidth * 0.025,
+        paddingBottom: this.screenWidth * 0.025
       }: {}
       excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
         'white' :
@@ -765,9 +768,9 @@ class ItemTitle extends React.Component {
     //     (styles.lineHeight > 36 ?
     //     Math.round(styles.lineHeight / 2) :
     //     Math.round(styles.lineHeight / 1.5))
-    const excerptLineHeight = coverImageStyles.isInline || !showCoverImage ?
-      Math.min(this.screenHeight, this.screenWidth) / 16 :
-      Math.min(this.screenHeight, this.screenWidth) / 16
+    let excerptLineHeight = Math.min(this.screenHeight, this.screenWidth) / 16
+    if (excerptLineHeight > 32) excerptLineHeight = 32
+
     return (
       <View>
         <Animated.View style={{
