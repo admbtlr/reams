@@ -268,6 +268,7 @@ class SwipeableViews extends Component {
 
     const indexMax = slideCount - 1;
     let index = startIndex + (startX - pageX) / viewLength;
+    let indexVirtualMax = 2;
     let newStartX;
 
     if (!resistance) {
@@ -275,14 +276,14 @@ class SwipeableViews extends Component {
       if (index < 0) {
         index = 0;
         newStartX = (index - startIndex) * viewLength + pageX;
-      } else if (index > indexMax) {
-        index = indexMax;
+      } else if ((index + this.state.indexActual - 1) > indexMax) {
+        index = indexVirtualMax;
         newStartX = (index - startIndex) * viewLength + pageX;
       }
     } else if (index < 0) {
       index = Math.exp(index * constant.RESISTANCE_COEF) - 1;
-    } else if (index > indexMax) {
-      index = indexMax + 1 - Math.exp((indexMax - index) * constant.RESISTANCE_COEF);
+    } else if ((index + this.state.indexActual - 1) > indexMax) {
+      index = indexVirtualMax + 1 - Math.exp((indexVirtualMax - index) * constant.RESISTANCE_COEF);
     }
 
     return {
