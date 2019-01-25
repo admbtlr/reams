@@ -77,7 +77,8 @@ function * getNextItemToDecorate (pendingDecoration) {
   const items = yield select(getItems)
   const feeds = yield select(getFeeds)
   const feedsWithoutDecoration = feeds.filter(feed => {
-    return items.filter(i => !i.readAt && i.feed_id === feed._id)
+    // external items handle their own decoration
+    return items.filter(i => !i.readAt && !i.is_external && i.feed_id === feed._id)
       .findIndex(item => typeof item.banner_image === 'undefined') === -1
   })
   let count = 0

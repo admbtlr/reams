@@ -1,6 +1,6 @@
 import { put, select } from 'redux-saga/effects'
 import { decorateItem } from './decorate-items'
-import { id } from '../../utils/merge-items.js'
+import { id } from '../../utils'
 import { addSavedItemToFirestore } from '../firestore/'
 import { getItems } from './selectors'
 
@@ -24,7 +24,7 @@ export function * saveExternalUrl (action) {
 
   // got to go back and find it cos of dodgy reducer side effects
   const items = yield select(getItems, 'saved')
-  item = items.find(i => i._id = item._id)
+  item = items.find(i => i._id === item._id)
 
   addSavedItemToFirestore(item)
 }

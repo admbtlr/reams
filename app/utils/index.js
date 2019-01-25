@@ -65,7 +65,7 @@ export const isIphoneX = () => {
 }
 
 export function id (item) {
-  if (item && typeof item === 'String') {
+  if (item && typeof item === 'string') {
     return hashFnv32a(item, true)
   } else if (item && item.url) {
     return hashFnv32a(item.url, true) + '-' + item.created_at
