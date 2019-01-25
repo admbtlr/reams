@@ -94,20 +94,27 @@ class AccountCredentialsForm extends React.Component {
 
   render = () => {
     const width = Dimensions.get('window').width
-    const initialValues = {
-      username: this.state.username,
-      password: this.state.password
-    }
+    const initialValues = this.props.service === 'rizzle' ?
+      {
+        email: this.state.email
+      } :
+      {
+        username: this.state.username,
+        password: this.state.password
+      }
+    const validationSchemaShape = this.props.service === 'rizzle' ?
+      {
+        email: Yup.string().required('Required')
+      } :
+      {
+        username: Yup.string().required('Required'),
+        password: Yup.string().required('Required')
+      }
     return (
       <Formik
         initialValues={initialValues}
         onSubmit={this.authenticateUser}
-        validationSchema={Yup.object().shape({
-          username: Yup.string()
-            .required('Required'),
-          password: Yup.string()
-            .required('Required')
-          })}
+        validationSchema={Yup.object().shape()}
         render={({
           handleChange,
           handleSubmit,
@@ -116,42 +123,59 @@ class AccountCredentialsForm extends React.Component {
           values
         }) => (
           <View>
-            <TextInput
-              onChangeText={handleChange('username')}
-              style={styles.textInputStyle}
-              value={values.username}
-            />
-            <Text style={styles.textLabelStyle}>User name</Text>
-            <View style={{
-              position: 'relative'
-            }}>
-              <TextInput
-                onChangeText={handleChange('password')}
-                secureTextEntry={true}
-                style={{
-                  ...styles.textInputStyle,
-                  flex: 1
-                }}
-                value={values.password}
-              />
-              { this.state.is1Password &&
+            { this.props.service === 'rizzle' ?
+              <View>
+                <TextInput
+                  onChangeText={handleChange('email')}
+                  style={styles.textInputStyle}
+                  value={values.email}
+                />
+                <Text style={styles.textLabelStyle}>Email</Text>
+                <Button
+                  disabled={isSubmitting || !isValid}
+                  title="Submit"
+                  onPress={handleSubmit}
+                />
+              </View> :
+              <View>
+                <TextInput
+                  onChangeText={handleChange('username')}
+                  style={styles.textInputStyle}
+                  value={values.username}
+                />
+                <Text style={styles.textLabelStyle}>User name</Text>
                 <View style={{
-                  position: 'absolute',
-                  top: 32,
-                  right: 10
+                  position: 'relative'
                 }}>
-                  <Button
-                    title='1P'
-                    onPress={() => this.onePasswordHandler(this.props.service)} />
+                  <TextInput
+                    onChangeText={handleChange('password')}
+                    secureTextEntry={true}
+                    style={{
+                      ...styles.textInputStyle,
+                      flex: 1
+                    }}
+                    value={values.password}
+                  />
+                  { this.state.is1Password &&
+                    <View style={{
+                      position: 'absolute',
+                      top: 32,
+                      right: 10
+                    }}>
+                      <Button
+                        title='1P'
+                        onPress={() => this.onePasswordHandler(this.props.service)} />
+                    </View>
+                  }
                 </View>
-              }
-            </View>
-            <Text style={styles.textLabelStyle}>Password</Text>
-            <Button
-              disabled={isSubmitting || !isValid}
-              title="Submit"
-              onPress={handleSubmit}
-            />
+                <Text style={styles.textLabelStyle}>Password</Text>
+                <Button
+                  disabled={isSubmitting || !isValid}
+                  title="Submit"
+                  onPress={handleSubmit}
+                />
+              </View>
+            }
           </View>
         )}
       />

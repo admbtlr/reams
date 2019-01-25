@@ -64,6 +64,12 @@ class AccountScreen extends React.Component {
               }}
             />
             <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
+            <TextButton
+              text="Log in to Rizzle"
+              buttonStyle={{ marginBottom: 42 }}
+              isExpandable={true}
+              renderExpandedView={() => <AccountCredentialsForm service='rizzle' />}
+            />
             <Text style={{
               ...textStyles,
               marginBottom: 21
