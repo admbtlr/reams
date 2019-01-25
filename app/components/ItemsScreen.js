@@ -19,7 +19,7 @@ import { hslString } from '../utils/colors'
 class ItemsScreen extends React.Component {
 
   componentDidMount () {
-    SplashScreen.hide()
+    // SplashScreen.hide()
   }
 
   // render = () => (

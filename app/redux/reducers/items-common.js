@@ -53,6 +53,9 @@ export const itemDecorationSuccess = (action, state) => {
     }
   }
 
+  if (!action.item) {
+    throw "action.item is not defined in itemDecorationSuccess"
+  }
   items = state.items.map(testAndDecorate).map(addStylesIfNecessary)
   return {
     ...state,
