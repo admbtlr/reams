@@ -515,7 +515,7 @@ class ItemTitle extends React.Component {
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
       paddingBottom: (!showCoverImage || coverImageStyles.isInline) ?
-        this.screenWidth * 0.1 :
+        this.screenWidth * 0.05 :
         ((styles.bg || styles.textAlign === 'center' || styles.borderWidth || coverImageStyles.isInline) ?
           innerPadding :
           styles.lineHeight),
@@ -668,6 +668,7 @@ class ItemTitle extends React.Component {
     const barView = this.renderBar()
     const excerptView = this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView)
     const dateView = this.renderDate()
+    const authorView = this.renderAuthor()
 
     return (
       <Animated.View style={{
@@ -700,6 +701,7 @@ class ItemTitle extends React.Component {
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&
           excerptView }
+        { authorView }
         { dateView }
         {(!showCoverImage && this.itemStartsWithImage()) ||
           (showCoverImage && styles.excerptInvertBG) ||
@@ -823,10 +825,34 @@ class ItemTitle extends React.Component {
       </View>)
   }
 
+  renderAuthor () {
+    const { coverImageStyles, date, item, showCoverImage, styles } = this.props
+    let authorStyle = {
+      color: showCoverImage && !coverImageStyles.isInline ? 'white' : 'black',
+      backgroundColor: 'transparent',
+      fontSize: 18,
+      fontFamily: this.getFontFamily('bold'),
+      lineHeight: 24,
+      textAlign: styles.textAlign,
+      paddingLeft: this.horizontalMargin,
+      paddingRight: this.horizontalMargin,
+      // marginBottom: (!showCoverImage || coverImageStyles.isInline) ?
+      //   this.screenWidth * 0.1 : 18,
+      padding: 0,
+      width: this.screenWidth,
+      // ...shadowStyle
+    }
+    if (item.author) {
+      return <Animated.Text style={authorStyle}>{this.props.item.author}</Animated.Text>
+    } else {
+      return null
+    }
+  }
+
   renderDate () {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let dateStyle = {
-      color: showCoverImage ? 'white' : hslString(item.feed_color, 'desaturated'),
+      color: showCoverImage && !coverImageStyles.isInline ? 'white' : hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
       fontSize: showCoverImage ? 14 : 14,
       fontFamily: 'IBMPlexMono-Light',
