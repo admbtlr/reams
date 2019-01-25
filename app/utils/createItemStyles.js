@@ -52,9 +52,11 @@ export function createItemStyles (item, prevStyles) {
 
   let isContain = false
   let isCoverInline = false
-  if (item.title &&
-    (item.imageDimensions && item.imageDimensions.height < deviceHeight * 0.7)) {
-    Math.random() > 0.4 ? isCoverInline = true : isContain = true
+  if (!!item.title && !!item.imageDimensions &&
+    (item.imageDimensions.height < deviceHeight * 0.7 ||
+    item.imageDimensions.height < item.imageDimensions.width / 2)) {
+    isCoverInline = true
+    // Math.random() > 0.4 ? isCoverInline = true : isContain = true
     isScreen = isMultiply = false
   }
 
