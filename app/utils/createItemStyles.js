@@ -207,7 +207,7 @@ const getFontClasses = function () {
   if (Math.random() > 0.3) {
     // sans heading, serif body
     // headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
-    headerClass += 'Sans1'
+    headerClass += 'Sans' + (Math.floor((Math.random() * 2)) + 1)
     bodyClass += 'Serif' + (Math.floor((Math.random() * 3)) + 1)
   } else {
     // serif heading, sans body
