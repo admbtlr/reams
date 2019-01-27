@@ -214,7 +214,9 @@ class CoverImage extends React.Component {
           {csb}
         </ColorBlending>
       )
-      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width * this.props.imageDimensions.height * 1.2
+      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width *
+        this.props.imageDimensions.height *
+        (isInline ? 1 : 1.2)
       const surface = (
         <Surface
           width={this.screenWidth * (isInline ? 1 : 1.2)}
