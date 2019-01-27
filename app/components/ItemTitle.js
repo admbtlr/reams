@@ -186,7 +186,7 @@ class ItemTitle extends React.Component {
   }
 
   getInnerVerticalPadding (fontSize) {
-    if (this.props.styles.bg) {
+    if (this.props.styles.showCoverImage && this.props.styles.bg) {
       return this.getInnerHorizontalMargin()
     }
     const {styles} = this.props
@@ -220,7 +220,8 @@ class ItemTitle extends React.Component {
 
   getInnerHorizontalPadding (fontSize) {
     if (!this.props.showCoverImage) {
-      return this.screenWidth * 0.05
+      return 0
+      // return this.screenWidth * 0.05
     }
     if (this.props.styles.bg) {
       return this.screenWidth * 0.025
@@ -446,7 +447,7 @@ class ItemTitle extends React.Component {
     const invertBGPadding = 5
     let paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
     const paddingBottom = styles.invertBG ? 2 : 0
-    let paddingLeft = styles.invertBG ? invertBGPadding : 0
+    let paddingLeft = showCoverImage && styles.invertBG ? invertBGPadding : 0
     if (styles.isItalic) {
       paddingLeft += styles.fontSize * 0.1
     }
@@ -497,7 +498,7 @@ class ItemTitle extends React.Component {
     // if center aligned and not full width, add left margin
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = styles.widthPercentage || 100
-    const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
+    const width = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
     this.horizontalMargin = (showCoverImage && this.props.coverImageStyles.isInline) ?
         this.screenWidth * 0.025 :
         this.screenWidth * 0.05
@@ -507,11 +508,11 @@ class ItemTitle extends React.Component {
     const innerViewStyle = {
       // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
-      marginLeft: defaultHorizontalMargin,
-      marginRight:  defaultHorizontalMargin,
+      marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
+      marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
       // marginBottom: !showCoverImage ? 0 : this.getInnerVerticalPadding(styles.fontSize),
       marginBottom: 0,
-      marginTop: showCoverImage ? defaultHorizontalMargin : defaultHorizontalMargin * 2,
+      marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
       paddingBottom: (!showCoverImage || coverImageStyles.isInline) ?
@@ -562,7 +563,7 @@ class ItemTitle extends React.Component {
 
     // TODO: if I decide that images with contain need shadow, change createItemStyles:86
     let shadowStyle = showCoverImage && styles.hasShadow ? {
-      textShadowColor: 'rgba(0,0,0,0.2)',
+      textShadowColor: 'rgba(0,0,0,0.1)',
       // textShadowOffset: { width: shadow, height: shadow }
       textShadowOffset: { width: 1, height: 1 },
       textShadowRadius: 10
@@ -751,8 +752,9 @@ class ItemTitle extends React.Component {
         paddingLeft: this.screenWidth * 0.025,
         paddingRight: this.screenWidth * 0.025,
         paddingTop: this.screenWidth * 0.025,
-        paddingBottom: this.screenWidth * 0.025
-      }: {}
+        paddingBottom: this.screenWidth * 0.025,
+        marginBottom: this.screenWidth * 0.025
+      } : {}
       excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
         'white' :
         excerptColor
@@ -772,6 +774,10 @@ class ItemTitle extends React.Component {
     //     Math.round(styles.lineHeight / 1.5))
     let excerptLineHeight = Math.min(this.screenHeight, this.screenWidth) / 16
     if (excerptLineHeight > 32) excerptLineHeight = 32
+
+    const fixPadding = styles.invertBG ?
+      { paddingLeft: 0 } :
+      {}
 
     return (
       <View>
@@ -802,6 +808,7 @@ class ItemTitle extends React.Component {
             ...fontStyle,
             // ...shadowStyle,
             ...excerptShadowStyle,
+            ...fixPadding,
             marginTop: 0,
             paddingTop: 0,
             // textShadowColor: 'rgba(0,0,0,0.4)',
@@ -831,7 +838,7 @@ class ItemTitle extends React.Component {
       color: showCoverImage && !coverImageStyles.isInline ? 'white' : 'black',
       backgroundColor: 'transparent',
       fontSize: 18,
-      fontFamily: this.getFontFamily('bold'),
+      fontFamily: this.getFontFamily('regular'),
       lineHeight: 24,
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
@@ -843,7 +850,7 @@ class ItemTitle extends React.Component {
       // ...shadowStyle
     }
     if (item.author) {
-      return <Animated.Text style={authorStyle}>{this.props.item.author}</Animated.Text>
+      return <Animated.Text style={authorStyle}>by {this.props.item.author}</Animated.Text>
     } else {
       return null
     }
