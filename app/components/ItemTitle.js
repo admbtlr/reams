@@ -435,7 +435,7 @@ class ItemTitle extends React.Component {
         '')
 
     let color = styles.isMonochrome ?
-      ((showCoverImage && !styles.bg) ?
+      ((showCoverImage && !styles.bg && !coverImageStyles.isScreen) ?
         'white' :
         'black') :
       (styles.isTone ?
@@ -835,7 +835,9 @@ class ItemTitle extends React.Component {
   renderAuthor () {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let authorStyle = {
-      color: showCoverImage && !coverImageStyles.isInline ? 'white' : 'black',
+      color: showCoverImage &&
+        !coverImageStyles.isInline &&
+        !coverImageStyles.isScreen ? 'white' : 'black',
       backgroundColor: 'transparent',
       fontSize: 18,
       fontFamily: this.getFontFamily('regular'),
@@ -859,7 +861,9 @@ class ItemTitle extends React.Component {
   renderDate () {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let dateStyle = {
-      color: showCoverImage && !coverImageStyles.isInline ? 'white' : hslString(item.feed_color, 'desaturated'),
+      color: showCoverImage &&
+        !coverImageStyles.isInline &&
+        !coverImageStyles.isScreen ? 'white' : hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
       fontSize: showCoverImage ? 14 : 14,
       fontFamily: 'IBMPlexMono-Light',
