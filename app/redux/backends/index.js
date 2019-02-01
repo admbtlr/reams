@@ -96,7 +96,7 @@ function addFeed (url) {
   }
 }
 
-function authenticate (username, password, backend) {
+function authenticate ({username, password, email}, backend) {
   switch (backend) {
     case 'rizzle':
       return

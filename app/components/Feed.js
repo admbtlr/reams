@@ -259,9 +259,9 @@ class Feed extends React.PureComponent {
   // }
 
   render = () => {
-    console.log('Render feed ' +
-      this.props.feedTitle + ' ' +
-      (this.state.isExpanded ? 'expanded!' : 'contracted'))
+    // console.log('Render feed ' +
+    //   this.props.feedTitle + ' ' +
+    //   (this.state.isExpanded ? 'expanded!' : 'contracted'))
 
     const {
       coverImageDimensions,

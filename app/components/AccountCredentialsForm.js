@@ -5,6 +5,7 @@ import { Button, Dimensions, Text, TextInput, View } from 'react-native'
 import OnePassword from 'react-native-onepassword'
 
 import { authenticate } from '../redux/backends'
+import { sendEmailLink } from '../redux/backends/rizzle'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -86,10 +87,15 @@ class AccountCredentialsForm extends React.Component {
     }
   }
 
-  async authenticateUser ({username, password}) {
-    await authenticate(username, password, this.props.service)
-    console.log(`username: ${username}`)
-    console.log(`password: ${password}`)
+  async authenticateUser ({username, password, email}) {
+    if (this.props.service === 'rizzle') {
+      await sendEmailLink(email)
+      console.log(`email: ${email}`)
+    } else {
+      await authenticate({username, password}, this.props.service)
+      console.log(`username: ${username}`)
+      console.log(`password: ${password}`)
+    }
   }
 
   render = () => {
