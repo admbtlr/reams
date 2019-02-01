@@ -1,6 +1,8 @@
 import {Dimensions} from 'react-native'
 import {createItemStyles} from './createItemStyles'
+import {getCachedImagePath} from './index'
 const RNFS = require('react-native-fs')
+const sanitizeHtml = require('sanitize-html')
 
 export function addStylesIfNecessary (item, index, items) {
   if (item.styles && !item.styles.temporary) {
@@ -51,6 +53,12 @@ export function fixRelativePaths (item) {
   return item
 }
 
+export function sanitizeContent (item) {
+  if (item.content_html) item.content_html = sanitizeHtml(item.content_html)
+  if (item.content_mercury) item.content_mercury = sanitizeHtml(item.content_mercury)
+  return item
+}
+
 export function nullValuesToEmptyStrings (item) {
   item.title = item.title ? item.title : ''
   item.content_html = item.content_html ? item.content_html : ''
@@ -58,6 +66,7 @@ export function nullValuesToEmptyStrings (item) {
 }
 
 export function addMercuryStuffToItem (item, mercury) {
+  mercury.content = sanitizeHtml(mercury.content)
   if (item.is_external) {
     return {
       ...item,
@@ -152,13 +161,16 @@ export function setShowCoverImage (item) {
 
 export function removeCachedCoverImages (items) {
   if (!items) return
-  for (let item of items) {
-    if (item.imagePath) {
-      RNFS.unlink(item.imagePath)
+  items.forEach(item => {
+    let path = getCachedImagePath(item)
+    if (path) {
+      RNFS.unlink(path)
         .catch((error) => {
           console.log(error)
         })
     }
-  }
+  })
+  // for (let item of items) {
+  // }
 }
 

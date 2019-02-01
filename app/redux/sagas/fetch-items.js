@@ -16,6 +16,7 @@ import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,
   fixRelativePaths,
   addStylesIfNecessary,
+  sanitizeContent,
   removeCachedCoverImages,
   setShowCoverImage,
   deflateItem
@@ -99,6 +100,7 @@ function * receiveItems (newItems) {
   items = items.map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
+    .map(sanitizeContent)
     .map(setShowCoverImage)
     .map(item => {
       return {
@@ -111,6 +113,12 @@ function * receiveItems (newItems) {
   yield call(setItemsAS, items)
   // yield call(incrementUnreadCountFS, items.length)
   feeds = incrementFeedUnreadCounts(items, feeds)
+
+  yield put({
+    type: 'FEEDS_UPDATE_FEEDS',
+    feeds
+  })
+
   // upsertFeedsFS(feeds)
 
   let itemsLite = items.map(deflateItem)
@@ -159,19 +167,23 @@ function incrementFeedUnreadCounts (items, feeds) {
 
 function * createFeedsWhereNeededAndAddInfo (items, feeds) {
   let feed
-  let newFeeds = []
-  let oldFeeds = []
+  let newOrUpdatedFeeds = []
   items.forEach(item => {
-    feed = feeds.find(feed => feed.id === item.feed_id || feed._id === item.feed_id)
+    feed = feeds.find(feed => feed.id === item.feed_id ||
+      feed._id === item.feed_id ||
+      feed.title === item.feed_title)
     if (!feed) {
       feed = {
-        id: item.feed_id,
         _id: id(),
-        title: item.feed_title,
-        color: getFeedColor(feeds)
       }
       feeds.push(feed)
     }
+    if (!feed.id || !feed.title || ! feed.color) {
+      feed.id = item.feed_id
+      feed.title = item.feed_title
+      feed.color = getFeedColor(feeds)
+    }
+
     item.feed_id = feed._id
     item.feed_color = feed.color
   })

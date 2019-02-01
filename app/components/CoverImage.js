@@ -68,7 +68,7 @@ class CoverImage extends React.Component {
     const {isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
     const absolute = {
       position: 'absolute',
-      top: resizeMode === 'contain' ? '-10%' : '0%',
+      top: resizeMode === 'contain' ? '0%' : '0%',
       height: resizeMode === 'contain' ? '120%' : '100%',
       left: '-10%',
       width: '120%'

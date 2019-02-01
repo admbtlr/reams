@@ -85,9 +85,9 @@ export function createItemStyles (item, prevStyles) {
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.7 + Math.random() * 0.2 :
     0.9 + Math.random() * 0.2
-  title.invertBG = Math.random() > 0.8 && !isCoverInline
+  title.invertBG = Math.random() > 0.8 && !isCoverInline && !isScreen
   title.isItalic = !title.isUpperCase && Math.random() > 0.7
-  title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
+  title.bg = !title.invertBG && !isCoverInline && !isBW && !isScreen && !isContain && !title.isVertical && Math.random() > 0.5
   title.hasShadow = !title.bg &&
       !isCoverInline &&
       !isMultiply
@@ -159,13 +159,14 @@ export function createCoverImageStyles (item) {
 
 const shouldBeVertical = (title) => {
   const words = title.split(' ')
-  if (proportionWordsOver12Chars(words) > 0.25 ||
-    (title.length < 72 && words.length < 6 && titleVariance(words) < 1.5) ||
-    (words.length < 4 && Math.random() > 0.5)) {
-    return true
-  } else {
-    return false
-  }
+  return words.length < 5
+  // if (proportionWordsOver12Chars(words) > 0.25 ||
+  //   (title.length < 72 && words.length < 6 && titleVariance(words) < 1.5) ||
+  //   (words.length < 4 && Math.random() > 0.5)) {
+  //   return true
+  // } else {
+  //   return false
+  // }
 }
 
 const proportionWordsOver12Chars = (words) => {

@@ -435,7 +435,7 @@ class ItemTitle extends React.Component {
         '')
 
     let color = styles.isMonochrome ?
-      ((showCoverImage && !styles.bg && !coverImageStyles.isScreen) ?
+      ((showCoverImage && !styles.bg) ?
         'white' :
         'black') :
       (styles.isTone ?
@@ -836,8 +836,7 @@ class ItemTitle extends React.Component {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let authorStyle = {
       color: showCoverImage &&
-        !coverImageStyles.isInline &&
-        !coverImageStyles.isScreen ? 'white' : 'black',
+        !coverImageStyles.isInline ? 'white' : 'black',
       backgroundColor: 'transparent',
       fontSize: 18,
       fontFamily: this.getFontFamily('regular'),
@@ -915,16 +914,16 @@ class ItemTitle extends React.Component {
     if (!showCoverImage ||
       // styles.invertBG ||
       // styles.bg ||
-      (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply) ||
-      (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isScreen)) {
+      // (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply) ||
+      // (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isScreen))
+      coverImageStyles.resizeMode === 'contain') {
       return 'transparent'
     } else if (coverImageStyles.resizeMode === 'contain' && !coverImageStyles.isMultiply) {
       return 'rgba(255,255,255,0.2)'
-    } else if (styles.isMonochrome ||
-      coverImageStyles.isBW ||
+    } else if (coverImageStyles.isBW ||
       coverImageStyles.isMultiply ||
       coverImageStyles.isScreen) {
-      return 'rgba(0,0,0,0.2)'
+      return 'rgba(0,0,0,0.3)'
     } else {
       return 'rgba(0,0,0,0.4)'
     }

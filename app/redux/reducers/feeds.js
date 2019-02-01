@@ -36,6 +36,12 @@ export function feeds (state = initialState, action) {
         feeds: state.feeds.filter(feed => feed._id !== action.id)
       }
 
+    case 'FEEDS_UPDATE_FEEDS':
+      return {
+        ...state,
+        feeds: action.feeds
+      }
+
     case 'FEEDS_SET_LAST_UPDATED':
       return {
         ...state,
