@@ -49,12 +49,12 @@ export function feeds (state = initialState, action) {
       feed.reading_time = feed.reading_time || 0
       feed.reading_time += action.readingTime
 
-      feed.num_read = feed.num_read || 0
-      feed.num_read++
+      feed.number_read = feed.number_read || 0
+      feed.number_read++
 
       const readingRate = action.readingTime / action.item.content_length
       feed.reading_rate = feed.reading_rate || 0
-      feed.reading_rate = (feed.reading_rate * (feed.num_read - 1) + readingRate) / feed.num_read
+      feed.reading_rate = (feed.reading_rate * (feed.number_read - 1) + readingRate) / feed.number_read
 
       return {
         ...state,
