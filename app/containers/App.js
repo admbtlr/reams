@@ -16,6 +16,10 @@ const mapDispatchToProps = (dispatch) => {
     addFeeds: (feeds) => dispatch({
       type: 'FEEDS_ADD_FEEDS',
       feeds
+    }),
+    screenChanged: (screen) => dispatch({
+      type: 'NAVIGATION_SCREEN_CHANGED',
+      screen
     })
   }
 }

@@ -42,6 +42,25 @@ export function feeds (state = initialState, action) {
         lastUpdated: action.lastUpdated
       }
 
+    case 'ITEM_ADD_READING_TIME':
+      const feeds = [ ...state.feeds ]
+      const feed = feeds.find(feed => feed._id === action.item.feed_id)
+
+      feed.reading_time = feed.reading_time || 0
+      feed.reading_time += action.readingTime
+
+      feed.num_read = feed.num_read || 0
+      feed.num_read++
+
+      const readingRate = action.readingTime / action.item.content_length
+      feed.reading_rate = feed.reading_rate || 0
+      feed.reading_rate = (feed.reading_rate * (feed.num_read - 1) + readingRate) / feed.num_read
+
+      return {
+        ...state,
+        feeds
+      }
+
     // case 'ITEMS_FETCH_DATA_SUCCESS':
     //   const feeds = state.feeds
     //   action.items.forEach(item => {

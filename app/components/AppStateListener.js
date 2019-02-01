@@ -16,6 +16,8 @@ class AppStateListener extends React.Component {
     this.props = props
 
     this.checkClipboard = this.checkClipboard.bind(this)
+    this.checkPageBucket = this.checkPageBucket.bind(this)
+    this.checkFeedBucket = this.checkFeedBucket.bind(this)
     this.handleAppStateChange = this.handleAppStateChange.bind(this)
     this.showSavePageModal = this.showSavePageModal.bind(this)
     this.showSaveFeedModal = this.showSaveFeedModal.bind(this)
@@ -25,6 +27,7 @@ class AppStateListener extends React.Component {
 
   async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.props.appWentActive()
       await this.checkClipboard()
       await this.checkPageBucket()
       this.checkFeedBucket()
@@ -33,6 +36,10 @@ class AppStateListener extends React.Component {
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
         this.props.fetchData()
       }
+    } else if (this.props.appState.match(/active/) &&
+      (nextAppState === 'inactive' ||
+      nextAppState === 'background')) {
+      this.props.appWentInactive()
     }
   }
 
@@ -67,6 +74,7 @@ class AppStateListener extends React.Component {
     SharedGroupPreferences.getItem('feed', this.group).then(value => {
       if (value !== null) {
         const url = value
+        const that = this
         SharedGroupPreferences.setItem('feed', null, this.group)
         console.log(`Got a feed to subscribe to: ${url}`)
         // TODO check that value is a feed url

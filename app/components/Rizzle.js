@@ -5,9 +5,10 @@ import {
   View
 } from 'react-native'
 import firebase from 'react-native-firebase'
-import configureStore from '../redux/store/configureStore.js'
+import { configureStore } from '../redux/store'
 import { Sentry } from 'react-native-sentry'
 import SplashScreen from 'react-native-splash-screen'
+import { NavigationEvents } from 'react-navigation'
 import AppContainer from '../containers/App.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'

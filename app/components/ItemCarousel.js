@@ -24,14 +24,16 @@ class ItemCarousel extends React.Component {
 
   render () {
     if (this.props.numItems > 0 || this.props.isOnboarding) {
-      return <SwipeableViews
-        overscanSlideAfter={BUFFER_LENGTH}
-        overscanSlideBefore={BUFFER_LENGTH}
-        slideRenderer={this.renderSlide.bind(this)}
-        onChangeIndex={this.onChangeIndex.bind(this)}
-        slideCount={this.props.isOnboarding ? 13 : this.props.numItems}
-        index={this.props.index}
-      />
+      return (
+        <SwipeableViews
+          overscanSlideAfter={BUFFER_LENGTH}
+          overscanSlideBefore={BUFFER_LENGTH}
+          slideRenderer={this.renderSlide.bind(this)}
+          onChangeIndex={this.onChangeIndex.bind(this)}
+          slideCount={this.props.isOnboarding ? 13 : this.props.numItems}
+          index={this.props.index}
+        />
+      )
     } else {
       return null
     }

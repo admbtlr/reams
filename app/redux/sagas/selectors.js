@@ -13,7 +13,7 @@ export function getDisplay (state) {
 }
 
 export function getCurrentItem (state) {
-  return state.itemsUnread[state.itemsMeta.index]
+  return state.itemsUnread.items[state.itemsMeta.index]
 }
 
 export function getIndex (state) {
