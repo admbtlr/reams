@@ -14,7 +14,11 @@ export async function sendEmailLink (email) {
   }
 
   // send email...
-  firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+  try {
+    firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+  } catch (e) {
+    console.log(e)
+  }
 
 }
 
