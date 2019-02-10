@@ -161,7 +161,7 @@ export function createCoverImageStyles (item) {
 
 const shouldBeVertical = (title) => {
   const words = title.split(' ')
-  return words.length < 5
+  return words.length < 6 && titleVariance(words) <= 1.5
   // if (proportionWordsOver12Chars(words) > 0.25 ||
   //   (title.length < 72 && words.length < 6 && titleVariance(words) < 1.5) ||
   //   (words.length < 4 && Math.random() > 0.5)) {
