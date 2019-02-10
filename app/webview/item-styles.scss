@@ -275,10 +275,10 @@ body {
     color: white;
     background-color: transparent;
     border: none;
-    font-size: 0.8rem;
-    line-height: 1rem;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
     font-style: normal;
-    padding: 1rem .5em;
+    padding: 1rem .5rem;
     margin: 1rem 0;
 
     @media (min-width: 600px) {
@@ -658,7 +658,7 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold"
   }
-  h2, h4, figcaption, blockquote {
+  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-Medium"
   }
 }
@@ -667,7 +667,7 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "Montserrat-Bold"
   }
-  h2, h4, figcaption, blockquote {
+  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-Light"
   }
 }
@@ -676,7 +676,7 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "IBMPlexSans-Bold"
   }
-  h2, h4, figcaption, blockquote {
+  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSans-Light"
   }
 }
@@ -685,7 +685,7 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "IBMPlexSerif-Bold"
   }
-  h2, h4, figcaption, blockquote {
+  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-Light"
   }
 }
@@ -694,7 +694,7 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "Arvo-Bold"
   }
-  h2, h4, figcaption, blockquote {
+  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Arvo"
   }
 }
@@ -703,7 +703,7 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Black"
   }
-  h2, h4, figcaption, blockquote {
+  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "PlayfairDisplay-Regular"
   }
 }
@@ -729,7 +729,7 @@ article > div:not(:last-of-type) {
       }
 
       blockquote.short-blockquote, .pullquote {
-        background-color: $value;
+        color: $value;
       }
 
       *:not(:first-of-type) div,

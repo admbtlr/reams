@@ -68,7 +68,7 @@ class CoverImage extends React.Component {
     const {isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
     const absolute = {
       position: 'absolute',
-      top: resizeMode === 'contain' ? '-10%' : '0%',
+      top: resizeMode === 'contain' ? '0%' : '0%',
       height: resizeMode === 'contain' ? '120%' : '100%',
       left: '-10%',
       width: '120%'
@@ -214,7 +214,9 @@ class CoverImage extends React.Component {
           {csb}
         </ColorBlending>
       )
-      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width * this.props.imageDimensions.height * 1.2
+      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width *
+        this.props.imageDimensions.height *
+        (isInline ? 1 : 1.2)
       const surface = (
         <Surface
           width={this.screenWidth * (isInline ? 1 : 1.2)}

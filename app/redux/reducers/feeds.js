@@ -36,10 +36,35 @@ export function feeds (state = initialState, action) {
         feeds: state.feeds.filter(feed => feed._id !== action.id)
       }
 
+    case 'FEEDS_UPDATE_FEEDS':
+      return {
+        ...state,
+        feeds: action.feeds
+      }
+
     case 'FEEDS_SET_LAST_UPDATED':
       return {
         ...state,
         lastUpdated: action.lastUpdated
+      }
+
+    case 'ITEM_ADD_READING_TIME':
+      const feeds = [ ...state.feeds ]
+      const feed = feeds.find(feed => feed._id === action.item.feed_id)
+
+      feed.reading_time = feed.reading_time || 0
+      feed.reading_time += action.readingTime
+
+      feed.number_read = feed.number_read || 0
+      feed.number_read++
+
+      const readingRate = action.readingTime / action.item.content_length
+      feed.reading_rate = feed.reading_rate || 0
+      feed.reading_rate = (feed.reading_rate * (feed.number_read - 1) + readingRate) / feed.number_read
+
+      return {
+        ...state,
+        feeds
       }
 
     // case 'ITEMS_FETCH_DATA_SUCCESS':

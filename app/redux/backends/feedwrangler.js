@@ -1,8 +1,8 @@
 import { InteractionManager } from 'react-native'
-
+import { store } from '../store'
 import {id} from '../../utils'
 
-const feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
+let feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
 const itemsFetchBatchSize = 100
 
 let itemsCache = []
@@ -23,6 +23,9 @@ export const authenticate = (username, password) => {
     })
     .then((response) => response.json())
     .then(json => {
+      if (json.success) {
+        return json.access_token
+      }
       console.log(json)
     })
 }

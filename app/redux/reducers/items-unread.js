@@ -160,6 +160,18 @@ export const itemsUnread = (state = initialState, action) => {
         items: state.items.filter(item => !item.readAt)
       }
 
+    case 'ITEM_ADD_READING_TIME':
+      newState = { ...state }
+      let item = newState.items.find(item => item._id === action.item._id)
+      if (!item) return newState
+
+      if (item.readingTime) {
+        item.readingTime += action.readingTime
+      } else {
+        item.readingTime = action.readingTime
+      }
+      return newState
+
     case 'ITEM_MARK_READ':
       return itemMarkRead(action, state)
 

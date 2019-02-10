@@ -9,6 +9,7 @@ import {
   Text,
   View
 } from 'react-native'
+import { NavigationEvents } from 'react-navigation'
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import LogoSpinnerContainer from '../containers/LogoSpinner.js'
@@ -19,62 +20,32 @@ import { hslString } from '../utils/colors'
 class ItemsScreen extends React.Component {
 
   componentDidMount () {
-    SplashScreen.hide()
+    this.focusListener = this.props.navigation.addListener('didFocus', this.props.screenDidFocus)
+    this.blurListener = this.props.navigation.addListener('willBlur', this.props.screenWillBlur)
   }
 
-  // render = () => (
-  //   <View style={{flex: 1}}>
-  //     <StatusBar
-  //       showHideTransition="slide"
-  //       barStyle="light-content" />
-  //     <ToolbarsContainer navigation={this.props.navigation}/>
-  //     <View style={styles.infoView} />
-  //     <Image
-  //       source={require('../assets/images/dark-splash.png')}
-  //       style={styles.image}
-  //       onLoad={() => {
-  //         SplashScreen.hide()
-  //       }}
-  //     />
-  //     <LogoSpinnerContainer />
-  //     <ItemCarouselContainer style={styles.ItemCarousel} />
-  //     <RizzleImageViewerContainer />
-  //   </View>
-  // )
+  componentWillUnmount () {
+    this.focusListener.remove()
+    this.blurListener.remove()
+  }
 
-  render = () => (
-    <View style={{
-      flex: 1,
-      backgroundColor: hslString('bodyBGLight')
-    }}>
-      <StatusBar
-        showHideTransition="slide"
-        barStyle="light-content" />
-      <ToolbarsContainer navigation={this.props.navigation}/>
-      <View style={styles.infoView} />
-      <LogoSpinnerContainer />
-      <ItemCarouselContainer style={styles.ItemCarousel} />
-      <RizzleImageViewerContainer />
-    </View>
-  )
-
-  // render = () => (
-  //   <View style={{flex: 1}}>
-  //     <StatusBar barStyle='light-content' />
-  //     <AppStateListenerContainer />
-  //     <ToolbarsContainer navigation={this.props.navigation}/>
-  //     <View style={styles.infoView} />
-  //     <Image
-  //       source={require('../assets/images/dark-splash.png')}
-  //       style={styles.image}
-  //       onLoad={() => {
-  //         SplashScreen.hide()
-  //       }}
-  //     />
-  //     <LogoSpinnerContainer />
-  //     <RizzleImageViewerContainer />
-  //   </View>
-  // )
+  render = () => {
+    return (
+      <View style={{
+        flex: 1,
+        backgroundColor: hslString('bodyBGLight')
+      }}>
+        <StatusBar
+          showHideTransition="slide"
+          barStyle="light-content" />
+        <ToolbarsContainer navigation={this.props.navigation}/>
+        <View style={styles.infoView} />
+        <LogoSpinnerContainer />
+        <ItemCarouselContainer style={styles.ItemCarousel} />
+        <RizzleImageViewerContainer />
+      </View>
+    )
+  }
 }
 
 const {height, width} = Dimensions.get('window')

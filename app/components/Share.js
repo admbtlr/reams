@@ -37,9 +37,10 @@ class Share extends React.Component {
   }
 
  checkForRSSHeader (body) {
-  matches = body.match(/(\<link[^>]*?rel="alternate".*?(rss|atom)\+xml.*\>)/)
+  // matches = body.match(/(\<link[^>]*?rel="alternate".*?(rss|atom)\+xml.*\>)/)
+  matches = body.match(/<link[^>]*?rel="alternate"[^>]*?(rss|atom)\+xml.*?>/)
   return (matches && matches.length > 0) ?
-    matches[1] :
+    matches[0] :
     null
 }
 
@@ -79,13 +80,22 @@ async searchForRSS (url) {
       const body = await res.text()
 
       let linkTag = this.checkForRSSHeader(body)
-      if (linkTag) return this.parseLinkTag(linkTag, homeUrl)
+      if (linkTag) {
+        console.log('FOUND RSS URL IN HEADER: ' + linkTag)
+        return this.parseLinkTag(linkTag, homeUrl)
+      }
 
       linkTag = this.checkForLinkToRssFile(body)
-      if (linkTag) return this.parseLinkTag(linkTag, homeUrl)
+      if (linkTag) {
+        console.log('FOUND RSS URL IN A LINK: ' + linkTag)
+        return this.parseLinkTag(linkTag, homeUrl)
+      }
 
       linkTag = this.checkForLinkWithRssInText(body)
-      if (linkTag) return this.parseLinkTag(linkTag, homeUrl)
+      if (linkTag) {
+        console.log('FOUND RSS URL IN A LINK WITH RSS TEXT: ' + linkTag)
+        return this.parseLinkTag(linkTag, homeUrl)
+      }
 
       return null
     } catch (error) {

@@ -1,6 +1,7 @@
 import { mergeItems, id } from '../../utils/merge-items'
 import moment from 'moment'
 
+const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
 const rizzle = require('./rizzle')
 
@@ -8,6 +9,7 @@ const MAX_ITEMS_TO_DOWNLOAD = 5000
 
 let backend
 let backends = {
+  feedbin,
   feedwrangler,
   rizzle
 }
@@ -99,6 +101,8 @@ function addFeed (url) {
 function authenticate ({username, password, email}, backend) {
   switch (backend) {
     case 'rizzle':
+      return
+    case 'feedbin':
       return
     case 'feedwrangler':
       return feedwrangler.authenticate(username, password)

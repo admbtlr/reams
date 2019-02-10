@@ -12,6 +12,10 @@ class FeedItem extends React.Component {
     super(props)
     this.props = props
 
+    if (__DEV__) {
+      this.props.item.styles = createItemStyles(this.props.item)
+    }
+
     this.scrollOffset = new Animated.Value(0)
 
     this.state = {

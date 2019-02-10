@@ -10,7 +10,8 @@ import { getFeeds, isFirstTime } from './selectors'
 
 function * prepareAndAddFeed (feed) {
   const feeds = yield select(getFeeds)
-  if (feeds.find(f => f.url === feed.url || f._id === feed._id)) return
+  if (feeds.find(f => (f.url && f.url === feed.url) ||
+    (f._id && f._id === feed._id))) return
   yield addFeed(feed.url)
   console.log(`Added feed: ${feed.title}`)
   feed._id = feed._id || id()
@@ -20,7 +21,7 @@ function * prepareAndAddFeed (feed) {
 
 export function * subscribeToFeed (action) {
   let {feed} = action
-  const addedFeed = prepareAndAddFeed(feed)
+  const addedFeed = yield prepareAndAddFeed(feed)
   if (!addedFeed) return
 
   // no need to wait until this has completed...

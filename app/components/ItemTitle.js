@@ -28,16 +28,16 @@ const fontStyles = {
   },
   headerFontSerif2: {
     bold: {
-      fontFamily: 'Arvo-Bold'
+      fontFamily: 'IBMPlexSerif-Bold'
     },
     boldItalic: {
-      fontFamily: 'Arvo-BoldItalic'
+      fontFamily: 'IBMPlexSerif-BoldItalic'
     },
     regular: {
-      fontFamily: 'Arvo'
+      fontFamily: 'IBMPlexSerif-Light'
     },
     regularItalic: {
-      fontFamily: 'Arvo-Italic'
+      fontFamily: 'IBMPlexSerif-LightItalic'
     }
   },
   headerFontSerif3: {
@@ -186,7 +186,7 @@ class ItemTitle extends React.Component {
   }
 
   getInnerVerticalPadding (fontSize) {
-    if (this.props.styles.bg) {
+    if (this.props.styles.showCoverImage && this.props.styles.bg) {
       return this.getInnerHorizontalMargin()
     }
     const {styles} = this.props
@@ -220,7 +220,8 @@ class ItemTitle extends React.Component {
 
   getInnerHorizontalPadding (fontSize) {
     if (!this.props.showCoverImage) {
-      return this.screenWidth * 0.05
+      return 0
+      // return this.screenWidth * 0.05
     }
     if (this.props.styles.bg) {
       return this.screenWidth * 0.025
@@ -354,11 +355,25 @@ class ItemTitle extends React.Component {
     const {font, styles, item} = this.props
     let fontFamily = font
 
-    if (fontVariant && fontVariant === 'alternate') {
-      fontFamily = font.indexOf('Serif') !== -1 ?
-        font.replace('Serif', 'Sans') :
-        font.replace('Sans', 'Serif')
+    switch (fontVariant) {
+      case 'alternate':
+        fontFamily = font.indexOf('Serif') !== -1 ?
+          font.replace('Serif', 'Sans') :
+          font.replace('Sans', 'Serif')
+        break
+      case 'excerpt':
+        if (fontFamily === 'headerFontSans2') {
+          fontFamily = 'headerFontSans1'
+        } else if (fontFamily === 'headerFontSerif1') {
+          fontFamily = 'headerFontSerif2'
+        }
+        break
+      case 'author':
+        if (fontFamily === 'headerFontSans2') {
+          fontFamily = 'headerFontSans1'
+        }
     }
+
     if (fontType) {
 
     } else if (styles.isBold && styles.isItalic) {
@@ -446,7 +461,7 @@ class ItemTitle extends React.Component {
     const invertBGPadding = 5
     let paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
     const paddingBottom = styles.invertBG ? 2 : 0
-    let paddingLeft = styles.invertBG ? invertBGPadding : 0
+    let paddingLeft = showCoverImage && styles.invertBG ? invertBGPadding : 0
     if (styles.isItalic) {
       paddingLeft += styles.fontSize * 0.1
     }
@@ -497,7 +512,7 @@ class ItemTitle extends React.Component {
     // if center aligned and not full width, add left margin
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = styles.widthPercentage || 100
-    const width = (this.screenWidth - defaultHorizontalMargin * 2) * widthPercentage / 100
+    const width = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
     this.horizontalMargin = (showCoverImage && this.props.coverImageStyles.isInline) ?
         this.screenWidth * 0.025 :
         this.screenWidth * 0.05
@@ -507,15 +522,15 @@ class ItemTitle extends React.Component {
     const innerViewStyle = {
       // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
-      marginLeft: defaultHorizontalMargin,
-      marginRight:  defaultHorizontalMargin,
+      marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
+      marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
       // marginBottom: !showCoverImage ? 0 : this.getInnerVerticalPadding(styles.fontSize),
       marginBottom: 0,
-      marginTop: showCoverImage ? defaultHorizontalMargin : defaultHorizontalMargin * 2,
+      marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
       paddingBottom: (!showCoverImage || coverImageStyles.isInline) ?
-        this.screenWidth * 0.1 :
+        this.screenWidth * 0.05 :
         ((styles.bg || styles.textAlign === 'center' || styles.borderWidth || coverImageStyles.isInline) ?
           innerPadding :
           styles.lineHeight),
@@ -562,7 +577,7 @@ class ItemTitle extends React.Component {
 
     // TODO: if I decide that images with contain need shadow, change createItemStyles:86
     let shadowStyle = showCoverImage && styles.hasShadow ? {
-      textShadowColor: 'rgba(0,0,0,0.2)',
+      textShadowColor: 'rgba(0,0,0,0.1)',
       // textShadowOffset: { width: shadow, height: shadow }
       textShadowOffset: { width: 1, height: 1 },
       textShadowRadius: 10
@@ -668,6 +683,7 @@ class ItemTitle extends React.Component {
     const barView = this.renderBar()
     const excerptView = this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView)
     const dateView = this.renderDate()
+    const authorView = this.renderAuthor()
 
     return (
       <Animated.View style={{
@@ -700,6 +716,7 @@ class ItemTitle extends React.Component {
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&
           excerptView }
+        { authorView }
         { dateView }
         {(!showCoverImage && this.itemStartsWithImage()) ||
           (showCoverImage && styles.excerptInvertBG) ||
@@ -749,8 +766,9 @@ class ItemTitle extends React.Component {
         paddingLeft: this.screenWidth * 0.025,
         paddingRight: this.screenWidth * 0.025,
         paddingTop: this.screenWidth * 0.025,
-        paddingBottom: this.screenWidth * 0.025
-      }: {}
+        paddingBottom: this.screenWidth * 0.025,
+        marginBottom: this.screenWidth * 0.025
+      } : {}
       excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
         'white' :
         excerptColor
@@ -770,6 +788,10 @@ class ItemTitle extends React.Component {
     //     Math.round(styles.lineHeight / 1.5))
     let excerptLineHeight = Math.min(this.screenHeight, this.screenWidth) / 16
     if (excerptLineHeight > 32) excerptLineHeight = 32
+
+    const fixPadding = styles.invertBG ?
+      { paddingLeft: 0 } :
+      {}
 
     return (
       <View>
@@ -800,6 +822,7 @@ class ItemTitle extends React.Component {
             ...fontStyle,
             // ...shadowStyle,
             ...excerptShadowStyle,
+            ...fixPadding,
             marginTop: 0,
             paddingTop: 0,
             // textShadowColor: 'rgba(0,0,0,0.4)',
@@ -810,7 +833,7 @@ class ItemTitle extends React.Component {
               excerptBg.backgroundColor ||
               !showCoverImage ?
               'regular' :
-              'bold'),
+              'bold', 'excerpt'),
             fontSize: Math.round(excerptLineHeight / 1.4),
             lineHeight: excerptLineHeight,
             letterSpacing: 0
@@ -823,10 +846,37 @@ class ItemTitle extends React.Component {
       </View>)
   }
 
+  renderAuthor () {
+    const { coverImageStyles, date, item, showCoverImage, styles } = this.props
+    let authorStyle = {
+      color: showCoverImage &&
+        !coverImageStyles.isInline ? 'white' : 'black',
+      backgroundColor: 'transparent',
+      fontSize: 18,
+      fontFamily: this.getFontFamily('regular', 'author'),
+      lineHeight: 24,
+      textAlign: styles.textAlign,
+      paddingLeft: this.horizontalMargin,
+      paddingRight: this.horizontalMargin,
+      // marginBottom: (!showCoverImage || coverImageStyles.isInline) ?
+      //   this.screenWidth * 0.1 : 18,
+      padding: 0,
+      width: this.screenWidth,
+      // ...shadowStyle
+    }
+    if (item.author) {
+      return <Animated.Text style={authorStyle}>by {this.props.item.author}</Animated.Text>
+    } else {
+      return null
+    }
+  }
+
   renderDate () {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let dateStyle = {
-      color: showCoverImage ? 'white' : hslString(item.feed_color, 'desaturated'),
+      color: showCoverImage &&
+        !coverImageStyles.isInline &&
+        !coverImageStyles.isScreen ? 'white' : hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
       fontSize: showCoverImage ? 14 : 14,
       fontFamily: 'IBMPlexMono-Light',
@@ -878,16 +928,16 @@ class ItemTitle extends React.Component {
     if (!showCoverImage ||
       // styles.invertBG ||
       // styles.bg ||
-      (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply) ||
-      (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isScreen)) {
+      // (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply) ||
+      // (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isScreen))
+      coverImageStyles.resizeMode === 'contain') {
       return 'transparent'
     } else if (coverImageStyles.resizeMode === 'contain' && !coverImageStyles.isMultiply) {
       return 'rgba(255,255,255,0.2)'
-    } else if (styles.isMonochrome ||
-      coverImageStyles.isBW ||
+    } else if (coverImageStyles.isBW ||
       coverImageStyles.isMultiply ||
       coverImageStyles.isScreen) {
-      return 'rgba(0,0,0,0.2)'
+      return 'rgba(0,0,0,0.3)'
     } else {
       return 'rgba(0,0,0,0.4)'
     }

@@ -140,7 +140,7 @@ class FeedsScreen extends React.Component {
   }
 
   render = () => {
-    console.log('Render feeds screen!')
+    // console.log('Render feeds screen!')
     const width = Dimensions.get('window').width
     const margin = width * 0.05
 
@@ -210,6 +210,8 @@ class FeedsScreen extends React.Component {
       feedColor={item.color}
       feedId={item._id}
       feedOriginalId={item.id}
+      feedNumRead={item.number_read}
+      feedReadingTime={item.reading_time}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
       selectFeed={this.selectFeed}

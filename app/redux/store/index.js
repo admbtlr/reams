@@ -10,7 +10,9 @@ import { getFirebase, reactReduxFirebase } from 'react-redux-firebase'
 import { reduxFirestore } from 'redux-firestore'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
-export default function configureStore () {
+let store = null
+
+function configureStore () {
   const composeEnhancers = composeWithDevTools({
     realtime: window.__DEV__
   })
@@ -34,7 +36,7 @@ export default function configureStore () {
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
 
-  const store = createStore(
+  store = createStore(
     persistedReducer,
     // combineReducers(reducers),
     {},
@@ -59,3 +61,5 @@ export default function configureStore () {
 
   return store
 }
+
+export { store, configureStore }

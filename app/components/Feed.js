@@ -270,6 +270,8 @@ class Feed extends React.PureComponent {
       feedColor,
       feedDescription,
       feedId,
+      feedNumRead,
+      feedReadingTime,
       feedOriginalId,
       numFeedItems
     } = this.props
@@ -287,6 +289,14 @@ class Feed extends React.PureComponent {
     const italic = {
       fontFamily: 'IBMPlexMono-LightItalic'
     }
+    const feedReadingTimeMins = Math.floor(feedReadingTime / 60)
+    const feedReadingTimeHours = Math.floor(feedReadingTimeMins / 60)
+    const feedReadingTimeString = (feedReadingTimeHours > 0 ?
+      (feedReadingTimeHours + ' hours ') : '') +
+      (feedReadingTimeMins > 0 ?
+        (feedReadingTimeHours > 0 ? feedReadingTimeMins % 60 : feedReadingTimeMins) + ' minutes' :
+        '')
+    const avgReadingTime = Math.round(feedReadingTime / feedNumRead)
     const feedStats = (
       <Text style={{
         color: '#666666',
@@ -295,14 +305,18 @@ class Feed extends React.PureComponent {
         // marginTop: this.margin * 2,
         marginBottom: this.margin
       }}>You’ve read
-        <Text style={bold}> 233 </Text>
+        <Text style={bold}> {feedNumRead || 0} </Text>
         stories from
-        <Text style={italic}> {feedTitle} </Text>
-        over the course of
-        <Text style={bold}> 17 hours</Text>.
-        It takes you an average of
-        <Text style={bold}> 3:43 </Text>
-        to read each story.</Text>)
+        <Text style={italic}> {feedTitle}</Text>
+        {feedNumRead > 0 &&
+          <Text> over the course of
+            <Text style={bold}> {feedReadingTimeString}</Text>.
+            It takes you an average of
+            <Text style={bold}> {avgReadingTime} seconds </Text>
+            to read each story
+          </Text>
+        }.
+        </Text>)
 
     const buttonStyle = {
       backgroundColor: hslString(feedColor, 'desaturated'),

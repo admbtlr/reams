@@ -3,13 +3,13 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Icon-Notification@2x.png",
+      "filename" : "Icon-20@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Icon-Notification@3x.png",
+      "filename" : "Icon-20@3x.png",
       "scale" : "3x"
     },
     {
@@ -33,7 +33,7 @@
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Icon-Small-40@2x.png",
+      "filename" : "Icon-40@2x.png",
       "scale" : "2x"
     },
     {
@@ -57,13 +57,13 @@
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "Icon-Notification-1.png",
+      "filename" : "Icon-21.png",
       "scale" : "1x"
     },
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "Icon-Notification@2x-1.png",
+      "filename" : "Icon-20@2x-1.png",
       "scale" : "2x"
     },
     {
@@ -81,13 +81,13 @@
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Icon-Small-42.png",
+      "filename" : "Icon-40.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Icon-Small-40@2x-1.png",
+      "filename" : "Icon-40@2x-1.png",
       "scale" : "2x"
     },
     {
@@ -116,19 +116,23 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "Icon-20.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
       "filename" : "Icon-76.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-Small-41.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
       "filename" : "Icon-76@2x.png",
       "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "Icon-Notification-2.png",
-      "unassigned" : true,
-      "scale" : "1x"
     },
     {
       "idiom" : "universal",
@@ -139,12 +143,6 @@
     {
       "idiom" : "universal",
       "filename" : "Icon-Small-40.png",
-      "unassigned" : true,
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "Icon-Small-41.png",
       "unassigned" : true,
       "scale" : "1x"
     },

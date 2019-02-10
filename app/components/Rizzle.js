@@ -5,14 +5,16 @@ import {
   View
 } from 'react-native'
 import firebase from 'react-native-firebase'
-import configureStore from '../redux/store/configureStore.js'
+import { configureStore } from '../redux/store'
 import { Sentry } from 'react-native-sentry'
 import SplashScreen from 'react-native-splash-screen'
+import { NavigationEvents } from 'react-navigation'
 import AppContainer from '../containers/App.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
 import ActionExtensionScreen from './Action'
 import { setBackend } from '../redux/backends'
+import { hslString } from '../utils/colors'
 
 export default class Rizzle extends Component {
   static defaultProps = {
@@ -47,7 +49,7 @@ export default class Rizzle extends Component {
 
     Sentry.config('https://1dad862b663640649e6c46afed28a37f@sentry.io/195309').install()
 
-    if (__DEV__) SplashScreen.hide()
+    // if (__DEV__) SplashScreen.hide()
 
     // this is a stupid hack to stop AppState firing on startup
     // which it does on the device in some circumstances
@@ -65,7 +67,9 @@ export default class Rizzle extends Component {
 
     const component = this.props.isActionExtension ?
       <ActionExtensionScreen /> :
-      (<View style={{flex: 1}}>
+      (<View style={{
+        flex: 1,
+        backgroundColor: hslString('rizzleBG')}}>
         <RizzleModalContainer />
         <StatusBar
           barStyle='light-content'

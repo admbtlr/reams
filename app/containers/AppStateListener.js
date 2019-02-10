@@ -33,6 +33,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     finishedCheckingBuckets: () => dispatch({
       type: 'UI_FINSHED_CHECKING_BUCKETS'
+    }),
+    appWentInactive: () => dispatch({
+      type: 'STATE_INACTIVE'
+    }),
+    appWentActive: () => dispatch({
+      type: 'STATE_ACTIVE'
     })
   }
 }

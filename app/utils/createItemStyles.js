@@ -52,9 +52,11 @@ export function createItemStyles (item, prevStyles) {
 
   let isContain = false
   let isCoverInline = false
-  if (item.title &&
-    (item.imageDimensions && item.imageDimensions.height < deviceHeight * 0.7)) {
-    Math.random() > 0.4 ? isCoverInline = true : isContain = true
+  if (!!item.title && !!item.imageDimensions &&
+    (item.imageDimensions.height < deviceHeight * 0.7 ||
+    item.imageDimensions.height < item.imageDimensions.width / 2)) {
+    isCoverInline = true
+    // Math.random() > 0.4 ? isCoverInline = true : isContain = true
     isScreen = isMultiply = false
   }
 
@@ -78,14 +80,16 @@ export function createItemStyles (item, prevStyles) {
     : 'left'
   title.title = item.title
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
-  title.isInline = !title.isVertical && Math.random() > 0.5
-  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) || Math.random() > 0.8
+  title.isInline = !title.isVertical && Math.random() > 0.4
+  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans2' && Math.random() > 0.5) ||
+    (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) ||
+    Math.random() > 0.8
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.7 + Math.random() * 0.2 :
     0.9 + Math.random() * 0.2
-  title.invertBG = Math.random() > 0.8 && !isCoverInline
+  title.invertBG = Math.random() > 0.8 && !isCoverInline && !isScreen
   title.isItalic = !title.isUpperCase && Math.random() > 0.7
-  title.bg = !title.invertBG && !isCoverInline && !isBW && !isContain && !title.isVertical && Math.random() > 0.5
+  title.bg = !title.invertBG && !isCoverInline && !isBW && !isScreen && !isContain && !title.isVertical && Math.random() > 0.5
   title.hasShadow = !title.bg &&
       !isCoverInline &&
       !isMultiply
@@ -157,13 +161,14 @@ export function createCoverImageStyles (item) {
 
 const shouldBeVertical = (title) => {
   const words = title.split(' ')
-  if (proportionWordsOver12Chars(words) > 0.25 ||
-    (title.length < 72 && words.length < 6 && titleVariance(words) < 1.5) ||
-    (words.length < 4 && Math.random() > 0.5)) {
-    return true
-  } else {
-    return false
-  }
+  return words.length < 6 && titleVariance(words) <= 1.5
+  // if (proportionWordsOver12Chars(words) > 0.25 ||
+  //   (title.length < 72 && words.length < 6 && titleVariance(words) < 1.5) ||
+  //   (words.length < 4 && Math.random() > 0.5)) {
+  //   return true
+  // } else {
+  //   return false
+  // }
 }
 
 const proportionWordsOver12Chars = (words) => {
@@ -205,7 +210,7 @@ const getFontClasses = function () {
   if (Math.random() > 0.3) {
     // sans heading, serif body
     // headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
-    headerClass += 'Sans1'
+    headerClass += 'Sans' + (Math.floor((Math.random() * 2)) + 1)
     bodyClass += 'Serif' + (Math.floor((Math.random() * 3)) + 1)
   } else {
     // serif heading, sans body
