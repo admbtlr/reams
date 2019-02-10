@@ -80,8 +80,10 @@ export function createItemStyles (item, prevStyles) {
     : 'left'
   title.title = item.title
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
-  title.isInline = !title.isVertical && Math.random() > 0.5
-  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) || Math.random() > 0.8
+  title.isInline = !title.isVertical && Math.random() > 0.4
+  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans2' && Math.random() > 0.5) ||
+    (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) ||
+    Math.random() > 0.8
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.7 + Math.random() * 0.2 :
     0.9 + Math.random() * 0.2

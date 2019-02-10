@@ -28,16 +28,16 @@ const fontStyles = {
   },
   headerFontSerif2: {
     bold: {
-      fontFamily: 'Arvo-Bold'
+      fontFamily: 'IBMPlexSerif-Bold'
     },
     boldItalic: {
-      fontFamily: 'Arvo-BoldItalic'
+      fontFamily: 'IBMPlexSerif-BoldItalic'
     },
     regular: {
-      fontFamily: 'Arvo'
+      fontFamily: 'IBMPlexSerif-Light'
     },
     regularItalic: {
-      fontFamily: 'Arvo-Italic'
+      fontFamily: 'IBMPlexSerif-LightItalic'
     }
   },
   headerFontSerif3: {
@@ -355,11 +355,25 @@ class ItemTitle extends React.Component {
     const {font, styles, item} = this.props
     let fontFamily = font
 
-    if (fontVariant && fontVariant === 'alternate') {
-      fontFamily = font.indexOf('Serif') !== -1 ?
-        font.replace('Serif', 'Sans') :
-        font.replace('Sans', 'Serif')
+    switch (fontVariant) {
+      case 'alternate':
+        fontFamily = font.indexOf('Serif') !== -1 ?
+          font.replace('Serif', 'Sans') :
+          font.replace('Sans', 'Serif')
+        break
+      case 'excerpt':
+        if (fontFamily === 'headerFontSans2') {
+          fontFamily = 'headerFontSans1'
+        } else if (fontFamily === 'headerFontSerif1') {
+          fontFamily = 'headerFontSerif2'
+        }
+        break
+      case 'author':
+        if (fontFamily === 'headerFontSans2') {
+          fontFamily = 'headerFontSans1'
+        }
     }
+
     if (fontType) {
 
     } else if (styles.isBold && styles.isItalic) {
@@ -819,7 +833,7 @@ class ItemTitle extends React.Component {
               excerptBg.backgroundColor ||
               !showCoverImage ?
               'regular' :
-              'bold'),
+              'bold', 'excerpt'),
             fontSize: Math.round(excerptLineHeight / 1.4),
             lineHeight: excerptLineHeight,
             letterSpacing: 0
@@ -839,7 +853,7 @@ class ItemTitle extends React.Component {
         !coverImageStyles.isInline ? 'white' : 'black',
       backgroundColor: 'transparent',
       fontSize: 18,
-      fontFamily: this.getFontFamily('regular'),
+      fontFamily: this.getFontFamily('regular', 'author'),
       lineHeight: 24,
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
