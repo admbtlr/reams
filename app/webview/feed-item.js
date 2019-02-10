@@ -212,6 +212,7 @@ function capitaliseFirstChildP(el) {
   if (!el.children) {
    return
   }
+  var maxCaps = 15
   for (var i = 0; i < el.children.length; i++) {
     if (el.children[i].tagName === 'P') {
       var p = el.children[i]
@@ -219,20 +220,21 @@ function capitaliseFirstChildP(el) {
       var childNodes = p.childNodes
       for (var j = 0; j < childNodes.length; j++) {
         if (childNodes[j].nodeType === 3) {
-          childNodes[j].nodeValue = capitaliseText(childNodes[j].nodeValue)
-          break
-        } else if (childNodes[j].nodeType === 3 && childNodes[j].innerText.length > 0) {
-          childNodes[j].innerText = capitaliseText(childNodes[j].innerText)
-          break
+          childNodes[j].nodeValue = capitaliseText(childNodes[j].nodeValue, maxCaps)
+          maxCaps -= childNodes[j].nodeValue.length
+        } else if (childNodes[j].innerText.length > 0) {
+          childNodes[j].innerText = capitaliseText(childNodes[j].innerText, maxCaps)
+          maxCaps -= childNodes[j].innerText.length
         }
+        if (maxCaps <= 0) break
       }
       break
     }
   }
 }
 
-function capitaliseText (text) {
-  if (text.split(/[,\.;:\?!]/, 2)[0].length < 25) {
+function capitaliseText (text, maxCaps) {
+  if (text.split(/[,\.;:\?!]/, 2)[0].length < maxCaps) {
     var splitted = text.split(/([,\.;:\?!])/)
     splitted[0] = splitted[0].toUpperCase()
     return splitted.join('')
@@ -241,7 +243,7 @@ function capitaliseText (text) {
     let totalLength = 0
     return splitted.map((word, index) => {
       totalLength += word.length
-      return totalLength < 12 ? word.toUpperCase() : word
+      return totalLength < maxCaps ? word.toUpperCase() : word
     }).join(' ')
   }
 
