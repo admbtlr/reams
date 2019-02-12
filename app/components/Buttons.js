@@ -136,9 +136,10 @@ class Buttons extends React.Component {
     const strokeColor = 'black'
     const showMercuryContent = item && item.showMercuryContent
     const isMercuryButtonEnabled = item && item.content_mercury
-    const saveStrokeColour = this.props.displayMode && this.props.displayMode == 'unread' ?
-      strokeColor :
+    const saveStrokeColour = item && item.isSaved ?
+      '#666666' :
       strokeColor
+    const saveFillColor = item && item.isSaved ? 'white' : 'none'
     // const backgroundColor = this.props.displayMode && this.props.displayMode == 'unread' ?
     //   hslString('rizzleBG') :
     //   hslString('rizzleBGAlt')
@@ -196,17 +197,16 @@ class Buttons extends React.Component {
             height='50'
             width='50'
             style={{
-              transform: [{
-                scale: 0.5
-              }]
+              transform: [
+                { translateX: -3 },
+                { translateY: -2 }
+              ]
             }}>
-            <Polygon
-              points='25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321'
-              stroke={item && item.isSaved ? backgroundColor : strokeColor}
-              strokeWidth='3'
-              strokeLineJoin='round'
-              fill='none'
-            />
+            <Path fill={saveFillColor} stroke={saveStrokeColour} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
+            <Path fill={saveFillColor} stroke={saveStrokeColour} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
+            <Path fill={saveFillColor} stroke={saveStrokeColour} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
+            <Path fill={saveFillColor} stroke={saveStrokeColour} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
+            <Rect fill={saveFillColor} stroke={saveStrokeColour} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
           </Svg>
         </RizzleButton>
         <RizzleButton
