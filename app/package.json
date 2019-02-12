@@ -43,6 +43,7 @@
     "react-native-splash-screen": "^3.0.6",
     "react-native-svg": "^6.4.0",
     "react-native-swiss-knife": "0.0.5",
+    "react-native-text-size": "^3.0.0",
     "react-native-touchable-scale": "^2.0.0",
     "react-native-webview-autoheight": "^1.0.4",
     "react-native-xml2js": "^1.0.3",

@@ -5,6 +5,7 @@ import MeasureText from 'react-native-measure-text'
 import moment from 'moment'
 import quote from 'headline-quotes'
 
+import TextStroke from './TextStroke'
 import {hslString} from '../utils/colors'
 import {isIphoneX} from '../utils'
 import {getTopBarHeight} from './TopBar'
@@ -662,12 +663,12 @@ class ItemTitle extends React.Component {
         if (styles.invertBG) {
           return (<View key={index} style={{
             ...invertedTitleWrapperStyle
-          }}><Text style={{
+          }}><TextStroke style={{
             ...fontStyle,
             ...(wordStyles && wordStyles[index]),
             ...invertedTitleStyle,
             height: styles.lineHeight + paddingTop + paddingBottom
-          }}>{word} </Text>
+          }}>{word} </TextStroke>
           </View>)
         } else {
           return (<Animated.Text key={index} style={{
