@@ -454,7 +454,7 @@ class ItemTitle extends React.Component {
         'black') :
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
-        hslString(this.props.item.feed_color, coverImageColorPalette))
+        hslString(this.props.item.feed_color, 'desaturated'))
     if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
     if (!showCoverImage) color = 'black'
 
