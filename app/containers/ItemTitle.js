@@ -10,7 +10,8 @@ const mapStateToProps = (state, ownProps) => {
     // need to respond to styles changes, because component updates its own font size
     styles: items[ownProps.index].styles.title,
     // this is just a foul hack to see what's going on
-    fontSize: items[ownProps.index].styles.title.fontSize
+    fontSize: items[ownProps.index].styles.title.fontSize,
+    isDarkBackground: state.webView.isDarkBackground
   }
 }
 
