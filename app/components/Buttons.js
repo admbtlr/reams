@@ -18,7 +18,9 @@ class Buttons extends React.Component {
     visibleAnimCount: new Animated.Value(80),
     visibleAnimSave: new Animated.Value(80),
     visibleAnimShare: new Animated.Value(80),
-    visibleAnimMercury: new Animated.Value(80)
+    visibleAnimMercury: new Animated.Value(80),
+    toggleAnimMercury: new Animated.Value(0),
+    toggleAnimSaved: new Animated.Value(0)
   }
 
   areButtonsVisible = false
@@ -33,6 +35,8 @@ class Buttons extends React.Component {
     this.onSavePress = this.onSavePress.bind(this)
     this.onDisplayPress = this.onDisplayPress.bind(this)
     this.onMercuryPress = this.onMercuryPress.bind(this)
+    this.startToggleAnimationMercury = this.startToggleAnimationMercury.bind(this)
+    this.startToggleAnimationSaved = this.startToggleAnimationSaved.bind(this)
   }
 
   showShareActionSheet () {
@@ -104,7 +108,24 @@ class Buttons extends React.Component {
     //     hslString('rizzleBG'))
   }
 
+  startToggleAnimationMercury () {
+    const toValue = Math.abs(this.state.toggleAnimMercury._value - 1)
+    Animated.timing(this.state.toggleAnimMercury, {
+      toValue,
+      duration: 400
+    }).start()
+  }
+
+  startToggleAnimationSaved () {
+    const toValue = Math.abs(this.state.toggleAnimSaved._value - 1)
+    Animated.timing(this.state.toggleAnimSaved, {
+      toValue,
+      duration: 400
+    }).start()
+  }
+
   render () {
+    console.log('RENDER BUTTONS!')
     const {prevItem, currentItem, nextItem} = this.props
     const items = prevItem ?
       [prevItem, currentItem, nextItem] :
@@ -114,10 +135,10 @@ class Buttons extends React.Component {
     const opacityRanges = [
       {
         inputRange: [0, 1, 2],
-        outputRange: [1, 1, 1]
+        outputRange: [1, 0, 0]
       }, {
         inputRange: [0, 1, 2],
-        outputRange: [0, 1, 1]
+        outputRange: [0, 1, 0]
       }, {
         inputRange: [0, 1, 2],
         outputRange: [0, 0, 1]
@@ -130,6 +151,12 @@ class Buttons extends React.Component {
     return items.map((item, i) => this.
       renderButtons(item, opacityAnims[i], item === currentItem))
     // return this.renderButtons(currentItem)
+  }
+
+  shouldComponentUpdate (nextProps, nexState) {
+    return this.props.index !== nextProps.index ||
+      this.props.displayMode !== nextProps.displayMode ||
+      this.props.decoratedCount !== nextProps.decoratedCount
   }
 
   renderButtons (item, opacityAnim, isCurrent) {
@@ -146,6 +173,15 @@ class Buttons extends React.Component {
     const feedColor = item ? hslString(item.feed_color, 'desaturated') : null
     // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : strokeColor
     const backgroundColor = this.getBackgroundColor(item)
+    // const mercuryButtonBackgroundColor = this.state.toggleAnimMercury ?
+    //   this.state.toggleAnimMercury.interpolate({
+    //     inputRange: [0, 1],
+    //     outputRange: [this.state.mercuryfeedColor, backgroundColor]
+    //   }) :
+    //   backgroundColor
+    // const mercuryButtonOpacity = this.state.toggleAnimMercury
+    const anim = new Animated.Value(0)
+
     return (
       <Animated.View
         pointerEvents={isCurrent ? 'box-none' : 'none'}
@@ -183,8 +219,9 @@ class Buttons extends React.Component {
           }
         </RizzleButton>
         <RizzleButton
-          backgroundColor={item && item.isSaved ? feedColor : backgroundColor}
+          backgroundColor={backgroundColor}
           borderColor={feedColor}
+          startToggleAnimation={this.startToggleAnimationSaved}
           style={{
             paddingLeft: 1,
             transform: [{
@@ -202,12 +239,39 @@ class Buttons extends React.Component {
                 { translateY: -2 }
               ]
             }}>
-            <Path fill={saveFillColor} stroke={saveStrokeColour} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
-            <Path fill={saveFillColor} stroke={saveStrokeColour} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
-            <Path fill={saveFillColor} stroke={saveStrokeColour} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
-            <Path fill={saveFillColor} stroke={saveStrokeColour} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
-            <Rect fill={saveFillColor} stroke={saveStrokeColour} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
+            <Path fill="none" stroke={strokeColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
+            <Path fill="none" stroke={strokeColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
+            <Path fill="none" stroke={strokeColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
+            <Path fill="none" stroke={strokeColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
+            <Rect fill="none" stroke={strokeColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
           </Svg>
+          <Animated.View style={{
+            position: 'absolute',
+            left: -1,
+            top: -1,
+            width: 56,
+            height: 56,
+            borderRadius: 28,
+            padding: 2,
+            opacity: this.getSavedToggleOpacity(item, isCurrent),
+            backgroundColor: feedColor
+          }}>
+            <Svg
+              height='50'
+              width='50'
+              style={{
+                transform: [
+                  { translateX: -3 },
+                  { translateY: -2 }
+                ]
+              }}>
+              <Path fill="white" stroke="rgba(0,0,0,0.3)" d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
+              <Path fill="white" stroke="rgba(0,0,0,0.3)" d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
+              <Path fill="white" stroke="rgba(0,0,0,0.3)" d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
+              <Path fill="white" stroke="rgba(0,0,0,0.3)" d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
+              <Rect fill="white" stroke="rgba(0,0,0,0.3)" id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
+            </Svg>
+          </Animated.View>
         </RizzleButton>
         <RizzleButton
           backgroundColor={backgroundColor}
@@ -264,8 +328,9 @@ class Buttons extends React.Component {
           </Svg>
         </RizzleButton>
         <RizzleButton
-          backgroundColor={item && item.showMercuryContent ? feedColor : backgroundColor}
+          backgroundColor={backgroundColor}
           borderColor={isMercuryButtonEnabled ? feedColor : backgroundColor}
+          startToggleAnimation={this.startToggleAnimationMercury}
           style={{
             paddingLeft: 2,
             transform: [{
@@ -274,50 +339,81 @@ class Buttons extends React.Component {
           }}
           onPress={isMercuryButtonEnabled ? this.onMercuryPress : () => false}
         >
-          { item && item.showMercuryContent &&
+          <Svg
+            style={{
+              position: 'absolute',
+              left: 9,
+              top: 9, // transform: [{
+              //   translateX: 7
+              // }, {
+              //   translateY: 0
+              // }],
+              opacity: isMercuryButtonEnabled ? 1 : 0.3
+            }}
+            height='32'
+            width='34'>
+            <Path d="M0.5,1.5 L32.5,1.5" strokeWidth="3" stroke={strokeColor}></Path>
+            <Path d="M0.5,7.5 L32.5,7.5" strokeWidth="3" stroke={strokeColor}></Path>
+            <Path d="M0.5,13.5 L32.5,13.5" opacity="0.2" stroke={strokeColor}></Path>
+            <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke={strokeColor}></Path>
+            <Path d="M0.5,19.5 L32.5,19.5" opacity="0.2" stroke={strokeColor}></Path>
+            <Path d="M0.5,25.5 L32.5,25.5" opacity="0.2" stroke={strokeColor}></Path>
+            <Path d="M0.5,31.5 L32.5,31.5" opacity="0.2" stroke={strokeColor}></Path>
+          </Svg>
+          <Animated.View style={{
+            position: 'absolute',
+            left: -1,
+            top: -1,
+            width: 56,
+            height: 56,
+            borderRadius: 28,
+            padding: 9,
+            opacity: this.getMercuryToggleOpacity(item, isCurrent),
+            backgroundColor: feedColor
+          }}>
             <Svg
-              style={{
-                transform: [{
-                  translateX: 7
-                }, {
-                  translateY: -1
-                }]
-              }}
               height='32'
               width='34'>
               <Path d="M10.5,1.5 L32.5,1.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
               <Path d="M10.5,7.5 L32.5,7.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
               <Rect fill={backgroundColor} x="0" y="0" width="7" height="9"></Rect>
-              <Path d="M1.5,13.5 L32.5,13.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
-              <Path d="M1.5,19.5 L32.5,19.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
-              <Path d="M1.5,25.5 L32.5,25.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
-              <Path d="M1.5,31.5 L32.5,31.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M0.5,13.5 L32.5,13.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M0.5,19.5 L32.5,19.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M0.5,25.5 L32.5,25.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
+              <Path d="M0.5,31.5 L32.5,31.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
             </Svg>
-          }
-          { !(item && item.showMercuryContent) &&
-            <Svg
-              style={{
-                transform: [{
-                  translateX: 7
-                }, {
-                  translateY: 0
-                }],
-                opacity: isMercuryButtonEnabled ? 1 : 0.3
-              }}
-              height='32'
-              width='34'>
-              <Path d="M0.5,1.5 L31.5,1.5" strokeWidth="3" stroke={strokeColor}></Path>
-              <Path d="M0.5,7.5 L31.5,7.5" strokeWidth="3" stroke={strokeColor}></Path>
-              <Path d="M0.5,13.5 L31.5,13.5" opacity="0.2" stroke={strokeColor}></Path>
-              <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke={strokeColor}></Path>
-              <Path d="M0.5,19.5 L31.5,19.5" opacity="0.2" stroke={strokeColor}></Path>
-              <Path d="M0.5,25.5 L31.5,25.5" opacity="0.2" stroke={strokeColor}></Path>
-              <Path d="M0.5,31.5 L31.5,31.5" opacity="0.2" stroke={strokeColor}></Path>
-            </Svg>
-          }
+          </Animated.View>
         </RizzleButton>
       </Animated.View>
     )
+  }
+
+  getMercuryToggleOpacity (item, isCurrent) {
+    if (isCurrent) {
+      const currentToggleVal = this.state.toggleAnimMercury._value
+      return !!item.showMercuryContent === !!currentToggleVal ?
+        this.state.toggleAnimMercury :
+        this.state.toggleAnimMercury.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 0]
+        })
+    } else {
+      return item.showMercuryContent ? 1 : 0
+    }
+  }
+
+  getSavedToggleOpacity (item, isCurrent) {
+    if (isCurrent) {
+      const currentToggleVal = this.state.toggleAnimSaved._value
+      return !!item.isSaved === !!currentToggleVal ?
+        this.state.toggleAnimSaved :
+        this.state.toggleAnimSaved.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 0]
+        })
+    } else {
+      return item.isSaved ? 1 : 0
+    }
   }
 
   getStyles() {
