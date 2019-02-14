@@ -61,8 +61,7 @@ class Share extends React.Component {
   console.log('Checking for link with RSS in text')
   body = body.replace(/<script[^]*?<\/script>/mg, '')
   matches = body.match(/href[^>]*?>(rss|atom)/i)
-  console.log(matches[0])
-  return (matches && matches.length > 0) ?
+  return (matches && matches.length > 0 && matches[0]) ?
     matches[0] :
     null
 }
@@ -101,6 +100,7 @@ async searchForRSS (url) {
     } catch (error) {
       console.log(`Error fetching page: ${error.message}`)
       throw `Error fetching page: ${error.message}`
+      return null
     }
   }
 
