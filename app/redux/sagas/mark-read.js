@@ -25,6 +25,7 @@ export function * markLastItemRead (action) {
 
 export function * clearReadItems () {
   const items = yield select(getUnreadItems)
+  const displayMode = yield select(getDisplay)
   const readItems = items.filter(item => !!item.readAt)
 
   try {
@@ -40,7 +41,8 @@ export function * clearReadItems () {
   // (this will also inflate the relevant items)
   yield put({
     type: 'ITEMS_UPDATE_CURRENT_INDEX',
-    index: 0
+    index: 0,
+    displayMode
   })
 
   // TODO: now remove the cached images for all the read items

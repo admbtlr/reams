@@ -22,7 +22,8 @@ import {
 // }
 
 export const initialState = {
-  items: []
+  items: [],
+  index: 0
 }
 
 export function itemsHasErrored (state = false, action) {
@@ -104,6 +105,15 @@ export const itemsUnread = (state = initialState, action) => {
     //       ...state.items
     //     ]
     //   }
+
+    case 'ITEMS_UPDATE_CURRENT_INDEX':
+      if (action.displayMode === 'unread') {
+        newState.index = action.index
+      }
+      return {
+        ...state,
+        ...newState
+      }
 
     case 'ITEMS_BATCH_FETCHED':
       items = [...state.items]
