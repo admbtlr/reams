@@ -6,7 +6,7 @@ export async function sendEmailLink (email) {
   const url = 'rizzle://account'
   const actionCodeSettings = {
     // Your redirect URL
-    url,
+    url: 'https://localhost:4200/login',
     handleCodeInApp: true,
     iOS: {
       bundleId: 'com.adam-butler.rizzle',
