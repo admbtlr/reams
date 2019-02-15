@@ -20,6 +20,7 @@ import { hslString } from '../utils/colors'
 class ItemsScreen extends React.Component {
 
   componentDidMount () {
+    SplashScreen.hide()
     this.focusListener = this.props.navigation.addListener('didFocus', this.props.screenDidFocus)
     this.blurListener = this.props.navigation.addListener('willBlur', this.props.screenWillBlur)
   }
