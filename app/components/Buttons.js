@@ -124,6 +124,17 @@ class Buttons extends React.Component {
     }).start()
   }
 
+  shouldComponentUpdate (nextProps, nexState) {
+    // don't update if the only thing that's changed is saved or mercury state
+    return !(this.props.index === nextProps.index &&
+      this.props.displayMode === nextProps.displayMode &&
+      this.props.decoratedCount === nextProps.decoratedCount &&
+      this.props.toolbar === nextProps.toolbar &&
+      this.props.numItems === nextProps.numItems &&
+      (this.props.isCurrentItemSaved !== nextProps.isCurrentItemSaved ||
+        this.props.showMercuryContent !== nextProps.showMercuryContent))
+  }
+
   render () {
     console.log('RENDER BUTTONS!')
     const {prevItem, currentItem, nextItem} = this.props
@@ -151,12 +162,6 @@ class Buttons extends React.Component {
     return items.map((item, i) => this.
       renderButtons(item, opacityAnims[i], item === currentItem))
     // return this.renderButtons(currentItem)
-  }
-
-  shouldComponentUpdate (nextProps, nexState) {
-    return this.props.index !== nextProps.index ||
-      this.props.displayMode !== nextProps.displayMode ||
-      this.props.decoratedCount !== nextProps.decoratedCount
   }
 
   renderButtons (item, opacityAnim, isCurrent) {
