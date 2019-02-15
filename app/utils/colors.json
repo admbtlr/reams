@@ -159,9 +159,10 @@
     "white": "hsl(0, 0%, 100%)",
     "rizzleFG": "hsl(263, 14%, 100%)",
     "rizzleBG": "hsl(47, 31%, 83%)",
-    "rizzleSaved": "hsl(264, 10%, 20%)",
+    "rizzleSaved": "hsl(264, 10%, 30%)",
     "rizzleBGAlt": "hsl(11, 21%, 16%)",
     "rizzleHighlight": "hsl(42, 91%, 60%)",
+    "rizzleText": "hsl(300, 20%, 20%)",
     "rizzleChrome": "hsl(0, 0%, 95%)",
     "bodyBGLight": "hsl(60, 17%, 96%)"
   }

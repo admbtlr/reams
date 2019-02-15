@@ -165,7 +165,7 @@ async searchForRSS (url) {
 
   render() {
     const textStyle = {
-      color: '#f6be3c',
+      color: hslString('rizzleText'),
       fontFamily: 'IBMPlexMono',
       fontSize: 18,
       textAlign: 'center'
@@ -194,11 +194,11 @@ async searchForRSS (url) {
                 <Text
                   style={{
                     ...textStyle,
-                    color: 'black',
+                    color: hslString('rizzleText'),
                     paddingLeft: 20,
                     paddingRight: 20
                   }}>Looking for an available feed<AnimatedEllipsis style={{
-                  color: 'black',
+                  color: hslString('rizzleText'),
                   fontSize: 16,
                   letterSpacing: -5
                 }}/></Text>
@@ -231,7 +231,7 @@ async searchForRSS (url) {
               <View style={{
                 height: 1,
                 width: 70,
-                backgroundColor: 'white'
+                backgroundColor: hslString('rizzleText')
               }}/>
               <Image
                 source={require('../assets/images/logo.png')}
@@ -242,7 +242,7 @@ async searchForRSS (url) {
               <View style={{
                 height: 1,
                 width: 70,
-                backgroundColor: 'white'
+                backgroundColor: hslString('rizzleText')
               }}/>
             </View>
             <View style={{
@@ -251,7 +251,6 @@ async searchForRSS (url) {
             }}>
               <TouchableOpacity
                 style={{
-                  backgroundColor: 'red',
                   flex: 1,
                   height: 'auto',
                   padding: 7
