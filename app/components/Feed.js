@@ -467,7 +467,7 @@ class Feed extends React.PureComponent {
               }}>{ feedDescription || 'This is where the feed description will go, eventually, when we have them' }</Text>
               <View style={{
                 height: 1,
-                backgroundColor: 'hsl(300, 20%, 20%)',
+                backgroundColor: hslString('rizzleText'),
                 opacity: 0.2,
                 marginBottom: this.margin
               }} />

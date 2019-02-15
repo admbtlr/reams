@@ -31,7 +31,7 @@ class ListHeaderComponent extends React.Component {
       marginBottom: margin,
       padding: 8,
       textAlign: 'left',
-      color: 'hsl(300, 20%, 20%)'
+      color: hslString('rizzleText')
     }
     return (
       <View style={{

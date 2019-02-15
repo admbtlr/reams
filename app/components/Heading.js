@@ -3,6 +3,7 @@ import {
   Text,
   View
 } from 'react-native'
+import { hslString } from '../utils/colors'
 import XButton from './XButton'
 
 export default Heading = ({title, showClose, onClose}) =>
@@ -13,7 +14,7 @@ export default Heading = ({title, showClose, onClose}) =>
       lineHeight: 32,
       marginBottom: 4,
       textAlign: 'left',
-      color: 'hsl(300, 20%, 20%)',
+      color: hslString('rizzleText')
     }}>{title}</Text>
     {showClose && <XButton
       onPress={onClose}
@@ -21,7 +22,7 @@ export default Heading = ({title, showClose, onClose}) =>
     />}
     <View style={{
       height: 1,
-      backgroundColor: 'hsl(300, 20%, 20%)',
+      backgroundColor: hslString('rizzleText'),
       opacity: 0.2,
       marginBottom: 16
     }} />
