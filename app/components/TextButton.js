@@ -29,7 +29,7 @@ class TextButton extends React.Component {
 
   render () {
     const { isExpandable, isInverted, onPress, text } = this.props
-    const fgColor = this.props.fgColor || 'hsl(300, 20%, 20%)'
+    const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || 'white'
     let buttonStyle = {
       borderColor: fgColor,

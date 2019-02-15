@@ -10,10 +10,11 @@ export async function getItemsAS (keys) {
     keys = keys.map(item => item._id)
   }
   try {
+    console.log(keys)
     const keyVals = await AsyncStorage.multiGet(keys)
     return keyVals.map(keyVal => JSON.parse(keyVal[1]))
   } catch (err) {
-
+    log('getItemsAS: ' + err)
   }
 }
 
@@ -22,7 +23,11 @@ export async function setItemAS (item) {
 }
 
 export async function updateItemAS (item) {
-  return AsyncStorage.mergeItem(item._id, JSON.stringify(item))
+  try {
+    return AsyncStorage.mergeItem(item._id, JSON.stringify(item))
+  } catch (err) {
+    log('updateItemAS: ' + err)
+  }
 }
 
 export async function setItemsAS (items) {
@@ -33,7 +38,7 @@ export async function setItemsAS (items) {
   try {
     return AsyncStorage.multiSet(keyVals)
   } catch (err) {
-    log(err)
+    log('setItemsAS: ' + err)
   }
 }
 
@@ -43,7 +48,11 @@ export async function deleteItemAS (key) {
 
 export async function deleteItemsAS (items) {
   const keys = items.map(item => item._id)
-  return AsyncStorage.multiRemove(keys)
+  try {
+    return AsyncStorage.multiRemove(keys)
+  } catch (err) {
+    log('deleteItemsAS: ' + err)
+  }
 }
 
 export async function clearItemsAS (keys) {

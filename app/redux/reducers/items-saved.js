@@ -17,7 +17,8 @@ import {
 } from '../../utils/item-utils.js'
 
 export const initialState = {
-  items: []
+  items: [],
+  index: 0
 }
 
 export const itemsSaved = (state = initialState, action) => {
@@ -37,6 +38,15 @@ export const itemsSaved = (state = initialState, action) => {
         }
       }
       return { ...state }
+
+    case 'ITEMS_UPDATE_CURRENT_INDEX':
+      if (action.displayMode === 'saved') {
+        newState.index = action.index
+      }
+      return {
+        ...state,
+        ...newState
+      }
 
     case 'ITEM_MARK_READ':
       return itemMarkRead(action, state)

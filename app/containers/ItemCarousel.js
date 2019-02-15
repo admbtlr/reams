@@ -19,18 +19,20 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateCurrentIndex: (index, lastIndex, isOnboarding) => {
+    updateCurrentIndex: (index, lastIndex, displayMode, isOnboarding) => {
       if (isOnboarding) {
         return dispatch({
           type: 'CONFIG_UPDATE_ONBOARDING_INDEX',
           index,
-          lastIndex
+          lastIndex,
+          displayMode
         })
       } else {
         return dispatch({
           type: 'ITEMS_UPDATE_CURRENT_INDEX',
           index,
-          lastIndex
+          lastIndex,
+          displayMode
         })
       }
     }

@@ -10,6 +10,8 @@ export function * inflateItems (action) {
   // no idea why
   const index = action.index || 0
   const items = yield select(getUnreadItems)
+  if (items.length === 0) return
+
   let inflatedItems = items.filter(isInflated)
   let activeItems = [
     items[index]

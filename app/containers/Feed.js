@@ -5,6 +5,7 @@ import {getCachedImagePath} from '../utils/'
 const mapStateToProps = (state, ownProps) => {
   const feedId = ownProps.feedId
   const items = state.itemsUnread.items
+  const feed = state.feeds.feeds.find(f => f._id === feedId)
   const feedItems = items.filter(i => i.feed_id === feedId)
   const numFeedItems = feedItems.length
   const coverImageItem = feedItems.find(item => item.banner_image)
@@ -17,6 +18,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     numFeedItems,
+    numRead: feed.num_read || 0,
+    readingTime: feed.reading_time || 0,
+    readingRate: feed.reading_rate || 0,
     coverImagePath,
     coverImageDimensions
   }

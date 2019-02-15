@@ -1,11 +1,10 @@
 import { connect } from 'react-redux'
 import FeedInfo from '../components/FeedInfo.js'
+import { getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state, ownProps) => {
-  const items = state.itemsMeta.display === 'unread' ? state.itemsUnread : state.itemsSaved
-  const index = state.itemsMeta.display === 'unread' ?
-    state.itemsMeta.index :
-    state.itemsMeta.savedIndex
+  const items = getItems(state)
+  const index = getIndex(state)
   const item = items[ownProps.index]
   const numFeedItems = items.filter(i => i.feed_id === item.feed_id).length
   return {

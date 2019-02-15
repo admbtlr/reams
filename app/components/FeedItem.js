@@ -80,13 +80,17 @@ class FeedItem extends React.Component {
           break
 
         case 'fontSize':
-          isDiff = false
-          this.webView.injectJavaScript(`setFontSize(${nextProps.fontSize})`)
+          if (this.webView) {
+            isDiff = false
+            this.webView.injectJavaScript(`setFontSize(${nextProps.fontSize})`)
+          }
           break
 
         case 'isDarkBackground':
-          isDiff = false
-          this.webView.injectJavaScript(`toggleDarkBackground(${nextProps.isDarkBackground})`)
+          if (this.webView) {
+            isDiff = false
+            this.webView.injectJavaScript(`toggleDarkBackground(${nextProps.isDarkBackground})`)
+          }
           break
 
         case 'isImageViewerVisible':
@@ -136,6 +140,7 @@ class FeedItem extends React.Component {
       url,
       title,
       author,
+      banner_image,
       content_html,
       content_mercury,
       hasCoverImage,
@@ -196,13 +201,19 @@ class FeedItem extends React.Component {
     body = this.stripEmptyTags(body)
     body = this.stripUTags(body)
 
-    const html = `<html class="font-size-${this.props.fontSize}">
+    // hide the image in the body to avoid repetition
+    let data = ''
+    if (styles.coverImage.isInline) {
+      data = banner_image
+    }
+
+    const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkBackground ? 'dark-background' : ''}">
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
       </head>
-      <body class="${visibleClass} ${scrollingClass} ${blockquoteClass}">
+      <body class="${visibleClass} ${scrollingClass} ${blockquoteClass}" data-cover="${data}">
         <article
-          class="${articleClasses} ${this.props.isDarkBackground ? 'dark-background' : ''}"
+          class="${articleClasses}"
           style="min-height: ${height}px; width: 100vw;">
           ${body}
         </article>

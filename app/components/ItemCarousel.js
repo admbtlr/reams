@@ -46,7 +46,7 @@ class ItemCarousel extends React.Component {
       return
     }
     this.incomingIndex = index
-    this.props.updateCurrentIndex(index, lastIndex, this.props.isOnboarding)
+    this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
   renderSlide ({key, index}) {

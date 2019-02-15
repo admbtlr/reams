@@ -22,7 +22,7 @@ import { nullValuesToEmptyStrings,
   deflateItem
 } from '../../utils/item-utils'
 import log from '../../utils/log'
-import { getItems, getCurrentItem, getFeeds, getIndex, getUid } from './selectors'
+import { getItems, getCurrentItem, getFeeds, getIndex, getUid, getDisplay } from './selectors'
 
 
 let feeds
@@ -41,6 +41,7 @@ export function * fetchItems2 () {
   const readItems = []
   const currentItem = yield select(getCurrentItem)
   const index = yield select(getIndex)
+  const displayMode = yield select(getDisplay)
 
   const itemsChannel = yield call(fetchItemsChannel, oldItems, readItems, currentItem, feeds)
 
@@ -71,7 +72,8 @@ export function * fetchItems2 () {
     })
     yield put({
       type: 'ITEMS_UPDATE_CURRENT_INDEX',
-      index: 0
+      index: 0,
+      displayMode
     })
   }
 }
@@ -121,21 +123,9 @@ function * receiveItems (newItems) {
 
   // upsertFeedsFS(feeds)
 
-  let itemsLite = items.map(deflateItem)
-  // for (var i = 0; i < items.length; i++) {
-  //   itemsLite.push({
-  //     _id: items[i]._id,
-  //     id: items[i].id, // needed to match existing copy in store
-  //     feed_id: items[i].feed_id,
-  //     title: items[i].title,
-  //     created_at: items[i].created_at,
-  //     banner_image: items[i].bannerImage // needed by the feed component
-  //   })
-  // }
-
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
-    items: itemsLite
+    items: items.map(deflateItem)
   })
 }
 

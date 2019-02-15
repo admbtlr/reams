@@ -270,10 +270,11 @@ class Feed extends React.PureComponent {
       feedColor,
       feedDescription,
       feedId,
-      feedNumRead,
-      feedReadingTime,
       feedOriginalId,
-      numFeedItems
+      numFeedItems,
+      numRead,
+      readingTime,
+      readingRate
     } = this.props
     const { isExpanded } = this.state
     const textStyles = {
@@ -289,14 +290,14 @@ class Feed extends React.PureComponent {
     const italic = {
       fontFamily: 'IBMPlexMono-LightItalic'
     }
-    const feedReadingTimeMins = Math.floor(feedReadingTime / 60)
-    const feedReadingTimeHours = Math.floor(feedReadingTimeMins / 60)
-    const feedReadingTimeString = (feedReadingTimeHours > 0 ?
-      (feedReadingTimeHours + ' hours ') : '') +
-      (feedReadingTimeMins > 0 ?
-        (feedReadingTimeHours > 0 ? feedReadingTimeMins % 60 : feedReadingTimeMins) + ' minutes' :
+    const readingTimeMins = Math.floor(readingTime / 60)
+    const readingTimeHours = Math.floor(readingTimeMins / 60)
+    const readingTimeString = (readingTimeHours > 0 ?
+      (readingTimeHours + ' hours ') : '') +
+      (readingTimeMins > 0 ?
+        (readingTimeHours > 0 ? readingTimeMins % 60 : readingTimeMins) + ' minutes' :
         '')
-    const avgReadingTime = Math.round(feedReadingTime / feedNumRead)
+    const avgReadingTime = Math.round(readingTime / numRead)
     const feedStats = (
       <Text style={{
         color: '#666666',
@@ -305,12 +306,12 @@ class Feed extends React.PureComponent {
         // marginTop: this.margin * 2,
         marginBottom: this.margin
       }}>You’ve read
-        <Text style={bold}> {feedNumRead || 0} </Text>
+        <Text style={bold}> {numRead} </Text>
         stories from
         <Text style={italic}> {feedTitle}</Text>
-        {feedNumRead > 0 &&
+        {numRead > 0 &&
           <Text> over the course of
-            <Text style={bold}> {feedReadingTimeString}</Text>.
+            <Text style={bold}> {readingTimeString}</Text>.
             It takes you an average of
             <Text style={bold}> {avgReadingTime} seconds </Text>
             to read each story
@@ -466,7 +467,7 @@ class Feed extends React.PureComponent {
               }}>{ feedDescription || 'This is where the feed description will go, eventually, when we have them' }</Text>
               <View style={{
                 height: 1,
-                backgroundColor: 'hsl(300, 20%, 20%)',
+                backgroundColor: hslString('rizzleText'),
                 opacity: 0.2,
                 marginBottom: this.margin
               }} />

@@ -74,6 +74,7 @@ class ViewButtons extends React.Component {
             source={require('../img/increase-font-size.png')}
             style={{
               position: 'relative',
+              left: -2,
               width: 56,
               height: 56
             }}/>
@@ -91,6 +92,7 @@ class ViewButtons extends React.Component {
             source={require('../img/decrease-font-size.png')}
             style={{
               position: 'relative',
+              left: -2,
               width: 56,
               height: 56
             }}/>
@@ -110,7 +112,7 @@ class ViewButtons extends React.Component {
               position: 'relative',
               width: 56,
               height: 56,
-              left: -4
+              left: -2
             }}/>
         </RizzleButton>
       </Animated.View>

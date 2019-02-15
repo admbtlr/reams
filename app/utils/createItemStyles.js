@@ -81,15 +81,23 @@ export function createItemStyles (item, prevStyles) {
   title.title = item.title
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.4
-  title.isUpperCase = (fonts[0].substring(0, 14) === 'headerFontSans2' && Math.random() > 0.5) ||
-    (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) ||
-    Math.random() > 0.8
+  title.isUpperCase = item.title.length < 80 &&
+    ((fonts[0].substring(0, 14) === 'headerFontSans2' && Math.random() > 0.5) ||
+      (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) ||
+      Math.random() > 0.8)
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.7 + Math.random() * 0.2 :
     0.9 + Math.random() * 0.2
   title.invertBG = Math.random() > 0.8 && !isCoverInline && !isScreen
   title.isItalic = !title.isUpperCase && Math.random() > 0.7
-  title.bg = !title.invertBG && !isCoverInline && !isBW && !isScreen && !isContain && !title.isVertical && Math.random() > 0.5
+  title.bg = !title.invertBG &&
+    !isCoverInline &&
+    !isBW &&
+    !isScreen &&
+    !isContain &&
+    !title.isVertical &&
+    item.title.length < 80 &&
+    Math.random() > 0.5
   title.hasShadow = !title.bg &&
       !isCoverInline &&
       !isMultiply

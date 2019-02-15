@@ -28,19 +28,16 @@ function reset (newScrollAnimValue) {
   resetValue = 0
   scrollAnim.removeAllListeners()
   resetAnim.removeAllListeners()
-  // this animation needs to happen AFTER swipeable views has re-rendered
-  // this.setTimeout(() => {
-    Animated.timing(resetAnim, {
-      toValue,
-      duration: 400,
-      useNativeDriver: true,
-    }).start(() => {
-      scrollListeners.forEach((listener) => {
-        console.log('Status bar down!')
-        listener.onStatusBarDown()
-      })
+  Animated.timing(resetAnim, {
+    toValue,
+    duration: 400,
+    useNativeDriver: true,
+  }).start(() => {
+    scrollListeners.forEach((listener) => {
+      console.log('Status bar down!')
+      listener.onStatusBarDown()
     })
-  // }, 100)
+  })
 }
 
 export function panHandler (value) {

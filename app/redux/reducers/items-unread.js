@@ -22,7 +22,8 @@ import {
 // }
 
 export const initialState = {
-  items: []
+  items: [],
+  index: 0
 }
 
 export function itemsHasErrored (state = false, action) {
@@ -67,6 +68,7 @@ export const itemsUnread = (state = initialState, action) => {
   let saved = []
   let savedItem = {}
   let newState = {}
+  let currentItem
 
   switch (action.type) {
     case 'ITEMS_REHYDRATE_UNREAD':
@@ -105,6 +107,15 @@ export const itemsUnread = (state = initialState, action) => {
     //     ]
     //   }
 
+    case 'ITEMS_UPDATE_CURRENT_INDEX':
+      if (action.displayMode === 'unread') {
+        newState.index = action.index
+      }
+      return {
+        ...state,
+        ...newState
+      }
+
     case 'ITEMS_BATCH_FETCHED':
       items = [...state.items]
       newItems = action.items
@@ -118,16 +129,22 @@ export const itemsUnread = (state = initialState, action) => {
       })
 
       // check for current item
+      currentItem = state.items[state.index]
       if (currentItem && !items.find(item => item && item._id === currentItem._id)) {
         items.push(currentItem)
       }
 
+      // remove read items
+      items = items.filter(i => !i.readAt)
+
       // order by date
       items.sort((a, b) => a.created_at - b.created_at)
+      const index = items.indexOf(currentItem)
 
       return {
         ...state,
-        items
+        items,
+        index: index || 0
       }
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
@@ -181,7 +198,7 @@ export const itemsUnread = (state = initialState, action) => {
     case 'FEED_MARK_READ':
       const feedId = action.id
       const olderThan = action.olderThan || Math.floor(Date.now() / 1000)
-      const currentItem = state.items[state.index]
+      currentItem = state.items[state.index]
       // if no feedId specified, then we mean ALL items
       const isInFeed = (item) => feedId ? item.feed_id === feedId : true
       items = [ ...state.items ].filter((item) => {

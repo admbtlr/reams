@@ -1,4 +1,4 @@
-import { getItems as getItemsUtils } from '../../utils/get-item'
+import { getItems as getItemsUtils, getIndex as getIndexUtils } from '../../utils/get-item'
 
 export function getItems (state, type) {
   return getItemsUtils(state, type)
@@ -13,11 +13,11 @@ export function getDisplay (state) {
 }
 
 export function getCurrentItem (state) {
-  return state.itemsUnread.items[state.itemsMeta.index]
+  return state.itemsUnread.items[getIndex(state)]
 }
 
 export function getIndex (state) {
-  return state.itemsMeta.index
+  return getIndexUtils(state)
 }
 
 export function getFeeds (state) {

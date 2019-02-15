@@ -4,6 +4,7 @@ import React from 'react'
 import { Button, Dimensions, Text, TextInput, View } from 'react-native'
 import OnePassword from 'react-native-onepassword'
 
+import { hslString } from '../utils/colors'
 import { authenticate } from '../redux/backends'
 import { sendEmailLink } from '../redux/backends/rizzle'
 
@@ -16,7 +17,7 @@ const services = {
 const baseStyles = {
   fontFamily: 'IBMPlexMono',
   textAlign: 'left',
-  color: 'hsl(300, 20%, 20%)'
+  color: hslString('rizzleText')
 }
 
 const styles = {
