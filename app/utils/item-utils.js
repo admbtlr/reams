@@ -174,3 +174,24 @@ export function removeCachedCoverImages (items) {
   // }
 }
 
+export function rizzleSort (items, feeds) {
+  let itemsByFeed = {}
+  let keys = []
+  let sorted = []
+  items.forEach(i => {
+    (itemsByFeed[i.feed_id] = itemsByFeed[i.feed_id] || []).push(i)
+  })
+  keys = Object.keys(itemsByFeed)
+  keys.forEach(k => {
+    itemsByFeed[k].sort((a, b) => b.created_at - a.created_at)
+  })
+  keys.sort((a, b) => {
+    aFeed = feeds.find(f => f._id === a)
+    bFeed = feeds.find(f => f._id === b)
+    return bFeed.reading_rate - aFeed.reading_rate
+  })
+  keys.forEach(k => {
+    sorted = sorted.concat(itemsByFeed[k])
+  })
+  return sorted
+}

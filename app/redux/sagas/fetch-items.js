@@ -123,21 +123,9 @@ function * receiveItems (newItems) {
 
   // upsertFeedsFS(feeds)
 
-  let itemsLite = items.map(deflateItem)
-  // for (var i = 0; i < items.length; i++) {
-  //   itemsLite.push({
-  //     _id: items[i]._id,
-  //     id: items[i].id, // needed to match existing copy in store
-  //     feed_id: items[i].feed_id,
-  //     title: items[i].title,
-  //     created_at: items[i].created_at,
-  //     banner_image: items[i].bannerImage // needed by the feed component
-  //   })
-  // }
-
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
-    items: itemsLite
+    items: items.map(deflateItem)
   })
 }
 

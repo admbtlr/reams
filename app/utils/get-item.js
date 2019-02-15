@@ -15,5 +15,5 @@ export const getCurrentItem = (state) => {
 export const getIndex = (state) => {
   return state.itemsMeta.display === 'unread' ?
     state.itemsUnread.index || 0 :
-    state.itemsSaved.savedIndex || 0
+    state.itemsSaved.index || 0
 }
