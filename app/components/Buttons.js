@@ -159,8 +159,9 @@ class Buttons extends React.Component {
         panAnim.interpolate(opacityRanges[i]) :
         1)
 
-    return items.map((item, i) => this.
-      renderButtons(item, opacityAnims[i], item === currentItem))
+    return items.map((item, i) => item ?
+      this.renderButtons(item, opacityAnims[i], item === currentItem) :
+      null)
     // return this.renderButtons(currentItem)
   }
 
@@ -403,7 +404,7 @@ class Buttons extends React.Component {
           outputRange: [1, 0]
         })
     } else {
-      return item.showMercuryContent ? 1 : 0
+      return item && item.showMercuryContent ? 1 : 0
     }
   }
 
@@ -417,7 +418,7 @@ class Buttons extends React.Component {
           outputRange: [1, 0]
         })
     } else {
-      return item.isSaved ? 1 : 0
+      return item && item.isSaved ? 1 : 0
     }
   }
 
