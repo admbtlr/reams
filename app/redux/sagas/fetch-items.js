@@ -70,11 +70,11 @@ export function * fetchItems2 () {
       type: 'ITEMS_IS_LOADING',
       isLoading: false
     })
-    yield put({
-      type: 'ITEMS_UPDATE_CURRENT_INDEX',
-      index: 0,
-      displayMode
-    })
+    // yield put({
+    //   type: 'ITEMS_UPDATE_CURRENT_INDEX',
+    //   index: 0,
+    //   displayMode
+    // })
   }
 }
 
