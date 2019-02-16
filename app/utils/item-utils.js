@@ -54,8 +54,12 @@ export function fixRelativePaths (item) {
 }
 
 export function sanitizeContent (item) {
-  if (item.content_html) item.content_html = sanitizeHtml(item.content_html)
-  if (item.content_mercury) item.content_mercury = sanitizeHtml(item.content_mercury)
+  if (item.content_html) item.content_html = sanitizeHtml(item.content_html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
+  })
+  if (item.content_mercury) item.content_mercury = sanitizeHtml(item.content_mercury, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
+  })
   return item
 }
 
@@ -66,7 +70,9 @@ export function nullValuesToEmptyStrings (item) {
 }
 
 export function addMercuryStuffToItem (item, mercury) {
-  mercury.content = sanitizeHtml(mercury.content)
+  mercury.content = sanitizeHtml(mercury.content, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
+  })
   if (item.is_external) {
     return {
       ...item,
