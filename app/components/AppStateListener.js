@@ -23,15 +23,21 @@ class AppStateListener extends React.Component {
     this.showSaveFeedModal = this.showSaveFeedModal.bind(this)
 
     AppState.addEventListener('change', this.handleAppStateChange)
+
+    this.checkBuckets()
+  }
+
+  async checkBuckets () {
+    await this.checkClipboard()
+    await this.checkPageBucket()
+    this.checkFeedBucket()
+    // see Rizzle component
   }
 
   async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.props.appWentActive()
-      await this.checkClipboard()
-      await this.checkPageBucket()
-      this.checkFeedBucket()
-      // see Rizzle component
+      await this.checkBuckets()
 
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
         this.props.fetchData()
@@ -58,16 +64,15 @@ class AppStateListener extends React.Component {
   }
 
   async checkPageBucket () {
-    try {
-      const value = await SharedGroupPreferences.getItem('page', this.group)
+    SharedGroupPreferences.getItem('page', this.group).then(value => {
       if (value !== null) {
         SharedGroupPreferences.setItem('page', null, this.group)
         console.log(`Got a page to save: ${value}`)
         this.showSavePageModal(value)
       }
-    } catch(err) {
+    }).catch(err => {
       log('checkPageBucket', err)
-    }
+    })
   }
 
   checkFeedBucket () {

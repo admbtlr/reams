@@ -41,7 +41,7 @@ class RizzleModal extends React.Component {
   render () {
     return (
       <Modal
-        backdrop={false}
+        backdrop={true}
         style={{ backgroundColor: 'transparent' }}
         position="center"
         isOpen={this.props.isVisible}
