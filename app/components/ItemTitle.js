@@ -115,6 +115,9 @@ const fontStyles = {
 
 const paddingUnit = 28
 
+const textColor = 'black'
+const textColorDarkBackground = 'hsl(0, 0%, 70%)'
+
 class ItemTitle extends React.Component {
   constructor (props) {
     super(props)
@@ -456,7 +459,7 @@ class ItemTitle extends React.Component {
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
         hslString(this.props.item.feed_color, 'desaturated'))
     if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
-    if (!showCoverImage) color = 'black'
+    if (!showCoverImage) color = this.props.isDarkBackground ? 'hsl(0, 0%, 70%)' : 'black'
 
     const invertBGPadding = 5
     let paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
@@ -748,7 +751,7 @@ class ItemTitle extends React.Component {
     let excerptShadowStyle
     let excerptColor
     if (!showCoverImage || coverImageStyles.isInline || coverImageStyles.isContain) {
-      excerptColor = 'black'
+      excerptColor = this.props.isDarkBackground ? textColorDarkBackground : textColor
     // } else if (styles.invertBG) {
     //   excerptColor = 'black'
     } else if (showCoverImage && styles.isExcerptTone) {
@@ -850,7 +853,8 @@ class ItemTitle extends React.Component {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let authorStyle = {
       color: showCoverImage &&
-        !coverImageStyles.isInline ? 'white' : 'black',
+        !coverImageStyles.isInline ? 'white' :
+          (this.props.isDarkBackground ? textColorDarkBackground : textColor),
       backgroundColor: 'transparent',
       fontSize: 18,
       fontFamily: this.getFontFamily('regular', 'author'),

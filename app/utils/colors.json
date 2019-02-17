@@ -164,7 +164,8 @@
     "rizzleHighlight": "hsl(42, 91%, 60%)",
     "rizzleText": "hsl(300, 20%, 20%)",
     "rizzleChrome": "hsl(0, 0%, 95%)",
-    "bodyBGLight": "hsl(60, 17%, 96%)"
+    "bodyBGLight": "hsl(60, 17%, 96%)",
+    "bodyBGDark": "hsl(240, 17%, 12%)"
   }
 
 }
