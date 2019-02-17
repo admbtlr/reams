@@ -71,7 +71,10 @@ class AppStateListener extends React.Component {
         this.showSavePageModal(value)
       }
     }).catch(err => {
-      log('checkPageBucket', err)
+      // '1' just means that there is nothing in the bucket
+      if (err !== '1') {
+        log('checkPageBucket', err)
+      }
     })
   }
 
