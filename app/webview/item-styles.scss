@@ -778,6 +778,6 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   color: #000;
 }
 
-body .itemArticle.dropCapIsMonochrome.dark-background > p:not(.short-para):first-of-type:first-letter {
-  color: #fff;
+.dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
+  color: #ddd;
 }
