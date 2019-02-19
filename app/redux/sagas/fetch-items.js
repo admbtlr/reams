@@ -125,7 +125,8 @@ function * receiveItems (newItems) {
 
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
-    items: items.map(deflateItem)
+    items: items.map(deflateItem),
+    feeds
   })
 }
 

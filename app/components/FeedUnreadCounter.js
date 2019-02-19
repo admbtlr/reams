@@ -13,7 +13,7 @@ class FeedUnreadCounter extends React.Component {
   }
 
   render () {
-    const {numFeedItems, feedColor} = this.props
+    const {numberUnread, feedColor} = this.props
     const textStyles = {
       color: 'white',
       fontFamily: 'IBMPlexMono-Light',
@@ -34,7 +34,7 @@ class FeedUnreadCounter extends React.Component {
             fontFamily: 'IBMPlexMono-Bold',
             color: hslString(feedColor, 'desaturated'),
             fontSize: 24
-          }}>{numFeedItems}</Text>
+          }}>{numberUnread}</Text>
         </View>
         <Text style={{
           ...textStyles,

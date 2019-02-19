@@ -271,7 +271,7 @@ class Feed extends React.PureComponent {
       feedDescription,
       feedId,
       feedOriginalId,
-      numFeedItems,
+      numUnread,
       numRead,
       readingTime,
       readingRate
@@ -293,10 +293,10 @@ class Feed extends React.PureComponent {
     const readingTimeMins = Math.floor(readingTime / 60)
     const readingTimeHours = Math.floor(readingTimeMins / 60)
     const readingTimeString = (readingTimeHours > 0 ?
-      (readingTimeHours + ' hours ') : '') +
+      (readingTimeHours + ' hour' + (readingTimeHours === 1 ? ' ' : 's ')) : '') +
       (readingTimeMins > 0 ?
-        (readingTimeHours > 0 ? readingTimeMins % 60 : readingTimeMins) + ' minutes' :
-        '')
+        (readingTimeHours > 0 ? readingTimeMins % 60 : readingTimeMins) + ' minute' + (readingTimeMins === 1 ? '' : 's') :
+        readingTime + ' seconds')
     const avgReadingTime = Math.round(readingTime / numRead)
     const feedStats = (
       <Text style={{
@@ -307,7 +307,7 @@ class Feed extends React.PureComponent {
         marginBottom: this.margin
       }}>You’ve read
         <Text style={bold}> {numRead} </Text>
-        stories from
+        {numRead === 1 ? 'story' : 'stories'} from
         <Text style={italic}> {feedTitle}</Text>
         {numRead > 0 &&
           <Text> over the course of
@@ -437,7 +437,7 @@ class Feed extends React.PureComponent {
               fontSize: 20
             }}>{feedTitle}</Text>
             <FeedUnreadCounter
-              numFeedItems={numFeedItems}
+              numberUnread={numUnread}
               feedColor={feedColor}
               normalisedAnimatedValue={this.state.normalisedAnimatedValue}
               style={{
