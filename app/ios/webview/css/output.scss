@@ -158,11 +158,13 @@ $ui: (
   white: hsl(0, 0%, 100%),
   rizzleFG: hsl(263, 14%, 100%),
   rizzleBG: hsl(47, 31%, 83%),
-  rizzleSaved: hsl(264, 10%, 20%),
+  rizzleSaved: hsl(264, 10%, 30%),
   rizzleBGAlt: hsl(11, 21%, 16%),
   rizzleHighlight: hsl(42, 91%, 60%),
+  rizzleText: hsl(300, 20%, 20%),
   rizzleChrome: hsl(0, 0%, 95%),
   bodyBGLight: hsl(60, 17%, 96%),
+  bodyBGDark: hsl(240, 17%, 12%),
 );
 $step: 28px;
 
@@ -232,7 +234,7 @@ body {
   .dark-background & {
     background-color: hsl(240, 17%, 12%);
     &, a, a:active, a:visited {
-      color: hsl(0, 0%, 90%);
+      color: hsl(0, 0%, 70%);
     }
   }
 }
@@ -944,8 +946,8 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   color: #000;
 }
 
-body .itemArticle.dropCapIsMonochrome.dark-background > p:not(.short-para):first-of-type:first-letter {
-  color: #fff;
+.dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
+  color: #ddd;
 }
 
 

@@ -24,7 +24,8 @@ const mapStateToProps = (state) => {
     toolbar: state.toolbar,
     displayMode: state.itemsMeta.display,
     decoratedCount: state.itemsMeta.decoratedCount,
-    visible: state.ui.itemButtonsVisible
+    visible: state.ui.itemButtonsVisible,
+    isDarkBackground: state.webView.isDarkBackground
   }
 }
 

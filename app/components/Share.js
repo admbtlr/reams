@@ -213,7 +213,7 @@ async searchForRSS (url) {
               { !!this.state.rssUrl &&
                 <TouchableOpacity
                   style={{
-                    padding: 28
+                    paddingHorizontal: 28
                   }}
                   onPress={this.addFeed}>
                   <Text style={textStyle}>Add this site to your Rizzle feed</Text>
