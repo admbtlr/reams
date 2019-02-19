@@ -77,7 +77,7 @@ export function * decorateItems (action) {
           console.log('Error decorating item, trying again next time around')
           pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
         })
-      }, 500)
+      }, 2000)
     }
   }
 }
