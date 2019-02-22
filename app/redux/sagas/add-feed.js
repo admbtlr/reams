@@ -1,6 +1,6 @@
-import { delay } from 'redux-saga'
+import { call, delay } from 'redux-saga'
 import { put, select } from 'redux-saga/effects'
-import { addFeed } from '../backends'
+import { addFeed, getFeedDetails } from '../backends'
 import { id, getFeedColor } from '../../utils/'
 import feeds from '../../utils/seedfeeds.js'
 import { upsertFeedsFS, addFeedToFirestore } from '../firestore/'
@@ -31,6 +31,17 @@ export function * subscribeToFeed (action) {
     type: 'FEEDS_ADD_FEED_SUCCESS',
     addedFeed
   })
+}
+
+export function * inflateFeed () {
+  const feeds = yield select(getFeeds)
+  debugger
+  for (let i=0; i<feeds.length; i++) {
+    if (!feeds[i].description) {
+      const details = yield getFeedDetails(feeds[i])
+      debugger
+    }
+  }
 }
 
 export async function * subscribeToFeeds (action) {

@@ -240,6 +240,28 @@ export const markItemRead = (item) => {
     .then((response) => response.json())
 }
 
+export const getFeedDetails = (feed) => {
+  const id = typeof feed === 'object' ? feed.id : feed
+  let url = 'https://feedwrangler.net/api/v2/subscriptions/list?'
+  url += 'access_token=' + feedWranglerAccessToken
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+    .then(json => {
+      const feeds = json.feeds
+      const feedExtras = feeds.find(f => f.feed_id = feed.id)
+      return {
+        ...feed,
+        url: feedExtras.feed_url
+      }
+    })
+}
+
 export const markFeedRead = (feed, olderThan) => {
   const isAll = !feed
   const id = typeof feed === 'object' ? feed.id : feed

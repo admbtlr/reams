@@ -12,6 +12,8 @@ target 'rizzle' do
 
   # Pods for rizzle
 
+  pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
+
   target 'rizzleTests' do
     inherit! :search_paths
     # Pods for testing

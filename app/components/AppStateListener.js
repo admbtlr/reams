@@ -68,11 +68,11 @@ class AppStateListener extends React.Component {
       if (value !== null) {
         SharedGroupPreferences.setItem('page', null, this.group)
         console.log(`Got a page to save: ${value}`)
-        this.showSavePageModal(value)
+        this.showSavePageModal(value, this)
       }
     }).catch(err => {
       // '1' just means that there is nothing in the bucket
-      if (err !== '1') {
+      if (err !== 1) {
         log('checkPageBucket', err)
       }
     })
@@ -121,10 +121,15 @@ class AppStateListener extends React.Component {
             log('checkFeedBucket', err)
           })
       }
+    }).catch(err => {
+      // '1' just means that there is nothing in the bucket
+      if (err !== 1) {
+        log('checkFeedBucket', err)
+      }
     })
   }
 
-  showSavePageModal (url) {
+  showSavePageModal (url, scope) {
     this.props.showModal({
       modalText: [
         {
@@ -139,7 +144,7 @@ class AppStateListener extends React.Component {
       modalHideCancel: false,
       modalShow: true,
       modalOnOk: () => {
-        this.props.saveURL(url)
+        scope.props.saveURL(url)
       }
     })
   }

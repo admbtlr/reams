@@ -214,6 +214,12 @@ export const itemsUnread = (state = initialState, action) => {
         items
       }
 
+    case 'FEEDS_REMOVE_FEED':
+      return {
+        ...state,
+        items: state.items.filter(i => i.feed_id !== action.id)
+      }
+
     case 'ITEM_TOGGLE_MERCURY':
       return itemToggleMercury(action, state)
 

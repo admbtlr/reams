@@ -4,6 +4,7 @@ import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
 import { Image, InteractionManager } from 'react-native'
 import { getCachedImagePath } from '../../utils'
+import { deflateItem } from '../../utils/item-utils'
 import log from '../../utils/log'
 const co = require('co')
 
@@ -40,18 +41,27 @@ export function * decorateItems (action) {
         })
 
         const item = items.find(item => item._id === decoration.item._id)
-        try {
-          item && updateItemAS(item)
-        } catch(err) {
-          log('decorateItems', err)
-        }
+        if (item) {
+          try {
+            updateItemAS(item)
+          } catch(err) {
+            log('decorateItems', err)
+          }
 
+          // and finally, deflate the item so that redux-persist doesn't explode
+          item = deflateItem(item)
+          yield put({
+            type: 'ITEMS_FLATE',
+            itemsToInflate: [],
+            itemsToDeflate: [item]
+          })
+        }
       }
     }
   })
 
   while (true) {
-    yield call(delay, 500)
+    yield call(delay, 2000)
     const nextItem = yield getNextItemToDecorate(pendingDecoration)
     if (nextItem) {
       // console.log(`Got item: ${item.title}`)
@@ -78,8 +88,8 @@ function * getNextItemToDecorate (pendingDecoration) {
   const feeds = yield select(getFeeds)
   const feedsWithoutDecoration = feeds.filter(feed => {
     // external items handle their own decoration
-    return items.filter(i => !i.readAt && !i.is_external && i.feed_id === feed._id)
-      .findIndex(item => typeof item.banner_image === 'undefined') === -1
+    return !items.filter(i => !i.readAt && !i.is_external && i.feed_id === feed._id)
+      .find(item => typeof item.banner_image !== 'undefined')
   })
   let count = 0
   let feed
@@ -88,8 +98,13 @@ function * getNextItemToDecorate (pendingDecoration) {
     nextItem = items.find(i => !i.readAt && i.feed_id === feed._id && !i.hasLoadedMercuryStuff)
   }
   if (!nextItem) {
-    if (items.filter(item => item.hasLoadedMercuryStuff && !item.readAt).length < 100) {
-      nextItem = items.find(item => !item.hasLoadedMercuryStuff
+    const candidateItems = items.filter(item => {
+      return !item.hasLoadedMercuryStuff &&
+        !item.readAt &&
+        items.indexOf(item) < 100
+    })
+    if (candidateItems.length) {
+      nextItem = candidateItems.find(item => !item.hasLoadedMercuryStuff
         && !pendingDecoration.find(pd => pd._id === item._id))
     }
   }

@@ -81,6 +81,27 @@ export const markItemRead = (item) => {}
 
 export const markFeedRead = (item) => {}
 
+export async function getFeedDetails (feed) {
+  const url = `https://api.rizzle.net/feed/?url=${feed.url}`
+  return fetch(url).then(response => {
+    return { response, feed }
+  }).then(({response, feed}) => {
+      if (!response.ok) {
+        throw {
+          feed,
+          message: response.statusText
+        }
+      }
+      return response.json().then(json => {
+        debugger
+        console.log(json)
+      })
+  }).catch(({feed, message}) => {
+    return {feed, message}
+  })
+
+}
+
 const mapRizzleServerItemToRizzleItem = (item) => {
   return {
     _id: id(item),

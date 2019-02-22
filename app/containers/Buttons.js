@@ -45,6 +45,10 @@ const mapDispatchToProps = (dispatch) => {
       }
     },
     toggleDisplay: () => dispatch({ type: 'TOGGLE_DISPLAYED_ITEMS' }),
+    share: () => dispatch({
+      type: 'ITEM_SHARE_ITEM',
+      item
+    }),
     toggleMercury: (item) => {
       if (item) {
         dispatch({

@@ -869,7 +869,7 @@ class ItemTitle extends React.Component {
       // ...shadowStyle
     }
     if (item.author) {
-      return <Animated.Text style={authorStyle}>by {this.props.item.author}</Animated.Text>
+      return <Animated.Text style={authorStyle}>{this.props.item.author}</Animated.Text>
     } else {
       return null
     }

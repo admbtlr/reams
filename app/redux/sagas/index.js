@@ -13,7 +13,7 @@ import { rehydrateItems } from './rehydrate-items'
 import { inflateItems } from './inflate-items'
 import { saveItem } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
-import { subscribeToFeed, seedFeeds } from './add-feed'
+import { subscribeToFeed, seedFeeds, inflateFeed } from './add-feed'
 import { initialConfig } from './initial-config'
 
 // let rehydrated = false
@@ -50,6 +50,7 @@ function * init (getFirebase, action) {
   })
   yield call(fetchItems2)
   yield call(executeRemoteActions)
+  yield call(inflateFeed)
 }
 
 export function * updateCurrentIndex (getFirebase) {

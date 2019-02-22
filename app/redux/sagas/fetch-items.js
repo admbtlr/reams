@@ -57,7 +57,7 @@ export function * fetchItems2 () {
       }
     }
   } catch (err) {
-    console.log('ERROR FETCHING ITEMS: ' + err)
+    log('fetchItems2', err)
   } finally {
     yield put({
       type: 'FEEDS_SET_LAST_UPDATED',
@@ -111,17 +111,13 @@ function * receiveItems (newItems) {
       }
     })
 
-  // yield call(addUnreadItemsToFirestore, items)
   yield call(setItemsAS, items)
-  // yield call(incrementUnreadCountFS, items.length)
   feeds = incrementFeedUnreadCounts(items, feeds)
 
   yield put({
     type: 'FEEDS_UPDATE_FEEDS',
     feeds
   })
-
-  // upsertFeedsFS(feeds)
 
   yield put({
     type: 'ITEMS_BATCH_FETCHED',

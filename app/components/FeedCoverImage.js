@@ -36,8 +36,8 @@ class FeedCoverImage extends React.Component {
            blendMode='blendMultiply'
          >
            <ContrastSaturationBrightness
-             saturation={0}
-             contrast={0.5}
+             saturation={0.5}
+             contrast={0.8}
              brightness={1.3}
            >
              <GLImage

@@ -1,8 +1,9 @@
-import {Dimensions} from 'react-native'
-import {createItemStyles} from './createItemStyles'
-import {getCachedImagePath} from './index'
 const RNFS = require('react-native-fs')
 const sanitizeHtml = require('sanitize-html')
+import {Dimensions} from 'react-native'
+import {createItemStyles, compressStyles, expandStyles} from './createItemStyles'
+import {getCachedImagePath} from './index'
+import LZString from 'lz-string'
 
 export function addStylesIfNecessary (item, index, items) {
   if (item.styles && !item.styles.temporary) {
@@ -21,19 +22,34 @@ export function addStylesIfNecessary (item, index, items) {
 }
 
 export function deflateItem (item) {
+  const styles = item.styles
+  // const compressed = LZString.compressToUTF16(JSON.stringify(compressStyles(item.styles)))
   return {
     _id: item._id,
-    banner_image: item.bannerImage, // needed by the feed component
-    content_length: item.content_html.length,
+    banner_image: item.banner_image, // needed by the feed component
+    content_length: item.content_length || (item.content_html
+      ? item.content_html.length
+      : 0),
     created_at: item.created_at,
     feed_id: item.feed_id,
     feed_color: item.feed_color,
+    hasCoverImage: item.hasCoverImage,
+    imageDimensions: item.imageDimensions,
     hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
-    styles: item.styles,
     title: item.title,
     url: item.url,
+  }
+}
+
+export function inflateItem (item) {
+  const styles = item.styles
+  if (typeof styles === 'object') return item
+  const expanded = expandStyles(JSON.parse(LZString.decompressFromUTF16(styles)))
+  return {
+    ...item,
+    styles: expanded
   }
 }
 

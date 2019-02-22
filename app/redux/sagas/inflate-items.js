@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import { isInflated, deflateItem } from '../../utils/item-utils'
+import { isInflated, deflateItem, inflateItem } from '../../utils/item-utils'
 import { getUnreadItems } from './selectors'
 
 import { getItemsAS } from '../async-storage/'
@@ -33,6 +33,7 @@ export function * inflateItems (action) {
 
   try {
     itemsToInflate = yield call(getItemsAS, itemsToInflate)
+    itemsToInflate = itemsToInflate.map(inflateItem)
     yield put({
       type: 'ITEMS_FLATE',
       itemsToInflate,

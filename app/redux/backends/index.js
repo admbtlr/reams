@@ -98,6 +98,14 @@ function addFeed (url) {
   }
 }
 
+async function getFeedDetails (feed) {
+  switch (backend) {
+    case 'feedwrangler':
+      feed = await feedwrangler.getFeedDetails(feed)
+  }
+  return await rizzle.getFeedDetails(feed)
+}
+
 function authenticate (username, password, backend) {
   switch (backend) {
     case 'rizzle':
@@ -109,4 +117,4 @@ function authenticate (username, password, backend) {
   }
 }
 
-export { authenticate, setBackend, fetchUnreadItems, fetchUnreadIds, markItemRead, addFeed, markFeedRead, loadMercuryStuff }
+export { authenticate, setBackend, fetchUnreadItems, fetchUnreadIds, getFeedDetails, markItemRead, addFeed, markFeedRead, loadMercuryStuff }
