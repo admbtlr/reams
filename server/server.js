@@ -1,8 +1,9 @@
 const express = require('express')
-const request = require ('request')
+const request = require('request')
 const FeedParser = require('feedparser')
 const Iconv = require('iconv').Iconv
 const zlib = require('zlib')
+const parseFavicon = require('parse-favicon')
 
 const app = express()
 
@@ -42,6 +43,56 @@ app.get('/feed/', (req, res) => {
       res.send(items)
     }
   })
+})
+
+app.get('/feed-meta/', (req, res) => {
+  let feedMeta
+  const feedUrl = req.query.url || 'https://www.theguardian.com/world/rss'
+  const readMeta = (items) => {
+    if (items && items.length) {
+      const meta = items[0].meta
+      console.log(meta)
+      feedMeta = {
+        description: meta.description,
+        favicon: meta.favicon,
+        image: meta.image.url,
+        url: meta.link,
+        color: meta.color
+      }
+      // res.send(feedMeta)
+      getFavicon(feedMeta, res)
+    } else {
+      res.send({})
+    }
+  }
+  const getFavicon = (feedMeta, res) => {
+    request(feedMeta.url, (err, resp, body) => {
+      if (err) {
+        console.log(err)
+        res.send(feedMeta)
+      }
+      parseFavicon.parseFavicon(body, {}).then(favicons => {
+        let favicon
+        const getSize = f => f.size
+          ? f.size.split('x')[0]
+          : 0
+        if (favicons && favicons.length > 0) {
+          favicons = favicons.sort((a, b) => getSize(a) - getSize(b))
+            .filter(f => getSize(f) !== 0)
+          if (favicons.length) {
+            favicon = favicons[0]
+          }
+        }
+
+        feedMeta.favicon = favicon
+        res.send(feedMeta)
+      }).catch(err => {
+        console.log(err)
+        res.send(feedMeta)
+      })
+    })
+  }
+  fetch(feedUrl, readMeta)
 })
 
 // Serve index page
@@ -96,7 +147,7 @@ function fetch (feed, done) {
 
   feedparser.on('error', (error) => {
     console.log("That's an error...")
-    // console.log(error)
+    console.log(error)
     // done([])
   })
 
