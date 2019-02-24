@@ -9,6 +9,8 @@ let itemsCache = []
 
 const CLIENT_KEY = 'fdc257afbb554f67888c2aee80481e8e'
 
+let feeds
+
 export const authenticate = (username, password) => {
   let url = 'https://feedwrangler.net/api/v2/users/authorize?'
   url += 'email=' + username
@@ -241,7 +243,14 @@ export const markItemRead = (item) => {
 }
 
 export const getFeedDetails = (feed) => {
+  let feedExtras
   const id = typeof feed === 'object' ? feed.id : feed
+  if (feeds && (feedExtras = feeds.find(f => f.feed_id === feed.id))) {
+    return {
+      ...feed,
+      url: feedExtras.feed_url
+    }
+  }
   let url = 'https://feedwrangler.net/api/v2/subscriptions/list?'
   url += 'access_token=' + feedWranglerAccessToken
   return fetch(url)
@@ -253,8 +262,8 @@ export const getFeedDetails = (feed) => {
     })
     .then((response) => response.json())
     .then(json => {
-      const feeds = json.feeds
-      const feedExtras = feeds.find(f => f.feed_id = feed.id)
+      feeds = json.feeds
+      feedExtras = feeds.find(f => f.feed_id === feed.id)
       return {
         ...feed,
         url: feedExtras.feed_url

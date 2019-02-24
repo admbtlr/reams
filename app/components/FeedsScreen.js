@@ -176,6 +176,7 @@ class FeedsScreen extends React.Component {
   renderFeed = ({item}) => {
     return item && <Feed
       feedTitle={item.title}
+      feedDescription={item.description}
       feedColor={item.color}
       feedId={item._id}
       feedOriginalId={item.id}

@@ -82,20 +82,17 @@ export const markItemRead = (item) => {}
 export const markFeedRead = (item) => {}
 
 export async function getFeedDetails (feed) {
-  const url = `https://api.rizzle.net/feed/?url=${feed.url}`
+  const url = `https://api.rizzle.net/feed-meta/?url=${feed.url}`
   return fetch(url).then(response => {
     return { response, feed }
   }).then(({response, feed}) => {
-      if (!response.ok) {
-        throw {
-          feed,
-          message: response.statusText
-        }
+    if (!response.ok) {
+      throw {
+        feed,
+        message: response.statusText
       }
-      return response.json().then(json => {
-        debugger
-        console.log(json)
-      })
+    }
+    return response.json()
   }).catch(({feed, message}) => {
     return {feed, message}
   })
