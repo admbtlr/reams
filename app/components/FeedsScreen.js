@@ -104,15 +104,15 @@ class FeedsScreen extends React.Component {
   componentDidMount = () => {
     SplashScreen.hide()
 
-    // set up deep linking
-    // https://medium.com/react-native-training/d87c39a1ad5e
-    if (Platform.OS === 'android') {
-      Linking.getInitialURL().then(url => {
-        this.navigate(url);
-      })
-    } else {
-      Linking.addEventListener('url', this.handleOpenURL)
-    }
+    // // set up deep linking
+    // // https://medium.com/react-native-training/d87c39a1ad5e
+    // if (Platform.OS === 'android') {
+    //   Linking.getInitialURL().then(url => {
+    //     this.navigate(url);
+    //   })
+    // } else {
+    //   Linking.addEventListener('url', this.handleOpenURL)
+    // }
   }
 
   componentWillUnmount () {

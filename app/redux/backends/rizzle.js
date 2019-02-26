@@ -3,10 +3,10 @@ import {id} from '../../utils'
 // import { filterItemsForStale } from '../realm/stale-items'
 
 export async function sendEmailLink (email) {
-  const url = 'rizzle://account'
+  const url = 'https://app.rizzle.net/'
   const actionCodeSettings = {
     // Your redirect URL
-    url: 'https://localhost:4200/login',
+    url,
     handleCodeInApp: true,
     iOS: {
       bundleId: 'com.adam-butler.rizzle',

@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import Feed from '../containers/Feed'
 import TextButton from './TextButton'
+import GoogleAuth from './GoogleAuth'
 import AccountCredentialsForm from './AccountCredentialsForm'
 import XButton from './XButton'
 import { hslString } from '../utils/colors'
@@ -70,6 +71,7 @@ class AccountScreen extends React.Component {
               isExpandable={true}
               renderExpandedView={() => <AccountCredentialsForm service='rizzle' />}
             />
+            <GoogleAuth/>
             <Text style={{
               ...textStyles,
               marginBottom: 21

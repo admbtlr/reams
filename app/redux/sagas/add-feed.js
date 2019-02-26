@@ -35,11 +35,9 @@ export function * subscribeToFeed (action) {
 
 export function * inflateFeed () {
   const feeds = yield select(getFeeds)
-  debugger
   for (let i=0; i<feeds.length; i++) {
     if (!feeds[i].description) {
       const details = yield getFeedDetails(feeds[i])
-      debugger
     }
   }
 }
