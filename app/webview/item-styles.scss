@@ -66,7 +66,7 @@ body {
   .dark-background & {
     background-color: hsl(240, 17%, 12%);
     &, a, a:active, a:visited {
-      color: hsl(0, 0%, 90%);
+      color: hsl(0, 0%, 70%);
     }
   }
 }
@@ -778,6 +778,6 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   color: #000;
 }
 
-body .itemArticle.dropCapIsMonochrome.dark-background > p:not(.short-para):first-of-type:first-letter {
-  color: #fff;
+.dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
+  color: #ddd;
 }

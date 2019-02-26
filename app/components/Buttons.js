@@ -99,7 +99,9 @@ class Buttons extends React.Component {
 
   getBackgroundColor (item) {
     // return hslString('rizzleBG')
-    return 'white'
+    return this.props.isDarkBackground ?
+      'hsl(0, 0%, 0%)' :
+      'white'
     // const feedColor = item ? item.feed_color : null
     // return this.props.displayMode == 'saved' ?
     //   hslString('rizzleBG') :
@@ -166,7 +168,9 @@ class Buttons extends React.Component {
   }
 
   renderButtons (item, opacityAnim, isCurrent) {
-    const strokeColor = 'black'
+    const strokeColor = this.props.isDarkBackground ?
+      'hsl(0, 0%, 70%)' :
+      'black'
     const showMercuryContent = item && item.showMercuryContent
     const isMercuryButtonEnabled = item && item.content_mercury
     const saveStrokeColour = item && item.isSaved ?
@@ -241,8 +245,8 @@ class Buttons extends React.Component {
             width='50'
             style={{
               transform: [
-                { translateX: -3 },
-                { translateY: -2 }
+                { translateX: -2 },
+                { translateY: -3 }
               ]
             }}>
             <Path fill="none" stroke={strokeColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
@@ -297,9 +301,9 @@ class Buttons extends React.Component {
               transform: [{
                 scale: 0.5
               }, {
-                translateY: -2
+                translateY: -4
               }, {
-                translateX: -1
+                translateX: 1
               }]
             }}>
             <Polyline
@@ -434,9 +438,9 @@ class Buttons extends React.Component {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 16,
-        paddingLeft: 16,
-        paddingRight: 16
+        marginBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20
       },
       buttonSVG: {
         paddingLeft: 3

@@ -23,15 +23,21 @@ class AppStateListener extends React.Component {
     this.showSaveFeedModal = this.showSaveFeedModal.bind(this)
 
     AppState.addEventListener('change', this.handleAppStateChange)
+
+    this.checkBuckets()
+  }
+
+  async checkBuckets () {
+    await this.checkClipboard()
+    await this.checkPageBucket()
+    this.checkFeedBucket()
+    // see Rizzle component
   }
 
   async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.props.appWentActive()
-      await this.checkClipboard()
-      await this.checkPageBucket()
-      this.checkFeedBucket()
-      // see Rizzle component
+      await this.checkBuckets()
 
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
         this.props.fetchData()
@@ -58,16 +64,18 @@ class AppStateListener extends React.Component {
   }
 
   async checkPageBucket () {
-    try {
-      const value = await SharedGroupPreferences.getItem('page', this.group)
+    SharedGroupPreferences.getItem('page', this.group).then(value => {
       if (value !== null) {
         SharedGroupPreferences.setItem('page', null, this.group)
         console.log(`Got a page to save: ${value}`)
-        this.showSavePageModal(value)
+        this.showSavePageModal(value, this)
       }
-    } catch(err) {
-      log('checkPageBucket', err)
-    }
+    }).catch(err => {
+      // '1' just means that there is nothing in the bucket
+      if (err !== 1) {
+        log('checkPageBucket', err)
+      }
+    })
   }
 
   checkFeedBucket () {
@@ -113,10 +121,15 @@ class AppStateListener extends React.Component {
             log('checkFeedBucket', err)
           })
       }
+    }).catch(err => {
+      // '1' just means that there is nothing in the bucket
+      if (err !== 1) {
+        log('checkFeedBucket', err)
+      }
     })
   }
 
-  showSavePageModal (url) {
+  showSavePageModal (url, scope) {
     this.props.showModal({
       modalText: [
         {
@@ -131,7 +144,7 @@ class AppStateListener extends React.Component {
       modalHideCancel: false,
       modalShow: true,
       modalOnOk: () => {
-        this.props.saveURL(url)
+        scope.props.saveURL(url)
       }
     })
   }

@@ -24,7 +24,8 @@ const mapStateToProps = (state) => {
     toolbar: state.toolbar,
     displayMode: state.itemsMeta.display,
     decoratedCount: state.itemsMeta.decoratedCount,
-    visible: state.ui.itemButtonsVisible
+    visible: state.ui.itemButtonsVisible,
+    isDarkBackground: state.webView.isDarkBackground
   }
 }
 
@@ -44,6 +45,10 @@ const mapDispatchToProps = (dispatch) => {
       }
     },
     toggleDisplay: () => dispatch({ type: 'TOGGLE_DISPLAYED_ITEMS' }),
+    share: () => dispatch({
+      type: 'ITEM_SHARE_ITEM',
+      item
+    }),
     toggleMercury: (item) => {
       if (item) {
         dispatch({

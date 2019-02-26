@@ -14,6 +14,7 @@ import {
   nullValuesToEmptyStrings,
   addMercuryStuffToItem,
   addCoverImageToItem,
+  rizzleSort,
   setShowCoverImage
 } from '../../utils/item-utils.js'
 
@@ -117,6 +118,7 @@ export const itemsUnread = (state = initialState, action) => {
       }
 
     case 'ITEMS_BATCH_FETCHED':
+      const feeds = action.feeds
       items = [...state.items]
       newItems = action.items
       newItems.forEach(newItem => {
@@ -128,23 +130,24 @@ export const itemsUnread = (state = initialState, action) => {
         }
       })
 
-      // check for current item
-      currentItem = state.items[state.index]
-      if (currentItem && !items.find(item => item && item._id === currentItem._id)) {
-        items.push(currentItem)
-      }
-
       // remove read items
       items = items.filter(i => !i.readAt)
 
       // order by date
-      items.sort((a, b) => a.created_at - b.created_at)
-      const index = items.indexOf(currentItem)
+      // items.sort((a, b) => a.created_at - b.created_at)
+      // const index = items.indexOf(currentItem)
+
+      items = rizzleSort(items, feeds)
+      // check for current item
+      currentItem = state.items[state.index]
+      if (currentItem && !items.find(item => item && item._id === currentItem._id)) {
+        items.unshift(currentItem)
+      }
 
       return {
         ...state,
         items,
-        index: index || 0
+        index: 0
       }
 
     case 'ITEMS_FETCH_DATA_SUCCESS':
@@ -209,6 +212,12 @@ export const itemsUnread = (state = initialState, action) => {
       return {
         ...state,
         items
+      }
+
+    case 'FEEDS_REMOVE_FEED':
+      return {
+        ...state,
+        items: state.items.filter(i => i.feed_id !== action.id)
       }
 
     case 'ITEM_TOGGLE_MERCURY':

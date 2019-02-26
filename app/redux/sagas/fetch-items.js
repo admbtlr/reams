@@ -57,7 +57,7 @@ export function * fetchItems2 () {
       }
     }
   } catch (err) {
-    console.log('ERROR FETCHING ITEMS: ' + err)
+    log('fetchItems2', err)
   } finally {
     yield put({
       type: 'FEEDS_SET_LAST_UPDATED',
@@ -70,11 +70,11 @@ export function * fetchItems2 () {
       type: 'ITEMS_IS_LOADING',
       isLoading: false
     })
-    yield put({
-      type: 'ITEMS_UPDATE_CURRENT_INDEX',
-      index: 0,
-      displayMode
-    })
+    // yield put({
+    //   type: 'ITEMS_UPDATE_CURRENT_INDEX',
+    //   index: 0,
+    //   displayMode
+    // })
   }
 }
 
@@ -111,9 +111,7 @@ function * receiveItems (newItems) {
       }
     })
 
-  // yield call(addUnreadItemsToFirestore, items)
   yield call(setItemsAS, items)
-  // yield call(incrementUnreadCountFS, items.length)
   feeds = incrementFeedUnreadCounts(items, feeds)
 
   yield put({
@@ -121,11 +119,10 @@ function * receiveItems (newItems) {
     feeds
   })
 
-  // upsertFeedsFS(feeds)
-
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
-    items: items.map(deflateItem)
+    items: items.map(deflateItem),
+    feeds
   })
 }
 

@@ -17,8 +17,8 @@ const mapStateToProps = (state, ownProps) => {
     null
   return {
     ...ownProps,
-    numFeedItems,
-    numRead: feed.num_read || 0,
+    numUnread: feed.number_unread,
+    numRead: feed.number_read || 0,
     readingTime: feed.reading_time || 0,
     readingRate: feed.reading_rate || 0,
     coverImagePath,

@@ -1,0 +1,6 @@
+{
+  "builds": [
+    { "src": "*", "use": "@now/static" }
+  ],
+  "alias": "rizzle.app"
+}

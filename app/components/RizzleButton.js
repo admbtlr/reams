@@ -32,7 +32,7 @@ class RizzleButton extends React.Component {
         borderWidth: 2,
         justifyContent: 'center',
         flexDirection: 'column',
-        opacity: 0.8
+        opacity: 0.9
     }
   }
 

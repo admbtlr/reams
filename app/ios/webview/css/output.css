@@ -45,7 +45,7 @@ body {
   .dark-background body {
     background-color: #191924; }
     .dark-background body, .dark-background body a, .dark-background body a:active, .dark-background body a:visited {
-      color: #e6e6e6; }
+      color: #b3b3b3; }
 
 .item {
   height: 100vh; }
@@ -1053,8 +1053,8 @@ article > div:not(:last-of-type) figure:last-child {
 body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
   color: #000; }
 
-body .itemArticle.dropCapIsMonochrome.dark-background > p:not(.short-para):first-of-type:first-letter {
-  color: #fff; }
+.dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
+  color: #ddd; }
 
 html.onboarding {
   font-size: calc(7vw); }

@@ -1,20 +1,22 @@
 import React from 'react'
 import {Animated, Dimensions, InteractionManager, Linking, ScrollView, View, WebView} from 'react-native'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import FeedInfoContainer from '../containers/FeedInfo'
 import {deepEqual, getCachedImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
 import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
+import { hslString } from '../utils/colors'
+import log from '../utils/log'
 
 class FeedItem extends React.Component {
   constructor(props) {
     super(props)
     this.props = props
-
-    if (__DEV__) {
-      this.props.item.styles = createItemStyles(this.props.item)
-    }
+    // if (__DEV__) {
+    //   this.props.item.styles = createItemStyles(this.props.item)
+    // }
 
     this.scrollOffset = new Animated.Value(0)
 
@@ -26,6 +28,7 @@ class FeedItem extends React.Component {
 
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
+    this.openLink = this.openLink.bind(this)
   }
 
   componentDidMount () {
@@ -153,7 +156,7 @@ class FeedItem extends React.Component {
     // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
     let articleClasses = [
-      ...styles.fontClasses,
+      ...Object.values(styles.fontClasses),
       'itemArticle',
       styles.color,
       styles.dropCapFamily === 'header' ? 'dropCapFamilyHeader' : '',
@@ -220,10 +223,14 @@ class FeedItem extends React.Component {
       </body>
       <script src="${server}webview/js/feed-item.js"></script>
     </html>`
-    const openLinksExternallyProp = __DEV__ ? {} : {
+
+    const that = this
+
+    const openLinksExternallyProp = /*__DEV__ ? {} :*/ {
       onShouldStartLoadWithRequest: (e) => {
         if (e.navigationType === 'click') {
-          Linking.openURL(e.url)
+          // Linking.openURL(e.url)
+          that.openLink(url)
           return false
         } else {
           return true
@@ -238,8 +245,6 @@ class FeedItem extends React.Component {
             imageDimensions={!!hasCoverImage && imageDimensions}
             feedTitle={this.props.item.feed_title}
           />
-
-    const that = this
 
     return (
       <Animated.View style={{
@@ -273,8 +278,8 @@ class FeedItem extends React.Component {
             excerpt={this.props.item.excerpt}
             date={created_at}
             scrollOffset={this.scrollOffset}
-            font={styles.fontClasses[0]}
-            bodyFont={styles.fontClasses[1]}
+            font={styles.fontClasses.heading}
+            bodyFont={styles.fontClasses.body}
             hasCoverImage={hasCoverImage}
             showCoverImage={showCoverImage}
             coverImageStyles={styles.coverImage}
@@ -320,6 +325,36 @@ class FeedItem extends React.Component {
 
   launchImageViewer (url) {
     this.props.showImageViewer(url)
+  }
+
+  async openLink (url) {
+    try {
+      await InAppBrowser.isAvailable()
+      const result = await InAppBrowser.open(url, {
+        // iOS Properties
+        dismissButtonStyle: 'cancel',
+        preferredBarTintColor: 'white',
+        preferredControlTintColor: hslString(this.props.item.feed_color),
+        readerMode: false,
+        // Android Properties
+        showTitle: true,
+        toolbarColor: '#6200EE',
+        secondaryToolbarColor: 'black',
+        enableUrlBarHiding: true,
+        enableDefaultShare: true,
+        forceCloseOnRedirection: false,
+        // Specify full animation resource identifier(package:anim/name)
+        // or only resource name(in case of animation bundled with app).
+        animations: {
+          startEnter: 'slide_in_bottom',
+          startExit: 'slide_out_bottom',
+          endEnter: 'slide_in_bottom',
+          endExit: 'slide_out_bottom',
+        },
+      })
+    } catch (error) {
+      log(error)
+    }
   }
 
   // nasty workaround to figure out scrollEnd

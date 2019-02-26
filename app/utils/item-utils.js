@@ -1,8 +1,9 @@
-import {Dimensions} from 'react-native'
-import {createItemStyles} from './createItemStyles'
-import {getCachedImagePath} from './index'
 const RNFS = require('react-native-fs')
 const sanitizeHtml = require('sanitize-html')
+import {Dimensions} from 'react-native'
+import {createItemStyles, compressStyles, expandStyles} from './createItemStyles'
+import {getCachedImagePath} from './index'
+import LZString from 'lz-string'
 
 export function addStylesIfNecessary (item, index, items) {
   if (item.styles && !item.styles.temporary) {
@@ -21,19 +22,34 @@ export function addStylesIfNecessary (item, index, items) {
 }
 
 export function deflateItem (item) {
+  const styles = item.styles
+  // const compressed = LZString.compressToUTF16(JSON.stringify(compressStyles(item.styles)))
   return {
     _id: item._id,
-    banner_image: item.bannerImage, // needed by the feed component
-    content_length: item.content_html.length,
+    banner_image: item.banner_image, // needed by the feed component
+    content_length: item.content_length || (item.content_html
+      ? item.content_html.length
+      : 0),
     created_at: item.created_at,
     feed_id: item.feed_id,
     feed_color: item.feed_color,
+    hasCoverImage: item.hasCoverImage,
+    imageDimensions: item.imageDimensions,
     hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
-    styles: item.styles,
     title: item.title,
     url: item.url,
+  }
+}
+
+export function inflateItem (item) {
+  const styles = item.styles
+  if (typeof styles === 'object') return item
+  const expanded = expandStyles(JSON.parse(LZString.decompressFromUTF16(styles)))
+  return {
+    ...item,
+    styles: expanded
   }
 }
 
@@ -54,8 +70,12 @@ export function fixRelativePaths (item) {
 }
 
 export function sanitizeContent (item) {
-  if (item.content_html) item.content_html = sanitizeHtml(item.content_html)
-  if (item.content_mercury) item.content_mercury = sanitizeHtml(item.content_mercury)
+  if (item.content_html) item.content_html = sanitizeHtml(item.content_html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
+  })
+  if (item.content_mercury) item.content_mercury = sanitizeHtml(item.content_mercury, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
+  })
   return item
 }
 
@@ -66,7 +86,9 @@ export function nullValuesToEmptyStrings (item) {
 }
 
 export function addMercuryStuffToItem (item, mercury) {
-  mercury.content = sanitizeHtml(mercury.content)
+  mercury.content = sanitizeHtml(mercury.content, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
+  })
   if (item.is_external) {
     return {
       ...item,
@@ -175,23 +197,45 @@ export function removeCachedCoverImages (items) {
 }
 
 export function rizzleSort (items, feeds) {
-  let itemsByFeed = {}
-  let keys = []
-  let sorted = []
-  items.forEach(i => {
-    (itemsByFeed[i.feed_id] = itemsByFeed[i.feed_id] || []).push(i)
+// another possible algorithm here would be
+// sort the items by date
+// then sort each by day by feed reading_rate
+  const sorted = items.sort((a, b) => {
+    const aDate = new Date(a.created_at)
+    const bDate = new Date(b.created_at)
+    if (aDate.getFullYear() === bDate.getFullYear() &&
+      aDate.getMonth() === bDate.getMonth() &&
+      aDate.getDate() === bDate.getDate()) {
+      return feeds.find(f => f._id === b.feed_id).reading_rate || 0 -
+        feeds.find(f => f._id === a.feed_id).reading_rate || 0
+    } else {
+      return b.created_at - a.created_at
+    }
   })
-  keys = Object.keys(itemsByFeed)
-  keys.forEach(k => {
-    itemsByFeed[k].sort((a, b) => b.created_at - a.created_at)
-  })
-  keys.sort((a, b) => {
-    aFeed = feeds.find(f => f._id === a)
-    bFeed = feeds.find(f => f._id === b)
-    return bFeed.reading_rate - aFeed.reading_rate
-  })
-  keys.forEach(k => {
-    sorted = sorted.concat(itemsByFeed[k])
-  })
-  return sorted
+  return rizzleShuffle(sorted)
+
+  // let itemsByFeed = {}
+  // let keys = []
+  // let sorted = []
+  // items.forEach(i => {
+  //   (itemsByFeed[i.feed_id] = itemsByFeed[i.feed_id] || []).push(i)
+  // })
+  // keys = Object.keys(itemsByFeed)
+  // keys.forEach(k => {
+  //   itemsByFeed[k].sort((a, b) => b.created_at - a.created_at)
+  // })
+  // keys.sort((a, b) => {
+  //   aFeed = feeds.find(f => f._id === a)
+  //   bFeed = feeds.find(f => f._id === b)
+  //   return bFeed.reading_rate - aFeed.reading_rate
+  // })
+  // keys.forEach(k => {
+  //   sorted = sorted.concat(itemsByFeed[k])
+  // })
+  // return rizzleShuffle(sorted)
+}
+
+function rizzleShuffle(items) {
+  return items.sort((a, b) => (items.indexOf(a) + Math.random() * items.length / 10) -
+    (items.indexOf(b) + Math.random() * items.length / 10))
 }

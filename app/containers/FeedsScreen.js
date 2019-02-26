@@ -19,12 +19,7 @@ const areFeedsListsEqual = (a, b) => {
 
 const mapStateToProps = (state) => {
   const items = state.itemsUnread.items
-  const feeds = state.feeds.feeds.map(feed => {
-    return {
-      ...feed,
-      numItems: items.filter(i => i.feed_id === feed._id).length
-    }
-  }).sort((a, b) => b.numItems - a.numItems)
+  const feeds = state.feeds.feeds.sort((a, b) => b.number_unread - a.number_unread)
 
   if (!areFeedsListsEqual(feeds, feedsCache)) {
     feedsCache = [...feeds]

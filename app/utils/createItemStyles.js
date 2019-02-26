@@ -82,8 +82,8 @@ export function createItemStyles (item, prevStyles) {
   title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.4
   title.isUpperCase = item.title.length < 80 &&
-    ((fonts[0].substring(0, 14) === 'headerFontSans2' && Math.random() > 0.5) ||
-      (fonts[0].substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) ||
+    ((fonts.heading.substring(0, 14) === 'headerFontSans2' && Math.random() > 0.5) ||
+      (fonts.heading.substring(0, 14) === 'headerFontSans' && Math.random() > 0.7) ||
       Math.random() > 0.8)
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.7 + Math.random() * 0.2 :
@@ -154,6 +154,109 @@ export function createItemStyles (item, prevStyles) {
   }
 }
 
+export function getStylesCompressionMap () {
+  return {
+    fontClasses: {
+      heading: 'h',
+      body: 'b'
+    },
+    border: 'b',
+    hasColorBlockquoteBG: 'hCBBG',
+    dropCapFamily: 'dCF',
+    dropCapIsMonochrome: 'dCIM',
+    dropCapSize: 'dCS',
+    dropCapIsDrop: 'dCID',
+    dropCapIsBold: 'dCIB',
+    dropCapIsStroke: 'dCIS',
+    color: 'c',
+    isMainColorDarker: 'iMCD',
+    isCoverImageColorDarker: 'iCICD',
+    isCoverInline: 'iCI',
+    showCoverImage: 'sCI',
+    coverImage: {
+      showCoverImage: 'sCI',
+      isBW: 'iBW',
+      isMultiply: 'iM',
+      isScreen: 'iS',
+      isCoverImageColorDarker: 'iCICD',
+      color: 'c',
+      resizeMode: 'rM',
+      align: 'a',
+      isInline: 'iI'
+    },
+    title: {
+      color: 'c',
+      interBolded: 'inB',
+      maximiseFont: 'mF',
+      textAlign: 'tA',
+      title: 't',
+      isVertical: 'iV',
+      isInline: 'iI',
+      isUpperCase: 'iU',
+      lineHeightAsMultiplier: 'lHAM',
+      invertBG: 'iBG',
+      isItalic: 'iIt',
+      bg: 'bg',
+      hasShadow: 'hS',
+      valign: 'va',
+      isBold: 'iB',
+      borderWidth: 'bW',
+      excerptInvertBG: 'eIGB',
+      excerptFullWidth: 'eFW',
+      excerptHorizontalAlign: 'eHA',
+    }
+  }
+}
+
+export function compressStyles (styles) {
+  if (typeof styles !== 'object') return styles
+  let compressed = {}
+  const map = getStylesCompressionMap()
+  let compressedKey
+  for (let key in styles) {
+    if (typeof styles[key] === 'undefined' ||
+      styles[key] === null) {
+      continue
+    } else if (typeof styles[key] !== 'object') {
+      compressedKey = map[key]
+      compressed[compressedKey] = styles[key]
+    } else {
+      compressedKey = map[key]
+      compressed[key] = {}
+      for (let subKey in styles[key]) {
+        let compressedSubKey = map[key][subKey]
+        compressed[key][compressedSubKey] = styles[key][subKey]
+      }
+    }
+  }
+  return compressed
+}
+
+export function expandStyles (compressed) {
+  let styles = {}
+  const map = getStylesCompressionMap()
+  let key, subKey
+  for (let compressedKey in compressed) {
+    key = Object.keys(map).find(k => map[k] === compressedKey)
+      || compressedKey // keys whose values are objects are not compressed
+    if (typeof compressed[compressedKey] === 'undefined' ||
+      compressed[compressedKey] === null) {
+      continue
+    } else if (typeof compressed[compressedKey] !== 'object') {
+      styles[key] = compressed[compressedKey]
+    } else {
+      styles[compressedKey] = {}
+      for (let compressedSubKey in compressed[compressedKey]) {
+        subKey = Object.keys(map[key]).find(k => {
+          return map[k] === compressedSubKey
+        })
+        styles[key][subKey] = styles[key][compressedSubKey]
+      }
+    }
+  }
+  return styles
+}
+
 export function createCoverImageStyles (item) {
   let styles = {
     isContain: false,
@@ -213,20 +316,20 @@ const shouldInterBold = (title) => {
 
 
 const getFontClasses = function () {
-  let headerClass = 'headerFont'
-  let bodyClass = 'bodyFont'
+  let heading = 'headerFont'
+  let body = 'bodyFont'
   if (Math.random() > 0.3) {
     // sans heading, serif body
-    // headerClass += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
-    headerClass += 'Sans' + (Math.floor((Math.random() * 2)) + 1)
-    bodyClass += 'Serif' + (Math.floor((Math.random() * 3)) + 1)
+    // heading += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
+    heading += 'Sans' + (Math.floor((Math.random() * 2)) + 1)
+    body += 'Serif' + (Math.floor((Math.random() * 3)) + 1)
   } else {
     // serif heading, sans body
-    // headerClass += 'Serif' + (Math.floor((Math.random()*3))+1)
-    headerClass += 'Serif1'
-    bodyClass += 'Sans' + (Math.floor((Math.random()*2))+1)
+    // heading += 'Serif' + (Math.floor((Math.random()*3))+1)
+    heading += 'Serif1'
+    body += 'Sans' + (Math.floor((Math.random()*2))+1)
   }
-  return [headerClass, bodyClass]
+  return {heading, body}
 }
 
 const isMultiply = function () {
