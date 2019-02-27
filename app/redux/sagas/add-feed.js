@@ -40,9 +40,10 @@ export function * inflateFeeds () {
   let i = 0
   while (!done) {
     yield call(delay, 500)
-    const details = yield getFeedDetails(feeds[i++])
+    const feed = feeds[i++]
+    const details = yield getFeedDetails(feed)
     const inflatedFeed = {
-      ...feeds[i],
+      ...feed,
       ...details
     }
     yield put({
