@@ -1,10 +1,11 @@
-import { call, delay } from 'redux-saga'
-import { put, select } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { call, put, select } from 'redux-saga/effects'
 import { addFeed, getFeedDetails } from '../backends'
 import { id, getFeedColor } from '../../utils/'
 import feeds from '../../utils/seedfeeds.js'
 import { upsertFeedsFS, addFeedToFirestore } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
+const RNFS = require('react-native-fs')
 
 import { getFeeds, isFirstTime } from './selectors'
 
@@ -33,20 +34,47 @@ export function * subscribeToFeed (action) {
   })
 }
 
-export function * inflateFeed () {
+export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
-  for (let i=0; i<feeds.length; i++) {
-    if (!feeds[i].description) {
-      const details = yield getFeedDetails(feeds[i])
-      yield put({
-        type: 'FEEDS_UPDATE_FEED',
-        feed: {
-          ...feeds[i],
-          ...details
-        }
-      })
+  let done = false
+  let i = 0
+  while (!done) {
+    yield call(delay, 500)
+    const details = yield getFeedDetails(feeds[i++])
+    const inflatedFeed = {
+      ...feeds[i],
+      ...details
+    }
+    yield put({
+      type: 'FEEDS_UPDATE_FEED',
+      feed: inflatedFeed
+    })
+    if (inflatedFeed.favicon) {
+      cacheFeedFavicon(inflatedFeed)
     }
   }
+}
+
+function cacheFeedFavicon (feed) {
+  const url = feed.favicon.url
+    || (feed.url.endsWith('/')
+      ? feed.url + feed.favicon.path.substring(1)
+      : feed.url + feed.favicon.path)
+  // making a big assumption that this is a png...
+  const fileName = `${RNFS.DocumentDirectoryPath}/feed-icons/${feed._id}.png`
+  return RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-icons`).then(_ =>
+    RNFS.downloadFile({
+      fromUrl: url,
+      toFile: fileName
+    }).promise.then((result) => {
+      console.log(`Cached feed favicon for ${feed.title} from${url} to ${fileName}`)
+      return true
+    })
+  ).catch((err) => {
+    console.log(`Loading feed favicon for ${feed._id} failed :(`)
+    console.log(err)
+    return false
+  })
 }
 
 export async function * subscribeToFeeds (action) {

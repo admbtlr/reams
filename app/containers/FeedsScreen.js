@@ -21,12 +21,12 @@ const mapStateToProps = (state) => {
   const items = state.itemsUnread.items
   const feeds = state.feeds.feeds.sort((a, b) => b.number_unread - a.number_unread)
 
-  if (!areFeedsListsEqual(feeds, feedsCache)) {
-    feedsCache = [...feeds]
-  }
+  // if (!areFeedsListsEqual(feeds, feedsCache)) {
+  //   feedsCache = [...feeds]
+  // }
 
   return {
-    feeds: feedsCache,
+    feeds: feeds,
     numItems: items.length,
   }
 }

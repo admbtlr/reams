@@ -46,19 +46,14 @@ export function feeds (state = initialState, action) {
       }
 
     case 'FEEDS_UPDATE_FEED':
-      let dirtyFeed = state.feeds.find(f => f.url === action.feed.url)
-      const otherFeeds = state.feeds.filter(f => f.url !== action.feed.url)
-      dirtyFeed = {
+      const newState = { ...state }
+      const dirtyFeedIndex = newState.feeds.findIndex(f => f._id === action.feed._id)
+      let dirtyFeed = newState.feeds[dirtyFeedIndex]
+      newState.feeds[dirtyFeedIndex] = {
         ...dirtyFeed,
         ...action.feed
       }
-      return {
-        ...state,
-        feeds: [
-          ...otherFeeds,
-          dirtyFeed
-        ]
-      }
+      return newState
 
     case 'FEEDS_SET_LAST_UPDATED':
       return {

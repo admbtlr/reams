@@ -38,7 +38,8 @@ class ItemsScreen extends React.Component {
       }}>
         <StatusBar
           showHideTransition="slide"
-          barStyle="light-content" />
+          barStyle="light-content"
+          hidden={false} />
         <ToolbarsContainer navigation={this.props.navigation}/>
         <View style={styles.infoView} />
         <LogoSpinnerContainer />

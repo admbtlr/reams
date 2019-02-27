@@ -32,13 +32,13 @@ class FeedCoverImage extends React.Component {
          key='456'
        >
          <ColorBlending
-           color={blendColor(feedColor, 'lighter')}
+           color={blendColor(feedColor, 'desaturated')}
            blendMode='blendMultiply'
          >
            <ContrastSaturationBrightness
              saturation={0.5}
              contrast={0.8}
-             brightness={1.3}
+             brightness={2}
            >
              <GLImage
                center={[0.5, 0]}

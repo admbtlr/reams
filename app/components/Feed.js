@@ -211,13 +211,13 @@ class Feed extends React.PureComponent {
 
   shrink = () => {
     this.props.disableScroll(false)
-    Animated.spring(this.state.translateXAnim, {
+    Animated.timing(this.state.translateXAnim, {
       toValue: 0,
-      duration: 1000
+      duration: 300
     }).start()
-    Animated.spring(this.state.translateYAnim, {
+    Animated.timing(this.state.translateYAnim, {
       toValue: 0,
-      duration: 1000
+      duration: 300
     }).start()
     Animated.spring(this.state.imageHeightAnim, {
       toValue: this.cardWidth / 2,
@@ -492,6 +492,7 @@ class Feed extends React.PureComponent {
                       this.props.clearReadItems()
                       this.props.filterItems(feedId)
                       this.props.navigation.navigate('Items')
+                      StatusBar.setHidden(false)
                     }}
                     text="Go to items" />
                   <TextButton

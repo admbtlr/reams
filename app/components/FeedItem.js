@@ -267,7 +267,7 @@ class FeedItem extends React.Component {
           onMomentumScrollEnd={this.onMomentumScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
           ref={(ref) => { this.scrollView = ref }}
-          scrollEventThrottle={1}
+          scrollEventThrottle={16}
           style={{flex: 1}}
         >
           {showCoverImage && styles.isCoverInline && coverImage}
