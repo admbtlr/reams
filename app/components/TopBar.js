@@ -175,7 +175,7 @@ class TopBar extends React.Component {
     const springConfig = {
       speed: 20,
       bounciness: 8,
-      toValue: this.state.detailsVisible ? 260 : 0,
+      toValue: this.state.detailsVisible ? 1 : 0,
       duration: 200,
       useNativeDriver: true
     }
@@ -213,190 +213,225 @@ class TopBar extends React.Component {
     const areDetailsVisible = this.state && this.state.detailsVisible || false
 
     return (
-      <Animated.View
-        key={id()}
-        pointerEvents={isVisible ? 'auto' : 'none'}
-        style={{
-          ...textHolderStyles,
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          height: 321,
-          overflow: 'hidden',
-          paddingTop: 80,
-          position: 'absolute',
-          top: isIphoneX() ? -240 : -260,
-          shadowOffset: {
-            width: 0,
-            height: 1
-          },
-          shadowRadius: 1,
-          shadowOpacity: 0.1,
-          shadowColor: 'rgba(0, 0, 0, 1)',
-          transform: [{
-            translateY: Animated.add(Animated.diffClamp(
-              Animated.add(getAnimatedValue(), panTransformAnim),
-              -STATUS_BAR_HEIGHT,
-              0
-            ), this.detailsHeight)
-          }]
-        }}
-      >
-        <TouchableOpacity
+      <View>
+        <Animated.View
+          key={id()}
+          pointerEvents={isVisible && this.state.detailsVisible
+            ? 'auto'
+            : 'none'}
           style={{
-            position: 'absolute',
-            zIndex: 5,
-            left: 10,
-            marginTop: 3,
-            width: 28,
-            height: 28,
-            borderRadius: 14
-          }}
-          onPress={() => this.props.navigation.navigate('Feeds')}
-        >
-          <Svg
-            height='22'
-            width='28'>
-            <Line
-              fill='none'
-              stroke={this.getHamburgerColor(item)}
-              strokeLinecap='round'
-              strokeWidth='2'
-              x1='2'
-              x2='24'
-              y1='1'
-              y2='1'
-            />
-            <Line
-              fill='none'
-              stroke={this.getHamburgerColor(item)}
-              strokeLinecap='round'
-              strokeWidth='2'
-              x1='2'
-              x2='24'
-              y1='8'
-              y2='8'
-            />
-            <Line
-              fill='none'
-              stroke={this.getHamburgerColor(item)}
-              strokeLinecap='round'
-              strokeWidth='2'
-              x1='2'
-              x2='24'
-              y1='15'
-              y2='15'
-            />
-          </Svg>
-        </TouchableOpacity>
-        <Text style={{
-            ...this.getStyles().feedActions,
-            fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
-            // opacity: getAnimatedValueNormalised(),
-            height: 36,
-            backgroundColor: this.getBorderBottomColor(item),
-            color: 'white',
-            marginLeft: Dimensions.get('window').width * 0.5 - 80,
-            marginRight: Dimensions.get('window').width * 0.5 - 80,
-            paddingBottom: 20,
-            marginBottom: 30,
-            borderRadius: 10
-          }}
-        >12 Unread</Text>
-        <TouchableOpacity
-          onPress={() => {
-            this.props.markAllRead(item.feed_id)
-            console.log('MARK ALL READ!')
-        }}>
-          <Text style={{
-              ...this.getStyles().feedActions,
-              fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
-              // opacity: getAnimatedValueNormalised(),
-              height: 36,
-              color: this.getBorderBottomColor(item),
-              paddingBottom: 40,
-              textDecorationLine: 'underline'
-            }}
-          >Mark all read</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            this.props.unsubscribe(item.feed_id)
-            console.log('UNSUBSCRIBE!')
-          }}>
-          <Text style={{
-              ...this.getStyles().feedActions,
-              fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
-              // opacity: getAnimatedValueNormalised(),
-              height: 36,
-              color: this.getBorderBottomColor(item),
-              paddingBottom: 60,
-              textDecorationLine: 'underline'
-            }}
-          >Unsubscribe</Text>
-        </TouchableOpacity>
-        <TouchableWithoutFeedback
-          key={`inner-{id()}`}
-          onPress={() => {
-            console.log('BUTTON PRESSED!')
-            this.setState({
-              detailsVisible: !areDetailsVisible
-            })
-          }}
-          style={{
-            backgroundColor: 'transparent',
-            width: Dimensions.get('window').width - 35,
+            ...textHolderStyles,
+            backgroundColor: 'red',
+            flexDirection: 'column',
+            height: 600,
             overflow: 'hidden',
-            height: 36,
-          }}>
-          <Animated.Text
-            numberOfLines={1}
-            ellipsizeMode='tail'
+            paddingTop: 80,
+            position: 'absolute',
+            shadowOffset: {
+              width: 0,
+              height: 1
+            },
+            shadowRadius: 1,
+            shadowOpacity: 0.1,
+            shadowColor: 'rgba(0, 0, 0, 1)',
+            top: -600,
+            transform: [{
+              translateY: this.detailsHeight.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 600]
+              })
+            }]
+          }}
+        >
+        </Animated.View>
+        <Animated.View
+          key={id()}
+          pointerEvents={isVisible ? 'auto' : 'none'}
+          style={{
+            ...textHolderStyles,
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            height: 321,
+            overflow: 'hidden',
+            paddingTop: 80,
+            position: 'absolute',
+            top: isIphoneX() ? -240 : -260,
+            shadowOffset: {
+              width: 0,
+              height: 1
+            },
+            shadowRadius: 1,
+            shadowOpacity: 0.1,
+            shadowColor: 'rgba(0, 0, 0, 1)',
+            transform: [{
+              translateY: Animated.add(Animated.diffClamp(
+                Animated.add(getAnimatedValue(), panTransformAnim),
+                -STATUS_BAR_HEIGHT,
+                0
+              ), this.detailsHeight.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 260]
+              }))
+            }]
+          }}
+        >
+          <TouchableOpacity
             style={{
-              ...this.getStyles().feedName,
+              position: 'absolute',
+              zIndex: 5,
+              left: 10,
+              marginTop: 3,
+              width: 28,
+              height: 28,
+              borderRadius: 14
+            }}
+            onPress={() => this.props.navigation.navigate('Feeds')}
+          >
+            <Svg
+              height='22'
+              width='28'>
+              <Line
+                fill='none'
+                stroke={this.getHamburgerColor(item)}
+                strokeLinecap='round'
+                strokeWidth='2'
+                x1='2'
+                x2='24'
+                y1='1'
+                y2='1'
+              />
+              <Line
+                fill='none'
+                stroke={this.getHamburgerColor(item)}
+                strokeLinecap='round'
+                strokeWidth='2'
+                x1='2'
+                x2='24'
+                y1='8'
+                y2='8'
+              />
+              <Line
+                fill='none'
+                stroke={this.getHamburgerColor(item)}
+                strokeLinecap='round'
+                strokeWidth='2'
+                x1='2'
+                x2='24'
+                y1='15'
+                y2='15'
+              />
+            </Svg>
+          </TouchableOpacity>
+          <Text style={{
+              ...this.getStyles().feedActions,
               fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
               // opacity: getAnimatedValueNormalised(),
               height: 36,
-              width: Dimensions.get('window').width - 72,
-              marginLeft: 36,
-              marginRight: 36,
-              // marginLeft: 35,
-              transform: [{
-                translateY: transformAnim
-              }],
-              // color: this.getBorderBottomColor(item)
-              color: this.getForegroundColor()
+              backgroundColor: this.getBorderBottomColor(item),
+              color: 'white',
+              marginLeft: Dimensions.get('window').width * 0.5 - 80,
+              marginRight: Dimensions.get('window').width * 0.5 - 80,
+              paddingBottom: 20,
+              marginBottom: 30,
+              borderRadius: 10
             }}
+          >12 Unread</Text>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.markAllRead(item.feed_id)
+              console.log('MARK ALL READ!')
+          }}>
+            <Text style={{
+                ...this.getStyles().feedActions,
+                fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
+                // opacity: getAnimatedValueNormalised(),
+                height: 36,
+                color: this.getBorderBottomColor(item),
+                paddingBottom: 40,
+                textDecorationLine: 'underline'
+              }}
+            >Mark all read</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.unsubscribe(item.feed_id)
+              console.log('UNSUBSCRIBE!')
+            }}>
+            <Text style={{
+                ...this.getStyles().feedActions,
+                fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
+                // opacity: getAnimatedValueNormalised(),
+                height: 36,
+                color: this.getBorderBottomColor(item),
+                paddingBottom: 60,
+                textDecorationLine: 'underline'
+              }}
+            >Unsubscribe</Text>
+          </TouchableOpacity>
+          <TouchableWithoutFeedback
+            key={`inner-{id()}`}
+            onPress={() => {
+              console.log('BUTTON PRESSED!')
+              this.setState({
+                detailsVisible: !areDetailsVisible
+              })
+            }}
+            style={{
+              backgroundColor: 'transparent',
+              width: Dimensions.get('window').width - 35,
+              overflow: 'hidden',
+              height: 36,
+            }}>
+            <Animated.Text
+              numberOfLines={1}
+              ellipsizeMode='tail'
+              style={{
+                ...this.getStyles().feedName,
+                fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
+                // opacity: getAnimatedValueNormalised(),
+                height: 36,
+                width: Dimensions.get('window').width - 72,
+                marginLeft: 36,
+                marginRight: 36,
+                // marginLeft: 35,
+                transform: [{
+                  translateY: transformAnim
+                }],
+                // color: this.getBorderBottomColor(item)
+                color: this.getForegroundColor()
+              }}
+            >
+              {this.getMessage(item)}
+              {isMessage &&
+                <AnimatedEllipsis style={{
+                  color: 'white',
+                  fontSize: 16,
+                  letterSpacing: -5
+                }}/>
+              }
+            </Animated.Text>
+          </TouchableWithoutFeedback>
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              right: 10,
+              marginTop: 0,
+              width: 28,
+              height: 38,
+              // borderRadius: 14,
+              // backgroundColor: 'rgba(0, 0, 0, 0.3)'
+            }}
+            onPress={this.props.toggleViewButtons}
           >
-            {this.getMessage(item)}
-            {isMessage &&
-              <AnimatedEllipsis style={{
-                color: 'white',
-                fontSize: 16,
-                letterSpacing: -5
-              }}/>
-            }
-          </Animated.Text>
-        </TouchableWithoutFeedback>
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            right: 10,
-            marginTop: 0,
-            width: 28,
-            height: 38,
-            // borderRadius: 14,
-            // backgroundColor: 'rgba(0, 0, 0, 0.3)'
-          }}
-          onPress={this.props.toggleViewButtons}
-        >
-          <Text style={{
-            fontFamily: 'IBMPlexMono-Bold',
-            color: 'white',
-            paddingLeft: 6,
-            paddingTop: 3
-          }}>A<Text style={{ color: 'rgba(0,0,0,0.8)', fontSize: 22 }}>Z</Text></Text>
-        </TouchableOpacity>
-      </Animated.View>)
+            <Text style={{
+              fontFamily: 'IBMPlexMono-Bold',
+              color: 'white',
+              paddingLeft: 6,
+              paddingTop: 3
+            }}>A<Text style={{ color: 'rgba(0,0,0,0.8)', fontSize: 22 }}>Z</Text></Text>
+          </TouchableOpacity>
+        </Animated.View>
+    </View>)
   }
 
   getStyles() {
