@@ -57,6 +57,8 @@ export default class Rizzle extends Component {
     setTimeout(() => {
       global.isStarting = false
     }, 5000)
+
+    console.disableYellowBox = true
   }
 
   render () {
