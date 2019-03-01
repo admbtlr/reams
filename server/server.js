@@ -80,7 +80,9 @@ app.get('/feed-meta/', (req, res) => {
           favicons = favicons.sort((a, b) => getSize(a) - getSize(b))
             .filter(f => getSize(f) !== 0)
           if (favicons.length) {
-            favicon = favicons[0]
+            // try and get the smallest one larger than 31
+            favicon = favicons.find(f => getSize(f) > 31)
+             || favicons[0]
           }
         }
 
