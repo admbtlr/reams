@@ -157,6 +157,7 @@ export const itemsUnread = (state = initialState, action) => {
       }
 
     case 'ITEMS_FLATE':
+      // the items in the action are already inflated/deflated
       const flatedItems = action.itemsToInflate
         .concat(action.itemsToDeflate)
       items = [...state.items]
@@ -167,7 +168,11 @@ export const itemsUnread = (state = initialState, action) => {
         // TODO check whether this is really the case!
         if (fi) {
           const index = items.findIndex(item => item._id === fi._id)
-          items[index] = fi
+          // don't deflate an item that is currently in view
+          if (!(Math.abs(index - state.index) <= 1
+            && typeof fi.content_html === 'undefined')) {
+            items[index] = fi
+          }
         }
       })
       return {
