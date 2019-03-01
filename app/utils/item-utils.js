@@ -235,7 +235,18 @@ export function rizzleSort (items, feeds) {
   // return rizzleShuffle(sorted)
 }
 
+// caution side effects!
+// adds a `shuffle_factor` to each item, so that the shuffle is deterministic
 function rizzleShuffle(items) {
-  return items.sort((a, b) => (items.indexOf(a) + Math.random() * items.length / 10) -
-    (items.indexOf(b) + Math.random() * items.length / 10))
+  // this used to be (items.length / 10)
+  const SHUFFLE_STRENGTH = 10
+  items = items.map(i => i.shuffle_factor
+    ? i
+    : {
+      ...i,
+      shuffle_factor: Math.random() * SHUFFLE_STRENGTH
+    })
+
+  return items.sort((a, b) => (items.indexOf(a) + a.shuffle_factor) -
+    (items.indexOf(b) + b.shuffle_factor))
 }
