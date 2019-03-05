@@ -39,7 +39,7 @@ function * executeAction (action) {
   console.log('Executing action: ' + action.type)
   switch (action.type) {
     case 'ITEM_MARK_READ':
-      // console.log('Marking item read...')
+      console.log('Marking item read...')
       try {
         yield markItemRead(action.item)
 
@@ -50,9 +50,9 @@ function * executeAction (action) {
           ...action.item,
           readAt: Date.now()
         })
-        addReadItemFS(action.item)
+        // addReadItemFS(action.item)
 
-        // console.log('Marking item read... done')
+        console.log('Marking item read... done')
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action
