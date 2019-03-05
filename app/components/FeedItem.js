@@ -21,7 +21,6 @@ class FeedItem extends React.Component {
     this.scrollOffset = new Animated.Value(0)
 
     this.state = {
-      headerClassList: this.getHeaderClasses(),
       webViewHeight: 500,
       scaleAnim: new Animated.Value(1)
     }
@@ -170,8 +169,6 @@ class FeedItem extends React.Component {
       styles.dropCapIsDrop ? 'dropCapIsDrop' : '',
       styles.dropCapIsBold ? 'dropCapIsBold' : '',
       styles.dropCapIsStroke ? 'dropCapIsStroke' : ''].join(' ')
-
-    let headerClasses = this.state.headerClassList.join(' ')
 
     let coverImageClasses = ''
     let coverClasses = ''
@@ -442,40 +439,6 @@ class FeedItem extends React.Component {
   // getOverlayInlineStyles () {
   //   let baseStyle = 'height: 100vh;'
   //   let extras = ''
-
-  getHeaderClasses = () => {
-    let classes = ['header']
-    let vAlign = ['headerBottom', 'headerMiddle', 'headerTop']
-    classes.push(vAlign[Math.floor(Math.random() * 2.5)])
-    if ((classes.indexOf('headerMiddle') > 0 && Math.random() > 0.2)
-        || Math.random() > 0.5) {
-      classes.push('headerCentered')
-    }
-    // if (Math.random() > 0.8) {
-    //   classes.push('headerUnderlined')
-    // }
-    if (Math.random() > 0.5) {
-      classes.push('headerItalic')
-    }
-    if (Math.random() > 0.9) {
-      classes.push('headerBlock')
-    } else if (Math.random() > 0.9) {
-      classes.push('headerBlockInverse')
-    }
-    if (this.props.item.title && this.props.item.title.length > 80) {
-      classes.push('headerSmall')
-    // } else if (Math.random() > 0.8 &&
-    //     classes.indexOf('headerBlock') === -1 &&
-    //     classes.indexOf('headerBlockInverse') === -1) {
-    //   classes.push('headerSmall')
-    //   classes.push('headerSheepStealer')
-    }
-
-    let colors = ['headerBlack', 'header-' + this.props.item.styles.color]
-    let index = Math.floor(Math.random() * 2)
-    classes.push(colors[index])
-    return classes
-  }
 
   // calculateElementWidth = (titleEl) => {
   //   let titleWidth = titleEl.getBoundingClientRect().width
