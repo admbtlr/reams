@@ -394,8 +394,11 @@ class Feed extends React.PureComponent {
               }}>
               <FeedCoverImage
                 feedColor={this.props.feedColor}
-                coverImagePath={this.props.coverImagePath}
+                feedId={this.props.feedId}
+                coverImageId={this.props.coverImageId}
+                cachedCoverImageId={this.props.cachedCoverImageId}
                 coverImageDimensions={this.props.coverImageDimensions}
+                setCachedCoverImage={this.props.setCachedCoverImage}
                 width={this.screenWidth}
                 height={this.screenHeight * 0.5} />
             </View>

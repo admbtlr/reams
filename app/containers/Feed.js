@@ -9,8 +9,8 @@ const mapStateToProps = (state, ownProps) => {
   const feedItems = items.filter(i => i.feed_id === feedId)
   const numFeedItems = feedItems.length
   const coverImageItem = feedItems.find(item => item.banner_image)
-  const coverImagePath = coverImageItem ?
-    getCachedImagePath(coverImageItem) :
+  const coverImageId = coverImageItem ?
+    coverImageItem._id :
     null
   const coverImageDimensions = coverImageItem ?
     coverImageItem.imageDimensions :
@@ -21,8 +21,9 @@ const mapStateToProps = (state, ownProps) => {
     numRead: feed.number_read || 0,
     readingTime: feed.reading_time || 0,
     readingRate: feed.reading_rate || 0,
-    coverImagePath,
-    coverImageDimensions
+    coverImageId,
+    coverImageDimensions,
+    cachedCoverImageId: feed.cachedCoverImageId
   }
 }
 
@@ -44,7 +45,14 @@ const mapDispatchToProps = (dispatch) => {
     unsubscribe: (id) => dispatch({
       type: 'FEEDS_REMOVE_FEED',
       id
-    })
+    }),
+    setCachedCoverImage: (feedId, cachedCoverImageId) => {
+      return dispatch({
+        type: 'FEED_SET_CACHED_COVER_IMAGE',
+        id: feedId,
+        cachedCoverImageId
+      })
+    }
   }
 }
 

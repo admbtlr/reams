@@ -50,7 +50,10 @@ export function deepEqual (a, b, ignoreNull = false) {
 }
 
 export function getCachedImagePath (item) {
-  return `${RNFS.DocumentDirectoryPath}/${item._id}.jpg`
+  const id = typeof item === 'object'
+    ? item._id
+    : item
+  return `${RNFS.DocumentDirectoryPath}/${id}.jpg`
 }
 
 export const isIphoneX = () => {

@@ -6,6 +6,7 @@ const initialState = {
 export function feeds (state = initialState, action) {
   let feeds
   let feed
+  let newState, dirtyFeed, dirtyFeedIndex
 
   switch (action.type) {
     case 'FEEDS_ADD_FEED_SUCCESS':
@@ -46,9 +47,9 @@ export function feeds (state = initialState, action) {
       }
 
     case 'FEEDS_UPDATE_FEED':
-      const newState = { ...state }
-      const dirtyFeedIndex = newState.feeds.findIndex(f => f._id === action.feed._id)
-      let dirtyFeed = newState.feeds[dirtyFeedIndex]
+      newState = { ...state }
+      dirtyFeedIndex = newState.feeds.findIndex(f => f._id === action.feed._id)
+      dirtyFeed = newState.feeds[dirtyFeedIndex]
       newState.feeds[dirtyFeedIndex] = {
         ...dirtyFeed,
         ...action.feed
@@ -60,6 +61,17 @@ export function feeds (state = initialState, action) {
         ...state,
         lastUpdated: action.lastUpdated
       }
+
+    case 'FEED_SET_CACHED_COVER_IMAGE':
+      newState = { ...state }
+      dirtyFeedIndex = newState.feeds.findIndex(f => f._id === action.id)
+      dirtyFeed = newState.feeds[dirtyFeedIndex]
+      newState.feeds[dirtyFeedIndex] = {
+        ...dirtyFeed,
+        cachedCoverImageId: action.cachedCoverImageId
+      }
+      return newState
+
 
     case 'ITEM_ADD_READING_TIME':
       feeds = [ ...state.feeds ]
