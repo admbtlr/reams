@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Dimensions,
   FlatList,
+  Image,
   ScrollView,
   StatusBar,
   Text,
@@ -36,6 +37,8 @@ class AccountScreen extends React.Component {
       textAlign: 'left',
       color: hslString('rizzleText')
     }
+    // const rizzleIcon =
+
     return (
       <ScrollView style={{
         flex: 1,
@@ -66,12 +69,29 @@ class AccountScreen extends React.Component {
             />
             <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
             <TextButton
-              text="Log in to Rizzle"
+              text="Rizzle"
+              iconCollapsed={<Image
+                source={require('../img/rizzle-logo-small-bw.png')}
+                style={{
+                  position: 'absolute',
+                  left: 4,
+                  top: 4,
+                  width: 34,
+                  height: 34
+                }}/>}
+              iconExpanded={<Image
+                source={require('../img/rizzle-logo-small.png')}
+                style={{
+                  position: 'absolute',
+                  left: 4,
+                  top: 4,
+                  width: 34,
+                  height: 34
+                }}/>}
               buttonStyle={{ marginBottom: 42 }}
               isExpandable={true}
               renderExpandedView={() => <AccountCredentialsForm service='rizzle' />}
             />
-            <GoogleAuth/>
             <Text style={{
               ...textStyles,
               marginBottom: 21

@@ -20,6 +20,7 @@ const onLoginOrRegister = () => {
       // If you need to do anything with the user, do it here
       // The user will be logged in automatically by the
       // `onAuthStateChanged` listener we set up in App.js earlier
+      console.log(user)
     })
     .catch((error) => {
       const { code, message } = error
@@ -35,9 +36,16 @@ export default GoogleAuth = () =>
     <TouchableOpacity
       onPress={onLoginOrRegister}
       style={{
-        backgroundColor: 'red',
-        color: 'white'
+        marginBottom: 40,
+        marginLeft: 20,
+        marginRight: 20
       }}>
-      <Text>Log in with Google</Text>
+      <Text style={{
+        fontFamily: 'IBMPlexMono',
+        textAlign: 'left',
+        fontSize: 16,
+        textDecorationLine: 'underline',
+        color: '#B61C2D'
+      }}>Sign in with Google</Text>
     </TouchableOpacity>
   </View>
