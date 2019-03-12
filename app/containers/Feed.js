@@ -15,15 +15,23 @@ const mapStateToProps = (state, ownProps) => {
   const coverImageDimensions = coverImageItem ?
     coverImageItem.imageDimensions :
     null
-  return {
-    ...ownProps,
-    numUnread: feed.number_unread,
-    numRead: feed.number_read || 0,
-    readingTime: feed.reading_time || 0,
-    readingRate: feed.reading_rate || 0,
-    coverImageId,
-    coverImageDimensions,
-    cachedCoverImageId: feed.cachedCoverImageId
+
+  if (feed) {
+    return {
+      ...ownProps,
+      numUnread: feed.number_unread,
+      numRead: feed.number_read || 0,
+      readingTime: feed.reading_time || 0,
+      readingRate: feed.reading_rate || 0,
+      coverImageId,
+      coverImageDimensions,
+      cachedCoverImageId: feed.cachedCoverImageId,
+      favicon: feed.favicon
+    }
+  } else {
+    return {
+      isDeleted: true
+    }
   }
 }
 

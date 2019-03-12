@@ -70,12 +70,12 @@ export function fixRelativePaths (item) {
 }
 
 export function sanitizeContent (item) {
-  if (item.content_html) item.content_html = sanitizeHtml(item.content_html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
-  })
-  if (item.content_mercury) item.content_mercury = sanitizeHtml(item.content_mercury, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
-  })
+  const settings = {
+    allowedTags: false,
+    allowedAttributes: false
+  }
+  if (item.content_html) item.content_html = sanitizeHtml(item.content_html, settings)
+  if (item.content_mercury) item.content_mercury = sanitizeHtml(item.content_mercury, settings)
   return item
 }
 

@@ -72,7 +72,6 @@ export function feeds (state = initialState, action) {
       }
       return newState
 
-
     case 'ITEM_ADD_READING_TIME':
       feeds = [ ...state.feeds ]
       feed = feeds.find(feed => feed._id === action.item.feed_id)

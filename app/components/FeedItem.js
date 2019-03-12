@@ -232,7 +232,7 @@ class FeedItem extends React.Component {
       onShouldStartLoadWithRequest: (e) => {
         if (e.navigationType === 'click') {
           // Linking.openURL(e.url)
-          that.openLink(url)
+          that.openLink(e.url)
           return false
         } else {
           return true
@@ -334,7 +334,7 @@ class FeedItem extends React.Component {
       await InAppBrowser.isAvailable()
       const result = await InAppBrowser.open(url, {
         // iOS Properties
-        dismissButtonStyle: 'cancel',
+        dismissButtonStyle: 'close',
         preferredBarTintColor: 'white',
         preferredControlTintColor: hslString(this.props.item.feed_color),
         readerMode: false,

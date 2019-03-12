@@ -112,14 +112,7 @@ function * getNextItemToDecorate (pendingDecoration) {
 }
 
 function * loadMercuryForItem (item) {
-  let mercuryStuff
-  // console.log(`Loading Mercury stuff for ${item._id} (${item.title})`)
-  try {
-    mercuryStuff = yield loadMercuryStuff(item)
-  } catch (error) {
-    console.log(error)
-  }
-  return mercuryStuff
+  return yield loadMercuryStuff(item)
 }
 
 export function * decorateItem(item) {

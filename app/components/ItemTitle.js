@@ -292,9 +292,9 @@ class ItemTitle extends React.Component {
 
       // console.log(this.displayTitle)
       // console.log(values)
-      const maxHeight = this.screenHeight / 1.5
+      const maxHeight = this.screenHeight / 2
       // now go through them and find the first one that
-      // (a) is less than 66% screen height
+      // (a) is less than 50% screen height
       values = values.filter(v => v.height < maxHeight)
       const maxViable = values[0]
       let optimal
@@ -737,7 +737,7 @@ class ItemTitle extends React.Component {
       marginTop: this.props.showCoverImage ?
         this.horizontalMargin * 4 :
         0,
-      width: 83,
+      width: 66,
       height: 16,
       backgroundColor: hslString(this.props.item.feed_color, 'desaturated')
     }} />
@@ -885,7 +885,7 @@ class ItemTitle extends React.Component {
       fontSize: showCoverImage ? 14 : 14,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: 24,
-      textAlign: styles.textAlign,
+      textAlign: showCoverImage ? 'center' : styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
       marginBottom: (!showCoverImage || coverImageStyles.isInline) ?

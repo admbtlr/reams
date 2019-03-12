@@ -39,6 +39,10 @@ const mapDispatchToProps = (dispatch) => {
       originalId: null,
       olderThan: olderThan || Math.floor(Date.now() / 1000)
     }),
+    showModal: (modalProps) => dispatch({
+      type: 'UI_SHOW_MODAL',
+      modalProps
+    }),
     unsubscribe: (id) => dispatch({
       type: 'FEEDS_REMOVE_FEED',
       id

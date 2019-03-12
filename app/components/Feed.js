@@ -14,6 +14,7 @@ import TouchableScale from 'react-native-touchable-scale'
 import {Transition} from 'react-navigation-fluid-transitions'
 import {Surface} from 'gl-react-native'
 const {Image: GLImage} = require('gl-react-image')
+const RNFS = require('react-native-fs')
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
 import ColorBlending from 'gl-react-color-blending'
 import { blendColor, hslString } from '../utils/colors'
@@ -266,6 +267,7 @@ class Feed extends React.PureComponent {
     const {
       coverImageDimensions,
       coverImagePath,
+      favicon,
       feedTitle,
       feedColor,
       feedDescription,
@@ -432,6 +434,40 @@ class Feed extends React.PureComponent {
                 style={{ top: 40 }}
               />
             </Animated.View>
+            { favicon &&
+              <Surface
+                width={36}
+                height={36}
+                backgroundColor='#000'
+                style={{
+                  position: 'absolute',
+                  left: 5,
+                  top: 5,
+                  width: 36,
+                  height: 36
+                }}
+              >
+                <ContrastSaturationBrightness
+                  saturation={0}
+                  contrast={1}
+                  brightness={1}
+                >
+                  <GLImage
+                    center={[0.5, 0]}
+                    resizeMode='cover'
+                    source={{
+                      uri: `file://${RNFS.DocumentDirectoryPath}/feed-icons/${feedId}.png`,
+                      width: 36,
+                      height: 36
+                    }}
+                    imageSize={{
+                      width: 36,
+                      height: 36
+                    }}
+                  />
+                </ContrastSaturationBrightness>
+              </Surface>
+            }
             <Text style={{
               ...textStyles,
               flex: 4,

@@ -11,7 +11,7 @@ let deviceHeight
 
 export function createItemStyles (item, prevStyles) {
   let title = {
-    isMonochrome: Math.random() > 0.3
+    isMonochrome: Math.random() > 0.5
   }
   const isMainColorDarker = Math.random() > 0.6
   const isMainColorDesaturated = Math.random() > 0.6
@@ -47,7 +47,7 @@ export function createItemStyles (item, prevStyles) {
   } else if (Math.random() > 0.9) {
     isBW = true
   } else {
-    // title.isMonochrome = Math.random() > 0.5
+    title.isMonochrome = true
   }
 
   let isContain = false

@@ -19,6 +19,27 @@ class ListHeaderComponent extends React.Component {
   constructor (props) {
     super(props)
     this.props = props
+    this.showMarkOldReadModal = this.showMarkOldReadModal.bind(this)
+  }
+
+  showMarkOldReadModal (scope) {
+    this.props.showModal({
+      modalText: [
+        {
+          text: 'Mark old items read?',
+          style: ['title']
+        },
+        {
+          text: 'This will remove all items that are more than one week old',
+          style: ['text']
+        }
+      ],
+      modalHideCancel: false,
+      modalShow: true,
+      modalOnOk: () => {
+        scope.props.markAllRead(Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+      }
+    })
   }
 
   render = () => {
@@ -60,18 +81,20 @@ class ListHeaderComponent extends React.Component {
             buttonStyle={{
               marginRight: margin
             }}
+            fgColor='#993030'
             onPress={() => {
               this.props.markAllRead()
             }}
-            text="Remove all items" />
+            text="Mark all read" />
           <TextButton
             buttonStyle={{
               marginRight: margin
             }}
+            fgColor='#993030'
             onPress={() => {
-              this.props.markAllRead(Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+              this.showMarkOldReadModal(this)
             }}
-            text="Remove old items" />
+            text="Mark old read" />
         </View>
         <TextButton text="Start reading" />
         <View style={{ height: margin*2 }} />
@@ -135,11 +158,13 @@ class FeedsScreen extends React.Component {
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}
             markAllRead={this.props.markAllRead}
+            showModal={this.props.showModal}
           />}
           renderItem={this.renderFeed}
           scrollEnabled={this.state.scrollEnabled}
         />
         { this.state.selectedFeedElement &&
+          !this.state.selectedFeedElement.props.isDeleted &&
           <Feed {...this.state.selectedFeedElement.props}
             extraStyle={{
               position: 'absolute',

@@ -36,11 +36,8 @@ export function * subscribeToFeed (action) {
 
 export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
-  let done = false
-  let i = 0
-  while (!done) {
+  for (let feed of feeds) {
     yield call(delay, 500)
-    const feed = feeds[i++]
     const details = yield getFeedDetails(feed)
     const inflatedFeed = {
       ...feed,
@@ -51,7 +48,11 @@ export function * inflateFeeds () {
       feed: inflatedFeed
     })
     if (inflatedFeed.favicon) {
-      cacheFeedFavicon(inflatedFeed)
+      const fileName = yield call(cacheFeedFavicon, inflatedFeed)
+      yield put({
+        type: 'FEED_CACHED_FAVICON',
+        cachedFaviconPath: fileName
+      })
     }
   }
 }
@@ -68,8 +69,7 @@ function cacheFeedFavicon (feed) {
       fromUrl: url,
       toFile: fileName
     }).promise.then((result) => {
-      console.log(`Cached feed favicon for ${feed.title} from${url} to ${fileName}`)
-      return true
+      return fileName
     })
   ).catch((err) => {
     console.log(`Loading feed favicon for ${feed._id} failed :(`)

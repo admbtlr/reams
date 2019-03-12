@@ -1,6 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 
 import { isInflated, deflateItem, inflateItem } from '../../utils/item-utils'
+import log from '../../utils/log'
 import { getUnreadItems } from './selectors'
 
 import { getItemsAS } from '../async-storage/'
@@ -26,12 +27,12 @@ export function * inflateItems (action) {
     }
   }
 
-  const itemsToDeflate = inflatedItems
-    .filter(item => !!!activeItems.find(ai => ai._id === item._id))
-    .map(deflateItem)
-  let itemsToInflate = activeItems.filter(item => !!!inflatedItems.find(ai => ai._id === item._id))
-
   try {
+    const itemsToDeflate = inflatedItems
+      .filter(item => !!!activeItems.find(ai => ai._id === item._id))
+      .map(deflateItem)
+    let itemsToInflate = activeItems.filter(item => !!!inflatedItems.find(ai => ai._id === item._id))
+
     itemsToInflate = yield call(getItemsAS, itemsToInflate)
     itemsToInflate = itemsToInflate.map(inflateItem)
     yield put({
@@ -40,6 +41,6 @@ export function * inflateItems (action) {
       itemsToDeflate
     })
   } catch (err) {
-    console.log('Error inflating items: ' + err)
+    log(err)
   }
 }

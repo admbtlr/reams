@@ -23,11 +23,7 @@ export async function setItemAS (item) {
 }
 
 export async function updateItemAS (item) {
-  try {
-    return AsyncStorage.mergeItem(item._id, JSON.stringify(item))
-  } catch (err) {
-    log('updateItemAS: ' + err)
-  }
+  return await AsyncStorage.mergeItem(item._id, JSON.stringify(item))
 }
 
 export async function setItemsAS (items) {

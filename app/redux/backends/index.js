@@ -24,16 +24,7 @@ function loadMercuryStuff (item) {
     'headers': new Headers({
       'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
     })})
-    .then((response) => {
-      try {
-        return response.json()
-      } catch (e) {
-        console.log(e)
-      }
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+    .then(response => response.json())
 }
 
 function getMercuryUrl (item) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Modal from 'react-native-modalbox'
 import {hslString} from '../utils/colors'
 
@@ -51,7 +51,7 @@ class RizzleModal extends React.Component {
           <View style={{...this.getStyles().textHolder}}>{this.formatText(this.props.modalProps.modalText)}</View>
           <View style={{...this.getStyles().buttonHolder}}>
             { this.props.modalProps.modalHideCancel ||
-              <TouchableHighlight
+              <TouchableOpacity
                 style={{
                   ...this.getStyles().touchable,
                   borderRightWidth: 1
@@ -62,9 +62,9 @@ class RizzleModal extends React.Component {
                     ...this.getStyles().text,
                     ...this.getStyles().buttonText
                   }}>Cancel</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             }
-            <TouchableHighlight
+            <TouchableOpacity
               style={{...this.getStyles().touchable}}
               onPress={this.onOK}>
               <Text
@@ -73,7 +73,7 @@ class RizzleModal extends React.Component {
                   ...this.getStyles().buttonText,
                   ...this.getStyles().strong
                 }}>OK</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
        </View>
@@ -105,7 +105,7 @@ class RizzleModal extends React.Component {
         marginTop: 15
       },
       text: {
-        color: 'black',
+        color: hslString('rizzleText'),
         fontFamily: 'IBMPlexMono',
         fontSize: 16,
         textAlign: 'center'
