@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Dimensions,
   FlatList,
+  Image,
   ScrollView,
   StatusBar,
   Text,
@@ -10,6 +11,7 @@ import {
 } from 'react-native'
 import Feed from '../containers/Feed'
 import TextButton from './TextButton'
+import GoogleAuth from './GoogleAuth'
 import AccountCredentialsForm from './AccountCredentialsForm'
 import XButton from './XButton'
 import { hslString } from '../utils/colors'
@@ -35,6 +37,8 @@ class AccountScreen extends React.Component {
       textAlign: 'left',
       color: hslString('rizzleText')
     }
+    // const rizzleIcon =
+
     return (
       <ScrollView style={{
         flex: 1,
@@ -64,6 +68,30 @@ class AccountScreen extends React.Component {
               }}
             />
             <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
+            <TextButton
+              text="Rizzle"
+              iconCollapsed={<Image
+                source={require('../img/rizzle-logo-small-bw.png')}
+                style={{
+                  position: 'absolute',
+                  left: 4,
+                  top: 4,
+                  width: 34,
+                  height: 34
+                }}/>}
+              iconExpanded={<Image
+                source={require('../img/rizzle-logo-small.png')}
+                style={{
+                  position: 'absolute',
+                  left: 4,
+                  top: 4,
+                  width: 34,
+                  height: 34
+                }}/>}
+              buttonStyle={{ marginBottom: 42 }}
+              isExpandable={true}
+              renderExpandedView={() => <AccountCredentialsForm service='rizzle' />}
+            />
             <Text style={{
               ...textStyles,
               marginBottom: 21

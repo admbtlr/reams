@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Image,
   Text,
   TextInput,
   TouchableOpacity,
@@ -59,6 +60,7 @@ class TextButton extends React.Component {
             maxHeight: this.state.isExpanded ? 'auto' : 42,
             height: this.state.isExpanded ? 'auto' : 42
           }}>
+          { this.state.isExpanded ? this.props.iconExpanded : this.props.iconCollapsed }
           <TouchableOpacity
             onPress={this.expand}
           >

@@ -1,6 +1,26 @@
+import firebase from 'react-native-firebase'
 import {id} from '../../utils'
 // import { filterItemsForStale } from '../realm/stale-items'
 
+export async function sendEmailLink (email) {
+  const url = 'https://app.rizzle.net/'
+  const actionCodeSettings = {
+    // Your redirect URL
+    url,
+    handleCodeInApp: true,
+    iOS: {
+      bundleId: 'com.adam-butler.rizzle',
+    }
+  }
+
+  // send email...
+  try {
+    firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+  } catch (e) {
+    console.log(e)
+  }
+
+}
 
 export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds) {
   let newItems

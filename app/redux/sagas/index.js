@@ -50,7 +50,15 @@ function * init (getFirebase, action) {
   })
   yield call(fetchItems2)
   yield call(executeRemoteActions)
+<<<<<<< HEAD
   yield call(inflateFeeds)
+=======
+  // yield call(inflateFeed)
+}
+
+function setFirebaseUid (action) {
+  setUid(action.uid)
+>>>>>>> feat/firebase-auth
 }
 
 export function * updateCurrentIndex (getFirebase) {
@@ -64,6 +72,7 @@ export function * updateCurrentIndex (getFirebase) {
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
+  yield takeEvery('USER_SET_UID', clearReadItems)
 
   // reading timer
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', currentItemChanged)

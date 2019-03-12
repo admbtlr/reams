@@ -97,7 +97,7 @@ async function getFeedDetails (feed) {
   return await rizzle.getFeedDetails(feed)
 }
 
-function authenticate (username, password, backend) {
+function authenticate ({username, password, email}, backend) {
   switch (backend) {
     case 'rizzle':
       return
