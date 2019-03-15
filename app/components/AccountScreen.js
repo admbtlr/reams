@@ -90,7 +90,10 @@ class AccountScreen extends React.Component {
                 }}/>}
               buttonStyle={{ marginBottom: 42 }}
               isExpandable={true}
-              renderExpandedView={() => <AccountCredentialsForm service='rizzle' />}
+              renderExpandedView={() => <AccountCredentialsForm
+                service='rizzle'
+                user={this.props.user}
+              />}
             />
             <Text style={{
               ...textStyles,

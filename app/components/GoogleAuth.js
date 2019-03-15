@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Image,
   Text,
   TouchableOpacity,
   View
@@ -40,12 +41,27 @@ export default GoogleAuth = () =>
         marginLeft: 20,
         marginRight: 20
       }}>
-      <Text style={{
-        fontFamily: 'IBMPlexMono',
-        textAlign: 'left',
-        fontSize: 16,
-        textDecorationLine: 'underline',
-        color: '#B61C2D'
-      }}>Sign in with Google</Text>
+      <View style={{
+        flex: 1,
+        flexDirection: 'row'
+      }}>
+        <Image
+          source={require('../img/google-logo.png')}
+          width={24}
+          height={24}
+          style={{
+            width: 24,
+            height: 24,
+            marginRight: 12
+          }}
+        />
+        <Text style={{
+          fontFamily: 'IBMPlexMono',
+          textAlign: 'left',
+          fontSize: 16,
+          textDecorationLine: 'underline',
+          color: '#B61C2D'
+        }}>Sign in with Google</Text>
+      </View>
     </TouchableOpacity>
   </View>

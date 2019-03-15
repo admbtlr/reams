@@ -50,15 +50,11 @@ function * init (getFirebase, action) {
   })
   yield call(fetchItems2)
   yield call(executeRemoteActions)
-<<<<<<< HEAD
   yield call(inflateFeeds)
-=======
-  // yield call(inflateFeed)
 }
 
 function setFirebaseUid (action) {
   setUid(action.uid)
->>>>>>> feat/firebase-auth
 }
 
 export function * updateCurrentIndex (getFirebase) {

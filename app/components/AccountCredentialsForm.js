@@ -4,9 +4,8 @@ import React from 'react'
 import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import OnePassword from 'react-native-onepassword'
 
+import RizzleAuth from './RizzleAuth'
 import { hslString } from '../utils/colors'
-import { authenticate } from '../redux/backends'
-import { sendEmailLink } from '../redux/backends/rizzle'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -128,6 +127,7 @@ class AccountCredentialsForm extends React.Component {
         username: Yup.string().required('Required'),
         password: Yup.string().required('Required')
       }
+    const user = this.props.user
     return (
       <Formik
         initialValues={initialValues}
@@ -142,93 +142,54 @@ class AccountCredentialsForm extends React.Component {
         }) => (
           <View>
             { this.props.service === 'rizzle' ?
-              <View>
-                <Text style={styles.textInfoStyle}>Passwordless login - enter your email and we'll send you a magic link:</Text>
-                <View style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginTop: 40
-                }}>
-                  <View style={{
-                    flexGrow: 1
-                  }}>
+                  <RizzleAuth
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    isSubmitting={isSubmitting}
+                    isValid={isValid}
+                    values={values}
+                    user={user}
+                  /> :
+                  <View>
                     <TextInput
-                      onChangeText={handleChange('email')}
+                      onChangeText={handleChange('username')}
                       style={styles.textInputStyle}
-                      value={values.email}
+                      value={values.username}
                     />
-                    <Text style={styles.textLabelStyle}>Your email address</Text>
-                  </View>
-                  <TouchableOpacity
-                    disabled={isSubmitting || !isValid}
-                    onPress={handleSubmit}
-                    style={{
-                      marginLeft: 20,
-                      position: 'relative',
-                      top: 8,
-                      width: 24
-                    }}
-                  >
-                    <Text style={styles.textButtonStyle}>Go</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={{
-                  backgroundColor: '#cfcfcf',
-                  height: 1,
-                  marginBottom: 35,
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginTop: 40
-                }}/>
-                <Text style={{
-                  ...styles.textInfoStyle,
-                  marginBottom: 20,
-                  marginTop: 0
-                }}>Or you can sign in with an existing account:</Text>
-                <GoogleAuth/>
-              </View> :
-              <View>
-                <TextInput
-                  onChangeText={handleChange('username')}
-                  style={styles.textInputStyle}
-                  value={values.username}
-                />
-                <Text style={styles.textLabelStyle}>User name</Text>
-                <View style={{
-                  position: 'relative'
-                }}>
-                  <TextInput
-                    onChangeText={handleChange('password')}
-                    secureTextEntry={true}
-                    style={{
-                      ...styles.textInputStyle,
-                      flex: 1
-                    }}
-                    value={values.password}
-                  />
-                  { this.state.is1Password &&
+                    <Text style={styles.textLabelStyle}>User name</Text>
                     <View style={{
-                      position: 'absolute',
-                      top: 32,
-                      right: 10
+                      position: 'relative'
                     }}>
-                      <Button
-                        title='1P'
-                        onPress={() => this.onePasswordHandler(this.props.service)} />
+                      <TextInput
+                        onChangeText={handleChange('password')}
+                        secureTextEntry={true}
+                        style={{
+                          ...styles.textInputStyle,
+                          flex: 1
+                        }}
+                        value={values.password}
+                      />
+                      { this.state.is1Password &&
+                        <View style={{
+                          position: 'absolute',
+                          top: 32,
+                          right: 10
+                        }}>
+                          <Button
+                            title='1P'
+                            onPress={() => this.onePasswordHandler(this.props.service)} />
+                        </View>
+                      }
                     </View>
-                  }
-                </View>
-                <Text style={styles.textLabelStyle}>Password</Text>
-                <Button
-                  disabled={isSubmitting || !isValid}
-                  title="Submit"
-                  onPress={handleSubmit}
-                />
-              </View>
-            }
-          </View>
+                    <Text style={styles.textLabelStyle}>Password</Text>
+                    <Button
+                      disabled={isSubmitting || !isValid}
+                      title="Submit"
+                      onPress={handleSubmit}
+                    />
+                  </View>
+              }
+            </View>
         )}
       />
     )

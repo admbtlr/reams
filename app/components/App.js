@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 
 import ItemsScreenContainer from '../containers/ItemsScreen.js'
-import AccountScreen from './AccountScreen.js'
+import AccountScreenContainer from '../containers/AccountScreen.js'
 import FeedsScreenContainer from '../containers/FeedsScreen.js'
 import { FluidNavigator } from 'react-navigation-fluid-transitions'
 
@@ -21,7 +21,7 @@ const navigationOptions = {
 
 export default FluidNavigator(
   {
-    Account: { screen: AccountScreen },
+    Account: { screen: AccountScreenContainer },
     Feeds: { screen: FeedsScreenContainer },
     Items: { screen: ItemsScreenContainer },
   },

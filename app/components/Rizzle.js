@@ -74,13 +74,13 @@ export default class Rizzle extends Component {
     Linking.addEventListener('url', this.handleUrl)
 
     // listen for auth changes
-    this.authSubscription = firebase.auth().onAuthStateChanged((credential) => {
+    this.authSubscription = firebase.auth().onAuthStateChanged((details) => {
       this.store.dispatch({
-        type: 'USER_SET_UID',
-        uid: credential.uid
+        type: 'USER_SET_DETAILS',
+        details
       })
-      this.setState({ credential })
-      console.log('Authenticated! ' + credential)
+      this.setState({ details })
+      console.log('Authenticated! ' + details)
     })
 
     // https://github.com/react-native-community/react-native-google-signin
@@ -115,7 +115,7 @@ export default class Rizzle extends Component {
   }
 
   render () {
-    if (!this.state.credential) {
+    if (!this.state.details) {
       console.log('Returning null')
       return null
     }

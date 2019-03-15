@@ -1,10 +1,10 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '10.0'
 
-pod 'Firebase/Core', '~> 5.11.0'
-pod 'Firebase/Auth', '~> 5.11.0'
-pod 'Firebase/Database', '~> 5.11.0'
-pod 'Firebase/Firestore', '~> 5.11.0'
+pod 'Firebase/Core', '~> 5.15.0'
+pod 'Firebase/Auth', '~> 5.15.0'
+pod 'Firebase/Database', '~> 5.15.0'
+pod 'Firebase/Firestore', '~> 5.15.0'
 pod 'GoogleSignIn', '~> 4.4.0'
 
 target 'rizzle' do
@@ -14,6 +14,9 @@ target 'rizzle' do
   # Pods for rizzle
 
   # pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
+
+
+  pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
 
   target 'rizzleTests' do
     inherit! :search_paths
