@@ -45,6 +45,5 @@ export function * clearReadItems () {
     displayMode
   })
 
-  // TODO: now remove the cached images for all the read items
   removeCachedCoverImages(readItems)
 }

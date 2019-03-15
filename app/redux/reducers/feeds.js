@@ -82,12 +82,15 @@ export function feeds (state = initialState, action) {
       feed.number_read = feed.number_read || 0
       feed.number_read++
 
-      const readingRate = action.readingTime / action.item.content_length
-      feed.reading_rate = feed.reading_rate || 0
+      const contentLength = action.item.content_length || (action.item.content_html
+        ? action.item.content_html.length
+        : 1)
+      const readingRate = action.readingTime / contentLength
+      feed.reading_rate = (feed.reading_rate && feed.reading_rate !== 'NaN') || 0
       feed.reading_rate = (feed.reading_rate * (feed.number_read - 1) + readingRate) / feed.number_read
       feed.reading_rate = Number.parseFloat(feed.reading_rate).toPrecision(4)
 
-      if (feed.reading_rate === null) {
+      if (feed.reading_rate === null || feed.reading_rate === 'NaN') {
         debugger
       }
 
