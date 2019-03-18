@@ -399,6 +399,9 @@ class ItemTitle extends React.Component {
   render () {
     let {styles, title, date, showCoverImage, coverImageStyles, isVisible} = this.props
 
+    // just so we can render something before it's been calculated
+    const fontSize = styles.fontSize || 16
+
     // this means the item hasn't been inflated from Firebase yet
     if (!styles) return null
 
@@ -441,10 +444,6 @@ class ItemTitle extends React.Component {
       }).start()
     }
 
-    const verticalOffset = this.getFontObject().verticalOffset ?
-      this.getFontObject().verticalOffset * styles.fontSize :
-      0
-
     const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
       'lighter' :
       (coverImageStyles.isCoverImageColorLighter ?
@@ -462,23 +461,23 @@ class ItemTitle extends React.Component {
     if (!showCoverImage) color = this.props.isDarkBackground ? 'hsl(0, 0%, 70%)' : 'black'
 
     const invertBGPadding = 5
-    let paddingTop = styles.invertBG ? (verticalOffset + invertBGPadding) : verticalOffset
+    let paddingTop = styles.invertBG ? invertBGPadding : 0
     const paddingBottom = styles.invertBG ? 2 : 0
     let paddingLeft = showCoverImage && styles.invertBG ? invertBGPadding : 0
     if (styles.isItalic) {
-      paddingLeft += styles.fontSize * 0.1
+      paddingLeft += fontSize * 0.1
     }
 
     // https://github.com/facebook/react-native/issues/7687
     // (9 is a heuristic value)
-    const extraPadding = styles.fontSize / 9
+    const extraPadding = fontSize / 9
     paddingTop += extraPadding
     const marginTop = 0 - extraPadding
 
     let fontStyle = {
       fontFamily: this.getFontFamily(),
       color,
-      fontSize: styles.fontSize,
+      fontSize,
       lineHeight: styles.lineHeight,
       textAlign: styles.textAlign,
       letterSpacing: this.getLetterSpacing(),
@@ -487,7 +486,6 @@ class ItemTitle extends React.Component {
       paddingLeft,
       marginTop,
       overflow: 'visible'
-      // marginBottom: this.props.styles.isUpperCase ? styles.fontSize * -0.3 : 0
     }
     const viewStyle = {
       ...position
@@ -510,24 +508,23 @@ class ItemTitle extends React.Component {
         ))
     if (!showCoverImage || coverImageStyles.isInline) border = {}
 
-    const innerPadding = this.getInnerVerticalPadding()
+    const innerPadding = this.getInnerVerticalPadding(fontSize)
 
     // if center aligned and not full width, add left margin
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = styles.widthPercentage || 100
-    const width = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
     this.horizontalMargin = (showCoverImage && this.props.coverImageStyles.isInline) ?
         this.screenWidth * 0.025 :
         this.screenWidth * 0.05
+    const width = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
 
-    const horizontalPadding = this.getInnerHorizontalPadding()
+    const horizontalPadding = this.getInnerHorizontalPadding(fontSize)
 
     const innerViewStyle = {
       // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
       marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
-      // marginBottom: !showCoverImage ? 0 : this.getInnerVerticalPadding(styles.fontSize),
       marginBottom: 0,
       marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
@@ -628,7 +625,6 @@ class ItemTitle extends React.Component {
         const fontFamily = this.getFontFamily(null, isAlternateStyle ?
           'alternate' :
           null)
-        const fontSize = styles.fontSize
         return {
           fontFamily,
           fontSize,
@@ -639,7 +635,6 @@ class ItemTitle extends React.Component {
       wordStyles = styles.interBolded.map(isBold => {
         const fontFamily = this.getFontFamily(isBold ? 'bold' :
           (styles.isItalic ? 'regularItalic' : 'regular'))
-        const fontSize = isBold ? styles.fontSize : styles.fontSize // / 1.333
         return {
           fontFamily,
           fontSize,
@@ -677,7 +672,7 @@ class ItemTitle extends React.Component {
             ...fontStyle,
             ...(wordStyles && wordStyles[index]),
             ...shadowStyle,
-            height: this.fontSize
+            height: fontSize
           }}>{word} </Animated.Text>)
         }
       })
@@ -709,7 +704,7 @@ class ItemTitle extends React.Component {
             <Animated.Text style={{
               ...fontStyle,
               ...shadowStyle,
-              marginBottom: this.props.styles.isUpperCase ? styles.fontSize * -0.3 : 0
+              marginBottom: this.props.styles.isUpperCase ? fontSize * -0.3 : 0
             }}>
               <Animated.Text>{this.renderedTitle}</Animated.Text>
             </Animated.Text>
@@ -805,7 +800,7 @@ class ItemTitle extends React.Component {
             this.screenWidth * 0.1 :
             ((styles.borderWidth || styles.bg) ?
               excerptLineHeight / 2 :
-              this.getInnerVerticalPadding()),
+              this.getInnerVerticalPadding(fontStyle.fontSize)),
           ...excerptBg,
           borderTopWidth: 0,
           // opacity: excerptOpacity,
