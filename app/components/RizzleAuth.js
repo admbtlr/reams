@@ -58,7 +58,14 @@ class RizzleAuth extends React.Component {
   }
 
   render = () => {
-    const { handleChange, handleSubmit, isSubmitting, user, values } = this.props
+    const {
+      handleChange,
+      handleSubmit,
+      isSubmitting,
+      isValid,
+      user,
+      values
+    } = this.props
     const isAuthenticated = !!(user && user.email)
     return isAuthenticated ?
       <View style={{
