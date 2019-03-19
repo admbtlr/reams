@@ -15,9 +15,6 @@ target 'rizzle' do
 
   # pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
 
-
-  pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
-
   target 'rizzleTests' do
     inherit! :search_paths
     # Pods for testing
