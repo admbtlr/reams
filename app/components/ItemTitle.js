@@ -401,9 +401,8 @@ class ItemTitle extends React.Component {
 
     // just so we can render something before it's been calculated
     const fontSize = styles.fontSize || 16
-    const lineHeight = fontSize ?
-      Math.floor(fontSize * styles.lineHeightAsMultiplier) :
-      styles.lineHeight
+    let lineHeight = Math.floor(fontSize * styles.lineHeightAsMultiplier)
+    if (lineHeight < fontSize) lineHeight = fontSize
 
     // this means the item hasn't been inflated from Firebase yet
     if (!styles) return null
