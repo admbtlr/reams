@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -123,6 +122,7 @@
 		FA23F99F447E4D35AA3A4FD5 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB05ED32A76456BBF8C0713 /* libRNSVG.a */; };
 		FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */; };
 		FF4BFC3A89D34A7A9A79FD41 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CCE64A198C460AB8A514F6 /* libRNBlur.a */; };
+		B3B27106966446119FA8D352 /* libOnePassword.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFD92C479EB43628F1236E6 /* libOnePassword.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -695,6 +695,8 @@
 		FEE11FC07939469CBB76F7F2 /* BebasNeue-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BebasNeue-Light.otf"; path = "../assets/fonts/BebasNeue-Light.otf"; sourceTree = "<group>"; };
 		FF76841FECC148EBB9E7A18C /* IBMPlexSerif-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Thin.ttf"; path = "../assets/fonts/IBMPlexSerif-Thin.ttf"; sourceTree = "<group>"; };
 		FFB182B64E4047B7BF666E29 /* Arvo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Bold.ttf"; path = "../assets/fonts/Arvo-Bold.ttf"; sourceTree = "<group>"; };
+		227091B8CA4049958CD9DEAD /* OnePassword.xcodeproj */ = {isa = PBXFileReference; name = "OnePassword.xcodeproj"; path = "../node_modules/react-native-onepassword/OnePassword.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		6BFD92C479EB43628F1236E6 /* libOnePassword.a */ = {isa = PBXFileReference; name = "libOnePassword.a"; path = "libOnePassword.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -738,6 +740,7 @@
 				7D537F4F79AC4DBF8C86745C /* libRNSentry.a in Frameworks */,
 				9101F663403CCD92399A792E /* libPods-rizzle.a in Frameworks */,
 				81795688E56447E9B7BE58FA /* libRNFirebase.a in Frameworks */,
+				B3B27106966446119FA8D352 /* libOnePassword.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1188,6 +1191,7 @@
 				0A6A7ED2392B47D5B2E21812 /* RNSKBucket.xcodeproj */,
 				2BE03A529308484E8E39B851 /* RNSentry.xcodeproj */,
 				CFD4357158F14043B264E7E0 /* RNFirebase.xcodeproj */,
+				227091B8CA4049958CD9DEAD /* OnePassword.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -2379,11 +2383,15 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = rizzleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2411,11 +2419,15 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = rizzleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2451,6 +2463,7 @@
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = rizzle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -2494,6 +2507,7 @@
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = rizzle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -2537,10 +2551,14 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = "rizzle-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2578,10 +2596,14 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = "rizzle-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2608,7 +2630,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "rizzle-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.rizzle-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2631,7 +2656,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "rizzle-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.rizzle-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2676,11 +2704,15 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = RizzleShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2732,11 +2764,15 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = RizzleShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
