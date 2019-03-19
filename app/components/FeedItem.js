@@ -294,7 +294,7 @@ class FeedItem extends React.Component {
             decelerationRate='normal'
             injectedJavaScript={calculateHeight}
             onMessage={(event) => {
-              const msg = event.nativeEvent.data
+              const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
               if (msg.substring(0, 6) === 'image:') {
                 that.props.showImageViewer(msg.substring(6))
               } else if (msg.substring(0, 5) === 'link:') {
