@@ -55,7 +55,7 @@ class AppStateListener extends React.Component {
       const contents = await Clipboard.getString()
       // TODO make this more robust
       if (contents.substring(0, 4) === 'http') {
-        this.showSavePageModal(contents)
+        this.showSavePageModal(contents, this)
       } else if (contents.substring(0, 6) === '<opml>') {
       }
     } catch(err) {
