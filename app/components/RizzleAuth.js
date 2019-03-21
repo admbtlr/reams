@@ -60,6 +60,7 @@ class RizzleAuth extends React.Component {
   render = () => {
     const {
       handleChange,
+      handleLogout,
       handleSubmit,
       isSubmitting,
       isValid,
@@ -74,6 +75,7 @@ class RizzleAuth extends React.Component {
         <Text style={styles.textInfoMonoStyle}>{user.displayName}</Text>
         <Text style={styles.textInfoMonoStyle}>{user.email}</Text>
         <Text style={styles.textInfoMonoStyle}>{user.uid}</Text>
+        <GoogleAuth isLoggedIn={true}/>
       </View> :
       <View>
         <Text style={styles.textInfoStyle}>Passwordless login - enter your email and we'll send you a magic link:</Text>

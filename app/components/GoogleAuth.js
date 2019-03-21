@@ -32,36 +32,57 @@ const onLoginOrRegister = () => {
     })
 }
 
-export default GoogleAuth = () =>
-  <View>
-    <TouchableOpacity
-      onPress={onLoginOrRegister}
-      style={{
-        marginBottom: 40,
-        marginLeft: 20,
-        marginRight: 20
-      }}>
-      <View style={{
-        flex: 1,
-        flexDirection: 'row'
-      }}>
-        <Image
-          source={require('../img/google-logo.png')}
-          width={24}
-          height={24}
+const onLogout = () => {
+  console.log('Log out!')
+  GoogleSignin.signOut()
+    .then(_ => {
+      console.log('Done!')
+    })
+}
+
+export default GoogleAuth = (props) => {
+  return props.isLoggedIn ? (
+    <View>
+        <TouchableOpacity
+          onPress={onLogout}
           style={{
-            width: 24,
-            height: 24,
-            marginRight: 12
           }}
-        />
-        <Text style={{
-          fontFamily: 'IBMPlexMono',
-          textAlign: 'left',
-          fontSize: 16,
-          textDecorationLine: 'underline',
-          color: '#B61C2D'
-        }}>Sign in with Google</Text>
-      </View>
-    </TouchableOpacity>
-  </View>
+        >
+          <Text>Log out</Text>
+        </TouchableOpacity>
+    </View>
+  ) : (
+    <View>
+      <TouchableOpacity
+        onPress={onLoginOrRegister}
+        style={{
+          marginBottom: 40,
+          marginLeft: 20,
+          marginRight: 20
+        }}>
+        <View style={{
+          flex: 1,
+          flexDirection: 'row'
+        }}>
+          <Image
+            source={require('../img/google-logo.png')}
+            width={24}
+            height={24}
+            style={{
+              width: 24,
+              height: 24,
+              marginRight: 12
+            }}
+          />
+          <Text style={{
+            fontFamily: 'IBMPlexMono',
+            textAlign: 'left',
+            fontSize: 16,
+            textDecorationLine: 'underline',
+            color: '#B61C2D'
+          }}>Sign in with Google</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
+}
