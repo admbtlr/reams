@@ -35,9 +35,8 @@ const onLoginOrRegister = () => {
 const onLogout = () => {
   console.log('Log out!')
   GoogleSignin.signOut()
-    .then(_ => {
-      console.log('Done!')
-    })
+    .then(firebase.auth().signOut)
+    .then(firebase.auth().signInAnonymously)
 }
 
 export default GoogleAuth = (props) => {
