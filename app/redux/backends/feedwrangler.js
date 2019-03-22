@@ -60,9 +60,31 @@ export const getUnreadItemsUrl = (createdSince, page) => {
   //     console.log(error)
   //   })
 
+export const getSavedItems = async function (savedItems, maxNum, lastUpdated, cb) {
+  let newItems
+  let newIds = await fetchItemIds(lastUpdated, true)
+  newIds = newIds || []
+  console.log(`Got ${newIds.length} new item ids to expand`)
+
+  // feedwrangler always orders DESC
+  if (typeof(maxNum) === 'number') newIds = newIds.slice(0, maxNum)
+  console.log(`Sliced down to ${newIds.length} new item ids to expand`)
+
+  newItems = newIds.map((item) => {
+    return savedItems.find((savedItem) => savedItem.id === item.id) || item
+  })
+  const idsToExpand = newItems.filter(item => !!!item._id)
+
+  if (idsToExpand && idsToExpand.length > 0) {
+    const expandedItems = await getItemsByIds(idsToExpand, cb)
+    return true
+  }
+  return true
+}
+
 export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds, maxNum, lastUpdated, cb) {
   let newItems
-  let newIds = await fetchUnreadIds(lastUpdated)
+  let newIds = await fetchItemIds(lastUpdated)
   newIds = newIds || []
   console.log(`Got ${newIds.length} new item ids to expand`)
 
@@ -93,7 +115,7 @@ const mergeExpanded = (mixedItems, expandedItems) => {
   })
 }
 
-async function fetchUnreadIds (createdSince, isSaved) {
+async function fetchItemIds (createdSince, isSaved) {
   const pageSize = 1000
   let unreadIds = []
   let unreadIdBatch

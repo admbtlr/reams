@@ -48,6 +48,20 @@ export async function fetchUnreadItems (oldItems, readItems, currentItem, feeds,
   return items
 }
 
+export async function fetchSavedItems (savedItems, currentItem, feeds, lastUpdated, cb) {
+
+  // { readItems, newItems }
+  let items
+
+  if (backend === 'rizzle') {
+    items = await rizzle.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
+  } else if (backend === 'feedwrangler') {
+    items = await feedwrangler.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
+  }
+
+  return items
+}
+
 export function fetchUnreadIds () {
   switch (backend) {
     case 'rizzle':
