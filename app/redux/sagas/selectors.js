@@ -24,6 +24,14 @@ export function getFeeds (state) {
   return state.feeds.feeds
 }
 
+export function getLastUpdated (state, type) {
+  if (type === 'unread') {
+    return state.itemsUnread.lastUpdated || 0
+  } else {
+    return state.itemsSaved.lastUpdated || 0
+  }
+}
+
 export function isFirstTime (state) {
   return state.config.isFirstTime
 }

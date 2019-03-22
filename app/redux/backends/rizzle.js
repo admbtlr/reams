@@ -22,7 +22,7 @@ export async function sendEmailLink (email) {
 
 }
 
-export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds) {
+export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds, maxItems, lastUpdated) {
   let newItems
   let latestDate = 0
   if (oldItems.length > 0) {
@@ -98,6 +98,13 @@ const fetchUnreadItems = (feeds) => {
 }
 
 export const markItemRead = (item) => {}
+
+export const saveItem = (item, folder) => {
+  return addSavedItemToFirestore(action.item)
+}
+
+export const unsaveItem = (item, folder) => {
+}
 
 export const markFeedRead = (item) => {}
 

@@ -56,12 +56,6 @@ export function feeds (state = initialState, action) {
       }
       return newState
 
-    case 'FEEDS_SET_LAST_UPDATED':
-      return {
-        ...state,
-        lastUpdated: action.lastUpdated
-      }
-
     case 'FEED_SET_CACHED_COVER_IMAGE':
       newState = { ...state }
       dirtyFeedIndex = newState.feeds.findIndex(f => f._id === action.id)
@@ -119,20 +113,38 @@ export function feeds (state = initialState, action) {
         feeds
       }
 
-    // case 'ITEMS_FETCH_DATA_SUCCESS':
-    //   const feeds = state.feeds
-    //   action.items.forEach(item => {
-    //     if (!state.feeds.find(feed => feed._id === item.feed_id)) {
-    //       feeds.push({
-    //         id: item.feed_id,
-    //         title: item.feed_title
-    //       })
-    //     }
-    //   })
-    //   return {
-    //     ...state,
-    //     feeds
-    //   }
+    case 'FEED_MARK_READ':
+      feeds = [ ...state.feeds ]
+      feed = feeds.find(feed => feed._id === action.item.feed_id)
+      const feedId = action.id
+      const currentItem = state.items[state.index]
+      items = [ ...state.items ].filter((item) => {
+        return item.feed_id !== feedId &&
+          item._id !== currentItem._id
+      })
+      let newIndex = 0
+      items.forEach((item, index) => {
+        if (item._id === currentItem._id) {
+          newIndex = index
+        }
+      })
+      if (newIndex == 0) {
+        // find the first unread item and start there
+        let i = 0
+        for (let item of items) {
+          if (!item.readAt) {
+            newIndex = i
+            break
+          }
+          i++
+        }
+      }
+      return {
+        ...state,
+        items,
+        index: newIndex
+      }
+
 
     default:
       return state

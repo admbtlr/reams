@@ -182,7 +182,14 @@ export const itemsUnread = (state = initialState, action) => {
 
     case 'ITEMS_CLEAR_READ_SUCCESS':
       return {
+        ...state,
         items: state.items.filter(item => !item.readAt)
+      }
+
+    case 'UNREAD_ITEMS_SET_LAST_UPDATED':
+      return {
+        ...state,
+        lastUpdated: Date.now()
       }
 
     case 'ITEM_ADD_READING_TIME':

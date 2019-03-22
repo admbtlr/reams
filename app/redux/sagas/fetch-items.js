@@ -22,7 +22,15 @@ import { nullValuesToEmptyStrings,
   deflateItem
 } from '../../utils/item-utils'
 import log from '../../utils/log'
-import { getItems, getCurrentItem, getFeeds, getIndex, getUid, getDisplay } from './selectors'
+import {
+  getCurrentItem,
+  getDisplay,
+  getFeeds,
+  getIndex,
+  getItems,
+  getLastUpdated,
+  getUid
+} from './selectors'
 
 
 let feeds
@@ -42,8 +50,9 @@ export function * fetchItems2 () {
   const currentItem = yield select(getCurrentItem)
   const index = yield select(getIndex)
   const displayMode = yield select(getDisplay)
+  const lastUpdated = yield select(getLastUpdated, 'unread')
 
-  const itemsChannel = yield call(fetchItemsChannel, oldItems, readItems, currentItem, feeds)
+  const itemsChannel = yield call(fetchItemsChannel, oldItems, readItems, currentItem, feeds, lastUpdated)
 
   let isFirstBatch = true
   try {
@@ -60,7 +69,7 @@ export function * fetchItems2 () {
     log('fetchItems2', err)
   } finally {
     yield put({
-      type: 'FEEDS_SET_LAST_UPDATED',
+      type: 'UNREAD_ITEMS_SET_LAST_UPDATED',
       lastUpdated: Date.now()
     })
     yield put({
@@ -78,10 +87,10 @@ export function * fetchItems2 () {
   }
 }
 
-function fetchItemsChannel (oldItems, readItems, currentItem, feeds) {
+function fetchItemsChannel (oldItems, readItems, currentItem, feeds, lastUpdated) {
   const logger = log
   return eventChannel(emitter => {
-    fetchUnreadItems(oldItems, readItems, currentItem, feeds, emitter)
+    fetchUnreadItems(oldItems, readItems, currentItem, feeds, lastUpdated, emitter)
       .then(() => {
         emitter(END)
       })

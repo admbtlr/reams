@@ -11,7 +11,7 @@ import { appActive, appInactive, currentItemChanged, screenActive, screenInactiv
 import { saveExternalUrl } from './external-items'
 import { rehydrateItems } from './rehydrate-items'
 import { inflateItems } from './inflate-items'
-import { saveItem } from './save-item'
+import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
 import { subscribeToFeed, seedFeeds, inflateFeeds } from './add-feed'
 import { initialConfig } from './initial-config'
@@ -63,7 +63,8 @@ export function * updateCurrentIndex (getFirebase) {
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
-  yield takeEvery('ITEM_SAVE_ITEM', saveItem)
+  yield takeEvery('ITEM_SAVE_ITEM', markItemSaved)
+  yield takeEvery('ITEM_UNSAVE_ITEM', markItemUnsaved)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)

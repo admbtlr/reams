@@ -60,13 +60,9 @@ export const getUnreadItemsUrl = (createdSince, page) => {
   //     console.log(error)
   //   })
 
-export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds, maxNum, cb) {
-  console.log("Inside feedwrangler.getUnreadItems")
+export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds, maxNum, lastUpdated, cb) {
   let newItems
-  const lastFetchDate = (oldItems && oldItems.length > 0) ?
-    oldItems[oldItems.length - 1].created_at :
-    0
-  let newIds = await fetchUnreadIds(lastFetchDate)
+  let newIds = await fetchUnreadIds(lastUpdated)
   newIds = newIds || []
   console.log(`Got ${newIds.length} new item ids to expand`)
 
@@ -77,7 +73,6 @@ export const getUnreadItems = async function (oldItems, readItems, currentItem, 
   newItems = newIds.map((item) => {
     return oldItems.find((oldItem) => oldItem.id === item.id) || item
   })
-  // readItems = oldItems.filter((oldItem) => newItems.find((newItem) => newItem.id === oldItem.id) === undefined)
   const idsToExpand = newItems.filter(item => !!!item._id)
 
   if (idsToExpand && idsToExpand.length > 0) {
@@ -98,14 +93,13 @@ const mergeExpanded = (mixedItems, expandedItems) => {
   })
 }
 
-async function fetchUnreadIds (createdSince, maxNum) {
+async function fetchUnreadIds (createdSince, isSaved) {
   const pageSize = 1000
   let unreadIds = []
   let unreadIdBatch
-  console.log("Inside feedwrangler.getUnreadItems")
 
   const recursiveGetIds = (offset = 0) => {
-    return getUnreadIds(createdSince, offset)
+    return getUnreadIds(createdSince, offset, isSaved)
       .then(unreadIdBatch => {
         unreadIdBatch = unreadIdBatch || []
         unreadIds = unreadIds.concat(unreadIdBatch)
@@ -209,12 +203,13 @@ export const receiveUnreadItems = (response, createdSince, page) => {
     })
 }
 
-function getUnreadIds (createdSince, offset = 0) {
+function getUnreadIds (createdSince, offset = 0, isSaved = false) {
   let url = 'https://feedwrangler.net/api/v2/feed_items/list_ids?'
   url += 'access_token=' + feedWranglerAccessToken
   url += '&read=false'
-  url += createdSince ? ('&created_since=' + createdSince) : ''
-  url += '&offset='+offset
+  url += createdSince ? ('&updated_since=' + createdSince) : ''
+  url += '&offset=' + offset
+  url += isSaved ? '&starred=true' : ''
   return fetch(url)
     .then((response) => {
       if (!response.ok) {
@@ -232,6 +227,38 @@ export const markItemRead = (item) => {
   url += 'access_token=' + feedWranglerAccessToken
   url += '&feed_item_id=' + id
   url += '&read=true'
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+}
+
+export const saveItem = (item) => {
+  const id = typeof item === 'object' ? item.id : item
+  let url = 'https://feedwrangler.net/api/v2/feed_items/update?'
+  url += 'access_token=' + feedWranglerAccessToken
+  url += '&feed_item_id=' + id
+  url += '&starred=true'
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+}
+
+export const unsaveItem = (item) => {
+  const id = typeof item === 'object' ? item.id : item
+  let url = 'https://feedwrangler.net/api/v2/feed_items/update?'
+  url += 'access_token=' + feedWranglerAccessToken
+  url += '&feed_item_id=' + id
+  url += '&starred=false'
   return fetch(url)
     .then((response) => {
       if (!response.ok) {

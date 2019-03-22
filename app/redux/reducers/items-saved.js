@@ -98,6 +98,12 @@ export const itemsSaved = (state = initialState, action) => {
         items
       }
 
+    case 'SAVED_ITEMS_SET_LAST_UPDATED':
+      return {
+        ...state,
+        lastUpdated: Date.now()
+      }
+
       // newState = { ...state }
       // newState[indexKey] = action.index
       // return newState
