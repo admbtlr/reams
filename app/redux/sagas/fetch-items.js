@@ -1,7 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 
-import { fetchUnreadItems } from '../backends'
+import { fetchItems as fetchItemsBackends } from '../backends'
 import {
   addUnreadItemsToFirestore,
   upsertFeedsFS,
@@ -35,62 +35,67 @@ import {
 
 let feeds
 
-export function * fetchItems2 () {
+export function * fetchAllItems (includeSaved = true) {
   const isOnline = yield checkOnline()
   if (!isOnline) return
 
+  yield fetchItems('unread')
+  if (includeSaved) {
+    yield fetchItems('saved')
+  }
+  yield put({
+    type: 'ITEMS_IS_LOADING',
+    isLoading: false
+  })
+}
+
+export function * fetchUnreadItems () {
+  yield fetchAllItems(false)
+}
+
+export function * fetchItems (type = 'unread') {
   yield put({
     type: 'ITEMS_IS_LOADING',
     isLoading: true
   })
-
   const feeds = yield select(getFeeds)
-  const oldItems = yield select(getItems)
-  const readItems = []
-  const currentItem = yield select(getCurrentItem)
-  const index = yield select(getIndex)
-  const displayMode = yield select(getDisplay)
-  const lastUpdated = yield select(getLastUpdated, 'unread')
+  const oldItems = yield select(getItems, type)
+  const currentItem = yield select(getCurrentItem, type)
+  const index = yield select(getIndex, type)
+  const lastUpdated = yield select(getLastUpdated, type)
 
-  const itemsChannel = yield call(fetchItemsChannel, oldItems, readItems, currentItem, feeds, lastUpdated)
+  const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, currentItem, feeds)
 
-  let isFirstBatch = true
+  // let isFirstBatch = true
   try {
     while (true) {
       let items = yield take(itemsChannel)
-      yield receiveItems(items)
-      if (isFirstBatch) {
-        isFirstBatch = false
-        // this is a little hacky, just getting ready to view some items
-        yield inflateItems({ index })
-      }
+      yield receiveItems(items, type)
+      // if (isFirstBatch) {
+      //   isFirstBatch = false
+      //   // this is a little hacky, just getting ready to view some items
+      //   yield inflateItems({ index })
+      // }
     }
   } catch (err) {
-    log('fetchItems2', err)
+    log('fetchItems', err)
   } finally {
     yield put({
-      type: 'UNREAD_ITEMS_SET_LAST_UPDATED',
+      type: type === 'unread' ?
+        'UNREAD_ITEMS_SET_LAST_UPDATED' :
+        'SAVED_ITEMS_SET_LAST_UPDATED',
       lastUpdated: Date.now()
     })
     yield put({
       type: 'ITEMS_FETCH_DATA_SUCCESS'
     })
-    yield put({
-      type: 'ITEMS_IS_LOADING',
-      isLoading: false
-    })
-    // yield put({
-    //   type: 'ITEMS_UPDATE_CURRENT_INDEX',
-    //   index: 0,
-    //   displayMode
-    // })
   }
 }
 
-function fetchItemsChannel (oldItems, readItems, currentItem, feeds, lastUpdated) {
+function fetchItemsChannel (type, lastUpdated, oldItems, currentItem, feeds) {
   const logger = log
   return eventChannel(emitter => {
-    fetchUnreadItems(oldItems, readItems, currentItem, feeds, lastUpdated, emitter)
+    fetchItemsBackends(emitter, type, lastUpdated, oldItems, currentItem, feeds)
       .then(() => {
         emitter(END)
       })
@@ -104,10 +109,15 @@ function fetchItemsChannel (oldItems, readItems, currentItem, feeds, lastUpdated
   })
 }
 
-function * receiveItems (newItems) {
-  console.log('Received ' + newItems.length + ' new items')
-  let currentFeeds = yield select(getFeeds)
-  let { feeds, items } = yield createFeedsWhereNeededAndAddInfo(newItems, currentFeeds)
+function * receiveItems (items, type) {
+  console.log('Received ' + items.length + ' new items')
+  let feeds
+  if (type === 'unread') {
+    feeds = yield select(getFeeds)
+    const updated = yield createFeedsWhereNeededAndAddInfo(items, feeds)
+    feeds = updated.feeds
+    items = updated.items
+  }
   items = items.map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
@@ -120,17 +130,21 @@ function * receiveItems (newItems) {
       }
     })
 
+  if (type === 'saved') debugger
   yield call(setItemsAS, items)
-  feeds = incrementFeedUnreadCounts(items, feeds)
 
-  yield put({
-    type: 'FEEDS_UPDATE_FEEDS',
-    feeds
-  })
+  if (type === 'unread') {
+    feeds = incrementFeedUnreadCounts(items, feeds)
+    yield put({
+      type: 'FEEDS_UPDATE_FEEDS',
+      feeds
+    })
+  }
 
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
     items: items.map(deflateItem),
+    itemType: type,
     feeds
   })
 }
@@ -186,46 +200,46 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
   return { feeds, items }
 }
 
-export function * fetchItems () {
-  const oldItems = yield select(getItems, 'items')
-  const currentItem = yield select(getCurrentItem)
-  let latestDate = 0
-  if (oldItems.length > 0) {
-    latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
-  }
-  try {
-    yield put({
-      type: 'ITEMS_IS_LOADING',
-      isLoading: true
-    })
-    const newItems = yield fetchUnreadItems(latestDate)
-    yield put({
-      type: 'ITEMS_IS_LOADING',
-      isLoading: true,
-      numItems: newItems.length
-    })
-    if (__DEV__) {
-      newItems = newItems.slice(-100)
-    }
-    console.log(`Fetched ${newItems.length} items`)
-    const { read, unread } = mergeItems(oldItems, newItems, currentItem)
-    console.log(`And now I have ${unread.length} unread items`)
-    yield put({
-      type: 'ITEMS_FETCH_DATA_SUCCESS',
-      items: unread
-    })
-    yield put({
-      type: 'ITEMS_IS_LOADING',
-      isLoading: false
-    })
-    // now remove the cached images for all the read items
-    removeCachedCoverImages(read)
-  } catch (error) {
-    yield put({
-      type: 'ITEMS_HAS_ERRORED',
-      hasErrored: true,
-      error
-    })
-  }
-}
+// export function * fetchItems () {
+//   const oldItems = yield select(getItems, 'items')
+//   const currentItem = yield select(getCurrentItem)
+//   let latestDate = 0
+//   if (oldItems.length > 0) {
+//     latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
+//   }
+//   try {
+//     yield put({
+//       type: 'ITEMS_IS_LOADING',
+//       isLoading: true
+//     })
+//     const newItems = yield fetchUnreadItems(latestDate)
+//     yield put({
+//       type: 'ITEMS_IS_LOADING',
+//       isLoading: true,
+//       numItems: newItems.length
+//     })
+//     if (__DEV__) {
+//       newItems = newItems.slice(-100)
+//     }
+//     console.log(`Fetched ${newItems.length} items`)
+//     const { read, unread } = mergeItems(oldItems, newItems, currentItem)
+//     console.log(`And now I have ${unread.length} unread items`)
+//     yield put({
+//       type: 'ITEMS_FETCH_DATA_SUCCESS',
+//       items: unread
+//     })
+//     yield put({
+//       type: 'ITEMS_IS_LOADING',
+//       isLoading: false
+//     })
+//     // now remove the cached images for all the read items
+//     removeCachedCoverImages(read)
+//   } catch (error) {
+//     yield put({
+//       type: 'ITEMS_HAS_ERRORED',
+//       hasErrored: true,
+//       error
+//     })
+//   }
+// }
 

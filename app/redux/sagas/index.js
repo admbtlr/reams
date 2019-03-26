@@ -5,7 +5,7 @@ import { REHYDRATE } from 'redux-persist'
 import { setUid, setDb } from '../firestore/'
 
 import { decorateItems } from './decorate-items'
-import { fetchItems2 } from './fetch-items'
+import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems } from './mark-read'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl } from './external-items'
@@ -30,7 +30,7 @@ import { initialConfig } from './initial-config'
 //   }
 
 //   if (rehydrated && checkedBuckets) {
-//     yield fetchItems2()
+//     yield fetchItems()
 //     rehydrated = false
 //     checkedBuckets = false
 //   }
@@ -48,7 +48,7 @@ function * init (getFirebase, action) {
   yield put({
     type: 'ITEMS_CLEAR_READ'
   })
-  yield call(fetchItems2)
+  yield call(fetchAllItems)
   yield call(executeRemoteActions)
   yield call(inflateFeeds)
 }
@@ -59,14 +59,14 @@ function setFirebaseUid (action) {
 
 export function * updateCurrentIndex (getFirebase) {
   yield takeEvery(REHYDRATE, init, getFirebase)
-  yield takeEvery('ITEMS_FETCH_ITEMS', fetchItems2)
+  yield takeEvery('ITEMS_FETCH_ITEMS', fetchAllItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
   yield takeEvery('ITEM_SAVE_ITEM', markItemSaved)
   yield takeEvery('ITEM_UNSAVE_ITEM', markItemUnsaved)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
-  yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchItems2)
+  yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchUnreadItems)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
   yield takeEvery('USER_SET_UID', clearReadItems)

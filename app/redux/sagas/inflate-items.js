@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { isInflated, deflateItem, inflateItem } from '../../utils/item-utils'
 import log from '../../utils/log'
-import { getUnreadItems } from './selectors'
+import { getItems } from './selectors'
 
 import { getItemsAS } from '../async-storage/'
 
@@ -10,7 +10,7 @@ export function * inflateItems (action) {
   // there's an issue with the index getting setting to undefined at init
   // no idea why
   const index = action.index || 0
-  const items = yield select(getUnreadItems)
+  const items = yield select(getItems, action.displayMode)
   if (items.length === 0) return
 
   let inflatedItems = items.filter(isInflated)

@@ -1,6 +1,6 @@
 import { put, select } from 'redux-saga/effects'
 
-import { getCurrentItem } from './selectors'
+import { getCurrentItem, getDisplay } from './selectors'
 
 import log from '../../utils/log'
 
@@ -10,6 +10,8 @@ let currentItem
 let itemsScreenActive = false
 
 export function * currentItemChanged (action) {
+  const display = yield select(getDisplay)
+  if (display !== 'unread') return
   const prevItem = currentItem
   if (itemsScreenActive) {
     if (startTime && prevItem) {

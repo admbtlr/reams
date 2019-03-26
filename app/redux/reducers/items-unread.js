@@ -118,6 +118,7 @@ export const itemsUnread = (state = initialState, action) => {
       }
 
     case 'ITEMS_BATCH_FETCHED':
+      if (action.itemType !== 'unread') return state
       const feeds = action.feeds
       items = [...state.items]
       newItems = action.items
@@ -148,12 +149,6 @@ export const itemsUnread = (state = initialState, action) => {
         ...state,
         items,
         index: 0
-      }
-
-    case 'ITEMS_FETCH_DATA_SUCCESS':
-      // merge with existing items
-      return {
-        ...state
       }
 
     case 'ITEMS_FLATE':

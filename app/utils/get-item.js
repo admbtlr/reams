@@ -8,12 +8,13 @@ export const getItems = (state, type) => {
     state.itemsSaved.items
 }
 
-export const getCurrentItem = (state) => {
-  return getItems(state)[getIndex(state)]
+export const getCurrentItem = (state, type) => {
+  return getItems(state, type)[getIndex(state, type)]
 }
 
-export const getIndex = (state) => {
-  return state.itemsMeta.display === 'unread' ?
+export const getIndex = (state, type) => {
+  type = type || state.itemsMeta.display
+  return type === 'unread' ?
     state.itemsUnread.index || 0 :
     state.itemsSaved.index || 0
 }

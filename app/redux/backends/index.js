@@ -34,33 +34,33 @@ export function getMercuryUrl (item) {
 }
 
 // old items are (fetched items + read items)
-export async function fetchUnreadItems (oldItems, readItems, currentItem, feeds, lastUpdated, cb) {
+export async function fetchItems (callback, type, lastUpdated, oldItems, currentItem, feeds) {
 
   // { readItems, newItems }
   let items
 
   if (backend === 'rizzle') {
-    items = await rizzle.getUnreadItems(oldItems, readItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
+    items = await rizzle.fetchItems(callback, type, lastUpdated, oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD)
   } else if (backend === 'feedwrangler') {
-    items = await feedwrangler.getUnreadItems(oldItems, readItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
+    items = await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD)
   }
 
   return items
 }
 
-export async function fetchSavedItems (savedItems, currentItem, feeds, lastUpdated, cb) {
+// export async function fetchSavedItems (savedItems, currentItem, feeds, lastUpdated, cb) {
 
-  // { readItems, newItems }
-  let items
+//   // { readItems, newItems }
+//   let items
 
-  if (backend === 'rizzle') {
-    items = await rizzle.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
-  } else if (backend === 'feedwrangler') {
-    items = await feedwrangler.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
-  }
+//   if (backend === 'rizzle') {
+//     items = await rizzle.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
+//   } else if (backend === 'feedwrangler') {
+//     items = await feedwrangler.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
+//   }
 
-  return items
-}
+//   return items
+// }
 
 export function fetchUnreadIds () {
   switch (backend) {

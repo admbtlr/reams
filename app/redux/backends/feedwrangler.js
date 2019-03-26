@@ -32,59 +32,9 @@ export const authenticate = (username, password) => {
     })
 }
 
-export const getUnreadItemsUrl = (createdSince, page) => {
-  let url = '/api/unread?thing=1'
-  url = 'https://feedwrangler.net/api/v2/feed_items/list?read=false&access_token=' + feedWranglerAccessToken
-  if (createdSince > 0) {
-    url += '&created_since=' + createdSince
-  }
-  if (page > 0) {
-    url += '&offset=' + (page * itemsFetchBatchSize)
-  }
-  return url
-}
-
-// export const getUnreadItems = (createdSince, page) => {
-  // createdSince = createdSince || 0
-  // page = page || 0
-  // console.log("Fetching unread items: " + getUnreadItemsUrl(createdSince, page))
-  // return fetch(getUnreadItemsUrl(createdSince, page))
-  //   .then(response => {
-  //     if (!response.ok) {
-  //       throw Error(response.statusText)
-  //     } else {
-  //       return receiveUnreadItems(response, createdSince, page)
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.log(error)
-  //   })
-
-export const getSavedItems = async function (savedItems, maxNum, lastUpdated, cb) {
+export const fetchItems = async function (callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum) {
   let newItems
-  let newIds = await fetchItemIds(lastUpdated, true)
-  newIds = newIds || []
-  console.log(`Got ${newIds.length} new item ids to expand`)
-
-  // feedwrangler always orders DESC
-  if (typeof(maxNum) === 'number') newIds = newIds.slice(0, maxNum)
-  console.log(`Sliced down to ${newIds.length} new item ids to expand`)
-
-  newItems = newIds.map((item) => {
-    return savedItems.find((savedItem) => savedItem.id === item.id) || item
-  })
-  const idsToExpand = newItems.filter(item => !!!item._id)
-
-  if (idsToExpand && idsToExpand.length > 0) {
-    const expandedItems = await getItemsByIds(idsToExpand, cb)
-    return true
-  }
-  return true
-}
-
-export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds, maxNum, lastUpdated, cb) {
-  let newItems
-  let newIds = await fetchItemIds(lastUpdated)
+  let newIds = await fetchItemIds(lastUpdated, type)
   newIds = newIds || []
   console.log(`Got ${newIds.length} new item ids to expand`)
 
@@ -98,34 +48,23 @@ export const getUnreadItems = async function (oldItems, readItems, currentItem, 
   const idsToExpand = newItems.filter(item => !!!item._id)
 
   if (idsToExpand && idsToExpand.length > 0) {
-    const expandedItems = await getItemsByIds(idsToExpand, cb)
+    const expandedItems = await getItemsByIds(idsToExpand, callback)
     return true
   }
   return true
 }
 
-export const fetchUnreadItems = (createdSince) => {
-  itemsCache = []
-  return getUnreadItems(createdSince)
-}
-
-const mergeExpanded = (mixedItems, expandedItems) => {
-  return mixedItems.map((item) => {
-    return item._id ? item : expandedItems.find((expanded) => expanded.id === item.id)
-  })
-}
-
-async function fetchItemIds (createdSince, isSaved) {
+async function fetchItemIds (createdSince, type) {
   const pageSize = 1000
-  let unreadIds = []
-  let unreadIdBatch
+  let itemIds = []
+  let itemIdBatch
 
   const recursiveGetIds = (offset = 0) => {
-    return getUnreadIds(createdSince, offset, isSaved)
-      .then(unreadIdBatch => {
-        unreadIdBatch = unreadIdBatch || []
-        unreadIds = unreadIds.concat(unreadIdBatch)
-        if (unreadIdBatch.length === pageSize) {
+    return getItemIds(createdSince, offset, type)
+      .then(itemIdBatch => {
+        itemIdBatch = itemIdBatch || []
+        itemIds = itemIds.concat(itemIdBatch)
+        if (itemIdBatch.length === pageSize) {
           return recursiveGetIds(offset + pageSize)
         } else {
           return true
@@ -134,18 +73,12 @@ async function fetchItemIds (createdSince, isSaved) {
   }
 
   return recursiveGetIds().then(_ => {
-    return unreadIds.map((feed_item) => {
+    return itemIds.map((feed_item) => {
       return {
         id: feed_item.feed_item_id
       }
     })
   })
-  // unreadIdBatch  = await getUnreadIds()
-  // unreadIds = unreadIds.concat(unreadIdBatch)
-  // while (unreadIdBatch.length === pageSize) {
-  //   unreadIdBatch  = await getUnreadIds()
-  //   unreadIds = unreadIds.concat(unreadIdBatch)
-  // }
 }
 
 async function getItemsByIds (itemIds, callback) {
@@ -225,13 +158,13 @@ export const receiveUnreadItems = (response, createdSince, page) => {
     })
 }
 
-function getUnreadIds (createdSince, offset = 0, isSaved = false) {
+function getItemIds (createdSince, offset = 0, type = 'unread') {
   let url = 'https://feedwrangler.net/api/v2/feed_items/list_ids?'
   url += 'access_token=' + feedWranglerAccessToken
-  url += '&read=false'
-  url += createdSince ? ('&updated_since=' + createdSince) : ''
+  url += (createdSince && type === 'unread') ? ('&updated_since=' + createdSince) : ''
   url += '&offset=' + offset
-  url += isSaved ? '&starred=true' : ''
+  url += type === 'unread' ? '&read=false' : ''
+  url += type === 'saved' ? '&starred=true' : ''
   return fetch(url)
     .then((response) => {
       if (!response.ok) {

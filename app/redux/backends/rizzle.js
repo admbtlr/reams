@@ -22,7 +22,7 @@ export async function sendEmailLink (email) {
 
 }
 
-export const getUnreadItems = async function (oldItems, readItems, currentItem, feeds, maxItems, lastUpdated) {
+export const getUnreadItems = async function (oldItems, currentItem, feeds, maxItems, lastUpdated) {
   let newItems
   let latestDate = 0
   if (oldItems.length > 0) {

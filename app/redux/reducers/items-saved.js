@@ -104,17 +104,28 @@ export const itemsSaved = (state = initialState, action) => {
         lastUpdated: Date.now()
       }
 
-      // newState = { ...state }
-      // newState[indexKey] = action.index
-      // return newState
+    case 'ITEMS_BATCH_FETCHED':
+      if (action.itemType !== 'saved') return state
+      debugger
+      items = [...state.items]
+      newItems = action.items
+      newItems.forEach(newItem => {
+        let indexToUpdate = items.findIndex(item => item.id === newItem.id || item._id === newItem._id)
+        if (indexToUpdate !== -1) {
+          items[indexToUpdate] = newItem
+        } else {
+          items.push(newItem)
+        }
+      })
 
-    // case 'ITEMS_KEEP_CURRENT_ITEM_UNREAD':
-    //   newItems = state.items
-    //   newItems[state.index].keepUnread = true
-    //   return {
-    //     ...state,
-    //     items: newItems
-    //   }
+      // order by date
+      items.sort((a, b) => a.created_at - b.created_at)
+
+      return {
+        ...state,
+        items,
+        index: 0
+      }
 
     case 'ITEM_DECORATION_SUCCESS':
       return itemDecorationSuccess(action, state)
