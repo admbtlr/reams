@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import TopBar from '../components/TopBar.js'
-import { itemsUpdateCurrentIndex } from '../redux/actions/items.js'
 import { getItems, getIndex } from '../utils/get-item'
 
 const mapStateToProps = (state, ownProps) => {
