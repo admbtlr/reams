@@ -5,6 +5,7 @@ import {
   itemSetScrollOffset,
   itemToggleMercury,
   itemDecorationSuccess,
+  itemsFlate,
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
 } from './items-common'
@@ -151,29 +152,29 @@ export const itemsUnread = (state = initialState, action) => {
         index: 0
       }
 
-    case 'ITEMS_FLATE':
-      // the items in the action are already inflated/deflated
-      const flatedItems = action.itemsToInflate
-        .concat(action.itemsToDeflate)
-      items = [...state.items]
-      flatedItems.forEach(fi => {
-        // some of the items might have been deleted in Firebase
-        // which means that they will come back as undefined
-        // I think we can just ignore them
-        // TODO check whether this is really the case!
-        if (fi) {
-          const index = items.findIndex(item => item._id === fi._id)
-          // don't deflate an item that is currently in view
-          if (!(Math.abs(index - state.index) <= 1
-            && typeof fi.content_html === 'undefined')) {
-            items[index] = fi
-          }
-        }
-      })
-      return {
-        ...state,
-        items
-      }
+    // case 'ITEMS_FLATE':
+    //   // the items in the action are already inflated/deflated
+    //   const flatedItems = action.itemsToInflate
+    //     .concat(action.itemsToDeflate)
+    //   items = [...state.items]
+    //   flatedItems.forEach(fi => {
+    //     // some of the items might have been deleted in Firebase
+    //     // which means that they will come back as undefined
+    //     // I think we can just ignore them
+    //     // TODO check whether this is really the case!
+    //     if (fi) {
+    //       const index = items.findIndex(item => item._id === fi._id)
+    //       // don't deflate an item that is currently in view
+    //       if (!(Math.abs(index - state.index) <= 1
+    //         && typeof fi.content_html === 'undefined')) {
+    //         items[index] = fi
+    //       }
+    //     }
+    //   })
+    //   return {
+    //     ...state,
+    //     items
+    //   }
 
     case 'ITEMS_CLEAR_READ_SUCCESS':
       return {
@@ -198,6 +199,9 @@ export const itemsUnread = (state = initialState, action) => {
         item.readingTime = action.readingTime
       }
       return newState
+
+    case 'ITEMS_FLATE':
+      return itemsFlate(action, state)
 
     case 'ITEM_MARK_READ':
       return itemMarkRead(action, state)

@@ -4,6 +4,7 @@ import {
   itemSetScrollOffset,
   itemToggleMercury,
   itemDecorationSuccess,
+  itemsFlate,
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
 } from './items-common'
@@ -126,6 +127,9 @@ export const itemsSaved = (state = initialState, action) => {
         items,
         index: 0
       }
+
+    case 'ITEMS_FLATE':
+      return itemsFlate(action, state)
 
     case 'ITEM_DECORATION_SUCCESS':
       return itemDecorationSuccess(action, state)

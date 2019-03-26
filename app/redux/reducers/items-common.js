@@ -96,3 +96,28 @@ export const updateCurrentItemTitleFontResized = (action, state) => {
     items: newItems
   }
 }
+
+export const itemsFlate = (action, state) => {
+  // the items in the action are already inflated/deflated
+  const flatedItems = action.itemsToInflate
+    .concat(action.itemsToDeflate)
+  items = [...state.items]
+  flatedItems.forEach(fi => {
+    // some of the items might have been deleted in Firebase
+    // which means that they will come back as undefined
+    // I think we can just ignore them
+    // TODO check whether this is really the case!
+    if (fi) {
+      const index = items.findIndex(item => item._id === fi._id)
+      // don't deflate an item that is currently in view
+      if (!(Math.abs(index - state.index) <= 1
+        && typeof fi.content_html === 'undefined')) {
+        items[index] = fi
+      }
+    }
+  })
+  return {
+    ...state,
+    items
+  }
+}
