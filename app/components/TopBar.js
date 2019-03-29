@@ -212,6 +212,12 @@ class TopBar extends React.Component {
     }
     const areDetailsVisible = this.state && this.state.detailsVisible || false
 
+    const clampedAnimatedValue = Animated.diffClamp(
+      Animated.add(getAnimatedValue(), panTransformAnim),
+      -STATUS_BAR_HEIGHT,
+      0
+    )
+
     return (
       <View>
         <Animated.View
@@ -264,64 +270,69 @@ class TopBar extends React.Component {
             shadowOpacity: 0.1,
             shadowColor: 'rgba(0, 0, 0, 1)',
             transform: [{
-              translateY: Animated.add(Animated.diffClamp(
-                Animated.add(getAnimatedValue(), panTransformAnim),
-                -STATUS_BAR_HEIGHT,
-                0
-              ), this.detailsHeight.interpolate({
+              translateY: Animated.add(clampedAnimatedValue, this.detailsHeight.interpolate({
                 inputRange: [0, 1],
                 outputRange: [0, 260]
               }))
             }]
           }}
         >
-          <TouchableOpacity
+          <Animated.View
             style={{
               position: 'absolute',
               zIndex: 5,
               left: 10,
               marginTop: 3,
-              width: 28,
-              height: 28,
-              borderRadius: 14
+              opacity: clampedAnimatedValue.interpolate({
+                inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+                outputRange: [0, 1]
+              })
             }}
-            onPress={() => this.props.navigation.navigate('Feeds')}
           >
-            <Svg
-              height='22'
-              width='28'>
-              <Line
-                fill='none'
-                stroke={this.getHamburgerColor(item)}
-                strokeLinecap='round'
-                strokeWidth='2'
-                x1='2'
-                x2='24'
-                y1='1'
-                y2='1'
-              />
-              <Line
-                fill='none'
-                stroke={this.getHamburgerColor(item)}
-                strokeLinecap='round'
-                strokeWidth='2'
-                x1='2'
-                x2='24'
-                y1='8'
-                y2='8'
-              />
-              <Line
-                fill='none'
-                stroke={this.getHamburgerColor(item)}
-                strokeLinecap='round'
-                strokeWidth='2'
-                x1='2'
-                x2='24'
-                y1='15'
-                y2='15'
-              />
-            </Svg>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 14
+              }}
+              onPress={() => this.props.navigation.navigate('Feeds')}
+            >
+              <Svg
+                height='22'
+                width='28'>
+                <Line
+                  fill='none'
+                  stroke={this.getHamburgerColor(item)}
+                  strokeLinecap='round'
+                  strokeWidth='2'
+                  x1='2'
+                  x2='24'
+                  y1='1'
+                  y2='1'
+                />
+                <Line
+                  fill='none'
+                  stroke={this.getHamburgerColor(item)}
+                  strokeLinecap='round'
+                  strokeWidth='2'
+                  x1='2'
+                  x2='24'
+                  y1='8'
+                  y2='8'
+                />
+                <Line
+                  fill='none'
+                  stroke={this.getHamburgerColor(item)}
+                  strokeLinecap='round'
+                  strokeWidth='2'
+                  x1='2'
+                  x2='24'
+                  y1='15'
+                  y2='15'
+                />
+              </Svg>
+            </TouchableOpacity>
+          </Animated.View>
           <Text style={{
               ...this.getStyles().feedActions,
               fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
@@ -398,7 +409,11 @@ class TopBar extends React.Component {
                   translateY: transformAnim
                 }],
                 // color: this.getBorderBottomColor(item)
-                color: this.getForegroundColor()
+                color: this.getForegroundColor(),
+                opacity: clampedAnimatedValue.interpolate({
+                  inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+                  outputRange: [0, 1]
+                })
               }}
             >
               {this.getMessage(item)}
@@ -411,25 +426,32 @@ class TopBar extends React.Component {
               }
             </Animated.Text>
           </TouchableWithoutFeedback>
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              right: 10,
-              marginTop: 0,
-              width: 28,
-              height: 38,
-              // borderRadius: 14,
-              // backgroundColor: 'rgba(0, 0, 0, 0.3)'
-            }}
-            onPress={this.props.toggleViewButtons}
-          >
-            <Text style={{
-              fontFamily: 'IBMPlexMono-Bold',
-              color: 'white',
-              paddingLeft: 6,
-              paddingTop: 3
-            }}>A<Text style={{ color: 'rgba(0,0,0,0.8)', fontSize: 22 }}>Z</Text></Text>
-          </TouchableOpacity>
+          <Animated.View style={{
+            position: 'absolute',
+            right: 10,
+            marginTop: 0,
+            width: 28,
+            height: 38,
+            opacity: clampedAnimatedValue.interpolate({
+              inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+              outputRange: [0, 1]
+            })
+          }}>
+            <TouchableOpacity
+              style={{
+                // borderRadius: 14,
+                // backgroundColor: 'rgba(0, 0, 0, 0.3)'
+              }}
+              onPress={this.props.toggleViewButtons}
+            >
+              <Text style={{
+                fontFamily: 'IBMPlexMono-Bold',
+                color: 'white',
+                paddingLeft: 6,
+                paddingTop: 3
+              }}>A<Text style={{ color: 'rgba(0,0,0,0.8)', fontSize: 22 }}>Z</Text></Text>
+            </TouchableOpacity>
+          </Animated.View>
         </Animated.View>
     </View>)
   }
