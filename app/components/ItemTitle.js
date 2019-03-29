@@ -462,9 +462,9 @@ class ItemTitle extends React.Component {
     if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
     if (!showCoverImage) color = this.props.isDarkBackground ? 'hsl(0, 0%, 70%)' : 'black'
 
-    const invertBGPadding = 5
-    let paddingTop = styles.invertBG ? invertBGPadding : 0
-    const paddingBottom = styles.invertBG ? 2 : 0
+    const invertBGPadding = 6
+    let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
+    const paddingBottom = this.shouldSplitIntoWords() ? invertBGPadding : 0
     let paddingLeft = showCoverImage && styles.invertBG ? invertBGPadding : 0
     if (styles.isItalic) {
       paddingLeft += fontSize * 0.1
@@ -630,7 +630,9 @@ class ItemTitle extends React.Component {
         return {
           fontFamily,
           fontSize,
-          height: fontSize
+          // a nasty hack to handle letters getting cut off
+          height: lineHeight * 1.2,
+          lineHeight
         }
       })
     } else if (styles.interBolded) {
@@ -640,7 +642,8 @@ class ItemTitle extends React.Component {
         return {
           fontFamily,
           fontSize,
-          height: fontSize
+          height: lineHeight * 1.2,
+          lineHeight
         }
       })
     } else {
@@ -653,11 +656,7 @@ class ItemTitle extends React.Component {
       }
     }
 
-    const shouldSplitIntoWords = () => {
-      return styles.interBolded || styles.invertBG
-    }
-
-    if (shouldSplitIntoWords()) {
+    if (this.shouldSplitIntoWords()) {
       this.renderedTitle = words.map((word, index) => {
         if (styles.invertBG) {
           return (<View key={index} style={{
@@ -673,8 +672,7 @@ class ItemTitle extends React.Component {
           return (<Animated.Text key={index} style={{
             ...fontStyle,
             ...(wordStyles && wordStyles[index]),
-            ...shadowStyle,
-            height: fontSize
+            ...shadowStyle
           }}>{word} </Animated.Text>)
         }
       })
@@ -725,6 +723,10 @@ class ItemTitle extends React.Component {
         }
       </Animated.View>
     )
+  }
+
+  shouldSplitIntoWords () {
+    return this.props.styles.interBolded || this.props.styles.invertBG
   }
 
   renderBar () {
