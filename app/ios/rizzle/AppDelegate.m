@@ -18,7 +18,7 @@
 #else
 #import "RNSentry.h" // This is used for versions of react < 0.40
 #endif
-#import "SplashScreen.h"
+#import "RNSplashScreen.h"
 #import <Firebase.h>
 
 @implementation AppDelegate
@@ -58,7 +58,7 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-  [SplashScreen show];
+  [RNSplashScreen show];
   return YES;
 }
 

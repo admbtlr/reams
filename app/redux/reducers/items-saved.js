@@ -61,10 +61,10 @@ export const itemsSaved = (state = initialState, action) => {
     case 'ITEM_SAVE_ITEM':
       items = [ ...state.items ]
       savedItem = action.item
-      savedItem.isSaved = true
       items.push({
         ...savedItem,
-        savedAt: Date.now()
+        savedAt: savedItem.saveAt || Date.now(),
+        isSaved: true
       })
       return {
         ...state,
@@ -78,25 +78,26 @@ export const itemsSaved = (state = initialState, action) => {
       savedItem.isSaved = true
       items.push({
         ...savedItem,
-        savedAt: Date.now()
+        savedAt: Date.now(),
+        isSaved: true
       })
       return {
         ...state,
         items
       }
 
-    // TODO; saved index
     case 'ITEM_UNSAVE_ITEM':
-      let savedIndex = state.items.indexOf(action.item) || 0
-      savedItem = state.items[savedIndex]
+      let index = state.items.indexOf(action.item) || 0
+      savedItem = state.items[index]
       items = state.items.filter((item) => item._id !== action.item._id)
       if (savedItem) savedItem.isSaved = false
-      if (savedIndex > items.length - 1) {
-        savedIndex = items.length - 1
+      if (index > items.length - 1) {
+        index = items.length - 1
       }
       return {
         ...state,
-        items
+        items,
+        index
       }
 
     case 'SAVED_ITEMS_SET_LAST_UPDATED':
@@ -107,13 +108,20 @@ export const itemsSaved = (state = initialState, action) => {
 
     case 'ITEMS_BATCH_FETCHED':
       if (action.itemType !== 'saved') return state
-      debugger
       items = [...state.items]
-      newItems = action.items
+      newItems = action.items.map(item => ({
+        ...item,
+        savedAt: item.savedAt || Date.now(),
+        isSaved: true
+      }))
       newItems.forEach(newItem => {
         let indexToUpdate = items.findIndex(item => item.id === newItem.id || item._id === newItem._id)
         if (indexToUpdate !== -1) {
-          items[indexToUpdate] = newItem
+          items[indexToUpdate] = {
+            ...newItem,
+            savedAt: items[indexToUpdate].savedAt,
+            isSaved: true
+          }
         } else {
           items.push(newItem)
         }

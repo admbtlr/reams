@@ -1,6 +1,7 @@
 import { InteractionManager } from 'react-native'
 import { store } from '../store'
-import {id} from '../../utils'
+import { id } from '../../utils'
+import log from '../../utils/log'
 
 let feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
 const itemsFetchBatchSize = 100
@@ -29,6 +30,9 @@ export const authenticate = (username, password) => {
         return json.access_token
       }
       console.log(json)
+    })
+    .catch(e => {
+      log(e)
     })
 }
 
@@ -70,6 +74,9 @@ async function fetchItemIds (createdSince, type) {
           return true
         }
       })
+      .catch(e => {
+        log(e)
+      })
   }
 
   return recursiveGetIds().then(_ => {
@@ -108,6 +115,9 @@ async function getItemsByIds (itemIds, callback) {
       .then((json) => {
         callback(json.feed_items.map(mapFeedwranglerItemToRizzleItem))
         return true
+      })
+      .catch(e => {
+        log(e)
       })
   })
   return Promise.all(promises)

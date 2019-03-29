@@ -139,7 +139,7 @@ class TopBar extends React.Component {
   getBackgroundColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
-      hslString('rizzleSaved') :
+      hslString('rizzleBG') :
       (feedColor ?
         hslString(feedColor, 'desaturated') :
         hslString('rizzleSaved'))
@@ -148,7 +148,7 @@ class TopBar extends React.Component {
 
   getForegroundColor (item) {
     return this.props.displayMode == 'saved' ?
-      hslString('white') :
+      hslString('rizzleText') :
       hslString('white')
   }
 

@@ -38,7 +38,7 @@ export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
     yield call(delay, 500)
-    if (feed.description) continue
+    if (feed.description || feed.favicon) continue
     const details = yield getFeedDetails(feed)
     const inflatedFeed = {
       ...feed,

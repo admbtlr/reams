@@ -66,16 +66,16 @@ export function * fetchItems (type = 'unread') {
 
   const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, currentItem, feeds)
 
-  // let isFirstBatch = true
+  let isFirstBatch = true
   try {
     while (true) {
       let items = yield take(itemsChannel)
       yield receiveItems(items, type)
-      // if (isFirstBatch) {
-      //   isFirstBatch = false
-      //   // this is a little hacky, just getting ready to view some items
-      //   yield inflateItems({ index })
-      // }
+      if (isFirstBatch) {
+        isFirstBatch = false
+        // this is a little hacky, just getting ready to view some items
+        yield inflateItems({ index })
+      }
     }
   } catch (err) {
     log('fetchItems', err)
@@ -130,16 +130,20 @@ function * receiveItems (items, type) {
       }
     })
 
-  if (type === 'saved') debugger
-  yield call(setItemsAS, items)
-
   if (type === 'unread') {
     feeds = incrementFeedUnreadCounts(items, feeds)
     yield put({
       type: 'FEEDS_UPDATE_FEEDS',
       feeds
     })
+  } else if (type === 'saved') {
+    items = items.map(i => ({
+      ...i,
+      isSaved: true
+    }))
   }
+
+  yield call(setItemsAS, items)
 
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
