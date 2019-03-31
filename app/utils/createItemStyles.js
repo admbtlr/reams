@@ -1,7 +1,5 @@
 import {Dimensions} from 'react-native'
 
-import {deepEqual} from '../utils/'
-import {colors} from '../utils/color-definitions'
 import {getNames} from '../utils/colors'
 
 const entities = require('entities')
@@ -14,18 +12,16 @@ export function createItemStyles (item, prevStyles) {
     isMonochrome: Math.random() > 0.5
   }
   const isMainColorDarker = Math.random() > 0.6
-  const isMainColorDesaturated = Math.random() > 0.6
   let isCoverImageColorDarker = Math.random() > 0.4
-  const isCoverImageColorDesaturated = isMainColorDarker ? false : Math.random() > 0.2
   // const color = pickOne(getNames(), isMainColorDarker ? 'Darker' : '', prevStyles && prevStyles.color)
   const color = item.feed_color
   title.color = color
   // title.color = 'white'
 
   if (!deviceWidth || !deviceHeight) {
-     const {height, width} = Dimensions.get('window')
-     deviceHeight = height
-     deviceWidth = width
+    const {height, width} = Dimensions.get('window')
+    deviceHeight = height
+    deviceWidth = width
   }
 
   let isBW = false
@@ -69,8 +65,6 @@ export function createItemStyles (item, prevStyles) {
   //   title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
   // }
 
-  const coverImageStyles = createCoverImageStyles(item)
-
   title.interBolded = shouldInterBold(entities.decode(item.title))
   // this is probably just too ugly to be allowed...
   // title.interStyled = title.interBolded && Math.random() > 0.5
@@ -102,9 +96,11 @@ export function createItemStyles (item, prevStyles) {
       !isCoverInline &&
       !isMultiply
   title.valign = isContain ? 'top-bottom' : // isContain means image is in the middle
-    ((item.showCoverImage && Math.random() > 0.3) || Math.random() > 0.5 ?
-      'middle' :
-      ['top', 'bottom'][Math.floor(Math.random() * 2)])
+    ((item.showCoverImage && Math.random() > 0.3) ||
+      title.bg ||
+      Math.random() > 0.5 ?
+        'middle' :
+        ['top', 'bottom'][Math.floor(Math.random() * 2)])
   title.isBold = title.isMonochrome ?
       Math.random() > 0.5 :
       Math.random() > 0.3
@@ -255,19 +251,6 @@ export function expandStyles (compressed) {
     }
   }
   return styles
-}
-
-export function createCoverImageStyles (item) {
-  let styles = {
-    isContain: false,
-    isCoverInline: false
-  }
-  if (item.title &&
-    (item.imageDimensions && item.imageDimensions.height < deviceHeight * 0.7)) {
-    // TODO base this decision on title length
-    Math.random() > 0.2 ? styles.isCoverInline = true : styles.isContain = true
-    styles.isScreen = styles.isMultiply = false
-  }
 }
 
 const shouldBeVertical = (title) => {
