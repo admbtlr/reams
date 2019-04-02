@@ -59,7 +59,8 @@ class ListHeaderComponent extends React.Component {
     return (
       <View style={{
         marginTop: 55,
-        marginBottom: 64
+        marginBottom: 64,
+        width: Dimensions.get('window').width * 0.9
       }}>
         <Heading
           title='Your Feeds'
