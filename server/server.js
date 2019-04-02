@@ -1,3 +1,5 @@
+const Mercury = require('@postlight/mercury-parser')
+
 const express = require('express')
 const request = require('request')
 const FeedParser = require('feedparser')
@@ -15,15 +17,9 @@ app.get('/unread/', (req, res) => {
 })
 
 app.get('/mercury/', (req, res) => {
-  const apiKey = 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
-  const postlightUrl = 'https://mercury.postlight.com/parser?url='+encodeURIComponent(req.query.url)
-  const headers = {
-    'x-api-key': apiKey
-  }
-  request({
-    url: postlightUrl,
-    headers: headers
-  }).pipe(res)
+  Mercury.parse(req.query.url).then(parsed => {
+    res.send(parsed)
+  })
 })
 
 app.get('/feed/', (req, res) => {
