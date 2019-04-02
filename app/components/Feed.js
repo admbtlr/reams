@@ -352,6 +352,10 @@ class Feed extends React.PureComponent {
         }
       }
 
+    // just don't show favicons
+    // TODO: delete them completely?
+    const showFavicon = false
+
     return (
       <Animated.View
         style={{
@@ -434,7 +438,7 @@ class Feed extends React.PureComponent {
                 style={{ top: 40 }}
               />
             </Animated.View>
-            { favicon &&
+            { showFavicon &&
               <Surface
                 width={36}
                 height={36}
@@ -483,6 +487,13 @@ class Feed extends React.PureComponent {
                 flex: 5
               }}
             />
+            <Text style={{
+              ...textStyles,
+              position: 'absolute',
+              bottom: 10,
+              right: 10,
+              fontSize: 14
+            }}>{readingRate}</Text>
           </Animated.View>
         </Animated.View>
         { this.props.growMe &&
