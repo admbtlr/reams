@@ -15,9 +15,9 @@ import {
   nullValuesToEmptyStrings,
   addMercuryStuffToItem,
   addCoverImageToItem,
-  rizzleSort,
   setShowCoverImage
 } from '../../utils/item-utils.js'
+import rizzleSort from '../../utils/rizzle-sort'
 
 // export const initialState = {
 //   items: []
