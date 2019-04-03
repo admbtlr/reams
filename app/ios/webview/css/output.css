@@ -219,11 +219,13 @@ body {
     color: white;
     background-color: transparent;
     border: none;
-    font-size: 1.2rem;
-    line-height: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.33rem;
     font-style: normal;
     padding: 1rem .5rem;
-    margin: 1rem 0; }
+    margin: 1rem 0;
+    border-top: 1px solid;
+    border-bottom: 1px solid; }
     @media (min-width: 600px) {
       .itemArticle blockquote.short-blockquote, .itemArticle .pullquote {
         margin: 3rem calc(50% - 50vw); } }
