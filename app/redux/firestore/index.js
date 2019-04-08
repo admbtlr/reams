@@ -16,6 +16,7 @@ export function setDb (firebaseDb) {
 }
 
 function getUserDb () {
+  if (!uid || uid === '') throw "No user id!"
   return db.collection('users').doc(uid)
 }
 
@@ -116,13 +117,17 @@ export function addReadItemFS (item) {
 export function addReadItemsFS (items) {
   const writeBatch = db.batch()
   items.forEach(item => {
-    const docRef = getUserDb().collection('items-read').doc(item._id)
-    writeBatch.set(docRef, {
-      _id: item._id,
-      id: item.id,
-      feed_id: item.feed_id,
-      title: item.title
-    })
+    try {
+      const docRef = getUserDb().collection('items-read').doc(item._id)
+      writeBatch.set(docRef, {
+        _id: item._id,
+        id: item.id,
+        feed_id: item.feed_id,
+        title: item.title
+      })
+    } catch(err) {
+      log('addReadItemsFS', err)
+    }
   })
   return writeBatch.commit()
     .catch(err => {
@@ -196,7 +201,6 @@ export function upsertFeedsFS (feeds) {
 }
 
 export function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {
-  const path = `users/${uid}/${collectionName}`
   let getOptions = {}
   let data
   if (fromCache) getOptions.source = 'cache'
@@ -212,9 +216,14 @@ export function getCollection (collectionName, orderBy = 'created_at', fromCache
   // }
 
   let now = Date.now()
-  const getPage = (startAfter) => startAfter ?
-    db.collection(path).orderBy(orderBy).limit(PAGE_SIZE).startAfter(startAfter).get() :
-    db.collection(path).orderBy(orderBy).limit(PAGE_SIZE).get()
+
+  try {
+    const getPage = (startAfter) => startAfter ?
+      getUserDb().collection(collectionName).orderBy(orderBy).limit(PAGE_SIZE).startAfter(startAfter).get() :
+      getUserDb().collection(collectionName).orderBy(orderBy).limit(PAGE_SIZE).get()
+  } catch (err) {
+    log('addReadItemFS', err)
+  }
 
   return getPage()
     .then(qs => {

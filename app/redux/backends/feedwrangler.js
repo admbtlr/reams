@@ -184,6 +184,9 @@ function getItemIds (createdSince, offset = 0, type = 'unread') {
     })
     .then((response) => response.json())
     .then(json => json.feed_items)
+    .catch(e => {
+      log('Error at getItemIds: ' + e)
+    })
 }
 
 export const markItemRead = (item) => {
@@ -200,6 +203,9 @@ export const markItemRead = (item) => {
       return response
     })
     .then((response) => response.json())
+    .catch(e => {
+      log('Error at markItemRead: ' + e)
+    })
 }
 
 export const saveItem = (item) => {
@@ -216,6 +222,9 @@ export const saveItem = (item) => {
       return response
     })
     .then((response) => response.json())
+    .catch(e => {
+      log('Error at saveItem: ' + e)
+    })
 }
 
 export const unsaveItem = (item) => {
@@ -232,6 +241,9 @@ export const unsaveItem = (item) => {
       return response
     })
     .then((response) => response.json())
+    .catch(e => {
+      log('Error at unsaveItem: ' + e)
+    })
 }
 
 export const getFeedDetails = (feed) => {
@@ -261,6 +273,9 @@ export const getFeedDetails = (feed) => {
         url: feedExtras.feed_url
       }
     })
+    .catch(e => {
+      log('Error at getFeedDetails: ' + e)
+    })
 }
 
 export const markFeedRead = (feed, olderThan) => {
@@ -281,6 +296,9 @@ export const markFeedRead = (feed, olderThan) => {
     .then(json => {
       console.log(json)
     })
+    .catch(e => {
+      log('Error at markFeedRead: ' + e)
+    })
 }
 
 export const addFeed = (feedUrl) => {
@@ -297,5 +315,8 @@ export const addFeed = (feedUrl) => {
     .then((response) => response.json())
     .then(json => {
       console.log(json)
+    })
+    .catch(e => {
+      log('Error at addFeed: ' + e)
     })
 }
