@@ -24,11 +24,13 @@ export function loadMercuryStuff (item) {
     'headers': new Headers({
       'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
     })})
-    .then(response => response.json())
+    .then(response => {
+      return response.json()
+    })
 }
 
 export function getMercuryUrl (item) {
-  let url = 'https://mercury.postlight.com/parser?url=' +
+  let url = 'https://api.rizzle.net/mercury/?url=' +
     encodeURIComponent(item.url)
   return url
 }
