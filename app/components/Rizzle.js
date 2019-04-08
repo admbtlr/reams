@@ -115,10 +115,10 @@ export default class Rizzle extends Component {
   }
 
   render () {
-    if (!this.state.details) {
-      console.log('Returning null')
-      return null
-    }
+    // if (!this.state.details) {
+    //   console.log('Returning null')
+    //   return null
+    // }
 
     const component = this.props.isActionExtension ?
       <ActionExtensionScreen /> :
