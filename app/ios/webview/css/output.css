@@ -8,30 +8,30 @@ html {
     html {
       font-size: calc(4vw); } }
   html.font-size-1 {
-    font-size: calc(6vw); }
+    font-size: calc(5vw); }
     @media (min-width: 600px) {
       html.font-size-1 {
-        font-size: calc(3.5vw); } }
+        font-size: calc(3vw); } }
   html.font-size-2 {
-    font-size: calc(7vw); }
+    font-size: calc(6vw); }
     @media (min-width: 600px) {
       html.font-size-2 {
-        font-size: calc(4vw); } }
+        font-size: calc(3.5vw); } }
   html.font-size-3 {
-    font-size: calc(8vw); }
+    font-size: calc(7vw); }
     @media (min-width: 600px) {
       html.font-size-3 {
-        font-size: calc(4.5vw); } }
+        font-size: calc(4vw); } }
   html.font-size-4 {
-    font-size: calc(9vw); }
+    font-size: calc(8vw); }
     @media (min-width: 600px) {
       html.font-size-4 {
-        font-size: calc(5vw); } }
+        font-size: calc(4.5vw); } }
   html.font-size-5 {
-    font-size: calc(10vw); }
+    font-size: calc(9vw); }
     @media (min-width: 600px) {
       html.font-size-5 {
-        font-size: calc(5.5vw); } }
+        font-size: calc(5vw); } }
 
 body {
   margin: 0;
@@ -62,7 +62,7 @@ body {
   max-width: 100%; }
 
 .itemArticle {
-  font-size: calc(1rem / 1.7);
+  font-size: calc(1rem / 1.6);
   line-height: 1rem;
   margin: 0; }
   .itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle h4, .itemArticle h5 {
@@ -80,7 +80,7 @@ body {
   .itemArticle h3, .itemArticle h4 {
     font-size: 0.8rem;
     line-height: 1rem;
-    margin: 2rem 0 1rem; }
+    margin: 2rem 0 0.2rem; }
   .itemArticle h5, .itemArticle h6 {
     font-size: calc(1rem / 1.7);
     line-height: 1rem;
@@ -93,7 +93,7 @@ body {
   z-index: 10;
   padding: 2rem 0.5rem;
   width: 100vw;
-  max-width: 20rem;
+  max-width: 18rem;
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
@@ -101,7 +101,7 @@ body {
   /* gambling that it's a video */ }
   .itemArticle p, .itemArticle center {
     margin: 0;
-    margin-bottom: 1rem; }
+    margin-bottom: .666rem; }
   .itemArticle sup {
     line-height: 0; }
   .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
@@ -564,13 +564,13 @@ article > div:not(:last-of-type) figure:last-child {
 
 .bodyFontSerif1 {
   font-family: "LibreBaskerville-Regular", serif;
-  font-size: calc(1rem / 1.9); }
+  font-size: calc(1rem / 1.8); }
   .bodyFontSerif1 h1, .bodyFontSerif1 h2, .bodyFontSerif1 h3, .bodyFontSerif1 h4, .bodyFontSerif1 h5, .bodyFontSerif1 figcaption {
     font-family: "Avenir"; }
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
-  font-size: calc(1rem / 1.75); }
+  font-size: calc(1rem / 1.6); }
   .bodyFontSans1 h1, .bodyFontSans1 h2, .bodyFontSans1 h3, .bodyFontSans1 h4, .bodyFontSans1 h5, .bodyFontSans1 figcaption {
     font-family: "LibreBaskerville-Regular"; }
 
@@ -586,7 +586,7 @@ article > div:not(:last-of-type) figure:last-child {
 
 .bodyFontSerif3 {
   font-family: "IBM Plex Serif", serif;
-  font-size: calc(1rem / 1.8); }
+  font-size: calc(1rem / 1.65); }
   .bodyFontSerif3 h1, .bodyFontSerif3 h2, .bodyFontSerif3 h3, .bodyFontSerif3 h4, .bodyFontSerif3 h5, .bodyFontSerif3 figcaption {
     font-family: "IBM Plex Sans"; }
 

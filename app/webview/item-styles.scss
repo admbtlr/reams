@@ -16,37 +16,37 @@ html {
   transition: font-size 0.2s;
 
   &.font-size-1 {
+    font-size: calc(5vw);
+    @media (min-width: 600px) {
+      font-size: calc(3vw);
+    }
+  }
+
+  &.font-size-2 {
     font-size: calc(6vw);
     @media (min-width: 600px) {
       font-size: calc(3.5vw);
     }
   }
 
-  &.font-size-2 {
+  &.font-size-3 {
     font-size: calc(7vw);
     @media (min-width: 600px) {
       font-size: calc(4vw);
     }
   }
 
-  &.font-size-3 {
+  &.font-size-4 {
     font-size: calc(8vw);
     @media (min-width: 600px) {
       font-size: calc(4.5vw);
     }
   }
 
-  &.font-size-4 {
+  &.font-size-5 {
     font-size: calc(9vw);
     @media (min-width: 600px) {
       font-size: calc(5vw);
-    }
-  }
-
-  &.font-size-5 {
-    font-size: calc(10vw);
-    @media (min-width: 600px) {
-      font-size: calc(5.5vw);
     }
   }
 }
@@ -90,7 +90,7 @@ body {
 }
 
 .itemArticle {
-  font-size: calc(1rem / 1.7);
+  font-size: calc(1rem / 1.6);
   line-height: 1rem;
   margin: 0;
   h1, h2, h3, h4, h5 {
@@ -113,7 +113,7 @@ body {
   h3, h4 {
     font-size: 0.8rem;
     line-height: 1rem;
-    margin: 2rem 0 1rem;
+    margin: 2rem 0 0.2rem;
   }
   h5, h6 {
     font-size: calc(1rem / 1.7);
@@ -130,7 +130,7 @@ body {
   z-index: 10;
   padding: 2rem 0.5rem;
   width: 100vw;
-  max-width: 20rem;
+  max-width: 18rem;
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
@@ -138,7 +138,7 @@ body {
 
   p, center {
     margin: 0;
-    margin-bottom: 1rem;
+    margin-bottom: .666rem;
   }
 
   sup {
@@ -615,7 +615,7 @@ article > div:not(:last-of-type) {
 
 .bodyFontSerif1 {
   font-family: "LibreBaskerville-Regular", serif;
-  font-size: calc(1rem / 1.9);
+  font-size: calc(1rem / 1.8);
 
   h1, h2, h3, h4, h5, figcaption {
     font-family: "Avenir"
@@ -624,7 +624,7 @@ article > div:not(:last-of-type) {
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
-  font-size: calc(1rem / 1.75);
+  font-size: calc(1rem / 1.6);
 
   h1, h2, h3, h4, h5, figcaption {
     font-family: "LibreBaskerville-Regular"
@@ -649,7 +649,7 @@ article > div:not(:last-of-type) {
 
 .bodyFontSerif3 {
   font-family: "IBM Plex Serif", serif;
-  font-size: calc(1rem / 1.8);
+  font-size: calc(1rem / 1.65);
 
   h1, h2, h3, h4, h5, figcaption {
     font-family: "IBM Plex Sans"
