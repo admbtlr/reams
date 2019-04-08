@@ -124,10 +124,11 @@ class TopBar extends React.Component {
         outputRange: [0, STATUS_BAR_HEIGHT]
       })
 
-    const views = items.map((item, i) => [
-      this.renderTopBar(item, opacityAnims[i]),
-      this.renderStatusBar(item, opacityAnims[i], titleTransformAnims[i], panTransformAnim, prevItem ? i === 1 : i === 0)
-    ])
+    const views = items.map((item, i) => (<View key={i}>
+        {this.renderTopBar(item, opacityAnims[i])}
+        {this.renderStatusBar(item, opacityAnims[i], titleTransformAnims[i], panTransformAnim, prevItem ? i === 1 : i === 0)}
+      </View>)
+    )
 
     return (
       <View style={this.getStyles().base}>
