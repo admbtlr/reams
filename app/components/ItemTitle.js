@@ -462,7 +462,7 @@ class ItemTitle extends React.Component {
     if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
     if (!showCoverImage) color = this.props.isDarkBackground ? 'hsl(0, 0%, 70%)' : 'black'
 
-    const invertBGPadding = 6
+    const invertBGPadding = 3
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
     const paddingBottom = this.shouldSplitIntoWords() ? invertBGPadding : 0
     let paddingLeft = showCoverImage && styles.invertBG ? invertBGPadding : 0
@@ -559,7 +559,7 @@ class ItemTitle extends React.Component {
       paddingTop: coverImageStyles.isInline ? 0 : getTopBarHeight(),
       // paddingTop: 100,
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
-      marginTop: (!this.props.showCoverImage) ? 20 : 0,
+      marginTop: (!this.props.showCoverImage) ? 0 : 0,
       marginBottom: 0,
       top: 0,
       left: 0,
