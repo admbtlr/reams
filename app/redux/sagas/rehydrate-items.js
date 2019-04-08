@@ -1,9 +1,7 @@
-import { put, select } from 'redux-saga/effects'
-import { getUid } from './selectors'
+import { put } from 'redux-saga/effects'
 import { getCollection } from '../firestore'
-import { deflateItem } from '../../utils/item-utils'
 
-export function * rehydrateItems (getFirebase, uid) {
+export function * rehydrateSavedItemsFS (getFirebase, uid) {
   const readItems = yield getCollection('items-read', 'created_at', false, true)
   yield put({
     type: 'ITEMS_REHYDRATE_READ',

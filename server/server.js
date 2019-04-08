@@ -47,7 +47,6 @@ app.get('/feed-meta/', (req, res) => {
   const readMeta = (items) => {
     if (items && items.length) {
       const meta = items[0].meta
-      console.log(meta)
       feedMeta = {
         description: meta.description,
         favicon: meta.favicon,
@@ -64,7 +63,6 @@ app.get('/feed-meta/', (req, res) => {
   const getFavicon = (feedMeta, res) => {
     request(feedMeta.url, (err, resp, body) => {
       if (err) {
-        console.log(err)
         res.send(feedMeta)
       }
       parseFavicon.parseFavicon(body, {}).then(favicons => {
@@ -85,7 +83,6 @@ app.get('/feed-meta/', (req, res) => {
         feedMeta.favicon = favicon
         res.send(feedMeta)
       }).catch(err => {
-        console.log(err)
         res.send(feedMeta)
       })
     })
@@ -113,12 +110,10 @@ function fetch (feed, done) {
     followAllRedirects: true
   }, (err, response, body) => {
     if (err) {
-      console.log('ERROR: ' + err)
       done(items)
       return
     }
     finalUrl = response.request.href
-    console.log(finalUrl)
     var req = request(finalUrl, {
       timeout: 10000,
       pool: false

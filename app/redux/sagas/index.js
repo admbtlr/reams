@@ -1,5 +1,5 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects'
-import { getUid } from './selectors'
+import { getConfig, getUid } from './selectors'
 import { REHYDRATE } from 'redux-persist'
 
 import { setUid, setDb } from '../firestore/'
@@ -9,7 +9,7 @@ import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems } from './mark-read'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl } from './external-items'
-import { rehydrateItems } from './rehydrate-items'
+import { rehydrateSavedItemsFS } from './rehydrate-items'
 import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
@@ -38,23 +38,29 @@ import { initialConfig } from './initial-config'
 
 function * init (getFirebase, action) {
   if (action.key !== 'primary') return
-  const uid = yield select(getUid)
 
-  setDb(getFirebase().firestore())
-  setUid(uid)
-
+  const config = yield select(getConfig)
+  if (config.backend === 'rizzle') {
+    yield initialiseFirestore()
+  }
   yield call(initialConfig)
-  yield call(rehydrateItems)
-  yield put({
-    type: 'ITEMS_CLEAR_READ'
-  })
+  yield call(clearRead)
   yield call(fetchAllItems)
   yield call(executeRemoteActions)
   yield call(inflateFeeds)
 }
 
-function setFirebaseUid (action) {
-  setUid(action.uid)
+function * initialiseFirestore (action) {
+  const uid = yield select(getUid)
+  setDb(getFirebase().firestore())
+  setUid(uid)
+  yield call(rehydrateSavedItemsFS)
+}
+
+function * clearRead () {
+  yield put({
+    type: 'ITEMS_CLEAR_READ'
+  })
 }
 
 export function * updateCurrentIndex (getFirebase) {

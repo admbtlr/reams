@@ -1,5 +1,6 @@
 import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
+import { InteractionManager } from 'react-native'
 import { addFeed, getFeedDetails } from '../backends'
 import { id, getFeedColor } from '../../utils/'
 import feeds from '../../utils/seedfeeds.js'
@@ -44,12 +45,14 @@ export function * inflateFeeds () {
       ...feed,
       ...details
     }
+    yield call(InteractionManager.runAfterInteractions)
     yield put({
       type: 'FEEDS_UPDATE_FEED',
       feed: inflatedFeed
     })
     if (inflatedFeed.favicon) {
       const fileName = yield call(cacheFeedFavicon, inflatedFeed)
+      yield call(InteractionManager.runAfterInteractions)
       yield put({
         type: 'FEED_CACHED_FAVICON',
         cachedFaviconPath: fileName

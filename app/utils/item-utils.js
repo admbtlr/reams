@@ -182,6 +182,32 @@ export function setShowCoverImage (item) {
   }
 }
 
+export function removeDuplicateImage (item) {
+  const escapeUrl = (Url) => Url.
+    replace('.', '\.').
+    replace('*', '\*').
+    replace('?', '\?').
+    replace('/', '\/').
+    replace(':', '\:').
+    replace('[', '\[').
+    replace(']', '\]')
+  if (item.showCoverImage && item.styles.coverImage.isInline && item.banner_image) {
+    debugger
+    const url = escapeUrl(item.banner_image)
+    const figureRegEx = new RegExp(`<figure.*?img.*?src="${url}".*?\/figure>`)
+    const imgRegEx = new RegExp(`<img.*?src="${url}".*?\/img>`)
+    let content_html = item.content_html || ''
+    let content_mercury = item.content_mercury || ''
+    content_html = content_html.replace(figureRegEx, '').replace(imgRegEx, '')
+    item = {
+      ...item,
+      content_html,
+      content_mercury
+    }
+  }
+  return item
+}
+
 export function removeCachedCoverImages (items) {
   if (!items) return
   items.forEach(item => {

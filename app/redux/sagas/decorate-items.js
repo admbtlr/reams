@@ -11,12 +11,13 @@ const co = require('co')
 import { getItems, getCurrentItem, getDisplay, getFeeds } from './selectors'
 import { updateItemAS } from '../async-storage'
 
+let pendingDecoration = [] // a local cache
+let toDispatch = []
+
 export function * decorateItems (action) {
   let items
   let item
-  let pendingDecoration = [] // a local cache
   let count = 0
-  let toDispatch = []
 
   // this is weird... but it was the only way I could dispatch actions
   // it's not possible from within the co call below
@@ -27,34 +28,14 @@ export function * decorateItems (action) {
       const dispatchNow = [...toDispatch]
       toDispatch = []
       for (decoration of dispatchNow) {
-        yield put({
-          type: 'ITEM_DECORATION_SUCCESS',
-          ...decoration
-        })
-        items = yield select(getItems)
-        decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
-        // console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
-        yield put({
-          type: 'ITEM_DECORATION_PROGRESS',
-          totalCount: items.length,
-          decoratedCount
-        })
-
-        const item = items.find(item => item._id === decoration.item._id)
-        if (item) {
-          try {
-            updateItemAS(item)
-          } catch(err) {
-            log('decorateItems', err)
-          }
-
-          // and finally, deflate the item so that redux-persist doesn't explode
-          item = deflateItem(item)
+        if (decoration.error) {
+          yield call(InteractionManager.runAfterInteractions)
           yield put({
-            type: 'ITEMS_FLATE',
-            itemsToInflate: [],
-            itemsToDeflate: [item]
+            type: 'ITEM_DECORATION_FAILURE',
+            ...decoration
           })
+        } else {
+          yield applyDecoration(decoration)
         }
       }
     }
@@ -64,21 +45,65 @@ export function * decorateItems (action) {
     yield call(delay, 2000)
     const nextItem = yield getNextItemToDecorate(pendingDecoration)
     if (nextItem) {
-      // console.log(`Got item: ${item.title}`)
+      console.log(`Got item to decorate: ${nextItem.title}`)
       pendingDecoration.push(nextItem)
       setTimeout(() => {
         if (!nextItem) return // somehow item can become undefined here...?
         return co(decorateItem(nextItem)).then((decoration) => {
-          pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
           if (decoration) {
             toDispatch.push(decoration)
+            setTimeout(() => {
+              pendingDecoration = pendingDecoration.filter(pending => pending._id !== decoration.item._id)
+            }, 1000)
           }
         }).catch(error => {
           console.log('Error decorating item, trying again next time around')
+          toDispatch.push({
+            error: true,
+            item: {
+              _id: nextItem._id
+            }
+          })
           pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
         })
       }, 2000)
     }
+  }
+}
+
+function * applyDecoration (decoration) {
+  yield call(InteractionManager.runAfterInteractions)
+  yield put({
+    type: 'ITEM_DECORATION_SUCCESS',
+    ...decoration
+  })
+  items = yield select(getItems)
+  decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
+  // console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
+
+  yield call(InteractionManager.runAfterInteractions)
+  yield put({
+    type: 'ITEM_DECORATION_PROGRESS',
+    totalCount: items.length,
+    decoratedCount
+  })
+
+  let item = items.find(item => item._id === decoration.item._id)
+  if (item) {
+    try {
+      updateItemAS(item)
+    } catch(err) {
+      log('decorateItems', err)
+    }
+
+    // and finally, deflate the item so that redux-persist doesn't explode
+    yield call(InteractionManager.runAfterInteractions)
+    item = deflateItem(item)
+    yield put({
+      type: 'ITEMS_FLATE',
+      itemsToInflate: [],
+      itemsToDeflate: [item]
+    })
   }
 }
 
@@ -95,11 +120,15 @@ function * getNextItemToDecorate (pendingDecoration) {
   let feed
   while (feedsWithoutDecoration.length > 0 && count < feedsWithoutDecoration.length && !nextItem) {
     feed = feedsWithoutDecoration[count++]
-    nextItem = items.find(i => !i.readAt && i.feed_id === feed._id && !i.hasLoadedMercuryStuff)
+    nextItem = items.find(i => !i.readAt &&
+      i.feed_id === feed._id &&
+      !i.hasLoadedMercuryStuff &&
+      !pendingDecoration.find(pd => pd._id === i._id))
   }
   if (!nextItem) {
     const candidateItems = items.filter(item => {
       return !item.hasLoadedMercuryStuff &&
+        item.decoration_failures !== 5 &&
         !item.readAt &&
         items.indexOf(item) < 100
     })

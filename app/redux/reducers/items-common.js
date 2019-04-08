@@ -2,6 +2,7 @@ import {
   addStylesIfNecessary,
   addMercuryStuffToItem,
   addCoverImageToItem,
+  removeDuplicateImage,
   setShowCoverImage
 } from '../../utils/item-utils.js'
 
@@ -47,16 +48,30 @@ export const itemDecorationSuccess = (action, state) => {
   const testAndDecorate = (item) => {
     if (item._id === action.item._id) {
       item = addMercuryStuffToItem(item, action.mercuryStuff)
-      return setShowCoverImage(addCoverImageToItem(item, action.imageStuff))
-    } else {
-      return item
+      item = setShowCoverImage(addCoverImageToItem(item, action.imageStuff))
+      // item = removeDuplicateImage(item)
     }
+    return item
   }
 
   if (!action.item) {
     throw "action.item is not defined in itemDecorationSuccess"
   }
   items = state.items.map(testAndDecorate).map(addStylesIfNecessary)
+  return {
+    ...state,
+    items
+  }
+}
+
+export const itemDecorationFailure = (action, state) => {
+  const items = state.items.map(item => {
+    if (item._id === action.item._id) {
+      item.decoration_failures = item.decoration_failures || 0
+      item.decoration_failures++
+    }
+    return item
+  })
   return {
     ...state,
     items

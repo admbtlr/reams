@@ -231,6 +231,18 @@ export const itemsUnread = (state = initialState, action) => {
         items: state.items.filter(i => i.feed_id !== action.id)
       }
 
+    case 'ITEM_SAVE_ITEM':
+      newState = { ...state }
+      item = newState.items.find(item => item._id === action.item._id)
+      item.isSaved = true
+      return newState
+
+    case 'ITEM_UNSAVE_ITEM':
+      newState = { ...state }
+      item = newState.items.find(item => item._id === action.item._id)
+      item.isSaved = false
+      return newState
+
     case 'ITEM_TOGGLE_MERCURY':
       return itemToggleMercury(action, state)
 

@@ -11,6 +11,7 @@ export function user (state = initialState, action) {
       }
 
     case 'USER_SET_DETAILS':
+      if (!action.details) return state
       return {
         ...state,
         displayName: action.details.displayName,
