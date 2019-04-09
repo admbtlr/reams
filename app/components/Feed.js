@@ -47,8 +47,8 @@ class Feed extends React.PureComponent {
       borderRadiusAnim: new Animated.Value(16),
       scaleAnim: new Animated.Value(1),
       normalisedAnimatedValue: new Animated.Value(0),
-      blockDrag: false,
-      isExpanded: false
+      opacityAnimatedValue: new Animated.Value(1),
+      blockDrag: false
     }
     this.mode = 'list' // list || screen
 
@@ -133,7 +133,7 @@ class Feed extends React.PureComponent {
 
   onPress = (e) => {
     console.log('Pressed')
-    if (!this.state.isExpanded) {
+    if (!this.props.isExpanded) {
       this.scaleDown()
       this.touchDownYCoord = e.nativeEvent.pageY
     }
@@ -146,23 +146,29 @@ class Feed extends React.PureComponent {
       this.scaleUp()
       return
     }
-    if (!this.state.isExpanded) {
+    if (!this.props.isExpanded) {
       this.scaleUp()
       this.imageView.measure(this.measured)
-      this.props.disableScroll(true)
+      // this.props.disableScroll(true)
     }
   }
 
   measured = (x, y, width, height, px, py) => {
-    this.currentY = py
-    this.props.selectFeed(this, py)
-    // this.grow()
+    // at the moment when it's measured, the feed is scaled by 0.95
+    const ratio = this.cardWidth / width
+    const heightDiff = height * ratio - height
+    this.currentY = py - heightDiff / 2
+    this.props.selectFeed(this, py - heightDiff / 2)
+    this.setState({
+      ...this.state,
+      isHidden: true
+    })
   }
 
   onDrag = (e) => {
     console.log('Dragged')
     const dY = Math.abs(e.nativeEvent.pageY - this.touchDownYCoord)
-    if (!this.state.isExpanded && dY > DRAG_THRESHOLD) {
+    if (!this.props.isExpanded && dY > DRAG_THRESHOLD) {
       this.isDragging = true
       this.props.disableScroll(false)
       this.scaleUp()
@@ -205,18 +211,16 @@ class Feed extends React.PureComponent {
       toValue: 1,
       duration: 1000
     }).start()
-    this.state.isExpanded = true
     this.props.disableScroll(true)
     this.createPanResponder(true)
   }
 
   shrink = () => {
-    this.props.disableScroll(false)
-    Animated.timing(this.state.translateXAnim, {
+    Animated.spring(this.state.translateXAnim, {
       toValue: 0,
       duration: 300
     }).start()
-    Animated.timing(this.state.translateYAnim, {
+    Animated.spring(this.state.translateYAnim, {
       toValue: 0,
       duration: 300
     }).start()
@@ -243,7 +247,22 @@ class Feed extends React.PureComponent {
       this.props.selectFeed(null, null)
       StatusBar.setHidden(false)
     })
-    this.state.isExpanded = false
+  }
+
+  fadeOut = () => {
+    Animated.spring(this.state.opacityAnimatedValue, {
+      toValue: 0,
+      duration: 200,
+      useNative: true
+    }).start()
+  }
+
+  fadeIn = () => {
+    Animated.spring(this.state.opacityAnimatedValue, {
+      toValue: 1,
+      duration: 500,
+      useNative: true
+    }).start()
   }
 
   componentDidMount = () => {
@@ -252,6 +271,17 @@ class Feed extends React.PureComponent {
       this.grow()
     }
   }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.isExpanded !== prevProps.isExpanded) {
+      if (this.props.isExpanded) {
+        this.fadeOut()
+      } else {
+        this.fadeIn()
+      }
+    }
+  }
+
 
   // shouldComponentUpdate = (nextProps, nextState) => {
   //   if (!this.props.navigation.isFocused() || !nextProps.navigation.isFocused()) {
@@ -278,7 +308,6 @@ class Feed extends React.PureComponent {
       readingTime,
       readingRate
     } = this.props
-    const { isExpanded } = this.state
     const textStyles = {
       color: 'white',
       fontFamily: 'IBMPlexMono-Light',
@@ -338,7 +367,7 @@ class Feed extends React.PureComponent {
       textAlign: 'center'
     }
 
-    const shouldSetResponder = e => !this.state.isExpanded
+    const shouldSetResponder = e => !this.props.isExpanded
 
 //        {...this._panResponder.panhandlers}
     const shadowStyle = this.props.growMe ? {} :
@@ -369,7 +398,8 @@ class Feed extends React.PureComponent {
               { scaleX: this.state.scaleAnim },
               { scaleY: this.state.scaleAnim }
             ],
-            ...this.props.extraStyle,
+            opacity: this.state.opacityAnimatedValue,
+            ...this.props.extraStyle
           }}
         ref={c => this.outerView = c}
       >

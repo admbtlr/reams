@@ -163,6 +163,11 @@ class FeedsScreen extends React.Component {
     this.props.clearReadItems()
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    console.log(nextProps)
+    return true
+  }
+
   render = () => {
     // console.log('Render feeds screen!')
     const width = Dimensions.get('window').width
@@ -222,15 +227,19 @@ class FeedsScreen extends React.Component {
 
   selectFeed = (feed, yCoord) => {
     if (this.state.selectedFeedElement !== feed) {
-      this.setState({
+      const nextState = {
         ...this.state,
         selectedFeedElement: feed,
-        selectedFeedElementYCoord: yCoord
-      })
+        selectedFeedElementYCoord: yCoord,
+        scrollEnabled: feed === null
+      }
+      this.setState(nextState)
     }
   }
 
   renderFeed = ({item}) => {
+    const isExpanded = this.state.selectedFeedElement !== null &&
+      this.state.selectedFeedElement.props.feedId === item._id
     return item && <Feed
       feedTitle={item.title}
       feedDescription={item.description}
@@ -242,6 +251,7 @@ class FeedsScreen extends React.Component {
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
       selectFeed={this.selectFeed}
+      isExpanded={isExpanded}
     />
   }
 }
