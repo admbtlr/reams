@@ -80,7 +80,9 @@ export function feeds (state = initialState, action) {
         ? action.item.content_html.length
         : 1)
       const readingRate = action.readingTime / contentLength
-      feed.reading_rate = (feed.reading_rate && feed.reading_rate !== 'NaN') || 0
+      feed.reading_rate = (feed.reading_rate && feed.reading_rate !== 'NaN') ?
+        feed.reading_rate :
+        0
       feed.reading_rate = (feed.reading_rate * (feed.number_read - 1) + readingRate) / feed.number_read
       feed.reading_rate = Number.parseFloat(feed.reading_rate.toFixed(4))
 
