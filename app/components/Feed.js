@@ -48,6 +48,7 @@ class Feed extends React.PureComponent {
       scaleAnim: new Animated.Value(1),
       normalisedAnimatedValue: new Animated.Value(0),
       opacityAnimatedValue: new Animated.Value(1),
+      isExpanded: false,
       blockDrag: false
     }
     this.mode = 'list' // list || screen
@@ -133,7 +134,7 @@ class Feed extends React.PureComponent {
 
   onPress = (e) => {
     console.log('Pressed')
-    if (!this.props.isExpanded) {
+    if (!this.props.isSelected && !this.state.isExpanded) {
       this.scaleDown()
       this.touchDownYCoord = e.nativeEvent.pageY
     }
@@ -146,7 +147,7 @@ class Feed extends React.PureComponent {
       this.scaleUp()
       return
     }
-    if (!this.props.isExpanded) {
+    if (!this.props.isSelected && !this.state.isExpanded) {
       this.scaleUp()
       this.imageView.measure(this.measured)
       // this.props.disableScroll(true)
@@ -161,14 +162,14 @@ class Feed extends React.PureComponent {
     this.props.selectFeed(this, py - heightDiff / 2)
     this.setState({
       ...this.state,
-      isHidden: true
+      isSelected: true
     })
   }
 
   onDrag = (e) => {
     console.log('Dragged')
     const dY = Math.abs(e.nativeEvent.pageY - this.touchDownYCoord)
-    if (!this.props.isExpanded && dY > DRAG_THRESHOLD) {
+    if (!this.props.isSelected && dY > DRAG_THRESHOLD) {
       this.isDragging = true
       this.props.disableScroll(false)
       this.scaleUp()
@@ -212,6 +213,7 @@ class Feed extends React.PureComponent {
       duration: 1000
     }).start()
     this.props.disableScroll(true)
+    this.state.isExpanded = true
     this.createPanResponder(true)
   }
 
@@ -245,6 +247,7 @@ class Feed extends React.PureComponent {
       duration: 1000
     }).start(() => {
       this.props.selectFeed(null, null)
+      this.state.isExpanded = false
       StatusBar.setHidden(false)
     })
   }
@@ -273,8 +276,8 @@ class Feed extends React.PureComponent {
   }
 
   componentDidUpdate = (prevProps) => {
-    if (this.props.isExpanded !== prevProps.isExpanded) {
-      if (this.props.isExpanded) {
+    if (this.props.isSelected !== prevProps.isSelected) {
+      if (this.props.isSelected) {
         this.fadeOut()
       } else {
         this.fadeIn()
@@ -292,7 +295,7 @@ class Feed extends React.PureComponent {
   render = () => {
     // console.log('Render feed ' +
     //   this.props.feedTitle + ' ' +
-    //   (this.state.isExpanded ? 'expanded!' : 'contracted'))
+    //   (this.state.isSelected ? 'expanded!' : 'contracted'))
 
     const {
       coverImageDimensions,
@@ -367,7 +370,7 @@ class Feed extends React.PureComponent {
       textAlign: 'center'
     }
 
-    const shouldSetResponder = e => !this.props.isExpanded
+    const shouldSetResponder = e => !this.state.isExpanded
 
 //        {...this._panResponder.panhandlers}
     const shadowStyle = this.props.growMe ? {} :
