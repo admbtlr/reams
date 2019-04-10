@@ -164,22 +164,21 @@ class FeedsScreen extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    console.log(nextProps)
     return true
   }
 
   componentDidUpdate (prevProps, prevState) {
     // if we're deselecting a feed, wait for the animation to finish, then hide the animatable
-    if (prevState.selectedFeedElement !== null &&
+    if (this.state.prevSelectedFeedElement !== null &&
       this.state.selectedFeedElement === null) {
-      this.prevSelectedFeedElement = prevState.selectedFeedElement
-      this.prevSelectedFeedElementYCoord = prevState.selectedFeedElementYCoord
       setTimeout(() => {
         this.setState({
           ...this.state,
-          showExpandingFeed: false
+          showExpandingFeed: false,
+          prevSelectedFeedElement: null,
+          prevSelectedFeedElementYCoord: null
         })
-      }, 5000)
+      }, 1000)
     }
   }
 
@@ -189,8 +188,8 @@ class FeedsScreen extends React.Component {
     const margin = width * 0.05
     const extraFeedProps = this.state.selectedFeedElement ?
       this.state.selectedFeedElement.props :
-      (this.prevSelectedFeedElement ?
-        this.prevSelectedFeedElement.props :
+      (this.state.prevSelectedFeedElement ?
+        this.state.prevSelectedFeedElement.props :
         {})
 
     return (
@@ -227,11 +226,11 @@ class FeedsScreen extends React.Component {
           <Feed {...extraFeedProps}
             extraStyle={{
               position: 'absolute',
-              top: this.state.selectedFeedElementYCoord || this.prevSelectedFeedElementYCoord,
+              top: this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord,
               left: margin
             }}
             growMe={this.state.selectedFeedElement !== null}
-            yCoord={this.state.selectedFeedElementYCoord || this.prevSelectedFeedElementYCoord}
+            yCoord={this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord}
           />
         }
     </View>
@@ -253,9 +252,11 @@ class FeedsScreen extends React.Component {
         ...this.state,
         selectedFeedElement: feed,
         selectedFeedElementYCoord: yCoord,
-        scrollEnabled: feed === null
+        scrollEnabled: feed === null,
+        prevSelectedFeedElement: this.state.selectedFeedElement,
+        prevSelectedFeedElementYCoord: this.state.selectedFeedElementYCoord
       }
-      if (feed !== null) {
+      if (feed !== null || this.state.selectedFeedElement !== null) {
         nextState.showExpandingFeed = true
       }
       this.setState(nextState)

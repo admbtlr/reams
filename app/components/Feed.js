@@ -64,56 +64,56 @@ class Feed extends React.PureComponent {
   }
 
   createPanResponder (shouldCreatePanResponder) {
-    if (shouldCreatePanResponder) {
-      console.log("Time to block drags")
-      return PanResponder.create({
-        onStartShouldSetPanResponder: (evt, gestureState) => true,
-        onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-        onMoveShouldSetPanResponder: (evt, gestureState) => true,
-        onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-        onPanResponderGrant: (evt, gestureState) => {
-          // The gesture has started. Show visual feedback so the user knows
-          // what is happening!
-          console.log('We\'re moving!')
+    // if (shouldCreatePanResponder) {
+    //   console.log("Time to block drags")
+    //   return PanResponder.create({
+    //     onStartShouldSetPanResponder: (evt, gestureState) => true,
+    //     onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+    //     onMoveShouldSetPanResponder: (evt, gestureState) => true,
+    //     onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+    //     onPanResponderGrant: (evt, gestureState) => {
+    //       // The gesture has started. Show visual feedback so the user knows
+    //       // what is happening!
+    //       console.log('We\'re moving!')
 
-          // gestureState.d{x,y} will be set to zero now
-        },
-        onPanResponderMove: (evt, gestureState) => {
-          // The most recent move distance is gestureState.move{X,Y}
-          // The accumulated gesture distance since becoming responder is
-          // gestureState.d{x,y}
-          console.log(gestureState.d)
-          if (gestureState.d.y < 0) return
-          if (gestureState.d.y < 100) {
-            this.state.translateYAnim.setValue(gestureState.d.y / 10)
-            this.state.detailsHeightAnim.setValue(this.screenHeight / gestureState.d.y)
-            this.state.widthAnim.setValue(this.cardWidth +
-              (this.screenWidth - this.cardWidth) * (gestureState.d.y / 100))
-          }
-        },
-        onPanResponderTerminationRequest: (evt, gestureState) => true,
-        onPanResponderRelease: (evt, gestureState) => {
-          // The user has released all touches while this view is the
-          // responder. This typically means a gesture has succeeded
-        },
-        onPanResponderTerminate: (evt, gestureState) => {
-          // Another component has become the responder, so this gesture
-          // should be cancelled
-        },
-        onShouldBlockNativeResponder: (evt, gestureState) => {
-          // Returns whether this component should block native components from becoming the JS
-          // responder. Returns true by default. Is currently only supported on android.
-          return true;
-        },
-      })
-    } else {
+    //       // gestureState.d{x,y} will be set to zero now
+    //     },
+    //     onPanResponderMove: (evt, gestureState) => {
+    //       // The most recent move distance is gestureState.move{X,Y}
+    //       // The accumulated gesture distance since becoming responder is
+    //       // gestureState.d{x,y}
+    //       console.log(gestureState.d)
+    //       if (gestureState.d.y < 0) return
+    //       if (gestureState.d.y < 100) {
+    //         this.state.translateYAnim.setValue(gestureState.d.y / 10)
+    //         this.state.detailsHeightAnim.setValue(this.screenHeight / gestureState.d.y)
+    //         this.state.widthAnim.setValue(this.cardWidth +
+    //           (this.screenWidth - this.cardWidth) * (gestureState.d.y / 100))
+    //       }
+    //     },
+    //     onPanResponderTerminationRequest: (evt, gestureState) => true,
+    //     onPanResponderRelease: (evt, gestureState) => {
+    //       // The user has released all touches while this view is the
+    //       // responder. This typically means a gesture has succeeded
+    //     },
+    //     onPanResponderTerminate: (evt, gestureState) => {
+    //       // Another component has become the responder, so this gesture
+    //       // should be cancelled
+    //     },
+    //     onShouldBlockNativeResponder: (evt, gestureState) => {
+    //       // Returns whether this component should block native components from becoming the JS
+    //       // responder. Returns true by default. Is currently only supported on android.
+    //       return true;
+    //     },
+    //   })
+    // } else {
       return PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => false,
         onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
         onMoveShouldSetPanResponder: (evt, gestureState) => false,
         onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
       })
-    }
+    // }
   }
 
   scaleDown = () => {
@@ -134,9 +134,9 @@ class Feed extends React.PureComponent {
 
   onPress = (e) => {
     console.log('Pressed')
+    this.touchDownYCoord = e.nativeEvent.pageY
     if (!this.props.isSelected && !this.state.isExpanded) {
       this.scaleDown()
-      this.touchDownYCoord = e.nativeEvent.pageY
     }
   }
 
@@ -144,8 +144,6 @@ class Feed extends React.PureComponent {
     console.log('Released')
     if (this.isDragging) {
       this.isDragging = false
-      this.scaleUp()
-      return
     }
     if (!this.props.isSelected && !this.state.isExpanded) {
       this.scaleUp()
@@ -167,12 +165,13 @@ class Feed extends React.PureComponent {
   }
 
   onDrag = (e) => {
-    console.log('Dragged')
     const dY = Math.abs(e.nativeEvent.pageY - this.touchDownYCoord)
-    if (!this.props.isSelected && dY > DRAG_THRESHOLD) {
+    console.log('Dragged: '+dY)
+    if (!this.props.growMe && dY > DRAG_THRESHOLD) {
       this.isDragging = true
       this.props.disableScroll(false)
       this.scaleUp()
+    } else {
     }
   }
 
@@ -253,17 +252,18 @@ class Feed extends React.PureComponent {
   }
 
   fadeOut = () => {
-    Animated.spring(this.state.opacityAnimatedValue, {
+    Animated.timing(this.state.opacityAnimatedValue, {
       toValue: 0,
+      delay: 200,
       duration: 200,
       useNative: true
     }).start()
   }
 
   fadeIn = () => {
-    Animated.spring(this.state.opacityAnimatedValue, {
+    Animated.timing(this.state.opacityAnimatedValue, {
       toValue: 1,
-      duration: 500,
+      duration: 200,
       useNative: true
     }).start()
   }
@@ -370,10 +370,12 @@ class Feed extends React.PureComponent {
       textAlign: 'center'
     }
 
-    const shouldSetResponder = e => !this.state.isExpanded
+    const shouldSetResponder = e => true //!this.state.isExpanded
+
+    const isExpandableFeedElement = () => !!this.props.yCoord
 
 //        {...this._panResponder.panhandlers}
-    const shadowStyle = this.props.growMe ? {} :
+    const shadowStyle = isExpandableFeedElement() ? {} :
       {
         shadowColor: 'black',
         shadowRadius: 10,
