@@ -6,6 +6,7 @@ import {
   PanResponder,
   ScrollView,
   StatusBar,
+  StatusBarAnimation,
   Text,
   TouchableOpacity,
   View
@@ -244,11 +245,10 @@ class Feed extends React.PureComponent {
     Animated.spring(this.state.normalisedAnimatedValue, {
       toValue: 0,
       duration: 1000
-    }).start(() => {
-      this.props.selectFeed(null, null)
-      this.state.isExpanded = false
-      StatusBar.setHidden(false)
-    })
+    }).start()
+    this.props.selectFeed(null, null)
+    this.state.isExpanded = false
+    StatusBar.setHidden(false, 'slide')
   }
 
   fadeOut = () => {
@@ -270,7 +270,7 @@ class Feed extends React.PureComponent {
 
   componentDidMount = () => {
     if (this.props.growMe) {
-      StatusBar.setHidden(true)
+      StatusBar.setHidden(true, 'slide')
       this.grow()
     }
   }
@@ -282,6 +282,13 @@ class Feed extends React.PureComponent {
       } else {
         this.fadeIn()
       }
+    }
+    if (this.props.growMe && !prevProps.growMe) {
+      if (this.props.yCoord !== this.currentY) {
+        this.currentY = this.props.yCoord
+      }
+      StatusBar.setHidden(true, 'slide')
+      this.grow()
     }
   }
 
