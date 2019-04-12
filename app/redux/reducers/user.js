@@ -11,12 +11,12 @@ export function user (state = initialState, action) {
       }
 
     case 'USER_SET_DETAILS':
-      if (!action.details) return state
+      // if (!action.details) return state
       return {
         ...state,
-        displayName: action.details.displayName,
-        email: action.details.email,
-        uid: action.details.uid
+        displayName: action.details && action.details.displayName,
+        email: action.details && action.details.email,
+        uid: action.details && action.details.uid
       }
 
     default:

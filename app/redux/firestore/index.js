@@ -175,6 +175,17 @@ export function addSavedItemToFirestore (item) {
     })
 }
 
+export function addSavedItemsFS (items) {
+  const collectionRef = getUserDb().collection('items-saved')
+  for (item of items) {
+    collectionRef.doc(item._id)
+      .set(item)
+      .catch(err => {
+        log('addSavedItemsFS', err)
+      })
+  }
+}
+
 export function addFeedToFirestore (feed) {
   const collectionRef = getUserDb().collection('feeds')
   return upsertFeed(feed, collectionRef)
@@ -217,8 +228,9 @@ export function getCollection (collectionName, orderBy = 'created_at', fromCache
 
   let now = Date.now()
 
+  let getPage
   try {
-    const getPage = (startAfter) => startAfter ?
+    getPage = (startAfter) => startAfter ?
       getUserDb().collection(collectionName).orderBy(orderBy).limit(PAGE_SIZE).startAfter(startAfter).get() :
       getUserDb().collection(collectionName).orderBy(orderBy).limit(PAGE_SIZE).get()
   } catch (err) {

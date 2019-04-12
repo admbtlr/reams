@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   Dimensions,
   FlatList,
@@ -24,6 +24,7 @@ class AccountScreen extends React.Component {
   }
 
   render = () => {
+    const { backend } = this.props
     const width = Dimensions.get('window').width
     const margin = width * 0.05
     const height = Dimensions.get('window').height
@@ -37,8 +38,17 @@ class AccountScreen extends React.Component {
       textAlign: 'left',
       color: hslString('rizzleText')
     }
-    // const rizzleIcon =
-
+    const textTipStyles = {
+      ...textStyles,
+      fontSize: 14,
+      lineHeight: 20,
+      marginTop: 0,
+      marginBottom: 0
+    }
+    const backendName = {
+      rizzle: 'Rizzle',
+      feedwrangler: 'Feedwrangler'
+    }[backend]
     return (
       <ScrollView style={{
         flex: 1,
@@ -61,13 +71,18 @@ class AccountScreen extends React.Component {
             marginRight: margin
           }}>
             <Heading
-              title='Your Accounts'
+              title='Your Account'
               showClose={true}
               onClose={() => {
                 this.props.navigation.navigate('Feeds')
               }}
             />
-            <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
+            { backend &&
+              <Fragment>
+                <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ backendName }</Text> to manage your feeds.</Text>
+                <Text style={textStyles}>Switch to a different option:</Text>
+              </Fragment>
+            }
             <TextButton
               text="Rizzle"
               iconCollapsed={<Image
@@ -88,35 +103,38 @@ class AccountScreen extends React.Component {
                   width: 34,
                   height: 34
                 }}/>}
-              buttonStyle={{ marginBottom: 42 }}
+              buttonStyle={{ marginBottom: 0 }}
               isExpandable={true}
               renderExpandedView={() => <AccountCredentialsForm
                 service='rizzle'
                 user={this.props.user}
               />}
             />
+            <Text style={ textTipStyles }>If you use the Rizzle service to manage your feeds, you will also be able to save external web pages to read in Rizzle.</Text>
+            { backend && <Text style={ textTipStyles }>When you switch to Rizzle it will automatically subscribe to all your feeds from {backendName}.</Text> }
+            <Text style={ textTipStyles }>Rizzle will cost you $1 / month; the first month is free.</Text>
+            <Heading title='' />
             <Text style={{
-              ...textStyles,
-              marginBottom: 21
-            }}>Other Options:</Text>
-            <TextButton
+              ...textTipStyles,
+              marginBottom: 21 }}>If you want to use one of the services below in Rizzle, you will need a subscription:</Text>
+            { backend !== 'feedwrangler' && <TextButton
               text="Feed Wrangler"
               buttonStyle={{ marginBottom: 42 }}
               isExpandable={true}
               renderExpandedView={() => <AccountCredentialsForm service='feedwrangler' />}
-            />
-            <TextButton
+            /> }
+            { backend !== 'feedbin' && <TextButton
               text="Feedbin"
               buttonStyle={{ marginBottom: 42 }}
               isExpandable={true}
               renderExpandedView={() => <AccountCredentialsForm service='feedbin' />}
-            />
-            <TextButton
+            /> }
+            { backend !== 'feedly' && <TextButton
               text="Feedly"
               buttonStyle={{ marginBottom: 42 }}
               isExpandable={true}
               renderExpandedView={() => <AccountCredentialsForm service='feedly' />}
-            />
+            /> }
           </View>
         </View>
       </ScrollView>

@@ -5,7 +5,8 @@ import AccountScreen from '../components/AccountScreen.js'
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    backend: state.config.backend
   }
 }
 

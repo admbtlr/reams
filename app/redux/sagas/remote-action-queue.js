@@ -41,7 +41,7 @@ function * executeAction (action) {
     case 'ITEM_MARK_READ':
       console.log('Marking item read...')
       try {
-        yield markItemRead(action.item)
+        yield call (markItemRead, action.item)
 
         // mark item read in Firestore
         // NB this will mean that Firebase's readAt value is different to the Redux store

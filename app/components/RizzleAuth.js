@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import GoogleAuth from './GoogleAuth'
+import GoogleAuth from '../containers/GoogleAuth'
 import { authenticate } from '../redux/backends'
 import { sendEmailLink } from '../redux/backends/rizzle'
 import { hslString } from '../utils/colors'

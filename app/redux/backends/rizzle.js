@@ -1,5 +1,6 @@
 import firebase from 'react-native-firebase'
 import {id} from '../../utils'
+import { addReadItemFS } from '../firestore'
 // import { filterItemsForStale } from '../realm/stale-items'
 
 export async function sendEmailLink (email) {
@@ -22,14 +23,15 @@ export async function sendEmailLink (email) {
 
 }
 
-export const getUnreadItems = async function (oldItems, currentItem, feeds, maxItems, lastUpdated) {
+// callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum
+export async function fetchItems  (callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum) {
   let newItems
-  let latestDate = 0
-  if (oldItems.length > 0) {
-    latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
-  }
+  // let latestDate = 0
+  // if (oldItems.length > 0) {
+  //   latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
+  // }
   try {
-    let unreadItemArrays = await fetchUnreadItems(feeds)
+    let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
 
     unreadItemArrays = extractErroredFeeds(unreadItemArrays)
 
@@ -39,7 +41,7 @@ export const getUnreadItems = async function (oldItems, currentItem, feeds, maxI
     // }
     // console.log(`Fetched ${newItems.length} items`)
     // console.log(newItems)
-    let { read, unread } = mergeItems(oldItems, newItems, currentItem)
+    // let { read, unread } = mergeItems(oldItems, newItems, currentItem)
 
     // console.log(`And now I have ${unread.length} unread items`)
     newItems = unread.sort((a, b) => moment(a.date_published).unix() - moment(b.date_published).unix());
@@ -57,7 +59,8 @@ function extractErroredFeeds (unreadItemsArrays) {
   return unreadItemsArrays.filter(uia => uia.length)
 }
 
-const fetchUnreadItems = (feeds) => {
+const fetchUnreadItems = (feeds, lastUpdated) => {
+  debugger
   const promises = feeds.filter(feed => !!feed).map(feed => {
     const url = `https://api.rizzle.net/feed/?url=${feed.url}`
     // const url = `http://localhost:8080/feed/?url=${feed.url}`
@@ -97,7 +100,9 @@ const fetchUnreadItems = (feeds) => {
   return Promise.all(promises)
 }
 
-export const markItemRead = (item) => {}
+export async function markItemRead (item) {
+  addReadItemFS(item)
+}
 
 export const saveItem = (item, folder) => {
   return addSavedItemToFirestore(action.item)
@@ -120,6 +125,11 @@ export async function getFeedDetails (feed) {
       }
     }
     return response.json()
+  }).then(json => {
+    return {
+      ...json,
+      ...feed
+    }
   }).catch(({feed, message}) => {
     return {feed, message}
   })

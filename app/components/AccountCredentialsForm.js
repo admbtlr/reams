@@ -5,6 +5,7 @@ import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'rea
 import OnePassword from 'react-native-onepassword'
 
 import RizzleAuth from './RizzleAuth'
+import { sendEmailLink } from '../redux/backends/rizzle'
 import { hslString } from '../utils/colors'
 
 const services = {
@@ -142,54 +143,58 @@ class AccountCredentialsForm extends React.Component {
         }) => (
           <View>
             { this.props.service === 'rizzle' ?
-                  <RizzleAuth
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    isSubmitting={isSubmitting}
-                    isValid={isValid}
-                    values={values}
-                    user={user}
-                  /> :
-                  <View>
-                    <TextInput
-                      onChangeText={handleChange('username')}
-                      style={styles.textInputStyle}
-                      value={values.username}
-                    />
-                    <Text style={styles.textLabelStyle}>User name</Text>
+              <RizzleAuth
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                isValid={isValid}
+                values={values}
+                user={user}
+              /> :
+              <View style={{
+                paddingTop: 16,
+                paddingLeft: 16,
+                paddingRight: 16
+              }}>
+                <TextInput
+                  onChangeText={handleChange('username')}
+                  style={styles.textInputStyle}
+                  value={values.username}
+                />
+                <Text style={styles.textLabelStyle}>User name</Text>
+                <View style={{
+                  position: 'relative'
+                }}>
+                  <TextInput
+                    onChangeText={handleChange('password')}
+                    secureTextEntry={true}
+                    style={{
+                      ...styles.textInputStyle,
+                      flex: 1
+                    }}
+                    value={values.password}
+                  />
+                  { this.state.is1Password &&
                     <View style={{
-                      position: 'relative'
+                      position: 'absolute',
+                      top: -5,
+                      right: 0
                     }}>
-                      <TextInput
-                        onChangeText={handleChange('password')}
-                        secureTextEntry={true}
-                        style={{
-                          ...styles.textInputStyle,
-                          flex: 1
-                        }}
-                        value={values.password}
-                      />
-                      { this.state.is1Password &&
-                        <View style={{
-                          position: 'absolute',
-                          top: 32,
-                          right: 10
-                        }}>
-                          <Button
-                            title='1P'
-                            onPress={() => this.onePasswordHandler(this.props.service)} />
-                        </View>
-                      }
+                      <Button
+                        title='1P'
+                        onPress={() => this.onePasswordHandler(this.props.service)} />
                     </View>
-                    <Text style={styles.textLabelStyle}>Password</Text>
-                    <Button
-                      disabled={isSubmitting || !isValid}
-                      title="Submit"
-                      onPress={handleSubmit}
-                    />
-                  </View>
-              }
-            </View>
+                  }
+                </View>
+                <Text style={styles.textLabelStyle}>Password</Text>
+                <Button
+                  disabled={isSubmitting || !isValid}
+                  title="Submit"
+                  onPress={handleSubmit}
+                />
+              </View>
+            }
+          </View>
         )}
       />
     )

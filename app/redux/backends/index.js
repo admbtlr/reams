@@ -73,10 +73,10 @@ export function fetchUnreadIds () {
   }
 }
 
-export function markItemRead (item) {
+export async function markItemRead (item) {
   switch (backend) {
     case 'rizzle':
-      return
+      return rizzle.markItemRead(item)
     case 'feedwrangler':
       return feedwrangler.markItemRead(item)
   }

@@ -1,8 +1,8 @@
-import { put } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import { getCollection } from '../firestore'
 
 export function * rehydrateSavedItemsFS (getFirebase, uid) {
-  const readItems = yield getCollection('items-read', 'created_at', false, true)
+  const readItems = yield call(getCollection, 'items-read', 'created_at', false, true)
   yield put({
     type: 'ITEMS_REHYDRATE_READ',
     items: readItems

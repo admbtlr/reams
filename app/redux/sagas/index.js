@@ -13,8 +13,9 @@ import { rehydrateSavedItemsFS } from './rehydrate-items'
 import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
-import { subscribeToFeed, seedFeeds, inflateFeeds } from './add-feed'
+import { subscribeToFeed, inflateFeeds } from './add-feed'
 import { initialConfig } from './initial-config'
+import { setRizzleBackend } from './backend'
 
 // let rehydrated = false
 // let checkedBuckets = false
@@ -41,7 +42,7 @@ function * init (getFirebase, action) {
 
   const config = yield select(getConfig)
   if (config.backend === 'rizzle') {
-    yield initialiseFirestore()
+    yield initialiseFirestore(getFirebase)
   }
   yield call(initialConfig)
   yield call(clearRead)
@@ -50,11 +51,20 @@ function * init (getFirebase, action) {
   yield call(inflateFeeds)
 }
 
-function * initialiseFirestore (action) {
+function * initIfRizzleBackend (getFirebase, action) {
+  if (action.backend === 'rizzle') {
+    yield initialiseFirestore(getFirebase, false)
+    yield setRizzleBackend(action)
+  }
+}
+
+function * initialiseFirestore (getFirebase, rehydrateSavedItems = true) {
   const uid = yield select(getUid)
   setDb(getFirebase().firestore())
   setUid(uid)
-  yield call(rehydrateSavedItemsFS)
+  if (rehydrateSavedItems) {
+    yield call(rehydrateSavedItemsFS)
+  }
 }
 
 function * clearRead () {
@@ -76,6 +86,7 @@ export function * updateCurrentIndex (getFirebase) {
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
   yield takeEvery('USER_SET_UID', clearReadItems)
+  yield takeEvery('CONFIG_SET_BACKEND', initIfRizzleBackend, getFirebase)
 
   // reading timer
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', currentItemChanged)

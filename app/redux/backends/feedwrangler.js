@@ -189,7 +189,7 @@ function getItemIds (createdSince, offset = 0, type = 'unread') {
     })
 }
 
-export const markItemRead = (item) => {
+export async function markItemRead (item) {
   const id = typeof item === 'object' ? item.id : item
   let url = 'https://feedwrangler.net/api/v2/feed_items/update?'
   url += 'access_token=' + feedWranglerAccessToken
