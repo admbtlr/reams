@@ -246,9 +246,11 @@ class Feed extends React.PureComponent {
       toValue: 0,
       duration: 1000
     }).start()
-    this.props.selectFeed(null, null)
-    this.state.isExpanded = false
     StatusBar.setHidden(false, 'slide')
+    setTimeout(() => {
+      this.props.selectFeed(null, null)
+      this.state.isExpanded = false
+    }, 400)
   }
 
   fadeOut = () => {
@@ -436,19 +438,24 @@ class Feed extends React.PureComponent {
               ref={c => this.imageView = c}
               style={{
                 height: '100%',
+                width: '100%'
+              }}>
+              <Animated.View style={{
+                height: '100%',
                 width: '100%',
-                borderRadius: 20,
+                borderRadius: this.state.borderRadiusAnim,
                 overflow: 'hidden'
               }}>
-              <FeedCoverImage
-                feedColor={this.props.feedColor}
-                feedId={this.props.feedId}
-                coverImageId={this.props.coverImageId}
-                cachedCoverImageId={this.props.cachedCoverImageId}
-                coverImageDimensions={this.props.coverImageDimensions}
-                setCachedCoverImage={this.props.setCachedCoverImage}
-                width={this.screenWidth}
-                height={this.screenHeight * 0.5} />
+                <FeedCoverImage
+                  feedColor={this.props.feedColor}
+                  feedId={this.props.feedId}
+                  coverImageId={this.props.coverImageId}
+                  cachedCoverImageId={this.props.cachedCoverImageId}
+                  coverImageDimensions={this.props.coverImageDimensions}
+                  setCachedCoverImage={this.props.setCachedCoverImage}
+                  width={this.screenWidth}
+                  height={this.screenHeight * 0.5} />
+              </Animated.View>
             </View>
           <Animated.View style={{
             // borderTopLeftRadius: 19,

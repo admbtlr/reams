@@ -140,24 +140,13 @@ class FeedsScreen extends React.Component {
     // }
   }
 
-  componentWillUnmount () {
-    Linking.removeEventListener('url', this.handleOpenURL)
-  }
+  // componentWillUnmount () {
+  //   Linking.removeEventListener('url', this.handleOpenURL)
+  // }
 
-  handleOpenURL = (event) => {
-    this.navigate(event.url)
-  }
-
-  navigate = (url) => { // E
-    const { navigate } = this.props.navigation
-    const route = url.replace(/.*?:\/\//g, '')
-    // const id = route.match(/\/([^\/]+)\/?$/)[1]
-    const routeName = route.split('/')[0]
-
-    if (routeName === 'account') {
-      navigate('Account', {})
-    };
-  }
+  // handleOpenURL = (event) => {
+  //   this.navigate(event.url)
+  // }
 
   clearFeedFilter = () => {
     this.props.clearFeedFilter()
@@ -251,9 +240,6 @@ class FeedsScreen extends React.Component {
   }
 
   selectFeed = (feed, yCoord) => {
-    console.log('selectFeed called')
-    console.log(feed)
-    console.log(this.state)
     if (this.state.selectedFeedElement !== feed) {
       const prevSelectedFeedElement = feed === null ?
         this.state.selectedFeedElement :
