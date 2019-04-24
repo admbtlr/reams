@@ -65,6 +65,7 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "sanitize-html": "^1.20.0",
+    "sinon": "^7.3.2",
     "split-on-first": "^1.0.0",
     "webpack": "^2.4.1",
     "yup": "^0.26.7"
@@ -75,9 +76,6 @@
     "@babel/core": "^7.3.4",
     "@babel/runtime": "^7.3.4",
     "babel-jest": "^24.5.0",
-    "jest": "^24.5.0",
-    "metro-react-native-babel-preset": "^0.53.1",
-    "react-test-renderer": "16.8.3",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-async-generator-functions": "^6.24.1",
     "browser-sync": "^2.26.3",
@@ -87,15 +85,22 @@
     "gulp-live-server": "0.0.31",
     "gulp-sass": "^3.1.0",
     "gulp-watch": "^4.3.11",
-    "gulp-webserver": "^0.9.1"
+    "gulp-webserver": "^0.9.1",
+    "jest": "^24.5.0",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "react-test-renderer": "16.8.3",
+    "sinon": "^7.3.2"
   },
   "jest": {
+    "globals": {
+      "__TEST__": true
+    },
     "preset": "react-native",
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!react-native|gl-react-native)"
+      "node_modules/(?!react-native|gl-react-native|redux-persist-filesystem-storage)"
     ]
   },
   "rnpm": {
