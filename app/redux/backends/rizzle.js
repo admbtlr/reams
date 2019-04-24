@@ -1,6 +1,6 @@
 import firebase from 'react-native-firebase'
 import {id} from '../../utils'
-import { addReadItemFS } from '../firestore'
+import { addReadItemFS, addSavedItemFS, getReadItemsFS } from '../firestore'
 // import { filterItemsForStale } from '../realm/stale-items'
 
 export async function sendEmailLink (email) {
@@ -24,31 +24,22 @@ export async function sendEmailLink (email) {
 }
 
 // callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum
-export async function fetchItems  (callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum) {
-  let newItems
-  // let latestDate = 0
-  // if (oldItems.length > 0) {
-  //   latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
-  // }
+export async function fetchItems (callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum) {
+  if (type === 'saved') {
+    return true
+  }
   try {
+    const readItems = await getReadItemsFS()
     let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
-
     unreadItemArrays = extractErroredFeeds(unreadItemArrays)
-
-    newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
-    // if (__DEV__) {
-    //   newItems = newItems.slice(0, 100)
-    // }
-    // console.log(`Fetched ${newItems.length} items`)
-    // console.log(newItems)
-    // let { read, unread } = mergeItems(oldItems, newItems, currentItem)
-
-    // console.log(`And now I have ${unread.length} unread items`)
-    newItems = unread.sort((a, b) => moment(a.date_published).unix() - moment(b.date_published).unix());
+    let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
+    newItems = newItems.filter(newItem => !!!oldItems.find(oldItem => oldItem.id === newItem.id))
+    newItems = newItems.filter(newItem => !!!readItems.find(readItem => readItem.id === newItem.id))
+    callback(newItems)
   } catch (error) {
     console.log(error)
   }
-  return { newItems, readItems: read }
+  return true
 }
 
 function extractErroredFeeds (unreadItemsArrays) {
@@ -60,9 +51,8 @@ function extractErroredFeeds (unreadItemsArrays) {
 }
 
 const fetchUnreadItems = (feeds, lastUpdated) => {
-  debugger
   const promises = feeds.filter(feed => !!feed).map(feed => {
-    const url = `https://api.rizzle.net/feed/?url=${feed.url}`
+    const url = `https://api.rizzle.net/feed/?url=${feed.url}&lastUpdated=${lastUpdated}`
     // const url = `http://localhost:8080/feed/?url=${feed.url}`
     return fetch(url).then(response => {
       return { response, feed }
@@ -105,7 +95,7 @@ export async function markItemRead (item) {
 }
 
 export const saveItem = (item, folder) => {
-  return addSavedItemToFirestore(action.item)
+  return addSavedItemFS(action.item)
 }
 
 export const unsaveItem = (item, folder) => {

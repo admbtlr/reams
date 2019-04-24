@@ -370,7 +370,10 @@ class FeedItem extends React.Component {
   }
 
   onMomentumScrollEnd = (scrollOffset) => {
-    this.props.setScrollOffset(this.props.item, scrollOffset)
+    scrollOffset = typeof scrollOffset === 'number' ?
+      scrollOffset :
+      scrollOffset.nativeEvent.contentOffset.y
+    this.props.setScrollOffset(this.props.item, scrollOffset, this.state.webViewHeight)
     onScrollEnd()
   }
 

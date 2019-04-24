@@ -76,10 +76,17 @@ export function feeds (state = initialState, action) {
       feed.number_read = feed.number_read || 0
       feed.number_read++
 
-      const contentLength = action.item.content_length || (action.item.content_html
-        ? action.item.content_html.length
-        : 1)
-      const readingRate = action.readingTime / contentLength
+      const getContentLength = (item) => {
+        if (item.hasShownMercury) {
+          return item.content_mercury.length
+        } else if (item.content_html) {
+          return item.content_html.length
+        } else {
+          return 1
+        }
+      }
+
+      const readingRate = action.readingTime / getContentLength(action.item)
       feed.reading_rate = (feed.reading_rate && feed.reading_rate !== 'NaN') ?
         feed.reading_rate :
         0

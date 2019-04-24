@@ -13,7 +13,7 @@ import { rehydrateSavedItemsFS } from './rehydrate-items'
 import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
-import { subscribeToFeed, inflateFeeds } from './add-feed'
+import { subscribeToFeed, inflateFeeds, syncFeeds } from './feeds'
 import { initialConfig } from './initial-config'
 import { setRizzleBackend } from './backend'
 
@@ -43,6 +43,7 @@ function * init (getFirebase, action) {
   const config = yield select(getConfig)
   if (config.backend === 'rizzle') {
     yield initialiseFirestore(getFirebase)
+    yield syncFeeds()
   }
   yield call(initialConfig)
   yield call(clearRead)

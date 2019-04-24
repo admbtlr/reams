@@ -24,15 +24,27 @@ app.get('/mercury/', (req, res) => {
 
 app.get('/feed/', (req, res) => {
   const feedUrl = req.query.url || 'https://www.theguardian.com/world/rss'
+  const lastUpdated = req.query.lastUpdated || 0
+  const parseDate = (date) => typeof date !== 'number'
+    ? Date.parse(date)
+    : date
+
   fetch(feedUrl, (items) => {
     if (items && items.length) {
       // only get items from the last 60 days
       // but make sure that there are at least MIN_ITEMS_PER_FEED per feed
-      const cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60
+      items = items.map(item => ({
+        ...item,
+        pubdate: parseDate(item.pubdate)
+      }))
+      let cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60
       let filteredItems = items.filter(item => item.pubdate > cutoff)
       if (filteredItems.length < MIN_ITEMS_PER_FEED) {
         filteredItems = items.sort((a, b) => a.pubdate - b.pubdate)
           .slice(0 - MIN_ITEMS_PER_FEED)
+      }
+      if (lastUpdated) {
+        filteredItems = filteredItems.filter(item => item.pubdate > lastUpdated)
       }
       res.send(filteredItems)
     } else {

@@ -22,7 +22,10 @@ export const itemMarkRead = (action, state) => {
 export const itemSetScrollOffset = (action, state) => {
   let items = state.items.map(item => {
     if (item._id === action.item._id) {
-      item.scrollOffset = action.offset.y
+      item.scrollOffset = action.offset
+      if (action.scrollRatio > item.maxScrollRatio) {
+        item.maxScrollRatio = action.scrollRatio
+      }
     }
     return item
   })
@@ -37,6 +40,7 @@ export const itemToggleMercury = (action, state) => {
   let item = items.find((item) => item._id === action.item._id)
   if (item && item.content_mercury) {
     item.showMercuryContent = !item.showMercuryContent
+    item.hasShownMercury = true
   }
   return {
     ...state,

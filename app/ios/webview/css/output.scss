@@ -267,13 +267,20 @@ body {
     -webkit-hyphens: none;
   }
 
+  @each $name, $value in $desaturated {
+    &.#{$name} {
+      h1, h2, h3 {
+        color: $value;
+      }
+    }
+  }
+
   h1, h2 {
     font-size: 1rem;
     margin: 4rem 0 1rem;
   }
   h2 {
     font-size: 1rem;
-    border-bottom: 1px solid;
   }
   h2, h4 {
     font-weight: normal;
@@ -296,7 +303,7 @@ body {
 .itemArticle {
   position: relative;
   z-index: 10;
-  padding: 2rem 0.5rem;
+  padding: 2rem 0.5rem 3rem;
   width: 100vw;
   max-width: 18rem;
   margin: 0 auto;
@@ -389,7 +396,7 @@ body {
     }
     & > img.img-portrait:first-child {
       top: -1.5rem;
-      margin-bottom: -1.5rem;
+      // margin-bottom: -1.5rem;
     }
     // & > figure:first-child figcaption {
     //   position: relative;
@@ -415,14 +422,14 @@ body {
 
 
   /* gambling that it's a video */
-  iframe, video {
+  iframe:not(.twitter-tweet), video {
     height: 55vw !important;
   }
 
   blockquote, .pullquote {
     margin: 0 0 1rem;
     font-style: italic;
-    font-size: 0.5rem;
+    font-size: 0.55rem;
     line-height: 1rem;
     background-color: white;
     left: -0.5rem;
@@ -431,7 +438,7 @@ body {
     display: block;
     position: relative;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 3px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     -webkit-hyphens: none;
 
     & > p:last-of-type {
@@ -448,7 +455,7 @@ body {
     font-style: normal;
     padding: 1rem .5rem;
     margin: 1rem 0;
-    border-top: 1px solid;
+    border-top: 5px solid;
     border-bottom: 1px solid;
 
     @media (min-width: 600px) {
@@ -456,11 +463,15 @@ body {
     }
   }
 
+  figure cite {
+    display: none;
+  }
+
   figcaption {
     position: relative;
-    padding: .25rem .5rem .5rem;
+    padding: .5rem;
     border-bottom: 1px solid hsl(0, 0%, 93%);
-    font-size: 0.5rem;
+    font-size: 0.55rem;
     font-weight: 300;
     line-height: 0.66rem;
     color: hsl(0, 0%, 67%);
@@ -557,12 +568,29 @@ body {
   }
 
   ul {
-    list-style: circle inside;
+    list-style-type: none;
     padding-left: 0;
   }
 
   li {
-    padding: 14px 0;
+    padding: 0 0 .5rem;
+
+    &:before {
+      width: 0.4rem;
+      display: inline-block;
+      content: "";
+      height: .15rem;
+      margin-right: .2rem;
+      margin-bottom: .1rem;
+    }
+  }
+
+  @each $name, $value in $desaturated {
+    &.#{$name} {
+      li:before {
+        background-color: $value;
+      }
+    }
   }
 
   // guardian specific stuff
@@ -817,7 +845,7 @@ article > div:not(:last-of-type) {
 
 .bodyFontSerif3 {
   font-family: "IBM Plex Serif", serif;
-  font-size: calc(1rem / 1.65);
+  font-size: calc(1rem / 1.7);
 
   h1, h2, h3, h4, h5, figcaption {
     font-family: "IBM Plex Sans"
@@ -893,9 +921,9 @@ article > div:not(:last-of-type) {
   .itemArticle {
     &.#{$name} {
       a, a:active, a:visited {
-        color: $value;
-        text-decoration: none;
-        // -webkit-text-decoration-color: $value;
+        // color: $value;
+        // text-decoration: none;
+        text-decoration-color: $value;
       }
 
       blockquote.short-blockquote, .pullquote {

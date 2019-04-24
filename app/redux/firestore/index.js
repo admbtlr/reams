@@ -103,7 +103,8 @@ export function addReadItemFS (item) {
       _id: item._id,
       id: item.id,
       feed_id: item.feed_id,
-      title: item.title
+      title: item.title,
+      read_at: Date.now()
     })
     .then(item => {
       console.log('Added read item')
@@ -135,6 +136,10 @@ export function addReadItemsFS (items) {
     })
 }
 
+export async function getReadItemsFS () {
+  return getCollection('items-read', 'read_at', false, false)
+}
+
 // TODO: delete me
 // // TODO: why doesn't my compound index work here?
 // // I should be able to use two where()'s, but I get the error
@@ -163,7 +168,7 @@ export function addReadItemsFS (items) {
 
 // }
 
-export function addSavedItemToFirestore (item) {
+export function addSavedItemFS (item) {
   return getUserDb().collection('items-saved').doc(item._id)
     .set(item)
     .then(item => {
@@ -171,7 +176,7 @@ export function addSavedItemToFirestore (item) {
       return item
     })
     .catch(err => {
-      log('addSavedItemToFirestore', err)
+      log('addSavedItemFS', err)
     })
 }
 
@@ -211,7 +216,11 @@ export function upsertFeedsFS (feeds) {
   })
 }
 
-export function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {
+export async function getFeedsFS () {
+  return getCollection('feeds', 'reading_rate', false, false)
+}
+
+export async function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {
   let getOptions = {}
   let data
   if (fromCache) getOptions.source = 'cache'
@@ -234,7 +243,7 @@ export function getCollection (collectionName, orderBy = 'created_at', fromCache
       getUserDb().collection(collectionName).orderBy(orderBy).limit(PAGE_SIZE).startAfter(startAfter).get() :
       getUserDb().collection(collectionName).orderBy(orderBy).limit(PAGE_SIZE).get()
   } catch (err) {
-    log('addReadItemFS', err)
+    log('getCollection', err)
   }
 
   return getPage()
@@ -243,7 +252,6 @@ export function getCollection (collectionName, orderBy = 'created_at', fromCache
         // get another page
 
       }
-      console.log('getCollection firstCall took ' + (Date.now() - now) + 'ms')
       now = Date.now()
       let items = []
       qs.docs.forEach(ds => {
@@ -253,7 +261,6 @@ export function getCollection (collectionName, orderBy = 'created_at', fromCache
         }
         items.push(data)
       })
-      console.log('Deflating items took ' + (Date.now() - now) + 'ms')
       return items
     })
     .catch(err => {

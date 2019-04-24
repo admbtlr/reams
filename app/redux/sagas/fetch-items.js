@@ -112,6 +112,17 @@ function fetchItemsChannel (type, lastUpdated, oldItems, currentItem, feeds) {
 function * receiveItems (items, type) {
   console.log('Received ' + items.length + ' new items')
   let feeds
+  const fixCreatedAt = (item) => ({
+    ...item,
+    created_at: typeof item.created_at === 'number'
+      ? (item.created_at > Date.parse('Jan 01 2000') ? item.created_at : item.created_at * 1000)
+      : Date.parse(item.created_at),
+    original_created_at: item.created_at
+  })
+  const addDateFetched = item => ({
+    ...item,
+    date_fetched: Math.round(Date.now())
+  })
   if (type === 'unread') {
     feeds = yield select(getFeeds)
     const updated = yield createFeedsWhereNeededAndAddInfo(items, feeds)
@@ -123,12 +134,8 @@ function * receiveItems (items, type) {
     .map(addStylesIfNecessary)
     .map(sanitizeContent)
     .map(setShowCoverImage)
-    .map(item => {
-      return {
-        ...item,
-        date_fetched: Math.round(Date.now() / 1000)
-      }
-    })
+    .map(fixCreatedAt)
+    .map(addDateFetched)
 
   if (type === 'unread') {
     feeds = incrementFeedUnreadCounts(items, feeds)

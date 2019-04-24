@@ -4,7 +4,7 @@ import { InteractionManager } from 'react-native'
 import { addFeed, getFeedDetails } from '../backends'
 import { id, getFeedColor } from '../../utils/'
 import feeds from '../../utils/seedfeeds.js'
-import { upsertFeedsFS, addFeedToFirestore } from '../firestore/'
+import { addFeedToFirestore, getFeedsFS, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
@@ -35,10 +35,25 @@ export function * subscribeToFeed (action) {
   })
 }
 
+export function * syncFeeds () {
+  const feeds = yield select(getFeeds)
+  const dbFeeds = yield getFeedsFS()
+  dbFeeds.forEach(dbFeed => {
+    if (!feeds.find(feed => feed._id === dbFeed._id ||
+      feed.url === dbFeed.url)) {
+      feeds.push(dbFeed)
+    }
+  })
+  yield put ({
+    type: 'FEEDS_UPDATE_FEEDS',
+    feeds
+  })
+}
+
 export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
-    yield call(delay, 500)
+    yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
     if (feed.description || feed.favicon) continue
     const details = yield call(getFeedDetails, feed)
     const inflatedFeed = {

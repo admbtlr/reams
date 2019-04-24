@@ -1,11 +1,10 @@
 export default function rizzleSort (items, feeds, shuffleStrength = 2) {
   // sort by age
-  var now = Math.floor(Date.now() / 1000);
+  var now = Date.now()
   // it.map()
   return items.map(item => {
     const readingRate = feeds.find(f => f._id === item.feed_id).reading_rate
-    // debugger
-    const sorter = 1 / Math.floor((now - item.created_at) / 10000)
+    const sorter = 1 / ((now - item.created_at) / 10000)
     return {
       ...item,
       sorter

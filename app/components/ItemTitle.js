@@ -679,7 +679,9 @@ class ItemTitle extends React.Component {
     }
 
     const barView = this.renderBar()
-    const excerptView = this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView)
+    const excerptView = this.props.excerpt
+      ? this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView)
+      : null
     const dateView = this.renderDate()
     const authorView = this.renderAuthor()
 
@@ -809,7 +811,7 @@ class ItemTitle extends React.Component {
           borderTopWidth: 0,
           // opacity: excerptOpacity,
           marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
-          width: (!showCoverImage || styles.excerptFullWidth) ?
+          width: (!showCoverImage || styles.excerptFullWidth || this.props.excerpt.length > 150) ?
             'auto' :
             this.screenWidth * 0.666,
           alignSelf: {
@@ -909,7 +911,7 @@ class ItemTitle extends React.Component {
     }
 
     // TODO this is feedwrangler... fix it
-    const theDate = (typeof date === 'number') ? date * 1000 : date
+    const theDate = (typeof date === 'number') ? date : date
     let showYear = (moment(theDate).year() !== moment().year())
     const formattedDate = moment(theDate)
       .format('Do MMM' + (showYear ? ' YYYY' : '') + ', h:mm a')
