@@ -5,7 +5,8 @@ const initialState = {
   lastUpdated: 0,
   onboardingIndex: 0,
   onboardingLength: 13,
-  feedFilter: null
+  feedFilter: null,
+  isOnline: false
 }
 
 export function config (state = initialState, action) {
@@ -46,6 +47,12 @@ export function config (state = initialState, action) {
       return {
         ...state,
         feedFilter: action.feedFilter
+      }
+
+    case 'CONFIG_IS_ONLINE':
+      return {
+        ...state,
+        isOnline: action.isOnline
       }
 
     default:

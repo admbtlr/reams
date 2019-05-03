@@ -51,3 +51,7 @@ export function getConfig (state) {
 export function getUid (state) {
   return state.user.uid
 }
+
+export function isOnline (state) {
+  return state.config.isOnline
+}

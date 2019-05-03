@@ -1,4 +1,4 @@
-import { call, put, select, take } from 'redux-saga/effects'
+import { call, fork, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 
 import { fetchItems as fetchItemsBackends } from '../backends'
@@ -11,7 +11,6 @@ import {
 import { clearItemsAS, setItemsAS } from '../async-storage/'
 import { mergeItems, id } from '../../utils/merge-items.js'
 import { getFeedColor } from '../../utils/'
-import { checkOnline } from './check-online'
 import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,
   fixRelativePaths,
@@ -23,6 +22,7 @@ import { nullValuesToEmptyStrings,
 } from '../../utils/item-utils'
 import log from '../../utils/log'
 import {
+  getConfig,
   getCurrentItem,
   getDisplay,
   getFeeds,
@@ -36,8 +36,8 @@ import {
 let feeds
 
 export function * fetchAllItems (includeSaved = true) {
-  const isOnline = yield checkOnline()
-  if (!isOnline) return
+  const config = yield select(getConfig)
+  if (!config.isOnline) return
 
   yield fetchItems('unread')
   if (includeSaved) {
@@ -61,21 +61,18 @@ export function * fetchItems (type = 'unread') {
   const feeds = yield select(getFeeds)
   const oldItems = yield select(getItems, type)
   const currentItem = yield select(getCurrentItem, type)
-  const index = yield select(getIndex, type)
   const lastUpdated = yield select(getLastUpdated, type)
 
   const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, currentItem, feeds)
 
   let isFirstBatch = true
   try {
+    let i = 0
     while (true) {
       let items = yield take(itemsChannel)
-      yield receiveItems(items, type)
-      if (isFirstBatch) {
-        isFirstBatch = false
-        // this is a little hacky, just getting ready to view some items
-        yield inflateItems({ index })
-      }
+      yield fork(receiveAndProcessItems, items, type, isFirstBatch, i)
+      isFirstBatch = false
+      i++
     }
   } catch (err) {
     log('fetchItems', err)
@@ -92,6 +89,15 @@ export function * fetchItems (type = 'unread') {
   }
 }
 
+function * receiveAndProcessItems (items, type, isFirstBatch, i) {
+  const index = yield select(getIndex, type)
+  yield receiveItems(items, type)
+  if (isFirstBatch) {
+    // this is a little hacky, just getting ready to view some items
+    yield inflateItems({ index })
+  }
+}
+
 function fetchItemsChannel (type, lastUpdated, oldItems, currentItem, feeds) {
   const logger = log
   return eventChannel(emitter => {
@@ -100,7 +106,6 @@ function fetchItemsChannel (type, lastUpdated, oldItems, currentItem, feeds) {
         emitter(END)
       })
       .catch(err => {
-        debugger
         logger('fetchItemsChannel', err)
       })
     return _ => {

@@ -1,12 +1,11 @@
-import { NetInfo } from 'react-native'
+import { InteractionManager, NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
 import { updateItemFS, addReadItemFS, addReadItemsFS } from '../firestore/'
 import { deleteItemsAS, updateItemAS } from '../async-storage/'
 // import { addStaleItem } from '../realm/stale-items'
-import { getRemoteActions, getUnreadItems } from './selectors'
-import { checkOnline } from './check-online'
+import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
 
 const INITIAL_INTERVAL = 500
 let interval = INITIAL_INTERVAL
@@ -23,8 +22,8 @@ export function * executeRemoteActions () {
 function * executeOldestAction () {
   const actions = yield select(getRemoteActions)
   if (actions.length > 0) {
-    const isOnline = yield checkOnline()
-    if (isOnline) {
+    const config = yield select(getConfig)
+    if (config.isOnline) {
       interval = INITIAL_INTERVAL
       yield executeAction(actions[0])
     } else {
@@ -36,6 +35,7 @@ function * executeOldestAction () {
 }
 
 function * executeAction (action) {
+  yield call(InteractionManager.runAfterInteractions)
   console.log('Executing action: ' + action.type)
   switch (action.type) {
     case 'ITEM_MARK_READ':

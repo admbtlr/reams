@@ -14,6 +14,7 @@ import { NavigationEvents } from 'react-navigation'
 import { GoogleSignin } from 'react-native-google-signin'
 import AppContainer from '../containers/App.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
+import ConnectionListenerContainer from '../containers/ConnectionListener.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
 import ActionExtensionScreen from './Action'
 import { setBackend } from '../redux/backends'
@@ -130,6 +131,7 @@ export default class Rizzle extends Component {
           barStyle='light-content'
           hidden={false} />
         <AppStateListenerContainer />
+        <ConnectionListenerContainer />
         <AppContainer />
       </View>)
 
