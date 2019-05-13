@@ -64,6 +64,13 @@ class CoverImage extends React.Component {
     return hslString(color, palette)
   }
 
+  shouldComponentUpdate (prevProps, prevState) {
+    return prevProps.imagePath !== this.props.imagePath ||
+      (prevProps.imageDimensions ?
+        prevProps.imageDimensions.width !== this.props.imageDimensions.width :
+        false)
+  }
+
   render () {
     const {isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
     const absolute = {
@@ -234,7 +241,10 @@ class CoverImage extends React.Component {
       //   </Animated.View>
       // )
       return (
-        <Animated.View style={style}>
+        <Animated.View
+          shouldRasterizeIOS
+          style={style}
+        >
           { surface }
           { this.props.blur && imageToosmall && blur }
         </Animated.View>

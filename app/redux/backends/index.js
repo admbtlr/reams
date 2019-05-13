@@ -47,6 +47,7 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, current
     items = await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD)
   }
 
+  console.log('fetchItemsBackends has ended')
   return items
 }
 

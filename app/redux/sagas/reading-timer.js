@@ -1,4 +1,5 @@
-import { put, select } from 'redux-saga/effects'
+import { InteractionManager } from 'react-native'
+import { call, put, select } from 'redux-saga/effects'
 
 import { getCurrentItem, getDisplay } from './selectors'
 
@@ -10,6 +11,7 @@ let currentItem
 let itemsScreenActive = false
 
 export function * currentItemChanged (action) {
+  yield call(InteractionManager.runAfterInteractions)
   const display = yield select(getDisplay)
   if (display !== 'unread') return
   const prevItem = currentItem
@@ -24,7 +26,7 @@ export function * currentItemChanged (action) {
 
 // called by the navigation when user goes to a non-items screen
 export function * screenInactive () {
-  console.log('STOP TIMING - ' + (currentItem && currentItem.title))
+  // console.log('STOP TIMING - ' + (currentItem && currentItem.title))
   if (currentItem) {
     yield logReadingTime(currentItem)
     resetTimer()
@@ -54,18 +56,19 @@ export function * appInactive () {
 function * logReadingTime (item) {
   const now = Date.now()
   const readingTime = Math.round((now - startTime + accumulatedTime) / 1000)
+  yield call(InteractionManager.runAfterInteractions)
   yield put ({
     type: 'ITEM_ADD_READING_TIME',
     item: item,
     readingTime
   })
-  console.log('LOG READING TIME: ' + readingTime + 'sec for ' + item.title)
+  // console.log('LOG READING TIME: ' + readingTime + 'sec for ' + item.title)
 }
 
 function * startTimer (item) {
   currentItem = yield select(getCurrentItem)
   startTime = Date.now()
-  console.log('START TIMING - ' + (currentItem && currentItem.title))
+  // console.log('START TIMING - ' + (currentItem && currentItem.title))
 }
 
 function resetTimer () {

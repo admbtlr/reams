@@ -26,7 +26,7 @@ export default FluidNavigator(
     Items: { screen: ItemsScreenContainer },
   },
   {
-    initialRouteName: 'Feeds',
+    initialRouteName: 'Items',
     transitionConfig,
     navigationOptions
   }

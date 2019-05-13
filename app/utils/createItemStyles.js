@@ -126,7 +126,7 @@ export function createItemStyles (item, prevStyles) {
     hasColorBlockquoteBG: Math.random() > 0.5,
     dropCapFamily: Math.random() > 0.5 ? 'body' : 'header',
     dropCapIsMonochrome: Math.random() > 0.5,
-    dropCapSize: Math.floor(Math.random() * 2) + 2,
+    dropCapSize: Math.floor(Math.random() * 5) + 2,
     dropCapIsDrop: Math.random() > 0.3,
     dropCapIsBold: Math.random() > 0.5,
     dropCapIsStroke: Math.random() > 0.8,

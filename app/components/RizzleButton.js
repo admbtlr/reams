@@ -21,19 +21,18 @@ class RizzleButton extends React.Component {
   getStyles () {
     const backgroundColor = this.props.backgroundColor || hslString('rizzleSaved')
     const borderColor = this.props.borderColor || hslString('rizzleSaved')
-    const borderWidth = this.props.borderWidth || 2
+    const borderWidth = this.props.borderWidth || 0
     return {
-        backgroundColor,
         width: this.props.style && this.props.style.width ?
           this.props.style.width :
-          56,
-        height: 56,
-        borderRadius: 28,
+          50,
+        height: 50,
+        borderRadius: 25,
         borderColor: borderColor,
         borderWidth,
         justifyContent: 'center',
         flexDirection: 'column',
-        opacity: 0.9
+        opacity: 0.97
     }
   }
 

@@ -142,7 +142,8 @@ export const itemsUnread = (state = initialState, action) => {
       items = rizzleSort(items, feeds)
       // check for current item
       currentItem = state.items[state.index]
-      if (currentItem && !items.find(item => item && item._id === currentItem._id)) {
+      if (currentItem) {
+        items = items.filter(item => item._id !== currentItem._id)
         items.unshift(currentItem)
       }
 
@@ -206,24 +207,11 @@ export const itemsUnread = (state = initialState, action) => {
     case 'ITEM_MARK_READ':
       return itemMarkRead(action, state)
 
+    case 'ITEMS_MARK_READ':
+      return itemsMarkRead(action, state)
+
     case 'ITEM_SET_SCROLL_OFFSET':
       return itemSetScrollOffset(action, state)
-
-    case 'FEED_MARK_READ':
-      const feedId = action.id
-      const olderThan = action.olderThan || Math.floor(Date.now() / 1000)
-      currentItem = state.items[state.index]
-      // if no feedId specified, then we mean ALL items
-      const isInFeed = (item) => feedId ? item.feed_id === feedId : true
-      items = [ ...state.items ].filter((item) => {
-        return isInFeed(item) ?
-          (item.created_at > olderThan) :
-          true
-      })
-      return {
-        ...state,
-        items
-      }
 
     case 'FEEDS_REMOVE_FEED':
       return {

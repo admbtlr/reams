@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
     isVisible: ownProps.index === index,
     showMercuryContent: items[ownProps.index].showMercuryContent,
     ...state.webView,
-    isImageViewerVisible: state.ui.imageViewerVisible
+    isImageViewerVisible: state.ui.imageViewerVisible,
+    coverImageComponent: ownProps.coverImageComponent
   }
 }
 

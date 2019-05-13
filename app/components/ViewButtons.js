@@ -17,9 +17,9 @@ import {hslString} from '../utils/colors'
 
 class ViewButtons extends React.Component {
   state = {
-    visibleAnimIncreaseFont: new Animated.Value(100),
-    visibleAnimDecreaseFont: new Animated.Value(100),
-    visibleAnimDarkBg: new Animated.Value(100),
+    visibleAnimIncreaseFont: new Animated.Value(-100),
+    visibleAnimDecreaseFont: new Animated.Value(-100),
+    visibleAnimDarkBg: new Animated.Value(-100),
   }
 
   constructor (props) {
@@ -31,7 +31,7 @@ class ViewButtons extends React.Component {
     const springConfig =         {
       speed: 20,
       bounciness: 12,
-      toValue: this.props.visible ? 0 : 70,
+      toValue: this.props.visible ? 0 : -70,
       duration: 200,
       useNativeDriver: true
     }
@@ -63,7 +63,7 @@ class ViewButtons extends React.Component {
         }}>
         <RizzleButton
           style={{
-            marginBottom: 14,
+            marginBottom: 28,
             transform: [{
               translateX: this.state.visibleAnimIncreaseFont
             }]
@@ -81,7 +81,7 @@ class ViewButtons extends React.Component {
         </RizzleButton>
         <RizzleButton
           style={{
-            marginBottom: 14,
+            marginBottom: 28,
             transform: [{
               translateX: this.state.visibleAnimDecreaseFont
             }]
@@ -124,14 +124,14 @@ class ViewButtons extends React.Component {
     return {
       base: {
         position: 'absolute',
-        top: 100,
-        right: 10,
+        top: 112,
+        left: 10,
         width: '100%',
         zIndex: 10,
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-around',
-        alignItems: 'flex-end'
+        alignItems: 'flex-start'
       },
       button: {
         backgroundColor,

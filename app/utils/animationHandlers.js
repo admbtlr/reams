@@ -7,6 +7,7 @@ let scrollHandlerChangeListeners = []
 let panListeners = []
 
 let panAnim = new Animated.Value(0)
+let panAnimDivisor = 1
 let scrollAnim = new Animated.Value(0)
 
 let clamped
@@ -34,18 +35,18 @@ function reset (newScrollAnimValue) {
     useNativeDriver: true,
   }).start(() => {
     scrollListeners.forEach((listener) => {
-      console.log('Status bar down!')
       listener.onStatusBarDown()
     })
   })
 }
 
-export function panHandler (value) {
+export function panHandler (value, divisor) {
   panAnim = value
+  panAnimDivisor = divisor
 }
 
 export function getPanValue () {
-  return panAnim
+  return { panAnim, panAnimDivisor }
 }
 
 export function scrollHandler (value) {
@@ -79,7 +80,6 @@ export function scrollHandler (value) {
     )
     if (wasntDown && clampedScrollValue === 0) {
       scrollListeners.forEach((listener) => {
-        console.log('Status bar down!')
         listener.onStatusBarDown()
       })
     } else if (wasntUp && clampedScrollValue >= STATUS_BAR_HEIGHT && value > 0) {

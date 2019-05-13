@@ -65,7 +65,7 @@ class Buttons extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const springConfig =         {
+    const springConfig = {
       speed: 30,
       bounciness: 12,
       toValue: this.props.visible ? 0 : 80,
@@ -140,22 +140,22 @@ class Buttons extends React.Component {
   }
 
   render () {
-    console.log('RENDER BUTTONS!')
+    // console.log('RENDER BUTTONS!')
     const {prevItem, currentItem, nextItem} = this.props
     const items = prevItem ?
       [prevItem, currentItem, nextItem] :
       [currentItem, nextItem]
-    const panAnim = getPanValue()
+    const { panAnim, panAnimDivisor } = getPanValue()
 
     const opacityRanges = [
       {
-        inputRange: [0, 1, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [1, 0, 0]
       }, {
-        inputRange: [0, 1, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [0, 1, 0]
       }, {
-        inputRange: [0, 1, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [0, 0, 1]
       }
     ]
@@ -197,7 +197,7 @@ class Buttons extends React.Component {
     //   }) :
     //   backgroundColor
     // const mercuryButtonOpacity = this.state.toggleAnimMercury
-    const borderWidth = this.props.displayMode === 'isSaved' ? 1 : 2
+    const borderWidth = 1 // this.props.displayMode === 'isSaved' ? 1 : 2
 
     const anim = new Animated.Value(0)
 
@@ -215,7 +215,7 @@ class Buttons extends React.Component {
           borderWidth={borderWidth}
           style={{
             width: 'auto',
-            paddingHorizontal: 28,
+            paddingHorizontal: 25,
             transform: [{
               translateY: isCurrent ? this.state.visibleAnimCount : 0
             }]
@@ -224,7 +224,7 @@ class Buttons extends React.Component {
         >
           <Text style={{
             ...this.getStyles().buttonText,
-            color: strokeColor
+            color: borderColor
           }}>
             {this.props.index + 1} / {this.props.numItems}
           </Text>
@@ -232,7 +232,7 @@ class Buttons extends React.Component {
             <Text style={{
               ...this.getStyles().buttonText,
               ...this.getStyles().smallText,
-              color: strokeColor
+              color: borderColor
             }}>
               Cached: {this.props.decoratedCount}
             </Text>
@@ -271,11 +271,11 @@ class Buttons extends React.Component {
                   { translateY: -2 }
                 ]
               }}>
-              <Path fill={saveFillColors[2]} stroke={saveStrokeColours[2]} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
-              <Path fill={saveFillColors[2]} stroke={saveStrokeColours[2]} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
-              <Path fill={saveFillColors[1]} stroke={saveStrokeColours[1]} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
-              <Path fill={saveFillColors[1]} stroke={saveStrokeColours[1]} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
-              <Rect fill={saveFillColors[0]} stroke={saveStrokeColours[0]} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
+              <Path fill={saveFillColors[2]} stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
+              <Path fill={saveFillColors[2]} stroke={borderColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
+              <Path fill={saveFillColors[1]} stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
+              <Path fill={saveFillColors[1]} stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
+              <Rect fill={saveFillColors[0]} stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
               </Svg>
           </Animated.View>
         </RizzleButton>
@@ -284,7 +284,7 @@ class Buttons extends React.Component {
           borderColor={borderColor}
           borderWidth={borderWidth}
           style={{
-            paddingLeft: 1,
+            paddingLeft: 0,
             transform: [{
               translateY: isCurrent ? this.state.visibleAnimShare : 0
             }]
@@ -300,19 +300,19 @@ class Buttons extends React.Component {
               }, {
                 translateY: -4
               }, {
-                translateX: 1
+                translateX: -3
               }]
             }}>
             <Polyline
               fill='none'
               points='17,10 25,2 33,10'
-              stroke={strokeColor}
+              stroke={borderColor}
               strokeLinecap='round'
               strokeWidth='3'
             />
             <Line
               fill='none'
-              stroke={strokeColor}
+              stroke={borderColor}
               strokeLinecap='round'
               strokeWidth='3'
               x1='25'
@@ -328,7 +328,7 @@ class Buttons extends React.Component {
             <Path
               d='M17,17H8v32h34V17h-9'
               fill='none'
-              stroke={strokeColor}
+              stroke={borderColor}
               strokeLinecap='round'
               strokeWidth='3'
             />
@@ -336,7 +336,7 @@ class Buttons extends React.Component {
         </RizzleButton>
         <RizzleButton
           backgroundColor={backgroundColor}
-          borderColor={isMercuryButtonEnabled ? borderColor : backgroundColor}
+          borderColor={borderColor}
           borderWidth={borderWidth}
           startToggleAnimation={this.startToggleAnimationMercury}
           style={{
@@ -358,30 +358,30 @@ class Buttons extends React.Component {
               // }],
               opacity: isMercuryButtonEnabled ? 1 : 0.3
             }}
-            height='32'
-            width='34'>
-            <Path d="M0.5,1.5 L32.5,1.5" strokeWidth="3" stroke={strokeColor}></Path>
-            <Path d="M0.5,7.5 L32.5,7.5" strokeWidth="3" stroke={strokeColor}></Path>
-            <Path d="M0.5,13.5 L32.5,13.5" opacity="0.2" stroke={strokeColor}></Path>
-            <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke={strokeColor}></Path>
-            <Path d="M0.5,19.5 L32.5,19.5" opacity="0.2" stroke={strokeColor}></Path>
-            <Path d="M0.5,25.5 L32.5,25.5" opacity="0.2" stroke={strokeColor}></Path>
-            <Path d="M0.5,31.5 L32.5,31.5" opacity="0.2" stroke={strokeColor}></Path>
+            height='30'
+            width='30'>
+            <Path d="M0.5,1.5 L32.5,1.5" strokeWidth="3" stroke={borderColor}></Path>
+            <Path d="M0.5,7.5 L32.5,7.5" strokeWidth="3" stroke={borderColor}></Path>
+            <Path d="M0.5,13.5 L32.5,13.5" opacity="0.2" stroke={borderColor}></Path>
+            <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke={borderColor}></Path>
+            <Path d="M0.5,19.5 L32.5,19.5" opacity="0.2" stroke={borderColor}></Path>
+            <Path d="M0.5,25.5 L32.5,25.5" opacity="0.2" stroke={borderColor}></Path>
+            <Path d="M0.5,31.5 L32.5,31.5" opacity="0.2" stroke={borderColor}></Path>
           </Svg>
           <Animated.View style={{
             position: 'absolute',
-            left: -1,
-            top: -1,
-            width: 56,
-            height: 56,
-            borderRadius: 28,
+            left: 0,
+            top: 0,
+            width: 48,
+            height: 48,
+            borderRadius: 25,
             padding: 9,
             opacity: this.getMercuryToggleOpacity(item, isCurrent),
             backgroundColor: feedColor
           }}>
             <Svg
-              height='32'
-              width='34'>
+              height='30'
+              width='30'>
               <Path d="M10.5,1.5 L32.5,1.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
               <Path d="M10.5,7.5 L32.5,7.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
               <Rect fill={backgroundColor} x="0" y="0" width="7" height="9"></Rect>

@@ -20,13 +20,19 @@ const areFeedsListsEqual = (a, b) => {
 const mapStateToProps = (state) => {
   const items = state.itemsUnread.items
   const feeds = state.feeds.feeds.sort((a, b) => b.number_unread - a.number_unread)
+  const backendLabels = {
+    feedbin: 'Feedbin',
+    feedwrangler: 'Feedwrangler',
+    rizzle: 'Rizzle'
+  }
 
   // if (!areFeedsListsEqual(feeds, feedsCache)) {
   //   feedsCache = [...feeds]
   // }
 
   return {
-    feeds: feeds,
+    backend: backendLabels[state.config.backend],
+    feeds,
     numItems: items.length,
   }
 }

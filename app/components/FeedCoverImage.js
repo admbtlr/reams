@@ -70,13 +70,20 @@ class FeedCoverImage extends React.Component {
     if (cachedCoverImageId && coverImageId
       && coverImageId === cachedCoverImageId) {
       const cachedCoverImagePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
-      return <Image
+      const opacityAnim = new Animated.Value(0)
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true
+      }).start()
+      return <Animated.Image
         width={width}
         height={height}
         source={{ uri: 'file://' + cachedCoverImagePath }}
         style={{
           width,
-          height
+          height,
+          opacity: opacityAnim
         }}
       />
     }

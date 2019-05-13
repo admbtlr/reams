@@ -569,7 +569,7 @@ class ItemTitle extends React.Component {
         // 'white' :
         (this.props.isDarkBackground ? hslString('bodyBGDark') : hslString('bodyBGLight')) :
         overlayColour,
-      opacity: (coverImageStyles.isInline || !showCoverImage) ? 1 : opacity
+      opacity: (coverImageStyles.isInline || !showCoverImage) ? 1 : 1//opacity
     }
     let textStyle = {
       ...fontStyle,
@@ -898,7 +898,7 @@ class ItemTitle extends React.Component {
 
     if (showCoverImage && !coverImageStyles.isInline) {
       dateStyle.position = 'absolute'
-      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.1 : 0.5) // heuristic
+      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.11 : 0.5) // heuristic
     }
 
     if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {

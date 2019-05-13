@@ -8,11 +8,13 @@ import { deflateItem } from '../../utils/item-utils'
 import log from '../../utils/log'
 const co = require('co')
 
-import { getItems, getCurrentItem, getDisplay, getFeeds } from './selectors'
+import { getIndex, getItems, getCurrentItem, getDisplay, getFeeds } from './selectors'
 import { updateItemAS } from '../async-storage'
 
 let pendingDecoration = [] // a local cache
 let toDispatch = []
+
+const showLogs = false
 
 export function * decorateItems (action) {
   let items
@@ -45,19 +47,21 @@ export function * decorateItems (action) {
     yield call(delay, 2000)
     const nextItem = yield getNextItemToDecorate(pendingDecoration)
     if (nextItem) {
-      console.log(`Got item to decorate: ${nextItem.title}`)
+      consoleLog(`Got item to decorate: ${nextItem.title}`)
       pendingDecoration.push(nextItem)
       setTimeout(() => {
         if (!nextItem) return // somehow item can become undefined here...?
+        consoleLog(`About to retrieve decoration for ${nextItem.title}`)
         return co(decorateItem(nextItem)).then((decoration) => {
           if (decoration) {
+            consoleLog(`Got decoration for ${nextItem.title}`)
             toDispatch.push(decoration)
             setTimeout(() => {
               pendingDecoration = pendingDecoration.filter(pending => pending._id !== decoration.item._id)
             }, 1000)
           }
         }).catch(error => {
-          console.log('Error decorating item, trying again next time around')
+          consoleLog('Error decorating item, trying again next time around')
           toDispatch.push({
             error: true,
             item: {
@@ -71,6 +75,12 @@ export function * decorateItems (action) {
   }
 }
 
+function consoleLog(txt) {
+  if (showLogs) {
+    consoleLog(txt)
+  }
+}
+
 function * applyDecoration (decoration) {
   yield call(InteractionManager.runAfterInteractions)
   yield put({
@@ -79,7 +89,7 @@ function * applyDecoration (decoration) {
   })
   items = yield select(getItems)
   decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
-  // console.log(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
+  // consoleLog(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
 
   yield call(InteractionManager.runAfterInteractions)
   yield put({
@@ -110,6 +120,7 @@ function * applyDecoration (decoration) {
 function * getNextItemToDecorate (pendingDecoration) {
   let nextItem
   const items = yield select(getItems)
+  const index = yield select(getIndex)
   const feeds = yield select(getFeeds)
   const feedsWithoutDecoration = feeds.filter(feed => {
     // external items handle their own decoration
@@ -128,9 +139,10 @@ function * getNextItemToDecorate (pendingDecoration) {
   if (!nextItem) {
     const candidateItems = items.filter(item => {
       return !item.hasLoadedMercuryStuff &&
-        item.decoration_failures !== 5 &&
+        (!item.decoration_failures || item.decoration_failures < 5) &&
         !item.readAt &&
-        items.indexOf(item) < 100
+        items.indexOf(item) >= index &&
+        items.indexOf(item) < index + 20
     })
     if (candidateItems.length) {
       nextItem = candidateItems.find(item => !item.hasLoadedMercuryStuff
@@ -146,9 +158,9 @@ function * loadMercuryForItem (item) {
 
 export function * decorateItem(item) {
   let imageStuff = {}
-  // console.log(`Loading Mercury stuff for ${item._id}...`)
+  consoleLog(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield loadMercuryForItem(item)
-  // console.log(`Loading Mercury stuff for ${item._id} done`)
+  consoleLog(`Loading Mercury stuff for ${item._id} done`)
 
   if (!mercuryStuff) {
     return false
@@ -164,7 +176,7 @@ export function * decorateItem(item) {
           imageDimensions
         }
       } catch (error) {
-        console.log(error)
+        consoleLog(error)
       }
     }
   }
@@ -182,17 +194,17 @@ function cacheCoverImage (item, imageURL) {
   // making a big assumption on the .jpg extension here...
   // and it seems like Image adds '.png' to a filename if there's no extension
   const fileName = getCachedImagePath(item)
-  // console.log(`Loading cover image for ${item._id}...`)
+  // consoleLog(`Loading cover image for ${item._id}...`)
   return RNFS.downloadFile({
     fromUrl: imageURL,
     toFile: fileName
   }).promise.then((result) => {
-    // console.log(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
-    // console.log(`Loading cover image for ${item._id} done`)
+    // consoleLog(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
+    // consoleLog(`Loading cover image for ${item._id} done`)
     return true
   }).catch((err) => {
-    console.log(`Loading cover image for ${item._id} failed :(`)
-    console.log(err)
+    consoleLog(`Loading cover image for ${item._id} failed :(`)
+    consoleLog(err)
     return false
   })
 }
@@ -205,7 +217,7 @@ function getImageDimensions (item) {
         height: imageHeight
       })
     }, (error) => {
-      console.log(error)
+      consoleLog(error)
       reject(error)
     })
   })

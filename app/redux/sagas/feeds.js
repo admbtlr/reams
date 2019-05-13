@@ -8,7 +8,7 @@ import { addFeedToFirestore, getFeedsFS, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
-import { getFeeds, isFirstTime } from './selectors'
+import { getFeeds, getIndex, getItems, isFirstTime } from './selectors'
 
 function * prepareAndAddFeed (feed) {
   const feeds = yield select(getFeeds)
@@ -32,6 +32,26 @@ export function * subscribeToFeed (action) {
   yield put ({
     type: 'FEEDS_ADD_FEED_SUCCESS',
     addedFeed
+  })
+}
+
+export function * markFeedRead (action) {
+  let feedId = action.id
+  const index = select(getIndex)
+  const items = select(getItems)
+  const olderThan = action.olderThan || Date.now()
+  currentItem = items[index]
+  // if no feedId specified, then we mean ALL items
+  const isInFeed = (item) => feedId ? item.feed_id === feedId : true
+  items = [ ...state.items ].filter((item) => {
+    return isInFeed(item) ?
+      (item.created_at > olderThan) :
+      true
+  })
+
+  yield put ({
+    type: 'ITEMS_MARK_READ',
+    items
   })
 }
 

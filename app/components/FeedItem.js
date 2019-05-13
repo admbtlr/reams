@@ -3,7 +3,6 @@ import {Animated, Dimensions, InteractionManager, Linking, ScrollView, View, Web
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
-import FeedInfoContainer from '../containers/FeedInfo'
 import {deepEqual, getCachedImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
 import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
@@ -253,7 +252,7 @@ class FeedItem extends React.Component {
           { scaleY: this.state.scaleAnim }
         ]
       }}>
-        {showCoverImage && !styles.isCoverInline && coverImage}
+        { showCoverImage && !styles.isCoverInline && coverImage }
         <Animated.ScrollView
           onScroll={Animated.event(
             [{ nativeEvent: {
@@ -268,7 +267,7 @@ class FeedItem extends React.Component {
           scrollEventThrottle={16}
           style={{flex: 1}}
         >
-          {showCoverImage && styles.isCoverInline && coverImage}
+          { showCoverImage && styles.isCoverInline && coverImage }
           <ItemTitleContainer
             item={this.props.item}
             index={this.props.index}
@@ -282,10 +281,6 @@ class FeedItem extends React.Component {
             showCoverImage={showCoverImage}
             coverImageStyles={styles.coverImage}
           />
-          {false &&
-          <FeedInfoContainer
-            index={this.props.index}
-          />}
           <WebView
             decelerationRate='normal'
             injectedJavaScript={calculateHeight}

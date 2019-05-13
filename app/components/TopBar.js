@@ -2,13 +2,14 @@ import React from 'react'
 import {
   Animated,
   Dimensions,
+  Image,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View
 } from 'react-native'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
-import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
+import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import {
   getAnimatedValue,
   getAnimatedValueNormalised,
@@ -19,7 +20,7 @@ import {
 import { id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
 
-export const STATUS_BAR_HEIGHT = 40
+export const STATUS_BAR_HEIGHT = 49
 
 class TopBar extends React.Component {
 
@@ -76,30 +77,30 @@ class TopBar extends React.Component {
       currentTransformAnim,
       NextTransformAnim
     } = this.state
-    const panAnim = getPanValue()
+    const { panAnim, panAnimDivisor } = getPanValue()
 
     const opacityRanges = [
       {
-        inputRange: [0, 0.9, 1, 2],
+        inputRange: [0, panAnimDivisor * 0.9, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [1, 1, 0, 0]
       }, {
-        inputRange: [0, 1, 1.9, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 1.9, panAnimDivisor * 2],
         outputRange: [0, 1, 1, 0]
       }, {
-        inputRange: [0, 1, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [0, 0, 1]
       }
     ]
 
     const transformRanges = [
       {
-        inputRange: [0, 1, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [0, -20, -20]
       }, {
-        inputRange: [0, 1, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [30, 0, -20]
       }, {
-        inputRange: [0, 1, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [30, 30, 0]
       }
     ]
@@ -116,11 +117,11 @@ class TopBar extends React.Component {
 
     const panTransformAnim = prevItem ?
       panAnim.interpolate({
-        inputRange: [0, 1, 2],
+        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [STATUS_BAR_HEIGHT, 0, STATUS_BAR_HEIGHT]
       }) :
       panAnim.interpolate({
-        inputRange: [0, 1],
+        inputRange: [0, panAnimDivisor],
         outputRange: [0, STATUS_BAR_HEIGHT]
       })
 
@@ -258,7 +259,7 @@ class TopBar extends React.Component {
             ...textHolderStyles,
             flexDirection: 'column',
             justifyContent: 'flex-end',
-            height: 321,
+            height: 281 + STATUS_BAR_HEIGHT,
             overflow: 'hidden',
             paddingTop: 80,
             position: 'absolute',
@@ -278,58 +279,40 @@ class TopBar extends React.Component {
             }]
           }}
         >
-          <Animated.View
-            style={{
-              position: 'absolute',
-              zIndex: 5,
-              left: 10,
-              marginTop: 3,
-              opacity: clampedAnimatedValue.interpolate({
-                inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-                outputRange: [0, 1]
-              })
-            }}
-          >
+          <Animated.View style={{
+            position: 'absolute',
+            left: 20,
+            bottom: -2,
+            width: 28,
+            height: 38,
+            opacity: clampedAnimatedValue.interpolate({
+              inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+              outputRange: [0, 1]
+            })
+          }}>
             <TouchableOpacity
               style={{
-                width: 28,
-                height: 28,
-                borderRadius: 14
+                // borderRadius: 14,
+                // backgroundColor: 'rgba(0, 0, 0, 0.3)'
               }}
-              onPress={() => this.props.navigation.navigate('Feeds')}
+              onPress={this.props.toggleViewButtons}
             >
               <Svg
-                height='22'
-                width='28'>
-                <Line
-                  fill='none'
-                  stroke={this.getHamburgerColor(item)}
-                  strokeLinecap='round'
-                  strokeWidth='2'
-                  x1='2'
-                  x2='24'
-                  y1='1'
-                  y2='1'
+                height='32'
+                width='32'>
+                <Path
+                  d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                  strokeWidth={2}
+                  stroke="white"
+                  fill="none"
                 />
-                <Line
-                  fill='none'
-                  stroke={this.getHamburgerColor(item)}
-                  strokeLinecap='round'
-                  strokeWidth='2'
-                  x1='2'
-                  x2='24'
-                  y1='8'
-                  y2='8'
-                />
-                <Line
-                  fill='none'
-                  stroke={this.getHamburgerColor(item)}
-                  strokeLinecap='round'
-                  strokeWidth='2'
-                  x1='2'
-                  x2='24'
-                  y1='15'
-                  y2='15'
+                <Circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                  strokeWidth={2}
+                  stroke="white"
+                  fill="none"
                 />
               </Svg>
             </TouchableOpacity>
@@ -427,30 +410,60 @@ class TopBar extends React.Component {
               }
             </Animated.Text>
           </TouchableWithoutFeedback>
-          <Animated.View style={{
-            position: 'absolute',
-            right: 10,
-            marginTop: 0,
-            width: 28,
-            height: 38,
-            opacity: clampedAnimatedValue.interpolate({
-              inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-              outputRange: [0, 1]
-            })
-          }}>
+          <Animated.View
+            style={{
+              position: 'absolute',
+              zIndex: 5,
+              right: 19,
+              bottom: 7,
+              opacity: clampedAnimatedValue.interpolate({
+                inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+                outputRange: [0, 1]
+              })
+            }}
+          >
             <TouchableOpacity
               style={{
-                // borderRadius: 14,
-                // backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                width: 28,
+                height: 28,
+                borderRadius: 14
               }}
-              onPress={this.props.toggleViewButtons}
+              onPress={() => this.props.navigation.navigate('Feeds')}
             >
-              <Text style={{
-                fontFamily: 'IBMPlexMono-Bold',
-                color: 'white',
-                paddingLeft: 6,
-                paddingTop: 3
-              }}>A<Text style={{ color: 'rgba(0,0,0,0.8)', fontSize: 22 }}>Z</Text></Text>
+              <Svg
+                height='22'
+                width='28'>
+                <Line
+                  fill='none'
+                  stroke={this.getHamburgerColor(item)}
+                  strokeLinecap='round'
+                  strokeWidth='2'
+                  x1='2'
+                  x2='24'
+                  y1='1'
+                  y2='1'
+                />
+                <Line
+                  fill='none'
+                  stroke={this.getHamburgerColor(item)}
+                  strokeLinecap='round'
+                  strokeWidth='2'
+                  x1='2'
+                  x2='24'
+                  y1='8'
+                  y2='8'
+                />
+                <Line
+                  fill='none'
+                  stroke={this.getHamburgerColor(item)}
+                  strokeLinecap='round'
+                  strokeWidth='2'
+                  x1='2'
+                  x2='24'
+                  y1='15'
+                  y2='15'
+                />
+              </Svg>
             </TouchableOpacity>
           </Animated.View>
         </Animated.View>
@@ -493,11 +506,8 @@ class TopBar extends React.Component {
       feedName: {
         flex: 1,
         color: hslString('rizzleFG'),
-        fontSize: 16,
-        // fontFamily: 'AvenirNext-Regular',
+        fontSize: 18,
         fontFamily: 'IBMPlexMono',
-        // fontWeight: '700',
-        // fontVariant: ['small-caps'],
         textAlign: 'center',
         padding: 10
       },

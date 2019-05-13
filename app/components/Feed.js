@@ -194,23 +194,27 @@ class Feed extends React.PureComponent {
     }).start()
     Animated.spring(this.state.imageHeightAnim, {
       toValue: this.screenHeight / 2,
-      duration: 1000
+      duration: 1000,
+      useNative: true
     }).start()
     Animated.spring(this.state.detailsHeightAnim, {
-      toValue: this.screenHeight / 2,
-      duration: 1000
+      toValue: this.screenHeight / 2 + 15, // 15px extra to cover image rounded corners
+      duration: 1000,
+      useNative: true
     }).start()
     Animated.spring(this.state.widthAnim, {
       toValue: this.screenWidth,
-      duration: 1000
+      duration: 1000,
+      useNative: true
     }).start()
-    Animated.spring(this.state.borderRadiusAnim, {
-      toValue: 0,
-      duration: 1000
-    }).start()
+    // Animated.spring(this.state.borderRadiusAnim, {
+    //   toValue: 0,
+    //   duration: 1000
+    // }).start()
     Animated.spring(this.state.normalisedAnimatedValue, {
       toValue: 1,
-      duration: 1000
+      duration: 1000,
+      useNative: true
     }).start()
     this.props.disableScroll(true)
     this.state.isExpanded = true
@@ -548,7 +552,9 @@ class Feed extends React.PureComponent {
         { this.props.growMe &&
           <Animated.View style={{
             backgroundColor: '#F2ECD9',
+            // 15px to cover the round corners of the image
             height: this.state.detailsHeightAnim,
+            marginTop: -15,
             opacity: this.state.normalisedAnimatedValue,
             width: this.screenWidth
           }}>

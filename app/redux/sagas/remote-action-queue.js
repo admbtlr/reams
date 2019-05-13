@@ -36,10 +36,9 @@ function * executeOldestAction () {
 
 function * executeAction (action) {
   yield call(InteractionManager.runAfterInteractions)
-  console.log('Executing action: ' + action.type)
+  // console.log('Executing action: ' + action.type)
   switch (action.type) {
     case 'ITEM_MARK_READ':
-      console.log('Marking item read...')
       try {
         yield call (markItemRead, action.item)
 
@@ -51,8 +50,6 @@ function * executeAction (action) {
           readAt: Date.now()
         })
         // addReadItemFS(action.item)
-
-        console.log('Marking item read... done')
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action
@@ -76,7 +73,7 @@ function * executeAction (action) {
         const itemsToMarkRead = items.filter(item => (!action.id ||
           item.feed_id === action.id) &&
           item.created_at < olderThan)
-        yield call(addReadItemsFS, itemsToMarkRead)
+        // yield call(addReadItemsFS, itemsToMarkRead)
         yield call(deleteItemsAS, itemsToMarkRead)
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',

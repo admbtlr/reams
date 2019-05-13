@@ -1,3 +1,4 @@
+import { InteractionManager } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
 
 import { isInflated, deflateItem, inflateItem } from '../../utils/item-utils'

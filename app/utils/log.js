@@ -6,3 +6,9 @@ export default function log (functionName, err) {
   Sentry.captureMessage(`Error at ${functionName}: ${err}`)
   Sentry.captureException(err)
 }
+
+export function consoleLog(txt, showLogs = __DEV__) {
+  if (showLogs) {
+    consoleLog(txt)
+  }
+}

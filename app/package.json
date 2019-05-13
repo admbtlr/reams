@@ -71,13 +71,14 @@
     "yup": "^0.26.7"
   },
   "devDependencies": {
+    "@babel/core": "^7.3.4",
     "@babel/helper-remap-async-to-generator": "^7.1.0",
     "@babel/plugin-transform-async-to-generator": "^7.2.0",
-    "@babel/core": "^7.3.4",
     "@babel/runtime": "^7.3.4",
     "babel-jest": "^24.5.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-async-generator-functions": "^6.24.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "browser-sync": "^2.26.3",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",

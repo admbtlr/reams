@@ -70,7 +70,7 @@ class ListHeaderComponent extends React.Component {
             this.props.navigation.navigate('Items')
           }}
         />
-        <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Rizzle</Text> to manage your feeds.</Text>
+        <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.backend }</Text> to manage your feeds.</Text>
         <TextButton
           text="Use a different account"
           onPress={() => this.props.navigation.navigate('Account')} />
@@ -202,6 +202,7 @@ class FeedsScreen extends React.Component {
             marginRight: margin
           }}
           ListHeaderComponent={<ListHeaderComponent
+            backend={this.props.backend}
             clearFeedFilter={this.clearFeedFilter}
             navigation={this.props.navigation}
             numItems={this.props.numItems}

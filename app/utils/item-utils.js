@@ -3,6 +3,7 @@ const sanitizeHtml = require('sanitize-html')
 import {Dimensions} from 'react-native'
 import {createItemStyles, compressStyles, expandStyles} from './createItemStyles'
 import {getCachedImagePath} from './index'
+import log from './log'
 import LZString from 'lz-string'
 
 export function addStylesIfNecessary (item, index, items) {
@@ -22,6 +23,9 @@ export function addStylesIfNecessary (item, index, items) {
 }
 
 export function deflateItem (item) {
+  if (!item) {
+    log('Item is null?')
+  }
   const styles = item.styles
   // const compressed = LZString.compressToUTF16(JSON.stringify(compressStyles(item.styles)))
   return {

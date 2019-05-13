@@ -19,6 +19,19 @@ export const itemMarkRead = (action, state) => {
   }
 }
 
+export const itemsMarkRead = (action, state) => {
+  const items = state.items.map(item => {
+    if (action.items.find(ai => ai._id === item._id)) {
+      item.readAt = Date.now()
+    }
+    return item
+  })
+  return {
+    ...state,
+    items
+  }
+}
+
 export const itemSetScrollOffset = (action, state) => {
   let items = state.items.map(item => {
     if (item._id === action.item._id) {

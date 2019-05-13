@@ -26,8 +26,7 @@ class ItemCarousel extends React.Component {
     if (this.props.numItems > 0 || this.props.isOnboarding) {
       return (
         <SwipeableViews
-          overscanSlideAfter={BUFFER_LENGTH}
-          overscanSlideBefore={BUFFER_LENGTH}
+          virtualBuffer={BUFFER_LENGTH}
           slideRenderer={this.renderSlide.bind(this)}
           onChangeIndex={this.onChangeIndex.bind(this)}
           slideCount={this.props.isOnboarding ? 13 : this.props.numItems}
@@ -49,7 +48,9 @@ class ItemCarousel extends React.Component {
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
-  renderSlide ({key, index}) {
+  // cacheCoverImageComponent
+
+  renderSlide ({key, index, coverImageComponent}) {
     if (this.props.isOnboarding) {
       return <OnboardingContainer
         index={index}
@@ -59,7 +60,7 @@ class ItemCarousel extends React.Component {
     if (index >= 0 && index < this.props.numItems) {
       return <FeedItemContainer
         index={index}
-        key={index}
+        key={key}
       />
     }
   }

@@ -61,7 +61,7 @@ export const itemsSaved = (state = initialState, action) => {
     case 'ITEM_SAVE_ITEM':
       items = [ ...state.items ]
       savedItem = action.item
-      items.push({
+      items.unshift({
         ...savedItem,
         savedAt: savedItem.saveAt || Date.now(),
         isSaved: true
@@ -76,7 +76,7 @@ export const itemsSaved = (state = initialState, action) => {
       savedItem = nullValuesToEmptyStrings(action.item)
       savedItem = addStylesIfNecessary(savedItem)
       savedItem.isSaved = true
-      items.push({
+      items.unshift({
         ...savedItem,
         savedAt: Date.now(),
         isSaved: true
@@ -128,7 +128,7 @@ export const itemsSaved = (state = initialState, action) => {
       })
 
       // order by date
-      items.sort((a, b) => a.created_at - b.created_at)
+      items.sort((a, b) => b.savedAt - a.savedAt)
 
       return {
         ...state,

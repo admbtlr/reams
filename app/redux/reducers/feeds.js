@@ -122,37 +122,37 @@ export function feeds (state = initialState, action) {
         feeds
       }
 
-    case 'FEED_MARK_READ':
-      feeds = [ ...state.feeds ]
-      feed = feeds.find(feed => feed._id === action.item.feed_id)
-      const feedId = action.id
-      const currentItem = state.items[state.index]
-      items = [ ...state.items ].filter((item) => {
-        return item.feed_id !== feedId &&
-          item._id !== currentItem._id
-      })
-      let newIndex = 0
-      items.forEach((item, index) => {
-        if (item._id === currentItem._id) {
-          newIndex = index
-        }
-      })
-      if (newIndex == 0) {
-        // find the first unread item and start there
-        let i = 0
-        for (let item of items) {
-          if (!item.readAt) {
-            newIndex = i
-            break
-          }
-          i++
-        }
-      }
-      return {
-        ...state,
-        items,
-        index: newIndex
-      }
+    // case 'FEED_MARK_READ':
+    //   feeds = [ ...state.feeds ]
+    //   feed = feeds.find(feed => feed._id === action.item.feed_id)
+    //   const feedId = action.id
+    //   const currentItem = state.items[state.index]
+    //   items = [ ...state.items ].filter((item) => {
+    //     return item.feed_id !== feedId &&
+    //       item._id !== currentItem._id
+    //   })
+    //   let newIndex = 0
+    //   items.forEach((item, index) => {
+    //     if (item._id === currentItem._id) {
+    //       newIndex = index
+    //     }
+    //   })
+    //   if (newIndex == 0) {
+    //     // find the first unread item and start there
+    //     let i = 0
+    //     for (let item of items) {
+    //       if (!item.readAt) {
+    //         newIndex = i
+    //         break
+    //       }
+    //       i++
+    //     }
+    //   }
+    //   return {
+    //     ...state,
+    //     items,
+    //     index: newIndex
+    //   }
 
 
     default:

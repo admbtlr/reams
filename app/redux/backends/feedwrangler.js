@@ -90,14 +90,20 @@ async function fetchItemIds (createdSince, type) {
 
 async function getItemsByIds (itemIds, callback) {
   const chunkArray = (arr) => {
-    let i, j
-    let temparray = []
-    const chunk = 100
+    let chunkStart = 0, chunkEnd
+    let chunkedIds = []
+    const chunkSize = 100
     itemIds = itemIds || []
-    for (i = 0, j = itemIds.length; i < j; i += chunk) {
-      temparray.push(itemIds.slice(i, i + chunk))
+    while (chunkStart < itemIds.length) {
+      if (chunkStart + chunkSize < itemIds.length) {
+         chunkEnd = chunkStart + chunkSize
+      } else {
+        chunkEnd = itemIds.length
+      }
+      chunkedIds.push(itemIds.slice(chunkStart, chunkEnd))
+      chunkStart = chunkEnd
     }
-    return temparray
+    return chunkedIds
   }
   const chunkedItemsIds = chunkArray(itemIds)
   const promises = chunkedItemsIds.map(itemIdChunk => {
@@ -171,7 +177,7 @@ export const receiveUnreadItems = (response, createdSince, page) => {
 function getItemIds (createdSince, offset = 0, type = 'unread') {
   let url = 'https://feedwrangler.net/api/v2/feed_items/list_ids?'
   url += 'access_token=' + feedWranglerAccessToken
-  url += (createdSince && type === 'unread') ? ('&updated_since=' + createdSince) : ''
+  url += (createdSince && type === 'unread') ? ('&updated_since=' + (createdSince / 1000)) : ''
   url += '&offset=' + offset
   url += type === 'unread' ? '&read=false' : ''
   url += type === 'saved' ? '&starred=true' : ''

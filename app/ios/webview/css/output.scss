@@ -692,99 +692,117 @@ article > div:not(:last-of-type) {
 
   &.dropCapSize2 {
     &.bodyFontSerif1 {
-      @include dropCapFontSize(1.9rem);
-      @include dropCapMarginTop(0.42rem);
+      @include dropCapFontSize(1.825rem);
+      @include dropCapMarginTop(0.46rem);
     }
     &.bodyFontSerif2 {
-      @include dropCapFontSize(2.2rem);
-      @include dropCapMarginTop(0.3rem);
+      @include dropCapFontSize(2.05rem);
+      @include dropCapMarginTop(0.35rem);
     }
     &.bodyFontSerif3 {
-      @include dropCapFontSize(2.2rem);
-      @include dropCapMarginTop(0.3rem);
+      @include dropCapFontSize(1.95rem);
+      @include dropCapMarginTop(0.33rem);
     }
     &.bodyFontSans1 {
-      @include dropCapFontSize(2.21rem);
+      @include dropCapFontSize(1.95rem);
       @include dropCapMarginTop(0.35rem);
     }
     &.bodyFontSans2 {
-      @include dropCapFontSize(2.1rem);
+      @include dropCapFontSize(1.95rem);
       @include dropCapMarginTop(0.4rem);
     }
   }
 
   &.dropCapSize3 {
     &.bodyFontSerif1 {
-      @include dropCapFontSize(3.15rem);
+      @include dropCapFontSize(3.05rem);
       @include dropCapMarginTop(0.6rem);
     }
     &.bodyFontSerif2 {
-      @include dropCapFontSize(3.5rem);
+      @include dropCapFontSize(3.37rem);
       @include dropCapMarginTop(0.43rem);
     }
     &.bodyFontSerif3 {
-      @include dropCapFontSize(2.2rem);
-      @include dropCapMarginTop(0.3rem);
+      @include dropCapFontSize(3.36rem);
+      @include dropCapMarginTop(0.36rem);
     }
     &.bodyFontSans1 {
-      @include dropCapFontSize(3.52rem);
-      @include dropCapMarginTop(0.38rem);
+      @include dropCapFontSize(3.38rem);
+      @include dropCapMarginTop(0.37rem);
     }
     &.bodyFontSans2 {
-      @include dropCapFontSize(3.5rem);
-      @include dropCapMarginTop(0.55rem);
+      @include dropCapFontSize(3.35rem);
+      @include dropCapMarginTop(0.54rem);
     }
   }
 
   &.dropCapSize4 {
     &.bodyFontSerif1 {
-      @include dropCapFontSize(4.45rem);
-      @include dropCapMarginTop(0.8rem);
+      @include dropCapFontSize(4.3rem);
+      @include dropCapMarginTop(0.75rem);
     }
     &.bodyFontSerif2 {
-      @include dropCapFontSize(4.95rem);
-      @include dropCapMarginTop(0.5rem);
+      @include dropCapFontSize(4.78rem);
+      @include dropCapMarginTop(0.41rem);
     }
     &.bodyFontSerif3 {
-      @include dropCapFontSize(2.2rem);
-      @include dropCapMarginTop(0.3rem);
-    }
-    &.bodyFontSans1 {
-      @include dropCapFontSize(5rem);
+      @include dropCapFontSize(4.73rem);
       @include dropCapMarginTop(0.4rem);
     }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(4.73rem);
+      @include dropCapMarginTop(0.41rem);
+    }
     &.bodyFontSans2 {
-      @include dropCapFontSize(4.9rem);
-      @include dropCapMarginTop(0.67rem);
+      @include dropCapFontSize(4.65rem);
+      @include dropCapMarginTop(0.64rem);
     }
   }
 
   &.dropCapSize5 {
     &.bodyFontSerif1 {
-      @include dropCapFontSize(5.7rem);
-      @include dropCapMarginTop(0.95rem);
+      @include dropCapFontSize(5.6rem);
+      @include dropCapMarginTop(0.9rem);
     }
     &.bodyFontSerif2 {
-      @include dropCapFontSize(6.4rem);
-      @include dropCapMarginTop(0.55rem);
+      @include dropCapFontSize(6.18rem);
+      @include dropCapMarginTop(0.51rem);
     }
     &.bodyFontSerif3 {
-      @include dropCapFontSize(2.2rem);
-      @include dropCapMarginTop(0.3rem);
+      @include dropCapFontSize(6.13rem);
+      @include dropCapMarginTop(0.42rem);
     }
     &.bodyFontSans1 {
-      @include dropCapFontSize(6.4rem);
-      @include dropCapMarginTop(0.45rem);
+      @include dropCapFontSize(6.13rem);
+      @include dropCapMarginTop(0.44rem);
     }
     &.bodyFontSans2 {
-      @include dropCapFontSize(6.3rem);
-      @include dropCapMarginTop(0.8rem);
+      @include dropCapFontSize(6.1rem);
+      @include dropCapMarginTop(0.77rem);
     }
   }
 
   &.dropCapSize6 {
-    @include dropCapFontSize(7.1rem);
-    @include dropCapMarginTop(0.6rem);
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(6.75rem);
+      @include dropCapMarginTop(1.03rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(7.62rem);
+      @include dropCapMarginTop(0.55rem);
+    }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(7.5rem);
+      @include dropCapMarginTop(0.45rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(7.5rem);
+      @include dropCapMarginTop(0.475rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(7.45rem);
+      @include dropCapMarginTop(0.92rem);
+    }
   }
 
   &.dropCapSize7 {
@@ -923,7 +941,7 @@ article > div:not(:last-of-type) {
       a, a:active, a:visited {
         // color: $value;
         // text-decoration: none;
-        text-decoration-color: $value;
+        -webkit-text-decoration-color: $value;
       }
 
       blockquote.short-blockquote, .pullquote {

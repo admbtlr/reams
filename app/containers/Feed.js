@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch) => {
       type: 'FEED_MARK_READ',
       id,
       originalId,
-      olderThan: olderThan || Math.floor(Date.now() / 1000)
+      olderThan: olderThan || Date.now()
     }),
     clearReadItems: () => dispatch({
       type: 'ITEMS_CLEAR_READ'
