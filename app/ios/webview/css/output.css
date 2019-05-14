@@ -227,7 +227,7 @@ body {
     margin-bottom: 0; }
   .itemArticle iframe:not(.twitter-tweet), .itemArticle video {
     height: 55vw !important; }
-  .itemArticle blockquote, .itemArticle .pullquote {
+  .itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
     margin: 0 0 1rem;
     font-style: italic;
     font-size: 0.55rem;
@@ -238,12 +238,10 @@ body {
     padding: 1rem 0.5rem;
     display: block;
     position: relative;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     -webkit-hyphens: none; }
-    .itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type {
+    .itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type, .itemArticle aside > p:last-of-type {
       margin-bottom: 0; }
-  .itemArticle blockquote.short-blockquote, .itemArticle .pullquote {
+  .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
     color: white;
     background-color: transparent;
     border: none;
@@ -255,7 +253,7 @@ body {
     border-top: 5px solid;
     border-bottom: 1px solid; }
     @media (min-width: 600px) {
-      .itemArticle blockquote.short-blockquote, .itemArticle .pullquote {
+      .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
         margin: 3rem calc(50% - 50vw); } }
   .itemArticle figure cite {
     display: none; }
@@ -742,7 +740,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.red1 a, .itemArticle.red1 a:active, .itemArticle.red1 a:visited {
   -webkit-text-decoration-color: #aa5a82; }
 
-.itemArticle.red1 blockquote.short-blockquote, .itemArticle.red1 .pullquote {
+.itemArticle.red1 blockquote.short-blockquote, .itemArticle.red1 .pullquote, .itemArticle.red1 aside {
   color: #aa5a82; }
 
 .itemArticle.red1 *:not(:first-of-type) div:before,
@@ -769,7 +767,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.red2 a, .itemArticle.red2 a:active, .itemArticle.red2 a:visited {
   -webkit-text-decoration-color: #aa5a5a; }
 
-.itemArticle.red2 blockquote.short-blockquote, .itemArticle.red2 .pullquote {
+.itemArticle.red2 blockquote.short-blockquote, .itemArticle.red2 .pullquote, .itemArticle.red2 aside {
   color: #aa5a5a; }
 
 .itemArticle.red2 *:not(:first-of-type) div:before,
@@ -796,7 +794,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.red3 a, .itemArticle.red3 a:active, .itemArticle.red3 a:visited {
   -webkit-text-decoration-color: #aa6e5a; }
 
-.itemArticle.red3 blockquote.short-blockquote, .itemArticle.red3 .pullquote {
+.itemArticle.red3 blockquote.short-blockquote, .itemArticle.red3 .pullquote, .itemArticle.red3 aside {
   color: #aa6e5a; }
 
 .itemArticle.red3 *:not(:first-of-type) div:before,
@@ -823,7 +821,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.orange1 a, .itemArticle.orange1 a:active, .itemArticle.orange1 a:visited {
   -webkit-text-decoration-color: #aa825a; }
 
-.itemArticle.orange1 blockquote.short-blockquote, .itemArticle.orange1 .pullquote {
+.itemArticle.orange1 blockquote.short-blockquote, .itemArticle.orange1 .pullquote, .itemArticle.orange1 aside {
   color: #aa825a; }
 
 .itemArticle.orange1 *:not(:first-of-type) div:before,
@@ -850,7 +848,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.orange2 a, .itemArticle.orange2 a:active, .itemArticle.orange2 a:visited {
   -webkit-text-decoration-color: #aa965a; }
 
-.itemArticle.orange2 blockquote.short-blockquote, .itemArticle.orange2 .pullquote {
+.itemArticle.orange2 blockquote.short-blockquote, .itemArticle.orange2 .pullquote, .itemArticle.orange2 aside {
   color: #aa965a; }
 
 .itemArticle.orange2 *:not(:first-of-type) div:before,
@@ -877,7 +875,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.yellow1 a, .itemArticle.yellow1 a:active, .itemArticle.yellow1 a:visited {
   -webkit-text-decoration-color: #aaaa5a; }
 
-.itemArticle.yellow1 blockquote.short-blockquote, .itemArticle.yellow1 .pullquote {
+.itemArticle.yellow1 blockquote.short-blockquote, .itemArticle.yellow1 .pullquote, .itemArticle.yellow1 aside {
   color: #aaaa5a; }
 
 .itemArticle.yellow1 *:not(:first-of-type) div:before,
@@ -904,7 +902,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.yellow2 a, .itemArticle.yellow2 a:active, .itemArticle.yellow2 a:visited {
   -webkit-text-decoration-color: #96aa5a; }
 
-.itemArticle.yellow2 blockquote.short-blockquote, .itemArticle.yellow2 .pullquote {
+.itemArticle.yellow2 blockquote.short-blockquote, .itemArticle.yellow2 .pullquote, .itemArticle.yellow2 aside {
   color: #96aa5a; }
 
 .itemArticle.yellow2 *:not(:first-of-type) div:before,
@@ -931,7 +929,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.green1 a, .itemArticle.green1 a:active, .itemArticle.green1 a:visited {
   -webkit-text-decoration-color: #82aa5a; }
 
-.itemArticle.green1 blockquote.short-blockquote, .itemArticle.green1 .pullquote {
+.itemArticle.green1 blockquote.short-blockquote, .itemArticle.green1 .pullquote, .itemArticle.green1 aside {
   color: #82aa5a; }
 
 .itemArticle.green1 *:not(:first-of-type) div:before,
@@ -958,7 +956,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.green2 a, .itemArticle.green2 a:active, .itemArticle.green2 a:visited {
   -webkit-text-decoration-color: #5aaa5a; }
 
-.itemArticle.green2 blockquote.short-blockquote, .itemArticle.green2 .pullquote {
+.itemArticle.green2 blockquote.short-blockquote, .itemArticle.green2 .pullquote, .itemArticle.green2 aside {
   color: #5aaa5a; }
 
 .itemArticle.green2 *:not(:first-of-type) div:before,
@@ -985,7 +983,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.green3 a, .itemArticle.green3 a:active, .itemArticle.green3 a:visited {
   -webkit-text-decoration-color: #5aaa82; }
 
-.itemArticle.green3 blockquote.short-blockquote, .itemArticle.green3 .pullquote {
+.itemArticle.green3 blockquote.short-blockquote, .itemArticle.green3 .pullquote, .itemArticle.green3 aside {
   color: #5aaa82; }
 
 .itemArticle.green3 *:not(:first-of-type) div:before,
@@ -1012,7 +1010,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.cyan a, .itemArticle.cyan a:active, .itemArticle.cyan a:visited {
   -webkit-text-decoration-color: #5aaaaa; }
 
-.itemArticle.cyan blockquote.short-blockquote, .itemArticle.cyan .pullquote {
+.itemArticle.cyan blockquote.short-blockquote, .itemArticle.cyan .pullquote, .itemArticle.cyan aside {
   color: #5aaaaa; }
 
 .itemArticle.cyan *:not(:first-of-type) div:before,
@@ -1039,7 +1037,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.blue1 a, .itemArticle.blue1 a:active, .itemArticle.blue1 a:visited {
   -webkit-text-decoration-color: #5a82aa; }
 
-.itemArticle.blue1 blockquote.short-blockquote, .itemArticle.blue1 .pullquote {
+.itemArticle.blue1 blockquote.short-blockquote, .itemArticle.blue1 .pullquote, .itemArticle.blue1 aside {
   color: #5a82aa; }
 
 .itemArticle.blue1 *:not(:first-of-type) div:before,
@@ -1066,7 +1064,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.blue2 a, .itemArticle.blue2 a:active, .itemArticle.blue2 a:visited {
   -webkit-text-decoration-color: #5a5aaa; }
 
-.itemArticle.blue2 blockquote.short-blockquote, .itemArticle.blue2 .pullquote {
+.itemArticle.blue2 blockquote.short-blockquote, .itemArticle.blue2 .pullquote, .itemArticle.blue2 aside {
   color: #5a5aaa; }
 
 .itemArticle.blue2 *:not(:first-of-type) div:before,
@@ -1093,7 +1091,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.purple1 a, .itemArticle.purple1 a:active, .itemArticle.purple1 a:visited {
   -webkit-text-decoration-color: #825aaa; }
 
-.itemArticle.purple1 blockquote.short-blockquote, .itemArticle.purple1 .pullquote {
+.itemArticle.purple1 blockquote.short-blockquote, .itemArticle.purple1 .pullquote, .itemArticle.purple1 aside {
   color: #825aaa; }
 
 .itemArticle.purple1 *:not(:first-of-type) div:before,
@@ -1120,7 +1118,7 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.purple2 a, .itemArticle.purple2 a:active, .itemArticle.purple2 a:visited {
   -webkit-text-decoration-color: #aa5aaa; }
 
-.itemArticle.purple2 blockquote.short-blockquote, .itemArticle.purple2 .pullquote {
+.itemArticle.purple2 blockquote.short-blockquote, .itemArticle.purple2 .pullquote, .itemArticle.purple2 aside {
   color: #aa5aaa; }
 
 .itemArticle.purple2 *:not(:first-of-type) div:before,

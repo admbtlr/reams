@@ -258,7 +258,7 @@ body {
     height: 55vw !important;
   }
 
-  blockquote, .pullquote {
+  blockquote, .pullquote, aside {
     margin: 0 0 1rem;
     font-style: italic;
     font-size: 0.55rem;
@@ -269,8 +269,6 @@ body {
     padding: 1rem 0.5rem;
     display: block;
     position: relative;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     -webkit-hyphens: none;
 
     & > p:last-of-type {
@@ -278,7 +276,7 @@ body {
     }
   }
 
-  blockquote.short-blockquote, .pullquote {
+  blockquote.short-blockquote, .pullquote, aside {
     color: white;
     background-color: transparent;
     border: none;
@@ -776,7 +774,7 @@ article > div:not(:last-of-type) {
         -webkit-text-decoration-color: $value;
       }
 
-      blockquote.short-blockquote, .pullquote {
+      blockquote.short-blockquote, .pullquote, aside {
         color: $value;
       }
 

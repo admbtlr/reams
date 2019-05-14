@@ -569,7 +569,7 @@ class ItemTitle extends React.Component {
         // 'white' :
         (this.props.isDarkBackground ? hslString('bodyBGDark') : hslString('bodyBGLight')) :
         overlayColour,
-      opacity: (coverImageStyles.isInline || !showCoverImage) ? 1 : 1//opacity
+      opacity: (coverImageStyles.isInline || !showCoverImage) ? 1 : opacity
     }
     let textStyle = {
       ...fontStyle,

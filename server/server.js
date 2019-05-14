@@ -23,7 +23,7 @@ app.get('/mercury/', (req, res) => {
 })
 
 app.get('/feed/', (req, res) => {
-  const feedUrl = req.query.url || 'https://www.theguardian.com/world/rss'
+  const feedUrl = req.query.url || 'https://www.vox.com/recode'
   const lastUpdated = req.query.lastUpdated || 0
   const parseDate = (date) => typeof date !== 'number'
     ? Date.parse(date)
@@ -151,7 +151,7 @@ function fetch (feed, done) {
   })
 
   feedparser.on('error', (error) => {
-    console.log("That's an error...")
+    console.log(`That's an error... (${finalUrl})`)
     console.log(error)
     // done([])
   })
