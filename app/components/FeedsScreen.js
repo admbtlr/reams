@@ -45,13 +45,15 @@ class ListHeaderComponent extends React.Component {
   }
 
   render = () => {
-    const margin = Dimensions.get('window').width * 0.05
+    const screenWidth = Dimensions.get('window').width
+    const margin = screenWidth * 0.05
+    const buttonWidth = (screenWidth - margin * 3) / 2
     const textStyles = {
       fontFamily: 'IBMPlexSans',
-      fontSize: 20,
-      lineHeight: 32,
-      marginTop: margin,
-      marginBottom: margin,
+      fontSize: 18,
+      lineHeight: 27,
+      marginTop: margin / 2 ,
+      marginBottom: margin / 2,
       padding: 8,
       textAlign: 'left',
       color: hslString('rizzleText')
@@ -70,14 +72,26 @@ class ListHeaderComponent extends React.Component {
             this.props.navigation.navigate('Items')
           }}
         />
-        <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.backend }</Text> to manage your feeds.</Text>
+        <Text style={{
+          ...textStyles,
+          marginBottom: 0
+        }}>You are using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.backend }</Text> to manage your feeds.</Text>
         <TextButton
-          text="Use a different account"
-          onPress={() => this.props.navigation.navigate('Account')} />
-        <Text style={textStyles}>You have subscribed to <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numFeeds } feeds</Text> and have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
+          isCompact={true}
+          isInverted={true}
+          text="Change account"
+          onPress={() => this.props.navigation.navigate('Account')}
+          buttonStyle={{
+            alignSelf: 'flex-end',
+            marginBottom: margin / 2,
+            width: buttonWidth
+          }}
+        />
+        <Heading />
+        <Text style={textStyles}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
         <View style={{
           flexDirection: 'row',
-          marginBottom: margin,
+          marginBottom: margin / 2,
           marginRight: 0 - margin
         }}>
           <TextButton
@@ -85,19 +99,21 @@ class ListHeaderComponent extends React.Component {
               marginRight: margin
             }}
             fgColor='#993030'
+            isCompact={true}
             onPress={() => {
               this.props.markAllRead()
             }}
-            text="Mark all read" />
+            text="Clear all items" />
           <TextButton
             buttonStyle={{
               marginRight: margin
             }}
             fgColor='#993030'
+            isCompact={true}
             onPress={() => {
               this.showMarkOldReadModal(this)
             }}
-            text="Mark old read" />
+            text="Clear old items" />
         </View>
         <TextButton text="Start reading" />
         <View style={{ height: margin*2 }} />
@@ -168,6 +184,7 @@ class FeedsScreen extends React.Component {
             ...this.state,
             showExpandingFeed: false,
             prevSelectedFeedElement: null,
+            prevSelectedFeedElementXCoord: null,
             prevSelectedFeedElementYCoord: null
           })
         }
@@ -210,6 +227,7 @@ class FeedsScreen extends React.Component {
             markAllRead={this.props.markAllRead}
             showModal={this.props.showModal}
           />}
+          numColumns={width > 500 ? 2 : 1}
           renderItem={this.renderFeed}
           scrollEnabled={this.state.scrollEnabled}
         />
@@ -221,9 +239,10 @@ class FeedsScreen extends React.Component {
             extraStyle={{
               position: 'absolute',
               top: this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord,
-              left: margin
+              left: this.state.selectedFeedElementXCoord || this.state.prevSelectedFeedElementXCoord
             }}
             growMe={this.state.selectedFeedElement !== null}
+            xCoord={this.state.selectedFeedElementXCoord || this.state.prevSelectedFeedElementXCoord}
             yCoord={this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord}
           />
         }
@@ -240,20 +259,25 @@ class FeedsScreen extends React.Component {
     }
   }
 
-  selectFeed = (feed, yCoord) => {
+  selectFeed = (feed) => {
     if (this.state.selectedFeedElement !== feed) {
       const prevSelectedFeedElement = feed === null ?
         this.state.selectedFeedElement :
         null
-      const prevSelectedFeedElementYCoord = yCoord === null ?
+      const prevSelectedFeedElementXCoord = (feed === null || feed.currentX === null) ?
+        this.state.selectedFeedElementXCoord :
+        null
+      const prevSelectedFeedElementYCoord = (feed === null || feed.currentY === null) ?
         this.state.selectedFeedElementYCoord :
         null
       let nextState = {
         ...this.state,
         selectedFeedElement: feed,
-        selectedFeedElementYCoord: yCoord,
+        selectedFeedElementXCoord: feed && feed.currentX,
+        selectedFeedElementYCoord: feed && feed.currentY,
         scrollEnabled: feed === null,
         prevSelectedFeedElement,
+        prevSelectedFeedElementXCoord,
         prevSelectedFeedElementYCoord
       }
       if (feed !== null || this.state.selectedFeedElement !== null) {
@@ -263,7 +287,7 @@ class FeedsScreen extends React.Component {
     }
   }
 
-  renderFeed = ({item}) => {
+  renderFeed = ({item, index}) => {
     const isSelected = this.state.selectedFeedElement !== null &&
       this.state.selectedFeedElement.props.feedId === item._id
     return item && <Feed
@@ -274,6 +298,7 @@ class FeedsScreen extends React.Component {
       feedOriginalId={item.id}
       feedNumRead={item.number_read}
       feedReadingTime={item.reading_time}
+      index={index}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
       selectFeed={this.selectFeed}

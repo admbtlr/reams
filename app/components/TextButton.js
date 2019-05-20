@@ -29,23 +29,23 @@ class TextButton extends React.Component {
   }
 
   render () {
-    const { isExpandable, isInverted, onPress, text } = this.props
+    const { isExpandable, isInverted, isCompact, onPress, text } = this.props
     const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || 'white'
     let buttonStyle = {
       borderColor: fgColor,
-      backgroundColor: bgColor,
+      backgroundColor: isInverted ? fgColor : bgColor,
       borderWidth: 1,
-      borderRadius: 21,
-      paddingTop: 14,
-      paddingBottom: 8,
+      borderRadius: isCompact ? 16 : 21,
+      paddingTop: isCompact ? 9 : 14,
+      paddingBottom: isCompact ? 3 : 8,
       // flex: 1,
-      height: 42,
+      height: isCompact ? 32 : 42,
       maxHeight: 42,
       ...this.props.buttonStyle
     }
     const textStyle = {
-      fontFamily: 'IBMPlexMono',
+      fontFamily: 'IBMPlexSans-Bold',
       fontSize: 16,
       lineHeight: 16,
       textAlign: 'center',

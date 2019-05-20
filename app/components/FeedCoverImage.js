@@ -7,6 +7,7 @@ import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightn
 import ColorBlending from 'gl-react-color-blending'
 import { blendColor } from '../utils/colors'
 import {getCachedImagePath} from '../utils/'
+import log from '../utils/log'
 
 class FeedCoverImage extends React.Component {
 
@@ -25,7 +26,7 @@ class FeedCoverImage extends React.Component {
   //   this.captureImage()
   // }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate (nextProps, nextState) {
     return nextProps.cachedCoverImageId !== this.props.cachedCoverImageId ||
       nextProps.coverImageId !== this.props.coverImageId ||
       nextProps.width !== this.props.width
@@ -54,6 +55,9 @@ class FeedCoverImage extends React.Component {
         .then(newImageUri => {
           that.props.setCachedCoverImage(feedId, coverImageId)
         })
+        .catch(err => {
+          log(err)
+        })
     }
   }
 
@@ -67,8 +71,8 @@ class FeedCoverImage extends React.Component {
       height
     } = this.props
 
-    if (cachedCoverImageId && coverImageId
-      && coverImageId === cachedCoverImageId) {
+    if (cachedCoverImageId && coverImageId &&
+      coverImageId === cachedCoverImageId) {
       const cachedCoverImagePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
       const opacityAnim = new Animated.Value(0)
       Animated.timing(opacityAnim, {
@@ -97,7 +101,7 @@ class FeedCoverImage extends React.Component {
       <Surface
         width={width}
         height={height}
-        backgroundColor="#000"
+        backgroundColor='#000'
         backgroundColor='#000'
         key='456'
         preload={true}

@@ -65,7 +65,6 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "sanitize-html": "^1.20.0",
-    "sinon": "^7.3.2",
     "split-on-first": "^1.0.0",
     "webpack": "^2.4.1",
     "yup": "^0.26.7"

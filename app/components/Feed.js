@@ -35,13 +35,19 @@ class Feed extends React.PureComponent {
     const dim = Dimensions.get('window')
     this.screenWidth = dim.width
     this.margin = this.screenWidth * 0.05
-    this.cardWidth = this.screenWidth - this.margin * 2
+    this.cardWidth = this.screenWidth < 500 ?
+      this.screenWidth - this.margin * 2 :
+      (this.screenWidth - this.margin * 3) / 2
     this.screenHeight = dim.height
+
+    this.cardHeight = this.screenWidth < 500 ?
+      this.cardWidth / 2 :
+      this.cardWidth
 
     this.state = {
       translateXAnim: new Animated.Value(0),
       translateYAnim: new Animated.Value(0),
-      imageHeightAnim: new Animated.Value(this.cardWidth / 2),
+      imageHeightAnim: new Animated.Value(this.cardHeight),
       detailsHeightAnim: new Animated.Value(0),
       widthAnim: new Animated.Value(this.cardWidth),
       transformXAnim: new Animated.Value(0),
@@ -54,6 +60,7 @@ class Feed extends React.PureComponent {
     }
     this.mode = 'list' // list || screen
 
+    this.currentX = this.props.xCoord || 0
     this.currentY = this.props.yCoord || 0
 
     this.panResponder = this.createPanResponder(this.props.growMe)
@@ -136,6 +143,7 @@ class Feed extends React.PureComponent {
   onPress = (e) => {
     console.log('Pressed')
     this.touchDownYCoord = e.nativeEvent.pageY
+    this.touchDownXCoord = e.nativeEvent.pageX
     if (!this.props.isSelected && !this.state.isExpanded) {
       this.scaleDown()
     }
@@ -156,9 +164,11 @@ class Feed extends React.PureComponent {
   measured = (x, y, width, height, px, py) => {
     // at the moment when it's measured, the feed is scaled by 0.95
     const ratio = this.cardWidth / width
+    const widthDiff = width * ratio - width
     const heightDiff = height * ratio - height
+    this.currentX = px - widthDiff / 2
     this.currentY = py - heightDiff / 2
-    this.props.selectFeed(this, py - heightDiff / 2)
+    this.props.selectFeed(this, this.currentX, this.currentY)
     this.setState({
       ...this.state,
       isSelected: true
@@ -178,7 +188,7 @@ class Feed extends React.PureComponent {
 
   grow = () => {
     Animated.spring(this.state.translateXAnim, {
-      toValue: 0 - this.margin,
+      toValue: 0 - this.currentX,
       duration: 1000,
       useNative: true
     }).start()
@@ -231,7 +241,7 @@ class Feed extends React.PureComponent {
       duration: 300
     }).start()
     Animated.spring(this.state.imageHeightAnim, {
-      toValue: this.cardWidth / 2,
+      toValue: this.cardHeight,
       duration: 1000
     }).start()
     Animated.spring(this.state.detailsHeightAnim, {
@@ -291,6 +301,7 @@ class Feed extends React.PureComponent {
     }
     if (this.props.growMe && !prevProps.growMe) {
       if (this.props.yCoord !== this.currentY) {
+        this.currentX = this.props.xCoord
         this.currentY = this.props.yCoord
       }
       StatusBar.setHidden(true, 'slide')
@@ -407,8 +418,12 @@ class Feed extends React.PureComponent {
       <Animated.View
         style={{
             flex: 1,
-            height: this.cardWidth * 0.5,
+            height: this.cardHeight,
+            width: this.cardWidth,
             marginBottom: this.margin,
+            marginRight: (this.props.index % 2 === 0 && this.screenWidth > 500) ?
+              this.margin :
+              0,
             overflow: 'visible',
             transform: [
               { translateY: this.state.translateYAnim },
