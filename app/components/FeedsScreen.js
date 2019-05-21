@@ -15,6 +15,7 @@ import Feed from '../containers/Feed'
 import TextButton from './TextButton'
 import Heading from './Heading'
 import XButton from './XButton'
+import ItemsDirectionRadios from './ItemsDirectionRadios'
 import { hslString } from '../utils/colors'
 
 class ListHeaderComponent extends React.Component {
@@ -88,7 +89,11 @@ class ListHeaderComponent extends React.Component {
           }}
         />
         <Heading />
-        <Text style={textStyles}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
+        <Text style={{
+          ...textStyles,
+          marginTop: 0,
+          paddingTop: 0
+        }}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
         <View style={{
           flexDirection: 'row',
           marginBottom: margin / 2,
@@ -115,8 +120,9 @@ class ListHeaderComponent extends React.Component {
             }}
             text="Clear old items" />
         </View>
-        <TextButton text="Start reading" />
-        <View style={{ height: margin*2 }} />
+        <ItemsDirectionRadios
+          onChange={this.onChangeDirection}
+        />
         <Heading title='' />
         <View style={{ height: margin*2 }} />
         <TextButton text="Add a new feed" />

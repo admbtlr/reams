@@ -545,7 +545,7 @@ class Feed extends React.PureComponent {
               flex: 4,
               flexWrap: 'wrap',
               fontFamily: 'IBMPlexSansCond-Bold',
-              fontSize: 20
+              fontSize: 24
             }}>{feedTitle}</Text>
             <FeedUnreadCounter
               numberUnread={numUnread}

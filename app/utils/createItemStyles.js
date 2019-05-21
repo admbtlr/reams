@@ -120,15 +120,17 @@ export function createItemStyles (item, prevStyles) {
   title.excerptFullWidth = isCoverInline || Math.random() > 0.5
   title.excerptHorizontalAlign = ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
 
+  const dropCapSize = Math.floor(Math.random() * 5) + 2
+
   return {
     fontClasses: fonts,
     border: hasBorder(),
     hasColorBlockquoteBG: Math.random() > 0.5,
     dropCapFamily: Math.random() > 0.5 ? 'body' : 'header',
-    dropCapIsMonochrome: Math.random() > 0.7,
+    dropCapIsMonochrome: Math.random() > 0.8,
     dropCapSize: Math.floor(Math.random() * 5) + 2,
-    dropCapIsDrop: Math.random() > 0.3,
-    dropCapIsBold: Math.random() > 0.8,
+    dropCapIsDrop: dropCapSize > 3 || Math.random() > 0.5,
+    dropCapIsBold: dropCapSize < 4 && Math.random() > 0.5,
     dropCapIsStroke: Math.random() > 0.5,
     color,
     isMainColorDarker,
