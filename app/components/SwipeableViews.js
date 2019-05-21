@@ -1,7 +1,4 @@
-// @flow weak
-
-import React, { Component, Children } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, Children } from 'react'
 import {
   Animated,
   Dimensions,
@@ -10,7 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
-} from 'react-native';
+} from 'react-native'
 import { constant, checkIndexBounds, getDisplaySameSlide } from 'react-swipeable-views-core';
 import { panHandler } from '../utils/animationHandlers'
 import { getItemId } from '../utils/get-item'
@@ -72,11 +69,13 @@ class SwipeableViews extends Component {
     if (indexDelta !== 0) {
       const indexOld = this.state.index
       const indexNew = indexOld + indexDelta
-      this.setState({
-        index: indexNew,
-        indexVirtual: this.calculateIndexVirtual(indexNew)
-      })
       this.props.onChangeIndex(indexNew, indexOld)
+      setTimeout(() => {
+        this.setState({
+          index: indexNew,
+          indexVirtual: this.calculateIndexVirtual(indexNew)
+        })
+      }, 500)
     }
   }
 
