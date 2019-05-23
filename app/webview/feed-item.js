@@ -45,22 +45,33 @@ function removeArticles () {
   }
 }
 
-function removeSoloSurroundingDiv () {
-  const nodeList = document.querySelectorAll('article > *')
-  if (nodeList.length === 1 && nodeList[0].tagName === 'DIV') {
-    const div = nodeList[0]
-    const children = div.childNodes
-    const article = document.querySelector('article')
-    let toRemove = []
-    for (var i = 0; i < children.length; i++) {
-      article.insertBefore(children[i].cloneNode(true), div)
-      toRemove.push(children[i])
-    }
-
-    for (var i = toRemove.length - 1; i >= 0; i--) {
-      toRemove[i].remove()
-    }
+function removeSoloSurroundingDivs () {
+  const article = document.querySelectorAll('article')[0]
+  let children = getChildrenRemoveBlankTextNodes(article)
+  while (children.length === 1 && children[0].tagName === 'DIV') {
+    children = getChildrenRemoveBlankTextNodes(children[0])
   }
+  article.childNodes.forEach(node => {
+    article.removeChild(node)
+  })
+  children.forEach(child => {
+    article.appendChild(child)
+  })
+  // const nodeList = document.querySelectorAll('article > *')
+  // if (nodeList.length === 1 && nodeList[0].tagName === 'DIV') {
+  //   const div = nodeList[0]
+  //   const childs = div.childNodes
+  //   const article = document.querySelector('article')
+  //   let toRemove = []
+  //   for (var i = 0; i < childs.length; i++) {
+  //     article.insertBefore(children[i].cloneNode(true), div)
+  //     toRemove.push(children[i])
+  //   }
+
+  //   for (var i = toRemove.length - 1; i >= 0; i--) {
+  //     toRemove[i].remove()
+  //   }
+  // }
 }
 
 function removeDivsWithOrphanFigures () {
@@ -280,6 +291,49 @@ function markPullQuotes() {
   })
 }
 
+function createFigCaptions () {
+  var article = document.getElementsByTagName('article')[0]
+  var nodes = article.childNodes
+  var indexes = []
+  nodes.forEach((node, index) => {
+    if (index !== 0 && node.nodeType === 3 && node.nodeValue.trim().length !== 0) {
+      indexes.push(index)
+    }
+  })
+
+  indexes.forEach(index => {
+    var node = nodes[index]
+    var previous = nodes[index - 1]
+    if (onlyContentIsImg(previous)) {
+      var figure = document.createElement('figure')
+      var figCaption = document.createElement('figcaption')
+      figure.appendChild(previous.cloneNode(true))
+      figure.appendChild(figCaption)
+      figCaption.appendChild(node.cloneNode(true))
+      article.replaceChild(figure, node)
+      article.replaceChild(document.createTextNode(' '), previous)
+    }
+  })
+}
+
+function onlyContentIsImg (node) {
+  var children = getChildrenRemoveBlankTextNodes(node)
+  if (children.length !== 1) {
+    return false
+  } else if (children[0].nodeType !== 1) {
+    return false
+  } else if (children[0].tagName === 'IMG') {
+    return true
+  } else {
+    return onlyContentIsImg(children[0])
+  }
+}
+
+function getChildrenRemoveBlankTextNodes (node) {
+  return Array.from(node.childNodes)
+    .filter(node => node.nodeType !== 3 || node.nodeValue.trim().length > 0)
+}
+
 function removeAllBrs() {
   var brs = document.getElementsByTagName('br')
   let toRemove = []
@@ -364,7 +418,6 @@ for (var i = 0; i < 5; i++) {
   removeDivsInDivs()
 }
 removeArticles()
-removeSoloSurroundingDiv()
 removeEmptyParagraphs()
 removeEmptyDivs()
 removeDivsWithOrphanFigures()
@@ -379,6 +432,8 @@ removeAllBrs()
 remove1pxImages()
 removeNYTImageText()
 removeNodes('time')
+removeSoloSurroundingDivs()
+createFigCaptions()
 // removeWidows()
 
 window.onload = function() {

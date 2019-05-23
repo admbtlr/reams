@@ -121,7 +121,11 @@ export function addMercuryStuffToItem (item, mercury) {
     excerpt: mercury.excerpt,
     hasLoadedMercuryStuff: true
   }
-  if (!isExcerptUseful(decoratedItem)) {
+  if (isExcerptFirstPara(decoratedItem)) {
+    let paras = decoratedItem.content_html.split('</p>')
+    paras.shift()
+    decoratedItem.content_html = paras.join('</p>')
+  } else if (!isExcerptUseful(decoratedItem)) {
     decoratedItem.excerpt = undefined
   } else if (isExcerptExtract(decoratedItem)) {
     if (!decoratedItem.content_mercury ||
@@ -140,6 +144,12 @@ export function isExcerptUseful (item) {
   return item.excerpt && item.excerpt.length < 200
 }
 
+export function isExcerptFirstPara (item) {
+  if (!item.content_html) return
+  let firstPara = item.content_html.split('</p>')[0].replace('<p>', '')
+  return firstPara && strip(firstPara) === item.excerpt
+}
+
 export function isExcerptExtract (item, isMercury = false) {
   if (!item.content_html) return false
   const excerptWithoutEllipsis = item.excerpt.substring(0, item.excerpt.length - 4)
@@ -154,6 +164,7 @@ export function strip(content) {
     .replace(/&ldquo;/g, '"')
     .replace(/&rdquo;/g, '"')
     .replace(/&apos;/g, "'")
+    .replace(/\n+/g, ' ')
     .trim()
 }
 

@@ -453,8 +453,6 @@ body {
     font-style: normal;
     padding: 1rem .5rem;
     margin: 1rem 0;
-    border-top: 5px solid;
-    border-bottom: 1px solid;
 
     @media (min-width: 600px) {
       margin: 3rem calc(50% - 50vw);
@@ -577,9 +575,11 @@ body {
       width: 0.4rem;
       display: inline-block;
       content: "";
+      float: left;
       height: .15rem;
       margin-right: .2rem;
       margin-bottom: .1rem;
+      margin-top: .4rem;
     }
   }
 
