@@ -302,7 +302,7 @@ class TopBar extends React.Component {
                 width='32'>
                 <Path
                   d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-                  strokeWidth={2}
+                  strokeWidth={1}
                   stroke="white"
                   fill="none"
                 />
@@ -310,7 +310,7 @@ class TopBar extends React.Component {
                   cx="12"
                   cy="12"
                   r="3"
-                  strokeWidth={2}
+                  strokeWidth={1}
                   stroke="white"
                   fill="none"
                 />
@@ -382,13 +382,13 @@ class TopBar extends React.Component {
               ellipsizeMode='tail'
               style={{
                 ...this.getStyles().feedName,
-                fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
+                fontFamily: isMessage ? 'IBMPlexSansCond-ExtraLightItalic' : 'IBMPlexSansCond-Bold',
                 // opacity: getAnimatedValueNormalised(),
                 height: 36,
                 width: Dimensions.get('window').width - 72,
                 marginLeft: 36,
                 marginRight: 36,
-                // marginLeft: 35,
+                paddingBottom: 15,
                 transform: [{
                   translateY: transformAnim
                 }],
@@ -404,8 +404,8 @@ class TopBar extends React.Component {
               {isMessage &&
                 <AnimatedEllipsis style={{
                   color: 'white',
-                  fontSize: 16,
-                  letterSpacing: -5
+                  fontSize: 20,
+                  // letterSpacing: -5
                 }}/>
               }
             </Animated.Text>
@@ -437,7 +437,7 @@ class TopBar extends React.Component {
                   fill='none'
                   stroke={this.getHamburgerColor(item)}
                   strokeLinecap='round'
-                  strokeWidth='2'
+                  strokeWidth='1'
                   x1='2'
                   x2='24'
                   y1='1'
@@ -447,7 +447,7 @@ class TopBar extends React.Component {
                   fill='none'
                   stroke={this.getHamburgerColor(item)}
                   strokeLinecap='round'
-                  strokeWidth='2'
+                  strokeWidth='1'
                   x1='2'
                   x2='24'
                   y1='8'
@@ -457,7 +457,7 @@ class TopBar extends React.Component {
                   fill='none'
                   stroke={this.getHamburgerColor(item)}
                   strokeLinecap='round'
-                  strokeWidth='2'
+                  strokeWidth='1'
                   x1='2'
                   x2='24'
                   y1='15'
@@ -506,7 +506,7 @@ class TopBar extends React.Component {
       feedName: {
         flex: 1,
         color: hslString('rizzleFG'),
-        fontSize: 18,
+        fontSize: 20,
         fontFamily: 'IBMPlexMono',
         textAlign: 'center',
         padding: 10
