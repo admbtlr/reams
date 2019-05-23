@@ -70,12 +70,10 @@ class SwipeableViews extends Component {
       const indexOld = this.state.index
       const indexNew = indexOld + indexDelta
       this.props.onChangeIndex(indexNew, indexOld)
-      setTimeout(() => {
-        this.setState({
-          index: indexNew,
-          indexVirtual: this.calculateIndexVirtual(indexNew)
-        })
-      }, 500)
+      this.setState({
+        index: indexNew,
+        indexVirtual: this.calculateIndexVirtual(indexNew)
+      })
     }
   }
 
