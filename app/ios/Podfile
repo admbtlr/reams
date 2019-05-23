@@ -15,6 +15,8 @@ target 'rizzle' do
 
   # pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'rizzleTests' do
     inherit! :search_paths
     # Pods for testing

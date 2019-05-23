@@ -15,7 +15,7 @@ import Feed from '../containers/Feed'
 import TextButton from './TextButton'
 import Heading from './Heading'
 import XButton from './XButton'
-import ItemsDirectionRadios from './ItemsDirectionRadios'
+// import ItemsDirectionRadios from './ItemsDirectionRadios'
 import { hslString } from '../utils/colors'
 
 class ListHeaderComponent extends React.Component {
@@ -120,9 +120,7 @@ class ListHeaderComponent extends React.Component {
             }}
             text="Clear old items" />
         </View>
-        <ItemsDirectionRadios
-          onChange={this.onChangeDirection}
-        />
+        {/*<ItemsDirectionRadios onChange={this.onChangeDirection}/>*/}
         <Heading title='' />
         <View style={{ height: margin*2 }} />
         <TextButton text="Add a new feed" />

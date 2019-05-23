@@ -12,7 +12,6 @@ import {
   View
 } from 'react-native'
 import TouchableScale from 'react-native-touchable-scale'
-import {Transition} from 'react-navigation-fluid-transitions'
 import {Surface} from 'gl-react-native'
 const {Image: GLImage} = require('gl-react-image')
 const RNFS = require('react-native-fs')
