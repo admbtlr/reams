@@ -32,7 +32,7 @@ export const authenticate = (username, password) => {
       console.log(json)
     })
     .catch(e => {
-      log(e)
+      log('authenticate', e)
     })
 }
 
@@ -75,7 +75,7 @@ async function fetchItemIds (createdSince, type) {
         }
       })
       .catch(e => {
-        log(e)
+        log('recursiveGetIds', e)
       })
   }
 
@@ -123,7 +123,7 @@ async function getItemsByIds (itemIds, callback) {
         return true
       })
       .catch(e => {
-        log(e)
+        log('getItemsByIds', e)
       })
   })
   return Promise.all(promises)

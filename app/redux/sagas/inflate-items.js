@@ -42,6 +42,6 @@ export function * inflateItems (action) {
       itemsToDeflate
     })
   } catch (err) {
-    log(err)
+    log('inflateItems', err)
   }
 }

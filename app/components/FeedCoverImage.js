@@ -56,7 +56,7 @@ class FeedCoverImage extends React.Component {
           that.props.setCachedCoverImage(feedId, coverImageId)
         })
         .catch(err => {
-          log(err)
+          log('captureImage', err)
         })
     }
   }

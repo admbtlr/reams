@@ -346,7 +346,7 @@ class FeedItem extends React.Component {
         },
       })
     } catch (error) {
-      log(error)
+      log('openLink', error)
     }
   }
 
