@@ -382,7 +382,8 @@ class TopBar extends React.Component {
               ellipsizeMode='tail'
               style={{
                 ...this.getStyles().feedName,
-                fontFamily: isMessage ? 'IBMPlexSansCond-ExtraLightItalic' : 'IBMPlexSansCond-Bold',
+                fontSize: isMessage ? 18 : 20,
+                fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexSansCond-Bold',
                 // opacity: getAnimatedValueNormalised(),
                 height: 36,
                 width: Dimensions.get('window').width - 72,
@@ -405,7 +406,7 @@ class TopBar extends React.Component {
                 <AnimatedEllipsis style={{
                   color: 'white',
                   fontSize: 20,
-                  // letterSpacing: -5
+                  letterSpacing: -5
                 }}/>
               }
             </Animated.Text>
