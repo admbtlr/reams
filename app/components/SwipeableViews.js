@@ -68,7 +68,7 @@ class SwipeableViews extends Component {
     const indexDelta = indexVirtualNew - this.state.indexVirtual
     if (indexDelta !== 0) {
       const indexOld = this.state.index
-      const indexNew = indexOld + indexDelta
+      const indexNew = Math.round(indexOld + indexDelta)
       this.props.onChangeIndex(indexNew, indexOld)
       this.setState({
         index: indexNew,
