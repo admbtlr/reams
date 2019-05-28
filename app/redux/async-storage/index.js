@@ -12,6 +12,7 @@ export async function getItemsAS (keys) {
   try {
     console.log(keys)
     const keyVals = await AsyncStorage.multiGet(keys)
+    console.log(keyVals)
     return keyVals.map(keyVal => JSON.parse(keyVal[1]))
   } catch (err) {
     log('getItemsAS: ' + err)
@@ -34,7 +35,7 @@ export async function setItemsAS (items) {
   try {
     return AsyncStorage.multiSet(keyVals)
   } catch (err) {
-    log('setItemsAS: ' + err)
+    log('setItemsAS' + err)
   }
 }
 
