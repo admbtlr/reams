@@ -15,7 +15,7 @@ export async function getItemsAS (keys) {
     console.log(keyVals)
     return keyVals.map(keyVal => JSON.parse(keyVal[1]))
   } catch (err) {
-    log('getItemsAS: ' + err)
+    log('getItemsAS', err)
   }
 }
 
