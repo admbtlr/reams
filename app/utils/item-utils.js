@@ -49,6 +49,9 @@ export function deflateItem (item) {
 }
 
 export function inflateItem (item) {
+  if (!item) {
+    log('inflateItem', 'Item is null?')
+  }
   const styles = item.styles
   if (typeof styles === 'object') return item
   const expanded = expandStyles(JSON.parse(LZString.decompressFromUTF16(styles)))
