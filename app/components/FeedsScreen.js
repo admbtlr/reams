@@ -15,7 +15,7 @@ import Feed from '../containers/Feed'
 import TextButton from './TextButton'
 import Heading from './Heading'
 import XButton from './XButton'
-// import ItemsDirectionRadios from './ItemsDirectionRadios'
+import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
 import { hslString } from '../utils/colors'
 
 class ListHeaderComponent extends React.Component {
@@ -89,11 +89,13 @@ class ListHeaderComponent extends React.Component {
           }}
         />
         <Heading />
-        <Text style={{
-          ...textStyles,
-          marginTop: 0,
-          paddingTop: 0
-        }}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
+        { this.props.itemSort !== 'rizzlewards' &&
+          <Text style={{
+            ...textStyles,
+            marginTop: 0,
+            paddingTop: 0
+          }}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
+        }
         <View style={{
           flexDirection: 'row',
           marginBottom: margin / 2,
@@ -120,7 +122,7 @@ class ListHeaderComponent extends React.Component {
             }}
             text="Clear old items" />
         </View>
-        {/*<ItemsDirectionRadios onChange={this.onChangeDirection}/>*/}
+        <ItemsDirectionRadiosContainer />
         <Heading title='' />
         <View style={{ height: margin*2 }} />
         <TextButton text="Add a new feed" />
@@ -225,6 +227,7 @@ class FeedsScreen extends React.Component {
           ListHeaderComponent={<ListHeaderComponent
             backend={this.props.backend}
             clearFeedFilter={this.clearFeedFilter}
+            itemSort={this.props.itemSort}
             navigation={this.props.navigation}
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}

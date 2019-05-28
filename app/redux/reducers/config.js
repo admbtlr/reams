@@ -6,7 +6,8 @@ const initialState = {
   onboardingIndex: 0,
   onboardingLength: 13,
   feedFilter: null,
-  isOnline: false
+  isOnline: false,
+  itemSort: 'rizzlewards'
 }
 
 export function config (state = initialState, action) {
@@ -53,6 +54,12 @@ export function config (state = initialState, action) {
       return {
         ...state,
         isOnline: action.isOnline
+      }
+
+    case 'CONFIG_SET_ITEM_SORT':
+      return {
+        ...state,
+        itemSort: action.itemSort
       }
 
     default:
