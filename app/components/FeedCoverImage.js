@@ -31,9 +31,8 @@ class FeedCoverImage extends React.Component {
   // }
 
   shouldComponentUpdate (nextProps, nextState) {
-    return nextProps.cachedCoverImageId !== this.props.cachedCoverImageId ||
-      nextProps.coverImageId !== this.props.coverImageId ||
-      nextProps.width !== this.props.width
+    // once we've got a cached cover image, never re-render
+    return !this.props.cachedCoverImageId
   }
 
   captureImage () {
@@ -78,8 +77,7 @@ class FeedCoverImage extends React.Component {
       height
     } = this.props
 
-    if (cachedCoverImageId && coverImageId &&
-      coverImageId === cachedCoverImageId) {
+    if (cachedCoverImageId) {
       const cachedCoverImagePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
       const opacityAnim = new Animated.Value(0)
       Animated.timing(opacityAnim, {

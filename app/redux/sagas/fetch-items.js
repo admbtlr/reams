@@ -131,12 +131,15 @@ function * receiveItems (items, type) {
     ...item,
     date_fetched: Math.round(Date.now())
   })
+  let now = Date.now()
   if (type === 'unread') {
     feeds = yield select(getFeeds)
     const updated = yield createFeedsWhereNeededAndAddInfo(items, feeds)
     feeds = updated.feeds
     items = updated.items
   }
+  console.log('createFeedsWhereNeededAndAddInfo took ' + (Date.now() - now))
+  now = Date.now()
   items = items.map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
@@ -144,6 +147,8 @@ function * receiveItems (items, type) {
     .map(setShowCoverImage)
     .map(fixCreatedAt)
     .map(addDateFetched)
+  console.log('cleaning up items took ' + (Date.now() - now))
+  now = Date.now()
 
   if (type === 'unread') {
     yield call(InteractionManager.runAfterInteractions)
@@ -158,16 +163,27 @@ function * receiveItems (items, type) {
       isSaved: true
     }))
   }
+  console.log('incrementFeedUnreadCounts took ' + (Date.now() - now))
+  now = Date.now()
 
   yield call(InteractionManager.runAfterInteractions)
   yield call(setItemsAS, items)
   yield call(InteractionManager.runAfterInteractions)
+  console.log('setItemsAS took ' + (Date.now() - now))
+  now = Date.now()
+
+  items = items.map(deflateItem)
+  console.log('deflating items took ' + (Date.now() - now))
+  now = Date.now()
+
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
-    items: items.map(deflateItem),
+    items,
     itemType: type,
     feeds
   })
+  console.log('ITEMS_BATCH_FETCHED ' + (Date.now() - now))
+  now = Date.now()
 }
 
 function incrementFeedUnreadCounts (items, feeds) {

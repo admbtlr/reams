@@ -148,6 +148,7 @@ class Feed extends React.PureComponent {
     this.touchDownYCoord = e.nativeEvent.pageY
     this.touchDownXCoord = e.nativeEvent.pageX
     if (!this.props.isSelected && !this.state.isExpanded) {
+      this.interactionHandle = InteractionManager.createInteractionHandle()
       this.scaleDown()
     }
   }
@@ -185,6 +186,7 @@ class Feed extends React.PureComponent {
       this.isDragging = true
       this.props.disableScroll(false)
       this.scaleUp()
+      InteractionManager.clearInteractionHandle(this.interactionHandle)
     } else {
     }
   }

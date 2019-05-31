@@ -27,7 +27,7 @@ export function * markLastItemRead (action) {
 }
 
 export function * clearReadItems () {
-  yield call(InteractionManager.runAfterInteractions)
+  // yield call(InteractionManager.runAfterInteractions)
   const items = yield select(getUnreadItems)
   const displayMode = yield select(getDisplay)
   const readItems = items.filter(item => !!item.readAt)

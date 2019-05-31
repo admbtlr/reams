@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     screenWillBlur: () => dispatch({
       type: 'NAVIGATION_ITEMS_SCREEN_BLUR'
-    }),
+    })
   }
 }
 

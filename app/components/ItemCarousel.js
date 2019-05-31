@@ -50,7 +50,7 @@ class ItemCarousel extends React.Component {
 
   // cacheCoverImageComponent
 
-  renderSlide ({key, index, coverImageComponent}) {
+  renderSlide ({key, index, setTimerFunction, isVisible}) {
     if (this.props.isOnboarding) {
       return <OnboardingContainer
         index={index}
@@ -61,6 +61,8 @@ class ItemCarousel extends React.Component {
       return <FeedItemContainer
         index={index}
         key={key}
+        setTimerFunction={setTimerFunction}
+        isVisible={isVisible}
       />
     }
   }

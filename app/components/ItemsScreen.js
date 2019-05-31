@@ -30,6 +30,10 @@ class ItemsScreen extends React.Component {
     this.blurListener.remove()
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    console.log('FeedsScreen updating')
+  }
+
   render = () => {
     return (
       <View style={{

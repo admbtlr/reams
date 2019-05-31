@@ -6,7 +6,7 @@ import moment from 'moment'
 import quote from 'headline-quotes'
 
 import {hslString} from '../utils/colors'
-import {isIphoneX} from '../utils'
+import {deepEqual, isIphoneX} from '../utils'
 import {getTopBarHeight} from './TopBar'
 
 const entities = require('entities')
@@ -127,8 +127,16 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.fadeInAnim = new Animated.Value(-1)
-    this.fadeInAnim2 = new Animated.Value(-1)
+    this.fadeInAnim = new Animated.Value(this.props.isVisible ? 1 : -1)
+    this.fadeIn = this.fadeIn.bind(this)
+  }
+
+  fadeIn () {
+    Animated.timing(this.fadeInAnim, {
+      toValue: 1,
+      duration: 250,
+      useNativeDriver: true,
+    }).start()
   }
 
   getRenderedTitle (title) {
@@ -257,6 +265,7 @@ class ItemTitle extends React.Component {
   }
 
   async componentDidMount () {
+    this.props.setFadeInFunction(this.fadeIn)
     this.componentDidUpdate()
   }
 
@@ -393,11 +402,22 @@ class ItemTitle extends React.Component {
   }
 
   // shouldComponentUpdate (nextProps, nextState) {
-  //   return nextProps !== this.props || nextState !== this.state
+  //   if (this.isAnimating) return true
+  //   let changes
+  //   let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
+  //   // console.log('Should update? - '
+  //     // + this.props.item.title
+  //     // + (isDiff ? ' - YES' : ' - NO'))
+  //   if (isDiff) {
+  //     changes = this.diff(this.props, nextProps, this.diff(this.state, nextState))
+  //     // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
+  //     // console.log(changes)
+  //   }
+  //   return true
   // }
 
   render () {
-    let {styles, title, date, showCoverImage, coverImageStyles, isVisible} = this.props
+    let {styles, title, date, showCoverImage, coverImageStyles} = this.props
 
     // just so we can render something before it's been calculated
     const fontSize = styles.fontSize || 16
@@ -423,28 +443,15 @@ class ItemTitle extends React.Component {
     }
 
     const {opacity, excerptOpacity, shadow} = this.getOpacityValues()
-    const toValue = coverImageStyles.isVisible ? 1 : 0
+    // const toValue = coverImageStyles.isVisible ? 1 : 0
 
-    if (isVisible && showCoverImage) {
-      Animated.stagger(250, [
-        Animated.timing(this.fadeInAnim, {
-          toValue,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        Animated.timing(this.fadeInAnim2, {
-          toValue,
-          duration: 250,
-          useNativeDriver: true,
-        })
-      ]).start()
-    } else if (showCoverImage) {
-      Animated.timing(this.fadeInAnim2, {
-        toValue,
-        duration: 250,
-        useNativeDriver: true,
-      }).start()
-    }
+    // if (isVisible && showCoverImage) {
+    //   Animated.timing(this.fadeInAnim, {
+    //     toValue,
+    //     duration: 250,
+    //     useNativeDriver: true,
+    //   }).start()
+    // }
 
     const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
       'lighter' :
@@ -973,7 +980,7 @@ class ItemTitle extends React.Component {
         excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
             inputRange: [-50, 300, 500],
             outputRange: [1, 1, 0]
-          }), this.fadeInAnim2),
+          }), this.fadeInAnim),
         shadow: this.props.scrollOffset.interpolate({
             inputRange: [-100, -20, 0, 40, 400],
             outputRange: [1, 1, 1, 1, 0]
@@ -988,7 +995,7 @@ class ItemTitle extends React.Component {
       excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
           inputRange: [-25, 0, 100],
           outputRange: [0, 1, 0]
-        }), this.fadeInAnim2),
+        }), this.fadeInAnim),
       shadow: this.props.scrollOffset.interpolate({
           inputRange: [-100, -20, 0, 40, 200],
           outputRange: [0, 1, 1, 1, 0]

@@ -4,15 +4,14 @@ import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state, ownProps) => {
   const items = getItems(state)
-  const index = getIndex(state)
   const item = items[ownProps.index]
   return {
     item,
-    isVisible: ownProps.index === index,
     showMercuryContent: items[ownProps.index].showMercuryContent,
     ...state.webView,
     isImageViewerVisible: state.ui.imageViewerVisible,
-    coverImageComponent: ownProps.coverImageComponent
+    coverImageComponent: ownProps.coverImageComponent,
+    setTimerFunction: ownProps.setTimerFunction
   }
 }
 

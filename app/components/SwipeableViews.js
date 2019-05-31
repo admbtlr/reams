@@ -19,6 +19,8 @@ class SwipeableViews extends Component {
     this.state = {}
     this.panOffset = new Animated.Value(0)
     panHandler(this.panOffset, Dimensions.get('window').width)
+
+    this.onScrollEnd = this.onScrollEnd.bind(this)
   }
 
   componentDidMount () {
@@ -69,11 +71,16 @@ class SwipeableViews extends Component {
     if (indexDelta !== 0) {
       const indexOld = this.state.index
       const indexNew = Math.round(indexOld + indexDelta)
-      this.props.onChangeIndex(indexNew, indexOld)
-      this.setState({
-        index: indexNew,
-        indexVirtual: this.calculateIndexVirtual(indexNew)
-      })
+      // the if is here because of a race condition where the functions are cleared before we get here
+      if (this.startTimer[indexNew]) this.startTimer[indexNew]()
+      // let the fade in animation happen...
+      setTimeout(() => {
+        this.props.onChangeIndex(indexNew, indexOld)
+        this.setState({
+          index: indexNew,
+          indexVirtual: this.calculateIndexVirtual(indexNew)
+        })
+      }, 250)
     }
   }
 
@@ -106,11 +113,14 @@ class SwipeableViews extends Component {
 
     this.prevChildren = this.children
     this.children = []
+    this.startTimer = []
 
     for (let slideIndex = indexStart; slideIndex <= indexEnd; slideIndex += 1) {
       this.children.push(slideRenderer({
         index: slideIndex,
-        key: getItemId(undefined, slideIndex)
+        key: getItemId(undefined, slideIndex),
+        setTimerFunction: timerFunc => this.startTimer[slideIndex] = timerFunc,
+        isVisible: slideIndex === index
       }))
     }
 

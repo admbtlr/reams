@@ -20,21 +20,27 @@ class FeedItem extends React.Component {
     this.scrollOffset = new Animated.Value(0)
 
     this.state = {
-      webViewHeight: 500,
+      webViewHeight: Dimensions.get('window').height,
       scaleAnim: new Animated.Value(1)
     }
 
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
     this.openLink = this.openLink.bind(this)
+    this.startTimer = this.startTimer.bind(this)
+    this.setFadeInFunction = this.setFadeInFunction.bind(this)
+  }
+
+  startTimer () {
+    this.titleFadeIn && this.titleFadeIn()
   }
 
   componentDidMount () {
-    // this.loadMercuryStuff()
-    // this.resizeTitleFontToFit()
-    // this.markShortParagraphs()
-    // this.markFirstParagraph()
-    // this.hideFeedFlare()
+    this.props.setTimerFunction(this.startTimer)
+  }
+
+  setFadeInFunction (fadeInFunction) {
+    this.titleFadeIn = fadeInFunction
   }
 
   diff (a, b, changes = {}) {
@@ -114,6 +120,11 @@ class FeedItem extends React.Component {
 
         case 'scaleAnim':
           isDiff = false
+          break
+
+        case 'index':
+          isDiff = false
+          break
       }
     }
     return isDiff
@@ -271,6 +282,7 @@ class FeedItem extends React.Component {
           <ItemTitleContainer
             item={this.props.item}
             index={this.props.index}
+            isVisible={this.props.isVisible}
             title={title}
             excerpt={this.props.item.excerpt}
             date={created_at}
@@ -280,6 +292,7 @@ class FeedItem extends React.Component {
             hasCoverImage={hasCoverImage}
             showCoverImage={showCoverImage}
             coverImageStyles={styles.coverImage}
+            setFadeInFunction={this.setFadeInFunction}
           />
           <WebView
             decelerationRate='normal'
@@ -379,7 +392,10 @@ class FeedItem extends React.Component {
       this.pendingWebViewHeight = calculatedHeight
     }
 
-    // console.log(`updateWebViewHeight! ${calculatedHeight}`)
+    if (Math.abs(calculatedHeight - this.state.webViewHeight) < calculatedHeight * 0.1) {
+      return
+    }
+
     const that = this
     // debounce
     if (!this.pendingWebViewHeightId) {
