@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  InteractionManager,
   PanResponder,
   ScrollView,
   StatusBar,
@@ -44,15 +45,16 @@ class Feed extends React.PureComponent {
       this.cardWidth
 
     this.state = {
-      translateXAnim: new Animated.Value(0),
+      expandAnim: new Animated.Value(0),
+      // translateXAnim: new Animated.Value(0),
       translateYAnim: new Animated.Value(0),
-      imageHeightAnim: new Animated.Value(this.cardHeight),
-      detailsHeightAnim: new Animated.Value(0),
-      widthAnim: new Animated.Value(this.cardWidth),
-      transformXAnim: new Animated.Value(0),
-      borderRadiusAnim: new Animated.Value(16),
+      // imageHeightAnim: new Animated.Value(this.cardHeight),
+      // detailsHeightAnim: new Animated.Value(0),
+      // widthAnim: new Animated.Value(this.cardWidth),
+      // transformXAnim: new Animated.Value(0),
+      // borderRadiusAnim: new Animated.Value(16),
       scaleAnim: new Animated.Value(1),
-      normalisedAnimatedValue: new Animated.Value(0),
+      // normalisedAnimatedValue: new Animated.Value(0),
       opacityAnimatedValue: new Animated.Value(1),
       isExpanded: false,
       blockDrag: false
@@ -132,11 +134,13 @@ class Feed extends React.PureComponent {
   }
 
   scaleUp = () => {
-    Animated.spring(this.state.scaleAnim, {
-      toValue: 1,
-      duration: 300,
-      useNative: true
-    }).start()
+    InteractionManager.runAfterInteractions().then(_ => {
+      Animated.spring(this.state.scaleAnim, {
+        toValue: 1,
+        duration: 300,
+        useNative: true
+      }).start()
+    })
   }
 
   onPress = (e) => {
@@ -186,12 +190,17 @@ class Feed extends React.PureComponent {
   }
 
   grow = () => {
-    Animated.spring(this.state.translateXAnim, {
-      toValue: 0 - this.currentX,
+    // Animated.spring(this.state.translateXAnim, {
+    //   toValue: 0 - this.currentX,
+    //   duration: 1000,
+    //   useNative: true
+    // }).start()
+    Animated.spring(this.state.scaleAnim, {
+      toValue: 1,
       duration: 1000,
       useNative: true
     }).start()
-    Animated.spring(this.state.scaleAnim, {
+    Animated.spring(this.state.expandAnim, {
       toValue: 1,
       duration: 1000,
       useNative: true
@@ -201,64 +210,69 @@ class Feed extends React.PureComponent {
       duration: 1000,
       useNative: true
     }).start()
-    Animated.spring(this.state.imageHeightAnim, {
-      toValue: this.screenHeight / 2,
-      duration: 1000,
-      useNative: true
-    }).start()
-    Animated.spring(this.state.detailsHeightAnim, {
-      toValue: this.screenHeight / 2 + 15, // 15px extra to cover image rounded corners
-      duration: 1000,
-      useNative: true
-    }).start()
-    Animated.spring(this.state.widthAnim, {
-      toValue: this.screenWidth,
-      duration: 1000,
-      useNative: true
-    }).start()
+    // Animated.spring(this.state.imageHeightAnim, {
+    //   toValue: this.screenHeight / 2,
+    //   duration: 1000,
+    //   useNative: true
+    // }).start()
+    // Animated.spring(this.state.detailsHeightAnim, {
+    //   toValue: this.screenHeight / 2 + 15, // 15px extra to cover image rounded corners
+    //   duration: 1000,
+    //   useNative: true
+    // }).start()
+    // Animated.spring(this.state.widthAnim, {
+    //   toValue: this.screenWidth,
+    //   duration: 1000,
+    //   useNative: true
+    // }).start()
     // Animated.spring(this.state.borderRadiusAnim, {
     //   toValue: 0,
     //   duration: 1000
     // }).start()
-    Animated.spring(this.state.normalisedAnimatedValue, {
-      toValue: 1,
-      duration: 1000,
-      useNative: true
-    }).start()
+    // Animated.spring(this.state.normalisedAnimatedValue, {
+    //   toValue: 1,
+    //   duration: 1000,
+    //   useNative: true
+    // }).start()
     this.props.disableScroll(true)
     this.state.isExpanded = true
     this.createPanResponder(true)
   }
 
   shrink = () => {
-    Animated.spring(this.state.translateXAnim, {
+    // Animated.spring(this.state.translateXAnim, {
+    //   toValue: 0,
+    //   duration: 300
+    // }).start()
+    Animated.spring(this.state.expandAnim, {
       toValue: 0,
-      duration: 300
+      duration: 1000,
+      useNative: true
     }).start()
     Animated.spring(this.state.translateYAnim, {
       toValue: 0,
       duration: 300
     }).start()
-    Animated.spring(this.state.imageHeightAnim, {
-      toValue: this.cardHeight,
-      duration: 1000
-    }).start()
-    Animated.spring(this.state.detailsHeightAnim, {
-      toValue: 0,
-      duration: 1000
-    }).start()
-    Animated.spring(this.state.widthAnim, {
-      toValue: this.cardWidth,
-      duration: 1000
-    }).start()
-    Animated.spring(this.state.borderRadiusAnim, {
-      toValue: 16,
-      duration: 1000
-    }).start()
-    Animated.spring(this.state.normalisedAnimatedValue, {
-      toValue: 0,
-      duration: 1000
-    }).start()
+    // Animated.spring(this.state.imageHeightAnim, {
+    //   toValue: this.cardHeight,
+    //   duration: 1000
+    // }).start()
+    // Animated.spring(this.state.detailsHeightAnim, {
+    //   toValue: 0,
+    //   duration: 1000
+    // }).start()
+    // Animated.spring(this.state.widthAnim, {
+    //   toValue: this.cardWidth,
+    //   duration: 1000
+    // }).start()
+    // Animated.spring(this.state.borderRadiusAnim, {
+    //   toValue: 16,
+    //   duration: 1000
+    // }).start()
+    // Animated.spring(this.state.normalisedAnimatedValue, {
+    //   toValue: 0,
+    //   duration: 1000
+    // }).start()
     StatusBar.setHidden(false, 'slide')
     setTimeout(() => {
       this.props.selectFeed(null, null)
@@ -340,6 +354,8 @@ class Feed extends React.PureComponent {
       textAlign: 'center'
     }
 
+    console.log("Rendering " + feedTitle)
+
     const bold = {
       fontFamily: 'IBMPlexMono-Bold',
       color: hslString(feedColor, 'desaturated')
@@ -416,23 +432,26 @@ class Feed extends React.PureComponent {
     return (
       <Animated.View
         style={{
-            flex: 1,
-            height: this.cardHeight,
-            width: this.cardWidth,
-            marginBottom: this.margin,
-            marginRight: (this.props.index % 2 === 0 && this.screenWidth > 500) ?
-              this.margin :
-              0,
-            overflow: 'visible',
-            transform: [
-              { translateY: this.state.translateYAnim },
-              { translateX: this.state.translateXAnim },
-              { scaleX: this.state.scaleAnim },
-              { scaleY: this.state.scaleAnim }
-            ],
-            opacity: this.state.opacityAnimatedValue,
-            ...this.props.extraStyle
-          }}
+          flex: 1,
+          height: this.cardHeight,
+          width: this.cardWidth,
+          marginBottom: this.margin,
+          marginRight: (this.props.index % 2 === 0 && this.screenWidth > 500) ?
+            this.margin :
+            0,
+          overflow: 'visible',
+          transform: [
+            { translateY: this.state.translateYAnim },
+            { translateX: this.state.expandAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0 - this.currentX]
+            }) },
+            { scaleX: this.state.scaleAnim },
+            { scaleY: this.state.scaleAnim }
+          ],
+          opacity: this.state.opacityAnimatedValue,
+          ...this.props.extraStyle
+        }}
         ref={c => this.outerView = c}
       >
         <Animated.View
@@ -442,9 +461,15 @@ class Feed extends React.PureComponent {
           onResponderMove={this.onDrag}
           onResponderRelease={this.onRelease}
           style={{
-            height: this.state.imageHeightAnim,
-            width: this.state.widthAnim,
-            borderRadius: this.state.borderRadiusAnim,
+            height: this.state.expandAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [this.cardHeight, this.screenHeight / 2]
+            }),
+            width: this.state.expandAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [this.cardWidth, this.screenWidth]
+            }),
+            borderRadius: 16,
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
             backgroundColor: hslString(feedColor, 'desaturated'),
@@ -461,7 +486,7 @@ class Feed extends React.PureComponent {
               <Animated.View style={{
                 height: '100%',
                 width: '100%',
-                borderRadius: this.state.borderRadiusAnim,
+                borderRadius: 16,
                 overflow: 'hidden'
               }}>
                 <FeedCoverImage
@@ -481,7 +506,7 @@ class Feed extends React.PureComponent {
             // height: cardWidth / 2,
             width: '100%',
             height: '100%',
-            borderRadius: this.state.borderRadiusAnim,
+            borderRadius: 16,
             // paddingTop: this.margin * .5,
             paddingLeft: this.margin,
             paddingRight: this.margin,
@@ -496,7 +521,7 @@ class Feed extends React.PureComponent {
             <Animated.View style={{
               flex: 1,
               height: 1,
-              opacity: this.state.normalisedAnimatedValue,
+              opacity: this.state.expandAnim,
               width: '100%'
             }}>
               <XButton
@@ -549,7 +574,7 @@ class Feed extends React.PureComponent {
             <FeedUnreadCounter
               numberUnread={numUnread}
               feedColor={feedColor}
-              normalisedAnimatedValue={this.state.normalisedAnimatedValue}
+              normalisedAnimatedValue={this.state.expandAnim}
               style={{
                 flex: 5
               }}
@@ -567,9 +592,12 @@ class Feed extends React.PureComponent {
           <Animated.View style={{
             backgroundColor: '#F2ECD9',
             // 15px to cover the round corners of the image
-            height: this.state.detailsHeightAnim,
+            height: this.state.expandAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, this.screenHeight / 2 + 15]
+            }),
             marginTop: -15,
-            opacity: this.state.normalisedAnimatedValue,
+            opacity: this.state.expandAnim,
             width: this.screenWidth
           }}>
             <ScrollView

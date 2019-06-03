@@ -1,5 +1,9 @@
 import React from 'react'
-import { Animated, Image } from 'react-native'
+import {
+  Animated,
+  Image,
+  InteractionManager
+} from 'react-native'
 import {Surface} from 'gl-react-native'
 const {Image: GLImage} = require('gl-react-image')
 const RNFS = require('react-native-fs')
@@ -45,14 +49,17 @@ class FeedCoverImage extends React.Component {
     if (coverImageId && coverImageDimensions && coverImageDimensions.width !== 0) {
       const that = this
       const filePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
-      RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-cover-images`)
+      InteractionManager.runAfterInteractions()
+        .then(_ => RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-cover-images`))
+        .then(InteractionManager.runAfterInteractions)
         .then(_ => this.surface.captureFrame({
           type: 'jpg',
           format: 'file',
           quality: 1,
           filePath
         }))
-        .then(newImageUri => {
+        .then(InteractionManager.runAfterInteractions)
+        .then(_ => {
           that.props.setCachedCoverImage(feedId, coverImageId)
         })
         .catch(err => {
