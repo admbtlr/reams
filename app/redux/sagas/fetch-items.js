@@ -1,5 +1,6 @@
 import { call, fork, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
+import { InteractionManager } from 'react-native'
 
 import { fetchItems as fetchItemsBackends } from '../backends'
 import {
@@ -91,9 +92,11 @@ export function * fetchItems (type = 'unread') {
 
 function * receiveAndProcessItems (items, type, isFirstBatch, i) {
   const index = yield select(getIndex, type)
+  yield call(InteractionManager.runAfterInteractions)
   yield receiveItems(items, type)
   if (isFirstBatch) {
     // this is a little hacky, just getting ready to view some items
+    yield call(InteractionManager.runAfterInteractions)
     yield inflateItems({ index })
   }
 }
@@ -143,6 +146,7 @@ function * receiveItems (items, type) {
     .map(addDateFetched)
 
   if (type === 'unread') {
+    yield call(InteractionManager.runAfterInteractions)
     feeds = incrementFeedUnreadCounts(items, feeds)
     yield put({
       type: 'FEEDS_UPDATE_FEEDS',
@@ -155,8 +159,9 @@ function * receiveItems (items, type) {
     }))
   }
 
+  yield call(InteractionManager.runAfterInteractions)
   yield call(setItemsAS, items)
-
+  yield call(InteractionManager.runAfterInteractions)
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
     items: items.map(deflateItem),
