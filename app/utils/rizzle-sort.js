@@ -1,15 +1,16 @@
 export default function rizzleSort (items, feeds, shuffleStrength = 2) {
   // sort by age
-  var now = Date.now()
+  // var now = Date.now()
   // it.map()
-  return items.map(item => {
-    const readingRate = feeds.find(f => f._id === item.feed_id).reading_rate
-    const sorter = 1 / ((now - item.created_at) / 10000)
-    return {
-      ...item,
-      sorter
-    }
-  }).sort((a, b) => b.sorter - a.sorter)
+  return items.sort((a, b) => b.created_at - a.created_at)
+  // return items.map(item => {
+  //   const readingRate = feeds.find(f => f._id === item.feed_id).reading_rate
+  //   const sorter = 1 / ((now - item.created_at) / 10000)
+  //   return {
+  //     ...item,
+  //     sorter
+  //   }
+  // }).sort((a, b) => b.sorter - a.sorter)
 
 // another possible algorithm here would be
 // sort the items by date

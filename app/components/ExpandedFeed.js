@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import {Surface} from 'gl-react-native'
 const {Image: GLImage} = require('gl-react-image')
 const RNFS = require('react-native-fs')
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
@@ -25,7 +24,7 @@ import XButton from './XButton'
 
 const DRAG_THRESHOLD = 10
 
-class Feed extends React.PureComponent {
+class ExpandedFeed extends React.Component {
 
   constructor (props) {
     super(props)
@@ -355,7 +354,7 @@ class Feed extends React.PureComponent {
       textAlign: 'center'
     }
 
-    console.log("Rendering " + feedTitle)
+    console.log("Rendering ExpandedFeed for " + feedTitle)
 
     const bold = {
       fontFamily: 'IBMPlexMono-Bold',
@@ -682,4 +681,4 @@ class Feed extends React.PureComponent {
   }
 }
 
-export default Feed
+export default ExpandedFeed

@@ -43,6 +43,7 @@
     "react-native-measure-text": "1.0.0-beta",
     "react-native-modalbox": "^1.7.1",
     "react-native-onepassword": "^1.0.6",
+    "react-native-reanimated": "^1.0.1",
     "react-native-sentry": "^0.39.1",
     "react-native-share-extension": "^1.2.1",
     "react-native-shared-group-preferences": "^1.1.13",

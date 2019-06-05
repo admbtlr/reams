@@ -122,6 +122,41 @@ export function feeds (state = initialState, action) {
         feeds
       }
 
+    case 'FEED_LIKE':
+      feeds = [ ...state.feeds ]
+      feed = feeds.find(feed => feed._id === action.item.feed_id)
+      feed.favourite = true
+      return {
+        ...state,
+        feeds
+      }
+
+    case 'FEED_UNLIKE':
+      feeds = [ ...state.feeds ]
+      feed = feeds.find(feed => feed._id === action.item.feed_id)
+      feed.favourite = false
+      return {
+        ...state,
+        feeds
+      }
+
+    case 'FEED_MUTE':
+      feeds = [ ...state.feeds ]
+      feed = feeds.find(feed => feed._id === action.item.feed_id)
+      feed.muted = true
+      return {
+        ...state,
+        feeds
+      }
+
+    case 'FEED_UNMUTE':
+      feeds = [ ...state.feeds ]
+      feed = feeds.find(feed => feed._id === action.item.feed_id)
+      feed.muted = false
+      return {
+        ...state,
+        feeds
+      }
     // case 'FEED_MARK_READ':
     //   feeds = [ ...state.feeds ]
     //   feed = feeds.find(feed => feed._id === action.item.feed_id)

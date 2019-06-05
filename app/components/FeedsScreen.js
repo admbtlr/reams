@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import Feed from '../containers/Feed'
+import ExpandedFeed from '../containers/ExpandedFeed'
 import TextButton from './TextButton'
 import Heading from './Heading'
 import XButton from './XButton'
@@ -242,7 +243,7 @@ class FeedsScreen extends React.Component {
           (this.state.selectedFeedElement ?
             !this.state.selectedFeedElement.props.isDeleted :
             true) &&
-          <Feed {...extraFeedProps}
+          <ExpandedFeed {...extraFeedProps}
             extraStyle={{
               position: 'absolute',
               top: this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord,
