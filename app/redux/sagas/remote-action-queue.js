@@ -4,7 +4,7 @@ import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markFeedRead } from '../backends'
 import { updateItemFS, addReadItemFS, addReadItemsFS } from '../firestore/'
 import { deleteItemsAS, updateItemAS } from '../async-storage/'
-// import { addStaleItem } from '../realm/stale-items'
+import { removeCachedCoverImages } from '../../utils/item-utils'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
 
 const INITIAL_INTERVAL = 500
@@ -41,15 +41,10 @@ function * executeAction (action) {
     case 'ITEM_MARK_READ':
       try {
         yield call (markItemRead, action.item)
-
-        // mark item read in Firestore
-        // NB this will mean that Firebase's readAt value is different to the Redux store
-        // does this matter? who knows...?
         updateItemAS({
           ...action.item,
           readAt: Date.now()
         })
-        // addReadItemFS(action.item)
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action
@@ -79,6 +74,7 @@ function * executeAction (action) {
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action
         })
+        removeCachedCoverImages(itemsToMarkRead)
       } catch (error) {
         console.log(error)
       }

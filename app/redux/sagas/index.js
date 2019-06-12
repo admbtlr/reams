@@ -7,6 +7,7 @@ import { setUid, setDb } from '../firestore/'
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems } from './mark-read'
+import { pruneItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl } from './external-items'
 import { rehydrateSavedItemsFS } from './rehydrate-items'
@@ -85,6 +86,7 @@ export function * updateCurrentIndex (getFirebase) {
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchUnreadItems)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
+  yield takeEvery('ITEMS_BATCH_FETCHED', pruneItems)
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
   yield takeEvery('USER_SET_UID', clearReadItems)
   yield takeEvery('CONFIG_SET_BACKEND', initIfRizzleBackend, getFirebase)

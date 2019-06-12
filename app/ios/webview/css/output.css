@@ -255,7 +255,7 @@ body {
         margin: 3rem calc(50% - 50vw); } }
   .itemArticle figure cite {
     display: none; }
-  .itemArticle figcaption {
+  .itemArticle figcaption, .itemArticle .caption {
     position: relative;
     padding: .5rem;
     border-bottom: 1px solid #ededed;
@@ -266,7 +266,7 @@ body {
     background-color: white;
     position: relative; }
   @media (min-width: 600px) {
-    .itemArticle figcaption, .itemArticle blockquote {
+    .itemArticle figcaption, .itemArticle blockquote, .itemArticle .caption {
       margin: 0 calc(50% - 50vw) 1rem;
       left: 0;
       padding: 1rem calc(50vw - 50%); } }

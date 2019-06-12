@@ -214,6 +214,26 @@ export async function markItemRead (item) {
     })
 }
 
+export async function markItemsRead (items) {
+  const idString = items.reduce((accum, val) => {
+    return `${accum},${val}`
+  }, '')
+  let url = 'https://feedwrangler.net/api/v2/feed_items/mark_all_read?'
+  url += 'access_token=' + feedWranglerAccessToken
+  url += '&feed_item_ids=' + idString
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+    .catch(e => {
+      log('Error at markItemsRead: ' + e)
+    })
+}
+
 export const saveItem = (item) => {
   const id = typeof item === 'object' ? item.id : item
   let url = 'https://feedwrangler.net/api/v2/feed_items/update?'

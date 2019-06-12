@@ -180,6 +180,17 @@ export function addSavedItemFS (item) {
     })
 }
 
+export function removeSavedItemFS (item) {
+  return getUserDb().collection('items-saved').doc(item._id)
+    .delete(item)
+    .then(_ => {
+      console.log('Removed saved item')
+    })
+    .catch(err => {
+      log('removeSavedItemFS', err)
+    })
+}
+
 export function addSavedItemsFS (items) {
   const collectionRef = getUserDb().collection('items-saved')
   for (item of items) {

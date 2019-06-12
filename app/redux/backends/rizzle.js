@@ -1,6 +1,6 @@
 import firebase from 'react-native-firebase'
 import {id} from '../../utils'
-import { addReadItemFS, addSavedItemFS, getReadItemsFS } from '../firestore'
+import { addReadItemFS, addSavedItemFS, getReadItemsFS, removeSavedItemFS } from '../firestore'
 // import { filterItemsForStale } from '../realm/stale-items'
 
 export async function sendEmailLink (email) {
@@ -94,11 +94,16 @@ export async function markItemRead (item) {
   addReadItemFS(item)
 }
 
+export async function markItemsRead (item) {
+  addReadItemsFS(items)
+}
+
 export const saveItem = (item, folder) => {
-  return addSavedItemFS(action.item)
+  return addSavedItemFS(item)
 }
 
 export const unsaveItem = (item, folder) => {
+  return removeSavedItemFS(item)
 }
 
 export const markFeedRead = (item) => {}

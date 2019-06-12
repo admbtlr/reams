@@ -74,11 +74,12 @@ export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
     yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
-    if (feed.description || feed.favicon) continue
+    if (feed.inflated) continue
     const details = yield call(getFeedDetails, feed)
     const inflatedFeed = {
       ...feed,
-      ...details
+      ...details,
+      inflated: true
     }
     yield call(InteractionManager.runAfterInteractions)
     yield put({

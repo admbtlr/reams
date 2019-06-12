@@ -133,7 +133,7 @@ export const itemsUnread = (state = initialState, action) => {
       })
 
       // remove read items
-      items = items.filter(i => !i.readAt)
+      // items = items.filter(i => !i.readAt)
 
       // order by date
       // items.sort((a, b) => a.created_at - b.created_at)
@@ -151,6 +151,31 @@ export const itemsUnread = (state = initialState, action) => {
         ...state,
         items,
         index: 0
+      }
+
+    case 'ITEMS_PRUNE_UNREAD_ITEMS':
+      items = [...state.items]
+      index = state.index
+      if (items.length < action.maxItems) {
+        return state
+      }
+
+      currentItem = items[state.index]
+      if (action.itemSort === 'forwards') {
+        const numToPrune = items.length - action.maxItems
+        items = items.slice(numToPrune)
+        index = index - (numToPrune)
+      } else {
+        items = items.slice(0, action.maxItems)
+      }
+      if (currentItem && items.indexOf(currentItem) === -1) {
+        items.unshift(currentItem)
+        index = 0
+      }
+      return {
+        ...state,
+        items,
+        index
       }
 
     // case 'ITEMS_FLATE':

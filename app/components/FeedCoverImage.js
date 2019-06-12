@@ -31,8 +31,7 @@ class FeedCoverImage extends React.Component {
   // }
 
   shouldComponentUpdate (nextProps, nextState) {
-    // once we've got a cached cover image, never re-render
-    return !this.props.cachedCoverImageId
+    return nextProps.cachedCoverImageId !== this.props.cachedCoverImageId
   }
 
   captureImage () {
@@ -50,14 +49,12 @@ class FeedCoverImage extends React.Component {
       const filePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
       InteractionManager.runAfterInteractions()
         .then(_ => RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-cover-images`))
-        .then(InteractionManager.runAfterInteractions)
         .then(_ => this.surface.captureFrame({
           type: 'jpg',
           format: 'file',
           quality: 1,
           filePath
         }))
-        .then(InteractionManager.runAfterInteractions)
         .then(_ => {
           that.props.setCachedCoverImage(feedId, coverImageId)
         })

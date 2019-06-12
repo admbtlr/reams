@@ -11,8 +11,8 @@ import {
   View
 } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
-import Feed from '../containers/Feed'
-import ExpandedFeed from '../containers/ExpandedFeed'
+import FeedContracted from '../containers/FeedContracted'
+import FeedExpanded from '../containers/FeedExpanded'
 import TextButton from './TextButton'
 import Heading from './Heading'
 import XButton from './XButton'
@@ -243,7 +243,7 @@ class FeedsScreen extends React.Component {
           (this.state.selectedFeedElement ?
             !this.state.selectedFeedElement.props.isDeleted :
             true) &&
-          <ExpandedFeed {...extraFeedProps}
+          <FeedExpanded {...extraFeedProps}
             extraStyle={{
               position: 'absolute',
               top: this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord,
@@ -252,6 +252,8 @@ class FeedsScreen extends React.Component {
             growMe={this.state.selectedFeedElement !== null}
             xCoord={this.state.selectedFeedElementXCoord || this.state.prevSelectedFeedElementXCoord}
             yCoord={this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord}
+            scaleAnim={this.state.selectedFeedElementScaleAnim}
+            gestureState={this.state.selectedFeedElementGestureState}
           />
         }
     </View>
@@ -283,7 +285,8 @@ class FeedsScreen extends React.Component {
         selectedFeedElement: feed,
         selectedFeedElementXCoord: feed && feed.currentX,
         selectedFeedElementYCoord: feed && feed.currentY,
-        scrollEnabled: feed === null,
+        selectedFeedElementScaleAnim: feed && feed._scale,
+        selectedFeedElementGestureState: feed && feed.gestureState,
         prevSelectedFeedElement,
         prevSelectedFeedElementXCoord,
         prevSelectedFeedElementYCoord
@@ -298,7 +301,7 @@ class FeedsScreen extends React.Component {
   renderFeed = ({item, index}) => {
     const isSelected = this.state.selectedFeedElement !== null &&
       this.state.selectedFeedElement.props.feedId === item._id
-    return item && <Feed
+    return item && <FeedContracted
       feedTitle={item.title}
       feedDescription={item.description}
       feedColor={item.color}
@@ -311,7 +314,6 @@ class FeedsScreen extends React.Component {
       disableScroll={this.disableScroll}
       selectFeed={this.selectFeed}
       preDeselectFeed={this.preDeselectFeed}
-      isSelected={isSelected}
     />
   }
 }

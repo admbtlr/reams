@@ -72,6 +72,9 @@
 		668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
 		668CE9EE2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
+		66A20B0022A5A919007CEEB3 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FADBA12295D8E5000FEA40 /* libRNGestureHandler.a */; };
+		66A20C6B22A6F180007CEEB3 /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A20C6322A6F16B007CEEB3 /* libRNReanimated.a */; };
+		66A20C6C22A6F190007CEEB3 /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A20C6322A6F16B007CEEB3 /* libRNReanimated.a */; };
 		66AA13872180EF2F000C9A7F /* libRNReactNativeSharedGroupPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664FF8FD217715B200107D67 /* libRNReactNativeSharedGroupPreferences.a */; };
 		66AA13882180EF41000C9A7F /* libRNReactNativeSharedGroupPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664FF8FD217715B200107D67 /* libRNReactNativeSharedGroupPreferences.a */; };
 		66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */; };
@@ -97,6 +100,7 @@
 		66FBE164221C3C9C003F9FA8 /* libRNInAppBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FBE15A221C3C6A003F9FA8 /* libRNInAppBrowser.a */; };
 		6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */; };
 		6B19E20045EFF0ED23DF602F /* libPods-rizzle-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0343713F6E7515CF81E26C2 /* libPods-rizzle-tvOSTests.a */; };
+		7998CC831BC342C8B58D78E7 /* libOnePassword.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D8A9F93BFD42328D7509E8 /* libOnePassword.a */; };
 		79DC44BDD1334F7B80DD977D /* IBMPlexSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 930C4464DBC241C1BCBEFEC2 /* IBMPlexSans-BoldItalic.ttf */; };
 		7D537F4F79AC4DBF8C86745C /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE500C58F03B4E759CEEF985 /* libRNSentry.a */; };
 		81795688E56447E9B7BE58FA /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6EEEC401334B5AAECD02EF /* libRNFirebase.a */; };
@@ -463,6 +467,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		66A20B9322A6D204007CEEB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3B3AE9D733B47E5B89D291D /* OnePassword.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52E319201C0655C200265D56;
+			remoteInfo = OnePassword;
+		};
+		66A20C6222A6F16B007CEEB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66A20C2A22A6F16B007CEEB3 /* RNReanimated.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNReanimated;
+		};
 		66A4A337215C197100E62430 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -647,6 +665,7 @@
 		668CE9492153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-BoldItalic.ttf"; path = "../assets/fonts/PlayfairDisplay-BoldItalic.ttf"; sourceTree = "<group>"; };
 		668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-Bold.ttf"; path = "../assets/fonts/PlayfairDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		668CE9EC2158BE6A00CA3EDF /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
+		66A20C2A22A6F16B007CEEB3 /* RNReanimated.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNReanimated.xcodeproj; path = "../node_modules/react-native-reanimated/ios/RNReanimated.xcodeproj"; sourceTree = "<group>"; };
 		66ACB1171FD9705E002BC66F /* RizzleShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RizzleShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		66ACB11D1FD9705E002BC66F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		66ACB11F1FD9705E002BC66F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -669,6 +688,7 @@
 		8463AC662A634CF786B76B2A /* BioRhyme-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BioRhyme-ExtraBold.ttf"; path = "../assets/fonts/BioRhyme-ExtraBold.ttf"; sourceTree = "<group>"; };
 		863CB9B816D6E55F8A30C119 /* Pods-rizzle-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rizzle-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rizzle-tvOSTests/Pods-rizzle-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		90A9F4821C7BB5165C2DCF87 /* Pods-rizzleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rizzleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-rizzleTests/Pods-rizzleTests.release.xcconfig"; sourceTree = "<group>"; };
+		90D8A9F93BFD42328D7509E8 /* libOnePassword.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libOnePassword.a; sourceTree = "<group>"; };
 		930C4464DBC241C1BCBEFEC2 /* IBMPlexSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		985E587BCD25407C9639A056 /* Arvo-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-BoldItalic.ttf"; path = "../assets/fonts/Arvo-BoldItalic.ttf"; sourceTree = "<group>"; };
 		98B48A9380AA4541B31F3902 /* BebasNeue Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BebasNeue Light.ttf"; path = "../assets/fonts/BebasNeue Light.ttf"; sourceTree = "<group>"; };
@@ -691,6 +711,7 @@
 		C954581D227C00B61538F2A7 /* libPods-rizzle-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rizzle-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3384B6A3F64B1ABBC51D2F /* IBMPlexSerif-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-ThinItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-ThinItalic.ttf"; sourceTree = "<group>"; };
 		CFD4357158F14043B264E7E0 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
+		D3B3AE9D733B47E5B89D291D /* OnePassword.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = OnePassword.xcodeproj; path = "../node_modules/react-native-onepassword/OnePassword.xcodeproj"; sourceTree = "<group>"; };
 		D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Italic.ttf"; path = "../assets/fonts/IBMPlexSans-Italic.ttf"; sourceTree = "<group>"; };
 		DC41999E643A4C79B08D3438 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		DEAE4CD40F9748418924D42E /* libRNReactNativeSharedGroupPreferences.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeSharedGroupPreferences.a; sourceTree = "<group>"; };
@@ -727,6 +748,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66A20C6C22A6F190007CEEB3 /* libRNReanimated.a in Frameworks */,
 				66FADBB02295D912000FEA40 /* libRNGestureHandler.a in Frameworks */,
 				661134B0223BE946003340DE /* libRNGoogleSignin.a in Frameworks */,
 				66FBE164221C3C9C003F9FA8 /* libRNInAppBrowser.a in Frameworks */,
@@ -755,6 +777,7 @@
 				7D537F4F79AC4DBF8C86745C /* libRNSentry.a in Frameworks */,
 				9101F663403CCD92399A792E /* libPods-rizzle.a in Frameworks */,
 				81795688E56447E9B7BE58FA /* libRNFirebase.a in Frameworks */,
+				7998CC831BC342C8B58D78E7 /* libOnePassword.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,6 +810,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66A20C6B22A6F180007CEEB3 /* libRNReanimated.a in Frameworks */,
+				66A20B0022A5A919007CEEB3 /* libRNGestureHandler.a in Frameworks */,
 				66113521223F8DF4003340DE /* JavaScriptCore.framework in Frameworks */,
 				661134AF223BE934003340DE /* libRNGoogleSignin.a in Frameworks */,
 				667D13A021D66D1F0047425F /* libRNFirebase.a in Frameworks */,
@@ -1094,6 +1119,7 @@
 				DEAE4CD40F9748418924D42E /* libRNReactNativeSharedGroupPreferences.a */,
 				FE500C58F03B4E759CEEF985 /* libRNSentry.a */,
 				0F6EEEC401334B5AAECD02EF /* libRNFirebase.a */,
+				90D8A9F93BFD42328D7509E8 /* libOnePassword.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1111,6 +1137,22 @@
 			isa = PBXGroup;
 			children = (
 				668F510021B7C2D90064F485 /* libRNFirebase.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		66A20B9022A6D204007CEEB3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				66A20B9422A6D204007CEEB3 /* libOnePassword.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		66A20C2B22A6F16B007CEEB3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				66A20C6322A6F16B007CEEB3 /* libRNReanimated.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1189,6 +1231,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				66A20C2A22A6F16B007CEEB3 /* RNReanimated.xcodeproj */,
 				66FADB6F2295D8E4000FEA40 /* RNGestureHandler.xcodeproj */,
 				66113472223BE92A003340DE /* RNGoogleSignin.xcodeproj */,
 				667129252165EDB900EB1B5E /* RNMeasureText.xcodeproj */,
@@ -1215,6 +1258,7 @@
 				0A6A7ED2392B47D5B2E21812 /* RNSKBucket.xcodeproj */,
 				2BE03A529308484E8E39B851 /* RNSentry.xcodeproj */,
 				CFD4357158F14043B264E7E0 /* RNFirebase.xcodeproj */,
+				D3B3AE9D733B47E5B89D291D /* OnePassword.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1463,6 +1507,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 66A20B9022A6D204007CEEB3 /* Products */;
+					ProjectRef = D3B3AE9D733B47E5B89D291D /* OnePassword.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
 				},
@@ -1553,6 +1601,10 @@
 				{
 					ProductGroup = 664FF8F7217715B200107D67 /* Products */;
 					ProjectRef = F4741C2D894F445891ADE764 /* RNReactNativeSharedGroupPreferences.xcodeproj */;
+				},
+				{
+					ProductGroup = 66A20C2B22A6F16B007CEEB3 /* Products */;
+					ProjectRef = 66A20C2A22A6F16B007CEEB3 /* RNReanimated.xcodeproj */;
 				},
 				{
 					ProductGroup = 663D7FD221A54CC00085CB7A /* Products */;
@@ -1907,6 +1959,20 @@
 			fileType = archive.ar;
 			path = libRNFirebase.a;
 			remoteRef = 668F50FF21B7C2D90064F485 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		66A20B9422A6D204007CEEB3 /* libOnePassword.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOnePassword.a;
+			remoteRef = 66A20B9322A6D204007CEEB3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		66A20C6322A6F16B007CEEB3 /* libRNReanimated.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNReanimated.a;
+			remoteRef = 66A20C6222A6F16B007CEEB3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		66A4A338215C197100E62430 /* libReact.a */ = {
@@ -2425,11 +2491,15 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = rizzleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2457,11 +2527,15 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = rizzleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2481,7 +2555,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2497,6 +2571,7 @@
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = rizzle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -2525,7 +2600,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2540,6 +2615,7 @@
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = rizzle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -2583,10 +2659,14 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = "rizzle-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2624,10 +2704,14 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = "rizzle-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2654,7 +2738,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "rizzle-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.rizzle-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2677,7 +2764,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "rizzle-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.rizzle-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2704,7 +2794,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
@@ -2722,11 +2812,15 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = RizzleShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2735,7 +2829,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "88ffb5b8-2236-45a5-8f61-0bb41c4771dc";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension App Store";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension Development";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2778,11 +2872,15 @@
 					"$(SRCROOT)/../node_modules/react-native-swiss-knife/ios/RNSKText",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = RizzleShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

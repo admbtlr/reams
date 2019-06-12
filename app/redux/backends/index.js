@@ -83,6 +83,15 @@ export async function markItemRead (item) {
   }
 }
 
+export async function markItemsRead (items) {
+  switch (backend) {
+    case 'rizzle':
+      return rizzle.markItemsRead(items)
+    case 'feedwrangler':
+      return feedwrangler.markItemsRead(items)
+  }
+}
+
 export async function saveItem (item, folder) {
   switch (backend) {
     case 'rizzle':

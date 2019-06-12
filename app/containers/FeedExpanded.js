@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import ExpandedFeed from '../components/ExpandedFeed.js'
+import FeedExpanded from '../components/FeedExpanded.js'
 import {getCachedImagePath} from '../utils/'
 
 const mapStateToProps = (state, ownProps) => {
@@ -64,9 +64,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-let ExpandedFeedContainer = connect(
+let FeedExpandedContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ExpandedFeed)
+)(FeedExpanded)
 
-export default ExpandedFeedContainer
+export default FeedExpandedContainer

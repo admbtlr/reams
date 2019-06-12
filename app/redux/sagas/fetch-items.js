@@ -150,32 +150,24 @@ function * receiveItems (items, type) {
   console.log('cleaning up items took ' + (Date.now() - now))
   now = Date.now()
 
-  if (type === 'unread') {
-    yield call(InteractionManager.runAfterInteractions)
-    feeds = incrementFeedUnreadCounts(items, feeds)
-    yield put({
-      type: 'FEEDS_UPDATE_FEEDS',
-      feeds
-    })
-  } else if (type === 'saved') {
+  if (type === 'saved') {
     items = items.map(i => ({
       ...i,
       isSaved: true
     }))
   }
-  console.log('incrementFeedUnreadCounts took ' + (Date.now() - now))
-  now = Date.now()
 
   yield call(InteractionManager.runAfterInteractions)
+  now = Date.now()
   yield call(setItemsAS, items)
-  yield call(InteractionManager.runAfterInteractions)
   console.log('setItemsAS took ' + (Date.now() - now))
-  now = Date.now()
+  yield call(InteractionManager.runAfterInteractions)
 
+  now = Date.now()
   items = items.map(deflateItem)
   console.log('deflating items took ' + (Date.now() - now))
-  now = Date.now()
 
+  now = Date.now()
   yield put({
     type: 'ITEMS_BATCH_FETCHED',
     items,
@@ -183,7 +175,17 @@ function * receiveItems (items, type) {
     feeds
   })
   console.log('ITEMS_BATCH_FETCHED ' + (Date.now() - now))
-  now = Date.now()
+
+  if (type === 'unread') {
+    yield call(InteractionManager.runAfterInteractions)
+    now = Date.now()
+    feeds = incrementFeedUnreadCounts(items, feeds)
+    yield put({
+      type: 'FEEDS_UPDATE_FEEDS',
+      feeds
+    })
+    console.log('incrementFeedUnreadCounts took ' + (Date.now() - now))
+  }
 }
 
 function incrementFeedUnreadCounts (items, feeds) {
