@@ -23,7 +23,7 @@ export function * inflateItems (action) {
   const buffer = 3
   let counter = 1
   for (var i = -buffer; i < buffer; i++) {
-    if (index + i > 0 && index + i < items.length) {
+    if (index + i >= 0 && index + i < items.length) {
       activeItems.push(items[index + i])
     }
   }
