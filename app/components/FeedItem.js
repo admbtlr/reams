@@ -1,5 +1,6 @@
 import React from 'react'
-import {Animated, Dimensions, InteractionManager, Linking, ScrollView, View, WebView} from 'react-native'
+import {Animated, Dimensions, InteractionManager, Linking, ScrollView, View} from 'react-native'
+import {WebView} from 'react-native-webview'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
@@ -74,16 +75,20 @@ class FeedItem extends React.Component {
     }
 
     // various special cases
-    if (changes && Object.keys(changes).length === 1) {
+    // (this is horrible, but setTimerFunction is always a change, so filter it out
+    // before testing for the special cases)
+    if (changes && Object.keys(changes).filter(k => k !== 'setTimerFunction').length === 1) {
       switch (Object.keys(changes)[0]) {
         case 'isVisible':
           isDiff = false
           // this is a bit sneaky...
-          if (nextProps.isVisible) {
-            scrollHandler(this.scrollOffset)
-            // and let the world (i.e. the topbar and buttons) know that the scroll handler has changed
-            this.props.scrollHandlerAttached(this.props.item._id)
-          }
+          // if (nextProps.isVisible) {
+          //   scrollHandler(this.scrollOffset)
+          //   // and let the world (i.e. the topbar and buttons) know that the scroll handler has changed
+          //   this.props.scrollHandlerAttached(this.props.item._id)
+          // }
+          // so is this (startTimer() doesn't always get set correctly)
+          nextProps.setTimerFunction && nextProps.setTimerFunction(this.startTimer)
           break
 
         case 'fontSize':
@@ -141,9 +146,9 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    if (!this.isInflated()) {
-      return <View style={{ flex: 1 }} />
-    }
+    // if (!this.isInflated()) {
+    //   return <View style={{ flex: 1 }} />
+    // }
 
     if (/*__DEV__ || */!this.props.item.styles) {
       this.props.item.styles = createItemStyles(this.props.item)
@@ -197,6 +202,7 @@ class FeedItem extends React.Component {
 
     if (this.props.isVisible) {
       scrollHandler(this.scrollOffset)
+      this.props.scrollHandlerAttached(this.props.item._id)
     }
 
     if (!showCoverImage || this.isCoverImagePortrait()) {
@@ -205,6 +211,9 @@ class FeedItem extends React.Component {
 
     const authorHeading = !!author ? `<h2 class="author">${author}</h2>` : ''
     const excerptPara = !!excerpt ? `<p class="excerpt">${excerpt}</p>` : ''
+
+    // not sure how this can happen...
+    content_html = content_html || ''
 
     let body = this.props.showMercuryContent ? content_mercury : content_html
     body = body || ''
@@ -221,6 +230,7 @@ class FeedItem extends React.Component {
     const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkBackground ? 'dark-background' : ''}">
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       </head>
       <body class="${visibleClass} ${scrollingClass} ${blockquoteClass}" data-cover="${data}">
         <article
