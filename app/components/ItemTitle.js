@@ -928,7 +928,8 @@ class ItemTitle extends React.Component {
 
   itemStartsWithImage () {
     const item = this.props.item
-    const html = item.showMercuryContent ? item.content_mercury : item.content_html
+    // weird problem with content_html being undefined...
+    const html = item.showMercuryContent ? item.content_mercury : (item.content_html || '')
     const stripped = html.replace(/<(p|div|span|a).*?>/g, '').trim()
     return stripped.startsWith('<img') ||
       stripped.startsWith('<figure') ||

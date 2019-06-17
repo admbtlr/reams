@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native'
 import Animated, { Easing } from 'react-native-reanimated'
-import { TapGestureHandler, State } from 'react-native-gesture-handler'
+import { PanGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler'
 import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import TextButton from './TextButton'
@@ -27,6 +27,7 @@ const {
   clockRunning,
   cond,
   debug,
+  divide,
   eq,
   event,
   interpolate,
@@ -37,6 +38,7 @@ const {
   spring,
   startClock,
   stopClock,
+  sub,
   timing,
   Clock,
   Extrapolate,
@@ -78,10 +80,26 @@ class FeedExpanded extends React.Component {
         state: this.closeButtonGestureState,
       }
     }])
+    this.panY = new Value(0)
+    this.panGestureState = new Value(-1)
+    this.onPanGestureEvent = block([
+      event([{
+        nativeEvent: {
+          y: this.panY,
+          state: this.panGestureState
+        }
+      }]),
+      debug('Dragging!', this.panY)
+    ])
   }
 
   initialiseAnimations () {
     const clock = new Clock()
+
+    transY = cond(
+      eq(this.panGestureState, State.ACTIVE),
+      this.panY
+    )
 
     const runAnimation = (clock, feedGestureState, closeButtonGestureState) => {
       const state = {
@@ -117,12 +135,22 @@ class FeedExpanded extends React.Component {
           set(config.toValue, 1),
           startClock(clock),
         ]),
+        cond(and(eq(state.position, 1), eq(closeButtonGestureState, State.END), eq(clockRunning(clock), 0)), [
+          set(state.finished, 0),
+          set(state.time, 0),
+          set(state.position, 1),
+          set(config.toValue, 0),
+          startClock(clock),
+        ]),
         spring(clock, state, config),
         cond(state.finished, stopClock(clock)),
         state.position
       ])
     }
-    this._animation = runAnimation(clock, this.props.gestureState, this.closeButtonGestureState)
+    this.expandAnim = sub(
+      runAnimation(clock, this.props.gestureState, this.closeButtonGestureState),
+      divide(transY, this.screenHeight)
+    )
   }
 
   render () {
@@ -224,12 +252,12 @@ class FeedExpanded extends React.Component {
             0,
           overflow: 'visible',
           transform: [
-            { translateY: interpolate(this._animation, {
+            { translateY: interpolate(this.expandAnim, {
                 inputRange: [0, 1],
                 outputRange: [0, 0 - this.currentY]
               })
             },
-            { translateX: interpolate(this._animation, {
+            { translateX: interpolate(this.expandAnim, {
                 inputRange: [0, 1],
                 outputRange: [0, 0 - this.currentX]
               })
@@ -237,7 +265,7 @@ class FeedExpanded extends React.Component {
             // { scaleX: this.state.scaleAnim },
             // { scaleY: this.state.scaleAnim }
           ],
-          opacity: interpolate(this._animation, {
+          opacity: interpolate(this.expandAnim, {
             inputRange: [0, 0.1, 1],
             outputRange: [0, 1, 1]
           }),
@@ -245,106 +273,112 @@ class FeedExpanded extends React.Component {
         }}
         ref={c => this.outerView = c}
       >
-        <Animated.View
-          style={{
-            height: interpolate(this._animation, {
-              inputRange: [0, 1],
-              outputRange: [this.cardHeight, this.screenHeight / 2],
-            }),
-            width: interpolate(this._animation, {
-              inputRange: [0, 1],
-              outputRange: [this.cardWidth, this.screenWidth],
-            }),
-            borderRadius: 16,
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
-            backgroundColor: hslString(feedColor, 'desaturated'),
-            position: 'relative',
-            overflow: 'visible'
-          }}>
-            <View
-              ref={c => this.imageView = c}
-              style={{
-                height: '100%',
-                width: '100%'
-              }}>
-              <Animated.View style={{
-                height: '100%',
-                width: '100%',
-                borderRadius: 16,
-                overflow: 'hidden'
-              }}>
-                <FeedCoverImage
-                  feedColor={this.props.feedColor}
-                  feedId={this.props.feedId}
-                  coverImageId={this.props.coverImageId}
-                  cachedCoverImageId={this.props.cachedCoverImageId}
-                  coverImageDimensions={this.props.coverImageDimensions}
-                  setCachedCoverImage={this.props.setCachedCoverImage}
-                  width={this.screenWidth}
-                  height={this.screenHeight * 0.5} />
-              </Animated.View>
-            </View>
-          <Animated.View style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: 16,
-            paddingLeft: this.margin,
-            paddingRight: this.margin,
-            position: 'absolute',
-            backgroundColor: 'rgba(0, 0, 0, 0.2)'
-          }}>
-            <TapGestureHandler
-              onHandlerStateChange={this.onCloseButtonPress}
-            >
-              <Animated.View style={{
-                opacity: this._animation
-              }}>
-                <XButton isLight={true} style={{ top: 48 }}/>
-              </Animated.View>
-            </TapGestureHandler>
+        <PanGestureHandler
+          maxPointers={1}
+          onGestureEvent={this.onPanGestureEvent}
+          onHandlerStateChange={this.onPanGestureEvent}
+        >
+          <Animated.View
+            style={{
+              height: interpolate(this.expandAnim, {
+                inputRange: [0, 1],
+                outputRange: [this.cardHeight, this.screenHeight / 2],
+              }),
+              width: interpolate(this.expandAnim, {
+                inputRange: [0, 1],
+                outputRange: [this.cardWidth, this.screenWidth],
+              }),
+              borderRadius: 16,
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              backgroundColor: hslString(feedColor, 'desaturated'),
+              position: 'relative',
+              overflow: 'visible'
+            }}>
+              <View
+                ref={c => this.imageView = c}
+                style={{
+                  height: '100%',
+                  width: '100%'
+                }}>
+                <Animated.View style={{
+                  height: '100%',
+                  width: '100%',
+                  borderRadius: 16,
+                  overflow: 'hidden'
+                }}>
+                  <FeedCoverImage
+                    feedColor={this.props.feedColor}
+                    feedId={this.props.feedId}
+                    coverImageId={this.props.coverImageId}
+                    cachedCoverImageId={this.props.cachedCoverImageId}
+                    coverImageDimensions={this.props.coverImageDimensions}
+                    setCachedCoverImage={this.props.setCachedCoverImage}
+                    width={this.screenWidth}
+                    height={this.screenHeight * 0.5} />
+                </Animated.View>
+              </View>
             <Animated.View style={{
-              height: this.cardHeight,
+              width: '100%',
+              height: '100%',
+              borderRadius: 16,
               paddingLeft: this.margin,
               paddingRight: this.margin,
-              paddingBottom: this.margin,
               position: 'absolute',
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-              alignItems: 'flex-start',
-              transform: [
-                {
-                  translateY: interpolate(this._animation, {
-                    inputRange: [0, 1],
-                    outputRange: [0, this.screenHeight * 0.5 - this.cardHeight - this.margin],
-                  })
-                }
-              ],
+              backgroundColor: 'rgba(0, 0, 0, 0.2)'
             }}>
-              <Animated.Text style={{
-                ...textStyles,
-                flexWrap: 'wrap',
-                fontFamily: 'IBMPlexSansCond-Bold',
-                fontSize: add(24, multiply(this._animation, 8))
-              }}>{feedTitle}</Animated.Text>
-              <Text style={{
-                ...textStyles,
-                fontFamily: 'IBMPlexMono-Light',
-                fontSize: 16
-              }}>{numUnread} unread</Text>
+              <TapGestureHandler
+                onHandlerStateChange={this.onCloseButtonPress}
+              >
+                <Animated.View style={{
+                  opacity: this.expandAnim
+                }}>
+                  <XButton isLight={true} style={{ top: 48 }}/>
+                </Animated.View>
+              </TapGestureHandler>
+              <Animated.View style={{
+                height: this.cardHeight,
+                paddingLeft: this.margin,
+                paddingRight: this.margin,
+                paddingBottom: this.margin,
+                position: 'absolute',
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+                alignItems: 'flex-start',
+                transform: [
+                  {
+                    translateY: interpolate(this.expandAnim, {
+                      inputRange: [0, 1],
+                      outputRange: [0, this.screenHeight * 0.5 - this.cardHeight - this.margin],
+                    })
+                  }
+                ],
+              }}>
+                <Animated.Text style={{
+                  ...textStyles,
+                  flexWrap: 'wrap',
+                  fontFamily: 'IBMPlexSansCond-Bold',
+                  fontSize: add(24, multiply(this.expandAnim, 8))
+                }}>{feedTitle}</Animated.Text>
+                <Text style={{
+                  ...textStyles,
+                  fontFamily: 'IBMPlexMono-Light',
+                  fontSize: 16
+                }}>{numUnread} unread</Text>
+              </Animated.View>
             </Animated.View>
           </Animated.View>
-        </Animated.View>
+        </PanGestureHandler>
           <Animated.View style={{
             backgroundColor: '#F2ECD9',
             // 20px to cover the round corners of the image
-            height: interpolate(this._animation, {
+            height: interpolate(this.expandAnim, {
               inputRange: [0, 1],
               outputRange: [0, this.screenHeight / 2 + 20]
             }),
             marginTop: -20,
-            opacity: this._animation,
+            opacity: this.expandAnim,
             width: this.screenWidth
           }}>
             <ScrollView

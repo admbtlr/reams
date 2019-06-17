@@ -9,7 +9,6 @@ import {
 import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import RizzleButton from './RizzleButton'
 import {
-  getAnimatedValueNormalised,
   getAnimatedValue
 } from '../utils/animationHandlers'
 import {hslString} from '../utils/colors'

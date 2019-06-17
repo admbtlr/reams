@@ -12,6 +12,10 @@ export function getUnreadItems (state) {
   return getItemsUtils(state, 'unread')
 }
 
+export function getSavedItems (state) {
+  return getItemsUtils(state, 'saved')
+}
+
 export function getDisplay (state) {
   return state.itemsMeta.display
 }

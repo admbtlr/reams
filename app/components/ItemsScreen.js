@@ -19,6 +19,11 @@ import { hslString } from '../utils/colors'
 
 class ItemsScreen extends React.Component {
 
+  constructor (props) {
+    super(props)
+    this.props = props
+  }
+
   componentDidMount () {
     SplashScreen.hide()
     this.focusListener = this.props.navigation.addListener('didFocus', this.props.screenDidFocus)
@@ -42,7 +47,7 @@ class ItemsScreen extends React.Component {
       }}>
         <StatusBar
           showHideTransition="slide"
-          barStyle="light-content"
+          barStyle={ this.props.displayMode === 'saved' ? 'dark-content' : 'light-content' }
           hidden={false} />
         <ToolbarsContainer navigation={this.props.navigation}/>
         <View style={styles.infoView} />

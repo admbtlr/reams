@@ -68,6 +68,8 @@
 		667BD116216CC45300DB6B05 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF63B22066CC9F0037124C /* libSplashScreen.a */; };
 		667BD117216CC5D100DB6B05 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF63B22066CC9F0037124C /* libSplashScreen.a */; };
 		667D13A021D66D1F0047425F /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F510021B7C2D90064F485 /* libRNFirebase.a */; };
+		66840AA522B0DAF600D8B1A1 /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66840A9122B0DADD00D8B1A1 /* libRNCAsyncStorage.a */; };
+		66840B2D22B2D55B00D8B1A1 /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66840B1922B2D54600D8B1A1 /* libRNCWebView.a */; };
 		668CE94B2153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9492153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf */; };
 		668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
@@ -453,6 +455,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNMeasureText;
 		};
+		66840A9022B0DADD00D8B1A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66840A6122B0DADC00D8B1A1 /* RNCAsyncStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCAsyncStorage;
+		};
+		66840B1822B2D54600D8B1A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66840AEA22B2D54600D8B1A1 /* RNCWebView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCWebView;
+		};
 		6687CA771F9FA0CA0011FBE3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */;
@@ -653,6 +669,8 @@
 		66737812204314A900572989 /* rizzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rizzle.entitlements; path = rizzle/rizzle.entitlements; sourceTree = "<group>"; };
 		66737813204315E300572989 /* RizzleShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RizzleShare.entitlements; sourceTree = "<group>"; };
 		667378142043199F00572989 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IBMPlexMono-Regular.ttf"; path = "../../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
+		66840A6122B0DADC00D8B1A1 /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCAsyncStorage.xcodeproj; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; };
+		66840AEA22B2D54600D8B1A1 /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
 		6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		668CE8CE2153991100CA3EDF /* PlayfairDisplaySC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplaySC-Bold.ttf"; sourceTree = "<group>"; };
 		668CE8CF2153991100CA3EDF /* PlayfairDisplaySC-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplaySC-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -748,6 +766,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66840B2D22B2D55B00D8B1A1 /* libRNCWebView.a in Frameworks */,
+				66840AA522B0DAF600D8B1A1 /* libRNCAsyncStorage.a in Frameworks */,
 				66A20C6C22A6F190007CEEB3 /* libRNReanimated.a in Frameworks */,
 				66FADBB02295D912000FEA40 /* libRNGestureHandler.a in Frameworks */,
 				661134B0223BE946003340DE /* libRNGoogleSignin.a in Frameworks */,
@@ -1105,6 +1125,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		66840A6222B0DADC00D8B1A1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				66840A9122B0DADD00D8B1A1 /* libRNCAsyncStorage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		66840AEB22B2D54600D8B1A1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				66840B1922B2D54600D8B1A1 /* libRNCWebView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6687CA3C1F9FA05E0011FBE3 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -1231,6 +1267,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				66840AEA22B2D54600D8B1A1 /* RNCWebView.xcodeproj */,
+				66840A6122B0DADC00D8B1A1 /* RNCAsyncStorage.xcodeproj */,
 				66A20C2A22A6F16B007CEEB3 /* RNReanimated.xcodeproj */,
 				66FADB6F2295D8E4000FEA40 /* RNGestureHandler.xcodeproj */,
 				66113472223BE92A003340DE /* RNGoogleSignin.xcodeproj */,
@@ -1565,6 +1603,14 @@
 				{
 					ProductGroup = 66454B681FA1D8F400D941C5 /* Products */;
 					ProjectRef = DC41999E643A4C79B08D3438 /* RNBlur.xcodeproj */;
+				},
+				{
+					ProductGroup = 66840A6222B0DADC00D8B1A1 /* Products */;
+					ProjectRef = 66840A6122B0DADC00D8B1A1 /* RNCAsyncStorage.xcodeproj */;
+				},
+				{
+					ProductGroup = 66840AEB22B2D54600D8B1A1 /* Products */;
+					ProjectRef = 66840AEA22B2D54600D8B1A1 /* RNCWebView.xcodeproj */;
 				},
 				{
 					ProductGroup = 66C7971A1FE53E79001FBDEB /* Products */;
@@ -1945,6 +1991,20 @@
 			fileType = archive.ar;
 			path = libRNMeasureText.a;
 			remoteRef = 667129562165EDB900EB1B5E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		66840A9122B0DADD00D8B1A1 /* libRNCAsyncStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCAsyncStorage.a;
+			remoteRef = 66840A9022B0DADD00D8B1A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		66840B1922B2D54600D8B1A1 /* libRNCWebView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCWebView.a;
+			remoteRef = 66840B1822B2D54600D8B1A1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		6687CA781F9FA0CA0011FBE3 /* libRNSVG-tvOS.a */ = {
@@ -2555,7 +2615,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 240;
+				CURRENT_PROJECT_VERSION = 246;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2600,7 +2660,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 240;
+				CURRENT_PROJECT_VERSION = 246;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

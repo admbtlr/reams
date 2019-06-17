@@ -14,14 +14,8 @@ import {getPanValue} from '../utils/animationHandlers'
 import {hslString} from '../utils/colors'
 
 class Buttons extends React.Component {
-  state = {
-    visibleAnimCount: new Animated.Value(80),
-    visibleAnimSave: new Animated.Value(80),
-    visibleAnimShare: new Animated.Value(80),
-    visibleAnimMercury: new Animated.Value(80),
-    toggleAnimMercury: new Animated.Value(0),
-    toggleAnimSaved: new Animated.Value(0)
-  }
+
+  translateDistance = 80
 
   areButtonsVisible = false
 
@@ -37,6 +31,16 @@ class Buttons extends React.Component {
     this.onMercuryPress = this.onMercuryPress.bind(this)
     this.startToggleAnimationMercury = this.startToggleAnimationMercury.bind(this)
     this.startToggleAnimationSaved = this.startToggleAnimationSaved.bind(this)
+
+    this.state = {
+      visibleAnim: new Animated.Value(1),
+      visibleAnimCount: new Animated.Value(80),
+      visibleAnimSave: new Animated.Value(80),
+      visibleAnimShare: new Animated.Value(80),
+      visibleAnimMercury: new Animated.Value(80),
+      toggleAnimMercury: new Animated.Value(0),
+      toggleAnimSaved: new Animated.Value(0)
+    }
   }
 
   showShareActionSheet () {
@@ -65,35 +69,27 @@ class Buttons extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const springConfig = {
-      speed: 30,
-      bounciness: 12,
-      toValue: this.props.visible ? 0 : 80,
-      duration: 200,
-      useNativeDriver: true
-    }
     if (prevProps.visible !== this.props.visible ||
       this.props.visible !== this.areButtonsVisible) {
-      Animated.stagger(100, [
-        Animated.spring(
-          this.state.visibleAnimCount,
-          springConfig
-        ),
-        Animated.spring(
-          this.state.visibleAnimSave,
-          springConfig
-        ),
-        Animated.spring(
-          this.state.visibleAnimShare,
-          springConfig
-        ),
-        Animated.spring(
-          this.state.visibleAnimMercury,
-          springConfig
-        )
-      ]).start(_ => {
+      Animated.timing(
+        this.state.visibleAnim,
+        {
+          toValue: this.props.visible ? 0 : 1,
+          duration: 800,
+          useNativeDriver: true
+        }
+      ).start(_ => {
         this.areButtonsVisible = this.props.visible
       })
+    }
+
+    if (this.props.currentItem && this.props.currentItem !== prevProps.currentItem) {
+      this.setState({
+        toggleAnimSaved: new Animated.Value(this.props.currentItem.isSaved ? 1 : 0),
+        toggleAnimMercury: new Animated.Value(this.props.currentItem.showMercuryContent ? 1 : 0)
+      })
+      this.isCurrentSaved = this.props.currentItem.isSaved ? 1 : 0
+      this.isCurrentMercury = this.props.currentItem.showMercuryContent ? 1 : 0
     }
   }
 
@@ -112,19 +108,21 @@ class Buttons extends React.Component {
     //     hslString('rizzleBG'))
   }
 
-  startToggleAnimationMercury () {
-    const toValue = Math.abs(this.state.toggleAnimMercury._value - 1)
-    Animated.timing(this.state.toggleAnimMercury, {
-      toValue,
-      duration: 400
+  startToggleAnimationSaved () {
+    this.isCurrentSaved = Math.abs(this.isCurrentSaved - 1)
+    Animated.timing(this.state.toggleAnimSaved, {
+      toValue: this.isCurrentSaved,
+      duration: 300,
+      useNativeDriver: true
     }).start()
   }
 
-  startToggleAnimationSaved () {
-    const toValue = Math.abs(this.state.toggleAnimSaved._value - 1)
-    Animated.timing(this.state.toggleAnimSaved, {
-      toValue,
-      duration: 400
+  startToggleAnimationMercury () {
+    this.isCurrentMercury = Math.abs(this.isCurrentMercury - 1)
+    Animated.timing(this.state.toggleAnimMercury, {
+      toValue: this.isCurrentMercury,
+      duration: 300,
+      useNativeDriver: true
     }).start()
   }
 
@@ -133,14 +131,13 @@ class Buttons extends React.Component {
     return !(this.props.index === nextProps.index &&
       this.props.displayMode === nextProps.displayMode &&
       this.props.decoratedCount === nextProps.decoratedCount &&
+      this.props.visible === nextProps.visible &&
       this.props.toolbar === nextProps.toolbar &&
-      this.props.numItems === nextProps.numItems &&
-      (this.props.isCurrentItemSaved !== nextProps.isCurrentItemSaved ||
-        this.props.showMercuryContent !== nextProps.showMercuryContent))
+      this.props.numItems === nextProps.numItems)
   }
 
   render () {
-    // console.log('RENDER BUTTONS!')
+    console.log('RENDER BUTTONS!')
     const {prevItem, currentItem, nextItem} = this.props
     const items = prevItem ?
       [prevItem, currentItem, nextItem] :
@@ -178,9 +175,7 @@ class Buttons extends React.Component {
     const saveStrokeColours = item && item.isSaved ?
       ['hsl(45, 60%, 51%)', 'hsl(210, 60%, 51%)', 'hsl(15, 60%, 51%)'] :
       [strokeColor, strokeColor, strokeColor]
-    const saveFillColors = item && item.isSaved ?
-      ['hsl(45, 60%, 51%)', 'hsl(210, 60%, 51%)', 'hsl(15, 60%, 51%)'] :
-      ['white', 'white', 'white']
+    const saveFillColors = ['white', 'white', 'white']
     // const backgroundColor = this.props.displayMode && this.props.displayMode == 'unread' ?
     //   hslString('rizzleBG') :
     //   hslString('rizzleBGAlt')
@@ -217,7 +212,10 @@ class Buttons extends React.Component {
             width: 'auto',
             paddingHorizontal: 25,
             transform: [{
-              translateY: isCurrent ? this.state.visibleAnimCount : 0
+              translateY: isCurrent ? this.state.visibleAnim.interpolate({
+                inputRange: [0, 0.2, 0.4, 1],
+                outputRange: [0, this.translateDistance * 1.2, this.translateDistance, this.translateDistance]
+              }) : 0
             }]
           }}
           onPress={this.onDisplayPress}
@@ -246,18 +244,36 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 1,
             transform: [{
-              translateY: isCurrent ? this.state.visibleAnimSave : 0
+              translateY: isCurrent ? this.state.visibleAnim.interpolate({
+                inputRange: [0, 0.2, 0.4, 0.6, 1],
+                outputRange: [0, 0, this.translateDistance * 1.2, this.translateDistance, this.translateDistance]
+              }) : 0
             }]
           }}
           onPress={this.onSavePress}
         >
+          <Svg
+            height='50'
+            width='50'
+            style={{
+              transform: [
+                { translateX: -4 },
+                { translateY: -3 }
+              ]
+            }}>
+            <Path fill={backgroundColor} stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
+            <Path fill={backgroundColor} stroke={borderColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
+            <Path fill={backgroundColor} stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
+            <Path fill={backgroundColor} stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
+            <Rect fill={backgroundColor} stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
+          </Svg>
           <Animated.View style={{
             position: 'absolute',
             left: -1,
             top: -1,
-            width: 56,
-            height: 56,
-            borderRadius: 28,
+            width: 50,
+            height: 50,
+            borderRadius: 25,
             padding: 2,
             opacity: this.getSavedToggleOpacity(item, isCurrent),
             backgroundColor: feedColor
@@ -267,8 +283,8 @@ class Buttons extends React.Component {
               width='50'
               style={{
                 transform: [
-                  { translateX: -3 },
-                  { translateY: -2 }
+                  { translateX: -5 },
+                  { translateY: -5 }
                 ]
               }}>
               <Path fill={saveFillColors[2]} stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
@@ -276,7 +292,7 @@ class Buttons extends React.Component {
               <Path fill={saveFillColors[1]} stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
               <Path fill={saveFillColors[1]} stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
               <Rect fill={saveFillColors[0]} stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
-              </Svg>
+            </Svg>
           </Animated.View>
         </RizzleButton>
         <RizzleButton
@@ -286,7 +302,10 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 0,
             transform: [{
-              translateY: isCurrent ? this.state.visibleAnimShare : 0
+              translateY: isCurrent ? this.state.visibleAnim.interpolate({
+                inputRange: [0, 0.4, 0.6, 0.8, 1],
+                outputRange: [0, 0, this.translateDistance * 1.2, this.translateDistance, this.translateDistance]
+              }) : 0
             }]
           }}
           onPress={this.showShareActionSheet}
@@ -342,7 +361,10 @@ class Buttons extends React.Component {
           style={{
             paddingLeft: 2,
             transform: [{
-              translateY: isCurrent ? this.state.visibleAnimMercury : 0
+              translateY: isCurrent ? this.state.visibleAnim.interpolate({
+                inputRange: [0, 0.6, 0.8, 1],
+                outputRange: [0, 0, this.translateDistance * 1.2, this.translateDistance]
+              }) : 0
             }]
           }}
           onPress={isMercuryButtonEnabled ? this.onMercuryPress : () => false}
@@ -398,13 +420,7 @@ class Buttons extends React.Component {
 
   getMercuryToggleOpacity (item, isCurrent) {
     if (isCurrent) {
-      const currentToggleVal = this.state.toggleAnimMercury._value
-      return !!item.showMercuryContent === !!currentToggleVal ?
-        this.state.toggleAnimMercury :
-        this.state.toggleAnimMercury.interpolate({
-          inputRange: [0, 1],
-          outputRange: [1, 0]
-        })
+      return this.state.toggleAnimMercury
     } else {
       return item && item.showMercuryContent ? 1 : 0
     }
@@ -412,13 +428,7 @@ class Buttons extends React.Component {
 
   getSavedToggleOpacity (item, isCurrent) {
     if (isCurrent) {
-      const currentToggleVal = this.state.toggleAnimSaved._value
-      return !!item.isSaved === !!currentToggleVal ?
-        this.state.toggleAnimSaved :
-        this.state.toggleAnimSaved.interpolate({
-          inputRange: [0, 1],
-          outputRange: [1, 0]
-        })
+      return this.state.toggleAnimSaved
     } else {
       return item && item.isSaved ? 1 : 0
     }

@@ -8,7 +8,7 @@ import { addFeedToFirestore, getFeedsFS, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
-import { getFeeds, getIndex, getItems, isFirstTime } from './selectors'
+import { getFeeds, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
 
 function * prepareAndAddFeed (feed) {
   const feeds = yield select(getFeeds)
@@ -36,23 +36,33 @@ export function * subscribeToFeed (action) {
 }
 
 export function * markFeedRead (action) {
-  let feedId = action.id
-  const index = select(getIndex)
-  const items = select(getItems)
-  const olderThan = action.olderThan || Date.now()
-  currentItem = items[index]
-  // if no feedId specified, then we mean ALL items
-  const isInFeed = (item) => feedId ? item.feed_id === feedId : true
-  items = [ ...state.items ].filter((item) => {
-    return isInFeed(item) ?
-      (item.created_at > olderThan) :
-      true
-  })
-
-  yield put ({
-    type: 'ITEMS_MARK_READ',
-    items
-  })
+  try {
+    const olderThan = action.olderThan || (Date.now() / 1000)
+    const items = yield select(getUnreadItems)
+    // if no feedId specified, then we mean ALL items
+    const itemsToMarkRead = items.filter(item => (!action.id ||
+      item.feed_id === action.id) &&
+      item.created_at < olderThan).map(item => ({
+        _id: item._id,
+        feed_id: item.feed_id,
+        title: item.title
+      }))
+    yield call(InteractionManager.runAfterInteractions)
+    yield put({
+      type: 'ITEMS_MARK_READ',
+      items: itemsToMarkRead.map(i => ({
+        _id: i._id,
+        id: i.id,
+        feed_id: i.feed_id
+      }))
+    })
+    yield call(InteractionManager.runAfterInteractions)
+    yield put({
+      type: 'ITEMS_CLEAR_READ'
+    })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export function * syncFeeds () {

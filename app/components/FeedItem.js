@@ -318,6 +318,7 @@ class FeedItem extends React.Component {
                   Linking.openURL(url)                }
               }
             }}
+            onNavigationStateChange={this.updateWebViewHeight}
             {...openLinksExternallyProp}
             originWhitelist={['*']}
             ref={(ref) => { this.webView = ref }}
@@ -332,7 +333,7 @@ class FeedItem extends React.Component {
             source={{
               html: html,
               baseUrl: 'web/'}}
-            onNavigationStateChange={this.updateWebViewHeight}
+            useWebKit={false}
           />
         </Animated.ScrollView>
       </Animated.View>

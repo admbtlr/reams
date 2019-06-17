@@ -27,6 +27,13 @@ export async function updateItemAS (item) {
   return await AsyncStorage.mergeItem(item._id, JSON.stringify(item))
 }
 
+export async function updateItemsAS (items) {
+  for (item in items) {
+    await updateItemAS(item)
+  }
+  return true
+}
+
 export async function setItemsAS (items) {
   const keyVals = items.map(item => [
     item._id,

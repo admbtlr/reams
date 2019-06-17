@@ -2,6 +2,7 @@ import {combineReducers} from 'redux'
 import {REHYDRATE} from 'redux-persist'
 import {
   itemMarkRead,
+  itemsMarkRead,
   itemSetScrollOffset,
   itemToggleMercury,
   itemDecorationSuccess,
@@ -161,13 +162,7 @@ export const itemsUnread = (state = initialState, action) => {
       }
 
       currentItem = items[state.index]
-      if (action.itemSort === 'forwards') {
-        const numToPrune = items.length - action.maxItems
-        items = items.slice(numToPrune)
-        index = index - (numToPrune)
-      } else {
-        items = items.slice(0, action.maxItems)
-      }
+      items = items.filter(item => action.prunedItems.find(pi => pi._id === item._id) === undefined)
       if (currentItem && items.indexOf(currentItem) === -1) {
         items.unshift(currentItem)
         index = 0

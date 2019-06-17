@@ -47,24 +47,26 @@ export function feeds (state = initialState, action) {
       }
 
     case 'FEEDS_UPDATE_FEED':
-      newState = { ...state }
-      dirtyFeedIndex = newState.feeds.findIndex(f => f._id === action.feed._id)
-      dirtyFeed = newState.feeds[dirtyFeedIndex]
-      newState.feeds[dirtyFeedIndex] = {
-        ...dirtyFeed,
-        ...action.feed
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+          {
+            ...feed,
+            ...action.feed
+          } :
+          feed)
       }
-      return newState
 
     case 'FEED_SET_CACHED_COVER_IMAGE':
-      newState = { ...state }
-      dirtyFeedIndex = newState.feeds.findIndex(f => f._id === action.id)
-      dirtyFeed = newState.feeds[dirtyFeedIndex]
-      newState.feeds[dirtyFeedIndex] = {
-        ...dirtyFeed,
-        cachedCoverImageId: action.cachedCoverImageId
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.id ?
+          {
+            ...feed,
+            cachedCoverImageId: action.cachedCoverImageId
+          } :
+          feed)
       }
-      return newState
 
     case 'ITEM_ADD_READING_TIME':
       feeds = [ ...state.feeds ]
@@ -75,6 +77,7 @@ export function feeds (state = initialState, action) {
 
       feed.number_read = feed.number_read || 0
       feed.number_read++
+      feed.number_unread--
 
       const getContentLength = (item) => {
         if (item.hasShownMercury) {
@@ -103,94 +106,110 @@ export function feeds (state = initialState, action) {
       }
 
     case 'ITEM_SHARE_ITEM':
-      feeds = [ ...state.feeds ]
-      feed = feeds.find(feed => feed._id === action.item.feed_id)
-      feed.number_shared = feed.number_shared || 0
-      feed.number_shared++
       return {
         ...state,
-        feeds
+        feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
+          {
+            ...feed,
+            number_shared: feed.number_shared ? feed.number_shared + 1 : 1
+          } :
+          feed)
       }
 
     case 'ITEM_SAVE_ITEM':
-      feeds = [ ...state.feeds ]
-      feed = feeds.find(feed => feed._id === action.item.feed_id)
-      feed.number_saved = feed.number_saved || 0
-      feed.number_saved++
       return {
         ...state,
-        feeds
+        feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
+          {
+            ...feed,
+            number_saved: feed.number_saved ? feed.number_saved + 1 : 1
+          } :
+          feed)
       }
 
     case 'FEED_LIKE':
-      feeds = [ ...state.feeds ]
-      feed = feeds.find(feed => feed._id === action.item.feed_id)
-      feed.favourite = true
       return {
         ...state,
-        feeds
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+          {
+            ...feed,
+            like: true
+          } :
+          feed)
       }
 
     case 'FEED_UNLIKE':
-      feeds = [ ...state.feeds ]
-      feed = feeds.find(feed => feed._id === action.item.feed_id)
-      feed.favourite = false
       return {
         ...state,
-        feeds
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+          {
+            ...feed,
+            like: false
+          } :
+          feed)
       }
 
     case 'FEED_MUTE':
-      feeds = [ ...state.feeds ]
-      feed = feeds.find(feed => feed._id === action.item.feed_id)
-      feed.muted = true
       return {
         ...state,
-        feeds
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+          {
+            ...feed,
+            muted: true
+          } :
+          feed)
       }
 
     case 'FEED_UNMUTE':
-      feeds = [ ...state.feeds ]
-      feed = feeds.find(feed => feed._id === action.item.feed_id)
-      feed.muted = false
       return {
         ...state,
-        feeds
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+          {
+            ...feed,
+            muted: false
+          } :
+          feed)
       }
-    // case 'FEED_MARK_READ':
-    //   feeds = [ ...state.feeds ]
-    //   feed = feeds.find(feed => feed._id === action.item.feed_id)
-    //   const feedId = action.id
-    //   const currentItem = state.items[state.index]
-    //   items = [ ...state.items ].filter((item) => {
-    //     return item.feed_id !== feedId &&
-    //       item._id !== currentItem._id
-    //   })
-    //   let newIndex = 0
-    //   items.forEach((item, index) => {
-    //     if (item._id === currentItem._id) {
-    //       newIndex = index
-    //     }
-    //   })
-    //   if (newIndex == 0) {
-    //     // find the first unread item and start there
-    //     let i = 0
-    //     for (let item of items) {
-    //       if (!item.readAt) {
-    //         newIndex = i
-    //         break
-    //       }
-    //       i++
-    //     }
-    //   }
-    //   return {
-    //     ...state,
-    //     items,
-    //     index: newIndex
-    //   }
 
+    case 'ITEMS_MARK_READ':
+      return updateUnreadCounts(action.items, state)
+
+    case 'ITEMS_PRUNE_UNREAD':
+      return updateUnreadCounts(action.prunedItems, state)
+
+    case 'ITEM_MARK_READ':
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
+          {
+            ...feed,
+            number_unread: feed.number_unread - 1
+          } :
+          feed)
+      }
 
     default:
       return state
+  }
+}
+
+function updateUnreadCounts (itemsToClear, state) {
+  let feedsWithCleared = {}
+  itemsToClear.forEach(item => {
+    let feed
+    if (feedsWithCleared[item.feed_id]) {
+      feedsWithCleared[item.feed_id]++
+    } else {
+      feedsWithCleared[item.feed_id] = 1
+    }
+  })
+  return {
+    ...state,
+    feeds: state.feeds.map(feed => feedsWithCleared[feed._id] ?
+      {
+        ...feed,
+        number_unread: feed.number_unread - feedsWithCleared[feed._id]
+      } :
+      feed)
   }
 }

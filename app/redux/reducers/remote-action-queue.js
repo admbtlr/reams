@@ -5,7 +5,7 @@ const initialState = {
 export function remoteActionQueue (state = initialState, action) {
   switch (action.type) {
     case 'ITEM_MARK_READ':
-    case 'FEED_MARK_READ':
+    case 'ITEMS_MARK_READ':
       return {
         ...state,
         actions: [

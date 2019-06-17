@@ -233,7 +233,7 @@ export function removeCachedCoverImages (items) {
     if (path) {
       RNFS.unlink(path)
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
         })
     }
   })

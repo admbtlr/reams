@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   Animated,
   Dimensions,
@@ -12,7 +12,6 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis'
 import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import {
   getAnimatedValue,
-  getAnimatedValueNormalised,
   getPanValue,
   addScrollListener
 } from '../utils/animationHandlers'
@@ -208,8 +207,6 @@ class TopBar extends React.Component {
     const textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor: this.getBackgroundColor(item),
-      // borderBottomColor: this.getBorderBottomColor(item),
-      // borderBottomWidth: 2,
       opacity: opacityAnim
     }
     const areDetailsVisible = this.state && this.state.detailsVisible || false
@@ -229,19 +226,19 @@ class TopBar extends React.Component {
             : 'none'}
           style={{
             ...textHolderStyles,
-            backgroundColor: 'red',
+            // backgroundColor: 'red',
             flexDirection: 'column',
             height: 600,
             overflow: 'hidden',
             paddingTop: 80,
             position: 'absolute',
-            shadowOffset: {
-              width: 0,
-              height: 1
-            },
-            shadowRadius: 1,
-            shadowOpacity: 0.1,
-            shadowColor: 'rgba(0, 0, 0, 1)',
+            // shadowOffset: {
+            //   width: 0,
+            //   height: 1
+            // },
+            // shadowRadius: 1,
+            // shadowOpacity: 0.1,
+            // shadowColor: 'rgba(0, 0, 0, 1)',
             top: -600,
             transform: [{
               translateY: this.detailsHeight.interpolate({
@@ -279,97 +276,32 @@ class TopBar extends React.Component {
             }]
           }}
         >
-          <Animated.View style={{
-            position: 'absolute',
-            left: 20,
-            bottom: -2,
-            width: 28,
-            height: 38,
-            opacity: clampedAnimatedValue.interpolate({
+          <ViewButtonToggle
+            onPress={this.props.toggleViewButtons}
+            opacityAnim={clampedAnimatedValue.interpolate({
               inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
               outputRange: [0, 1]
-            })
-          }}>
-            <TouchableOpacity
-              style={{
-                // borderRadius: 14,
-                // backgroundColor: 'rgba(0, 0, 0, 0.3)'
-              }}
-              onPress={this.props.toggleViewButtons}
-            >
-              <Svg
-                height='32'
-                width='32'>
-                <Path
-                  d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-                  strokeWidth={1}
-                  stroke="white"
-                  fill="none"
-                />
-                <Circle
-                  cx="12"
-                  cy="12"
-                  r="3"
-                  strokeWidth={1}
-                  stroke="white"
-                  fill="none"
-                />
-              </Svg>
-            </TouchableOpacity>
-          </Animated.View>
-          <Text style={{
-              ...this.getStyles().feedActions,
-              fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
-              // opacity: getAnimatedValueNormalised(),
-              height: 36,
-              backgroundColor: this.getBorderBottomColor(item),
-              color: 'white',
-              marginLeft: Dimensions.get('window').width * 0.5 - 80,
-              marginRight: Dimensions.get('window').width * 0.5 - 80,
-              paddingBottom: 20,
-              marginBottom: 30,
-              borderRadius: 10
-            }}
-          >12 Unread</Text>
-          <TouchableOpacity
-            onPress={() => {
+            })}
+          />
+          <FeedDetails
+            bgColor={this.getBorderBottomColor(item)}
+            feedActionStyles={this.getStyles().feedActions}
+            onPressMarkAllRead={() => {
               this.props.markAllRead(item.feed_id)
               console.log('MARK ALL READ!')
-          }}>
-            <Text style={{
-                ...this.getStyles().feedActions,
-                fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
-                // opacity: getAnimatedValueNormalised(),
-                height: 36,
-                color: this.getBorderBottomColor(item),
-                paddingBottom: 40,
-                textDecorationLine: 'underline'
-              }}
-            >Mark all read</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
+            }}
+            onPressUnsubscribe={() => {
               this.props.unsubscribe(item.feed_id)
               console.log('UNSUBSCRIBE!')
-            }}>
-            <Text style={{
-                ...this.getStyles().feedActions,
-                fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexMono',
-                // opacity: getAnimatedValueNormalised(),
-                height: 36,
-                color: this.getBorderBottomColor(item),
-                paddingBottom: 60,
-                textDecorationLine: 'underline'
-              }}
-            >Unsubscribe</Text>
-          </TouchableOpacity>
+            }}
+          />
           <TouchableWithoutFeedback
             key={`inner-{id()}`}
             onPress={() => {
               console.log('BUTTON PRESSED!')
-              this.setState({
-                detailsVisible: !areDetailsVisible
-              })
+              // this.setState({
+              //   detailsVisible: !areDetailsVisible
+              // })
             }}
             style={{
               backgroundColor: 'transparent',
@@ -384,7 +316,6 @@ class TopBar extends React.Component {
                 ...this.getStyles().feedName,
                 fontSize: isMessage ? 18 : 20,
                 fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexSansCond-Bold',
-                // opacity: getAnimatedValueNormalised(),
                 height: 36,
                 width: Dimensions.get('window').width - 72,
                 marginLeft: 36,
@@ -411,62 +342,13 @@ class TopBar extends React.Component {
               }
             </Animated.Text>
           </TouchableWithoutFeedback>
-          <Animated.View
-            style={{
-              position: 'absolute',
-              zIndex: 5,
-              right: 19,
-              bottom: 7,
-              opacity: clampedAnimatedValue.interpolate({
-                inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-                outputRange: [0, 1]
-              })
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                width: 28,
-                height: 28,
-                borderRadius: 14
-              }}
-              onPress={() => this.props.navigation.navigate('Feeds')}
-            >
-              <Svg
-                height='22'
-                width='28'>
-                <Line
-                  fill='none'
-                  stroke={this.getHamburgerColor(item)}
-                  strokeLinecap='round'
-                  strokeWidth='1'
-                  x1='2'
-                  x2='24'
-                  y1='1'
-                  y2='1'
-                />
-                <Line
-                  fill='none'
-                  stroke={this.getHamburgerColor(item)}
-                  strokeLinecap='round'
-                  strokeWidth='1'
-                  x1='2'
-                  x2='24'
-                  y1='8'
-                  y2='8'
-                />
-                <Line
-                  fill='none'
-                  stroke={this.getHamburgerColor(item)}
-                  strokeLinecap='round'
-                  strokeWidth='1'
-                  x1='2'
-                  x2='24'
-                  y1='15'
-                  y2='15'
-                />
-              </Svg>
-            </TouchableOpacity>
-          </Animated.View>
+          <FeedsHamburger
+            onPress={() => this.props.navigation.navigate('Feeds')}
+            opacityAnim={clampedAnimatedValue.interpolate({
+              inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+              outputRange: [0, 1]
+            })}
+            hamburgerColor={this.getHamburgerColor(item)} />
         </Animated.View>
     </View>)
   }
@@ -518,14 +400,139 @@ class TopBar extends React.Component {
         fontSize: 20,
         // fontFamily: 'AvenirNext-Regular',
         fontFamily: 'IBMPlexMono',
-        // fontWeight: '700',
-        // fontVariant: ['small-caps'],
+        fontFamily: 'IBMPlexMono',
+        height: 36,
         textAlign: 'center',
         padding: 10
       }
     }
   }
 }
+
+const FeedDetails = ({ bgColor, feedActionStyles, onPressMarkAllRead, onPressUnsubscribe }) => (<Fragment>
+    <Text style={{
+        ...feedActionStyles,
+        color: bgColor,
+        color: 'white',
+        marginLeft: Dimensions.get('window').width * 0.5 - 80,
+        marginRight: Dimensions.get('window').width * 0.5 - 80,
+        paddingBottom: 20,
+        marginBottom: 30,
+        borderRadius: 10
+      }}
+    >12 Unread</Text>
+    <TouchableOpacity
+      onPress={onPressMarkAllRead}>
+      <Text style={{
+        ...feedActionStyles,
+          color: bgColor,
+          paddingBottom: 40,
+          textDecorationLine: 'underline'
+        }}
+      >Mark all read</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+      onPress={onPressUnsubscribe}>
+      <Text style={{
+        ...feedActionStyles,
+          color: bgColor,
+          paddingBottom: 60,
+          textDecorationLine: 'underline'
+        }}
+      >Unsubscribe</Text>
+    </TouchableOpacity>
+  </Fragment>)
+
+const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.View
+    style={{
+      position: 'absolute',
+      zIndex: 5,
+      right: 19,
+      bottom: 7,
+      opacity: opacityAnim
+    }}
+  >
+    <TouchableOpacity
+      style={{
+        width: 28,
+        height: 28,
+        borderRadius: 14
+      }}
+      onPress={onPress}
+    >
+      <Svg
+        height='22'
+        width='28'>
+        <Line
+          fill='none'
+          stroke={hamburgerColor}
+          strokeLinecap='round'
+          strokeWidth='1'
+          x1='2'
+          x2='24'
+          y1='1'
+          y2='1'
+        />
+        <Line
+          fill='none'
+          stroke={hamburgerColor}
+          strokeLinecap='round'
+          strokeWidth='1'
+          x1='2'
+          x2='24'
+          y1='8'
+          y2='8'
+        />
+        <Line
+          fill='none'
+          stroke={hamburgerColor}
+          strokeLinecap='round'
+          strokeWidth='1'
+          x1='2'
+          x2='24'
+          y1='15'
+          y2='15'
+        />
+      </Svg>
+    </TouchableOpacity>
+  </Animated.View>)
+
+const ViewButtonToggle = ({ onPress, opacityAnim }) => (<Animated.View style={{
+    position: 'absolute',
+    left: 20,
+    bottom: -2,
+    width: 28,
+    height: 38,
+    opacity: opacityAnim
+  }}>
+    <TouchableOpacity
+      style={{
+        // borderRadius: 14,
+        // backgroundColor: 'rgba(0, 0, 0, 0.3)'
+      }}
+      onPress={onPress}
+    >
+      <Svg
+        height='32'
+        width='32'>
+        <Path
+          d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+          strokeWidth={1}
+          stroke="white"
+          fill="none"
+        />
+        <Circle
+          cx="12"
+          cy="12"
+          r="3"
+          strokeWidth={1}
+          stroke="white"
+          fill="none"
+        />
+      </Svg>
+    </TouchableOpacity>
+  </Animated.View>)
+
 
 export const getTopBarHeight = () => STATUS_BAR_HEIGHT +
   (isIphoneX() ? 40 : 20)

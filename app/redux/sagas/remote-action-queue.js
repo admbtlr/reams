@@ -1,7 +1,7 @@
 import { InteractionManager, NetInfo } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
-import { markItemRead, markFeedRead } from '../backends'
+import { markItemRead, markItemsRead } from '../backends'
 import { updateItemFS, addReadItemFS, addReadItemsFS } from '../firestore/'
 import { deleteItemsAS, updateItemAS } from '../async-storage/'
 import { removeCachedCoverImages } from '../../utils/item-utils'
@@ -53,28 +53,14 @@ function * executeAction (action) {
         console.log(error)
       }
       break
-    case 'FEED_MARK_READ':
-      // console.log('Marking feed read...')
+    case 'ITEMS_MARK_READ':
       try {
-        const olderThan = action.olderThan || (Date.now() / 1000)
-
-        // first, the backend
-        // markFeedRead is a backend function that needs to take the backend's feed id
-        yield call(markFeedRead, action.originalId, olderThan)
-
-        // now rizzle
-        const items = yield select(getUnreadItems)
-        // if no feedId specified, then we mean ALL items
-        const itemsToMarkRead = items.filter(item => (!action.id ||
-          item.feed_id === action.id) &&
-          item.created_at < olderThan)
-        // yield call(addReadItemsFS, itemsToMarkRead)
-        yield call(deleteItemsAS, itemsToMarkRead)
+        yield call(markItemsRead, action.items, action.feedId, action.olderThan)
+        // no need to update in Async Storage, since they'll be cleared anyway
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action
         })
-        removeCachedCoverImages(itemsToMarkRead)
       } catch (error) {
         console.log(error)
       }

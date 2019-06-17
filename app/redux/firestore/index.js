@@ -122,7 +122,6 @@ export function addReadItemsFS (items) {
       const docRef = getUserDb().collection('items-read').doc(item._id)
       writeBatch.set(docRef, {
         _id: item._id,
-        id: item.id,
         feed_id: item.feed_id,
         title: item.title
       })

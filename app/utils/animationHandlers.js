@@ -12,7 +12,7 @@ let scrollAnim = new Animated.Value(0)
 
 let clamped
 let clampedAnim = new Animated.Value(0)
-let clampedAnimNormalised = new Animated.Value(1)
+// let clampedAnimNormalised = new Animated.Value(1)
 
 let resetAnim = new Animated.Value(0)
 
@@ -76,7 +76,7 @@ export function scrollHandler (value) {
     scrollValue = value
     clampedScrollValue = Math.min(
       Math.max(clampedScrollValue + diff, 0),
-      STATUS_BAR_HEIGHT,
+      STATUS_BAR_HEIGHT
     )
     if (wasntDown && clampedScrollValue === 0) {
       scrollListeners.forEach((listener) => {
@@ -90,19 +90,19 @@ export function scrollHandler (value) {
     }
   })
   resetAnim.addListener(({ value }) => {
-    resetValue = value;
+    resetValue = value
   })
 
   clampedAnim = clamped.interpolate({
     inputRange: [0, STATUS_BAR_HEIGHT],
-    outputRange: [0, - STATUS_BAR_HEIGHT],
+    outputRange: [0, -STATUS_BAR_HEIGHT],
     extrapolate: 'clamp'
   })
-  clampedAnimNormalised = clamped.interpolate({
-    inputRange: [0, STATUS_BAR_HEIGHT],
-    outputRange: [1, 0],
-    extrapolateLeft: 'clamp'
-  })
+  // clampedAnimNormalised = clamped.interpolate({
+  //   inputRange: [0, STATUS_BAR_HEIGHT],
+  //   outputRange: [1, 0],
+  //   extrapolateLeft: 'clamp'
+  // })
 }
 
 export function onScrollEnd (e) {
@@ -116,7 +116,7 @@ export function onScrollEnd (e) {
   Animated.timing(resetAnim, {
     toValue,
     duration: 200,
-    useNativeDriver: true,
+    useNativeDriver: true
   }).start()
 }
 
@@ -128,9 +128,9 @@ export function getAnimatedValue () {
   return clampedAnim
 }
 
-export function getAnimatedValueNormalised () {
-  return clampedAnimNormalised
-}
+// export function getAnimatedValueNormalised () {
+//   return clampedAnimNormalised
+// }
 
 export function addScrollListener (listener) {
   scrollListeners.push(listener)

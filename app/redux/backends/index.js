@@ -83,12 +83,16 @@ export async function markItemRead (item) {
   }
 }
 
-export async function markItemsRead (items) {
+export async function markItemsRead (items, feedId = null, olderThan = null) {
   switch (backend) {
     case 'rizzle':
       return rizzle.markItemsRead(items)
     case 'feedwrangler':
-      return feedwrangler.markItemsRead(items)
+      if (feedId) {
+        return feedwrangler.markFeedRead(feedId, olderThan)
+      } else {
+        return feedwrangler.markItemsRead(items)
+      }
   }
 }
 
@@ -116,14 +120,14 @@ export async function unsaveItem (item, folder) {
   return item
 }
 
-export function markFeedRead (feed, olderThan) {
-  switch (backend) {
-    case 'rizzle':
-      return
-    case 'feedwrangler':
-      // return feedwrangler.markFeedRead(feed, olderThan)
-  }
-}
+// export function markFeedRead (feed, olderThan, items) {
+//   switch (backend) {
+//     case 'rizzle':
+//       return rizzle.markItemsRead(items)
+//     case 'feedwrangler':
+//       return feedwrangler.markFeedRead(feed, olderThan)
+//   }
+// }
 
 export function addFeed (url) {
   switch (backend) {

@@ -2,7 +2,9 @@ import { connect } from 'react-redux'
 import ItemsScreen from '../components/ItemsScreen.js'
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    displayMode: state.itemsMeta.display
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

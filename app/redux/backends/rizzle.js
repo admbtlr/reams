@@ -94,7 +94,7 @@ export async function markItemRead (item) {
   addReadItemFS(item)
 }
 
-export async function markItemsRead (item) {
+export async function markItemsRead (items) {
   addReadItemsFS(items)
 }
 
@@ -106,7 +106,9 @@ export const unsaveItem = (item, folder) => {
   return removeSavedItemFS(item)
 }
 
-export const markFeedRead = (item) => {}
+export const markFeedRead = (feed, olderThan, items) => {
+  return
+}
 
 export async function getFeedDetails (feed) {
   const url = `https://api.rizzle.net/feed-meta/?url=${feed.url}`

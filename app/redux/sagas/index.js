@@ -84,6 +84,7 @@ export function * updateCurrentIndex (getFirebase) {
   yield takeEvery('ITEM_SAVE_ITEM', markItemSaved)
   yield takeEvery('ITEM_UNSAVE_ITEM', markItemUnsaved)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
+  yield takeEvery('FEED_MARK_READ', markFeedRead)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchUnreadItems)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
   yield takeEvery('ITEMS_BATCH_FETCHED', pruneItems)
