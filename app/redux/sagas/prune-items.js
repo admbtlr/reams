@@ -16,7 +16,6 @@ export function * pruneItems (action) {
   const unreadItems = yield select(getItems)
   const toPrune = unreadItems.slice(MAX_UNREAD)
   if (toPrune.length === 0) return
-  debugger
 
   yield call(InteractionManager.runAfterInteractions)
   yield put({
@@ -30,7 +29,7 @@ export function * pruneItems (action) {
     }))
   })
   yield call(InteractionManager.runAfterInteractions)
-  const savedItems = select(getSavedItems)
+  const savedItems = yield select(getSavedItems)
   const itemsToClear = toPrune
     .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
   try {
