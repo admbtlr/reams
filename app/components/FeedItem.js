@@ -135,6 +135,19 @@ class FeedItem extends React.Component {
     return isDiff
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.isVisible && !prevProps.isVisible && this.props.item.scrollOffset > 0) {
+      const that = this
+      setTimeout(() => {
+        that.scrollView._component.scrollTo({
+          x: 0,
+          y: that.props.item.scrollOffset,
+          animated: true
+        })
+      }, 1000)
+    }
+  }
+
   isCoverImagePortrait () {
     const {imageDimensions} = this.props.item
     return imageDimensions && imageDimensions.height > imageDimensions.width
