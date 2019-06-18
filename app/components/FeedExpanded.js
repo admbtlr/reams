@@ -30,6 +30,7 @@ const {
   divide,
   eq,
   event,
+  greaterThan,
   interpolate,
   multiply,
   neq,
@@ -82,15 +83,12 @@ class FeedExpanded extends React.Component {
     }])
     this.panY = new Value(0)
     this.panGestureState = new Value(-1)
-    this.onPanGestureEvent = block([
-      event([{
-        nativeEvent: {
-          y: this.panY,
-          state: this.panGestureState
-        }
-      }]),
-      debug('Dragging!', this.panY)
-    ])
+    this.onPanGestureEvent = event([{
+      nativeEvent: {
+        translationY: this.panY,
+        state: this.panGestureState
+      }
+    }])
   }
 
   initialiseAnimations () {
@@ -142,8 +140,17 @@ class FeedExpanded extends React.Component {
           set(config.toValue, 0),
           startClock(clock),
         ]),
+        cond(and(greaterThan(transY, 100), eq(clockRunning(clock), 0)), [
+          set(state.finished, 0),
+          set(state.time, 0),
+          set(state.position, sub(1, divide(transY, this.screenHeight))),
+          set(config.toValue, 0),
+          startClock(clock),
+        ]),
         spring(clock, state, config),
         cond(state.finished, stopClock(clock)),
+        call([state.position], this.showHideStatusBar),
+        // debug('position', state.position),
         state.position
       ])
     }
@@ -151,6 +158,14 @@ class FeedExpanded extends React.Component {
       runAnimation(clock, this.props.gestureState, this.closeButtonGestureState),
       divide(transY, this.screenHeight)
     )
+  }
+
+  showHideStatusBar (position) {
+    if (position >= 1) {
+      StatusBar.setHidden(true)
+    } else if (position <= 0) {
+      StatusBar.setHidden(false)
+    }
   }
 
   render () {

@@ -217,7 +217,10 @@ class FeedsScreen extends React.Component {
         backgroundColor: hslString('rizzleBG')
         // marginTop: margin
       }}>
-        <StatusBar showHideTransition="slide"/>
+        <StatusBar
+          animated={true}
+          barStyle="dark-content"
+          showHideTransition="slide"/>
         <FlatList
           data={this.props.feeds}
           keyExtractor={feed => feed._id}
