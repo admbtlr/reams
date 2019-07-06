@@ -10,15 +10,25 @@ class RizzleModal extends React.Component {
     this.props = props
     this.onOK = this.onOK.bind(this)
     this.onCancel = this.onCancel.bind(this)
+    this.onClosed = this.onClosed.bind(this)
   }
 
   onOK () {
     this.props.modalProps.modalOnOk()
     this.props.modalHide()
+    this.isOpen = false
   }
 
   onCancel () {
     this.props.modalHide()
+    this.isOpen = false
+  }
+
+  onClosed () {
+    if (this.isOpen) {
+      this.props.modalHide()
+      this.isOpen = false
+    }
   }
 
   formatText (text) {
@@ -39,12 +49,14 @@ class RizzleModal extends React.Component {
   }
 
   render () {
+    this.isOpen = this.props.isVisible
     return (
       <Modal
         backdrop={true}
         style={{ backgroundColor: 'transparent' }}
         position="center"
         isOpen={this.props.isVisible}
+        onClosed={this.onClosed}
         >
        <View style={{...this.getStyles().base}}>
         <View style={{...this.getStyles().inner}}>
