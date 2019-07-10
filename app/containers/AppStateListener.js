@@ -3,7 +3,7 @@ import AppStateListener from '../components/AppStateListener'
 
 const mapStateToProps = (state) => {
   const appState = state.appState || 'inactive'
-  const lastUpdated = state.feeds.lastUpdated || 0
+  const lastUpdated = state.itemsUnread.lastUpdated || 0
   return {
     appState,
     lastUpdated

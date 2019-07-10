@@ -8,28 +8,32 @@ function replaceSectionsWithDivs () {
   }
 }
 
-function removeDivsInDivs () {
-  const divs = document.querySelector('article').querySelectorAll('div')
+function removeDivsInDivs(divs) {
+  divs = divs || document.querySelector('article').querySelectorAll('div')
   const toRemove = []
-  for (var i = divs.length - 1; i >= 0; i--) {
-    var parent = divs[i].parentNode
-    var nextSibling = divs[i].nextElementSibling
-    var prevSibling = divs[i].prevElementSibling
-    console.log(parent)
-    if (parent.tagName === 'DIV' &&
-      !parent.classList.contains('body') &&
-      !nextSibling &&
-      !prevSibling) {
-      // move this up to a sibling of the parent
-      var grandparent = parent.parentNode
-      grandparent.insertBefore(divs[i].cloneNode(true), parent)
-      toRemove.push(parent)
-    }
+  let pointlessDivs = Array.from(divs).filter(hasOnlyDivChildren)
+  const moveChildrenUpALevel = (div) => {
+    var parent = div.parentNode
+    var children = div.childNodes
+    children.forEach(child => {
+      parent.insertBefore(child.cloneNode(true), div)
+    })
   }
+  while (pointlessDivs.length > 0) {
+    moveChildrenUpALevel(pointlessDivs[0])
+    pointlessDivs[0].remove()
+    divs = document.querySelector('article').querySelectorAll('div')
+    pointlessDivs = Array.from(divs).filter(hasOnlyDivChildren)
+  }
+}
 
-  for (var i = toRemove.length - 1; i >= 0; i--) {
-    toRemove[i].remove()
+function hasOnlyDivChildren (el) {
+  const children = getChildrenRemoveBlankTextNodes(el)
+  if (children.length === 0) return false
+  for (var i = 0; i < children.length; i++) {
+    if (children[i].tagName !== 'DIV') return false
   }
+  return true
 }
 
 function removeArticles () {
@@ -393,7 +397,7 @@ function addTapMessageToElements (tag, msg, attr) {
   var els = document.querySelectorAll(tag)
   Array.prototype.forEach.call(els, function (el, i) {
     el.onclick = function (event) {
-      window.postMessage(msg + el[attr])
+      window.ReactNativeWebView.postMessage(msg + el[attr])
       event.stopPropagation()
       event.preventDefault()
       return false
@@ -412,11 +416,16 @@ function removeNodes (query) {
   }
 }
 
+function removeSrcSets () {
+  const images = document.querySelectorAll('img')
+  for (var i = images.length - 1; i >= 0; i--) {
+    images[i].srcset = ''
+  }
+}
+
 // what?
 replaceSectionsWithDivs()
-for (var i = 0; i < 5; i++) {
-  removeDivsInDivs()
-}
+removeDivsInDivs()
 removeArticles()
 removeEmptyParagraphs()
 removeEmptyDivs()
@@ -434,6 +443,7 @@ removeNYTImageText()
 removeNodes('time')
 removeSoloSurroundingDivs()
 createFigCaptions()
+removeSrcSets()
 // removeWidows()
 
 window.onload = function() {

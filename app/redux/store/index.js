@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 // import thunk from 'redux-thunk'
 import makeRootReducer from '../reducers'
-import {updateCurrentIndex} from '../sagas'
+import {initSagas} from '../sagas'
 import {persistReducer, persistStore} from 'redux-persist'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import firebase from 'react-native-firebase'
@@ -53,7 +53,7 @@ function configureStore () {
   }
   persistStore(store, null, onCompletion)
 
-  sagaMiddleware.run(updateCurrentIndex, getFirebase)
+  sagaMiddleware.run(initSagas, getFirebase)
 
   if (window.__DEV__) {
     window.getState = store.getState

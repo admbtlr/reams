@@ -89,6 +89,8 @@ class FeedExpanded extends React.Component {
         state: this.panGestureState
       }
     }])
+
+    this.deselectFeed = this.deselectFeed.bind(this)
   }
 
   initialiseAnimations () {
@@ -105,7 +107,7 @@ class FeedExpanded extends React.Component {
         velocity: new Value(0),
         position: new Value(0),
         time: new Value(0),
-        frameTime: new Value(0),
+        frameTime: new Value(0)
       }
 
       const config = {
@@ -125,6 +127,7 @@ class FeedExpanded extends React.Component {
           set(state.position, 1),
           set(config.toValue, 0),
           startClock(clock),
+          call([state.position], this.showStatusBar)
         ]),
         cond(and(eq(state.position, 0), eq(feedGestureState, State.END), eq(clockRunning(clock), 0)), [
           set(state.finished, 0),
@@ -132,13 +135,7 @@ class FeedExpanded extends React.Component {
           set(state.position, 0),
           set(config.toValue, 1),
           startClock(clock),
-        ]),
-        cond(and(eq(state.position, 1), eq(closeButtonGestureState, State.END), eq(clockRunning(clock), 0)), [
-          set(state.finished, 0),
-          set(state.time, 0),
-          set(state.position, 1),
-          set(config.toValue, 0),
-          startClock(clock),
+          call([state.position], this.hideStatusBar)
         ]),
         cond(and(greaterThan(transY, 100), eq(clockRunning(clock), 0)), [
           set(state.finished, 0),
@@ -146,10 +143,12 @@ class FeedExpanded extends React.Component {
           set(state.position, sub(1, divide(transY, this.screenHeight))),
           set(config.toValue, 0),
           startClock(clock),
+          call([state.position], this.showStatusBar)
         ]),
-        spring(clock, state, config),
         cond(state.finished, stopClock(clock)),
-        call([state.position], this.showHideStatusBar),
+        spring(clock, state, config),
+        // call([state.position], this.showHideStatusBar),
+        call([state.position, state.finished], this.deselectFeed),
         // debug('position', state.position),
         state.position
       ])
@@ -160,11 +159,30 @@ class FeedExpanded extends React.Component {
     )
   }
 
+  hideStatusBar () {
+    StatusBar.setHidden(true, 'slide')
+  }
+
+  showStatusBar () {
+    StatusBar.setHidden(false, 'slide')
+  }
+
   showHideStatusBar (position) {
     if (position >= 1) {
-      StatusBar.setHidden(true)
+      StatusBar.setHidden(true, 'slide')
     } else if (position <= 0) {
-      StatusBar.setHidden(false)
+      StatusBar.setHidden(false, 'slide')
+    }
+  }
+
+  deselectFeed ([position, finished]) {
+    if (position <= 0 && finished > 0) {
+      if (this.isExpanded) {
+        this.props.deselectFeed()
+        this.isExpanded = false
+      } else {
+        this.isExpanded = true
+      }
     }
   }
 
@@ -177,6 +195,8 @@ class FeedExpanded extends React.Component {
       feedColor,
       feedDescription,
       feedId,
+      feedIsLiked,
+      feedIsMuted,
       feedOriginalId,
       numUnread,
       numRead,
@@ -281,7 +301,7 @@ class FeedExpanded extends React.Component {
             // { scaleY: this.state.scaleAnim }
           ],
           opacity: interpolate(this.expandAnim, {
-            inputRange: [0, 0.1, 1],
+            inputRange: [0, 0.01, 1],
             outputRange: [0, 1, 1]
           }),
           ...this.props.extraStyle
@@ -450,7 +470,8 @@ class FeedExpanded extends React.Component {
                   <TextButton
                     buttonStyle={{
                       minWidth: this.screenWidth / 2 - this.margin * 1.5,
-                      marginRight: this.margin
+                      marginRight: this.margin,
+                      marginBottom: this.margin
                     }}
                     onPress={() => {
                       this.props.markAllRead(feedId, feedOriginalId)
@@ -458,12 +479,32 @@ class FeedExpanded extends React.Component {
                     text="Remove all" />
                   <TextButton
                     buttonStyle={{
-                      minWidth: this.screenWidth / 2 - this.margin * 1.5
+                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
+                      marginBottom: this.margin
                     }}
                     onPress={() => {
                       this.props.unsubscribe(feedId)
                     }}
                     text="Unsubscribe" />
+                  <TextButton
+                    buttonStyle={{
+                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
+                      marginRight: this.margin
+                    }}
+                    isInverted={feedIsMuted}
+                    onPress={() => {
+                      this.props.toggleMute(feedId)
+                    }}
+                    text="Mute" />
+                  <TextButton
+                    buttonStyle={{
+                      minWidth: this.screenWidth / 2 - this.margin * 1.5
+                    }}
+                    isInverted={feedIsLiked}
+                    onPress={() => {
+                      this.props.toggleLike(feedId)
+                    }}
+                    text="Like" />
                 </View>
               </View>
             </ScrollView>

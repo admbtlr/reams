@@ -98,6 +98,7 @@
 		66ACB1491FDAA026002BC66F /* icon-152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB1481FDAA026002BC66F /* icon-152x152.png */; };
 		66C797491FE53E98001FBDEB /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
 		66CF6320205FC6F10037124C /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AF94191FF7E69000336BA7 /* libRNFS.a */; };
+		66D95A9E22CB38FD0039C3AE /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66840A9122B0DADD00D8B1A1 /* libRNCAsyncStorage.a */; };
 		66FADBB02295D912000FEA40 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FADBA12295D8E5000FEA40 /* libRNGestureHandler.a */; };
 		66FBE164221C3C9C003F9FA8 /* libRNInAppBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FBE15A221C3C6A003F9FA8 /* libRNInAppBrowser.a */; };
 		6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */; };
@@ -830,6 +831,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66D95A9E22CB38FD0039C3AE /* libRNCAsyncStorage.a in Frameworks */,
 				66A20C6B22A6F180007CEEB3 /* libRNReanimated.a in Frameworks */,
 				66A20B0022A5A919007CEEB3 /* libRNGestureHandler.a in Frameworks */,
 				66113521223F8DF4003340DE /* JavaScriptCore.framework in Frameworks */,
@@ -2615,7 +2617,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 246;
+				CURRENT_PROJECT_VERSION = 256;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2660,7 +2662,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 246;
+				CURRENT_PROJECT_VERSION = 256;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

@@ -72,6 +72,10 @@ export function feeds (state = initialState, action) {
       feeds = [ ...state.feeds ]
       feed = feeds.find(feed => feed._id === action.item.feed_id)
 
+      // fix a bug where saved items can try and record reading time
+      // even though they have no feed
+      if (!feed) return state
+
       feed.reading_time = feed.reading_time || 0
       feed.reading_time += action.readingTime
 
@@ -127,13 +131,13 @@ export function feeds (state = initialState, action) {
           feed)
       }
 
-    case 'FEED_LIKE':
+    case 'FEED_TOGGLE_LIKE':
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+        feeds: state.feeds.map(feed => feed._id === action.id ?
           {
             ...feed,
-            like: true
+            isLiked: !!!feed.isLiked
           } :
           feed)
       }
@@ -141,21 +145,21 @@ export function feeds (state = initialState, action) {
     case 'FEED_UNLIKE':
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+        feeds: state.feeds.map(feed => feed._id === action.id ?
           {
             ...feed,
-            like: false
+            isLiked: false
           } :
           feed)
       }
 
-    case 'FEED_MUTE':
+    case 'FEED_TOGGLE_MUTE':
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+        feeds: state.feeds.map(feed => feed._id === action.id ?
           {
             ...feed,
-            muted: true
+            isMuted: !!!feed.isMuted
           } :
           feed)
       }
@@ -163,7 +167,7 @@ export function feeds (state = initialState, action) {
     case 'FEED_UNMUTE':
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+        feeds: state.feeds.map(feed => feed._id === action.id ?
           {
             ...feed,
             muted: false

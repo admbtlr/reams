@@ -136,7 +136,7 @@ export function addReadItemsFS (items) {
 }
 
 export async function getReadItemsFS () {
-  return getCollection('items-read', 'read_at', false, false)
+  return getCollection('items-read', 'read_at', 'desc', false, false)
 }
 
 // TODO: delete me
@@ -201,14 +201,29 @@ export function addSavedItemsFS (items) {
   }
 }
 
+export async function getSavedItemsFS (items) {
+  return getCollection('items-saved', 'savedAt')
+}
+
 export function addFeedToFirestore (feed) {
   const collectionRef = getUserDb().collection('feeds')
   return upsertFeed(feed, collectionRef)
 }
 
-function upsertFeed (feed, collectionRef) {
-  return collectionRef.doc(feed._id)
-    .set(feed)
+async function upsertFeed (feed, collectionRef) {
+  let existingFeed
+  let results = await collectionRef.where('_id', '==', feed._id).get()
+  if (results.docs.length > 0) {
+    existingFeed = results.docs[0].data()
+  }
+  if (!existingFeed) {
+    results = await collectionRef.where('id', '==', feed.id).get()
+    if (results.docs.length > 0) {
+      existingFeed = results.docs[0].data()
+    }
+  }
+  return collectionRef.doc(existingFeed ? existingFeed._id : feed._id)
+    .set(feed, { merge: true })
     .then(feed => {
       console.log('Upserted feed')
       return feed
@@ -227,15 +242,16 @@ export function upsertFeedsFS (feeds) {
 }
 
 export async function getFeedsFS () {
-  return getCollection('feeds', 'reading_rate', false, false)
+  return getCollection('feeds', 'title', 'asc', false, false)
 }
 
-export async function getCollection (collectionName, orderBy = 'created_at', fromCache, deflate) {
+export async function getCollection (collectionName, orderBy = 'created_at', direction = 'desc', fromCache, deflate) {
   let getOptions = {}
   let data
   if (fromCache) getOptions.source = 'cache'
 
   const PAGE_SIZE = 1000
+  // orderBy = typeof orderBy === 'array' ? orderBy : [orderBy]
 
   // let firstCall
   // if (fromCache) {
@@ -250,8 +266,17 @@ export async function getCollection (collectionName, orderBy = 'created_at', fro
   let getPage
   try {
     getPage = (startAfter) => startAfter ?
-      getUserDb().collection(collectionName).orderBy(orderBy).limit(PAGE_SIZE).startAfter(startAfter).get() :
-      getUserDb().collection(collectionName).orderBy(orderBy).limit(PAGE_SIZE).get()
+      getUserDb()
+        .collection(collectionName)
+        .orderBy(orderBy)
+        .limit(PAGE_SIZE)
+        .startAfter(startAfter)
+        .get() :
+      getUserDb()
+        .collection(collectionName)
+        .orderBy(orderBy)
+        .limit(PAGE_SIZE)
+        .get()
   } catch (err) {
     log('getCollection', err)
   }

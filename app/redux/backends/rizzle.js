@@ -1,7 +1,20 @@
 import firebase from 'react-native-firebase'
 import {id} from '../../utils'
-import { addReadItemFS, addSavedItemFS, getReadItemsFS, removeSavedItemFS } from '../firestore'
+import {
+  addReadItemFS,
+  addReadItemsFS,
+  addSavedItemFS,
+  getReadItemsFS,
+  getSavedItemsFS,
+  removeSavedItemFS,
+  setDb,
+  setUid } from '../firestore'
 // import { filterItemsForStale } from '../realm/stale-items'
+
+export function init ({ getFirebase, uid }) {
+  setDb(getFirebase().firestore())
+  setUid(uid)
+}
 
 export async function sendEmailLink (email) {
   const url = 'https://app.rizzle.net/'
@@ -26,18 +39,21 @@ export async function sendEmailLink (email) {
 // callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum
 export async function fetchItems (callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum) {
   if (type === 'saved') {
-    return true
-  }
-  try {
-    const readItems = await getReadItemsFS()
-    let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
-    unreadItemArrays = extractErroredFeeds(unreadItemArrays)
-    let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
-    newItems = newItems.filter(newItem => !!!oldItems.find(oldItem => oldItem.id === newItem.id))
-    newItems = newItems.filter(newItem => !!!readItems.find(readItem => readItem.id === newItem.id))
-    callback(newItems)
-  } catch (error) {
-    console.log(error)
+    let savedItems = await getSavedItemsFS()
+    savedItems = savedItems.filter(savedItem => !!!oldItems.find(oldItem => oldItem._id === savedItem._id))
+    callback(savedItems)
+  } else if (type === 'unread') {
+    try {
+      const readItems = await getReadItemsFS()
+      let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
+      unreadItemArrays = extractErroredFeeds(unreadItemArrays)
+      let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
+      newItems = newItems.filter(newItem => !!!oldItems.find(oldItem => oldItem._id === newItem._id))
+      newItems = newItems.filter(newItem => !!!readItems.find(readItem => readItem._id === newItem._id))
+      callback(newItems)
+    } catch (error) {
+      console.log(error)
+    }
   }
   return true
 }
@@ -134,10 +150,11 @@ export async function getFeedDetails (feed) {
 }
 
 const mapRizzleServerItemToRizzleItem = (item) => {
-  return {
-    _id: id(item),
-    author: item.author,
-    categories: item.categories,
+  let mappedItem = {
+    id: item.guid,
+    url: item.link,
+    external_url: item.link,
+    title: item.title,
     content_html: item.description,
     created_at: item.pubdate,
     date_modified: item.pubdate,
@@ -149,6 +166,8 @@ const mapRizzleServerItemToRizzleItem = (item) => {
     title: item.title,
     url: item.link
   }
+  mappedItem._id = id(mappedItem)
+  return mappedItem
 }
 
 

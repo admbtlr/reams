@@ -63,7 +63,7 @@ class TopBar extends React.Component {
     const feedName = item
       ? item.feed_title
       : 'Rizzle'
-    return this.props.toolbar.message || feedName || ''
+    return /*this.props.toolbar.message ||*/ feedName || ''
   }
 
   render () {
@@ -277,6 +277,10 @@ class TopBar extends React.Component {
           }}
         >
           <ViewButtonToggle
+            buttonColor={this.props.displayMode == 'saved' ?
+              this.getForegroundColor() :
+              'white'}
+            isSyncing={this.props.toolbar.message}
             onPress={this.props.toggleViewButtons}
             opacityAnim={clampedAnimatedValue.interpolate({
               inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
@@ -314,8 +318,8 @@ class TopBar extends React.Component {
               ellipsizeMode='tail'
               style={{
                 ...this.getStyles().feedName,
-                fontSize: isMessage ? 18 : 20,
-                fontFamily: isMessage ? 'IBMPlexMono-Italic' : 'IBMPlexSansCond-Bold',
+                fontSize: 20,
+                fontFamily: 'IBMPlexSansCond-Bold',
                 height: 36,
                 width: Dimensions.get('window').width - 72,
                 marginLeft: 36,
@@ -333,13 +337,6 @@ class TopBar extends React.Component {
               }}
             >
               {this.getMessage(item)}
-              {isMessage && false &&
-                <AnimatedEllipsis style={{
-                  color: 'white',
-                  fontSize: 20,
-                  letterSpacing: -5
-                }}/>
-              }
             </Animated.Text>
           </TouchableWithoutFeedback>
           <FeedsHamburger
@@ -497,7 +494,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
     </TouchableOpacity>
   </Animated.View>)
 
-const ViewButtonToggle = ({ onPress, opacityAnim }) => (<Animated.View style={{
+const ViewButtonToggle = ({ onPress, buttonColor, opacityAnim, isSyncing }) => (<Animated.View style={{
     position: 'absolute',
     left: 20,
     bottom: -2,
@@ -527,7 +524,7 @@ const ViewButtonToggle = ({ onPress, opacityAnim }) => (<Animated.View style={{
           r="3"
           strokeWidth={1}
           stroke="white"
-          fill="none"
+          fill={isSyncing ? "white" : "none"}
         />
       </Svg>
     </TouchableOpacity>

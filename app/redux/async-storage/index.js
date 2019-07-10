@@ -10,9 +10,7 @@ export async function getItemsAS (keys) {
     keys = keys.map(item => item._id)
   }
   try {
-    console.log(keys)
     const keyVals = await AsyncStorage.multiGet(keys)
-    console.log(keyVals)
     return keyVals.map(keyVal => JSON.parse(keyVal[1]))
   } catch (err) {
     log('getItemsAS', err)

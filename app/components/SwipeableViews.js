@@ -11,6 +11,7 @@ import {
 import { constant, checkIndexBounds, getDisplaySameSlide } from 'react-swipeable-views-core';
 import { panHandler } from '../utils/animationHandlers'
 import { getItemId } from '../utils/get-item'
+import { hslString } from '../utils/colors'
 
 class SwipeableViews extends Component {
   constructor (props) {
@@ -157,6 +158,7 @@ class SwipeableViews extends Component {
           flex: 1,
           flexDirection: 'row',
           height: Dimensions.get('window').height,
+          backgroundColor: hslString('bodyBGLight')
           // overflow: 'hidden',
           // width: Dimensions.get('window').width * 5
         }}

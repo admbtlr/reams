@@ -324,7 +324,7 @@ body {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
     height: auto !important;
-    margin: 0 0 1rem;
+    margin: .666rem 0;
     border: 0;
   }
 
@@ -467,9 +467,9 @@ body {
     position: relative;
     padding: .5rem;
     border-bottom: 1px solid hsl(0, 0%, 93%);
-    font-size: 0.45rem;
+    font-size: 0.5rem;
     font-weight: 300;
-    line-height: 0.66rem;
+    line-height: 0.75rem;
     color: hsl(0, 0%, 67%);
     background-color: white;
     position: relative;

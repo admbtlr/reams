@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import Animated, { Easing } from 'react-native-reanimated'
 import { TapGestureHandler, State } from 'react-native-gesture-handler'
+import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
@@ -38,6 +39,9 @@ class FeedContracted extends React.PureComponent {
     this.currentX = this.props.xCoord || 0
     this.currentY = this.props.yCoord || 0
 
+    this.opacity = new Animated.Value(1)
+    this.hide = this.hide.bind(this)
+
     this.initialiseAnimations()
   }
 
@@ -47,6 +51,7 @@ class FeedContracted extends React.PureComponent {
       block,
       call,
       cond,
+      debug,
       eq,
       event,
       interpolate,
@@ -100,7 +105,7 @@ class FeedContracted extends React.PureComponent {
         ]),
         timing(clock, state, config),
         cond(state.finished, stopClock(clock)),
-        cond(and(eq(gestureState, State.END), state.finished)),
+        cond(and(eq(gestureState, State.END), state.finished), call([], this.hide)),
         interpolate(state.position, {
           inputRange: [0, 1],
           outputRange: [1, 0.95],
@@ -113,6 +118,10 @@ class FeedContracted extends React.PureComponent {
 
   onPress = (e) => {
     this.imageView.measure(this.measured)
+  }
+
+  hide = () => {
+    // this.opacity.setValue(0)
   }
 
   measured = (x, y, width, height, px, py) => {
@@ -138,6 +147,8 @@ class FeedContracted extends React.PureComponent {
       feedColor,
       feedDescription,
       feedId,
+      feedIsLiked,
+      feedIsMuted,
       feedOriginalId,
       numUnread,
       numRead,
@@ -183,6 +194,7 @@ class FeedContracted extends React.PureComponent {
             marginRight: (this.props.index % 2 === 0 && this.screenWidth > 500) ?
               this.margin :
               0,
+            opacity: this.opacity,
             overflow: 'visible',
             transform: [
               {
@@ -223,6 +235,24 @@ class FeedContracted extends React.PureComponent {
                 width={this.screenWidth}
                 height={this.screenHeight * 0.5} />
             </View>
+            { feedIsLiked &&
+              <View style={{
+                position: 'absolute',
+                top: 10,
+                right: 10
+              }}>
+                <Svg
+                  height='32'
+                  width='32'>
+                  <Path
+                    d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
+                    strokeWidth={3}
+                    stroke='white'
+                    fill='white'
+                  />
+                </Svg>
+              </View>
+            }
             <View style={{
               // borderTopLeftRadius: 19,
               // borderTopRightRadius: 19,

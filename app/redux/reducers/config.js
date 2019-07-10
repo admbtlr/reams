@@ -1,5 +1,6 @@
 const initialState = {
-  backend: 'feedwrangler',
+  backend: '',
+  accessToken: '',
   isFirstTime: true,
   isOnboarding: false,
   lastUpdated: 0,
@@ -15,7 +16,8 @@ export function config (state = initialState, action) {
     case 'CONFIG_SET_BACKEND':
       return {
         ...state,
-        backend: action.backend
+        backend: action.backend,
+        accessToken: action.accessToken
       }
 
     case 'CONFIG_UPDATE_ONBOARDING_INDEX':

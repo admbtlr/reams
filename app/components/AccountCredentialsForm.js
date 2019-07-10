@@ -6,6 +6,7 @@ import OnePassword from 'react-native-onepassword'
 
 import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../redux/backends/rizzle'
+import { authenticate } from '../redux/backends'
 import { hslString } from '../utils/colors'
 
 const services = {
@@ -104,9 +105,8 @@ class AccountCredentialsForm extends React.Component {
       await sendEmailLink(email)
       console.log(`email: ${email}`)
     } else {
-      await authenticate({username, password}, this.props.service)
-      console.log(`username: ${username}`)
-      console.log(`password: ${password}`)
+      const accessToken = await authenticate({username, password}, this.props.service)
+      this.props.setBackend('feedwrangler', accessToken)
     }
   }
 
@@ -131,7 +131,9 @@ class AccountCredentialsForm extends React.Component {
     const user = this.props.user
     return (
       <Formik
+        enableReinitialize={true}
         initialValues={initialValues}
+        isInitialValid={this.state.email || this.state.username}
         onSubmit={this.authenticateUser}
         validationSchema={Yup.object().shape()}
         render={({
@@ -154,7 +156,8 @@ class AccountCredentialsForm extends React.Component {
               <View style={{
                 paddingTop: 16,
                 paddingLeft: 16,
-                paddingRight: 16
+                paddingRight: 16,
+                marginTop: 16
               }}>
                 <TextInput
                   onChangeText={handleChange('username')}
@@ -163,21 +166,22 @@ class AccountCredentialsForm extends React.Component {
                 />
                 <Text style={styles.textLabelStyle}>User name</Text>
                 <View style={{
-                  position: 'relative'
+                  position: 'relative',
+                  height: 48
                 }}>
                   <TextInput
                     onChangeText={handleChange('password')}
                     secureTextEntry={true}
                     style={{
                       ...styles.textInputStyle,
-                      flex: 1
+                      marginTop: 24
                     }}
                     value={values.password}
                   />
                   { this.state.is1Password &&
                     <View style={{
                       position: 'absolute',
-                      top: -5,
+                      top: 16,
                       right: 0
                     }}>
                       <Button

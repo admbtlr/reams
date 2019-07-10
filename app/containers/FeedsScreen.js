@@ -1,35 +1,19 @@
 import { connect } from 'react-redux'
 import FeedsScreen from '../components/FeedsScreen.js'
-// import { itemDidScroll } from '../redux/actions/item.js'
 
-let feedsCache = []
-
-const areFeedsListsEqual = (a, b) => {
-  if (a.length !== b.length) {
-    return false
-  }
-  let equal = true
-  a.forEach((f, i) => {
-    if (a[i].numItems !== b[i].numItems) {
-      equal = false
-    }
-  })
-  return equal
-}
+const sortFeeds = (a, b) => ((a.isLiked === b.isLiked) ? 0 : a.isLiked ? -1 : 1) ||
+  b.number_unread - a.number_unread ||
+  b.title - a.title
 
 const mapStateToProps = (state) => {
   const items = state.itemsUnread.items
-  const feeds = state.feeds.feeds.sort((a, b) => b.number_unread - a.number_unread)
+  const feeds = state.feeds.feeds.slice().sort(sortFeeds)
   const itemSort = state.config.itemSort
   const backendLabels = {
     feedbin: 'Feedbin',
     feedwrangler: 'Feedwrangler',
     rizzle: 'Rizzle'
   }
-
-  // if (!areFeedsListsEqual(feeds, feedsCache)) {
-  //   feedsCache = [...feeds]
-  // }
 
   return {
     backend: backendLabels[state.config.backend],

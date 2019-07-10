@@ -30,7 +30,8 @@ export function * inflateItems (action) {
 
   try {
     const itemsToDeflate = inflatedItems
-      .filter(item => !!!activeItems.find(ai => ai._id === item._id))
+      // why do I sometimes get an undefined error here? something's wrong...
+      .filter(item => item !== undefined && !!!activeItems.find(ai => ai._id === item._id))
       .map(deflateItem)
     let itemsToInflate = activeItems.filter(item => !!!inflatedItems.find(ai => ai._id === item._id))
 

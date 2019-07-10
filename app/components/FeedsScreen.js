@@ -177,6 +177,10 @@ class FeedsScreen extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
+    // don't render while displaying an expanded feed
+    if (this.state.showExpandingFeed && nextState.showExpandingFeed) {
+      return false
+    }
     return true
   }
 
@@ -247,6 +251,7 @@ class FeedsScreen extends React.Component {
             !this.state.selectedFeedElement.props.isDeleted :
             true) &&
           <FeedExpanded {...extraFeedProps}
+            deselectFeed={this.deselectFeed}
             extraStyle={{
               position: 'absolute',
               top: this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord,
@@ -301,6 +306,24 @@ class FeedsScreen extends React.Component {
     }
   }
 
+  deselectFeed = () => {
+      const prevSelectedFeedElement = this.state.selectedFeedElement
+      const prevSelectedFeedElementXCoord = this.state.selectedFeedElementXCoord
+      const prevSelectedFeedElementYCoord = this.state.selectedFeedElementYCoord
+    this.setState({
+      ...this.state,
+      selectedFeedElement: null,
+      selectedFeedElementXCoord: null,
+      selectedFeedElementYCoord: null,
+      selectedFeedElementScaleAnim: null,
+      selectedFeedElementGestureState: null,
+      prevSelectedFeedElement,
+      prevSelectedFeedElementXCoord,
+      prevSelectedFeedElementYCoord,
+      showExpandingFeed: false
+    })
+  }
+
   renderFeed = ({item, index}) => {
     const isSelected = this.state.selectedFeedElement !== null &&
       this.state.selectedFeedElement.props.feedId === item._id
@@ -309,6 +332,8 @@ class FeedsScreen extends React.Component {
       feedDescription={item.description}
       feedColor={item.color}
       feedId={item._id}
+      feedIsLiked={item.isLiked}
+      feedIsMuted={item.isMuted}
       feedOriginalId={item.id}
       feedNumRead={item.number_read}
       feedReadingTime={item.reading_time}

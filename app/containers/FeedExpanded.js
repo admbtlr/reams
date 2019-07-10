@@ -54,6 +54,14 @@ const mapDispatchToProps = (dispatch) => {
       type: 'FEEDS_REMOVE_FEED',
       id
     }),
+    toggleMute: (id) => dispatch({
+      type: 'FEED_TOGGLE_MUTE',
+      id
+    }),
+    toggleLike: (id) => dispatch({
+      type: 'FEED_TOGGLE_LIKE',
+      id
+    }),
     setCachedCoverImage: (feedId, cachedCoverImageId) => {
       return dispatch({
         type: 'FEED_SET_CACHED_COVER_IMAGE',

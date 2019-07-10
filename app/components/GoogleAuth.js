@@ -31,7 +31,7 @@ class GoogleAuth extends React.Component {
         // The user will be logged in automatically by the
         // `onAuthStateChanged` listener we set up in App.js earlier
         console.log(user)
-        this.props.setBackend('rizzle')
+        this.props.setBackend('rizzle', user)
       })
       .catch((error) => {
         const { code, message } = error
@@ -75,7 +75,6 @@ class GoogleAuth extends React.Component {
             marginRight: 20
           }}>
           <View style={{
-            flex: 1,
             flexDirection: 'row'
           }}>
             <Image

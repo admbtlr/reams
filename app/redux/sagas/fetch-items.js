@@ -2,7 +2,10 @@ import { call, fork, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import { InteractionManager } from 'react-native'
 
-import { fetchItems as fetchItemsBackends } from '../backends'
+import {
+  fetchItems as fetchItemsBackends,
+  hasBackend
+} from '../backends'
 import {
   addUnreadItemsToFirestore,
   upsertFeedsFS,
@@ -38,7 +41,7 @@ let feeds
 
 export function * fetchAllItems (includeSaved = true) {
   const config = yield select(getConfig)
-  if (!config.isOnline) return
+  if (!config.isOnline || !hasBackend()) return
 
   yield fetchItems('unread')
   if (includeSaved) {
@@ -140,11 +143,17 @@ function * receiveItems (items, type) {
   }
   console.log('createFeedsWhereNeededAndAddInfo took ' + (Date.now() - now))
   now = Date.now()
+
+  const currentItem = yield select(getCurrentItem)
+  const setShowCoverImageIfNotCurrent = (item, isCurrent) => isCurrent ?
+    item :
+    setShowCoverImage(item)
+
   items = items.map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
     .map(sanitizeContent)
-    .map(setShowCoverImage)
+    .map(setShowCoverImageIfNotCurrent)
     .map(fixCreatedAt)
     .map(addDateFetched)
   console.log('cleaning up items took ' + (Date.now() - now))
@@ -179,6 +188,8 @@ function * receiveItems (items, type) {
   if (type === 'unread') {
     yield call(InteractionManager.runAfterInteractions)
     now = Date.now()
+    // get the feeds again, they might have been changed by pruning the items
+    feeds = yield select(getFeeds)
     feeds = incrementFeedUnreadCounts(items, feeds)
     yield put({
       type: 'FEEDS_UPDATE_FEEDS',

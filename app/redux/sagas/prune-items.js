@@ -19,7 +19,7 @@ export function * pruneItems (action) {
 
   yield call(InteractionManager.runAfterInteractions)
   yield put({
-    type: 'ITEMS_PRUNE_UNREAD_ITEMS',
+    type: 'ITEMS_PRUNE_UNREAD',
     maxItems: MAX_UNREAD,
     itemSort: config.itemSort,
     prunedItems: toPrune.map(item => ({

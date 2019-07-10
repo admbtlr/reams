@@ -2,7 +2,12 @@ export default function rizzleSort (items, feeds, shuffleStrength = 2) {
   // sort by age
   // var now = Date.now()
   // it.map()
-  return items.sort((a, b) => b.created_at - a.created_at)
+  const liked = items.filter(item => feeds.find(feed => feed._id === item.feed_id)
+    .isLiked)
+  const notLiked = items.filter(item => liked.indexOf(item) === -1)
+  liked.sort((a, b) => b.created_at - a.created_at)
+  notLiked.sort((a, b) => b.created_at - a.created_at)
+  return liked.concat(notLiked)
   // return items.map(item => {
   //   const readingRate = feeds.find(f => f._id === item.feed_id).reading_rate
   //   const sorter = 1 / ((now - item.created_at) / 10000)

@@ -719,7 +719,9 @@ class ItemTitle extends React.Component {
             </Animated.Text>
           }
         </Animated.View>
-        { this.props.item.excerpt &&
+        { this.props.item.excerpt !== null &&
+          this.props.item.excerpt !== undefined &&
+          this.props.item.excerpt.length > 0 &&
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&
           excerptView }
@@ -848,7 +850,7 @@ class ItemTitle extends React.Component {
             fontSize: Math.round(excerptLineHeight / 1.4),
             lineHeight: excerptLineHeight,
             letterSpacing: 0
-          }}>{this.widowFix(this.props.excerpt)}</Animated.Text>
+          }}>{this.props.excerpt}</Animated.Text>
         </Animated.View>
         { showCoverImage &&
           !styles.excerptInvertBG &&
@@ -947,6 +949,8 @@ class ItemTitle extends React.Component {
       return 'transparent'
     } else if (coverImageStyles.resizeMode === 'contain' && !coverImageStyles.isMultiply) {
       return 'rgba(255,255,255,0.2)'
+    } else if (!styles.isMonochrome) {
+      return 'rgba(240, 240, 240, 0.6)'
     } else if (coverImageStyles.isBW ||
       coverImageStyles.isMultiply ||
       coverImageStyles.isScreen) {

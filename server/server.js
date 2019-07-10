@@ -19,6 +19,10 @@ app.get('/unread/', (req, res) => {
 app.get('/mercury/', (req, res) => {
   Mercury.parse(req.query.url).then(parsed => {
     res.send(parsed)
+  }).catch(error => {
+    res.send({
+      error
+    })
   })
 })
 

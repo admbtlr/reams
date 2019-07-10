@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Feed from '../containers/Feed'
 import TextButton from './TextButton'
 import GoogleAuth from './GoogleAuth'
@@ -48,96 +49,113 @@ class AccountScreen extends React.Component {
     const backendName = {
       rizzle: 'Rizzle',
       feedwrangler: 'Feedwrangler'
-    }[backend]
+    }[backend] || ''
     return (
-      <ScrollView style={{
-        flex: 1,
-        backgroundColor: hslString('rizzleBG')
-      }}>
-        <View style={{
+      <KeyboardAwareScrollView
+        contentContainerStyle={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <StatusBar
-            showHideTransition="slide"
-            barStyle="dark-content" />
+          backgroundColor: hslString('rizzleBG')
+        }}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        style={{
+          backgroundColor: hslString('rizzleBG')
+        }}
+      >
+        <ScrollView>
           <View style={{
-            marginTop: 55,
-            marginBottom: 64,
-            minHeight: height - 55 - 64,
-            width: width * 0.9,
-            marginLeft: margin,
-            marginRight: margin
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            <Heading
-              title='Your Account'
-              showClose={true}
-              onClose={() => {
-                this.props.navigation.navigate('Feeds')
-              }}
-            />
-            { backend &&
-              <Fragment>
-                <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ backendName }</Text> to manage your feeds.</Text>
-                <Text style={textStyles}>Switch to a different option:</Text>
-              </Fragment>
-            }
-            <TextButton
-              text="Rizzle"
-              iconCollapsed={<Image
-                source={require('../img/rizzle-logo-small-bw.png')}
-                style={{
-                  position: 'absolute',
-                  left: 4,
-                  top: 4,
-                  width: 34,
-                  height: 34
-                }}/>}
-              iconExpanded={<Image
-                source={require('../img/rizzle-logo-small.png')}
-                style={{
-                  position: 'absolute',
-                  left: 4,
-                  top: 4,
-                  width: 34,
-                  height: 34
-                }}/>}
-              buttonStyle={{ marginBottom: 0 }}
-              isExpandable={true}
-              renderExpandedView={() => <AccountCredentialsForm
-                service='rizzle'
-                user={this.props.user}
-              />}
-            />
-            <Text style={ textTipStyles }>If you use the Rizzle service to manage your feeds, you will also be able to save external web pages to read in Rizzle.</Text>
-            { backend && <Text style={ textTipStyles }>When you switch to Rizzle it will automatically subscribe to all your feeds from {backendName}.</Text> }
-            <Text style={ textTipStyles }>Rizzle will cost you $1 / month; the first month is free.</Text>
-            <Heading title='' />
-            <Text style={{
-              ...textTipStyles,
-              marginBottom: 21 }}>If you want to use one of the services below in Rizzle, you will need a subscription:</Text>
-            { backend !== 'feedwrangler' && <TextButton
-              text="Feed Wrangler"
-              buttonStyle={{ marginBottom: 42 }}
-              isExpandable={true}
-              renderExpandedView={() => <AccountCredentialsForm service='feedwrangler' />}
-            /> }
-            { backend !== 'feedbin' && <TextButton
-              text="Feedbin"
-              buttonStyle={{ marginBottom: 42 }}
-              isExpandable={true}
-              renderExpandedView={() => <AccountCredentialsForm service='feedbin' />}
-            /> }
-            { backend !== 'feedly' && <TextButton
-              text="Feedly"
-              buttonStyle={{ marginBottom: 42 }}
-              isExpandable={true}
-              renderExpandedView={() => <AccountCredentialsForm service='feedly' />}
-            /> }
+            <StatusBar
+              showHideTransition="slide"
+              barStyle="dark-content" />
+            <View style={{
+              marginTop: 55,
+              marginBottom: 64,
+              minHeight: height - 55 - 64,
+              width: width * 0.9,
+              marginLeft: margin,
+              marginRight: margin
+            }}>
+              <Heading
+                title='Your Account'
+                showClose={true}
+                onClose={() => {
+                  this.props.navigation.navigate('Feeds')
+                }}
+              />
+              { (backend || backend !== '') &&
+                <Fragment>
+                  <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ backendName }</Text> to manage your feeds.</Text>
+                  <Text style={textStyles}>Switch to a different option:</Text>
+                </Fragment>
+              }
+              <TextButton
+                text="Rizzle"
+                iconCollapsed={<Image
+                  source={require('../img/rizzle-logo-small-bw.png')}
+                  style={{
+                    position: 'absolute',
+                    left: 4,
+                    top: 4,
+                    width: 34,
+                    height: 34
+                  }}/>}
+                iconExpanded={<Image
+                  source={require('../img/rizzle-logo-small.png')}
+                  style={{
+                    position: 'absolute',
+                    left: 4,
+                    top: 4,
+                    width: 34,
+                    height: 34
+                  }}/>}
+                buttonStyle={{ marginBottom: 0 }}
+                isExpandable={true}
+                renderExpandedView={() => <AccountCredentialsForm
+                  service='rizzle'
+                  user={this.props.user}
+                />}
+              />
+              <Text style={ textTipStyles }>If you use the Rizzle service to manage your feeds, you will also be able to save external web pages to read in Rizzle.</Text>
+              { (backend || backend !== '') && <Text style={ textTipStyles }>When you switch to Rizzle it will automatically subscribe to all your feeds from {backendName}.</Text> }
+              <Text style={ textTipStyles }>Rizzle will cost you $1 / month; the first month is free.</Text>
+              <Heading title='' />
+              <Text style={{
+                ...textTipStyles,
+                marginBottom: 21 }}>If you want to use one of the services below in Rizzle, you will need a subscription:</Text>
+              { backend !== 'feedwrangler' && <TextButton
+                text="Feed Wrangler"
+                buttonStyle={{ marginBottom: 42 }}
+                isExpandable={true}
+                renderExpandedView={() => <AccountCredentialsForm
+                  service='feedwrangler'
+                  setBackend={this.props.setBackend}
+                />}
+              /> }
+              { backend !== 'feedbin' && <TextButton
+                text="Feedbin"
+                buttonStyle={{ marginBottom: 42 }}
+                isExpandable={true}
+                renderExpandedView={() => <AccountCredentialsForm
+                  service='feedbin'
+                  setBackend={this.props.setBackend}
+                />}
+              /> }
+              { backend !== 'feedly' && <TextButton
+                text="Feedly"
+                buttonStyle={{ marginBottom: 42 }}
+                isExpandable={true}
+                renderExpandedView={() => <AccountCredentialsForm
+                  service='feedly'
+                  setBackend={this.props.setBackend}
+                />}
+              /> }
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAwareScrollView>
     )
   }
 }

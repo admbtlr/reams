@@ -154,7 +154,7 @@ export const itemsUnread = (state = initialState, action) => {
         index: 0
       }
 
-    case 'ITEMS_PRUNE_UNREAD_ITEMS':
+    case 'ITEMS_PRUNE_UNREAD':
       items = [...state.items]
       index = state.index
       if (items.length < action.maxItems) {
@@ -240,16 +240,26 @@ export const itemsUnread = (state = initialState, action) => {
       }
 
     case 'ITEM_SAVE_ITEM':
-      newState = { ...state }
-      item = newState.items.find(item => item._id === action.item._id)
-      item.isSaved = true
-      return newState
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action.item._id ?
+          {
+            ...item,
+            isSaved: true
+          } :
+          item)
+      }
 
     case 'ITEM_UNSAVE_ITEM':
-      newState = { ...state }
-      item = newState.items.find(item => item._id === action.item._id)
-      item.isSaved = false
-      return newState
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action.item._id ?
+          {
+            ...item,
+            isSaved: false
+          } :
+          item)
+      }
 
     case 'ITEM_TOGGLE_MERCURY':
       return itemToggleMercury(action, state)

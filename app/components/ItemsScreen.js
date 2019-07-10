@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'hsl(42, 12%, 95%)'
+    backgroundColor: hslString('rizzleBG')
     // backgroundColor: 'white'
   },
   infoText: {

@@ -80,7 +80,7 @@ class RizzleAuth extends React.Component {
       <View>
         <Text style={styles.textInfoStyle}>Passwordless login - enter your email and we'll send you a magic link:</Text>
         <View style={{
-          flex: 1,
+          // flex: 1,
           flexDirection: 'row',
           marginLeft: 20,
           marginRight: 20,

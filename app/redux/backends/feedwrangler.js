@@ -12,6 +12,10 @@ const CLIENT_KEY = 'fdc257afbb554f67888c2aee80481e8e'
 
 let feeds
 
+export const init = (config) => {
+  feedWranglerAccessToken = config.accessToken
+}
+
 export const authenticate = (username, password) => {
   let url = 'https://feedwrangler.net/api/v2/users/authorize?'
   url += 'email=' + username
@@ -26,7 +30,7 @@ export const authenticate = (username, password) => {
     })
     .then((response) => response.json())
     .then(json => {
-      if (json.success) {
+      if (json.result === 'success') {
         return json.access_token
       }
       console.log(json)

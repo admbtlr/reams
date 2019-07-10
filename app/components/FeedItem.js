@@ -105,24 +105,6 @@ class FeedItem extends React.Component {
           }
           break
 
-        case 'isImageViewerVisible':
-          isDiff = false
-          if (!this.props.isVisible) break
-          this.isAnimating = true
-          let toValue = 1
-          const that = this
-          if (nextProps.isImageViewerVisible) {
-            toValue = 0.9
-          }
-          Animated.timing(
-            this.state.scaleAnim,
-            { toValue }).start(() => {
-              setTimeout(() => {
-                that.isAnimating = false
-              }, 2000)
-            })
-          break
-
         case 'scaleAnim':
           isDiff = false
           break

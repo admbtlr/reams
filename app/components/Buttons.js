@@ -46,8 +46,7 @@ class Buttons extends React.Component {
   showShareActionSheet () {
     if (!this.props.currentItem) return
     ActionSheetIOS.showShareActionSheetWithOptions({
-      url: this.props.currentItem.url,
-      message: this.props.currentItem.title
+      url: this.props.currentItem.url
     },
     (error) => {
       console.error(error)

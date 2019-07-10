@@ -52,6 +52,10 @@ export function getConfig (state) {
   return state.config
 }
 
+export function getUser (state) {
+  return state.user
+}
+
 export function getUid (state) {
   return state.user.uid
 }

@@ -6,15 +6,14 @@ import { Image, InteractionManager } from 'react-native'
 import { getCachedImagePath } from '../../utils'
 import { deflateItem } from '../../utils/item-utils'
 import log from '../../utils/log'
-const co = require('co')
 
 import { getIndex, getItems, getCurrentItem, getDisplay, getFeeds } from './selectors'
-import { updateItemAS } from '../async-storage'
+import { getItemsAS, updateItemAS } from '../async-storage'
 
 let pendingDecoration = [] // a local cache
 let toDispatch = []
 
-const showLogs = false
+const showLogs = true
 
 export function * decorateItems (action) {
   let items
@@ -23,44 +22,50 @@ export function * decorateItems (action) {
 
   // this is weird... but it was the only way I could dispatch actions
   // it's not possible from within the co call below
-  yield spawn(function * () {
-    let decoratedCount
-    while (true) {
-      yield call(delay, 300)
-      const dispatchNow = [...toDispatch]
-      toDispatch = []
-      for (decoration of dispatchNow) {
-        if (decoration.error) {
-          yield call(InteractionManager.runAfterInteractions)
-          yield put({
-            type: 'ITEM_DECORATION_FAILURE',
-            ...decoration
-          })
-        } else {
-          yield applyDecoration(decoration)
-        }
-      }
-    }
-  })
+  // yield spawn(function * () {
+  //   let decoratedCount
+  //   while (true) {
+  //     yield call(delay, 300)
+  //     const dispatchNow = [...toDispatch]
+  //     toDispatch = []
+  //     for (decoration of dispatchNow) {
+  //       if (decoration.error) {
+  //         yield call(InteractionManager.runAfterInteractions)
+  //         yield put({
+  //           type: 'ITEM_DECORATION_FAILURE',
+  //           ...decoration
+  //         })
+  //       } else {
+  //         yield applyDecoration(decoration)
+  //       }
+  //     }
+  //   }
+  // })
 
-  while (true) {
-    yield call(delay, 2000)
-    const nextItem = yield getNextItemToDecorate(pendingDecoration)
-    if (nextItem) {
-      consoleLog(`Got item to decorate: ${nextItem.title}`)
-      pendingDecoration.push(nextItem)
-      setTimeout(() => {
-        if (!nextItem) return // somehow item can become undefined here...?
+  yield spawn(function * () {
+    while (true) {
+      const nextItem = yield getNextItemToDecorate(pendingDecoration)
+      if (nextItem) {
+        consoleLog(`Got item to decorate: ${nextItem.title}`)
+        pendingDecoration.push(nextItem)
+        yield call(delay, 3000)
+        if (!nextItem) continue // somehow item can become undefined here...?
         consoleLog(`About to retrieve decoration for ${nextItem.title}`)
-        return co(decorateItem(nextItem)).then((decoration) => {
+        try {
+          const decoration = yield decorateItem(nextItem)
           if (decoration) {
             consoleLog(`Got decoration for ${nextItem.title}`)
-            toDispatch.push(decoration)
-            setTimeout(() => {
-              pendingDecoration = pendingDecoration.filter(pending => pending._id !== decoration.item._id)
-            }, 1000)
+            if (decoration.error) {
+              yield call(InteractionManager.runAfterInteractions)
+              yield put({
+                type: 'ITEM_DECORATION_FAILURE',
+                ...decoration
+              })
+            } else {
+              yield applyDecoration(decoration)
+            }
           }
-        }).catch(error => {
+        } catch (error) {
           consoleLog('Error decorating item, trying again next time around')
           toDispatch.push({
             error: true,
@@ -69,15 +74,17 @@ export function * decorateItems (action) {
             }
           })
           pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
-        })
-      }, 2000)
+        }
+      } else {
+        yield call(delay, 3000)
+      }
     }
-  }
+  })
 }
 
 function consoleLog(txt) {
   if (showLogs) {
-    consoleLog(txt)
+    console.log(txt)
   }
 }
 
@@ -152,14 +159,12 @@ function * getNextItemToDecorate (pendingDecoration) {
   return nextItem
 }
 
-function * loadMercuryForItem (item) {
-  return yield loadMercuryStuff(item)
-}
-
 export function * decorateItem(item) {
   let imageStuff = {}
+  const items = yield getItemsAS([item])
+  item = items[0]
   consoleLog(`Loading Mercury stuff for ${item._id}...`)
-  const mercuryStuff = yield loadMercuryForItem(item)
+  const mercuryStuff = yield call(loadMercuryStuff, item)
   consoleLog(`Loading Mercury stuff for ${item._id} done`)
 
   if (!mercuryStuff) {

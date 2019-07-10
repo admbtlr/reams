@@ -15,6 +15,11 @@ const mapDispatchToProps = (dispatch) => {
     showModal: (modalProps) => dispatch({
       type: 'UI_SHOW_MODAL',
       modalProps
+    }),
+    setBackend: (backend, accessToken) => dispatch({
+      type: 'CONFIG_SET_BACKEND',
+      backend,
+      accessToken
     })
   }
 }

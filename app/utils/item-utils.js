@@ -142,23 +142,24 @@ export function addMercuryStuffToItem (item, mercury) {
   // }
 
   // if content is substring of excerpt + mercury, show mercury
-  const allMercury = (item.excerpt ? stripTags(item.excerpt) : '') +
-    (item.content_mercury ? stripTags(item.content_mercury) : '')
-  if (item.excerpt &&
-    fuzz.partial_ratio(stripTags(item.content_html), allMercury) > 90) {
-    item.showMercury = true
+  const allMercury = (decoratedItem.excerpt ? stripTags(decoratedItem.excerpt) : '') +
+    (decoratedItem.content_mercury ? stripTags(decoratedItem.content_mercury) : '')
+
+  if (decoratedItem.excerpt &&
+    fuzz.partial_ratio(stripTags(decoratedItem.content_html), allMercury) > 90) {
+    decoratedItem.showMercury = true
+  } else if (item.excerpt &&
+    fuzz.partial_ratio(decoratedItem.excerpt, stripTags(decoratedItem.content_html)) > 98) {
+    decoratedItem.excerpt = null
+  } else if (item.excerpt &&
+    fuzz.partial_ratio(decoratedItem.excerpt, stripTags(decoratedItem.content_html)) > 80) {
+    // uh... hide excerpt? strip excerpt from content?
   }
-
-  // else if excerpt is substring of content
-  // uh... hide excerpt? strip excerpt from content?
-
-
-
 
   return decoratedItem
 }
 
-functino stripTags (text) {
+function stripTags (text) {
   return text.replace(/<.*?>/g, text)
 }
 

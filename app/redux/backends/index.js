@@ -14,19 +14,24 @@ let backends = {
   rizzle
 }
 
-export function setBackend (bcknd) {
+export function setBackend (bcknd, config) {
   backend = bcknd
+  backends[backend].init(config)
 }
 
-export function loadMercuryStuff (item) {
+export function hasBackend () {
+  return !!backend
+}
+
+export async function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
-  return fetch(url, {
+  console.log(url)
+  const response = await fetch(url, {
     'headers': new Headers({
       'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
-    })})
-    .then(response => {
-      return response.json()
     })
+  })
+  return response.json()
 }
 
 export function getMercuryUrl (item) {

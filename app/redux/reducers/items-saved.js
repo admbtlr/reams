@@ -63,7 +63,7 @@ export const itemsSaved = (state = initialState, action) => {
       savedItem = action.item
       items.unshift({
         ...savedItem,
-        savedAt: savedItem.saveAt || Date.now(),
+        savedAt: savedItem.savedAt || Date.now(),
         isSaved: true
       })
       return {
@@ -111,7 +111,7 @@ export const itemsSaved = (state = initialState, action) => {
       items = [...state.items]
       newItems = action.items.map(item => ({
         ...item,
-        savedAt: item.savedAt || Date.now(),
+        savedAt: item.savedAt || item.created_at || Date.now(),
         isSaved: true
       }))
       newItems.forEach(newItem => {
