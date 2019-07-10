@@ -136,17 +136,18 @@ export async function getFeedDetails (feed) {
 const mapRizzleServerItemToRizzleItem = (item) => {
   return {
     _id: id(item),
-    id: item.guid,
-    url: item.link,
-    external_url: item.link,
-    title: item.title,
-    content_html: item.description,
-    date_published: item.pubdate,
-    date_modified: item.pubdate,
-    created_at: item.pubdate,
     author: item.author,
+    categories: item.categories,
+    content_html: item.description,
+    created_at: item.pubdate,
+    date_modified: item.pubdate,
+    date_published: item.pubdate,
+    external_url: item.link,
     feed_title: item.feed_name,
-    feed_id: item.feed_id
+    feed_id: item.feed_id,
+    id: item.guid,
+    title: item.title,
+    url: item.link
   }
 }
 

@@ -1,3 +1,4 @@
+const fuzz = require('fuzzball')
 const RNFS = require('react-native-fs')
 const sanitizeHtml = require('sanitize-html')
 import {Dimensions} from 'react-native'
@@ -124,23 +125,41 @@ export function addMercuryStuffToItem (item, mercury) {
     excerpt: mercury.excerpt,
     hasLoadedMercuryStuff: true
   }
-  if (isExcerptFirstPara(decoratedItem)) {
-    let paras = decoratedItem.content_html.split('</p>')
-    paras.shift()
-    decoratedItem.content_html = paras.join('</p>')
-  } else if (!isExcerptUseful(decoratedItem)) {
-    decoratedItem.excerpt = undefined
-  } else if (isExcerptExtract(decoratedItem)) {
-    if (!decoratedItem.content_mercury ||
-      decoratedItem.content_mercury == '' ||
-      isExcerptExtract(decoratedItem, true)) {
-      decoratedItem.excerpt = undefined
-    } else {
-      decoratedItem.showMercuryContent = true
-    }
+  // if (isExcerptFirstPara(decoratedItem)) {
+  //   let paras = decoratedItem.content_html.split('</p>')
+  //   paras.shift()
+  //   decoratedItem.content_html = paras.join('</p>')
+  // } else if (!isExcerptUseful(decoratedItem)) {
+  //   decoratedItem.excerpt = undefined
+  // } else if (isExcerptExtract(decoratedItem)) {
+  //   if (!decoratedItem.content_mercury ||
+  //     decoratedItem.content_mercury == '' ||
+  //     isExcerptExtract(decoratedItem, true)) {
+  //     decoratedItem.excerpt = undefined
+  //   } else {
+  //     decoratedItem.showMercuryContent = true
+  //   }
+  // }
+
+  // if content is substring of excerpt + mercury, show mercury
+  const allMercury = (item.excerpt ? stripTags(item.excerpt) : '') +
+    (item.content_mercury ? stripTags(item.content_mercury) : '')
+  if (item.excerpt &&
+    fuzz.partial_ratio(stripTags(item.content_html), allMercury) > 90) {
+    item.showMercury = true
   }
 
+  // else if excerpt is substring of content
+  // uh... hide excerpt? strip excerpt from content?
+
+
+
+
   return decoratedItem
+}
+
+functino stripTags (text) {
+  return text.replace(/<.*?>/g, text)
 }
 
 export function isExcerptUseful (item) {
