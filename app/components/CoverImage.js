@@ -80,7 +80,7 @@ class CoverImage extends React.Component {
     const scale = isInline ?
       scrollOffset.interpolate({
         inputRange: [-100, 0, this.screenHeight],
-        outputRange: [1.75, 1, 1]
+        outputRange: [1.2, 1, 1]
       }) :
       scrollOffset.interpolate({
         inputRange: [-100, 0, this.screenHeight],
@@ -89,7 +89,7 @@ class CoverImage extends React.Component {
     const translateY = isInline ?
       scrollOffset.interpolate({
         inputRange: [-1, 0, 1],
-        outputRange: [-0.333, 0, 0]
+        outputRange: [-0.6, 0, 0]
       }) :
       scrollOffset.interpolate({
         inputRange: [-1, 0, 1],

@@ -40,21 +40,14 @@ export function createItemStyles (item, prevStyles) {
     if (Math.random() > 0.2) {
       isBW = true
     }
-  } else if (Math.random() > 0.9) {
-    isBW = true
+  // } else if (Math.random() > 0.9) {
+  //   isBW = true
   } else {
     title.isMonochrome = true
   }
 
   let isContain = false
   let isCoverInline = false
-  if (!!item.title && !!item.imageDimensions &&
-    (item.imageDimensions.height < deviceHeight * 0.7 ||
-    item.imageDimensions.height < item.imageDimensions.width / 2)) {
-    isCoverInline = true
-    // Math.random() > 0.4 ? isCoverInline = true : isContain = true
-    isScreen = isMultiply = false
-  }
 
   const fonts = getFontClasses()
 
@@ -150,6 +143,20 @@ export function createItemStyles (item, prevStyles) {
     },
     title
   }
+}
+
+export function setCoverInline (oldStyles) {
+  let styles = { ...oldStyles }
+  styles.isCoverInline = true
+  styles.coverImage.isInline = true
+  styles.title.textAlign = 'left'
+  styles.title.isVertical = false
+  styles.title.invertBG = false
+  styles.title.bg = false
+  styles.title.hasShadow = false
+  styles.coverImage.isScreen = false
+  styles.coverImage.isMultiply = false
+  return styles
 }
 
 export function getStylesCompressionMap () {
@@ -298,7 +305,6 @@ const shouldInterBold = (title) => {
   }
   return false
 }
-
 
 const getFontClasses = function () {
   let heading = 'headerFont'
