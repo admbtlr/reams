@@ -205,6 +205,45 @@ export async function getSavedItemsFS (items) {
   return getCollection('items-saved', 'savedAt')
 }
 
+export async function listenToSavedItems (receiveItems) {
+  getUserDb()
+    .collection('items-saved')
+    .onSnapshot((snapshot) => {
+      if (snapshot.docChanges) {
+        const added = snapshot.docChanges
+          .filter(dc => dc.type === 'added')
+          .map(dc => dc.doc.data())
+        const removed = snapshot.docChanges
+          .filter(dc => dc.type === 'removed')
+          .map(dc => dc.doc.data())
+        const modified = snapshot.docChanges
+          .filter(dc => dc.type === 'modified')
+          .map(dc => dc.doc.data())
+        receiveItems({ added, modified, removed })
+      }
+    })
+}
+
+export async function listenToReadItems (receiveItems) {
+  getUserDb()
+    .collection('items-read')
+    .onSnapshot((snapshot) => {
+      if (snapshot._changes) {
+        receiveItems(snapshot._docs.map(doc => doc._data))
+      }
+    })
+}
+
+export async function listenToFeeds (receiveFeeds) {
+  getUserDb()
+    .collection('feeds')
+    .onSnapshot((snapshot) => {
+      if (snapshot._changes) {
+        receiveFeeds(snapshot._docs.map(doc => doc._data))
+      }
+    })
+}
+
 export function addFeedToFirestore (feed) {
   const collectionRef = getUserDb().collection('feeds')
   return upsertFeed(feed, collectionRef)
@@ -263,42 +302,34 @@ export async function getCollection (collectionName, orderBy = 'created_at', dir
 
   let now = Date.now()
 
-  let getPage
-  try {
-    getPage = (startAfter) => startAfter ?
-      getUserDb()
-        .collection(collectionName)
-        .orderBy(orderBy)
-        .limit(PAGE_SIZE)
-        .startAfter(startAfter)
-        .get() :
-      getUserDb()
-        .collection(collectionName)
-        .orderBy(orderBy)
-        .limit(PAGE_SIZE)
-        .get()
-  } catch (err) {
-    log('getCollection', err)
+  const getPage = (snapshot) => snapshot ?
+    getUserDb()
+      .collection(collectionName)
+      .orderBy(orderBy)
+      .limit(PAGE_SIZE)
+      .startAfter(snapshot)
+      .get() :
+    getUserDb()
+      .collection(collectionName)
+      .orderBy(orderBy)
+      .limit(PAGE_SIZE)
+      .get()
+
+  let docs = []
+  let qs = await getPage()
+  docs = docs.concat(qs.docs)
+  while (qs.docs.length === PAGE_SIZE) {
+    qs = await getPage(qs.docs[PAGE_SIZE - 1])
+    docs = docs.concat(qs.docs)
   }
 
-  return getPage()
-    .then(qs => {
-      if (qs.docs.length < PAGE_SIZE) {
-        // get another page
-
-      }
-      now = Date.now()
-      let items = []
-      qs.docs.forEach(ds => {
-        data = ds.data()
-        if (deflate) {
-          data = deflateItem(data)
-        }
-        items.push(data)
-      })
-      return items
-    })
-    .catch(err => {
-      log('getCollection', err)
-    })
+  let items = []
+  docs.forEach(ds => {
+    data = ds.data()
+    if (deflate) {
+      data = deflateItem(data)
+    }
+    items.push(data)
+  })
+  return items
 }

@@ -100,6 +100,23 @@ export const itemsSaved = (state = initialState, action) => {
         index
       }
 
+    case 'ITEMS_UNSAVE_ITEMS':
+      let currentItem = state.items[state.index]
+      items = state.items.filter((item) => {
+        return action.items.find(ai => ai._id === item._id) === undefined
+      })
+      if (items.indexOf(currentItem) === -1) {
+        index = 0
+      } else {
+        index = items.indexOf(currentItem)
+      }
+
+      return {
+        ...state,
+        items,
+        index
+      }
+
     case 'SAVED_ITEMS_SET_LAST_UPDATED':
       return {
         ...state,

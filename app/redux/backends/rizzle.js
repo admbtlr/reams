@@ -156,6 +156,7 @@ const mapRizzleServerItemToRizzleItem = (item) => {
     external_url: item.link,
     title: item.title,
     content_html: item.description,
+    author: item.author,
     created_at: item.pubdate,
     date_modified: item.pubdate,
     date_published: item.pubdate,

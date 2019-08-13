@@ -1,5 +1,5 @@
 $step: 28px;
-
+$margin: 3vw;
 
 * {
   box-sizing: border-box;
@@ -25,28 +25,28 @@ html {
   &.font-size-2 {
     font-size: calc(6vw);
     @media (min-width: 600px) {
-      font-size: calc(3.5vw);
+      font-size: calc(4vw);
     }
   }
 
   &.font-size-3 {
     font-size: calc(7vw);
     @media (min-width: 600px) {
-      font-size: calc(4vw);
+      font-size: calc(4.5vw);
     }
   }
 
   &.font-size-4 {
     font-size: calc(8vw);
     @media (min-width: 600px) {
-      font-size: calc(4.5vw);
+      font-size: calc(5vw);
     }
   }
 
   &.font-size-5 {
     font-size: calc(9vw);
     @media (min-width: 600px) {
-      font-size: calc(5vw);
+      font-size: calc(5.5vw);
     }
   }
 }
@@ -109,7 +109,8 @@ body {
 
   h1, h2 {
     font-size: 1rem;
-    margin: 4rem 0 1rem;
+    line-height: 1.2rem;
+    margin: 3rem 0 1rem;
   }
   h2 {
     font-size: 1rem;
@@ -137,7 +138,7 @@ body {
   z-index: 10;
   padding: 2rem 0.5rem 3rem;
   width: 100vw;
-  max-width: 18rem;
+  max-width: 22rem;
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
@@ -189,7 +190,7 @@ body {
 
   img.img-portrait, img.img-small {
     // display: block;
-    margin: 0.5rem;
+    margin: 0.5rem 0 1.333rem;
     max-width: calc(100vw - 1rem) !important;
     width: 100% !important;
 
@@ -287,7 +288,10 @@ body {
     margin: 1rem 0;
 
     @media (min-width: 600px) {
-      margin: 3rem calc(50% - 50vw);
+      float: left;
+      padding-top: 0;
+      width: 50%;
+      margin: 0;
     }
   }
 
@@ -295,25 +299,30 @@ body {
     display: none;
   }
 
-  figcaption, .caption {
+  figcaption, .caption, img + small {
     position: relative;
     padding: .5rem;
     border-bottom: 1px solid hsl(0, 0%, 93%);
-    font-size: 0.5rem;
+    font-size: 0.4rem;
     font-weight: 300;
     line-height: 0.75rem;
-    color: hsl(0, 0%, 67%);
+    color: hsl(0, 0%, 30%);
     background-color: white;
     position: relative;
     // top: -3px;
   }
 
-  figcaption, blockquote, .caption {
+  figcaption, blockquote, .caption, img + small {
     @media (min-width: 600px) {
       margin: 0 calc(50% - 50vw) 1rem;
       left: 0;
-      padding: 1rem calc(50vw - 50%);
+      padding: .5rem calc(50vw - 50%);
     }
+  }
+
+  img + small {
+    display: block;
+    margin-top: -2rem;
   }
 
   blockquote {
@@ -440,12 +449,12 @@ body {
       border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
 
-    blockquote, figcaption {
+    blockquote, figcaption, img + small {
       border-bottom: 3px solid rgba(0, 0, 0, 0.05);
     }
 
-    figcaption {
-      color: hsl(0, 0%, 77%);
+    figcaption, img + small {
+      color: hsl(0, 0%, 30%);
     }
 
     blockquote, figcaption {

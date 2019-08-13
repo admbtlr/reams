@@ -1,10 +1,13 @@
-import { call, select } from 'redux-saga/effects'
+import { InteractionManager } from 'react-native'
+import { eventChannel, END } from 'redux-saga'
+import { call, put, select, spawn, take } from 'redux-saga/effects'
 
 import { syncFeeds } from './feeds'
 import { getItemsAS } from '../async-storage'
-import { addSavedItemsFS, upsertFeedsFS } from '../firestore'
+import { addSavedItemsFS, upsertFeedsFS, listenToFeeds, listenToReadItems, listenToSavedItems } from '../firestore'
 import { getConfig, getFeeds, getItems, getUid, getUser } from './selectors'
 import { setBackend } from '../backends'
+import { receiveItems } from './fetch-items'
 
 export function * initBackend (getFirebase, action) {
   const config = yield select(getConfig)
@@ -52,6 +55,73 @@ export function * initBackend (getFirebase, action) {
       yield call(addSavedItemsFS, savedItems)
     }
 
-    yield syncFeeds()
+    yield spawn(savedItemsListener)
+    yield spawn(feedsListener)
   }
+}
+
+function * savedItemsListener () {
+  const savedItemsChan = yield call(createChannel, listenToSavedItems)
+  while (true) {
+    let items = yield take(savedItemsChan)
+    yield receiveSavedItems(items)
+  }
+}
+
+function * readItemsListener () {
+  const readItemsChan = yield call(createChannel, listenToReadItems)
+  while (true) {
+    let items = yield take(readItemsChan)
+    yield receiveReadItems(items)
+  }
+}
+
+function * feedsListener () {
+  const feedsChan = yield call(createChannel, listenToFeeds)
+  while (true) {
+    let feeds = yield take(feedsChan)
+    yield receiveFeeds(feeds)
+  }
+}
+
+function createChannel (fn) {
+  return eventChannel(emitter => {
+    fn(emitter)
+    return () => {
+      console.log('Channel closed')
+    }
+  })
+}
+
+function * receiveSavedItems (items) {
+  const savedItems = yield select(getItems, 'saved')
+  const newSaved = items.added.filter(item => savedItems.find(si => si.url === item.url) === undefined)
+  yield receiveItems(newSaved, 'saved')
+  const removedSaved = items.removed
+  yield put({
+    type: 'ITEMS_UNSAVE_ITEMS',
+    items: removedSaved
+  })
+}
+
+function * receiveFeeds (dbFeeds) {
+  const feeds = yield select(getFeeds)
+  dbFeeds.forEach(dbFeed => {
+    if (!feeds.find(feed => feed._id === dbFeed._id ||
+      feed.url === dbFeed.url)) {
+      feeds.push(dbFeed)
+    }
+  })
+  yield put ({
+    type: 'FEEDS_UPDATE_FEEDS',
+    feeds
+  })
+}
+
+function * receiveReadItems (items) {
+  debugger
+  yield put ({
+    type: 'ITEMS_MARK_READ',
+    items
+  })
 }

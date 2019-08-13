@@ -464,7 +464,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
           fill='none'
           stroke={hamburgerColor}
           strokeLinecap='round'
-          strokeWidth='1'
+          strokeWidth='2'
           x1='2'
           x2='24'
           y1='1'
@@ -474,7 +474,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
           fill='none'
           stroke={hamburgerColor}
           strokeLinecap='round'
-          strokeWidth='1'
+          strokeWidth='2'
           x1='2'
           x2='24'
           y1='8'
@@ -484,7 +484,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
           fill='none'
           stroke={hamburgerColor}
           strokeLinecap='round'
-          strokeWidth='1'
+          strokeWidth='2'
           x1='2'
           x2='24'
           y1='15'
@@ -514,7 +514,7 @@ const ViewButtonToggle = ({ onPress, buttonColor, opacityAnim, isSyncing }) => (
         width='32'>
         <Path
           d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-          strokeWidth={1}
+          strokeWidth={2}
           stroke="white"
           fill="none"
         />
@@ -522,7 +522,7 @@ const ViewButtonToggle = ({ onPress, buttonColor, opacityAnim, isSyncing }) => (
           cx="12"
           cy="12"
           r="3"
-          strokeWidth={1}
+          strokeWidth={2}
           stroke="white"
           fill={isSyncing ? "white" : "none"}
         />

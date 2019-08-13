@@ -141,26 +141,48 @@ export function addMercuryStuffToItem (item, mercury) {
   //   }
   // }
 
+  if (decoratedItem.content_html.length === 0 &&
+    decoratedItem.content_mercury.length !== 0) {
+    decoratedItem.showMercuryContent = true
+  }
+
   // if content is substring of excerpt + mercury, show mercury
   const allMercury = (decoratedItem.excerpt ? stripTags(decoratedItem.excerpt) : '') +
     (decoratedItem.content_mercury ? stripTags(decoratedItem.content_mercury) : '')
 
-  if (decoratedItem.excerpt &&
-    fuzz.partial_ratio(stripTags(decoratedItem.content_html), allMercury) > 90) {
+  console.log('Calculating partial ratios...')
+
+  const htmlPartial = decoratedItem.content_html ?
+    stripTags(decoratedItem.content_html) :
+    ''
+  const mercuryPartial = decoratedItem.content_mercury ?
+    stripTags(decoratedItem.content_mercury)
+    : ''
+  const excerptMercuryPartial = stripTags(decoratedItem.content_mercury)
+
+  if (mercuryPartial.length > htmlPartial.length &&
+    fuzz.partial_ratio(htmlPartial.substring(0, 500), mercuryPartial.substring(0, 500)) > 90) {
     decoratedItem.showMercury = true
-  } else if (item.excerpt &&
-    fuzz.partial_ratio(decoratedItem.excerpt, stripTags(decoratedItem.content_html)) > 98) {
-    decoratedItem.excerpt = null
-  } else if (item.excerpt &&
-    fuzz.partial_ratio(decoratedItem.excerpt, stripTags(decoratedItem.content_html)) > 80) {
-    // uh... hide excerpt? strip excerpt from content?
   }
+
+  // if (decoratedItem.excerpt &&
+  //   fuzz.partial_ratio(stripTags(decoratedItem.content_html), allMercury) > 90) {
+  //   decoratedItem.showMercury = true
+  // } else if (item.excerpt &&
+  //   fuzz.partial_ratio(decoratedItem.excerpt, stripTags(decoratedItem.content_html)) > 98) {
+  //   decoratedItem.excerpt = null
+  // } else if (item.excerpt &&
+  //   fuzz.partial_ratio(decoratedItem.excerpt, stripTags(decoratedItem.content_html)) > 80) {
+  //   // uh... hide excerpt? strip excerpt from content?
+  // }
+
+  console.log('done')
 
   return decoratedItem
 }
 
 function stripTags (text) {
-  return text.replace(/<.*?>/g, text)
+  return text.replace(/<.*?>/g, '')
 }
 
 export function isExcerptUseful (item) {

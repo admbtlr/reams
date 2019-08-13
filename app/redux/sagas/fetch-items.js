@@ -120,51 +120,22 @@ function fetchItemsChannel (type, lastUpdated, oldItems, currentItem, feeds) {
   })
 }
 
-function * receiveItems (items, type) {
+export function * receiveItems (items, type) {
   console.log('Received ' + items.length + ' new items')
   let feeds
-  const fixCreatedAt = (item) => ({
-    ...item,
-    created_at: typeof item.created_at === 'number'
-      ? (item.created_at > Date.parse('Jan 01 2000') ? item.created_at : item.created_at * 1000)
-      : Date.parse(item.created_at),
-    original_created_at: item.created_at
-  })
-  const addDateFetched = item => ({
-    ...item,
-    date_fetched: Math.round(Date.now())
-  })
   let now = Date.now()
   if (type === 'unread') {
     feeds = yield select(getFeeds)
     const updated = yield createFeedsWhereNeededAndAddInfo(items, feeds)
     feeds = updated.feeds
     items = updated.items
+    console.log('createFeedsWhereNeededAndAddInfo took ' + (Date.now() - now))
+    now = Date.now()
   }
-  console.log('createFeedsWhereNeededAndAddInfo took ' + (Date.now() - now))
-  now = Date.now()
 
-  const currentItem = yield select(getCurrentItem)
-  const setShowCoverImageIfNotCurrent = (item, isCurrent) => isCurrent ?
-    item :
-    setShowCoverImage(item)
-
-  items = items.map(nullValuesToEmptyStrings)
-    .map(fixRelativePaths)
-    .map(addStylesIfNecessary)
-    .map(sanitizeContent)
-    .map(setShowCoverImageIfNotCurrent)
-    .map(fixCreatedAt)
-    .map(addDateFetched)
+  items = yield cleanUpItems(items, type)
   console.log('cleaning up items took ' + (Date.now() - now))
   now = Date.now()
-
-  if (type === 'saved') {
-    items = items.map(i => ({
-      ...i,
-      isSaved: true
-    }))
-  }
 
   yield call(InteractionManager.runAfterInteractions)
   now = Date.now()
@@ -184,19 +155,39 @@ function * receiveItems (items, type) {
     feeds
   })
   console.log('ITEMS_BATCH_FETCHED ' + (Date.now() - now))
+}
 
-  if (type === 'unread') {
-    yield call(InteractionManager.runAfterInteractions)
-    now = Date.now()
-    // get the feeds again, they might have been changed by pruning the items
-    feeds = yield select(getFeeds)
-    feeds = incrementFeedUnreadCounts(items, feeds)
-    yield put({
-      type: 'FEEDS_UPDATE_FEEDS',
-      feeds
-    })
-    console.log('incrementFeedUnreadCounts took ' + (Date.now() - now))
-  }
+function * cleanUpItems (items, type) {
+  const fixCreatedAt = (item) => ({
+    ...item,
+    created_at: typeof item.created_at === 'number'
+      ? (item.created_at > Date.parse('Jan 01 2000') ? item.created_at : item.created_at * 1000)
+      : Date.parse(item.created_at),
+    original_created_at: item.created_at
+  })
+  const addDateFetched = item => ({
+    ...item,
+    date_fetched: Math.round(Date.now())
+  })
+  const currentItem = yield select(getCurrentItem)
+  const setShowCoverImageIfNotCurrent = (item) => item === currentItem ?
+    item :
+    setShowCoverImage(item)
+  const setSavedIfNecessary = item => type === 'saved' ?
+    {
+      ...item,
+      isSaved: true
+    } :
+    item
+
+  return items.map(nullValuesToEmptyStrings)
+    .map(fixRelativePaths)
+    .map(addStylesIfNecessary)
+    .map(sanitizeContent)
+    .map(setShowCoverImageIfNotCurrent)
+    .map(fixCreatedAt)
+    .map(addDateFetched)
+    .map(setSavedIfNecessary)
 }
 
 function incrementFeedUnreadCounts (items, feeds) {

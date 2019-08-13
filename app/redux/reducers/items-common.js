@@ -64,9 +64,13 @@ export const itemToggleMercury = (action, state) => {
 export const itemDecorationSuccess = (action, state) => {
   const testAndDecorate = (item) => {
     if (item._id === action.item._id) {
-      item = addMercuryStuffToItem(item, action.mercuryStuff)
+      // note that I'm using action.item as the base
+      // there's a small chance that this might be stale,
+      // if e.g. it's been read since it was initially plucked in the decorate-item saga
+      item = addMercuryStuffToItem(action.item, action.mercuryStuff)
       item = setShowCoverImage(addCoverImageToItem(item, action.imageStuff))
-      // item = removeDuplicateImage(item)
+      // this is just to pick up styles.coverImage.isInline
+      // item.styles = action.item.styles
     }
     return item
   }
@@ -99,6 +103,7 @@ export const updateCurrentItemTitleFontSize = (action, state) => {
   let stateChanged = false
   const newItems = state.items.map(item => {
     if (item._id === action.item._id) {
+      if (item.styles.title === undefined) debugger
       if (item.styles.title.fontSize !== action.fontSize) {
         item.styles.title.fontSize = action.fontSize
         item.styles.title.lineHeight = action.fontSize

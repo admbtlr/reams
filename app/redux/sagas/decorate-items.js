@@ -4,6 +4,7 @@ import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
 import { Image, InteractionManager } from 'react-native'
 import { getCachedImagePath } from '../../utils'
+import { setCoverInline } from '../../utils/createItemStyles'
 import { deflateItem } from '../../utils/item-utils'
 import log from '../../utils/log'
 
@@ -136,33 +137,33 @@ function * getNextItemToDecorate (pendingDecoration) {
   })
   let count = 0
   let feed
-  while (feedsWithoutDecoration.length > 0 && count < feedsWithoutDecoration.length && !nextItem) {
-    feed = feedsWithoutDecoration[count++]
-    nextItem = items.find(i => !i.readAt &&
-      i.feed_id === feed._id &&
-      !i.hasLoadedMercuryStuff &&
-      !pendingDecoration.find(pd => pd._id === i._id))
+  const candidateItems = items.filter(item => {
+    return !item.hasLoadedMercuryStuff &&
+      (!item.decoration_failures || item.decoration_failures < 5) &&
+      !item.readAt &&
+      items.indexOf(item) >= index &&
+      items.indexOf(item) < index + 20
+  })
+  if (candidateItems.length) {
+    nextItem = candidateItems.find(item => !item.hasLoadedMercuryStuff
+      && !pendingDecoration.find(pd => pd._id === item._id))
   }
   if (!nextItem) {
-    const candidateItems = items.filter(item => {
-      return !item.hasLoadedMercuryStuff &&
-        (!item.decoration_failures || item.decoration_failures < 5) &&
-        !item.readAt &&
-        items.indexOf(item) >= index &&
-        items.indexOf(item) < index + 20
-    })
-    if (candidateItems.length) {
-      nextItem = candidateItems.find(item => !item.hasLoadedMercuryStuff
-        && !pendingDecoration.find(pd => pd._id === item._id))
+    while (feedsWithoutDecoration.length > 0 && count < feedsWithoutDecoration.length && !nextItem) {
+      feed = feedsWithoutDecoration[count++]
+      nextItem = items.find(i => !i.readAt &&
+        i.feed_id === feed._id &&
+        !i.hasLoadedMercuryStuff &&
+        !pendingDecoration.find(pd => pd._id === i._id))
     }
   }
   return nextItem
 }
 
-export function * decorateItem(item) {
+export function * decorateItem (item) {
   let imageStuff = {}
   const items = yield getItemsAS([item])
-  item = items[0]
+  item = items[0] || item
   consoleLog(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield call(loadMercuryStuff, item)
   consoleLog(`Loading Mercury stuff for ${item._id} done`)
@@ -183,6 +184,15 @@ export function * decorateItem(item) {
       } catch (error) {
         consoleLog(error)
       }
+    }
+  }
+
+  if (imageStuff.imageDimensions) {
+    if (!!item.title &&
+      Math.random() > 0.5 &&
+      (//imageStuff.imageDimensions.height < deviceHeight * 0.7 ||
+      imageStuff.imageDimensions.height < imageStuff.imageDimensions.width / 1.8)) {
+      item.styles = setCoverInline(item.styles)
     }
   }
 

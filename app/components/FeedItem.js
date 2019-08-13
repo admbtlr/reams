@@ -38,6 +38,9 @@ class FeedItem extends React.Component {
 
   componentDidMount () {
     this.props.setTimerFunction(this.startTimer)
+    if (this.props.isVisible && this.props.item.scrollOffset > 0) {
+      this.scrollToOffset()
+    }
   }
 
   setFadeInFunction (fadeInFunction) {
@@ -119,15 +122,19 @@ class FeedItem extends React.Component {
 
   componentDidUpdate (prevProps, prevState) {
     if (this.props.isVisible && !prevProps.isVisible && this.props.item.scrollOffset > 0) {
-      const that = this
-      setTimeout(() => {
-        that.scrollView._component.scrollTo({
-          x: 0,
-          y: that.props.item.scrollOffset,
-          animated: true
-        })
-      }, 1000)
+      this.scrollToOffset()
     }
+  }
+
+  scrollToOffset (offset) {
+    const that = this
+    setTimeout(() => {
+      that.scrollView._component.scrollTo({
+        x: 0,
+        y: that.props.item.scrollOffset,
+        animated: true
+      })
+    }, 1000)
   }
 
   isCoverImagePortrait () {
@@ -145,7 +152,7 @@ class FeedItem extends React.Component {
     //   return <View style={{ flex: 1 }} />
     // }
 
-    if (/*__DEV__ || */!this.props.item.styles) {
+    if (/*__DEV__ ||*/ !this.props.item.styles) {
       this.props.item.styles = createItemStyles(this.props.item)
     }
     let {
@@ -271,16 +278,21 @@ class FeedItem extends React.Component {
         { showCoverImage && !styles.isCoverInline && coverImage }
         <Animated.ScrollView
           onScroll={Animated.event(
-            [{ nativeEvent: {
-              contentOffset: { y: this.scrollOffset }
-            }}],
-            { useNativeDriver: true }
-          )}
+              [{ nativeEvent: {
+                contentOffset: { y: this.scrollOffset }
+              }}],
+              {
+                useNativeDriver: true,
+                listener: event => {
+                  this.passScrollPositionToWebView(event.nativeEvent.contentOffset.y)
+                }
+              }
+            )}
           onMomentumScrollBegin={this.onMomentumScrollBegin}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
           ref={(ref) => { this.scrollView = ref }}
-          scrollEventThrottle={16}
+          scrollEventThrottle={1}
           style={{flex: 1}}
         >
           { showCoverImage && styles.isCoverInline && coverImage }
@@ -333,6 +345,10 @@ class FeedItem extends React.Component {
         </Animated.ScrollView>
       </Animated.View>
     )
+  }
+
+  passScrollPositionToWebView (position) {
+    // console.log(position)
   }
 
   launchImageViewer (url) {
@@ -393,6 +409,8 @@ class FeedItem extends React.Component {
 
   //called when HTML was loaded and injected JS executed
   updateWebViewHeight (event) {
+    // this means we're loading an image
+    if (event.url.startsWith('react-js-navigation')) return
     const calculatedHeight = parseInt(event.jsEvaluationValue) || this.screenDimensions.height// * 2
     if (!this.pendingWebViewHeight || calculatedHeight !== this.pendingWebViewHeight) {
       this.pendingWebViewHeight = calculatedHeight
