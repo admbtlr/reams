@@ -237,14 +237,16 @@ class ItemTitle extends React.Component {
     }
     if (this.props.styles.bg) {
       return this.screenWidth * 0.025
-    }
-    const {styles} = this.props
-    const relativePadding = this.getInnerVerticalPadding(fontSize || styles.fontSize)
-    if (styles.bg || styles.textAlign === 'center' && styles.valign === 'middle') {
-      return relativePadding
     } else {
       return 0
     }
+    // const {styles} = this.props
+    // const relativePadding = this.getInnerVerticalPadding(fontSize || styles.fontSize)
+    // if (styles.bg || styles.textAlign === 'center' && styles.valign === 'middle') {
+    //   return relativePadding
+    // } else {
+    //   return 0
+    // }
   }
 
   getInnerHorizontalMargin () {
@@ -483,9 +485,9 @@ class ItemTitle extends React.Component {
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
     const paddingBottom = this.shouldSplitIntoWords() ? invertBGPadding : 0
     let paddingLeft = showCoverImage && styles.invertBG ? invertBGPadding : 0
-    if (styles.isItalic) {
-      paddingLeft += fontSize * 0.1
-    }
+    // if (styles.isItalic) {
+    //   paddingLeft += fontSize * 0.1
+    // }
 
     // https://github.com/facebook/react-native/issues/7687
     // (9 is a heuristic value)
@@ -533,8 +535,8 @@ class ItemTitle extends React.Component {
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = this.getWidthPercentage()
     this.horizontalMargin = (showCoverImage && this.props.coverImageStyles.isInline) ?
-        this.screenWidth * 0.025 :
-        this.screenWidth * 0.05
+        this.screenWidth * 0.04 :
+        this.screenWidth * 0.04
     const width = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
 
     const horizontalPadding = this.getInnerHorizontalPadding(fontSize)
@@ -548,12 +550,12 @@ class ItemTitle extends React.Component {
       marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
-      paddingBottom: (!showCoverImage || coverImageStyles.isInline) ?
+      paddingBottom: this.horizontalMargin, /*(!showCoverImage || coverImageStyles.isInline) ?
         this.screenWidth * 0.05 :
         ((styles.bg || styles.textAlign === 'center' || styles.borderWidth || coverImageStyles.isInline) ?
           innerPadding :
-          lineHeight),
-      paddingTop: innerPadding + borderWidth,
+          lineHeight),*/
+      paddingTop: this.horizontalMargin,//innerPadding + borderWidth,
       backgroundColor: showCoverImage && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       height: 'auto',
       overflow: 'visible',
@@ -889,7 +891,7 @@ class ItemTitle extends React.Component {
         !coverImageStyles.isInline ? 'white' :
           (this.props.isDarkBackground ? textColorDarkBackground : textColor),
       backgroundColor: 'transparent',
-      fontSize: 18,
+      fontSize: this.getExcerptFontSize(),
       fontFamily: this.getFontFamily('regular', 'author'),
       lineHeight: 24,
       textAlign: styles.textAlign,
@@ -915,7 +917,7 @@ class ItemTitle extends React.Component {
         !coverImageStyles.isInline &&
         !coverImageStyles.isScreen ? 'white' : this.getExcerptColor(), // hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
-      fontSize: this.getExcerptFontSize() * 0.8,
+      fontSize: this.getExcerptFontSize() * 0.9,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: this.getExcerptFontSize() * 1.4,
       textAlign: showCoverImage && !coverImageStyles.isInline ? 'center' : styles.textAlign,

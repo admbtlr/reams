@@ -101,14 +101,14 @@ body {
     color: #aa5aaa; }
   .itemArticle h1, .itemArticle h2 {
     font-size: 1rem;
-    line-height: 1.2rem;
-    margin: 3rem 0 1rem; }
+    line-height: 1.33rem;
+    margin: 3rem 0 .5rem; }
   .itemArticle h2 {
     font-size: 1rem; }
   .itemArticle h2, .itemArticle h4 {
     font-weight: normal; }
   .itemArticle h3, .itemArticle h4 {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     line-height: 1rem;
     margin: 2rem 0 0.2rem; }
   .itemArticle h5, .itemArticle h6 {
@@ -121,7 +121,7 @@ body {
 .itemArticle {
   position: relative;
   z-index: 10;
-  padding: 2rem 0.5rem 3rem;
+  padding: 2rem 4vw 3rem;
   width: 100vw;
   max-width: 22rem;
   margin: 0 auto;
@@ -155,7 +155,7 @@ body {
   .itemArticle img:not(.img-portrait):not(.img-small) {
     width: 100vw !important; }
   .itemArticle img.img-portrait, .itemArticle img.img-small {
-    margin: 0.5rem 0 1.333rem;
+    margin: 0.5rem 0.5rem 1.333rem;
     max-width: calc(100vw - 1rem) !important;
     width: 100% !important; }
     figure .itemArticle img.img-portrait, figure .itemArticle img.img-small {
@@ -261,12 +261,12 @@ body {
     display: none; }
   .itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {
     position: relative;
-    padding: .5rem;
+    padding: .25rem .5rem;
     border-bottom: 1px solid #ededed;
-    font-size: 0.4rem;
+    font-size: 0.45rem;
     font-weight: 300;
     line-height: 0.75rem;
-    color: #4d4d4d;
+    color: #666666;
     background-color: white;
     position: relative; }
   @media (min-width: 600px) {
@@ -276,7 +276,7 @@ body {
       padding: 0.5rem calc(50vw - 50%); } }
   .itemArticle img + small {
     display: block;
-    margin-top: -2rem; }
+    margin: -2rem -4vw 1rem; }
   @media (min-width: 600px) {
     .itemArticle blockquote {
       margin-bottom: 1rem; } }
