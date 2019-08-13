@@ -165,6 +165,7 @@ class ItemTitle extends React.Component {
   async getMaxFontSize () {
     let { styles } = this.props
     const that = this
+    const limit = 50
     let maxSize
     const longestWord = this.getLongestWord()
     let sizes = []
@@ -192,7 +193,7 @@ class ItemTitle extends React.Component {
         }
       }
       return null
-    }).then(maxSize => maxSize > 50 ? 50 : maxSize)
+    }).then(maxSize => (maxSize > limit) ? limit : maxSize)
 
   }
 
@@ -258,7 +259,7 @@ class ItemTitle extends React.Component {
   }
 
   getInnerWidth (fontSize, isItalic) {
-    return Math.min(this.screenWidth, this.screenHeight) -
+    return this.screenWidth * this.getWidthPercentage() -
       this.getInnerHorizontalPadding(fontSize) * 2 -
       this.getInnerHorizontalMargin(fontSize) * 2 -
       (isItalic ? fontSize * 0.1 : 0)
@@ -416,6 +417,15 @@ class ItemTitle extends React.Component {
   //   return true
   // }
 
+  getWidthPercentage () {
+    let {showCoverImage, coverImageStyles} = this.props
+    if (showCoverImage && !coverImageStyles.isInline) {
+      return this.screenWidth > 700 ? 66 : 100
+    } else {
+      return 100
+    }
+  }
+
   render () {
     let {styles, title, date, showCoverImage, coverImageStyles} = this.props
 
@@ -460,13 +470,13 @@ class ItemTitle extends React.Component {
         '')
 
     let color = styles.isMonochrome ?
-      ((showCoverImage && !styles.bg) ?
+      ((showCoverImage && !coverImageStyles.isInline && !styles.bg) ?
         'white' :
         'black') :
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
         hslString(this.props.item.feed_color, 'desaturated'))
-    if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
+    // if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
     if (!showCoverImage) color = this.props.isDarkBackground ? 'hsl(0, 0%, 70%)' : 'black'
 
     const invertBGPadding = 3
@@ -521,7 +531,7 @@ class ItemTitle extends React.Component {
 
     // if center aligned and not full width, add left margin
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
-    const widthPercentage = styles.widthPercentage || 100
+    const widthPercentage = this.getWidthPercentage()
     this.horizontalMargin = (showCoverImage && this.props.coverImageStyles.isInline) ?
         this.screenWidth * 0.025 :
         this.screenWidth * 0.05
@@ -745,7 +755,7 @@ class ItemTitle extends React.Component {
       marginLeft: this.horizontalMargin,
       marginRight: this.horizontalMargin,
       marginTop: this.props.showCoverImage ?
-        this.horizontalMargin * 4 :
+        this.horizontalMargin :
         0,
       width: 66,
       height: 16,
@@ -753,12 +763,14 @@ class ItemTitle extends React.Component {
     }} />
   }
 
-  // barView gets passed in here because we need to include it in the excerptView
-  // when using an coverImage with contain, for the flex layout
-  renderExcerpt (innerViewStyle, fontStyle, shadowStyle, barView) {
+  getExcerptFontSize () {
+    let excerptLineHeight = Math.min(this.screenHeight, this.screenWidth) / 16
+    if (excerptLineHeight > 32) excerptLineHeight = 32
+    return excerptLineHeight / 1.4
+  }
+
+  getExcerptColor () {
     const { coverImageStyles, showCoverImage, item, styles } = this.props
-    const { excerptOpacity } = this.getOpacityValues()
-    let excerptShadowStyle
     let excerptColor
     if (!showCoverImage || coverImageStyles.isInline || coverImageStyles.isContain) {
       excerptColor = this.props.isDarkBackground ? textColorDarkBackground : textColor
@@ -769,6 +781,16 @@ class ItemTitle extends React.Component {
     } else {
       excerptColor = 'white'
     }
+    return excerptColor
+  }
+
+  // barView gets passed in here because we need to include it in the excerptView
+  // when using an coverImage with contain, for the flex layout
+  renderExcerpt (innerViewStyle, fontStyle, shadowStyle, barView) {
+    const { coverImageStyles, showCoverImage, item, styles } = this.props
+    const { excerptOpacity } = this.getOpacityValues()
+    let excerptShadowStyle
+    let excerptColor = this.getExcerptColor()
 
     let excerptBg = {}
     if (showCoverImage && !coverImageStyles.isInline) {
@@ -784,7 +806,7 @@ class ItemTitle extends React.Component {
       } : {}
       excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
         'white' :
-        excerptColor
+        this.getExcerptColor()
       excerptShadowStyle = styles.excerptInvertBG ? {
         textShadowColor: 'transparent'
       }: {}
@@ -799,12 +821,13 @@ class ItemTitle extends React.Component {
     //     (styles.lineHeight > 36 ?
     //     Math.round(styles.lineHeight / 2) :
     //     Math.round(styles.lineHeight / 1.5))
-    let excerptLineHeight = Math.min(this.screenHeight, this.screenWidth) / 16
-    if (excerptLineHeight > 32) excerptLineHeight = 32
 
     const fixPadding = styles.invertBG ?
       { paddingLeft: 0 } :
       {}
+
+    const excerptFontSize = this.getExcerptFontSize()
+    const excerptLineHeight = excerptFontSize * 1.4
 
     return (
       <View>
@@ -847,8 +870,8 @@ class ItemTitle extends React.Component {
               !showCoverImage ?
               'regular' :
               'bold', 'excerpt'),
-            fontSize: Math.round(excerptLineHeight / 1.4),
-            lineHeight: excerptLineHeight,
+            fontSize: excerptFontSize,
+            lineHeight: Math.round(this.getExcerptFontSize() * 1.4),
             letterSpacing: 0
           }}>{this.props.excerpt}</Animated.Text>
         </Animated.View>
@@ -890,12 +913,12 @@ class ItemTitle extends React.Component {
     let dateStyle = {
       color: showCoverImage &&
         !coverImageStyles.isInline &&
-        !coverImageStyles.isScreen ? 'white' : hslString(item.feed_color, 'desaturated'),
+        !coverImageStyles.isScreen ? 'white' : this.getExcerptColor(), // hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
-      fontSize: showCoverImage ? 14 : 14,
+      fontSize: this.getExcerptFontSize() * 0.8,
       fontFamily: 'IBMPlexMono-Light',
-      lineHeight: 24,
-      textAlign: showCoverImage ? 'center' : styles.textAlign,
+      lineHeight: this.getExcerptFontSize() * 1.4,
+      textAlign: showCoverImage && !coverImageStyles.isInline ? 'center' : styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
       marginBottom: (!showCoverImage || coverImageStyles.isInline) ?
