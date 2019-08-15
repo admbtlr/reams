@@ -615,13 +615,15 @@ class ItemTitle extends React.Component {
         (styles.isMonochrome ? 'black' : 'white') :
         color,
       paddingLeft: 2,
-      paddingRight: 2
+      paddingRight: 2,
+      marginTop: 1
     }
 
     const invertedTitleWrapperStyle = {
       backgroundColor: showCoverImage ?
         (styles.isMonochrome ? 'white' : hslString(this.props.item.feed_color, 'desaturated')) :
-        'transparent'
+        'transparent',
+      marginBottom: (styles.invertedBGMargin || 0) * 10
     }
 
     let server = ''

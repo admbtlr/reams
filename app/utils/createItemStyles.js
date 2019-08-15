@@ -74,8 +74,9 @@ export function createItemStyles (item, prevStyles) {
       Math.random() > 0.8)
   title.lineHeightAsMultiplier = title.isUpperCase ?
     0.9 + Math.random() * 0.1 :
-    0.95 + Math.random() * 0.1
+    1 + Math.random() * 0.1
   title.invertBG = Math.random() > 0.8 && !isCoverInline && !isScreen
+  title.invertedBGMargin = Math.floor(Math.random() * 3)
   title.isItalic = !title.isUpperCase && Math.random() > 0.7
   title.bg = !title.invertBG &&
     !isCoverInline &&
