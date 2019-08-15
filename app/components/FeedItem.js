@@ -127,6 +127,7 @@ class FeedItem extends React.Component {
   }
 
   scrollToOffset (offset) {
+    if (!this.scrollView) return
     const that = this
     setTimeout(() => {
       that.scrollView._component.scrollTo({

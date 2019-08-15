@@ -1,7 +1,7 @@
 import React from 'react'
 import {Animated, Dimensions, Text, View, WebView} from 'react-native'
 import {BlurView} from 'react-native-blur'
-import MeasureText from 'react-native-measure-text'
+import rnTextSize, { TSFontSpecs } from 'react-native-text-size'
 import moment from 'moment'
 import quote from 'headline-quotes'
 
@@ -162,41 +162,6 @@ class ItemTitle extends React.Component {
     }, '')
   }
 
-  async getMaxFontSize () {
-    let { styles } = this.props
-    const that = this
-    const limit = 50
-    let maxSize
-    const longestWord = this.getLongestWord()
-    let sizes = []
-    const absMax = 100
-    let i = absMax
-    while (i > 20) {
-      sizes.push(i--)
-    }
-
-    return Promise.all(sizes.map((size) => MeasureText.widths({
-        texts: [styles.isUpperCase ? longestWord.toLocaleUpperCase() : longestWord],
-        fontSize: size,
-        fontFamily: this.getFontFamily(),
-        width: 1000
-    }))).then((values) => {
-      values = values.map((v, i) => {
-        return {
-          width: v[0],
-          size: absMax - i
-        }
-      })
-      for (var i = 0; i < values.length; i++) {
-        if (values[i].width < that.getInnerWidth(values[i].size, styles.isItalic)) {
-          return values[i].size
-        }
-      }
-      return null
-    }).then(maxSize => (maxSize > limit) ? limit : maxSize)
-
-  }
-
   getInnerVerticalPadding (fontSize) {
     if (this.props.styles.showCoverImage && this.props.styles.bg) {
       return this.getInnerHorizontalMargin()
@@ -261,7 +226,7 @@ class ItemTitle extends React.Component {
   }
 
   getInnerWidth (fontSize, isItalic) {
-    return this.screenWidth * this.getWidthPercentage() -
+    return this.screenWidth * this.getWidthPercentage() / 100 -
       this.getInnerHorizontalPadding(fontSize) * 2 -
       this.getInnerHorizontalMargin(fontSize) * 2 -
       (isItalic ? fontSize * 0.1 : 0)
@@ -270,6 +235,41 @@ class ItemTitle extends React.Component {
   async componentDidMount () {
     this.props.setFadeInFunction(this.fadeIn)
     this.componentDidUpdate()
+  }
+
+  async getMaxFontSize () {
+    let { styles } = this.props
+    const that = this
+    const limit = 50
+    let maxSize
+    const longestWord = this.getLongestWord()
+    let sizes = []
+    const absMax = 100
+    let i = absMax
+    while (i > 20) {
+      sizes.push(i--)
+    }
+
+    return Promise.all(sizes.map((size) => rnTextSize.measure({
+        text: [styles.isUpperCase ? longestWord.toLocaleUpperCase() : longestWord],
+        fontSize: size,
+        fontFamily: this.getFontFamily(),
+        width: 1000
+    }))).then((values) => {
+      values = values.map((v, i) => {
+        return {
+          width: v.width,
+          size: absMax - i
+        }
+      })
+      for (var i = 0; i < values.length; i++) {
+        if (values[i].width < that.getInnerWidth(values[i].size, styles.isItalic)) {
+          return values[i].size
+        }
+      }
+      return null
+    }).then(maxSize => (maxSize > limit) ? limit : maxSize)
+
   }
 
   async componentDidUpdate () {
@@ -287,24 +287,25 @@ class ItemTitle extends React.Component {
       sizes.push(i--)
     }
 
-    Promise.all(sizes.map((size) => MeasureText.heights({
-        texts: [styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle],
+    Promise.all(sizes.map((size) => rnTextSize.measure({
+        text: [styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle],
         width: this.getInnerWidth(size, styles.isItalic),
         fontSize: size,
-        fontFamily: this.getFontFamily()
+        fontFamily: this.getFontFamily(),
+        usePreciseWidth: true
     }))).then((values) => {
       values = values.map((v, i) => {
         const size = maxFontSize - i
         return {
-          height: v[0],
+          height: v.height,
           size,
-          numLines: Math.floor(v[0] / size)
+          numLines: v.lineCount
         }
       })
 
       // console.log(this.displayTitle)
       // console.log(values)
-      const maxHeight = this.screenHeight / 2
+      const maxHeight = this.screenHeight / 1.5
       // now go through them and find the first one that
       // (a) is less than 50% screen height
       values = values.filter(v => v.height < maxHeight)
@@ -479,7 +480,7 @@ class ItemTitle extends React.Component {
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
         hslString(this.props.item.feed_color, 'desaturated'))
     // if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
-    if (!showCoverImage) color = this.props.isDarkBackground ? 'hsl(0, 0%, 70%)' : 'black'
+    if (!showCoverImage) color = this.props.isDarkBackground ? textColor : textColor
 
     const invertBGPadding = 3
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
@@ -953,7 +954,7 @@ class ItemTitle extends React.Component {
     const theDate = (typeof date === 'number') ? date : date
     let showYear = (moment(theDate).year() !== moment().year())
     const formattedDate = moment(theDate)
-      .format('Do MMMM' + (showYear ? ' YYYY' : '') + ', h:mm a')
+      .format('dddd Do MMMM' + (showYear ? ' YYYY' : '') + ', h:mm a')
 
     return dateView = <Animated.Text style={dateStyle}>{formattedDate}</Animated.Text>
   }
