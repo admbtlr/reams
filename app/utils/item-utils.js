@@ -150,7 +150,7 @@ export function addMercuryStuffToItem (item, mercury) {
   const allMercury = (decoratedItem.excerpt ? stripTags(decoratedItem.excerpt) : '') +
     (decoratedItem.content_mercury ? stripTags(decoratedItem.content_mercury) : '')
 
-  console.log('Calculating partial ratios...')
+  // console.log('Calculating partial ratios...')
 
   const htmlPartial = decoratedItem.content_html ?
     stripTags(decoratedItem.content_html) :
@@ -176,7 +176,7 @@ export function addMercuryStuffToItem (item, mercury) {
   //   // uh... hide excerpt? strip excerpt from content?
   // }
 
-  console.log('done')
+  // console.log('done')
 
   return decoratedItem
 }

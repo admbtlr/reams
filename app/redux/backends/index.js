@@ -25,7 +25,6 @@ export function hasBackend () {
 
 export async function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
-  console.log(url)
   const response = await fetch(url, {
     'headers': new Headers({
       'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'

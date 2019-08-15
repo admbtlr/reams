@@ -29,24 +29,40 @@ export function * inflateItems (action) {
   }
 
   try {
-    const itemsToDeflate = !inflatedItems ? [] : inflatedItems
-      // why do I sometimes get an undefined error here? something's wrong...
-      .filter(item => item !== undefined && !!!activeItems.find(ai => ai._id === item._id))
-      .map(deflateItem)
-    let itemsToInflate = activeItems.filter(item => !!!inflatedItems.find(ai => ai._id === item._id))
+    // const itemsToDeflate = inflatedItems
+    //   // why do I sometimes get an undefined error here? something's wrong...
+    //   .filter(item => item !== undefined && !!!activeItems.find(ai => ai._id === item._id))
+    //   .map(deflateItem)
+
+    let itemsToDeflate = []
+    items.filter(isInflated).forEach(i => {
+      if (!activeItems.find(ai => ai._id === i._id)) {
+        itemsToDeflate.push(deflateItem(i))
+      }
+    })
+
+    let itemsToInflate = []
+    activeItems.forEach(i => {
+      if (items.filter(isInflated).indexOf(i) === -1) {
+        itemsToInflate.push(i)
+      }
+    })
+    // let itemsToInflate = activeItems.filter(item => !!!inflatedItems.find(ai => ai._id === item._id))
+
+
 
     let inflatedItems = yield call(getItemsAS, itemsToInflate)
 
     // sometimes one of these is null, for reasons that I don't understand
     // so let's try returning the uninflated item and see if that helps
-    inflatedItems.map((inflatedItem, index) => inflatedItem === null ?
+    inflatedItems = inflatedItems.map((inflatedItem, index) => inflatedItem === null ?
       itemsToInflate[index] :
       inflatedItem)
 
-    inflatedItems = inflatedItems.map(inflateStyles)
+    // inflatedItems = inflatedItems.map(inflateStyles)
     yield put({
       type: 'ITEMS_FLATE',
-      inflatedItems,
+      itemsToInflate: inflatedItems,
       itemsToDeflate
     })
   } catch (err) {
