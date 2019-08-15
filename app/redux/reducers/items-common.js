@@ -2,7 +2,7 @@ import {
   addStylesIfNecessary,
   addMercuryStuffToItem,
   addCoverImageToItem,
-  removeDuplicateImage,
+  removeCoverImageDuplicate,
   setShowCoverImage
 } from '../../utils/item-utils.js'
 
@@ -62,13 +62,15 @@ export const itemToggleMercury = (action, state) => {
 }
 
 export const itemDecorationSuccess = (action, state) => {
+  const currentItem = state.items[state.index]
   const testAndDecorate = (item) => {
     if (item._id === action.item._id) {
       // note that I'm using action.item as the base
       // there's a small chance that this might be stale,
       // if e.g. it's been read since it was initially plucked in the decorate-item saga
       item = addMercuryStuffToItem(action.item, action.mercuryStuff)
-      item = setShowCoverImage(addCoverImageToItem(item, action.imageStuff))
+      item = setShowCoverImage(addCoverImageToItem(item, action.imageStuff), currentItem)
+      item = removeCoverImageDuplicate(item)
       // this is just to pick up styles.coverImage.isInline
       // item.styles = action.item.styles
     }

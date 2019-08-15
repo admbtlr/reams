@@ -125,24 +125,13 @@ export function addMercuryStuffToItem (item, mercury) {
     excerpt: mercury.excerpt,
     hasLoadedMercuryStuff: true
   }
-  // if (isExcerptFirstPara(decoratedItem)) {
-  //   let paras = decoratedItem.content_html.split('</p>')
-  //   paras.shift()
-  //   decoratedItem.content_html = paras.join('</p>')
-  // } else if (!isExcerptUseful(decoratedItem)) {
-  //   decoratedItem.excerpt = undefined
-  // } else if (isExcerptExtract(decoratedItem)) {
-  //   if (!decoratedItem.content_mercury ||
-  //     decoratedItem.content_mercury == '' ||
-  //     isExcerptExtract(decoratedItem, true)) {
-  //     decoratedItem.excerpt = undefined
-  //   } else {
-  //     decoratedItem.showMercuryContent = true
-  //   }
-  // }
 
   if (decoratedItem.content_html.length === 0 &&
     decoratedItem.content_mercury.length !== 0) {
+    decoratedItem.showMercuryContent = true
+  }
+
+  if (stripTags(decoratedItem.content_html) === decoratedItem.excerpt && decoratedItem.content_mercury.length > 0) {
     decoratedItem.showMercuryContent = true
   }
 
@@ -158,10 +147,19 @@ export function addMercuryStuffToItem (item, mercury) {
   const mercuryPartial = decoratedItem.content_mercury ?
     stripTags(decoratedItem.content_mercury)
     : ''
-  const excerptMercuryPartial = stripTags(decoratedItem.content_mercury)
 
   if (mercuryPartial.length > htmlPartial.length &&
     fuzz.partial_ratio(htmlPartial.substring(0, 500), mercuryPartial.substring(0, 500)) > 90) {
+    decoratedItem.showMercury = true
+  }
+
+  if (decoratedItem.excerpt && decoratedItem.excerpt.length > 0 &&
+    fuzz.partial_ratio(decoratedItem.excerpt, htmlPartial.substring(0, 500)) > 90) {
+    decoratedItem.excerpt = null
+  }
+
+  if (htmlPartial.length < 500 &&
+    fuzz.partial_ratio(htmlPartial, mercuryPartial.substring(0, 500)) > 90) {
     decoratedItem.showMercury = true
   }
 
@@ -220,7 +218,7 @@ export function addCoverImageToItem (item, imageStuff) {
   }
 }
 
-export function setShowCoverImage (item) {
+export function setShowCoverImage (item, currentItem) {
   const getLongestContentLength = (item) => {
     const hasMercury = item.content_mercury && typeof item.content_mercury === 'string'
     const hasHtml = item.content_html && typeof item.content_mercury === 'string'
@@ -238,27 +236,21 @@ export function setShowCoverImage (item) {
   return {
     ...item,
     showCoverImage: item.hasCoverImage &&
+      (currentItem ? item._id !== currentItem._id : true) &&
       (getLongestContentLength(item) > 2000)
   }
 }
 
-export function removeDuplicateImage (item) {
-  const escapeUrl = (Url) => Url.
-    replace('.', '\.').
-    replace('*', '\*').
-    replace('?', '\?').
-    replace('/', '\/').
-    replace(':', '\:').
-    replace('[', '\[').
-    replace(']', '\]')
+export function removeCoverImageDuplicate (item) {
   if (item.showCoverImage && item.styles.coverImage.isInline && item.banner_image) {
-    debugger
-    const url = escapeUrl(item.banner_image)
-    const figureRegEx = new RegExp(`<figure.*?img.*?src="${url}".*?\/figure>`)
-    const imgRegEx = new RegExp(`<img.*?src="${url}".*?\/img>`)
+    const coverUrl = item.banner_image
+    const imgRegEx = /<img.*?>/g
     let content_html = item.content_html || ''
     let content_mercury = item.content_mercury || ''
-    content_html = content_html.replace(figureRegEx, '').replace(imgRegEx, '')
+    const images = imgRegEx.exec(content_html)
+    if (images && images[0].indexOf(coverUrl) !== -1) {
+      content_html = content_html.replace(/<img.*?>/, '')
+    }
     item = {
       ...item,
       content_html,
