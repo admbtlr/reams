@@ -49,7 +49,7 @@ export function deflateItem (item) {
   }
 }
 
-export function inflateItem (item) {
+export function inflateStyles (item) {
   if (!item) {
     log('inflateItem', 'Item is null?')
   }

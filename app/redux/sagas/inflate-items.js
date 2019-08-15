@@ -1,7 +1,7 @@
 import { InteractionManager } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
 
-import { isInflated, deflateItem, inflateItem } from '../../utils/item-utils'
+import { isInflated, deflateItem, inflateStyles } from '../../utils/item-utils'
 import log from '../../utils/log'
 import { getItems } from './selectors'
 
@@ -35,11 +35,18 @@ export function * inflateItems (action) {
       .map(deflateItem)
     let itemsToInflate = activeItems.filter(item => !!!inflatedItems.find(ai => ai._id === item._id))
 
-    itemsToInflate = yield call(getItemsAS, itemsToInflate)
-    itemsToInflate = itemsToInflate.map(inflateItem)
+    let inflatedItems = yield call(getItemsAS, itemsToInflate)
+
+    // sometimes one of these is null, for reasons that I don't understand
+    // so let's try returning the uninflated item and see if that helps
+    inflatedItems.map((inflatedItem, index) => inflatedItem === null ?
+      itemsToInflate[index] :
+      inflatedItem)
+
+    inflatedItems = inflatedItems.map(inflateStyles)
     yield put({
       type: 'ITEMS_FLATE',
-      itemsToInflate,
+      inflatedItems,
       itemsToDeflate
     })
   } catch (err) {
