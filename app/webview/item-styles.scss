@@ -426,7 +426,7 @@ body {
 
   @each $name, $value in $desaturated {
     &.#{$name} {
-      li:before {
+      ul li:before {
         background-color: $value;
       }
     }

@@ -136,7 +136,7 @@ class Buttons extends React.Component {
   }
 
   render () {
-    console.log('RENDER BUTTONS!')
+    // console.log('RENDER BUTTONS!')
     const {prevItem, currentItem, nextItem} = this.props
     const items = prevItem ?
       [prevItem, currentItem, nextItem] :

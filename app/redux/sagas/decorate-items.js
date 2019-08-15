@@ -14,7 +14,7 @@ import { getItemsAS, updateItemAS } from '../async-storage'
 let pendingDecoration = [] // a local cache
 let toDispatch = []
 
-const showLogs = true
+const showLogs = false
 
 export function * decorateItems (action) {
   let items
