@@ -56,7 +56,8 @@ class SwipeableViews extends Component {
 
   scrollToItem () {
     const pageWidth = Dimensions.get('window').width
-    const x = (this.state.indexVirtual || 0) * pageWidth
+    const initialVirtualIndex = this.state.index === 0 ? 0 : 1
+    const x = (this.state.indexVirtual || initialVirtualIndex) * pageWidth
     // debugger
     this.scrollView && this.scrollView._component && this.scrollView._component.scrollTo({
       x,
