@@ -60,12 +60,13 @@ class CoverImage extends React.Component {
 
   render () {
     const {isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
+    const {imageDimensions} = this.props
     const absolute = {
       position: 'absolute',
-      top: resizeMode === 'contain' ? '0%' : '0%',
-      height: resizeMode === 'contain' ? '120%' : '100%',
-      left: '-10%',
-      width: '120%'
+      top: '0%',
+      height: isInline ? '100%' : '120%',
+      left: isInline ? '0%' : '-10%',
+      width: isInline ? '100%' : '120%'
     }
     const inline = {
       flex: 1,
@@ -77,10 +78,11 @@ class CoverImage extends React.Component {
     }
     const position = isInline ? inline : absolute
     const scrollOffset = this.props.scrollOffset || 0
+    const imageHeight = this.screenWidth / imageDimensions.width * imageDimensions.height
     const scale = isInline ?
       scrollOffset.interpolate({
-        inputRange: [-100, 0, this.screenHeight],
-        outputRange: [1.2, 1, 1]
+        inputRange: [-imageHeight, 0, 1],
+        outputRange: [2, 1, 1]
       }) :
       scrollOffset.interpolate({
         inputRange: [-100, 0, this.screenHeight],
@@ -89,7 +91,7 @@ class CoverImage extends React.Component {
     const translateY = isInline ?
       scrollOffset.interpolate({
         inputRange: [-1, 0, 1],
-        outputRange: [-0.6, 0, 0]
+        outputRange: [-.5, 0, 0]
       }) :
       scrollOffset.interpolate({
         inputRange: [-1, 0, 1],
@@ -107,28 +109,11 @@ class CoverImage extends React.Component {
       ...position,
       backgroundColor: isMultiply || isScreen ? this.getColor() : 'white',
       opacity,
-      transform: [
-        {translateY},
-        {scale}
-      ]
+      transform: isInline ?
+        [ { translateY }, { scale } ] :
+        [ { scale }, { translateY } ]
     }
-    // if (!isInline) {
-    //   style = {
-    //     ...style,
-    //     transform: [
-    //       {scale},
-    //       {translateY}
-    //     ]
-    //   }
-    // } else {
-    //   style = {
-    //     ...style,
-    //     transform: [
-    //       {scaleTest},
-    //       {translateYTest}
-    //     ]
-    //   }
-    // }
+
     if (resizeMode === 'contain') {
       style = {
         ...style,
