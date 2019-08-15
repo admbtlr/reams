@@ -547,7 +547,7 @@ class ItemTitle extends React.Component {
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
       marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
-      marginBottom: 0,
+      marginBottom: showCoverImage && !coverImageStyles.isInline && styles.bg ? this.getExcerptLineHeight() : 0,
       marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
