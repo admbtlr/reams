@@ -51,6 +51,13 @@ class CoverImage extends React.Component {
     return hslString(color, palette)
   }
 
+  // if image too small, returns < 1
+  getImageSizeRatio () {
+    const widthRatio = this.props.imageDimensions.width / this.screenWidth
+    const heightRatio = this.props.imageDimensions.height / this.screenHeight
+    return Math.min(widthRatio, heightRatio)
+  }
+
   shouldComponentUpdate (prevProps, prevState) {
     return prevProps.imagePath !== this.props.imagePath ||
       (prevProps.imageDimensions ?
@@ -141,8 +148,6 @@ class CoverImage extends React.Component {
       this.props.imageDimensions.width > 0 &&
       this.props.imageDimensions.height > 0) {
       const center = this.getCenterArray(this.props.styles.align)
-      const imageToosmall = this.props.imageDimensions.width < this.screenWidth ||
-        this.props.imageDimensions.height < this.screenHeight
       const colorBlendingColor = blendColor(this.props.styles.color)
       // const colorBlendingColor = [1, 0, 0, 1]
 
@@ -166,13 +171,13 @@ class CoverImage extends React.Component {
         <Animated.View
           style={{
             ...position,
-            opacity: imageToosmall ? blurOpacity : 1
+            opacity: 1
           }}
         >
           <VibrancyView
             style={absolute}
             blurType='light'
-            blurAmount={100}
+            blurAmount={this.getImageSizeRatio() < 0.6 ? 20 : 5}
           />
         </Animated.View>
       )
@@ -218,7 +223,7 @@ class CoverImage extends React.Component {
           style={style}
         >
           { surface }
-          { this.props.blur && imageToosmall && blur }
+          { /*this.props.blur &&*/ this.getImageSizeRatio() < 1 && blur }
         </Animated.View>
       )
     } else {
