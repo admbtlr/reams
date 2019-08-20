@@ -3,7 +3,7 @@ const Mercury = require('@postlight/mercury-parser')
 const express = require('express')
 const request = require('request')
 const FeedParser = require('feedparser')
-const Iconv = require('iconv').Iconv
+const iconv = require('iconv-lite')
 const zlib = require('zlib')
 const parseFavicon = require('parse-favicon')
 
@@ -63,11 +63,12 @@ app.get('/feed-meta/', (req, res) => {
   const readMeta = (items) => {
     if (items && items.length) {
       const meta = items[0].meta
+      // console.log(meta)
       feedMeta = {
         description: meta.description,
         favicon: meta.favicon,
         image: meta.image.url,
-        url: meta.link,
+        link: meta.link,
         color: meta.color
       }
       // res.send(feedMeta)
@@ -77,28 +78,46 @@ app.get('/feed-meta/', (req, res) => {
     }
   }
   const getFavicon = (feedMeta, res) => {
-    request(feedMeta.url, (err, resp, body) => {
+    console.log('In getFavIcon')
+    request(feedMeta.link, (err, resp, body) => {
+      console.log('Got request')
       if (err) {
+        console.log(err)
         res.send(feedMeta)
       }
+      console.log('About to parse favicons')
       parseFavicon.parseFavicon(body, {}).then(favicons => {
+        console.log(favicons)
         let favicon
         const getSize = f => f.size
           ? f.size.split('x')[0]
           : 0
         if (favicons && favicons.length > 0) {
           favicons = favicons.sort((a, b) => getSize(a) - getSize(b))
-            .filter(f => getSize(f) !== 0)
+            .filter(f => f.type && f.type === 'image/png')
           if (favicons.length) {
-            // try and get the smallest one larger than 31
-            favicon = favicons.find(f => getSize(f) > 31)
+            // try and get the smallest one larger than 63
+            favicon = favicons.find(f => getSize(f) > 63)
              || favicons[0]
           }
         }
-
+        console.log('Here\'s the favicon: ' + favicon)
+        if (favicon) {
+          if (favicon.url && favicon.url.startsWith('//')) {
+            favicon.url = 'https:' + favicon.url
+          } else if (favicon.url && favicon.url.startsWith('/')) {
+            favicon.url = (feedMeta.link.endsWith('/') ?
+              feedMeta.link.substring(0, feedMeta.link.length - 1) :
+              feedMeta.link
+            ) + favicon.url
+          } else if (!favicon.url && favicon.path) {
+            favicon.url = feedMeta.link.substring(0, feedMeta.link.length - 1) + favicon.path
+          }
+        }
         feedMeta.favicon = favicon
         res.send(feedMeta)
       }).catch(err => {
+        console.log('Error in parseFavIcon: ' + err)
         res.send(feedMeta)
       })
     })
@@ -186,19 +205,19 @@ function maybeDecompress (res, encoding) {
 }
 
 function maybeTranslate (res, charset) {
-  var iconv
   // Use iconv if its not utf8 already.
-  if (!iconv && charset && !/utf-*8/i.test(charset)) {
+  if (charset && !/utf-*8/i.test(charset)) {
     try {
       iconv = new Iconv(charset, 'utf-8')
-          console.log('Converting from charset %s to utf-8', charset)
-          iconv.on('error', done)
-          // If we're using iconv, stream will be the output of iconv
+      console.log('Converting from charset %s to utf-8', charset)
+      iconv.on('error', done)
+      // If we're using iconv, stream will be the output of iconv
       // otherwise it will remain the output of request
-      res = res.pipe(iconv)
-        } catch(err) {
+      res = res.pipe(iconv.decodeStream(charset))
+        .pipe(iconv.encodeStream('utf-8'))
+    } catch(err) {
       res.emit('error', err)
-        }
+    }
   }
   return res
 }
