@@ -71,7 +71,9 @@ export function id (item) {
   if (item && typeof item === 'string') {
     return hashFnv32a(item, true)
   } else if (item && item.url) {
-    return hashFnv32a(item.url, true) + '-' + item.created_at
+    return hashFnv32a(item.url, true) + '-' + (item.feed_id ?
+      item.feed_id.split('-')[0] :
+      item.created_at)
   } else {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
