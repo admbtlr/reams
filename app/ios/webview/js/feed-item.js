@@ -8,22 +8,49 @@ function replaceSectionsWithDivs () {
   }
 }
 
+function moveChildrenUpALevel (div) {
+  var parent = div.parentNode
+  var children = div.childNodes
+  children.forEach(child => {
+    parent.insertBefore(child.cloneNode(true), div)
+  })
+}
+
 function removeDivsInDivs(divs) {
   divs = divs || document.querySelector('article').querySelectorAll('div')
   const toRemove = []
   let pointlessDivs = Array.from(divs).filter(hasOnlyDivChildren)
-  const moveChildrenUpALevel = (div) => {
-    var parent = div.parentNode
-    var children = div.childNodes
-    children.forEach(child => {
-      parent.insertBefore(child.cloneNode(true), div)
-    })
-  }
+
   while (pointlessDivs.length > 0) {
     moveChildrenUpALevel(pointlessDivs[0])
     pointlessDivs[0].remove()
     divs = document.querySelector('article').querySelectorAll('div')
     pointlessDivs = Array.from(divs).filter(hasOnlyDivChildren)
+  }
+}
+
+function removeDivsWithImg(divs) {
+  divs = divs || document.querySelector('article').querySelectorAll('div')
+  const toRemove = []
+
+  // this is a New York Times thing...
+  divs.forEach(div => {
+    if (div.childNodes.length > 1 && div.childNodes[0].nodeType === 3 &&
+      div.childNodes[0].textContent === 'Image') {
+      div.removeChild(div.childNodes[0])
+    }
+  })
+
+  const hasOnlyImgChild = function (el) {
+    return el.childNodes.length === 1 && el.childNodes[0].nodeType === 1 &&
+    el.childNodes[0].tagName === 'IMG'
+  }
+  let divsWithImgs = Array.from(divs).filter(hasOnlyImgChild)
+  while (divsWithImgs.length > 0) {
+    moveChildrenUpALevel(divsWithImgs[0])
+    divsWithImgs[0].remove()
+    divs = document.querySelector('article').querySelectorAll('div')
+    divsWithImgs = Array.from(divs).filter(hasOnlyImgChild)
   }
 }
 
@@ -89,6 +116,23 @@ function removeDivsWithOrphanFigures () {
   })
 }
 
+function convertDivsToFigures () {
+  const divs = document.querySelectorAll('div')
+  Array.prototype.forEach.call(divs, function (div, i) {
+    if (div.childNodes.length === 2 &&
+      div.childNodes[0].tagName === 'IMG' &&
+      (div.childNodes[1].tagName === 'P' ||
+        div.childNodes[1].nodeType === 3)) {
+      let figCaption = document.createElement('figcaption')
+      figCaption.innerHTML = div.childNodes[1].textContent
+      div.replaceChild(figCaption, div.childNodes[1])
+      let figure = document.createElement('figure')
+      figure.innerHTML = div.innerHTML
+      div.parentNode.replaceChild(figure, div)
+    }
+  })
+}
+
 function removeEmptyParagraphs () {
   const paras = document.querySelectorAll('p')
   let toRemove = []
@@ -143,8 +187,15 @@ function markImages () {
     if (el.naturalHeight > el.naturalWidth) {
       el.classList.add('img-portrait')
     }
-    if (el.naturalHeight < 20) {
+    if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
       el.classList.add('img-small')
+    }
+  })
+  const figures = document.querySelectorAll('figure')
+  Array.prototype.forEach.call(figures, function (el, i) {
+    if (el.getElementsByTagName('img').length > 0 &&
+      el.getElementsByTagName('img')[0].classList.contains('img-small')) {
+      el.classList.add('figure-small')
     }
   })
 }
@@ -444,6 +495,9 @@ removeNodes('time')
 removeSoloSurroundingDivs()
 createFigCaptions()
 removeSrcSets()
+removeEmptyDivs()
+removeDivsWithImg()
+convertDivsToFigures()
 // removeWidows()
 
 window.onload = function() {
