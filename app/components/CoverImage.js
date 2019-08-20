@@ -29,10 +29,6 @@ class CoverImage extends React.Component {
         ? 'blendScreen'
         : 'none')
 
-    this.saturation = 1 //Math.round(Math.random() * 0.8)
-    this.contrast = 1.1
-    this.brightness = this.blendMode == 'blendMultiply' ? 1.5 : 1
-
     // go for all out bw
     if (props.styles.isBW) {
       this.saturation = 0
@@ -78,7 +74,7 @@ class CoverImage extends React.Component {
     const inline = {
       flex: 1,
       width: '100%',
-      marginTop: isIphoneX() ? 80 : 60,
+      marginTop: isIphoneX() ? 90 : 70,
       // weird bug with the top pixel row of images
       top: -1,
       marginBottom: -1
@@ -144,6 +140,13 @@ class CoverImage extends React.Component {
       borderColor: 'white'
     }
 
+    const saturation = this.getImageSizeRatio() < .75 ? 1.1 : 1
+    const contrast = 1.1
+    const brightness = this.blendMode == 'blendMultiply' ?
+      1.5 :
+      this.getImageSizeRatio() < 1 ? 1.2 : 1
+
+
     if (this.props.imagePath &&
       this.props.imageDimensions.width > 0 &&
       this.props.imageDimensions.height > 0) {
@@ -177,15 +180,15 @@ class CoverImage extends React.Component {
           <VibrancyView
             style={absolute}
             blurType='light'
-            blurAmount={this.getImageSizeRatio() < 0.6 ? 20 : 5}
+            blurAmount={this.getImageSizeRatio() < 0.6 ? 10 : 2}
           />
         </Animated.View>
       )
       const csb = (
         <ContrastSaturationBrightness
-          saturation={this.saturation}
-          contrast={this.contrast}
-          brightness={this.brightness}
+          saturation={saturation}
+          contrast={contrast}
+          brightness={brightness}
         >
           {image}
         </ContrastSaturationBrightness>
@@ -223,7 +226,7 @@ class CoverImage extends React.Component {
           style={style}
         >
           { surface }
-          { /*this.props.blur &&*/ this.getImageSizeRatio() < 1 && blur }
+          { !isInline && this.getImageSizeRatio() < .75 && blur }
         </Animated.View>
       )
     } else {
