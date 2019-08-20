@@ -150,7 +150,7 @@ class TopBar extends React.Component {
   getForegroundColor (item) {
     return this.props.displayMode == 'saved' ?
       hslString('rizzleText') :
-      hslString('white')
+      'white'
   }
 
   getBorderBottomColor (item) {
@@ -164,12 +164,11 @@ class TopBar extends React.Component {
   }
 
   getHamburgerColor (item) {
-    const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
       this.getForegroundColor() :
       (this.props.isFiltered ?
-        hslString(feedColor, 'darker') :
-        'white')
+        'rgba(0, 0, 0, 0.6)' :
+        'rgba(255, 255, 255, 0.6)')
   }
 
   expandAnimation () {
@@ -277,9 +276,7 @@ class TopBar extends React.Component {
           }}
         >
           <ViewButtonToggle
-            buttonColor={this.props.displayMode == 'saved' ?
-              this.getForegroundColor() :
-              'white'}
+            buttonColor={this.getHamburgerColor(item)}
             isSyncing={this.props.toolbar.message}
             onPress={this.props.toggleViewButtons}
             opacityAnim={clampedAnimatedValue.interpolate({
@@ -451,7 +448,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
   >
     <TouchableOpacity
       style={{
-        width: 28,
+        width: 30,
         height: 28,
         borderRadius: 14
       }}
@@ -459,36 +456,30 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
     >
       <Svg
         height='22'
-        width='28'>
-        <Line
-          fill='none'
-          stroke={hamburgerColor}
-          strokeLinecap='round'
-          strokeWidth='2'
-          x1='2'
-          x2='24'
-          y1='1'
-          y2='1'
+        width='30'>
+        <Circle
+          cx="4"
+          cy="10"
+          r="3"
+          strokeWidth={2}
+          stroke="none"
+          fill={hamburgerColor}
         />
-        <Line
-          fill='none'
-          stroke={hamburgerColor}
-          strokeLinecap='round'
-          strokeWidth='2'
-          x1='2'
-          x2='24'
-          y1='8'
-          y2='8'
+        <Circle
+          cx="14"
+          cy="10"
+          r="3"
+          strokeWidth={2}
+          stroke="none"
+          fill={hamburgerColor}
         />
-        <Line
-          fill='none'
-          stroke={hamburgerColor}
-          strokeLinecap='round'
-          strokeWidth='2'
-          x1='2'
-          x2='24'
-          y1='15'
-          y2='15'
+        <Circle
+          cx="24"
+          cy="10"
+          r="3"
+          strokeWidth={2}
+          stroke="none"
+          fill={hamburgerColor}
         />
       </Svg>
     </TouchableOpacity>
@@ -515,7 +506,7 @@ const ViewButtonToggle = ({ onPress, buttonColor, opacityAnim, isSyncing }) => (
         <Path
           d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
           strokeWidth={2}
-          stroke="white"
+          stroke={buttonColor}
           fill="none"
         />
         <Circle
@@ -523,7 +514,7 @@ const ViewButtonToggle = ({ onPress, buttonColor, opacityAnim, isSyncing }) => (
           cy="12"
           r="3"
           strokeWidth={2}
-          stroke="white"
+          stroke={buttonColor}
           fill={isSyncing ? "white" : "none"}
         />
       </Svg>
