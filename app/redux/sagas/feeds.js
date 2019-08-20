@@ -84,12 +84,12 @@ export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
     yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
-    if (feed.inflated) continue
+    // if (feed.inflated) continue
     const details = yield call(getFeedDetails, feed)
     const inflatedFeed = {
       ...feed,
       ...details,
-      inflated: true
+      isInflated: true
     }
     yield call(InteractionManager.runAfterInteractions)
     yield put({
@@ -100,8 +100,9 @@ export function * inflateFeeds () {
       const fileName = yield call(cacheFeedFavicon, inflatedFeed)
       yield call(InteractionManager.runAfterInteractions)
       yield put({
-        type: 'FEED_CACHED_FAVICON',
-        cachedFaviconPath: fileName
+        type: 'FEED_SET_CACHED_FAVICON',
+        cachedFaviconPath: fileName,
+        id: inflatedFeed._id
       })
     }
   }

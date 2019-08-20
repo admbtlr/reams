@@ -8,6 +8,7 @@ import { itemsUnread, itemsHasErrored } from './items-unread'
 import { itemsSaved } from './items-saved'
 import { itemsMeta } from './items-meta'
 import { feeds } from './feeds'
+import { feedsLocal } from './feeds-local'
 import { toolbar } from './toolbar'
 import { ui } from './ui'
 import { user } from './user'
@@ -43,6 +44,7 @@ export default function makeRootReducer () {
     itemsMeta,
     itemsHasErrored,
     feeds,
+    feedsLocal,
     toolbar,
     ui,
     webView,
