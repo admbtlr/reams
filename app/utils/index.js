@@ -56,6 +56,10 @@ export function getCachedImagePath (item) {
   return `${RNFS.DocumentDirectoryPath}/${id}.jpg`
 }
 
+export function getCachedFeedIconPath (id) {
+  return `${RNFS.DocumentDirectoryPath}/feed-icons/${id}.png`
+}
+
 export const isIphoneX = () => {
   let d = Dimensions.get('window');
   const { height, width } = d;

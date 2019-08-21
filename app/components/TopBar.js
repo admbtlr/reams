@@ -15,8 +15,8 @@ import {
   getPanValue,
   addScrollListener
 } from '../utils/animationHandlers'
-
-import { id, isIphoneX } from '../utils'
+import FeedIcon from './FeedIcon'
+import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
 
 export const STATUS_BAR_HEIGHT = 49
@@ -63,7 +63,7 @@ class TopBar extends React.Component {
     const feedName = item
       ? item.feed_title
       : 'Rizzle'
-    return /*this.props.toolbar.message ||*/ feedName || ''
+    return feedName || ''
   }
 
   render () {
@@ -216,6 +216,10 @@ class TopBar extends React.Component {
       0
     )
 
+    if (item.hasCachedFeedIcon) {
+      console.log('HAS CACHED FEED ICON!')
+    }
+
     return (
       <View>
         <Animated.View
@@ -310,31 +314,39 @@ class TopBar extends React.Component {
               overflow: 'hidden',
               height: 36,
             }}>
-            <Animated.Text
-              numberOfLines={1}
-              ellipsizeMode='tail'
-              style={{
-                ...this.getStyles().feedName,
-                fontSize: 20,
-                fontFamily: 'IBMPlexSansCond-Bold',
-                height: 36,
-                width: Dimensions.get('window').width - 72,
-                marginLeft: 36,
-                marginRight: 36,
-                paddingBottom: 15,
-                transform: [{
-                  translateY: transformAnim
-                }],
-                // color: this.getBorderBottomColor(item)
-                color: this.getForegroundColor(),
-                opacity: clampedAnimatedValue.interpolate({
-                  inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-                  outputRange: [0, 1]
-                })
-              }}
-            >
-              {this.getMessage(item)}
-            </Animated.Text>
+            <Animated.View style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              height: 36,
+              width: Dimensions.get('window').width - 72,
+              marginLeft: 36,
+              marginRight: 36,
+              opacity: clampedAnimatedValue.interpolate({
+                inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+                outputRange: [0, 1]
+              }),
+              paddingBottom: 15,
+              transform: [{
+                translateY: transformAnim || 0
+              }]
+            }}>
+              { item.hasCachedFeedIcon && <FeedIcon id={item.feed_id} />}
+              <Text
+                numberOfLines={1}
+                ellipsizeMode='tail'
+                style={{
+                  ...this.getStyles().feedName,
+                  fontSize: 20,
+                  fontFamily: 'IBMPlexSansCond-Bold',
+                  // color: this.getBorderBottomColor(item)
+                  color: this.getForegroundColor(),
+                  height: 36
+                }}
+              >
+                {this.getMessage(item)}
+              </Text>
+            </Animated.View>
           </TouchableWithoutFeedback>
           <FeedsHamburger
             onPress={() => this.props.navigation.navigate('Feeds')}
