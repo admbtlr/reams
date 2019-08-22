@@ -3,7 +3,7 @@ import { call, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
 import { Image, InteractionManager } from 'react-native'
-import { getCachedImagePath } from '../../utils'
+import { getCachedCoverImagePath, getImageDimensions } from '../../utils'
 import { setCoverInline } from '../../utils/createItemStyles'
 import { deflateItem } from '../../utils/item-utils'
 import log from '../../utils/log'
@@ -176,7 +176,7 @@ export function * decorateItem (item) {
     let hasCoverImage = yield cacheCoverImage(item, mercuryStuff.lead_image_url)
     if (hasCoverImage) {
       try {
-        const imageDimensions = yield getImageDimensions(item)
+        const imageDimensions = yield getImageDimensions(getCachedCoverImagePath(item))
         imageStuff = {
           hasCoverImage,
           imageDimensions
@@ -208,7 +208,7 @@ function cacheCoverImage (item, imageURL) {
   // const extension = splitted[splitted.length - 1].split('?')[0].split('%')[0]
   // making a big assumption on the .jpg extension here...
   // and it seems like Image adds '.png' to a filename if there's no extension
-  const fileName = getCachedImagePath(item)
+  const fileName = getCachedCoverImagePath(item)
   // consoleLog(`Loading cover image for ${item._id}...`)
   return RNFS.downloadFile({
     fromUrl: imageURL,
@@ -223,18 +223,3 @@ function cacheCoverImage (item, imageURL) {
     return false
   })
 }
-
-function getImageDimensions (item) {
-  return new Promise((resolve, reject) => {
-    Image.getSize(`file://${getCachedImagePath(item)}`, (imageWidth, imageHeight) => {
-      resolve({
-        width: imageWidth,
-        height: imageHeight
-      })
-    }, (error) => {
-      consoleLog(error)
-      reject(error)
-    })
-  })
-}
-

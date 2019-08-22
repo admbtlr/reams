@@ -11,18 +11,23 @@ const mapStateToProps = (state, ownProps) => {
   const nextItem = (items && index < items.length - 1) ? items[index + 1] : null
   const hasCachedIcon = (feedId) => state.feedsLocal.feeds.find(f => f._id === feedId) &&
     state.feedsLocal.feeds.find(f => f._id === feedId).hasCachedIcon
+  const iconDimensions = (feedId) => state.feedsLocal.feeds.find(f => f._id === feedId) &&
+    state.feedsLocal.feeds.find(f => f._id === feedId).cachedIconDimensions
   return {
-    prevItem: {
+    prevItem: prevItem && {
       ...prevItem,
-      hasCachedFeedIcon: prevItem && hasCachedIcon(prevItem.feed_id)
+      hasCachedFeedIcon: hasCachedIcon(prevItem.feed_id),
+      feedIconDimensions: iconDimensions(prevItem.feed_id)
     },
-    currentItem: {
+    currentItem: currentItem && {
       ...currentItem,
-      hasCachedFeedIcon: currentItem && hasCachedIcon(currentItem.feed_id)
+      hasCachedFeedIcon: hasCachedIcon(currentItem.feed_id),
+      feedIconDimensions: iconDimensions(currentItem.feed_id)
     },
-    nextItem: {
+    nextItem: nextItem && {
       ...nextItem,
-      hasCachedFeedIcon: nextItem && hasCachedIcon(nextItem.feed_id)
+      hasCachedFeedIcon: hasCachedIcon(nextItem.feed_id),
+      feedIconDimensions: iconDimensions(nextItem.feed_id)
     },
     toolbar: state.toolbar,
     displayMode: state.itemsMeta.display,

@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
     ...state.webView,
     isImageViewerVisible: state.ui.imageViewerVisible,
     coverImageComponent: ownProps.coverImageComponent,
-    setTimerFunction: ownProps.setTimerFunction
+    setTimerFunction: ownProps.setTimerFunction,
+    displayMode: state.itemsMeta.display
   }
 }
 

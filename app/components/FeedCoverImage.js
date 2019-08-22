@@ -10,7 +10,7 @@ const RNFS = require('react-native-fs')
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
 import ColorBlending from 'gl-react-color-blending'
 import { blendColor } from '../utils/colors'
-import {getCachedImagePath} from '../utils/'
+import {getCachedCoverImagePath} from '../utils/'
 import log from '../utils/log'
 
 class FeedCoverImage extends React.Component {
@@ -95,7 +95,7 @@ class FeedCoverImage extends React.Component {
     }
 
     const coverImageUrl = coverImageId ?
-      `file://${getCachedImagePath(coverImageId)}` :
+      `file://${getCachedCoverImagePath(coverImageId)}` :
       null
 
     return (feedColor && coverImageUrl && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?

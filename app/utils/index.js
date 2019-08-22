@@ -1,5 +1,5 @@
 const RNFS = require('react-native-fs')
-import { Animated, Dimensions, Platform } from 'react-native'
+import { Animated, Dimensions, Image, Platform } from 'react-native'
 
 export function deepEqual (a, b, ignoreNull = false) {
   try {
@@ -49,7 +49,7 @@ export function deepEqual (a, b, ignoreNull = false) {
 
 }
 
-export function getCachedImagePath (item) {
+export function getCachedCoverImagePath (item) {
   const id = typeof item === 'object'
     ? item._id
     : item
@@ -59,6 +59,25 @@ export function getCachedImagePath (item) {
 export function getCachedFeedIconPath (id) {
   return `${RNFS.DocumentDirectoryPath}/feed-icons/${id}.png`
 }
+
+export function getRenderedFeedIconPath (id) {
+  return `${RNFS.DocumentDirectoryPath}/feed-icons/rendered/${id}.png`
+}
+
+export function getImageDimensions (path) {
+  return new Promise((resolve, reject) => {
+    Image.getSize(`file://${path}`, (imageWidth, imageHeight) => {
+      resolve({
+        width: imageWidth,
+        height: imageHeight
+      })
+    }, (error) => {
+      // log(error)
+      reject(error)
+    })
+  })
+}
+
 
 export const isIphoneX = () => {
   let d = Dimensions.get('window');

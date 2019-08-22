@@ -4,7 +4,7 @@ import {WebView} from 'react-native-webview'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
-import {deepEqual, getCachedImagePath} from '../utils/'
+import {deepEqual, getCachedCoverImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
 import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
 import { hslString } from '../utils/colors'
@@ -135,7 +135,7 @@ class FeedItem extends React.Component {
         y: that.props.item.scrollOffset,
         animated: true
       })
-    }, 1000)
+    }, 2000)
   }
 
   isCoverImagePortrait () {
@@ -235,7 +235,7 @@ class FeedItem extends React.Component {
         <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       </head>
-      <body class="${visibleClass} ${scrollingClass} ${blockquoteClass}" data-cover="${data}">
+      <body class="${visibleClass} ${scrollingClass} ${blockquoteClass} ${this.props.displayMode}" data-cover="${data}">
         <article
           class="${articleClasses}"
           style="min-height: ${height}px; width: 100vw;">
@@ -262,7 +262,7 @@ class FeedItem extends React.Component {
     const coverImage = <CoverImage
             styles={styles.coverImage}
             scrollOffset={this.scrollOffset}
-            imagePath={!!hasCoverImage && getCachedImagePath(this.props.item)}
+            imagePath={!!hasCoverImage && getCachedCoverImagePath(this.props.item)}
             imageDimensions={!!hasCoverImage && imageDimensions}
             feedTitle={this.props.item.feed_title}
           />

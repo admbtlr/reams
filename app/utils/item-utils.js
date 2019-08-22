@@ -3,7 +3,7 @@ const RNFS = require('react-native-fs')
 const sanitizeHtml = require('sanitize-html')
 import {Dimensions} from 'react-native'
 import {createItemStyles, compressStyles, expandStyles} from './createItemStyles'
-import {getCachedImagePath} from './index'
+import {getCachedCoverImagePath} from './index'
 import log from './log'
 import LZString from 'lz-string'
 
@@ -136,8 +136,8 @@ export function addMercuryStuffToItem (item, mercury) {
   }
 
   // if content is substring of excerpt + mercury, show mercury
-  const allMercury = (decoratedItem.excerpt ? stripTags(decoratedItem.excerpt) : '') +
-    (decoratedItem.content_mercury ? stripTags(decoratedItem.content_mercury) : '')
+  // const allMercury = (decoratedItem.excerpt ? stripTags(decoratedItem.excerpt) : '') +
+  //   (decoratedItem.content_mercury ? stripTags(decoratedItem.content_mercury) : '')
 
   // console.log('Calculating partial ratios...')
 
@@ -155,7 +155,14 @@ export function addMercuryStuffToItem (item, mercury) {
 
   if (decoratedItem.excerpt && decoratedItem.excerpt.length > 0 &&
     fuzz.partial_ratio(decoratedItem.excerpt, htmlPartial.substring(0, 500)) > 90) {
-    decoratedItem.excerpt = null
+    if (decoratedItem.content_html.indexOf(`<p>${decoratedItem.excerpt}</p>`) > -1) {
+      // excerpt is first paragraph of content_html
+      decoratedItem.content_html = decoratedItem.content_html.replace(`<p>${decoratedItem.excerpt}</p>`, '')
+    } else if (decoratedItem.excerpt === htmlPartial && mercuryPartial.length > 0) {
+      decoratedItem.showMercury = true
+    } else {
+      decoratedItem.excerpt = null
+    }
   }
 
   if (htmlPartial.length < 500 &&
@@ -163,18 +170,15 @@ export function addMercuryStuffToItem (item, mercury) {
     decoratedItem.showMercury = true
   }
 
-  // if (decoratedItem.excerpt &&
-  //   fuzz.partial_ratio(stripTags(decoratedItem.content_html), allMercury) > 90) {
-  //   decoratedItem.showMercury = true
-  // } else if (item.excerpt &&
-  //   fuzz.partial_ratio(decoratedItem.excerpt, stripTags(decoratedItem.content_html)) > 98) {
-  //   decoratedItem.excerpt = null
-  // } else if (item.excerpt &&
-  //   fuzz.partial_ratio(decoratedItem.excerpt, stripTags(decoratedItem.content_html)) > 80) {
-  //   // uh... hide excerpt? strip excerpt from content?
-  // }
-
-  // console.log('done')
+  const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
+  const firstImg = /<img.*?src="(.*?)".*?>/.exec(decoratedItem.content_html) &&
+    /<img.*?src="(.*?)".*?>/.exec(decoratedItem.content_html)[1]
+  if (firstImg &&
+    decoratedItem.banner_image &&
+    decoratedItem.styles.coverImage.isInline &&
+    getImageFileName(firstImg) === getImageFileName(decoratedItem.banner_image)) {
+    decoratedItem.content_html = decoratedItem.content_html.replace(/<img.*?>/, '')
+  }
 
   return decoratedItem
 }
@@ -263,7 +267,7 @@ export function removeCoverImageDuplicate (item) {
 export function removeCachedCoverImages (items) {
   if (!items) return
   items.forEach(item => {
-    let path = getCachedImagePath(item)
+    let path = getCachedCoverImagePath(item)
     if (path) {
       RNFS.unlink(path)
         .catch((error) => {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import FeedExpanded from '../components/FeedExpanded.js'
-import {getCachedImagePath} from '../utils/'
+import {getCachedCoverImagePath} from '../utils/'
 
 const mapStateToProps = (state, ownProps) => {
   const feedId = ownProps.feedId

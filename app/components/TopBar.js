@@ -15,13 +15,13 @@ import {
   getPanValue,
   addScrollListener
 } from '../utils/animationHandlers'
-import FeedIcon from './FeedIcon'
+import FeedIconContainer from '../containers/FeedIcon'
 import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
 
 export const STATUS_BAR_HEIGHT = 49
 
-class TopBar extends React.Component {
+class TopBar extends React.PureComponent {
 
   constructor (props) {
     super(props)
@@ -91,6 +91,19 @@ class TopBar extends React.Component {
       }
     ]
 
+    const topBarOpacityRanges = [
+      {
+        inputRange: [0, panAnimDivisor * 0.1, panAnimDivisor, panAnimDivisor * 2],
+        outputRange: [1, 0, 0, 0]
+      }, {
+        inputRange: [0, panAnimDivisor * 0.9, panAnimDivisor, panAnimDivisor * 1.1, panAnimDivisor * 2],
+        outputRange: [0, 0, 1, 0, 0]
+      }, {
+        inputRange: [0, panAnimDivisor * 1.9, panAnimDivisor * 2],
+        outputRange: [0, 0, 1]
+      }
+    ]
+
     const transformRanges = [
       {
         inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
@@ -110,6 +123,9 @@ class TopBar extends React.Component {
     const opacityAnims = items.map((item, i) => panAnim ?
         panAnim.interpolate(opacityRanges[i]) :
         1)
+    const topBarOpacityAnims = items.map((item, i) => panAnim ?
+        panAnim.interpolate(topBarOpacityRanges[i]) :
+        1)
     const titleTransformAnims = items.map((item, i) => panAnim ?
         panAnim.interpolate(transformRanges[i]) :
         0)
@@ -125,7 +141,7 @@ class TopBar extends React.Component {
       })
 
     const views = items.map((item, i) => (<View key={i}>
-        {this.renderTopBar(item, opacityAnims[i])}
+        {this.renderTopBar(item, topBarOpacityAnims[i])}
         {this.renderStatusBar(item, opacityAnims[i], titleTransformAnims[i], panTransformAnim, prevItem ? i === 1 : i === 0)}
       </View>)
     )
@@ -195,7 +211,7 @@ class TopBar extends React.Component {
   renderTopBar (item, opacityAnim) {
     const topBarStyles = {
       ...this.getStyles().topBar,
-      backgroundColor: this.getBackgroundColor(item),
+      backgroundColor: 'red', //this.getBackgroundColor(item),
       opacity: opacityAnim
     }
     return <Animated.View style={topBarStyles} key={id()} />
@@ -216,13 +232,9 @@ class TopBar extends React.Component {
       0
     )
 
-    if (item.hasCachedFeedIcon) {
-      console.log('HAS CACHED FEED ICON!')
-    }
-
     return (
       <View>
-        <Animated.View
+        {/*<Animated.View
           key={id()}
           pointerEvents={isVisible && this.state.detailsVisible
             ? 'auto'
@@ -251,9 +263,9 @@ class TopBar extends React.Component {
             }]
           }}
         >
-        </Animated.View>
+        </Animated.View>*/}
         <Animated.View
-          key={id()}
+          key={item ? item._id : id()}
           pointerEvents={isVisible ? 'auto' : 'none'}
           style={{
             ...textHolderStyles,
@@ -318,30 +330,40 @@ class TopBar extends React.Component {
               flex: 1,
               flexDirection: 'row',
               justifyContent: 'center',
+              alignItems: 'center',
               height: 36,
-              width: Dimensions.get('window').width - 72,
-              marginLeft: 36,
-              marginRight: 36,
+              // width: Dimensions.get('window').width - 84,
+              marginTop: -25,
+              marginLeft: 42,
+              marginRight: 42,
               opacity: clampedAnimatedValue.interpolate({
                 inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
                 outputRange: [0, 1]
               }),
-              paddingBottom: 15,
               transform: [{
                 translateY: transformAnim || 0
               }]
             }}>
-              { item.hasCachedFeedIcon && <FeedIcon id={item.feed_id} />}
+              { item && item.hasCachedFeedIcon &&
+                  <FeedIconContainer
+                    id={item.feed_id}
+                    dimensions={item.feedIconDimensions}
+                    bgColor={this.getBackgroundColor(item)}
+                  />
+              }
               <Text
                 numberOfLines={1}
                 ellipsizeMode='tail'
                 style={{
                   ...this.getStyles().feedName,
+
                   fontSize: 20,
                   fontFamily: 'IBMPlexSansCond-Bold',
                   // color: this.getBorderBottomColor(item)
                   color: this.getForegroundColor(),
-                  height: 36
+                  // height: 36,
+                  // paddingBottom: 15,
+                  textAlign: 'left'
                 }}
               >
                 {this.getMessage(item)}
@@ -393,12 +415,11 @@ class TopBar extends React.Component {
         zIndex: -1
       },
       feedName: {
-        flex: 1,
+        // flex: 1,
         color: hslString('rizzleFG'),
         fontSize: 20,
         fontFamily: 'IBMPlexMono',
         textAlign: 'center',
-        padding: 10
       },
       feedActions: {
         flex: 1,

@@ -154,7 +154,7 @@ export function * receiveItems (items, type) {
     itemType: type,
     feeds
   })
-  console.log('ITEMS_BATCH_FETCHED ' + (Date.now() - now))
+  console.log(`ITEMS_BATCH_FETCHED (${type}) ${(Date.now() - now)}`)
 }
 
 function * cleanUpItems (items, type) {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import FeedContracted from '../components/FeedContracted.js'
-import {getCachedImagePath} from '../utils/'
+import {getCachedCoverImagePath} from '../utils/'
 
 const mapStateToProps = (state, ownProps) => {
   const feedId = ownProps.feedId

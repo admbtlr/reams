@@ -2,13 +2,14 @@ import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
 import { addFeed, getFeedDetails } from '../backends'
-import { id, getFeedColor } from '../../utils/'
+import { id, getFeedColor, getImageDimensions } from '../../utils/'
 import feeds from '../../utils/seedfeeds.js'
 import { addFeedToFirestore, getFeedsFS, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
 import { getFeeds, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
+import log from '../../utils/log'
 
 function * prepareAndAddFeed (feed) {
   const feeds = yield select(getFeeds)
@@ -84,7 +85,7 @@ export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
     yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
-    // if (feed.inflated) continue
+    if (feed.isInflated) continue
     const details = yield call(getFeedDetails, feed)
     const inflatedFeed = {
       ...feed,
@@ -97,24 +98,37 @@ export function * inflateFeeds () {
       feed: inflatedFeed
     })
     if (inflatedFeed.favicon) {
-      const fileName = yield call(cacheFeedFavicon, inflatedFeed)
-      yield call(InteractionManager.runAfterInteractions)
-      yield put({
-        type: 'FEED_SET_CACHED_FAVICON',
-        cachedFaviconPath: fileName,
-        id: inflatedFeed._id
-      })
+      try {
+        const fileName = yield call(cacheFeedFavicon, inflatedFeed)
+        const dimensions = yield call(getImageDimensions, fileName)
+        yield call(InteractionManager.runAfterInteractions)
+        yield put({
+          type: 'FEED_SET_CACHED_FEED_ICON',
+          cachedIconPath: fileName,
+          dimensions,
+          id: inflatedFeed._id
+        })
+      } catch (error) {
+        log(`Error downloading icon for ${inflatedFeed.url}: ${error.message}`)
+      }
     }
   }
 }
 
 function cacheFeedFavicon (feed) {
-  const url = feed.favicon.url
-    || (feed.url.endsWith('/')
-      ? feed.url + feed.favicon.path.substring(1)
-      : feed.url + feed.favicon.path)
-  // making a big assumption that this is a png...
-  const fileName = `${RNFS.DocumentDirectoryPath}/feed-icons/${feed._id}.png`
+  const host = feed.link.split('?')[0]
+  const path = feed.favicon.path
+  const url = path.startsWith('//') ?
+    `https:${path}` :
+    (host.endsWith('/')
+      ? host + feed.favicon.path.substring(1)
+      : host + feed.favicon.path)
+  console.log(url)
+  let extension = /.*\.([a-zA-Z]*)/.exec(url)[1]
+  if (['png', 'jpg', 'jpeg'].indexOf(extension.toLowerCase()) === -1) {
+    extension = 'png' // nnnggh
+  }
+  const fileName = `${RNFS.DocumentDirectoryPath}/feed-icons/${feed._id}.${extension}`
   return RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-icons`).then(_ =>
     RNFS.downloadFile({
       fromUrl: url,

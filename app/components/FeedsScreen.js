@@ -7,6 +7,7 @@ import {
   ScrollView,
   StatusBar,
   Text,
+  TextBox,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -14,6 +15,7 @@ import SplashScreen from 'react-native-splash-screen'
 import FeedContracted from '../containers/FeedContracted'
 import FeedExpanded from '../containers/FeedExpanded'
 import TextButton from './TextButton'
+import AddFeedForm from './AddFeedForm'
 import Heading from './Heading'
 import XButton from './XButton'
 import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
@@ -126,12 +128,16 @@ class ListHeaderComponent extends React.Component {
         <ItemsDirectionRadiosContainer />
         <Heading title='' />
         <View style={{ height: margin*2 }} />
-        <TextButton text="Add a new feed" />
+        <TextButton
+          text="Add a new feed"
+          buttonStyle={{ marginBottom: 0 }}
+          isExpandable={true}
+          renderExpandedView={() => <AddFeedForm />}
+        />
       </View>
     )
   }
 }
-
 
 class FeedsScreen extends React.Component {
 
@@ -206,7 +212,7 @@ class FeedsScreen extends React.Component {
   render = () => {
     // console.log('Render feeds screen!')
     const width = Dimensions.get('window').width
-    const margin = width * 0.05
+    const margin = width * 0.04
     const extraFeedProps = this.state.selectedFeedElement ?
       this.state.selectedFeedElement.props :
       (this.state.prevSelectedFeedElement ?
