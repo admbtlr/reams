@@ -4,10 +4,14 @@ import { inflateItems } from './inflate-items'
 import { getDisplay } from './selectors'
 
 export function * markItemSaved (action) {
-  yield saveItem(action.item)
+  const item = {
+    ...action.item,
+    savedAt: action.savedAt
+  }
+  yield saveItem(item)
   yield put({
     type: 'ITEMS_SAVE_ITEM_SUCCESS',
-    item: action.item
+    item: item
   })
 }
 

@@ -63,7 +63,7 @@ export const itemsSaved = (state = initialState, action) => {
       savedItem = action.item
       items.unshift({
         ...savedItem,
-        savedAt: savedItem.savedAt || Date.now(),
+        savedAt: action.savedAt,
         isSaved: true
       })
       return {

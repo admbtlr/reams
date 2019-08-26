@@ -40,7 +40,8 @@ const mapDispatchToProps = (dispatch) => {
           }) :
           dispatch({
             type: 'ITEM_SAVE_ITEM',
-            item
+            item,
+            savedAt: Date.now()
           })
       }
     },

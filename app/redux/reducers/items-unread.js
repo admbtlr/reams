@@ -245,7 +245,8 @@ export const itemsUnread = (state = initialState, action) => {
         items: state.items.map(item => item._id === action.item._id ?
           {
             ...item,
-            isSaved: true
+            isSaved: true,
+            savedAt: action.savedAt
           } :
           item)
       }

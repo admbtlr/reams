@@ -14,7 +14,8 @@ export function * saveExternalUrl (action) {
   }
   yield put({
     type: 'ITEM_SAVE_EXTERNAL_ITEM',
-    item
+    item,
+    savedAt: Date.now()
   })
   const decoration = yield decorateItem(item)
   yield put({
