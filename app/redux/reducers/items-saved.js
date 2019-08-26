@@ -123,6 +123,7 @@ export const itemsSaved = (state = initialState, action) => {
     case 'ITEMS_BATCH_FETCHED':
       if (action.itemType !== 'saved') return state
       items = [...state.items]
+      let currentItem = items[state.index]
       newItems = action.items.map(item => ({
         ...item,
         savedAt: item.savedAt || item.created_at || Date.now(),
@@ -143,11 +144,13 @@ export const itemsSaved = (state = initialState, action) => {
 
       // order by date
       items.sort((a, b) => b.savedAt - a.savedAt)
+      index = items.indexOf(currentItem)
+      index = index < 0 ? 0 : index
 
       return {
         ...state,
         items,
-        index: 0
+        index
       }
 
     case 'ITEMS_FLATE':
