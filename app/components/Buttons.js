@@ -99,11 +99,11 @@ class Buttons extends React.Component {
       (this.props.displayMode == 'saved' ?
         hslString('rizzleBG') :
         'white')
-    // const feedColor = item ? item.feed_color : null
+    // const activeColor = item ? item.feed_color : null
     // return this.props.displayMode == 'saved' ?
     //   hslString('rizzleBG') :
-    //   (feedColor ?
-    //     hslString(feedColor, 'desaturated') :
+    //   (activeColor ?
+    //     hslString(activeColor, 'desaturated') :
     //     hslString('rizzleBG'))
   }
 
@@ -178,16 +178,20 @@ class Buttons extends React.Component {
     // const backgroundColor = this.props.displayMode && this.props.displayMode == 'unread' ?
     //   hslString('rizzleBG') :
     //   hslString('rizzleBGAlt')
-    const feedColor = item ? hslString(item.feed_color, 'desaturated') : null
+    const activeColor = this.props.displayMode === 'saved' ?
+        hslString('rizzleText', 'ui') :
+      item ?
+        hslString(item.feed_color, 'desaturated') :
+      null
     const borderColor = this.props.displayMode == 'saved' ?
       hslString('rizzleText') :
-      feedColor
+      activeColor
     // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : strokeColor
     const backgroundColor = this.getBackgroundColor(item)
     // const mercuryButtonBackgroundColor = this.state.toggleAnimMercury ?
     //   this.state.toggleAnimMercury.interpolate({
     //     inputRange: [0, 1],
-    //     outputRange: [this.state.mercuryfeedColor, backgroundColor]
+    //     outputRange: [this.state.mercuryactiveColor, backgroundColor]
     //   }) :
     //   backgroundColor
     // const mercuryButtonOpacity = this.state.toggleAnimMercury
@@ -275,7 +279,7 @@ class Buttons extends React.Component {
             borderRadius: 25,
             padding: 2,
             opacity: this.getSavedToggleOpacity(item, isCurrent),
-            backgroundColor: feedColor
+            backgroundColor: activeColor
           }}>
             <Svg
               height='50'
@@ -398,7 +402,7 @@ class Buttons extends React.Component {
             borderRadius: 25,
             padding: 9,
             opacity: this.getMercuryToggleOpacity(item, isCurrent),
-            backgroundColor: feedColor
+            backgroundColor: activeColor
           }}>
             <Svg
               height='30'

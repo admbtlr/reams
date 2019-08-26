@@ -30,7 +30,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.166</string>
 	<key>CFBundleVersion</key>
-	<string>277</string>
+	<string>280</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -44,11 +44,21 @@
 		<dict>
 			<key>NSExtensionActivationRule</key>
 			<dict>
-				<key>NSExtensionActivationSupportsFileWithMaxCount</key>
-				<integer>1</integer>
-				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
-				<integer>1</integer>
-			</dict>
+				<key>NSExtensionActivationDictionaryVersion</key>
+        <integer>2</integer>
+        <key>NSExtensionActivationUsesStrictMatching</key>
+        <integer>2</integer>
+        <key>NSExtensionAttributes</key>
+        <dict>
+            <key>NSExtensionActivationRule</key>
+            <string>SUBQUERY(extensionItems, $e, (
+            SUBQUERY($e.attachments, $a, ANY $a.registeredTypeIdentifiers UTI-CONFORMS-TO "public.url").@count == 1
+            )).@count == 1
+            </string>
+            <key>RequestsOpenAccess</key>
+            <true/>
+        </dict>
+ 			</dict>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>

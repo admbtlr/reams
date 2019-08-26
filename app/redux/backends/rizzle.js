@@ -17,7 +17,7 @@ export function init ({ getFirebase, uid }) {
 }
 
 export async function sendEmailLink (email) {
-  const url = 'https://app.rizzle.net/'
+  const url = 'https://app.rizzle.net/sign-in'
   const actionCodeSettings = {
     // Your redirect URL
     url,
@@ -68,7 +68,7 @@ function extractErroredFeeds (unreadItemsArrays) {
 
 const fetchUnreadItems = (feeds, lastUpdated) => {
   const promises = feeds.filter(feed => !!feed).map(feed => {
-    const url = `https://api.rizzle.net/feed/?url=${feed.url}&lastUpdated=${lastUpdated}`
+    const url = `https://api.rizzle.net/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
     // const url = `http://localhost:8080/feed/?url=${feed.url}`
     return fetch(url).then(response => {
       return { response, feed }
@@ -163,11 +163,7 @@ const mapRizzleServerItemToRizzleItem = (item) => {
     external_url: item.link,
     feed_title: item.feed_name,
     feed_id: item.feed_id,
-    id: item.guid,
-    title: item.title,
-    url: item.link
   }
-  mappedItem._id = id(mappedItem)
   return mappedItem
 }
 

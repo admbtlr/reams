@@ -104,7 +104,7 @@ class RizzleModal extends React.Component {
       inner: {
         backgroundColor: hslString('rizzleBG'),
         borderRadius: 20,
-        width: '80%'
+        width: 300
       },
       buttonHolder: {
         flexDirection: 'row',

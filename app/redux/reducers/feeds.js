@@ -15,19 +15,25 @@ export function feeds (state = initialState, action) {
         ...state,
         feeds: [
           ...cleanedFeeds,
-          action.addedFeed
+          {
+            ...action.addedFeed,
+            isNew: true
+          }
         ]
       }
     case 'FEEDS_ADD_FEEDS_SUCCESS':
       let newFeeds = action.addedFeeds.filter(addedFeed => {
         return !state.feeds
           .find(feed => feed.url === addedFeed.url || feed._id === addedFeed._id)
-      })
+      }).map(f => ({
+        ...f,
+        isNew: true
+      }))
       return {
         ...state,
         feeds: [
           ...state.feeds,
-          ...newFeeds
+          newFeeds
         ]
       }
     case 'FEEDS_ADD_FEED':
@@ -43,7 +49,10 @@ export function feeds (state = initialState, action) {
     case 'FEEDS_UPDATE_FEEDS':
       return {
         ...state,
-        feeds: action.feeds
+        feeds: action.feeds.map(f => ({
+          ...f,
+          isNew: false
+        }))
       }
 
     case 'FEEDS_UPDATE_FEED':
@@ -52,7 +61,8 @@ export function feeds (state = initialState, action) {
         feeds: state.feeds.map(feed => feed._id === action.feed._id ?
           {
             ...feed,
-            ...action.feed
+            ...action.feed,
+            isNew: false
           } :
           feed)
       }

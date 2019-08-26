@@ -1,7 +1,5 @@
 import { connect } from 'react-redux'
 import AccountScreen from '../components/AccountScreen.js'
-// import { itemDidScroll } from '../redux/actions/item.js'
-
 
 const mapStateToProps = (state) => {
   return {

@@ -8,6 +8,7 @@ import { addSavedItemsFS, upsertFeedsFS, listenToFeeds, listenToReadItems, liste
 import { getConfig, getFeeds, getItems, getUid, getUser } from './selectors'
 import { setBackend } from '../backends'
 import { receiveItems } from './fetch-items'
+import { clearReadItems } from './mark-read'
 
 export function * initBackend (getFirebase, action) {
   const config = yield select(getConfig)
@@ -57,6 +58,7 @@ export function * initBackend (getFirebase, action) {
 
     yield spawn(savedItemsListener)
     yield spawn(feedsListener)
+    // yield spawn(readItemsListener)
   }
 }
 
@@ -122,6 +124,8 @@ function * receiveReadItems (items) {
   debugger
   yield put ({
     type: 'ITEMS_MARK_READ',
-    items
+    items,
+    clearItems: true
   })
+  yield clearReadItems()
 }

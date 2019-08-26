@@ -90,8 +90,12 @@ class RizzleAuth extends React.Component {
             flexGrow: 1
           }}>
             <TextInput
+              autoCapitalize='none'
+              autoCompleteType='email'
+              keyboardType='email-address'
               onChangeText={handleChange('email')}
               style={styles.textInputStyle}
+              textContentType='emailAddress'
               value={values.email}
             />
             <Text style={styles.textLabelStyle}>Your email address</Text>

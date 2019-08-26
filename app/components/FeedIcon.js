@@ -55,8 +55,8 @@ class FeedIcon extends React.Component {
       bgColor,
       hasRenderedIcon
     } = this.props
-    const width = 30
-    const height = 30
+    const width = 32
+    const height = 32
     const colorBlendingColor = hslStringToBlendColor(bgColor)
     return dimensions && dimensions.width > 0 &&
       <View style={{
@@ -64,7 +64,7 @@ class FeedIcon extends React.Component {
         // margin: 10,
         width,
         height,
-        marginRight: 5
+        marginRight: 10
       }}>
         {
           hasRenderedIcon ?

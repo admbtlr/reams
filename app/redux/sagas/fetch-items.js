@@ -13,8 +13,8 @@ import {
   updateFeedsFS
 } from '../firestore/'
 import { clearItemsAS, setItemsAS } from '../async-storage/'
-import { mergeItems, id } from '../../utils/merge-items.js'
-import { getFeedColor } from '../../utils/'
+import { mergeItems } from '../../utils/merge-items.js'
+import { getFeedColor, id } from '../../utils/'
 import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,
   fixRelativePaths,
@@ -237,6 +237,7 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
 
     item.feed_id = feed._id
     item.feed_color = feed.color
+    item._id = item._id || id(item)
   })
   return { feeds, items }
 }

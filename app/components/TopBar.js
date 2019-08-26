@@ -141,7 +141,7 @@ class TopBar extends React.PureComponent {
       })
 
     const views = items.map((item, i) => (<View key={i}>
-        {this.renderTopBar(item, topBarOpacityAnims[i])}
+        {this.renderTopBar(item, opacityAnims[i])}
         {this.renderStatusBar(item, opacityAnims[i], titleTransformAnims[i], panTransformAnim, prevItem ? i === 1 : i === 0)}
       </View>)
     )
@@ -211,7 +211,7 @@ class TopBar extends React.PureComponent {
   renderTopBar (item, opacityAnim) {
     const topBarStyles = {
       ...this.getStyles().topBar,
-      backgroundColor: 'red', //this.getBackgroundColor(item),
+      backgroundColor: this.getBackgroundColor(item),
       opacity: opacityAnim
     }
     return <Animated.View style={topBarStyles} key={id()} />
@@ -271,11 +271,11 @@ class TopBar extends React.PureComponent {
             ...textHolderStyles,
             flexDirection: 'column',
             justifyContent: 'flex-end',
-            height: 281 + STATUS_BAR_HEIGHT,
+            // height: 281 + STATUS_BAR_HEIGHT,
             overflow: 'hidden',
-            paddingTop: 80,
+            // paddingTop: 80,
             position: 'absolute',
-            top: isIphoneX() ? -240 : -260,
+            // top: isIphoneX() ? -240 : -260,
             shadowOffset: {
               width: 0,
               height: 1
@@ -300,7 +300,7 @@ class TopBar extends React.PureComponent {
               outputRange: [0, 1]
             })}
           />
-          <FeedDetails
+          {/*<FeedDetails
             bgColor={this.getBorderBottomColor(item)}
             feedActionStyles={this.getStyles().feedActions}
             onPressMarkAllRead={() => {
@@ -311,7 +311,7 @@ class TopBar extends React.PureComponent {
               this.props.unsubscribe(item.feed_id)
               console.log('UNSUBSCRIBE!')
             }}
-          />
+          />*/}
           <TouchableWithoutFeedback
             key={`inner-{id()}`}
             onPress={() => {
@@ -333,7 +333,7 @@ class TopBar extends React.PureComponent {
               alignItems: 'center',
               height: 36,
               // width: Dimensions.get('window').width - 84,
-              marginTop: -25,
+              marginTop: 0,
               marginLeft: 42,
               marginRight: 42,
               opacity: clampedAnimatedValue.interpolate({

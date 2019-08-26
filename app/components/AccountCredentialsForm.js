@@ -21,7 +21,7 @@ const baseStyles = {
   color: hslString('rizzleText')
 }
 
-const styles = {
+export const formElementStyles = {
   textInputStyle: {
     ...baseStyles,
     // padding: 8,
@@ -161,10 +161,10 @@ class AccountCredentialsForm extends React.Component {
               }}>
                 <TextInput
                   onChangeText={handleChange('username')}
-                  style={styles.textInputStyle}
+                  style={formElementStyles.textInputStyle}
                   value={values.username}
                 />
-                <Text style={styles.textLabelStyle}>User name</Text>
+                <Text style={formElementStyles.textLabelStyle}>User name</Text>
                 <View style={{
                   position: 'relative',
                   height: 48
@@ -173,7 +173,7 @@ class AccountCredentialsForm extends React.Component {
                     onChangeText={handleChange('password')}
                     secureTextEntry={true}
                     style={{
-                      ...styles.textInputStyle,
+                      ...formElementStyles.textInputStyle,
                       marginTop: 24
                     }}
                     value={values.password}
@@ -190,7 +190,7 @@ class AccountCredentialsForm extends React.Component {
                     </View>
                   }
                 </View>
-                <Text style={styles.textLabelStyle}>Password</Text>
+                <Text style={formElementStyles.textLabelStyle}>Password</Text>
                 <Button
                   disabled={isSubmitting || !isValid}
                   title="Submit"

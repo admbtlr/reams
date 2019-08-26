@@ -32,6 +32,8 @@ export default class Rizzle extends Component {
     this.state = {}
     this.store = null
 
+    this.handleUrl = this.handleUrl.bind(this)
+
     // const firebaseConfig = {
     //   apiKey: "AIzaSyDsV89U3hnA0OInti2aAlCVk_Ymi04-A-o",
     //   authDomain: "rizzle-base.firebaseapp.com",
@@ -96,11 +98,42 @@ export default class Rizzle extends Component {
   }
 
   handleUrl ({ url }) {
-    Linking.canOpenURL(url).then((supported) => {
-      if (supported) {
-        DeepLinking.evaluateUrl(url)
-      }
-    })
+    console.log('Handle URL: ' + url)
+    const that = this
+    firebase.auth().signInWithEmailLink('a@btlr.eu', url)
+      .then(res => {
+        that.store.dispatch({
+          type: 'CONFIG_SET_BACKEND',
+          backend: 'rizzle'
+        })
+
+      })
+      .catch(err => {
+        console.log('Error logging in')
+        that.store.dispatch({
+          type: 'UI_SHOW_MODAL',
+          modalProps: {
+            modalText: [
+              {
+                text: 'Couldn’t sign in :(',
+                style: ['title']
+              },
+              {
+                text: err.message,
+                style: ['text']
+              }
+            ],
+            modalHideCancel: true,
+            modalOnOk: () => {},
+            modalShow: true
+          }
+        })
+      })
+    // Linking.canOpenURL(url).then((supported) => {
+    //   if (supported) {
+    //     DeepLinking.evaluateUrl(url)
+    //   }
+    // })
   }
 
   addRoutesToDeepLinking () {

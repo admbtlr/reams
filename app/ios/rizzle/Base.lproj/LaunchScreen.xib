@@ -20,14 +20,14 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="rizzle.png" translatesAutoresizingMaskIntoConstraints="NO" id="p3X-FF-3pB">
-                    <rect key="frame" x="224" y="746" width="180" height="167"/>
+                    <rect key="frame" x="244" y="753" width="105" height="73"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="0.86274509803921573" green="0.83921568627450982" blue="0.73333333333333328" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="476.25899280575544" y="453.76884422110555"/>
+            <point key="canvasLocation" x="474.02343749999994" y="452.85505124450947"/>
         </view>
     </objects>
     <resources>

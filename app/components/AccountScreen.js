@@ -24,7 +24,7 @@ class AccountScreen extends React.Component {
     this.props = props
   }
 
-  render = () => {
+  render () {
     const { backend } = this.props
     const width = Dimensions.get('window').width
     const margin = width * 0.05

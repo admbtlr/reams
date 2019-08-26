@@ -2,6 +2,12 @@ export default function rizzleSort (items, feeds, shuffleStrength = 2) {
   // sort by age
   // var now = Date.now()
   // it.map()
+  items.forEach(item => {
+    if (!feeds.find(feed => feed._id === item.feed_id)) {
+      console.log('NO FEED FOR ITEM!?')
+      console.log(item)
+    }
+  })
   const liked = items.filter(item => feeds.find(feed => feed._id === item.feed_id)
     .isLiked)
   const notLiked = items.filter(item => liked.indexOf(item) === -1)

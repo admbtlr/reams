@@ -240,12 +240,11 @@ class ItemTitle extends React.Component {
   async getMaxFontSize () {
     let { styles } = this.props
     const that = this
-    const limit = 50
+    const limit = Math.round(this.screenWidth / 10)
     let maxSize
     const longestWord = this.getLongestWord()
     let sizes = []
-    const absMax = 100
-    let i = absMax
+    let i = limit
     while (i > 20) {
       sizes.push(i--)
     }
@@ -259,7 +258,7 @@ class ItemTitle extends React.Component {
       values = values.map((v, i) => {
         return {
           width: v.width,
-          size: absMax - i
+          size: limit - i
         }
       })
       for (var i = 0; i < values.length; i++) {
@@ -310,17 +309,17 @@ class ItemTitle extends React.Component {
       // (a) is less than 50% screen height
       values = values.filter(v => v.height < maxHeight)
       const maxViable = values[0]
-      let optimal
+      let optimal = maxViable
       // console.log(`MAX VIABLE FONT SIZE (${this.displayTitle}): ${maxViable}`)
 
       // (b) jumps down a line
-      const initialNumLines = values[0].numLines
-      let downALine = values.find((v, i) => {
-        return values[i - 1] &&
-          v.numLines < values[i - 1].numLines /*&&
-          v.numLines < 7*/
-      })
-      optimal = downALine || maxViable
+      // const initialNumLines = values[0].numLines
+      // let downALine = values.find((v, i) => {
+      //   return values[i - 1] &&
+      //     v.numLines < values[i - 1].numLines /*&&
+      //     v.numLines < 7*/
+      // })
+      // optimal = downALine || maxViable
 
       // (c) if we go down to 4 lines, is the fontSize > 42?
       let fourLines = values.find(v => v.numLines === 4)
@@ -421,11 +420,20 @@ class ItemTitle extends React.Component {
   // }
 
   getWidthPercentage () {
-    let {showCoverImage, coverImageStyles} = this.props
-    if (showCoverImage && !coverImageStyles.isInline) {
-      return this.screenWidth > 700 ? 66 : 100
+    // let {showCoverImage, coverImageStyles} = this.props
+    // if (showCoverImage && !coverImageStyles.isInline) {
+    //   return this.screenWidth > 700 ? 66 : 100
+    // } else {
+    //   return 100
+    // }
+    return this.screenWidth > 700 ? 66 : 100
+  }
+
+  getForegroundColor () {
+    if (this.props.displayMode === 'saved') {
+      return hslString('rizzleText')
     } else {
-      return 100
+      return hslString(this.props.item.feed_color, 'desaturated')
     }
   }
 
@@ -478,7 +486,7 @@ class ItemTitle extends React.Component {
         textColor) :
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
-        hslString(this.props.item.feed_color, 'desaturated'))
+        this.getForegroundColor())
     // if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
     if (!showCoverImage) color = this.props.isDarkBackground ? textColor : textColor
 
@@ -621,9 +629,9 @@ class ItemTitle extends React.Component {
 
     const invertedTitleWrapperStyle = {
       backgroundColor: showCoverImage ?
-        (styles.isMonochrome ? 'white' : hslString(this.props.item.feed_color, 'desaturated')) :
+        (styles.isMonochrome ? 'white' : this.getForegroundColor()) :
         'transparent',
-      marginBottom: (styles.invertedBGMargin || 0) * 10
+      marginBottom: (showCoverImage && !coverImageStyles.isInline && styles.invertedBGMargin || 0) * 10
     }
 
     let server = ''
@@ -760,10 +768,10 @@ class ItemTitle extends React.Component {
     return <View style={{
       marginLeft: this.horizontalMargin,
       marginRight: this.horizontalMargin,
-      marginTop: 0,
+      marginTop: 10,
       width: 66,
       height: 16,
-      backgroundColor: hslString(this.props.item.feed_color, 'desaturated')
+      backgroundColor: this.getForegroundColor()
     }} />
   }
 
@@ -805,7 +813,7 @@ class ItemTitle extends React.Component {
       excerptBg = (styles.excerptInvertBG || styles.bg) ? {
         backgroundColor: styles.bg ?
           'rgba(255,255,255,0.95)' :
-          hslString(item.feed_color, 'desaturated'),
+          this.getForegroundColor(),
         paddingLeft: this.screenWidth * 0.025,
         paddingRight: this.screenWidth * 0.025,
         paddingTop: this.screenWidth * 0.025,
@@ -897,7 +905,7 @@ class ItemTitle extends React.Component {
           'white' :
         this.props.isDarkBackground ?
           textColorDarkBackground :
-          hslString(item.feed_color, 'desaturated'),
+          this.getForegroundColor(),
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize(),
       fontFamily: this.getFontFamily('bold', 'author'),
@@ -912,7 +920,7 @@ class ItemTitle extends React.Component {
       // ...shadowStyle
     }
     if (item.author) {
-      return <Animated.Text style={authorStyle}>{this.props.item.author}</Animated.Text>
+      return <Animated.Text style={authorStyle}>{this.props.item.author.trim()}</Animated.Text>
     } else {
       return null
     }
@@ -940,13 +948,13 @@ class ItemTitle extends React.Component {
 
     if (showCoverImage && !coverImageStyles.isInline) {
       dateStyle.position = 'absolute'
-      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.11 : 0.5) // heuristic
+      dateStyle.top = this.screenHeight * (isIphoneX() ? 0.11 : 0.08) // heuristic
     }
 
     if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {
       dateStyle.transform = [
         {translateY: 150},
-        {translateX: (this.screenWidth / 2) - 10},
+        {translateX: (this.screenWidth / 2) - 20},
         {rotateZ: '90deg'}
       ]
       dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic

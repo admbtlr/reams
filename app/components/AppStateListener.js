@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, AppState, Clipboard, Text, TouchableHighlight, View } from 'react-native'
+import { Alert, AppState, Clipboard, Linking, Text, TouchableHighlight, View } from 'react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { parseString } from 'react-native-xml2js'
 

@@ -117,7 +117,9 @@ async searchForRSS (url) {
 
   async componentDidMount() {
     try {
-      const { type, value } = await ShareExtension.data()
+      const data = await ShareExtension.data()
+      let { type, value } = data
+      value = /(http[a-zA-Z0-9:\/\.\-?&=]*)/.exec(value)
       this.setState({
         isOpen: true,
         type,
