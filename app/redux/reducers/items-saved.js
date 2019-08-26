@@ -76,11 +76,8 @@ export const itemsSaved = (state = initialState, action) => {
       savedItem = nullValuesToEmptyStrings(action.item)
       savedItem = addStylesIfNecessary(savedItem)
       savedItem.isSaved = true
-      items.unshift({
-        ...savedItem,
-        savedAt: Date.now(),
-        isSaved: true
-      })
+      savedItem.savedAt = action.savedAt
+      items.unshift(savedItem)
       return {
         ...state,
         items
