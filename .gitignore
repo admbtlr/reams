@@ -51,3 +51,6 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+app/.sass-cache/
+app/.vscode/
+app/ios/rizzle.app.dSYM.zip

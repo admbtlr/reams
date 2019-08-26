@@ -9,6 +9,8 @@
 - move feed image stuff to feeds-local
 - get rid of white frame around images, or at least on floated images
 - only move buttons when scrolling has ended
+- allow arbitrary feed colours
+- placeholder images (use letters?)
 - i18n
 - ~~fix various caption layouts~~
 - scroll effects
