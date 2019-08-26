@@ -343,13 +343,16 @@ body {
     width: 100vw !important;
     left: -4vw;
     overflow: scroll;
-    background-color: white;
-    border-bottom: 1px solid hsl(0, 0%, 93%);
 
     @media (min-width: 600px) {
       left: calc(50% - 50vw);
       // margin: 0;
     }
+  }
+
+  pre {
+    background-color: white;
+    border-bottom: 1px solid hsl(0, 0%, 93%);
   }
 
   img:not(.img-portrait):not(.img-small) {
@@ -488,14 +491,12 @@ body {
   figcaption, .caption, img + small {
     position: relative;
     padding: .25rem .5rem;
-    border-bottom: 1px solid hsl(0, 0%, 93%);
-    font-size: 0.45rem;
+    font-size: 0.5rem;
     font-weight: 300;
     line-height: 0.75rem;
-    color: hsl(0, 0%, 40%);
-    background-color: white;
+    color: hsl(0, 0%, 60%);
     position: relative;
-    // top: -3px;
+    text-align: left;
   }
 
   .caption:not(figcaption) {
@@ -510,7 +511,7 @@ body {
       left: 0;
     }
     figcaption, .caption, img + small {
-      padding: .5rem calc(50vw - 50%);
+      padding: .25rem calc(50vw - 50%) .5rem;
       margin: 0 4vw;
       text-align: center;
     }
@@ -518,7 +519,7 @@ body {
 
   img + small {
     display: block;
-    margin: -2rem -4vw 1rem;
+    margin: -2.25rem -4vw 1rem;
   }
 
   blockquote {
@@ -910,7 +911,7 @@ article > div:not(:last-of-type) {
   font-size: calc(1rem / 1.7);
 
   h1, h2, h3, h4, h5, figcaption, img + small {
-    font-family: "IBM Plex Sans"
+    font-family: "IBMPlexSans-LightItalic"
   }
 }
 
@@ -918,8 +919,11 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold"
   }
-  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-Medium"
+  }
+  figcaption {
+    font-family: "AvenirNext-MediumItalic"
   }
 }
 
@@ -927,8 +931,11 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "Montserrat-Bold"
   }
-  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-Light"
+  }
+  figcaption {
+    font-family: "Montserrat-LightItalic"
   }
 }
 
@@ -936,8 +943,11 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "IBMPlexSans-Bold"
   }
-  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSans-Light"
+  }
+  figcaption {
+    font-family: "IBMPlexSans-LightItalic"
   }
 }
 
@@ -945,8 +955,11 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "IBMPlexSerif-Bold"
   }
-  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-Light"
+  }
+  figcaption {
+    font-family: "IBMPlexSerif-LightItalic"
   }
 }
 
@@ -954,7 +967,10 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "Arvo-Bold"
   }
-  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "Arvo"
+  }
+  figcaption {
     font-family: "Arvo"
   }
 }
@@ -963,8 +979,11 @@ article > div:not(:last-of-type) {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Black"
   }
-  h2, h4, figcaption, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "PlayfairDisplay-Regular"
+  }
+  figcaption {
+    font-family: "PlayfairDisplay-Italic"
   }
 }
 
