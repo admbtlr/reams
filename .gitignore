@@ -54,3 +54,7 @@ buck-out/
 app/.sass-cache/
 app/.vscode/
 app/ios/rizzle.app.dSYM.zip
+app/ios/fastlane/report.xml
+app/ios/rizzle-tvOS/Info.plist
+app/ios/rizzle-tvOSTests/Info.plist
+app/ios/rizzleTests/Info.plist
