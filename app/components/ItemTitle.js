@@ -138,7 +138,7 @@ class ItemTitle extends React.Component {
   fadeIn () {
     const params = {
       toValue: 1,
-      duration: 1000,
+      duration: 500,
       easing: Easing.bezier(.66, 0, .33, 1),
       useNativeDriver: true
     }
@@ -450,6 +450,25 @@ class ItemTitle extends React.Component {
     }
   }
 
+  addAnimationsIfNecessary (style, anim) {
+    const { showCoverImage, coverImageStyles } = this.props
+    if (!showCoverImage || coverImageStyles.isInline) {
+      return style
+    }
+    return {
+      ...style,
+      top: 20,
+      opacity: anim,
+      transform: [{
+        translateY: anim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -20]
+        })
+      }]
+
+    }
+  }
+
   render () {
     let {styles, title, date, showCoverImage, coverImageStyles} = this.props
 
@@ -561,7 +580,7 @@ class ItemTitle extends React.Component {
 
     const horizontalPadding = this.getInnerHorizontalPadding(fontSize)
 
-    const innerViewStyle = {
+    let innerViewStyle = {
       // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
@@ -585,15 +604,8 @@ class ItemTitle extends React.Component {
       width,
       ...border,
       borderColor: color,
-      top: 20,
-      opacity: titleAnimation,
-      transform: [{
-        translateY: titleAnimation.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, -20]
-        })
-      }]
     }
+    innerViewStyle = this.addAnimationsIfNecessary(innerViewStyle, titleAnimation)
     const overlayColour = this.getOverlayColor()
     const outerPadding = this.getOuterVerticalPadding()
     const outerViewStyle = {
@@ -783,14 +795,8 @@ class ItemTitle extends React.Component {
   }
 
   renderBar (anim) {
-    return <Animated.View style={{
-      top: 20,
-      opacity: anim,
-      translateY: anim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, -20]
-      })
-    }}>
+    let style = this.addAnimationsIfNecessary({}, anim)
+    return <Animated.View style={style}>
       <View style={{
         marginLeft: this.horizontalMargin,
         marginRight: this.horizontalMargin,
@@ -871,37 +877,32 @@ class ItemTitle extends React.Component {
     const excerptFontSize = this.getExcerptFontSize()
     const excerptLineHeight = excerptFontSize * 1.4
 
+    let style = {
+      ...innerViewStyle,
+      paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
+      paddingBottom: !showCoverImage ?
+          excerptLineHeight :
+        (styles.borderWidth || styles.bg) ?
+          excerptLineHeight / 2 :
+          excerptLineHeight,
+      ...excerptBg,
+      borderTopWidth: 0,
+      // opacity: anim,
+      marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
+      width: (excerpt.length > 70) && (!showCoverImage || styles.excerptFullWidth || excerpt.length > 130) ?
+        'auto' :
+        this.screenWidth * 0.666,
+      alignSelf: {
+        'left': 'flex-start',
+        'center': 'center',
+        'right': 'flex-end'
+      }[styles.excerptHorizontalAlign],
+    }
+    style = this.addAnimationsIfNecessary(style, anim)
+
     return (
       <View>
-        <Animated.View style={{
-          ...innerViewStyle,
-          paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
-          paddingBottom: !showCoverImage ?
-              excerptLineHeight :
-            (styles.borderWidth || styles.bg) ?
-              excerptLineHeight / 2 :
-              excerptLineHeight,
-          ...excerptBg,
-          borderTopWidth: 0,
-          // opacity: anim,
-          marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
-          width: (excerpt.length > 70) && (!showCoverImage || styles.excerptFullWidth || excerpt.length > 130) ?
-            'auto' :
-            this.screenWidth * 0.666,
-          alignSelf: {
-            'left': 'flex-start',
-            'center': 'center',
-            'right': 'flex-end'
-          }[styles.excerptHorizontalAlign],
-          top: 20,
-          opacity: anim,
-          transform: [{
-            translateY: anim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, -20]
-            })
-          }]
-        }}>
+        <Animated.View style={style}>
           <Animated.Text style={{
             justifyContent: this.aligners[styles.textAlign],
             flex: 1,
@@ -950,14 +951,9 @@ class ItemTitle extends React.Component {
       marginBottom: (!showCoverImage || coverImageStyles.isInline) ?
         0 : this.getExcerptLineHeight(),
       padding: 0,
-      width: this.screenWidth,
-      top: 20,
-      opacity: anim,
-      translateY: anim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, -20]
-      })
+      width: this.screenWidth
     }
+    authorStyle = this.addAnimationsIfNecessary(authorStyle, anim)
     if (item.author) {
       return <Animated.Text style={authorStyle}>{this.props.item.author.trim()}</Animated.Text>
     } else {
@@ -997,16 +993,6 @@ class ItemTitle extends React.Component {
         {rotateZ: '90deg'}
       ]
       dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
-    } else {
-      dateStyle = {
-        ...dateStyle,
-        top: 20,
-        opacity: anim,
-        translateY: anim.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, -20]
-        })
-      }
     }
 
     // TODO this is feedwrangler... fix it
