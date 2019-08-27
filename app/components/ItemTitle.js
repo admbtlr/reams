@@ -1,5 +1,5 @@
 import React from 'react'
-import {Animated, Dimensions, Text, View, WebView} from 'react-native'
+import {Animated, Dimensions, Easing, Text, View, WebView} from 'react-native'
 import {BlurView} from 'react-native-blur'
 import rnTextSize, { TSFontSpecs } from 'react-native-text-size'
 import moment from 'moment'
@@ -127,16 +127,29 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.fadeInAnim = new Animated.Value(this.props.isVisible ? 1 : -1)
+    this.fadeInAnim1 = new Animated.Value(this.props.isVisible ? 1 : -1)
+    this.fadeInAnim2 = new Animated.Value(this.props.isVisible ? 1 : 0)
+    this.fadeInAnim3 = new Animated.Value(this.props.isVisible ? 1 : 0)
+    this.fadeInAnim4 = new Animated.Value(this.props.isVisible ? 1 : 0)
+    this.fadeInAnim5 = new Animated.Value(this.props.isVisible ? 1 : 0)
     this.fadeIn = this.fadeIn.bind(this)
   }
 
   fadeIn () {
-    Animated.timing(this.fadeInAnim, {
+    const params = {
       toValue: 1,
-      duration: 250,
-      useNativeDriver: true,
-    }).start()
+      duration: 1000,
+      easing: Easing.bezier(.66, 0, .33, 1),
+      useNativeDriver: true
+    }
+
+    Animated.stagger(50, [
+      Animated.timing(this.fadeInAnim1, params),
+      Animated.timing(this.fadeInAnim2, params),
+      Animated.timing(this.fadeInAnim3, params),
+      Animated.timing(this.fadeInAnim4, params),
+      Animated.timing(this.fadeInAnim5, params)
+    ]).start()
   }
 
   getRenderedTitle (title) {
@@ -463,16 +476,14 @@ class ItemTitle extends React.Component {
       maxWidth: this.screenWidth
     }
 
-    const {opacity, excerptOpacity, shadow} = this.getOpacityValues()
-    // const toValue = coverImageStyles.isVisible ? 1 : 0
-
-    // if (isVisible && showCoverImage) {
-    //   Animated.timing(this.fadeInAnim, {
-    //     toValue,
-    //     duration: 250,
-    //     useNativeDriver: true,
-    //   }).start()
-    // }
+    const {
+      opacity,
+      titleAnimation,
+      excerptAnimation,
+      authorAnimation,
+      barAnimation,
+      shadow
+    } = this.getAnimationValues()
 
     const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
       'lighter' :
@@ -574,7 +585,14 @@ class ItemTitle extends React.Component {
       width,
       ...border,
       borderColor: color,
-      // opacity: coverImageStyles.isInline ? opacity : 1
+      top: 20,
+      opacity: titleAnimation,
+      transform: [{
+        translateY: titleAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -20]
+        })
+      }]
     }
     const overlayColour = this.getOverlayColor()
     const outerPadding = this.getOuterVerticalPadding()
@@ -708,12 +726,12 @@ class ItemTitle extends React.Component {
       })
     }
 
-    const barView = this.renderBar()
+    const barView = this.renderBar(barAnimation)
     const excerptView = this.props.excerpt
-      ? this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView)
+      ? this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView, excerptAnimation)
       : null
-    const dateView = this.renderDate()
-    const authorView = this.renderAuthor()
+    const dateView = this.renderDate(authorAnimation)
+    const authorView = this.renderAuthor(authorAnimation)
 
     return (
       <Animated.View style={{
@@ -764,14 +782,20 @@ class ItemTitle extends React.Component {
     return this.props.styles.interBolded || this.props.styles.invertBG
   }
 
-  renderBar () {
-    return <View style={{
+  renderBar (anim) {
+    return <Animated.View style={{
       marginLeft: this.horizontalMargin,
       marginRight: this.horizontalMargin,
       marginTop: 10,
       width: 66,
       height: 16,
-      backgroundColor: this.getForegroundColor()
+      backgroundColor: this.getForegroundColor(),
+      top: 20,
+      opacity: anim,
+      translateY: anim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -20]
+      })
     }} />
   }
 
@@ -802,9 +826,8 @@ class ItemTitle extends React.Component {
 
   // barView gets passed in here because we need to include it in the excerptView
   // when using an coverImage with contain, for the flex layout
-  renderExcerpt (innerViewStyle, fontStyle, shadowStyle, barView) {
+  renderExcerpt (innerViewStyle, fontStyle, shadowStyle, barView, anim) {
     const { coverImageStyles, excerpt, showCoverImage, item, styles } = this.props
-    const { excerptOpacity } = this.getOpacityValues()
     let excerptShadowStyle
     let excerptColor = this.getExcerptColor()
 
@@ -857,7 +880,7 @@ class ItemTitle extends React.Component {
               excerptLineHeight,
           ...excerptBg,
           borderTopWidth: 0,
-          // opacity: excerptOpacity,
+          // opacity: anim,
           marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
           width: (excerpt.length > 70) && (!showCoverImage || styles.excerptFullWidth || excerpt.length > 130) ?
             'auto' :
@@ -866,7 +889,15 @@ class ItemTitle extends React.Component {
             'left': 'flex-start',
             'center': 'center',
             'right': 'flex-end'
-          }[styles.excerptHorizontalAlign]
+          }[styles.excerptHorizontalAlign],
+          top: 20,
+          opacity: anim,
+          transform: [{
+            translateY: anim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, -20]
+            })
+          }]
         }}>
           <Animated.Text style={{
             justifyContent: this.aligners[styles.textAlign],
@@ -898,7 +929,7 @@ class ItemTitle extends React.Component {
       </View>)
   }
 
-  renderAuthor () {
+  renderAuthor (anim) {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let authorStyle = {
       color: showCoverImage && !coverImageStyles.isInline ?
@@ -917,7 +948,12 @@ class ItemTitle extends React.Component {
         0 : this.getExcerptLineHeight(),
       padding: 0,
       width: this.screenWidth,
-      // ...shadowStyle
+      top: 20,
+      opacity: anim,
+      translateY: anim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -20]
+      })
     }
     if (item.author) {
       return <Animated.Text style={authorStyle}>{this.props.item.author.trim()}</Animated.Text>
@@ -926,7 +962,7 @@ class ItemTitle extends React.Component {
     }
   }
 
-  renderDate () {
+  renderDate (anim) {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let dateStyle = {
       color: showCoverImage &&
@@ -943,6 +979,12 @@ class ItemTitle extends React.Component {
         this.getExcerptLineHeight() : 18,
       padding: 0,
       width: this.screenWidth,
+      top: 20,
+      opacity: anim,
+      translateY: anim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -20]
+      })
       // ...shadowStyle
     }
 
@@ -1016,17 +1058,17 @@ class ItemTitle extends React.Component {
     return text && text.replace(/\s([^\s<]+)\s*$/,'\u00A0$1')
   }
 
-  getOpacityValues () {
+  getAnimationValues () {
     if (this.props.coverImageStyles.isInline) {
       return {
         opacity: Animated.add(this.props.scrollOffset.interpolate({
             inputRange: [-50, 100, 300],
             outputRange: [1, 1, 0]
-          }), this.fadeInAnim),
-        excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
-            inputRange: [-50, 300, 500],
-            outputRange: [1, 1, 0]
-          }), this.fadeInAnim),
+          }), this.fadeInAnim1),
+        titleAnimation: this.fadeInAnim2,
+        excerptAnimation: this.fadeInAnim3,
+        authorAnimation: this.fadeInAnim4,
+        barAnimation: this.fadeInAnim5,
         shadow: this.props.scrollOffset.interpolate({
             inputRange: [-100, -20, 0, 40, 400],
             outputRange: [1, 1, 1, 1, 0]
@@ -1037,11 +1079,11 @@ class ItemTitle extends React.Component {
       opacity: Animated.add(this.props.scrollOffset.interpolate({
           inputRange: [-50, -25, 0, 100, 200],
           outputRange: [0, 1, 1, 1, 0]
-        }), this.fadeInAnim),
-      excerptOpacity: Animated.add(this.props.scrollOffset.interpolate({
-          inputRange: [-25, 0, 100],
-          outputRange: [0, 1, 0]
-        }), this.fadeInAnim),
+        }), this.fadeInAnim1),
+      titleAnimation: this.fadeInAnim2,
+      excerptAnimation: this.fadeInAnim3,
+      authorAnimation: this.fadeInAnim4,
+      barAnimation: this.fadeInAnim5,
       shadow: this.props.scrollOffset.interpolate({
           inputRange: [-100, -20, 0, 40, 200],
           outputRange: [0, 1, 1, 1, 0]

@@ -28,6 +28,7 @@ export const itemsSaved = (state = initialState, action) => {
   let savedItems = []
   let savedItem = {}
   let newState = {}
+  let currentItem
 
   switch (action.type) {
     case 'ITEMS_REHYDRATE_SAVED':
@@ -98,7 +99,7 @@ export const itemsSaved = (state = initialState, action) => {
       }
 
     case 'ITEMS_UNSAVE_ITEMS':
-      let currentItem = state.items[state.index]
+      currentItem = state.items[state.index]
       items = state.items.filter((item) => {
         return action.items.find(ai => ai._id === item._id) === undefined
       })
@@ -123,7 +124,7 @@ export const itemsSaved = (state = initialState, action) => {
     case 'ITEMS_BATCH_FETCHED':
       if (action.itemType !== 'saved') return state
       items = [...state.items]
-      let currentItem = items[state.index]
+      currentItem = items[state.index]
       newItems = action.items.map(item => ({
         ...item,
         savedAt: item.savedAt || item.created_at || Date.now(),

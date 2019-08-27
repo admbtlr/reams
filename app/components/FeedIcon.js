@@ -58,7 +58,7 @@ class FeedIcon extends React.Component {
     const width = 32
     const height = 32
     const colorBlendingColor = hslStringToBlendColor(bgColor)
-    return dimensions && dimensions.width > 0 &&
+    return dimensions && dimensions.width > 0 ?
       <View style={{
         backgroundColor: bgColor,
         // margin: 10,
@@ -110,8 +110,8 @@ class FeedIcon extends React.Component {
               </ColorBlending>
             </Surface>)
         }
-      </View>
-
+      </View> :
+      null
   }
 }
 

@@ -2,12 +2,12 @@
 
 - fix bug with second item never showing its title
 - stop items from rendering all the time
-- make sure all saved items have savedAt; order thereby
+- ~~make sure all saved items have savedAt; order thereby~~
 - don't always return to index=0 with saved items
 - make extension work with more data types
 - move cover image stuff to a items-local reducer, and make sure styles can work both with and without an image
 - move feed image stuff to feeds-local
-- get rid of white frame around images, or at least on floated images
+- ~~get rid of white frame around images, or at least on floated images~~
 - only move buttons when scrolling has ended
 - allow arbitrary feed colours
 - placeholder images (use letters?)
