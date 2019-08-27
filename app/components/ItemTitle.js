@@ -784,19 +784,22 @@ class ItemTitle extends React.Component {
 
   renderBar (anim) {
     return <Animated.View style={{
-      marginLeft: this.horizontalMargin,
-      marginRight: this.horizontalMargin,
-      marginTop: 10,
-      width: 66,
-      height: 16,
-      backgroundColor: this.getForegroundColor(),
       top: 20,
       opacity: anim,
       translateY: anim.interpolate({
         inputRange: [0, 1],
         outputRange: [0, -20]
       })
-    }} />
+    }}>
+      <View style={{
+        marginLeft: this.horizontalMargin,
+        marginRight: this.horizontalMargin,
+        marginTop: 10,
+        width: 66,
+        height: 16,
+        backgroundColor: this.getForegroundColor()
+      }} />
+    </Animated.View>
   }
 
   getExcerptFontSize () {
@@ -979,12 +982,6 @@ class ItemTitle extends React.Component {
         this.getExcerptLineHeight() : 18,
       padding: 0,
       width: this.screenWidth,
-      top: 20,
-      opacity: anim,
-      translateY: anim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, -20]
-      })
       // ...shadowStyle
     }
 
@@ -1000,6 +997,16 @@ class ItemTitle extends React.Component {
         {rotateZ: '90deg'}
       ]
       dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
+    } else {
+      dateStyle = {
+        ...dateStyle,
+        top: 20,
+        opacity: anim,
+        translateY: anim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -20]
+        })
+      }
     }
 
     // TODO this is feedwrangler... fix it
