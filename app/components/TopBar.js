@@ -19,7 +19,7 @@ import FeedIconContainer from '../containers/FeedIcon'
 import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
 
-export const STATUS_BAR_HEIGHT = 49
+export const STATUS_BAR_HEIGHT = 50
 
 class TopBar extends React.PureComponent {
 
