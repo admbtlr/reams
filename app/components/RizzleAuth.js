@@ -67,7 +67,7 @@ class RizzleAuth extends React.Component {
       user,
       values
     } = this.props
-    const isAuthenticated = !!(user && user.email)
+    const isAuthenticated = this.props.backend === 'rizzle' && !!(user && user.email)
     return isAuthenticated ?
       <View style={{
         marginTop: 40

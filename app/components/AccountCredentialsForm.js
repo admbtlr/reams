@@ -146,6 +146,7 @@ class AccountCredentialsForm extends React.Component {
           <View>
             { this.props.service === 'rizzle' ?
               <RizzleAuth
+                backend={this.props.backend}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 isSubmitting={isSubmitting}

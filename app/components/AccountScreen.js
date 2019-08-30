@@ -114,6 +114,7 @@ class AccountScreen extends React.Component {
                 buttonStyle={{ marginBottom: 0 }}
                 isExpandable={true}
                 renderExpandedView={() => <AccountCredentialsForm
+                  backend={backend}
                   service='rizzle'
                   user={this.props.user}
                 />}
