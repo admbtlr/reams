@@ -669,8 +669,8 @@ article > div:not(:last-of-type) {
       @include dropCapMarginTop(0.55rem);
     }
     &.bodyFontSerif3 {
-      @include dropCapFontSize(7.5rem);
-      @include dropCapMarginTop(0.45rem);
+      @include dropCapFontSize(7.58rem);
+      @include dropCapMarginTop(0.56rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(7.5rem);

@@ -640,12 +640,12 @@ article > div:not(:last-of-type) figure:last-child {
 .itemArticle.dropCapSize6.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 7.5rem; }
+  font-size: 7.58rem; }
 
 .itemArticle.dropCapSize6.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.45rem; }
+  margin-top: 0.56rem; }
 
 .itemArticle.dropCapSize6.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
 .itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
