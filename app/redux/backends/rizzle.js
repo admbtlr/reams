@@ -44,12 +44,16 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, current
     callback(savedItems)
   } else if (type === 'unread') {
     try {
-      const readItems = await getReadItemsFS()
+      const readItems = getReadItemsFS()
       let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
       unreadItemArrays = extractErroredFeeds(unreadItemArrays)
       let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
+      newItems = newItems.map(item => ({
+        ...item,
+        _id: id(item)
+      }))
       newItems = newItems.filter(newItem => !!!oldItems.find(oldItem => oldItem._id === newItem._id))
-      newItems = newItems.filter(newItem => !!!readItems.find(readItem => readItem._id === newItem._id))
+      newItems = newItems.filter(newItem => !readItems.hasOwnProperty(newItem._id))
       callback(newItems)
     } catch (error) {
       console.log(error)

@@ -1,4 +1,4 @@
-import { call, fork, put, select, take } from 'redux-saga/effects'
+import { call, cancelled, fork, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import { InteractionManager } from 'react-native'
 
@@ -30,6 +30,7 @@ import {
   getCurrentItem,
   getDisplay,
   getFeeds,
+  getFeedsLocal,
   getIndex,
   getItems,
   getLastUpdated,
@@ -62,7 +63,16 @@ export function * fetchItems (type = 'unread') {
     type: 'ITEMS_IS_LOADING',
     isLoading: true
   })
-  const feeds = yield select(getFeeds)
+  let feeds = yield select(getFeeds)
+  const feedsLocal = yield select(getFeedsLocal)
+  feeds = feeds.map(f => {
+    const feedLocal = feedsLocal.find(fl => fl._id === f._id)
+    return feedLocal && feedLocal.isNew ? {
+      ...f,
+      isNew: true
+    } : f
+  })
+
   const oldItems = yield select(getItems, type)
   const currentItem = yield select(getCurrentItem, type)
   const lastUpdated = yield select(getLastUpdated, type)
@@ -70,26 +80,33 @@ export function * fetchItems (type = 'unread') {
   const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, currentItem, feeds)
 
   let isFirstBatch = true
+  let didError = false
   try {
     let i = 0
     while (true) {
       let items = yield take(itemsChannel)
-      yield fork(receiveAndProcessItems, items, type, isFirstBatch, i)
-      isFirstBatch = false
-      i++
+      if (items.length > 0) {
+        yield fork(receiveAndProcessItems, items, type, isFirstBatch, i)
+        isFirstBatch = false
+        i++
+      }
     }
   } catch (err) {
+    didError = true
     log('fetchItems', err)
   } finally {
-    yield put({
-      type: type === 'unread' ?
-        'UNREAD_ITEMS_SET_LAST_UPDATED' :
-        'SAVED_ITEMS_SET_LAST_UPDATED',
-      lastUpdated: Date.now()
-    })
-    yield put({
-      type: 'ITEMS_FETCH_DATA_SUCCESS'
-    })
+    if (!(yield cancelled() || didError)) {
+      yield put({
+        type: type === 'unread' ?
+          'UNREAD_ITEMS_SET_LAST_UPDATED' :
+          'SAVED_ITEMS_SET_LAST_UPDATED',
+        lastUpdated: Date.now()
+      })
+      yield put({
+        type: 'ITEMS_FETCH_DATA_SUCCESS'
+      })
+    }
+    itemsChannel.close()
   }
 }
 

@@ -8,7 +8,8 @@ import log from '../../utils/log'
 import { removeCachedCoverImages } from '../../utils/item-utils'
 
 export function * pruneItems (action) {
-  if (action.itemType !== 'unread') return
+  const type = (action && action.itemType) || 'unread'
+  if (type !== 'unread') return
   const config = yield select(getConfig)
   const MAX_UNREAD = config.itemSort === 'rizzlewards' ?
     1000 :

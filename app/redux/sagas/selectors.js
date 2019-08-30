@@ -32,6 +32,10 @@ export function getFeeds (state) {
   return state.feeds.feeds
 }
 
+export function getFeedsLocal (state) {
+  return state.feedsLocal.feeds
+}
+
 export function getLastUpdated (state, type) {
   if (type === 'unread') {
     return state.itemsUnread.lastUpdated || 0

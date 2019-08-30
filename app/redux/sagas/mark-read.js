@@ -2,6 +2,7 @@ import { InteractionManager } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { markItemRead } from '../backends'
+import { getReadItemsFS } from '../firestore'
 import { deleteItemsAS } from '../async-storage'
 
 import { getItems, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems } from './selectors'
@@ -62,14 +63,20 @@ export function * clearReadItems () {
   yield put({
     type: 'ITEMS_CLEAR_READ_SUCCESS'
   })
-  // now reset the index to 0
-  // (this will also inflate the relevant items)
-  yield call(InteractionManager.runAfterInteractions)
-  yield put({
-    type: 'ITEMS_UPDATE_CURRENT_INDEX',
-    index: 0,
-    displayMode
-  })
-
   removeCachedCoverImages(itemsToClear)
+}
+
+// called when the Firestore read items cache has been initialised
+export function * filterItemsForFirestoreRead () {
+  const items = yield select(getUnreadItems)
+  const readItemsObj = getReadItemsFS()
+  const itemsToMarkRead = items.filter(item => readItemsObj[item._id] !== undefined)
+  yield put({
+    type: 'ITEMS_MARK_READ',
+    items: itemsToMarkRead.map(i => ({
+      _id: i._id,
+      id: i.id,
+      feed_id: i.feed_id
+    }))
+  })
 }

@@ -8,7 +8,7 @@ import { addFeedToFirestore, getFeedsFS, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
-import { getFeeds, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
+import { getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
 import log from '../../utils/log'
 
 function * prepareAndAddFeed (feed) {
@@ -97,25 +97,41 @@ export function * inflateFeeds () {
       type: 'FEEDS_UPDATE_FEED',
       feed: inflatedFeed
     })
-    if (inflatedFeed.favicon) {
+  }
+  yield cacheFeedFavicons()
+}
+
+function * cacheFeedFavicons () {
+  const feeds = yield select(getFeeds)
+  const feedsLocal = yield select(getFeedsLocal)
+  for (let feed of feeds) {
+    const feedLocal = feedsLocal.find(fl => fl._id === feed._id)
+    const shouldCacheIcon = feedLocal ?
+      !feedLocal.hasCachedIcon && (!feedLocal.cachingErrors || feedLocal.cachingErrors <= 3) :
+      true
+    if (feed.favicon && shouldCacheIcon) {
       try {
-        const fileName = yield call(cacheFeedFavicon, inflatedFeed)
+        const fileName = yield call(downloadFeedFavicon, feed)
         const dimensions = yield call(getImageDimensions, fileName)
         yield call(InteractionManager.runAfterInteractions)
         yield put({
           type: 'FEED_SET_CACHED_FEED_ICON',
           cachedIconPath: fileName,
           dimensions,
-          id: inflatedFeed._id
+          id: feed._id
         })
       } catch (error) {
-        log(`Error downloading icon for ${inflatedFeed.url}: ${error.message}`)
+        log(`Error downloading icon for ${feed.url}: ${error.message}`)
+        yield put({
+          type: 'FEED_ERROR_CACHING_ICON',
+          id: feed._id
+        })
       }
     }
   }
 }
 
-function cacheFeedFavicon (feed) {
+function downloadFeedFavicon (feed) {
   const host = feed.link.split('?')[0]
   const path = feed.favicon.path
   const url = path.startsWith('//') ?

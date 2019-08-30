@@ -67,17 +67,6 @@ export function feeds (state = initialState, action) {
           feed)
       }
 
-    case 'FEED_SET_CACHED_COVER_IMAGE':
-      return {
-        ...state,
-        feeds: state.feeds.map(feed => feed._id === action.id ?
-          {
-            ...feed,
-            cachedCoverImageId: action.cachedCoverImageId
-          } :
-          feed)
-      }
-
     case 'ITEM_ADD_READING_TIME':
       feeds = [ ...state.feeds ]
       feed = feeds.find(feed => feed._id === action.item.feed_id)

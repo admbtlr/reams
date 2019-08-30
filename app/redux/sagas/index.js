@@ -3,7 +3,7 @@ import { REHYDRATE } from 'redux-persist'
 
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
-import { markLastItemRead, clearReadItems } from './mark-read'
+import { markLastItemRead, clearReadItems, filterItemsForFirestoreRead } from './mark-read'
 import { pruneItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl } from './external-items'
@@ -20,8 +20,9 @@ function * init (getFirebase, action) {
   if (!config.backend || config.backend === '') return
 
   yield initBackend(getFirebase, action)
-  yield call(clearReadItems)
   yield call(fetchAllItems)
+  yield call(clearReadItems)
+  yield call(pruneItems)
   yield call(executeRemoteActions)
   yield call(inflateFeeds)
 }
@@ -32,14 +33,15 @@ export function * initSagas (getFirebase) {
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   yield takeEvery('FEED_MARK_READ', markFeedRead)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchUnreadItems)
+  yield takeEvery('FEEDS_UPDATE_FEEDS', fetchAllItems)
   yield takeEvery('ITEM_SAVE_ITEM', markItemSaved)
   yield takeEvery('ITEM_UNSAVE_ITEM', markItemUnsaved)
   yield takeEvery('ITEM_UNSAVE_ITEM', inflateItems)
   yield takeEvery('ITEMS_FETCH_ITEMS', clearReadItems)
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchAllItems)
   yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
-  yield takeEvery('ITEMS_BATCH_FETCHED', pruneItems)
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
+  yield takeEvery('ITEMS_RECEIVED_REMOTE_READ', filterItemsForFirestoreRead)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)

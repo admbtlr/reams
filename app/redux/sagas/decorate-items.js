@@ -14,7 +14,7 @@ import { getItemsAS, updateItemAS } from '../async-storage'
 let pendingDecoration = [] // a local cache
 let toDispatch = []
 
-const showLogs = false
+const showLogs = true
 
 export function * decorateItems (action) {
   let items
@@ -166,12 +166,11 @@ export function * decorateItem (item) {
   item = items[0] || item
   consoleLog(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield call(loadMercuryStuff, item)
-  consoleLog(`Loading Mercury stuff for ${item._id} done`)
-
   if (!mercuryStuff) {
     return false
   }
 
+  consoleLog(`Loading Mercury stuff for ${item._id} done`)
   if (mercuryStuff.lead_image_url) {
     let hasCoverImage = yield cacheCoverImage(item, mercuryStuff.lead_image_url)
     if (hasCoverImage) {
@@ -203,23 +202,23 @@ export function * decorateItem (item) {
   }
 }
 
-function cacheCoverImage (item, imageURL) {
+async function cacheCoverImage (item, imageURL) {
   const splitted = imageURL.split('.')
   // const extension = splitted[splitted.length - 1].split('?')[0].split('%')[0]
   // making a big assumption on the .jpg extension here...
   // and it seems like Image adds '.png' to a filename if there's no extension
   const fileName = getCachedCoverImagePath(item)
   // consoleLog(`Loading cover image for ${item._id}...`)
-  return RNFS.downloadFile({
-    fromUrl: imageURL,
-    toFile: fileName
-  }).promise.then((result) => {
-    // consoleLog(`Downloaded file ${fileName} from ${imageURL}, status code: ${result.statusCode}, bytes written: ${result.bytesWritten}`)
-    // consoleLog(`Loading cover image for ${item._id} done`)
+  if (await RNFS.exists(fileName)) return true
+  try {
+    await RNFS.downloadFile({
+      fromUrl: imageURL,
+      toFile: fileName
+    }).promise
     return true
-  }).catch((err) => {
+  } catch(err) {
     consoleLog(`Loading cover image for ${item._id} failed :(`)
     consoleLog(err)
     return false
-  })
+  }
 }

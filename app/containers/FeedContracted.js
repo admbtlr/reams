@@ -6,6 +6,7 @@ const mapStateToProps = (state, ownProps) => {
   const feedId = ownProps.feedId
   const items = state.itemsUnread.items
   const feed = state.feeds.feeds.find(f => f._id === feedId)
+  const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
   const feedItems = items.filter(i => i.feed_id === feedId)
   const numFeedItems = feedItems.length
   const coverImageItem = feedItems.find(item => item.banner_image)
@@ -25,7 +26,7 @@ const mapStateToProps = (state, ownProps) => {
       readingRate: feed.reading_rate || 0,
       coverImageId,
       coverImageDimensions,
-      cachedCoverImageId: feed.cachedCoverImageId,
+      cachedCoverImageId: feedLocal && feedLocal.cachedCoverImageId,
       favicon: feed.favicon
     }
   } else {

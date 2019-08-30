@@ -198,9 +198,17 @@ export const itemsUnread = (state = initialState, action) => {
     //   }
 
     case 'ITEMS_CLEAR_READ_SUCCESS':
+      items = [...state.items]
+      index = state.index
+      currentItem = items[state.index]
+      let unreadItems = state.items.filter(i => i.readAt === undefined && i._id !== currentItem._id)
+      if (currentItem) {
+        unreadItems.unshift(currentItem)
+      }
       return {
         ...state,
-        items: state.items.filter(item => !item.readAt)
+        items: unreadItems,
+        index: 0
       }
 
     case 'UNREAD_ITEMS_SET_LAST_UPDATED':

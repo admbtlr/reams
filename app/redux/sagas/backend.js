@@ -9,6 +9,7 @@ import { getConfig, getFeeds, getItems, getUid, getUser } from './selectors'
 import { setBackend } from '../backends'
 import { receiveItems } from './fetch-items'
 import { clearReadItems } from './mark-read'
+import { cacheCoverImage } from './decorate-items'
 
 export function * initBackend (getFirebase, action) {
   const config = yield select(getConfig)
@@ -58,7 +59,7 @@ export function * initBackend (getFirebase, action) {
 
     yield spawn(savedItemsListener)
     yield spawn(feedsListener)
-    // yield spawn(readItemsListener)
+    yield spawn(readItemsListener)
   }
 }
 
@@ -67,6 +68,7 @@ function * savedItemsListener () {
   while (true) {
     let items = yield take(savedItemsChan)
     yield receiveSavedItems(items)
+
   }
 }
 
@@ -99,6 +101,11 @@ function * receiveSavedItems (items) {
   const savedItems = yield select(getItems, 'saved')
   const newSaved = items.added.filter(item => savedItems.find(si => si.url === item.url) === undefined)
   yield receiveItems(newSaved, 'saved')
+  newSaved.forEach(item => {
+    if (item.banner_image) {
+      cacheCoverImage (item, item.banner_image)
+    }
+  })
   const removedSaved = items.removed
   yield put({
     type: 'ITEMS_UNSAVE_ITEMS',
@@ -107,25 +114,46 @@ function * receiveSavedItems (items) {
 }
 
 function * receiveFeeds (dbFeeds) {
-  const feeds = yield select(getFeeds)
+  let feeds = yield select(getFeeds)
+  // is this necessary?
+  feeds = feeds.map(f => f)
+  let newFeeds = []
   dbFeeds.forEach(dbFeed => {
     if (!feeds.find(feed => feed._id === dbFeed._id ||
       feed.url === dbFeed.url)) {
       feeds.push(dbFeed)
+      newFeeds.push(dbFeed)
     }
   })
+  // do this first so that isNew is set before the first item fetch
+  // (whicb is triggered by the FEEDS_UPDATE_FEEDS action)
+  if (newFeeds.length > 0) {
+    yield put ({
+      type: 'FEEDS_SET_NEW',
+      feeds: newFeeds
+    })
+  }
   yield put ({
     type: 'FEEDS_UPDATE_FEEDS',
     feeds
   })
 }
 
-function * receiveReadItems (items) {
-  debugger
+function * receiveReadItems (readItems) {
   yield put ({
-    type: 'ITEMS_MARK_READ',
-    items,
-    clearItems: true
+    type: 'ITEMS_RECEIVED_REMOTE_READ',
+    date: Date.now()
   })
-  yield clearReadItems()
+  // if (!readItems) {
+  //   // the read items cache has been initialised
+  //   yield put ({
+  //     type: 'ITEMS_READ_ITEMS_INITIALISED'
+  //   })
+
+  // } else {
+  //   yield put ({
+  //     type: 'ITEMS_RECEIVED_REMOTE_READ',
+  //     readItems
+  //   })
+  // }
 }
