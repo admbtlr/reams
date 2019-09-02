@@ -12,6 +12,7 @@ import {
   View
 } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
+import { NativeViewGestureHandler } from 'react-native-gesture-handler'
 import FeedContracted from '../containers/FeedContracted'
 import FeedExpanded from '../containers/FeedExpanded'
 import TextButton from './TextButton'
@@ -153,6 +154,7 @@ class FeedsScreen extends React.Component {
     this.renderFeed = this.renderFeed.bind(this)
     this.clearFeedFilter = this.clearFeedFilter.bind(this)
     this.selectFeed = this.selectFeed.bind(this)
+    this.onFeedPress = this.onFeedPress.bind(this)
   }
 
   componentDidMount = () => {
@@ -251,6 +253,8 @@ class FeedsScreen extends React.Component {
           numColumns={width > 500 ? 2 : 1}
           renderItem={this.renderFeed}
           scrollEnabled={this.state.scrollEnabled}
+          onScrollBeginDrag={() => { this.isScrolling = true }}
+          onScrollEndDrag={() => { this.isScrolling = false }}
         />
         { this.state.showExpandingFeed &&
           (this.state.selectedFeedElement ?
@@ -283,6 +287,15 @@ class FeedsScreen extends React.Component {
     }
   }
 
+  onFeedPress = (feed) => {
+    const testForScrolling = () => {
+      if (!this.isScrolling) {
+        this.selectFeed(feed)
+      }
+    }
+    setTimeout(testForScrolling.bind(this), 200)
+  }
+
   selectFeed = (feed) => {
     if (this.state.selectedFeedElement !== feed) {
       const prevSelectedFeedElement = feed === null ?
@@ -313,9 +326,9 @@ class FeedsScreen extends React.Component {
   }
 
   deselectFeed = () => {
-      const prevSelectedFeedElement = this.state.selectedFeedElement
-      const prevSelectedFeedElementXCoord = this.state.selectedFeedElementXCoord
-      const prevSelectedFeedElementYCoord = this.state.selectedFeedElementYCoord
+    const prevSelectedFeedElement = this.state.selectedFeedElement
+    const prevSelectedFeedElementXCoord = this.state.selectedFeedElementXCoord
+    const prevSelectedFeedElementYCoord = this.state.selectedFeedElementYCoord
     this.setState({
       ...this.state,
       selectedFeedElement: null,
@@ -346,7 +359,7 @@ class FeedsScreen extends React.Component {
       index={index}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
-      selectFeed={this.selectFeed}
+      selectFeed={this.onFeedPress}
       preDeselectFeed={this.preDeselectFeed}
     />
   }
