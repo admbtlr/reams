@@ -202,7 +202,7 @@ export function * decorateItem (item) {
   }
 }
 
-async function cacheCoverImage (item, imageURL) {
+export async function cacheCoverImage (item, imageURL) {
   const splitted = imageURL.split('.')
   // const extension = splitted[splitted.length - 1].split('?')[0].split('%')[0]
   // making a big assumption on the .jpg extension here...

@@ -1,13 +1,18 @@
 # To Do
 
+- why does the ipad crash?
+- figure out why the decoration thread crashes
+- figure out why some items never get decorated
 - fix bug with second item never showing its title
+- fix problem with new remote saved items
 - stop items from rendering all the time
-- don't always return to index=0 with saved items
+- get feed colors
 - make extension work with more data types
-- move cover image stuff to a items-local reducer, and make sure styles can work both with and without an image
-- move feed image stuff to feeds-local
-- fix feeds list
+- why isn't the extension feed search working?
+- make sure styles can work both with and without an image
+- ~~fix feeds list~~
 - only move buttons when scrolling has ended
+- upgrade to RN 0.60
 - allow arbitrary feed colours
 - placeholder images (use letters?)
 - i8n 
@@ -21,6 +26,11 @@
 - add a feed manually
 - newsletters
 
+- ~~move feed image stuff to feeds-local~~
+- ~~move cover image stuff to a items-local reducer~~
+- ~~ensure remote feed updates propagate correctly~~
+- ~~investigate feed multiplication~~
+- ~~don't always return to index=0 with saved items~~
 - ~~fix various caption layouts~~
 - ~~make sure all saved items have savedAt; order thereby~~
 - ~~get rid of white frame around images, or at least on floated images~~

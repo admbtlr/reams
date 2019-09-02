@@ -78,16 +78,12 @@ app.get('/feed-meta/', (req, res) => {
     }
   }
   const getFavicon = (feedMeta, res) => {
-    console.log('In getFavIcon')
     request(feedMeta.link, (err, resp, body) => {
-      console.log('Got request')
       if (err) {
         console.log(err)
         res.send(feedMeta)
       }
-      console.log('About to parse favicons')
       parseFavicon.parseFavicon(body, {}).then(favicons => {
-        console.log(favicons)
         let favicon
         const getSize = f => f.size
           ? f.size.split('x')[0]
@@ -101,7 +97,6 @@ app.get('/feed-meta/', (req, res) => {
              || favicons[0]
           }
         }
-        console.log('Here\'s the favicon: ' + favicon)
         if (favicon) {
           if (favicon.url && favicon.url.startsWith('//')) {
             favicon.url = 'https:' + favicon.url
@@ -117,11 +112,11 @@ app.get('/feed-meta/', (req, res) => {
         feedMeta.favicon = favicon
         res.send(feedMeta)
       }).catch(err => {
-        console.log('Error in parseFavIcon: ' + err)
         res.send(feedMeta)
       })
     })
   }
+
   fetch(feedUrl, readMeta)
 })
 
@@ -160,23 +155,28 @@ function fetch (feed, done) {
     req.setHeader('accept', 'text/html,application/xhtml+xml')
 
     // Define our handlers
-    req.on('response', function (res) {
-      if (res.statusCode !== 200) {
+    req
+      .on('error', function (err) {
+        console.log(error)
         done(items)
         return
-      }
-      var encoding = res.headers['content-encoding'] || 'identity'
-      var charset = getParams(res.headers['content-type'] || '').charset
-      res = maybeDecompress(res, encoding)
-      res = maybeTranslate(res, charset)
-      res.pipe(feedparser)
-    })
+      })
+      .on('response', function (res) {
+        if (res.statusCode !== 200) {
+          done(items)
+          return
+        }
+        var encoding = res.headers['content-encoding'] || 'identity'
+        var charset = getParams(res.headers['content-type'] || '').charset
+        res = maybeDecompress(res, encoding)
+        res = maybeTranslate(res, charset)
+        res.pipe(feedparser)
+      })
   })
 
   feedparser.on('error', (error) => {
     console.log(`That's an error... (${finalUrl})`)
     console.log(error)
-    // done([])
   })
 
   feedparser.on('end', () => {

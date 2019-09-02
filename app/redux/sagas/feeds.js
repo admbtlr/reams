@@ -134,11 +134,12 @@ function * cacheFeedFavicons () {
 function downloadFeedFavicon (feed) {
   const host = feed.link.split('?')[0]
   const path = feed.favicon.path
-  const url = path.startsWith('//') ?
-    `https:${path}` :
-    (host.endsWith('/')
-      ? host + feed.favicon.path.substring(1)
-      : host + feed.favicon.path)
+  let url = feed.favicon.url ||
+    (path.startsWith('//') ?
+      `https:${path}` :
+      (host.endsWith('/')
+        ? host + feed.favicon.path.substring(1)
+        : host + feed.favicon.path))
   console.log(url)
   let extension = /.*\.([a-zA-Z]*)/.exec(url)[1]
   if (['png', 'jpg', 'jpeg'].indexOf(extension.toLowerCase()) === -1) {

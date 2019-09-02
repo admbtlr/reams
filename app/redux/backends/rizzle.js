@@ -167,6 +167,7 @@ const mapRizzleServerItemToRizzleItem = (item) => {
     external_url: item.link,
     feed_title: item.feed_name,
     feed_id: item.feed_id,
+    categories: item.categories
   }
   return mappedItem
 }

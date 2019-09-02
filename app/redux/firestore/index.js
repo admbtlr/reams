@@ -7,6 +7,10 @@ import { deflateItem } from '../../utils/item-utils'
 let uid
 let db
 
+// this is an object because (I think) keying the read items on _id
+// makes for more efficient searching
+let readItems = {}
+
 export function setUid (userId) {
   uid = userId
 }
@@ -135,8 +139,8 @@ export function addReadItemsFS (items) {
     })
 }
 
-export async function getReadItemsFS () {
-  return getCollection('items-read', 'read_at', 'desc', false, false)
+export function getReadItemsFS () {
+  return readItems
 }
 
 // TODO: delete me
@@ -228,8 +232,17 @@ export async function listenToReadItems (receiveItems) {
   getUserDb()
     .collection('items-read')
     .onSnapshot((snapshot) => {
-      if (snapshot._changes) {
-        receiveItems(snapshot._docs.map(doc => doc._data))
+      if (snapshot.metadata.hasPendingWrites) {
+        // generated locally, ignore
+      } else {
+        let docs = snapshot.docChanges
+          .map(dc => dc.doc.data())
+        docs.forEach(doc => {
+          readItems[doc._id] = doc.read_at
+        })
+        receiveItems({
+          dateReceived: Date.now()
+        })
       }
     })
 }
