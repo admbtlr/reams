@@ -1,5 +1,6 @@
 import { mergeItems, id } from '../../utils/merge-items'
 import moment from 'moment'
+import log from '../../utils/log'
 
 const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
@@ -25,12 +26,17 @@ export function hasBackend () {
 
 export async function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
-  const response = await fetch(url, {
-    'headers': new Headers({
-      'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
+  try {
+    const response = await fetch(url, {
+      'headers': new Headers({
+        'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
+      })
     })
-  })
-  return response.json()
+    return response.json()
+  } catch (error) {
+    log(error)
+    return
+  }
 }
 
 export function getMercuryUrl (item) {
