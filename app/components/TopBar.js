@@ -48,6 +48,10 @@ class TopBar extends React.PureComponent {
   onStatusBarUp () {
     this.props.hideAllButtons()
   }
+
+  onStatusBarReset () {
+    this.props.showItemButtons()
+  }
   // shouldComponentUpdate(nextProps, nextState) {
   //   return nextProps.currentItem !== this.props.currentItem ||
   //     nextProps.toolbar.message !== this.props.toolbar.message

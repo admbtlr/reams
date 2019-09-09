@@ -19,6 +19,7 @@ let resetAnim = new Animated.Value(0)
 let scrollValue = 0
 let clampedScrollValue = 0
 let resetValue = 0
+let prevScrollOffset = 0
 
 let initiated = false
 
@@ -27,6 +28,7 @@ function reset (newScrollAnimValue) {
   scrollValue = 0
   clampedScrollValue = 0
   resetValue = 0
+  prevScrollOffset = 0
   scrollAnim.removeAllListeners()
   resetAnim.removeAllListeners()
   Animated.timing(resetAnim, {
@@ -35,7 +37,7 @@ function reset (newScrollAnimValue) {
     useNativeDriver: true,
   }).start(() => {
     scrollListeners.forEach((listener) => {
-      listener.onStatusBarDown()
+      listener.onStatusBarReset()
     })
   })
 }
@@ -78,16 +80,15 @@ export function scrollHandler (value) {
       Math.max(clampedScrollValue + diff, 0),
       STATUS_BAR_HEIGHT
     )
-    if (wasntDown && clampedScrollValue === 0) {
-      scrollListeners.forEach((listener) => {
-        listener.onStatusBarDown()
-      })
-    } else if (wasntUp && clampedScrollValue >= STATUS_BAR_HEIGHT && value > 0) {
-      scrollListeners.forEach((listener) => {
-        console.log('Status bar up!')
-        listener.onStatusBarUp()
-      })
-    }
+    // if (wasntDown && clampedScrollValue === 0) {
+    //   scrollListeners.forEach((listener) => {
+    //     listener.onStatusBarDown()
+    //   })
+    // } else if (wasntUp && clampedScrollValue >= STATUS_BAR_HEIGHT && value > 0) {
+    //   scrollListeners.forEach((listener) => {
+    //     listener.onStatusBarUp()
+    //   })
+    // }
   })
   resetAnim.addListener(({ value }) => {
     resetValue = value
@@ -105,7 +106,7 @@ export function scrollHandler (value) {
   // })
 }
 
-export function onScrollEnd (e) {
+export function onScrollEnd (scrollOffset) {
   // console.log('Scroll ended!')
   const toValue = scrollValue > STATUS_BAR_HEIGHT &&
     clampedScrollValue > (STATUS_BAR_HEIGHT) / 2
@@ -118,6 +119,17 @@ export function onScrollEnd (e) {
     duration: 200,
     useNativeDriver: true
   }).start()
+
+  if (scrollOffset - prevScrollOffset > 20) {
+    scrollListeners.forEach((listener) => {
+      listener.onStatusBarUp()
+    })
+  } else if (scrollOffset - prevScrollOffset < -20) {
+    scrollListeners.forEach((listener) => {
+      listener.onStatusBarDown()
+    })
+  }
+  prevScrollOffset = scrollOffset
 }
 
 export function getScrollValueAnimated () {

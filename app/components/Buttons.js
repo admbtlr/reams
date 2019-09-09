@@ -68,7 +68,10 @@ class Buttons extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (prevProps.visible !== this.props.visible ||
+    const isFirstRenderForThisIndex = prevProps.toolbar.scrollOwner !== this.props.toolbar.scrollOwner
+    if (isFirstRenderForThisIndex) {
+      this.state.visibleAnim.setValue(0)
+    } else if (prevProps.visible !== this.props.visible ||
       this.props.visible !== this.areButtonsVisible) {
       Animated.timing(
         this.state.visibleAnim,
@@ -95,7 +98,7 @@ class Buttons extends React.Component {
   getBackgroundColor (item) {
     // return hslString('rizzleBG')
     return this.props.isDarkBackground ?
-      ('hsl(0, 0%, 0%)') :
+      ('hsl(240, 17%, 12%)') :
       (this.props.displayMode == 'saved' ?
         hslString('rizzleBG') :
         'white')
