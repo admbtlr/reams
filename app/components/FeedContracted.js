@@ -173,10 +173,10 @@ class FeedContracted extends React.PureComponent {
 
     const shadowStyle = {
       shadowColor: 'black',
-      shadowRadius: 10,
+      shadowRadius: 5,
       shadowOpacity: 0.3,
       shadowOffset: {
-        width: 0,
+        width: -5,
         height: 5
       }
     }
@@ -194,7 +194,7 @@ class FeedContracted extends React.PureComponent {
             marginRight: (this.props.index % 2 === 0 && this.screenWidth > 500) ?
               this.margin :
               0,
-            opacity: this.opacity,
+            // opacity: this.props.isSelected ? 0 : 1,
             overflow: 'visible',
             transform: [
               {
@@ -235,24 +235,6 @@ class FeedContracted extends React.PureComponent {
                 width={this.screenWidth}
                 height={this.screenHeight * 0.5} />
             </View>
-            { feedIsLiked &&
-              <View style={{
-                position: 'absolute',
-                top: 10,
-                right: 10
-              }}>
-                <Svg
-                  height='32'
-                  width='32'>
-                  <Path
-                    d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
-                    strokeWidth={3}
-                    stroke='white'
-                    fill='white'
-                  />
-                </Svg>
-              </View>
-            }
             <View style={{
               // borderTopLeftRadius: 19,
               // borderTopRightRadius: 19,
@@ -272,17 +254,47 @@ class FeedContracted extends React.PureComponent {
               // justifyContent: 'center',
               backgroundColor: 'rgba(0, 0, 0, 0.2)'
             }}>
-              <Text style={{
-                ...textStyles,
-                flexWrap: 'wrap',
-                fontFamily: 'IBMPlexSansCond-Bold',
-                fontSize: 24
-              }}>{feedTitle}</Text>
-              <Text style={{
-                ...textStyles,
-                fontFamily: 'IBMPlexMono-Light',
-                fontSize: 16
-              }}>{numUnread} unread</Text>
+              { feedIsLiked &&
+                <View style={{
+                  position: 'absolute',
+                  top: 10,
+                  right: 7
+                }}>
+                  <Svg
+                    height='32'
+                    width='32'>
+                    <Path
+                      d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
+                      strokeWidth={3}
+                      stroke='white'
+                      fill='white'
+                    />
+                  </Svg>
+                </View>
+              }
+              <View style={{
+                backgroundColor: hslString(feedColor, 'desaturated'),
+                paddingLeft: 3,
+                paddingRight: 3
+              }}>
+                <Text style={{
+                  ...textStyles,
+                  flexWrap: 'wrap',
+                  fontFamily: 'IBMPlexSansCond-Bold',
+                  fontSize: 24
+                }}>{feedTitle}</Text>
+              </View>
+              <View style={{
+                backgroundColor: hslString(feedColor, 'desaturated'),
+                paddingLeft: 3,
+                paddingRight: 3
+              }}>
+                <Text style={{
+                  ...textStyles,
+                  fontFamily: 'IBMPlexMono-Light',
+                  fontSize: 16
+                }}>{numUnread} unread</Text>
+              </View>
             </View>
           </View>
         </Animated.View>

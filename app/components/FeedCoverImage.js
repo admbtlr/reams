@@ -110,7 +110,7 @@ class FeedCoverImage extends React.Component {
         onLoad={this.captureImage}
         ref={ ref => { this.surface = ref } }
       >
-        <ColorBlending
+        {/*<ColorBlending
           color={blendColor(feedColor, 'desaturated')}
           blendMode='blendMultiply'
         >
@@ -118,7 +118,7 @@ class FeedCoverImage extends React.Component {
             saturation={0.5}
             contrast={0.8}
             brightness={2}
-          >
+          >*/}
             <GLImage
               center={[0.5, 0]}
               resizeMode='cover'
@@ -132,8 +132,8 @@ class FeedCoverImage extends React.Component {
                 height: coverImageDimensions.height
               }}
             />
-          </ContrastSaturationBrightness>
-        </ColorBlending>
+          {/*</ContrastSaturationBrightness>
+        </ColorBlending>*/}
       </Surface>
     ) :
     null

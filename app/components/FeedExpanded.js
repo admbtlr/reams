@@ -114,7 +114,7 @@ class FeedExpanded extends React.Component {
         toValue: new Value(0),
         damping: 20,
         mass: 1,
-        stiffness: 200,
+        stiffness: 180,
         overshootClamping: false,
         restSpeedThreshold: 0.001,
         restDisplacementThreshold: 0.001,
@@ -390,17 +390,30 @@ class FeedExpanded extends React.Component {
                   }
                 ],
               }}>
-                <Animated.Text style={{
-                  ...textStyles,
-                  flexWrap: 'wrap',
-                  fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: add(24, multiply(this.expandAnim, 8))
-                }}>{feedTitle}</Animated.Text>
-                <Text style={{
-                  ...textStyles,
-                  fontFamily: 'IBMPlexMono-Light',
-                  fontSize: 16
-                }}>{numUnread} unread</Text>
+                <View style={{
+                  backgroundColor: hslString(feedColor, 'desaturated'),
+                  paddingLeft: 10,
+                  paddingRight: 10
+                }}>
+                  <Animated.Text style={{
+                    ...textStyles,
+                    flexWrap: 'wrap',
+                    fontFamily: 'IBMPlexSansCond-Bold',
+                    fontSize: add(24, multiply(this.expandAnim, 8))
+                  }}>{feedTitle}</Animated.Text>
+                </View>
+                <View style={{
+                  backgroundColor: hslString(feedColor, 'desaturated'),
+                  paddingBottom: 5,
+                  paddingLeft: 10,
+                  paddingRight: 10
+                }}>
+                  <Text style={{
+                    ...textStyles,
+                    fontFamily: 'IBMPlexMono-Light',
+                    fontSize: 16
+                  }}>{numUnread} unread</Text>
+                  </View>
               </Animated.View>
             </Animated.View>
           </Animated.View>
@@ -409,11 +422,14 @@ class FeedExpanded extends React.Component {
             backgroundColor: '#F2ECD9',
             // 20px to cover the round corners of the image
             height: interpolate(this.expandAnim, {
-              inputRange: [0, 1],
-              outputRange: [0, this.screenHeight / 2 + 20]
+              inputRange: [0, 0.8, 1],
+              outputRange: [0, this.screenHeight / 4, this.screenHeight / 2 + 20]
             }),
             marginTop: -20,
-            opacity: this.expandAnim,
+            opacity: interpolate(this.expandAnim, {
+              inputRange: [0, 0.2, 1],
+              outputRange: [0, 1, 1]
+            }),
             width: this.screenWidth
           }}>
             <ScrollView

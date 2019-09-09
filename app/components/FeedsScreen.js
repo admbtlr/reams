@@ -360,6 +360,7 @@ class FeedsScreen extends React.Component {
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
       selectFeed={this.onFeedPress}
+      isSelected={isSelected}
       preDeselectFeed={this.preDeselectFeed}
     />
   }

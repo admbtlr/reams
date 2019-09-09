@@ -405,7 +405,7 @@ class FeedItem extends React.Component {
       scrollOffset :
       scrollOffset.nativeEvent.contentOffset.y
     this.props.setScrollOffset(this.props.item, scrollOffset, this.state.webViewHeight)
-    onScrollEnd()
+    onScrollEnd(scrollOffset)
   }
 
   //called when HTML was loaded and injected JS executed
