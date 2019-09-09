@@ -67,6 +67,9 @@ class AppStateListener extends React.Component {
     SharedGroupPreferences.getItem('page', this.group).then(value => {
       if (value !== null) {
         SharedGroupPreferences.setItem('page', null, this.group)
+        value = typeof value === 'object' ?
+          value[0] :
+          value
         console.log(`Got a page to save: ${value}`)
         this.showSavePageModal(value, this)
       }
