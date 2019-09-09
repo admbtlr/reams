@@ -17,16 +17,21 @@ export function * saveExternalUrl (action) {
     item,
     savedAt: Date.now()
   })
-  const decoration = yield decorateItem(item)
-  yield put({
-    type: 'ITEM_DECORATION_SUCCESS',
-    ...decoration
-  })
+  try {
+    const decoration = yield decorateItem(item)
+    yield put({
+      type: 'ITEM_DECORATION_SUCCESS',
+      ...decoration
+    })
 
-  // got to go back and find it cos of dodgy reducer side effects
-  const items = yield select(getItems, 'saved')
-  item = items.find(i => i._id === item._id)
+    // got to go back and find it cos of dodgy reducer side effects
+    const items = yield select(getItems, 'saved')
+    item = items.find(i => i._id === item._id)
 
-  addSavedItemFS(item)
+    addSavedItemFS(item)
+  } catch (err) {
+    console.log(err)
+  }
+
 }
 

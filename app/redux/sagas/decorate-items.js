@@ -46,6 +46,7 @@ export function * decorateItems (action) {
   yield spawn(function * () {
     while (true) {
       const nextItem = yield getNextItemToDecorate(pendingDecoration)
+      console.log('Looking for new item')
       if (nextItem) {
         consoleLog(`Got item to decorate: ${nextItem.title}`)
         pendingDecoration.push(nextItem)
@@ -77,7 +78,7 @@ export function * decorateItems (action) {
           pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
         }
       } else {
-        yield call(delay, 3000)
+        yield delay(1000)
       }
     }
   })

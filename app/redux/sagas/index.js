@@ -21,6 +21,7 @@ function * init (getFirebase, action) {
 
   yield initBackend(getFirebase, action)
   yield call(fetchAllItems)
+  yield call(decorateItems)
   yield call(clearReadItems)
   yield call(pruneItems)
   yield call(executeRemoteActions)
@@ -39,7 +40,6 @@ export function * initSagas (getFirebase) {
   yield takeEvery('ITEM_UNSAVE_ITEM', inflateItems)
   yield takeEvery('ITEMS_FETCH_ITEMS', clearReadItems)
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchAllItems)
-  yield takeEvery('ITEMS_FETCH_DATA_SUCCESS', decorateItems)
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
   yield takeEvery('ITEMS_RECEIVED_REMOTE_READ', filterItemsForFirestoreRead)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems)
