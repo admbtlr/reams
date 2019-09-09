@@ -107,10 +107,12 @@ function * receiveSavedItems (items) {
     }
   })
   const removedSaved = items.removed
-  yield put({
-    type: 'ITEMS_UNSAVE_ITEMS',
-    items: removedSaved
-  })
+  if (removedSaved.length) {
+    yield put({
+      type: 'ITEMS_UNSAVE_ITEMS',
+      items: removedSaved
+    })
+  }
 }
 
 function * receiveFeeds (dbFeeds) {

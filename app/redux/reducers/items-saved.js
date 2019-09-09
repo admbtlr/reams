@@ -85,13 +85,12 @@ export const itemsSaved = (state = initialState, action) => {
       }
 
     case 'ITEM_UNSAVE_ITEM':
-      let index = state.items.indexOf(action.item) || 0
-      savedItem = state.items[index]
-      items = state.items.filter((item) => item._id !== action.item._id)
-      if (savedItem) savedItem.isSaved = false
-      if (index > items.length - 1) {
-        index = items.length - 1
-      }
+      items = state.items
+        .filter((item) => item._id !== action.item._id)
+        .map(item => item)
+      index = state.index > items.length - 1 ?
+        items.length - 1 :
+        state.index
       return {
         ...state,
         items,
@@ -100,9 +99,11 @@ export const itemsSaved = (state = initialState, action) => {
 
     case 'ITEMS_UNSAVE_ITEMS':
       currentItem = state.items[state.index]
-      items = state.items.filter((item) => {
-        return action.items.find(ai => ai._id === item._id) === undefined
-      })
+      items = state.items
+        .filter((item) => {
+          return action.items.find(ai => ai._id === item._id) === undefined
+        })
+        .map(item => item)
       if (items.indexOf(currentItem) === -1) {
         index = 0
       } else {
@@ -114,6 +115,23 @@ export const itemsSaved = (state = initialState, action) => {
         items,
         index
       }
+
+    // case 'ITEMS_UNSAVE_ITEM_SUCCESS':
+    //   currentItem = state.items[state.index]
+    //   items = state.items
+    //     .filter(item => item._id !== action.item._id)
+    //     .map(item => item)
+    //   if (items.indexOf(currentItem) === -1) {
+    //     index = 0
+    //   } else {
+    //     index = items.indexOf(currentItem)
+    //   }
+
+    //   return {
+    //     ...state,
+    //     items,
+    //     index
+    //   }
 
     case 'SAVED_ITEMS_SET_LAST_UPDATED':
       return {
