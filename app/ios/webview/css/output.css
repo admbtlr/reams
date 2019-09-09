@@ -43,7 +43,7 @@ body {
   body, body a, body a:active, body a:visited {
     color: #595959; }
   .dark-background body {
-    background-color: #191924; }
+    background-color: black; }
     .dark-background body, .dark-background body a, .dark-background body a:active, .dark-background body a:visited {
       color: #b3b3b3; }
 

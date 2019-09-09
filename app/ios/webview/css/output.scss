@@ -232,7 +232,7 @@ body {
   transition: background-color, color 0.2s;
 
   .dark-background & {
-    background-color: hsl(240, 17%, 12%);
+    background-color: hsl(240, 0%, 0%);
     &, a, a:active, a:visited {
       color: hsl(0, 0%, 70%);
     }
