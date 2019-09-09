@@ -518,7 +518,7 @@ class ItemTitle extends React.Component {
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
         this.getForegroundColor())
     // if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
-    if (!showCoverImage) color = this.props.isDarkBackground ? textColor : textColor
+    if (!showCoverImage) color = this.props.isDarkBackground ? textColorDarkBackground : textColor
 
     const invertBGPadding = 3
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
