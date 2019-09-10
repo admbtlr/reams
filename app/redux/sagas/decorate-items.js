@@ -192,7 +192,7 @@ export function * decorateItem (item) {
       Math.random() > 0.5 &&
       (//imageStuff.imageDimensions.height < deviceHeight * 0.7 ||
       imageStuff.imageDimensions.height < imageStuff.imageDimensions.width / 1.8)) {
-      item.styles = setCoverInline(item.styles)
+      item.styles && (item.styles = setCoverInline(item.styles))
     }
   }
 
