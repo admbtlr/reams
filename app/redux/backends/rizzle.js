@@ -45,9 +45,10 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, current
   } else if (type === 'unread') {
     try {
       const readItems = getReadItemsFS()
-      let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
-      unreadItemArrays = extractErroredFeeds(unreadItemArrays)
-      let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
+      // let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
+      // unreadItemArrays = extractErroredFeeds(unreadItemArrays)
+      // let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
+      let newItems = await fetchUnreadItemsBatched(feeds, lastUpdated)
       newItems = newItems.map(item => ({
         ...item,
         _id: id(item)
@@ -96,18 +97,23 @@ const fetchUnreadItems = (feeds, lastUpdated) => {
     })).catch(({feed, message}) => {
       return {feed, message}
     })
-
-    //   if (!response.ok) {
-    //     throw Error(response.statusText)
-    //   }
-    //   return response
-    // })
-    // .then((response) => response.json())
-    // .then((json) => {
-    //   return json.map(mapRizzleServerItemToRizzleItem)
-    // })
   })
   return Promise.all(promises)
+}
+
+const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
+  let bodyFeeds = feeds.map(feed => ({
+    url: feed.url,
+    _id: feed._id,
+    lastUpdated: feed.isNew ? 0 : lastUpdated
+  }))
+  let body = {
+    feeds: bodyFeeds
+  }
+  return fetch({
+    url: 'http://api.rizzle.net/feeds/',
+    body
+  })
 }
 
 export async function markItemRead (item) {
@@ -174,3 +180,26 @@ const mapRizzleServerItemToRizzleItem = (item) => {
 
 
 // {"title":"Do You Weigh More at the Equator or at the North Pole?","description":"In which a physics professor very severely overthinks his daughter's science homework.","summary":"In which a physics professor very severely overthinks his daughter's science homework.","date":"2018-04-05T14:00:00.000Z","pubdate":"2018-04-05T14:00:00.000Z","pubDate":"2018-04-05T14:00:00.000Z","link":"https://www.wired.com/story/do-you-weigh-more-at-the-equator-or-at-the-north-pole","guid":"5ac506b428f0c90b2647ac58","author":"Rhett Allain","comments":null,"origlink":null,"image":{"url":"https://media.wired.com/photos/5ac561a15d6b7160f7e186f4/master/pass/scale-111953044.jpg"},"source":{},"categories":["Science","Science / Dot Physics"],"enclosures":[{"url":null,"type":null,"length":null}],"rss:@":{},"rss:title":{"@":{},"#":"Do You Weigh More at the Equator or at the North Pole?"},"rss:description":{"@":{},"#":"In which a physics professor very severely overthinks his daughter's science homework."},"rss:link":{"@":{},"#":"https://www.wired.com/story/do-you-weigh-more-at-the-equator-or-at-the-north-pole"},"rss:guid":{"@":{"ispermalink":"false"},"#":"5ac506b428f0c90b2647ac58"},"rss:pubdate":{"@":{},"#":"Thu, 05 Apr 2018 14:00:00 +0000"},"media:content":{"@":{}},"rss:category":[{"@":{},"#":"Science"},{"@":{},"#":"Science / Dot Physics"}],"media:keywords":{"@":{},"#":"Gravity, circular motion, physics"},"dc:creator":{"@":{},"#":"Rhett Allain"},"dc:modified":{"@":{},"#":"Thu, 05 Apr 2018 15:36:32 +0000"},"dc:publisher":{"@":{},"#":"Condé Nast"},"media:thumbnail":{"@":{"url":"https://media.wired.com/photos/5ac561a15d6b7160f7e186f4/master/pass/scale-111953044.jpg","width":"2400","height":"1607"}},"meta":{"#ns":[{"xmlns:atom":"http://www.w3.org/2005/Atom"},{"xmlns:dc":"http://purl.org/dc/elements/1.1/"},{"xmlns:media":"http://search.yahoo.com/mrss/"}],"@":[{"xmlns:atom":"http://www.w3.org/2005/Atom"},{"xmlns:dc":"http://purl.org/dc/elements/1.1/"},{"xmlns:media":"http://search.yahoo.com/mrss/"}],"#xml":{"version":"1.0","encoding":"utf-8"},"#type":"rss","#version":"2.0","title":"Wired","description":"The latest from www.wired.com","date":"2018-04-05T16:16:15.000Z","pubdate":"2018-04-05T16:16:15.000Z","pubDate":"2018-04-05T16:16:15.000Z","link":"https://www.wired.com/","xmlurl":"https://www.wired.com/feed/rss","xmlUrl":"https://www.wired.com/feed/rss","author":null,"language":"en","favicon":null,"copyright":"© Condé Nast 2018","generator":null,"cloud":{},"image":{},"categories":[],"rss:@":{},"rss:title":{"@":{},"#":"Wired"},"rss:description":{"@":{},"#":"The latest from www.wired.com"},"rss:link":{"@":{},"#":"https://www.wired.com/"},"atom:link":{"@":{"href":"https://www.wired.com/feed/rss","rel":"self","type":"application/rss+xml"}},"rss:copyright":{"@":{},"#":"© Condé Nast 2018"},"rss:language":{"@":{},"#":"en"},"rss:lastbuilddate":{"@":{},"#":"Thu, 05 Apr 2018 16:16:15 +0000"}}}
+/*
+Unused fields:
+
+summary
+date
+comments
+origlink
+image
+enclosures
+rss:@
+rss:title
+rss:description
+rss:link
+rss:category
+rss:pubdate
+permalink
+rss:guid
+media:content
+dc:creator
+dc:date
+meta
+
+*/

@@ -8,6 +8,8 @@ const zlib = require('zlib')
 const parseFavicon = require('parse-favicon')
 
 const app = express()
+app.use(express.urlencoded())
+app.use(express.json())
 
 const MIN_ITEMS_PER_FEED = 5
 
@@ -26,35 +28,40 @@ app.get('/mercury/', (req, res) => {
   })
 })
 
+app.post('/feeds/', (req, res) => {
+  // console.log(req)
+  // console.log(req.body)
+  const feeds = req.body.feeds
+  const promises = feeds.map(feed => {
+    return fetchProm(feed.url)
+      .then(items => {
+        return filterItems(items, feed.lastUpdated || 0)
+          .map(item => ({
+            ...item,
+            feed_id: feed._id
+          }))
+      })
+      .catch(err => {
+        return []
+      })
+  })
+  Promise.all(promises)
+    .then(itemsArray => {
+      res.send(itemsArray.reduce((accum, items) => accum.concat(items), []))
+    })
+})
+
 app.get('/feed/', (req, res) => {
   const feedUrl = req.query.url || 'https://www.vox.com/recode'
   const lastUpdated = req.query.lastUpdated || 0
-  const parseDate = (date) => typeof date !== 'number'
-    ? Date.parse(date)
-    : date
 
-  fetch(feedUrl, (items) => {
-    if (items && items.length) {
-      // only get items from the last 60 days
-      // but make sure that there are at least MIN_ITEMS_PER_FEED per feed
-      items = items.map(item => ({
-        ...item,
-        pubdate: parseDate(item.pubdate)
-      }))
-      let cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60
-      let filteredItems = items.filter(item => item.pubdate > cutoff)
-      if (filteredItems.length < MIN_ITEMS_PER_FEED) {
-        filteredItems = items.sort((a, b) => a.pubdate - b.pubdate)
-          .slice(0 - MIN_ITEMS_PER_FEED)
-      }
-      if (lastUpdated) {
-        filteredItems = filteredItems.filter(item => item.pubdate > lastUpdated)
-      }
-      res.send(filteredItems)
-    } else {
-      res.send(items)
-    }
-  })
+  fetchProm(feedUrl)
+    .then(items => {
+      res.send(filterItems(items, lastUpdated))
+    })
+    .catch(err => {
+      res.send([])
+    })
 })
 
 app.get('/feed-meta/', (req, res) => {
@@ -117,7 +124,7 @@ app.get('/feed-meta/', (req, res) => {
     })
   }
 
-  fetch(feedUrl, readMeta)
+  fetch(feedUrl, readMeta, () => res.send(), true)
 })
 
 // Serve index page
@@ -125,7 +132,41 @@ app.get('*', (req, res) => {
   res.sendFile(__dirname + '/build/index.html')
 })
 
-function fetch (feed, done) {
+function filterItems (items, lastUpdated) {
+  const parseDate = (date) => typeof date !== 'number'
+    ? Date.parse(date)
+    : date
+
+  if (items && items.length) {
+    // only get items from the last 60 days
+    // but make sure that there are at least MIN_ITEMS_PER_FEED per feed
+    items = items.map(item => ({
+      ...item,
+      pubdate: parseDate(item.pubdate)
+    }))
+    let cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60
+    let filteredItems = items.filter(item => item.pubdate > cutoff)
+    if (filteredItems.length < MIN_ITEMS_PER_FEED) {
+      filteredItems = items.sort((a, b) => a.pubdate - b.pubdate)
+        .slice(0 - MIN_ITEMS_PER_FEED)
+    }
+    if (lastUpdated) {
+      filteredItems = filteredItems.filter(item => item.pubdate > lastUpdated)
+    }
+    return filteredItems
+  } else {
+    return items
+  }
+}
+
+
+function fetchProm (feed) {
+  return new Promise((resolve, reject) => {
+    fetch(feed, resolve, reject)
+  })
+}
+
+function fetch (feed, done, fail, includeMeta) {
   let items = []
 
   var feedparser = new FeedParser()
@@ -134,6 +175,7 @@ function fetch (feed, done) {
   var finalUrl = feed
 
   var done = done
+  var fail = fail
 
   var redirectReq = request(feed, {
     method: 'HEAD',
@@ -176,22 +218,49 @@ function fetch (feed, done) {
 
   feedparser.on('error', (error) => {
     console.log(`That's an error... (${finalUrl})`)
-    console.log(error)
+    fail ? fail(error) : console.log(error)
   })
 
   feedparser.on('end', () => {
     done(items)
   })
 
-  feedparser.on('readable', function () {
+  feedparser.on('readable', function (includeMeta) {
     let item
     while (item = this.read()) {
-      items.push(item)
+      items.push(filterFields(item, includeMeta))
     }
     // return this.read()
   })
 
   return feedparser
+}
+
+function filterFields(item, includeMeta) {
+  const toRemove = [
+    'summary',
+    'date',
+    'comments',
+    'origlink',
+    'image',
+    'enclosures',
+    'rss:@',
+    'rss:title',
+    'rss:description',
+    'rss:link',
+    'rss:category',
+    'rss:pubdate',
+    'permalink',
+    'rss:guid',
+    'media:content',
+    'dc:creator',
+    'dc:date',
+    'meta'
+  ]
+  toRemove.forEach(field => {
+    delete item[field]
+  })
+  return item
 }
 
 function maybeDecompress (res, encoding) {
