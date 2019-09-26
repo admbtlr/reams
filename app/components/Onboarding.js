@@ -1,8 +1,11 @@
 import React from 'react'
-import {Animated, Linking, View, WebView} from 'react-native'
+import {Animated, Dimensions, Linking, Text, View} from 'react-native'
+import {WebView} from 'react-native-webview'
+
+const { colors, desaturated, ui } = require('../utils/colors.json')
 
 class Onboarding extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.props = props
     this.props.hideAllButtons()
@@ -28,32 +31,32 @@ class Onboarding extends React.Component {
 
     const bodies = [`<h1>This is Rizzle</h1>
       <p>Rizzle is a feed of the latest content from your favourite websites.</p>
-      <p>You subscribe to the sites you love from within Safari, and then every time one of them publishes a new article, it shows up in your Rizzle feed.</p>`,
+      <p>You subscribe to the sites you love from within Safari, and then every time one of them publishes a new article, it shows up in your <b>Rizzle</b> feed.</p>`,
       `<h1>Getting Started</h1>
       <p>Go to a site in Safari. Try a news site like <a href=“http://www.theguardian.com”>The Guardian</a> or <a href=“http://www.nytimes.com”>The New York Times</a>, or a blog like <a href=“[https://daringfireball.net]”>Daring Fireball</a> or <a href=“[https://www.ribbonfarm.com/]”>Ribbon Farm</a>.</p>
-      <p>Once you’re on the site, you need to launch the Rizzle share extension.</p>`,
+      <p>Once you’re on the site, you need to launch the <b>Rizzle</b> share extension.</p>`,
       `<h1>Launching the Rizzle share extension</h1>
       <p>Click on the share button at the bottom to show all your share extensions:</p>
       <img src="${server}webview/img/share.png" style="width: 156px;">
-      <p>The first time you do this, you will need to activate the Rizzle extension.</p>`,
+      <p>The first time you do this, you will need to activate the <b>Rizzle</b> extension.</p>`,
       `<h1>Activating the Rizzle share extension</h1>
       <p>Click on the <i>More</i> button in the middle row:</p>
       <img src="${server}webview/img/more.png" style="width: 183px;">
-      <p>Find <i>Save to Rizzle</i> in the list and toggle it on. Tap done, and now you can select <i>Save to Rizzle</i>.</p>`,
+      <p>Find <i>Save to <b>Rizzle</b></i> in the list and toggle it on. Tap done, and now you can select <i>Save to <b>Rizzle</b></i>.</p>`,
       `<h1>Using the Rizzle Share Extension</h1>
-      <p>The share extension consists of two buttons. The top button searches for a feed from the site that you're on, and lets you subscribe to it in Rizzle.</p>
-      <p>Unfortunately not all sites offer feeds, but Rizzle will do its best to find one for you.</p>`,
+      <p>The share extension consists of two buttons. The top button searches for a feed from the site that you're on, and lets you subscribe to it in <b>Rizzle</b>.</p>
+      <p>Unfortunately not all sites offer feeds, but <b>Rizzle</b> will do its best to find one for you.</p>`,
       `<h1>The Bottom Button</h1>
       <p>The bottom button saves the page you’re currently looking at, rather than subscribing to the site.</p>
-      <p>Use this if there’s an article that you want to store in Rizzle to read later, or if you find that the Rizzle reading experience is better than what the site itself offers.</p>`,
+      <p>Use this if there’s an article that you want to store in <b>Rizzle</b> to read later, or if you find that the <b>Rizzle</b> reading experience is better than what the site itself offers.</p>`,
       `<h1>Back to Rizzle</h1>
-      <p>When you return to Rizzle, it will ask you to confirm that you want to subscribe to the site. Once you confirm, Rizzle will load new articles from all the sites that you have subscribed to.</p>`,
+      <p>When you return to <b>Rizzle</b>, it will ask you to confirm that you want to subscribe to the site. Once you confirm, <b>Rizzle</b> will load new articles from all the sites that you have subscribed to.</p>`,
       `<h1>Like Tinder, but for Content</h1>
-      <p>Rizzle art directs each article for you. If something looks interesting, scroll down to read it. If it looks <em>really</em> interesting, you can save it for later (we’ll explain how in a minute).</p>
-      <p>Once you swipe past an article, you’re basically saying ”I’m done with that”; unless you save it, the next time Rizzle refreshes its feeds, that article will disappear.</p>`,
+      <p><b>Rizzle</b> art directs each article for you. If something looks interesting, scroll down to read it. If it looks <em>really</em> interesting, you can save it for later (we’ll explain how in a minute).</p>
+      <p>Once you swipe past an article, you’re basically saying ”I’m done with that”; unless you save it, the next time <b>Rizzle</b> refreshes its feeds, that article will disappear.</p>`,
       `<h1>Buttons!</h1>
       <p>The button on the left shows you how many articles are currently in your feed, and how many you have already read (or swiped past).</p>
-      <p>Tapping it will switch to saved mode: this is how you can access all the articles you’ve saved, either from within Rizzle or by using the share extension.</p>`,
+      <p>Tapping it will switch to saved mode: this is how you can access all the articles you’ve saved, either from within <b>Rizzle</b> or by using the share extension.</p>`,
       `<h1>The middle buttons</h1>
       <p>The button with the star on it lets you save an article; tapping it will put a copy of the article into your saved area.</p>
       <p>The next button lets you share an article.</p>`,
@@ -63,7 +66,7 @@ class Onboarding extends React.Component {
       `<h1>Even more buttons!</h1>
       <p>Tapping on the odd looking button in the top right displays three more buttons, which allow you to change the font size, and to switch between light and dark views.</p>`,
       `<h1>Congratulations</h1>
-      <p>You are now a certified Rizzle Power User. This certification gives you the authority to subscribe, swipe and save your way across the web.</p>
+      <p>You are now a certified <b>Rizzle</b> Power User. This certification gives you the authority to subscribe, swipe and save your way across the web.</p>
       <p>Use your new–found powers wisely!</p>`
     ]
 
@@ -71,11 +74,44 @@ class Onboarding extends React.Component {
       `<div class="swipe"><em>(Swipe to continue)</em></div>` :
       ''
 
+    const bgColorIndex = Math.round(Math.random() * Object.keys(desaturated).length)
+    const fgColorIndex = (bgColorIndex + 5 + Math.round(Math.random() * 3)) % Object.keys(desaturated).length
+    const bgColor = desaturated[Object.keys(desaturated)[bgColorIndex]]
+    const fgColor = colors[Object.keys(colors)[fgColorIndex]]
+    const headingFont = [
+      'PlayfairDisplay-Bold',
+      'PlayfairDisplay-Regular',
+      'PlayfairDisplay-BoldItalic',
+      'PlayfairDisplay-Italic',
+      'IBMPlexSerif-Bold',
+      'IBMPlexSerif-BoldItalic',
+      'IBMPlexSerif-Light',
+      'IBMPlexSerif-LightItalic',
+      'IBMPlexSansCond-Bold',
+      'IBMPlexSansCond-BoldItalic',
+      'IBMPlexSansCond-ExtraLight',
+      'IBMPlexSansCond-ExtraLightItalic',
+      'Montserrat-Bold',
+      'Montserrat-BoldItalic',
+      'Montserrat-Light',
+      'Montserrat-LightItalic'
+    ][Math.round(Math.random() * 16)]
+
     const html = `<html class="onboarding font-size-3">
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
+        <style type="text/css">
+body {
+  background-color: ${bgColor};
+}
+
+h1 {
+  color: ${fgColor} !important;
+  font-family: ${headingFont};
+}
+        </style>
       </head>
-      <body>
+      <body style="background-color: ${bgColor}">
         <article>
           ${bodies[this.props.index]}
         </article>
@@ -97,13 +133,17 @@ class Onboarding extends React.Component {
 
     return (
       <Animated.View style={{
+        backgroundColor: 'pink',
         flex: 1,
         overflow: 'hidden',
+        width: Dimensions.get('window').width
       }}>
         <WebView
           decelerationRate='normal'
           onMessage={(event) => {
           }}
+          {...openLinksExternallyProp}
+          originWhitelist={['*']}
           scalesPageToFit={false}
           scrollEnabled={true}
           style={{
@@ -114,7 +154,7 @@ class Onboarding extends React.Component {
           source={{
             html: html,
             baseUrl: 'web/'}}
-          {...openLinksExternallyProp}
+          useWebKit={false}
         />
       </Animated.View>
     )

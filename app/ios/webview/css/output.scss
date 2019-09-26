@@ -164,7 +164,7 @@ $ui: (
   rizzleText: hsl(300, 20%, 20%),
   rizzleChrome: hsl(0, 0%, 95%),
   bodyBGLight: hsl(60, 17%, 96%),
-  bodyBGDark: hsl(240, 17%, 12%),
+  bodyBGDark: hsl(0, 0%, 0%),
 );
 $step: 28px;
 $margin: 3vw;
@@ -267,12 +267,16 @@ body {
     -webkit-hyphens: none;
   }
 
-  @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-    &.#{$name} {
-      h1, h2, h3 {
-        color: $value;
-      }
-    }
+  // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
+  //   &.#{$name} {
+  //     h1, h2, h3 {
+  //       color: $value;
+  //     }
+  //   }
+  // }
+
+  h1, h2, h3 {
+    color: var(--feed-color);
   }
 
   h1, h2 {
@@ -626,12 +630,15 @@ body {
     }
   }
 
-  @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-    &.#{$name} {
-      ul li:before {
-        background-color: $value;
-      }
-    }
+  // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
+  //   &.#{$name} {
+  //     ul li:before {
+  //       background-color: $value;
+  //     }
+  //   }
+  // }
+  ul li:before {
+    background-color: var(--feed-color);
   }
 
   // guardian specific stuff
@@ -999,53 +1006,104 @@ article > div:not(:last-of-type) {
 
 
 @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-  .itemArticle.#{$name}, body.#{$name} .itemArticle {
-    a, a:active, a:visited {
-      // color: $value;
-      // text-decoration: none;
-      -webkit-text-decoration-color: $value;
-    }
+  // .itemArticle.#{$name}, body.#{$name} .itemArticle {
+  //   a, a:active, a:visited {
+  //     // color: $value;
+  //     // text-decoration: none;
+  //     -webkit-text-decoration-color: $value;
+  //   }
 
-    blockquote.short-blockquote, .pullquote, aside {
-      color: $value;
-    }
+  //   blockquote.short-blockquote, .pullquote, aside {
+  //     color: $value;
+  //   }
 
-    *:not(:first-of-type) div,
-      * div:not(:first-of-type),
-      div:not(:first-of-type) {
-      &:before {
-        background-color: $value;
+  //   *:not(:first-of-type) div,
+  //     * div:not(:first-of-type),
+  //     div:not(:first-of-type) {
+  //     &:before {
+  //       background-color: $value;
+  //     }
+  //   }
+
+  //   &:not(.dropCapIsMonochrome) {
+  //     & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         color: $value;
+  //       }
+  //     }
+  //   }
+
+  //   &.dropCapIsStroke {
+  //      & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         color: transparent;
+  //         -webkit-text-stroke: 2px #444444;
+  //       }
+  //     }
+  //   }
+
+  //   &.dropCapIsStroke:not(.dropCapIsMonochrome) {
+  //      & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         -webkit-text-stroke-color: $value;
+  //       }
+  //     }
+  //   }
+  // }
+}
+
+.itemArticle {
+  a, a:active, a:visited {
+    // color: $value;
+    // text-decoration: none;
+    -webkit-text-decoration-color: var(--feed-color);
+  }
+
+  blockquote.short-blockquote, .pullquote, aside {
+    color: var(--feed-color);
+  }
+
+  *:not(:first-of-type) div,
+    * div:not(:first-of-type),
+    div:not(:first-of-type) {
+    &:before {
+      background-color: var(--feed-color);
+    }
+  }
+
+  &:not(.dropCapIsMonochrome) {
+    & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        color: var(--feed-color);
       }
     }
+  }
 
-    &:not(.dropCapIsMonochrome) {
-      & > p:not(.short-para):first-of-type,
-        & > div:first-of-type > p:not(.short-para):first-of-type,
-        & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-        &:first-letter {
-          color: $value;
-        }
+  &.dropCapIsStroke {
+     & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        color: transparent;
+        -webkit-text-stroke: 2px #444444;
       }
     }
+  }
 
-    &.dropCapIsStroke {
-       & > p:not(.short-para):first-of-type,
-        & > div:first-of-type > p:not(.short-para):first-of-type,
-        & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-        &:first-letter {
-          color: transparent;
-          -webkit-text-stroke: 2px #444444;
-        }
-      }
-    }
-
-    &.dropCapIsStroke:not(.dropCapIsMonochrome) {
-       & > p:not(.short-para):first-of-type,
-        & > div:first-of-type > p:not(.short-para):first-of-type,
-        & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-        &:first-letter {
-          -webkit-text-stroke-color: $value;
-        }
+  &.dropCapIsStroke:not(.dropCapIsMonochrome) {
+     & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        -webkit-text-stroke-color: var(--feed-color);
       }
     }
   }
@@ -1073,15 +1131,19 @@ html.onboarding {
     font-family: "IBMPlexMono";
     width: 100vw;
     background-color: transparent;
-    padding: .5rem;
     padding-top: 3rem;
     color: white;
   }
 
+  article {
+    padding: .5rem;
+  }
+
   h1 {
     color: hsl(42, 91%, 60%);
-    font-size: 1.3rem;
-    line-height: 1.5rem;
+    font-size: 2rem;
+    font-weight: inherit;
+    line-height: 2rem;
     margin-bottom: 2rem;
     text-align: center;
   }

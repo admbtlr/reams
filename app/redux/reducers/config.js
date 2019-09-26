@@ -2,7 +2,7 @@ const initialState = {
   backend: '',
   accessToken: '',
   isFirstTime: true,
-  isOnboarding: false,
+  isOnboarding: true,
   lastUpdated: 0,
   onboardingIndex: 0,
   onboardingLength: 13,

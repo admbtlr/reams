@@ -12,15 +12,19 @@ html.onboarding {
     font-family: "IBMPlexMono";
     width: 100vw;
     background-color: transparent;
-    padding: .5rem;
     padding-top: 3rem;
     color: white;
   }
 
+  article {
+    padding: .5rem;
+  }
+
   h1 {
     color: hsl(42, 91%, 60%);
-    font-size: 1.3rem;
-    line-height: 1.5rem;
+    font-size: 2rem;
+    font-weight: inherit;
+    line-height: 2rem;
     margin-bottom: 2rem;
     text-align: center;
   }

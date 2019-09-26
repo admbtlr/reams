@@ -1,32 +1,34 @@
 # To Do
 
 - why does the ipad crash?
+    + hypothesis: it's memory; try compressing the styles again
 - figure out why the decoration thread crashes
 - figure out why some items never get decorated
 - fix bug with second item never showing its title
-- fix problem with new remote saved items
 - stop items from rendering all the time
-- get feed colors
 - make extension work with more data types
 - why isn't the extension feed search working?
-- make sure styles can work both with and without an image
 - ~~fix feeds list~~
-- only move buttons when scrolling has ended
+    + watch https://react.statuscode.com/link/69708/eb58c0bc0e
+- make extension search for common feed locations
+    + https://www.howtogeek.com/318401/how-to-find-or-create-an-rss-feed-for-any-website/
+- present found feeds by title in share extension
 - upgrade to RN 0.60
-- allow arbitrary feed colours
 - placeholder images (use letters?)
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - scroll effects
 - fix wired.com custom parser
-- fix universal links / magic link auth
 - make buttons use reanimate
-- make extension search for common feed locations
-- present found feeds by title in share extension
 - add a feed manually
 - newsletters
 
+- ~~get feed colors~~
+- ~~allow arbitrary feed colours~~
+- ~~fix universal links / magic link auth~~
+- ~~fix problem with new remote saved items~~
 - ~~move feed image stuff to feeds-local~~
+- ~~only move buttons when scrolling has ended~~
 - ~~move cover image stuff to a items-local reducer~~
 - ~~ensure remote feed updates propagate correctly~~
 - ~~investigate feed multiplication~~
