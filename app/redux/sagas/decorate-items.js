@@ -46,7 +46,7 @@ export function * decorateItems (action) {
   yield spawn(function * () {
     while (true) {
       const nextItem = yield getNextItemToDecorate(pendingDecoration)
-      console.log('Looking for new item')
+      // console.log('Looking for new item')
       if (nextItem) {
         consoleLog(`Got item to decorate: ${nextItem.title}`)
         pendingDecoration.push(nextItem)

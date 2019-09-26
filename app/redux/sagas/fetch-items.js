@@ -54,11 +54,13 @@ export function * fetchAllItems (includeSaved = true) {
   })
 }
 
-export function * fetchUnreadItems () {
+export function * fetchUnreadItems (action) {
+  if (action.skipFetchItems) return
   yield fetchAllItems(false)
 }
 
 export function * fetchItems (type = 'unread') {
+  debugger
   yield put({
     type: 'ITEMS_IS_LOADING',
     isLoading: true
@@ -95,7 +97,9 @@ export function * fetchItems (type = 'unread') {
     didError = true
     log('fetchItems', err)
   } finally {
-    if (!(yield cancelled() || didError)) {
+    // if isFirstBatch is still true, we didn't get any items
+    // so don't set the last updated date
+    if (!(yield cancelled() || didError || isFirstBatch)) {
       yield put({
         type: type === 'unread' ?
           'UNREAD_ITEMS_SET_LAST_UPDATED' :
@@ -148,6 +152,11 @@ export function * receiveItems (items, type) {
     items = updated.items
     console.log('createFeedsWhereNeededAndAddInfo took ' + (Date.now() - now))
     now = Date.now()
+    yield put({
+      type: 'FEEDS_UPDATE_FEEDS',
+      feeds,
+      skipFetchItems: true
+    })
   }
 
   items = yield cleanUpItems(items, type)
@@ -246,7 +255,7 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
       }
       feeds.push(feed)
     }
-    if (!feed.id || !feed.title || ! feed.color) {
+    if (!feed.id || !feed.title || !feed.color) {
       feed.id = item.feed_id
       feed.title = item.feed_title
       feed.color = getFeedColor(feeds)

@@ -110,10 +110,27 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
   let body = {
     feeds: bodyFeeds
   }
-  return fetch({
-    url: 'http://api.rizzle.net/feeds/',
-    body
+  return fetch('https://api.rizzle.net/feeds/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
   })
+    .then(res => {
+      return res.json()
+    })
+    .then(items => items.map(mapRizzleServerItemToRizzleItem)
+      .map(item => {
+        const feed = feeds.find(feed => feed._id === item.feed_id)
+        return {
+          ...item,
+          feed_title: feed.title,
+          feed_color: feed.color
+        }
+      }))
+    .catch(err => console.log(err))
 }
 
 export async function markItemRead (item) {
@@ -151,7 +168,8 @@ export async function getFeedDetails (feed) {
   }).then(json => {
     return {
       ...json,
-      ...feed
+      ...feed,
+      color: json.color || feed.color
     }
   }).catch(({feed, message}) => {
     return {feed, message}

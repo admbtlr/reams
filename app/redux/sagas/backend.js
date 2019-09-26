@@ -134,11 +134,11 @@ function * receiveFeeds (dbFeeds) {
       type: 'FEEDS_SET_NEW',
       feeds: newFeeds
     })
+    yield put ({
+      type: 'FEEDS_UPDATE_FEEDS',
+      feeds
+    })
   }
-  yield put ({
-    type: 'FEEDS_UPDATE_FEEDS',
-    feeds
-  })
 }
 
 function * receiveReadItems (readItems) {

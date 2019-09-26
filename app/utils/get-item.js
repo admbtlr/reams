@@ -23,6 +23,7 @@ export const getIndex = (state, type) => {
 
 export const getItemId = (state, index) => {
   if (!state) state = store.getState()
+  if (state.config.isOnboarding) return index
   const items = getItems(state)
   if (!items[index]) {
     console.log(`No item at index: ${index} (${items.length} items)`)

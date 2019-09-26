@@ -2,10 +2,13 @@ const Mercury = require('@postlight/mercury-parser')
 
 const express = require('express')
 const request = require('request')
+const rp = require('request-promise')
+const fs = require("fs")
 const FeedParser = require('feedparser')
 const iconv = require('iconv-lite')
 const zlib = require('zlib')
 const parseFavicon = require('parse-favicon')
+const ColorThief = require('colorthief')
 
 const app = express()
 app.use(express.urlencoded())
@@ -64,10 +67,30 @@ app.get('/feed/', (req, res) => {
     })
 })
 
-app.get('/feed-meta/', (req, res) => {
+app.get('/feed-title/', async (req, res) => {
   let feedMeta
   const feedUrl = req.query.url || 'https://www.theguardian.com/world/rss'
-  const readMeta = (items) => {
+
+  const readTitle = async (items) => {
+    if (items && items.length) {
+      const meta = items[0].meta
+      // console.log(meta)
+      res.send({
+        title: meta.title
+      })
+    } else {
+      res.send({})
+    }
+  }
+
+  fetch(feedUrl, readTitle, () => res.send(), true)
+})
+
+app.get('/feed-meta/', async (req, res) => {
+  let feedMeta
+  const feedUrl = req.query.url || 'https://www.theguardian.com/world/rss'
+
+  const readMeta = async (items) => {
     if (items && items.length) {
       const meta = items[0].meta
       // console.log(meta)
@@ -75,29 +98,41 @@ app.get('/feed-meta/', (req, res) => {
         description: meta.description,
         favicon: meta.favicon,
         image: meta.image.url,
-        link: meta.link,
+        link: meta.link
+          .replace(/\?.*/, '')
+          .replace(/(.*?\/\/.*?\/).*/, '$1'),
         color: meta.color
       }
-      // res.send(feedMeta)
-      getFavicon(feedMeta, res)
+      try {
+        const body = await rp(feedMeta.link)
+        const favicon = await getFavicon(feedMeta.link, body)
+        const color = getColor(body) || (favicon ?
+          await getColorFromFavicon(favicon.url, meta.title.replace(/[^A-Za-z]/g, '')) :
+          null)
+        feedMeta.favicon = favicon
+        feedMeta.color = color || feedMeta.color
+      } catch (e) {
+        console.log(e)
+      }
+      res.send(feedMeta)
     } else {
       res.send({})
     }
   }
-  const getFavicon = (feedMeta, res) => {
-    request(feedMeta.link, (err, resp, body) => {
-      if (err) {
-        console.log(err)
-        res.send(feedMeta)
-      }
-      parseFavicon.parseFavicon(body, {}).then(favicons => {
+
+  const getFavicon = async (link, body) => {
+    return parseFavicon.parseFavicon(body, {})
+      .then(favicons => {
+        // console.log(favicons)
         let favicon
         const getSize = f => f.size
           ? f.size.split('x')[0]
           : 0
         if (favicons && favicons.length > 0) {
           favicons = favicons.sort((a, b) => getSize(a) - getSize(b))
-            .filter(f => f.type && f.type === 'image/png')
+            .filter(f => f.type && f.type === 'image/png'
+              || (f.path && f.path.indexOf('png') !== -1)
+              || (f.url && f.url.indexOf('png') !== -1))
           if (favicons.length) {
             // try and get the smallest one larger than 63
             favicon = favicons.find(f => getSize(f) > 63)
@@ -108,20 +143,46 @@ app.get('/feed-meta/', (req, res) => {
           if (favicon.url && favicon.url.startsWith('//')) {
             favicon.url = 'https:' + favicon.url
           } else if (favicon.url && favicon.url.startsWith('/')) {
-            favicon.url = (feedMeta.link.endsWith('/') ?
-              feedMeta.link.substring(0, feedMeta.link.length - 1) :
-              feedMeta.link
+            favicon.url = (link.endsWith('/') ?
+              link.substring(0, link.length - 1) :
+              link
             ) + favicon.url
           } else if (!favicon.url && favicon.path) {
-            favicon.url = feedMeta.link.substring(0, feedMeta.link.length - 1) + favicon.path
+            if (favicon.path.startsWith('//')) {
+              favicon.url = 'https:' + favicon.path
+            } else {
+              favicon.url = link.substring(0, link.length - 1) + favicon.path
+            }
           }
         }
-        feedMeta.favicon = favicon
-        res.send(feedMeta)
-      }).catch(err => {
-        res.send(feedMeta)
+        return favicon
       })
+  }
+
+  const getColor = (body) => {
+    const themeColor = /<meta.*?name="theme-color".*?content="(.*?)"/.exec(body)
+    const tileColor = /<meta.*?name="msapplication-TileColor".*?content="(.*?)"/.exec(body)
+    let color
+    if (themeColor && themeColor.length > 0 && themeColor[1] !== '#ffffff') {
+      color = themeColor[1]
+    } else if (tileColor && tileColor.length > 0 && tileColor[1] !== '#ffffff') {
+      color = tileColor[1]
+    }
+    return color
+  }
+
+  const getColorFromFavicon = async (faviconUrl, fileName) => {
+    const path = `/tmp/${fileName}.png`
+    return rp.get({
+      url: faviconUrl,
+      encoding: null
     })
+      .then(res => {
+        const buffer = Buffer.from(res, 'utf8')
+        fs.writeFileSync(path, buffer)
+        return ColorThief.getPalette(path, 3)
+      })
+      .then(palette => `rgb(${palette[0].join(',')})`)
   }
 
   fetch(feedUrl, readMeta, () => res.send(), true)
@@ -198,7 +259,7 @@ function fetch (feed, done, fail, includeMeta) {
 
     // Define our handlers
     req
-      .on('error', function (err) {
+      .on('error', function (error) {
         console.log(error)
         done(items)
         return
@@ -225,7 +286,7 @@ function fetch (feed, done, fail, includeMeta) {
     done(items)
   })
 
-  feedparser.on('readable', function (includeMeta) {
+  feedparser.on('readable', function () {
     let item
     while (item = this.read()) {
       items.push(filterFields(item, includeMeta))
@@ -237,7 +298,7 @@ function fetch (feed, done, fail, includeMeta) {
 }
 
 function filterFields(item, includeMeta) {
-  const toRemove = [
+  let toRemove = [
     'summary',
     'date',
     'comments',
@@ -254,9 +315,11 @@ function filterFields(item, includeMeta) {
     'rss:guid',
     'media:content',
     'dc:creator',
-    'dc:date',
-    'meta'
+    'dc:date'
   ]
+  if (!includeMeta) {
+    toRemove.push('meta')
+  }
   toRemove.forEach(field => {
     delete item[field]
   })
@@ -278,7 +341,7 @@ function maybeTranslate (res, charset) {
   if (charset && !/utf-*8/i.test(charset)) {
     try {
       iconv = new Iconv(charset, 'utf-8')
-      console.log('Converting from charset %s to utf-8', charset)
+      // console.log('Converting from charset %s to utf-8', charset)
       iconv.on('error', done)
       // If we're using iconv, stream will be the output of iconv
       // otherwise it will remain the output of request
