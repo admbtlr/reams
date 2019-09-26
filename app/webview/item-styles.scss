@@ -99,12 +99,16 @@ body {
     -webkit-hyphens: none;
   }
 
-  @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-    &.#{$name} {
-      h1, h2, h3 {
-        color: $value;
-      }
-    }
+  // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
+  //   &.#{$name} {
+  //     h1, h2, h3 {
+  //       color: $value;
+  //     }
+  //   }
+  // }
+
+  h1, h2, h3 {
+    color: var(--feed-color);
   }
 
   h1, h2 {
@@ -458,12 +462,15 @@ body {
     }
   }
 
-  @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-    &.#{$name} {
-      ul li:before {
-        background-color: $value;
-      }
-    }
+  // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
+  //   &.#{$name} {
+  //     ul li:before {
+  //       background-color: $value;
+  //     }
+  //   }
+  // }
+  ul li:before {
+    background-color: var(--feed-color);
   }
 
   // guardian specific stuff
@@ -831,53 +838,104 @@ article > div:not(:last-of-type) {
 
 
 @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-  .itemArticle.#{$name}, body.#{$name} .itemArticle {
-    a, a:active, a:visited {
-      // color: $value;
-      // text-decoration: none;
-      -webkit-text-decoration-color: $value;
-    }
+  // .itemArticle.#{$name}, body.#{$name} .itemArticle {
+  //   a, a:active, a:visited {
+  //     // color: $value;
+  //     // text-decoration: none;
+  //     -webkit-text-decoration-color: $value;
+  //   }
 
-    blockquote.short-blockquote, .pullquote, aside {
-      color: $value;
-    }
+  //   blockquote.short-blockquote, .pullquote, aside {
+  //     color: $value;
+  //   }
 
-    *:not(:first-of-type) div,
-      * div:not(:first-of-type),
-      div:not(:first-of-type) {
-      &:before {
-        background-color: $value;
+  //   *:not(:first-of-type) div,
+  //     * div:not(:first-of-type),
+  //     div:not(:first-of-type) {
+  //     &:before {
+  //       background-color: $value;
+  //     }
+  //   }
+
+  //   &:not(.dropCapIsMonochrome) {
+  //     & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         color: $value;
+  //       }
+  //     }
+  //   }
+
+  //   &.dropCapIsStroke {
+  //      & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         color: transparent;
+  //         -webkit-text-stroke: 2px #444444;
+  //       }
+  //     }
+  //   }
+
+  //   &.dropCapIsStroke:not(.dropCapIsMonochrome) {
+  //      & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         -webkit-text-stroke-color: $value;
+  //       }
+  //     }
+  //   }
+  // }
+}
+
+.itemArticle {
+  a, a:active, a:visited {
+    // color: $value;
+    // text-decoration: none;
+    -webkit-text-decoration-color: var(--feed-color);
+  }
+
+  blockquote.short-blockquote, .pullquote, aside {
+    color: var(--feed-color);
+  }
+
+  *:not(:first-of-type) div,
+    * div:not(:first-of-type),
+    div:not(:first-of-type) {
+    &:before {
+      background-color: var(--feed-color);
+    }
+  }
+
+  &:not(.dropCapIsMonochrome) {
+    & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        color: var(--feed-color);
       }
     }
+  }
 
-    &:not(.dropCapIsMonochrome) {
-      & > p:not(.short-para):first-of-type,
-        & > div:first-of-type > p:not(.short-para):first-of-type,
-        & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-        &:first-letter {
-          color: $value;
-        }
+  &.dropCapIsStroke {
+     & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        color: transparent;
+        -webkit-text-stroke: 2px #444444;
       }
     }
+  }
 
-    &.dropCapIsStroke {
-       & > p:not(.short-para):first-of-type,
-        & > div:first-of-type > p:not(.short-para):first-of-type,
-        & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-        &:first-letter {
-          color: transparent;
-          -webkit-text-stroke: 2px #444444;
-        }
-      }
-    }
-
-    &.dropCapIsStroke:not(.dropCapIsMonochrome) {
-       & > p:not(.short-para):first-of-type,
-        & > div:first-of-type > p:not(.short-para):first-of-type,
-        & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-        &:first-letter {
-          -webkit-text-stroke-color: $value;
-        }
+  &.dropCapIsStroke:not(.dropCapIsMonochrome) {
+     & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        -webkit-text-stroke-color: var(--feed-color);
       }
     }
   }

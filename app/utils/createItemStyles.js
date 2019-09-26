@@ -137,7 +137,7 @@ export function createItemStyles (item, prevStyles) {
       isMultiply,
       isScreen,
       isCoverImageColorDarker,
-      color: pickOne(getNames(), color),
+      color: pickOne(getNames()),
       resizeMode: isContain ? 'contain' : 'cover',
       align: ['left', 'center', 'right', 'center', 'center'][Math.floor(Math.random() * 5)],
       isInline: isCoverInline

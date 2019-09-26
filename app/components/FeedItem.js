@@ -231,19 +231,24 @@ class FeedItem extends React.Component {
     }
 
     const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkBackground ? 'dark-background' : ''}">
-      <head>
-        <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-      </head>
-      <body class="${visibleClass} ${scrollingClass} ${blockquoteClass} ${this.props.displayMode}" data-cover="${data}">
-        <article
-          class="${articleClasses}"
-          style="min-height: ${height}px; width: 100vw;">
-          ${body}
-        </article>
-      </body>
-      <script src="${server}webview/js/feed-item.js"></script>
-    </html>`
+  <head>
+    <style>
+:root {
+  --feed-color: ${hslString(this.props.item.feed_color)};
+}
+    </style>
+    <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  </head>
+  <body class="${visibleClass} ${scrollingClass} ${blockquoteClass} ${this.props.displayMode}" data-cover="${data}">
+    <article
+      class="${articleClasses}"
+      style="min-height: ${height}px; width: 100vw;">
+      ${body}
+    </article>
+  </body>
+  <script src="${server}webview/js/feed-item.js"></script>
+</html>`
 
     const that = this
 
