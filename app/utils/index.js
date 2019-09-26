@@ -127,14 +127,15 @@ function hashFnv32a(str, asString, seed) {
 
 
 export function getFeedColor (feeds) {
-  const { desaturated } = require('./colors.json')
-  const colorNames = Object.keys(desaturated)
-  const taken = feeds.length < 12 ?
-    feeds.map(feed => feed.color) :
-    undefined
-  let randomIndex = Math.floor(Math.random() * colorNames.length)
-  while (taken && taken.indexOf(colorNames[randomIndex]) !== -1) {
-    randomIndex = Math.floor(Math.random() * colorNames.length)
-  }
-  return colorNames[randomIndex]
+  // const { desaturated } = require('./colors.json')
+  // const colorNames = Object.keys(desaturated)
+  // const taken = feeds.length < 12 ?
+  //   feeds.map(feed => feed.color) :
+  //   undefined
+  // let randomIndex = Math.floor(Math.random() * colorNames.length)
+  // while (taken && taken.indexOf(colorNames[randomIndex]) !== -1) {
+  //   randomIndex = Math.floor(Math.random() * colorNames.length)
+  // }
+  // return colorNames[randomIndex]
+  return [Math.round(Math.random() * 360), 40, 50]
 }
