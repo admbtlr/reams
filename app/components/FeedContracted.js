@@ -17,6 +17,7 @@ import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg
 import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
+import FeedIconContainer from '../containers/FeedIcon'
 
 class FeedContracted extends React.PureComponent {
 
@@ -146,6 +147,7 @@ class FeedContracted extends React.PureComponent {
       feedTitle,
       feedColor,
       feedDescription,
+      feedIconDimensions,
       feedId,
       feedIsLiked,
       feedIsMuted,
@@ -174,7 +176,7 @@ class FeedContracted extends React.PureComponent {
     const shadowStyle = {
       shadowColor: 'black',
       shadowRadius: 5,
-      shadowOpacity: 0.3,
+      shadowOpacity: 0.2,
       shadowOffset: {
         width: -5,
         height: 5
@@ -252,7 +254,7 @@ class FeedContracted extends React.PureComponent {
               justifyContent: 'flex-end',
               alignItems: 'flex-start',
               // justifyContent: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.2)'
+              backgroundColor: 'rgba(0, 0, 0, 0.4)'
             }}>
               { feedIsLiked &&
                 <View style={{
@@ -273,10 +275,16 @@ class FeedContracted extends React.PureComponent {
                 </View>
               }
               <View style={{
-                backgroundColor: hslString(feedColor, 'desaturated'),
-                paddingLeft: 3,
-                paddingRight: 3
+                paddingLeft: 4,
+                paddingRight: 4,
+                paddingBottom: 2,
+                flexDirection: 'row'
               }}>
+                <FeedIconContainer
+                  id={feedId}
+                  dimensions={feedIconDimensions}
+                  bgColor={feedColor}
+                />
                 <Text style={{
                   ...textStyles,
                   flexWrap: 'wrap',
@@ -285,9 +293,9 @@ class FeedContracted extends React.PureComponent {
                 }}>{feedTitle}</Text>
               </View>
               <View style={{
-                backgroundColor: hslString(feedColor, 'desaturated'),
-                paddingLeft: 3,
-                paddingRight: 3
+                paddingLeft: 4,
+                paddingRight: 4,
+                paddingBottom: 2
               }}>
                 <Text style={{
                   ...textStyles,

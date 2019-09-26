@@ -31,12 +31,14 @@ export function feedsLocal (state = initialState, action) {
       feeds = state.feeds.map(f => f)
       let feed = feeds.find(f => f._id === action.id)
       if (feed) {
-        const errors = feed.cachingErrors || 0
-        feed.cachingErrors = errors + 1
+        const errors = feed.numCachingErrors || 0
+        feed.numCachingErrors = errors + 1
+        feed.lastCachingError = Date.now()
       } else {
         feeds.push({
           _id: action.id,
-          cachingErors: 1
+          numCachingErrors: 1,
+          lastCachingError: Date.now()
         })
       }
       return {

@@ -27,7 +27,7 @@ const mapStateToProps = (state, ownProps) => {
       coverImageId,
       coverImageDimensions,
       cachedCoverImageId: feedLocal && feedLocal.cachedCoverImageId,
-      favicon: feed.favicon
+      feedIconDimensions: feedLocal && feedLocal.cachedIconDimensions
     }
   } else {
     return {

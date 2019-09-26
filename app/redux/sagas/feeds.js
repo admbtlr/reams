@@ -3,6 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
 import { addFeed, getFeedDetails } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../../utils/'
+import { hexToHsl, rgbToHsl } from '../../utils/colors'
 import feeds from '../../utils/seedfeeds.js'
 import { addFeedToFirestore, getFeedsFS, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
@@ -86,7 +87,8 @@ export function * inflateFeeds () {
   for (let feed of feeds) {
     yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
     if (feed.isInflated) continue
-    const details = yield call(getFeedDetails, feed)
+    let details = yield call(getFeedDetails, feed)
+    details = convertColorIfNecessary(details)
     const inflatedFeed = {
       ...feed,
       ...details,
@@ -97,8 +99,32 @@ export function * inflateFeeds () {
       type: 'FEEDS_UPDATE_FEED',
       feed: inflatedFeed
     })
+    upsertFeedsFS([inflatedFeed])
   }
   yield cacheFeedFavicons()
+}
+
+function convertColorIfNecessary (details) {
+  let color
+  if (details.color && details.color.indexOf('#') === 0 && details.color.length === 7) {
+    color = hexToHsl(details.color.substring(1))
+  } else if (details.color && details.color.indexOf('rgb') === 0) {
+    let rgb = details.color.substring(4, details.color.length - 1).split(',')
+      .map(l => l.trim())
+    color = rgbToHsl(Number.parseInt(rgb[0], 10), Number.parseInt(rgb[1], 10), Number.parseInt(rgb[2], 10))
+  } else {
+    color = [Math.round(Math.random() * 360), 50, 30]
+  }
+  if (color[1] > 70) {
+    color[1] = 30 + (color[1] - 30) / 2
+  }
+  if (color[2] > 50) {
+    color[2] = 30 + (color[2] - 30) / 2
+  }
+  return {
+    ...details,
+    color: color || details.color
+  }
 }
 
 function * cacheFeedFavicons () {
@@ -107,7 +133,9 @@ function * cacheFeedFavicons () {
   for (let feed of feeds) {
     const feedLocal = feedsLocal.find(fl => fl._id === feed._id)
     const shouldCacheIcon = feedLocal ?
-      !feedLocal.hasCachedIcon && (!feedLocal.cachingErrors || feedLocal.cachingErrors <= 3) :
+      !feedLocal.hasCachedIcon &&
+        (feedLocal.numCachingErrors || 0) < 10 &&
+        (Date.now() - (feedLocal.lastCachingError || 0)) > (1000 * 60) :
       true
     if (feed.favicon && shouldCacheIcon) {
       try {

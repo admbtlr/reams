@@ -14,6 +14,7 @@ import Animated, { Easing } from 'react-native-reanimated'
 import { PanGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler'
 import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
+import FeedIconContainer from '../containers/FeedIcon'
 import TextButton from './TextButton'
 import XButton from './XButton'
 
@@ -194,6 +195,7 @@ class FeedExpanded extends React.Component {
       feedTitle,
       feedColor,
       feedDescription,
+      feedIconDimensions,
       feedId,
       feedIsLiked,
       feedIsMuted,
@@ -360,7 +362,7 @@ class FeedExpanded extends React.Component {
               paddingLeft: this.margin,
               paddingRight: this.margin,
               position: 'absolute',
-              backgroundColor: 'rgba(0, 0, 0, 0.2)'
+              backgroundColor: 'rgba(0, 0, 0, 0.4)'
             }}>
               <TapGestureHandler
                 onHandlerStateChange={this.onCloseButtonPress}
@@ -391,10 +393,14 @@ class FeedExpanded extends React.Component {
                 ],
               }}>
                 <View style={{
-                  backgroundColor: hslString(feedColor, 'desaturated'),
                   paddingLeft: 10,
                   paddingRight: 10
                 }}>
+                  <FeedIconContainer
+                    id={feedId}
+                    dimensions={feedIconDimensions}
+                    bgColor={feedColor}
+                  />
                   <Animated.Text style={{
                     ...textStyles,
                     flexWrap: 'wrap',
@@ -403,7 +409,6 @@ class FeedExpanded extends React.Component {
                   }}>{feedTitle}</Animated.Text>
                 </View>
                 <View style={{
-                  backgroundColor: hslString(feedColor, 'desaturated'),
                   paddingBottom: 5,
                   paddingLeft: 10,
                   paddingRight: 10
