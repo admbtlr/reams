@@ -26,7 +26,7 @@ class Share extends React.Component {
       isOpen: true,
       type: '',
       value: '',
-      rssUrl: ''
+      rssUrls: []
     }
     Sentry
       .config('https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309')
@@ -66,7 +66,45 @@ class Share extends React.Component {
     null
 }
 
+async checkKnownRssLocations (url) {
+  // Wordpress: /feed and /<page>/feed
+  // Tumblr: /rss
+  let feeds = []
+  let matches = url.match(/(http[s]*:\/\/.+?(\/|$))(.*?(\/|$))/)
+  const host = matches[1]
+  const subfolder = matches[3].length > 0 ?
+    (matches[3].indexOf('/') === matches[3].length - 1 ?
+      matches[3] :
+      matches[3] + '/') :
+    ''
+  console.log('URL: ' + url)
+  console.log('SUBFOLDER: ' + subfolder)
+
+  let feedUrl, res, json
+
+  feedUrl = host + 'feed'
+  res = await fetch(host + 'feed')
+  if (res.ok) {
+    feeds.push(feedUrl)
+  }
+
+  feedUrl = host + subfolder + 'feed'
+  res = await fetch(host + 'feed')
+  if (res.ok) {
+    feeds.push(feedUrl)
+  }
+
+  feedUrl = host + 'rss'
+  res = await fetch(host + 'feed')
+  if (res.ok) {
+    feeds.push(feedUrl)
+  }
+
+  return feeds
+}
+
 async searchForRSS (url) {
+    let feeds = []
     let matches = url.match(/(http[s]*:\/\/.+?(\/|$))/)
     if (!matches || matches.length === 0) {
       return
@@ -81,22 +119,36 @@ async searchForRSS (url) {
       let linkTag = this.checkForRSSHeader(body)
       if (linkTag) {
         console.log('FOUND RSS URL IN HEADER: ' + linkTag)
-        return this.parseLinkTag(linkTag, homeUrl)
+        feeds.push(this.parseLinkTag(linkTag, homeUrl))
       }
 
       linkTag = this.checkForLinkToRssFile(body)
       if (linkTag) {
         console.log('FOUND RSS URL IN A LINK: ' + linkTag)
-        return this.parseLinkTag(linkTag, homeUrl)
+        feeds.push(this.parseLinkTag(linkTag, homeUrl))
       }
 
       linkTag = this.checkForLinkWithRssInText(body)
       if (linkTag) {
         console.log('FOUND RSS URL IN A LINK WITH RSS TEXT: ' + linkTag)
-        return this.parseLinkTag(linkTag, homeUrl)
+        feeds.push(this.parseLinkTag(linkTag, homeUrl))
       }
 
-      return null
+      feeds = feeds.concat(await this.checkKnownRssLocations(url))
+        .filter((feed, index, self) => self.indexOf(feed) === index)
+
+      let fullFeeds = []
+      for (feed of feeds) {
+        const res = await fetch('https://api.rizzle.net/feed-title/?url=' + feed)
+        const json = await res.json()
+        fullFeeds.push({
+          title: json.title,
+          url: feed
+        })
+      }
+      console.log(fullFeeds)
+
+      return fullFeeds
     } catch (error) {
       console.log(`Error fetching page: ${error.message}`)
       throw `Error fetching page: ${error.message}`
@@ -119,21 +171,22 @@ async searchForRSS (url) {
     try {
       const data = await ShareExtension.data()
       let { type, value } = data
-      value = /(http[a-zA-Z0-9:\/\.\-?&=]*)/.exec(value)
+      console.log(`Value: ${value}`)
+      console.log(`Type: ${type}`)
+      value = /(http[a-zA-Z0-9:\/\.\-?&=]*)/.exec(value)[1]
       this.setState({
         isOpen: true,
         type,
         value,
         searchingForRss: true
       })
-      const rssUrl = await this.searchForRSS(value)
+      const rssUrls = await this.searchForRSS(value)
       let state = {
         ...this.state,
         searchingForRss: false
       }
-      console.log(`Value of rssUrl is ${rssUrl}`)
-      if (rssUrl) {
-        state.rssUrl = rssUrl
+      if (rssUrls && rssUrls.length > 0) {
+        state.rssUrls = rssUrls
       }
       this.setState(state)
     } catch(e) {
@@ -153,9 +206,9 @@ async searchForRSS (url) {
 
   closing = () => this.setState({ isOpen: false })
 
-  async addFeed () {
-    console.log(this.state.rssUrl)
-    await SharedGroupPreferences.setItem('feed', this.state.rssUrl, this.group)
+  async addFeed (url) {
+    // console.log(this.state.rssUrl)
+    await SharedGroupPreferences.setItem('feed', url, this.group)
     this.closing()
   }
 
@@ -172,6 +225,7 @@ async searchForRSS (url) {
       fontSize: 18,
       textAlign: 'center'
     }
+    console.log(this.state.rssUrls)
     return (
       <Modal
         backdrop={false}
@@ -205,22 +259,21 @@ async searchForRSS (url) {
                   letterSpacing: -5
                 }}/></Text>
               }
-              { (!this.state.searchingForRss && !this.state.rssUrl) &&
+              { (!this.state.searchingForRss && !this.state.rssUrls) &&
                 <Text
                   style={{
                     ...textStyle,
                     color: 'white'
                   }}>No feed found :(</Text>
               }
-              { !!this.state.rssUrl &&
-                <TouchableOpacity
+              { !!this.state.rssUrls && this.state.rssUrls.map(feed => (<TouchableOpacity
                   style={{
-                    paddingHorizontal: 28
+                    paddingHorizontal: 10
                   }}
-                  onPress={this.addFeed}>
-                  <Text style={textStyle}>Add this site to your Rizzle feed</Text>
-                </TouchableOpacity>
-              }
+                  onPress={() => { this.addFeed(feed.url) }}>
+                  <Text style={textStyle}>{ feed.title }</Text>
+                </TouchableOpacity>)
+              )}
             </View>
             <View style={{
               flex: 1,
