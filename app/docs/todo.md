@@ -1,28 +1,35 @@
 # To Do
 
-- why does the ipad crash?
-    + hypothesis: it's memory; try compressing the styles again
-- figure out why the decoration thread crashes
-- figure out why some items never get decorated
-- fix bug with second item never showing its title
-- stop items from rendering all the time
-- make extension work with more data types
-- why isn't the extension feed search working?
-- ~~fix feeds list~~
-    + watch https://react.statuscode.com/link/69708/eb58c0bc0e
-- make extension search for common feed locations
-    + https://www.howtogeek.com/318401/how-to-find-or-create-an-rss-feed-for-any-website/
-- present found feeds by title in share extension
-- upgrade to RN 0.60
-- placeholder images (use letters?)
+- list of feeds to add
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
+- dark mode (RN 0.61? dark-mode module?)
+- why does the ipad crash?
+    + hypothesis: it's memory; try compressing the styles again
+- figure out why the decoration thread crashes (does it even?)
+- figure out why some items never get decorated
+- fix bug with second item never showing its title
+- fix bug with items re-rendering and losing your place when getting new items
+- make extension work with more data types
+- upgrade to RN 0.60
+- login with apple
+    + https://github.com/expo/expo/blob/master/docs/pages/versions/unversioned/sdk/apple-authentication.md
+- placeholder images (use letters?)
 - scroll effects
 - fix wired.com custom parser
 - make buttons use reanimate
 - add a feed manually
 - newsletters
 
+- ~~onboarding~~
+- ~~make the icons work~~
+s- ~~make the batched fetch work~~
+- ~~why isn't the extension feed search working?~~
+- ~~fix feeds list~~
+    + watch https://react.statuscode.com/link/69708/eb58c0bc0e
+- ~~make extension search for common feed locations~~
+    + https://www.howtogeek.com/318401/how-to-find-or-create-an-rss-feed-for-any-website/
+- ~~present found feeds by title in share extension~~
 - ~~get feed colors~~
 - ~~allow arbitrary feed colours~~
 - ~~fix universal links / magic link auth~~

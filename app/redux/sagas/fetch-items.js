@@ -60,12 +60,12 @@ export function * fetchUnreadItems (action) {
 }
 
 export function * fetchItems (type = 'unread') {
-  debugger
   yield put({
     type: 'ITEMS_IS_LOADING',
     isLoading: true
   })
   let feeds = yield select(getFeeds)
+  feeds = feeds.filter(f => !f.isMuted)
   const feedsLocal = yield select(getFeedsLocal)
   feeds = feeds.map(f => {
     const feedLocal = feedsLocal.find(fl => fl._id === f._id)
@@ -99,7 +99,7 @@ export function * fetchItems (type = 'unread') {
   } finally {
     // if isFirstBatch is still true, we didn't get any items
     // so don't set the last updated date
-    if (!(yield cancelled() || didError || isFirstBatch)) {
+    if (!(didError || isFirstBatch)) {
       yield put({
         type: type === 'unread' ?
           'UNREAD_ITEMS_SET_LAST_UPDATED' :
