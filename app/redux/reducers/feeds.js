@@ -169,7 +169,7 @@ export function feeds (state = initialState, action) {
         feeds: state.feeds.map(feed => feed._id === action.id ?
           {
             ...feed,
-            muted: false
+            isMuted: false
           } :
           feed)
       }

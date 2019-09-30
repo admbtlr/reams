@@ -173,29 +173,13 @@ export const itemsUnread = (state = initialState, action) => {
         index
       }
 
-    // case 'ITEMS_FLATE':
-    //   // the items in the action are already inflated/deflated
-    //   const flatedItems = action.itemsToInflate
-    //     .concat(action.itemsToDeflate)
-    //   items = [...state.items]
-    //   flatedItems.forEach(fi => {
-    //     // some of the items might have been deleted in Firebase
-    //     // which means that they will come back as undefined
-    //     // I think we can just ignore them
-    //     // TODO check whether this is really the case!
-    //     if (fi) {
-    //       const index = items.findIndex(item => item._id === fi._id)
-    //       // don't deflate an item that is currently in view
-    //       if (!(Math.abs(index - state.index) <= 1
-    //         && typeof fi.content_html === 'undefined')) {
-    //         items[index] = fi
-    //       }
-    //     }
-    //   })
-    //   return {
-    //     ...state,
-    //     items
-    //   }
+    case 'FEED_TOGGLE_MUTE':
+      items = [...state.items]
+      // if there are any items from this feed, we must be toggling mute ON
+      return {
+        ...state,
+        items: items.filter(item => item.feed_id !== action.id)
+      }
 
     case 'ITEMS_CLEAR_READ_SUCCESS':
       items = [...state.items]
