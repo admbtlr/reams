@@ -34,12 +34,14 @@ class FeedIcon extends React.Component {
       const filePath = `${RNFS.DocumentDirectoryPath}/feed-icons/rendered/${id}.png`
       InteractionManager.runAfterInteractions()
         .then(_ => RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-icons/rendered`))
+        .then(_ => InteractionManager.runAfterInteractions())
         .then(_ => this.surface && this.surface.captureFrame({
           type: 'png',
           format: 'file',
           quality: 1,
           filePath
         }))
+        .then(_ => InteractionManager.runAfterInteractions())
         .then(success => {
           success && that.props.setRenderedFeedIcon(id)
         })
