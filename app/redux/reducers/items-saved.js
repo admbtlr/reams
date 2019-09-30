@@ -176,7 +176,7 @@ export const itemsSaved = (state = initialState, action) => {
       return itemsFlate(action, state)
 
     case 'ITEM_DECORATION_SUCCESS':
-      return itemDecorationSuccess(action, state)
+      return action.isSaved ? itemDecorationSuccess(action, state) : state
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
       return updateCurrentItemTitleFontSize(action, state)

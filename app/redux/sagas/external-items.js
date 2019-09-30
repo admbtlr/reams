@@ -21,7 +21,8 @@ export function * saveExternalUrl (action) {
     const decoration = yield decorateItem(item)
     yield put({
       type: 'ITEM_DECORATION_SUCCESS',
-      ...decoration
+      ...decoration,
+      isSaved: true
     })
 
     // got to go back and find it cos of dodgy reducer side effects

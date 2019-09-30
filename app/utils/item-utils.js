@@ -246,7 +246,7 @@ export function setShowCoverImage (item, currentItem) {
 }
 
 export function removeCoverImageDuplicate (item) {
-  if (item.showCoverImage && item.styles.coverImage.isInline && item.banner_image) {
+  if (item.showCoverImage && item.styles && item.styles.coverImage.isInline && item.banner_image) {
     const coverUrl = item.banner_image
     const imgRegEx = /<img.*?>/g
     let content_html = item.content_html || ''

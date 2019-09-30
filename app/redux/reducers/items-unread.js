@@ -258,7 +258,7 @@ export const itemsUnread = (state = initialState, action) => {
       return itemToggleMercury(action, state)
 
     case 'ITEM_DECORATION_SUCCESS':
-      return itemDecorationSuccess(action, state)
+      return action.isSaved ? state : itemDecorationSuccess(action, state)
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
       return updateCurrentItemTitleFontSize(action, state)
