@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   Image,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
-import Modal from 'react-native-modalbox'
+import Modal from 'react-native-modal'
 import ShareExtension from 'react-native-share-extension'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
 import { Sentry } from 'react-native-sentry'
 // import { RNSKBucket } from 'react-native-swiss-knife'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 
+import TextButton from './TextButton'
+import XButton from './XButton'
 import {hslString} from '../utils/colors'
 
 
@@ -228,92 +230,96 @@ async searchForRSS (url) {
     console.log(this.state.rssUrls)
     return (
       <Modal
-        backdrop={false}
+        hasBackdrop={false}
         style={{ backgroundColor: 'transparent' }}
-        position="center"
-        isOpen={this.state.isOpen}
-        onClosed={this.onClose}
-      >
-        <View style={{ alignItems: 'center', justifyContent:'center', flex: 1 }}>
+        isVisible={this.state.isOpen}
+        onModalHide={this.onClose}
+        onSwipeComplete={() => this.setState({ isOpen: false })}
+        swipeDirection="down"
+        >
+        <View style={{
+          alignItems: 'center',
+          justifyContent:'center',
+          flex: 1
+        }}>
           <View style={{
             backgroundColor: hslString('rizzleBG'),
-            width: 300,
-            height: 250,
+            width: 350,
+            height: 300,
             padding: 14,
             borderRadius: 14
           }}>
             <View style={{
               flex: 1,
-              justifyContent: 'center'
+              justifyContent: 'space-between'
             }}>
+              <XButton
+                onPress={() => this.setState({ isOpen: false })}
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 0
+                }}
+              />
+              <Text
+                style={{
+                  ...textStyle,
+                  fontFamily: 'IBMPlexMono',
+                  marginBottom: 10
+                }}>Select a feed:</Text>
               { this.state.searchingForRss &&
-                <Text
-                  style={{
-                    ...textStyle,
+                <Fragment>
+                  <Text
+                    style={{
+                      ...textStyle,
+                      color: hslString('rizzleText'),
+                      paddingLeft: 20,
+                      paddingRight: 20
+                    }}>Looking for an available feed<AnimatedEllipsis style={{
                     color: hslString('rizzleText'),
-                    paddingLeft: 20,
-                    paddingRight: 20
-                  }}>Looking for an available feed<AnimatedEllipsis style={{
-                  color: hslString('rizzleText'),
-                  fontSize: 16,
-                  letterSpacing: -5
-                }}/></Text>
+                    fontSize: 16,
+                    letterSpacing: -5
+                  }}/></Text>
+                  <Text> </Text>
+                </Fragment>
               }
               { (!this.state.searchingForRss && !this.state.rssUrls) &&
-                <Text
-                  style={{
-                    ...textStyle,
-                    color: 'white'
-                  }}>No feed found :(</Text>
+                <Fragment>
+                  <Text
+                    style={{
+                      ...textStyle
+                    }}>No feed found :(</Text>
+                </Fragment>
               }
-              { !!this.state.rssUrls && this.state.rssUrls.map(feed => (<TouchableOpacity
-                  style={{
-                    paddingHorizontal: 10
-                  }}
-                  onPress={() => { this.addFeed(feed.url) }}>
-                  <Text style={textStyle}>{ feed.title }</Text>
-                </TouchableOpacity>)
-              )}
+              { !!this.state.rssUrls && this.state.rssUrls.length > 0 &&
+                <Fragment>
+                    { this.state.rssUrls.map((feed, index) => (<TouchableOpacity
+                        key={index}
+                        style={{
+                          paddingHorizontal: 10,
+                          paddingVertical: 5
+                        }}
+                        onPress={() => { this.addFeed(feed.url) }}>
+                        <Text style={{
+                          ...textStyle,
+                          fontFamily: 'IBMPlexSans-Bold'
+                        }}>{ feed.title }</Text>
+                      </TouchableOpacity>))
+                    }
+                  <Text
+                    style={{
+                      ...textStyle,
+                      fontFamily: 'IBMPlexMono',
+                      marginBottom: 10
+                    }}>… or …</Text>
+                </Fragment>
+              }
             </View>
-            <View style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingLeft: 10,
-              paddingRight: 10
-            }}>
-              <View style={{
-                height: 1,
-                width: 70,
-                backgroundColor: hslString('rizzleText')
-              }}/>
-              <Image
-                source={require('../assets/images/logo.png')}
-                style={{
-                  width: 60,
-                  height: 60
-                }}/>
-              <View style={{
-                height: 1,
-                width: 70,
-                backgroundColor: hslString('rizzleText')
-              }}/>
-            </View>
-            <View style={{
-              flex: 1,
-              justifyContent: 'center'
-            }}>
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  height: 'auto',
-                  padding: 7
-                }}
-                onPress={this.savePage}>
-                <Text style={textStyle}>Save this page to read in Rizzle</Text>
-              </TouchableOpacity>
-            </View>
+            <TextButton
+              text="Save page in Rizzle"
+              buttonStyle={{ marginBottom: 0 }}
+              onPress={this.savePage}
+            />
           </View>
         </View>
       </Modal>
