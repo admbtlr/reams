@@ -19,7 +19,9 @@ class SwipeableViews extends Component {
     this.props = props
     this.state = {}
     this.panOffset = new Animated.Value(0)
-    panHandler(this.panOffset, Dimensions.get('window').width)
+    if (!this.props.isOnboarding) {
+      panHandler(this.panOffset, Dimensions.get('window').width)
+    }
 
     this.onScrollEnd = this.onScrollEnd.bind(this)
   }
@@ -33,6 +35,9 @@ class SwipeableViews extends Component {
       this.initialiseState(this.props.index)
     }
     this.scrollToItem()
+    if (!this.props.isOnboarding) {
+      panHandler(this.panOffset, Dimensions.get('window').width)
+    }
   }
 
   initialiseState (index) {

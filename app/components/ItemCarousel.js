@@ -31,6 +31,7 @@ class ItemCarousel extends React.Component {
           onChangeIndex={this.onChangeIndex.bind(this)}
           slideCount={this.props.isOnboarding ? 13 : this.props.numItems}
           index={this.props.index}
+          isOnboarding={this.props.isOnboarding}
         />
       )
     } else {
@@ -55,6 +56,7 @@ class ItemCarousel extends React.Component {
       return <OnboardingContainer
         index={index}
         key={index}
+        navigation={this.props.navigation}
       />
     }
     if (index >= 0 && index < this.props.numItems) {

@@ -901,7 +901,7 @@ article > div:not(:last-of-type) {
   font-family: "Iowan Old Style", serif;
 
   h1, h2, h3, h4, h5, figcaption, img + small {
-    font-family: "AvenirNext"
+    font-family: "AvenirNextCondensed-Bold"
   }
 }
 
@@ -1128,11 +1128,27 @@ html.onboarding {
 
   body {
     margin: 0;
-    font-family: "IBMPlexMono";
+    // font-family: "IBMPlexMono";
     width: 100vw;
     background-color: transparent;
-    padding-top: 3rem;
+    padding-top: 2.5rem;
     color: white;
+    overflow: hidden;
+  }
+
+  div.logo {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(/webview/img/rizzle.svg);
+    background-size: cover;
+    background-position: var(--logo-position);
+    background-repeat: no-repeat;
+    opacity: 0.05;
+    overflow: hidden;
+    transform: scale(1.3333);
   }
 
   article {
@@ -1143,15 +1159,25 @@ html.onboarding {
     color: hsl(42, 91%, 60%);
     font-size: 2rem;
     font-weight: inherit;
-    line-height: 2rem;
-    margin-bottom: 2rem;
+    line-height: 1;
+    margin-bottom: 1rem;
     text-align: center;
+  }
+
+  hr {
+    border-top-style: none;
+    margin: 2em;
   }
 
   p {
     font-size: 0.666rem;
     line-height: 1rem;
-    margin: 0 0 1rem;
+    margin: 0 0 2rem 2rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  p:nth-of-type(2n+1) {
+    margin: 0 2rem 2rem 0;
   }
 
   a {
@@ -1165,12 +1191,12 @@ html.onboarding {
     text-align: center;
     font-size: 0.666rem;
     color: hsl(42, 91%, 60%);
-    background-image: url(webview/img/share-arrow.png)
+    background-image: url(/webview/img/share-arrow.png)
   }
 
   img {
     display: block;
-    margin: 0 auto 1rem;
+    margin: -1rem auto 1rem;
   }
 }
 

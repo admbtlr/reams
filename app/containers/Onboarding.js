@@ -23,6 +23,10 @@ const mapDispatchToProps = (dispatch) => {
     }),
     hideLoadingAnimation: () => dispatch({
       type: 'UI_HIDE_LOADING_ANIMATION'
+    }),
+    endOnboarding: () => dispatch({
+      type: 'CONFIG_TOGGLE_ONBOARDING',
+      isOnboarding: false
     })
   }
 }

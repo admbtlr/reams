@@ -47,7 +47,9 @@ class ItemsScreen extends React.Component {
           hidden={false} />
         <ToolbarsContainer navigation={this.props.navigation}/>
         <View style={styles.infoView} />
-        <ItemCarouselContainer style={styles.ItemCarousel} />
+        <ItemCarouselContainer
+          navigation={this.props.navigation}
+          style={styles.ItemCarousel} />
         <RizzleImageViewerContainer />
       </View>
     )

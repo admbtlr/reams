@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import ItemCarousel from '../components/ItemCarousel.js'
 import { getIndex, getItems } from '../utils/get-item'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
   const items = getItems(state)
   const index = getIndex(state)
@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
     state.config.onboardingLength :
     items.length
   return {
+    ...ownProps,
     numItems,
     index,
     displayMode: state.itemsMeta.display,
