@@ -274,6 +274,7 @@ class FeedItem extends React.Component {
 
     return (
       <Animated.View style={{
+        backgroundColor: this.props.isDarkBackground ? hslString('bodyBGDark') : hslString('bodyBGLight'),
         flex: 1,
         overflow: 'hidden',
         transform: [
