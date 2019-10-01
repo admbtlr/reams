@@ -171,7 +171,7 @@ export function getReadItemsFS () {
 
 // }
 
-export function addSavedItemFS (item) {
+export function upsertSavedItemFS (item) {
   return getUserDb().collection('items-saved').doc(item._id)
     .set(item)
     .then(item => {
@@ -179,7 +179,7 @@ export function addSavedItemFS (item) {
       return item
     })
     .catch(err => {
-      log('addSavedItemFS', err)
+      log('upsertSavedItemFS', err)
     })
 }
 

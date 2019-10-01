@@ -3,7 +3,7 @@ import {id} from '../../utils'
 import {
   addReadItemFS,
   addReadItemsFS,
-  addSavedItemFS,
+  upsertSavedItemFS,
   getReadItemsFS,
   getSavedItemsFS,
   removeSavedItemFS,
@@ -142,7 +142,7 @@ export async function markItemsRead (items) {
 }
 
 export const saveItem = (item, folder) => {
-  return addSavedItemFS(item)
+  return upsertSavedItemFS(item)
 }
 
 export const unsaveItem = (item, folder) => {

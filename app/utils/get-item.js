@@ -30,3 +30,11 @@ export const getItemId = (state, index) => {
   }
   return items[index]._id
 }
+
+export const getItem = (state, id, type = 'unread') {
+  const items = type === 'unread' ?
+    state.itemsUnread.items :
+    state.itemsSaved.items
+
+  return items.find(item => item._id === id)
+}

@@ -6,7 +6,7 @@ import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems, filterItemsForFirestoreRead } from './mark-read'
 import { pruneItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
-import { saveExternalUrl } from './external-items'
+import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
 import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
@@ -37,6 +37,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery('FEEDS_UPDATE_FEEDS', fetchUnreadItems)
   yield takeEvery('ITEM_SAVE_ITEM', markItemSaved)
   yield takeEvery('ITEM_UNSAVE_ITEM', markItemUnsaved)
+  yield takeEvery('ITEM_DECORATION_SUCCESS', maybeUpsertSavedItem)
   yield takeEvery('ITEM_UNSAVE_ITEM', inflateItems)
   yield takeEvery('ITEMS_FETCH_ITEMS', clearReadItems)
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchAllItems)

@@ -8,7 +8,14 @@ import { setCoverInline } from '../../utils/createItemStyles'
 import { deflateItem } from '../../utils/item-utils'
 import log from '../../utils/log'
 
-import { getIndex, getItems, getCurrentItem, getDisplay, getFeeds } from './selectors'
+import {
+  getIndex,
+  getItems,
+  getCurrentItem,
+  getDisplay,
+  getFeeds,
+  getSavedItems
+} from './selectors'
 import { getItemsAS, updateItemAS } from '../async-storage'
 
 let pendingDecoration = [] // a local cache
@@ -64,7 +71,7 @@ export function * decorateItems (action) {
                 ...decoration
               })
             } else {
-              yield applyDecoration(decoration)
+              yield applyDecoration(decoration, nextItem.isSaved)
             }
           }
         } catch (error) {
@@ -90,11 +97,12 @@ function consoleLog(txt) {
   }
 }
 
-function * applyDecoration (decoration) {
+function * applyDecoration (decoration, isSaved) {
   yield call(InteractionManager.runAfterInteractions)
   yield put({
     type: 'ITEM_DECORATION_SUCCESS',
-    ...decoration
+    ...decoration,
+    isSaved
   })
   items = yield select(getItems)
   decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
@@ -128,6 +136,10 @@ function * applyDecoration (decoration) {
 
 function * getNextItemToDecorate (pendingDecoration) {
   let nextItem
+  const savedItems = yield select(getSavedItems)
+  nextItem = savedItems.find(item => item.title === 'Loading...')
+  if (nextItem) return nextItem
+
   const items = yield select(getItems)
   const index = yield select(getIndex)
   const feeds = yield select(getFeeds)

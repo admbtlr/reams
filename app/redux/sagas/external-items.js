@@ -1,8 +1,8 @@
 import { put, select } from 'redux-saga/effects'
 import { decorateItem } from './decorate-items'
 import { id } from '../../utils'
-import { addSavedItemFS } from '../firestore/'
-import { getItems } from './selectors'
+import { upsertSavedItemFS } from '../firestore/'
+import { getItems, getItem } from './selectors'
 
 export function * saveExternalUrl (action) {
   let item = {
@@ -29,10 +29,15 @@ export function * saveExternalUrl (action) {
     const items = yield select(getItems, 'saved')
     item = items.find(i => i._id === item._id)
 
-    addSavedItemFS(item)
+    upsertSavedItemFS(item)
   } catch (err) {
     console.log(err)
   }
+}
 
+export function * maybeUpsertSavedItem (action) {
+  if (!action.isSaved) return
+  const item = yield select(getItem, action.item._id, 'saved')
+  upsertSavedItemFS(item)
 }
 

@@ -1,6 +1,7 @@
 import {
   getCurrentItem as getCurrentItemUtils,
   getItems as getItemsUtils,
+  getItem as getItemUtils,
   getIndex as getIndexUtils
 } from '../../utils/get-item'
 
@@ -14,6 +15,10 @@ export function getUnreadItems (state) {
 
 export function getSavedItems (state) {
   return getItemsUtils(state, 'saved')
+}
+
+export function getItem (state, id, type) {
+  return getItemUtil(state, id, type)
 }
 
 export function getDisplay (state) {
