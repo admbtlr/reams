@@ -175,7 +175,8 @@ export const itemsSaved = (state = initialState, action) => {
       return itemsFlate(action, state)
 
     case 'ITEM_DECORATION_SUCCESS':
-      let newState = action.isSaved ? itemDecorationSuccess(action, state) : state
+      if (!action.isSaved) return state
+      let newState = itemDecorationSuccess(action, state)
       newState.items.sort((a, b) => (b.savedAt - a.savedAt))
       return newState
 
