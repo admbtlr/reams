@@ -42,12 +42,11 @@ export const itemsSaved = (state = initialState, action) => {
       return { ...state }
 
     case 'ITEMS_UPDATE_CURRENT_INDEX':
-      if (action.displayMode === 'saved') {
-        newState.index = action.index
-      }
+      if (action.displayMode !== 'saved') return state
+
       return {
         ...state,
-        ...newState
+        index: action.index
       }
 
     case 'ITEM_MARK_READ':
@@ -162,7 +161,7 @@ export const itemsSaved = (state = initialState, action) => {
       })
 
       // order by date
-      items.sort((a, b) => b.savedAt - a.savedAt)
+      items.sort((a, b) => (b.savedAt - a.savedAt))
       index = items.indexOf(currentItem)
       index = index < 0 ? 0 : index
 
@@ -176,7 +175,9 @@ export const itemsSaved = (state = initialState, action) => {
       return itemsFlate(action, state)
 
     case 'ITEM_DECORATION_SUCCESS':
-      return action.isSaved ? itemDecorationSuccess(action, state) : state
+      let newState = action.isSaved ? itemDecorationSuccess(action, state) : state
+      newState.items.sort((a, b) => (b.savedAt - a.savedAt))
+      return newState
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
       return updateCurrentItemTitleFontSize(action, state)

@@ -45,7 +45,8 @@ export function deflateItem (item) {
     readAt: item.readAt,
     title: item.title,
     url: item.url,
-    isSaved: item.isSaved
+    isSaved: item.isSaved,
+    savedAt: item.savedAt
   }
 }
 

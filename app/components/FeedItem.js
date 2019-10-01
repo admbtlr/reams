@@ -169,7 +169,8 @@ class FeedItem extends React.Component {
       showCoverImage,
       styles,
       created_at,
-      excerpt
+      excerpt,
+      savedAt
     } = this.props.item
     // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
@@ -309,7 +310,7 @@ class FeedItem extends React.Component {
             isVisible={this.props.isVisible}
             title={title}
             excerpt={this.props.item.excerpt}
-            date={created_at}
+            date={savedAt || created_at}
             scrollOffset={this.scrollOffset}
             font={styles.fontClasses.heading}
             bodyFont={styles.fontClasses.body}

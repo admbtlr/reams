@@ -18,7 +18,7 @@ export function getSavedItems (state) {
 }
 
 export function getItem (state, id, type) {
-  return getItemUtil(state, id, type)
+  return getItemUtils(state, id, type)
 }
 
 export function getDisplay (state) {

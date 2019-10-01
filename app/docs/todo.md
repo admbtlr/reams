@@ -4,6 +4,7 @@
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - dark mode (RN 0.61? dark-mode module?)
+- use SF symbols
 - why does the ipad crash?
     + hypothesis: it's memory; try compressing the styles again
 - figure out why the decoration thread crashes (does it even?)
