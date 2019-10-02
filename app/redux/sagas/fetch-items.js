@@ -157,11 +157,11 @@ export function * receiveItems (items, type) {
       feeds,
       skipFetchItems: true
     })
-  }
 
-  items = yield cleanUpItems(items, type)
-  console.log('cleaning up items took ' + (Date.now() - now))
-  now = Date.now()
+    items = yield cleanUpItems(items, type)
+    console.log('cleaning up items took ' + (Date.now() - now))
+    now = Date.now()
+  }
 
   yield call(InteractionManager.runAfterInteractions)
   now = Date.now()

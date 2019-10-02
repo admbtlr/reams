@@ -144,11 +144,11 @@ export const itemsSaved = (state = initialState, action) => {
       currentItem = items[state.index]
       newItems = action.items.map(item => ({
         ...item,
-        savedAt: item.savedAt || item.created_at || Date.now(),
+        savedAt: item.savedAt || item.created_at || 0,
         isSaved: true
       }))
       newItems.forEach(newItem => {
-        let indexToUpdate = items.findIndex(item => item.id === newItem.id || item._id === newItem._id)
+        let indexToUpdate = items.findIndex(item => item._id === newItem._id)
         if (indexToUpdate !== -1) {
           items[indexToUpdate] = {
             ...newItem,
@@ -161,7 +161,7 @@ export const itemsSaved = (state = initialState, action) => {
       })
 
       // order by date
-      items.sort((a, b) => (b.savedAt - a.savedAt))
+      items.sort((a, b) => ((b.savedAt || 0) - (a.savedAt || 0) ))
       index = items.indexOf(currentItem)
       index = index < 0 ? 0 : index
 
@@ -177,7 +177,7 @@ export const itemsSaved = (state = initialState, action) => {
     case 'ITEM_DECORATION_SUCCESS':
       if (!action.isSaved) return state
       let newState = itemDecorationSuccess(action, state)
-      newState.items.sort((a, b) => (b.savedAt - a.savedAt))
+      newState.items.sort((a, b) => ((b.savedAt || 0) - (a.savedAt || 0)))
       return newState
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
