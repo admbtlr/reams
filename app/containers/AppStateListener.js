@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch) => {
     appWentActive: () => dispatch({
       type: 'STATE_ACTIVE'
     }),
-    setDarkmode: (isDarkMode) => dispatch({
+    setDarkMode: (isDarkMode) => dispatch({
       type: 'WEBVIEW_SET_DARK_MODE',
       isDarkMode
     })

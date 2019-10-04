@@ -47,11 +47,9 @@ class AppStateListener extends React.Component {
   async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.props.appWentActive()
-      if (useDarkMode()) {
-        this.props.setDarkMode(true)
-      } else {
-        this.props.setDarkMode(false)
-      }
+      this.setState({
+        doNothing: Date.now()
+      })
       await this.checkBuckets()
 
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
@@ -200,8 +198,22 @@ class AppStateListener extends React.Component {
   }
 
   render () {
-    return null
+    return <DarkModeListener
+      appState={this.props.appState}
+      setDarkMode={this.props.setDarkMode}
+    />
   }
 }
+
+function DarkModeListener (props) {
+  if (useDarkMode()) {
+    props.setDarkMode(true)
+  } else {
+    props.setDarkMode(false)
+  }
+
+  return null
+}
+
 
 export default AppStateListener
