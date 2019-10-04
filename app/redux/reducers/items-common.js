@@ -36,10 +36,7 @@ export const itemsMarkRead = (action, state) => {
 export const itemSetScrollOffset = (action, state) => {
   let items = state.items.map(item => {
     if (item._id === action.item._id) {
-      item.scrollOffset = action.offset
-      if (action.scrollRatio > item.maxScrollRatio) {
-        item.maxScrollRatio = action.scrollRatio
-      }
+      item.scrollRatio = action.scrollRatio
     }
     return item
   })

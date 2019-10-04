@@ -10,6 +10,11 @@ import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
 import { hslString } from '../utils/colors'
 import log from '../utils/log'
 
+const calculateHeight = `
+  (document.body && document.body.scrollHeight) &&
+    window.ReactNativeWebView.postMessage(getHeight())
+`
+
 class FeedItem extends React.Component {
   constructor(props) {
     super(props)
@@ -27,6 +32,7 @@ class FeedItem extends React.Component {
 
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
+    this.onNavigationStateChange = this.onNavigationStateChange.bind(this)
     this.openLink = this.openLink.bind(this)
     this.startTimer = this.startTimer.bind(this)
     this.setFadeInFunction = this.setFadeInFunction.bind(this)
@@ -126,13 +132,13 @@ class FeedItem extends React.Component {
     }
   }
 
-  scrollToOffset (offset) {
+  scrollToOffset () {
     const that = this
     setTimeout(() => {
       if (!that.scrollView) return
       that.scrollView._component.scrollTo({
         x: 0,
-        y: that.props.item.scrollOffset,
+        y: that.props.item.scrollRatio * that.state.webViewHeight,
         animated: true
       })
     }, 2000)
@@ -197,8 +203,6 @@ class FeedItem extends React.Component {
 
     this.screenDimensions = Dimensions.get('window')
     const height = this.screenDimensions.height
-    const calculateHeight = `(document.body && document.body.scrollHeight) ? document.body.scrollHeight : ${height * 2}`
-
     let server = ''
     if (__DEV__) {
       server = 'http://localhost:8888/'
@@ -321,7 +325,7 @@ class FeedItem extends React.Component {
           />
           <WebView
             decelerationRate='normal'
-            injectedJavaScript={calculateHeight}
+            injectedJavaScript={'(document.body && document.body.scrollHeight) && document.body.scrollHeight'}
             onMessage={(event) => {
               const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
               if (msg.substring(0, 6) === 'image:') {
@@ -330,10 +334,13 @@ class FeedItem extends React.Component {
                 const url = msg.substring(5)
                 // console.log('OPEN LINK: ' + url)
                 if (!__DEV__) {
-                  Linking.openURL(url)                }
+                  Linking.openURL(url)
+                }
+              } else if (msg.substring(0,7) === 'resize:') {
+                that.updateWebViewHeight(parseInt(msg.substring(7)))
               }
             }}
-            onNavigationStateChange={this.updateWebViewHeight}
+            onNavigationStateChange={this.onNavigationStateChange}
             {...openLinksExternallyProp}
             originWhitelist={['*']}
             ref={(ref) => { this.webView = ref }}
@@ -415,29 +422,39 @@ class FeedItem extends React.Component {
     onScrollEnd(scrollOffset)
   }
 
-  //called when HTML was loaded and injected JS executed
-  updateWebViewHeight (event) {
+  // called when HTML was loaded and injected JS executed
+  onNavigationStateChange (event) {
     // this means we're loading an image
     if (event.url.startsWith('react-js-navigation')) return
-    const calculatedHeight = parseInt(event.jsEvaluationValue) || this.screenDimensions.height// * 2
-    if (!this.pendingWebViewHeight || calculatedHeight !== this.pendingWebViewHeight) {
-      this.pendingWebViewHeight = calculatedHeight
+    const calculatedHeight = parseInt(event.jsEvaluationValue)
+    if (calculatedHeight) {
+      this.updateWebViewHeight(calculatedHeight)
+    }
+  }
+
+  updateWebViewHeight (height) {
+    if (!this.pendingWebViewHeight || height !== this.pendingWebViewHeight) {
+      this.pendingWebViewHeight = height
     }
 
-    if (Math.abs(calculatedHeight - this.state.webViewHeight) < calculatedHeight * 0.1) {
+    debugger
+    if (Math.abs(height - this.state.webViewHeight) < height * 0.1) {
       return
     }
+    console.log('Trying to set webview height: ' + this.pendingWebViewHeight)
 
     const that = this
-    // debounce
-    if (!this.pendingWebViewHeightId) {
-      this.pendingWebViewHeightId = setTimeout(() => {
-        that.setState({
-          ...that.state,
-          webViewHeight: that.pendingWebViewHeight
-        })
-        that.pendingWebViewHeightId = null
-      }, 1000)
+    if (this.pendingWebViewHeight !== this.state.webViewHeight) {
+      // debounce
+      if (!this.pendingWebViewHeightId) {
+        this.pendingWebViewHeightId = setTimeout(() => {
+          that.setState({
+            ...that.state,
+            webViewHeight: that.pendingWebViewHeight
+          })
+          that.pendingWebViewHeightId = null
+        }, 500)
+      }
     }
   }
 

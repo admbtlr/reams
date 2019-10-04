@@ -260,6 +260,14 @@ function setFontSize (fontSize) {
   })
   html.classList.remove(fontSizeClass)
   html.classList.add(`font-size-${fontSize}`)
+  window.setTimeout(() => {
+    window.ReactNativeWebView.postMessage('resize:' + getHeight())
+  }, 1000)
+
+}
+
+function getHeight () {
+  return Math.ceil(document.querySelector('article').getBoundingClientRect().height)
 }
 
 function toggleDarkBackground(isDarkBackground) {
