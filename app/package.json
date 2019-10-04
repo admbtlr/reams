@@ -32,6 +32,7 @@
     "react-native": "^0.59.10",
     "react-native-animated-ellipsis": "^1.1.0",
     "react-native-blur": "^3.1.2",
+    "react-native-dark-mode": "^0.1.0",
     "react-native-dash": "0.0.8",
     "react-native-deep-linking": "^2.2.0",
     "react-native-fetch-blob": "^0.10.8",

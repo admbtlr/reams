@@ -15,6 +15,12 @@ export function webView (state = initialState, action) {
         isDarkBackground: !state.isDarkBackground
       }
 
+    case 'WEBVIEW_SET_DARK_MODE':
+      return {
+        ...state,
+        isDarkBackground: action.isDarkMode
+      }
+
     case 'WEBVIEW_INCREASE_FONT_SIZE':
       fontSize = state.fontSize + 1
       fontSize = fontSize > MAX_FONT_SIZE ? MAX_FONT_SIZE : fontSize

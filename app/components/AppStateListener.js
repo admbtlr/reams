@@ -9,6 +9,7 @@ import {
   View
 } from 'react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
+import { useDarkMode } from 'react-native-dark-mode'
 import { parseString } from 'react-native-xml2js'
 
 import { isIgnoredUrl, addIgnoredUrl } from '../redux/async-storage'
@@ -46,6 +47,11 @@ class AppStateListener extends React.Component {
   async handleAppStateChange (nextAppState) {
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.props.appWentActive()
+      if (useDarkMode()) {
+        this.props.setDarkMode(true)
+      } else {
+        this.props.setDarkMode(false)
+      }
       await this.checkBuckets()
 
       if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {

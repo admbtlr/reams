@@ -19,6 +19,8 @@ target 'rizzle' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'ReactNativeDarkMode', :path => '../node_modules/react-native-dark-mode'
+
   target 'rizzleTests' do
     inherit! :search_paths
     # Pods for testing

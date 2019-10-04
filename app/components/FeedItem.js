@@ -44,7 +44,7 @@ class FeedItem extends React.Component {
 
   componentDidMount () {
     this.props.setTimerFunction(this.startTimer)
-    if (this.props.isVisible) {
+    if (this.props.isVisible && this.props.item.scrollRatio > 0) {
       this.scrollToOffset()
     }
   }
@@ -127,7 +127,7 @@ class FeedItem extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.props.isVisible && !prevProps.isVisible) {
+    if (this.props.isVisible && !prevProps.isVisible && this.props.item.scrollRatio > 0) {
       this.scrollToOffset()
     }
   }
@@ -455,6 +455,7 @@ class FeedItem extends React.Component {
             ...that.state,
             webViewHeight: that.pendingWebViewHeight
           })
+          that.scrollToOffset()
           that.pendingWebViewHeightId = null
         }, 500)
       }
