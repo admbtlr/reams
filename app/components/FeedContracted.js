@@ -14,7 +14,7 @@ import {
 import Animated, { Easing } from 'react-native-reanimated'
 import { TapGestureHandler, State } from 'react-native-gesture-handler'
 import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
-import { blendColor, hslString } from '../utils/colors'
+import { blendColor, hslString, hslToHslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import FeedIconContainer from '../containers/FeedIcon'
@@ -97,7 +97,15 @@ class FeedContracted extends React.PureComponent {
           startClock(clock),
           call([], this.onPress)
         ]),
-        cond(and(or(eq(gestureState, State.END), eq(gestureState, State.FAILED)), neq(config.toValue, 0)), [
+        cond(and(eq(gestureState, State.FAILED), neq(config.toValue, 0)), [
+          set(state.finished, 0),
+          set(state.time, 0),
+          set(state.frameTime, 0),
+          set(config.toValue, 0),
+          startClock(clock),
+          call([], this.cancelPress)
+        ]),
+        cond(and(eq(gestureState, State.END), neq(config.toValue, 0)), [
           set(state.finished, 0),
           set(state.time, 0),
           set(state.frameTime, 0),
@@ -121,8 +129,12 @@ class FeedContracted extends React.PureComponent {
     this.imageView.measure(this.measured)
   }
 
+  cancelPress = (e) => {
+    console.log("Press cancelled")
+  }
+
   hide = () => {
-    // this.opacity.setValue(0)
+    this.opacity.setValue(0)
   }
 
   measured = (x, y, width, height, px, py) => {
@@ -292,11 +304,6 @@ class FeedContracted extends React.PureComponent {
                 paddingBottom: 2,
                 flexDirection: 'row'
               }}>
-                <FeedIconContainer
-                  id={feedId}
-                  dimensions={feedIconDimensions}
-                  bgColor={feedColor}
-                />
                 <Text style={{
                   ...textStyles,
                   flexWrap: 'wrap',
@@ -315,6 +322,42 @@ class FeedContracted extends React.PureComponent {
                   fontSize: 16
                 }}>{numUnread} unread</Text>
               </View>
+            </View>
+          </View>
+          <View
+            style={{
+              height: this.cardHeight,
+              width: this.cardWidth,
+              borderRadius: 16,
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              backgroundColor: 'transparent',
+              overflow: 'hidden'
+          }}>
+            <View style={{
+              backgroundColor: hslString(feedColor),
+              position: 'absolute',
+              bottom: -65,
+              right: -65,
+              zIndex: 5,
+              width: 130,
+              height: 130,
+              transform: [{
+                rotateZ: '45deg'
+              }]
+            }} />
+            <View style={{
+              position: 'absolute',
+              bottom: 10,
+              right: 5,
+              zIndex: 10
+            }}>
+              <FeedIconContainer
+                id={feedId}
+                dimensions={feedIconDimensions}
+                bgColor={feedColor}
+              />
             </View>
           </View>
         </Animated.View>
