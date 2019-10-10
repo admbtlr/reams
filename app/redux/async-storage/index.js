@@ -60,3 +60,30 @@ export async function deleteItemsAS (items) {
 export async function clearItemsAS (keys) {
   return AsyncStorage.clear()
 }
+
+export async function isIgnoredUrl (url) {
+  const now = Math.round(Date.now() / 1000)
+  let isIgnoredUrl = false
+  try {
+    let ignoredUrls = await AsyncStorage.getItem('ignoredUrls')
+    ignoredUrls = ignoredUrls ? JSON.parse(ignoredUrls) : []
+    ignoredUrls = pruneOldIgnoredUrls(ignoredUrls)
+    isIgnoredUrl = ignoredUrls.find(ignored => ignored.url === url) !== undefined
+    if (!isIgnoredUrl) {
+      ignoredUrls.push({
+        date: now,
+        url
+      })
+    }
+    await AsyncStorage.setItem('ignoredUrls', JSON.stringify(ignoredUrls))
+  } catch (err) {
+    log('addIgnoredUrl: ' + err)
+  } finally {
+    return isIgnoredUrl
+  }
+}
+
+function pruneOldIgnoredUrls (ignoredUrls) {
+  const now = Math.round(Date.now() / 1000)
+  return ignoredUrls.filter(ignored => (now - ignored.date) < (60 * 60 * 24 * 7))
+}
