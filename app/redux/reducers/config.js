@@ -8,7 +8,8 @@ const initialState = {
   onboardingLength: 13,
   feedFilter: null,
   isOnline: false,
-  itemSort: 'rizzlewards'
+  itemSort: 'forewards',
+  setShowNumUnread: true
 }
 
 export function config (state = initialState, action) {
@@ -62,6 +63,12 @@ export function config (state = initialState, action) {
       return {
         ...state,
         itemSort: action.itemSort
+      }
+
+    case 'CONFIG_SET_SHOW_NUM_UNREAD':
+      return {
+        ...state,
+        showNumUnread: action.showNumUnread
       }
 
     default:

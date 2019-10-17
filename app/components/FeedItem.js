@@ -44,7 +44,7 @@ class FeedItem extends React.Component {
 
   componentDidMount () {
     this.props.setTimerFunction(this.startTimer)
-    if (this.props.isVisible && this.props.item.scrollOffset > 0) {
+    if (this.props.isVisible) {
       this.scrollToOffset()
     }
   }
@@ -127,18 +127,22 @@ class FeedItem extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.props.isVisible && !prevProps.isVisible && this.props.item.scrollOffset > 0) {
+    if (this.props.isVisible && !prevProps.isVisible) {
       this.scrollToOffset()
     }
   }
 
   scrollToOffset () {
     const that = this
+    const item = that.props.item
     setTimeout(() => {
       if (!that.scrollView) return
+      const scrollRatio = item.scrollRatio && typeof scrollRatio === 'object' ?
+        item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html'] :
+        0
       that.scrollView._component.scrollTo({
         x: 0,
-        y: that.props.item.scrollRatio * that.state.webViewHeight,
+        y: scrollRatio * that.state.webViewHeight,
         animated: true
       })
     }, 2000)
@@ -437,7 +441,6 @@ class FeedItem extends React.Component {
       this.pendingWebViewHeight = height
     }
 
-    debugger
     if (Math.abs(height - this.state.webViewHeight) < height * 0.1) {
       return
     }

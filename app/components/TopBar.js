@@ -144,7 +144,7 @@ class TopBar extends React.PureComponent {
         outputRange: [0, STATUS_BAR_HEIGHT]
       })
 
-    const views = items.map((item, i) => (<View key={i}>
+    const views = items.map((item, i) => (<View key={item ? item._id : i}>
         {this.renderTopBar(item, opacityAnims[i])}
         {this.renderStatusBar(item, opacityAnims[i], titleTransformAnims[i], panTransformAnim, prevItem ? i === 1 : i === 0)}
       </View>)
@@ -218,7 +218,7 @@ class TopBar extends React.PureComponent {
       backgroundColor: this.getBackgroundColor(item),
       opacity: opacityAnim
     }
-    return <Animated.View style={topBarStyles} key={id()} />
+    return <Animated.View style={topBarStyles} />
   }
 
   renderStatusBar (item, opacityAnim, transformAnim, panTransformAnim, isVisible) {

@@ -36,7 +36,14 @@ export const itemsMarkRead = (action, state) => {
 export const itemSetScrollOffset = (action, state) => {
   let items = state.items.map(item => {
     if (item._id === action.item._id) {
-      item.scrollRatio = action.scrollRatio
+      // need to gracefully migrate to new format
+      item.scrollRatio = item.scrollRatio && typeof item.scrollRatio === 'object' ?
+        item.scrollRatio :
+        {
+          html: 0,
+          mercury: 0
+        }
+      item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html'] = action.scrollRatio
     }
     return item
   })
