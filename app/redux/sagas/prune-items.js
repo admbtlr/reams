@@ -7,13 +7,12 @@ import { getItems, getConfig, getSavedItems } from './selectors'
 import log from '../../utils/log'
 import { removeCachedCoverImages } from '../../utils/item-utils'
 
+const MAX_UNREAD = 1000
+
 export function * pruneItems (action) {
   const type = (action && action.itemType) || 'unread'
   if (type !== 'unread') return
   const config = yield select(getConfig)
-  const MAX_UNREAD = config.itemSort === 'rizzlewards' ?
-    1000 :
-    5000
   const unreadItems = yield select(getItems)
   const toPrune = unreadItems.slice(MAX_UNREAD)
   if (toPrune.length === 0) return

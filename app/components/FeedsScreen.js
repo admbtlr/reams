@@ -33,7 +33,7 @@ class ListHeaderComponent extends React.Component {
     this.props.showModal({
       modalText: [
         {
-          text: 'Mark old items read?',
+          text: 'Remove old items?',
           style: ['title']
         },
         {
@@ -93,13 +93,11 @@ class ListHeaderComponent extends React.Component {
           }}
         />
         <Heading />
-        { this.props.itemSort !== 'rizzlewards' &&
-          <Text style={{
-            ...textStyles,
-            marginTop: 0,
-            paddingTop: 0
-          }}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
-        }
+        <Text style={{
+          ...textStyles,
+          marginTop: 0,
+          paddingTop: 0
+        }}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
         <View style={{
           flexDirection: 'row',
           marginBottom: margin / 2,

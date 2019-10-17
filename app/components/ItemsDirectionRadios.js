@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import {
   Dimensions,
+  Switch,
   Text,
   TouchableOpacity,
   View
@@ -32,60 +33,81 @@ class ItemsDirectionRadios extends React.Component {
       marginBottom: margin / 2
     }
     return (
-      <View style={{
-        flexDirection: 'row',
-        marginTop: margin
-      }}>
-        <Text style={{
-          ...textStyles,
-          flex: 1,
-          marginTop: 0,
-          paddingTop: 0
-        }}>View items:</Text>
+      <Fragment>
         <View style={{
-          flex: 1
+          flexDirection: 'row',
+          marginTop: margin
         }}>
-          <TextButton
-            buttonStyle={buttonStyle}
-            bgColor='transparent'
-            isActive={this.props.itemSort === 'backwards'}
-            isCompact={true}
-            onPress={() => {
-              this.props.setItemSort('backwards')
-            }}
-            text="Backwards" />
-          <TextButton
-            buttonStyle={buttonStyle}
-            bgColor='transparent'
-            isActive={this.props.itemSort === 'forwards'}
-            isCompact={true}
-            onPress={() => {
-              this.props.setItemSort('forwards')
-            }}
-            text="Forwards" />
-          <TextButton
-            buttonStyle={buttonStyle}
-            bgColor='transparent'
-            isActive={this.props.itemSort === 'rizzlewards'}
-            isCompact={true}
-            onPress={() => {
-              this.props.setItemSort('rizzlewards')
-            }}
-            text="Rizzlewards" />
+          <Text style={{
+            ...textStyles,
+            flex: 1,
+            marginTop: 0,
+            paddingTop: 0
+          }}>View items:</Text>
+          <View style={{
+            flex: 1
+          }}>
+            <TextButton
+              buttonStyle={buttonStyle}
+              bgColor='transparent'
+              isActive={this.props.itemSort === 'backwards'}
+              isCompact={true}
+              onPress={() => {
+                this.props.setItemSort('backwards')
+              }}
+              text="Backwards" />
+            <TextButton
+              buttonStyle={buttonStyle}
+              bgColor='transparent'
+              isActive={this.props.itemSort === 'forwards'}
+              isCompact={true}
+              onPress={() => {
+                this.props.setItemSort('forwards')
+              }}
+              text="Forwards" />
+          </View>
         </View>
-      </View>
+        <View style={{
+          flexDirection: 'row',
+          marginTop: margin
+        }}>
+          <Text style={{
+            ...textStyles,
+            flex: 5,
+            marginTop: 0,
+            paddingTop: 0
+          }}>Show number of unread items:</Text>
+          <View style={{
+            flex: 1
+          }}>
+            <Switch
+              onValueChange={this.props.setShowNumUnread}
+              trackColor={{
+                false: hslString('rizzleText', '', 0.3),
+                true: hslString('rizzleText')
+              }}
+              value={this.props.showNumUnread}
+            />
+          </View>
+        </View>
+      </Fragment>
     )
   }
 }
 
 let ItemsDirectionRadiosContainer = connect(
   state => ({
-    itemSort: state.config.itemSort
+    itemSort: state.config.itemSort,
+    showNumUnread: state.config.showNumUnread
   }),
   dispatch => ({
     setItemSort: (itemSort) => dispatch({
       type: 'CONFIG_SET_ITEM_SORT',
       itemSort
+    }),
+    setShowNumUnread: (showNumUnread) => dispatch({
+      type: 'CONFIG_SET_SHOW_NUM_UNREAD',
+      showNumUnread
     })
   })
 )(ItemsDirectionRadios)
