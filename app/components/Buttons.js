@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   ActionSheetIOS,
   Animated,
@@ -44,7 +44,7 @@ class Buttons extends React.Component {
   }
 
   showShareActionSheet () {
-    if (!this.props.currentItem) return
+    if (this.props.isOnboarding || !this.props.currentItem) return
     ActionSheetIOS.showShareActionSheetWithOptions({
       url: this.props.currentItem.url
     },
@@ -56,15 +56,15 @@ class Buttons extends React.Component {
   }
 
   onSavePress () {
-    this.props.toggleSaved(this.props.currentItem)
+    this.props.isOnboarding || this.props.toggleSaved(this.props.currentItem)
   }
 
   onDisplayPress () {
-    this.props.toggleDisplay()
+    this.props.isOnboarding || this.props.toggleDisplay()
   }
 
   onMercuryPress () {
-    this.props.toggleMercury(this.props.currentItem)
+    this.props.isOnboarding || this.props.toggleMercury(this.props.currentItem)
   }
 
   componentDidUpdate (prevProps) {
@@ -140,31 +140,35 @@ class Buttons extends React.Component {
 
   render () {
     // console.log('RENDER BUTTONS!')
-    const {prevItem, currentItem, nextItem} = this.props
-    const items = prevItem ?
-      [prevItem, currentItem, nextItem] :
-      [currentItem, nextItem]
-    const { panAnim, panAnimDivisor } = getPanValue()
+    if (this.props.isOnboarding) {
+      return this.renderButtons({}, null, true)
+    } else {
+      const {prevItem, currentItem, nextItem} = this.props
+      const items = prevItem ?
+        [prevItem, currentItem, nextItem] :
+        [currentItem, nextItem]
+      const { panAnim, panAnimDivisor } = getPanValue()
 
-    const opacityRanges = [
-      {
-        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
-        outputRange: [1, 0, 0]
-      }, {
-        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
-        outputRange: [0, 1, 0]
-      }, {
-        inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
-        outputRange: [0, 0, 1]
-      }
-    ]
-    const opacityAnims = items.map((item, i) => panAnim ?
-        panAnim.interpolate(opacityRanges[i]) :
-        1)
+      const opacityRanges = [
+        {
+          inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
+          outputRange: [1, 0, 0]
+        }, {
+          inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
+          outputRange: [0, 1, 0]
+        }, {
+          inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
+          outputRange: [0, 0, 1]
+        }
+      ]
+      const opacityAnims = items.map((item, i) => panAnim ?
+          panAnim.interpolate(opacityRanges[i]) :
+          1)
 
-    return items.map((item, i) => item ?
-      this.renderButtons(item, opacityAnims[i], item === currentItem) :
-      null)
+      return items.map((item, i) => item ?
+        this.renderButtons(item, opacityAnims[i], item === currentItem) :
+        null)
+    }
     // return this.renderButtons(currentItem)
   }
 
@@ -181,7 +185,7 @@ class Buttons extends React.Component {
     // const backgroundColor = this.props.displayMode && this.props.displayMode == 'unread' ?
     //   hslString('rizzleBG') :
     //   hslString('rizzleBGAlt')
-    const activeColor = this.props.displayMode === 'saved' ?
+    const activeColor = this.props.displayMode === 'saved' || this.props.isOnboarding ?
         hslString('rizzleText', 'ui') :
       item ?
         hslString(item.feed_color, 'desaturated') :
@@ -208,7 +212,7 @@ class Buttons extends React.Component {
         key={id()}
         style={{
           ...this.getStyles().base,
-          opacity: opacityAnim
+          opacity: opacityAnim || 1
         }}>
         <RizzleButton
           backgroundColor={backgroundColor}
@@ -258,6 +262,7 @@ class Buttons extends React.Component {
           }}
           onPress={this.onSavePress}
         >
+          {/*
           <Svg
             height='50'
             width='50'
@@ -273,6 +278,21 @@ class Buttons extends React.Component {
             <Path fill={backgroundColor} stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
             <Rect fill={backgroundColor} stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
           </Svg>
+          */}
+          <Svg
+            height='30'
+            width='33'
+            style={{
+              top: 1,
+              left: 7
+            }}>
+            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="14.5 18 2 18 2 11 10.5 11"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="18.5 11 22.5 18 32 18 32 11"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"></Polygon>
+          </Svg>
+          {/*
           <Animated.View style={{
             position: 'absolute',
             left: -1,
@@ -300,6 +320,7 @@ class Buttons extends React.Component {
               <Rect fill={saveFillColors[0]} stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
             </Svg>
           </Animated.View>
+        */}
         </RizzleButton>
         <RizzleButton
           backgroundColor={backgroundColor}
@@ -317,46 +338,17 @@ class Buttons extends React.Component {
           onPress={this.showShareActionSheet}
           >
           <Svg
-            height='50'
-            width='50'
+            height='32'
+            width='32'
             style={{
-              transform: [{
-                scale: 0.5
-              }, {
-                translateY: -4
-              }, {
-                translateX: -3
-              }]
+              position: 'absolute',
+              left: 14,
+              top: 7
             }}>
-            <Polyline
-              fill='none'
-              points='17,10 25,2 33,10'
-              stroke={borderColor}
-              strokeLinecap='round'
-              strokeWidth='3'
-            />
-            <Line
-              fill='none'
-              stroke={borderColor}
-              strokeLinecap='round'
-              strokeWidth='3'
-              x1='25'
-              x2='25'
-              y1='32'
-              y2='2.333'
-            />
-            <Rect
-              fill='none'
-              height='50'
-              width='50'
-            />
-            <Path
-              d='M17,17H8v32h34V17h-9'
-              fill='none'
-              stroke={borderColor}
-              strokeLinecap='round'
-              strokeWidth='3'
-            />
+            <Path stroke={borderColor} strokeWidth={2} fill="none" transform="translate(1, 0)" d="M5,12 C4.71689466,12 4.34958605,12 4,12 C-4.54747351e-13,12 -4.54747351e-13,12.5662107 -4.54747351e-13,16 C-4.54747351e-13,20 -4.54747351e-13,22 -4.54747351e-13,26 C-4.54747351e-13,30 -4.54747351e-13,30 4,30 C8,30 10,30 14,30 C18,30 18,30 18,26 C18,22 18,24 18,17 C18,12 17.9526288,12.0459865 14,12 C13.4028116,11.9930521 13.7719806,12 13,12"/>
+            <Path stroke={borderColor} strokeWidth={2} d="M10,18.25 L10,1" strokeLinecap="round"/>
+            <Path stroke={borderColor} strokeWidth={2} d="M10,1 L16,7" strokeLinecap="round"/>
+            <Path stroke={borderColor} strokeWidth={2} d="M10,1 L4,7" strokeLinecap="round"/>
           </Svg>
         </RizzleButton>
         <RizzleButton
@@ -375,6 +367,7 @@ class Buttons extends React.Component {
           }}
           onPress={isMercuryButtonEnabled ? this.onMercuryPress : () => false}
         >
+          {/*
           <Svg
             style={{
               position: 'absolute',
@@ -396,6 +389,51 @@ class Buttons extends React.Component {
             <Path d="M0.5,25.5 L32.5,25.5" opacity="0.2" stroke={borderColor}></Path>
             <Path d="M0.5,31.5 L32.5,31.5" opacity="0.2" stroke={borderColor}></Path>
           </Svg>
+          */}
+          <Svg
+            style={{
+              position: 'absolute',
+              left: 7,
+              top: 8,
+              opacity: isMercuryButtonEnabled ? 1 : 0.3
+            }}
+            height='32'
+            width='34'>
+            { showMercuryContent ?
+              <Fragment>
+                <Rect stroke={borderColor} strokeWidth="2" fill="none" opacity="0.5" x="2" y="4" width="14" height="24" rx="2"></Rect>
+                <Path stroke={borderColor} d="M5,9 L13,9"  opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M5,11 L13,11" opacity="0.5" strokeLinecap="square"></Path>
+                <Rect stroke={borderColor} strokeWidth="2" fill={backgroundColor} x="14" y="1" width="16" height="29" rx="2"></Rect>
+                <Path stroke={borderColor} d="M17,6 L27,6" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,8 L27,8" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,12 L27,12" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,14 L27,14" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,10 L27,10" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,16 L27,16" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,18 L27,18" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,20 L27,20" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,22 L27,22" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,24 L27,24" strokeLinecap="square"></Path>
+              </Fragment> :
+              <Fragment>
+                <Rect stroke={borderColor} strokeWidth="2" opacity="0.5" fill="none" x="16" y="4" width="14" height="24" rx="2"></Rect>
+                <Path stroke={borderColor} d="M17,8 L27,8" opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,12 L27,12" opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,14 L27,14" opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,10 L27,10" opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,16 L27,16" opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,18 L27,18" opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,20 L27,20" opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,22 L27,22" opacity="0.5" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M17,24 L27,24" opacity="0.5" strokeLinecap="square"></Path>
+                <Rect stroke={borderColor} strokeWidth="2" fill={backgroundColor} x="2" y="1" width="16" height="29" rx="2"></Rect>
+                <Path stroke={borderColor} d="M6,9 L14,9" strokeLinecap="square"></Path>
+                <Path stroke={borderColor} d="M6,11 L14,11" strokeLinecap="square"></Path>
+              </Fragment>
+            }
+          </Svg>
+          {/*}
           <Animated.View style={{
             position: 'absolute',
             left: 0,
@@ -419,6 +457,7 @@ class Buttons extends React.Component {
               <Path d="M0.5,31.5 L32.5,31.5" stroke={backgroundColor} strokeWidth="3" strokeLinecap="square"></Path>
             </Svg>
           </Animated.View>
+          */}
         </RizzleButton>
       </Animated.View>
     )
@@ -463,7 +502,6 @@ class Buttons extends React.Component {
         color: 'white',
         textAlign: 'center',
         backgroundColor: 'transparent',
-        // fontFamily: 'BodoniSvtyTwoOSITCTT-Book',
         fontFamily: 'IBMPlexMono',
         fontSize: 16,
       },

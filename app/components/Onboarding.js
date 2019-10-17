@@ -201,7 +201,7 @@ h1 {
             buttonStyle={{ marginBottom: 0 }}
             onPress={this.endOnboarding}
             buttonStyle={{
-              bottom: 60,
+              bottom: 80,
               position: 'absolute',
               width: 300,
               alignSelf: 'center'

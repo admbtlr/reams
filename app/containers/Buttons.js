@@ -25,7 +25,8 @@ const mapStateToProps = (state) => {
     displayMode: state.itemsMeta.display,
     decoratedCount: state.itemsMeta.decoratedCount,
     visible: state.ui.itemButtonsVisible,
-    isDarkBackground: state.webView.isDarkBackground
+    isDarkBackground: state.webView.isDarkBackground,
+    isOnboarding: state.config.isOnboarding
   }
 }
 

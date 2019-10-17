@@ -154,7 +154,7 @@ export function blendColor (colorName, modifier = '') {
   return hslStringToBlendColor(hslString(colorName, modifier))
 }
 
-export function hslString (color, modifier = '') {
+export function hslString (color, modifier = '', alpha) {
   if (typeof color === 'object') {
     // custom color!
     return `hsl(${color[0]}, ${color[1]}%, ${color[2]}%)`
@@ -176,5 +176,9 @@ export function hslString (color, modifier = '') {
     default:
       palette = colors
   }
-  return palette[color] || ui[color]
+  color = palette[color] || ui[color]
+  if (alpha) {
+    color = color.replace('hsl', 'hsla').replace(')', `${alpha})`)
+  }
+  return color
 }
