@@ -62,6 +62,8 @@
 		66454BDD1FA6792500D941C5 /* libRNGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66454BDC1FA6791E00D941C5 /* libRNGL.a */; };
 		664B4B281FAB59A9006C6DF9 /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 664B4B271FAB59A9006C6DF9 /* webview */; };
 		665D37B32347AA700051FCB2 /* libRNDarkMode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 665D379E2347AA560051FCB2 /* libRNDarkMode.a */; };
+		665D38C9234BBE600051FCB2 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 665D3888234BBE5F0051FCB2 /* splash@2x.png */; };
+		665D38CB234BBF780051FCB2 /* rizzle-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 665D38CA234BBF780051FCB2 /* rizzle-white.png */; };
 		6671295E2165EDE200EB1B5E /* libRNMeasureText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 667129572165EDB900EB1B5E /* libRNMeasureText.a */; };
 		6673777E203EB21800572989 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AF94191FF7E69000336BA7 /* libRNFS.a */; };
 		667377AC203EB25D00572989 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
@@ -690,6 +692,8 @@
 		66454BD71FA6791E00D941C5 /* RNGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGL.xcodeproj; path = "../node_modules/gl-react-native/ios/RNGL.xcodeproj"; sourceTree = "<group>"; };
 		664B4B271FAB59A9006C6DF9 /* webview */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webview; sourceTree = "<group>"; };
 		665D376E2347AA550051FCB2 /* RNDarkMode.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDarkMode.xcodeproj; path = "../node_modules/react-native-dark-mode/ios/RNDarkMode.xcodeproj"; sourceTree = "<group>"; };
+		665D3888234BBE5F0051FCB2 /* splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash@2x.png"; path = "../assets/images/splash@2x.png"; sourceTree = "<group>"; };
+		665D38CA234BBF780051FCB2 /* rizzle-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rizzle-white.png"; path = "../assets/images/rizzle-white.png"; sourceTree = "<group>"; };
 		667129252165EDB900EB1B5E /* RNMeasureText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMeasureText.xcodeproj; path = "../node_modules/react-native-measure-text/ios/RNMeasureText.xcodeproj"; sourceTree = "<group>"; };
 		66737812204314A900572989 /* rizzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rizzle.entitlements; path = rizzle/rizzle.entitlements; sourceTree = "<group>"; };
 		66737813204315E300572989 /* RizzleShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RizzleShare.entitlements; sourceTree = "<group>"; };
@@ -1013,7 +1017,9 @@
 		2C43049EDC2C47639C4475E6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				665D38CA234BBF780051FCB2 /* rizzle-white.png */,
 				6697462F23057C6200EDCFE7 /* rizzle.png */,
+				665D3888234BBE5F0051FCB2 /* splash@2x.png */,
 				6697466E23057C6400EDCFE7 /* Splash-20190815.png */,
 				790F17FBE061470490FC8FB8 /* BioRhyme-Regular.ttf */,
 				8463AC662A634CF786B76B2A /* BioRhyme-ExtraBold.ttf */,
@@ -2217,8 +2223,10 @@
 				4DA1B3EEF1E74D8D885D44DF /* Montserrat-LightItalic.ttf in Resources */,
 				45852DA026DE45819C2E6132 /* IBMPlexMono-Bold.ttf in Resources */,
 				3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */,
+				665D38C9234BBE600051FCB2 /* splash@2x.png in Resources */,
 				6332D5CBA60145BBAD467549 /* IBMPlexMono-Italic.ttf in Resources */,
 				1F3AFD1477774196851518C5 /* IBMPlexMono-Light.ttf in Resources */,
+				665D38CB234BBF780051FCB2 /* rizzle-white.png in Resources */,
 				AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */,
 				3D02833F47B84842A441CCD8 /* IBMPlexMono-Regular.ttf in Resources */,
 				9B29B4BC3A004A7489FE2344 /* IBMPlexSans-Bold.ttf in Resources */,
@@ -2699,7 +2707,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 297;
+				CURRENT_PROJECT_VERSION = 300;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2745,7 +2753,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 297;
+				CURRENT_PROJECT_VERSION = 300;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2774,7 +2782,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
 				PRODUCT_NAME = rizzle;
 				PROVISIONING_PROFILE = "7ce17c38-fb6c-4a94-beb5-c82f33426323";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle App Store (work)";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle App Store";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2948,7 +2956,7 @@
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 297;
+				CURRENT_PROJECT_VERSION = 300;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -3012,7 +3020,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 297;
+				CURRENT_PROJECT_VERSION = 300;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -3047,7 +3055,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7e474486-339d-4efe-bbf7-02b53209e00b";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension App Store (work)";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension App Store";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
