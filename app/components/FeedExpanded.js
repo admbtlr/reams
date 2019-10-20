@@ -55,7 +55,7 @@ class FeedExpanded extends React.Component {
 
     const dim = Dimensions.get('window')
     this.screenWidth = dim.width
-    this.margin = this.screenWidth * 0.05
+    this.margin = this.screenWidth * 0.03
     this.cardWidth = this.screenWidth < 500 ?
       this.screenWidth - this.margin * 2 :
       (this.screenWidth - this.margin * 3) / 2
@@ -424,7 +424,8 @@ class FeedExpanded extends React.Component {
                 left: 0,
                 bottom: 20,
                 backgroundColor: 'transparent',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                pointerEvents: 'none'
             }}>
               <View style={{
                 backgroundColor: hslString(feedColor),

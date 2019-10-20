@@ -1010,6 +1010,7 @@ class ItemTitle extends React.Component {
     const html = item.showMercuryContent ? item.content_mercury : (item.content_html || '')
     const stripped = html.replace(/<(p|div|span|a).*?>/g, '').trim()
     return stripped.startsWith('<img') ||
+      stripped.startsWith('Image<img') || // NYTimes oddity
       stripped.startsWith('<figure') ||
       stripped.startsWith('<iframe')
   }
