@@ -172,13 +172,16 @@ export function addMercuryStuffToItem (item, mercury) {
   }
 
   const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
-  const firstImg = /<img.*?src="(.*?)".*?>/.exec(decoratedItem.content_html) &&
-    /<img.*?src="(.*?)".*?>/.exec(decoratedItem.content_html)[1]
+  let visibleContentKey = decoratedItem.showMercuryContent ?
+    'content_mercury' :
+    'content_html'
+  const firstImg = /<img.*?src="(.*?)".*?>/.exec(decoratedItem[visibleContentKey]) &&
+    /<img.*?src="(.*?)".*?>/.exec(decoratedItem[visibleContentKey])[1]
   if (firstImg &&
     decoratedItem.banner_image &&
     decoratedItem.styles.coverImage.isInline &&
     getImageFileName(firstImg) === getImageFileName(decoratedItem.banner_image)) {
-    decoratedItem.content_html = decoratedItem.content_html.replace(/<img.*?>/, '')
+    decoratedItem[visibleContentKey] = decoratedItem[visibleContentKey].replace(/<img.*?>/, '')
   }
 
   return decoratedItem

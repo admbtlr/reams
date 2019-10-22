@@ -55,7 +55,7 @@ class FeedExpanded extends React.Component {
 
     const dim = Dimensions.get('window')
     this.screenWidth = dim.width
-    this.margin = this.screenWidth * 0.05
+    this.margin = this.screenWidth * 0.03
     this.cardWidth = this.screenWidth < 500 ?
       this.screenWidth - this.margin * 2 :
       (this.screenWidth - this.margin * 3) / 2
@@ -138,7 +138,7 @@ class FeedExpanded extends React.Component {
           startClock(clock),
           call([state.position], this.hideStatusBar)
         ]),
-        cond(and(greaterThan(transY, 100), eq(clockRunning(clock), 0)), [
+        cond(and(greaterThan(transY, 200), eq(clockRunning(clock), 0)), [
           set(state.finished, 0),
           set(state.time, 0),
           set(state.position, sub(1, divide(transY, this.screenHeight))),
@@ -396,11 +396,6 @@ class FeedExpanded extends React.Component {
                   paddingLeft: 10,
                   paddingRight: 10
                 }}>
-                  <FeedIconContainer
-                    id={feedId}
-                    dimensions={feedIconDimensions}
-                    bgColor={feedColor}
-                  />
                   <Animated.Text style={{
                     ...textStyles,
                     flexWrap: 'wrap',
@@ -421,6 +416,42 @@ class FeedExpanded extends React.Component {
                   </View>
               </Animated.View>
             </Animated.View>
+            <View
+              style={{
+                height: '100%',
+                width: '100%',
+                position: 'absolute',
+                left: 0,
+                bottom: 20,
+                backgroundColor: 'transparent',
+                overflow: 'hidden',
+                pointerEvents: 'none'
+            }}>
+              <View style={{
+                backgroundColor: hslString(feedColor),
+                position: 'absolute',
+                bottom: -65,
+                right: -65,
+                zIndex: 5,
+                width: 130,
+                height: 130,
+                transform: [{
+                  rotateZ: '45deg'
+                }]
+              }} />
+              <View style={{
+                position: 'absolute',
+                bottom: 10,
+                right: 5,
+                zIndex: 10
+              }}>
+                <FeedIconContainer
+                  id={feedId}
+                  dimensions={feedIconDimensions}
+                  bgColor={feedColor}
+                />
+              </View>
+            </View>
           </Animated.View>
         </PanGestureHandler>
           <Animated.View style={{

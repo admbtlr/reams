@@ -272,11 +272,11 @@ class Buttons extends React.Component {
                 { translateY: -3 }
               ]
             }}>
-            <Path fill={backgroundColor} stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
-            <Path fill={backgroundColor} stroke={borderColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
-            <Path fill={backgroundColor} stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
-            <Path fill={backgroundColor} stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
-            <Rect fill={backgroundColor} stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
+            <Path fill={backgroundColor} strokeWidth='2' stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
+            <Path fill={backgroundColor} strokeWidth='2' stroke={borderColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
+            <Path fill={backgroundColor} strokeWidth='2' stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
+            <Path fill={backgroundColor} strokeWidth='2' stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
+            <Rect fill={backgroundColor} strokeWidth='2' stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
           </Svg>
           */}
           <Svg
@@ -312,11 +312,11 @@ class Buttons extends React.Component {
                   { translateY: -5 }
                 ]
               }}>
-              <Path fill={saveFillColors[2]} stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
-              <Path fill={saveFillColors[2]} stroke={borderColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
-              <Path fill={saveFillColors[1]} stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
-              <Path fill={saveFillColors[1]} stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
-              <Rect fill={saveFillColors[0]} stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
+              <Path fill={saveFillColors[2]} strokeWidth='2' stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
+              <Path fill={saveFillColors[2]} strokeWidth='2' stroke={borderColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
+              <Path fill={saveFillColors[1]} strokeWidth='2' stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
+              <Path fill={saveFillColors[1]} strokeWidth='2' stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
+              <Rect fill={saveFillColors[0]} strokeWidth='2' stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
             </Svg>
           </Animated.View>
         */}
@@ -340,14 +340,13 @@ class Buttons extends React.Component {
             height='32'
             width='32'
             style={{
-              position: 'absolute',
-              left: 14,
-              top: 7
+              translateX: 15,
+              translateY: 8
             }}>
-            <Path stroke={borderColor} strokeWidth={2} fill="none" transform="translate(1, 0)" d="M5,12 C4.71689466,12 4.34958605,12 4,12 C-4.54747351e-13,12 -4.54747351e-13,12.5662107 -4.54747351e-13,16 C-4.54747351e-13,20 -4.54747351e-13,22 -4.54747351e-13,26 C-4.54747351e-13,30 -4.54747351e-13,30 4,30 C8,30 10,30 14,30 C18,30 18,30 18,26 C18,22 18,24 18,17 C18,12 17.9526288,12.0459865 14,12 C13.4028116,11.9930521 13.7719806,12 13,12"/>
-            <Path stroke={borderColor} strokeWidth={2} d="M10,18.25 L10,1" strokeLinecap="round"/>
-            <Path stroke={borderColor} strokeWidth={2} d="M10,1 L16,7" strokeLinecap="round"/>
-            <Path stroke={borderColor} strokeWidth={2} d="M10,1 L4,7" strokeLinecap="round"/>
+            <Path d="M5,12 C4.71689466,12 4.34958605,12 4,12 C-4.54747351e-13,12 -4.54747351e-13,12.5662107 -4.54747351e-13,16 C-4.54747351e-13,20 -4.54747351e-13,22 -4.54747351e-13,26 C-4.54747351e-13,30 -4.54747351e-13,30 4,30 C8,30 10,30 14,30 C18,30 18,30 18,26 C18,22 18,24 18,17 C18,12 17.9526288,12.0459865 14,12 C13.4028116,11.9930521 13.7719806,12 13,12" strokeWidth='2' stroke={borderColor} fill='none'/>
+            <Path d="M9,18.25 L9,1" strokeLinecap="round" strokeWidth='2' stroke={borderColor}/>
+            <Path d="M9,1 L15,7" strokeLinecap="round" strokeWidth='2' stroke={borderColor}/>
+            <Path d="M9,1 L3,7" strokeLinecap="round" strokeWidth='2' stroke={borderColor}/>
           </Svg>
         </RizzleButton>
         <RizzleButton
