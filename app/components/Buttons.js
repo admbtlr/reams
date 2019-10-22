@@ -98,7 +98,7 @@ class Buttons extends React.Component {
   getBackgroundColor (item) {
     // return hslString('rizzleBG')
     return this.props.isDarkBackground ?
-      ('hsl(240, 17%, 12%)') :
+      ('hsl(240, 17%, 15%)') :
       (this.props.displayMode == 'saved' ?
         hslString('rizzleBG') :
         'white')
@@ -283,7 +283,6 @@ class Buttons extends React.Component {
             height='30'
             width='33'
             style={{
-              top: 1,
               left: 7
             }}>
             <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"></Polygon>
@@ -367,29 +366,6 @@ class Buttons extends React.Component {
           }}
           onPress={isMercuryButtonEnabled ? this.onMercuryPress : () => false}
         >
-          {/*
-          <Svg
-            style={{
-              position: 'absolute',
-              left: 9,
-              top: 9, // transform: [{
-              //   translateX: 7
-              // }, {
-              //   translateY: 0
-              // }],
-              opacity: isMercuryButtonEnabled ? 1 : 0.3
-            }}
-            height='30'
-            width='30'>
-            <Path d="M0.5,1.5 L32.5,1.5" strokeWidth="3" stroke={borderColor}></Path>
-            <Path d="M0.5,7.5 L32.5,7.5" strokeWidth="3" stroke={borderColor}></Path>
-            <Path d="M0.5,13.5 L32.5,13.5" opacity="0.2" stroke={borderColor}></Path>
-            <Path d="M0.5,13.5 L7.5,13.5" strokeWidth="3" stroke={borderColor}></Path>
-            <Path d="M0.5,19.5 L32.5,19.5" opacity="0.2" stroke={borderColor}></Path>
-            <Path d="M0.5,25.5 L32.5,25.5" opacity="0.2" stroke={borderColor}></Path>
-            <Path d="M0.5,31.5 L32.5,31.5" opacity="0.2" stroke={borderColor}></Path>
-          </Svg>
-          */}
           <Svg
             style={{
               position: 'absolute',
