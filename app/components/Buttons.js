@@ -338,15 +338,14 @@ class Buttons extends React.Component {
           >
           <Svg
             height='32'
-            width='32'
+            width='34'
             style={{
-              translateX: 15,
-              translateY: 8
+              translateX: 14
             }}>
             <Path d="M5,12 C4.71689466,12 4.34958605,12 4,12 C-4.54747351e-13,12 -4.54747351e-13,12.5662107 -4.54747351e-13,16 C-4.54747351e-13,20 -4.54747351e-13,22 -4.54747351e-13,26 C-4.54747351e-13,30 -4.54747351e-13,30 4,30 C8,30 10,30 14,30 C18,30 18,30 18,26 C18,22 18,24 18,17 C18,12 17.9526288,12.0459865 14,12 C13.4028116,11.9930521 13.7719806,12 13,12" strokeWidth='2' stroke={borderColor} fill='none'/>
-            <Path d="M9,18.25 L9,1" strokeLinecap="round" strokeWidth='2' stroke={borderColor}/>
-            <Path d="M9,1 L15,7" strokeLinecap="round" strokeWidth='2' stroke={borderColor}/>
-            <Path d="M9,1 L3,7" strokeLinecap="round" strokeWidth='2' stroke={borderColor}/>
+            <Path d="M9,18.25 L9,1" strokeLinecap="round" strokeWidth='1.5' stroke={borderColor}/>
+            <Path d="M9,1 L15,7" strokeLinecap="round" strokeWidth='1.5' stroke={borderColor}/>
+            <Path d="M9,1 L3,7" strokeLinecap="round" strokeWidth='1.5' stroke={borderColor}/>
           </Svg>
         </RizzleButton>
         <RizzleButton
