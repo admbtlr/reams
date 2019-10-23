@@ -285,11 +285,11 @@ class Buttons extends React.Component {
             style={{
               left: 7
             }}>
-            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"></Polygon>
-            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"></Polygon>
-            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="14.5 18 2 18 2 11 10.5 11"></Polygon>
-            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="18.5 11 22.5 18 32 18 32 11"></Polygon>
-            <Polygon stroke={borderColor} strokeWidth="1.5" fill="none" points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="14.5 18 2 18 2 11 10.5 11"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="18.5 11 22.5 18 32 18 32 11"></Polygon>
+            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"></Polygon>
           </Svg>
           {/*
           <Animated.View style={{
@@ -338,14 +338,16 @@ class Buttons extends React.Component {
           >
           <Svg
             height='32'
-            width='34'
+            width='32'
             style={{
-              translateX: 14
+              position: 'absolute',
+              left: 14,
+              top: 7
             }}>
-            <Path d="M5,12 C4.71689466,12 4.34958605,12 4,12 C-4.54747351e-13,12 -4.54747351e-13,12.5662107 -4.54747351e-13,16 C-4.54747351e-13,20 -4.54747351e-13,22 -4.54747351e-13,26 C-4.54747351e-13,30 -4.54747351e-13,30 4,30 C8,30 10,30 14,30 C18,30 18,30 18,26 C18,22 18,24 18,17 C18,12 17.9526288,12.0459865 14,12 C13.4028116,11.9930521 13.7719806,12 13,12" strokeWidth='2' stroke={borderColor} fill='none'/>
-            <Path d="M9,18.25 L9,1" strokeLinecap="round" strokeWidth='1.5' stroke={borderColor}/>
-            <Path d="M9,1 L15,7" strokeLinecap="round" strokeWidth='1.5' stroke={borderColor}/>
-            <Path d="M9,1 L3,7" strokeLinecap="round" strokeWidth='1.5' stroke={borderColor}/>
+            <Path stroke={borderColor} strokeWidth={2} fill="none" transform="translate(1, 0)" d="M5,12 C4.71689466,12 4.34958605,12 4,12 C-4.54747351e-13,12 -4.54747351e-13,12.5662107 -4.54747351e-13,16 C-4.54747351e-13,20 -4.54747351e-13,22 -4.54747351e-13,26 C-4.54747351e-13,30 -4.54747351e-13,30 4,30 C8,30 10,30 14,30 C18,30 18,30 18,26 C18,22 18,24 18,17 C18,12 17.9526288,12.0459865 14,12 C13.4028116,11.9930521 13.7719806,12 13,12"/>
+            <Path stroke={borderColor} strokeWidth={2} d="M10,18.25 L10,1" strokeLinecap="round"/>
+            <Path stroke={borderColor} strokeWidth={2} d="M10,1 L16,7" strokeLinecap="round"/>
+            <Path stroke={borderColor} strokeWidth={2} d="M10,1 L4,7" strokeLinecap="round"/>
           </Svg>
         </RizzleButton>
         <RizzleButton
@@ -476,7 +478,7 @@ class Buttons extends React.Component {
         color: 'white',
         textAlign: 'center',
         backgroundColor: 'transparent',
-        fontFamily: 'IBMPlexMono',
+        fontFamily: 'IBMPlexMono-Bold',
         fontSize: 16,
       },
       smallText: {
