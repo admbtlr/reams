@@ -104,6 +104,7 @@
 		66BE7B64233E3C3C00183A41 /* IBMPlexMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */; };
 		66BE7BA4233E3C6A00183A41 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */; };
 		66BE7BCB233E514000183A41 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B90B420ED25A2005B5B9F /* libRNSVG.a */; };
+		66C3D56E23619E3300D39C39 /* libRNDarkMode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 665D379E2347AA560051FCB2 /* libRNDarkMode.a */; };
 		66C797491FE53E98001FBDEB /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C797421FE53E7A001FBDEB /* libRNFetchBlob.a */; };
 		66CF6320205FC6F10037124C /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AF94191FF7E69000336BA7 /* libRNFS.a */; };
 		66D95A9E22CB38FD0039C3AE /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66840A9122B0DADD00D8B1A1 /* libRNCAsyncStorage.a */; };
@@ -872,6 +873,7 @@
 				667BD117216CC5D100DB6B05 /* libSplashScreen.a in Frameworks */,
 				667377AC203EB25D00572989 /* libRNFetchBlob.a in Frameworks */,
 				6673777E203EB21800572989 /* libRNFS.a in Frameworks */,
+				66C3D56E23619E3300D39C39 /* libRNDarkMode.a in Frameworks */,
 				66ACB1471FD9924D002BC66F /* libRCTAnimation.a in Frameworks */,
 				66ACB1451FD97A20002BC66F /* libRNGL.a in Frameworks */,
 				66ACB13A1FD97855002BC66F /* libRCTActionSheet.a in Frameworks */,
