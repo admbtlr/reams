@@ -5,7 +5,9 @@ import { getIndex, getItems } from '../utils/get-item'
 const mapStateToProps = (state) => {
   const feedFilter = state.config.feedFilter
   const items = getItems(state)
-  const index = getIndex(state)
+  const index = state.config.isOnboarding ?
+    state.config.onboardingIndex :
+    getIndex(state)
   const currentItem = items.length > 1 ? items[index] : null
   const prevItem = index > 0 ? items[index - 1] : null
   const nextItem = index < items.length - 1 ? items[index + 1] : null

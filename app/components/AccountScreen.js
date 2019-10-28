@@ -92,7 +92,7 @@ class AccountScreen extends React.Component {
                 </Fragment>
               }
               <TextButton
-                text="Rizzle"
+                text="Log in to Rizzle"
                 iconCollapsed={<Image
                   source={require('../img/rizzle-logo-small-bw.png')}
                   style={{
@@ -113,6 +113,7 @@ class AccountScreen extends React.Component {
                   }}/>}
                 buttonStyle={{ marginBottom: 0 }}
                 isExpandable={true}
+                isExpanded={true}
                 renderExpandedView={() => <AccountCredentialsForm
                   backend={backend}
                   service='rizzle'
@@ -121,11 +122,11 @@ class AccountScreen extends React.Component {
               />
               <Text style={ textTipStyles }>If you use the Rizzle service to manage your feeds, you will also be able to save external web pages to read in Rizzle.</Text>
               { (backend || backend !== '') && <Text style={ textTipStyles }>When you switch to Rizzle it will automatically subscribe to all your feeds from {backendName}.</Text> }
-              <Text style={ textTipStyles }>Rizzle will cost you $1 / month; the first month is free.</Text>
+              <Text style={ textTipStyles }>Rizzle will cost you $x / month. For you, though, the first month is free.</Text>
               <Heading title='' />
               <Text style={{
                 ...textTipStyles,
-                marginBottom: 21 }}>If you want to use one of the services below in Rizzle, you will need a subscription:</Text>
+                marginBottom: 21 }}>If you prefer you can use another RSS service. You’ll need a subscription with them, obvs.</Text>
               { backend !== 'feedwrangler' && <TextButton
                 text="Feed Wrangler"
                 buttonStyle={{ marginBottom: 42 }}
@@ -135,6 +136,7 @@ class AccountScreen extends React.Component {
                   setBackend={this.props.setBackend}
                 />}
               /> }
+              { /* }
               { backend !== 'feedbin' && <TextButton
                 text="Feedbin"
                 buttonStyle={{ marginBottom: 42 }}
@@ -153,6 +155,7 @@ class AccountScreen extends React.Component {
                   setBackend={this.props.setBackend}
                 />}
               /> }
+            { */ }
             </View>
           </View>
         </ScrollView>

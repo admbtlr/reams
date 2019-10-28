@@ -13,6 +13,7 @@ import { getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, isFirstTim
 import log from '../../utils/log'
 
 function * prepareAndAddFeed (feed) {
+  debugger
   const feeds = yield select(getFeeds)
   if (feeds.find(f => (f.url && f.url === feed.url) ||
     (f._id && f._id === feed._id))) return
@@ -84,6 +85,7 @@ export function * syncFeeds () {
 
 export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
+  debugger
   for (let feed of feeds) {
     yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
     if (feed.isInflated) continue
@@ -188,7 +190,7 @@ function downloadFeedFavicon (feed) {
   })
 }
 
-export async function * subscribeToFeeds (action) {
+export function * subscribeToFeeds (action) {
   let {feeds} = action
   let addedFeeds = []
   for (var i = 0; i < feeds.length; i++) {

@@ -33,7 +33,7 @@ export function feeds (state = initialState, action) {
         ...state,
         feeds: [
           ...state.feeds,
-          newFeeds
+          ...newFeeds
         ]
       }
     case 'FEEDS_ADD_FEED':

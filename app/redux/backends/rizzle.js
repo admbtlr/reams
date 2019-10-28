@@ -166,6 +166,7 @@ export async function getFeedDetails (feed) {
     }
     return response.json()
   }).then(json => {
+    debugger
     return {
       ...json,
       ...feed,

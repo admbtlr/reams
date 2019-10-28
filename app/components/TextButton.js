@@ -15,7 +15,7 @@ class TextButton extends React.Component {
     this.props = props
 
     this.state = {
-      isExpanded: false
+      isExpanded: this.props.isExpanded || false
     }
 
     this.expand = this.expand.bind(this)
@@ -30,6 +30,7 @@ class TextButton extends React.Component {
 
   render () {
     const { isActive, isExpandable, isInverted, isCompact, onPress, text } = this.props
+    const { isExpanded } = this.state
     const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || 'white'
     let buttonStyle = {
@@ -37,7 +38,7 @@ class TextButton extends React.Component {
       backgroundColor: isInverted ? fgColor : bgColor,
       borderWidth: 1,
       borderRadius: isCompact ? 16 : 21,
-      paddingTop: isCompact ? 9 : 14,
+      paddingTop: isCompact ? 7 : 12,
       paddingBottom: isCompact ? 3 : 8,
       // flex: 1,
       height: isCompact ? 32 : 42,
@@ -46,8 +47,8 @@ class TextButton extends React.Component {
     }
     const textStyle = {
       fontFamily: 'IBMPlexSans-Bold',
-      fontSize: 16,
-      lineHeight: 16,
+      fontSize: isExpanded ? 18 : 16,
+      lineHeight: 18,
       textAlign: 'center',
       color: isInverted ? bgColor : fgColor,
     }
@@ -57,10 +58,10 @@ class TextButton extends React.Component {
           style={{
             ...buttonStyle,
             overflow: 'hidden',
-            maxHeight: this.state.isExpanded ? 'auto' : 42,
-            height: this.state.isExpanded ? 'auto' : 42
+            maxHeight: isExpanded ? 'auto' : 42,
+            height: isExpanded ? 'auto' : 42
           }}>
-          { this.state.isExpanded ? this.props.iconExpanded : this.props.iconCollapsed }
+          { isExpanded ? this.props.iconExpanded : this.props.iconCollapsed }
           <TouchableOpacity
             onPress={this.expand}
           >

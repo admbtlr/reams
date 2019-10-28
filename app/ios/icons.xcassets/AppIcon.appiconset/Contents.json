@@ -126,6 +126,16 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "Icon-Notification-2.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-Notification-3.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
       "filename" : "Icon-76@2x.png",
       "scale" : "2x"
     },
@@ -135,9 +145,31 @@
       "scale" : "2x"
     },
     {
+      "idiom" : "universal",
+      "filename" : "Icon-83.5@2x-4.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-83.5@2x-5.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "universal",
+      "filename" : "Icon-Small-43.png",
+      "scale" : "1x"
+    },
+    {
       "size" : "40x40",
       "idiom" : "universal",
       "filename" : "Icon-Small-44.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "universal",
+      "filename" : "Icon-Small-45.png",
       "scale" : "1x"
     },
     {
@@ -155,6 +187,18 @@
     {
       "size" : "76x76",
       "idiom" : "universal",
+      "filename" : "Icon-82.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-83.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
       "filename" : "Icon-76@2x-2.png",
       "scale" : "2x"
     },
@@ -162,6 +206,18 @@
       "size" : "76x76",
       "idiom" : "universal",
       "filename" : "Icon-76@2x-3.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-76@2x-4.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-76@2x-5.png",
       "scale" : "2x"
     },
     {

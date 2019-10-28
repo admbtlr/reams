@@ -121,13 +121,13 @@ class AccountCredentialsForm extends React.Component {
         password: this.state.password
       }
     const validationSchemaShape = this.props.service === 'rizzle' ?
-      {
-        email: Yup.string().required('Required')
-      } :
-      {
+      Yup.object().shape({
+        email: Yup.string().email('That doesn’t look like a valid email...').required('Required')
+      }) :
+      Yup.object().shape({
         username: Yup.string().required('Required'),
         password: Yup.string().required('Required')
-      }
+      })
     const user = this.props.user
     return (
       <Formik
@@ -135,9 +135,11 @@ class AccountCredentialsForm extends React.Component {
         initialValues={initialValues}
         isInitialValid={this.state.email || this.state.username}
         onSubmit={this.authenticateUser}
-        validationSchema={Yup.object().shape()}
+        validationSchema={validationSchemaShape}
         render={({
+          errors,
           handleChange,
+          handleReset,
           handleSubmit,
           isSubmitting,
           isValid,
@@ -147,7 +149,9 @@ class AccountCredentialsForm extends React.Component {
             { this.props.service === 'rizzle' ?
               <RizzleAuth
                 backend={this.props.backend}
+                errors={errors}
                 handleChange={handleChange}
+                handleReset={handleReset}
                 handleSubmit={handleSubmit}
                 isSubmitting={isSubmitting}
                 isValid={isValid}

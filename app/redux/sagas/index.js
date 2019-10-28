@@ -10,7 +10,7 @@ import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
 import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
-import { markFeedRead, inflateFeeds, subscribeToFeed } from './feeds'
+import { markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds } from './feeds'
 import { initBackend } from './backend'
 import { getConfig } from './selectors'
 
@@ -32,8 +32,11 @@ export function * initSagas (getFirebase) {
   yield takeEvery(REHYDRATE, init, getFirebase)
   yield takeEvery('CONFIG_SET_BACKEND', init, getFirebase)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
+  yield takeEvery('FEEDS_ADD_FEEDS', subscribeToFeeds)
   yield takeEvery('FEED_MARK_READ', markFeedRead)
   yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchUnreadItems)
+  yield takeEvery('FEEDS_ADD_FEEDS_SUCCESS', inflateFeeds)
+  yield takeEvery('FEEDS_ADD_FEEDS_SUCCESS', fetchUnreadItems)
   yield takeEvery('FEEDS_UPDATE_FEEDS', fetchUnreadItems)
   yield takeEvery('ITEM_SAVE_ITEM', markItemSaved)
   yield takeEvery('ITEM_UNSAVE_ITEM', markItemUnsaved)

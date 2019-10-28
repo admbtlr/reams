@@ -20,123 +20,8 @@ import AddFeedForm from './AddFeedForm'
 import Heading from './Heading'
 import XButton from './XButton'
 import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
+import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
-
-class ListHeaderComponent extends React.Component {
-  constructor (props) {
-    super(props)
-    this.props = props
-    this.showMarkOldReadModal = this.showMarkOldReadModal.bind(this)
-  }
-
-  showMarkOldReadModal (scope) {
-    this.props.showModal({
-      modalText: [
-        {
-          text: 'Remove old items?',
-          style: ['title']
-        },
-        {
-          text: 'This will remove all items that are more than one week old',
-          style: ['text']
-        }
-      ],
-      modalHideCancel: false,
-      modalShow: true,
-      modalOnOk: () => {
-        scope.props.markAllRead(Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
-      }
-    })
-  }
-
-  render = () => {
-    const screenWidth = Dimensions.get('window').width
-    const margin = screenWidth * 0.05
-    const buttonWidth = (screenWidth - margin * 3) / 2
-    const textStyles = {
-      fontFamily: 'IBMPlexSans',
-      fontSize: 18,
-      lineHeight: 27,
-      marginTop: margin / 2 ,
-      marginBottom: margin / 2,
-      padding: 8,
-      textAlign: 'left',
-      color: hslString('rizzleText')
-    }
-    return (
-      <View style={{
-        marginTop: 55,
-        marginBottom: 64,
-        width: Dimensions.get('window').width * 0.9
-      }}>
-        <Heading
-          title='Your Feeds'
-          showClose={true}
-          onClose={() => {
-            this.props.clearFeedFilter()
-            this.props.navigation.navigate('Items')
-          }}
-        />
-        <Text style={{
-          ...textStyles,
-          marginBottom: 0
-        }}>You are using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.backend }</Text> to manage your feeds.</Text>
-        <TextButton
-          isCompact={true}
-          isInverted={true}
-          text="Change account"
-          onPress={() => this.props.navigation.navigate('Account')}
-          buttonStyle={{
-            alignSelf: 'flex-end',
-            marginBottom: margin / 2,
-            width: buttonWidth
-          }}
-        />
-        <Heading />
-        <Text style={{
-          ...textStyles,
-          marginTop: 0,
-          paddingTop: 0
-        }}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
-        <View style={{
-          flexDirection: 'row',
-          marginBottom: margin / 2,
-          marginRight: 0 - margin
-        }}>
-          <TextButton
-            buttonStyle={{
-              marginRight: margin
-            }}
-            fgColor='#993030'
-            isCompact={true}
-            onPress={() => {
-              this.props.markAllRead()
-            }}
-            text="Clear all items" />
-          <TextButton
-            buttonStyle={{
-              marginRight: margin
-            }}
-            fgColor='#993030'
-            isCompact={true}
-            onPress={() => {
-              this.showMarkOldReadModal(this)
-            }}
-            text="Clear old items" />
-        </View>
-        <ItemsDirectionRadiosContainer />
-        <Heading title='' />
-        <View style={{ height: margin*2 }} />
-        <TextButton
-          text="Add a new feed"
-          buttonStyle={{ marginBottom: 0 }}
-          isExpandable={true}
-          renderExpandedView={() => <AddFeedForm />}
-        />
-      </View>
-    )
-  }
-}
 
 class FeedsScreen extends React.Component {
 
@@ -157,25 +42,7 @@ class FeedsScreen extends React.Component {
 
   componentDidMount = () => {
     SplashScreen.hide()
-
-    // // set up deep linking
-    // // https://medium.com/react-native-training/d87c39a1ad5e
-    // if (Platform.OS === 'android') {
-    //   Linking.getInitialURL().then(url => {
-    //     this.navigate(url);
-    //   })
-    // } else {
-    //   Linking.addEventListener('url', this.handleOpenURL)
-    // }
   }
-
-  // componentWillUnmount () {
-  //   Linking.removeEventListener('url', this.handleOpenURL)
-  // }
-
-  // handleOpenURL = (event) => {
-  //   this.navigate(event.url)
-  // }
 
   clearFeedFilter = () => {
     this.props.clearFeedFilter()
@@ -210,6 +77,14 @@ class FeedsScreen extends React.Component {
   }
 
   render = () => {
+    if (!this.props.feeds || this.props.feeds.length === 0) {
+      return (
+        <NewFeedsList
+          navigation={this.props.navigation}
+        />
+      )
+    }
+
     // console.log('Render feeds screen!')
     const width = Dimensions.get('window').width
     const margin = width * 0.04
@@ -361,6 +236,124 @@ class FeedsScreen extends React.Component {
       isSelected={isSelected}
       preDeselectFeed={this.preDeselectFeed}
     />
+  }
+}
+
+class ListHeaderComponent extends React.Component {
+  constructor (props) {
+    super(props)
+    this.props = props
+    this.showMarkOldReadModal = this.showMarkOldReadModal.bind(this)
+  }
+
+  showMarkOldReadModal (scope) {
+    this.props.showModal({
+      modalText: [
+        {
+          text: 'Remove old items?',
+          style: ['title']
+        },
+        {
+          text: 'This will remove all items that are more than one week old',
+          style: ['text']
+        }
+      ],
+      modalHideCancel: false,
+      modalShow: true,
+      modalOnOk: () => {
+        scope.props.markAllRead(Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+      }
+    })
+  }
+
+  render = () => {
+    const screenWidth = Dimensions.get('window').width
+    const margin = screenWidth * 0.05
+    const buttonWidth = (screenWidth - margin * 3) / 2
+    const textStyles = {
+      fontFamily: 'IBMPlexSans',
+      fontSize: 18,
+      lineHeight: 27,
+      marginTop: margin / 2 ,
+      marginBottom: margin / 2,
+      padding: 8,
+      textAlign: 'left',
+      color: hslString('rizzleText')
+    }
+    return (
+      <View style={{
+        marginTop: 55,
+        marginBottom: 64,
+        width: Dimensions.get('window').width * 0.9
+      }}>
+        <Heading
+          title='Your Feeds'
+          showClose={true}
+          onClose={() => {
+            this.props.clearFeedFilter()
+            this.props.navigation.navigate('Items')
+          }}
+        />
+        <Text style={{
+          ...textStyles,
+          marginBottom: 0
+        }}>You are using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.backend }</Text> to manage your feeds.</Text>
+        <TextButton
+          isCompact={true}
+          isInverted={true}
+          text="Change account"
+          onPress={() => this.props.navigation.navigate('Account')}
+          buttonStyle={{
+            alignSelf: 'flex-end',
+            marginBottom: margin / 2,
+            width: buttonWidth
+          }}
+        />
+        <Heading />
+        <Text style={{
+          ...textStyles,
+          marginTop: 0,
+          paddingTop: 0
+        }}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
+        <View style={{
+          flexDirection: 'row',
+          marginBottom: margin / 2,
+          marginRight: 0 - margin
+        }}>
+          <TextButton
+            buttonStyle={{
+              marginRight: margin
+            }}
+            fgColor='#993030'
+            isCompact={true}
+            onPress={() => {
+              this.props.markAllRead()
+            }}
+            text="Clear all items" />
+          <TextButton
+            buttonStyle={{
+              marginRight: margin
+            }}
+            fgColor='#993030'
+            isCompact={true}
+            onPress={() => {
+              this.showMarkOldReadModal(this)
+            }}
+            text="Clear old items" />
+        </View>
+        <ItemsDirectionRadiosContainer />
+        <Heading title='' />
+        <View style={{ height: margin*2 }} />
+        {/*}
+        <TextButton
+          text="Add a new feed"
+          buttonStyle={{ marginBottom: 0 }}
+          isExpandable={true}
+          renderExpandedView={() => <AddFeedForm />}
+        />
+        {*/}
+      </View>
+    )
   }
 }
 

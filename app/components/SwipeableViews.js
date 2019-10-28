@@ -157,6 +157,7 @@ class SwipeableViews extends Component {
         overscroll='never'
         ref={(ref) => { this.scrollView = ref }}
         scrollEventThrottle={1}
+        showsHorizontalScrollIndicator={false}
         snapToEnd={true}
         snapToInterval={pageWidth}
         snapToStart={true}

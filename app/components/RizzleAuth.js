@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import GoogleAuth from '../containers/GoogleAuth'
 import { authenticate } from '../redux/backends'
@@ -59,8 +59,10 @@ class RizzleAuth extends React.Component {
 
   render = () => {
     const {
+      errors,
       handleChange,
       handleLogout,
+      handleReset,
       handleSubmit,
       isSubmitting,
       isValid,
@@ -78,41 +80,67 @@ class RizzleAuth extends React.Component {
         <GoogleAuth isLoggedIn={true}/>
       </View> :
       <View>
-        <Text style={styles.textInfoStyle}>Passwordless login - enter your email and we'll send you a magic link:</Text>
-        <View style={{
-          // flex: 1,
-          flexDirection: 'row',
-          marginLeft: 20,
-          marginRight: 20,
-          marginTop: 40
-        }}>
-          <View style={{
-            flexGrow: 1
-          }}>
-            <TextInput
-              autoCapitalize='none'
-              autoCompleteType='email'
-              keyboardType='email-address'
-              onChangeText={handleChange('email')}
-              style={styles.textInputStyle}
-              textContentType='emailAddress'
-              value={values.email}
-            />
-            <Text style={styles.textLabelStyle}>Your email address</Text>
-          </View>
-          <TouchableOpacity
-            disabled={isSubmitting || !isValid}
-            onPress={handleSubmit}
-            style={{
+        { isSubmitting ?
+          <Fragment>
+            <Text style={styles.textInfoStyle}>Check your inbox and follow the link in the email we just sent you.</Text>
+            <TouchableOpacity
+              onPress={handleReset}
+              style={{
+                opacity: 0.8,
+                marginLeft: 20,
+                position: 'relative',
+                top: 16
+              }}
+            >
+              <Text style={{
+                ...styles.textButtonStyle,
+                marginTop: 24,
+                marginBottom: 24
+              }}>I didn't get an email 😭</Text>
+            </TouchableOpacity>
+          </Fragment>
+          :
+          <Fragment>
+            <Text style={styles.textInfoStyle}>Passwordless login - enter your email and we'll send you a magic link:</Text>
+            <View style={{
+              // flex: 1,
+              flexDirection: 'row',
               marginLeft: 20,
-              position: 'relative',
-              top: 8,
-              width: 24
-            }}
-          >
-            <Text style={styles.textButtonStyle}>Go</Text>
-          </TouchableOpacity>
-        </View>
+              marginRight: 20,
+              marginTop: 40
+            }}>
+              <View style={{
+                flexGrow: 1
+              }}>
+                <TextInput
+                  autoCapitalize='none'
+                  autoCompleteType='email'
+                  keyboardType='email-address'
+                  onChangeText={handleChange('email')}
+                  style={styles.textInputStyle}
+                  textContentType='emailAddress'
+                  value={values.email}
+                />
+                { errors.email ?
+                  <Text style={styles.textLabelStyle}>{errors.email}</Text> :
+                  <Text style={styles.textLabelStyle}>Your email address</Text>
+                }
+              </View>
+              <TouchableOpacity
+                disabled={isSubmitting || !isValid}
+                onPress={handleSubmit}
+                style={{
+                  marginLeft: 20,
+                  position: 'relative',
+                  top: 8,
+                  width: 24
+                }}
+              >
+                <Text style={styles.textButtonStyle}>Go</Text>
+              </TouchableOpacity>
+            </View>
+          </Fragment>
+        }
         <View style={{
           backgroundColor: '#cfcfcf',
           height: 1,

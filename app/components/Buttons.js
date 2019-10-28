@@ -478,7 +478,7 @@ class Buttons extends React.Component {
         color: 'white',
         textAlign: 'center',
         backgroundColor: 'transparent',
-        fontFamily: 'IBMPlexMono-Bold',
+        fontFamily: 'IBMPlexMono',
         fontSize: 16,
       },
       smallText: {
