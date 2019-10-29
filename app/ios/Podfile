@@ -15,11 +15,11 @@ target 'rizzle' do
 
   # pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
 
-  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+  # pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
-  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+  # pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
-  pod 'ReactNativeDarkMode', :path => '../node_modules/react-native-dark-mode'
+  # pod 'ReactNativeDarkMode', :path => '../node_modules/react-native-dark-mode'
 
   target 'rizzleTests' do
     inherit! :search_paths

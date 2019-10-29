@@ -143,6 +143,7 @@ class AccountCredentialsForm extends React.Component {
           handleSubmit,
           isSubmitting,
           isValid,
+          submitCount,
           values
         }) => (
           <View>
@@ -155,6 +156,7 @@ class AccountCredentialsForm extends React.Component {
                 handleSubmit={handleSubmit}
                 isSubmitting={isSubmitting}
                 isValid={isValid}
+                submitCount={submitCount}
                 values={values}
                 user={user}
               /> :

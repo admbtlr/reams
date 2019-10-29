@@ -66,6 +66,7 @@ class RizzleAuth extends React.Component {
       handleSubmit,
       isSubmitting,
       isValid,
+      submitCount,
       user,
       values
     } = this.props
@@ -80,7 +81,7 @@ class RizzleAuth extends React.Component {
         <GoogleAuth isLoggedIn={true}/>
       </View> :
       <View>
-        { isSubmitting ?
+        { submitCount > 0 ?
           <Fragment>
             <Text style={styles.textInfoStyle}>Check your inbox and follow the link in the email we just sent you.</Text>
             <TouchableOpacity
