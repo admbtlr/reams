@@ -137,9 +137,9 @@ class FeedItem extends React.Component {
     const item = that.props.item
     setTimeout(() => {
       if (!that.scrollView) return
-      const scrollRatio = item.scrollRatio && typeof scrollRatio === 'object' ?
-        item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html'] :
-        0
+      if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
+      const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
+      if (!scrollRatio) return
       that.scrollView._component.scrollTo({
         x: 0,
         y: scrollRatio * that.state.webViewHeight,
