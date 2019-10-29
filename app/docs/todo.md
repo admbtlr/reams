@@ -1,18 +1,19 @@
 # To Do
 
-- list of feeds to add
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - login with apple
     + https://github.com/expo/expo/blob/master/docs/pages/versions/unversioned/sdk/apple-authentication.md
-- why does the ipad crash?
-    + hypothesis: it's memory; try compressing the styles again
-- figure out why the decoration thread crashes (does it even?)
-- figure out why some items never get decorated
+- fix scrollTo
 - fix bug with second item never showing its title
 - fix bug with items re-rendering and losing your place when getting new items
+- why does the ipad crash?
+- figure out why the decoration thread crashes (does it even?)
+- figure out why some items never get decorated
 - make extension work with more data types
 - upgrade to RN 0.60
+    + https://medium.com/@deepslam/how-i-upgraded-my-application-to-react-native-0-60-5-53c52107e87
+    + https://engineering.brigad.co/demystifying-react-native-modules-linking-ae6c017a6b4a
 - placeholder images (use letters?)
 - scroll effects
 - fix wired.com custom parser
@@ -21,6 +22,7 @@
 - newsletters
 - saved folders
 
+- ~~list of feeds to add~~
 - ~~dark mode (RN 0.61? dark-mode module?)~~
 - ~~use SF symbols~~
 - ~~onboarding~~
