@@ -51,7 +51,11 @@ class FeedsScreen extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     // don't render while displaying an expanded feed
-    if (this.state.showExpandingFeed && nextState.showExpandingFeed) {
+    if (this.state.showExpandingFeed !== nextState.showExpandingFeed) {
+      return true
+    } else if (this.props.backend === nextProps.backend &&
+      this.props.feeds === nextProps.feeds &&
+      this.props.numItems === nextProps.numItems) {
       return false
     }
     return true
@@ -232,7 +236,7 @@ class FeedsScreen extends React.Component {
       index={index}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
-      selectFeed={this.onFeedPress}
+      selectFeed={this.selectFeed}
       isSelected={isSelected}
       preDeselectFeed={this.preDeselectFeed}
     />

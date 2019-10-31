@@ -94,7 +94,7 @@ class FeedContracted extends React.PureComponent {
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 1),
-          startClock(clock),
+          debug('Gesture state began, startClock', startClock(clock)),
           call([], this.onPress)
         ]),
         cond(and(eq(gestureState, State.FAILED), neq(config.toValue, 0)), [
@@ -102,7 +102,7 @@ class FeedContracted extends React.PureComponent {
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 0),
-          startClock(clock),
+          debug('Gesture state failed, startClock', startClock(clock)),
           call([], this.cancelPress)
         ]),
         cond(and(eq(gestureState, State.END), neq(config.toValue, 0)), [
@@ -110,11 +110,15 @@ class FeedContracted extends React.PureComponent {
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 0),
-          startClock(clock),
+          debug('Gesture state ended, startClock', startClock(clock))
         ]),
         timing(clock, state, config),
-        cond(state.finished, stopClock(clock)),
-        cond(and(eq(gestureState, State.END), state.finished), call([], this.hide)),
+        cond(state.finished, [
+          debug('Animation finished, stopClock', stopClock(clock)),
+        ]),
+        cond(and(eq(gestureState, State.END), state.finished), [
+          debug('Animation finished, gesture state ended, call this.hide', call([], this.hide))
+        ]),
         interpolate(state.position, {
           inputRange: [0, 1],
           outputRange: [1, 0.95],

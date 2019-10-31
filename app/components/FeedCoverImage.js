@@ -74,69 +74,85 @@ class FeedCoverImage extends React.Component {
       height
     } = this.props
 
-    if (cachedCoverImageId) {
-      const cachedCoverImagePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
-      const opacityAnim = new Animated.Value(0)
-      Animated.timing(opacityAnim, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true
-      }).start()
-      return <Animated.Image
-        width={width}
-        height={height}
-        source={{ uri: 'file://' + cachedCoverImagePath }}
-        style={{
-          width,
-          height,
-          opacity: opacityAnim
-        }}
-      />
-    }
-
     const coverImageUrl = coverImageId ?
       `file://${getCachedCoverImagePath(coverImageId)}` :
       null
 
-    return (feedColor && coverImageUrl && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
-    (
-      <Surface
-        width={width}
-        height={height}
-        backgroundColor='#000'
-        backgroundColor='#000'
-        key='456'
-        preload={true}
-        onLoad={this.captureImage}
-        ref={ ref => { this.surface = ref } }
-      >
-        {/*<ColorBlending
-          color={blendColor(feedColor, 'desaturated')}
-          blendMode='blendMultiply'
-        >
-          <ContrastSaturationBrightness
-            saturation={0.5}
-            contrast={0.8}
-            brightness={2}
-          >*/}
-            <GLImage
-              center={[0.5, 0]}
-              resizeMode='cover'
-              source={{
-                uri: coverImageUrl,
-                width: coverImageDimensions.width,
-                height: coverImageDimensions.height
-              }}
-              imageSize={{
-                width: coverImageDimensions.width,
-                height: coverImageDimensions.height
-              }}
-            />
-          {/*</ContrastSaturationBrightness>
-        </ColorBlending>*/}
-      </Surface>
-    ) :
-    null
+    return coverImageId ? <Animated.Image
+        source={{
+          uri: coverImageUrl
+        }}
+        style={{
+          alignSelf: 'center',
+          width,
+          height,
+        }}
+      /> :
+      null
+
+  //   if (cachedCoverImageId) {
+  //     const cachedCoverImagePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
+  //     const opacityAnim = new Animated.Value(0)
+  //     Animated.timing(opacityAnim, {
+  //       toValue: 1,
+  //       duration: 200,
+  //       useNativeDriver: true
+  //     }).start()
+  //     return <Animated.Image
+  //       width={width}
+  //       height={height}
+  //       source={{ uri: 'file://' + cachedCoverImagePath }}
+  //       style={{
+  //         width,
+  //         height,
+  //         opacity: opacityAnim
+  //       }}
+  //     />
+  //   }
+
+  //   const coverImageUrl = coverImageId ?
+  //     `file://${getCachedCoverImagePath(coverImageId)}` :
+  //     null
+
+  //   return (feedColor && coverImageUrl && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
+  //   (
+  //     <Surface
+  //       width={width}
+  //       height={height}
+  //       backgroundColor='#000'
+  //       backgroundColor='#000'
+  //       key='456'
+  //       preload={true}
+  //       onLoad={this.captureImage}
+  //       ref={ ref => { this.surface = ref } }
+  //     >
+  //       {/*<ColorBlending
+  //         color={blendColor(feedColor, 'desaturated')}
+  //         blendMode='blendMultiply'
+  //       >
+  //         <ContrastSaturationBrightness
+  //           saturation={0.5}
+  //           contrast={0.8}
+  //           brightness={2}
+  //         >*/}
+  //           <GLImage
+  //             center={[0.5, 0]}
+  //             resizeMode='cover'
+  //             source={{
+  //               uri: coverImageUrl,
+  //               width: coverImageDimensions.width,
+  //               height: coverImageDimensions.height
+  //             }}
+  //             imageSize={{
+  //               width: coverImageDimensions.width,
+  //               height: coverImageDimensions.height
+  //             }}
+  //           />
+  //         {/*</ContrastSaturationBrightness>
+  //       </ColorBlending>*/}
+  //     </Surface>
+  //   ) :
+  //   null
 
   }
 }

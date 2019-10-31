@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import Animated, { Easing } from 'react-native-reanimated'
 import { PanGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler'
 import { blendColor, hslString } from '../utils/colors'
@@ -92,6 +93,7 @@ class FeedExpanded extends React.Component {
     }])
 
     this.deselectFeed = this.deselectFeed.bind(this)
+    this.setFeedExpanded = this.setFeedExpanded.bind(this)
   }
 
   initialiseAnimations () {
@@ -106,7 +108,7 @@ class FeedExpanded extends React.Component {
       const state = {
         finished: new Value(0),
         velocity: new Value(0),
-        position: new Value(0),
+        position: new Value(this.isExpanded ? 1 : 0),
         time: new Value(0),
         frameTime: new Value(0)
       }
@@ -146,11 +148,16 @@ class FeedExpanded extends React.Component {
           startClock(clock),
           call([state.position], this.showStatusBar)
         ]),
-        cond(state.finished, stopClock(clock)),
+        cond(state.finished, [
+          debug('state finished, stopping clock, position = ', state.position),
+          stopClock(clock)
+        ]),
+        cond(and(state.finished, eq(state.position, 1)), [
+          call([state.position], this.setFeedExpanded)
+        ]),
         spring(clock, state, config),
         // call([state.position], this.showHideStatusBar),
         call([state.position, state.finished], this.deselectFeed),
-        // debug('position', state.position),
         state.position
       ])
     }
@@ -174,6 +181,10 @@ class FeedExpanded extends React.Component {
     } else if (position <= 0) {
       StatusBar.setHidden(false, 'slide')
     }
+  }
+
+  setFeedExpanded () {
+    this.isExpanded = true
   }
 
   deselectFeed ([position, finished]) {
@@ -277,6 +288,84 @@ class FeedExpanded extends React.Component {
     // TODO: delete them completely?
     const showFavicon = false
 
+    const likeIcon = <Svg
+        height='32'
+        width='32'>
+        <Path
+          d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
+          strokeWidth={2}
+          stroke={ feedIsLiked ? 'white' : hslString('rizzleText') }
+          fill={ feedIsLiked ? 'white' : 'none' }
+        />
+      </Svg>
+
+    const muteIcon = <Svg
+        height='32'
+        width='32'>
+        <Path
+          d='M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6'
+          strokeWidth={2}
+          stroke={ feedIsMuted ? 'white' : hslString('rizzleText') }
+          fill={ feedIsMuted ? 'white' : 'none' }
+        />
+      </Svg>
+
+    const discardAllIcon = <Svg
+        height='32'
+        width='24'
+        fill='none'
+        stroke={hslString('rizzleText')}
+        strokeWidth={2}
+        strokeLinecap='round'
+        strokeLinejoin='round'>
+        <Polyline
+          points='3 6 5 6 21 6' />
+        <Path
+          d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2' />
+        <Line
+          x1='10'
+          y1='11'
+          x2='10'
+          y2='17' />
+        <Line
+          x1='14'
+          y1='11'
+          x2='14'
+          y2='17' />
+      </Svg>
+
+    const unsubscribeIcon = <Svg
+        width='32'
+        height='32'
+        fill='none'
+        stroke={hslString('rizzleText')}
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'>
+        <Line x1='18' y1='6' x2='6' y2='18' />
+        <Line x1='6' y1='6' x2='18' y2='18' />
+      </Svg>
+
+    const readIcon = <Svg
+        height='32'
+        width='32'>
+        <Path
+          d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+          strokeWidth={2}
+          stroke={hslString('rizzleText')}
+          fill="none"
+        />
+        <Circle
+          cx="12"
+          cy="12"
+          r="3"
+          strokeWidth={2}
+          stroke={hslString('rizzleText')}
+          fill='none'
+        />
+      </Svg>
+
+
     return (
       <Animated.View
         style={{
@@ -364,15 +453,6 @@ class FeedExpanded extends React.Component {
               position: 'absolute',
               backgroundColor: 'rgba(0, 0, 0, 0.4)'
             }}>
-              <TapGestureHandler
-                onHandlerStateChange={this.onCloseButtonPress}
-              >
-                <Animated.View style={{
-                  opacity: this.expandAnim
-                }}>
-                  <XButton isLight={true} style={{ top: 48 }}/>
-                </Animated.View>
-              </TapGestureHandler>
               <Animated.View style={{
                 height: this.cardHeight,
                 paddingLeft: this.margin,
@@ -454,6 +534,18 @@ class FeedExpanded extends React.Component {
             </View>
           </Animated.View>
         </PanGestureHandler>
+        <TapGestureHandler
+          onHandlerStateChange={this.onCloseButtonPress}
+        >
+          <Animated.View style={{
+            opacity: this.expandAnim,
+            position: 'absolute',
+            top: 10,
+            right: 0
+          }}>
+            <XButton isLight={true} style={{ top: 48 }}/>
+          </Animated.View>
+        </TapGestureHandler>
           <Animated.View style={{
             backgroundColor: '#F2ECD9',
             // 20px to cover the round corners of the image
@@ -502,38 +594,28 @@ class FeedExpanded extends React.Component {
                       marginRight: this.margin,
                       marginBottom: this.margin
                     }}
+                    icon={discardAllIcon}
                     onPress={() => {
-                      console.log('Pressed Go to items ' + feedId)
-                      this.props.clearReadItems()
-                      this.props.filterItems(feedId)
-                      this.props.navigation.navigate('Items')
-                      StatusBar.setHidden(false)
+                      this.props.markAllRead(feedId, feedOriginalId, Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
                     }}
-                    text="Go to items" />
+                    text="Discard old" />
                   <TextButton
                     buttonStyle={{
                       minWidth: this.screenWidth / 2 - this.margin * 1.5,
                       marginBottom: this.margin
                     }}
+                    icon={discardAllIcon}
                     onPress={() => {
-                      this.props.markAllRead(feedId, feedOriginalId, Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+                      this.props.markAllRead(feedId, feedOriginalId)
                     }}
-                    text="Remove older" />
+                    text="Discard all" />
                   <TextButton
                     buttonStyle={{
                       minWidth: this.screenWidth / 2 - this.margin * 1.5,
                       marginRight: this.margin,
                       marginBottom: this.margin
                     }}
-                    onPress={() => {
-                      this.props.markAllRead(feedId, feedOriginalId)
-                    }}
-                    text="Remove all" />
-                  <TextButton
-                    buttonStyle={{
-                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
-                      marginBottom: this.margin
-                    }}
+                    icon={unsubscribeIcon}
                     onPress={() => {
                       this.props.unsubscribe(feedId)
                     }}
@@ -541,10 +623,26 @@ class FeedExpanded extends React.Component {
                   <TextButton
                     buttonStyle={{
                       minWidth: this.screenWidth / 2 - this.margin * 1.5,
+                      marginBottom: this.margin
+                    }}
+                    icon={readIcon}
+                    onPress={() => {
+                      console.log('Pressed Go to items ' + feedId)
+                      this.props.clearReadItems()
+                      this.props.filterItems(feedId)
+                      this.props.navigation.navigate('Items')
+                      StatusBar.setHidden(false)
+                    }}
+                    text="Read items" />
+                  <TextButton
+                    buttonStyle={{
+                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
                       marginRight: this.margin
                     }}
+                    icon={muteIcon}
                     isInverted={feedIsMuted}
                     onPress={() => {
+                      console.log('Mute')
                       this.props.toggleMute(feedId)
                     }}
                     text="Mute" />
@@ -552,8 +650,10 @@ class FeedExpanded extends React.Component {
                     buttonStyle={{
                       minWidth: this.screenWidth / 2 - this.margin * 1.5
                     }}
+                    icon={likeIcon}
                     isInverted={feedIsLiked}
                     onPress={() => {
+                      console.log('Like')
                       this.props.toggleLike(feedId)
                     }}
                     text="Like" />

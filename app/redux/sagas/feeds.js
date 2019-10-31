@@ -85,7 +85,6 @@ export function * syncFeeds () {
 
 export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
-  debugger
   for (let feed of feeds) {
     yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
     if (feed.isInflated) continue

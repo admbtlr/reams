@@ -20,6 +20,8 @@ const mapStateToProps = (state, ownProps) => {
   if (feed) {
     return {
       ...ownProps,
+      feedIsLiked: feed.isLiked,
+      feedIsMuted: feed.isMuted,
       numUnread: items.filter(i => i.feed_id === feedId).length,
       numRead: feed.number_read || 0,
       readingTime: feed.reading_time || 0,

@@ -54,7 +54,6 @@ const testFeeds = [
 const sortFeeds = (a, b) => b.number_unread - a.number_unread
 
 const mapStateToProps = (state) => {
-  console.log(testFeeds)
   const items = state.itemsUnread.items
   const feeds = state.feeds.feeds.slice().sort(sortFeeds)
   const itemSort = state.config.itemSort

@@ -29,10 +29,13 @@ class TextButton extends React.Component {
   }
 
   render () {
-    const { isActive, isExpandable, isInverted, isCompact, onPress, text } = this.props
+    const { icon, isActive, isExpandable, isInverted, isCompact, onPress, text } = this.props
     const { isExpanded } = this.state
     const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || 'white'
+    if (icon) {
+      console.log(icon)
+    }
     let buttonStyle = {
       borderColor: fgColor,
       backgroundColor: isInverted ? fgColor : bgColor,
@@ -83,6 +86,12 @@ class TextButton extends React.Component {
         <TouchableOpacity
           onPress={onPress}
           style={buttonStyle}>
+          <View style={{
+            position: 'absolute',
+            top: 9,
+            left: 8,
+            backgroundColor: 'transparent'
+          }}>{icon}</View>
           <Text style={textStyle}>{text}</Text>
         </TouchableOpacity>
       )
