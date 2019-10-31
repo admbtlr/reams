@@ -243,7 +243,7 @@ class FeedItem extends React.Component {
   <head>
     <style>
 :root {
-  --feed-color: ${hslString(this.props.item.feed_color)};
+  --feed-color: ${hslString(this.props.item.feed_color, this.props.isDarkBackground ? 'darkmode' : '')};
 }
     </style>
     <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">

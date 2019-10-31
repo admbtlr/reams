@@ -334,7 +334,7 @@ class ListHeaderComponent extends React.Component {
             onPress={() => {
               this.props.markAllRead()
             }}
-            text="Clear all items" />
+            text="Discard all" />
           <TextButton
             buttonStyle={{
               marginRight: margin
@@ -344,7 +344,7 @@ class ListHeaderComponent extends React.Component {
             onPress={() => {
               this.showMarkOldReadModal(this)
             }}
-            text="Clear old items" />
+            text="Discard old" />
         </View>
         <ItemsDirectionRadiosContainer />
         <Heading title='' />

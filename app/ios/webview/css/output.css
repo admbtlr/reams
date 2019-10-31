@@ -321,7 +321,7 @@ body {
   .dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
     color: #4d4d4d; }
   .dark-background .itemArticle blockquote, .dark-background .itemArticle figcaption {
-    background-color: rgba(0, 0, 0, 0.2); }
+    background-color: rgba(255, 255, 255, 0.05); }
   .dark-background .itemArticle pre {
     color: #cccccc; }
 

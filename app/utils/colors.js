@@ -156,8 +156,13 @@ export function blendColor (colorName, modifier = '') {
 
 export function hslString (color, modifier = '', alpha) {
   if (typeof color === 'object') {
-    // custom color!
-    return `hsl(${color[0]}, ${color[1]}%, ${color[2]}%)`
+    let lightness = color[2]
+    if (modifier === 'darkmode') {
+      lightness = lightness < 30 ?
+        50 + (30 - lightness) :
+        lightness
+    }
+    return `hsl(${color[0]}, ${color[1]}%, ${lightness}%)`
   }
   let palette
   switch (modifier) {
