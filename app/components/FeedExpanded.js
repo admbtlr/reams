@@ -339,7 +339,7 @@ class FeedExpanded extends React.Component {
         height='32'
         fill='none'
         stroke={hslString('rizzleText')}
-        strokeWidth='2'
+        strokeWidth='3'
         strokeLinecap='round'
         strokeLinejoin='round'>
         <Line x1='18' y1='6' x2='6' y2='18' />

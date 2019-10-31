@@ -67,15 +67,16 @@ class FeedsScreen extends React.Component {
       this.state.selectedFeedElement === null) {
       setTimeout(() => {
         // make sure that the user hasn't selected another feed in the meantime
-        if (this.state.selectedFeedElement === null) {
-          this.setState({
-            ...this.state,
-            showExpandingFeed: false,
-            prevSelectedFeedElement: null,
-            prevSelectedFeedElementXCoord: null,
-            prevSelectedFeedElementYCoord: null
-          })
-        }
+        // if (this.state.selectedFeedElement === null) {
+        // }
+        this.setState({
+          ...this.state,
+          showExpandingFeed: false,
+          selectedFeedElement: null,
+          prevSelectedFeedElement: null,
+          prevSelectedFeedElementXCoord: null,
+          prevSelectedFeedElementYCoord: null
+        })
       }, 200)
     }
   }
