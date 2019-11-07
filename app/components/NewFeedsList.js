@@ -39,6 +39,10 @@ export default function NewFeedsList (props) {
   const [selectedFeeds, setFeeds] = useState([])
   const dispatch = useDispatch()
 
+  if (!props.uid) {
+    props.navigation.navigate('Account')
+  }
+
   const toggleFeedSelected = (feed, isSelected) => {
     if (isSelected) {
       let sf = selectedFeeds.map(f => f)
@@ -75,6 +79,7 @@ export default function NewFeedsList (props) {
           // marginTop: margin
         }}
         style={{
+          backgroundColor: hslString('rizzleBG'),
           flex: 1
         }}>
         <StatusBar
@@ -117,6 +122,8 @@ export default function NewFeedsList (props) {
         position: 'absolute',
         bottom: margin * 2,
         left: margin,
+        width: screenWidth,
+        justifyContent: 'center',
         transform: [
           { translateY: buttonAnim }
         ]
@@ -131,7 +138,8 @@ export default function NewFeedsList (props) {
             props.navigation.navigate('Items')
           }}
           buttonStyle={{
-            width: screenWidth - (margin * 2),
+            marginLeft: margin,
+            marginRight: margin
           }}
         />
       </Animated.View>
