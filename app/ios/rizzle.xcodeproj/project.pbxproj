@@ -71,7 +71,8 @@
 		667BD117216CC5D100DB6B05 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF63B22066CC9F0037124C /* libSplashScreen.a */; };
 		667D13A021D66D1F0047425F /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 668F510021B7C2D90064F485 /* libRNFirebase.a */; };
 		66840AA522B0DAF600D8B1A1 /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66840A9122B0DADD00D8B1A1 /* libRNCAsyncStorage.a */; };
-		66840B2D22B2D55B00D8B1A1 /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66840B1922B2D54600D8B1A1 /* libRNCWebView.a */; };
+		668C6576236C468A004F9006 /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 668C6560236C467D004F9006 /* libRNCWebView.a */; };
+		668C65DD236C9498004F9006 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 668C659C236C9498004F9006 /* splash@2x.png */; };
 		668CE94B2153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9492153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf */; };
 		668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
@@ -480,19 +481,19 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNCAsyncStorage;
 		};
-		66840B1822B2D54600D8B1A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 66840AEA22B2D54600D8B1A1 /* RNCWebView.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNCWebView;
-		};
 		6687CA771F9FA0CA0011FBE3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6687CA3D1F9FA05E0011FBE3;
 			remoteInfo = "RNSVG-tvOS";
+		};
+		668C655F236C467D004F9006 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 668C6531236C467D004F9006 /* RNCWebView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCWebView;
 		};
 		668F50FF21B7C2D90064F485 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -698,8 +699,9 @@
 		66737813204315E300572989 /* RizzleShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RizzleShare.entitlements; sourceTree = "<group>"; };
 		667378142043199F00572989 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IBMPlexMono-Regular.ttf"; path = "../../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
 		66840A6122B0DADC00D8B1A1 /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCAsyncStorage.xcodeproj; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; };
-		66840AEA22B2D54600D8B1A1 /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
 		6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
+		668C6531236C467D004F9006 /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
+		668C659C236C9498004F9006 /* splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash@2x.png"; path = "../img/splash@2x.png"; sourceTree = "<group>"; };
 		668CE8CE2153991100CA3EDF /* PlayfairDisplaySC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplaySC-Bold.ttf"; sourceTree = "<group>"; };
 		668CE8CF2153991100CA3EDF /* PlayfairDisplaySC-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplaySC-BoldItalic.ttf"; sourceTree = "<group>"; };
 		668CE8D22153992F00CA3EDF /* PlayfairDisplay-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Bold.otf"; sourceTree = "<group>"; };
@@ -798,7 +800,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				665D37B32347AA700051FCB2 /* libRNDarkMode.a in Frameworks */,
-				66840B2D22B2D55B00D8B1A1 /* libRNCWebView.a in Frameworks */,
 				66840AA522B0DAF600D8B1A1 /* libRNCAsyncStorage.a in Frameworks */,
 				66A20C6C22A6F190007CEEB3 /* libRNReanimated.a in Frameworks */,
 				66FADBB02295D912000FEA40 /* libRNGestureHandler.a in Frameworks */,
@@ -821,6 +822,7 @@
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
+				668C6576236C468A004F9006 /* libRNCWebView.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				FF4BFC3A89D34A7A9A79FD41 /* libRNBlur.a in Frameworks */,
@@ -1180,14 +1182,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		66840AEB22B2D54600D8B1A1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				66840B1922B2D54600D8B1A1 /* libRNCWebView.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6687CA3C1F9FA05E0011FBE3 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -1213,6 +1207,14 @@
 			children = (
 				664B90AD20ED25A2005B5B9F /* libRNSVG.a */,
 				6687CA781F9FA0CA0011FBE3 /* libRNSVG-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		668C6532236C467D004F9006 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				668C6560236C467D004F9006 /* libRNCWebView.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1323,8 +1325,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				668C6531236C467D004F9006 /* RNCWebView.xcodeproj */,
 				665D376E2347AA550051FCB2 /* RNDarkMode.xcodeproj */,
-				66840AEA22B2D54600D8B1A1 /* RNCWebView.xcodeproj */,
 				66840A6122B0DADC00D8B1A1 /* RNCAsyncStorage.xcodeproj */,
 				66A20C2A22A6F16B007CEEB3 /* RNReanimated.xcodeproj */,
 				66FADB6F2295D8E4000FEA40 /* RNGestureHandler.xcodeproj */,
@@ -1388,6 +1390,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				668C659C236C9498004F9006 /* splash@2x.png */,
 				66FBE127221C3C6A003F9FA8 /* RNInAppBrowser.xcodeproj */,
 				663D7FD721A54CD60085CB7A /* GoogleService-Info.plist */,
 				668CE8D621539B7E00CA3EDF /* PlayfairDisplay-Bold.ttf */,
@@ -1667,8 +1670,8 @@
 					ProjectRef = 66840A6122B0DADC00D8B1A1 /* RNCAsyncStorage.xcodeproj */;
 				},
 				{
-					ProductGroup = 66840AEB22B2D54600D8B1A1 /* Products */;
-					ProjectRef = 66840AEA22B2D54600D8B1A1 /* RNCWebView.xcodeproj */;
+					ProductGroup = 668C6532236C467D004F9006 /* Products */;
+					ProjectRef = 668C6531236C467D004F9006 /* RNCWebView.xcodeproj */;
 				},
 				{
 					ProductGroup = 665D376F2347AA550051FCB2 /* Products */;
@@ -2073,18 +2076,18 @@
 			remoteRef = 66840A9022B0DADD00D8B1A1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		66840B1922B2D54600D8B1A1 /* libRNCWebView.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNCWebView.a;
-			remoteRef = 66840B1822B2D54600D8B1A1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6687CA781F9FA0CA0011FBE3 /* libRNSVG-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRNSVG-tvOS.a";
 			remoteRef = 6687CA771F9FA0CA0011FBE3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		668C6560236C467D004F9006 /* libRNCWebView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCWebView.a;
+			remoteRef = 668C655F236C467D004F9006 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		668F510021B7C2D90064F485 /* libRNFirebase.a */ = {
@@ -2228,6 +2231,7 @@
 				AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */,
 				3D02833F47B84842A441CCD8 /* IBMPlexMono-Regular.ttf in Resources */,
 				9B29B4BC3A004A7489FE2344 /* IBMPlexSans-Bold.ttf in Resources */,
+				668C65DD236C9498004F9006 /* splash@2x.png in Resources */,
 				79DC44BDD1334F7B80DD977D /* IBMPlexSans-BoldItalic.ttf in Resources */,
 				6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */,
 				97D942E3984B4C94B98942FC /* IBMPlexSans-Light.ttf in Resources */,
@@ -2643,11 +2647,7 @@
 				INFOPLIST_FILE = rizzleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2681,11 +2681,7 @@
 				INFOPLIST_FILE = rizzleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2705,7 +2701,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 304;
+				CURRENT_PROJECT_VERSION = 308;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2751,7 +2747,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 304;
+				CURRENT_PROJECT_VERSION = 308;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2816,11 +2812,7 @@
 				);
 				INFOPLIST_FILE = "rizzle-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2863,11 +2855,7 @@
 				);
 				INFOPLIST_FILE = "rizzle-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2894,11 +2882,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "rizzle-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.rizzle-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2921,11 +2905,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "rizzle-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.rizzle-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2954,7 +2934,7 @@
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 304;
+				CURRENT_PROJECT_VERSION = 308;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -2977,11 +2957,7 @@
 				INFOPLIST_FILE = RizzleShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3018,7 +2994,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 304;
+				CURRENT_PROJECT_VERSION = 308;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -3040,11 +3016,7 @@
 				INFOPLIST_FILE = RizzleShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

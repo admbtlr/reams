@@ -58,7 +58,7 @@
     "react-native-swiss-knife": "0.0.5",
     "react-native-text-size": "^4.0.0-rc.1",
     "react-native-touchable-scale": "^2.0.0",
-    "react-native-webview": "^5.12.0",
+    "react-native-webview": "^6.10.0",
     "react-native-webview-autoheight": "^1.0.4",
     "react-native-xml2js": "^1.0.3",
     "react-navigation": "^3.0.0",
