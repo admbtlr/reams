@@ -591,9 +591,9 @@ class ItemTitle extends React.Component {
       paddingRight: horizontalPadding,
       paddingBottom: (!showCoverImage || coverImageStyles.isInline) ?
           this.getExcerptLineHeight() :
-        (styles.bg || styles.textAlign === 'center' || styles.borderWidth) ?
+        (styles.textAlign === 'center' || styles.borderWidth) ?
           innerPadding :
-          this.getExcerptLineHeight(),
+          styles.bg ? this.horizontalMargin : this.getExcerptLineHeight(),
       paddingTop: this.horizontalMargin,//innerPadding + borderWidth,
       backgroundColor: showCoverImage && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       height: 'auto',
@@ -782,7 +782,11 @@ class ItemTitle extends React.Component {
         { authorView }
         { dateView }
         {(!showCoverImage && this.itemStartsWithImage()) ||
-          (showCoverImage && styles.excerptInvertBG) ||
+          (showCoverImage &&
+            this.props.item.excerpt !== null &&
+            this.props.item.excerpt !== undefined &&
+            this.props.item.excerpt.length > 0 &&
+            styles.excerptInvertBG) ||
           (showCoverImage && coverImageStyles.resizeMode === 'contain') ||
           barView
         }
@@ -948,8 +952,8 @@ class ItemTitle extends React.Component {
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
-      marginBottom: (!showCoverImage || coverImageStyles.isInline) ?
-        0 : this.getExcerptLineHeight(),
+      marginBottom: /*(!showCoverImage || coverImageStyles.isInline) ?
+        0 : this.getExcerptLineHeight()*/ 0,
       padding: 0,
       width: this.screenWidth
     }
@@ -965,35 +969,36 @@ class ItemTitle extends React.Component {
     const { coverImageStyles, date, item, showCoverImage, styles } = this.props
     let dateStyle = {
       color: showCoverImage &&
-        !coverImageStyles.isInline &&
-        !coverImageStyles.isScreen ? 'white' : '#666', // hslString(item.feed_color, 'desaturated'),
+        !coverImageStyles.isInline/* &&
+        !coverImageStyles.isScreen*/ ? 'white' : '#666', // hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.9,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: Math.round(this.getExcerptFontSize() * 1.4),
-      textAlign: showCoverImage && !coverImageStyles.isInline ? 'center' : styles.textAlign,
+      textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
-      marginBottom: (!showCoverImage || coverImageStyles.isInline) ?
-        this.getExcerptLineHeight() : 18,
+      marginBottom: /*(!showCoverImage || coverImageStyles.isInline) ?
+        */this.getExcerptLineHeight()/* : 18*/,
       padding: 0,
       width: this.screenWidth,
       // ...shadowStyle
     }
 
-    if (showCoverImage && !coverImageStyles.isInline) {
-      dateStyle.position = 'absolute'
-      dateStyle.top = this.screenHeight * (isIphoneX() ? 0.11 : 0.08) // heuristic
-    }
+    // if (showCoverImage && !coverImageStyles.isInline) {
+    //   dateStyle.position = 'absolute'
+    //   dateStyle.top = this.screenHeight * (isIphoneX() ? 0.11 : 0.08) // heuristic
+    // }
 
-    if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {
-      dateStyle.transform = [
-        {translateY: 150},
-        {translateX: (this.screenWidth / 2) - 20},
-        {rotateZ: '90deg'}
-      ]
-      dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
-    }
+    // if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {
+    //   dateStyle.transform = [
+    //     {translateY: 150},
+    //     {translateX: (this.screenWidth / 2) - 20},
+    //     {rotateZ: '90deg'}
+    //   ]
+    //   dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
+    // }
+    dateStyle = this.addAnimationsIfNecessary(dateStyle, anim)
 
     // TODO this is feedwrangler... fix it
     const theDate = (typeof date === 'number') ? date : date

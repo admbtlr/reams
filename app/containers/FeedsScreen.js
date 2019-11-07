@@ -67,7 +67,8 @@ const mapStateToProps = (state) => {
     backend: backendLabels[state.config.backend],
     feeds,
     numItems: items.length,
-    itemSort
+    itemSort,
+    uid: state.user.uid
   }
 }
 

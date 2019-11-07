@@ -19,6 +19,26 @@ import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import FeedIconContainer from '../containers/FeedIcon'
 
+const {
+  and,
+  block,
+  call,
+  cond,
+  debug,
+  eq,
+  event,
+  interpolate,
+  neq,
+  or,
+  set,
+  startClock,
+  stopClock,
+  timing,
+  Clock,
+  Extrapolate,
+  Value
+} = Animated
+
 class FeedContracted extends React.PureComponent {
 
   constructor (props) {
@@ -27,7 +47,7 @@ class FeedContracted extends React.PureComponent {
 
     const dim = Dimensions.get('window')
     this.screenWidth = dim.width
-    this.margin = this.screenWidth * 0.03
+    this.margin = this.screenWidth * 0.05
     this.cardWidth = this.screenWidth < 500 ?
       this.screenWidth - this.margin * 2 :
       (this.screenWidth - this.margin * 3) / 2
@@ -40,32 +60,14 @@ class FeedContracted extends React.PureComponent {
     this.currentX = this.props.xCoord || 0
     this.currentY = this.props.yCoord || 0
 
-    this.opacity = new Animated.Value(1)
+    // this.opacity = new Animated.Value(1)
     this.hide = this.hide.bind(this)
+    this.cancelPress = this.cancelPress.bind(this)
 
     this.initialiseAnimations()
   }
 
   initialiseAnimations () {
-    const {
-      and,
-      block,
-      call,
-      cond,
-      debug,
-      eq,
-      event,
-      interpolate,
-      neq,
-      or,
-      set,
-      startClock,
-      stopClock,
-      timing,
-      Clock,
-      Extrapolate,
-      Value
-    } = Animated
     this.gestureState = new Value(-1)
     const clock = new Clock()
     this.onStateChange = event([{
@@ -130,15 +132,17 @@ class FeedContracted extends React.PureComponent {
   }
 
   onPress = (e) => {
-    this.imageView.measure(this.measured)
+    // this.imageView.measure(this.measured)
   }
 
   cancelPress = (e) => {
     console.log("Press cancelled")
+    // this.props.deselectFeed()
   }
 
   hide = () => {
-    this.opacity.setValue(0)
+    // this.opacity.setValue(0)
+    this.imageView.measure(this.measured)
   }
 
   measured = (x, y, width, height, px, py) => {
@@ -179,7 +183,7 @@ class FeedContracted extends React.PureComponent {
       textAlign: 'left'
     }
 
-    console.log("Rendering " + feedTitle)
+    // console.log("Rendering " + feedTitle)
 
     const bold = {
       fontFamily: 'IBMPlexMono-Bold',
@@ -208,7 +212,7 @@ class FeedContracted extends React.PureComponent {
             flex: 1,
             height: this.cardHeight,
             width: this.cardWidth,
-            marginBottom: this.margin,
+            marginBottom: this.margin * 0.5,
             marginRight: (this.props.index % 2 === 0 && this.screenWidth > 500) ?
               this.margin :
               0,
@@ -219,7 +223,12 @@ class FeedContracted extends React.PureComponent {
                 scaleX: this._scale,
                 scaleY: this._scale
               }
-            ]
+            ],
+            // opacity: this.props.expandAnim ?
+            //   interpolate(this.props.expandAnim, {
+            //     inputRange: [0, 0.2, 0.5, 1],
+            //     outputRange: [1, 1, 1, 0]
+            //   }) : 1
           }}
           ref={c => this.outerView = c}
         >
@@ -261,9 +270,9 @@ class FeedContracted extends React.PureComponent {
               height: '100%',
               borderRadius: 16,
               // paddingTop: this.margin * .5,
-              paddingLeft: this.margin,
-              paddingRight: this.margin,
-              paddingBottom: this.margin,
+              paddingLeft: this.margin * 0.5,
+              paddingRight: this.margin * 0.5,
+              paddingBottom: this.margin * 0.5,
               position: 'absolute',
               flex: 1,
               flexDirection: 'column',

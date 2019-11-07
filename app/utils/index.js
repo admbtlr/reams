@@ -1,5 +1,11 @@
 const RNFS = require('react-native-fs')
-import { Animated, Dimensions, Image, Platform } from 'react-native'
+import {
+  Animated,
+  AsyncStorage,
+  Dimensions,
+  Image,
+  Platform
+} from 'react-native'
 
 export function deepEqual (a, b, ignoreNull = false) {
   try {
@@ -78,6 +84,23 @@ export function getImageDimensions (path) {
   })
 }
 
+export async function isFirstLaunch () {
+  const setLaunchDate = (date) => {
+    AsyncStorage.setItem('launchDate', date)
+  }
+
+  try {
+    const launchDate = await AsyncStorage.getItem('launchDate')
+    if (launchDate === null) {
+      setLaunchDate(Date.now())
+      return true
+    } else {
+      return false
+    }
+  } catch (error) {
+    return false
+  }
+}
 
 export const isIphoneX = () => {
   let d = Dimensions.get('window');

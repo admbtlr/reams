@@ -204,9 +204,14 @@ body {
     figure & {
       width: calc(100% - 1rem);
     }
+  }
 
+  img.img-small {
     @media (min-width: 600px) {
       left: 0;
+      float: left;
+      margin-top: 0;
+      margin-left: 0;
     }
   }
 
@@ -219,12 +224,21 @@ body {
 
   @media (min-width: 600px) {
     figure.figure-small {
-      width: 50% !important;
+      width: calc(50% - 0.25rem) !important;
       float: left;
+      margin-right: 0.5rem;
+      left: 0;
 
       figcaption {
         margin: 0;
         padding: .25rem .5rem;
+      }
+
+      img {
+        width: 100% !important;
+        margin-left: 0;
+        margin-top: 0;
+        float: none;
       }
     }
 
@@ -244,7 +258,7 @@ body {
   & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
   & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child {
     & > figure:first-child,
-    & > img:first-child,
+    & > img:first-child:not(.img-small),
     & > iframe:first-child,
     & > p:first-child > iframe:first-child, {
       position: relative;
@@ -252,7 +266,7 @@ body {
       margin-top: 0;
       margin-bottom: 0rem;
     }
-    & > img.img-portrait:first-child {
+    & > img.img-portrait:first-child:not(.img-small) {
       top: -1.5rem;
       // margin-bottom: -1.5rem;
     }
@@ -309,7 +323,7 @@ body {
     font-size: 1rem;
     line-height: 1.33rem;
     font-style: normal;
-    padding: 1rem .5rem;
+    padding: 1rem .5rem .5rem;
     margin: 1rem 0;
 
     @media (min-width: 600px) {
@@ -317,6 +331,7 @@ body {
       padding-top: 0;
       width: 50%;
       margin: 0;
+      -webkit-hyphens: auto;
     }
   }
 
@@ -343,7 +358,7 @@ body {
   @media (min-width: 600px) {
     figcaption, blockquote, .caption, img + small {
       margin: 0 -4vw;
-      padding: 0.5rem 4vw;
+      padding: 1rem 4vw;
       left: 0;
     }
     figcaption, .caption, img + small {
@@ -358,9 +373,12 @@ body {
     margin: -2.25rem -4vw 1rem;
   }
 
-  blockquote {
+  blockquote:not(.pullquote) {
     @media (min-width: 600px) {
       margin-bottom: 1rem;
+      left: calc(50% - 50vw);
+      margin: 0 0 1rem;
+      padding: 1rem calc(50vw - 50%);
     }
   }
 
@@ -491,7 +509,7 @@ body {
     }
 
     blockquote, figcaption, img + small {
-      border-bottom: 3px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 3px solid rgba(0, 0, 0, 0.1);
     }
 
     figcaption, img + small {
@@ -515,7 +533,7 @@ article {
 article > div:not(:last-of-type) {
   p:last-child,
   figure:last-child {
-    margin-bottom: 2rem;
+    // margin-bottom: 2rem;
   }
 }
 

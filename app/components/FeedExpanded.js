@@ -66,13 +66,13 @@ class FeedExpanded extends React.Component {
       this.cardWidth / 2 :
       this.cardWidth
 
-    this.state = {
-      expandAnim: new Animated.Value(0),
-      translateYAnim: new Animated.Value(0),
-      opacityAnimatedValue: new Animated.Value(1),
-      isExpanded: false,
-      blockDrag: false
-    }
+    // this.state = {
+    //   expandAnim: new Animated.Value(0),
+    //   translateYAnim: new Animated.Value(0),
+    //   opacityAnimatedValue: new Animated.Value(1),
+    //   isExpanded: false,
+    //   blockDrag: false
+    // }
 
     this.currentX = this.props.xCoord || 0
     this.currentY = this.props.yCoord || 0
@@ -165,6 +165,7 @@ class FeedExpanded extends React.Component {
       runAnimation(clock, this.props.gestureState, this.closeButtonGestureState),
       divide(transY, this.screenHeight)
     )
+    this.props.setExpandAnim(this.expandAnim)
   }
 
   hideStatusBar () {
@@ -563,102 +564,111 @@ class FeedExpanded extends React.Component {
             <ScrollView
               contentContainerStyle={{
                 flex: 1,
-                justifyContent: 'space-between',
                 padding: this.margin
               }}>
-              <Text style={{
-                color: '#666666',
-                fontFamily: 'IBMPlexSans-Bold',
-                fontSize: 20,
-                textAlign: 'center'
-              }}>{ feedDescription || 'This is where the feed description will go, eventually, when we have them' }</Text>
-              <View style={{
-                height: 1,
-                backgroundColor: hslString('rizzleText'),
-                opacity: 0.2,
-                marginBottom: this.margin
-              }} />
-              { feedStats }
-              <View style={{
-                alignItems: 'flex-end'
+              <Animated.View style={{
+                flex: 1,
+                justifyContent: 'space-between',
+                opacity: interpolate(this.expandAnim, {
+                  inputRange: [0, 0.8, 1],
+                  outputRange: [0, 0, 1]
+                }),
               }}>
+                <Text style={{
+                  color: '#666666',
+                  fontFamily: 'IBMPlexSans-Bold',
+                  fontSize: 20,
+                  textAlign: 'center'
+                }}>{ feedDescription || 'This is where the feed description will go, eventually, when we have them' }</Text>
                 <View style={{
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  justifyContent: 'space-between',
-                  width: '100%'
+                  height: 1,
+                  backgroundColor: hslString('rizzleText'),
+                  opacity: 0.2,
+                  marginBottom: this.margin
+                }} />
+                { feedStats }
+                <View style={{
+                  alignItems: 'flex-end'
                 }}>
-                  <TextButton
-                    buttonStyle={{
-                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
-                      marginRight: this.margin,
-                      marginBottom: this.margin
-                    }}
-                    icon={discardAllIcon}
-                    onPress={() => {
-                      this.props.markAllRead(feedId, feedOriginalId, Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
-                    }}
-                    text="Discard old" />
-                  <TextButton
-                    buttonStyle={{
-                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
-                      marginBottom: this.margin
-                    }}
-                    icon={discardAllIcon}
-                    onPress={() => {
-                      this.props.markAllRead(feedId, feedOriginalId)
-                    }}
-                    text="Discard all" />
-                  <TextButton
-                    buttonStyle={{
-                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
-                      marginRight: this.margin,
-                      marginBottom: this.margin
-                    }}
-                    icon={unsubscribeIcon}
-                    onPress={() => {
-                      this.props.unsubscribe(feedId)
-                    }}
-                    text="Unsubscribe" />
-                  <TextButton
-                    buttonStyle={{
-                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
-                      marginBottom: this.margin
-                    }}
-                    icon={readIcon}
-                    onPress={() => {
-                      console.log('Pressed Go to items ' + feedId)
-                      this.props.clearReadItems()
-                      this.props.filterItems(feedId)
-                      this.props.navigation.navigate('Items')
-                      StatusBar.setHidden(false)
-                    }}
-                    text="Read items" />
-                  <TextButton
-                    buttonStyle={{
-                      minWidth: this.screenWidth / 2 - this.margin * 1.5,
-                      marginRight: this.margin
-                    }}
-                    icon={muteIcon}
-                    isInverted={feedIsMuted}
-                    onPress={() => {
-                      console.log('Mute')
-                      this.props.toggleMute(feedId)
-                    }}
-                    text="Mute" />
-                  <TextButton
-                    buttonStyle={{
-                      minWidth: this.screenWidth / 2 - this.margin * 1.5
-                    }}
-                    icon={likeIcon}
-                    isInverted={feedIsLiked}
-                    onPress={() => {
-                      console.log('Like')
-                      this.props.toggleLike(feedId)
-                    }}
-                    text="Like" />
+                  <View style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    marginBottom: 10
+                  }}>
+                    <TextButton
+                      buttonStyle={{
+                        minWidth: this.screenWidth / 2 - this.margin * 1.51,
+                        marginRight: this.margin,
+                        marginBottom: this.margin
+                      }}
+                      icon={discardAllIcon}
+                      onPress={() => {
+                        this.props.markAllRead(feedId, feedOriginalId, Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+                      }}
+                      text="Discard old" />
+                    <TextButton
+                      buttonStyle={{
+                        minWidth: this.screenWidth / 2 - this.margin * 1.51,
+                        marginBottom: this.margin
+                      }}
+                      icon={discardAllIcon}
+                      onPress={() => {
+                        this.props.markAllRead(feedId, feedOriginalId)
+                      }}
+                      text="Discard all" />
+                    <TextButton
+                      buttonStyle={{
+                        minWidth: this.screenWidth / 2 - this.margin * 1.51,
+                        marginRight: this.margin,
+                        marginBottom: this.margin
+                      }}
+                      icon={unsubscribeIcon}
+                      onPress={() => {
+                        this.props.unsubscribe(feedId)
+                      }}
+                      text="Unsubscribe" />
+                    <TextButton
+                      buttonStyle={{
+                        minWidth: this.screenWidth / 2 - this.margin * 1.51,
+                        marginBottom: this.margin
+                      }}
+                      icon={readIcon}
+                      onPress={() => {
+                        console.log('Pressed Go to items ' + feedId)
+                        this.props.clearReadItems()
+                        this.props.filterItems(feedId)
+                        this.props.navigation.navigate('Items')
+                        StatusBar.setHidden(false)
+                      }}
+                      text="Read items" />
+                    <TextButton
+                      buttonStyle={{
+                        minWidth: this.screenWidth / 2 - this.margin * 1.51,
+                        marginRight: this.margin
+                      }}
+                      icon={muteIcon}
+                      isInverted={feedIsMuted}
+                      onPress={() => {
+                        console.log('Mute')
+                        this.props.toggleMute(feedId)
+                      }}
+                      text="Mute" />
+                    <TextButton
+                      buttonStyle={{
+                        minWidth: this.screenWidth / 2 - this.margin * 1.51
+                      }}
+                      icon={likeIcon}
+                      isInverted={feedIsLiked}
+                      onPress={() => {
+                        console.log('Like')
+                        this.props.toggleLike(feedId)
+                      }}
+                      text="Like" />
+                  </View>
                 </View>
-              </View>
+              </Animated.View>
             </ScrollView>
           </Animated.View>
       </Animated.View>

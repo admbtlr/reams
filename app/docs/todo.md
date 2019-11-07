@@ -4,7 +4,6 @@
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - login with apple
     + https://github.com/expo/expo/blob/master/docs/pages/versions/unversioned/sdk/apple-authentication.md
-- fix scrollTo
 - fix bug with second item never showing its title
 - fix bug with items re-rendering and losing your place when getting new items
 - why does the ipad crash?
@@ -22,6 +21,7 @@
 - newsletters
 - saved folders
 
+- ~~fix scrollTo~~
 - ~~list of feeds to add~~
 - ~~dark mode (RN 0.61? dark-mode module?)~~
 - ~~use SF symbols~~

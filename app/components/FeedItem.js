@@ -87,15 +87,15 @@ class FeedItem extends React.Component {
     // (this is horrible, but setTimerFunction is always a change, so filter it out
     // before testing for the special cases)
     if (changes && Object.keys(changes).filter(k => k !== 'setTimerFunction').length === 1) {
-      switch (Object.keys(changes)[0]) {
+      switch (Object.keys(changes).filter(k => k !== 'setTimerFunction')[0]) {
         case 'isVisible':
           isDiff = false
           // this is a bit sneaky...
-          // if (nextProps.isVisible) {
-          //   scrollHandler(this.scrollOffset)
-          //   // and let the world (i.e. the topbar and buttons) know that the scroll handler has changed
-          //   this.props.scrollHandlerAttached(this.props.item._id)
-          // }
+          if (nextProps.isVisible) {
+            scrollHandler(this.scrollOffset)
+            // and let the world (i.e. the topbar and buttons) know that the scroll handler has changed
+            this.props.scrollHandlerAttached(this.props.item._id)
+          }
           // so is this (startTimer() doesn't always get set correctly)
           nextProps.setTimerFunction && nextProps.setTimerFunction(this.startTimer)
           break

@@ -16,6 +16,7 @@ import AppContainer from '../containers/App.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
 import ConnectionListenerContainer from '../containers/ConnectionListener.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
+import Splash from './Splash'
 import ActionExtensionScreen from './Action'
 import { setBackend } from '../redux/backends'
 import { hslString } from '../utils/colors'
@@ -58,7 +59,7 @@ export default class Rizzle extends Component {
 
     Sentry.config('https://1dad862b663640649e6c46afed28a37f@sentry.io/195309').install()
 
-    if (__DEV__) SplashScreen.hide()
+    // if (__DEV__) SplashScreen.hide()
 
     // this is a stupid hack to stop AppState firing on startup
     // which it does on the device in some circumstances
@@ -149,11 +150,6 @@ export default class Rizzle extends Component {
   }
 
   render () {
-    // if (!this.state.details) {
-    //   console.log('Returning null')
-    //   return null
-    // }
-
     const component = this.props.isActionExtension ?
       <ActionExtensionScreen /> :
       (<View style={{
@@ -166,6 +162,7 @@ export default class Rizzle extends Component {
         <AppStateListenerContainer />
         <ConnectionListenerContainer />
         <AppContainer />
+        <Splash />
       </View>)
 
     return (
