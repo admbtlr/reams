@@ -180,7 +180,7 @@ class CoverImage extends React.Component {
           <VibrancyView
             style={absolute}
             blurType='light'
-            blurAmount={this.getImageSizeRatio() < 0.6 ? 10 : 2}
+            blurAmount={this.getImageSizeRatio() < 0.3 ? 10 : 2}
           />
         </Animated.View>
       )
@@ -226,7 +226,7 @@ class CoverImage extends React.Component {
           style={style}
         >
           { surface }
-          { !isInline && this.getImageSizeRatio() < .75 && blur }
+          { !isInline && this.getImageSizeRatio() < .5 && blur }
         </Animated.View>
       )
     } else {
