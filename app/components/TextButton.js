@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Dimensions,
   Image,
   Text,
   TextInput,
@@ -33,9 +34,6 @@ class TextButton extends React.Component {
     const { isExpanded } = this.state
     const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || 'white'
-    if (icon) {
-      console.log(icon)
-    }
     let buttonStyle = {
       borderColor: fgColor,
       backgroundColor: isInverted ? fgColor : bgColor,
@@ -46,8 +44,19 @@ class TextButton extends React.Component {
       // flex: 1,
       height: isCompact ? 32 : 42,
       maxHeight: 42,
-      ...this.props.buttonStyle
+      ...this.props.buttonStyle,
+      maxWidth: 700,
+      // alignSelf: 'center'
     }
+    if (Dimensions.get('window').width > 900) {
+      if (this.props.buttonStyle.width) {
+
+      } else {
+        buttonStyle.width = 600
+        buttonStyle.alignSelf = 'center'
+      }
+    }
+
     const textStyle = {
       fontFamily: 'IBMPlexSans-Bold',
       fontSize: isExpanded ? 18 : 16,
