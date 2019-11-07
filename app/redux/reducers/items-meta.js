@@ -10,9 +10,6 @@ export function itemsMeta (state = initialState, action) {
 
   switch (action.type) {
 
-    case REHYDRATE:
-      console.log('Rehydrated!')
-
     case 'ITEM_DECORATION_PROGRESS':
       return {
         ...state,
@@ -24,6 +21,12 @@ export function itemsMeta (state = initialState, action) {
       return {
         ...state,
         display
+      }
+
+    case 'SET_DISPLAYED_ITEMS':
+      return {
+        ...state,
+        display: action.display
       }
 
     default:

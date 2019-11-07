@@ -16,10 +16,16 @@ const mapDispatchToProps = (dispatch) => {
       type: 'ITEMS_FETCH_ITEMS'
     }),
     updateCurrentAppState: (state) => dispatch(updateCurrentAppState(state)),
-    saveURL: (url) => dispatch({
-      type: 'SAVE_EXTERNAL_URL',
-      url
-    }),
+    saveURL: (url) => {
+      dispatch({
+        type: 'SAVE_EXTERNAL_URL',
+        url
+      })
+      dispatch({
+        type: 'SET_DISPLAYED_ITEMS',
+        display: 'saved'
+      })
+    },
     addFeed: (feed) => dispatch({
       type: 'FEEDS_ADD_FEED',
       feed
