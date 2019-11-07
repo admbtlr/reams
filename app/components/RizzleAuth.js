@@ -4,52 +4,15 @@ import GoogleAuth from '../containers/GoogleAuth'
 import { authenticate } from '../redux/backends'
 import { sendEmailLink } from '../redux/backends/rizzle'
 import { hslString } from '../utils/colors'
-
-const baseStyles = {
-  fontFamily: 'IBMPlexMono',
-  textAlign: 'left',
-  color: hslString('rizzleText')
-}
-
-const styles = {
-  textInputStyle: {
-    ...baseStyles,
-    // padding: 8,
-    fontSize: 20,
-    borderBottomColor: hslString('rizzleText'),
-    borderBottomWidth: 1
-  },
-  textValueStyle: {
-    ...baseStyles,
-    fontSize: 12
-  },
-  textLabelStyle: {
-    ...baseStyles,
-    fontSize: 12,
-    marginTop: 3
-  },
-  textButtonStyle: {
-    ...baseStyles,
-    fontSize: 16,
-    textDecorationLine: 'underline'
-  },
-  textInfoStyle: {
-    ...baseStyles,
-    fontFamily: 'IBMPlexSans',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 40,
-    fontSize: 18
-  },
-  textInfoMonoStyle: {
-    ...baseStyles,
-    fontFamily: 'IBMPlexMono',
-    marginLeft: 20,
-    marginRight: 20,
-    lineHeight: 24,
-    fontSize: 16
-  }
-}
+import {
+  textInputStyle,
+  textValueStyle,
+  textLabelStyle,
+  textButtonStyle,
+  textInfoStyle,
+  textInfoBoldStyle,
+  textInfoMonoStyle
+} from '../utils/styles'
 
 class RizzleAuth extends React.Component {
   constructor (props) {
@@ -75,15 +38,21 @@ class RizzleAuth extends React.Component {
       <View style={{
         marginTop: 40
       }}>
-        <Text style={styles.textInfoMonoStyle}>{user.displayName}</Text>
-        <Text style={styles.textInfoMonoStyle}>{user.email}</Text>
-        <Text style={styles.textInfoMonoStyle}>{user.uid}</Text>
+        <Text style={textInfoStyle}>
+          <Text style={textInfoBoldStyle}>Name:</Text> {user.displayName}</Text>
+        <Text style={textInfoStyle}>
+          <Text style={textInfoBoldStyle}>Email:</Text> {user.email}</Text>
+        <Text style={textInfoStyle}>
+          <Text style={textInfoBoldStyle}>UserId:</Text> {user.uid}</Text>
         <GoogleAuth isLoggedIn={true}/>
       </View> :
       <View>
         { submitCount > 0 ?
           <Fragment>
-            <Text style={styles.textInfoStyle}>Check your inbox and follow the link in the email we just sent you.</Text>
+            <Text style={{
+              ...textInfoStyle,
+              marginTop: 40
+            }}>Check your inbox and follow the link in the email we just sent you.</Text>
             <TouchableOpacity
               onPress={handleReset}
               style={{
@@ -94,7 +63,7 @@ class RizzleAuth extends React.Component {
               }}
             >
               <Text style={{
-                ...styles.textButtonStyle,
+                ...textButtonStyle,
                 marginTop: 24,
                 marginBottom: 24
               }}>I didn't get an email 😭</Text>
@@ -102,7 +71,10 @@ class RizzleAuth extends React.Component {
           </Fragment>
           :
           <Fragment>
-            <Text style={styles.textInfoStyle}>Passwordless login - enter your email and we'll send you a magic link:</Text>
+            <Text style={{
+              ...textInfoStyle,
+              marginTop: 40
+            }}>Passwordless login - enter your email and we'll send you a magic link:</Text>
             <View style={{
               // flex: 1,
               flexDirection: 'row',
@@ -118,13 +90,13 @@ class RizzleAuth extends React.Component {
                   autoCompleteType='email'
                   keyboardType='email-address'
                   onChangeText={handleChange('email')}
-                  style={styles.textInputStyle}
+                  style={textInputStyle}
                   textContentType='emailAddress'
                   value={values.email}
                 />
                 { errors.email ?
-                  <Text style={styles.textLabelStyle}>{errors.email}</Text> :
-                  <Text style={styles.textLabelStyle}>Your email address</Text>
+                  <Text style={textLabelStyle}>{errors.email}</Text> :
+                  <Text style={textLabelStyle}>Your email address</Text>
                 }
               </View>
               <TouchableOpacity
@@ -137,7 +109,7 @@ class RizzleAuth extends React.Component {
                   width: 24
                 }}
               >
-                <Text style={styles.textButtonStyle}>Go</Text>
+                <Text style={textButtonStyle}>Go</Text>
               </TouchableOpacity>
             </View>
           </Fragment>
@@ -151,7 +123,7 @@ class RizzleAuth extends React.Component {
           marginTop: 40
         }}/>
         <Text style={{
-          ...styles.textInfoStyle,
+          ...textInfoStyle,
           marginBottom: 20,
           marginTop: 0
         }}>Or you can sign in with an existing account:</Text>

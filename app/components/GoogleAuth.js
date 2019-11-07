@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { GoogleSignin } from 'react-native-google-signin'
 import firebase from 'react-native-firebase'
+import { textButtonStyle } from '../utils/styles'
 
 class GoogleAuth extends React.Component {
   constructor (props) {
@@ -56,13 +57,17 @@ class GoogleAuth extends React.Component {
 
   render () {
     return this.props.isLoggedIn ? (
-      <View>
+      <View style={{
+        marginTop: 20,
+        marginBottom: 20,
+      }}>
         <TouchableOpacity
           onPress={this.onLogout}
           style={{
+            alignSelf: 'center'
           }}
         >
-          <Text>Log out</Text>
+          <Text style={textButtonStyle}>Log out</Text>
         </TouchableOpacity>
       </View>
     ) : (
@@ -88,10 +93,7 @@ class GoogleAuth extends React.Component {
               }}
             />
             <Text style={{
-              fontFamily: 'IBMPlexMono',
-              textAlign: 'left',
-              fontSize: 16,
-              textDecorationLine: 'underline',
+              ...textButtonStyle,
               color: '#B61C2D'
             }}>Sign in with Google</Text>
           </View>
