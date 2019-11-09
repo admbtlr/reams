@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import {
-  Animated,
   Dimensions,
   FlatList,
   Linking,
@@ -25,6 +24,9 @@ import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
 import { deepEqual } from '../utils/'
+import Animated from 'react-native-reanimated'
+
+const { Value } = Animated
 
 class FeedsScreen extends React.Component {
 
@@ -33,18 +35,17 @@ class FeedsScreen extends React.Component {
     this.props = props
     this.state = {
       scrollEnabled: true,
-      selectedFeedElement: null
+      modal: null
     }
+    this.activeFeedId = new Value(-1)
 
-    this.disableScroll = this.disableScroll.bind(this)
-    this.renderFeed = this.renderFeed.bind(this)
+    // this.disableScroll = this.disableScroll.bind(this)
+    // this.renderFeed = this.renderFeed.bind(this)
     this.clearFeedFilter = this.clearFeedFilter.bind(this)
-    this.selectFeed = this.selectFeed.bind(this)
-    this.onFeedPress = this.onFeedPress.bind(this)
-  }
-
-  componentDidMount = () => {
-    // SplashScreen.hide()
+    this.open = this.open.bind(this)
+    this.close = this.close.bind(this)
+    // this.selectFeed = this.selectFeed.bind(this)
+    // this.onFeedPress = this.onFeedPress.bind(this)
   }
 
   clearFeedFilter = () => {
@@ -54,7 +55,7 @@ class FeedsScreen extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     // don't render while displaying an expanded feed
-    if (this.state.showExpandingFeed !== nextState.showExpandingFeed) {
+    if (this.state.modal !== nextState.modal) {
       return true
     } else if (this.props.backend === nextProps.backend &&
       deepEqual(this.props.feeds, nextProps.feeds) &&
@@ -64,23 +65,41 @@ class FeedsScreen extends React.Component {
     return true
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    // if we're deselecting a feed, wait for the animation to finish, then hide the animatable
-    if (this.state.prevSelectedFeedElement !== null &&
-      this.state.selectedFeedElement === null) {
-      setTimeout(() => {
-        // make sure that the user hasn't selected another feed in the meantime
-        if (this.state.selectedFeedElement === null) {
-          this.setState({
-            ...this.state,
-            showExpandingFeed: false,
-            prevSelectedFeedElement: null,
-            prevSelectedFeedElementXCoord: null,
-            prevSelectedFeedElementYCoord: null
-          })
-        }
-      }, 200)
-    }
+  // componentDidUpdate (prevProps, prevState) {
+  //   // if we're deselecting a feed, wait for the animation to finish, then hide the animatable
+  //   if (this.state.prevSelectedFeedElement !== null &&
+  //     this.state.selectedFeedElement === null) {
+  //     setTimeout(() => {
+  //       // make sure that the user hasn't selected another feed in the meantime
+  //       if (this.state.selectedFeedElement === null) {
+  //         this.setState({
+  //           ...this.state,
+  //           showExpandingFeed: false,
+  //           prevSelectedFeedElement: null,
+  //           prevSelectedFeedElementXCoord: null,
+  //           prevSelectedFeedElementYCoord: null
+  //         })
+  //       }
+  //     }, 200)
+  //   }
+  // }
+
+  componentDidMount = () => {
+    SplashScreen.hide()
+  }
+
+  open = (feed, index, position) => {
+    this.activeFeedId.setValue(index)
+    this.setState({
+      modal: { feed, position }
+    })
+  }
+
+  close = () => {
+    this.activeFeedId.setValue(-1)
+    this.setState({
+      modal: null
+    })
   }
 
   render = () => {
@@ -97,6 +116,9 @@ class FeedsScreen extends React.Component {
       (this.state.selectedFeedElement ?
         !this.state.selectedFeedElement.props.isDeleted :
         true)
+
+    const { open, close, activeFeedId } = this;
+    const { modal } = this.state;
 
     console.log('Render feeds screen!')
     console.log((isShowingExpandedFeed ? 'S' : 'Not s') + 'howing expanded feed')
@@ -145,134 +167,98 @@ class FeedsScreen extends React.Component {
           onScrollBeginDrag={() => { this.isScrolling = true }}
           onScrollEndDrag={() => { this.isScrolling = false }}
         />
-        { isShowingExpandedFeed &&
-          <Fragment>
-            <Animated.View style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              opacity: this.state.expandAnim,
-              width: Dimensions.get('window').width,
-              height: Dimensions.get('window').height
-            }}>
-              <VibrancyView
-                style={{ flex: 1 }}
-                blurType='light'
-                blurAmount={200}
-              />
-            </Animated.View>
-            <FeedExpanded {...extraFeedProps}
-              deselectFeed={this.deselectFeed}
-              extraStyle={{
-                position: 'absolute',
-                top: this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord,
-                left: this.state.selectedFeedElementXCoord || this.state.prevSelectedFeedElementXCoord
-              }}
-              growMe={this.state.selectedFeedElement !== null}
-              xCoord={this.state.selectedFeedElementXCoord || this.state.prevSelectedFeedElementXCoord}
-              yCoord={this.state.selectedFeedElementYCoord || this.state.prevSelectedFeedElementYCoord}
-              scaleAnim={this.state.selectedFeedElementScaleAnim}
-              gestureState={this.state.selectedFeedElementGestureState}
-              setExpandAnim={this.setExpandAnim}
-            />
-          </Fragment>
+        { modal !== null && (
+            <FeedExpanded {...modal} {...{ close }} />
+          )
         }
     </View>
     )
   }
 
-  setExpandAnim = (expandAnim) => {
-    this.setState({
-      expandAnim
-    })
-  }
+  // setExpandAnim = (expandAnim) => {
+  //   this.setState({
+  //     expandAnim
+  //   })
+  // }
 
-  disableScroll = (disable) => {
-    if (this.state.scrollEnabled !== !disable) {
-      this.setState({
-        ...this.state,
-        scrollEnabled: !disable
-      })
-    }
-  }
+  // disableScroll = (disable) => {
+  //   if (this.state.scrollEnabled !== !disable) {
+  //     this.setState({
+  //       ...this.state,
+  //       scrollEnabled: !disable
+  //     })
+  //   }
+  // }
 
-  onFeedPress = (feed) => {
-    const testForScrolling = () => {
-      if (!this.isScrolling) {
-        this.selectFeed(feed)
-      }
-    }
-    setTimeout(testForScrolling.bind(this), 200)
-  }
+  // onFeedPress = (feed) => {
+  //   const testForScrolling = () => {
+  //     if (!this.isScrolling) {
+  //       this.selectFeed(feed)
+  //     }
+  //   }
+  //   setTimeout(testForScrolling.bind(this), 200)
+  // }
 
-  selectFeed = (feed) => {
-    if (this.state.selectedFeedElement !== feed) {
-      const prevSelectedFeedElement = feed === null ?
-        this.state.selectedFeedElement :
-        null
-      const prevSelectedFeedElementXCoord = (feed === null || feed.currentX === null) ?
-        this.state.selectedFeedElementXCoord :
-        null
-      const prevSelectedFeedElementYCoord = (feed === null || feed.currentY === null) ?
-        this.state.selectedFeedElementYCoord :
-        null
-      let nextState = {
-        ...this.state,
-        selectedFeedElement: feed,
-        selectedFeedElementXCoord: feed && feed.currentX,
-        selectedFeedElementYCoord: feed && feed.currentY,
-        selectedFeedElementScaleAnim: feed && feed._scale,
-        selectedFeedElementGestureState: feed && feed.gestureState,
-        prevSelectedFeedElement,
-        prevSelectedFeedElementXCoord,
-        prevSelectedFeedElementYCoord
-      }
-      if (feed !== null || this.state.selectedFeedElement !== null) {
-        nextState.showExpandingFeed = true
-      }
-      this.setState(nextState)
-    }
-  }
+  // selectFeed = (feed) => {
+  //   if (this.state.selectedFeedElement !== feed) {
+  //     const prevSelectedFeedElement = feed === null ?
+  //       this.state.selectedFeedElement :
+  //       null
+  //     const prevSelectedFeedElementXCoord = (feed === null || feed.currentX === null) ?
+  //       this.state.selectedFeedElementXCoord :
+  //       null
+  //     const prevSelectedFeedElementYCoord = (feed === null || feed.currentY === null) ?
+  //       this.state.selectedFeedElementYCoord :
+  //       null
+  //     let nextState = {
+  //       ...this.state,
+  //       selectedFeedElement: feed,
+  //       selectedFeedElementXCoord: feed && feed.currentX,
+  //       selectedFeedElementYCoord: feed && feed.currentY,
+  //       selectedFeedElementScaleAnim: feed && feed._scale,
+  //       selectedFeedElementGestureState: feed && feed.gestureState,
+  //       prevSelectedFeedElement,
+  //       prevSelectedFeedElementXCoord,
+  //       prevSelectedFeedElementYCoord
+  //     }
+  //     if (feed !== null || this.state.selectedFeedElement !== null) {
+  //       nextState.showExpandingFeed = true
+  //     }
+  //     this.setState(nextState)
+  //   }
+  // }
 
-  deselectFeed = () => {
-    const prevSelectedFeedElement = this.state.selectedFeedElement
-    const prevSelectedFeedElementXCoord = this.state.selectedFeedElementXCoord
-    const prevSelectedFeedElementYCoord = this.state.selectedFeedElementYCoord
-    this.setState({
-      ...this.state,
-      selectedFeedElement: null,
-      selectedFeedElementXCoord: null,
-      selectedFeedElementYCoord: null,
-      selectedFeedElementScaleAnim: null,
-      selectedFeedElementGestureState: null,
-      prevSelectedFeedElement,
-      prevSelectedFeedElementXCoord,
-      prevSelectedFeedElementYCoord,
-      showExpandingFeed: false,
-      scrollEnabled: true
-    })
-  }
+  // deselectFeed = () => {
+  //   const prevSelectedFeedElement = this.state.selectedFeedElement
+  //   const prevSelectedFeedElementXCoord = this.state.selectedFeedElementXCoord
+  //   const prevSelectedFeedElementYCoord = this.state.selectedFeedElementYCoord
+  //   this.setState({
+  //     ...this.state,
+  //     modalElement: null,
+  //     selectedFeedElementXCoord: null,
+  //     selectedFeedElementYCoord: null,
+  //     selectedFeedElementScaleAnim: null,
+  //     selectedFeedElementGestureState: null,
+  //     prevSelectedFeedElement,
+  //     prevSelectedFeedElementXCoord,
+  //     prevSelectedFeedElementYCoord,
+  //     showExpandingFeed: false,
+  //     scrollEnabled: true
+  //   })
+  // }
 
   renderFeed = ({item, index}) => {
-    const isSelected = this.state.selectedFeedElement !== null &&
-      this.state.selectedFeedElement.props.feedId === item._id
+    // const isSelected = this.state.selectedFeedElement !== null &&
+    //   this.state.selectedFeedElement.props.feedId === item._id
+    const { open, close, activeFeedId } = this;
+    const { modal } = this.state;
     return item && <FeedContracted
-      feedTitle={item.title}
-      feedDescription={item.description}
-      feedColor={item.color}
-      feedId={item._id}
-      feedIsLiked={item.isLiked}
-      feedIsMuted={item.isMuted}
-      feedOriginalId={item.id}
-      feedNumRead={item.number_read}
-      feedReadingTime={item.reading_time}
+      key={item._id}
+      feed={item}
       index={index}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
-      selectFeed={this.selectFeed}
-      deselectFeed={this.deselectFeed}
-      isSelected={isSelected}
-      setExpandAnim={this.setExpandAnim}
+      {...{ modal, open, activeFeedId }}
     />
   }
 }

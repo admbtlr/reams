@@ -103,17 +103,19 @@ export default function NewFeedsList (props) {
             ...textStyles,
             marginBottom: 9
           }}>You can also search for and add feeds from any site in Safari by using the Rizzle share extension.</Text>
-          {Object.keys(feeds).map(category => (
-            <View>
+          {Object.keys(feeds).map((category, index) => (
+            <View key={`category-${index}`}>
               <View style={{
                 borderBottomColor: hslString('rizzleText'),
                 borderBottomWidth: 1
               }}>
                 <Text style={headerStyles}>{category}</Text>
               </View>
-              { feeds[category].map(feed => <FeedToggle
-                feed={feed}
-                toggleFeedSelected={toggleFeedSelected}/>) }
+              { feeds[category].map((feed, index) => <FeedToggle
+                  feed={feed}
+                  toggleFeedSelected={toggleFeedSelected}
+                  key={`feed-${index}`}
+                />) }
             </View>
           ))}
         </View>

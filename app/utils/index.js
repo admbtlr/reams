@@ -1,11 +1,11 @@
 const RNFS = require('react-native-fs')
 import {
   Animated,
-  AsyncStorage,
   Dimensions,
   Image,
   Platform
 } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 export function deepEqual (a, b, ignoreNull = false) {
   try {

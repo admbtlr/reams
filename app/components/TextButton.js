@@ -48,7 +48,7 @@ class TextButton extends React.Component {
       maxWidth: 700,
       // alignSelf: 'center'
     }
-    if (Dimensions.get('window').width > 900) {
+    if (Dimensions.get('window').width > 950) {
       if (this.props.buttonStyle.width) {
 
       } else {

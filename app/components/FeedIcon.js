@@ -25,13 +25,13 @@ class FeedIcon extends React.Component {
 
   captureImage () {
     const {
-      dimensions,
-      id
+      iconDimensions,
+      feed
     } = this.props
     // debugger
-    if (dimensions && dimensions.width !== 0) {
+    if (iconDimensions && iconDimensions.width !== 0) {
       const that = this
-      const filePath = `${RNFS.DocumentDirectoryPath}/feed-icons/rendered/${id}.png`
+      const filePath = `${RNFS.DocumentDirectoryPath}/feed-icons/rendered/${feed._id}.png`
       InteractionManager.runAfterInteractions()
         .then(_ => RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-icons/rendered`))
         .then(_ => InteractionManager.runAfterInteractions())
@@ -43,7 +43,7 @@ class FeedIcon extends React.Component {
         }))
         .then(_ => InteractionManager.runAfterInteractions())
         .then(success => {
-          success && that.props.setRenderedFeedIcon(id)
+          success && that.props.setRenderedFeedIcon(feed._id)
         })
         .catch(err => {
           log('captureImage', err)
@@ -53,27 +53,26 @@ class FeedIcon extends React.Component {
 
   render () {
     const {
-      id,
-      dimensions,
-      bgColor,
+      feed,
+      iconDimensions,
       hasCachedIcon,
       hasRenderedIcon,
       shouldInvert
     } = this.props
     const width = 32
     const height = 32
-    const colorBlendingColor = typeof bgColor === 'string' ?
-      hslStringToBlendColor(bgColor.startsWith('hsl') ?
-        bgColor :
-        hslString(bgColor, 'desaturated')
+    const colorBlendingColor = typeof feed.color === 'string' ?
+      hslStringToBlendColor(feed.color.startsWith('hsl') ?
+        feed.color :
+        hslString(feed.color, 'desaturated')
       ) :
-      hslToBlendColor(bgColor)
-    const surfaceBgColor = typeof bgColor === 'string' ?
-      bgColor :
-      hslToHslString(bgColor)
-    return hasCachedIcon && dimensions && dimensions.width > 0 ?
+      hslToBlendColor(feed.color)
+    const surfaceBgColor = typeof feed.color === 'string' ?
+      feed.color :
+      hslToHslString(feed.color)
+    return hasCachedIcon && iconDimensions && iconDimensions.width > 0 ?
       <View style={{
-        backgroundColor: bgColor,
+        backgroundColor: feed.color,
         // margin: 10,
         width,
         height,
@@ -84,7 +83,7 @@ class FeedIcon extends React.Component {
             <Image
               width={width}
               height={height}
-              source={{ uri: getRenderedFeedIconPath(id) }}
+              source={{ uri: getRenderedFeedIconPath(feed._id) }}
               style={{
                 width,
                 height
@@ -110,13 +109,13 @@ class FeedIcon extends React.Component {
                   <GLImage
                     resizeMode='contain'
                     source={{
-                      uri: getCachedFeedIconPath(id),
-                      width: dimensions.width,
-                      height: dimensions.height
+                      uri: getCachedFeedIconPath(feed._id),
+                      width: iconDimensions.width,
+                      height: iconDimensions.height
                     }}
                     imageSize={{
-                      width: dimensions.width,
-                      height: dimensions.height
+                      width: iconDimensions.width,
+                      height: iconDimensions.height
                     }}
                   />
                 </ImageFilters>
