@@ -92,7 +92,7 @@ export async function isFirstLaunch () {
   try {
     const launchDate = await AsyncStorage.getItem('launchDate')
     if (launchDate === null) {
-      setLaunchDate(Date.now())
+      setLaunchDate(String(Date.now()))
       return true
     } else {
       return false
