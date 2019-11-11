@@ -54,7 +54,7 @@ class FeedContracted extends React.PureComponent {
   startTransition = async () => {
     const { feed, index, open } = this.props
     const position = await measure(this.imageView)
-    open(feed, index, position)
+    open(feed, feed._id, position)
   }
 
   // hide = () => {
@@ -127,7 +127,7 @@ class FeedContracted extends React.PureComponent {
             marginRight: (index % 2 === 0 && this.screenWidth > 500) ?
               this.margin :
               0,
-            // opacity: cond(eq(activeFeedId, index), 0, 1),
+            opacity: cond(eq(activeFeedId, _id), 0, 1),
             overflow: 'visible',
             // transform: [
             //   {

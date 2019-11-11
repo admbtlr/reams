@@ -89,7 +89,7 @@ class FeedsScreen extends React.Component {
   }
 
   open = (feed, index, position) => {
-    this.activeFeedId.setValue(index)
+    this.activeFeedId.setValue(feed._id)
     this.setState({
       modal: { feed, position }
     })
