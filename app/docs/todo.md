@@ -14,6 +14,7 @@
     + https://medium.com/@deepslam/how-i-upgraded-my-application-to-react-native-0-60-5-53c52107e87
     + https://engineering.brigad.co/demystifying-react-native-modules-linking-ae6c017a6b4a
 - placeholder images (use letters?)
+- Use https://github.com/DylanVann/react-native-fast-image to show cached images
 - scroll effects
 - fix wired.com custom parser
 - make buttons use reanimate
