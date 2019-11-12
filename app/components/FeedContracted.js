@@ -51,10 +51,13 @@ class FeedContracted extends React.PureComponent {
     this.currentY = this.props.yCoord || 0
   }
 
-  startTransition = async () => {
-    const { feed, index, open } = this.props
-    const position = await measure(this.imageView)
-    open(feed, feed._id, position)
+  // startTransition = async () => {
+  //   const { feed, index, open } = this.props
+  //   const position = await measure(this.imageView)
+  //   open(feed, feed._id, position)
+  onPress = (e) => {
+    // this.imageView.measure(this.measured)
+    this.props.navigation.navigate('Modal')
   }
 
   // hide = () => {
@@ -117,7 +120,7 @@ class FeedContracted extends React.PureComponent {
     }
 
     return (
-      <TouchableWithoutFeedback onPress={this.startTransition}>
+      <TouchableWithoutFeedback onPress={this.onPress}>
         <Animated.View
           style={{
             flex: 1,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   Dimensions,
   Image,
@@ -18,9 +18,7 @@ import FeedCoverImage from './FeedCoverImage'
 import FeedIconCorner from './FeedIconCorner'
 import FeedDetails from './FeedDetails'
 import FeedLikedMuted from './FeedLikedMuted'
-import SwipeToClose from './SwipeToClose'
 import XButton from './XButton'
-import { createValue, spring, springBack } from "../utils/spring";
 
 const DRAG_THRESHOLD = 10
 
@@ -99,52 +97,28 @@ class FeedExpanded extends React.Component {
 
     // animation stuff
     // https://github.com/wcandillon/can-it-be-done-in-react-native/blob/master/season2/apple-appoftheday/components/AppModal.tsx
-    const width = createValue(position.width)
-    const height = createValue(position.height)
-    const x = createValue(position.x)
-    const y = createValue(position.y)
-    const scale = createValue(1)
-    const borderRadius = createValue(16)
-    const fontSize = createValue(24)
-    const opacity = createValue(0)
-    const textOpacity = cond(greaterThan(width.value, add(position.width, divide(sub(wWidth, position.width), 2))), 1, 0)
-    const translationY = new Value(0)
-    const shouldClose = greaterOrEq(round(translationY), 100)
-    const positionStyles = {
-      position: 'absolute',
-      width: width.value,
-      height: height.value,
-      left: x.value,
-      top: y.value
-    }
+    // const width = createValue(position.width)
+    // const height = createValue(position.height)
+    // const x = createValue(position.x)
+    // const y = createValue(position.y)
+    // const scale = createValue(1)
+    // const borderRadius = createValue(16)
+    // const fontSize = createValue(24)
+    // const opacity = createValue(0)
+    // const textOpacity = cond(greaterThan(width.value, add(position.width, divide(sub(wWidth, position.width), 2))), 1, 0)
+    // const translationY = new Value(0)
+    // const shouldClose = greaterOrEq(round(translationY), 100)
+    // const positionStyles = {
+    //   position: 'absolute',
+    //   width: width.value,
+    //   height: height.value,
+    //   left: x.value,
+    //   top: y.value
+    // }
 
 
     return (
-      <SwipeToClose y={translationY} opacity={opacity.value} {...{ scale }}>
-        <Animated.Code>
-          {
-            () => cond(shouldClose,
-              [
-                springBack(width, wWidth, position.width),
-                springBack(height, wHeight*0.5, position.height),
-                springBack(x, 0, position.x),
-                springBack(y, 0, position.y),
-                springBack(borderRadius, 0, 16),
-                springBack(fontSize, 32, 24),
-                springBack(opacity, 1, 0),
-                springBack(scale, 0.75, 1),
-                cond(eq(clockRunning(scale.clock), 0), call([], close)),
-              ], [
-                spring(width, position.width, wWidth),
-                spring(height, position.height, wHeight*0.5),
-                spring(x, position.x, 0),
-                spring(y, position.y, 0),
-                spring(borderRadius, 16, 0),
-                spring(fontSize, 24, 32),
-                spring(opacity, 0, 1),
-              ])
-          }
-        </Animated.Code>
+      <Fragment>
         <Animated.View
           style={{
             borderRadius: borderRadius.value,
@@ -270,7 +244,7 @@ class FeedExpanded extends React.Component {
             feed={feed}
           />
         </Animated.View>
-      </SwipeToClose>
+      </Fragment>
     )
   }
 }
