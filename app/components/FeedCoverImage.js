@@ -36,17 +36,17 @@ class FeedCoverImage extends React.Component {
 
   captureImage () {
     const {
+      cachedCoverImageId,
       coverImageDimensions,
       coverImageId,
-      feedColor,
-      feedId,
-      width,
-      height
-    } = this.props
+      color,
+      _id
+    } = this.props.feed
+    const { width, height } = this.props
     // debugger
     if (coverImageId && coverImageDimensions && coverImageDimensions.width !== 0) {
       const that = this
-      const filePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
+      const filePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${_id}.jpg`
       InteractionManager.runAfterInteractions()
         .then(_ => RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-cover-images`))
         .then(_ => this.surface.captureFrame({
@@ -56,7 +56,7 @@ class FeedCoverImage extends React.Component {
           filePath
         }))
         .then(_ => {
-          that.props.setCachedCoverImage(feedId, coverImageId)
+          that.props.setCachedCoverImage(_id, coverImageId)
         })
         .catch(err => {
           log('captureImage', err)
@@ -66,13 +66,13 @@ class FeedCoverImage extends React.Component {
 
   render () {
     const {
+      _id,
       cachedCoverImageId,
       coverImageDimensions,
       coverImageId,
-      feedColor,
-      width,
-      height
-    } = this.props
+      color
+    } = this.props.feed
+    const { width, height } = this.props
 
     // const coverImageUrl = coverImageId ?
     //   `file://${getCachedCoverImagePath(coverImageId)}` :
@@ -91,7 +91,7 @@ class FeedCoverImage extends React.Component {
     //   null
 
     if (cachedCoverImageId) {
-      const cachedCoverImagePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${this.props.feedId}.jpg`
+      const cachedCoverImagePath = `${RNFS.DocumentDirectoryPath}/feed-cover-images/${_id}.jpg`
       const opacityAnim = new Animated.Value(0)
       Animated.timing(opacityAnim, {
         toValue: 1,
@@ -115,7 +115,7 @@ class FeedCoverImage extends React.Component {
       `file://${getCachedCoverImagePath(coverImageId)}` :
       null
 
-    return (feedColor && coverImageUrl && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
+    return (color && coverImageUrl && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
     (
       <Surface
         width={width}

@@ -13,8 +13,8 @@ const feedsWithInvertedIcons = [
 ]
 
 const mapStateToProps = (state, ownProps) => {
-  const feedLocal = state.feedsLocal.feeds.find(f => f._id === ownProps.id)
-  const feed = state.feeds.feeds.find(f => f._id === ownProps.id)
+  const feedLocal = state.feedsLocal.feeds.find(f => f._id === ownProps.feed._id)
+  const feed = state.feeds.feeds.find(f => f._id === ownProps.feed._id)
   return {
     ...ownProps,
     hasRenderedIcon: feedLocal && feedLocal.hasRenderedIcon,

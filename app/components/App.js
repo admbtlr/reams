@@ -22,7 +22,7 @@ const AppStack = createStackNavigator(
     Items: { screen: ItemsScreenContainer }
   },
   {
-    initialRouteName: 'Items',
+    initialRouteName: 'Feeds',
     headerMode: 'none',
     // transitionConfig,
     navigationOptions

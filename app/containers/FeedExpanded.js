@@ -1,36 +1,23 @@
 import { connect } from 'react-redux'
 import FeedExpanded from '../components/FeedExpanded.js'
-import {getCachedCoverImagePath} from '../utils/'
+// import {getCachedCoverImagePath} from '../utils/'
 
 const mapStateToProps = (state, ownProps) => {
-  const feedId = ownProps.feedId
-  const items = state.itemsUnread.items
+  const feedId = ownProps.feed._id
   const feed = state.feeds.feeds.find(f => f._id === feedId)
-  const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
-  const feedItems = items.filter(i => i.feed_id === feedId)
-  const numFeedItems = feedItems.length
-  const coverImageItem = feedItems.find(item => item.banner_image)
-  const coverImageId = coverImageItem ?
-    coverImageItem._id :
-    null
-  const coverImageDimensions = coverImageItem ?
-    coverImageItem.imageDimensions :
-    null
+  // const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
+  // const feedItems = items.filter(i => i.feed_id === feedId)
+  // const numFeedItems = feedItems.length
+  // const coverImageItem = feedItems.find(item => item.banner_image)
+  // const coverImageId = coverImageItem ?
+  //   coverImageItem._id :
+  //   null
+  // const coverImageDimensions = coverImageItem ?
+  //   coverImageItem.imageDimensions :
+  //   null
 
   if (feed) {
-    return {
-      ...ownProps,
-      feedIsLiked: feed.isLiked,
-      feedIsMuted: feed.isMuted,
-      numUnread: items.filter(i => i.feed_id === feedId).length,
-      numRead: feed.number_read || 0,
-      readingTime: feed.reading_time || 0,
-      readingRate: feed.reading_rate || 0,
-      coverImageId,
-      coverImageDimensions,
-      cachedCoverImageId: feedLocal && feedLocal.cachedCoverImageId,
-      feedIconDimensions: feedLocal && feedLocal.cachedIconDimensions
-    }
+    return ownProps
   } else {
     return {
       isDeleted: true

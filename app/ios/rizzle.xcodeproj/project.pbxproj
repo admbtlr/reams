@@ -58,6 +58,7 @@
 		661134AF223BE934003340DE /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 661134A4223BE92A003340DE /* libRNGoogleSignin.a */; };
 		661134B0223BE946003340DE /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 661134A4223BE92A003340DE /* libRNGoogleSignin.a */; };
 		66113521223F8DF4003340DE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		663B7C2423781F810075E4F3 /* libRNDarkMode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 665D379E2347AA560051FCB2 /* libRNDarkMode.a */; };
 		663D7FD821A54CD60085CB7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 663D7FD721A54CD60085CB7A /* GoogleService-Info.plist */; };
 		66454BDD1FA6792500D941C5 /* libRNGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66454BDC1FA6791E00D941C5 /* libRNGL.a */; };
 		664B4B281FAB59A9006C6DF9 /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 664B4B271FAB59A9006C6DF9 /* webview */; };
@@ -890,6 +891,7 @@
 				66ACB1421FD97855002BC66F /* libRCTWebSocket.a in Frameworks */,
 				66ACB1431FD97855002BC66F /* libReact.a in Frameworks */,
 				66ACB1441FD97855002BC66F /* libReactNativeShareExtension.a in Frameworks */,
+				663B7C2423781F810075E4F3 /* libRNDarkMode.a in Frameworks */,
 				9BD8E039493604C4AB65E2AA /* libPods-RizzleShare.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2701,7 +2703,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 308;
+				CURRENT_PROJECT_VERSION = 311;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -2731,7 +2733,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
 				PRODUCT_NAME = rizzle;
 				PROVISIONING_PROFILE = "17c847ba-6126-4981-85a9-120fc34fab45";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Development";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS Development (all certs)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2747,7 +2749,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 308;
+				CURRENT_PROJECT_VERSION = 311;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2934,7 +2936,7 @@
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 308;
+				CURRENT_PROJECT_VERSION = 311;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -2966,7 +2968,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "88ffb5b8-2236-45a5-8f61-0bb41c4771dc";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension Development";
+				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Development (all certs)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2994,7 +2996,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 308;
+				CURRENT_PROJECT_VERSION = 311;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

@@ -4,11 +4,13 @@ import {
   Image,
   InteractionManager,
   PanResponder,
+  Platform,
   ScrollView,
   StatusBar,
   StatusBarAnimation,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View
 } from 'react-native'
 import Animated, { Easing } from 'react-native-reanimated'
@@ -16,28 +18,16 @@ import { TapGestureHandler, State } from 'react-native-gesture-handler'
 import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import { blendColor, hslString, hslToHslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
+import FeedLikedMuted from './FeedLikedMuted'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import FeedIconContainer from '../containers/FeedIcon'
 
-const {
-  and,
-  block,
-  call,
-  cond,
-  debug,
-  eq,
-  event,
-  interpolate,
-  neq,
-  or,
-  set,
-  startClock,
-  stopClock,
-  timing,
-  Clock,
-  Extrapolate,
-  Value
-} = Animated
+const { width, height } = Dimensions.get("window")
+const offset = (v) => (Platform.OS === "android" ? (v + Constants.statusBarHeight) : v)
+const measure = async (ref) => new Promise(resolve => ref.measureInWindow((x, y, width, height) => resolve({
+  x, y: offset(y), width, height,
+})))
+const { cond, eq } = Animated
 
 class FeedContracted extends React.PureComponent {
 
@@ -59,135 +49,58 @@ class FeedContracted extends React.PureComponent {
 
     this.currentX = this.props.xCoord || 0
     this.currentY = this.props.yCoord || 0
-
-    // this.opacity = new Animated.Value(1)
-    this.hide = this.hide.bind(this)
-    this.cancelPress = this.cancelPress.bind(this)
-
-    this.initialiseAnimations()
   }
 
-  initialiseAnimations () {
-    this.gestureState = new Value(-1)
-    const clock = new Clock()
-    this.onStateChange = event([{
-      nativeEvent: {
-        state: this.gestureState,
-      },
-    }])
-
-    const runScaleTimer = (clock, gestureState) => {
-      const state = {
-        finished: new Value(0),
-        position: new Value(0),
-        time: new Value(0),
-        frameTime: new Value(0),
-      }
-
-      const config = {
-        duration: 150,
-        toValue: new Value(-1),
-        easing: Easing.inOut(Easing.ease),
-      }
-
-      return block([
-        cond(and(eq(gestureState, State.BEGAN), neq(config.toValue, 1)), [
-          set(state.finished, 0),
-          set(state.time, 0),
-          set(state.frameTime, 0),
-          set(config.toValue, 1),
-          debug('Gesture state began, startClock', startClock(clock)),
-          call([], this.onPress)
-        ]),
-        cond(and(eq(gestureState, State.FAILED), neq(config.toValue, 0)), [
-          set(state.finished, 0),
-          set(state.time, 0),
-          set(state.frameTime, 0),
-          set(config.toValue, 0),
-          debug('Gesture state failed, startClock', startClock(clock)),
-          call([], this.cancelPress)
-        ]),
-        cond(and(eq(gestureState, State.END), neq(config.toValue, 0)), [
-          set(state.finished, 0),
-          set(state.time, 0),
-          set(state.frameTime, 0),
-          set(config.toValue, 0),
-          debug('Gesture state ended, startClock', startClock(clock))
-        ]),
-        timing(clock, state, config),
-        cond(state.finished, [
-          debug('Animation finished, stopClock', stopClock(clock)),
-        ]),
-        cond(and(eq(gestureState, State.END), state.finished), [
-          debug('Animation finished, gesture state ended, call this.hide', call([], this.hide))
-        ]),
-        interpolate(state.position, {
-          inputRange: [0, 1],
-          outputRange: [1, 0.95],
-          extrapolate: Extrapolate.CLAMP,
-        })
-      ])
-    }
-    this._scale = runScaleTimer(clock, this.gestureState)
+  startTransition = async () => {
+    const { feed, index, open } = this.props
+    const position = await measure(this.imageView)
+    open(feed, feed._id, position)
   }
 
-  onPress = (e) => {
-    // this.imageView.measure(this.measured)
-  }
+  // hide = () => {
+  //   // this.opacity.setValue(0)
+  //   this.imageView.measure(this.measured)
+  // }
 
-  cancelPress = (e) => {
-    console.log("Press cancelled")
-    // this.props.deselectFeed()
-  }
-
-  hide = () => {
-    // this.opacity.setValue(0)
-    this.imageView.measure(this.measured)
-  }
-
-  measured = (x, y, width, height, px, py) => {
-    // at the moment when it's measured, the feed is scaled by 0.95
-    const ratio = this.cardWidth / width
-    const widthDiff = width * ratio - width
-    const heightDiff = height * ratio - height
-    this.currentX = px - widthDiff / 2
-    this.currentY = py - heightDiff / 2
-    this.props.selectFeed(this)
-  }
+  // measured = (x, y, width, height, px, py) => {
+  //   // at the moment when it's measured, the feed is scaled by 0.95
+  //   const ratio = this.cardWidth / width
+  //   const widthDiff = width * ratio - width
+  //   const heightDiff = height * ratio - height
+  //   const position = {
+  //     x: px - widthDiff / 2,
+  //     y: py - heightDiff / 2
+  //   }
+  //   this.props.open(this.props.feed, position)
+  // }
 
   render = () => {
     // console.log('Render feed ' +
-    //   this.props.feedTitle + ' ' +
+    //   this.props.title + ' ' +
     //   (this.state.isSelected ? 'expanded!' : 'contracted'))
 
+    const { feed, index, activeFeedId } = this.props
     const {
+      _id,
       coverImageDimensions,
       coverImagePath,
-      favicon,
-      feedTitle,
-      feedColor,
-      feedDescription,
-      feedIconDimensions,
-      feedId,
-      feedIsLiked,
-      feedIsMuted,
-      feedOriginalId,
+      iconDimensions,
       numUnread,
       numRead,
       readingTime,
       readingRate
-    } = this.props
+    } = feed
     const textStyles = {
       color: 'white',
       fontFamily: 'IBMPlexMono-Light',
       textAlign: 'left'
     }
 
-    // console.log("Rendering " + feedTitle)
+    // console.log("Rendering " + title)
 
     const bold = {
       fontFamily: 'IBMPlexMono-Bold',
-      color: hslString(feedColor, 'desaturated')
+      color: hslString(feed.color, 'desaturated')
     }
     const italic = {
       fontFamily: 'IBMPlexMono-LightItalic'
@@ -204,26 +117,24 @@ class FeedContracted extends React.PureComponent {
     }
 
     return (
-      <TapGestureHandler
-        onHandlerStateChange={this.onStateChange}
-      >
+      <TouchableWithoutFeedback onPress={this.startTransition}>
         <Animated.View
           style={{
             flex: 1,
             height: this.cardHeight,
             width: this.cardWidth,
-            marginBottom: this.margin * 0.5,
-            marginRight: (this.props.index % 2 === 0 && this.screenWidth > 500) ?
+            marginBottom: this.margin,
+            marginRight: (index % 2 === 0 && this.screenWidth > 500) ?
               this.margin :
               0,
-            // opacity: this.props.isSelected ? 0 : 1,
+            opacity: cond(eq(activeFeedId, _id), 0, 1),
             overflow: 'visible',
-            transform: [
-              {
-                scaleX: this._scale,
-                scaleY: this._scale
-              }
-            ],
+            // transform: [
+            //   {
+            //     scaleX: this._scale,
+            //     scaleY: this._scale
+            //   }
+            // ],
             // opacity: this.props.expandAnim ?
             //   interpolate(this.props.expandAnim, {
             //     inputRange: [0, 0.2, 0.5, 1],
@@ -239,7 +150,7 @@ class FeedContracted extends React.PureComponent {
               borderRadius: 16,
               alignItems: 'flex-start',
               justifyContent: 'flex-start',
-              backgroundColor: hslString(feedColor, 'desaturated'),
+              backgroundColor: hslString(feed.color, 'desaturated'),
               position: 'relative',
               overflow: 'visible',
               ...shadowStyle
@@ -253,12 +164,7 @@ class FeedContracted extends React.PureComponent {
                 overflow: 'hidden'
             }}>
               <FeedCoverImage
-                feedColor={this.props.feedColor}
-                feedId={this.props.feedId}
-                coverImageId={this.props.coverImageId}
-                cachedCoverImageId={this.props.cachedCoverImageId}
-                coverImageDimensions={this.props.coverImageDimensions}
-                setCachedCoverImage={this.props.setCachedCoverImage}
+                feed={feed}
                 width={this.screenWidth}
                 height={this.screenHeight * 0.5} />
             </View>
@@ -281,39 +187,10 @@ class FeedContracted extends React.PureComponent {
               // justifyContent: 'center',
               backgroundColor: 'rgba(0, 0, 0, 0.4)'
             }}>
-              <View style={{
-                position: 'absolute',
-                top: 10,
-                right: 7
-              }}>
-              { feedIsLiked &&
-                  <Svg
-                    height='32'
-                    width='32'>
-                    <Path
-                      d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
-                      strokeWidth={2}
-                      stroke='white'
-                      fill='white'
-                    />
-                  </Svg>
-              }
-              { feedIsMuted &&
-                  <Svg
-                    height='32'
-                    width='32'>
-                    <Path
-                      d='M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6'
-                      strokeWidth={2}
-                      stroke='white'
-                      fill='white'
-                    />
-                  </Svg>
-              }
-              </View>
+              <FeedLikedMuted feed={feed} />
               <View style={{
                 paddingLeft: 4,
-                paddingRight: 4,
+                paddingRight: 40,
                 paddingBottom: 2,
                 flexDirection: 'row'
               }}>
@@ -322,7 +199,7 @@ class FeedContracted extends React.PureComponent {
                   flexWrap: 'wrap',
                   fontFamily: 'IBMPlexSansCond-Bold',
                   fontSize: 24
-                }}>{feedTitle}</Text>
+                }}>{feed.title}</Text>
               </View>
               <View style={{
                 paddingLeft: 4,
@@ -350,7 +227,7 @@ class FeedContracted extends React.PureComponent {
               pointerEvents: 'none'
           }}>
             <View style={{
-              backgroundColor: hslString(feedColor),
+              backgroundColor: hslString(feed.color),
               position: 'absolute',
               bottom: -65,
               right: -65,
@@ -368,14 +245,13 @@ class FeedContracted extends React.PureComponent {
               zIndex: 10
             }}>
               <FeedIconContainer
-                id={feedId}
-                dimensions={feedIconDimensions}
-                bgColor={feedColor}
+                feed={feed}
+                iconDimensions={iconDimensions}
               />
             </View>
           </View>
         </Animated.View>
-      </TapGestureHandler>
+      </TouchableWithoutFeedback>
     )
   }
 }
