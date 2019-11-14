@@ -104,7 +104,6 @@ class FeedContracted extends React.PureComponent {
             marginRight: (index % 2 === 0 && this.screenWidth > 500) ?
               this.margin :
               0,
-            opacity: cond(eq(activeFeedId, _id), 0, 1),
             overflow: 'visible',
             // transform: [
             //   {
