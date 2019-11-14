@@ -13,10 +13,17 @@ const feedsWithInvertedIcons = [
 ]
 
 const mapStateToProps = (state, ownProps) => {
-  const feedLocal = state.feedsLocal.feeds.find(f => f._id === ownProps.feed._id)
-  const feed = state.feeds.feeds.find(f => f._id === ownProps.feed._id)
+  let feed, feedLocal
+  if (ownProps.feed) {
+    feed = ownProps.feed
+    feedLocal = state.feedsLocal.feeds.find(f => f._id === feed._id)
+  } else {
+    feedLocal = state.feedsLocal.feeds.find(f => f._id === ownProps.id)
+    feed = state.feeds.feeds.find(f => f._id === ownProps.id)
+  }
   return {
     ...ownProps,
+    feed,
     hasRenderedIcon: feedLocal && feedLocal.hasRenderedIcon,
     hasCachedIcon: feedLocal && feedLocal.hasCachedIcon,
     shouldInvert: feedsWithInvertedIcons.indexOf(feed.title) !== -1
