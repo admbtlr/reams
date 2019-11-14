@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native'
 
-export default function ModalScreen ({ navigation }) {
+export default function ModalScreen ({ child, navigation }) {
   return (
     <View style={{
       flex: 1,
@@ -14,13 +14,19 @@ export default function ModalScreen ({ navigation }) {
       backgroundColor: 'white',
       marginTop: 50,
       borderTopLeftRadius: 30,
-      borderTopRightRadius: 30
+      borderTopRightRadius: 30,
+      overflow: 'hidden'
     }}>
-      <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-      <Button
-        onPress={() => navigation.goBack()}
-        title="Dismiss"
-      />
+      { navigation.getParam('childView') ||
+        <React.Fragment>
+          <Text style={{ fontSize: 30 }}>This is a modal!</Text>
+          <Button
+            onPress={() => navigation.goBack()}
+            title="Dismiss"
+          />
+        </React.Fragment>
+      }
     </View>
+
   )
 }

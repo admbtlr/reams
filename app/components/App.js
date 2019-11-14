@@ -22,7 +22,7 @@ const AppStack = createStackNavigator(
     Items: { screen: ItemsScreenContainer }
   },
   {
-    initialRouteName: 'Feeds',
+    initialRouteName: 'Items',
     headerMode: 'none',
     // transitionConfig,
     navigationOptions
@@ -35,7 +35,12 @@ const RootStack = createStackNavigator(
       screen: AppStack
     },
     Modal: {
-      screen: ModalScreen
+      screen: ModalScreen,
+      navigationOptions: {
+        gestureResponseDistance: {
+          vertical: 1000
+        }
+      }
     }
   },
   {

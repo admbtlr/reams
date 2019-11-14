@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import {
   Animated,
   Dimensions,
+  Easing,
   Image,
   TouchableWithoutFeedback,
   View
@@ -22,7 +23,7 @@ export default function Splash ({ fadeOut }) {
   const dispatch = useDispatch()
 
   const [isVisible, setVisible] = useState(true)
-  const [hasBounced, setBounced] = useState(false)
+  const [hasAnimated, setAnimated] = useState(false)
   const [hasFaded, setFaded] = useState(false)
 
   const hasRehydrated = useSelector(state => {
@@ -37,7 +38,7 @@ export default function Splash ({ fadeOut }) {
   }
 
   useEffect(() => {
-    if (hasBounced) {
+    if (hasAnimated) {
       Animated.timing(
         scaleAnim,
         {
@@ -51,13 +52,12 @@ export default function Splash ({ fadeOut }) {
   }, [isVisible])
 
   useEffect(() => {
-    hasFaded || Animated.spring(
+    hasFaded || Animated.timing(
       rizzleAnim,
       {
         toValue: -height * 0.333,
-        delay: 1000,
-        speed: 20,
-        bounciness: 18,
+        duration: 200,
+        easing: Easing.out(Easing.quad),
         useNativeDriver: true
       }).start(() => {
         if (!isVisible && !hasFaded) {
@@ -116,7 +116,7 @@ export default function Splash ({ fadeOut }) {
         }]
       }}>
         <Image
-          resizeMode='center'
+          resizeMode='contain'
           source={require('../assets/images/wordmark.png')}
           style={{
             flex: 1,

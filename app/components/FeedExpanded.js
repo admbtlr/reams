@@ -22,9 +22,6 @@ import XButton from './XButton'
 
 const DRAG_THRESHOLD = 10
 
-const {
-  Value, cond, greaterThan, sub, greaterOrEq, round, add, divide, call, eq, clockRunning, abs
-} = Animated
 const { width: wWidth, height: wHeight } = Dimensions.get("window")
 
 class FeedExpanded extends React.Component {
@@ -36,14 +33,7 @@ class FeedExpanded extends React.Component {
     const dim = Dimensions.get('window')
     this.screenWidth = dim.width
     this.margin = this.screenWidth * 0.05
-    this.cardWidth = this.screenWidth < 500 ?
-      this.screenWidth - this.margin * 2 :
-      (this.screenWidth - this.margin * 3) / 2
     this.screenHeight = dim.height
-
-    this.cardHeight = this.screenWidth < 500 ?
-      this.cardWidth / 2 :
-      this.cardWidth
   }
 
   hideStatusBar () {
@@ -119,88 +109,71 @@ class FeedExpanded extends React.Component {
 
     return (
       <Fragment>
-        <Animated.View
+        <View
           style={{
-            borderRadius: borderRadius.value,
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
             backgroundColor: hslString(feed.color, 'desaturated'),
             // position: 'relative',
             overflow: 'hidden',
-            ...positionStyles
+            flex: 2
+            // ...positionStyles
           }}>
           <View
             ref={c => this.imageView = c}
             style={{
-              height: '100%',
+              // height: '100%',
               width: '100%'
             }}>
-            <Animated.View style={{
-              height: '100%',
+            <FeedCoverImage
+              feed={feed}
+              width={this.screenWidth}
+              height={this.screenHeight * 0.5} />
+            <View style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
               width: '100%',
-              borderRadius: 16,
-              overflow: 'hidden'
-              }}>
-              <FeedCoverImage
-                feed={feed}
-                width={this.screenWidth}
-                height={this.screenHeight * 0.5} />
-            </Animated.View>
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.4)'
+            }} />
           </View>
-          <Animated.View style={{
+          <View style={{
             width: '100%',
-            height: '100%',
-            borderRadius: 16,
             paddingLeft: this.margin * 0.5,
             paddingRight: this.margin * 0.5,
+            paddingBottom: this.margin * 0.5,
             position: 'absolute',
-            backgroundColor: 'rgba(0, 0, 0, 0.4)'
+            bottom: 0,
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-start',
           }}>
-            <Animated.View style={{
-              width: '100%',
-              height: height.value,
-              paddingLeft: this.margin * 0.5,
-              paddingRight: this.margin * 0.5,
-              paddingBottom: this.margin * 0.5,
-              position: 'absolute',
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-              alignItems: 'flex-start',
+            <View style={{
+              paddingLeft: 4,
+              paddingRight: 4,
+              paddingBottom: 2
             }}>
-              <Animated.View style={{
-                position: 'absolute',
-                top: 0,
-                right: -19,
-                opacity: abs(sub(opacity.value, 1))
-              }}>
-                <FeedLikedMuted feed={feed} />
-              </Animated.View>
-              <View style={{
-                paddingLeft: 4,
-                paddingRight: 4,
-                paddingBottom: 2
-              }}>
-                <Animated.Text style={{
-                  ...textStyles,
-                  flexWrap: 'wrap',
-                  fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: fontSize.value
-                }}>{feed.title}</Animated.Text>
-              </View>
-              <View style={{
-                paddingBottom: 5,
-                paddingLeft: 4,
-                paddingRight: 10
-              }}>
-                <Text style={{
-                  ...textStyles,
-                  fontFamily: 'IBMPlexMono-Light',
-                  fontSize: 16
-                }}>{feed.numUnread} unread</Text>
-              </View>
-            </Animated.View>
-          </Animated.View>
+              <Text style={{
+                ...textStyles,
+                flexWrap: 'wrap',
+                fontFamily: 'IBMPlexSansCond-Bold',
+                fontSize: 24
+              }}>{feed.title}</Text>
+            </View>
+            <View style={{
+              paddingBottom: 5,
+              paddingLeft: 4,
+              paddingRight: 10
+            }}>
+              <Text style={{
+                ...textStyles,
+                fontFamily: 'IBMPlexMono-Light',
+                fontSize: 16
+              }}>{feed.numUnread} unread</Text>
+            </View>
+          </View>
           <FeedIconCorner
             feed={feed}
             iconDimensions={iconDimensions}
@@ -208,42 +181,22 @@ class FeedExpanded extends React.Component {
               bottom: 0
             }}
           />
-        </Animated.View>
-        <TapGestureHandler
-          onHandlerStateChange={this.onCloseButtonPress}
-        >
-          <Animated.View style={{
-            // opacity: this.expandAnim,
-            position: 'absolute',
-            top: 10,
-            right: 0
-          }}>
-            <XButton isLight={true} style={{ top: 48 }}/>
-          </Animated.View>
-        </TapGestureHandler>
-        <Animated.View style={{
+        </View>
+        <View style={{
           backgroundColor: '#F2ECD9',
-          opacity: textOpacity,
-          ...positionStyles,
-          transform: [{
-            translateY: height.value
-          }]
-          // 20px to cover the round corners of the image
-          // height: interpolate(this.expandAnim, {
-          //   inputRange: [0, 0.8, 1],
-          //   outputRange: [0, this.screenHeight / 4, this.screenHeight / 2 + 20]
-          // }),
-          // marginTop: -20,
-          // opacity: interpolate(this.expandAnim, {
-          //   inputRange: [0, 0.2, 1],
-          //   outputRange: [0, 1, 1]
-          // }),
-          // width: this.screenWidth
+          flex: 3,
+          padding: 0,
+          margin: 0
         }}>
-          <FeedDetails
-            feed={feed}
-          />
-        </Animated.View>
+          <FeedDetails { ...this.props } />
+        </View>
+        <View style={{
+          // opacity: this.expandAnim,
+          position: 'absolute',
+          right: 10
+        }}>
+          <XButton isLight={true} style={{ top: 10 }}/>
+        </View>
       </Fragment>
     )
   }

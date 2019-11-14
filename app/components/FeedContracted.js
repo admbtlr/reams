@@ -21,13 +21,9 @@ import FeedCoverImage from './FeedCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import FeedIconContainer from '../containers/FeedIcon'
+import FeedExpandedContainer from '../containers/FeedExpanded'
 
 const { width, height } = Dimensions.get("window")
-const offset = (v) => (Platform.OS === "android" ? (v + Constants.statusBarHeight) : v)
-const measure = async (ref) => new Promise(resolve => ref.measureInWindow((x, y, width, height) => resolve({
-  x, y: offset(y), width, height,
-})))
-const { cond, eq } = Animated
 
 class FeedContracted extends React.PureComponent {
 
@@ -51,37 +47,15 @@ class FeedContracted extends React.PureComponent {
     this.currentY = this.props.yCoord || 0
   }
 
-  // startTransition = async () => {
-  //   const { feed, index, open } = this.props
-  //   const position = await measure(this.imageView)
-  //   open(feed, feed._id, position)
   onPress = (e) => {
+    const { feed, navigation } = this.props
     // this.imageView.measure(this.measured)
-    this.props.navigation.navigate('Modal')
+    navigation.navigate('Modal', {
+      childView: <FeedExpandedContainer feed={feed} close={navigation.goBack()} />
+    })
   }
 
-  // hide = () => {
-  //   // this.opacity.setValue(0)
-  //   this.imageView.measure(this.measured)
-  // }
-
-  // measured = (x, y, width, height, px, py) => {
-  //   // at the moment when it's measured, the feed is scaled by 0.95
-  //   const ratio = this.cardWidth / width
-  //   const widthDiff = width * ratio - width
-  //   const heightDiff = height * ratio - height
-  //   const position = {
-  //     x: px - widthDiff / 2,
-  //     y: py - heightDiff / 2
-  //   }
-  //   this.props.open(this.props.feed, position)
-  // }
-
   render = () => {
-    // console.log('Render feed ' +
-    //   this.props.title + ' ' +
-    //   (this.state.isSelected ? 'expanded!' : 'contracted'))
-
     const { feed, index, activeFeedId } = this.props
     const {
       _id,
@@ -169,7 +143,8 @@ class FeedContracted extends React.PureComponent {
               <FeedCoverImage
                 feed={feed}
                 width={this.screenWidth}
-                height={this.screenHeight * 0.5} />
+                height={this.screenHeight * 0.5}
+                setCachedCoverImage={this.props.setCachedCoverImage} />
             </View>
             <View style={{
               // borderTopLeftRadius: 19,

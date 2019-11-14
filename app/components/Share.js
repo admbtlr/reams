@@ -175,7 +175,8 @@ async searchForRSS (url) {
       let { type, value } = data
       console.log(`Value: ${value}`)
       console.log(`Type: ${type}`)
-      value = /(http[a-zA-Z0-9:\/\.\-?&=]*)/.exec(value)[1]
+      value = /(http[a-zA-Z0-9:\/\.\-_?&=]*)/.exec(value)[1]
+      console.log(`Value after regex: ${value}`)
       this.setState({
         isOpen: true,
         type,

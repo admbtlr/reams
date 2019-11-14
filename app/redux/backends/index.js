@@ -32,7 +32,12 @@ export async function loadMercuryStuff (item) {
         'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
       })
     })
-    return response.json()
+    if (response.ok) {
+      return response.json()
+    } else {
+      log(`${response.url}: ${response.status} ${response.statusText}`)
+      return
+    }
   } catch (error) {
     log(error)
     return

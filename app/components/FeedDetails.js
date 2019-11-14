@@ -151,7 +151,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
   <ScrollView
     contentContainerStyle={{
       flex: 1,
-      padding: margin
+      padding: margin,
+      margin: 0
     }}>
     <Animated.View style={{
       flex: 1,
@@ -161,23 +162,36 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       //   outputRange: [0, 0, 1]
       // }),
     }}>
-      { feed.description && feed.description.length > 0 ?
-        <Fragment>
-          <Text style={{
-            color: '#666666',
-            fontFamily: 'IBMPlexSans-Bold',
-            fontSize: 18,
-            textAlign: 'center'
-          }}>{ feed.description }</Text>
+      <View style={{
+        flex: 1,
+        flexDirection: 'column'
+      }}>
+        { feed.description && feed.description.length > 0 ?
           <View style={{
-            height: 1,
-            backgroundColor: hslString('rizzleText'),
-            opacity: 0.2,
-            marginBottom: margin
-          }} />
-        </Fragment> : null
-      }
-      { feedStats }
+            flex: 1,
+            justifyContent: 'space-around'
+          }}>
+            <Text style={{
+              color: '#666666',
+              fontFamily: 'IBMPlexSans-Bold',
+              fontSize: 18,
+              textAlign: 'center'
+            }}>{ feed.description }</Text>
+            <View style={{
+              height: 1,
+              backgroundColor: hslString('rizzleText'),
+              opacity: 0.2,
+              marginBottom: margin
+            }} />
+          </View> : null
+        }
+        <View style={{
+          flex: 1,
+          justifyContent: 'center'
+        }}>
+          { feedStats }
+        </View>
+      </View>
       <View style={{
         alignItems: 'flex-end'
       }}>
@@ -190,7 +204,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         }}>
           <TextButton
             buttonStyle={{
-              minWidth: screenWidth / 2 - margin * 1.51,
+              minWidth: '48%',
               marginRight: margin,
               marginBottom: margin
             }}
@@ -201,7 +215,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             text="Discard old" />
           <TextButton
             buttonStyle={{
-              minWidth: screenWidth / 2 - margin * 1.51,
+              minWidth: '48%',
               marginBottom: margin
             }}
             icon={discardAllIcon}
@@ -211,7 +225,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             text="Discard all" />
           <TextButton
             buttonStyle={{
-              minWidth: screenWidth / 2 - margin * 1.51,
+              minWidth: '48%',
               marginRight: margin,
               marginBottom: margin
             }}
@@ -222,7 +236,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             text="Unsubscribe" />
           <TextButton
             buttonStyle={{
-              minWidth: screenWidth / 2 - margin * 1.51,
+              minWidth: '48%',
               marginBottom: margin
             }}
             icon={readIcon}
@@ -236,7 +250,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             text="Read items" />
           <TextButton
             buttonStyle={{
-              minWidth: screenWidth / 2 - margin * 1.51,
+              minWidth: '48%',
               marginRight: margin
             }}
             icon={muteIcon}
@@ -248,7 +262,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             text="Mute" />
           <TextButton
             buttonStyle={{
-              minWidth: screenWidth / 2 - margin * 1.51
+              minWidth: '48%',
             }}
             icon={likeIcon}
             isInverted={feed.isLiked}
