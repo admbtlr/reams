@@ -23,14 +23,18 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
   const italic = {
     fontFamily: 'IBMPlexMono-LightItalic'
   }
-  const readingTimeMins = Math.floor(feed.readingTime / 60)
-  const readingTimeHours = Math.floor(readingTimeMins / 60)
-  const readingTimeString = (readingTimeHours > 0 ?
-    (readingTimeHours + ' hour' + (readingTimeHours === 1 ? ' ' : 's ')) : '') +
-    (readingTimeMins > 0 ?
-      (readingTimeHours > 0 ? readingTimeMins % 60 : readingTimeMins) + ' minute' + (readingTimeMins === 1 ? '' : 's') :
-      feed.readingTime + ' seconds')
-  const avgReadingTime = Math.round(feed.readingTime / feed.numRead)
+
+  const createTimeString = (seconds) => {
+    const mins = Math.floor(seconds / 60)
+    const hours = Math.floor(mins / 60)
+    return (hours > 0 ?
+      (hours + ' hour' + (hours === 1 ? ' ' : 's ')) : '') +
+      (mins > 0 ?
+        (hours > 0 ? mins % 60 : mins) + ' minute' + (mins === 1 ? '' : 's') :
+        seconds + ' seconds')
+  }
+  const totalReadingTime = createTimeString(feed.readingTime)
+  const avgReadingTime = createTimeString(Math.round(feed.readingTime / feed.numRead))
   const feedStats = (
     <Text style={{
       color: '#666666',
@@ -45,30 +49,13 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       <Text style={italic}> {feed.title}</Text>
       {feed.numRead > 0 &&
         <Text> over the course of
-          <Text style={bold}> {readingTimeString}</Text>.
+          <Text style={bold}> {totalReadingTime}</Text>.
           It takes you an average of
-          <Text style={bold}> {avgReadingTime} seconds </Text>
+          <Text style={bold}> {avgReadingTime} </Text>
           to read each story
         </Text>
       }.
       </Text>)
-
-  const buttonStyle = {
-    backgroundColor: hslString(feed.color, 'desaturated'),
-    padding: margin*.5,
-    color: 'white',
-    // flex: 1,
-    borderRadius: 8,
-    // marginRight: margin,
-    marginTop: margin,
-    width: screenWidth / 2 - margin * 1.5
-  }
-  const buttonTextStyle = {
-    color: 'white',
-    fontFamily: 'IBMPlexMono-Light',
-    fontSize: 16,
-    textAlign: 'center'
-  }
 
   const likeIcon = <Svg
       height='32'
@@ -148,19 +135,11 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
     </Svg>
 
   return (
-  <ScrollView
-    contentContainerStyle={{
-      flex: 1,
-      padding: margin,
-      margin: 0
-    }}>
-    <Animated.View style={{
+    <View style={{
       flex: 1,
       justifyContent: 'space-between',
-      // opacity: interpolate(this.expandAnim, {
-      //   inputRange: [0, 0.8, 1],
-      //   outputRange: [0, 0, 1]
-      // }),
+      margin: 0,
+      padding: margin
     }}>
       <View style={{
         flex: 1,
@@ -273,7 +252,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             text="Like" />
         </View>
       </View>
-    </Animated.View>
-  </ScrollView>
+    </View>
   )
 }

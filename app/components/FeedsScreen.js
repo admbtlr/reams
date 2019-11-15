@@ -166,6 +166,7 @@ class FeedsScreen extends React.Component {
           scrollEnabled={this.state.scrollEnabled}
           onScrollBeginDrag={() => { this.isScrolling = true }}
           onScrollEndDrag={() => { this.isScrolling = false }}
+          windowSize={6}
         />
         { modal !== null && (
             <FeedExpanded {...modal} {...{ close }} />

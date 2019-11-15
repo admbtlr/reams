@@ -108,7 +108,10 @@ class FeedExpanded extends React.Component {
 
 
     return (
-      <Fragment>
+      <View style={{
+        padding: 0,
+        margin: 0
+      }}>
         <View
           style={{
             alignItems: 'flex-start',
@@ -193,11 +196,12 @@ class FeedExpanded extends React.Component {
         <View style={{
           // opacity: this.expandAnim,
           position: 'absolute',
-          right: 10
+          right: 10,
+          top: 10
         }}>
-          <XButton isLight={true} style={{ top: 10 }}/>
+          <XButton isLight={true} />
         </View>
-      </Fragment>
+      </View>
     )
   }
 }

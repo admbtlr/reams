@@ -25,6 +25,26 @@ import FeedExpandedContainer from '../containers/FeedExpanded'
 
 const { width, height } = Dimensions.get("window")
 
+const {
+  and,
+  block,
+  call,
+  cond,
+  debug,
+  eq,
+  event,
+  interpolate,
+  neq,
+  or,
+  set,
+  startClock,
+  stopClock,
+  timing,
+  Clock,
+  Extrapolate,
+  Value
+} = Animated
+
 class FeedContracted extends React.PureComponent {
 
   constructor (props) {
@@ -45,12 +65,77 @@ class FeedContracted extends React.PureComponent {
 
     this.currentX = this.props.xCoord || 0
     this.currentY = this.props.yCoord || 0
+
+    this.initialiseAnimations()
   }
+
+  initialiseAnimations () {
+    this.gestureState = new Value(-1)
+    const clock = new Clock()
+    this.onStateChange = event([{
+      nativeEvent: {
+        state: this.gestureState,
+      },
+    }])
+
+    const runScaleTimer = (clock, gestureState) => {
+      const state = {
+        finished: new Value(0),
+        position: new Value(0),
+        time: new Value(0),
+        frameTime: new Value(0),
+      }
+
+      const config = {
+        duration: 150,
+        toValue: new Value(-1),
+        easing: Easing.inOut(Easing.ease),
+      }
+
+      return block([
+        cond(and(eq(gestureState, State.BEGAN), neq(config.toValue, 1)), [
+          set(state.finished, 0),
+          set(state.time, 0),
+          set(state.frameTime, 0),
+          set(config.toValue, 1),
+          debug('Gesture state began, startClock', startClock(clock))
+        ]),
+        cond(and(eq(gestureState, State.FAILED), neq(config.toValue, 0)), [
+          set(state.finished, 0),
+          set(state.time, 0),
+          set(state.frameTime, 0),
+          set(config.toValue, 0),
+          debug('Gesture state failed, startClock', startClock(clock))
+        ]),
+        cond(and(eq(gestureState, State.END), neq(config.toValue, 0)), [
+          set(state.finished, 0),
+          set(state.time, 0),
+          set(state.frameTime, 0),
+          set(config.toValue, 0),
+          debug('Gesture state ended, startClock', startClock(clock))
+        ]),
+        timing(clock, state, config),
+        cond(state.finished, [
+          debug('Animation finished, stopClock', stopClock(clock)),
+        ]),
+        cond(and(eq(gestureState, State.END), state.finished), [
+          debug('Animation finished, gesture state ended, call this.hide', call([], this.onPress))
+        ]),
+        interpolate(state.position, {
+          inputRange: [0, 1],
+          outputRange: [1, 0.95],
+          extrapolate: Extrapolate.CLAMP,
+        })
+      ])
+    }
+    this._scale = runScaleTimer(clock, this.gestureState)
+  }
+
 
   onPress = (e) => {
     const { feed, navigation } = this.props
     // this.imageView.measure(this.measured)
-    navigation.navigate('Modal', {
+    navigation.push('Modal', {
       childView: <FeedExpandedContainer feed={feed} close={navigation.goBack()} />
     })
   }
@@ -94,7 +179,9 @@ class FeedContracted extends React.PureComponent {
     }
 
     return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
+      <TapGestureHandler
+        onHandlerStateChange={this.onStateChange}
+      >
         <Animated.View
           style={{
             flex: 1,
@@ -105,19 +192,13 @@ class FeedContracted extends React.PureComponent {
               this.margin :
               0,
             overflow: 'visible',
-            // transform: [
-            //   {
-            //     scaleX: this._scale,
-            //     scaleY: this._scale
-            //   }
-            // ],
-            // opacity: this.props.expandAnim ?
-            //   interpolate(this.props.expandAnim, {
-            //     inputRange: [0, 0.2, 0.5, 1],
-            //     outputRange: [1, 1, 1, 0]
-            //   }) : 1
+            transform: [
+              {
+                scaleX: this._scale,
+                scaleY: this._scale
+              }
+            ]
           }}
-          ref={c => this.outerView = c}
         >
           <View
             style={{
@@ -228,7 +309,7 @@ class FeedContracted extends React.PureComponent {
             </View>
           </View>
         </Animated.View>
-      </TouchableWithoutFeedback>
+      </TapGestureHandler>
     )
   }
 }
