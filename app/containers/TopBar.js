@@ -31,6 +31,7 @@ const mapStateToProps = (state, ownProps) => {
     },
     toolbar: state.toolbar,
     displayMode: state.itemsMeta.display,
+    isDarkBackground: state.webView.isDarkBackground,
     isFiltered: !!feedFilter,
     ...ownProps
   }

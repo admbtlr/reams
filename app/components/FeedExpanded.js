@@ -162,7 +162,7 @@ class FeedExpanded extends React.Component {
                 ...textStyles,
                 flexWrap: 'wrap',
                 fontFamily: 'IBMPlexSansCond-Bold',
-                fontSize: 24
+                fontSize: 32
               }}>{feed.title}</Text>
             </View>
             <View style={{

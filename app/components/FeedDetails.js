@@ -39,7 +39,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
     <Text style={{
       color: '#666666',
       fontFamily: 'IBMPlexMono-Light',
-      fontSize: 14,
+      fontSize: 16,
       // marginTop: margin * 2,
       marginBottom: margin,
       textAlign: 'center'
@@ -153,7 +153,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             <Text style={{
               color: '#666666',
               fontFamily: 'IBMPlexSans-Bold',
-              fontSize: 18,
+              fontSize: 20,
               textAlign: 'center'
             }}>{ feed.description }</Text>
             <View style={{

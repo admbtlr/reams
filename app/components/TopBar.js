@@ -160,17 +160,21 @@ class TopBar extends React.PureComponent {
   getBackgroundColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
-      hslString('rizzleBG') :
-      (feedColor ?
-        hslString(feedColor, 'desaturated') :
-        hslString('rizzleSaved'))
+      (this.props.isDarkBackground ?
+        hslString('rizzleText') :
+        hslString('rizzleBG')) :
+        (feedColor ?
+          hslString(feedColor, 'desaturated') :
+          hslString('rizzleSaved'))
     // return hslString('rizzleChrome')
   }
 
   getForegroundColor (item) {
     return this.props.displayMode == 'saved' ?
-      hslString('rizzleText') :
-      'white'
+      (this.props.isDarkBackground ?
+        'hsl(0, 0%, 80%)' :
+        hslString('rizzleBG')) :
+        'white'
   }
 
   getBorderBottomColor (item) {

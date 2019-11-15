@@ -109,7 +109,7 @@ export default function Splash ({ fadeOut }) {
       <Animated.View style={{
         position: 'absolute',
         bottom: -height * 0.25,
-        left: width * 0.25,
+        left: width * 0.333,
         zIndex: 10,
         transform: [{
           translateY: rizzleAnim
@@ -120,7 +120,7 @@ export default function Splash ({ fadeOut }) {
           source={require('../assets/images/wordmark.png')}
           style={{
             flex: 1,
-            width: width * 0.5
+            width: width * 0.333
           }}
         />
       </Animated.View>

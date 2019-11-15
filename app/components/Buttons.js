@@ -98,10 +98,12 @@ class Buttons extends React.Component {
   getBackgroundColor (item) {
     // return hslString('rizzleBG')
     return this.props.isDarkBackground ?
-      ('hsl(240, 17%, 15%)') :
       (this.props.displayMode == 'saved' ?
-        hslString('rizzleBG') :
-        'white')
+        hslString('rizzleText') :
+        'hsl(240, 17%, 15%)') :
+        (this.props.displayMode == 'saved' ?
+          hslString('rizzleBG') :
+          'white')
     // const activeColor = item ? item.feed_color : null
     // return this.props.displayMode == 'saved' ?
     //   hslString('rizzleBG') :
@@ -191,7 +193,7 @@ class Buttons extends React.Component {
         hslString(item.feed_color, this.props.isDarkBackground ? 'darkmode' : '') :
       null
     const borderColor = this.props.displayMode == 'saved' ?
-      hslString('rizzleText') :
+      this.props.isDarkBackground ? 'hsl(0, 0%, 80%)' : hslString('rizzleText') :
       activeColor
     // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : strokeColor
     const backgroundColor = this.getBackgroundColor(item)
@@ -262,64 +264,43 @@ class Buttons extends React.Component {
           }}
           onPress={this.onSavePress}
         >
-          {/*
-          <Svg
-            height='50'
-            width='50'
-            style={{
-              transform: [
-                { translateX: -4 },
-                { translateY: -3 }
-              ]
-            }}>
-            <Path fill={backgroundColor} strokeWidth='2' stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
-            <Path fill={backgroundColor} strokeWidth='2' stroke={borderColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
-            <Path fill={backgroundColor} strokeWidth='2' stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
-            <Path fill={backgroundColor} strokeWidth='2' stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
-            <Rect fill={backgroundColor} strokeWidth='2' stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
-          </Svg>
-          */}
           <Svg
             height='30'
             width='33'
             style={{
               left: 7
             }}>
-            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"></Polygon>
-            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"></Polygon>
-            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="14.5 18 2 18 2 11 10.5 11"></Polygon>
-            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="18.5 11 22.5 18 32 18 32 11"></Polygon>
-            <Polygon stroke={borderColor} strokeWidth="2" fill="none" points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColor : borderColor}
+              strokeWidth="2"
+              fill={item.isSaved ? borderColor : 'none'}
+              points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"
+            ></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColor : borderColor}
+              strokeWidth="2"
+              fill={item.isSaved ? borderColor : 'none'}
+              points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"
+            ></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColor : borderColor}
+              strokeWidth="2"
+              fill={item.isSaved ? borderColor : 'none'}
+              points="14.5 18 2 18 2 11 10.5 11"
+            ></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColor : borderColor}
+              strokeWidth="2"
+              fill={item.isSaved ? borderColor : 'none'}
+              points="18.5 11 22.5 18 32 18 32 11"
+            ></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColor : borderColor}
+              strokeWidth="2"
+              fill={item.isSaved ? borderColor : 'none'}
+              points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"
+            ></Polygon>
           </Svg>
-          {/*
-          <Animated.View style={{
-            position: 'absolute',
-            left: -1,
-            top: -1,
-            width: 50,
-            height: 50,
-            borderRadius: 25,
-            padding: 2,
-            opacity: this.getSavedToggleOpacity(item, isCurrent),
-            backgroundColor: activeColor
-          }}>
-            <Svg
-              height='50'
-              width='50'
-              style={{
-                transform: [
-                  { translateX: -5 },
-                  { translateY: -5 }
-                ]
-              }}>
-              <Path fill={saveFillColors[2]} strokeWidth='2' stroke={borderColor} d="M41.2872335,12.7276117 L29.7883069,12.7903081 L27.2375412,17.3851541 L29.7064808,21.6614827 L41.4403118,22.0040892 L41.2872335,12.7276117 Z" id="Rectangle-Copy-8" transform="translate(34.305930, 17.372037) rotate(-60.000000) translate(-34.305930, -17.372037) "></Path>
-              <Path fill={saveFillColors[2]} strokeWidth='2' stroke={borderColor} d="M18.187442,34.0982957 L17.56609,34.4570335 L14.9405857,39.1865106 L17.4056535,43.4561333 L29.1519238,43.5234076 L29.1519238,34.5079474 L18.187442,34.0982957 Z" id="Rectangle-Copy-10" transform="translate(22.008975, 38.809773) rotate(120.000000) translate(-22.008975, -38.809773) "></Path>
-              <Path fill={saveFillColors[1]} strokeWidth='2' stroke={borderColor} d="M8.80901699,23.5 L13.309017,32.5 L25,32.5 L25,23.5 L8.80901699,23.5 Z" id="Rectangle-Copy-6" transform="translate(16.750000, 28.000000) rotate(180.000000) translate(-16.750000, -28.000000) "></Path>
-              <Path fill={saveFillColors[1]} strokeWidth='2' stroke={borderColor} d="M30.8456356,23.5 L35.7956356,32.5 L47.5,32.5 L47.5,23.5 Z" id="Rectangle-Copy-9"></Path>
-              <Rect fill={saveFillColors[0]} strokeWidth='2' stroke={borderColor} id="Rectangle-Copy-7" transform="translate(28.000000, 28.000000) rotate(60.000000) translate(-28.000000, -28.000000) " x="8.5" y="23.5" width="39" height="9"></Rect>
-            </Svg>
-          </Animated.View>
-        */}
         </RizzleButton>
         <RizzleButton
           backgroundColor={backgroundColor}
