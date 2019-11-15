@@ -85,22 +85,31 @@ async checkKnownRssLocations (url) {
   let feedUrl, res, json
 
   feedUrl = host + 'feed'
-  res = await fetch(host + 'feed')
-  if (res.ok) {
-    feeds.push(feedUrl)
-  }
+  try {
+    console.log(`Checking ${host}feed`)
+    res = await fetch(host + 'feed')
+    if (res.ok) {
+      feeds.push(feedUrl)
+    }
+  } catch (error) {}
 
-  feedUrl = host + subfolder + 'feed'
-  res = await fetch(host + 'feed')
-  if (res.ok) {
-    feeds.push(feedUrl)
-  }
+  try {
+    console.log(`Checking ${host}${subfolder}feed`)
+    feedUrl = host + subfolder + 'feed'
+    res = await fetch(host + 'feed')
+    if (res.ok) {
+      feeds.push(feedUrl)
+    }
+  } catch (error) {}
 
-  feedUrl = host + 'rss'
-  res = await fetch(host + 'feed')
-  if (res.ok) {
-    feeds.push(feedUrl)
-  }
+  try {
+    console.log(`Checking ${host}rss`)
+    feedUrl = host + 'rss'
+    res = await fetch(host + 'feed')
+    if (res.ok) {
+      feeds.push(feedUrl)
+    }
+  } catch (error) {}
 
   return feeds
 }
@@ -139,22 +148,25 @@ async searchForRSS (url) {
       feeds = feeds.concat(await this.checkKnownRssLocations(url))
         .filter((feed, index, self) => self.indexOf(feed) === index)
 
+    } catch (error) {
+      console.log(`Error fetching page: ${error.message}`)
+    } finally {
       let fullFeeds = []
+      console.log('Got feeds: ' + feeds)
       for (feed of feeds) {
-        const res = await fetch('https://api.rizzle.net/feed-title/?url=' + feed)
-        const json = await res.json()
-        fullFeeds.push({
-          title: json.title,
-          url: feed
-        })
+        try {
+          const res = await fetch('https://api.rizzle.net/feed-title/?url=' + feed)
+          const json = await res.json()
+          fullFeeds.push({
+            title: json.title,
+            description: json.description,
+            url: feed
+          })
+        } catch (error) {}
       }
       console.log(fullFeeds)
 
       return fullFeeds
-    } catch (error) {
-      console.log(`Error fetching page: ${error.message}`)
-      throw `Error fetching page: ${error.message}`
-      return null
     }
   }
 
@@ -184,6 +196,7 @@ async searchForRSS (url) {
         searchingForRss: true
       })
       const rssUrls = await this.searchForRSS(value)
+      console.log(rssUrls)
       let state = {
         ...this.state,
         searchingForRss: false
@@ -231,12 +244,14 @@ async searchForRSS (url) {
     console.log(this.state.rssUrls)
     return (
       <Modal
+        coverScreen={true}
         hasBackdrop={false}
         style={{ backgroundColor: 'transparent' }}
         isVisible={this.state.isOpen}
         onModalHide={this.onClose}
         onSwipeComplete={() => this.setState({ isOpen: false })}
         swipeDirection="down"
+        useNativeDriver={true}
         >
         <View style={{
           alignItems: 'center',
@@ -255,19 +270,25 @@ async searchForRSS (url) {
               justifyContent: 'space-between'
             }}>
               <XButton
-                onPress={() => this.setState({ isOpen: false })}
+                onPress={() => {
+                  this.setState({ isOpen: false })
+                  console.log('Closing')
+                }}
                 style={{
                   position: 'absolute',
                   right: 0,
-                  top: 0
+                  top: 0,
+                  zIndex: 10
                 }}
               />
-              <Text
-                style={{
-                  ...textStyle,
-                  fontFamily: 'IBMPlexMono',
-                  marginBottom: 10
-                }}>Select a feed:</Text>
+              <View style={{ flex: 0 }}>
+                <Text
+                  style={{
+                    ...textStyle,
+                    fontFamily: 'IBMPlexMono',
+                    marginBottom: 10
+                  }}>Select a feed:</Text>
+              </View>
               { this.state.searchingForRss &&
                 <Fragment>
                   <Text
@@ -284,16 +305,30 @@ async searchForRSS (url) {
                   <Text> </Text>
                 </Fragment>
               }
-              { (!this.state.searchingForRss && !this.state.rssUrls) &&
-                <Fragment>
+              { (!this.state.searchingForRss &&
+                (!this.state.rssUrls || this.state.rssUrls.length === 0)) &&
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  padding: 20
+                }}>
                   <Text
                     style={{
-                      ...textStyle
-                    }}>No feed found :(</Text>
-                </Fragment>
+                      ...textStyle,
+                      fontFamily: 'IBMPlexSans-Bold'
+                    }}>No feed found 😢</Text>
+                  <Text style={{
+                    ...textStyle,
+                    fontFamily: 'IBMPlexSans-Light'
+                  }}>Sorry, we can’t add this site to Rizzle yet.</Text>
+                </View>
               }
               { !!this.state.rssUrls && this.state.rssUrls.length > 0 &&
-                <Fragment>
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'space-between'
+                }}>
+                  <View style={{ flex: 1 }}>
                     { this.state.rssUrls.map((feed, index) => (<TouchableOpacity
                         key={index}
                         style={{
@@ -305,15 +340,21 @@ async searchForRSS (url) {
                           ...textStyle,
                           fontFamily: 'IBMPlexSans-Bold'
                         }}>{ feed.title }</Text>
+                        <Text style={{
+                          ...textStyle,
+                          fontFamily: 'IBMPlexSans-Light'
+                        }}>{ feed.description }</Text>
                       </TouchableOpacity>))
                     }
+                  </View>
                   <Text
                     style={{
                       ...textStyle,
                       fontFamily: 'IBMPlexMono',
-                      marginBottom: 10
+                      marginBottom: 10,
+                      flex: 0
                     }}>… or …</Text>
-                </Fragment>
+                </View>
               }
             </View>
             <TextButton

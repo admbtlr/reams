@@ -76,7 +76,8 @@ app.get('/feed-title/', async (req, res) => {
       const meta = items[0].meta
       // console.log(meta)
       res.send({
-        title: meta.title
+        title: meta.title,
+        description: meta.description
       })
     } else {
       res.send({})
