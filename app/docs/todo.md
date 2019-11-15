@@ -1,5 +1,8 @@
 # To Do
 
+- onboarding overlay
+- improve auto-mercury
+- fix freezing share extension
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - login with apple
@@ -7,8 +10,6 @@
 - fix bug with second item never showing its title
 - fix bug with items re-rendering and losing your place when getting new items
 - why does the ipad crash?
-- figure out why the decoration thread crashes (does it even?)
-- figure out why some items never get decorated
 - make extension work with more data types
 - upgrade to RN 0.60
     + https://medium.com/@deepslam/how-i-upgraded-my-application-to-react-native-0-60-5-53c52107e87
@@ -16,12 +17,15 @@
 - placeholder images (use letters?)
 - Use https://github.com/DylanVann/react-native-fast-image to show cached images
 - scroll effects
-- fix wired.com custom parser
 - make buttons use reanimate
 - add a feed manually
 - newsletters
 - saved folders
 
+- ~~improve darkmode~~
+- ~~figure out why the decoration thread crashes (does it even?)~~
+- ~~figure out why some items never get decorated~~
+- ~~fix wired.com custom parser~~
 - ~~fix scrollTo~~
 - ~~list of feeds to add~~
 - ~~dark mode (RN 0.61? dark-mode module?)~~
