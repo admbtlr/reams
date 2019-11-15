@@ -45,7 +45,7 @@ body {
   .dark-background body {
     background-color: black; }
     .dark-background body, .dark-background body a, .dark-background body a:active, .dark-background body a:visited {
-      color: #b3b3b3; }
+      color: #cccccc; }
 
 .item {
   height: 100vh; }
@@ -127,11 +127,12 @@ body {
   .itemArticle img:not(.img-portrait):not(.img-small) {
     width: 100vw !important; }
   .itemArticle img.img-portrait, .itemArticle img.img-small {
-    margin: 0.5rem 0.5rem 0;
+    margin: 0.5rem 0.5rem 1rem;
     max-width: calc(100vw - 1rem) !important;
     width: auto !important; }
     figure .itemArticle img.img-portrait, figure .itemArticle img.img-small {
-      width: calc(100% - 1rem); }
+      width: calc(100% - 1rem);
+      margin-bottom: 0; }
   @media (min-width: 600px) {
     .itemArticle img.img-small {
       left: 0;
@@ -335,7 +336,8 @@ body {
   .dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
     color: #4d4d4d; }
   .dark-background .itemArticle blockquote, .dark-background .itemArticle figcaption {
-    background-color: rgba(255, 255, 255, 0.05); }
+    background-color: #1b1b1d;
+    color: #e6e6e6 !important; }
   .dark-background .itemArticle pre {
     color: #cccccc; }
 

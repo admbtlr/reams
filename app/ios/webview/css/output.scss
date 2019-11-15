@@ -234,7 +234,7 @@ body {
   .dark-background & {
     background-color: hsl(240, 0%, 0%);
     &, a, a:active, a:visited {
-      color: hsl(0, 0%, 70%);
+      color: hsl(0, 0%, 80%);
     }
   }
 }
@@ -365,12 +365,13 @@ body {
 
   img.img-portrait, img.img-small {
     // display: block;
-    margin: 0.5rem 0.5rem 0;
+    margin: 0.5rem 0.5rem 1rem;
     max-width: calc(100vw - 1rem) !important;
     width: auto !important;
 
     figure & {
       width: calc(100% - 1rem);
+      margin-bottom: 0;
     }
   }
 
@@ -685,7 +686,8 @@ body {
     }
 
     blockquote, figcaption {
-      background-color: rgba(255, 255, 255, 0.05);
+      background-color: hsl(241, 4%, 11%);
+      color: hsl(0, 0%, 90%) !important;
     }
 
     pre {
