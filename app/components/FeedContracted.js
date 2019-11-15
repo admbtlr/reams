@@ -136,7 +136,11 @@ class FeedContracted extends React.PureComponent {
     const { feed, navigation } = this.props
     // this.imageView.measure(this.measured)
     navigation.push('Modal', {
-      childView: <FeedExpandedContainer feed={feed} close={navigation.goBack()} />
+      childView: <FeedExpandedContainer
+        feed={feed}
+        close={navigation.goBack()}
+        navigation={navigation}
+      />
     })
   }
 
