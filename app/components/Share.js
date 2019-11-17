@@ -157,11 +157,13 @@ async searchForRSS (url) {
         try {
           const res = await fetch('https://api.rizzle.net/feed-title/?url=' + feed)
           const json = await res.json()
-          fullFeeds.push({
-            title: json.title,
-            description: json.description,
-            url: feed
-          })
+          if (json.title) {
+            fullFeeds.push({
+              title: json.title,
+              description: json.description,
+              url: feed
+            })
+          }
         } catch (error) {}
       }
       console.log(fullFeeds)
@@ -281,14 +283,6 @@ async searchForRSS (url) {
                   zIndex: 10
                 }}
               />
-              <View style={{ flex: 0 }}>
-                <Text
-                  style={{
-                    ...textStyle,
-                    fontFamily: 'IBMPlexMono',
-                    marginBottom: 10
-                  }}>Select a feed:</Text>
-              </View>
               { this.state.searchingForRss &&
                 <Fragment>
                   <Text
@@ -324,41 +318,54 @@ async searchForRSS (url) {
                 </View>
               }
               { !!this.state.rssUrls && this.state.rssUrls.length > 0 &&
-                <View style={{
-                  flex: 1,
-                  justifyContent: 'space-between'
-                }}>
-                  <View style={{ flex: 1 }}>
-                    { this.state.rssUrls.map((feed, index) => (<TouchableOpacity
-                        key={index}
-                        style={{
-                          paddingHorizontal: 10,
-                          paddingVertical: 5
-                        }}
-                        onPress={() => { this.addFeed(feed.url) }}>
-                        <Text style={{
-                          ...textStyle,
-                          fontFamily: 'IBMPlexSans-Bold'
-                        }}>{ feed.title }</Text>
-                        <Text style={{
-                          ...textStyle,
-                          fontFamily: 'IBMPlexSans-Light'
-                        }}>{ feed.description }</Text>
-                      </TouchableOpacity>))
-                    }
+                <Fragment>
+                  <View style={{ flex: 0 }}>
+                    <Text
+                      style={{
+                        ...textStyle,
+                        fontFamily: 'IBMPlexMono',
+                        marginBottom: 10
+                      }}>Select a feed:</Text>
                   </View>
-                  <Text
-                    style={{
-                      ...textStyle,
-                      fontFamily: 'IBMPlexMono',
-                      marginBottom: 10,
-                      flex: 0
-                    }}>… or …</Text>
-                </View>
+                  <View style={{
+                    flex: 1,
+                    justifyContent: 'space-between'
+                  }}>
+                    <View style={{
+                      flex: 1,
+                      justifyContent: 'center'
+                    }}>
+                      { this.state.rssUrls.map((feed, index) => (<TouchableOpacity
+                          key={index}
+                          style={{
+                            paddingHorizontal: 10,
+                            paddingVertical: 5
+                          }}
+                          onPress={() => { this.addFeed(feed.url) }}>
+                          <Text style={{
+                            ...textStyle,
+                            fontFamily: 'IBMPlexSans-Bold'
+                          }}>{ feed.title }</Text>
+                          <Text style={{
+                            ...textStyle,
+                            fontFamily: 'IBMPlexSans-Light'
+                          }}>{ feed.description }</Text>
+                        </TouchableOpacity>))
+                      }
+                    </View>
+                    <Text
+                      style={{
+                        ...textStyle,
+                        fontFamily: 'IBMPlexMono',
+                        marginBottom: 10,
+                        flex: 0
+                      }}>… or …</Text>
+                  </View>
+                </Fragment>
               }
             </View>
             <TextButton
-              text="Save page in Rizzle"
+              text="Save this page in Rizzle"
               buttonStyle={{ marginBottom: 0 }}
               onPress={this.savePage}
             />

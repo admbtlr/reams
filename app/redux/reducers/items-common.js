@@ -73,7 +73,12 @@ export const itemDecorationSuccess = (action, state) => {
       // note that I'm using action.item as the base
       // there's a small chance that this might be stale,
       // if e.g. it's been read since it was initially plucked in the decorate-item saga
-      item = addMercuryStuffToItem(action.item, action.mercuryStuff)
+      const decorated = addMercuryStuffToItem(action.item, action.mercuryStuff)
+      item = {
+        ...item,
+        ...decorated
+      }
+
       item = setShowCoverImage(addCoverImageToItem(item, action.imageStuff), currentItem)
       item = removeCoverImageDuplicate(item)
       // this is just to pick up styles.coverImage.isInline
