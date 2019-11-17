@@ -121,17 +121,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-Notification-1.png",
+      "filename" : "Icon-Notification-4.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-Notification-2.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "Icon-Notification-3.png",
+      "filename" : "Icon-Notification-5.png",
       "scale" : "1x"
     },
     {
@@ -141,17 +136,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-83.5@2x-3.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "Icon-83.5@2x-4.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "Icon-83.5@2x-5.png",
+      "filename" : "Icon-83.5@2x-6.png",
       "scale" : "2x"
     },
     {
@@ -163,13 +148,7 @@
     {
       "size" : "40x40",
       "idiom" : "universal",
-      "filename" : "Icon-Small-44.png",
-      "scale" : "1x"
-    },
-    {
-      "size" : "40x40",
-      "idiom" : "universal",
-      "filename" : "Icon-Small-45.png",
+      "filename" : "Icon-Small-46.png",
       "scale" : "1x"
     },
     {
@@ -181,19 +160,7 @@
     {
       "size" : "76x76",
       "idiom" : "universal",
-      "filename" : "Icon-81.png",
-      "scale" : "1x"
-    },
-    {
-      "size" : "76x76",
-      "idiom" : "universal",
-      "filename" : "Icon-82.png",
-      "scale" : "1x"
-    },
-    {
-      "size" : "76x76",
-      "idiom" : "universal",
-      "filename" : "Icon-83.png",
+      "filename" : "Icon-84.png",
       "scale" : "1x"
     },
     {
@@ -205,19 +172,7 @@
     {
       "size" : "76x76",
       "idiom" : "universal",
-      "filename" : "Icon-76@2x-3.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "76x76",
-      "idiom" : "universal",
-      "filename" : "Icon-76@2x-4.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "76x76",
-      "idiom" : "universal",
-      "filename" : "Icon-76@2x-5.png",
+      "filename" : "Icon-76@2x-6.png",
       "scale" : "2x"
     },
     {
@@ -301,6 +256,24 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "Icon-Notification-1.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-Notification-2.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-Notification-3.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
       "filename" : "Icon-Small-40.png",
       "unassigned" : true,
       "scale" : "1x"
@@ -319,7 +292,81 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "Icon-83.5@2x-3.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-83.5@2x-4.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-83.5@2x-5.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
       "filename" : "Icon-83.5@2x.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "universal",
+      "filename" : "Icon-Small-44.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "universal",
+      "filename" : "Icon-Small-45.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-81.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-82.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-83.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-76@2x-3.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-76@2x-4.png",
+      "unassigned" : true,
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "universal",
+      "filename" : "Icon-76@2x-5.png",
       "unassigned" : true,
       "scale" : "2x"
     }
