@@ -10,6 +10,7 @@ import {
   View
 } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
+import { copilot } from 'react-native-copilot'
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import LogoSpinnerContainer from '../containers/LogoSpinner.js'
@@ -28,6 +29,9 @@ class ItemsScreen extends React.Component {
     SplashScreen.hide()
     this.focusListener = this.props.navigation.addListener('didFocus', this.props.screenDidFocus)
     this.blurListener = this.props.navigation.addListener('willBlur', this.props.screenWillBlur)
+
+    // copilot
+    this.props.start()
   }
 
   componentWillUnmount () {
@@ -89,4 +93,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ItemsScreen
+// export default ItemsScreen
+export default copilot({
+  animated: true,
+  overlay: 'svg'
+})(ItemsScreen)
