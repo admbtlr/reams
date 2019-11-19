@@ -87,13 +87,13 @@ export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
     yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
-    if (feed.isInflated) continue
+    if (feed.inflatedDate && Date.now() - feed.inflatedDate < 1000 * 60 * 60 * 24 * 7) continue
     let details = yield call(getFeedDetails, feed)
     details = convertColorIfNecessary(details)
     const inflatedFeed = {
       ...feed,
       ...details,
-      isInflated: true
+      inflatedDate: Date.now()
     }
     yield call(InteractionManager.runAfterInteractions)
     yield put({
