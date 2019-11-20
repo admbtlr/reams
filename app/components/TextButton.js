@@ -97,7 +97,7 @@ class TextButton extends React.Component {
           style={buttonStyle}>
           <View style={{
             position: 'absolute',
-            top: 9,
+            top: isCompact ? 3 : 9,
             left: 8,
             backgroundColor: 'transparent'
           }}>{icon}</View>

@@ -144,7 +144,7 @@ class FeedExpanded extends React.Component {
           <View style={{
             width: '100%',
             paddingLeft: this.margin * 0.5,
-            paddingRight: this.margin * 0.5,
+            paddingRight: 40,
             paddingBottom: this.margin * 0.5,
             position: 'absolute',
             bottom: 0,

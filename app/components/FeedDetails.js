@@ -10,6 +10,7 @@ import Svg, {Circle, Polyline, Path, Line} from 'react-native-svg'
 import Animated from 'react-native-reanimated'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
+import { isIphoneX } from '../utils'
 
 
 
@@ -134,6 +135,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       />
     </Svg>
 
+  const isCompact = !isIphoneX()
+
   return (
     <View style={{
       flex: 1,
@@ -153,7 +156,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             <Text style={{
               color: '#666666',
               fontFamily: 'IBMPlexSans-Bold',
-              fontSize: 20,
+              fontSize: feed.description.length > 100 ? 18 : 20,
               textAlign: 'center'
             }}>{ feed.description }</Text>
             <View style={{
@@ -182,6 +185,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
           marginBottom: 10
         }}>
           <TextButton
+            isCompact={isCompact}
             buttonStyle={{
               minWidth: '48%',
               marginRight: margin,
@@ -193,6 +197,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             }}
             text="Discard old" />
           <TextButton
+            isCompact={isCompact}
             buttonStyle={{
               minWidth: '48%',
               marginBottom: margin
@@ -203,6 +208,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             }}
             text="Discard all" />
           <TextButton
+            isCompact={isCompact}
             buttonStyle={{
               minWidth: '48%',
               marginRight: margin,
@@ -214,6 +220,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             }}
             text="Unsubscribe" />
           <TextButton
+            isCompact={isCompact}
             buttonStyle={{
               minWidth: '48%',
               marginBottom: margin
@@ -228,6 +235,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             }}
             text="Read items" />
           <TextButton
+            isCompact={isCompact}
             buttonStyle={{
               minWidth: '48%',
               marginRight: margin
@@ -240,6 +248,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             }}
             text="Mute" />
           <TextButton
+            isCompact={isCompact}
             buttonStyle={{
               minWidth: '48%',
             }}
