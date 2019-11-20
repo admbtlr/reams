@@ -54,6 +54,7 @@ class FeedIcon extends React.Component {
   render () {
     const {
       feed,
+      dimensions,
       iconDimensions,
       hasCachedIcon,
       hasRenderedIcon,
@@ -70,7 +71,8 @@ class FeedIcon extends React.Component {
     const surfaceBgColor = typeof feed.color === 'string' ?
       feed.color :
       hslToHslString(feed.color)
-    return hasCachedIcon && iconDimensions && iconDimensions.width > 0 ?
+    let dim = dimensions || iconDimensions
+    return hasCachedIcon && dim && dim.width > 0 ?
       <View style={{
         backgroundColor: feed.color,
         // margin: 10,
@@ -110,12 +112,12 @@ class FeedIcon extends React.Component {
                     resizeMode='contain'
                     source={{
                       uri: getCachedFeedIconPath(feed._id),
-                      width: iconDimensions.width,
-                      height: iconDimensions.height
+                      width: dim.width,
+                      height: dim.height
                     }}
                     imageSize={{
-                      width: iconDimensions.width,
-                      height: iconDimensions.height
+                      width: dim.width,
+                      height: dim.height
                     }}
                   />
                 </ImageFilters>
