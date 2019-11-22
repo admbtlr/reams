@@ -10,7 +10,6 @@ import {
 } from 'react-native'
 import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
 import SplashScreen from 'react-native-splash-screen'
-import { useDispatch } from 'react-redux'
 
 import { hslString } from '../utils/colors'
 import { isFirstLaunch } from '../utils'
@@ -20,7 +19,6 @@ export default function Splash ({ fadeOut }) {
   const rizzleAnim = new Animated.Value(0)
   const scaleAnim = new Animated.Value(1)
   const fadeAnim = new Animated.Value(0)
-  const dispatch = useDispatch()
 
   const [isVisible, setVisible] = useState(true)
   const [hasAnimated, setAnimated] = useState(false)

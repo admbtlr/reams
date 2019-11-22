@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
+import { fontSizeMultiplier } from '../utils'
 
 class ItemsDirectionRadios extends React.Component {
   constructor (props) {
@@ -19,18 +20,21 @@ class ItemsDirectionRadios extends React.Component {
   render () {
     const screenWidth = Dimensions.get('window').width
     const margin = screenWidth * 0.05
+    const buttonWidth = (screenWidth - margin * 3) / 2
     const textStyles = {
       fontFamily: 'IBMPlexSans',
-      fontSize: 18,
-      lineHeight: 27,
+      fontSize: 18 * fontSizeMultiplier(),
+      lineHeight: 27 * fontSizeMultiplier(),
       marginTop: margin / 2 ,
       marginBottom: margin / 2,
-      padding: 8,
+      padding: 8 * fontSizeMultiplier(),
       textAlign: 'left',
       color: hslString('rizzleText')
     }
     const buttonStyle = {
-      marginBottom: margin / 2
+      alignSelf: 'flex-end',
+      marginBottom: margin / 2,
+      width: buttonWidth
     }
     return (
       <Fragment>

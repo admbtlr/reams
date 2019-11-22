@@ -19,6 +19,8 @@ import FeedIconCorner from './FeedIconCorner'
 import FeedDetails from './FeedDetails'
 import FeedLikedMuted from './FeedLikedMuted'
 import XButton from './XButton'
+import FeedExpandedOnboarding from './FeedExpandedOnboarding'
+import { fontSizeMultiplier } from '../utils'
 
 const DRAG_THRESHOLD = 10
 
@@ -34,22 +36,6 @@ class FeedExpanded extends React.Component {
     this.screenWidth = dim.width
     this.margin = this.screenWidth * 0.05
     this.screenHeight = dim.height
-  }
-
-  hideStatusBar () {
-    StatusBar.setHidden(true, 'slide')
-  }
-
-  showStatusBar () {
-    StatusBar.setHidden(false, 'slide')
-  }
-
-  showHideStatusBar (position) {
-    if (position >= 1) {
-      StatusBar.setHidden(true, 'slide')
-    } else if (position <= 0) {
-      StatusBar.setHidden(false, 'slide')
-    }
   }
 
   setFeedExpanded () {
@@ -71,7 +57,7 @@ class FeedExpanded extends React.Component {
     const {
       close,
       feed,
-      position
+      isFeedOnboardingDone
     } = this.props
     const { iconDimensions } = feed
 
@@ -84,28 +70,6 @@ class FeedExpanded extends React.Component {
       fontFamily: 'IBMPlexMono-Light',
       textAlign: 'left'
     }
-
-    // animation stuff
-    // https://github.com/wcandillon/can-it-be-done-in-react-native/blob/master/season2/apple-appoftheday/components/AppModal.tsx
-    // const width = createValue(position.width)
-    // const height = createValue(position.height)
-    // const x = createValue(position.x)
-    // const y = createValue(position.y)
-    // const scale = createValue(1)
-    // const borderRadius = createValue(16)
-    // const fontSize = createValue(24)
-    // const opacity = createValue(0)
-    // const textOpacity = cond(greaterThan(width.value, add(position.width, divide(sub(wWidth, position.width), 2))), 1, 0)
-    // const translationY = new Value(0)
-    // const shouldClose = greaterOrEq(round(translationY), 100)
-    // const positionStyles = {
-    //   position: 'absolute',
-    //   width: width.value,
-    //   height: height.value,
-    //   left: x.value,
-    //   top: y.value
-    // }
-
 
     return (
       <View style={{
@@ -162,7 +126,7 @@ class FeedExpanded extends React.Component {
                 ...textStyles,
                 flexWrap: 'wrap',
                 fontFamily: 'IBMPlexSansCond-Bold',
-                fontSize: 32
+                fontSize: 32 * fontSizeMultiplier()
               }}>{feed.title}</Text>
             </View>
             <View style={{
@@ -173,7 +137,7 @@ class FeedExpanded extends React.Component {
               <Text style={{
                 ...textStyles,
                 fontFamily: 'IBMPlexMono-Light',
-                fontSize: 16
+                fontSize: 16 * fontSizeMultiplier()
               }}>{feed.numUnread} unread</Text>
             </View>
           </View>
@@ -199,8 +163,11 @@ class FeedExpanded extends React.Component {
           right: 10,
           top: 10
         }}>
-          <XButton isLight={true} />
+          <XButton
+            isLight={true}
+            onPress={close} />
         </View>
+        { isFeedOnboardingDone || <FeedExpandedOnboarding /> }
       </View>
     )
   }

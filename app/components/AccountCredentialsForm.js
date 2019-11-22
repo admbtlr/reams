@@ -8,6 +8,7 @@ import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../redux/backends/rizzle'
 import { authenticate } from '../redux/backends'
 import { hslString } from '../utils/colors'
+import { fontSizeMultiplier } from '../utils'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -25,31 +26,31 @@ export const formElementStyles = {
   textInputStyle: {
     ...baseStyles,
     // padding: 8,
-    fontSize: 20,
+    fontSize: 20 * fontSizeMultiplier(),
     borderBottomColor: hslString('rizzleText'),
     borderBottomWidth: 1
   },
   textValueStyle: {
     ...baseStyles,
-    fontSize: 12
+    fontSize: 12 * fontSizeMultiplier()
   },
   textLabelStyle: {
     ...baseStyles,
-    fontSize: 12,
+    fontSize: 12 * fontSizeMultiplier(),
     marginTop: 3
   },
   textButtonStyle: {
     ...baseStyles,
-    fontSize: 16,
+    fontSize: 16 * fontSizeMultiplier(),
     textDecorationLine: 'underline'
   },
   textInfoStyle: {
     ...baseStyles,
     fontFamily: 'IBMPlexSans',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 40,
-    fontSize: 18
+    marginLeft: 20 * fontSizeMultiplier(),
+    marginRight: 20 * fontSizeMultiplier(),
+    marginTop: 40 * fontSizeMultiplier(),
+    fontSize: 18 * fontSizeMultiplier()
   }
 }
 

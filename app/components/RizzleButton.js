@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import {hslString} from '../utils/colors'
 
+
 class RizzleButton extends React.Component {
   constructor (props) {
     super(props)
@@ -75,7 +76,7 @@ class RizzleButton extends React.Component {
           outputRange: [1, 0.8]
         }),
         transform: [
-          ...this.props.style.transform,
+          ...(this.props.style.transform || []),
           { scale: this.scaleAnimatedValue },
         ]
       }}>

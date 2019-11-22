@@ -33,10 +33,7 @@ const FeedStack = createStackNavigator(
     mode: 'modal',
     headerMode: 'none',
     transparentCard: true,
-    cardOverlayEnabled: true,
-    onTransitionEnd: () => {
-      console.log(AppStack)
-    }
+    cardOverlayEnabled: true
   }
 )
 
