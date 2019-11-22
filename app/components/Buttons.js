@@ -229,9 +229,6 @@ class Buttons extends React.Component {
             }]
           }}
           onPress={this.onDisplayPress}
-          walkthroughText='Shows you how many articles are currently in your feed, and how many you have already read (or swiped past). Tapping it will switch to saved mode: this is how you can access all the articles you’ve saved, either from within Rizzle or by using the share extension (more on that in a minute).'
-          walkthroughIndex={0}
-          walkthrougName='The big button'
         >
           <Text style={{
             ...this.getStyles().buttonText,

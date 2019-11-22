@@ -17,7 +17,10 @@ const mapStateToProps = (state, ownProps) => {
   //   null
 
   if (feed) {
-    return ownProps
+    return {
+      ...ownProps,
+      isFeedOnboardingDone: state.config.isFeedOnboardingDone
+    }
   } else {
     return {
       isDeleted: true

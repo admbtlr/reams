@@ -4,6 +4,7 @@ import {
   Text,
   View
 } from 'react-native'
+import { isIphoneX } from '../utils'
 
 export default function ModalScreen ({ child, navigation }) {
   return (
@@ -12,9 +13,9 @@ export default function ModalScreen ({ child, navigation }) {
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'white',
-      marginTop: 50,
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
+      marginTop: isIphoneX() ? 50 : 30,
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
       overflow: 'hidden'
     }}>
       { navigation.getParam('childView') ||

@@ -113,6 +113,21 @@ export const isIphoneX = () => {
   )
 }
 
+export const isIpad = () => {
+  let d = Dimensions.get('window')
+  const { height, width } = d
+
+  return Platform.OS === 'ios' && width > 700
+}
+
+let screenWidth
+export const fontSizeMultiplier = () => {
+  if (!screenWidth) {
+    screenWidth = Dimensions.get('window').width
+  }
+  return screenWidth < 768 ? 1 : (screenWidth / 768).toPrecision(4)
+}
+
 export function id (item) {
   if (item && typeof item === 'string') {
     return hashFnv32a(item, true)

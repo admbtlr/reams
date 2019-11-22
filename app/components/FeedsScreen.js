@@ -25,6 +25,7 @@ import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
 import { deepEqual } from '../utils/'
 import Animated from 'react-native-reanimated'
+import { fontSizeMultiplier } from '../utils'
 
 const { Value } = Animated
 
@@ -297,11 +298,11 @@ class ListHeaderComponent extends React.Component {
     const buttonWidth = (screenWidth - margin * 3) / 2
     const textStyles = {
       fontFamily: 'IBMPlexSans',
-      fontSize: 18,
-      lineHeight: 27,
+      fontSize: 18 * fontSizeMultiplier(),
+      lineHeight: 27 * fontSizeMultiplier(),
       marginTop: margin / 2 ,
       marginBottom: margin / 2,
-      padding: 8,
+      padding: 8 * fontSizeMultiplier(),
       textAlign: 'left',
       color: hslString('rizzleText')
     }

@@ -4,10 +4,8 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native'
-import { walkthroughable, CopilotStep } from 'react-native-copilot';
 import {hslString} from '../utils/colors'
 
-const WalkthroughableTouchable = walkthroughable(TouchableWithoutFeedback);
 
 class RizzleButton extends React.Component {
   constructor (props) {
@@ -67,31 +65,8 @@ class RizzleButton extends React.Component {
   }
 
   render () {
-    const { walkthroughText, walkthroughIndex, walkthrougName } = this.props
     let newProps = Object.assign({}, this.props)
     delete newProps.style
-    const touchable = (
-      <WalkthroughableTouchable
-        onPressIn={this.onPressIn}
-        onPressOut={this.onPressOut}
-      >
-        <View style={{
-            ...this.getStyles(),
-            paddingHorizontal: this.props.style.paddingHorizontal || 0
-          }}
-          { ...newProps }
-        >
-          {this.props.children}
-        </View>
-      </WalkthroughableTouchable>
-    )
-    const walkthroughed = walkthroughIndex ?
-      <CopilotStep
-        text={walkthroughtext}
-        order={walkthroughIndex}
-        name={walkthroughText}
-      >{ touchable }</CopilotStep> :
-      touchable
     return (
       <Animated.View style={{
         ...this.props.style,
@@ -101,11 +76,23 @@ class RizzleButton extends React.Component {
           outputRange: [1, 0.8]
         }),
         transform: [
-          ...this.props.style.transform,
+          ...(this.props.style.transform || []),
           { scale: this.scaleAnimatedValue },
         ]
       }}>
-        { walkthroughed }
+        <TouchableWithoutFeedback
+          onPressIn={this.onPressIn}
+          onPressOut={this.onPressOut}
+        >
+          <View style={{
+              ...this.getStyles(),
+              paddingHorizontal: this.props.style.paddingHorizontal || 0
+            }}
+            { ...newProps }
+          >
+            {this.props.children}
+          </View>
+        </TouchableWithoutFeedback>
       </Animated.View>
     )
   }

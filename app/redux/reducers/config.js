@@ -9,7 +9,9 @@ const initialState = {
   feedFilter: null,
   isOnline: false,
   itemSort: 'forewards',
-  setShowNumUnread: true
+  setShowNumUnread: true,
+  isItemsOnboardingDone: false,
+  isFeedOnboardingDone: false
 }
 
 export function config (state = initialState, action) {
@@ -33,6 +35,18 @@ export function config (state = initialState, action) {
       return {
         ...state,
         isOnboarding: action.isOnboarding
+      }
+
+    case 'CONFIG_ITEMS_ONBOARDING_DONE':
+      return {
+        ...state,
+        isItemsOnboardingDone: true
+      }
+
+    case 'CONFIG_FEED_ONBOARDING_DONE':
+      return {
+        ...state,
+        isFeedOnboardingDone: true
       }
 
     case 'CONFIG_TOGGLE_FIRST_TIME':

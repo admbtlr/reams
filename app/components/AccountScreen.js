@@ -16,6 +16,7 @@ import GoogleAuth from './GoogleAuth'
 import AccountCredentialsForm from './AccountCredentialsForm'
 import XButton from './XButton'
 import { hslString } from '../utils/colors'
+import { fontSizeMultiplier } from '../utils'
 
 class AccountScreen extends React.Component {
 
@@ -31,18 +32,18 @@ class AccountScreen extends React.Component {
     const height = Dimensions.get('window').height
     const textStyles = {
       fontFamily: 'IBMPlexSans',
-      fontSize: 20,
-      lineHeight: 32,
+      fontSize: 20 * fontSizeMultiplier(),
+      lineHeight: 32 * fontSizeMultiplier(),
       marginTop: margin,
       marginBottom: margin,
-      padding: 8,
+      padding: 8 * fontSizeMultiplier(),
       textAlign: 'left',
       color: hslString('rizzleText')
     }
     const textTipStyles = {
       ...textStyles,
-      fontSize: 14,
-      lineHeight: 20,
+      fontSize: 14 * fontSizeMultiplier(),
+      lineHeight: 20 * fontSizeMultiplier(),
       marginTop: 0,
       marginBottom: 0
     }

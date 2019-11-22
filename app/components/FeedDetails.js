@@ -1,21 +1,33 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react'
 import {
   Dimensions,
-  ScrollView,
   StatusBar,
   Text,
   View
 } from 'react-native'
 import Svg, {Circle, Polyline, Path, Line} from 'react-native-svg'
-import Animated from 'react-native-reanimated'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
+import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
 
+const screenWidth = Dimensions.get('window').width
+const margin = screenWidth * 0.03
+const compactButtons = !isIphoneX() && !isIpad()
 
+const createTimeString = (seconds) => {
+  const mins = Math.floor(seconds / 60)
+  const hours = Math.floor(mins / 60)
+  return (hours > 0 ?
+    (hours + ' hour' + (hours === 1 ? ' ' : 's ')) : '') +
+    (mins > 0 ?
+      (hours > 0 ? mins % 60 : mins) + ' minute' + (mins === 1 ? '' : 's') :
+      seconds + ' seconds')
+}
 
 export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, filterItems, navigation, toggleMute, toggleLike }) {
-  const screenWidth = Dimensions.get('window').width
-  const margin = screenWidth * 0.03
+  const [isLiked, setLiked] = useState(feed.isLiked)
+  const [isMuted, setMuted] = useState(feed.isMuted)
+
   const bold = {
     fontFamily: 'IBMPlexMono-Bold',
     color: hslString(feed.color, 'desaturated')
@@ -23,23 +35,13 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
   const italic = {
     fontFamily: 'IBMPlexMono-LightItalic'
   }
-
-  const createTimeString = (seconds) => {
-    const mins = Math.floor(seconds / 60)
-    const hours = Math.floor(mins / 60)
-    return (hours > 0 ?
-      (hours + ' hour' + (hours === 1 ? ' ' : 's ')) : '') +
-      (mins > 0 ?
-        (hours > 0 ? mins % 60 : mins) + ' minute' + (mins === 1 ? '' : 's') :
-        seconds + ' seconds')
-  }
   const totalReadingTime = createTimeString(feed.readingTime)
   const avgReadingTime = createTimeString(Math.round(feed.readingTime / feed.numRead))
   const feedStats = (
     <Text style={{
       color: '#666666',
       fontFamily: 'IBMPlexMono-Light',
-      fontSize: 14,
+      fontSize: 14 * fontSizeMultiplier(),
       // marginTop: margin * 2,
       marginBottom: margin,
       textAlign: 'center'
@@ -58,30 +60,33 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       </Text>)
 
   const likeIcon = <Svg
-      height='32'
-      width='32'>
+      viewBox='0 0 32 32'
+      height={ 32 * fontSizeMultiplier() }
+      width={ 32 * fontSizeMultiplier() }>
       <Path
         d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
         strokeWidth={2}
-        stroke={ feed.isLiked ? 'white' : hslString('rizzleText') }
-        fill={ feed.isLiked ? 'white' : 'none' }
+        stroke={ isLiked ? 'white' : hslString('rizzleText') }
+        fill={ isLiked ? 'white' : 'none' }
       />
     </Svg>
 
   const muteIcon = <Svg
-      height='32'
-      width='32'>
+      viewBox='0 0 32 32'
+      height={ 32 * fontSizeMultiplier() }
+      width={ 32 * fontSizeMultiplier() }>
       <Path
         d='M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6'
         strokeWidth={2}
-        stroke={ feed.isMuted ? 'white' : hslString('rizzleText') }
-        fill={ feed.isMuted ? 'white' : 'none' }
+        stroke={ isMuted ? 'white' : hslString('rizzleText') }
+        fill={ isMuted ? 'white' : 'none' }
       />
     </Svg>
 
   const discardAllIcon = <Svg
-      height='32'
-      width='24'
+      viewBox='0 0 24 32'
+      height={ 32 * fontSizeMultiplier() }
+      width={ 24 * fontSizeMultiplier() }
       fill='none'
       stroke={hslString('rizzleText')}
       strokeWidth={2}
@@ -104,8 +109,9 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
     </Svg>
 
   const unsubscribeIcon = <Svg
-      width='32'
-      height='32'
+      viewBox='0 0 32 32'
+      height={ 32 * fontSizeMultiplier() }
+      width={ 32 * fontSizeMultiplier() }
       fill='none'
       stroke={hslString('rizzleText')}
       strokeWidth='3'
@@ -116,18 +122,19 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
     </Svg>
 
   const readIcon = <Svg
-      height='32'
-      width='32'>
+      viewBox='0 0 32 32'
+      height={ 32 * fontSizeMultiplier() }
+      width={ 32 * fontSizeMultiplier() }>
       <Path
-        d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+        d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'
         strokeWidth={2}
         stroke={hslString('rizzleText')}
-        fill="none"
+        fill='none'
       />
       <Circle
-        cx="12"
-        cy="12"
-        r="3"
+        cx='12'
+        cy='12'
+        r='3'
         strokeWidth={2}
         stroke={hslString('rizzleText')}
         fill='none'
@@ -153,7 +160,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             <Text style={{
               color: '#666666',
               fontFamily: 'IBMPlexSans-Bold',
-              fontSize: 18,
+              fontSize: 18 * fontSizeMultiplier(),
               textAlign: 'center'
             }}>{ feed.description }</Text>
             <View style={{
@@ -182,43 +189,55 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
           marginBottom: 10
         }}>
           <TextButton
+            isCompact={compactButtons}
             buttonStyle={{
               minWidth: '48%',
               marginRight: margin,
               marginBottom: margin
             }}
             icon={discardAllIcon}
+            noResize={true}
             onPress={() => {
-              markAllRead(feed._id, feed.id, Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+              setTimeout(() => {
+                markAllRead(feed._id, feed.id, Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
+              }, 100)
             }}
-            text="Discard old" />
+            text='Discard old' />
           <TextButton
+            isCompact={compactButtons}
             buttonStyle={{
               minWidth: '48%',
               marginBottom: margin
             }}
             icon={discardAllIcon}
+            noResize={true}
             onPress={() => {
-              markAllRead(feed._id, feed.id)
+              setTimeout(() => {
+                markAllRead(feed._id, feed.id)
+              }, 100)
             }}
-            text="Discard all" />
+            text='Discard all' />
           <TextButton
+            isCompact={compactButtons}
             buttonStyle={{
               minWidth: '48%',
               marginRight: margin,
               marginBottom: margin
             }}
             icon={unsubscribeIcon}
+            noResize={true}
             onPress={() => {
               unsubscribe(feed._id)
             }}
-            text="Unsubscribe" />
+            text='Unsubscribe' />
           <TextButton
+            isCompact={compactButtons}
             buttonStyle={{
               minWidth: '48%',
               marginBottom: margin
             }}
             icon={readIcon}
+            noResize={true}
             onPress={() => {
               console.log('Pressed Go to items ' + feed._id)
               clearReadItems()
@@ -226,30 +245,38 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               navigation.navigate('Items')
               StatusBar.setHidden(false)
             }}
-            text="Read items" />
+            text='Read stories' />
           <TextButton
+            isCompact={compactButtons}
             buttonStyle={{
               minWidth: '48%',
               marginRight: margin
             }}
             icon={muteIcon}
-            isInverted={feed.isMuted}
+            isInverted={isMuted}
+            noResize={true}
             onPress={() => {
-              console.log('Mute')
-              toggleMute(feed._id)
+              setMuted(!isMuted)
+              setTimeout(() => {
+                toggleMute(feed._id)
+              }, 100)
             }}
-            text="Mute" />
+            text='Mute' />
           <TextButton
+            isCompact={compactButtons}
             buttonStyle={{
-              minWidth: '48%',
+              minWidth: '48%'
             }}
             icon={likeIcon}
-            isInverted={feed.isLiked}
+            isInverted={isLiked}
+            noResize={true}
             onPress={() => {
-              console.log('Like')
-              toggleLike(feed._id)
+              setLiked(!isLiked)
+              setTimeout(() => {
+                toggleLike(feed._id)
+              }, 100)
             }}
-            text="Like" />
+            text='Like' />
         </View>
       </View>
     </View>

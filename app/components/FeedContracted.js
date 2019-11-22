@@ -22,6 +22,7 @@ import FeedLikedMuted from './FeedLikedMuted'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import FeedIconContainer from '../containers/FeedIcon'
 import FeedExpandedContainer from '../containers/FeedExpanded'
+import { fontSizeMultiplier } from '../utils'
 
 const { width, height } = Dimensions.get("window")
 
@@ -136,7 +137,7 @@ class FeedContracted extends React.PureComponent {
     const { feed, navigation } = this.props
     // this.imageView.measure(this.measured)
     navigation.push('Modal', {
-      childView: <FeedExpandedContainer feed={feed} close={navigation.goBack()} />
+      childView: <FeedExpandedContainer feed={feed} close={() => navigation.goBack()} />
     })
   }
 
@@ -256,7 +257,7 @@ class FeedContracted extends React.PureComponent {
                   ...textStyles,
                   flexWrap: 'wrap',
                   fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: 24
+                  fontSize: 24 * fontSizeMultiplier()
                 }}>{feed.title}</Text>
               </View>
               <View style={{
@@ -267,7 +268,7 @@ class FeedContracted extends React.PureComponent {
                 <Text style={{
                   ...textStyles,
                   fontFamily: 'IBMPlexMono-Light',
-                  fontSize: 16
+                  fontSize: 16 * fontSizeMultiplier()
                 }}>{numUnread} unread</Text>
               </View>
             </View>

@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import AccountCredentialsForm from './AccountCredentialsForm'
 import {hslString} from '../utils/colors'
+import { fontSizeMultiplier } from '../utils'
 
 class TextButton extends React.Component {
   constructor (props) {
@@ -30,7 +31,7 @@ class TextButton extends React.Component {
   }
 
   render () {
-    const { icon, isActive, isExpandable, isInverted, isCompact, onPress, text } = this.props
+    const { icon, isActive, isExpandable, isInverted, isCompact, noResize, onPress, text } = this.props
     const { isExpanded } = this.state
     const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || 'white'
@@ -38,31 +39,31 @@ class TextButton extends React.Component {
       borderColor: fgColor,
       backgroundColor: isInverted ? fgColor : bgColor,
       borderWidth: 1,
-      borderRadius: isCompact ? 16 : 21,
-      paddingTop: isCompact ? 7 : 12,
-      paddingBottom: isCompact ? 3 : 8,
+      borderRadius: (isCompact ? 16 : 21) * fontSizeMultiplier(),
+      paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
+      paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
       // flex: 1,
-      height: isCompact ? 32 : 42,
-      maxHeight: 42,
+      height: (isCompact ? 32 : 42) * fontSizeMultiplier(),
+      maxHeight: 42 * fontSizeMultiplier(),
       ...this.props.buttonStyle,
       maxWidth: 700,
       // alignSelf: 'center'
     }
     if (Dimensions.get('window').width > 950) {
-      if (this.props.buttonStyle.width) {
-
-      } else {
-        buttonStyle.width = 600
+      if (this.props.buttonStyle && this.props.buttonStyle.width) {
+        buttonStyle.width = this.props.buttonStyle.width
+      } else if (!noResize) {
+        buttonStyle.maxWidth = 600
         buttonStyle.alignSelf = 'center'
       }
     }
 
     const textStyle = {
       fontFamily: 'IBMPlexSans-Bold',
-      fontSize: isExpanded ? 18 : 16,
-      lineHeight: 18,
+      fontSize: (isExpanded ? 18 : 16) * fontSizeMultiplier(),
+      lineHeight: 18 * fontSizeMultiplier(),
       textAlign: 'center',
-      color: isInverted ? bgColor : fgColor,
+      color: isInverted ? bgColor : fgColor
     }
     if (isExpandable) {
       return (
@@ -70,8 +71,8 @@ class TextButton extends React.Component {
           style={{
             ...buttonStyle,
             overflow: 'hidden',
-            maxHeight: isExpanded ? 'auto' : 42,
-            height: isExpanded ? 'auto' : 42
+            maxHeight: (isExpanded ? 'auto' : 42 * fontSizeMultiplier()),
+            height: (isExpanded ? 'auto' : 42 * fontSizeMultiplier())
           }}>
           { isExpanded ? this.props.iconExpanded : this.props.iconCollapsed }
           <TouchableOpacity
@@ -97,8 +98,8 @@ class TextButton extends React.Component {
           style={buttonStyle}>
           <View style={{
             position: 'absolute',
-            top: 9,
-            left: 8,
+            top: (isCompact ? 3 : 9) * fontSizeMultiplier(),
+            left: 8 * fontSizeMultiplier(),
             backgroundColor: 'transparent'
           }}>{icon}</View>
           <Text style={textStyle}>{text}</Text>
