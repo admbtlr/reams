@@ -108,7 +108,7 @@ export function addReadItemFS (item) {
       id: item.id,
       feed_id: item.feed_id,
       title: item.title,
-      read_at: Date.now()
+      readAt: Date.now()
     })
     .then(item => {
       console.log('Added read item')
@@ -238,7 +238,7 @@ export async function listenToReadItems (receiveItems) {
         let docs = snapshot.docChanges
           .map(dc => dc.doc.data())
         docs.forEach(doc => {
-          readItems[doc._id] = doc.read_at
+          readItems[doc._id] = doc.readAt
         })
         receiveItems({
           dateReceived: Date.now()
