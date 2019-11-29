@@ -8,7 +8,7 @@ import {
 import Modal from 'react-native-modal'
 import ShareExtension from 'react-native-share-extension'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
-import { Sentry } from 'react-native-sentry'
+import * as Sentry from '@sentry/react-native'
 // import { RNSKBucket } from 'react-native-swiss-knife'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 
@@ -30,9 +30,9 @@ class Share extends React.Component {
       value: '',
       rssUrls: []
     }
-    Sentry
-      .config('https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309')
-      .install()
+    Sentry.init({
+      dsn: 'https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309'
+    })
 
     this.addFeed = this.addFeed.bind(this)
     this.savePage = this.savePage.bind(this)

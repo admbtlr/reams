@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "LibreBaskerville-Regular";
+  src: url(../fonts/LibreBaskerville-Regular.ttf);
+}
+
+@font-face {
+  font-family: "IBM Plex Serif";
+  src: url(../fonts/IBMPlexSerif-Regular.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSans";
+  src: url(../fonts/IBMPlexSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSans-LightItalic";
+  src: url(../fonts/IBMPlexSans-LightItalic.ttf);
+}

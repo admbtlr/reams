@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native'
 import { GoogleSignin } from 'react-native-google-signin'
-import firebase from 'react-native-firebase'
+import auth from '@react-native-firebase/auth'
 import { textButtonStyle } from '../utils/styles'
 
 class GoogleAuth extends React.Component {
@@ -23,9 +23,9 @@ class GoogleAuth extends React.Component {
     GoogleSignin.signIn()
       .then((data) => {
         // Create a new Firebase credential with the token
-        const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+        const credential = auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
         // Login with the credential
-        return firebase.auth().signInWithCredential(credential)
+        return auth().signInWithCredential(credential)
       })
       .then((user) => {
         // If you need to do anything with the user, do it here
@@ -46,10 +46,7 @@ class GoogleAuth extends React.Component {
   onLogout () {
     console.log('Log out!')
     GoogleSignin.signOut()
-      .then(() => {
-        const auth = firebase.auth()
-        return auth.signOut()
-      })
+      .then(() => auth().signOut())
       .catch(err => {
         console.log(err)
       })

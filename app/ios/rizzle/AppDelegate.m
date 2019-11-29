@@ -13,13 +13,9 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
-#if __has_include(<React/RNSentry.h>)
-#import <React/RNSentry.h> // This is used for versions of react >= 0.40
-#else
-#import "RNSentry.h" // This is used for versions of react < 0.40
-#endif
 #import "RNSplashScreen.h"
-#import <Firebase.h>
+
+@import Firebase;
 
 @implementation AppDelegate
 
@@ -41,16 +37,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"rizzle"
                                             initialProperties:nil];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
-  [FIRApp configure];
-
-  [RNSentry installWithRootView:rootView];
-
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;

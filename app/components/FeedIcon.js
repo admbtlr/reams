@@ -5,8 +5,8 @@ import {
   View
 } from 'react-native'
 import {Surface} from 'gl-react-native'
-const {Image: GLImage} = require('gl-react-image')
-import ImageFilters from 'react-native-gl-image-filters'
+import GLImage from 'gl-react-image'
+// import ImageFilters from 'react-native-gl-image-filters'
 const RNFS = require('react-native-fs')
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
 import ColorBlending from 'gl-react-color-blending'
@@ -102,12 +102,12 @@ class FeedIcon extends React.Component {
                 color={colorBlendingColor}
                 blendMode='blendScreen'
               >
-                <ImageFilters
+                {/*<ImageFilters
                   negative={ shouldInvert ? 1 : 0 }
                   saturation={0}
                   contrast={2}
                   brightness={1}
-                >
+                >*/}
                   <GLImage
                     resizeMode='contain'
                     source={{
@@ -120,7 +120,7 @@ class FeedIcon extends React.Component {
                       height: dim.height
                     }}
                   />
-                </ImageFilters>
+                {/*</ImageFilters>*/}
               </ColorBlending>
             </Surface>)
         }

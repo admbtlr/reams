@@ -1,4 +1,4 @@
-import firebase from 'react-native-firebase'
+import auth from '@react-native-firebase/auth'
 import {id} from '../../utils'
 import {
   addReadItemFS,
@@ -29,7 +29,7 @@ export async function sendEmailLink (email) {
 
   // send email...
   try {
-    firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+    auth().sendSignInLinkToEmail(email, actionCodeSettings)
   } catch (e) {
     console.log(e)
   }

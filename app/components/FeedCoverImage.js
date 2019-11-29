@@ -5,7 +5,7 @@ import {
   InteractionManager
 } from 'react-native'
 import {Surface} from 'gl-react-native'
-const {Image: GLImage} = require('gl-react-image')
+import GLImage from 'gl-react-image'
 const RNFS = require('react-native-fs')
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
 import ColorBlending from 'gl-react-color-blending'

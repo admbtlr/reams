@@ -244,9 +244,11 @@ class FeedItem extends React.Component {
     <style>
 :root {
   --feed-color: ${hslString(this.props.item.feed_color, this.props.isDarkBackground ? 'darkmode' : '')};
+  --font-path-prefix: ${ server === '' ? '../' : server };
 }
     </style>
     <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
+    <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   </head>
   <body class="${visibleClass} ${scrollingClass} ${blockquoteClass} ${this.props.displayMode}" data-cover="${data}">

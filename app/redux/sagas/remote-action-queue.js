@@ -1,4 +1,4 @@
-import { InteractionManager, NetInfo } from 'react-native'
+import { InteractionManager } from 'react-native'
 import { delay } from 'redux-saga'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markItemsRead } from '../backends'

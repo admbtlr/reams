@@ -3,24 +3,15 @@ package com.rizzle;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.codemotionapps.reactnativedarkmode.DarkModePackage;
-import com.swmansion.reanimated.ReanimatedPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.proyecto26.inappbrowser.RNInAppBrowserPackage;
 import com.github.amarcruz.rntextsize.RNTextSizePackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import io.invertase.firebase.RNFirebasePackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import io.sentry.RNSentryPackage;
 import io.realm.react.RealmReactPackage;
 import com.github.alinz.rnsk.RNSKPackage;
 import com.horcrux.svg.SvgPackage;
 import com.alinz.parkerdan.shareextension.SharePackage;
 import io.github.airamrguez.RNMeasureTextPackage;
-import com.rnfs.RNFSPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.projectseptember.RNGL.RNGLPackage;
 import com.poppop.RNReactNativeSharedGroupPreferences.RNReactNativeSharedGroupPreferencesPackage;
@@ -44,25 +35,17 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNCWebViewPackage(),
-            new DarkModePackage(),
-            new ReanimatedPackage(),
-            new RNGestureHandlerPackage(),
             new RNGoogleSigninPackage(),
-            new RNInAppBrowserPackage(),
             new RNTextSizePackage(),
             new RNFetchBlobPackage(),
             new RNFetchBlobPackage(),
-            new RNFirebasePackage(),
             new SplashScreenReactPackage(),
-            new RNSentryPackage(),
             new RealmReactPackage(),
             new RNSKPackage(),
             new SvgPackage(),
             new SharePackage(),
             new RNSentryPackage(MainApplication.this),
             new RNMeasureTextPackage(),
-            new RNFSPackage(),
             new BlurViewPackage(),
             new RNGLPackage(),
             new RNReactNativeSharedGroupPreferencesPackage()

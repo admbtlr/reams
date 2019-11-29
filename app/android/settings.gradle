@@ -1,28 +1,14 @@
 rootProject.name = 'Rizzle'
-include ':react-native-webview'
-project(':react-native-webview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview/android')
-include ':react-native-dark-mode'
-project(':react-native-dark-mode').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-dark-mode/android')
-include ':react-native-reanimated'
-project(':react-native-reanimated').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-reanimated/android')
-include ':react-native-gesture-handler'
-project(':react-native-gesture-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gesture-handler/android')
 include ':react-native-google-signin'
 project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
-include ':react-native-inappbrowser-reborn'
-project(':react-native-inappbrowser-reborn').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-inappbrowser-reborn/android')
 include ':react-native-text-size'
 project(':react-native-text-size').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-text-size/android')
 include ':react-native-fetch-blob'
 project(':react-native-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fetch-blob/android')
 include ':rn-fetch-blob'
 project(':rn-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/rn-fetch-blob/android')
-include ':react-native-firebase'
-project(':react-native-firebase').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-firebase/android')
 include ':react-native-splash-screen'
 project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
-include ':react-native-sentry'
-project(':react-native-sentry').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sentry/android')
 include ':realm'
 project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
 include ':react-native-swiss-knife'
@@ -33,8 +19,6 @@ include ':react-native-share-extension'
 project(':react-native-share-extension').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-extension/android')
 include ':react-native-measure-text'
 project(':react-native-measure-text').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-measure-text/android')
-include ':react-native-fs'
-project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
 include ':react-native-blur'
 project(':react-native-blur').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-blur/android')
 include ':gl-react-native'

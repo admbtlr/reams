@@ -213,14 +213,15 @@ export async function listenToSavedItems (receiveItems) {
   getUserDb()
     .collection('items-saved')
     .onSnapshot((snapshot) => {
-      if (snapshot.docChanges) {
-        const added = snapshot.docChanges
+      const docChanges = snapshot.docChanges()
+      if (docChanges) {
+        const added = docChanges
           .filter(dc => dc.type === 'added')
           .map(dc => dc.doc.data())
-        const removed = snapshot.docChanges
+        const removed = docChanges
           .filter(dc => dc.type === 'removed')
           .map(dc => dc.doc.data())
-        const modified = snapshot.docChanges
+        const modified = docChanges
           .filter(dc => dc.type === 'modified')
           .map(dc => dc.doc.data())
         receiveItems({ added, modified, removed })
@@ -235,7 +236,7 @@ export async function listenToReadItems (receiveItems) {
       if (snapshot.metadata.hasPendingWrites) {
         // generated locally, ignore
       } else {
-        let docs = snapshot.docChanges
+        let docs = snapshot.docChanges()
           .map(dc => dc.doc.data())
         docs.forEach(doc => {
           readItems[doc._id] = doc.readAt

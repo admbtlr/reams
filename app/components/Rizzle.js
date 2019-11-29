@@ -6,9 +6,11 @@ import {
   View
 } from 'react-native'
 import DeepLinking from 'react-native-deep-linking'
-import firebase from 'react-native-firebase'
+import firebase from '@react-native-firebase/app'
+import auth from '@react-native-firebase/auth'
 import { configureStore } from '../redux/store'
-import { Sentry } from 'react-native-sentry'
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import * as Sentry from '@sentry/react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { NavigationEvents } from 'react-navigation'
 import { GoogleSignin } from 'react-native-google-signin'
@@ -43,6 +45,12 @@ export default class Rizzle extends Component {
     //   messagingSenderId: "801044191408"
     // }
 
+    const reactReduxFirebaseConfig = {
+      userProfile: 'users', // firebase root where user profiles are stored
+      // enableLogging: false, // enable/disable Firebase's database logging
+      enableRedirectHandling: false // https://github.com/invertase/react-native-firebase/issues/431
+    }
+
     // is there any special reason why the store was only configured after an anonymous login?
     this.store = configureStore()
 
@@ -57,7 +65,9 @@ export default class Rizzle extends Component {
     //     this.setState({ credential })
     //   })
 
-    Sentry.config('https://1dad862b663640649e6c46afed28a37f@sentry.io/195309').install()
+    Sentry.init({
+      dsn: 'https://1dad862b663640649e6c46afed28a37f@sentry.io/195309'
+    })
 
     // if (__DEV__) SplashScreen.hide()
 
@@ -78,7 +88,7 @@ export default class Rizzle extends Component {
     Linking.addEventListener('url', this.handleUrl)
 
     // listen for auth changes
-    this.authSubscription = firebase.auth().onAuthStateChanged((details) => {
+    this.authSubscription = auth().onAuthStateChanged((details) => {
       this.store.dispatch({
         type: 'USER_SET_DETAILS',
         details
@@ -101,7 +111,7 @@ export default class Rizzle extends Component {
   handleUrl ({ url }) {
     console.log('Handle URL: ' + url)
     const that = this
-    firebase.auth().signInWithEmailLink('a@btlr.eu', url)
+    auth().signInWithEmailLink('a@btlr.eu', url)
       .then(res => {
         that.store.dispatch({
           type: 'CONFIG_SET_BACKEND',
@@ -150,6 +160,21 @@ export default class Rizzle extends Component {
   }
 
   render () {
+    const rrfConfig = {
+      userProfile: 'users', // firebase root where user profiles are stored
+      useFirestoreForProfile: true,
+      // enableLogging: false, // enable/disable Firebase's database logging
+      enableRedirectHandling: false // https://github.com/invertase/react-native-firebase/issues/431
+    }
+
+    // https://github.com/prescottprue/redux-firestore/issues/240
+    // this needs changing once these issues are fixed
+    const rrfProps = {
+      firebase: firebase.app(),
+      config: rrfConfig,
+      dispatch: this.store.dispatch
+    }
+
     const component = this.props.isActionExtension ?
       <ActionExtensionScreen /> :
       (<View style={{
@@ -165,9 +190,13 @@ export default class Rizzle extends Component {
         <Splash />
       </View>)
 
+    console.log(rrfProps)
+
     return (
       <Provider store={this.store}>
-        { component }
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          { component }
+        </ReactReduxFirebaseProvider>
       </Provider>
     )
   }

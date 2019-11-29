@@ -7,7 +7,7 @@ import { VibrancyView } from 'react-native-blur'
 import Svg, {Text} from 'react-native-svg'
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
 import ColorBlending from 'gl-react-color-blending'
-const {Image: GLImage} = require('gl-react-image')
+import GLImage from 'gl-react-image'
 
 import { blendColor, hslString } from '../utils/colors'
 import { isIphoneX } from '../utils'
