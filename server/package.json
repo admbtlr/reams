@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@postlight/mercury-parser": "^2.1.1",
+    "@postlight/mercury-parser": "git+https://github.com/adamvert/mercury-parser#rizzle",
     "babel-register": "^6.26.0",
     "colorthief": "^2.3.0",
     "express": "^4.16.2",
