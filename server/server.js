@@ -185,9 +185,9 @@ app.get('/feed-meta/', async (req, res) => {
       .then(res => {
         const buffer = Buffer.from(res, 'utf8')
         fs.writeFileSync(path, buffer)
-        return ColorThief.getPalette(path, 3)
+        return ColorThief.getColor(path, 3)
       })
-      .then(palette => `rgb(${palette[0].join(',')})`)
+      .then(color => `rgb(${color.join(',')})`)
   }
 
   fetch(feedUrl, readMeta, () => res.send(), true)
