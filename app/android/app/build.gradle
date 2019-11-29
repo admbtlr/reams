@@ -149,7 +149,6 @@ dependencies {
     compile project(':react-native-share-extension')
     compile project(':react-native-measure-text')
     compile project(':react-native-blur')
-    compile project(':gl-react-native')
     compile project(':react-native-shared-group-preferences')
     compile fileTree(dir: "libs", include: ["*.jar"])
    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"    compile "com.facebook.react:react-native:+"  // From node_modules

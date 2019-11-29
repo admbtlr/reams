@@ -1,6 +1,5 @@
 # To Do
 
-- onboarding overlay
 - improve auto-mercury
 - fix freezing share extension
 - i8n 
@@ -11,9 +10,6 @@
 - fix bug with items re-rendering and losing your place when getting new items
 - why does the ipad crash?
 - make extension work with more data types
-- upgrade to RN 0.60
-    + https://medium.com/@deepslam/how-i-upgraded-my-application-to-react-native-0-60-5-53c52107e87
-    + https://engineering.brigad.co/demystifying-react-native-modules-linking-ae6c017a6b4a
 - placeholder images (use letters?)
 - Use https://github.com/DylanVann/react-native-fast-image to show cached images
 - scroll effects
@@ -22,6 +18,9 @@
 - newsletters
 - saved folders
 
+- ~~upgrade to RN 0.60~~
+- ~~onboarding overlay~~
+- ~~switch to https://github.com/iyegoroff/react-native-image-filter-kit~~
 - ~~improve darkmode~~
 - ~~figure out why the decoration thread crashes (does it even?)~~
 - ~~figure out why some items never get decorated~~

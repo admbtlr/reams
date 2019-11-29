@@ -1,6 +1,6 @@
 {
   "name": "rizzle-server",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@postlight/mercury-parser": "^2.1.1",

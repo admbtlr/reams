@@ -1,15 +1,16 @@
 import React from 'react'
 import {Animated, Dimensions, Image, View } from 'react-native'
-
-import {Surface} from 'gl-react-native'
 import { VibrancyView } from 'react-native-blur'
-
 import Svg, {Text} from 'react-native-svg'
-import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
-import ColorBlending from 'gl-react-color-blending'
-import GLImage from 'gl-react-image'
+import {
+  Brightness,
+  Contrast,
+  Saturate,
+  MultiplyBlendColor,
+  ScreenBlendColor
+} from 'react-native-image-filter-kit'
 
-import { blendColor, hslString } from '../utils/colors'
+import { hslString } from '../utils/colors'
 import { isIphoneX } from '../utils'
 
 class CoverImage extends React.Component {
@@ -140,36 +141,34 @@ class CoverImage extends React.Component {
       borderColor: 'white'
     }
 
-    const saturation = this.getImageSizeRatio() < .75 ? 1.1 : 1
-    const contrast = 1.1
-    const brightness = this.blendMode == 'blendMultiply' ?
+    const saturation = this.getImageSizeRatio() < .75 ? 1 : 0
+    const contrast = 1
+    const brightness = isMultiply ?
       1.5 :
-      this.getImageSizeRatio() < 1 ? 1.2 : 1
+      isScreen ?
+        1 :
+        this.getImageSizeRatio() < 1 ? 2 : 0
 
 
     if (this.props.imagePath &&
       this.props.imageDimensions.width > 0 &&
       this.props.imageDimensions.height > 0) {
       const center = this.getCenterArray(this.props.styles.align)
-      const colorBlendingColor = blendColor(this.props.styles.color)
-      // const colorBlendingColor = [1, 0, 0, 1]
+
+      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width *
+        this.props.imageDimensions.height *
+        (isInline ? 1 : 1.2)
 
       const image = (
-        <GLImage
-          center={isInline || resizeMode === 'cover' ? center : undefined}
-          key={this.props.imagePath}
-          source={{
-            uri: `file://${this.props.imagePath}`,
-            width: this.props.imageDimensions.width * (isInline ? 1 : 1.2),
-            height: this.props.imageDimensions.height * (isInline ? 1 : 1.2)
-         }}
-          resizeMode={this.props.styles.resizeMode}
-          imageSize={{
-            width: this.props.imageDimensions.width * (isInline ? 1 : 1.2),
-            height: this.props.imageDimensions.height * (isInline ? 1 : 1.2)
-          }}
-        />
+        <Image
+          source={{uri: `file://${this.props.imagePath}`}}
+          style={{
+            resizeMode,
+            width: this.screenWidth * (isInline ? 1 : 1.2),
+            height: isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight * 1.2
+          }} />
       )
+
       const blur = (
         <Animated.View
           style={{
@@ -184,48 +183,37 @@ class CoverImage extends React.Component {
           />
         </Animated.View>
       )
-      const csb = (
-        <ContrastSaturationBrightness
-          saturation={saturation}
-          contrast={contrast}
-          brightness={brightness}
-        >
-          {image}
-        </ContrastSaturationBrightness>
-      )
-      const blended = (
-        <ColorBlending
-          color={colorBlendingColor}
-          blendMode={this.blendMode}
-        >
-          {csb}
-        </ColorBlending>
-      )
-      const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width *
-        this.props.imageDimensions.height *
-        (isInline ? 1 : 1.2)
-      const surface = (
-        <Surface
-          width={this.screenWidth * (isInline ? 1 : 1.2)}
-          height={isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight * 1.2}
-          backgroundColor="#000"
-          key="456"
-        >
-          { this.blendMode === 'none' ? csb : blended }
-        </Surface>
-      )
-      // return (
-      //   <Animated.View style={style}>
-      //     { this.state.width && surface }
-      //     { blur }
-      //   </Animated.View>
-      // )
+      const adjusted = <Brightness
+        amount={brightness}
+        image={
+          <Saturate
+            amount={saturation}
+            image={
+              <Contrast
+                amount={contrast}
+                image={image} />
+            }
+          />
+        }
+      />
+      const blended = isMultiply ?
+        <MultiplyBlendColor
+          dstImage={adjusted}
+          srcColor={this.getColor()}
+        /> :
+        isScreen ?
+          <ScreenBlendColor
+            dstImage={adjusted}
+            srcColor={this.getColor()}
+          /> :
+          adjusted
+
       return (
         <Animated.View
           shouldRasterizeIOS
           style={style}
         >
-          { surface }
+          { blended }
           { !isInline && this.getImageSizeRatio() < .5 && blur }
         </Animated.View>
       )

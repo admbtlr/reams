@@ -10,7 +10,6 @@ import {
   View
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import Feed from '../containers/Feed'
 import TextButton from './TextButton'
 import GoogleAuth from './GoogleAuth'
 import AccountCredentialsForm from './AccountCredentialsForm'

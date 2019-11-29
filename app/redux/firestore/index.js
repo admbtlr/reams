@@ -213,6 +213,7 @@ export async function listenToSavedItems (receiveItems) {
   getUserDb()
     .collection('items-saved')
     .onSnapshot((snapshot) => {
+      if (snapshot === null) return
       const docChanges = snapshot.docChanges()
       if (docChanges) {
         const added = docChanges
@@ -233,6 +234,7 @@ export async function listenToReadItems (receiveItems) {
   getUserDb()
     .collection('items-read')
     .onSnapshot((snapshot) => {
+      if (snapshot === null) return
       if (snapshot.metadata.hasPendingWrites) {
         // generated locally, ignore
       } else {
@@ -252,6 +254,7 @@ export async function listenToFeeds (receiveFeeds) {
   getUserDb()
     .collection('feeds')
     .onSnapshot((snapshot) => {
+      if (snapshot === null) return
       if (snapshot._changes) {
         receiveFeeds(snapshot._docs.map(doc => doc._data))
       }

@@ -95,7 +95,8 @@ class FeedExpanded extends React.Component {
             <FeedCoverImage
               feed={feed}
               width={this.screenWidth}
-              height={this.screenHeight * 0.5} />
+              height={this.screenHeight * 0.5}
+              setCachedCoverImage={this.props.setCachedCoverImage} />
             <View style={{
               position: 'absolute',
               left: 0,

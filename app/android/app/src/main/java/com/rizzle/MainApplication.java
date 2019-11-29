@@ -13,7 +13,6 @@ import com.horcrux.svg.SvgPackage;
 import com.alinz.parkerdan.shareextension.SharePackage;
 import io.github.airamrguez.RNMeasureTextPackage;
 import com.cmcewen.blurview.BlurViewPackage;
-import com.projectseptember.RNGL.RNGLPackage;
 import com.poppop.RNReactNativeSharedGroupPreferences.RNReactNativeSharedGroupPreferencesPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -47,7 +46,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSentryPackage(MainApplication.this),
             new RNMeasureTextPackage(),
             new BlurViewPackage(),
-            new RNGLPackage(),
             new RNReactNativeSharedGroupPreferencesPackage()
       );
     }
