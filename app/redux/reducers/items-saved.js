@@ -4,6 +4,7 @@ import {
   itemSetScrollOffset,
   itemToggleMercury,
   itemDecorationSuccess,
+  itemDecorationFailure,
   itemsFlate,
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
@@ -61,11 +62,9 @@ export const itemsSaved = (state = initialState, action) => {
     case 'ITEM_SAVE_ITEM':
       items = [ ...state.items ]
       savedItem = action.item
-      items.unshift({
-        ...savedItem,
-        savedAt: action.savedAt,
-        isSaved: true
-      })
+      savedItem.isSaved = true
+      savedItem.savedAt = action.savedAt
+      items.unshift(savedItem)
       return {
         ...state,
         items
@@ -80,7 +79,8 @@ export const itemsSaved = (state = initialState, action) => {
       items.unshift(savedItem)
       return {
         ...state,
-        items
+        items,
+        index: 0
       }
 
     case 'ITEM_UNSAVE_ITEM':
@@ -179,6 +179,9 @@ export const itemsSaved = (state = initialState, action) => {
       let newState = itemDecorationSuccess(action, state)
       newState.items.sort((a, b) => ((b.savedAt || 0) - (a.savedAt || 0)))
       return newState
+
+    case 'ITEM_DECORATION_FAILURE':
+      return action.isSaved ? itemDecorationFailure(action, state) : state
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
       return updateCurrentItemTitleFontSize(action, state)

@@ -173,7 +173,7 @@ class TopBar extends React.PureComponent {
     return this.props.displayMode == 'saved' ?
       (this.props.isDarkBackground ?
         'hsl(0, 0%, 80%)' :
-        hslString('rizzleBG')) :
+        hslString('rizzleText')) :
         'white'
   }
 

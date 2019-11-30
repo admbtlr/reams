@@ -197,6 +197,7 @@ class Buttons extends React.Component {
       activeColor
     // const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : strokeColor
     const backgroundColor = this.getBackgroundColor(item)
+    const backgroundColorLighter = backgroundColor.replace(/[0-9]*\%\)/, '70%)')
     // const mercuryButtonBackgroundColor = this.state.toggleAnimMercury ?
     //   this.state.toggleAnimMercury.interpolate({
     //     inputRange: [0, 1],
@@ -271,31 +272,31 @@ class Buttons extends React.Component {
               left: 7
             }}>
             <Polygon
-              stroke={item.isSaved ? backgroundColor : borderColor}
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
               strokeWidth="2"
               fill={item.isSaved ? borderColor : 'none'}
               points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"
             ></Polygon>
             <Polygon
-              stroke={item.isSaved ? backgroundColor : borderColor}
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
               strokeWidth="2"
               fill={item.isSaved ? borderColor : 'none'}
               points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"
             ></Polygon>
             <Polygon
-              stroke={item.isSaved ? backgroundColor : borderColor}
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
               strokeWidth="2"
               fill={item.isSaved ? borderColor : 'none'}
               points="14.5 18 2 18 2 11 10.5 11"
             ></Polygon>
             <Polygon
-              stroke={item.isSaved ? backgroundColor : borderColor}
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
               strokeWidth="2"
               fill={item.isSaved ? borderColor : 'none'}
               points="18.5 11 22.5 18 32 18 32 11"
             ></Polygon>
             <Polygon
-              stroke={item.isSaved ? backgroundColor : borderColor}
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
               strokeWidth="2"
               fill={item.isSaved ? borderColor : 'none'}
               points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"
