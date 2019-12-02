@@ -10,6 +10,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.2",
     "@react-native-community/netinfo": "^4.6.1",
+    "@react-native-community/google-signin": "^3.0.0",
     "@react-native-firebase/app": "^6.1.0",
     "@react-native-firebase/auth": "^6.1.0",
     "@react-native-firebase/database": "^6.1.0",
@@ -37,7 +38,6 @@
     "react-native-deep-linking": "^2.2.0",
     "react-native-fs": "2.15.2",
     "react-native-gesture-handler": "^1.2.1",
-    "react-native-google-signin": "^1.2.0",
     "react-native-html-parser": "0.0.5",
     "react-native-image-filter-kit": "^0.5.18",
     "react-native-image-zoom-viewer": "git://github.com/adamvert/react-native-image-viewer",

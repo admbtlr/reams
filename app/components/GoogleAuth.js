@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { GoogleSignin } from 'react-native-google-signin'
+import { GoogleSignin } from '@react-native-community/google-signin'
 import auth from '@react-native-firebase/auth'
 import { textButtonStyle } from '../utils/styles'
 
@@ -46,7 +46,10 @@ class GoogleAuth extends React.Component {
   onLogout () {
     console.log('Log out!')
     GoogleSignin.signOut()
-      .then(() => auth().signOut())
+      .then(() => {
+        const auth = auth()
+        return auth.currentUser.signOut()
+      })
       .catch(err => {
         console.log(err)
       })
