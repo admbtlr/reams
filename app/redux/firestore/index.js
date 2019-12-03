@@ -127,7 +127,8 @@ export function addReadItemsFS (items) {
       writeBatch.set(docRef, {
         _id: item._id,
         feed_id: item.feed_id,
-        title: item.title
+        title: item.title,
+        read_at: Date.now()
       })
     } catch(err) {
       log('addReadItemsFS', err)

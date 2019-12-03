@@ -6,6 +6,7 @@ import {
   itemSetScrollOffset,
   itemToggleMercury,
   itemDecorationSuccess,
+  itemDecorationFailure,
   itemsFlate,
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
@@ -259,6 +260,9 @@ export const itemsUnread = (state = initialState, action) => {
 
     case 'ITEM_DECORATION_SUCCESS':
       return action.isSaved ? state : itemDecorationSuccess(action, state)
+
+    case 'ITEM_DECORATION_FAILURE':
+      return action.isSaved ? state : itemDecorationFailure(action, state)
 
     case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
       return updateCurrentItemTitleFontSize(action, state)

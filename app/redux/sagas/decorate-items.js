@@ -64,11 +64,12 @@ export function * decorateItems (action) {
           const decoration = yield decorateItem(nextItem)
           if (decoration) {
             consoleLog(`Got decoration for ${nextItem.title}`)
-            if (decoration.error) {
+            if (decoration.mercuryStuff.error) {
               yield call(InteractionManager.runAfterInteractions)
               yield put({
                 type: 'ITEM_DECORATION_FAILURE',
-                ...decoration
+                ...decoration,
+                isSaved: decoration.item && decoration.item.isSaved
               })
             } else {
               yield applyDecoration(decoration, nextItem.isSaved)
@@ -137,7 +138,8 @@ function * applyDecoration (decoration, isSaved) {
 function * getNextItemToDecorate (pendingDecoration) {
   let nextItem
   const savedItems = yield select(getSavedItems)
-  nextItem = savedItems.find(item => item.title === 'Loading...')
+  nextItem = savedItems.find(item => item.title === 'Loading...' &&
+    (!item.decoration_failures || item.decoration_failures < 5))
   if (nextItem) return nextItem
 
   const items = yield select(getItems)
