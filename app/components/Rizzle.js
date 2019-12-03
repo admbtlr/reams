@@ -190,8 +190,6 @@ export default class Rizzle extends Component {
         <Splash />
       </View>)
 
-    console.log(rrfProps)
-
     return (
       <Provider store={this.store}>
         <ReactReduxFirebaseProvider {...rrfProps}>

@@ -361,6 +361,8 @@ PODS:
     - React
   - react-native-netinfo (4.6.1):
     - React
+  - react-native-shared-group-preferences (1.1.19):
+    - React
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-webview (7.5.2):
@@ -426,8 +428,6 @@ PODS:
     - React
   - RNInAppBrowser (3.3.3):
     - React
-  - RNReactNativeSharedGroupPreferences (1.0.0):
-    - React
   - RNReanimated (1.4.0):
     - React
   - RNScreens (2.0.0-alpha.13):
@@ -457,6 +457,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-blur (from `../node_modules/react-native-blur`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-shared-group-preferences (from `../node_modules/react-native-shared-group-preferences`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -482,7 +483,6 @@ DEPENDENCIES:
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNImageFilterKit (from `../node_modules/react-native-image-filter-kit`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
-  - RNReactNativeSharedGroupPreferences (from `../node_modules/react-native-shared-group-preferences/ios`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -545,6 +545,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-blur"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-shared-group-preferences:
+    :path: "../node_modules/react-native-shared-group-preferences"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
@@ -595,8 +597,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-filter-kit"
   RNInAppBrowser:
     :path: "../node_modules/react-native-inappbrowser-reborn"
-  RNReactNativeSharedGroupPreferences:
-    :path: "../node_modules/react-native-shared-group-preferences/ios"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -649,6 +649,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 044105eea064aec81adc5e4d777a8f6589e7d094
   react-native-blur: c35c1f6c2c76db7108bde7ed343bd2b01d64e0c0
   react-native-netinfo: a91b5cf92ed3ada997cfe2bf067633386eb19fd8
+  react-native-shared-group-preferences: 9dd5068fdbcd88cae6b3a946c4a93ca9dd63e910
   react-native-splash-screen: a49be22f0f6648b8416f3bd28258645eeaa5b42b
   react-native-webview: ad9581723f4d401c22cb3a371811d4dc9310df56
   React-RCTActionSheet: 08864c609d9f959abf3d51fdd93f8bc6e91f21eb
@@ -674,7 +675,6 @@ SPEC CHECKSUMS:
   RNGoogleSignin: ba310637094912a035b28de70adbf03a6c78d7d4
   RNImageFilterKit: 178c7846841fb7d2f87967731f93fb23bf9f01a6
   RNInAppBrowser: 13e6fe396c274632dbbcc9f963edbf82f5dc24b3
-  RNReactNativeSharedGroupPreferences: 6436d7a21ba7a69fdb95084fc8fbc255d49eb08b
   RNReanimated: 438b025d37de68a20188ead653ad5a5050b65990
   RNScreens: cbad3ccd2798bd19cc9ca5070e95e31c950b50ac
   RNSentry: ea67b65b328405ed060f43a2940003ed93b5c4eb
