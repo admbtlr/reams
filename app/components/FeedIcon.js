@@ -5,6 +5,7 @@ import {
   View
 } from 'react-native'
 const RNFS = require('react-native-fs')
+import { Invert } from 'react-native-image-filter-kit'
 import { hslString, hslStringToBlendColor, hslToBlendColor, hslToHslString } from '../utils/colors'
 import {getCachedFeedIconPath, getRenderedFeedIconPath} from '../utils/'
 import log from '../utils/log'
@@ -29,6 +30,15 @@ class FeedIcon extends React.Component {
     const width = 32
     const height = 32
     let dim = dimensions || iconDimensions
+    const image = <Image
+      width={width}
+      height={height}
+      source={{ uri: getCachedFeedIconPath(feed._id) }}
+      style={{
+        width,
+        height
+      }}
+    />
     return hasCachedIcon && dim && dim.width > 0 ?
       <View style={{
         backgroundColor: feed.color,
@@ -37,15 +47,10 @@ class FeedIcon extends React.Component {
         height,
         marginRight: 5
       }}>
-        <Image
-          width={width}
-          height={height}
-          source={{ uri: getCachedFeedIconPath(feed._id) }}
-          style={{
-            width,
-            height
-          }}
-        />
+        { shouldInvert ?
+          <Invert>{ image }</Invert> :
+          image
+        }
       </View> :
       null
   }
