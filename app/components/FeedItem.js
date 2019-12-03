@@ -330,8 +330,10 @@ class FeedItem extends React.Component {
             setFadeInFunction={this.setFadeInFunction}
           />
           <WebView
+            allowsFullscreenVideo={true}
             decelerationRate='normal'
             injectedJavaScript={'(document.body && document.body.scrollHeight) && document.body.scrollHeight'}
+            mixedContentMode='compatibility'
             onMessage={(event) => {
               const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
               if (msg.substring(0, 6) === 'image:') {
