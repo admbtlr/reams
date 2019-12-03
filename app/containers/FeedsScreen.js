@@ -44,12 +44,13 @@ const testFeeds = [
   }
 ]
 
-const sortFeeds = (a, b) => (a.isLiked && b.isLiked) ? (a.title < b.title ? -1 : 1) :
+const sortFeeds = (a, b) => (a.isLiked && b.isLiked) ?
+  (a.title < b.title ? -1 : 1) :
   a.isLiked ? -1 :
-  b.isLiked ? 1 :
-  b.number_unread === a.number_unread ?
-    (a.title < b.title ? -1 : 1) :
-    b.number_unread - a.number_unread
+    b.isLiked ? 1 :
+  // b.number_unread === a.number_unread ?
+  //   (a.title < b.title ? -1 : 1) :
+      (a.title < b.title ? -1 : 1)
 
 // const sortFeeds = (a, b) => b.number_unread - a.number_unread
 
