@@ -1,5 +1,6 @@
 # To Do
 
+- fix bug with logging in via email
 - improve auto-mercury
 - fix freezing share extension
 - i8n 
@@ -17,6 +18,8 @@
 - add a feed manually
 - newsletters
 - saved folders
+
+# Done
 
 - ~~upgrade to RN 0.60~~
 - ~~onboarding overlay~~
