@@ -104,14 +104,10 @@ class FeedsScreen extends React.Component {
   }
 
   render = () => {
-    if (!this.props.feeds || this.props.feeds.length === 0) {
-      return (
-        <NewFeedsList
-          navigation={this.props.navigation}
-          uid={this.props.uid}
-        />
-      )
-    }
+    const { navigation } = this.props
+    navigation.push('Modal', {
+      childView: <NewFeedsList close={() => navigation.goBack()} />
+    })
 
     const isShowingExpandedFeed = this.state.showExpandingFeed &&
       (this.state.selectedFeedElement ?
@@ -156,7 +152,7 @@ class FeedsScreen extends React.Component {
             backend={this.props.backend}
             clearFeedFilter={this.clearFeedFilter}
             itemSort={this.props.itemSort}
-            navigation={this.props.navigation}
+            navigation={navigation}
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}
             markAllRead={this.props.markAllRead}
@@ -296,6 +292,7 @@ class ListHeaderComponent extends React.Component {
     const screenWidth = Dimensions.get('window').width
     const margin = screenWidth * 0.05
     const buttonWidth = (screenWidth - margin * 3) / 2
+    const { navigation } = this.props
     const textStyles = {
       fontFamily: 'IBMPlexSans',
       fontSize: 18 * fontSizeMultiplier(),
@@ -317,7 +314,7 @@ class ListHeaderComponent extends React.Component {
           showClose={true}
           onClose={() => {
             this.props.clearFeedFilter()
-            this.props.navigation.navigate('Items')
+            navigation.navigate('Items')
           }}
         />
         <Text style={{
@@ -328,7 +325,7 @@ class ListHeaderComponent extends React.Component {
           isCompact={true}
           isInverted={true}
           text="Change account"
-          onPress={() => this.props.navigation.navigate('Account')}
+          onPress={() => navigation.navigate('Account')}
           buttonStyle={{
             alignSelf: 'flex-end',
             marginBottom: margin / 2,
@@ -370,14 +367,15 @@ class ListHeaderComponent extends React.Component {
         <ItemsDirectionRadiosContainer />
         <Heading title='' />
         <View style={{ height: margin*2 }} />
-        {/*}
         <TextButton
-          text="Add a new feed"
+          text="Add some sites"
           buttonStyle={{ marginBottom: 0 }}
-          isExpandable={true}
-          renderExpandedView={() => <AddFeedForm />}
+          onPress={() => {
+            navigation.push('Modal', {
+              childView: <NewFeedsList close={() => navigation.goBack()} />
+            })
+          }}
         />
-        {*/}
       </View>
     )
   }

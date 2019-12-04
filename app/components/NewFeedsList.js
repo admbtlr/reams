@@ -39,10 +39,6 @@ export default function NewFeedsList (props) {
   const [selectedFeeds, setFeeds] = useState([])
   const dispatch = useDispatch()
 
-  if (!props.uid) {
-    props.navigation.navigate('Account')
-  }
-
   const toggleFeedSelected = (feed, isSelected) => {
     if (isSelected) {
       let sf = selectedFeeds.map(f => f)
@@ -95,7 +91,7 @@ export default function NewFeedsList (props) {
             title='Add Some Feeds'
             showClose={true}
             onClose={() => {
-              props.navigation.navigate('Items')
+              props.close()
             }}
           />
           <Text style={textStyles}>To get you started, take a look at the feeds I’m currently subscribed to, and select any that look interesting.</Text>

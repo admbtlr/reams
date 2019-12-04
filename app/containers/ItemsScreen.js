@@ -5,7 +5,8 @@ const mapStateToProps = (state) => {
   return {
     displayMode: state.itemsMeta.display,
     isFirstTime: !state.config.isItemsOnboardingDone,
-    isOnboarding: state.config.isOnboarding
+    isOnboarding: state.config.isOnboarding,
+    isAuthenticated: !!state.user.uid
   }
 }
 

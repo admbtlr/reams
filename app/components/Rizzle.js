@@ -111,7 +111,7 @@ export default class Rizzle extends Component {
   handleUrl ({ url }) {
     console.log('Handle URL: ' + url)
     const that = this
-    auth().signInWithEmailLink('a@btlr.eu', url)
+    auth().signInWithEmailLink(this.store.getState().user.signInEmail, url)
       .then(res => {
         that.store.dispatch({
           type: 'CONFIG_SET_BACKEND',
@@ -140,11 +140,6 @@ export default class Rizzle extends Component {
           }
         })
       })
-    // Linking.canOpenURL(url).then((supported) => {
-    //   if (supported) {
-    //     DeepLinking.evaluateUrl(url)
-    //   }
-    // })
   }
 
   addRoutesToDeepLinking () {

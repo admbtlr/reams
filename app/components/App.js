@@ -1,15 +1,11 @@
-import React from 'react'
-import {
-  Easing
-} from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 
 import ItemsScreenContainer from '../containers/ItemsScreen.js'
 import AccountScreenContainer from '../containers/AccountScreen.js'
 import FeedsScreenContainer from '../containers/FeedsScreen.js'
+import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen.js'
-// import { FluidNavigator } from 'react-navigation-fluid-transitions'
 
 const navigationOptions = {
   gesturesEnabled: false
@@ -17,9 +13,8 @@ const navigationOptions = {
 
 const FeedStack = createStackNavigator(
   {
-    Main: {
-      screen: FeedsScreenContainer
-    },
+    Main: { screen: FeedsScreenContainer },
+    NewFeedsList: { screen: NewFeedsList },
     Modal: {
       screen: ModalScreen,
       navigationOptions: {

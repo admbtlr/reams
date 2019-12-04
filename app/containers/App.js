@@ -3,7 +3,8 @@ import App from '../components/App.js'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isFirstTime: state.config.isFirstTime
+    isFirstTime: state.config.isFirstTime,
+    userId: state.user.uid
   }
 }
 
