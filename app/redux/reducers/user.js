@@ -19,6 +19,12 @@ export function user (state = initialState, action) {
         uid: action.details && action.details.uid
       }
 
+    case 'USER_SET_SIGN_IN_EMAIL':
+      return {
+        ...state,
+        signInEmail: action.email
+      }
+
     default:
       return state
   }

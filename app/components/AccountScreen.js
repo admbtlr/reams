@@ -118,6 +118,7 @@ class AccountScreen extends React.Component {
                   backend={backend}
                   service='rizzle'
                   user={this.props.user}
+                  setSignInEmail={this.props.setSignInEmail}
                 />}
               />
               <Text style={ textTipStyles }>If you use the Rizzle service to manage your feeds, you will also be able to save external web pages to read in Rizzle.</Text>

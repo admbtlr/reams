@@ -18,6 +18,10 @@ const mapDispatchToProps = (dispatch) => {
       type: 'CONFIG_SET_BACKEND',
       backend,
       accessToken
+    }),
+    setSignInEmail: (email) => dispatch({
+      type: 'USER_SET_SIGN_IN_EMAIL',
+      email
     })
   }
 }

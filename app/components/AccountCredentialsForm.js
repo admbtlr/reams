@@ -103,6 +103,7 @@ class AccountCredentialsForm extends React.Component {
 
   async authenticateUser ({username, password, email}) {
     if (this.props.service === 'rizzle') {
+      this.props.setSignInEmail(email)
       await sendEmailLink(email)
       console.log(`email: ${email}`)
     } else {
