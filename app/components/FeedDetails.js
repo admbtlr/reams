@@ -230,6 +230,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             noResize={true}
             onPress={() => {
               unsubscribe(feed._id)
+              navigation.goBack(null)
             }}
             text='Unsubscribe' />
           <TextButton
@@ -245,7 +246,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               clearReadItems()
               filterItems(feed._id)
               navigation.navigate('Items')
-              StatusBar.setHidden(false)
             }}
             text='Read stories' />
           <TextButton

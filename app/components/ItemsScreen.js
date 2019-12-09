@@ -29,7 +29,13 @@ class ItemsScreen extends React.Component {
     SplashScreen.hide()
     this.focusListener = this.props.navigation.addListener('didFocus', this.props.screenDidFocus)
     this.blurListener = this.props.navigation.addListener('willBlur', this.props.screenWillBlur)
-    if (!this.props.isAuthenticated) {
+    if (!this.props.isOnboarding && !this.props.isAuthenticated) {
+      this.props.navigation.navigate('Account')
+    }
+  }
+
+  componentDidUpdate () {
+    if (!this.props.isOnboarding && !this.props.isAuthenticated) {
       this.props.navigation.navigate('Account')
     }
   }

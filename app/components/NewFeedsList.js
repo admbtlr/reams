@@ -53,13 +53,13 @@ export default function NewFeedsList (props) {
     if (selectedFeeds.length > 0) {
       Animated.spring(buttonAnim, {
         toValue: 0,
-        duration: 500,
+        duration: 300,
         useNative: true
       }).start()
     } else {
       Animated.spring(buttonAnim, {
         toValue: margin * 4,
-        duration: 500,
+        duration: 300,
         useNative: true
       }).start()
     }
@@ -71,7 +71,9 @@ export default function NewFeedsList (props) {
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'flex-start',
-          backgroundColor: hslString('rizzleBG')
+          backgroundColor: hslString('rizzleBG'),
+          paddingLeft: Dimensions.get('window').width * 0.05,
+          paddingRight: Dimensions.get('window').width * 0.05
           // marginTop: margin
         }}
         style={{
@@ -98,7 +100,7 @@ export default function NewFeedsList (props) {
           <Text style={{
             ...textStyles,
             marginBottom: 9
-          }}>You can also search for and add feeds from any site in Safari by using the Rizzle share extension.</Text>
+          }}>You can also add feeds from any compatible site in Safari by using the Rizzle share extension.</Text>
           {Object.keys(feeds).map((category, index) => (
             <View key={`category-${index}`}>
               <View style={{
@@ -107,10 +109,11 @@ export default function NewFeedsList (props) {
               }}>
                 <Text style={headerStyles}>{category}</Text>
               </View>
-              { feeds[category].map((feed, index) => <FeedToggle
+              { feeds[category].map((feed, index, feeds) => <FeedToggle
                   feed={feed}
                   toggleFeedSelected={toggleFeedSelected}
                   key={`feed-${index}`}
+                  isLast={index === feeds.length - 1}
                 />) }
             </View>
           ))}
@@ -120,7 +123,7 @@ export default function NewFeedsList (props) {
         position: 'absolute',
         bottom: margin * 2,
         left: margin,
-        width: screenWidth,
+        width: screenWidth - margin * 2,
         justifyContent: 'center',
         transform: [
           { translateY: buttonAnim }
@@ -147,12 +150,11 @@ export default function NewFeedsList (props) {
 
 const FeedToggle = (props) => {
   const [isSelected, setSelected] = useState(false)
+  const { feed, isLast, toggleFeedSelected } = props
   const buttonStyles = {
     paddingTop: 9,
     paddingBottom: 18,
     backgroundColor: isSelected ? hslString('rizzleText') : 'transparent',
-    borderBottomWidth: 1,
-    borderBottomColor: hslString('rizzleBG'),
     marginLeft: 0 - margin,
     marginRight: 0 - margin,
     paddingLeft: margin,
@@ -169,14 +171,20 @@ const FeedToggle = (props) => {
     color: isSelected ? hslString('rizzleBG') : hslString('rizzleText')
   }
   return (
-    <TouchableOpacity
-      onPress={() => {
-        props.toggleFeedSelected(props.feed, !isSelected)
-        return setSelected(!isSelected)
-      }}
-      style={buttonStyles}>
-      <Text style={titleStyles}>{props.feed.title}</Text>
-      <Text style={descriptionStyles}>{props.feed.description}</Text>
-    </TouchableOpacity>
+    <Fragment>
+      <TouchableOpacity
+        onPress={() => {
+          toggleFeedSelected(feed, !isSelected)
+          return setSelected(!isSelected)
+        }}
+        style={buttonStyles}>
+        <Text style={titleStyles}>{feed.title}</Text>
+        <Text style={descriptionStyles}>{feed.description}</Text>
+      </TouchableOpacity>
+      <View style={{
+        height: 1,
+        backgroundColor: isSelected || isLast ? 'transparent' : 'rgba(0,0,0,0.1)'
+      }} />
+    </Fragment>
   )
 }

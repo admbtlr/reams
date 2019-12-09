@@ -35,9 +35,7 @@
 		663D7FD821A54CD60085CB7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 663D7FD721A54CD60085CB7A /* GoogleService-Info.plist */; };
 		663FABD5237ED5B000052531 /* IBMPlexSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43E02F89082E4739AB0CC9AB /* IBMPlexSans-Light.ttf */; };
 		664B4B281FAB59A9006C6DF9 /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 664B4B271FAB59A9006C6DF9 /* webview */; };
-		665D38C9234BBE600051FCB2 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 665D3888234BBE5F0051FCB2 /* splash@2x.png */; };
 		6673781520431A0100572989 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 667378142043199F00572989 /* IBMPlexMono-Regular.ttf */; };
-		668C65DD236C9498004F9006 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 668C659C236C9498004F9006 /* splash@2x.png */; };
 		668CE94B2153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9492153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf */; };
 		668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
@@ -153,12 +151,10 @@
 		663AF2295D934BFCBB5928D4 /* IBMPlexSansCondensed-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCondensed-ExtraLightItalic.ttf"; path = "../assets/fonts/IBMPlexSansCondensed-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		663D7FD721A54CD60085CB7A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		664B4B271FAB59A9006C6DF9 /* webview */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webview; sourceTree = "<group>"; };
-		665D3888234BBE5F0051FCB2 /* splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash@2x.png"; path = "../assets/images/splash@2x.png"; sourceTree = "<group>"; };
 		66737812204314A900572989 /* rizzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rizzle.entitlements; path = rizzle/rizzle.entitlements; sourceTree = "<group>"; };
 		66737813204315E300572989 /* RizzleShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RizzleShare.entitlements; sourceTree = "<group>"; };
 		667378142043199F00572989 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IBMPlexMono-Regular.ttf"; path = "../../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
 		6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
-		668C659C236C9498004F9006 /* splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash@2x.png"; path = "../img/splash@2x.png"; sourceTree = "<group>"; };
 		668CE8CE2153991100CA3EDF /* PlayfairDisplaySC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplaySC-Bold.ttf"; sourceTree = "<group>"; };
 		668CE8CF2153991100CA3EDF /* PlayfairDisplaySC-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplaySC-BoldItalic.ttf"; sourceTree = "<group>"; };
 		668CE8D22153992F00CA3EDF /* PlayfairDisplay-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Bold.otf"; sourceTree = "<group>"; };
@@ -271,7 +267,6 @@
 			isa = PBXGroup;
 			children = (
 				6697462F23057C6200EDCFE7 /* rizzle.png */,
-				665D3888234BBE5F0051FCB2 /* splash@2x.png */,
 				6697466E23057C6400EDCFE7 /* Splash-20190815.png */,
 				790F17FBE061470490FC8FB8 /* BioRhyme-Regular.ttf */,
 				8463AC662A634CF786B76B2A /* BioRhyme-ExtraBold.ttf */,
@@ -398,7 +393,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				668C659C236C9498004F9006 /* splash@2x.png */,
 				66FBE127221C3C6A003F9FA8 /* RNInAppBrowser.xcodeproj */,
 				663D7FD721A54CD60085CB7A /* GoogleService-Info.plist */,
 				668CE8D621539B7E00CA3EDF /* PlayfairDisplay-Bold.ttf */,
@@ -596,13 +590,11 @@
 				4DA1B3EEF1E74D8D885D44DF /* Montserrat-LightItalic.ttf in Resources */,
 				45852DA026DE45819C2E6132 /* IBMPlexMono-Bold.ttf in Resources */,
 				3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */,
-				665D38C9234BBE600051FCB2 /* splash@2x.png in Resources */,
 				6332D5CBA60145BBAD467549 /* IBMPlexMono-Italic.ttf in Resources */,
 				1F3AFD1477774196851518C5 /* IBMPlexMono-Light.ttf in Resources */,
 				AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */,
 				3D02833F47B84842A441CCD8 /* IBMPlexMono-Regular.ttf in Resources */,
 				9B29B4BC3A004A7489FE2344 /* IBMPlexSans-Bold.ttf in Resources */,
-				668C65DD236C9498004F9006 /* splash@2x.png in Resources */,
 				79DC44BDD1334F7B80DD977D /* IBMPlexSans-BoldItalic.ttf in Resources */,
 				6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */,
 				97D942E3984B4C94B98942FC /* IBMPlexSans-Light.ttf in Resources */,
@@ -872,7 +864,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 318;
+				CURRENT_PROJECT_VERSION = 320;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -918,7 +910,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 318;
+				CURRENT_PROJECT_VERSION = 320;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -973,7 +965,7 @@
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 318;
+				CURRENT_PROJECT_VERSION = 320;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -1033,7 +1025,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 318;
+				CURRENT_PROJECT_VERSION = 320;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

@@ -4,16 +4,107 @@
 }
 
 @font-face {
-  font-family: "IBM Plex Serif";
+  font-family: "LibreBaskerville-Bold";
+  src: url(../fonts/LibreBaskerville-Bold.ttf);
+}
+
+@font-face {
+  font-family: "LibreBaskerville-Italic";
+  src: url(../fonts/LibreBaskerville-Italic.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexMono-Regular";
+  src: url(../fonts/IBMPlexMono-Regular.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSerif-Regular";
   src: url(../fonts/IBMPlexSerif-Regular.ttf);
 }
 
 @font-face {
-  font-family: "IBMPlexSans";
+  font-family: "IBMPlexSerif-Italic";
+  src: url(../fonts/IBMPlexSerif-Italic.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSerif-LightItalic";
+  src: url(../fonts/IBMPlexSerif-LightItalic.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSerif-Bold";
+  src: url(../fonts/IBMPlexSerif-Bold.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSerif-BoldItalic";
+  src: url(../fonts/IBMPlexSerif-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSans-Regular";
   src: url(../fonts/IBMPlexSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSans-Italic";
+  src: url(../fonts/IBMPlexSans-Italic.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSans-Bold";
+  src: url(../fonts/IBMPlexSans-Bold.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSans-BoldItalic";
+  src: url(../fonts/IBMPlexSans-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSansCondensed-Bold";
+  src: url(../fonts/IBMPlexSansCondensed-Bold.ttf);
 }
 
 @font-face {
   font-family: "IBMPlexSans-LightItalic";
   src: url(../fonts/IBMPlexSans-LightItalic.ttf);
 }
+
+@font-face {
+  font-family: "PlayfairDisplay-Black";
+  src: url(../fonts/PlayfairDisplay-Black.ttf);
+}
+
+@font-face {
+  font-family: "PlayfairDisplay-Regular";
+  src: url(../fonts/PlayfairDisplay-Regular.ttf);
+}
+
+@font-face {
+  font-family: "PlayfairDisplay-Italic";
+  src: url(../fonts/PlayfairDisplay-Italic.ttf);
+}
+
+@font-face {
+  font-family: "Montserrat-Light";
+  src: url(../fonts/Montserrat-Light.ttf);
+}
+
+@font-face {
+  font-family: "Montserrat-LightItalic";
+  src: url(../fonts/Montserrat-LightItalic.ttf);
+}
+
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url(../fonts/Montserrat-Bold.ttf);
+}
+
+@font-face {
+  font-family: "Montserrat-BoldItalic";
+  src: url(../fonts/Montserrat-BoldItalic.ttf);
+}
+

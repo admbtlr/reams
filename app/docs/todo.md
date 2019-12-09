@@ -1,7 +1,10 @@
 # To Do
 
-- fix bug with logging in via email
+- Sentry errors relating to inflation with feed filter
+- Fix undefined error
+    + https://sentry.io/organizations/adam-butler/issues/1361854344/?project=195309&query=is%3Aunresolved
 - improve auto-mercury
+- better loading indicator
 - fix freezing share extension
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
@@ -21,6 +24,10 @@
 
 # Done
 
+- ~~finish adding all the fonts to css~~
+- ~~integrate new feeds list properly~~
+- ~~font size when onboarding on ipad mini~~
+- ~~fix bug with logging in via email~~
 - ~~upgrade to RN 0.60~~
 - ~~onboarding overlay~~
 - ~~switch to https://github.com/iyegoroff/react-native-image-filter-kit~~

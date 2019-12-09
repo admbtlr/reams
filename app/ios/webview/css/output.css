@@ -344,6 +344,14 @@ body {
 article {
   margin-bottom: 168px; }
 
+hr {
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  width: 66px;
+  height: 16px;
+  background-color: var(--feed-color);
+  border: 0; }
+
 .itemArticle > p:not(.short-para):first-of-type:first-letter,
 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -641,30 +649,66 @@ article {
 .bodyFontSerif1 {
   font-family: "LibreBaskerville-Regular", serif;
   font-size: calc(1rem / 1.8); }
-  .bodyFontSerif1 h1, .bodyFontSerif1 h2, .bodyFontSerif1 h3, .bodyFontSerif1 h4, .bodyFontSerif1 h5, .bodyFontSerif1 figcaption, .bodyFontSerif1 img + small {
-    font-family: "Avenir"; }
+  .bodyFontSerif1 em {
+    font-family: "LibreBaskerville-Italic";
+    font-style: normal; }
+  .bodyFontSerif1 strong {
+    font-family: "LibreBaskerville-Bold";
+    font-weight: normal; }
 
 .bodyFontSans1 {
-  font-family: "IBMPlexSans", sans-serif;
+  font-family: "IBMPlexSans-Regular", sans-serif;
   font-size: calc(1rem / 1.6); }
-  .bodyFontSans1 h1, .bodyFontSans1 h2, .bodyFontSans1 h3, .bodyFontSans1 h4, .bodyFontSans1 h5, .bodyFontSans1 figcaption, .bodyFontSans1 img + small {
-    font-family: "LibreBaskerville-Regular"; }
+  .bodyFontSans1 em {
+    font-family: "IBMPlexSans-Italic", sans-serif;
+    font-style: normal; }
+  .bodyFontSans1 strong {
+    font-family: "IBMPlexSans-Bold", sans-serif;
+    font-weight: normal; }
+  .bodyFontSans1 strong em, .bodyFontSans1 em strong {
+    font-family: "IBMPlexSans-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal; }
 
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif; }
-  .bodyFontSerif2 h1, .bodyFontSerif2 h2, .bodyFontSerif2 h3, .bodyFontSerif2 h4, .bodyFontSerif2 h5, .bodyFontSerif2 figcaption, .bodyFontSerif2 img + small {
-    font-family: "AvenirNextCondensed-Bold"; }
+  .bodyFontSerif2 em {
+    font-family: "IowanOldStyle-Italic", sans-serif;
+    font-style: normal; }
+  .bodyFontSerif2 strong {
+    font-family: "IowanOldStyle-Bold", sans-serif;
+    font-weight: normal; }
+  .bodyFontSerif2 strong em, .bodyFontSerif2 em strong {
+    font-family: "IowanOldStyle-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal; }
 
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif; }
-  .bodyFontSans2 h1, .bodyFontSans2 h2, .bodyFontSans2 h3, .bodyFontSans2 h4, .bodyFontSans2 h5, .bodyFontSans2 figcaption, .bodyFontSans2 img + small {
-    font-family: "Iowan Old Style"; }
+  .bodyFontSans2 em {
+    font-family: "AvenirNext-Italic", sans-serif;
+    font-style: normal; }
+  .bodyFontSans2 strong {
+    font-family: "AvenirNext-Bold", sans-serif;
+    font-weight: normal; }
+  .bodyFontSans2 strong em, .bodyFontSans2 em strong {
+    font-family: "AvenirNext-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal; }
 
 .bodyFontSerif3 {
-  font-family: "IBM Plex Serif", serif;
+  font-family: "IBMPlexSerif-Regular", serif;
   font-size: calc(1rem / 1.7); }
-  .bodyFontSerif3 h1, .bodyFontSerif3 h2, .bodyFontSerif3 h3, .bodyFontSerif3 h4, .bodyFontSerif3 h5, .bodyFontSerif3 figcaption, .bodyFontSerif3 img + small {
-    font-family: "IBMPlexSans-LightItalic"; }
+  .bodyFontSerif3 em {
+    font-family: "IBMPlexSerif-Italic", sans-serif;
+    font-style: normal; }
+  .bodyFontSerif3 strong {
+    font-family: "IBMPlexSerif-Bold", sans-serif;
+    font-weight: normal; }
+  .bodyFontSerif3 strong em, .bodyFontSerif3 em strong {
+    font-family: "IBMPlexSerif-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal; }
 
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold"; }
@@ -672,7 +716,7 @@ article {
 .headerFontSans1 h2, .headerFontSans1 h4, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "AvenirNext-Medium"; }
 
-.headerFontSans1 figcaption {
+.headerFontSans1 figcaption, .headerFontSans1 img + small {
   font-family: "AvenirNext-MediumItalic"; }
 
 .headerFontSans2 h1, .headerFontSans2 h3, .headerFontSans2 h5 {
@@ -681,7 +725,7 @@ article {
 .headerFontSans2 h2, .headerFontSans2 h4, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "Montserrat-Light"; }
 
-.headerFontSans2 figcaption {
+.headerFontSans2 figcaption, .headerFontSans2 img + small {
   font-family: "Montserrat-LightItalic"; }
 
 .headerFontSans3 h1, .headerFontSans3 h3, .headerFontSans3 h5 {
@@ -690,7 +734,7 @@ article {
 .headerFontSans3 h2, .headerFontSans3 h4, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "IBMPlexSans-Light"; }
 
-.headerFontSans3 figcaption {
+.headerFontSans3 figcaption, .headerFontSans3 img + small {
   font-family: "IBMPlexSans-LightItalic"; }
 
 .headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5 {
@@ -699,7 +743,7 @@ article {
 .headerFontSerif1 h2, .headerFontSerif1 h4, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "IBMPlexSerif-Light"; }
 
-.headerFontSerif1 figcaption {
+.headerFontSerif1 figcaption, .headerFontSerif1 img + small {
   font-family: "IBMPlexSerif-LightItalic"; }
 
 .headerFontSerif2 h1, .headerFontSerif2 h3, .headerFontSerif2 h5 {
@@ -708,7 +752,7 @@ article {
 .headerFontSerif2 h2, .headerFontSerif2 h4, .headerFontSerif2 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "Arvo"; }
 
-.headerFontSerif2 figcaption {
+.headerFontSerif2 figcaption, .headerFontSerif2 img + small {
   font-family: "Arvo"; }
 
 .headerFontSerif3 h1, .headerFontSerif3 h3, .headerFontSerif3 h5 {
@@ -717,7 +761,7 @@ article {
 .headerFontSerif3 h2, .headerFontSerif3 h4, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "PlayfairDisplay-Regular"; }
 
-.headerFontSerif3 figcaption {
+.headerFontSerif3 figcaption, .headerFontSerif3 img + small {
   font-family: "PlayfairDisplay-Italic"; }
 
 .itemArticle a, .itemArticle a:active, .itemArticle a:visited {
@@ -761,16 +805,19 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
 
 html.onboarding {
   font-size: calc(7vw); }
-  @media (min-width: 600px) {
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-max-device-pixel-ratio: 2) {
     html.onboarding {
       font-size: calc(4vw); } }
   html.onboarding body {
     margin: 0;
     width: 100vw;
-    background-color: transparent;
-    padding-top: 2.5rem;
-    color: white;
-    overflow: hidden; }
+    background-color: #ded9ca;
+    color: #27232f;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 120; }
   html.onboarding div.logo {
     position: fixed;
     top: 0;
@@ -785,24 +832,43 @@ html.onboarding {
     overflow: hidden;
     transform: scale(1.3333); }
   html.onboarding article {
-    padding: .5rem; }
+    padding: 1rem;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
   html.onboarding h1 {
-    color: #f6be3c;
-    font-size: 2rem;
+    color: white;
+    font-size: 1.5rem;
+    font-family: IBMPlexSans-Bold;
     font-weight: inherit;
     line-height: 1;
-    margin-bottom: 1rem;
+    margin-top: 0;
     text-align: center; }
+  html.onboarding h1::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 12vh;
+    margin-top: 6vh;
+    margin-bottom: 6vh;
+    background-image: url("../img/logo@2x.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; }
   html.onboarding hr {
     border-top-style: none;
     margin: 2em; }
   html.onboarding p {
+    font-family: "IBMPlexSans-Regular";
+    color: #4b4554;
     font-size: 0.666rem;
     line-height: 1rem;
-    margin: 0 0 2rem 2rem;
-    color: rgba(255, 255, 255, 0.9); }
-  html.onboarding p:nth-of-type(2n+1) {
-    margin: 0 2rem 2rem 0; }
+    margin: 0 0 1rem;
+    max-width: 15rem;
+    text-align: center; }
+    html.onboarding p strong {
+      font-family: "IBMPlexSans-Bold"; }
   html.onboarding a {
     color: white; }
   html.onboarding .swipe {
@@ -811,8 +877,7 @@ html.onboarding {
     bottom: 1rem;
     text-align: center;
     font-size: 0.666rem;
-    color: #f6be3c;
-    background-image: url(/webview/img/share-arrow.png); }
+    font-family: IBMPlexMono-Regular; }
   html.onboarding img {
     display: block;
     margin: -1rem auto 1rem; }

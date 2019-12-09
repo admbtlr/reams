@@ -63,7 +63,7 @@ class CoverImage extends React.Component {
   }
 
   render () {
-    const {isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
+    const {isBW, isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
     const {imageDimensions} = this.props
     const absolute = {
       position: 'absolute',
@@ -141,13 +141,14 @@ class CoverImage extends React.Component {
       borderColor: 'white'
     }
 
-    const saturation = this.getImageSizeRatio() < .75 ? 1 : 0
+    const saturation = isBW ? 0 :
+      this.getImageSizeRatio() < .75 ? 1.2 : 1
     const contrast = 1
     const brightness = isMultiply ?
-      1.5 :
+      1.3 :
       isScreen ?
         1 :
-        this.getImageSizeRatio() < 1 ? 2 : 0
+        this.getImageSizeRatio() < 1 ? 1.2 : 0
 
 
     if (this.props.imagePath &&

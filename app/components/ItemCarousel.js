@@ -29,7 +29,7 @@ class ItemCarousel extends React.Component {
           virtualBuffer={BUFFER_LENGTH}
           slideRenderer={this.renderSlide.bind(this)}
           onChangeIndex={this.onChangeIndex.bind(this)}
-          slideCount={this.props.isOnboarding ? 13 : this.props.numItems}
+          slideCount={this.props.isOnboarding ? 2 : this.props.numItems}
           index={this.props.index}
           isOnboarding={this.props.isOnboarding}
         />

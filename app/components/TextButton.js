@@ -63,7 +63,9 @@ class TextButton extends React.Component {
       fontSize: (isExpanded ? 18 : 16) * fontSizeMultiplier(),
       lineHeight: 18 * fontSizeMultiplier(),
       textAlign: 'center',
-      color: isInverted ? bgColor : fgColor
+      color: isInverted ? bgColor : fgColor,
+      paddingLeft: 20,
+      paddingRight: 20
     }
     if (isExpandable) {
       return (

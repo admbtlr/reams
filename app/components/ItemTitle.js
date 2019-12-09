@@ -472,13 +472,13 @@ class ItemTitle extends React.Component {
   render () {
     let {styles, title, date, showCoverImage, coverImageStyles} = this.props
 
+    // this means the item hasn't been inflated from Firebase yet
+    if (!styles) return null
+
     // just so we can render something before it's been calculated
     const fontSize = styles.fontSize || 16
     let lineHeight = Math.floor(fontSize * styles.lineHeightAsMultiplier)
     if (lineHeight < fontSize) lineHeight = fontSize
-
-    // this means the item hasn't been inflated from Firebase yet
-    if (!styles) return null
 
     // we need 3 different versions of the title
     // 1. originalTitle (Here&rquo;s a story about a <i>Thing</i>)

@@ -13,26 +13,32 @@ const mapStateToProps = (state, ownProps) => {
     state.feedsLocal.feeds.find(f => f._id === feedId).hasCachedIcon
   const iconDimensions = (feedId) => state.feedsLocal.feeds.find(f => f._id === feedId) &&
     state.feedsLocal.feeds.find(f => f._id === feedId).cachedIconDimensions
+  const feedColor = (feedId) => state.feeds.feeds.find(f => f._id === feedId) &&
+  state.feeds.feeds.find(f => f._id === feedId).color
   return {
     prevItem: prevItem && {
       ...prevItem,
       hasCachedFeedIcon: hasCachedIcon(prevItem.feed_id),
-      feedIconDimensions: iconDimensions(prevItem.feed_id)
+      feedIconDimensions: iconDimensions(prevItem.feed_id),
+      feed_color: feedColor(prevItem.feed_id)
     },
     currentItem: currentItem && {
       ...currentItem,
       hasCachedFeedIcon: hasCachedIcon(currentItem.feed_id),
-      feedIconDimensions: iconDimensions(currentItem.feed_id)
+      feedIconDimensions: iconDimensions(currentItem.feed_id),
+      feed_color: feedColor(currentItem.feed_id)
     },
     nextItem: nextItem && {
       ...nextItem,
       hasCachedFeedIcon: hasCachedIcon(nextItem.feed_id),
-      feedIconDimensions: iconDimensions(nextItem.feed_id)
+      feedIconDimensions: iconDimensions(nextItem.feed_id),
+      feed_color: feedColor(nextItem.feed_id)
     },
     toolbar: state.toolbar,
     displayMode: state.itemsMeta.display,
     isDarkBackground: state.webView.isDarkBackground,
     isFiltered: !!feedFilter,
+    isOnboarding: state.config.isOnboarding,
     ...ownProps
   }
 }

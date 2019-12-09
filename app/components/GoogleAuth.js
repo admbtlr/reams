@@ -47,6 +47,7 @@ class GoogleAuth extends React.Component {
     console.log('Log out!')
     GoogleSignin.signOut()
       .then(() => auth().signOut())
+      .then(() => this.props.setBackend())
       .catch(err => {
         console.log(err)
       })

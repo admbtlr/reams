@@ -163,9 +163,9 @@ class TopBar extends React.PureComponent {
       (this.props.isDarkBackground ?
         hslString('rizzleText') :
         hslString('rizzleBG')) :
-        (feedColor ?
-          hslString(feedColor, 'desaturated') :
-          hslString('rizzleSaved'))
+      (feedColor ?
+        hslString(feedColor, 'desaturated') :
+        hslString('rizzleSaved'))
     // return hslString('rizzleChrome')
   }
 
@@ -190,9 +190,7 @@ class TopBar extends React.PureComponent {
   getHamburgerColor (item) {
     return this.props.displayMode == 'saved' ?
       this.getForegroundColor() :
-      (this.props.isFiltered ?
-        'rgba(0, 0, 0, 0.6)' :
-        'rgba(255, 255, 255, 0.6)')
+      'rgba(255, 255, 255, 0.6)'
   }
 
   expandAnimation () {
@@ -299,7 +297,7 @@ class TopBar extends React.PureComponent {
             }]
           }}
         >
-          <ViewButtonToggle
+          { this.props.isOnboarding || <ViewButtonToggle
             buttonColor={this.getHamburgerColor(item)}
             isSyncing={this.props.toolbar.message}
             onPress={this.props.toggleViewButtons}
@@ -307,7 +305,7 @@ class TopBar extends React.PureComponent {
               inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
               outputRange: [0, 1]
             })}
-          />
+          /> }
           {/*<FeedDetails
             bgColor={this.getBorderBottomColor(item)}
             feedActionStyles={this.getStyles().feedActions}
@@ -343,7 +341,7 @@ class TopBar extends React.PureComponent {
               // width: Dimensions.get('window').width - 84,
               marginTop: 0,
               marginLeft: 42,
-              marginRight: 42,
+              marginRight: 50,
               opacity: clampedAnimatedValue.interpolate({
                 inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
                 outputRange: [0, 1]
@@ -378,13 +376,15 @@ class TopBar extends React.PureComponent {
               </Text>
             </Animated.View>
           </TouchableWithoutFeedback>
-          <FeedsHamburger
-            onPress={() => this.props.navigation.navigate('Feeds')}
-            opacityAnim={clampedAnimatedValue.interpolate({
-              inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-              outputRange: [0, 1]
-            })}
-            hamburgerColor={this.getHamburgerColor(item)} />
+          { this.props.isOnboarding ||
+            <FeedsHamburger
+              onPress={() => this.props.navigation.navigate('Feeds')}
+              opacityAnim={clampedAnimatedValue.interpolate({
+                inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+                outputRange: [0, 1]
+              })}
+              hamburgerColor={this.getHamburgerColor(item)} />
+          }
         </Animated.View>
     </View>)
   }

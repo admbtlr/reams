@@ -24,6 +24,12 @@ class AccountScreen extends React.Component {
     this.props = props
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.backend && this.props.backend !== prevProps.backend) {
+      this.props.navigation.navigate('Feeds')
+    }
+  }
+
   render () {
     const { backend } = this.props
     const width = Dimensions.get('window').width
@@ -80,37 +86,13 @@ class AccountScreen extends React.Component {
             }}>
               <Heading
                 title='Your Account'
-                showClose={true}
+                showClose={ this.props.user.uid !== null }
                 onClose={() => {
                   this.props.navigation.navigate('Feeds')
                 }}
               />
-              { (backend || backend !== '') &&
-                <Fragment>
-                  <Text style={textStyles}>You are currently using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ backendName }</Text> to manage your feeds.</Text>
-                  <Text style={textStyles}>Switch to a different option:</Text>
-                </Fragment>
-              }
               <TextButton
-                text="Log in to Rizzle"
-                iconCollapsed={<Image
-                  source={require('../img/rizzle-logo-small-bw.png')}
-                  style={{
-                    position: 'absolute',
-                    left: 4,
-                    top: 4,
-                    width: 34,
-                    height: 34
-                  }}/>}
-                iconExpanded={<Image
-                  source={require('../img/rizzle-logo-small.png')}
-                  style={{
-                    position: 'absolute',
-                    left: 4,
-                    top: 4,
-                    width: 34,
-                    height: 34
-                  }}/>}
+                text={ backend && backend === 'rizzle' ? 'Account Details' : 'Log in to Rizzle' }
                 buttonStyle={{ marginBottom: 0 }}
                 isExpandable={true}
                 isExpanded={true}
@@ -121,7 +103,7 @@ class AccountScreen extends React.Component {
                   setSignInEmail={this.props.setSignInEmail}
                 />}
               />
-              <Text style={ textTipStyles }>If you use the Rizzle service to manage your feeds, you will also be able to save external web pages to read in Rizzle.</Text>
+              {/*}<Text style={ textTipStyles }>If you use the Rizzle service to manage your feeds, you will also be able to save external web pages to read in Rizzle.</Text>
               { (backend || backend !== '') && <Text style={ textTipStyles }>When you switch to Rizzle it will automatically subscribe to all your feeds from {backendName}.</Text> }
               <Text style={ textTipStyles }>Rizzle will cost you $x / month. For you, though, the first month is free.</Text>
               <Heading title='' />
@@ -137,6 +119,7 @@ class AccountScreen extends React.Component {
                   setBackend={this.props.setBackend}
                 />}
               /> }
+              {*/}
               { /* }
               { backend !== 'feedbin' && <TextButton
                 text="Feedbin"

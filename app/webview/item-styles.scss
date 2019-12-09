@@ -539,6 +539,15 @@ article > div:not(:last-of-type) {
   }
 }
 
+hr {
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  width: 66px;
+  height: 16px;
+  background-color: var(--feed-color);
+  border: 0;
+}
+
 @mixin dropCapFontSize($size) {
   &,
   & > div:first-of-type,
@@ -735,42 +744,96 @@ article > div:not(:last-of-type) {
   font-family: "LibreBaskerville-Regular", serif;
   font-size: calc(1rem / 1.8);
 
-  h1, h2, h3, h4, h5, figcaption, img + small {
-    font-family: "Avenir"
+  em {
+    font-family: "LibreBaskerville-Italic";
+    font-style: normal;
+  }
+
+  strong {
+    font-family: "LibreBaskerville-Bold";
+    font-weight: normal;
   }
 }
 
 .bodyFontSans1 {
-  font-family: "IBMPlexSans", sans-serif;
+  font-family: "IBMPlexSans-Regular", sans-serif;
   font-size: calc(1rem / 1.6);
 
-  h1, h2, h3, h4, h5, figcaption, img + small {
-    font-family: "LibreBaskerville-Regular"
+  em {
+    font-family: "IBMPlexSans-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong {
+    font-family: "IBMPlexSans-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong {
+    font-family: "IBMPlexSans-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
   }
 }
 
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif;
 
-  h1, h2, h3, h4, h5, figcaption, img + small {
-    font-family: "AvenirNextCondensed-Bold"
+  em {
+    font-family: "IowanOldStyle-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong {
+    font-family: "IowanOldStyle-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong {
+    font-family: "IowanOldStyle-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
   }
 }
 
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif;
 
-  h1, h2, h3, h4, h5, figcaption, img + small {
-    font-family: "Iowan Old Style"
+  em {
+    font-family: "AvenirNext-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong {
+    font-family: "AvenirNext-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong {
+    font-family: "AvenirNext-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
   }
 }
 
 .bodyFontSerif3 {
-  font-family: "IBM Plex Serif", serif;
+  font-family: "IBMPlexSerif-Regular", serif;
   font-size: calc(1rem / 1.7);
 
-  h1, h2, h3, h4, h5, figcaption, img + small {
-    font-family: "IBMPlexSans-LightItalic"
+  em {
+    font-family: "IBMPlexSerif-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong {
+    font-family: "IBMPlexSerif-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong {
+    font-family: "IBMPlexSerif-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
   }
 }
 
@@ -781,7 +844,7 @@ article > div:not(:last-of-type) {
   h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-Medium"
   }
-  figcaption {
+  figcaption, img + small {
     font-family: "AvenirNext-MediumItalic"
   }
 }
@@ -793,7 +856,7 @@ article > div:not(:last-of-type) {
   h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-Light"
   }
-  figcaption {
+  figcaption, img + small {
     font-family: "Montserrat-LightItalic"
   }
 }
@@ -805,7 +868,7 @@ article > div:not(:last-of-type) {
   h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSans-Light"
   }
-  figcaption {
+  figcaption, img + small {
     font-family: "IBMPlexSans-LightItalic"
   }
 }
@@ -817,7 +880,7 @@ article > div:not(:last-of-type) {
   h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-Light"
   }
-  figcaption {
+  figcaption, img + small {
     font-family: "IBMPlexSerif-LightItalic"
   }
 }
@@ -829,7 +892,7 @@ article > div:not(:last-of-type) {
   h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Arvo"
   }
-  figcaption {
+  figcaption, img + small {
     font-family: "Arvo"
   }
 }
@@ -841,7 +904,7 @@ article > div:not(:last-of-type) {
   h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "PlayfairDisplay-Regular"
   }
-  figcaption {
+  figcaption, img + small {
     font-family: "PlayfairDisplay-Italic"
   }
 }
@@ -967,4 +1030,13 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
 
 .dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
   color: #ddd;
+}
+
+@mixin ipad {
+  @media only screen
+  and (min-device-width : 768px)
+  and (max-device-width : 1024px)
+  and (-webkit-max-device-pixel-ratio: 2) {
+    @content;
+  }
 }

@@ -4,7 +4,14 @@ import { call, put, select, spawn, take } from 'redux-saga/effects'
 
 import { syncFeeds } from './feeds'
 import { getItemsAS } from '../async-storage'
-import { addSavedItemsFS, upsertFeedsFS, listenToFeeds, listenToReadItems, listenToSavedItems } from '../firestore'
+import {
+  addSavedItemsFS,
+  upsertFeedsFS,
+  listenToFeeds,
+  listenToReadItems,
+  listenToSavedItems,
+  setUserDetails
+} from '../firestore'
 import { getConfig, getFeeds, getItems, getUid, getUser } from './selectors'
 import { setBackend } from '../backends'
 import { receiveItems } from './fetch-items'
@@ -41,6 +48,10 @@ export function * initBackend (getFirebase, action) {
 
   if (backend === 'rizzle') {
     if (isNew) {
+      // set the user details
+      const user = yield select(getUser)
+      yield call(setUserDetails, user)
+
       // copy existing feeds over to rizzle
       const feeds = yield select(getFeeds)
       yield call(upsertFeedsFS, feeds)

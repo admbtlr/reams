@@ -10,7 +10,7 @@ import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
 import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
-import { markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds } from './feeds'
+import { markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed } from './feeds'
 import { initBackend } from './backend'
 import { getConfig } from './selectors'
 
@@ -20,6 +20,7 @@ function * init (getFirebase, action) {
   if (!config.backend || config.backend === '') return
 
   yield initBackend(getFirebase, action)
+  yield call(inflateItems)
   yield call(fetchAllItems)
   yield call(decorateItems)
   yield call(clearReadItems)
@@ -38,6 +39,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery('FEEDS_ADD_FEEDS_SUCCESS', inflateFeeds)
   yield takeEvery('FEEDS_ADD_FEEDS_SUCCESS', fetchUnreadItems)
   yield takeEvery('FEEDS_UPDATE_FEEDS', fetchUnreadItems)
+  yield takeEvery('FEEDS_REMOVE_FEED', unsubscribeFromFeed)
   yield takeEvery('ITEM_SAVE_ITEM', markItemSaved)
   yield takeEvery('ITEM_UNSAVE_ITEM', markItemUnsaved)
   yield takeEvery('ITEM_DECORATION_SUCCESS', maybeUpsertSavedItem)
@@ -47,6 +49,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
   yield takeEvery('ITEMS_RECEIVED_REMOTE_READ', filterItemsForFirestoreRead)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', inflateItems)
+  yield takeEvery('CONFIG_SET_FEED_FILTER', inflateItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
   yield takeEvery('USER_SET_UID', clearReadItems)

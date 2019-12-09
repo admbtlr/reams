@@ -232,6 +232,19 @@ export const itemsUnread = (state = initialState, action) => {
         items: state.items.filter(i => i.feed_id !== action.id)
       }
 
+    case 'FEEDS_UPDATE_FEED':
+      const feed = action.feed
+      return {
+        ...state,
+        items: state.items.map(item => item.feed_id === feed._id ?
+          {
+            ...item,
+            feed_color: feed.color
+          } :
+          item)
+      }
+
+
     case 'ITEM_SAVE_ITEM':
       return {
         ...state,

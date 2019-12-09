@@ -5,7 +5,7 @@ import { addFeed, getFeedDetails } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../../utils/'
 import { hexToHsl, rgbToHsl } from '../../utils/colors'
 import feeds from '../../utils/seedfeeds.js'
-import { addFeedToFirestore, getFeedsFS, upsertFeedsFS } from '../firestore/'
+import { addFeedToFirestore, getFeedsFS, removeFeedFromFirestore, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
@@ -13,7 +13,6 @@ import { getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, isFirstTim
 import log from '../../utils/log'
 
 function * prepareAndAddFeed (feed) {
-  debugger
   const feeds = yield select(getFeeds)
   if (feeds.find(f => (f.url && f.url === feed.url) ||
     (f._id && f._id === feed._id))) return
@@ -36,6 +35,11 @@ export function * subscribeToFeed (action) {
     type: 'FEEDS_ADD_FEED_SUCCESS',
     addedFeed
   })
+}
+
+export function * unsubscribeFromFeed (action) {
+  // no need to wait until this has completed...
+  removeFeedFromFirestore(action)
 }
 
 export function * markFeedRead (action) {
@@ -150,7 +154,7 @@ function * cacheFeedFavicons () {
           id: feed._id
         })
       } catch (error) {
-        log(`Error downloading icon for ${feed.url}: ${error.message}`)
+        // log(`Error downloading icon for ${feed.url}: ${error.message}`)
         yield put({
           type: 'FEED_ERROR_CACHING_ICON',
           id: feed._id

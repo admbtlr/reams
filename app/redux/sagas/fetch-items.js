@@ -48,10 +48,6 @@ export function * fetchAllItems (includeSaved = true) {
   if (includeSaved) {
     yield fetchItems('saved')
   }
-  yield put({
-    type: 'ITEMS_IS_LOADING',
-    isLoading: false
-  })
 }
 
 export function * fetchUnreadItems (action) {
@@ -110,6 +106,10 @@ export function * fetchItems (type = 'unread') {
         type: 'ITEMS_FETCH_DATA_SUCCESS'
       })
     }
+    yield put({
+      type: 'ITEMS_IS_LOADING',
+      isLoading: false
+    })
     itemsChannel.close()
   }
 }

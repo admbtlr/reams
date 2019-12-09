@@ -5,9 +5,14 @@ import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
 const mapStateToProps = (state, ownProps) => {
   const items = getItems(state)
   const item = items[ownProps.index]
+  const feed_color = item && state.feeds.feeds.find(f => f._id === item.feed_id) &&
+    state.feeds.feeds.find(f => f._id === item.feed_id).color
   return {
-    item,
-    showMercuryContent: items[ownProps.index].showMercuryContent,
+    item: {
+      ...item,
+      feed_color
+    },
+    showMercuryContent: items[ownProps.index] && items[ownProps.index].showMercuryContent,
     ...state.webView,
     isImageViewerVisible: state.ui.imageViewerVisible,
     coverImageComponent: ownProps.coverImageComponent,

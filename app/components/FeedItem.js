@@ -159,13 +159,13 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    // if (!this.isInflated()) {
-    //   return <View style={{ flex: 1 }} />
-    // }
-
-    if (/*__DEV__ ||*/ !this.props.item.styles) {
-      this.props.item.styles = createItemStyles(this.props.item)
+    if (!this.isInflated()) {
+      return <View style={{ flex: 1 }} />
     }
+
+    // if (/*__DEV__ ||*/ !this.props.item.styles) {
+    //   this.props.item.styles = createItemStyles(this.props.item)
+    // }
     let {
       feed_title,
       url,
@@ -358,7 +358,7 @@ class FeedItem extends React.Component {
               alignItems: 'center',
               justifyContent: 'center',
               height: this.state.webViewHeight,
-              backgroundColor: 'red'
+              backgroundColor: this.props.isDarkBackground ? hslString('rizzleBg') : 'black'
             }}
             source={{
               html: html,

@@ -14,10 +14,21 @@ const mapStateToProps = (state) => {
   const numItems = state.config.isOnboarding ?
     state.config.onboardingLength :
     items.length
+  const feedColor = (feedId) => state.feeds.feeds.find(f => f._id === feedId) &&
+    state.feeds.feeds.find(f => f._id === feedId).color
   return {
-    prevItem,
-    currentItem,
-    nextItem,
+    prevItem: prevItem && {
+      ...prevItem,
+      feed_color: feedColor(prevItem.feed_id)
+    },
+    currentItem: currentItem && {
+      ...currentItem,
+      feed_color: feedColor(currentItem.feed_id)
+    },
+    nextItem: nextItem && {
+      ...nextItem,
+      feed_color: feedColor(nextItem.feed_id)
+    },
     numItems,
     index,
     isCurrentItemSaved: currentItem && currentItem.isSaved,

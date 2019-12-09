@@ -40,13 +40,23 @@ class FeedsScreen extends React.Component {
     }
     this.activeFeedId = new Value(-1)
 
-    // this.disableScroll = this.disableScroll.bind(this)
-    // this.renderFeed = this.renderFeed.bind(this)
     this.clearFeedFilter = this.clearFeedFilter.bind(this)
     this.open = this.open.bind(this)
     this.close = this.close.bind(this)
-    // this.selectFeed = this.selectFeed.bind(this)
-    // this.onFeedPress = this.onFeedPress.bind(this)
+
+    const { feeds, navigation } = this.props
+    this.props.navigation.addListener('didFocus', () => {
+      if (feeds.length === 0) {
+        navigation.push('Modal', {
+          childView: <NewFeedsList
+            close={() => {
+              navigation.goBack(null)
+            }}
+            navigation={navigation}
+          />
+        })
+      }
+    })
   }
 
   clearFeedFilter = () => {
@@ -105,9 +115,6 @@ class FeedsScreen extends React.Component {
 
   render = () => {
     const { navigation } = this.props
-    navigation.push('Modal', {
-      childView: <NewFeedsList close={() => navigation.goBack()} />
-    })
 
     const isShowingExpandedFeed = this.state.showExpandingFeed &&
       (this.state.selectedFeedElement ?
@@ -368,11 +375,16 @@ class ListHeaderComponent extends React.Component {
         <Heading title='' />
         <View style={{ height: margin*2 }} />
         <TextButton
-          text="Add some sites"
+          text="Add some feeds"
           buttonStyle={{ marginBottom: 0 }}
           onPress={() => {
             navigation.push('Modal', {
-              childView: <NewFeedsList close={() => navigation.goBack()} />
+              childView: <NewFeedsList
+                close={() => {
+                  navigation.goBack(null)
+                }}
+                navigation={navigation}
+              />
             })
           }}
         />

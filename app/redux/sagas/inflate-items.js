@@ -3,15 +3,24 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { isInflated, deflateItem, inflateStyles } from '../../utils/item-utils'
 import log from '../../utils/log'
-import { getItems } from './selectors'
+import { getDisplay, getIndex, getItems } from './selectors'
 
 import { getItemsAS } from '../async-storage/'
 
 export function * inflateItems (action) {
   // there's an issue with the index getting setting to undefined at init
   // no idea why
-  const index = action.index || 0
-  const items = yield select(getItems, action.displayMode)
+  let displayMode = action && action.displayMode
+  if (!displayMode) {
+    displayMode = yield select(getDisplay)
+  }
+  let index = action && action.index
+  if (!index) {
+    index = yield select(getIndex, displayMode)
+  }
+  const feedFilter = action && action.feedFilter
+  let items = yield select(getItems, displayMode)
+  if (feedFilter) items = items.filter(i => i.feed_id === feedFilter)
   if (items.length === 0) return
 
   let inflatedItems = items.filter(isInflated)
@@ -58,6 +67,13 @@ export function * inflateItems (action) {
     inflatedItems = inflatedItems.map((inflatedItem, index) => inflatedItem === null ?
       itemsToInflate[index] :
       inflatedItem)
+
+    // some of the item fields are mutable, i.e. they could have changed while the item was deflated
+    // (right now actually just the feed color)
+    inflatedItems = inflatedItems.map((inflatedItem, index) => ({
+      ...inflatedItem,
+      feed_color: itemsToInflate[index].feed_color || inflatedItem.feed_color
+    }))
 
     // inflatedItems = inflatedItems.map(inflateStyles)
     yield put({

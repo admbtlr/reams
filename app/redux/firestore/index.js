@@ -24,6 +24,10 @@ function getUserDb () {
   return db.collection('users').doc(uid)
 }
 
+export function setUserDetails (user) {
+  getUserDb().set(user)
+}
+
 export function getItemsFS (items) {
   let promises = []
   for (var i = 0; i < items.length; i++) {
@@ -267,14 +271,26 @@ export function addFeedToFirestore (feed) {
   return upsertFeed(feed, collectionRef)
 }
 
+export async function removeFeedFromFirestore (feed) {
+  const doc = await getUserDb().collection('feeds').doc(feed.id)
+  doc.delete()
+    .then(_ => {
+      console.log('Removed feed')
+    })
+    .catch(err => {
+      log('removeFeedFromFirestore', err)
+    })
+
+}
+
 async function upsertFeed (feed, collectionRef) {
   let existingFeed
   let results = await collectionRef.where('_id', '==', feed._id).get()
   if (results.docs.length > 0) {
     existingFeed = results.docs[0].data()
   }
-  if (!existingFeed) {
-    results = await collectionRef.where('id', '==', feed.id).get()
+  if (!existingFeed && feed.url) {
+    results = await collectionRef.where('url', '==', feed.url).get()
     if (results.docs.length > 0) {
       existingFeed = results.docs[0].data()
     }
