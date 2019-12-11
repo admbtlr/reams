@@ -60,10 +60,15 @@ class FeedItem extends React.Component {
 
   oneWayDiff (a, b, changes) {
     for (var key in a) {
-      if (a[key] !== b[key] && changes[key] === undefined) {
-        changes[key] = {
-          old: a[key],
-          new: b[key]
+      if (changes[key] !== undefined) continue
+      if (key === 'item') {
+        changes[key] = this.diff(a[key], b[key])
+      } else {
+        if (a[key] !== b[key]) {
+          changes[key] = {
+            old: a[key],
+            new: b[key]
+          }
         }
       }
     }
@@ -120,6 +125,13 @@ class FeedItem extends React.Component {
 
         case 'index':
           isDiff = false
+          break
+
+        case 'item':
+          if (Object.keys(changes.item).length === 1 &&
+            Object.keys(changes.item)[0] === 'scrollRatio') {
+            isDiff = false
+          }
           break
       }
     }

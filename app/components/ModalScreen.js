@@ -5,6 +5,7 @@ import {
   View
 } from 'react-native'
 import { isIphoneX } from '../utils'
+import { hslString } from '../utils/colors'
 
 export default function ModalScreen ({ child, navigation }) {
   return (
@@ -23,7 +24,7 @@ export default function ModalScreen ({ child, navigation }) {
           <Text style={{ fontSize: 30 }}>This is a modal!</Text>
           <Button
             onPress={() => navigation.goBack()}
-            title="Dismiss"
+            title='Dismiss'
           />
         </React.Fragment>
       }

@@ -24,6 +24,9 @@ const textStyles = {
   textAlign: 'left',
   color: hslString('rizzleText')
 }
+const boldStyles = {
+  fontFamily: 'IBMPlexSans-Bold'
+}
 const headerStyles = {
   ...textStyles,
   fontFamily: 'IBMPlexSerif',
@@ -96,11 +99,11 @@ export default function NewFeedsList (props) {
               props.close()
             }}
           />
-          <Text style={textStyles}>To get you started, take a look at the feeds I’m currently subscribed to, and select any that look interesting.</Text>
+          <Text style={textStyles}>To get you started, take a look at this list of our favourite feeds, and select any that look interesting.</Text>
           <Text style={{
             ...textStyles,
             marginBottom: 9
-          }}>You can also add feeds from any compatible site in Safari by using the Rizzle share extension.</Text>
+          }}>You can also add feeds from any compatible site in Safari by using the <Text style={boldStyles}>Rizzle share extension</Text>.</Text>
           {Object.keys(feeds).map((category, index) => (
             <View key={`category-${index}`}>
               <View style={{

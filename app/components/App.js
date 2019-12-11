@@ -19,7 +19,7 @@ const FeedStack = createStackNavigator(
       screen: ModalScreen,
       navigationOptions: {
         gestureResponseDistance: {
-          vertical: 1000
+          vertical: 100
         }
       }
     }
