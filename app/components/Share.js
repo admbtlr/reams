@@ -28,7 +28,9 @@ class Share extends React.Component {
       isOpen: true,
       type: '',
       value: '',
-      rssUrls: []
+      rssUrls: [],
+      searchingForRss: false,
+      retrievingRss: false
     }
     Sentry.init({
       dsn: 'https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309'
@@ -53,7 +55,11 @@ class Share extends React.Component {
   // console.log(body)
   console.log('Scriptless body length: ' + body.length)
   // look for links to rss files
-  matches = body.match(/<a.*?href.*?\.(rss|atom).*?>/)
+  const now = Date.now()
+  matches = body.match(/<a.*?href.*?>/g)
+  var regex = /<a.*?href.*?\.(rss|atom).*?>/
+  matches = matches.filter(m => regex.test(m))
+  console.log(`Searching for links to RSS files took ${(Date.now() - now)}ms`)
   return (matches && matches.length > 0) ?
     matches[1] :
     null
@@ -62,7 +68,9 @@ class Share extends React.Component {
  checkForLinkWithRssInText (body) {
   console.log('Checking for link with RSS in text')
   body = body.replace(/<script[^]*?<\/script>/mg, '')
+  const now = Date.now()
   matches = body.match(/href[^>]*?>(rss|atom)/i)
+  console.log(`Searching for links with RSS in text took ${(Date.now() - now)}ms`)
   return (matches && matches.length > 0 && matches[0]) ?
     matches[0] :
     null
@@ -153,6 +161,10 @@ async searchForRSS (url) {
     } finally {
       let fullFeeds = []
       console.log('Got feeds: ' + feeds)
+      this.setState({
+        searchingForRss: false,
+        retrievingRss: true
+      })
       for (feed of feeds) {
         try {
           const res = await fetch('https://api.rizzle.net/feed-title/?url=' + feed)
@@ -160,13 +172,15 @@ async searchForRSS (url) {
           if (json.title) {
             fullFeeds.push({
               title: json.title,
-              description: json.description,
+              description: json.description || 'No description',
               url: feed
             })
           }
-        } catch (error) {}
+        } catch (error) {
+          console.log('ERROR GETTING FEEDS: ' + error)
+        }
       }
-      console.log(fullFeeds)
+      // console.log(fullFeeds)
 
       return fullFeeds
     }
@@ -201,7 +215,8 @@ async searchForRSS (url) {
       console.log(rssUrls)
       let state = {
         ...this.state,
-        searchingForRss: false
+        searchingForRss: false,
+        retrievingRss: false
       }
       if (rssUrls && rssUrls.length > 0) {
         state.rssUrls = rssUrls
@@ -243,13 +258,19 @@ async searchForRSS (url) {
       fontSize: 18,
       textAlign: 'center'
     }
+    const {
+      searchingForRss,
+      retrievingRss,
+      isOpen,
+      rssUrls
+    } = this.state
     console.log(this.state.rssUrls)
     return (
       <Modal
         coverScreen={true}
         hasBackdrop={false}
         style={{ backgroundColor: 'transparent' }}
-        isVisible={this.state.isOpen}
+        isVisible={isOpen}
         onModalHide={this.onClose}
         onSwipeComplete={() => this.setState({ isOpen: false })}
         swipeDirection="down"
@@ -283,24 +304,30 @@ async searchForRSS (url) {
                   zIndex: 10
                 }}
               />
-              { this.state.searchingForRss &&
-                <Fragment>
+              { (searchingForRss || retrievingRss) &&
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  padding: 20
+                }}>
                   <Text
                     style={{
                       ...textStyle,
                       color: hslString('rizzleText'),
                       paddingLeft: 20,
                       paddingRight: 20
-                    }}>Looking for an available feed<AnimatedEllipsis style={{
+                    }}>{searchingForRss
+                      ? 'Looking for an available feed' :
+                      'Getting feed details'}<AnimatedEllipsis style={{
                     color: hslString('rizzleText'),
                     fontSize: 16,
                     letterSpacing: -5
                   }}/></Text>
                   <Text> </Text>
-                </Fragment>
+                </View>
               }
-              { (!this.state.searchingForRss &&
-                (!this.state.rssUrls || this.state.rssUrls.length === 0)) &&
+              { (!searchingForRss && !retrievingRss &&
+                (!rssUrls || rssUrls.length === 0)) &&
                 <View style={{
                   flex: 1,
                   justifyContent: 'center',
@@ -317,7 +344,7 @@ async searchForRSS (url) {
                   }}>Sorry, we can’t add this site to Rizzle yet.</Text>
                 </View>
               }
-              { !!this.state.rssUrls && this.state.rssUrls.length > 0 &&
+              { !!rssUrls && rssUrls.length > 0 &&
                 <Fragment>
                   <View style={{ flex: 0 }}>
                     <Text
@@ -335,7 +362,7 @@ async searchForRSS (url) {
                       flex: 1,
                       justifyContent: 'center'
                     }}>
-                      { this.state.rssUrls.map((feed, index) => (<TouchableOpacity
+                      { rssUrls.map((feed, index) => (<TouchableOpacity
                           key={index}
                           style={{
                             paddingHorizontal: 10,
@@ -348,7 +375,8 @@ async searchForRSS (url) {
                           }}>{ feed.title }</Text>
                           <Text style={{
                             ...textStyle,
-                            fontFamily: 'IBMPlexSans-Light'
+                            fontFamily: 'IBMPlexSans-Light',
+                            fontSize: 16
                           }}>{ feed.description }</Text>
                         </TouchableOpacity>))
                       }
