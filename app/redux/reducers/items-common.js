@@ -79,7 +79,9 @@ export const itemDecorationSuccess = (action, state) => {
         ...decorated
       }
 
-      item = setShowCoverImage(addCoverImageToItem(item, action.imageStuff), currentItem)
+      item = addCoverImageToItem(item, action.imageStuff)
+      item.hasCoverImage = !!item.coverImageFile
+      item = setShowCoverImage(item, currentItem)
       item = removeCoverImageDuplicate(item)
       // this is just to pick up styles.coverImage.isInline
       // item.styles = action.item.styles

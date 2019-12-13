@@ -11,7 +11,7 @@ import log from '../../utils/log'
 import { removeCachedCoverImages } from '../../utils/item-utils'
 
 export function * markLastItemRead (action) {
-  yield delay(500)
+  yield delay(2000)
   yield call(InteractionManager.runAfterInteractions)
   const display = yield select(getDisplay)
   if (display !== 'unread' || typeof(action.lastIndex) === 'undefined') {

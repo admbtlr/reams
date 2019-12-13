@@ -160,6 +160,18 @@ export function setCoverInline (oldStyles) {
   return styles
 }
 
+export function setCoverAlign (align, oldStyles) {
+  let styles = oldStyles
+  styles.coverImage.align = align
+  return styles
+}
+
+export function setTitleVAlign (valign, oldStyles) {
+  let styles = oldStyles
+  styles.title.valign = valign
+  return styles
+}
+
 export function getStylesCompressionMap () {
   return {
     fontClasses: {

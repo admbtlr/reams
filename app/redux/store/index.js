@@ -5,12 +5,10 @@ import makeRootReducer from '../reducers'
 import {initSagas} from '../sagas'
 import {persistReducer, persistStore} from 'redux-persist'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
-import firebase from '@react-native-firebase/app'
 import firestore from '@react-native-firebase/firestore'
 import { getFirebase } from 'react-redux-firebase'
-import { reduxFirestore } from 'redux-firestore'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import log from '../utils/log'
+import log from '../../utils/log'
 
 let store = null
 

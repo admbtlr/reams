@@ -64,7 +64,10 @@ class CoverImage extends React.Component {
 
   render () {
     const {isBW, isInline, resizeMode, isMultiply, isScreen, color} = this.props.styles
-    const {imageDimensions} = this.props
+    const {
+      faceCentreNormalised,
+      imageDimensions
+    } = this.props
     const absolute = {
       position: 'absolute',
       top: '0%',
@@ -148,7 +151,7 @@ class CoverImage extends React.Component {
       1.3 :
       isScreen ?
         1 :
-        this.getImageSizeRatio() < 1 ? 1.2 : 0
+        this.getImageSizeRatio() < 1 ? 1.2 : 1
 
 
     if (this.props.imagePath &&
@@ -159,15 +162,29 @@ class CoverImage extends React.Component {
       const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width *
         this.props.imageDimensions.height *
         (isInline ? 1 : 1.2)
+      const imageWidth = this.screenHeight / this.props.imageDimensions.height *
+        this.props.imageDimensions.width *
+        (isInline ? 1 : 1.2)
+
+      let imageOffset = faceCentreNormalised ?
+        faceCentreNormalised.x * imageWidth - this.screenWidth / 2 :
+        imageWidth / 2
+      if (imageOffset > imageWidth - this.screenWidth * 1.2) {
+        imageOffset = imageWidth - this.screenWidth * 1.2
+      } else if (imageOffset < this.screenWidth * 0.2) {
+        imageOffset = this.screenWidth * 0.2
+      }
 
       const image = (
-        <Image
-          source={{uri: `file://${this.props.imagePath}`}}
-          style={{
-            resizeMode,
-            width: this.screenWidth * (isInline ? 1 : 1.2),
-            height: isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight * 1.2
-          }} />
+          <Image
+            source={{uri: `file://${this.props.imagePath}`}}
+            style={{
+              resizeMode: 'cover',
+              // alignSelf: 'flex-end',
+              height: isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight * 1.2,
+              width: isInline || resizeMode === 'contain' ? this.screenWidth : imageWidth,
+              left:  isInline || resizeMode === 'contain' ? 0 : -imageOffset
+            }} />
       )
 
       const blur = (
@@ -211,7 +228,6 @@ class CoverImage extends React.Component {
 
       return (
         <Animated.View
-          shouldRasterizeIOS
           style={style}
         >
           { blended }

@@ -2,9 +2,10 @@ import { delay } from 'redux-saga'
 import { call, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
+import vision from '@react-native-firebase/ml-vision'
 import { Image, InteractionManager } from 'react-native'
 import { getCachedCoverImagePath, getImageDimensions } from '../../utils'
-import { setCoverInline } from '../../utils/createItemStyles'
+import { setCoverInline, setCoverAlign, setTitleVAlign } from '../../utils/createItemStyles'
 import { deflateItem } from '../../utils/item-utils'
 import log from '../../utils/log'
 
@@ -139,7 +140,7 @@ function * getNextItemToDecorate (pendingDecoration) {
   let nextItem
   const savedItems = yield select(getSavedItems)
   nextItem = savedItems.find(item => item.title === 'Loading...' &&
-    (!item.decoration_failures || item.decoration_failures < 5))
+    (!item.decoration_failures || item.decoration_failures < 3))
   if (nextItem) return nextItem
 
   const items = yield select(getItems)
@@ -154,7 +155,7 @@ function * getNextItemToDecorate (pendingDecoration) {
   let feed
   const candidateItems = items.filter(item => {
     return !item.hasLoadedMercuryStuff &&
-      (!item.decoration_failures || item.decoration_failures < 5) &&
+      (!item.decoration_failures || item.decoration_failures < 3) &&
       !item.readAt &&
       items.indexOf(item) >= index &&
       items.indexOf(item) < index + 20
@@ -187,13 +188,18 @@ export function * decorateItem (item) {
 
   consoleLog(`Loading Mercury stuff for ${item._id} done`)
   if (mercuryStuff.lead_image_url) {
-    let hasCoverImage = yield cacheCoverImage(item, mercuryStuff.lead_image_url)
-    if (hasCoverImage) {
+    let coverImageFile = yield cacheCoverImage(item, mercuryStuff.lead_image_url)
+    if (coverImageFile) {
       try {
-        const imageDimensions = yield getImageDimensions(getCachedCoverImagePath(item))
+        console.log('Getting image dimensions...')
+        const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
+        console.log(imageDimensions)
+        console.log('Getting face detection...')
+        const faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
         imageStuff = {
-          hasCoverImage,
-          imageDimensions
+          coverImageFile,
+          imageDimensions,
+          faceCentreNormalised
         }
       } catch (error) {
         consoleLog(error)
@@ -210,6 +216,15 @@ export function * decorateItem (item) {
     }
   }
 
+  if (imageStuff.faceCentreNormalised) {
+    const { x, y } = imageStuff.faceCentreNormalised
+    const hAlign = x < 0.333 ? 'left' :
+      x < 0.666 ? 'center' : 'right'
+    const vAlign = y < 0.5 ? 'bottom' : 'top'
+    setCoverAlign(hAlign, item.styles)
+    setTitleVAlign(vAlign, item.styles)
+  }
+
   return {
     item,
     mercuryStuff,
@@ -224,16 +239,33 @@ export async function cacheCoverImage (item, imageURL) {
   // and it seems like Image adds '.png' to a filename if there's no extension
   const fileName = getCachedCoverImagePath(item)
   // consoleLog(`Loading cover image for ${item._id}...`)
-  if (await RNFS.exists(fileName)) return true
+  if (await RNFS.exists(fileName)) return fileName
   try {
     await RNFS.downloadFile({
       fromUrl: imageURL,
       toFile: fileName
     }).promise
-    return true
+    return fileName
   } catch(err) {
     consoleLog(`Loading cover image for ${item._id} failed :(`)
     consoleLog(err)
     return false
+  }
+}
+
+async function faceDetection (imageFileName, dimensions) {
+  const processed = await vision().faceDetectorProcessImage(imageFileName)
+  console.log(processed)
+  if (!processed || !processed.length) return
+  const boundingBoxes = processed.map(p => p.boundingBox)
+  // sort by size, taking the width as representative thereof
+  boundingBoxes.sort((a, b) => (b[2] - b[0]) - (a[2] - a[0]))
+  const centreX = boundingBoxes[0][0] +
+    (boundingBoxes[0][2] - boundingBoxes[0][0]) / 2
+  const centreY = boundingBoxes[0][1] +
+    (boundingBoxes[0][3] - boundingBoxes[0][1]) / 2
+  return {
+    x: centreX / dimensions.width,
+    y: centreY / dimensions.height
   }
 }

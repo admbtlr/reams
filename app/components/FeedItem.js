@@ -186,6 +186,7 @@ class FeedItem extends React.Component {
       banner_image,
       content_html,
       content_mercury,
+      faceCentreNormalised,
       hasCoverImage,
       imageDimensions,
       showCoverImage,
@@ -194,7 +195,7 @@ class FeedItem extends React.Component {
       excerpt,
       savedAt
     } = this.props.item
-    // console.log(`-------- RENDER: ${title} ---------`)
+     // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
     let articleClasses = [
       ...Object.values(styles.fontClasses),
@@ -292,6 +293,7 @@ class FeedItem extends React.Component {
             scrollOffset={this.scrollOffset}
             imagePath={!!hasCoverImage && getCachedCoverImagePath(this.props.item)}
             imageDimensions={!!hasCoverImage && imageDimensions}
+            faceCentreNormalised={faceCentreNormalised}
             feedTitle={this.props.item.feed_title}
           />
 
@@ -370,7 +372,7 @@ class FeedItem extends React.Component {
               alignItems: 'center',
               justifyContent: 'center',
               height: this.state.webViewHeight,
-              backgroundColor: this.props.isDarkBackground ? hslString('rizzleBg') : 'black'
+              backgroundColor: this.props.isDarkBackground ? 'black' : hslString('rizzleBg')
             }}
             source={{
               html: html,
