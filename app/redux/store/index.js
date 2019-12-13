@@ -10,6 +10,7 @@ import firestore from '@react-native-firebase/firestore'
 import { getFirebase } from 'react-redux-firebase'
 import { reduxFirestore } from 'redux-firestore'
 import {composeWithDevTools} from 'redux-devtools-extension'
+import log from '../utils/log'
 
 let store = null
 
@@ -18,7 +19,11 @@ function configureStore () {
     realtime: window.__DEV__
   })
 
-  const sagaMiddleware = createSagaMiddleware()
+  const sagaMiddleware = createSagaMiddleware({
+    onError: error => {
+      log('Saga Middleware', error)
+    }
+  })
 
   const persistConfig = {
     key: 'primary',
