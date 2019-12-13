@@ -16,6 +16,11 @@ export const feeds = {
       "url": "https://www.theatlantic.com/feed/all/",
       "link": "https://www.theatlantic.com/",
     }, {
+      "title": "New Yorker",
+      "description": "News, comment and features from The Atlantic",
+      "url": "https://www.newyorker.com/feed/everything",
+      "link": "https://www.newyorker.com/",
+    }, {
       "title": "Vox -  All",
       "description": "Understand the news",
       "url": "https://www.vox.com/rss/index.xml",
