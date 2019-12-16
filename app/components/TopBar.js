@@ -19,7 +19,7 @@ import FeedIconContainer from '../containers/FeedIcon'
 import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
 
-export const STATUS_BAR_HEIGHT = 50
+export const STATUS_BAR_HEIGHT = 70
 
 class TopBar extends React.PureComponent {
 
@@ -401,13 +401,13 @@ class TopBar extends React.PureComponent {
         // flex: 1,
         position: 'absolute',
         top: 0,
-        height: isIphoneX() ? 40 : 20,
+        height: isIphoneX() ? 44 : 22,
         width: '100%'
       },
       textHolder: {
         // flex: 1,
         position: 'absolute',
-        top: isIphoneX() ? 40 : 20,
+        top: isIphoneX() ? 44 : 22,
         width: '100%',
         flexDirection: 'row',
         height: STATUS_BAR_HEIGHT,
@@ -483,7 +483,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
       position: 'absolute',
       zIndex: 5,
       right: 19,
-      bottom: 7,
+      bottom: 15,
       opacity: opacityAnim
     }}
   >
@@ -529,7 +529,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
 const ViewButtonToggle = ({ onPress, buttonColor, opacityAnim, isSyncing }) => (<Animated.View style={{
     position: 'absolute',
     left: 20,
-    bottom: -2,
+    bottom: 6,
     width: 28,
     height: 38,
     opacity: opacityAnim

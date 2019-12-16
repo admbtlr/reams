@@ -301,7 +301,6 @@ body {
 
   blockquote, .pullquote, aside {
     margin: 0 0 1rem;
-    font-style: italic;
     font-size: 0.55rem;
     line-height: 1rem;
     background-color: white;
@@ -580,6 +579,7 @@ hr {
       line-height: .6;
       display: block;
       margin-right: 0.1rem;
+      text-decoration: none;
     }
 
     &.firstPara {
@@ -841,10 +841,10 @@ hr {
   h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold"
   }
-  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4 {
     font-family: "AvenirNext-Medium"
   }
-  figcaption, img + small {
+  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic"
   }
 }
@@ -853,10 +853,10 @@ hr {
   h1, h3, h5 {
     font-family: "Montserrat-Bold"
   }
-  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4 {
     font-family: "Montserrat-Light"
   }
-  figcaption, img + small {
+  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-LightItalic"
   }
 }
@@ -865,10 +865,10 @@ hr {
   h1, h3, h5 {
     font-family: "IBMPlexSans-Bold"
   }
-  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4 {
     font-family: "IBMPlexSans-Light"
   }
-  figcaption, img + small {
+  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSans-LightItalic"
   }
 }
@@ -877,10 +877,10 @@ hr {
   h1, h3, h5 {
     font-family: "IBMPlexSerif-Bold"
   }
-  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4 {
     font-family: "IBMPlexSerif-Light"
   }
-  figcaption, img + small {
+  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-LightItalic"
   }
 }
@@ -889,10 +889,10 @@ hr {
   h1, h3, h5 {
     font-family: "Arvo-Bold"
   }
-  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4 {
     font-family: "Arvo"
   }
-  figcaption, img + small {
+  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Arvo"
   }
 }
@@ -901,10 +901,10 @@ hr {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Black"
   }
-  h2, h4, blockquote:not(.short-blockquote):not(.pullquote) {
+  h2, h4 {
     font-family: "PlayfairDisplay-Regular"
   }
-  figcaption, img + small {
+  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "PlayfairDisplay-Italic"
   }
 }
