@@ -96,9 +96,9 @@ export function nullValuesToEmptyStrings (item) {
 }
 
 export function addMercuryStuffToItem (item, mercury) {
-  mercury.content = sanitizeHtml(mercury.content, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
-  })
+  // mercury.content = sanitizeHtml(mercury.content, {
+  //   allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
+  // })
   if (item.is_external) {
     return {
       ...item,
