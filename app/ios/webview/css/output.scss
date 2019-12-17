@@ -520,7 +520,7 @@ body {
 
   .caption:not(figcaption) {
     display: block;
-    margin: -2rem -4vw 1.666rem;
+    margin: -1rem -4vw 1.666rem;
   }
 
   @media (min-width: 600px) {
@@ -681,10 +681,10 @@ body {
     }
 
     figcaption, img + small {
-      color: hsl(0, 0%, 30%);
+      color: hsl(0, 0%, 80%);
     }
 
-    blockquote, figcaption {
+    blockquote {
       background-color: hsl(241, 4%, 11%);
       color: hsl(0, 0%, 90%) !important;
     }

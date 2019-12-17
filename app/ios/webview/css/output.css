@@ -263,7 +263,7 @@ body {
     text-align: left; }
   .itemArticle .caption:not(figcaption) {
     display: block;
-    margin: -2rem -4vw 1.666rem; }
+    margin: -1rem -4vw 1.666rem; }
   @media (min-width: 600px) {
     .itemArticle figcaption, .itemArticle blockquote, .itemArticle .caption, .itemArticle img + small {
       margin: 0 -4vw;
@@ -333,8 +333,8 @@ body {
   .dark-background .itemArticle blockquote, .dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
     border-bottom: 3px solid rgba(0, 0, 0, 0.1); }
   .dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
-    color: #4d4d4d; }
-  .dark-background .itemArticle blockquote, .dark-background .itemArticle figcaption {
+    color: #cccccc; }
+  .dark-background .itemArticle blockquote {
     background-color: #1b1b1d;
     color: #e6e6e6 !important; }
   .dark-background .itemArticle pre {
