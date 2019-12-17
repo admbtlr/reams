@@ -162,6 +162,19 @@ export const feeds = {
       "link": "https://www.brainpickings.org/",
     }
   ],
+  "Music": [
+    {
+      "url": "https://pitchfork.com/rss/news/",
+      "description": "News",
+      "title": "Pitchfork",
+      "link": "https://pitchfork.com/",
+    }, {
+      "url": "https://pitchfork.com/rss/reviews/best/albums/",
+      "description": "Best New Albums",
+      "title": "Pitchfork",
+      "link": "https://pitchfork.com/",
+    }
+  ],
   "Fashion": [
     {
       "title": "The Sartorialist",
