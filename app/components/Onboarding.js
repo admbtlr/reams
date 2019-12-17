@@ -50,7 +50,7 @@ class Onboarding extends React.Component {
     ]
 
     const swipeArrow = index === 0 ?
-      `<div class="swipe">👉 swipe 👉 </div>` :
+      `<div class="swipe">👈 swipe 👈</div>` :
       ''
 
     const headingFont = [
