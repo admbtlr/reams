@@ -8,7 +8,7 @@ const mapStateToProps = (state) => {
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :
     getIndex(state)
-  const currentItem = items.length > 1 ? items[index] : null
+  const currentItem = items.length > 0 ? items[index] : null
   const prevItem = index > 0 ? items[index - 1] : null
   const nextItem = index < items.length - 1 ? items[index + 1] : null
   const numItems = state.config.isOnboarding ?
