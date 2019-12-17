@@ -4,6 +4,21 @@
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:300,300i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:600" rel="stylesheet">
     <style>
+@font-face {
+  font-family: "IBMPlexSerif-Regular";
+  src: url(fonts/IBMPlexSerif-Regular.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSansCondensed-Bold";
+  src: url(fonts/IBMPlexSansCondensed-Bold.ttf);
+}
+
+@font-face {
+  font-family: "IBMPlexSans-Regular";
+  src: url(fonts/IBMPlexSans-Regular.ttf);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -12,8 +27,8 @@ html {
 }
 body {
   background-color: hsl(46, 23%, 83%);
-  color: hsl(300, 20%, 20%);
-  font-family: "IBM Plex Mono", monospace;
+  color: hsl(300, 20%, 30%);
+  font-family: "IBMPlexSans-Regular", monospace;
   margin: 0;
   padding: 0;
   padding-bottom: 4vw;
@@ -24,45 +39,59 @@ h1, h2 {
   text-align: center;
 }
 h1 {
-  color: hsl(42, 91%, 60%);
   font-size: 2rem;
-  letter-spacing: -.05em;
   margin-bottom: 0;
 }
 h2 {
-  font-style: italic;
+  font-family: "IBMPlexSansCondensed-Bold";
   font-size: 1.2rem;
   line-height: 1.66rem;
   padding: 2rem;
   margin: 0 auto;
-  width: 20rem;
+  /*width: 20rem;*/
   /*border-top: 1px solid;*/
   opacity: 0.8;
 }
 h3 {
-  font-family: "IBM Plex Sans";
+  font-family: "IBMPlexSansCondensed-Bold";
   font-size: 1rem;
   line-height: 1.2rem;
   margin: 0;
   padding: 0;
-  color: hsl(42, 91%, 60%);
   font-weight: 600;
+  text-align: left;
+  width: 100%;
 }
 p {
   margin: 0 0 1rem;
   opacity: 0.85;
 }
+.header-holder {
+  text-align: center;
+  padding: 6rem 0 0;
+}
+.screens {
+  width: 100vw;
+}
 .header {
   padding: 4rem 1rem 0;
   text-align: center;
   width: 100vw;
-  background-image: url(img/screens.png);
-  background-size: contain;
+  height: 62vw;
+  background-image: url(img/screens2.png);
+  background-size: cover;
   background-repeat: no-repeat;
 }
-.logo img {
-  width: 200px;
-  margin: 0 0 2rem;
+h1.wordmark {
+  font-family: "IBMPlexSansCondensed-Bold";
+  font-size: 4rem;
+}
+.logo {
+  display: inline-block;
+}
+.rosette {
+  width: 80px;
+  margin: 2rem 0 0;
 }
 .iframe-holder {
   position: relative;
@@ -75,6 +104,18 @@ p {
   font-size: 0.6rem;
   line-height: 1rem;
 }
+.reasons p {
+  font-size: 0.8rem;
+  line-height: 1.333rem;
+  color: hsl(300, 5%, 40%);
+}
+.flash {
+  clear: left;
+  margin: -4rem -6rem 0;
+  padding: 4rem 6rem;
+  background-color: #4BA1AA;
+  color: white;
+}
 ul {
   list-style: none;
   text-align: left;
@@ -82,24 +123,17 @@ ul {
   padding: 0;
 }
 li {
-  margin-bottom: 2rem;
+  width: calc(25% - 2rem);
+  margin: 0 2rem 4rem 0;
+  float: left;
 }
-em {
-  font-weight: normal;
-  color: hsl(42, 91%, 60%);
+li h3 {
+  text-align: left;
 }
 footer {
   font-size: .5rem;
   opacity: 0.5;
   text-align: center;
-}
-
-@keyframes spinner {
-  0% { transform: rotate(0deg); }
-  10% { transform: rotate(-30deg); }
-  15% { transform: rotate(390deg); }
-  25% { transform: rotate(360deg); }
-  100% { transform: rotate(360deg); }
 }
 
 @media only screen
@@ -108,7 +142,7 @@ footer {
     font-size: 20px;
   }
   .header, .content {
-    padding: 4rem 6rem;
+    padding: 4rem 2rem;
   }
 
   .iframe-holder {
@@ -116,10 +150,11 @@ footer {
   }
 }
 
+
+
 @media only screen
   and (min-width: 1040px) {
   .header-holder, .content, iframe, .iframe-holder {
-    width: 900px;
     margin: 0 auto;
   }
 
@@ -128,8 +163,12 @@ footer {
   }
 }
 
-#mc_embed_signup {
-  margin-bottom: 4rem;
+@media only screen
+  and (min-width: 1200px) {
+  .reasons {
+    width: 1200px;
+    margin: 0 auto;
+  }
 }
 
 #mc_embed_signup input.email, #mc_embed_signup .button {
@@ -138,62 +177,64 @@ footer {
     </style>
   </head>
   <body>
-    <div class="header">
-      <div class="header-holder">
-        <div class="logo">
-          <img src="img/rosette.png" alt="rizzle logo">
-        </div>
-        <div class="logo">
-          <img src="img/wordmark.png" alt="rizzle logo">
-        </div>
-        <h2>A next level news reader for iOS. Now in beta.</h2>
+    <div class="header-holder">
+<!--         <div class="logo">
+        <img src="img/rosette.png" alt="rizzle logo">
       </div>
-      <div class="iframe-holder">
-        <iframe style="opacity: 0; transition: opacity 2s" width="90" height="50.6" src="https://www.youtube.com/embed/WgJeZrJaA78?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+-->
+      <div class="logo">
+        <img src="img/rosette.png" class="rosette" alt="rizzle icon">
+        <!-- <img src="img/wordmark.png" class="wordmark" alt="rizzle logo"> -->
+        <h1 class="wordmark">Rizzle</h1>
+        <h2>The next level news reader for iOS. Now in beta.</h2>
       </div>
     </div>
+    <img src="img/screens2.png?12345" class="screens" />
     <div class="content">
-      <h2 style="border-top: 0; margin: 0; padding: 0;">Get notified when Rizzle launches</h2>
-      <!-- Begin MailChimp Signup Form -->
-      <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-      <style type="text/css">
-        #mc_embed_signup{background:transparent; clear:left; font:14px "IBM Plex Mono", monospace; width:100%;}
-        /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-      </style>
-      <div id="mc_embed_signup">
-      <form action="https://rizzle.us18.list-manage.com/subscribe/post?u=a8892686bce2a2a66d89d433f&amp;id=961c5a1a82" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-          <div id="mc_embed_signup_scroll">
-
-        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Your email here" required>
-          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a8892686bce2a2a66d89d433f_961c5a1a82" tabindex="-1" value=""></div>
-          <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-          </div>
-      </form>
+      <div class="reasons">
+        <ul>
+          <li>
+            <h3>No BIG distractions</h3>
+            <p>Subscribe to the sites you love and trust, and then that’s what you get. Nothing else.</p>
+          </li>
+          <li>
+            <h3>No <small>small</small> distractions</h3>
+            <p>No advertising, no paywalls, no shouty comments – just the stories you want to read.</p>
+          </li>
+          <li>
+            <h3>AI driven art direction</h3>
+            <p>Rizzle uses machine learning, text analysis and expert systems to create sleek, unique layouts for every story in your feed</p>
+          </li>
+          <li>
+            <h3>Optimised for your eyes</h3>
+            <p>Rizzle's advanced layout engine will remind you why you fell in love with the web in the first place</p>
+          </li>
+        </ul>
+      </div>
+      <div class="flash">
+        <h2 style="border-top: 0; margin: 0; padding: 0;">Get notified when Rizzle launches</h2>
+        <!-- Begin MailChimp Signup Form -->
+        <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+          #mc_embed_signup{background:transparent; clear:left; font:14px "IBM Plex Mono", monospace; width:100%;}
+          /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+             We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+        </style>
+        <div id="mc_embed_signup">
+          <form action="https://rizzle.us18.list-manage.com/subscribe/post?u=a8892686bce2a2a66d89d433f&amp;id=961c5a1a82" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+              <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Your email here" required>
+              <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+              <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a8892686bce2a2a66d89d433f_961c5a1a82" tabindex="-1" value=""></div>
+              <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+          </form>
+        </div>
       </div>
 
       <!--End mc_embed_signup-->
-      <ul>
-        <li>
-          <h3>Really simple feed management</h3>
-          <p>Using the Rizzle share extension, it’s simple to discover and subscribe to feeds on your favourite web sites, without leaving Safari</p>
-        </li>
-        <li>
-          <h3>Machine generated art direction</h3>
-          <p>Using text analysis, expert systems and (soon) machine learning, Rizzle creates sleek, unique layouts for every story in your feed</p>
-        </li>
-        <li>
-          <h3>Server side included</h3>
-          <p>Rizzle has its own, transparently simple server so no need for a subscription with services like Feedly, Feedwrangler, etc.</p>
-        </li>
-        <li>
-          <h3>Optimised for ocular pleasure</h3>
-          <p>Whether browsing at leisure or studying in depth, Rizzle's advanced layout engine will remind you why you fell in love with the web in the first place</p>
-        </li>
-      </ul>
     </div>
-    <footer>Copyright 2018 Adam Butler</footer>
+    <footer>Copyright 2019 Adam Butler</footer>
   </body>
   <script>
 window.onload = function() {
