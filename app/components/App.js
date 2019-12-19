@@ -22,14 +22,6 @@ const FeedStack = createStackNavigator(
           vertical: 100
         }
       }
-    },
-    ModalWithGesture: {
-      screen: ModalScreen,
-      navigationOptions: {
-        gestureResponseDistance: {
-          vertical: 400
-        }
-      }
     }
   },
   {
@@ -53,4 +45,24 @@ const AppStack = createStackNavigator(
   }
 )
 
-export default createAppContainer(AppStack)
+const TheStack = createStackNavigator(
+  {
+    App: { screen: AppStack },
+    ModalWithGesture: {
+      screen: ModalScreen,
+      navigationOptions: {
+        gestureResponseDistance: {
+          vertical: 400
+        }
+      }
+    }
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+    transparentCard: true,
+    cardOverlayEnabled: true
+  }
+)
+
+export default createAppContainer(TheStack)

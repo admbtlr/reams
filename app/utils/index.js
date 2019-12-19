@@ -127,7 +127,7 @@ export const fontSizeMultiplier = () => {
     screenHeight = Dimensions.get('window').height
   }
   return screenWidth * screenHeight < 300000 ?
-    0.85 :
+    0.85 : // this is iPhone 8 at this point
     screenWidth < 768 ? 1 : (screenWidth / 768).toPrecision(4)
 }
 

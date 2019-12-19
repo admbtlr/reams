@@ -16,6 +16,7 @@ import {
   addScrollListener
 } from '../utils/animationHandlers'
 import FeedIconContainer from '../containers/FeedIcon'
+import FeedExpandedContainer from '../containers/FeedExpanded'
 import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
 
@@ -322,6 +323,15 @@ class TopBar extends React.PureComponent {
             key={`inner-{id()}`}
             onPress={() => {
               console.log('BUTTON PRESSED!')
+              const { feed, navigation } = this.props
+              // this.imageView.measure(this.measured)
+              navigation.push('ModalWithGesture', {
+                childView: <FeedExpandedContainer
+                    feedId={item.feed_id}
+                    close={() => navigation.goBack(null)}
+                    navigation={navigation}
+                  />
+              })
               // this.setState({
               //   detailsVisible: !areDetailsVisible
               // })

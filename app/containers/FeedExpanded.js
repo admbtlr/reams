@@ -3,22 +3,39 @@ import FeedExpanded from '../components/FeedExpanded.js'
 // import {getCachedCoverImagePath} from '../utils/'
 
 const mapStateToProps = (state, ownProps) => {
-  const feedId = ownProps.feed._id
+  const feedId = ownProps.feed ?
+    ownProps.feed._id :
+    ownProps.feedId
   const feed = state.feeds.feeds.find(f => f._id === feedId)
-  // const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
-  // const feedItems = items.filter(i => i.feed_id === feedId)
-  // const numFeedItems = feedItems.length
-  // const coverImageItem = feedItems.find(item => item.banner_image)
-  // const coverImageId = coverImageItem ?
-  //   coverImageItem._id :
-  //   null
-  // const coverImageDimensions = coverImageItem ?
-  //   coverImageItem.imageDimensions :
-  //   null
+  const items = state.itemsUnread.items
+
+  // this stuff is all in the ownProps from FeedContracted,
+  // but not from TopBar - hence we have to get it
+  const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
+  const feedItems = items.filter(i => i.feed_id === feedId)
+  const numFeedItems = feedItems.length
+  const coverImageItem = feedItems.find(item => item.banner_image)
+  const coverImageId = coverImageItem ?
+    coverImageItem._id :
+    null
+  const coverImageDimensions = coverImageItem ?
+    coverImageItem.imageDimensions :
+    null
 
   if (feed) {
     return {
       ...ownProps,
+      feed: {
+        ...feed,
+        numUnread: feedItems.length,
+        numRead: feed.number_read || 0,
+        readingTime: feed.reading_time || 0,
+        readingRate: feed.reading_rate || 0,
+        coverImageId,
+        coverImageDimensions,
+        cachedCoverImageId: feedLocal && feedLocal.cachedCoverImageId,
+        iconDimensions: feedLocal && feedLocal.cachedIconDimensions
+      },
       isFeedOnboardingDone: state.config.isFeedOnboardingDone
     }
   } else {
