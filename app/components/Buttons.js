@@ -60,7 +60,39 @@ class Buttons extends React.Component {
   }
 
   onDisplayPress () {
+    const modalText = this.props.displayMode == 'saved' ?
+      [
+        {
+          text: 'You are now in unread mode',
+          style: ['title']
+        },
+        {
+          text: 'This is where you can see all the unread stories in your feed',
+          style: []
+        }
+      ] :
+      [
+        {
+          text: 'You are now in saved mode',
+          style: ['title']
+        },
+        {
+          text: 'This is where you can see all the stories you’ve saved, either from your feed or using the Rizzle share extension',
+          style: []
+        }
+      ]
     this.props.isOnboarding || this.props.toggleDisplay()
+    this.props.showModal({
+      modalText,
+      modalHideCancel: true,
+      modalName: 'modal_switch_view',
+      modalShow: true,
+      modalHideable: true,
+      modalOnOk: () => {
+        const x = 'y'
+        console.log('Gone')
+      }
+    })
   }
 
   onMercuryPress () {
