@@ -276,8 +276,9 @@ class TopBar extends React.PureComponent {
           pointerEvents={isVisible ? 'auto' : 'none'}
           style={{
             ...textHolderStyles,
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
             // height: 281 + STATUS_BAR_HEIGHT,
             overflow: 'hidden',
             // paddingTop: 80,
@@ -306,6 +307,7 @@ class TopBar extends React.PureComponent {
               inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
               outputRange: [0, 1]
             })}
+            style={{ width: 48 }}
           /> }
           {/*<FeedDetails
             bgColor={this.getBorderBottomColor(item)}
@@ -319,73 +321,77 @@ class TopBar extends React.PureComponent {
               console.log('UNSUBSCRIBE!')
             }}
           />*/}
-          <TouchableWithoutFeedback
-            key={`inner-{id()}`}
-            onPress={() => {
-              console.log('BUTTON PRESSED!')
-              const { feed, navigation } = this.props
-              // this.imageView.measure(this.measured)
-              navigation.push('ModalWithGesture', {
-                childView: <FeedExpandedContainer
-                    feedId={item.feed_id}
-                    close={() => navigation.goBack(null)}
-                    navigation={navigation}
-                  />
-              })
-              // this.setState({
-              //   detailsVisible: !areDetailsVisible
-              // })
-            }}
-            style={{
-              backgroundColor: 'transparent',
-              width: Dimensions.get('window').width - 35,
-              overflow: 'hidden',
-              height: 36,
-            }}>
-            <Animated.View style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 36,
-              // width: Dimensions.get('window').width - 84,
-              marginTop: 0,
-              marginLeft: 42,
-              marginRight: 50,
-              opacity: clampedAnimatedValue.interpolate({
-                inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-                outputRange: [0, 1]
-              }),
-              transform: [{
-                translateY: transformAnim || 0
-              }]
-            }}>
-              { item && item.hasCachedFeedIcon &&
-                  <FeedIconContainer
-                    id={item.feed_id}
-                    dimensions={item.feedIconDimensions}
-                    bgColor={this.getBackgroundColor(item)}
-                  />
-              }
-              <Text
-                numberOfLines={1}
-                ellipsizeMode='tail'
-                style={{
-                  ...this.getStyles().feedName,
+          <View style={{
+            top: 20
+          }}>
+            <TouchableOpacity
+              key={`inner-{id()}`}
+              onPress={() => {
+                console.log('BUTTON PRESSED!')
+                const { feed, navigation } = this.props
+                // this.imageView.measure(this.measured)
+                navigation.push('ModalWithGesture', {
+                  childView: <FeedExpandedContainer
+                      feedId={item.feed_id}
+                      close={() => navigation.goBack(null)}
+                      navigation={navigation}
+                    />
+                })
+                // this.setState({
+                //   detailsVisible: !areDetailsVisible
+                // })
+              }}
+              style={{
+                backgroundColor: 'transparent',
+                width: Dimensions.get('window').width - 35,
+                overflow: 'hidden',
+                height: 36,
+              }}>
+              <Animated.View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 36,
+                // width: Dimensions.get('window').width - 84,
+                marginTop: 0,
+                marginLeft: 42,
+                marginRight: 50,
+                opacity: clampedAnimatedValue.interpolate({
+                  inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
+                  outputRange: [0, 1]
+                }),
+                transform: [{
+                  translateY: transformAnim || 0
+                }]
+              }}>
+                { item && item.hasCachedFeedIcon &&
+                    <FeedIconContainer
+                      id={item.feed_id}
+                      dimensions={item.feedIconDimensions}
+                      bgColor={this.getBackgroundColor(item)}
+                    />
+                }
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode='tail'
+                  style={{
+                    ...this.getStyles().feedName,
 
-                  fontSize: 20,
-                  fontFamily: 'IBMPlexSansCond-Bold',
-                  // color: this.getBorderBottomColor(item)
-                  color: this.getForegroundColor(),
-                  // height: 36,
-                  // paddingBottom: 15,
-                  textAlign: 'left'
-                }}
-              >
-                {this.getMessage(item)}
-              </Text>
-            </Animated.View>
-          </TouchableWithoutFeedback>
+                    fontSize: 20,
+                    fontFamily: 'IBMPlexSansCond-Bold',
+                    // color: this.getBorderBottomColor(item)
+                    color: this.getForegroundColor(),
+                    // height: 36,
+                    // paddingBottom: 15,
+                    textAlign: 'left'
+                  }}
+                >
+                  {this.getMessage(item)}
+                </Text>
+              </Animated.View>
+            </TouchableOpacity>
+          </View>
           { this.props.isOnboarding ||
             <FeedsHamburger
               onPress={() => this.props.navigation.navigate('Feeds')}
