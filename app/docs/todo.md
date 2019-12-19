@@ -1,5 +1,8 @@
 # To Do
 
+- fix bug with second item never showing its title
+- fix bug with items re-rendering and losing your place when getting new items
+- find memory leak
 - Sentry errors relating to inflation with feed filter
 - Fix undefined error
     + https://sentry.io/organizations/adam-butler/issues/1361854344/?project=195309&query=is%3Aunresolved
@@ -8,10 +11,7 @@
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - login with apple
-    + https://github.com/expo/expo/blob/master/docs/pages/versions/unversioned/sdk/apple-authentication.md
-- fix bug with second item never showing its title
-- fix bug with items re-rendering and losing your place when getting new items
-- why does the ipad crash?
+    + https://github.com/invertase/react-native-apple-authentication
 - make extension work with more data types
 - placeholder images (use letters?)
 - Use https://github.com/DylanVann/react-native-fast-image to show cached images

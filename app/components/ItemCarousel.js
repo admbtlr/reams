@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import FeedItemContainer from '../containers/FeedItem.js'
 import OnboardingContainer from '../containers/Onboarding.js'
-import {View} from 'react-native'
+import { Text, View } from 'react-native'
+import TextButton from './TextButton'
 import SwipeableViews from './SwipeableViews'
+import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
 const BUFFER_LENGTH = 1
 
@@ -23,21 +25,25 @@ class ItemCarousel extends React.Component {
   }
 
   render () {
-    if (this.props.numItems > 0 || this.props.isOnboarding) {
+    const { displayMode, index, isOnboarding, navigation, numItems, toggleDisplayMode } = this.props
+    if (numItems > 0 || isOnboarding) {
       return (
         <SwipeableViews
           virtualBuffer={BUFFER_LENGTH}
           slideRenderer={this.renderSlide.bind(this)}
           onChangeIndex={this.onChangeIndex.bind(this)}
-          slideCount={this.props.isOnboarding ? 2 : this.props.numItems}
-          index={this.props.index}
-          isOnboarding={this.props.isOnboarding}
+          slideCount={isOnboarding ? 2 : numItems}
+          index={index}
+          isOnboarding={isOnboarding, toggleDisplayMode}
         />
       )
     } else {
-      return null
+      return <EmptyCarousel
+        displayMode={displayMode}
+        navigation={navigation}
+        toggleDisplayMode={toggleDisplayMode}
+      />
     }
-    // return <View></View>
   }
 
   onChangeIndex (index, lastIndex) {
@@ -71,3 +77,50 @@ class ItemCarousel extends React.Component {
 }
 
 export default ItemCarousel
+
+const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
+  return <View style={{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '66%',
+    marginLeft: '16.67%'
+  }}>
+    { displayMode === 'saved' ?
+      <Fragment>
+        <Text style={{
+          ...textInfoBoldStyle,
+          fontSize: 22,
+          marginBottom: 24
+        }}>This is the area for your saved stories, but you don’t have any right now</Text>
+        <Text style={{
+          ...textInfoStyle,
+          fontSize: 20,
+          marginBottom: 24
+        }}>You can save stories from your feed, or direct from Safari using the Rizzle Share Extension</Text>
+        <TextButton
+          text='Go to your feed'
+          onPress={ () => {
+            toggleDisplayMode(displayMode)
+          }} />
+      </Fragment> :
+      <Fragment>
+        <Text style={{
+          ...textInfoBoldStyle,
+          fontSize: 22,
+          marginBottom: 24
+        }}>You have no unread stories! 🎉</Text>
+        <Text style={{
+          ...textInfoStyle,
+          fontSize: 20,
+          marginBottom: 24
+        }}>Celebrate by going outside for a bit. Or you could just add some more feeds...</Text>
+        <TextButton
+          text='Add some feeds'
+          onPress={ () => {
+            navigation.navigate('Feeds')
+          }} />
+      </Fragment>
+    }
+  </View>
+}

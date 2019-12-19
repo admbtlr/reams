@@ -36,6 +36,14 @@ const mapDispatchToProps = (dispatch) => {
           displayMode
         })
       }
+    },
+    toggleDisplayMode: (currentDisplayMode) => {
+      return dispatch({
+        type: 'SET_DISPLAY_MODE',
+        displayMode: currentDisplayMode === 'saved' ?
+          'unread' :
+          'saved'
+      })
     }
   }
 }

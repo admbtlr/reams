@@ -122,7 +122,7 @@ export default function ItemsScreenOnboarding (props) {
           position: 'absolute',
           bottom: step < 4 ? 80 : 'auto',
           top: step >= 4 && step < 6 ?
-            (isIphoneX() ? 85 : 65) :
+            (isIphoneX() ? 100 : 80) :
             'auto',
           left: step < 4 ?
             (screenWidth > 500 ? (screenWidth - 500) / 2 : 25) :
@@ -209,7 +209,7 @@ export default function ItemsScreenOnboarding (props) {
         <View style={{
           position: 'absolute',
           zIndex: 100,
-          top: isIphoneX() ? 90 : 70,
+          top: isIphoneX() ? 105 : 85,
           left: screenWidth * 0.05 - 7,
           width: 40,
           height: 40
@@ -219,7 +219,7 @@ export default function ItemsScreenOnboarding (props) {
         <View style={{
           position: 'absolute',
           zIndex: 100,
-          top: isIphoneX() ? 90 : 70,
+          top: isIphoneX() ? 105 : 85,
           right: screenWidth * 0.05 - 4,
           width: 40,
           height: 40

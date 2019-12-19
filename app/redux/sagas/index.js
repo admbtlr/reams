@@ -52,7 +52,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery('CONFIG_SET_FEED_FILTER', inflateItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
-  yield takeEvery('USER_SET_UID', clearReadItems)
+  // yield takeEvery('USER_SET_UID', clearReadItems)
 
   // reading timer
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', currentItemChanged)
