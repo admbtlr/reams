@@ -22,8 +22,8 @@ const mapDispatchToProps = (dispatch) => {
         url
       })
       dispatch({
-        type: 'SET_DISPLAYED_ITEMS',
-        display: 'saved'
+        type: 'SET_DISPLAY_MODE',
+        displayMode: 'saved'
       })
     },
     addFeed: (feed) => dispatch({

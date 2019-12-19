@@ -23,10 +23,10 @@ export function itemsMeta (state = initialState, action) {
         display
       }
 
-    case 'SET_DISPLAYED_ITEMS':
+    case 'SET_DISPLAY_MODE':
       return {
         ...state,
-        display: action.display
+        display: action.displayMode
       }
 
     default:

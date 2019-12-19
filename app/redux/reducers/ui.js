@@ -5,7 +5,8 @@ const initialState = {
   modalProps: {},
   showLoadingAnimation: true,
   imageViewerVisible: false,
-  imageViewerUrl: ''
+  imageViewerUrl: '',
+  hiddenModals: []
 }
 
 export function ui (state = initialState, action) {
@@ -67,6 +68,17 @@ export function ui (state = initialState, action) {
         ...state,
         imageViewerVisible: false,
         imageViewerUrl: ''
+      }
+
+    case 'UI_TOGGLE_HIDE_MODAL':
+      let hiddenModals = state.hiddenModals || []
+      hiddenModals = [
+        ...hiddenModals,
+        action.modalName
+      ]
+      return {
+        ...state,
+        hiddenModals
       }
 
     default:

@@ -71,7 +71,11 @@ const mapDispatchToProps = (dispatch) => {
           item
         })
       }
-    }
+    },
+    showModal: (modalProps) => dispatch({
+      type: 'UI_SHOW_MODAL',
+      modalProps
+    })
   }
 }
 

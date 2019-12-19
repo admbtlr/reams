@@ -1,5 +1,11 @@
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { Fragment } from 'react'
+import {
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import Modal from 'react-native-modalbox'
 import {hslString} from '../utils/colors'
 
@@ -11,12 +17,19 @@ class RizzleModal extends React.Component {
     this.onOK = this.onOK.bind(this)
     this.onCancel = this.onCancel.bind(this)
     this.onClosed = this.onClosed.bind(this)
+
+    this.state = {
+      toggleHideModal: false
+    }
   }
 
   onOK () {
-    this.props.modalProps.modalOnOk()
-    this.props.modalHide()
+    const { modalHide, modalProps } = this.props
+    modalProps.modalOnOk && modalProps.modalOnOk()
+    modalHide()
     this.isOpen = false
+    modalProps.modalHideable && modalProps.modalName &&
+      this.props.toggleHide(modalProps.modalName)
   }
 
   onCancel () {
@@ -49,20 +62,52 @@ class RizzleModal extends React.Component {
   }
 
   render () {
-    this.isOpen = this.props.isVisible
+    const { hiddenModals, isVisible, modalProps } = this.props
+    if (hiddenModals && hiddenModals.indexOf(modalProps.modalName) !== -1) {
+      return null
+    }
+
+    this.isOpen = isVisible
     return (
       <Modal
         backdrop={true}
         style={{ backgroundColor: 'transparent' }}
         position="center"
-        isOpen={this.props.isVisible}
+        isOpen={isVisible}
         onClosed={this.onClosed}
         >
        <View style={{...this.getStyles().base}}>
         <View style={{...this.getStyles().inner}}>
-          <View style={{...this.getStyles().textHolder}}>{this.formatText(this.props.modalProps.modalText)}</View>
+          <View style={{...this.getStyles().textHolder}}>{this.formatText(modalProps.modalText)}</View>
+          { modalProps.modalHideable &&
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'center'
+            }}>
+              <Switch
+                trackColor={{
+                  false: hslString('rizzleText', '', 0.3),
+                  true: hslString('rizzleText')
+                }}
+                onValueChange={ value => {
+                  this.setState({
+                    toggleHideModal: value
+                  })
+                }}
+                value={this.state.toggleHideModal}
+                style={{
+                  marginRight: 10,
+                  marginTop: -4.9,
+                  marginBottom: 20
+                }}/>
+              { this.formatText([{
+                text: 'Don’t show this again',
+                style: ['em', 'smaller']
+              }]) }
+            </View>
+          }
           <View style={{...this.getStyles().buttonHolder}}>
-            { this.props.modalProps.modalHideCancel ||
+            { modalProps.modalHideCancel ||
               <TouchableOpacity
                 style={{
                   ...this.getStyles().touchable,
