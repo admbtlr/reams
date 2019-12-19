@@ -34,7 +34,7 @@ class ItemCarousel extends React.Component {
           onChangeIndex={this.onChangeIndex.bind(this)}
           slideCount={isOnboarding ? 2 : numItems}
           index={index}
-          isOnboarding={isOnboarding, toggleDisplayMode}
+          isOnboarding={isOnboarding}
         />
       )
     } else {
