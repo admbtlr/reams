@@ -120,12 +120,15 @@ export const isIpad = () => {
   return Platform.OS === 'ios' && width > 700
 }
 
-let screenWidth
+let screenWidth, screenHeight
 export const fontSizeMultiplier = () => {
-  if (!screenWidth) {
+  if (!screenWidth || !screenHeight) {
     screenWidth = Dimensions.get('window').width
+    screenHeight = Dimensions.get('window').height
   }
-  return screenWidth < 768 ? 1 : (screenWidth / 768).toPrecision(4)
+  return screenWidth * screenHeight < 300000 ?
+    0.85 :
+    screenWidth < 768 ? 1 : (screenWidth / 768).toPrecision(4)
 }
 
 export function id (item) {
