@@ -22,6 +22,14 @@ const FeedStack = createStackNavigator(
           vertical: 100
         }
       }
+    },
+    ModalWithGesture: {
+      screen: ModalScreen,
+      navigationOptions: {
+        gestureResponseDistance: {
+          vertical: 400
+        }
+      }
     }
   },
   {
