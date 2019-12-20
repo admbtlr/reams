@@ -78,7 +78,7 @@ class CoverImage extends React.Component {
     const inline = {
       flex: 1,
       width: '100%',
-      marginTop: isIphoneX() ? 90 : 70,
+      marginTop: isIphoneX() ? 115 : 92,
       // weird bug with the top pixel row of images
       top: -1,
       marginBottom: -1
