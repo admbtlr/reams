@@ -338,7 +338,7 @@ class ListHeaderComponent extends React.Component {
           buttonStyle={{
             alignSelf: 'flex-end',
             marginBottom: margin / 2,
-            width: buttonWidth
+            minWidth: buttonWidth
           }}
         />
         <Heading />

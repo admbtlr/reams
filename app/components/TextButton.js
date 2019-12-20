@@ -40,9 +40,10 @@ class TextButton extends React.Component {
       backgroundColor: isInverted ? fgColor : bgColor,
       borderWidth: 1,
       borderRadius: (isCompact ? 16 : 21) * fontSizeMultiplier(),
-      paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
-      paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
-      // flex: 1,
+      // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
+      // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
+      justifyContent: 'center',
+      flex: 1,
       height: (isCompact ? 32 : 42) * fontSizeMultiplier(),
       maxHeight: 42 * fontSizeMultiplier(),
       ...this.props.buttonStyle,
@@ -65,7 +66,8 @@ class TextButton extends React.Component {
       textAlign: 'center',
       color: isInverted ? bgColor : fgColor,
       paddingLeft: 20,
-      paddingRight: 20
+      paddingRight: 20,
+      paddingTop: 3
     }
     if (isExpandable) {
       return (
@@ -80,7 +82,10 @@ class TextButton extends React.Component {
           <TouchableOpacity
             onPress={this.expand}
           >
-            <Text style={textStyle}>{text}</Text>
+            <Text
+              maxFontSizeMultiplier={1.2}
+              style={textStyle}
+            >{text}</Text>
           </TouchableOpacity>
           { this.props.renderExpandedView() }
         </View>
@@ -104,7 +109,10 @@ class TextButton extends React.Component {
             left: 8 * fontSizeMultiplier(),
             backgroundColor: 'transparent'
           }}>{icon}</View>
-          <Text style={textStyle}>{text}</Text>
+          <Text
+            maxFontSizeMultiplier={1.2}
+            style={textStyle}
+          >{text}</Text>
         </TouchableOpacity>
       )
     }

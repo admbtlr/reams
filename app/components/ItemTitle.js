@@ -544,8 +544,7 @@ class ItemTitle extends React.Component {
       paddingTop,
       paddingBottom,
       paddingLeft,
-      marginTop,
-      overflow: 'visible'
+      marginTop
     }
     const viewStyle = {
       ...position
@@ -719,21 +718,36 @@ class ItemTitle extends React.Component {
     if (this.shouldSplitIntoWords()) {
       this.renderedTitle = words.map((word, index) => {
         if (styles.invertBG) {
-          return (<View key={index} style={{
-            ...invertedTitleWrapperStyle
-          }}><Text style={{
-            ...fontStyle,
-            ...(wordStyles && wordStyles[index]),
-            ...invertedTitleStyle,
-            height: lineHeight + paddingTop + paddingBottom
-          }}>{word} </Text>
+          return (
+            <View
+              key={index}
+              overflow="visible"
+              style={{
+                ...invertedTitleWrapperStyle
+              }}
+            >
+              <Text
+                maxFontSizeMultiplier={1.2}
+                style={{
+                  ...fontStyle,
+                  ...(wordStyles && wordStyles[index]),
+                  ...invertedTitleStyle,
+                  height: lineHeight + paddingTop + paddingBottom
+                }}
+              >{word} </Text>
           </View>)
         } else {
-          return (<Animated.Text key={index} style={{
-            ...fontStyle,
-            ...(wordStyles && wordStyles[index]),
-            ...shadowStyle
-          }}>{word} </Animated.Text>)
+          return (
+            <Animated.Text
+              maxFontSizeMultiplier={1.2}
+              key={index}
+              style={{
+                ...fontStyle,
+                ...(wordStyles && wordStyles[index]),
+                ...shadowStyle,
+                height: lineHeight * 1.3
+              }}
+            >{word} </Animated.Text>)
         }
       })
     }
@@ -893,7 +907,7 @@ class ItemTitle extends React.Component {
       borderTopWidth: 0,
       // opacity: anim,
       marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
-      width: (excerpt.length > 70) && (!showCoverImage || styles.excerptFullWidth || excerpt.length > 130) ?
+      width: (excerpt.length > 70) && (!showCoverImage || styles.excerptFullWidth || excerpt.length > 100) ?
         'auto' :
         this.screenWidth * 0.666,
       alignSelf: {
@@ -907,27 +921,29 @@ class ItemTitle extends React.Component {
     return (
       <View>
         <Animated.View style={style}>
-          <Animated.Text style={{
-            justifyContent: this.aligners[styles.textAlign],
-            flex: 1,
-            ...fontStyle,
-            // ...shadowStyle,
-            ...excerptShadowStyle,
-            ...fixPadding,
-            marginTop: 0,
-            paddingTop: 0,
-            // textShadowColor: 'rgba(0,0,0,0.4)',
-            // textShadowRadius: 20,
-            color: excerptColor,
-            fontFamily: this.getFontFamily(coverImageStyles.isInline ||
-              coverImageStyles.resizeMode === 'contain' ||
-              excerptBg.backgroundColor ||
-              !showCoverImage ?
-              'regular' :
-              'boldItalic', 'excerpt'),
-            fontSize: excerptFontSize,
-            lineHeight: Math.round(this.getExcerptFontSize() * 1.4),
-            letterSpacing: 0
+          <Animated.Text
+            maxFontSizeMultiplier={1.2}
+            style={{
+              justifyContent: this.aligners[styles.textAlign],
+              flex: 1,
+              ...fontStyle,
+              // ...shadowStyle,
+              ...excerptShadowStyle,
+              ...fixPadding,
+              marginTop: 0,
+              paddingTop: 0,
+              // textShadowColor: 'rgba(0,0,0,0.4)',
+              // textShadowRadius: 20,
+              color: excerptColor,
+              fontFamily: this.getFontFamily(coverImageStyles.isInline ||
+                coverImageStyles.resizeMode === 'contain' ||
+                excerptBg.backgroundColor ||
+                !showCoverImage ?
+                'regular' :
+                'boldItalic', 'excerpt'),
+              fontSize: excerptFontSize,
+              lineHeight: Math.round(this.getExcerptFontSize() * 1.4),
+              letterSpacing: 0
           }}>{this.props.excerpt}</Animated.Text>
         </Animated.View>
         { showCoverImage &&
@@ -959,7 +975,12 @@ class ItemTitle extends React.Component {
     }
     authorStyle = this.addAnimationsIfNecessary(authorStyle, anim)
     if (item.author) {
-      return <Animated.Text style={authorStyle}>{this.props.item.author.trim()}</Animated.Text>
+      return (
+        <Animated.Text
+          maxFontSizeMultiplier={1.2}
+          style={authorStyle}
+        >{this.props.item.author.trim()}</Animated.Text>
+      )
     } else {
       return null
     }
@@ -1006,7 +1027,12 @@ class ItemTitle extends React.Component {
     const formattedDate = moment(theDate)
       .format('dddd Do MMMM' + (showYear ? ' YYYY' : '') + ', h:mm a')
 
-    return dateView = <Animated.Text style={dateStyle}>{formattedDate}</Animated.Text>
+    return dateView = (
+      <Animated.Text
+        maxFontSizeMultiplier={1.2}
+        style={dateStyle}
+      >{formattedDate}</Animated.Text>
+    )
   }
 
   itemStartsWithImage () {

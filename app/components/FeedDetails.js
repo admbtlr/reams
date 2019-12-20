@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   Dimensions,
+  ScrollView,
   StatusBar,
   Text,
   View
@@ -148,10 +149,12 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       margin: 0,
       padding: margin
     }}>
-      <View style={{
-        flex: 1,
-        flexDirection: 'column'
-      }}>
+      <ScrollView
+        style={{
+          flex: 1,
+          flexDirection: 'column'
+        }}
+      >
         { feed.description && feed.description.length > 0 ?
           <View style={{
             flex: 1,
@@ -179,7 +182,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         }}>
           { feedStats }
         </View>
-      </View>
+      </ScrollView>
       <View style={{
         alignItems: 'flex-end'
       }}>

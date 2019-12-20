@@ -254,14 +254,15 @@ class FeedContracted extends React.PureComponent {
               <View style={{
                 paddingLeft: 4,
                 paddingRight: 40,
-                paddingBottom: 2,
+                // paddingBottom: 2,
                 flexDirection: 'row'
               }}>
                 <Text style={{
                   ...textStyles,
                   flexWrap: 'wrap',
                   fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: 24 * fontSizeMultiplier()
+                  fontSize: 24 * fontSizeMultiplier(),
+                  lineHeight: 24 * fontSizeMultiplier()
                 }}>{feed.title}</Text>
               </View>
               <View style={{

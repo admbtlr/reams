@@ -213,9 +213,10 @@ export function * decorateItem (item) {
 
   if (imageStuff.imageDimensions) {
     if (!!item.title &&
-      Math.random() > 0.5 &&
-      (//imageStuff.imageDimensions.height < deviceHeight * 0.7 ||
-      imageStuff.imageDimensions.height < imageStuff.imageDimensions.width / 1.8)) {
+      ((
+        Math.random() > 0.5 &&
+        imageStuff.imageDimensions.height < imageStuff.imageDimensions.width / 1.8
+      ) || mercuryStuff.excerpt && mercuryStuff.excerpt.length > 120)) {
       item.styles && (item.styles = setCoverInline(item.styles))
     }
   }
