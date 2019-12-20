@@ -7,6 +7,7 @@ import { Image, InteractionManager } from 'react-native'
 import { getCachedCoverImagePath, getImageDimensions } from '../../utils'
 import { setCoverInline, setCoverAlign, setTitleVAlign } from '../../utils/createItemStyles'
 import { deflateItem } from '../../utils/item-utils'
+import { getActiveItems } from './selectors'
 import log from '../../utils/log'
 
 import {
@@ -127,12 +128,15 @@ function * applyDecoration (decoration, isSaved) {
 
     // and finally, deflate the item so that redux-persist doesn't explode
     yield call(InteractionManager.runAfterInteractions)
-    item = deflateItem(item)
-    yield put({
-      type: 'ITEMS_FLATE',
-      itemsToInflate: [],
-      itemsToDeflate: [item]
-    })
+    const activeItems = yield select(getActiveItems)
+    if (!activeItems.find(ai => ai._id === item._id)) {
+      item = deflateItem(item)
+      yield put({
+        type: 'ITEMS_FLATE',
+        itemsToInflate: [],
+        itemsToDeflate: [item]
+      })
+    }
   }
 }
 

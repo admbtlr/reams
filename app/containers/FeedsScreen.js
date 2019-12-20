@@ -81,6 +81,11 @@ const mapDispatchToProps = (dispatch) => {
       originalId: null,
       olderThan: olderThan || Math.floor(Date.now() / 1000)
     }),
+    setIndex: (index) => dispatch({
+      type: 'ITEMS_UPDATE_CURRENT_INDEX',
+      index,
+      displayMode: 'unread'
+    }),
     showModal: (modalProps) => dispatch({
       type: 'UI_SHOW_MODAL',
       modalProps

@@ -29,6 +29,24 @@ export function getCurrentItem (state, type) {
   return getCurrentItemUtils(state, type)
 }
 
+// gets the current item, plus three on either side
+export function getActiveItems (state) {
+  const displayMode = state.itemsMeta.display
+  const items = getItemsUtils(state, displayMode)
+  const index = getIndexUtils(state, displayMode)
+  const buffer = 3
+  let activeItems = [ items[index] ]
+  for (var i = -buffer; i <= buffer; i++) {
+    if (index + i >= 0 && index + i < items.length) {
+      const activeItem = items[index + i]
+      if (!activeItems.find(ai => ai._id === activeItem._id)) {
+        activeItems.push(items[index + i])
+      }
+    }
+  }
+  return activeItems
+}
+
 export function getIndex (state, type) {
   return getIndexUtils(state, type)
 }
@@ -59,6 +77,10 @@ export function getRemoteActions (state) {
 
 export function getConfig (state) {
   return state.config
+}
+
+export function getFeedFilter (state) {
+  return state.config.feedFilter
 }
 
 export function getUser (state) {

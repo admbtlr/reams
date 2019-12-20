@@ -24,7 +24,7 @@ const createTimeString = (seconds) => {
       seconds + ' seconds')
 }
 
-export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, filterItems, navigation, toggleMute, toggleLike }) {
+export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, filterItems, navigation, setIndex, toggleMute, toggleLike }) {
   const [isLiked, setLiked] = useState(feed.isLiked)
   const [isMuted, setMuted] = useState(feed.isMuted)
 
@@ -245,6 +245,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               console.log('Pressed Go to items ' + feed._id)
               clearReadItems()
               filterItems(feed._id)
+              setIndex(0)
               navigation.navigate('Items')
             }}
             text='Read stories' />

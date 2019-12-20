@@ -59,7 +59,10 @@ const mapDispatchToProps = (dispatch) => {
           })
       }
     },
-    toggleDisplay: () => dispatch({ type: 'TOGGLE_DISPLAYED_ITEMS' }),
+    setDisplayMode: (displayMode) => dispatch({
+      type: 'SET_DISPLAY_MODE',
+      displayMode
+    }),
     share: () => dispatch({
       type: 'ITEM_SHARE_ITEM',
       item

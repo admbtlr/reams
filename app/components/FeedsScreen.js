@@ -163,6 +163,7 @@ class FeedsScreen extends React.Component {
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}
             markAllRead={this.props.markAllRead}
+            setIndex={this.props.setIndex}
             showModal={this.props.showModal}
           />}
           numColumns={width > 500 ? 2 : 1}
@@ -321,6 +322,7 @@ class ListHeaderComponent extends React.Component {
           showClose={true}
           onClose={() => {
             this.props.clearFeedFilter()
+            this.props.setIndex(0)
             navigation.navigate('Items')
           }}
         />

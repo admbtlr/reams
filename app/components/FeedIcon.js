@@ -45,7 +45,7 @@ class FeedIcon extends React.Component {
         // margin: 10,
         width,
         height,
-        marginRight: 3
+        marginRight: 5
       }}>
         { //shouldInvert ?
           //<Invert image={ image }/> :

@@ -51,6 +51,11 @@ const mapDispatchToProps = (dispatch) => {
       type: 'CONFIG_SET_FEED_FILTER',
       feedFilter: id
     }),
+    setIndex: (index) => dispatch({
+      type: 'ITEMS_UPDATE_CURRENT_INDEX',
+      index,
+      displayMode: 'unread'
+    }),
     markAllRead: (id, originalId, olderThan) => dispatch({
       type: 'FEED_MARK_READ',
       id,

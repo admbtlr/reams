@@ -16,13 +16,6 @@ export function itemsMeta (state = initialState, action) {
         decoratedCount: action.decoratedCount
       }
 
-    case 'TOGGLE_DISPLAYED_ITEMS':
-      const display = state.display === 'unread' ? 'saved' : 'unread'
-      return {
-        ...state,
-        display
-      }
-
     case 'SET_DISPLAY_MODE':
       return {
         ...state,

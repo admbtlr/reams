@@ -60,7 +60,8 @@ class Buttons extends React.Component {
   }
 
   onDisplayPress () {
-    const modalText = this.props.displayMode == 'saved' ?
+    const { displayMode, isOnboarding, setDisplayMode, showModal } = this.props
+    const modalText = displayMode == 'saved' ?
       [
         {
           text: 'You are now in unread mode',
@@ -81,8 +82,8 @@ class Buttons extends React.Component {
           style: []
         }
       ]
-    this.props.isOnboarding || this.props.toggleDisplay()
-    this.props.showModal({
+    isOnboarding || setDisplayMode(displayMode === 'unread' ? 'saved' : 'unread')
+    showModal({
       modalText,
       modalHideCancel: true,
       modalName: 'modal_switch_view',
