@@ -138,7 +138,7 @@ class ItemTitle extends React.Component {
   fadeIn () {
     const params = {
       toValue: 1,
-      duration: 500,
+      duration: 250,
       easing: Easing.bezier(.66, 0, .33, 1),
       useNativeDriver: true
     }
