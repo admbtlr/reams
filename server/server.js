@@ -265,7 +265,7 @@ function fetch (feed, done, fail, includeMeta) {
     // Define our handlers
     req
       .on('error', function (error) {
-        console.log(error)
+        // console.log(error)
         done(items)
         return
       })
