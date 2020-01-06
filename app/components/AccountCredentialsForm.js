@@ -103,6 +103,7 @@ class AccountCredentialsForm extends React.Component {
 
   async authenticateUser ({username, password, email}) {
     if (this.props.service === 'rizzle') {
+      email = email.trim()
       this.props.setSignInEmail(email)
       await sendEmailLink(email)
       console.log(`email: ${email}`)
@@ -124,7 +125,7 @@ class AccountCredentialsForm extends React.Component {
       }
     const validationSchemaShape = this.props.service === 'rizzle' ?
       Yup.object().shape({
-        email: Yup.string().email('That doesn’t look like a valid email...').required('Required')
+        email: Yup.string().trim().email('That doesn’t look like a valid email...').required('Required')
       }) :
       Yup.object().shape({
         username: Yup.string().required('Required'),
