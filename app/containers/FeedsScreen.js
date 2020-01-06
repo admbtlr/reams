@@ -45,12 +45,16 @@ const testFeeds = [
 ]
 
 const sortFeeds = (a, b) => (a.isLiked && b.isLiked) ?
-  (a.title < b.title ? -1 : 1) :
+  (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1) :
   a.isLiked ? -1 :
     b.isLiked ? 1 :
   // b.number_unread === a.number_unread ?
   //   (a.title < b.title ? -1 : 1) :
-      (a.title < b.title ? -1 : 1)
+      (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1)
+
+const normaliseTitle = (title) => title.slice(0, 4).toUpperCase() === 'THE ' ?
+  title.slice(4).toUpperCase() :
+  title.toUpperCase()
 
 // const sortFeeds = (a, b) => b.number_unread - a.number_unread
 
