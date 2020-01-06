@@ -319,8 +319,8 @@ class ListHeaderComponent extends React.Component {
       }}>
         <Heading
           title='Your Feeds'
-          showClose={true}
-          onClose={() => {
+          showBack={true}
+          onBack={() => {
             this.props.clearFeedFilter()
             this.props.setIndex(0)
             navigation.navigate('Items')

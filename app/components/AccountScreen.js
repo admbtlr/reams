@@ -86,8 +86,8 @@ class AccountScreen extends React.Component {
             }}>
               <Heading
                 title='Your Account'
-                showClose={ this.props.user.uid !== null }
-                onClose={() => {
+                showBack={ this.props.user.uid !== null }
+                onBack={() => {
                   this.props.navigation.navigate('Feeds')
                 }}
               />
