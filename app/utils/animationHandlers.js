@@ -2,9 +2,6 @@ import {Animated} from 'react-native'
 import {STATUS_BAR_HEIGHT} from '../components/TopBar.js'
 
 let scrollListeners = []
-let scrollHandlerChangeListeners = []
-
-let panListeners = []
 
 let panAnim = new Animated.Value(0)
 let panAnimDivisor = 1
@@ -73,8 +70,6 @@ export function scrollHandler (value) {
   // because of https://github.com/facebook/react-native/pull/12620
   scrollAnim.addListener(({ value }) => {
     const diff = value - scrollValue
-    const wasntDown = clampedScrollValue > 0
-    const wasntUp = clampedScrollValue < STATUS_BAR_HEIGHT
     scrollValue = value
     clampedScrollValue = Math.min(
       Math.max(clampedScrollValue + diff, 0),

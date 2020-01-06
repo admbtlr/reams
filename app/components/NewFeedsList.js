@@ -16,22 +16,22 @@ import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
 import { feeds } from '../utils/feeds'
 
-const textStyles = {
+const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
   fontSize: 18,
   lineHeight: 24,
   marginTop: 9,
   textAlign: 'left',
   color: hslString('rizzleText')
-}
+})
 const boldStyles = {
   fontFamily: 'IBMPlexSans-Bold'
 }
-const headerStyles = {
-  ...textStyles,
+const headerStyles = () => ({
+  ...textStyles(),
   fontFamily: 'IBMPlexSerif',
   marginTop: 18
-}
+})
 
 const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.05
@@ -99,9 +99,9 @@ export default function NewFeedsList (props) {
               props.close()
             }}
           />
-          <Text style={textStyles}>To get you started, take a look at this list of our favourite feeds, and select any that look interesting.</Text>
+          <Text style={textStyles()}>To get you started, take a look at this list of our favourite feeds, and select any that look interesting.</Text>
           <Text style={{
-            ...textStyles,
+            ...textStyles(),
             marginBottom: 9
           }}>You can also add feeds from any compatible site in Safari by using the <Text style={boldStyles}>Rizzle share extension</Text>.</Text>
           {Object.keys(feeds).map((category, index) => (
@@ -110,7 +110,7 @@ export default function NewFeedsList (props) {
                 borderBottomColor: hslString('rizzleText'),
                 borderBottomWidth: 1
               }}>
-                <Text style={headerStyles}>{category}</Text>
+                <Text style={headerStyles()}>{category}</Text>
               </View>
               { feeds[category].map((feed, index, feeds) => <FeedToggle
                   feed={feed}
@@ -169,7 +169,7 @@ const FeedToggle = (props) => {
     color: isSelected ? hslString('rizzleBG') : hslString('rizzleText')
   }
   const descriptionStyles = {
-    ...textStyles,
+    ...textStyles(),
     marginTop: 0,
     color: isSelected ? hslString('rizzleBG') : hslString('rizzleText')
   }

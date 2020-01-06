@@ -1,4 +1,6 @@
-const { colors, darker, lighter, desaturated, desaturatedDarker, ui } = require('./colors.json')
+import { store } from '../redux/store'
+
+const { colors, darker, lighter, desaturated, desaturatedDarker, ui, darkMode } = require('./colors.json')
 
 // taken from https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion#9493060
 /**
@@ -157,7 +159,9 @@ export function blendColor (colorName, modifier = '') {
 export function hslString (color, modifier = '', alpha) {
   if (typeof color === 'object') {
     let lightness = color[2]
-    if (modifier === 'darkmode') {
+    // if (modifier === 'darkmode') {
+    if (modifier === 'darkmodable' &&
+      (store && store.getState().webView.isDarkBackground)) {
       lightness = lightness < 30 ?
         50 + (30 - lightness) :
         lightness
@@ -181,7 +185,8 @@ export function hslString (color, modifier = '', alpha) {
     default:
       palette = colors
   }
-  color = palette[color] || ui[color]
+  color = palette[color] ||
+    ((store && store.getState().webView.isDarkBackground) ? darkMode[color] : ui[color])
   if (alpha) {
     color = color.replace('hsl', 'hsla').replace(')', `${alpha})`)
   }

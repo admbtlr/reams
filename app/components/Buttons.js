@@ -133,10 +133,11 @@ class Buttons extends React.Component {
     return this.props.isDarkBackground ?
       (this.props.displayMode == 'saved' ?
         hslString('rizzleText') :
-        'hsl(240, 17%, 15%)') :
+        // 'hsl(240, 17%, 15%)') :
+        hslString('buttonBG')) :
         (this.props.displayMode == 'saved' ?
           hslString('rizzleBG') :
-          'white')
+          hslString('buttonBG'))
     // const activeColor = item ? item.feed_color : null
     // return this.props.displayMode == 'saved' ?
     //   hslString('rizzleBG') :
@@ -223,7 +224,7 @@ class Buttons extends React.Component {
     let activeColor = this.props.displayMode === 'saved' || this.props.isOnboarding ?
         hslString('rizzleText', 'ui') :
       item ?
-        hslString(item.feed_color, this.props.isDarkBackground ? 'darkmode' : '') :
+        hslString(item.feed_color, 'darkmodable') :
       null
     const borderColor = this.props.displayMode == 'saved' ?
       this.props.isDarkBackground ? 'hsl(0, 0%, 80%)' : hslString('rizzleText') :

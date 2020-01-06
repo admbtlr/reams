@@ -152,7 +152,7 @@ class FeedExpanded extends React.Component {
           />
         </View>
         <View style={{
-          backgroundColor: '#F2ECD9',
+          backgroundColor: hslString('rizzleBG'),
           flex: 3,
           padding: 0,
           margin: 0

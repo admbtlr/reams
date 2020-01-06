@@ -15,28 +15,27 @@ import { isIphoneX, fontSizeMultiplier } from '../utils'
 const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.025
 
-const textStyle = {
+const textStyle = () => ({
   textAlign: 'left',
   fontFamily: 'IBMPlexSans',
   fontSize: 16 * fontSizeMultiplier(),
   color: hslString('rizzleText'),
   marginBottom: 16 * fontSizeMultiplier()
-}
+})
 const boldStyle = {
-  ...textStyle,
   fontFamily: 'IBMPlexSans-Bold'
 }
 
 const texts = [
-  <Text style={ textStyle }><Text style={ boldStyle }>Discard old</Text> gets rid of stories from this site that are more than a week old.</Text>,
-  <Text style={ textStyle }><Text style={ boldStyle }>Discard all</Text> gets rid of, well, all the stories from this site.</Text>,
-  <Text style={ textStyle }><Text style={ boldStyle }>Unsubscribe</Text> removes this site from your feed.</Text>,
-  <Text style={ textStyle }><Text style={ boldStyle }>Read stories</Text> lets you read stories from only this site, without being distracted by other stories from other sites trying to tell you other things.</Text>,
-  <Text style={ textStyle }><Text style={ boldStyle }>Mute</Text> lets you keep a site in your feed, but not actually see any of the its stories. It’s sometimes a handy temporary measure.</Text>,
-  <Text style={ textStyle }>If you <Text style={ boldStyle }>Like</Text> a site, its stories will always move to the front of your feed, so you’ll see them first.</Text>
+  <Text style={ textStyle() }><Text style={ boldStyle }>Discard old</Text> gets rid of stories from this site that are more than a week old.</Text>,
+  <Text style={ textStyle() }><Text style={ boldStyle }>Discard all</Text> gets rid of, well, all the stories from this site.</Text>,
+  <Text style={ textStyle() }><Text style={ boldStyle }>Unsubscribe</Text> removes this site from your feed.</Text>,
+  <Text style={ textStyle() }><Text style={ boldStyle }>Read stories</Text> lets you read stories from only this site, without being distracted by other stories from other sites trying to tell you other things.</Text>,
+  <Text style={ textStyle() }><Text style={ boldStyle }>Mute</Text> lets you keep a site in your feed, but not actually see any of the its stories. It’s sometimes a handy temporary measure.</Text>,
+  <Text style={ textStyle() }>If you <Text style={ boldStyle }>Like</Text> a site, its stories will always move to the front of your feed, so you’ll see them first.</Text>
 ]
 
-const arrow = (
+const arrow = () => (
   <View style={{
     position: 'absolute',
     zIndex: 100,
@@ -157,27 +156,27 @@ export default function FeedExpandedOnboarding (props) {
             style={{
               ...buttonStyle,
               marginRight: margin,
-            }}>{ step === 0 && arrow }</View>
+            }}>{ step === 0 && arrow() }</View>
           <View
-            style={buttonStyle}>{ step === 1 && arrow }</View>
+            style={buttonStyle}>{ step === 1 && arrow() }</View>
           <View
             style={{
               ...buttonStyle,
               marginRight: margin,
-            }}>{ step === 2 && arrow }</View>
+            }}>{ step === 2 && arrow() }</View>
           <View
-            style={buttonStyle}>{ step === 3 && arrow }</View>
+            style={buttonStyle}>{ step === 3 && arrow() }</View>
           <View
             style={{
               ...buttonStyle,
               marginRight: margin,
               marginBottom: 0
-            }}>{ step === 4 && arrow }</View>
+            }}>{ step === 4 && arrow() }</View>
           <View
             style={{
               ...buttonStyle,
               marginBottom: 0
-            }}>{ step === 5 && arrow }</View>
+            }}>{ step === 5 && arrow() }</View>
         </View>
       </View>
     </Fragment>

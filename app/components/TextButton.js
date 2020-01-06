@@ -34,7 +34,7 @@ class TextButton extends React.Component {
     const { icon, isActive, isExpandable, isInverted, isCompact, noResize, onPress, text } = this.props
     const { isExpanded } = this.state
     const fgColor = this.props.fgColor || hslString('rizzleText')
-    const bgColor = this.props.bgColor || 'white'
+    const bgColor = this.props.bgColor || hslString('buttonBG')
     let buttonStyle = {
       borderColor: fgColor,
       backgroundColor: isInverted ? fgColor : bgColor,
@@ -105,7 +105,7 @@ class TextButton extends React.Component {
           style={buttonStyle}>
           <View style={{
             position: 'absolute',
-            top: (isCompact ? 3 : 9) * fontSizeMultiplier(),
+            top: (isCompact ? 3 : 8) * fontSizeMultiplier(),
             left: 8 * fontSizeMultiplier(),
             backgroundColor: 'transparent'
           }}>{icon}</View>

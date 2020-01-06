@@ -31,7 +31,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
 
   const bold = {
     fontFamily: 'IBMPlexMono-Bold',
-    color: hslString(feed.color, 'desaturated')
+    color: hslString(feed.color, 'darkmodable')
   }
   const italic = {
     fontFamily: 'IBMPlexMono-LightItalic'
@@ -40,7 +40,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
   const avgReadingTime = createTimeString(Math.round(feed.readingTime / feed.numRead))
   const feedStats = (
     <Text style={{
-      color: '#666666',
+      color: hslString('rizzleText'),
       fontFamily: 'IBMPlexMono-Light',
       fontSize: 16 * fontSizeMultiplier(),
       // marginTop: margin * 2,
@@ -67,8 +67,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       <Path
         d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
         strokeWidth={2}
-        stroke={ isLiked ? 'white' : hslString('rizzleText') }
-        fill={ isLiked ? 'white' : 'none' }
+        stroke={ isLiked ? hslString('buttonBG') : hslString('rizzleText') }
+        fill={ isLiked ? hslString('buttonBG') : 'none' }
       />
     </Svg>
 
@@ -79,8 +79,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       <Path
         d='M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6'
         strokeWidth={2}
-        stroke={ isMuted ? 'white' : hslString('rizzleText') }
-        fill={ isMuted ? 'white' : 'none' }
+        stroke={ isMuted ? hslString('buttonBG') : hslString('rizzleText') }
+        fill={ isMuted ? hslString('buttonBG') : 'none' }
       />
     </Svg>
 
@@ -161,7 +161,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             justifyContent: 'space-around'
           }}>
             <Text style={{
-              color: '#666666',
+              color: hslString('rizzleText'),
               fontFamily: 'IBMPlexSans-Bold',
               fontSize: feed.description.length > 100 ? 18 : 20,
               fontSize: (feed.description.length > 100 ? 18 : 20) *

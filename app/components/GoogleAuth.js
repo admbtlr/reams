@@ -65,7 +65,7 @@ class GoogleAuth extends React.Component {
             alignSelf: 'center'
           }}
         >
-          <Text style={textButtonStyle}>Log out</Text>
+          <Text style={textButtonStyle()}>Log out</Text>
         </TouchableOpacity>
       </View>
     ) : (
