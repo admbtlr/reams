@@ -165,7 +165,7 @@
     "rizzleHighlight": "hsl(42, 91%, 60%)",
     "rizzleText": "hsl(300, 20%, 20%)",
     "rizzleChrome": "hsl(0, 0%, 95%)",
-    "bodyBGLight": "hsl(60, 17%, 96%)",
+    "bodyBG": "hsl(60, 17%, 96%)",
     "bodyBGDark": "hsl(0, 0%, 0%)"
   },
   "darkMode": {
@@ -179,7 +179,7 @@
     "rizzleHighlight": "hsl(42, 91%, 60%)",
     "rizzleText": "hsl(46, 20%, 90%)",
     "rizzleChrome": "hsl(0, 0%, 95%)",
-    "bodyBGLight": "hsl(60, 17%, 96%)",
+    "bodyBG": "hsl(240, 0%, 0%)",
     "bodyBGDark": "hsl(0, 0%, 0%)"
   }
 

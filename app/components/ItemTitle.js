@@ -624,7 +624,7 @@ class ItemTitle extends React.Component {
       backgroundColor: !showCoverImage || coverImageStyles.isInline ?
         // hslString(coverImageStyles.color, coverImageColorPalette) :
         // 'white' :
-        (this.props.isDarkBackground ? hslString('bodyBGDark') : hslString('bodyBGLight')) :
+        hslString('bodyBG') :
         overlayColour,
       opacity: (coverImageStyles.isInline || !showCoverImage) ? 1 : opacity
     }

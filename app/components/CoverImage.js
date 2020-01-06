@@ -114,7 +114,7 @@ class CoverImage extends React.Component {
     })
     let style = {
       ...position,
-      backgroundColor: isMultiply || isScreen ? this.getColor() : 'white',
+      backgroundColor: isMultiply || isScreen ? this.getColor() : hslString('bodyBG'),
       opacity,
       transform: isInline ?
         [ { translateY }, { scale } ] :

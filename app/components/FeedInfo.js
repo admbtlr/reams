@@ -214,7 +214,7 @@ class FeedInfo extends React.Component {
         justifyContent: 'center',
         alignItems: 'flex-start',
         padding: 14,
-        backgroundColor: hslString('bodyBGLight'), // TODO!
+        backgroundColor: hslString('bodyBG'), // TODO!
         marginBottom: 0
       }}>
         <View style={{

@@ -40,6 +40,10 @@ class SwipeableViews extends Component {
     }
   }
 
+  // shouldComponentUpdate (nextProps, nextState) {
+  //   if (!this.children) return
+  // }
+
   initialiseState (index) {
     const indexVirtual = this.calculateIndexVirtual(index)
 
@@ -165,7 +169,7 @@ class SwipeableViews extends Component {
           flex: 1,
           flexDirection: 'row',
           height: Dimensions.get('window').height,
-          backgroundColor: hslString('bodyBGLight')
+          backgroundColor: hslString('bodyBG')
           // overflow: 'hidden',
           // width: Dimensions.get('window').width * 5
         }}

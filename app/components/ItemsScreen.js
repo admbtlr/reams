@@ -49,7 +49,7 @@ class ItemsScreen extends React.Component {
     return (
       <View style={{
         flex: 1,
-        backgroundColor: hslString('bodyBGLight')
+        backgroundColor: hslString('bodyBG')
       }}>
         <StatusBar
           showHideTransition="slide"
