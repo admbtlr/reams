@@ -65,12 +65,15 @@ class AppStateListener extends React.Component {
   async checkClipboard () {
     console.log('Checking clipboard')
     try {
-      const contents = await Clipboard.getString()
+      let contents = await Clipboard.getString()
       // TODO make this more robust
-      if (contents.substring(0, 4) === 'http') {
+      // right now we're ignoring any URLs that include 'rizzle.net'
+      // this is due to links getting into clipboard during the email auth process
+      if (contents.substring(0, 4) === 'http' &&
+        contents.indexOf('rizzle.net') === -1) {
         const isIgnored = await isIgnoredUrl(contents)
         if (!isIgnored) {
-          this.showSavePageModal(contents, this)
+          this.showSavePageModal(contents, this, true)
         }
       } else if (contents.substring(0, 6) === '<opml>') {
       }
@@ -148,18 +151,28 @@ class AppStateListener extends React.Component {
     })
   }
 
-  showSavePageModal (url, scope) {
+  showSavePageModal (url, scope, isClipboard = false) {
+    if (url.length > 64) {
+      url = url.slice(0, 64) + '…'
+    }
+    let modalText = [
+      {
+        text: 'Save this page?',
+        style: ['title']
+      },
+      {
+        text: url,
+        style: ['em']
+      }
+    ]
+    if (isClipboard) {
+      modalText.push({
+        text: 'This URL was in your clipboard. Copying a URL is an easy way to save a page in Rizzle.',
+        style: ['hint']
+      })
+    }
     this.props.showModal({
-      modalText: [
-        {
-          text: 'Save this page?',
-          style: ['title']
-        },
-        {
-          text: url,
-          style: ['em']
-        }
-      ],
+      modalText,
       modalHideCancel: false,
       modalShow: true,
       modalOnOk: () => {
