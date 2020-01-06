@@ -15,7 +15,6 @@ import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import LogoSpinnerContainer from '../containers/LogoSpinner.js'
 import SplashScreen from 'react-native-splash-screen'
 import ToolbarsContainer from '../containers/Toolbars.js'
-import ItemsScreenOnboarding from './ItemsScreenOnboarding'
 import { hslString } from '../utils/colors'
 
 class ItemsScreen extends React.Component {
@@ -46,7 +45,7 @@ class ItemsScreen extends React.Component {
   }
 
   render = () => {
-    const { isFirstTime, isOnboarding } = this.props
+    const { isOnboarding } = this.props
     return (
       <View style={{
         flex: 1,
@@ -61,7 +60,6 @@ class ItemsScreen extends React.Component {
         <ItemCarouselContainer
           navigation={this.props.navigation}
           style={styles.ItemCarousel} />
-        { isFirstTime && !isOnboarding && <ItemsScreenOnboarding /> }
         <RizzleImageViewerContainer />
       </View>
     )

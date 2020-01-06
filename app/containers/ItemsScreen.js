@@ -4,7 +4,6 @@ import ItemsScreen from '../components/ItemsScreen.js'
 const mapStateToProps = (state) => {
   return {
     displayMode: state.itemsMeta.display,
-    isFirstTime: !state.config.isItemsOnboardingDone,
     isOnboarding: state.config.isOnboarding,
     isAuthenticated: !!state.user.uid
   }

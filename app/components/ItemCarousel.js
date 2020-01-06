@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import FeedItemContainer from '../containers/FeedItem.js'
 import OnboardingContainer from '../containers/Onboarding.js'
+import ItemsScreenOnboarding from './ItemsScreenOnboarding'
 import { Text, View } from 'react-native'
 import TextButton from './TextButton'
 import SwipeableViews from './SwipeableViews'
@@ -25,17 +26,31 @@ class ItemCarousel extends React.Component {
   }
 
   render () {
-    const { displayMode, index, isOnboarding, navigation, numItems, toggleDisplayMode } = this.props
+    const {
+      displayMode,
+      index,
+      isItemsOnboardingDone,
+      isOnboarding,
+      navigation,
+      numItems,
+      toggleDisplayMode
+    } = this.props
     if (numItems > 0 || isOnboarding) {
       return (
-        <SwipeableViews
-          virtualBuffer={BUFFER_LENGTH}
-          slideRenderer={this.renderSlide.bind(this)}
-          onChangeIndex={this.onChangeIndex.bind(this)}
-          slideCount={isOnboarding ? 2 : numItems}
-          index={index}
-          isOnboarding={isOnboarding}
-        />
+        <Fragment>
+          <SwipeableViews
+            virtualBuffer={BUFFER_LENGTH}
+            slideRenderer={this.renderSlide.bind(this)}
+            onChangeIndex={this.onChangeIndex.bind(this)}
+            slideCount={isOnboarding ? 2 : numItems}
+            index={index}
+            isOnboarding={isOnboarding}
+          />
+          { !isItemsOnboardingDone &&
+            !isOnboarding &&
+            numItems > 0 &&
+            <ItemsScreenOnboarding /> }
+        </Fragment>
       )
     } else {
       return <EmptyCarousel
