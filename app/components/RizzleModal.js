@@ -182,7 +182,17 @@ class RizzleModal extends React.Component {
         fontFamily: 'IBMPlexMono-BoldItalic'
       },
       smaller: {
-        fontSize: 15
+        fontSize: 14
+      },
+      hint: {
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        marginBottom: -20,
+        marginLeft: -20,
+        marginRight: -20,
+        marginTop: 20,
+        padding: 15,
+        fontSize: 14,
+        textAlign: 'left'
       },
       yellow: {
         color: hslString('rizzleHighlight')
