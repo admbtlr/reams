@@ -64,7 +64,7 @@ class Onboarding extends React.Component {
       'bodyFontSans1'
     ][index]
 
-    const html = `<html class="onboarding font-size-3">
+    const html = `<html class="onboarding font-size-3 ${this.props.isDarkBackground ? 'dark-background' : ''}">
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
         <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">

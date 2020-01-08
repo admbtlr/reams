@@ -130,7 +130,9 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
           feed_color: feed.color
         }
       }))
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 export async function markItemRead (item) {

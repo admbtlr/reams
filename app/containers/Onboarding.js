@@ -7,7 +7,9 @@ const mapStateToProps = (state, ownProps) => {
   // return {
   //   index
   // }
-  return {}
+  return {
+    isDarkBackground: state.webView.isDarkBackground
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

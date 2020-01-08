@@ -26,7 +26,7 @@ const boldStyle = {
   fontFamily: 'IBMPlexSans-Bold'
 }
 
-const texts = [
+const texts = () => [
   <Text style={ textStyle() }><Text style={ boldStyle }>Discard old</Text> gets rid of stories from this site that are more than a week old.</Text>,
   <Text style={ textStyle() }><Text style={ boldStyle }>Discard all</Text> gets rid of, well, all the stories from this site.</Text>,
   <Text style={ textStyle() }><Text style={ boldStyle }>Unsubscribe</Text> removes this site from your feed.</Text>,
@@ -110,7 +110,7 @@ export default function FeedExpandedOnboarding (props) {
           borderRadius: 10,
           flexDirection: 'column'
         }}>
-          { texts[step] }
+          { texts()[step] }
           <TextButton
             noResize={true}
             onPress={() => {
