@@ -103,5 +103,15 @@ html.onboarding {
     display: block;
     margin: -1rem auto 1rem;
   }
+
+  &.dark-background {
+    body {
+      background-color: hsl(240, 0%, 0%);
+      color: hsl(0, 0%, 90%);
+      &, a, a:active, a:visited {
+        color: hsl(0, 0%, 90%);
+      }
+    }
+  }
 }
 

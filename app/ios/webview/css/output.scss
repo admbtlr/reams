@@ -156,6 +156,7 @@ $desaturatedDarkerOld: (
 $ui: (
   black: hsl(0, 0%, 0%),
   white: hsl(0, 0%, 100%),
+  buttonBG: hsl(0, 0%, 100%),
   rizzleFG: hsl(263, 14%, 16%),
   rizzleBG: hsl(46, 23%, 83%),
   rizzleSaved: hsl(264, 10%, 30%),
@@ -163,7 +164,21 @@ $ui: (
   rizzleHighlight: hsl(42, 91%, 60%),
   rizzleText: hsl(300, 20%, 20%),
   rizzleChrome: hsl(0, 0%, 95%),
-  bodyBGLight: hsl(60, 17%, 96%),
+  bodyBG: hsl(60, 17%, 96%),
+  bodyBGDark: hsl(0, 0%, 0%),
+);
+$darkMode: (
+  black: hsl(0, 0%, 0%),
+  white: hsl(0, 0%, 100%),
+  buttonBG: hsl(0, 0%, 10%),
+  rizzleFG: hsl(263, 14%, 16%),
+  rizzleBG: hsl(300, 10%, 17%),
+  rizzleSaved: hsl(264, 10%, 30%),
+  rizzleBGAlt: hsl(11, 21%, 16%),
+  rizzleHighlight: hsl(42, 91%, 60%),
+  rizzleText: hsl(46, 20%, 90%),
+  rizzleChrome: hsl(0, 0%, 95%),
+  bodyBG: hsl(240, 0%, 0%),
   bodyBGDark: hsl(0, 0%, 0%),
 );
 $step: 28px;
@@ -690,6 +705,7 @@ body {
     }
 
     pre {
+      background-color: hsl(241, 4%, 11%);
       color: hsl(0, 0%, 80%);
     }
   }
@@ -1014,6 +1030,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic"
+
+    em {
+      font-family: "AvenirNext-Medium"
+    }
   }
 }
 
@@ -1026,6 +1046,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-LightItalic"
+
+    em {
+      font-family: "Montserrat-Light"
+    }
   }
 }
 
@@ -1038,6 +1062,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSans-LightItalic"
+
+    em {
+      font-family: "IBMPlexSans-Light"
+    }
   }
 }
 
@@ -1050,6 +1078,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-LightItalic"
+
+    em {
+      font-family: "IBMPlexSerif-Light"
+    }
   }
 }
 
@@ -1074,6 +1106,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "PlayfairDisplay-Italic"
+
+    em {
+      font-family: "PlayfairDisplay"
+    }
   }
 }
 
@@ -1312,6 +1348,16 @@ html.onboarding {
   img {
     display: block;
     margin: -1rem auto 1rem;
+  }
+
+  &.dark-background {
+    body {
+      background-color: hsl(240, 0%, 0%);
+      color: hsl(0, 0%, 90%);
+      &, a, a:active, a:visited {
+        color: hsl(0, 0%, 90%);
+      }
+    }
   }
 }
 

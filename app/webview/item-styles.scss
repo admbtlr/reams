@@ -522,6 +522,7 @@ body {
     }
 
     pre {
+      background-color: hsl(241, 4%, 11%);
       color: hsl(0, 0%, 80%);
     }
   }
@@ -846,6 +847,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic"
+
+    em {
+      font-family: "AvenirNext-Medium"
+    }
   }
 }
 
@@ -858,6 +863,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-LightItalic"
+
+    em {
+      font-family: "Montserrat-Light"
+    }
   }
 }
 
@@ -870,6 +879,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSans-LightItalic"
+
+    em {
+      font-family: "IBMPlexSans-Light"
+    }
   }
 }
 
@@ -882,6 +895,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-LightItalic"
+
+    em {
+      font-family: "IBMPlexSerif-Light"
+    }
   }
 }
 
@@ -906,6 +923,10 @@ hr {
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "PlayfairDisplay-Italic"
+
+    em {
+      font-family: "PlayfairDisplay"
+    }
   }
 }
 
