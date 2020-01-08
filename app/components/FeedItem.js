@@ -91,6 +91,9 @@ class FeedItem extends React.Component {
     // various special cases
     // (this is horrible, but setTimerFunction is always a change, so filter it out
     // before testing for the special cases)
+    if (changes && changes.item && Object.keys(changes.item).length === 0) {
+      delete changes.item
+    }
     if (changes && Object.keys(changes).filter(k => k !== 'setTimerFunction').length === 1) {
       switch (Object.keys(changes).filter(k => k !== 'setTimerFunction')[0]) {
         case 'isVisible':
@@ -120,17 +123,19 @@ class FeedItem extends React.Component {
           break
 
         case 'scaleAnim':
-          isDiff = false
-          break
-
         case 'index':
           isDiff = false
           break
 
         case 'item':
-          if (Object.keys(changes.item).length === 1 &&
-            Object.keys(changes.item)[0] === 'scrollRatio') {
-            isDiff = false
+          if (Object.keys(changes.item).length === 1) {
+            switch (Object.keys(changes.item)[0]) {
+              case 'scrollRatio':
+              case 'readingTime':
+              case 'readAt':
+                isDiff = false
+                break
+            }
           }
           break
       }
@@ -330,7 +335,6 @@ class FeedItem extends React.Component {
           { showCoverImage && styles.isCoverInline && coverImage }
           <ItemTitleContainer
             item={this.props.item}
-            index={this.props.index}
             isVisible={this.props.isVisible}
             title={title}
             excerpt={this.props.item.excerpt}

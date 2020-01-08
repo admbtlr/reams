@@ -73,6 +73,7 @@ export const itemsUnread = (state = initialState, action) => {
   let savedItem = {}
   let newState = {}
   let currentItem
+  let carouselled
 
   switch (action.type) {
     case 'ITEMS_REHYDRATE_UNREAD':
@@ -134,25 +135,14 @@ export const itemsUnread = (state = initialState, action) => {
         }
       })
 
-      // remove read items
-      // items = items.filter(i => !i.readAt)
-
-      // order by date
-      // items.sort((a, b) => a.created_at - b.created_at)
-      // const index = items.indexOf(currentItem)
-
       items = rizzleSort(items, feeds)
-      // check for current item
-      currentItem = state.items[state.index]
-      if (currentItem) {
-        items = items.filter(item => item._id !== currentItem._id)
-        items.unshift(currentItem)
-      }
+
+      carouselled = maintainCarouselItems(state, items)
 
       return {
         ...state,
-        items,
-        index: 0
+        items: carouselled.items,
+        index: carouselled.index
       }
 
     case 'ITEMS_PRUNE_UNREAD':
@@ -187,13 +177,11 @@ export const itemsUnread = (state = initialState, action) => {
       index = state.index
       currentItem = items[state.index]
       let unreadItems = state.items.filter(i => i.readAt === undefined && i._id !== currentItem._id)
-      if (currentItem) {
-        unreadItems.unshift(currentItem)
-      }
+      carouselled = maintainCarouselItems(state, unreadItems)
       return {
         ...state,
-        items: unreadItems,
-        index: 0
+        items: carouselled.items,
+        index: carouselled.index
       }
 
     case 'UNREAD_ITEMS_SET_LAST_UPDATED':
@@ -286,4 +274,27 @@ export const itemsUnread = (state = initialState, action) => {
     default:
       return state
   }
+}
+
+// check for the three items in the carousel
+// places them at the beginning of the new items array
+// and sets index appropriately
+// (sucks that reducers need to think about UI implementation, but :shrug:)
+const maintainCarouselItems = (state, items) => {
+  currentItem = state.items[state.index]
+  const previousItem = state.index > 0 ?
+    state.items[state.index - 1] :
+    null
+  const nextItem = state.index < state.items.length - 1 ?
+    state.items[state.index + 1] :
+    null
+  if (currentItem) {
+    const currentItems = [currentItem]
+    previousItem && currentItems.unshift(previousItem)
+    nextItem && currentItems.push(nextItem)
+    items = items.filter(item => !currentItems.find(ci => ci._id === item._id))
+    items = currentItems.concat(items)
+  }
+  const index = previousItem ? 1 : 0
+  return { items, index }
 }

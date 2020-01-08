@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     numItems,
     index,
+    items,
     displayMode: state.itemsMeta.display,
     isItemsOnboardingDone: state.config.isItemsOnboardingDone,
     isOnboarding: state.config.isOnboarding

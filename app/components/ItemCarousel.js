@@ -31,6 +31,7 @@ class ItemCarousel extends React.Component {
       index,
       isItemsOnboardingDone,
       isOnboarding,
+      items,
       navigation,
       numItems,
       toggleDisplayMode
@@ -45,6 +46,8 @@ class ItemCarousel extends React.Component {
             slideCount={isOnboarding ? 2 : numItems}
             index={index}
             isOnboarding={isOnboarding}
+            items={items}
+            updateTimestamp={Date.now()}
           />
           { !isItemsOnboardingDone &&
             !isOnboarding &&
@@ -72,7 +75,7 @@ class ItemCarousel extends React.Component {
 
   // cacheCoverImageComponent
 
-  renderSlide ({key, index, setTimerFunction, isVisible}) {
+  renderSlide ({_id, index, setTimerFunction, isVisible}) {
     if (this.props.isOnboarding) {
       return <OnboardingContainer
         index={index}
@@ -82,8 +85,8 @@ class ItemCarousel extends React.Component {
     }
     if (index >= 0 && index < this.props.numItems) {
       return <FeedItemContainer
-        index={index}
-        key={key}
+        _id={_id}
+        key={_id}
         setTimerFunction={setTimerFunction}
         isVisible={isVisible}
       />
