@@ -370,7 +370,11 @@ function createFigCaptions () {
     if (onlyContentIsImg(previous)) {
       var figure = document.createElement('figure')
       var figCaption = document.createElement('figcaption')
-      figure.appendChild(previous.cloneNode(true))
+      if (previous.tagName === 'P') {
+        figure.appendChild(previous.children[0])
+      } else {
+        figure.appendChild(previous.cloneNode(true))
+      }
       figure.appendChild(figCaption)
       figCaption.appendChild(node.cloneNode(true))
       article.replaceChild(figure, node)
