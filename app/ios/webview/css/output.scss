@@ -384,10 +384,16 @@ body {
     max-width: calc(100vw - 1rem) !important;
     width: auto !important;
 
-    figure & {
-      width: calc(100% - 1rem);
-      margin-bottom: 0;
+    &.img-small {
+      float: left;
+      clear: left;
+      margin: 0.25rem 0 0.5rem 0.66rem;
     }
+  }
+
+  figure img.img-portrait, figure img.img-small {
+    width: calc(100% - 1rem);
+    margin-bottom: 0;
   }
 
   img.img-small {
@@ -643,7 +649,7 @@ body {
     // }
   }
 
-  ul {
+  ul, ol {
     list-style-type: none;
     padding-left: 0;
   }
@@ -1023,92 +1029,92 @@ hr {
 
 .headerFontSans1 {
   h1, h3, h5 {
-    font-family: "AvenirNextCondensed-Bold"
+    font-family: "AvenirNextCondensed-Bold";
   }
   h2, h4 {
-    font-family: "AvenirNext-Medium"
+    font-family: "AvenirNext-Medium";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "AvenirNext-MediumItalic"
+    font-family: "AvenirNext-MediumItalic";
 
     em {
-      font-family: "AvenirNext-Medium"
+      font-family: "AvenirNext-Medium";
     }
   }
 }
 
 .headerFontSans2 {
   h1, h3, h5 {
-    font-family: "Montserrat-Bold"
+    font-family: "Montserrat-Bold";
   }
   h2, h4 {
-    font-family: "Montserrat-Light"
+    font-family: "Montserrat-Light";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "Montserrat-LightItalic"
+    font-family: "Montserrat-LightItalic";
 
     em {
-      font-family: "Montserrat-Light"
+      font-family: "Montserrat-Light";
     }
   }
 }
 
 .headerFontSans3 {
   h1, h3, h5 {
-    font-family: "IBMPlexSans-Bold"
+    font-family: "IBMPlexSans-Bold";
   }
   h2, h4 {
-    font-family: "IBMPlexSans-Light"
+    font-family: "IBMPlexSans-Light";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "IBMPlexSans-LightItalic"
+    font-family: "IBMPlexSans-LightItalic";
 
     em {
-      font-family: "IBMPlexSans-Light"
+      font-family: "IBMPlexSans-Light";
     }
   }
 }
 
 .headerFontSerif1 {
   h1, h3, h5 {
-    font-family: "IBMPlexSerif-Bold"
+    font-family: "IBMPlexSerif-Bold";
   }
   h2, h4 {
-    font-family: "IBMPlexSerif-Light"
+    font-family: "IBMPlexSerif-Light";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "IBMPlexSerif-LightItalic"
+    font-family: "IBMPlexSerif-LightItalic";
 
     em {
-      font-family: "IBMPlexSerif-Light"
+      font-family: "IBMPlexSerif-Light";
     }
   }
 }
 
 .headerFontSerif2 {
   h1, h3, h5 {
-    font-family: "Arvo-Bold"
+    font-family: "Arvo-Bold";
   }
   h2, h4 {
-    font-family: "Arvo"
+    font-family: "Arvo";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "Arvo"
+    font-family: "Arvo";
   }
 }
 
 .headerFontSerif3 {
   h1, h3, h5 {
-    font-family: "PlayfairDisplay-Black"
+    font-family: "PlayfairDisplay-Black";
   }
   h2, h4 {
-    font-family: "PlayfairDisplay-Regular"
+    font-family: "PlayfairDisplay-Regular";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "PlayfairDisplay-Italic"
+    font-family: "PlayfairDisplay-Italic";
 
     em {
-      font-family: "PlayfairDisplay"
+      font-family: "PlayfairDisplay";
     }
   }
 }
