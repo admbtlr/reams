@@ -150,9 +150,10 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       padding: margin
     }}>
       <ScrollView
-        style={{
+        contentContainerStyle={{
           flex: 1,
-          flexDirection: 'column'
+          flexDirection: 'column',
+          justifyContent: 'space-between'
         }}
       >
         { feed.description && feed.description.length > 0 ?

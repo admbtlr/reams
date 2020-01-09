@@ -83,7 +83,8 @@ class FeedExpanded extends React.Component {
             backgroundColor: hslString(feed.color, 'desaturated'),
             // position: 'relative',
             overflow: 'hidden',
-            flex: 2
+            flex: 2,
+            width: this.screenWidth
             // ...positionStyles
           }}>
           <View
