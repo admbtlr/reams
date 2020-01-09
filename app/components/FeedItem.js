@@ -237,6 +237,7 @@ class FeedItem extends React.Component {
 
     if (!showCoverImage || this.isCoverImagePortrait()) {
       styles.coverImage.isInline = false
+      styles.isCoverInline = false
     }
 
     const authorHeading = !!author ? `<h2 class="author">${author}</h2>` : ''
