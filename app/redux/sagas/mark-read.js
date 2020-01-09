@@ -50,9 +50,12 @@ export function * clearReadItems () {
   const displayMode = yield select(getDisplay)
   const readItems = items.filter(item => !!item.readAt)
   const currentItem = yield select(getCurrentItem, displayMode)
-  const itemsToClear = readItems
+  let itemsToClear = readItems
     .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
     .filter(item => item._id !== currentItem._id)
+  if (currentItem) {
+    itemsToClear = itemsToClear.filter(item => item._id !== currentItem._id)
+  }
 
   yield call(InteractionManager.runAfterInteractions)
   try {
