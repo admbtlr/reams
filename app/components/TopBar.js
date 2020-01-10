@@ -161,9 +161,7 @@ class TopBar extends React.PureComponent {
   getBackgroundColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
-      (this.props.isDarkBackground ?
-        hslString('rizzleText') :
-        hslString('rizzleBG')) :
+      hslString('rizzleBG') :
       (feedColor ?
         hslString(feedColor, 'desaturated') :
         hslString('rizzleSaved'))
@@ -322,7 +320,10 @@ class TopBar extends React.PureComponent {
             }}
           />*/}
           <View style={{
-            top: 20
+            top: 0,
+            flex: 1,
+            paddingLeft: 70,
+            paddingRight: 70
           }}>
             <TouchableOpacity
               key={`inner-{id()}`}
@@ -343,20 +344,19 @@ class TopBar extends React.PureComponent {
               }}
               style={{
                 backgroundColor: 'transparent',
-                width: Dimensions.get('window').width - 35,
                 overflow: 'hidden',
-                height: 36,
+                height: 70,
               }}>
               <Animated.View style={{
                 flex: 1,
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height: 36,
+                height: 64,
                 // width: Dimensions.get('window').width - 84,
                 marginTop: 0,
-                marginLeft: 42,
-                marginRight: 50,
+                marginLeft: 0,
+                marginRight: 0,
                 opacity: clampedAnimatedValue.interpolate({
                   inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
                   outputRange: [0, 1]
@@ -366,29 +366,57 @@ class TopBar extends React.PureComponent {
                 }]
               }}>
                 { item && item.hasCachedFeedIcon &&
+                  <View style={{marginTop: 9}}>
                     <FeedIconContainer
                       id={item.feed_id}
                       dimensions={item.feedIconDimensions}
                       bgColor={this.getBackgroundColor(item)}
                     />
+                  </View>
                 }
-                <Text
-                  numberOfLines={1}
-                  ellipsizeMode='tail'
-                  style={{
-                    ...this.getStyles().feedName,
+                <View style={{
+                  flexDirection: 'column',
+                  marginTop: -10
+                }}>
+                  <Text
+                    style={{
+                      ...this.getStyles().feedName,
+                      fontSize: 14,
+                      fontFamily: this.props.feedFilter ?
+                        'IBMPlexSansCond-Bold' :
+                        'IBMPlexSansCond',
+                      color: this.getForegroundColor(),
+                      textAlign: item && item.hasCachedFeedIcon ?
+                        'left' : 'center'
+                    }}
+                  >{this.props.displayMode === 'saved' ?
+                    'Saved from' :
+                    this.props.feedFilter ?
+                      'Filtered for' :
+                      'Published in'}</Text>
+                  <Text
+                    numberOfLines={2}
+                    ellipsizeMode='tail'
+                    style={{
+                      ...this.getStyles().feedName,
 
-                    fontSize: 20,
-                    fontFamily: 'IBMPlexSansCond-Bold',
-                    // color: this.getBorderBottomColor(item)
-                    color: this.getForegroundColor(),
-                    // height: 36,
-                    // paddingBottom: 15,
-                    textAlign: 'left'
-                  }}
-                >
-                  {this.getMessage(item)}
-                </Text>
+                      fontSize: 18,
+                      lineHeight: 22,
+                      fontFamily: this.props.feedFilter ?
+                        'IBMPlexSansCond-Bold' :
+                        'IBMPlexSansCond-Bold',
+                      // color: this.getBorderBottomColor(item)
+                      color: this.getForegroundColor(),
+                      // height: 36,
+                      // paddingBottom: 15,
+                      textAlign: item && item.hasCachedFeedIcon ?
+                        'left' : 'center',
+                      textDecorationLine: 'underline'
+                    }}
+                  >
+                    {this.getMessage(item)}
+                  </Text>
+                </View>
               </Animated.View>
             </TouchableOpacity>
           </View>
@@ -444,6 +472,7 @@ class TopBar extends React.PureComponent {
         fontSize: 20,
         fontFamily: 'IBMPlexMono',
         textAlign: 'center',
+        marginLeft: 5
       },
       feedActions: {
         flex: 1,
