@@ -21,12 +21,14 @@ const mapStateToProps = (state, ownProps) => {
   const coverImageDimensions = coverImageItem ?
     coverImageItem.imageDimensions :
     null
+  const isFiltered = state.config.feedFilter && state.config.feedFilter === feedId
 
   if (feed) {
     return {
       ...ownProps,
       feed: {
         ...feed,
+        isFiltered,
         numUnread: feedItems.length,
         numRead: feed.number_read || 0,
         readingTime: feed.reading_time || 0,

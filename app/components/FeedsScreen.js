@@ -40,7 +40,6 @@ class FeedsScreen extends React.Component {
     }
     this.activeFeedId = new Value(-1)
 
-    this.clearFeedFilter = this.clearFeedFilter.bind(this)
     this.open = this.open.bind(this)
     this.close = this.close.bind(this)
 
@@ -57,11 +56,6 @@ class FeedsScreen extends React.Component {
         })
       }
     })
-  }
-
-  clearFeedFilter = () => {
-    this.props.clearFeedFilter()
-    this.props.clearReadItems()
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -157,7 +151,7 @@ class FeedsScreen extends React.Component {
           initialNumToRender={3}
           ListHeaderComponent={<ListHeaderComponent
             backend={this.props.backend}
-            clearFeedFilter={this.clearFeedFilter}
+            clearReadItems={this.props.clearReadItems}
             itemSort={this.props.itemSort}
             navigation={navigation}
             numItems={this.props.numItems}
@@ -321,7 +315,7 @@ class ListHeaderComponent extends React.Component {
           title='Your Feeds'
           showBack={true}
           onBack={() => {
-            this.props.clearFeedFilter()
+            this.props.clearReadItems()props.
             this.props.setIndex(0)
             navigation.navigate('Items')
           }}

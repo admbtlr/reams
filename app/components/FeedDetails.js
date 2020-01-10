@@ -28,6 +28,7 @@ const createTimeString = (seconds) => {
 export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, filterItems, navigation, setIndex, toggleMute, toggleLike }) {
   const [isLiked, setLiked] = useState(feed.isLiked)
   const [isMuted, setMuted] = useState(feed.isMuted)
+  const [isFiltered, setFiltered] = useState(feed.isFiltered)
 
   const bold = {
     fontFamily: 'IBMPlexMono-Bold',
@@ -142,6 +143,26 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       />
     </Svg>
 
+  const filterIcon = <Svg
+    viewBox='0 0 32 32'
+    height={ 32 * fontSizeMultiplier() }
+    width={ 32 * fontSizeMultiplier() }
+    fill='none'
+    stroke={isFiltered ? hslString('buttonBG') : hslString('rizzleText')}
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'>
+    <Line x1='4' y1='21' x2='4' y2='14' />
+    <Line x1='4' y1='10' x2='4' y2='3' />
+    <Line x1='12' y1='21' x2='12' y2='12' />
+    <Line x1='12' y1='8' x2='12' y2='3' />
+    <Line x1='20' y1='21' x2='20' y2='16' />
+    <Line x1='20' y1='12' x2='20' y2='3' />
+    <Line x1='1' y1='14' x2='7' y2='14' />
+    <Line x1='9' y1='8' x2='15' y2='8' />
+    <Line x1='17' y1='16' x2='23' y2='16' />
+  </Svg>
+
   return (
     <View style={{
       flex: 1,
@@ -243,16 +264,16 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               minWidth: '48%',
               marginBottom: margin
             }}
-            icon={readIcon}
+            icon={filterIcon}
+            isInverted={isFiltered}
             noResize={true}
             onPress={() => {
-              console.log('Pressed Go to items ' + feed._id)
               clearReadItems()
-              filterItems(feed._id)
+              setFiltered(!isFiltered)
+              filterItems(isFiltered ? null : feed._id)
               setIndex(0)
-              navigation.navigate('Items')
             }}
-            text='Read stories' />
+            text='Filter stories' />
           <TextButton
             isCompact={compactButtons}
             buttonStyle={{
