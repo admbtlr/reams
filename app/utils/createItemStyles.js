@@ -37,7 +37,7 @@ export function createItemStyles (item, prevStyles) {
     }
     title.isMonochrome = true
     // title.isMonochrome = Math.random() > 0.3 && !(prevStyles && prevStyles.isMonochrome)
-    if (Math.random() > 0.2) {
+    if (Math.random() > 0.4) {
       isBW = true
     }
   // } else if (Math.random() > 0.9) {
@@ -157,6 +157,7 @@ export function setCoverInline (oldStyles) {
   styles.title.hasShadow = false
   styles.coverImage.isScreen = false
   styles.coverImage.isMultiply = false
+  styles.coverImage.isBW = false
   return styles
 }
 
