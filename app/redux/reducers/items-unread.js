@@ -8,6 +8,7 @@ import {
   itemDecorationSuccess,
   itemDecorationFailure,
   itemsFlate,
+  itemsFlateError,
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
 } from './items-common'
@@ -204,6 +205,9 @@ export const itemsUnread = (state = initialState, action) => {
 
     case 'ITEMS_FLATE':
       return itemsFlate(action, state)
+
+    case 'ITEMS_FLATE_ERROR':
+      return itemsFlateError(action, state)
 
     case 'ITEM_MARK_READ':
       return itemMarkRead(action, state)

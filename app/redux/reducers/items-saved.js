@@ -6,6 +6,7 @@ import {
   itemDecorationSuccess,
   itemDecorationFailure,
   itemsFlate,
+  itemsFlateError,
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
 } from './items-common'
@@ -173,6 +174,9 @@ export const itemsSaved = (state = initialState, action) => {
 
     case 'ITEMS_FLATE':
       return itemsFlate(action, state)
+
+    case 'ITEMS_FLATE_ERROR':
+      return itemsFlateError(action, state)
 
     case 'ITEM_DECORATION_SUCCESS':
       if (!action.isSaved) return state

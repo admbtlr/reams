@@ -157,7 +157,7 @@ export const itemsFlate = (action, state) => {
   // the items in the action are already inflated/deflated
   const flatedItems = action.itemsToInflate
     .concat(action.itemsToDeflate)
-  items = [...state.items]
+  let items = [...state.items]
   flatedItems.forEach(fi => {
     // some of the items might have been deleted in Firebase
     // which means that they will come back as undefined
@@ -177,3 +177,16 @@ export const itemsFlate = (action, state) => {
     items
   }
 }
+
+export const itemsFlateError = (action, state) => {
+  // something's gone wrong, so just remove them
+  const erroredItems = action.items
+  const items = [...state.items].filter(i => (
+    erroredItems.find(ei => ei._id === i._id) === undefined
+  ))
+  return {
+    ...state,
+    items
+  }
+}
+

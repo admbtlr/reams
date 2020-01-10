@@ -56,9 +56,26 @@ export function * inflateItems (action) {
 
       // sometimes one of these is null, for reasons that I don't understand
       // so let's try returning the uninflated item and see if that helps
-      inflatedItems = inflatedItems.map((inflatedItem, index) => inflatedItem === null ?
-        itemsToInflate[index] :
-        inflatedItem)
+      // inflatedItems = inflatedItems.map((inflatedItem, index) => inflatedItem === null ?
+      //   itemsToInflate[index] :
+      //   inflatedItem)
+      inflatedItems = inflatedItems.map((inflatedItem, index) => {
+        return inflatedItem === null ?
+          {
+            error: true,
+            _id: itemsToInflate[index]._id
+          } :
+          inflatedItem
+      })
+      const erroredItems = inflatedItems.filter(i => i.error)
+      if (erroredItems.length) {
+        // dispatch an ITEMS_FLATE_ERROR event
+        yield put({
+          type: 'ITEMS_FLATE_ERROR',
+          items: erroredItems
+        })
+        return
+      }
 
       // some of the item fields are mutable, i.e. they could have changed while the item was deflated
       // (right now actually just the feed color)
