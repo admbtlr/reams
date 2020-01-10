@@ -857,6 +857,14 @@ hr {
     em {
       font-family: "AvenirNext-Medium";
     }
+
+    strong {
+      font-family: "AvenirNext-BoldItalic";
+    }
+
+    em strong, strong em {
+      font-family: "AvenirNext-Bold";
+    }
   }
 }
 
@@ -873,6 +881,10 @@ hr {
     em {
       font-family: "Montserrat-Light";
     }
+
+    strong {
+      font-family: "Montserrat-BoldItalic";
+    }
   }
 }
 
@@ -884,10 +896,18 @@ hr {
     font-family: "IBMPlexSans-Light";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "IBMPlexSans-LightItalic";
+    font-family: "IBMPlexSans-Italic";
 
     em {
-      font-family: "IBMPlexSans-Light";
+      font-family: "IBMPlexSans";
+    }
+
+    strong {
+      font-family: "IBMPlexSans-BoldItalic";
+    }
+
+    em strong, strong em {
+      font-family: "IBMPlexSans-Bold";
     }
   }
 }
@@ -900,10 +920,18 @@ hr {
     font-family: "IBMPlexSerif-Light";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "IBMPlexSerif-LightItalic";
+    font-family: "IBMPlexSerif-Italic";
 
     em {
-      font-family: "IBMPlexSerif-Light";
+      font-family: "IBMPlexSerif";
+    }
+
+    strong {
+      font-family: "IBMPlexSerif-BoldItalic";
+    }
+
+    em strong, strong em {
+      font-family: "IBMPlexSerif-Bold";
     }
   }
 }
@@ -932,6 +960,14 @@ hr {
 
     em {
       font-family: "PlayfairDisplay";
+    }
+
+    strong {
+      font-family: "PlayfairDisplay-BoldItalic";
+    }
+
+    em strong, strong em {
+      font-family: "PlayfairDisplay-Bold";
     }
   }
 }
