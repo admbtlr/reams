@@ -186,7 +186,9 @@ export function hslString (color, modifier = '', alpha) {
       palette = colors
   }
   color = palette[color] ||
-    ((store && store.getState().webView.isDarkBackground) ? darkMode[color] : ui[color])
+    ((modifier !== 'strict' && store && store.getState().webView.isDarkBackground) ?
+      darkMode[color] :
+      ui[color])
   if (alpha) {
     color = color.replace('hsl', 'hsla').replace(')', `${alpha})`)
   }

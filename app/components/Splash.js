@@ -82,7 +82,7 @@ export default function Splash ({ fadeOut }) {
         left: 0,
         bottom: 0,
         right: 0,
-        backgroundColor: hslString('rizzleBG'),
+        backgroundColor: hslString('rizzleBG', 'strict'),
         opacity: scaleAnim.interpolate({
           inputRange: [1, 20],
           outputRange: [1, 0]
@@ -95,8 +95,8 @@ export default function Splash ({ fadeOut }) {
       }}
     >
       <Image
-        onLoadEnd={() => SplashScreen.hide()}
-        resizeMode='cover'
+        onLoad={() => SplashScreen.hide()}
+        resizeMode='contain'
         source={require('../assets/images/splash.png')}
         style={{
           flex: 1,
