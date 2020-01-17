@@ -76,6 +76,9 @@ export default function Splash ({ fadeOut }) {
 
   return hasFaded ? null :
     <Animated.View
+      onLayout={() => {
+        SplashScreen.hide()
+      }}
       style={{
         position: 'absolute',
         top: 0,
@@ -95,7 +98,10 @@ export default function Splash ({ fadeOut }) {
       }}
     >
       <Image
-        onLoad={() => SplashScreen.hide()}
+        onLoadEnd={() => {
+          console.log('onLoadEnd!')
+          SplashScreen.hide()
+        }}
         resizeMode='contain'
         source={require('../assets/images/splash.png')}
         style={{

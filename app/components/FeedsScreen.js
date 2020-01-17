@@ -89,9 +89,9 @@ class FeedsScreen extends React.Component {
   //   }
   // }
 
-  componentDidMount = () => {
-    SplashScreen.hide()
-  }
+  // componentDidMount = () => {
+  //   SplashScreen.hide()
+  // }
 
   open = (feed, index, position) => {
     this.activeFeedId.setValue(feed._id)
@@ -315,7 +315,7 @@ class ListHeaderComponent extends React.Component {
           title='Your Feeds'
           showBack={true}
           onBack={() => {
-            this.props.clearReadItems()props.
+            this.props.clearReadItems()
             this.props.setIndex(0)
             navigation.navigate('Items')
           }}
