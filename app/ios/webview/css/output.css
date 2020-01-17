@@ -41,7 +41,7 @@ body {
   background-color: #f7f7f3;
   transition: background-color, color 0.2s; }
   body, body a, body a:active, body a:visited {
-    color: #595959; }
+    color: #333333; }
   .dark-background body {
     background-color: black; }
     .dark-background body, .dark-background body a, .dark-background body a:active, .dark-background body a:visited {
@@ -245,7 +245,7 @@ body {
     font-size: 1rem;
     line-height: 1.33rem;
     font-style: normal;
-    padding: 1rem .5rem .5rem;
+    padding: 1rem 1rem .5rem;
     margin: 1rem 0; }
     @media (min-width: 600px) {
       .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
@@ -324,7 +324,7 @@ body {
       margin-right: .2rem;
       margin-bottom: .1rem;
       margin-top: .4rem; }
-  .itemArticle ul li:before {
+  .itemArticle ul li:before, .itemArticle ol li:before {
     background-color: var(--feed-color); }
   .itemArticle header {
     font-weight: 500; }
