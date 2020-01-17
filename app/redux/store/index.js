@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
+import { compose, createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 // import thunk from 'redux-thunk'
 import makeRootReducer from '../reducers'
@@ -9,6 +9,7 @@ import firestore from '@react-native-firebase/firestore'
 import { getFirebase } from 'react-redux-firebase'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import log from '../../utils/log'
+import Reactotron from '../../reactotron.config'
 
 let store = null
 
@@ -17,11 +18,8 @@ function configureStore () {
     realtime: window.__DEV__
   })
 
-  const sagaMiddleware = createSagaMiddleware({
-    onError: error => {
-      log('Saga Middleware', error)
-    }
-  })
+  const sagaMonitor = Reactotron.createSagaMonitor()
+  const sagaMiddleware = createSagaMiddleware({ sagaMonitor })
 
   const persistConfig = {
     key: 'primary',
@@ -36,11 +34,13 @@ function configureStore () {
     persistedReducer,
     // combineReducers(reducers),
     {},
-    composeEnhancers(
+    // composeEnhancers(
+    compose(
       // applyMiddleware(thunk),
       // reactReduxFirebase(firebase, reactReduxFirebaseConfig),
       // reduxFirestore(firebase),
-      applyMiddleware(sagaMiddleware)
+      applyMiddleware(sagaMiddleware),
+      Reactotron.createEnhancer()
     )
   )
 
