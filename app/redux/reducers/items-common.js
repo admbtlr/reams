@@ -122,8 +122,7 @@ export const updateCurrentItemTitleFontSize = (action, state) => {
   let stateChanged = false
   const newItems = state.items.map(item => {
     if (item._id === action.item._id) {
-      if (item.styles.title === undefined) debugger
-      if (item.styles.title.fontSize !== action.fontSize) {
+      if (item.styles && item.styles.title.fontSize !== action.fontSize) {
         item.styles.title.fontSize = action.fontSize
         item.styles.title.lineHeight = action.fontSize
         item.styles.title.fontResized = true
