@@ -8,8 +8,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native'
-import AnimatedEllipsis from 'react-native-animated-ellipsis'
-import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
+import Svg, {Circle, G, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import {
   getAnimatedValue,
   getPanValue,
@@ -19,10 +18,12 @@ import FeedIconContainer from '../containers/FeedIcon'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
+import Reactotron from 'reactotron-react-native'
 
 export const STATUS_BAR_HEIGHT = 70
 
-class TopBar extends React.PureComponent {
+class TopBar extends React.Component {
+  static whyDidYouRender = true
 
   constructor (props) {
     super(props)
@@ -38,6 +39,7 @@ class TopBar extends React.PureComponent {
 
     this.onStatusBarDown = this.onStatusBarDown.bind(this)
     this.onStatusBarUp = this.onStatusBarUp.bind(this)
+    this.onDisplayPress = this.onDisplayPress.bind(this)
 
     addScrollListener(this)
   }
@@ -53,10 +55,26 @@ class TopBar extends React.PureComponent {
   onStatusBarReset () {
     this.props.showItemButtons()
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return nextProps.currentItem !== this.props.currentItem ||
-  //     nextProps.toolbar.message !== this.props.toolbar.message
-  // }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const shouldUpdate = (
+      (this.props.prevItem && nextProps.prevItem ?
+        this.props.prevItem._id !== nextProps.prevItem._id :
+        true) ||
+      (this.props.currentItem && nextProps.currentItem ?
+        this.props.currentItem._id !== nextProps.currentItem._id :
+        true) ||
+      (this.props.nextItem && nextProps.nextItem ?
+        this.props.nextItem._id !== nextProps.nextItem._id :
+        true) ||
+      // this is terrible, since panAnim exists outside of state and props
+      // but when SwipeableViews updates, it refreshed panAnim, and the TopBar
+      // needs to refresh when this happens
+      getPanValue().panAnim !== this.panAnim ||
+      getAnimatedValue() !== this.scrollAnim
+    )
+    return shouldUpdate
+  }
 
   componentDidUpdate (prevProps, prevState) {
     if (prevState.detailsVisible !== this.state.detailsVisible) {
@@ -72,16 +90,14 @@ class TopBar extends React.PureComponent {
   }
 
   render () {
-    const { prevItem, currentItem, nextItem } = this.props
-    const {
-      prevOpacityAnim,
-      currentOpacityAnim,
-      nextOpacityAnim,
-      prevTransformAnim,
-      currentTransformAnim,
-      NextTransformAnim
-    } = this.state
+    const { prevItem, currentItem, nextItem, index, numItems } = this.props
     const { panAnim, panAnimDivisor } = getPanValue()
+    this.panAnim = panAnim
+    this.scrollAnim = getAnimatedValue()
+
+    console.log('RENDERING TOPBAR')
+    Reactotron.log('RENDERING TOPBAR')
+
 
     const opacityRanges = [
       {
@@ -147,7 +163,13 @@ class TopBar extends React.PureComponent {
 
     const views = items.map((item, i) => (<View key={item ? item._id : i}>
         {this.renderTopBar(item, opacityAnims[i])}
-        {this.renderStatusBar(item, opacityAnims[i], titleTransformAnims[i], panTransformAnim, prevItem ? i === 1 : i === 0)}
+        {this.renderStatusBar(item,
+          opacityAnims[i],
+          titleTransformAnims[i],
+          panTransformAnim,
+          prevItem ? i === 1 : i === 0,
+          index,
+          numItems)}
       </View>)
     )
 
@@ -213,6 +235,43 @@ class TopBar extends React.PureComponent {
     // ).start()
   }
 
+  onDisplayPress () {
+    const { displayMode, isOnboarding, setDisplayMode, showModal } = this.props
+    const modalText = displayMode == 'saved' ?
+      [
+        {
+          text: 'You are now in unread mode',
+          style: ['title']
+        },
+        {
+          text: 'This is where you can see all the unread stories in your feed',
+          style: []
+        }
+      ] :
+      [
+        {
+          text: 'You are now in saved mode',
+          style: ['title']
+        },
+        {
+          text: 'This is where you can see all the stories you’ve saved, either from your feed or using the Rizzle share extension',
+          style: []
+        }
+      ]
+    isOnboarding || setDisplayMode(displayMode === 'unread' ? 'saved' : 'unread')
+    showModal({
+      modalText,
+      modalHideCancel: true,
+      modalName: 'modal_switch_view',
+      modalShow: true,
+      modalHideable: true,
+      modalOnOk: () => {
+        const x = 'y'
+        console.log('Gone')
+      }
+    })
+  }
+
   renderTopBar (item, opacityAnim) {
     const topBarStyles = {
       ...this.getStyles().topBar,
@@ -222,7 +281,7 @@ class TopBar extends React.PureComponent {
     return <Animated.View style={topBarStyles} />
   }
 
-  renderStatusBar (item, opacityAnim, transformAnim, panTransformAnim, isVisible) {
+  renderStatusBar (item, opacityAnim, transformAnim, panTransformAnim, isVisible, index, numItems) {
     const isMessage = this.props.toolbar.message
     const textHolderStyles = {
       ...this.getStyles().textHolder,
@@ -232,7 +291,7 @@ class TopBar extends React.PureComponent {
     const areDetailsVisible = this.state && this.state.detailsVisible || false
 
     const clampedAnimatedValue = Animated.diffClamp(
-      Animated.add(getAnimatedValue(), panTransformAnim),
+      Animated.add(this.scrollAnim, panTransformAnim),
       -STATUS_BAR_HEIGHT,
       0
     )
@@ -298,9 +357,11 @@ class TopBar extends React.PureComponent {
           }}
         >
           { this.props.isOnboarding || <ViewButtonToggle
+            backgroundColor={this.getBackgroundColor(item)}
             buttonColor={this.getHamburgerColor(item)}
             isSyncing={this.props.toolbar.message}
-            onPress={this.props.toggleViewButtons}
+            displayMode={this.props.displayMode}
+            onPress={this.onDisplayPress}
             opacityAnim={clampedAnimatedValue.interpolate({
               inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
               outputRange: [0, 1]
@@ -322,8 +383,8 @@ class TopBar extends React.PureComponent {
           <View style={{
             top: 0,
             flex: 1,
-            paddingLeft: 70,
-            paddingRight: 70
+            marginLeft: 90,
+            marginRight: 90
           }}>
             <TouchableOpacity
               key={`inner-{id()}`}
@@ -344,7 +405,6 @@ class TopBar extends React.PureComponent {
               }}
               style={{
                 backgroundColor: 'transparent',
-                overflow: 'hidden',
                 height: 70,
               }}>
               <Animated.View style={{
@@ -389,7 +449,7 @@ class TopBar extends React.PureComponent {
                       textAlign: item && item.hasCachedFeedIcon ?
                         'left' : 'center'
                     }}
-                  >{this.props.displayMode === 'saved' ?
+                  >{ index + 1 } / { numItems } {this.props.displayMode === 'saved' ?
                     'Saved from' :
                     this.props.feedFilter ?
                       'Filtered for' :
@@ -571,41 +631,50 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
     </TouchableOpacity>
   </Animated.View>)
 
-const ViewButtonToggle = ({ onPress, buttonColor, opacityAnim, isSyncing }) => (<Animated.View style={{
-    position: 'absolute',
-    left: 20,
-    bottom: 6,
-    width: 28,
-    height: 38,
-    opacity: opacityAnim
-  }}>
-    <TouchableOpacity
-      style={{
-        // borderRadius: 14,
-        // backgroundColor: 'rgba(0, 0, 0, 0.3)'
-      }}
-      onPress={onPress}
-    >
-      <Svg
-        height='32'
-        width='32'>
-        <Path
-          d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-          strokeWidth={2}
-          stroke={buttonColor}
-          fill="none"
-        />
-        <Circle
-          cx="12"
-          cy="12"
-          r="3"
-          strokeWidth={2}
-          stroke={buttonColor}
-          fill={isSyncing ? "white" : "none"}
-        />
-      </Svg>
-    </TouchableOpacity>
-  </Animated.View>)
+
+const ViewButtonToggle = ({ displayMode, onPress, backgroundColor, buttonColor, opacityAnim, isSyncing }) => {
+  const savedIcon = <Svg width="32px" height="32px" viewBox="0 0 32 32">
+      <G strokeWidth="1"  stroke='none' fill="none" fillRule="evenodd">
+        <G transform="translate(-1.000000, -3.000000)">
+          <G transform="translate(1.000000, 3.000000)">
+            <Path fill={buttonColor} d="M2,6 L2,27 C2,28.65 3.4,30 5.11111111,30 L26.8888889,30 C28.6071081,30 30,28.6568542 30,27 L30,6 M0,5 C0,5.00566956 0,4.33900289 0,3 C0,0.991495663 0.444444444,4.4408921e-15 3,4.4408921e-15 L29,4.4408921e-15 C31.5555556,4.4408921e-15 32,1 32,3 L32,5" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <Rect stroke={backgroundColor} fill='white' transform="translate(16.000000, 17.500000) rotate(120.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
+            <Rect stroke={backgroundColor} fill='white' x="7.5" y="15.5" width="17" height="4" />
+            <Rect stroke={backgroundColor} fill='white' transform="translate(16.000000, 17.500000) rotate(60.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
+          </G>
+        </G>
+      </G>
+    </Svg>
+  const unreadIcon = <Svg width="30px" height="26px" viewBox="0 0 30 26">
+    <G stroke="none" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <G transform="translate(-2.000000, -8.000000)" stroke={buttonColor} strokeWidth="2">
+        <G transform="translate(3.000000, 3.000000)">
+          <Path d="M0,22 L0,27 C0,28.65 1.4,30 3.11111111,30 L24.8888889,30 C26.6071081,30 28,28.6568542 28,27 L28,22 M3,24 L25,24 M3,27 L25,27 M3,18 L25,18 M3,21 L25,21 M3,12 L25,12 M3,15 L25,15 M3,6 L25,6 M3,9 L25,9" />
+        </G>
+      </G>
+    </G>
+  </Svg>
+  return (
+    <Animated.View style={{
+      position: 'absolute',
+      left: 20,
+      bottom: 7,
+      width: 32,
+      height: 38,
+      opacity: opacityAnim
+    }}>
+      <TouchableOpacity
+        style={{
+          // borderRadius: 14,
+          // backgroundColor: 'rgba(0, 0, 0, 0.3)'
+        }}
+        onPress={onPress}
+      >
+        { displayMode === 'unread' ? savedIcon : unreadIcon}
+      </TouchableOpacity>
+    </Animated.View>
+  )
+}
 
 
 export const getTopBarHeight = () => STATUS_BAR_HEIGHT +

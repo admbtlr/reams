@@ -21,7 +21,7 @@ function * init (getFirebase, action) {
 
   yield initBackend(getFirebase, action)
   yield call(inflateItems)
-  yield call(fetchAllItems)
+  // yield call(fetchAllItems)
   yield call(decorateItems)
   yield call(clearReadItems)
   yield call(pruneItems)
@@ -50,9 +50,9 @@ export function * initSagas (getFirebase) {
   yield takeEvery('ITEMS_FETCH_ITEMS', fetchAllItems)
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
   yield takeEvery('ITEMS_RECEIVED_REMOTE_READ', filterItemsForFirestoreRead)
-  // yield takeEvery('CONFIG_SET_FEED_FILTER', inflateItems)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
+  // yield takeEvery('CONFIG_SET_FEED_FILTER', inflateItems)
   // yield takeEvery('USER_SET_UID', clearReadItems)
 
   // reading timer

@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>320</string>
+	<string>333</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -87,6 +87,8 @@
 		<string>IBMPlexSansCondensed-BoldItalic.ttf</string>
 		<string>IBMPlexSansCondensed-ExtraLight.ttf</string>
 		<string>IBMPlexSansCondensed-ExtraLightItalic.ttf</string>
+		<string>IBMPlexSansCondensed-Light.ttf</string>
+		<string>IBMPlexSansCondensed-Regular.ttf</string>
 		<string>IBMPlexSerif-Thin.ttf</string>
 		<string>IBMPlexSerif-ThinItalic.ttf</string>
 		<string>PlayfairDisplaySC-Bold.ttf</string>

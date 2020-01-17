@@ -1,18 +1,21 @@
 # To Do
 
+- why isn't icon color detection working?
+- why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?
+- speed up refresh of item carousel
 - fix bug with second item never showing its title
-- fix bug with items re-rendering and losing your place when getting new items
 - find memory leak
-- Sentry errors relating to inflation with feed filter
 - Fix undefined error
     + https://sentry.io/organizations/adam-butler/issues/1361854344/?project=195309&query=is%3Aunresolved
-- improve auto-mercury
+- replace mercury with browser button for some feeds
 - better loading indicator
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - login with apple
     + https://github.com/invertase/react-native-apple-authentication
 - make extension work with more data types
+- text highlights
+    + https://github.com/react-native-community/react-native-webview/issues/607
 - placeholder images (use letters?)
 - Use https://github.com/DylanVann/react-native-fast-image to show cached images
 - scroll effects
@@ -23,6 +26,8 @@
 
 # Done
 
+- ~~fix bug with items re-rendering and losing your place when getting new items~~
+- ~~Sentry errors relating to inflation with feed filter~~
 - ~~fix freezing share extension~~
 - ~~finish adding all the fonts to css~~
 - ~~integrate new feeds list properly~~

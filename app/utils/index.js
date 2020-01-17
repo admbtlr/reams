@@ -6,6 +6,9 @@ import {
   Platform
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
+import DeviceInfo from 'react-native-device-info'
+
+let deviceId
 
 export function deepEqual (a, b, ignoreNull = false) {
   try {
@@ -53,6 +56,42 @@ export function deepEqual (a, b, ignoreNull = false) {
     console.log(e)
   }
 
+}
+
+export function diff (a, b, changes = {}) {
+  changes = oneWayDiff (a, b, changes)
+  return oneWayDiff(b, a, changes)
+}
+
+function oneWayDiff (a, b, changes) {
+  for (var key in a) {
+    if (changes[key] !== undefined) continue
+    if (key === 'item') {
+      changes[key] = diff(a[key], b[key])
+    } else {
+      if (a[key] !== b[key]) {
+        changes[key] = {
+          old: a[key],
+          new: b[key]
+        }
+      }
+    }
+  }
+  return changes
+}
+
+export function deviceCanHandleAnimations () {
+  if (deviceId === undefined) {
+    deviceId = DeviceInfo.getDeviceId()
+  }
+  if (deviceId.startsWith('iPad')) {
+    const number = deviceId.substring(4).split(',')[0]
+    return Number.parseInt(number) > 5
+  } else if (deviceId.startsWith('iPhone')) {
+    const number = deviceId.substring(4).split(',')[0]
+    return Number.parseInt(number) > 10
+  }
+  return true
 }
 
 export function getCachedCoverImagePath (item) {

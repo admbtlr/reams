@@ -14,22 +14,26 @@ import { getItemId } from '../utils/get-item'
 import { hslString } from '../utils/colors'
 
 class SwipeableViews extends Component {
+  static whyDidYouRender = true
   constructor (props) {
     super(props)
     this.props = props
     this.state = {}
     this.panOffset = new Animated.Value(0)
+    this.timerFunctions = {}
     if (!this.props.isOnboarding) {
-      panHandler(this.panOffset, Dimensions.get('window').width)
+      this.updatePanHandler(this.calculateIndexVirtual(this.props.index))
     }
 
     this.onScrollEnd = this.onScrollEnd.bind(this)
+
+    this.screenWidth = Dimensions.get('window').width
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate (prevProps, prevState) {
     this.scrollToItem()
     if (!this.props.isOnboarding) {
-      panHandler(this.panOffset, Dimensions.get('window').width)
+      this.updatePanHandler(this.calculateIndexVirtual(this.state.index))
     }
   }
 
@@ -46,8 +50,10 @@ class SwipeableViews extends Component {
       nextProps.index :
       nextState.index
     const nextItems = nextProps.items
-    const currentIds = this.children.map(child => child._id)
+    const currentIds = this.children.map(child => child.key)
     const nextIds = this.getChildIds(nextIndex, nextItems).map(child => child._id)
+    const yesNo = !(JSON.stringify(currentIds) === JSON.stringify(nextIds)) ? 'Yes' : 'No'
+    console.log(`Should SwipeableViews render? ${yesNo}`)
 
     return !(JSON.stringify(currentIds) === JSON.stringify(nextIds))
   }
@@ -93,23 +99,42 @@ class SwipeableViews extends Component {
     })
   }
 
+  updatePanHandler (indexVirtualNew) {
+    const panAnimValue = Animated.subtract(this.panOffset, this.screenWidth * (indexVirtualNew - 1))
+    panHandler(panAnimValue, this.screenWidth)
+  }
+
   onScrollEnd (evt) {
+    console.log('ON SCROLL END')
+    const {onChangeIndex, virtualBuffer} = this.props
+    const {indexVirtual} = this.state
     const offsetNew = evt.nativeEvent.contentOffset.x
     let indexVirtualNew = offsetNew / Dimensions.get('window').width
-    const indexDelta = indexVirtualNew - this.state.indexVirtual
+    const indexDelta = indexVirtualNew - this.currentIndexVirtual
     if (indexDelta !== 0) {
-      const indexOld = this.state.index
-      const indexNew = Math.round(indexOld + indexDelta)
+      const indexNew = Math.round(this.currentIndex + indexDelta)
       // the if is here because of a race condition where the functions are cleared before we get here
-      if (this.startTimer[indexNew]) this.startTimer[indexNew]()
+      // if (this.startTimer[indexNew]) {
+      //   this.startTimer[indexNew]()
+      // } else {
+      //   debugger
+      // }
+      const child = this.children[indexVirtualNew]
       // let the fade in animation happen...
-      setTimeout(() => {
-        this.props.onChangeIndex(indexNew, indexOld)
+      child && this.timerFunctions[child.key] && this.timerFunctions[child.key]()
+      onChangeIndex(indexNew, this.currentIndex || 0)
+      this.currentIndex = indexNew
+      this.currentIndexVirtual = indexVirtualNew
+      this.updatePanHandler(indexVirtualNew)
+      // setTimeout(() => {
+      if (indexVirtualNew ===  indexVirtual + virtualBuffer ||
+        indexVirtualNew === indexVirtual - virtualBuffer) {
         this.setState({
           index: indexNew,
           indexVirtual: this.calculateIndexVirtual(indexNew)
         })
-      }, 250)
+      }
+      // }, 250)
     }
   }
 
@@ -137,6 +162,7 @@ class SwipeableViews extends Component {
   }
 
   render () {
+    console.log('RENDER SWIPEABLE VIEWS')
     const {
       slideRenderer,
       hysteresis, // eslint-disable-line no-unused-vars
@@ -146,23 +172,27 @@ class SwipeableViews extends Component {
     } = this.props
 
     const {
-      index
+      index,
+      indexVirtual
     } = this.state
+
+    this.currentIndex = index
+    this.currentIndexVirtual = indexVirtual
 
     const pageWidth = Dimensions.get('window').width
 
     this.prevChildren = this.children
     this.children = []
-    this.startTimer = []
 
     this.children = this.getChildIds(index).map(child => slideRenderer({
       index: child.index,
       key: child._id,
       _id: child._id,
-      setTimerFunction: timerFunc => this.startTimer[child.index] = timerFunc,
-      isVisible: child.index === index
+      setTimerFunction: timerFunc => {
+        this.timerFunctions[child._id] = timerFunc
+      },
+      // isVisible: child.index === index
     }))
-
 
     if (this.prevChildren) {
       for (child in this.children) {
@@ -178,6 +208,7 @@ class SwipeableViews extends Component {
       <Animated.ScrollView
         bounces={false}
         decelerationRate="fast"
+        disableIntervalMomentum={true}
         horizontal
         onLayout={this.scrollToItem.bind(this)}
         onMomentumScrollEnd={this.onScrollEnd.bind(this)}

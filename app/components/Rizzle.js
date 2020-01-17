@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import {
+  InteractionManager,
   Linking,
   StatusBar,
   View
@@ -83,6 +84,8 @@ export default class Rizzle extends Component {
 
   // https://www.ekreative.com/universal-linking-in-react-native-for-ios/
   componentDidMount () {
+    console.disableYellowBox = true
+
     // set up deep linking
     this.addRoutesToDeepLinking()
     Linking.addEventListener('url', this.handleUrl)
@@ -106,6 +109,8 @@ export default class Rizzle extends Component {
       accountName: '', // [Android] specifies an account name on the device that should be used
       // iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
     })
+
+    InteractionManager.setDeadline(100)
   }
 
   handleUrl ({ url }) {

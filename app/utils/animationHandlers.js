@@ -31,7 +31,7 @@ function reset (newScrollAnimValue) {
   Animated.timing(resetAnim, {
     toValue,
     duration: 400,
-    useNativeDriver: true,
+    useNativeDriver: true
   }).start(() => {
     scrollListeners.forEach((listener) => {
       listener.onStatusBarReset()

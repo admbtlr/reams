@@ -19,7 +19,10 @@ class ViewButtons extends React.Component {
     visibleAnimIncreaseFont: new Animated.Value(-100),
     visibleAnimDecreaseFont: new Animated.Value(-100),
     visibleAnimDarkBg: new Animated.Value(-100),
+    anim: new Animated.Value(1)
   }
+
+  translateDistance = 80
 
   constructor (props) {
     super(props)
@@ -30,25 +33,30 @@ class ViewButtons extends React.Component {
     const springConfig =         {
       speed: 20,
       bounciness: 12,
-      toValue: this.props.visible ? 0 : -70,
+      toValue: this.props.visible ? 0 : -1,
       duration: 200,
       useNativeDriver: true
     }
     if (prevProps.visible !== this.props.visible) {
-      Animated.stagger(50, [
-        Animated.spring(
-          this.state.visibleAnimIncreaseFont,
-          springConfig
-        ),
-        Animated.spring(
-          this.state.visibleAnimDecreaseFont,
-          springConfig
-        ),
-        Animated.spring(
-          this.state.visibleAnimDarkBg,
-          springConfig
-        )
-      ]).start()
+      // Animated.stagger(50, [
+      //   Animated.spring(
+      //     this.state.animIncreaseFont,
+      //     springConfig
+      //   ),
+      //   Animated.spring(
+      //     this.state.animDecreaseFont,
+      //     springConfig
+      //   ),
+      //   Animated.spring(
+      //     this.state.animDarkBg,
+      //     springConfig
+      //   )
+      // ]).start()
+      Animated.timing(this.state.anim, {
+        toValue: this.props.visible ? 0 : 1,
+        duration: 460,
+        useNativeDriver: true
+      }).start()
     }
   }
 
@@ -64,7 +72,10 @@ class ViewButtons extends React.Component {
           style={{
             marginBottom: 28,
             transform: [{
-              translateX: this.state.visibleAnimIncreaseFont
+              translateX: this.state.anim.interpolate({
+                inputRange: [0, 0.25, 0.5, 1],
+                outputRange: [0, this.translateDistance * 0.2, -this.translateDistance, -this.translateDistance]
+              })
             }]
           }}
           onPress={this.props.increaseFontSize}
@@ -82,7 +93,10 @@ class ViewButtons extends React.Component {
           style={{
             marginBottom: 28,
             transform: [{
-              translateX: this.state.visibleAnimDecreaseFont
+              translateX: this.state.anim.interpolate({
+                inputRange: [0, 0.25, 0.5, 0.75, 1],
+                outputRange: [0, 0, this.translateDistance * 0.2, -this.translateDistance, -this.translateDistance]
+              })
             }]
           }}
           onPress={this.props.decreaseFontSize}
@@ -100,7 +114,10 @@ class ViewButtons extends React.Component {
           style={{
             paddingLeft: 3,
             transform: [{
-              translateX: this.state.visibleAnimDarkBg
+              translateX: this.state.anim.interpolate({
+                inputRange: [0, 0.5, 0.75, 1],
+                outputRange: [0, 0, this.translateDistance * 0.2, -this.translateDistance]
+              })
             }]
           }}
           onPress={this.props.toggleDarkBackground}
@@ -123,8 +140,8 @@ class ViewButtons extends React.Component {
     return {
       base: {
         position: 'absolute',
-        top: 112,
-        left: 10,
+        bottom: 100,
+        left: 20,
         width: '100%',
         zIndex: 10,
         flex: 1,

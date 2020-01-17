@@ -4,7 +4,9 @@ import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state, ownProps) => {
   const items = getItems(state)
-  const item = items.find(item => item._id === ownProps._id)
+  const index = getIndex(state)
+  const itemIndex = items.findIndex(item => item._id === ownProps._id)
+  const item = items[itemIndex]
   const feed_color = item && state.feeds.feeds.find(f => f._id === item.feed_id) &&
     state.feeds.feeds.find(f => f._id === item.feed_id).color
   return {
@@ -17,7 +19,8 @@ const mapStateToProps = (state, ownProps) => {
     isImageViewerVisible: state.ui.imageViewerVisible,
     coverImageComponent: ownProps.coverImageComponent,
     setTimerFunction: ownProps.setTimerFunction,
-    displayMode: state.itemsMeta.display
+    displayMode: state.itemsMeta.display,
+    isVisible: index === itemIndex
   }
 }
 

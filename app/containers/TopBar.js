@@ -15,7 +15,12 @@ const mapStateToProps = (state, ownProps) => {
     state.feedsLocal.feeds.find(f => f._id === feedId).cachedIconDimensions
   const feedColor = (feedId) => state.feeds.feeds.find(f => f._id === feedId) &&
   state.feeds.feeds.find(f => f._id === feedId).color
+  const numItems = state.config.isOnboarding ?
+    state.config.onboardingLength :
+    items.length
   return {
+    index,
+    numItems,
     prevItem: prevItem && {
       ...prevItem,
       hasCachedFeedIcon: hasCachedIcon(prevItem.feed_id),
@@ -45,8 +50,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toggleViewButtons: () => dispatch({
-      type: 'UI_TOGGLE_VIEW_BUTTONS'
+    setDisplayMode: (displayMode) => dispatch({
+      type: 'SET_DISPLAY_MODE',
+      displayMode
+    }),
+    showModal: (modalProps) => dispatch({
+      type: 'UI_SHOW_MODAL',
+      modalProps
     }),
     showItemButtons: () => dispatch({
       type: 'UI_SHOW_ITEM_BUTTONS'

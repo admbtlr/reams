@@ -1,18 +1,17 @@
 import { InteractionManager } from 'react-native'
-import { delay } from 'redux-saga'
-import { call, put, select, spawn } from 'redux-saga/effects'
+import { call, delay, put, select, spawn } from 'redux-saga/effects'
 import { markItemRead, markItemsRead } from '../backends'
 import { deleteItemsAS, updateItemAS } from '../async-storage/'
 import { removeCachedCoverImages } from '../../utils/item-utils'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
 
-const INITIAL_INTERVAL = 500
+const INITIAL_INTERVAL = 20000
 let interval = INITIAL_INTERVAL
 
 export function * executeRemoteActions () {
   yield spawn(function * () {
     while (true) {
-      yield call(delay, interval)
+      yield delay(interval)
       yield executeOldestAction()
     }
   })
@@ -39,11 +38,14 @@ function * executeAction (action) {
   switch (action.type) {
     case 'ITEM_MARK_READ':
       try {
+        yield call(InteractionManager.runAfterInteractions)
         yield call (markItemRead, action.item)
+        yield call(InteractionManager.runAfterInteractions)
         updateItemAS({
           ...action.item,
           readAt: Date.now()
         })
+        yield call(InteractionManager.runAfterInteractions)
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action
@@ -54,8 +56,10 @@ function * executeAction (action) {
       break
     case 'ITEMS_MARK_READ':
       try {
+        yield call(InteractionManager.runAfterInteractions)
         yield call(markItemsRead, action.items, action.feedId, action.olderThan)
         // no need to update in Async Storage, since they'll be cleared anyway
+        yield call(InteractionManager.runAfterInteractions)
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',
           action

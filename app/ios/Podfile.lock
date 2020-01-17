@@ -442,6 +442,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.6.3):
     - React
+  - RNDeviceInfo (5.4.1):
+    - React
   - RNFBApp (6.2.0):
     - Firebase/Core (~> 6.13.0)
     - React
@@ -477,6 +479,8 @@ PODS:
     - Bolts (= 1.9.0)
     - React
   - RNInAppBrowser (3.3.3):
+    - React
+  - RNReactNativeHapticFeedback (1.8.2):
     - React
   - RNReanimated (1.4.0):
     - React
@@ -524,6 +528,7 @@ DEPENDENCIES:
   - ReactNativeShareExtension (from `../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
@@ -534,6 +539,7 @@ DEPENDENCIES:
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNImageFilterKit (from `../node_modules/react-native-image-filter-kit`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
+  - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -636,6 +642,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -656,6 +664,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-filter-kit"
   RNInAppBrowser:
     :path: "../node_modules/react-native-inappbrowser-reborn"
+  RNReactNativeHapticFeedback:
+    :path: "../node_modules/react-native-haptic-feedback"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -731,6 +741,7 @@ SPEC CHECKSUMS:
   ReactNativeShareExtension: 69f7b8d9fbc338fc10f5927ee4f286295bcd249f
   rn-fetch-blob: e10cd24d6b0e116d1ecfcd0d0b4c3936f8336f97
   RNCAsyncStorage: e99188b8a89ea0edddc82d8831cd5142f4550fdc
+  RNDeviceInfo: 5b5b42b12587207b6bd686441ac42d19d8e07933
   RNFBApp: 30e1dc2e1619831cf42f2419ad6a4f3f275b2c75
   RNFBAuth: de8e6d88e67ec216b3f1a0fd385233ae7f35b70c
   RNFBDatabase: c8fca7a7f3782819f9c2d4e340088e8ceee1f84c
@@ -741,6 +752,7 @@ SPEC CHECKSUMS:
   RNGoogleSignin: ba310637094912a035b28de70adbf03a6c78d7d4
   RNImageFilterKit: 178c7846841fb7d2f87967731f93fb23bf9f01a6
   RNInAppBrowser: 13e6fe396c274632dbbcc9f963edbf82f5dc24b3
+  RNReactNativeHapticFeedback: 89c72bf6308e5d5269369e8365319a2d752435b8
   RNReanimated: 438b025d37de68a20188ead653ad5a5050b65990
   RNScreens: cbad3ccd2798bd19cc9ca5070e95e31c950b50ac
   RNSentry: ea67b65b328405ed060f43a2940003ed93b5c4eb

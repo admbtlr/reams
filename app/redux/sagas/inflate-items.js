@@ -1,5 +1,5 @@
 import { InteractionManager } from 'react-native'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, spawn } from 'redux-saga/effects'
 
 import { isInflated, deflateItem, inflateStyles } from '../../utils/item-utils'
 import log from '../../utils/log'
@@ -24,7 +24,6 @@ export function * inflateItems (action) {
     items = items.filter(i => i.feed_id === feedFilter)
   }
   if (items.length === 0) {
-    debugger
     return
   }
 
@@ -48,53 +47,54 @@ export function * inflateItems (action) {
         itemsToInflate.push(i)
       }
     })
-
-    console.log(itemsToInflate)
-    let inflatedItems = []
-    if (itemsToInflate.length > 0) {
-      inflatedItems = yield call(getItemsAS, itemsToInflate)
-
-      // sometimes one of these is null, for reasons that I don't understand
-      // so let's try returning the uninflated item and see if that helps
-      // inflatedItems = inflatedItems.map((inflatedItem, index) => inflatedItem === null ?
-      //   itemsToInflate[index] :
-      //   inflatedItem)
-      inflatedItems = inflatedItems.map((inflatedItem, index) => {
-        return inflatedItem === null ?
-          {
-            error: true,
-            _id: itemsToInflate[index]._id
-          } :
-          inflatedItem
-      })
-      const erroredItems = inflatedItems.filter(i => i.error)
-      if (erroredItems.length) {
-        // dispatch an ITEMS_FLATE_ERROR event
-        yield put({
-          type: 'ITEMS_FLATE_ERROR',
-          items: erroredItems
-        })
-        return
-      }
-
-      // some of the item fields are mutable, i.e. they could have changed while the item was deflated
-      // (right now actually just the feed color)
-      inflatedItems = inflatedItems.map((inflatedItem, index) => ({
-        ...inflatedItem,
-        feed_color: itemsToInflate[index].feed_color || inflatedItem.feed_color
-      }))
-    }
-
-
-    // inflatedItems = inflatedItems.map(inflateStyles)
-    if (inflatedItems.length > 0 || itemsToDeflate.length > 0) {
-      yield put({
-        type: 'ITEMS_FLATE',
-        itemsToInflate: inflatedItems,
-        itemsToDeflate
-      })
-    }
+    yield spawn(getItemsFromAS, itemsToInflate, itemsToDeflate)
   } catch (err) {
     log('inflateItems', err)
+  }
+}
+
+function * getItemsFromAS (itemsToInflate, itemsToDeflate) {
+  let inflatedItems = []
+  if (itemsToInflate.length > 0) {
+    inflatedItems = yield call(getItemsAS, itemsToInflate)
+
+    // sometimes one of these is null, for reasons that I don't understand
+    // so let's try returning the uninflated item and see if that helps
+    // inflatedItems = inflatedItems.map((inflatedItem, index) => inflatedItem === null ?
+    //   itemsToInflate[index] :
+    //   inflatedItem)
+    inflatedItems = inflatedItems.map((inflatedItem, index) => {
+      return inflatedItem === null ?
+        {
+          error: true,
+          _id: itemsToInflate[index]._id
+        } :
+        inflatedItem
+    })
+    const erroredItems = inflatedItems.filter(i => i.error)
+    if (erroredItems.length) {
+      // dispatch an ITEMS_FLATE_ERROR event
+      yield put({
+        type: 'ITEMS_FLATE_ERROR',
+        items: erroredItems
+      })
+      return
+    }
+
+    // some of the item fields are mutable, i.e. they could have changed while the item was deflated
+    // (right now actually just the feed color)
+    inflatedItems = inflatedItems.map((inflatedItem, index) => ({
+      ...inflatedItem,
+      feed_color: itemsToInflate[index].feed_color || inflatedItem.feed_color
+    }))
+  }
+
+  // inflatedItems = inflatedItems.map(inflateStyles)
+  if (inflatedItems.length > 0 || itemsToDeflate.length > 0) {
+    yield put({
+      type: 'ITEMS_FLATE',
+      itemsToInflate: inflatedItems,
+      itemsToDeflate
+    })
   }
 }

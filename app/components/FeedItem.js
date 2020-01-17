@@ -4,7 +4,7 @@ import {WebView} from 'react-native-webview'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
-import {deepEqual, getCachedCoverImagePath} from '../utils/'
+import {deepEqual, diff, getCachedCoverImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
 import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
 import { hslString } from '../utils/colors'
@@ -16,6 +16,7 @@ const calculateHeight = `
 `
 
 class FeedItem extends React.Component {
+  // static whyDidYouRender = true
   constructor(props) {
     super(props)
     this.props = props
@@ -26,7 +27,7 @@ class FeedItem extends React.Component {
     this.scrollOffset = new Animated.Value(0)
 
     this.state = {
-      webViewHeight: Dimensions.get('window').height,
+      webViewHeight: 0,
       scaleAnim: new Animated.Value(1)
     }
 
@@ -36,6 +37,12 @@ class FeedItem extends React.Component {
     this.openLink = this.openLink.bind(this)
     this.startTimer = this.startTimer.bind(this)
     this.setFadeInFunction = this.setFadeInFunction.bind(this)
+
+    this.screenDimensions = Dimensions.get('window')
+
+    // use this to that we can call startTimer() from SwipeableViews
+    // (not great, but OK)
+    this.view = React.createRef()
   }
 
   startTimer () {
@@ -53,28 +60,6 @@ class FeedItem extends React.Component {
     this.titleFadeIn = fadeInFunction
   }
 
-  diff (a, b, changes = {}) {
-    changes = this.oneWayDiff (a, b, changes)
-    return this.oneWayDiff(b, a, changes)
-  }
-
-  oneWayDiff (a, b, changes) {
-    for (var key in a) {
-      if (changes[key] !== undefined) continue
-      if (key === 'item') {
-        changes[key] = this.diff(a[key], b[key])
-      } else {
-        if (a[key] !== b[key]) {
-          changes[key] = {
-            old: a[key],
-            new: b[key]
-          }
-        }
-      }
-    }
-    return changes
-  }
-
   shouldComponentUpdate (nextProps, nextState) {
     if (this.isAnimating) return true
     let changes
@@ -83,7 +68,7 @@ class FeedItem extends React.Component {
       // + this.props.item.title
       // + (isDiff ? ' - YES' : ' - NO'))
     if (isDiff) {
-      changes = this.diff(this.props, nextProps, this.diff(this.state, nextState))
+      changes = diff(this.props, nextProps, diff(this.state, nextState))
       // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
       // console.log(changes)
     }
@@ -94,7 +79,12 @@ class FeedItem extends React.Component {
     if (changes && changes.item && Object.keys(changes.item).length === 0) {
       delete changes.item
     }
-    if (changes && Object.keys(changes).filter(k => k !== 'setTimerFunction').length === 1) {
+    if (changes && changes.setTimerFunction) {
+      delete changes.setTimerFunction
+    }
+    if (changes && Object.keys(changes).length === 0) {
+      isDiff == false
+    } else if (changes && Object.keys(changes).length === 1) {
       switch (Object.keys(changes).filter(k => k !== 'setTimerFunction')[0]) {
         case 'isVisible':
           isDiff = false
@@ -124,6 +114,7 @@ class FeedItem extends React.Component {
 
         case 'scaleAnim':
         case 'index':
+        case 'setTimerFunction':
           isDiff = false
           break
 
@@ -144,8 +135,11 @@ class FeedItem extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.props.isVisible && !prevProps.isVisible && this.props.item.scrollRatio > 0) {
-      this.scrollToOffset()
+    const { isVisible, item, scrollHandlerAttached } = this.props
+    if (isVisible && !prevProps.isVisible) {
+      scrollHandler(this.scrollOffset)
+      scrollHandlerAttached(item._id)
+      item.scrollRatio > 0 && this.scrollToOffset()
     }
   }
 
@@ -177,7 +171,9 @@ class FeedItem extends React.Component {
 
   render () {
     if (!this.isInflated()) {
-      return <View style={{ flex: 1 }} />
+      return <View style={{
+        width: this.screenDimensions.width,
+        height: this.screenDimensions.height }} />
     }
 
     // if (/*__DEV__ ||*/ !this.props.item.styles) {
@@ -200,7 +196,7 @@ class FeedItem extends React.Component {
       excerpt,
       savedAt
     } = this.props.item
-     // console.log(`-------- RENDER: ${title} ---------`)
+    console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
     let articleClasses = [
       ...Object.values(styles.fontClasses),
@@ -223,16 +219,10 @@ class FeedItem extends React.Component {
       : 'scrolling'
     const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
-    this.screenDimensions = Dimensions.get('window')
     const height = this.screenDimensions.height
     let server = ''
     if (__DEV__) {
       server = 'http://localhost:8888/'
-    }
-
-    if (this.props.isVisible) {
-      scrollHandler(this.scrollOffset)
-      this.props.scrollHandlerAttached(this.props.item._id)
     }
 
     if (!showCoverImage || this.isCoverImagePortrait()) {
@@ -304,15 +294,18 @@ class FeedItem extends React.Component {
           />
 
     return (
-      <Animated.View style={{
-        backgroundColor: hslString('bodyBG'),
-        flex: 1,
-        overflow: 'hidden',
-        transform: [
-          { scaleX: this.state.scaleAnim },
-          { scaleY: this.state.scaleAnim }
-        ]
-      }}>
+      <Animated.View
+        ref={(ref) => { this.view = ref }}
+        style={{
+          backgroundColor: hslString('bodyBG'),
+          flex: 1,
+          overflow: 'hidden',
+          transform: [
+            { scaleX: this.state.scaleAnim },
+            { scaleY: this.state.scaleAnim }
+          ]
+        }}
+      >
         { showCoverImage && !styles.isCoverInline && coverImage }
         <Animated.ScrollView
           onScroll={Animated.event(
@@ -467,7 +460,7 @@ class FeedItem extends React.Component {
     if (Math.abs(height - this.state.webViewHeight) < height * 0.1) {
       return
     }
-    console.log('Trying to set webview height: ' + this.pendingWebViewHeight)
+    // console.log('Trying to set webview height: ' + this.pendingWebViewHeight)
 
     const that = this
     if (this.pendingWebViewHeight !== this.state.webViewHeight) {

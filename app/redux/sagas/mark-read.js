@@ -1,6 +1,5 @@
 import { InteractionManager } from 'react-native'
-import { delay } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { markItemRead } from '../backends'
 import { getReadItemsFS } from '../firestore'
 import { deleteItemsAS } from '../async-storage'
@@ -11,7 +10,6 @@ import log from '../../utils/log'
 import { removeCachedCoverImages } from '../../utils/item-utils'
 
 export function * markLastItemRead (action) {
-  yield delay(2000)
   yield call(InteractionManager.runAfterInteractions)
   const display = yield select(getDisplay)
   if (display !== 'unread' || typeof(action.lastIndex) === 'undefined') {

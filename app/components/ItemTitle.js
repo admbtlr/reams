@@ -6,7 +6,7 @@ import moment from 'moment'
 import quote from 'headline-quotes'
 
 import {hslString} from '../utils/colors'
-import {deepEqual, isIphoneX} from '../utils'
+import {deepEqual, deviceCanHandleAnimations, diff, isIphoneX} from '../utils'
 import {getTopBarHeight} from './TopBar'
 
 const entities = require('entities')
@@ -119,6 +119,7 @@ const textColor = 'hsl(0, 0%, 20%)'
 const textColorDarkBackground = 'hsl(0, 0%, 70%)'
 
 class ItemTitle extends React.Component {
+  // static whyDidYouRender = true
   constructor (props) {
     super(props)
     this.props = props
@@ -176,7 +177,7 @@ class ItemTitle extends React.Component {
   }
 
   getInnerVerticalPadding (fontSize) {
-    if (this.props.styles.showCoverImage && this.props.styles.bg) {
+    if (this.props.showCoverImage && this.props.styles.bg) {
       return this.getInnerHorizontalMargin()
     }
     const {styles} = this.props
@@ -341,7 +342,7 @@ class ItemTitle extends React.Component {
       }
 
       // was maxViable actually four lines or less?
-      if (values[0].numLines <= 4) optimal = maxViable
+      if (values[0] && values[0].numLines <= 4) optimal = maxViable
 
       // this avoids shrinking the font size too much
       if (maxViable / optimal > 2) optimal = maxViable
@@ -417,20 +418,23 @@ class ItemTitle extends React.Component {
     return fontStyles[fontFamily][fontType]
   }
 
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   if (this.isAnimating) return true
-  //   let changes
-  //   let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
-  //   // console.log('Should update? - '
-  //     // + this.props.item.title
-  //     // + (isDiff ? ' - YES' : ' - NO'))
-  //   if (isDiff) {
-  //     changes = this.diff(this.props, nextProps, this.diff(this.state, nextState))
-  //     // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
-  //     // console.log(changes)
-  //   }
-  //   return true
-  // }
+  shouldComponentUpdate (nextProps, nextState) {
+    if (this.isAnimating) return true
+    let changes
+    let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
+    // console.log('Should update? - '
+    //   + this.props.item.title
+    //   + (isDiff ? ' - YES' : ' - NO'))
+    // if (isDiff) {
+    changes = diff(this.props, nextProps, diff(this.state, nextState))
+    // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
+    // console.log(changes)
+    if (changes.fontSize) {
+      isDiff = true
+    }
+    // }
+    return isDiff
+  }
 
   getWidthPercentage () {
     // let {showCoverImage, coverImageStyles} = this.props
@@ -452,7 +456,9 @@ class ItemTitle extends React.Component {
 
   addAnimationsIfNecessary (style, anim) {
     const { showCoverImage, coverImageStyles } = this.props
-    if (!showCoverImage || coverImageStyles.isInline) {
+    if (!showCoverImage ||
+      coverImageStyles.isInline ||
+      !deviceCanHandleAnimations()) {
       return style
     }
     return {
@@ -476,7 +482,7 @@ class ItemTitle extends React.Component {
     if (!styles) return null
 
     // just so we can render something before it's been calculated
-    const fontSize = styles.fontSize || 16
+    const fontSize = styles.fontSize || 40
     let lineHeight = Math.floor(fontSize * styles.lineHeightAsMultiplier)
     if (lineHeight < fontSize) lineHeight = fontSize
 
@@ -626,7 +632,10 @@ class ItemTitle extends React.Component {
         // 'white' :
         hslString('bodyBG') :
         overlayColour,
-      opacity: (coverImageStyles.isInline || !showCoverImage) ? 1 : opacity
+      opacity: deviceCanHandleAnimations() &&
+        (coverImageStyles.isInline || !showCoverImage) ?
+        1 :
+        opacity
     }
     let textStyle = {
       ...fontStyle,

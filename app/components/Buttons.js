@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
+import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 import RizzleButton from './RizzleButton'
 import {id} from '../utils'
 import {getPanValue} from '../utils/animationHandlers'
@@ -130,14 +131,9 @@ class Buttons extends React.Component {
 
   getBackgroundColor (item) {
     // return hslString('rizzleBG')
-    return this.props.isDarkBackground ?
-      (this.props.displayMode == 'saved' ?
-        hslString('rizzleText') :
-        // 'hsl(240, 17%, 15%)') :
-        hslString('buttonBG')) :
-        (this.props.displayMode == 'saved' ?
-          hslString('rizzleBG') :
-          hslString('buttonBG'))
+    return this.props.displayMode == 'saved' ?
+      hslString('rizzleBG') :
+      hslString('buttonBG')
     // const activeColor = item ? item.feed_color : null
     // return this.props.displayMode == 'saved' ?
     //   hslString('rizzleBG') :
@@ -243,6 +239,46 @@ class Buttons extends React.Component {
 
     const anim = new Animated.Value(0)
 
+    const displayButton = <RizzleButton
+        backgroundColor={backgroundColor}
+        borderColor={borderColor}
+        borderWidth={borderWidth}
+        style={{
+          width: 'auto',
+          paddingHorizontal: 25,
+          transform: [{
+            translateY: isCurrent ? this.state.visibleAnim.interpolate({
+              inputRange: [0, 0.167, 0.333, 1],
+              outputRange: [0, this.translateDistance * 1.2, this.translateDistance, this.translateDistance]
+            }) : 0
+          }]
+        }}
+        onPress={this.onDisplayPress}
+      >
+        <Text style={{
+          ...this.getStyles().buttonText,
+          ...this.getStyles().sansText,
+          color: borderColor,
+          marginBottom: -3
+        }}>{this.props.displayMode.toUpperCase()}</Text>
+        <Text style={{
+          ...this.getStyles().buttonText,
+          ...this.getStyles().smallText,
+          color: borderColor
+        }}>
+          {this.props.index + 1} / {this.props.numItems}
+        </Text>
+        { /* !!this.props.decoratedCount &&
+          <Text style={{
+            ...this.getStyles().buttonText,
+            ...this.getStyles().smallText,
+            color: borderColor
+          }}>
+            Cached: {this.props.decoratedCount}
+          </Text>
+        */}
+      </RizzleButton>
+
     return (
       <Animated.View
         pointerEvents={isCurrent ? 'box-none' : 'none'}
@@ -255,86 +291,39 @@ class Buttons extends React.Component {
           backgroundColor={backgroundColor}
           borderColor={borderColor}
           borderWidth={borderWidth}
-          style={{
-            width: 'auto',
-            paddingHorizontal: 25,
-            transform: [{
-              translateY: isCurrent ? this.state.visibleAnim.interpolate({
-                inputRange: [0, 0.2, 0.4, 1],
-                outputRange: [0, this.translateDistance * 1.2, this.translateDistance, this.translateDistance]
-              }) : 0
-            }]
-          }}
-          onPress={this.onDisplayPress}
-        >
-          <Text style={{
-            ...this.getStyles().buttonText,
-            color: borderColor
-          }}>
-            {this.props.index + 1} / {this.props.numItems}
-          </Text>
-          { !!this.props.decoratedCount &&
-            <Text style={{
-              ...this.getStyles().buttonText,
-              ...this.getStyles().smallText,
-              color: borderColor
-            }}>
-              Cached: {this.props.decoratedCount}
-            </Text>
-          }
-        </RizzleButton>
-        <RizzleButton
-          backgroundColor={backgroundColor}
-          borderColor={borderColor}
-          borderWidth={borderWidth}
           startToggleAnimation={this.startToggleAnimationSaved}
           style={{
             paddingLeft: 1,
             transform: [{
               translateY: isCurrent ? this.state.visibleAnim.interpolate({
-                inputRange: [0, 0.2, 0.4, 0.6, 1],
-                outputRange: [0, 0, this.translateDistance * 1.2, this.translateDistance, this.translateDistance]
+                inputRange: [0, 0.167, 0.333, 0.5, 1],
+                outputRange: [0, this.translateDistance * -0.2, this.translateDistance, this.translateDistance, this.translateDistance]
               }) : 0
             }]
           }}
-          onPress={this.onSavePress}
+          onPress={this.props.toggleViewButtons}
         >
           <Svg
-            height='30'
-            width='33'
+            height='40'
+            width='40'
             style={{
-              left: 7
+              left: 12,
+              top: 8
             }}>
-            <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
-              strokeWidth="2"
-              fill={item.isSaved ? borderColor : 'none'}
-              points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"
-            ></Polygon>
-            <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
-              strokeWidth="2"
-              fill={item.isSaved ? borderColor : 'none'}
-              points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"
-            ></Polygon>
-            <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
-              strokeWidth="2"
-              fill={item.isSaved ? borderColor : 'none'}
-              points="14.5 18 2 18 2 11 10.5 11"
-            ></Polygon>
-            <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
-              strokeWidth="2"
-              fill={item.isSaved ? borderColor : 'none'}
-              points="18.5 11 22.5 18 32 18 32 11"
-            ></Polygon>
-            <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
-              strokeWidth="2"
-              fill={item.isSaved ? borderColor : 'none'}
-              points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"
-            ></Polygon>
+            <Path
+              d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+              strokeWidth={2}
+              stroke={borderColor}
+              fill="none"
+            />
+            <Circle
+              cx="12"
+              cy="12"
+              r="3"
+              strokeWidth={2}
+              stroke={borderColor}
+              fill="none"
+            />
           </Svg>
         </RizzleButton>
         <RizzleButton
@@ -345,8 +334,8 @@ class Buttons extends React.Component {
             paddingLeft: 0,
             transform: [{
               translateY: isCurrent ? this.state.visibleAnim.interpolate({
-                inputRange: [0, 0.4, 0.6, 0.8, 1],
-                outputRange: [0, 0, this.translateDistance * 1.2, this.translateDistance, this.translateDistance]
+                inputRange: [0, 0.167, 0.333, 0.5, 1],
+                outputRange: [0, 0, this.translateDistance * -0.2, this.translateDistance, this.translateDistance]
               }) : 0
             }]
           }}
@@ -370,13 +359,104 @@ class Buttons extends React.Component {
           backgroundColor={backgroundColor}
           borderColor={borderColor}
           borderWidth={borderWidth}
+          startToggleAnimation={this.startToggleAnimationSaved}
+          style={{
+            paddingLeft: 1,
+            transform: [{
+              translateY: isCurrent ? this.state.visibleAnim.interpolate({
+                inputRange: [0, 0.333, 0.5, 0.667, 1],
+                outputRange: [0, 0, this.translateDistance * -0.2, this.translateDistance, this.translateDistance]
+              }) : 0
+            }]
+          }}
+          onPress={this.onSavePress}
+        >
+          <Svg
+            height='30'
+            width='33'
+            style={{
+              left: 7
+            }}>
+            <Polygon
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              strokeWidth={item.isSaved ? '1' : '2'}
+              fill={item.isSaved ? borderColor : 'none'}
+              points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"
+            ></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              strokeWidth={item.isSaved ? '1' : '2'}
+              fill={item.isSaved ? borderColor : 'none'}
+              points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"
+            ></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              strokeWidth={item.isSaved ? '1' : '2'}
+              fill={item.isSaved ? borderColor : 'none'}
+              points="14.5 18 2 18 2 11 10.5 11"
+            ></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              strokeWidth={item.isSaved ? '1' : '2'}
+              fill={item.isSaved ? borderColor : 'none'}
+              points="18.5 11 22.5 18 32 18 32 11"
+            ></Polygon>
+            <Polygon
+              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              strokeWidth={item.isSaved ? '1' : '2'}
+              fill={item.isSaved ? borderColor : 'none'}
+              points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"
+            ></Polygon>
+          </Svg>
+        </RizzleButton>
+        <RizzleButton
+          backgroundColor={backgroundColor}
+          borderColor={borderColor}
+          borderWidth={borderWidth}
+          style={{
+            paddingLeft: 0,
+            transform: [{
+              translateY: isCurrent ? this.state.visibleAnim.interpolate({
+                inputRange: [0, 0.5, 0.667, 0.833, 1],
+                outputRange: [0, 0, this.translateDistance * -0.2, this.translateDistance, this.translateDistance]
+              }) : 0
+            }]
+          }}
+          onPress={() => this.launchBrowser(item)}
+          >
+          <Svg
+            height='32'
+            width='32'
+            viewBox="0 0 24 24"
+            fill='none'
+            stroke={borderColor}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{
+              position: 'absolute',
+              left: 8,
+              top: 8
+            }}>
+            <Circle cx="12" cy="12" r="11" />
+            <Polygon
+              points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"
+              fill={borderColor} />
+            <Circle cx="12" cy="12" r="2"
+              fill={backgroundColor} />
+          </Svg>
+        </RizzleButton>
+        <RizzleButton
+          backgroundColor={backgroundColor}
+          borderColor={borderColor}
+          borderWidth={borderWidth}
           startToggleAnimation={this.startToggleAnimationMercury}
           style={{
             paddingLeft: 2,
             transform: [{
               translateY: isCurrent ? this.state.visibleAnim.interpolate({
-                inputRange: [0, 0.6, 0.8, 1],
-                outputRange: [0, 0, this.translateDistance * 1.2, this.translateDistance]
+                inputRange: [0, 0.667, 0.833, 1],
+                outputRange: [0, 0, this.translateDistance * -0.2, this.translateDistance]
               }) : 0
             }]
           }}
@@ -455,6 +535,37 @@ class Buttons extends React.Component {
     )
   }
 
+  async launchBrowser (item) {
+    try {
+      await InAppBrowser.isAvailable()
+      InAppBrowser.open(item.url, {
+        // iOS Properties
+        dismissButtonStyle: 'close',
+        preferredBarTintColor: hslString('rizzleBG'),
+        preferredControlTintColor: hslString('rizzleText'),
+        readerMode: true,
+        enableBarCollapsing: true,
+        // Android Properties
+        showTitle: true,
+        toolbarColor: '#6200EE',
+        secondaryToolbarColor: 'black',
+        enableUrlBarHiding: true,
+        enableDefaultShare: true,
+        forceCloseOnRedirection: false,
+        // Specify full animation resource identifier(package:anim/name)
+        // or only resource name(in case of animation bundled with app).
+        animations: {
+          startEnter: 'slide_in_bottom',
+          startExit: 'slide_out_bottom',
+          endEnter: 'slide_in_bottom',
+          endExit: 'slide_out_bottom',
+        },
+      })
+    } catch (error) {
+      console.log('openLink', error)
+    }
+  }
+
   getMercuryToggleOpacity (item, isCurrent) {
     if (isCurrent) {
       return this.state.toggleAnimMercury
@@ -497,8 +608,11 @@ class Buttons extends React.Component {
         fontFamily: 'IBMPlexMono',
         fontSize: 16,
       },
+      sansText: {
+        fontFamily: 'IBMPlexSansCond-Bold',
+      },
       smallText: {
-        fontSize: 8
+        fontSize: 10
       }
     }
   }

@@ -7,7 +7,7 @@ import TextButton from './TextButton'
 import SwipeableViews from './SwipeableViews'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
-const BUFFER_LENGTH = 1
+export const BUFFER_LENGTH = 5
 
 class ItemCarousel extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {

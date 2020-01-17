@@ -1,5 +1,4 @@
-import { delay } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
 import { addFeed, getFeedDetails } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../../utils/'
@@ -90,7 +89,7 @@ export function * syncFeeds () {
 export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
-    yield call(delay, (typeof __TEST__ === 'undefined') ? 500 : 10)
+    yield delay((typeof __TEST__ === 'undefined') ? 500 : 10)
     if (feed.inflatedDate && Date.now() - feed.inflatedDate < 1000 * 60 * 60 * 24 * 7) continue
     let details = yield call(getFeedDetails, feed)
     details = convertColorIfNecessary(details)

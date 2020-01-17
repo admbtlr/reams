@@ -67,6 +67,9 @@ const mapDispatchToProps = (dispatch) => {
       type: 'ITEM_SHARE_ITEM',
       item
     }),
+    toggleViewButtons: () => dispatch({
+      type: 'UI_TOGGLE_VIEW_BUTTONS'
+    }),
     toggleMercury: (item) => {
       if (item) {
         dispatch({

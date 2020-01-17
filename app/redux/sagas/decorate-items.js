@@ -1,5 +1,4 @@
-import { delay } from 'redux-saga'
-import { call, put, takeEvery, select, spawn } from 'redux-saga/effects'
+import { call, delay, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
 import vision from '@react-native-firebase/ml-vision'
@@ -59,7 +58,7 @@ export function * decorateItems (action) {
       if (nextItem) {
         consoleLog(`Got item to decorate: ${nextItem.title}`)
         pendingDecoration.push(nextItem)
-        yield call(delay, 3000)
+        yield delay(3000)
         if (!nextItem) continue // somehow item can become undefined here...?
         consoleLog(`About to retrieve decoration for ${nextItem.title}`)
         try {
@@ -144,7 +143,7 @@ function * getNextItemToDecorate (pendingDecoration) {
   let nextItem
   const savedItems = yield select(getSavedItems)
   nextItem = savedItems.find(item => item.title === 'Loading...' &&
-    (!item.decoration_failures || item.decoration_failures < 3))
+    (!item.decoration_failures || item.decoration_failures < 5))
   if (nextItem) return nextItem
 
   const items = yield select(getItems)
@@ -195,10 +194,7 @@ export function * decorateItem (item) {
     let coverImageFile = yield cacheCoverImage(item, mercuryStuff.lead_image_url)
     if (coverImageFile) {
       try {
-        console.log('Getting image dimensions...')
         const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
-        console.log(imageDimensions)
-        console.log('Getting face detection...')
         const faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
         imageStuff = {
           coverImageFile,
@@ -260,7 +256,6 @@ export async function cacheCoverImage (item, imageURL) {
 
 async function faceDetection (imageFileName, dimensions) {
   const processed = await vision().faceDetectorProcessImage(imageFileName)
-  console.log(processed)
   if (!processed || !processed.length) return
   const boundingBoxes = processed.map(p => p.boundingBox)
   // sort by size, taking the width as representative thereof

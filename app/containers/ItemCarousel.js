@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
           displayMode
         })
       } else {
-        return dispatch({
+        dispatch({
           type: 'ITEMS_UPDATE_CURRENT_INDEX',
           index,
           lastIndex,
