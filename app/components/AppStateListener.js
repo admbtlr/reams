@@ -152,8 +152,9 @@ class AppStateListener extends React.Component {
   }
 
   showSavePageModal (url, scope, isClipboard = false) {
-    if (url.length > 64) {
-      url = url.slice(0, 64) + '…'
+    let displayUrl = url
+    if (displayUrl.length > 64) {
+      displayUrl = displayUrl.slice(0, 64) + '…'
     }
     let modalText = [
       {
@@ -161,7 +162,7 @@ class AppStateListener extends React.Component {
         style: ['title']
       },
       {
-        text: url,
+        text: displayUrl,
         style: ['em']
       }
     ]
