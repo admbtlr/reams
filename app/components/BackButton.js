@@ -10,21 +10,22 @@ export default function BackButton({ isLight, onPress, style }) {
   return (
     <View style={{
       position: 'relative',
-      top: -10,
+      top: -11,
+      paddingRight: 10,
       ...style
     }}>
       <TouchableOpacity
         onPress={onPress}
         style={{
-          width: 28,
+          width: 14,
           height: 28
         }}>
         <Svg
           height='28'
-          width='28'
+          width='14'
           fill='none'>
           <Path
-            d="M15 18l-6-6 6-6"
+            d="M12 24l-10-10 10-10"
             stroke={hslString('rizzleText')}
             strokeWidth={4}
             strokeLinecap='round'
