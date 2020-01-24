@@ -93,7 +93,9 @@ export default function Splash ({ fadeOut }) {
         pointerEvents: isVisible ? 'auto' : 'none',
         transform: [{
           scale: scaleAnim
-        }]
+        }],
+        justifyContent: 'center',
+        alignItems: 'center'
         // opacity: interpolate
       }}
     >
@@ -102,12 +104,12 @@ export default function Splash ({ fadeOut }) {
           console.log('onLoadEnd!')
           SplashScreen.hide()
         }}
-        resizeMode='contain'
-        source={require('../assets/images/splash.png')}
+        // resizeMode='contain'
+        source={require('../assets/images/rosette.png')}
         style={{
-          flex: 1,
-          height: undefined,
-          width: undefined
+          // flex: 1,
+          height: 147,
+          width: 148
         }}
       />
       <Animated.View style={{

@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>333</string>
+	<string>343</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -95,6 +95,10 @@
 		<string>PlayfairDisplaySC-BoldItalic.ttf</string>
 		<string>PlayfairDisplay-Bold.ttf</string>
 		<string>PlayfairDisplay-BoldItalic.ttf</string>
+		<string>PTSerif-Bold.ttf</string>
+		<string>PTSerif-BoldItalic.ttf</string>
+		<string>PTSerif-Italic.ttf</string>
+		<string>PTSerif-Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
