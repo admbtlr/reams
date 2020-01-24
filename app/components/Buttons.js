@@ -35,10 +35,6 @@ class Buttons extends React.Component {
 
     this.state = {
       visibleAnim: new Animated.Value(1),
-      visibleAnimCount: new Animated.Value(80),
-      visibleAnimSave: new Animated.Value(80),
-      visibleAnimShare: new Animated.Value(80),
-      visibleAnimMercury: new Animated.Value(80),
       toggleAnimMercury: new Animated.Value(0),
       toggleAnimSaved: new Animated.Value(0)
     }
@@ -164,7 +160,6 @@ class Buttons extends React.Component {
     // don't update if the only thing that's changed is saved or mercury state
     return !(this.props.index === nextProps.index &&
       this.props.displayMode === nextProps.displayMode &&
-      this.props.decoratedCount === nextProps.decoratedCount &&
       this.props.visible === nextProps.visible &&
       this.props.toolbar === nextProps.toolbar &&
       this.props.numItems === nextProps.numItems)
@@ -175,11 +170,16 @@ class Buttons extends React.Component {
     if (this.props.isOnboarding) {
       return this.renderButtons({}, null, true)
     } else {
-      const {prevItem, currentItem, nextItem} = this.props
+      const {
+        prevItem,
+        currentItem,
+        nextItem,
+        panAnim
+      } = this.props
       const items = prevItem ?
         [prevItem, currentItem, nextItem] :
-        [currentItem, nextItem]
-      const { panAnim, panAnimDivisor } = getPanValue()
+        [prevItem, currentItem, nextItem]
+      const panAnimDivisor = this.screenDimensions.width
 
       const opacityRanges = [
         {
@@ -268,15 +268,6 @@ class Buttons extends React.Component {
         }}>
           {this.props.index + 1} / {this.props.numItems}
         </Text>
-        { /* !!this.props.decoratedCount &&
-          <Text style={{
-            ...this.getStyles().buttonText,
-            ...this.getStyles().smallText,
-            color: borderColor
-          }}>
-            Cached: {this.props.decoratedCount}
-          </Text>
-        */}
       </RizzleButton>
 
     return (

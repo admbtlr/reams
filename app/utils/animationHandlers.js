@@ -9,7 +9,6 @@ let scrollAnim = new Animated.Value(0)
 
 let clamped
 let clampedAnim = new Animated.Value(0)
-// let clampedAnimNormalised = new Animated.Value(1)
 
 let resetAnim = new Animated.Value(0)
 
@@ -28,6 +27,9 @@ function reset (newScrollAnimValue) {
   prevScrollOffset = 0
   scrollAnim.removeAllListeners()
   resetAnim.removeAllListeners()
+  scrollListeners.forEach((listener) => {
+    listener.onStatusBarReset()
+  })
   Animated.timing(resetAnim, {
     toValue,
     duration: 400,
@@ -48,21 +50,26 @@ export function getPanValue () {
   return { panAnim, panAnimDivisor }
 }
 
-export function scrollHandler (value) {
+export function getClampedScrollAnim (feedItemScrollAnim) {
+  if (feedItemScrollAnim === undefined) return
   if (initiated) {
-    reset(value._value)
+    reset(feedItemScrollAnim._value)
   }
   initiated = true
-  scrollAnim = value
-  resetAnim = new Animated.Value(0 - value._value)
-  clamped = Animated
+  scrollAnim = feedItemScrollAnim
+  resetAnim = new Animated.Value(0)
+  const scrollAnimNoNeg = scrollAnim.interpolate({
+    inputRange: [-1, 0, 1],
+    outputRange: [0, 0, 1]
+  })
+  // const scrollAnimRebased = Animated.subtract(scrollAnim, scrollAnim._value)
+  const addedAnims = Animated.add(
+    scrollAnimNoNeg,
+    resetAnim
+  )
+  const clamped = Animated
     .diffClamp(
-      Animated.add(
-        scrollAnim.interpolate({
-          inputRange: [-1, 0, 1],
-          outputRange: [0, 0, 1]
-        }),
-        resetAnim),
+      addedAnims,
       0,
       STATUS_BAR_HEIGHT)
 
@@ -75,18 +82,15 @@ export function scrollHandler (value) {
       Math.max(clampedScrollValue + diff, 0),
       STATUS_BAR_HEIGHT
     )
-    // if (wasntDown && clampedScrollValue === 0) {
-    //   scrollListeners.forEach((listener) => {
-    //     listener.onStatusBarDown()
-    //   })
-    // } else if (wasntUp && clampedScrollValue >= STATUS_BAR_HEIGHT && value > 0) {
-    //   scrollListeners.forEach((listener) => {
-    //     listener.onStatusBarUp()
-    //   })
-    // }
-  })
-  resetAnim.addListener(({ value }) => {
-    resetValue = value
+    if (diff > 0) {
+      scrollListeners.forEach((listener) => {
+        listener.onStatusBarUpBegin()
+      })
+    } else {
+      scrollListeners.forEach((listener) => {
+        listener.onStatusBarDownBegin()
+      })
+    }
   })
 
   clampedAnim = clamped.interpolate({
@@ -94,11 +98,13 @@ export function scrollHandler (value) {
     outputRange: [0, -STATUS_BAR_HEIGHT],
     extrapolate: 'clamp'
   })
-  // clampedAnimNormalised = clamped.interpolate({
-  //   inputRange: [0, STATUS_BAR_HEIGHT],
-  //   outputRange: [1, 0],
-  //   extrapolateLeft: 'clamp'
+
+  // clampedAnim.addListener(event => {
+  //   console.log(`ClampedAnim: ${event.value}`)
+  //   console.log(`ScrollAnim: ${scrollAnim.__getValue()}`)
   // })
+
+  return clampedAnim
 }
 
 export function onScrollEnd (scrollOffset) {

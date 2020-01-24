@@ -44,6 +44,8 @@ const mapStateToProps = (state, ownProps) => {
     isDarkBackground: state.webView.isDarkBackground,
     feedFilter,
     isOnboarding: state.config.isOnboarding,
+    scrollAnim: state.animatedValues.scrollAnim,
+    panAnim: state.animatedValues.panAnim,
     ...ownProps
   }
 }
@@ -54,6 +56,9 @@ const mapDispatchToProps = (dispatch) => {
       type: 'SET_DISPLAY_MODE',
       displayMode
     }),
+    // setScrollAnim: (scrollAnim) => {
+
+    // },
     showModal: (modalProps) => dispatch({
       type: 'UI_SHOW_MODAL',
       modalProps
