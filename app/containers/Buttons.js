@@ -36,10 +36,10 @@ const mapStateToProps = (state) => {
     isCurrentItemMercuryButtonEnabled: currentItem && currentItem.content_mercury,
     toolbar: state.toolbar,
     displayMode: state.itemsMeta.display,
-    decoratedCount: state.itemsMeta.decoratedCount,
     visible: state.ui.itemButtonsVisible,
     isDarkBackground: state.webView.isDarkBackground,
-    isOnboarding: state.config.isOnboarding
+    isOnboarding: state.config.isOnboarding,
+    panAnim: state.animatedValues.panAnim
   }
 }
 

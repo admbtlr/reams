@@ -37,15 +37,15 @@ class RizzleButton extends React.Component {
         height: 50,
         borderRadius: 25,
         // borderColor: borderColor,
-        borderWidth,
+        // borderWidth,
         justifyContent: 'center',
         flexDirection: 'column',
     }
   }
 
   onPress () {
-    this.props.onPress && this.props.onPress()
     this.props.startToggleAnimation && this.props.startToggleAnimation()
+    this.props.onPress && this.props.onPress()
   }
 
   onPressIn(...args) {
