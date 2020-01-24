@@ -132,8 +132,25 @@ async searchForRSS (url) {
     console.log(`Checking ${homeUrl}`)
 
     try {
-      const res = await fetch(homeUrl)
-      const body = await res.text()
+      // start with the current page
+      let res = await fetch(url)
+      let body = await res.text()
+
+      linkTag = this.checkForLinkToRssFile(body)
+      if (linkTag) {
+        console.log('FOUND RSS URL IN A LINK: ' + linkTag)
+        feeds.push(this.parseLinkTag(linkTag, homeUrl))
+      }
+
+      linkTag = this.checkForLinkWithRssInText(body)
+      if (linkTag) {
+        console.log('FOUND RSS URL IN A LINK WITH RSS TEXT: ' + linkTag)
+        feeds.push(this.parseLinkTag(linkTag, homeUrl))
+      }
+
+      // now try the homepage
+      res = await fetch(homeUrl)
+      body = await res.text()
 
       let linkTag = this.checkForRSSHeader(body)
       if (linkTag) {
