@@ -10,20 +10,25 @@ import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 export const BUFFER_LENGTH = 5
 
 class ItemCarousel extends React.Component {
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   // don't update if the items haven't changed (unread <> saved)
-  //   // AND (nextProps.index is the same as incomingIndex
-  //   // (ie the index we just moved to)
-  //   // OR if nextProps.index is the same as the index we're currently at)
-  //   if (this.incomingIndex === null) {
-  //     return nextProps.index !== this.props.index ||
-  //       nextProps.displayMode !== this.props.displayMode
-  //   } else {
-  //     return nextProps === null ||
-  //       nextProps.index !== this.incomingIndex ||
-  //       nextProps.displayMode !== this.props.displayMode
-  //   }
-  // }
+  shouldComponentUpdate (nextProps, nextState) {
+    // don't update if the items haven't changed (unread <> saved)
+    // AND (nextProps.index is the same as incomingIndex
+    // (ie the index we just moved to)
+    // OR if nextProps.index is the same as the index we're currently at)
+    const stringifyBufferedItems = (props) => JSON
+      .stringify(props.items.slice(this.props.index - 1, this.props.index + BUFFER_LENGTH)
+        .map(item => item._id))
+
+    if (this.incomingIndex === null) {
+      return nextProps.index !== this.props.index ||
+        nextProps.displayMode !== this.props.displayMode
+    } else {
+      return nextProps === null ||
+        nextProps.index - this.props.index >= BUFFER_LENGTH ||
+        nextProps.displayMode !== this.props.displayMode ||
+        stringifyBufferedItems(nextProps) !== stringifyBufferedItems(this.props)
+    }
+  }
 
   render () {
     const {

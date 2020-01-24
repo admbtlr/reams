@@ -86,7 +86,9 @@ class TopBar extends React.Component {
       !areEqual(this.props.currentItem, nextProps.currentItem) ||
       !areEqual(this.props.nextItem, nextProps.nextItem) ||
       this.props.scrollAnim !== nextProps.scrollAnim ||
-      this.props.panAnim.__getValue() !== nextProps.panAnim.__getValue()
+      ((this.props.panAnim && nextProps.panAnim) ?
+        this.props.panAnim.__getValue() !== nextProps.panAnim.__getValue() :
+        this.props.panAnim !== nextProps.panAnim)
     )
     return shouldUpdate
   }
