@@ -247,13 +247,6 @@ body {
     font-style: normal;
     padding: 1rem 1rem .5rem;
     margin: 1rem 0; }
-    @media (min-width: 600px) {
-      .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
-        float: left;
-        padding-top: 0;
-        width: 50%;
-        margin: 0;
-        -webkit-hyphens: auto; } }
   .itemArticle figure cite {
     display: none; }
   .itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {

@@ -331,14 +331,6 @@ body {
     font-style: normal;
     padding: 1rem 1rem .5rem;
     margin: 1rem 0;
-
-    @media (min-width: 600px) {
-      float: left;
-      padding-top: 0;
-      width: 50%;
-      margin: 0;
-      -webkit-hyphens: auto;
-    }
   }
 
   figure cite {
