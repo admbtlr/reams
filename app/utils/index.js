@@ -88,7 +88,7 @@ export function deviceCanHandleAnimations () {
     const number = deviceId.substring(4).split(',')[0]
     return Number.parseInt(number) > 5
   } else if (deviceId.startsWith('iPhone')) {
-    const number = deviceId.substring(4).split(',')[0]
+    const number = deviceId.substring(6).split(',')[0]
     return Number.parseInt(number) > 10
   }
   return true

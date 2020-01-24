@@ -632,8 +632,8 @@ class ItemTitle extends React.Component {
         // 'white' :
         hslString('bodyBG') :
         overlayColour,
-      opacity: deviceCanHandleAnimations() &&
-        (coverImageStyles.isInline || !showCoverImage) ?
+      opacity: !deviceCanHandleAnimations() ||
+        coverImageStyles.isInline || !showCoverImage ?
         1 :
         opacity
     }
