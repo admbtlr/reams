@@ -9,6 +9,7 @@ import {
 import DeepLinking from 'react-native-deep-linking'
 import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
+import crashlytics from '@react-native-firebase/crashlytics'
 import { configureStore } from '../redux/store'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import * as Sentry from '@sentry/react-native'

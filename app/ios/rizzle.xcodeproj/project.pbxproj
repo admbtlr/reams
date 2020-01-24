@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0A318D5E3DC347B8A70ED4DF /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC2FB0C9E904B1DA4378E1F /* Montserrat-Bold.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -44,6 +43,13 @@
 		668CE9EE2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
 		6697466F23057C6400EDCFE7 /* rizzle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697462F23057C6200EDCFE7 /* rizzle.png */; };
 		6697467023057C6400EDCFE7 /* Splash-20190815.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697466E23057C6400EDCFE7 /* Splash-20190815.png */; };
+		66A92E2823D88B12000E6D96 /* wordmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2223D88B12000E6D96 /* wordmark@2x.png */; };
+		66A92E2923D88B12000E6D96 /* wordmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2323D88B12000E6D96 /* wordmark.png */; };
+		66A92E2A23D88B12000E6D96 /* wordmark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2423D88B12000E6D96 /* wordmark@3x.png */; };
+		66A92E2B23D88B12000E6D96 /* rosette@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2523D88B12000E6D96 /* rosette@2x.png */; };
+		66A92E2C23D88B12000E6D96 /* rosette.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2623D88B12000E6D96 /* rosette.png */; };
+		66A92E2D23D88B12000E6D96 /* rosette@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2723D88B12000E6D96 /* rosette@3x.png */; };
+		66A92E5123DAEAC8000E6D96 /* Paratype PT Sans Free Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */; };
 		66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */; };
 		66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		66ACB1271FD97094002BC66F /* RizzleShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ACB1261FD97094002BC66F /* RizzleShare.m */; };
@@ -71,6 +77,10 @@
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		F2E6111401F945D1A0E5D590 /* PlayfairDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */; };
 		FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */; };
+		309C7C44D4CC40F0AD8EFCD3 /* PTSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BDE46CA9895347E7B471BC74 /* PTSerif-Bold.ttf */; };
+		66D9D0CE5D3A459F9B53579E /* PTSerif-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */; };
+		CCC549379A404E4784782CCA /* PTSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */; };
+		6808D92C526845F5BCD20577 /* PTSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,7 +137,6 @@
 		08245B2253D44286A4B4DD40 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		0B26201DAB06487C9C51EBFE /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		0F6EEEC401334B5AAECD02EF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
-		1077762CFD4B4865BB3BB773 /* BebasNeueFixBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BebasNeueFixBold.ttf; path = ../assets/fonts/BebasNeueFixBold.ttf; sourceTree = "<group>"; };
 		10CE094C597650E49050F153 /* Pods-rizzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rizzle.release.xcconfig"; path = "Pods/Target Support Files/Pods-rizzle/Pods-rizzle.release.xcconfig"; sourceTree = "<group>"; };
 		11CD500228D549F8B770CE5F /* libRNTextSize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextSize.a; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* rizzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rizzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +181,13 @@
 		668CE9EC2158BE6A00CA3EDF /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
 		6697462F23057C6200EDCFE7 /* rizzle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rizzle.png; path = ../img/splash/rizzle.png; sourceTree = "<group>"; };
 		6697466E23057C6400EDCFE7 /* Splash-20190815.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Splash-20190815.png"; path = "../img/splash/Splash-20190815.png"; sourceTree = "<group>"; };
+		66A92E2223D88B12000E6D96 /* wordmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@2x.png"; path = "../assets/images/wordmark@2x.png"; sourceTree = "<group>"; };
+		66A92E2323D88B12000E6D96 /* wordmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wordmark.png; path = ../assets/images/wordmark.png; sourceTree = "<group>"; };
+		66A92E2423D88B12000E6D96 /* wordmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@3x.png"; path = "../assets/images/wordmark@3x.png"; sourceTree = "<group>"; };
+		66A92E2523D88B12000E6D96 /* rosette@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rosette@2x.png"; path = "../assets/images/rosette@2x.png"; sourceTree = "<group>"; };
+		66A92E2623D88B12000E6D96 /* rosette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rosette.png; path = ../assets/images/rosette.png; sourceTree = "<group>"; };
+		66A92E2723D88B12000E6D96 /* rosette@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rosette@3x.png"; path = "../assets/images/rosette@3x.png"; sourceTree = "<group>"; };
+		66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Paratype PT Sans Free Font License.txt"; path = "../assets/fonts/Paratype PT Sans Free Font License.txt"; sourceTree = "<group>"; };
 		66ACB1171FD9705E002BC66F /* RizzleShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RizzleShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		66ACB11D1FD9705E002BC66F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		66ACB11F1FD9705E002BC66F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -190,11 +206,9 @@
 		90D8A9F93BFD42328D7509E8 /* libOnePassword.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libOnePassword.a; sourceTree = "<group>"; };
 		930C4464DBC241C1BCBEFEC2 /* IBMPlexSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		985E587BCD25407C9639A056 /* Arvo-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-BoldItalic.ttf"; path = "../assets/fonts/Arvo-BoldItalic.ttf"; sourceTree = "<group>"; };
-		98B48A9380AA4541B31F3902 /* BebasNeue Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BebasNeue Light.ttf"; path = "../assets/fonts/BebasNeue Light.ttf"; sourceTree = "<group>"; };
 		9D48D942312244D29217E6A6 /* libRNSVG-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNSVG-tvOS.a"; sourceTree = "<group>"; };
 		9D4FF49A9795B99338A96C6F /* libPods-rizzle-RizzleShare.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rizzle-RizzleShare.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FBC8104B4E442A5B9FB054E /* IBMPlexMono-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Light.ttf"; path = "../assets/fonts/IBMPlexMono-Light.ttf"; sourceTree = "<group>"; };
-		A1FECDA0B8574575AAB8D809 /* BebasNeue Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BebasNeue Bold.ttf"; path = "../assets/fonts/BebasNeue Bold.ttf"; sourceTree = "<group>"; };
 		A2CCE64A198C460AB8A514F6 /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
 		A52A25ECE9284C6BB3598823 /* IBMPlexMono-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-LightItalic.ttf"; path = "../assets/fonts/IBMPlexMono-LightItalic.ttf"; sourceTree = "<group>"; };
 		AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexMono-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -214,7 +228,6 @@
 		E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
 		E600E790F1AA498488DCF8E0 /* IBMPlexSansCondensed-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCondensed-ExtraLight.ttf"; path = "../assets/fonts/IBMPlexSansCondensed-ExtraLight.ttf"; sourceTree = "<group>"; };
 		E6A944200C054FE7A5F26C7D /* PlayfairDisplaySC-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplaySC-BoldItalic.ttf"; path = "../assets/fonts/PlayfairDisplaySC-BoldItalic.ttf"; sourceTree = "<group>"; };
-		ED157BF83B014803B1EDE0F0 /* BebasNeue-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BebasNeue-Bold.otf"; path = "../assets/fonts/BebasNeue-Bold.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EF48A00DF3FF432DA8BAB77F /* IBMPlexSerif-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -222,9 +235,12 @@
 		F2B5DA24AE19F9ABFEE70E68 /* Pods-rizzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rizzle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rizzle/Pods-rizzle.debug.xcconfig"; sourceTree = "<group>"; };
 		F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Bold.ttf"; path = "../assets/fonts/IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
 		FE500C58F03B4E759CEEF985 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
-		FEE11FC07939469CBB76F7F2 /* BebasNeue-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BebasNeue-Light.otf"; path = "../assets/fonts/BebasNeue-Light.otf"; sourceTree = "<group>"; };
 		FF76841FECC148EBB9E7A18C /* IBMPlexSerif-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Thin.ttf"; path = "../assets/fonts/IBMPlexSerif-Thin.ttf"; sourceTree = "<group>"; };
 		FFB182B64E4047B7BF666E29 /* Arvo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Bold.ttf"; path = "../assets/fonts/Arvo-Bold.ttf"; sourceTree = "<group>"; };
+		BDE46CA9895347E7B471BC74 /* PTSerif-Bold.ttf */ = {isa = PBXFileReference; name = "PTSerif-Bold.ttf"; path = "../assets/fonts/PTSerif-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */ = {isa = PBXFileReference; name = "PTSerif-BoldItalic.ttf"; path = "../assets/fonts/PTSerif-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */ = {isa = PBXFileReference; name = "PTSerif-Italic.ttf"; path = "../assets/fonts/PTSerif-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */ = {isa = PBXFileReference; name = "PTSerif-Regular.ttf"; path = "../assets/fonts/PTSerif-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +286,13 @@
 		2C43049EDC2C47639C4475E6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */,
+				66A92E2623D88B12000E6D96 /* rosette.png */,
+				66A92E2523D88B12000E6D96 /* rosette@2x.png */,
+				66A92E2723D88B12000E6D96 /* rosette@3x.png */,
+				66A92E2323D88B12000E6D96 /* wordmark.png */,
+				66A92E2223D88B12000E6D96 /* wordmark@2x.png */,
+				66A92E2423D88B12000E6D96 /* wordmark@3x.png */,
 				664BDD0323C7422F007D6D3F /* IBMPlexSansCondensed-Light.ttf */,
 				664BDD0423C74231007D6D3F /* IBMPlexSansCondensed-Regular.ttf */,
 				6697462F23057C6200EDCFE7 /* rizzle.png */,
@@ -311,11 +334,6 @@
 				3E3494F4F2894804ADE2C868 /* LibreBaskerville-Bold.ttf */,
 				C6510B8E2ED0459A9D932B12 /* LibreBaskerville-Italic.ttf */,
 				823005F4E98141A58D61C4FD /* LibreBaskerville-Regular.ttf */,
-				ED157BF83B014803B1EDE0F0 /* BebasNeue-Bold.otf */,
-				FEE11FC07939469CBB76F7F2 /* BebasNeue-Light.otf */,
-				A1FECDA0B8574575AAB8D809 /* BebasNeue Bold.ttf */,
-				98B48A9380AA4541B31F3902 /* BebasNeue Light.ttf */,
-				1077762CFD4B4865BB3BB773 /* BebasNeueFixBold.ttf */,
 				B88ACC25DD904B8C96178FC9 /* IBMPlexSansCondensed-Bold.ttf */,
 				1A0FFBD179074A1590A3895E /* IBMPlexSansCondensed-BoldItalic.ttf */,
 				E600E790F1AA498488DCF8E0 /* IBMPlexSansCondensed-ExtraLight.ttf */,
@@ -324,6 +342,10 @@
 				CA3384B6A3F64B1ABBC51D2F /* IBMPlexSerif-ThinItalic.ttf */,
 				010B669A51A04C69A27F7271 /* PlayfairDisplaySC-Bold.ttf */,
 				E6A944200C054FE7A5F26C7D /* PlayfairDisplaySC-BoldItalic.ttf */,
+				BDE46CA9895347E7B471BC74 /* PTSerif-Bold.ttf */,
+				66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */,
+				B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */,
+				43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -461,6 +483,8 @@
 				4406A330C80C49ACAFA7A94F /* Upload Debug Symbols to Sentry */,
 				F2D9031D08EE80C89F978D78 /* [CP] Copy Pods Resources */,
 				B1C88D8B9DCCF370BAEA2FAF /* [CP-User] [RNFB] Core Configuration */,
+				AA396D731F04AE0C2E728516 /* [CP-User] [RNFB] Crashlytics Configuration */,
+				66A92E3223DAD74F000E6D96 /* Run Script [Fabric/run] */,
 			);
 			buildRules = (
 			);
@@ -587,16 +611,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66A92E5123DAEAC8000E6D96 /* Paratype PT Sans Free Font License.txt in Resources */,
+				66A92E2C23D88B12000E6D96 /* rosette.png in Resources */,
 				664BDD0523C74231007D6D3F /* IBMPlexSansCondensed-Light.ttf in Resources */,
 				664B4B281FAB59A9006C6DF9 /* webview in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				66A92E2823D88B12000E6D96 /* wordmark@2x.png in Resources */,
 				668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */,
+				66A92E2923D88B12000E6D96 /* wordmark.png in Resources */,
 				0A318D5E3DC347B8A70ED4DF /* Montserrat-Bold.ttf in Resources */,
 				FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */,
 				14E191C4F5364833B0807883 /* Montserrat-Light.ttf in Resources */,
 				4DA1B3EEF1E74D8D885D44DF /* Montserrat-LightItalic.ttf in Resources */,
 				45852DA026DE45819C2E6132 /* IBMPlexMono-Bold.ttf in Resources */,
 				3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */,
+				66A92E2A23D88B12000E6D96 /* wordmark@3x.png in Resources */,
 				6332D5CBA60145BBAD467549 /* IBMPlexMono-Italic.ttf in Resources */,
 				1F3AFD1477774196851518C5 /* IBMPlexMono-Light.ttf in Resources */,
 				664BDD0623C74231007D6D3F /* IBMPlexSansCondensed-Regular.ttf in Resources */,
@@ -618,12 +647,14 @@
 				979551B6C5B64A3B982AAF0E /* PlayfairDisplay-BlackItalic.ttf in Resources */,
 				668CE94B2153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf in Resources */,
 				668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */,
+				66A92E2D23D88B12000E6D96 /* rosette@3x.png in Resources */,
 				F2E6111401F945D1A0E5D590 /* PlayfairDisplay-Italic.ttf in Resources */,
 				6697467023057C6400EDCFE7 /* Splash-20190815.png in Resources */,
 				17E475145E6F4DB1A5140583 /* PlayfairDisplay-Regular.ttf in Resources */,
 				95B2E1EC57184AC288AE9F32 /* LibreBaskerville-Bold.ttf in Resources */,
 				CA950E66A737450B801A5604 /* LibreBaskerville-Italic.ttf in Resources */,
 				165F6C9F0D804EC790DC575E /* LibreBaskerville-Regular.ttf in Resources */,
+				66A92E2B23D88B12000E6D96 /* rosette@2x.png in Resources */,
 				451E8399A2A047438CD9C39C /* IBMPlexSansCondensed-Bold.ttf in Resources */,
 				497A4D2419654AD0897AEA42 /* IBMPlexSansCondensed-BoldItalic.ttf in Resources */,
 				39D61C8BEC984326A5FBD4A6 /* IBMPlexSansCondensed-ExtraLight.ttf in Resources */,
@@ -634,6 +665,10 @@
 				663D7FD821A54CD60085CB7A /* GoogleService-Info.plist in Resources */,
 				2592540CC00D4EA4A4980FD2 /* PlayfairDisplaySC-Bold.ttf in Resources */,
 				2515F9723B354E8AB561D2B5 /* PlayfairDisplaySC-BoldItalic.ttf in Resources */,
+				309C7C44D4CC40F0AD8EFCD3 /* PTSerif-Bold.ttf in Resources */,
+				66D9D0CE5D3A459F9B53579E /* PTSerif-BoldItalic.ttf in Resources */,
+				CCC549379A404E4784782CCA /* PTSerif-Italic.ttf in Resources */,
+				6808D92C526845F5BCD20577 /* PTSerif-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,6 +731,24 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
+		66A92E3223DAD74F000E6D96 /* Run Script [Fabric/run] */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script [Fabric/run]";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
+		};
 		7006E9DE8963A920DC26BF37 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -744,6 +797,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA396D731F04AE0C2E728516 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP-User] [RNFB] Crashlytics Configuration";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec Fabric Run from Pods\"\n  \"${PODS_ROOT}/Fabric/run\"\nelse\n  echo \"info: Exec Fabric Run from framework\"\n  \"${PROJECT_DIR}/Fabric.framework/run\"\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B1C88D8B9DCCF370BAEA2FAF /* [CP-User] [RNFB] Core Configuration */ = {
@@ -876,7 +948,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 333;
+				CURRENT_PROJECT_VERSION = 343;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -922,7 +994,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 333;
+				CURRENT_PROJECT_VERSION = 343;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -977,7 +1049,7 @@
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 333;
+				CURRENT_PROJECT_VERSION = 343;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -1037,7 +1109,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 333;
+				CURRENT_PROJECT_VERSION = 343;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
