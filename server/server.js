@@ -277,7 +277,7 @@ function fetch (feed, done, fail, includeMeta) {
         var encoding = res.headers['content-encoding'] || 'identity'
         var charset = getParams(res.headers['content-type'] || '').charset
         res = maybeDecompress(res, encoding)
-        res = maybeTranslate(res, charset)
+        res = maybeTranslate(res, charset, done)
         res.pipe(feedparser)
       })
   })
@@ -341,11 +341,10 @@ function maybeDecompress (res, encoding) {
   return decompress ? res.pipe(decompress) : res;
 }
 
-function maybeTranslate (res, charset) {
+function maybeTranslate (res, charset, done) {
   // Use iconv if its not utf8 already.
   if (charset && !/utf-*8/i.test(charset)) {
     try {
-      iconv = new Iconv(charset, 'utf-8')
       // console.log('Converting from charset %s to utf-8', charset)
       iconv.on('error', done)
       // If we're using iconv, stream will be the output of iconv
