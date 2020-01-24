@@ -42,13 +42,13 @@ class TextButton extends React.Component {
       borderRadius: (isCompact ? 16 : 21) * fontSizeMultiplier(),
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       flex: 1,
       height: (isCompact ? 32 : 42) * fontSizeMultiplier(),
       maxHeight: 42 * fontSizeMultiplier(),
       ...this.props.buttonStyle,
       maxWidth: 700,
-      // alignSelf: 'center'
+      paddingTop: 8
     }
     if (Dimensions.get('window').width > 950) {
       if (this.props.buttonStyle && this.props.buttonStyle.width) {
@@ -61,8 +61,8 @@ class TextButton extends React.Component {
 
     const textStyle = {
       fontFamily: 'IBMPlexSans-Bold',
-      fontSize: (isExpanded ? 18 : 16) * fontSizeMultiplier(),
-      lineHeight: 18 * fontSizeMultiplier(),
+      fontSize: (isExpanded ? 24 : 16) * fontSizeMultiplier(),
+      lineHeight: (isExpanded ? 24 : 18) * fontSizeMultiplier(),
       textAlign: 'center',
       color: isInverted ? bgColor : fgColor,
       paddingLeft: 20,
@@ -78,7 +78,14 @@ class TextButton extends React.Component {
             maxHeight: (isExpanded ? 'auto' : 42 * fontSizeMultiplier()),
             height: (isExpanded ? 'auto' : 42 * fontSizeMultiplier())
           }}>
-          { isExpanded ? this.props.iconExpanded : this.props.iconCollapsed }
+          <View style={{
+            position: 'absolute',
+            top: (isCompact ? 3 : 8) * fontSizeMultiplier(),
+            left: 8 * fontSizeMultiplier(),
+            backgroundColor: 'transparent'
+          }}>
+            { isExpanded ? this.props.iconExpanded : this.props.iconCollapsed }
+          </View>
           <TouchableOpacity
             onPress={this.expand}
           >

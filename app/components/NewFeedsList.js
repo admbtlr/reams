@@ -12,9 +12,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import Svg, {Circle, Group, Path} from 'react-native-svg'
 import TextButton from './TextButton'
+import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
-import { feeds } from '../utils/feeds'
+import {technology} from '../utils/feeds/technology'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
@@ -37,6 +39,7 @@ const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.05
 
 const buttonAnim = new Animated.Value(margin * 4)
+
 
 export default function NewFeedsList (props) {
   const [selectedFeeds, setFeeds] = useState([])
@@ -68,19 +71,70 @@ export default function NewFeedsList (props) {
     }
   })
 
+  const hashtag = <Svg
+    width='32'
+    height='32'
+    viewBox='0 0 32 32'
+    style={{
+      top: -4,
+      left: -4
+    }}>
+      <Circle
+        fill="#000000" cx="16" cy="16" r="16" />
+      <Path d="M11.791,19.538 L9.307,19.538 L9.307,17.008 L12.251,17.008 L12.596,14.938 L10.181,14.938 L10.181,12.408 L13.056,12.408 L13.838,7.946 L16.529,7.946 L13.7,24 L11.009,24 L11.791,19.538 Z M18.3,7.946 L20.991,7.946 L20.209,12.408 L22.693,12.408 L22.693,14.938 L19.749,14.938 L19.404,17.008 L21.819,17.008 L21.819,19.538 L18.944,19.538 L18.162,24 L15.471,24 L18.3,7.946 Z" fill="#F0F0F0" fill-rule="nonzero" />
+    </Svg>
+
+  const feedList = (feeds) => (
+    <View style={{
+      marginTop: 16,
+      paddingTop: 16,
+      paddingRight: 16
+    }}>
+      { feeds.map(feed => (
+        <View style={{
+          flexDirection: 'row'
+        }}>
+          <View style={{
+            width: 70 * fontSizeMultiplier(),
+            height: 70
+          }}>
+            { /* icon goes here */ }
+          </View>
+          <View style={{
+            flexDirection: 'column',
+            flex: 1
+          }}>
+            <Text style={{
+              ...textStyles(),
+              ...boldStyles,
+              fontSize: 20
+            }}>{feed.title}</Text>
+            <Text style={{
+              ...textStyles(),
+              fontSize: 16,
+              marginTop: 0,
+              marginBottom: 24
+            }}>{feed.description}</Text>
+          </View>
+        </View>
+      ))}
+    </View>
+  )
+
+
   return (
     <Fragment>
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'flex-start',
-          backgroundColor: hslString('rizzleBG'),
+          backgroundColor: hslString('logo1'),
           paddingLeft: Dimensions.get('window').width * 0.05,
           paddingRight: Dimensions.get('window').width * 0.05
           // marginTop: margin
         }}
         style={{
-          backgroundColor: hslString('rizzleBG'),
+          backgroundColor: hslString('logo1'),
           flex: 1
         }}>
         <StatusBar
@@ -88,38 +142,35 @@ export default function NewFeedsList (props) {
           barStyle="dark-content"
           showHideTransition="slide"/>
         <View style={{
-          marginTop: 55,
+          marginTop: 30,
           marginBottom: 64,
           width: Dimensions.get('window').width * 0.9
         }}>
           <Heading
-            title='Add Some Feeds'
+            title='Read More About Stuff You Love'
             showClose={true}
+            isBigger={true}
+            isWhite={true}
             onClose={() => {
               props.close()
             }}
           />
-          <Text style={textStyles()}>To get you started, take a look at this list of our favourite feeds, and select any that look interesting.</Text>
           <Text style={{
             ...textStyles(),
-            marginBottom: 9
-          }}>You can also add feeds from any compatible site in Safari by using the <Text style={boldStyles}>Rizzle share extension</Text>.</Text>
-          {Object.keys(feeds).map((category, index) => (
-            <View key={`category-${index}`}>
-              <View style={{
-                borderBottomColor: hslString('rizzleText'),
-                borderBottomWidth: 1
-              }}>
-                <Text style={headerStyles()}>{category}</Text>
-              </View>
-              { feeds[category].map((feed, index, feeds) => <FeedToggle
-                  feed={feed}
-                  toggleFeedSelected={toggleFeedSelected}
-                  key={`feed-${index}`}
-                  isLast={index === feeds.length - 1}
-                />) }
+            ...boldStyles
+          }}>1. Use the Rizzle Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Rizzle icon.</Text>
+          <Text style={{
+            ...textStyles(),
+            ...boldStyles
+          }}>2. Select your favourite topics to find more sites to add:</Text>
+            <View>
+              <TextButton
+                iconCollapsed={hashtag}
+                iconExpanded={hashtag}
+                text='Technology'
+                isExpandable={true}
+                renderExpandedView={() => feedList(technology)} />
             </View>
-          ))}
         </View>
       </ScrollView>
       <Animated.View style={{
@@ -166,12 +217,12 @@ const FeedToggle = (props) => {
   const titleStyles = {
     fontFamily: 'IBMPlexSans-Bold',
     fontSize: 24,
-    color: isSelected ? hslString('rizzleBG') : hslString('rizzleText')
+    color: isSelected ? hslString('bodyBG') : hslString('rizzleText')
   }
   const descriptionStyles = {
     ...textStyles(),
     marginTop: 0,
-    color: isSelected ? hslString('rizzleBG') : hslString('rizzleText')
+    color: isSelected ? hslString('bodyBG') : hslString('rizzleText')
   }
   return (
     <Fragment>
