@@ -1,8 +1,4 @@
 import { combineReducers } from 'redux'
-import { persistReducer } from 'redux-persist'
-import FilesystemStorage from 'redux-persist-filesystem-storage'
-import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
-import firebase from '@react-native-firebase/app'
 
 import { itemsUnread, itemsHasErrored } from './items-unread'
 import { itemsSaved } from './items-saved'
@@ -15,6 +11,7 @@ import { user } from './user'
 import { webView } from './webView'
 import { config } from './config'
 import { remoteActionQueue } from './remote-action-queue'
+import { animatedValues } from './animated-values'
 
 // export default {
 //   itemsUnread,
@@ -50,6 +47,7 @@ export default function makeRootReducer () {
     webView,
     remoteActionQueue,
     config,
-    user
+    user,
+    animatedValues
   })
 }

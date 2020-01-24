@@ -22,6 +22,8 @@ import {
 } from '../../utils/item-utils.js'
 import rizzleSort from '../../utils/rizzle-sort'
 
+import { BUFFER_LENGTH } from '../../components/ItemCarousel'
+
 // export const initialState = {
 //   items: []
 // }
@@ -286,19 +288,18 @@ export const itemsUnread = (state = initialState, action) => {
 // (sucks that reducers need to think about UI implementation, but :shrug:)
 const maintainCarouselItems = (state, items) => {
   currentItem = state.items[state.index]
-  const previousItem = state.index > 0 ?
-    state.items[state.index - 1] :
-    null
-  const nextItem = state.index < state.items.length - 1 ?
-    state.items[state.index + 1] :
-    null
+  let index = state.index
+  const indexStart = state.index === 0 ?
+    0 :
+    state.index - 1
+  const indexEnd = state.index + BUFFER_LENGTH >= state.items.length ?
+    state.items.length - 1 :
+    state.index + BUFFER_LENGTH
   if (currentItem) {
-    const currentItems = [currentItem]
-    previousItem && currentItems.unshift(previousItem)
-    nextItem && currentItems.push(nextItem)
+    const currentItems = state.items.slice(indexStart, indexEnd+1)
     items = items.filter(item => !currentItems.find(ci => ci._id === item._id))
     items = currentItems.concat(items)
+    index = currentItems.indexOf(currentItem)
   }
-  const index = previousItem ? 1 : 0
   return { items, index }
 }

@@ -23,7 +23,9 @@ function configureStore () {
 
   const persistConfig = {
     key: 'primary',
-    storage: FilesystemStorage
+    storage: FilesystemStorage,
+    timeout: 30000,
+    blacklist: ['animatedValues']
   }
 
   firestore()

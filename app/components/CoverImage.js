@@ -84,31 +84,31 @@ class CoverImage extends React.Component {
       marginBottom: -1
     }
     const position = isInline ? inline : absolute
-    const scrollOffset = this.props.scrollOffset || 0
+    const scrollAnim = this.props.scrollAnim || 0
     const imageHeight = this.screenWidth / imageDimensions.width * imageDimensions.height
     const scale = isInline ?
-      scrollOffset.interpolate({
+      scrollAnim.interpolate({
         inputRange: [-imageHeight, 0, 1],
         outputRange: [2, 1, 1]
       }) :
-      scrollOffset.interpolate({
+      scrollAnim.interpolate({
         inputRange: [-100, 0, this.screenHeight],
         outputRange: [1.3, 1, 0.8]
       })
     const translateY = isInline ?
-      scrollOffset.interpolate({
+      scrollAnim.interpolate({
         inputRange: [-1, 0, 1],
         outputRange: [-.5, 0, 0]
       }) :
-      scrollOffset.interpolate({
+      scrollAnim.interpolate({
         inputRange: [-1, 0, 1],
         outputRange: [0, 0, -0.333]
       })
-    const opacity = scrollOffset.interpolate({
+    const opacity = scrollAnim.interpolate({
       inputRange: [0, this.screenHeight * 0.75, this.screenHeight],
       outputRange: [1, 1, 0]
     })
-    const blurOpacity = scrollOffset.interpolate({
+    const blurOpacity = scrollAnim.interpolate({
       inputRange: [-100, -50, 0, 200],
       outputRange: [0, 0.8, 1, 0]
     })

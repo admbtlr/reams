@@ -39,6 +39,10 @@ const mapDispatchToProps = (dispatch) => {
         })
       }
     },
+    setPanAnim: (panAnim, item_id) => dispatch({
+      type: 'SET_PAN_ANIM',
+      panAnim
+    }),
     toggleDisplayMode: (currentDisplayMode) => {
       return dispatch({
         type: 'SET_DISPLAY_MODE',

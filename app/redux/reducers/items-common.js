@@ -20,6 +20,9 @@ export const itemMarkRead = (action, state) => {
 }
 
 export const itemsMarkRead = (action, state) => {
+  if (action.items.length === 0) {
+    return state
+  }
   const items = state.items.map(item => {
     const readItem = action.items.find(ai => ai._id === item._id)
     if (readItem) {

@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { call, delay, fork, put, select, takeEvery } from 'redux-saga/effects'
 import { REHYDRATE } from 'redux-persist'
 
 import { decorateItems } from './decorate-items'
@@ -21,7 +21,13 @@ function * init (getFirebase, action) {
 
   yield initBackend(getFirebase, action)
   yield call(inflateItems)
-  // yield call(fetchAllItems)
+  yield fork(startDownloads)
+}
+
+function * startDownloads () {
+  // let the app render and get started
+  delay(3000)
+  yield call(fetchAllItems)
   yield call(decorateItems)
   yield call(clearReadItems)
   yield call(pruneItems)

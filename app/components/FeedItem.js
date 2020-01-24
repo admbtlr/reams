@@ -6,7 +6,7 @@ import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, diff, getCachedCoverImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
-import {onScrollEnd, scrollHandler} from '../utils/animationHandlers'
+import {onScrollEnd} from '../utils/animationHandlers'
 import { hslString } from '../utils/colors'
 import log from '../utils/log'
 
@@ -24,7 +24,7 @@ class FeedItem extends React.Component {
     //   this.props.item.styles = createItemStyles(this.props.item)
     // }
 
-    this.scrollOffset = new Animated.Value(0)
+    this.scrollAnim = new Animated.Value(0)
 
     this.state = {
       webViewHeight: 0,
@@ -50,9 +50,18 @@ class FeedItem extends React.Component {
   }
 
   componentDidMount () {
-    this.props.setTimerFunction(this.startTimer)
-    if (this.props.isVisible && this.props.item.scrollRatio > 0) {
-      this.scrollToOffset()
+    const {
+      isVisible,
+      item,
+      scrollHandlerAttached,
+      setScrollAnim,
+      setTimerFunction
+    } = this.props
+    setTimerFunction && setTimerFunction(this.startTimer)
+    if (isVisible) {
+      setScrollAnim(this.scrollAnim, item._id)
+      scrollHandlerAttached(item._id)
+      item.scrollRatio > 0 && this.scrollToOffset()
     }
   }
 
@@ -62,6 +71,7 @@ class FeedItem extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     if (this.isAnimating) return true
+    const { item } = this.props
     let changes
     let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
     // console.log('Should update? - '
@@ -90,8 +100,8 @@ class FeedItem extends React.Component {
           isDiff = false
           // this is a bit sneaky...
           if (nextProps.isVisible) {
-            scrollHandler(this.scrollOffset)
-            // and let the world (i.e. the topbar and buttons) know that the scroll handler has changed
+            this.props.setScrollAnim(this.scrollAnim, item._id)
+            // and let the buttons know that the scroll handler has changed
             this.props.scrollHandlerAttached(this.props.item._id)
           }
           // so is this (startTimer() doesn't always get set correctly)
@@ -135,9 +145,9 @@ class FeedItem extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const { isVisible, item, scrollHandlerAttached } = this.props
+    const { isVisible, item, scrollHandlerAttached, setScrollAnim } = this.props
     if (isVisible && !prevProps.isVisible) {
-      scrollHandler(this.scrollOffset)
+      setScrollAnim(this.scrollAnim, item && item._id)
       scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
@@ -196,7 +206,7 @@ class FeedItem extends React.Component {
       excerpt,
       savedAt
     } = this.props.item
-    console.log(`-------- RENDER: ${title} ---------`)
+    // console.log(`-------- RENDER: ${title} ---------`)
     // let bodyHtml = { __html: body }
     let articleClasses = [
       ...Object.values(styles.fontClasses),
@@ -214,7 +224,7 @@ class FeedItem extends React.Component {
     const visibleClass = this.props.isVisible
       ? 'visible'
       : ''
-    const scrollingClass = this.scrollOffset === 0
+    const scrollingClass = this.scrollAnim === 0
       ? ''
       : 'scrolling'
     const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
@@ -286,7 +296,7 @@ class FeedItem extends React.Component {
 
     const coverImage = <CoverImage
             styles={styles.coverImage}
-            scrollOffset={this.scrollOffset}
+            scrollAnim={this.scrollAnim}
             imagePath={!!hasCoverImage && getCachedCoverImagePath(this.props.item)}
             imageDimensions={!!hasCoverImage && imageDimensions}
             faceCentreNormalised={faceCentreNormalised}
@@ -310,13 +320,14 @@ class FeedItem extends React.Component {
         <Animated.ScrollView
           onScroll={Animated.event(
               [{ nativeEvent: {
-                contentOffset: { y: this.scrollOffset }
+                contentOffset: { y: this.scrollAnim }
               }}],
               {
                 useNativeDriver: true,
-                listener: event => {
-                  this.passScrollPositionToWebView(event.nativeEvent.contentOffset.y)
-                }
+                // listener: event => {
+                //   console.log(event.nativeEvent.contentOffset.y)
+                //   this.passScrollPositionToWebView(event.nativeEvent.contentOffset.y)
+                // }
               }
             )}
           onMomentumScrollBegin={this.onMomentumScrollBegin}
@@ -333,7 +344,7 @@ class FeedItem extends React.Component {
             title={title}
             excerpt={this.props.item.excerpt}
             date={savedAt || created_at}
-            scrollOffset={this.scrollOffset}
+            scrollOffset={this.scrollAnim}
             font={styles.fontClasses.heading}
             bodyFont={styles.fontClasses.body}
             hasCoverImage={hasCoverImage}

@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  StatusBar,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -10,7 +11,7 @@ import {
 } from 'react-native'
 import Svg, {Circle, G, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import {
-  getAnimatedValue,
+  getClampedScrollAnim,
   getPanValue,
   addScrollListener
 } from '../utils/animationHandlers'
@@ -20,7 +21,7 @@ import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
 import Reactotron from 'reactotron-react-native'
 
-export const STATUS_BAR_HEIGHT = 70
+export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 
 class TopBar extends React.Component {
   static whyDidYouRender = true
@@ -29,22 +30,22 @@ class TopBar extends React.Component {
     super(props)
     this.props = props
 
-    this.detailsHeight = new Animated.Value(0)
-
-    this.state = {
-      // bgColorValue: 0,
-      // prevBgColor: undefined,
-      detailsVisible: false
-    }
+    this.state = {}
+    this.screenWidth = Dimensions.get('window').width
 
     this.onStatusBarDown = this.onStatusBarDown.bind(this)
     this.onStatusBarUp = this.onStatusBarUp.bind(this)
     this.onDisplayPress = this.onDisplayPress.bind(this)
 
+    // this is a hack to get round a weird problem with animated values
+    // it's used in shouldComponentUpdate
+    this.isFirstRender = true
+
     addScrollListener(this)
   }
 
   onStatusBarDown () {
+    StatusBar.setHidden(false)
     this.props.showItemButtons()
   }
 
@@ -52,34 +53,42 @@ class TopBar extends React.Component {
     this.props.hideAllButtons()
   }
 
+  onStatusBarDownBegin () {
+  }
+
+  onStatusBarUpBegin () {
+    StatusBar.setHidden(true)
+  }
+
   onStatusBarReset () {
+    StatusBar.setHidden(false)
     this.props.showItemButtons()
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    const areEqual = (itemA, itemB) => {
+      const keys = [
+        '_id',
+        'feed_color',
+        'feed_id',
+        'feed_title',
+        'feedIconDimensions',
+        'hasCachedFeedIcon'
+      ]
+      return keys.map(key => ((itemA === null && itemB === null) ||
+        ((itemA !== null && itemB !== null) ?
+          itemA[key] === itemB[key] :
+          false)))
+        .reduce((accum, val) => accum && val, true)
+    }
     const shouldUpdate = (
-      (this.props.prevItem && nextProps.prevItem ?
-        this.props.prevItem._id !== nextProps.prevItem._id :
-        true) ||
-      (this.props.currentItem && nextProps.currentItem ?
-        this.props.currentItem._id !== nextProps.currentItem._id :
-        true) ||
-      (this.props.nextItem && nextProps.nextItem ?
-        this.props.nextItem._id !== nextProps.nextItem._id :
-        true) ||
-      // this is terrible, since panAnim exists outside of state and props
-      // but when SwipeableViews updates, it refreshed panAnim, and the TopBar
-      // needs to refresh when this happens
-      getPanValue().panAnim !== this.panAnim ||
-      getAnimatedValue() !== this.scrollAnim
+      !areEqual(this.props.prevItem, nextProps.prevItem) ||
+      !areEqual(this.props.currentItem, nextProps.currentItem) ||
+      !areEqual(this.props.nextItem, nextProps.nextItem) ||
+      this.props.scrollAnim !== nextProps.scrollAnim ||
+      this.props.panAnim.__getValue() !== nextProps.panAnim.__getValue()
     )
     return shouldUpdate
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    if (prevState.detailsVisible !== this.state.detailsVisible) {
-      this.expandAnimation()
-    }
   }
 
   getMessage (item) {
@@ -90,14 +99,23 @@ class TopBar extends React.Component {
   }
 
   render () {
-    const { prevItem, currentItem, nextItem, index, numItems } = this.props
-    const { panAnim, panAnimDivisor } = getPanValue()
-    this.panAnim = panAnim
-    this.scrollAnim = getAnimatedValue()
+    const {
+      currentItem,
+      index,
+      nextItem,
+      numItems,
+      prevItem
+    } = this.props
+    let panAnim = this.props.panAnim || new Animated.Value(0)
+    let scrollAnim = this.props.scrollAnim || new Animated.Value(0)
+    const panAnimDivisor = this.screenWidth
 
     console.log('RENDERING TOPBAR')
     Reactotron.log('RENDERING TOPBAR')
 
+    const clampedScrollAnim = getClampedScrollAnim(scrollAnim)
+    // const clampedScrollAnim = new Animated.Value(0)
+    // scrollAnim && scrollAnim.addListener(value => console.log(value))
 
     const opacityRanges = [
       {
@@ -125,7 +143,7 @@ class TopBar extends React.Component {
       }
     ]
 
-    const transformRanges = [
+    const titleTransformRanges = [
       {
         inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
         outputRange: [0, -20, -20]
@@ -138,9 +156,10 @@ class TopBar extends React.Component {
       }
     ]
 
-    const items = prevItem ?
-      [prevItem, currentItem, nextItem] :
-      [currentItem, nextItem]
+    // const items = prevItem ?
+    //   [prevItem, currentItem, nextItem] :
+    //   [currentItem, nextItem]
+    const items = [prevItem, currentItem, nextItem]
     const opacityAnims = items.map((item, i) => panAnim ?
         panAnim.interpolate(opacityRanges[i]) :
         1)
@@ -148,27 +167,33 @@ class TopBar extends React.Component {
         panAnim.interpolate(topBarOpacityRanges[i]) :
         1)
     const titleTransformAnims = items.map((item, i) => panAnim ?
-        panAnim.interpolate(transformRanges[i]) :
+        panAnim.interpolate(titleTransformRanges[i]) :
         0)
 
     const panTransformAnim = prevItem ?
       panAnim.interpolate({
         inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
-        outputRange: [STATUS_BAR_HEIGHT, 0, STATUS_BAR_HEIGHT]
+        outputRange: [
+          STATUS_BAR_HEIGHT,
+          0,
+          STATUS_BAR_HEIGHT
+        ]
       }) :
       panAnim.interpolate({
         inputRange: [0, panAnimDivisor],
         outputRange: [0, STATUS_BAR_HEIGHT]
       })
 
+    // renderStatusBar (item, opacityAnim, clampedScrollAnim, transformAnim, panTransformAnim, isVisible, index, numItems) {
+
     const views = items.map((item, i) => (<View key={item ? item._id : i}>
-        {this.renderTopBar(item, opacityAnims[i])}
         {this.renderStatusBar(item,
           opacityAnims[i],
+          clampedScrollAnim,
           titleTransformAnims[i],
           panTransformAnim,
-          prevItem ? i === 1 : i === 0,
-          index,
+          i === 1,
+          index + i - 1,
           numItems)}
       </View>)
     )
@@ -212,27 +237,6 @@ class TopBar extends React.Component {
     return this.props.displayMode == 'saved' ?
       this.getForegroundColor() :
       'rgba(255, 255, 255, 0.6)'
-  }
-
-  expandAnimation () {
-    const springConfig = {
-      speed: 20,
-      bounciness: 8,
-      toValue: this.state.detailsVisible ? 1 : 0,
-      duration: 200,
-      useNativeDriver: true
-    }
-    Animated.spring(
-      this.detailsHeight,
-      springConfig
-    ).start()
-    // Animated.spring(
-    //   this.detailsOpacity,
-    //   {
-    //     ...springConfig,
-    //     toValue: this.state.detailsVisible ? 1 : 0
-    //   }
-    // ).start()
   }
 
   onDisplayPress () {
@@ -281,53 +285,28 @@ class TopBar extends React.Component {
     return <Animated.View style={topBarStyles} />
   }
 
-  renderStatusBar (item, opacityAnim, transformAnim, panTransformAnim, isVisible, index, numItems) {
+  renderStatusBar (item, opacityAnim, clampedScrollAnim, transformAnim, panTransformAnim, isVisible, index, numItems) {
+    const isOnboarding = this.props.isOnboarding
     const isMessage = this.props.toolbar.message
     const textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor: this.getBackgroundColor(item),
       opacity: opacityAnim
     }
-    const areDetailsVisible = this.state && this.state.detailsVisible || false
 
-    const clampedAnimatedValue = Animated.diffClamp(
-      Animated.add(this.scrollAnim, panTransformAnim),
-      -STATUS_BAR_HEIGHT,
-      0
-    )
+    const clampedAnimatedValue = clampedScrollAnim ?
+      Animated.diffClamp(
+        Animated.add(clampedScrollAnim, panTransformAnim),
+        -STATUS_BAR_HEIGHT,
+        0
+      ) :
+      new Animated.Value(0)
 
-    return (
+    // debugger
+
+    return isOnboarding ? null :
+    (
       <View>
-        {/*<Animated.View
-          key={id()}
-          pointerEvents={isVisible && this.state.detailsVisible
-            ? 'auto'
-            : 'none'}
-          style={{
-            ...textHolderStyles,
-            // backgroundColor: 'red',
-            flexDirection: 'column',
-            height: 600,
-            overflow: 'hidden',
-            paddingTop: 80,
-            position: 'absolute',
-            // shadowOffset: {
-            //   width: 0,
-            //   height: 1
-            // },
-            // shadowRadius: 1,
-            // shadowOpacity: 0.1,
-            // shadowColor: 'rgba(0, 0, 0, 1)',
-            top: -600,
-            transform: [{
-              translateY: this.detailsHeight.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 600]
-              })
-            }]
-          }}
-        >
-        </Animated.View>*/}
         <Animated.View
           key={item ? item._id : id()}
           pointerEvents={isVisible ? 'auto' : 'none'}
@@ -349,14 +328,11 @@ class TopBar extends React.Component {
             shadowOpacity: 0.1,
             shadowColor: 'rgba(0, 0, 0, 1)',
             transform: [{
-              translateY: Animated.add(clampedAnimatedValue, this.detailsHeight.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 260]
-              }))
+              translateY: clampedAnimatedValue
             }]
           }}
         >
-          { this.props.isOnboarding || <ViewButtonToggle
+          { isOnboarding || <ViewButtonToggle
             backgroundColor={this.getBackgroundColor(item)}
             buttonColor={this.getHamburgerColor(item)}
             isSyncing={this.props.toolbar.message}
@@ -368,20 +344,8 @@ class TopBar extends React.Component {
             })}
             style={{ width: 48 }}
           /> }
-          {/*<FeedDetails
-            bgColor={this.getBorderBottomColor(item)}
-            feedActionStyles={this.getStyles().feedActions}
-            onPressMarkAllRead={() => {
-              this.props.markAllRead(item.feed_id)
-              console.log('MARK ALL READ!')
-            }}
-            onPressUnsubscribe={() => {
-              this.props.unsubscribe(item.feed_id)
-              console.log('UNSUBSCRIBE!')
-            }}
-          />*/}
           <View style={{
-            top: 0,
+            top: isIphoneX() ? 44 : 22,
             flex: 1,
             marginLeft: 90,
             marginRight: 90
@@ -389,6 +353,7 @@ class TopBar extends React.Component {
             <TouchableOpacity
               key={`inner-{id()}`}
               onPress={() => {
+                if (isOnboarding) return
                 console.log('BUTTON PRESSED!')
                 const { feed, navigation } = this.props
                 // this.imageView.measure(this.measured)
@@ -399,9 +364,6 @@ class TopBar extends React.Component {
                       navigation={navigation}
                     />
                 })
-                // this.setState({
-                //   detailsVisible: !areDetailsVisible
-                // })
               }}
               style={{
                 backgroundColor: 'transparent',
@@ -434,49 +396,51 @@ class TopBar extends React.Component {
                     />
                   </View>
                 }
-                <View style={{
-                  flexDirection: 'column',
-                  marginTop: -10
-                }}>
-                  <Text
-                    style={{
-                      ...this.getStyles().feedName,
-                      fontSize: 14,
-                      fontFamily: this.props.feedFilter ?
-                        'IBMPlexSansCond-Bold' :
-                        'IBMPlexSansCond',
-                      color: this.getForegroundColor(),
-                      textAlign: item && item.hasCachedFeedIcon ?
-                        'left' : 'center'
-                    }}
-                  >{ index + 1 } / { numItems } {this.props.displayMode === 'saved' ?
-                    'Saved from' :
-                    this.props.feedFilter ?
-                      'Filtered for' :
-                      'Published in'}</Text>
-                  <Text
-                    numberOfLines={2}
-                    ellipsizeMode='tail'
-                    style={{
-                      ...this.getStyles().feedName,
+                {!isOnboarding &&
+                  <View style={{
+                    flexDirection: 'column',
+                    marginTop: -10
+                  }}>
+                    <Text
+                      style={{
+                        ...this.getStyles().feedName,
+                        fontSize: 14,
+                        fontFamily: this.props.feedFilter ?
+                          'IBMPlexSansCond-Bold' :
+                          'IBMPlexSansCond',
+                        color: this.getForegroundColor(),
+                        textAlign: item && item.hasCachedFeedIcon ?
+                          'left' : 'center'
+                      }}
+                    >{this.props.displayMode === 'saved' ?
+                      'Saved Stories' :
+                      this.props.feedFilter ?
+                        'Filtered Stories' :
+                        'Unread Stories'} • { index + 1 } / { numItems }</Text>
+                    <Text
+                      numberOfLines={2}
+                      ellipsizeMode='tail'
+                      style={{
+                        ...this.getStyles().feedName,
 
-                      fontSize: 18,
-                      lineHeight: 22,
-                      fontFamily: this.props.feedFilter ?
-                        'IBMPlexSansCond-Bold' :
-                        'IBMPlexSansCond-Bold',
-                      // color: this.getBorderBottomColor(item)
-                      color: this.getForegroundColor(),
-                      // height: 36,
-                      // paddingBottom: 15,
-                      textAlign: item && item.hasCachedFeedIcon ?
-                        'left' : 'center',
-                      textDecorationLine: 'underline'
-                    }}
-                  >
-                    {this.getMessage(item)}
-                  </Text>
-                </View>
+                        fontSize: 18,
+                        lineHeight: 22,
+                        fontFamily: this.props.feedFilter ?
+                          'IBMPlexSansCond-Bold' :
+                          'IBMPlexSansCond-Bold',
+                        // color: this.getBorderBottomColor(item)
+                        color: this.getForegroundColor(),
+                        // height: 36,
+                        // paddingBottom: 15,
+                        textAlign: item && item.hasCachedFeedIcon ?
+                          'left' : 'center',
+                        textDecorationLine: 'underline'
+                      }}
+                    >
+                      {this.getMessage(item)}
+                    </Text>
+                  </View>
+                }
               </Animated.View>
             </TouchableOpacity>
           </View>
@@ -511,7 +475,7 @@ class TopBar extends React.Component {
       textHolder: {
         // flex: 1,
         position: 'absolute',
-        top: isIphoneX() ? 44 : 22,
+        top: 0,
         width: '100%',
         flexDirection: 'row',
         height: STATUS_BAR_HEIGHT,
@@ -548,40 +512,6 @@ class TopBar extends React.Component {
     }
   }
 }
-
-const FeedDetails = ({ bgColor, feedActionStyles, onPressMarkAllRead, onPressUnsubscribe }) => (<Fragment>
-    <Text style={{
-        ...feedActionStyles,
-        color: bgColor,
-        color: 'white',
-        marginLeft: Dimensions.get('window').width * 0.5 - 80,
-        marginRight: Dimensions.get('window').width * 0.5 - 80,
-        paddingBottom: 20,
-        marginBottom: 30,
-        borderRadius: 10
-      }}
-    >12 Unread</Text>
-    <TouchableOpacity
-      onPress={onPressMarkAllRead}>
-      <Text style={{
-        ...feedActionStyles,
-          color: bgColor,
-          paddingBottom: 40,
-          textDecorationLine: 'underline'
-        }}
-      >Mark all read</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-      onPress={onPressUnsubscribe}>
-      <Text style={{
-        ...feedActionStyles,
-          color: bgColor,
-          paddingBottom: 60,
-          textDecorationLine: 'underline'
-        }}
-      >Unsubscribe</Text>
-    </TouchableOpacity>
-  </Fragment>)
 
 const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.View
     style={{
@@ -647,9 +577,10 @@ const ViewButtonToggle = ({ displayMode, onPress, backgroundColor, buttonColor, 
     </Svg>
   const unreadIcon = <Svg width="30px" height="26px" viewBox="0 0 30 26">
     <G stroke="none" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round">
-      <G transform="translate(-2.000000, -8.000000)" stroke={buttonColor} strokeWidth="2">
+      <G transform="translate(-2.000000, -8.000000)" strokeWidth="2">
         <G transform="translate(3.000000, 3.000000)">
-          <Path d="M0,22 L0,27 C0,28.65 1.4,30 3.11111111,30 L24.8888889,30 C26.6071081,30 28,28.6568542 28,27 L28,22 M3,24 L25,24 M3,27 L25,27 M3,18 L25,18 M3,21 L25,21 M3,12 L25,12 M3,15 L25,15 M3,6 L25,6 M3,9 L25,9" />
+          <Path stroke={buttonColor} strokeWidth="2" d="M0,22 L0,27 C0,28.65 1.4,30 3.11111111,30 L24.8888889,30 C26.6071081,30 28,28.6568542 28,27 L28,22" />
+          <Path strokeOpacity="0.7" stroke={buttonColor} strokeWidth="1" d="M3,24 L25,24 M3,27 L25,27 M3,18 L25,18 M3,21 L25,21 M3,12 L25,12 M3,15 L25,15 M3,6 L25,6 M3,9 L25,9" />
         </G>
       </G>
     </G>
@@ -677,7 +608,7 @@ const ViewButtonToggle = ({ displayMode, onPress, backgroundColor, buttonColor, 
 }
 
 
-export const getTopBarHeight = () => STATUS_BAR_HEIGHT +
-  (isIphoneX() ? 40 : 20)
+export const getTopBarHeight = () => STATUS_BAR_HEIGHT// +
+  // (isIphoneX() ? 44 : 22)
 
 export default TopBar
