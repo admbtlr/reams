@@ -166,7 +166,9 @@
     "rizzleText": "hsl(300, 20%, 20%)",
     "rizzleChrome": "hsl(0, 0%, 95%)",
     "bodyBG": "hsl(60, 17%, 96%)",
-    "bodyBGDark": "hsl(0, 0%, 0%)"
+    "bodyBGDark": "hsl(0, 0%, 0%)",
+    "logo1": "hsl(186, 39%, 48%)",
+    "logo2": "hsl(360, 70%, 60%)"
   },
   "darkMode": {
     "black": "hsl(0, 0%, 0%)",
@@ -180,7 +182,9 @@
     "rizzleText": "hsl(46, 20%, 90%)",
     "rizzleChrome": "hsl(0, 0%, 95%)",
     "bodyBG": "hsl(240, 0%, 0%)",
-    "bodyBGDark": "hsl(0, 0%, 0%)"
+    "bodyBGDark": "hsl(0, 0%, 0%)",
+    "logo1": "hsl(186, 39%, 48%)",
+    "logo2": "hsl(360, 70%, 60%)"
   }
 
 }

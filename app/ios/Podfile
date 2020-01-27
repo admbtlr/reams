@@ -40,12 +40,6 @@ target 'rizzle' do
 
   # # third party deps
   pod 'ReactNativeShareExtension', :podspec => '../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec'
-  # pod 'react-native-webview', :path => '../node_modules/react-native-webview'
-  # pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
-  # pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
-  # pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
-  # pod 'ReactNativeDarkMode', :path => '../node_modules/react-native-dark-mode'
-  # pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   use_native_modules!
 

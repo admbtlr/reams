@@ -48,7 +48,7 @@ class TextButton extends React.Component {
       maxHeight: 42 * fontSizeMultiplier(),
       ...this.props.buttonStyle,
       maxWidth: 700,
-      paddingTop: 8
+      paddingTop: isCompact ? 4 : 8
     }
     if (Dimensions.get('window').width > 950) {
       if (this.props.buttonStyle && this.props.buttonStyle.width) {

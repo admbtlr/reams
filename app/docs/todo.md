@@ -2,12 +2,11 @@
 
 - why isn't icon color detection working?
 - why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?
-- speed up refresh of item carousel
-- fix bug with second item never showing its title
+- remodel sign-in page like Mediums's
+- make it work without Firebase (i.e. no login)
 - find memory leak
 - Fix undefined error
     + https://sentry.io/organizations/adam-butler/issues/1361854344/?project=195309&query=is%3Aunresolved
-- replace mercury with browser button for some feeds
 - better loading indicator
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
@@ -26,6 +25,10 @@
 
 # Done
 
+- ~~why doesn't this page work with the share extension?~~
+- ~~replace mercury with browser button for some feeds~~
+- ~~speed up refresh of item carousel~~
+- ~~fix bug with second item never showing its title~~
 - ~~fix bug with items re-rendering and losing your place when getting new items~~
 - ~~Sentry errors relating to inflation with feed filter~~
 - ~~fix freezing share extension~~
