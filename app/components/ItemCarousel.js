@@ -10,13 +10,23 @@ import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 export const BUFFER_LENGTH = 5
 
 class ItemCarousel extends React.Component {
+  constructor (props) {
+    super(props)
+    this.props = props
+
+    this.renderSlide = this.renderSlide.bind(this)
+    this.onChangeIndex = this.onChangeIndex.bind(this)
+  }
+
   shouldComponentUpdate (nextProps, nextState) {
-    // don't update if the items haven't changed (unread <> saved)
-    // AND (nextProps.index is the same as incomingIndex
-    // (ie the index we just moved to)
+    // don't update if the item type hasn't changed (unread <> saved)
+    // or if the the items haven't changed
+    // AND nextProps.index is within the (index + BUFFER_LENGTH)
     // OR if nextProps.index is the same as the index we're currently at)
     const stringifyBufferedItems = (props) => JSON
-      .stringify(props.items.slice(this.props.index - 1, this.props.index + BUFFER_LENGTH)
+      .stringify(props.items.slice(this.props.index === 0 ?
+        0 :
+        - 1, this.props.index + BUFFER_LENGTH)
         .map(item => item._id))
 
     if (this.incomingIndex === null) {
@@ -47,8 +57,8 @@ class ItemCarousel extends React.Component {
         <Fragment>
           <SwipeableViews
             virtualBuffer={BUFFER_LENGTH}
-            slideRenderer={this.renderSlide.bind(this)}
-            onChangeIndex={this.onChangeIndex.bind(this)}
+            slideRenderer={this.renderSlide}
+            onChangeIndex={this.onChangeIndex}
             slideCount={isOnboarding ? 2 : numItems}
             index={index}
             isOnboarding={isOnboarding}

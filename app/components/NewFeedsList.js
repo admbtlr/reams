@@ -16,7 +16,7 @@ import Svg, {Circle, Group, Path} from 'react-native-svg'
 import TextButton from './TextButton'
 import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
-import {technology} from '../utils/feeds/technology'
+// import {technology} from '../utils/feeds/technology'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
