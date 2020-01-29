@@ -146,6 +146,8 @@ export const itemsUnread = (state = initialState, action) => {
         ...state,
         items: carouselled.items,
         index: carouselled.index
+        // items,
+        // index
       }
 
     case 'ITEMS_PRUNE_UNREAD':
@@ -185,6 +187,8 @@ export const itemsUnread = (state = initialState, action) => {
         ...state,
         items: carouselled.items,
         index: carouselled.index
+        // items,
+        // index
       }
 
     case 'UNREAD_ITEMS_SET_LAST_UPDATED':

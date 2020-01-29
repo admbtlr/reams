@@ -21,7 +21,7 @@ function * init (getFirebase, action) {
 
   yield initBackend(getFirebase, action)
   yield call(inflateItems)
-  yield fork(startDownloads)
+  // yield fork(startDownloads)
 }
 
 function * startDownloads () {

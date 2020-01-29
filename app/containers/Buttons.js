@@ -34,7 +34,6 @@ const mapStateToProps = (state) => {
     isCurrentItemSaved: currentItem && currentItem.isSaved,
     showMercuryContent: currentItem && currentItem.showMercuryContent,
     isCurrentItemMercuryButtonEnabled: currentItem && currentItem.content_mercury,
-    toolbar: state.toolbar,
     displayMode: state.itemsMeta.display,
     visible: state.ui.itemButtonsVisible,
     isDarkBackground: state.webView.isDarkBackground,

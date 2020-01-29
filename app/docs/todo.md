@@ -2,8 +2,6 @@
 
 - why isn't icon color detection working?
 - why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?
-- speed up refresh of item carousel
-- fix bug with second item never showing its title
 - find memory leak
 - Fix undefined error
     + https://sentry.io/organizations/adam-butler/issues/1361854344/?project=195309&query=is%3Aunresolved
@@ -26,6 +24,8 @@
 
 # Done
 
+- ~~speed up refresh of item carousel~~
+- ~~fix bug with second item never showing its title~~
 - ~~fix bug with items re-rendering and losing your place when getting new items~~
 - ~~Sentry errors relating to inflation with feed filter~~
 - ~~fix freezing share extension~~

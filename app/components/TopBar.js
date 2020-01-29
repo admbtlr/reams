@@ -76,7 +76,7 @@ class TopBar extends React.Component {
         'hasCachedFeedIcon'
       ]
       return keys.map(key => ((itemA === null && itemB === null) ||
-        ((itemA !== null && itemB !== null) ?
+        ((itemA && itemB) ?
           itemA[key] === itemB[key] :
           false)))
         .reduce((accum, val) => accum && val, true)

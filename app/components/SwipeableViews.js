@@ -32,26 +32,24 @@ class SwipeableViews extends Component {
     this.screenWidth = Dimensions.get('window').width
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    if (!this.children || !nextProps.index || !nextProps.items) return true
+  // shouldComponentUpdate (nextProps, nextState) {
 
-    // check current and upcoming item ids and see if they're different
-    // TODO refactor so that this doesn't need items in its props
-    const { index, items } = this.props
-    // index is usually updated in calls to setState(), but if the
-    // items change, it will be updated in the props that come from
-    // the ItemCarousel
-    const nextIndex = nextProps.index !== index ?
-      nextProps.index :
-      nextState.index
-    const nextItems = nextProps.items
-    const currentIds = this.children.map(child => child && child.key).filter(child => child !== undefined)
-    const nextIds = this.getChildIds(nextIndex, nextItems).map(child => child._id)
-    const yesNo = !(JSON.stringify(currentIds) === JSON.stringify(nextIds)) ? 'Yes' : 'No'
-    console.log(`Should SwipeableViews render? ${yesNo}`)
+  //   // check current and upcoming item ids and see if they're different
+  //   // TODO refactor so that this doesn't need items in its props
+  //   const { index } = this.props
+  //   // index is usually updated in calls to setState(), but if the
+  //   // items change, it will be updated in the props that come from
+  //   // the ItemCarousel
+  //   const nextIndex = nextProps.index !== index ?
+  //     nextProps.index :
+  //     nextState.index
+  //   const currentIds = this.children.map(child => child && child.key).filter(child => child !== undefined)
+  //   const nextIds = this.getChildIds(nextIndex, nextItems).map(child => child._id)
+  //   const yesNo = !(JSON.stringify(currentIds) === JSON.stringify(nextIds)) ? 'Yes' : 'No'
+  //   console.log(`Should SwipeableViews render? ${yesNo}`)
 
-    return !(JSON.stringify(currentIds) === JSON.stringify(nextIds))
-  }
+  //   return !(JSON.stringify(currentIds) === JSON.stringify(nextIds))
+  // }
 
   static getDerivedStateFromProps (props, state) {
     const { index, updateTimestamp, virtualBuffer } = props
@@ -128,7 +126,7 @@ class SwipeableViews extends Component {
 
   getChildIds (index) {
     const {
-      items,
+      // items,
       slideCount,
       virtualBuffer
     } = this.props
@@ -141,7 +139,8 @@ class SwipeableViews extends Component {
     let childIds = []
 
     for (let slideIndex = indexStart; slideIndex <= indexEnd; slideIndex += 1) {
-      const _id = (items && items[slideIndex]) ? items[slideIndex]._id : getItemId(undefined, slideIndex)
+      // const _id = (items && items[slideIndex]) ? items[slideIndex]._id : getItemId(undefined, slideIndex)
+      const _id = getItemId(undefined, slideIndex)
       childIds.push({
         index: slideIndex,
         _id,
@@ -219,7 +218,7 @@ class SwipeableViews extends Component {
       setTimerFunction: timerFunc => {
         this.timerFunctions[child._id] = timerFunc
       },
-      // isVisible: child.index === index
+      isVisible: child.index === index
     }))
 
     // if (this.prevChildren) {
