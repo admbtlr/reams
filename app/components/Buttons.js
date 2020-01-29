@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
+import Svg, {Circle, Group, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import RizzleButton from './RizzleButton'
 import {id} from '../utils'
@@ -38,6 +38,10 @@ class Buttons extends React.Component {
       toggleAnimMercury: new Animated.Value(0),
       toggleAnimSaved: new Animated.Value(0)
     }
+
+    this.state.toggleAnimMercury.addListener(e => {
+      console.log('toggleAnimMercury is speaking')
+    })
   }
 
   showShareActionSheet () {
@@ -98,10 +102,7 @@ class Buttons extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const isFirstRenderForThisIndex = prevProps.toolbar.scrollOwner !== this.props.toolbar.scrollOwner
-    if (isFirstRenderForThisIndex) {
-      this.state.visibleAnim.setValue(0)
-    } else if (prevProps.visible !== this.props.visible ||
+    if (prevProps.visible !== this.props.visible ||
       this.props.visible !== this.areButtonsVisible) {
       Animated.timing(
         this.state.visibleAnim,
@@ -115,7 +116,9 @@ class Buttons extends React.Component {
       })
     }
 
-    if (this.props.currentItem && this.props.currentItem !== prevProps.currentItem) {
+    if (this.props.currentItem &&
+      (!prevProps.currentItem ||
+        this.props.currentItem._id !== prevProps.currentItem._id)) {
       this.setState({
         toggleAnimSaved: new Animated.Value(this.props.currentItem.isSaved ? 1 : 0),
         toggleAnimMercury: new Animated.Value(this.props.currentItem.showMercuryContent ? 1 : 0)
@@ -151,18 +154,19 @@ class Buttons extends React.Component {
     this.isCurrentMercury = Math.abs(this.isCurrentMercury - 1)
     Animated.timing(this.state.toggleAnimMercury, {
       toValue: this.isCurrentMercury,
-      duration: 300,
-      useNativeDriver: true
+      delay: 250,
+      duration: 500,
+      // useNativeDriver: true
     }).start()
   }
 
-  shouldComponentUpdate (nextProps, nexState) {
+  shouldComponentUpdate (nextProps, nextState) {
     // don't update if the only thing that's changed is saved or mercury state
     return !(this.props.index === nextProps.index &&
       this.props.displayMode === nextProps.displayMode &&
       this.props.visible === nextProps.visible &&
-      this.props.toolbar === nextProps.toolbar &&
-      this.props.numItems === nextProps.numItems)
+      this.props.numItems === nextProps.numItems &&
+      this.state.toggleAnimSaved !== nextState.toggleAnimSaved)
   }
 
   render () {
@@ -176,9 +180,7 @@ class Buttons extends React.Component {
         nextItem,
         panAnim
       } = this.props
-      const items = prevItem ?
-        [prevItem, currentItem, nextItem] :
-        [prevItem, currentItem, nextItem]
+      const items = [prevItem, currentItem, nextItem]
       const panAnimDivisor = this.screenDimensions.width
 
       const opacityRanges = [
@@ -363,42 +365,58 @@ class Buttons extends React.Component {
           onPress={this.onSavePress}
         >
           <Svg
+            width="35px"
+            height="34px"
+            viewBox="0 0 37 34"
+            strokeWidth="2"
+            stroke={borderColor}
+            fill="none"
+            style={{
+              left: 6
+            }}>
+            <Path d="M19.3058823,10 L23.3013283,2.88768776 C23.5718232,2.40617867 24.1814428,2.2351178 24.6629519,2.50561262 C24.6681837,2.50855168 24.673389,2.51153779 24.6785671,2.51457056 L30.2152447,5.75736369 C30.689889,6.03535949 30.850899,6.64450404 30.5756101,7.12072339 L26.5410884,14.1" />
+            <Path d="M19.3058823,26.548712 L15.2922426,33.6568385 C15.0206918,34.1377529 14.4106983,34.3074756 13.9297839,34.0359249 C13.9294556,34.0357395 13.9291274,34.035554 13.9287993,34.0353682 L8.38060649,30.8942713 C7.89999957,30.6221768 7.73096688,30.0119917 8.0030614,29.5313848 C8.00649499,29.52532 8.00999188,29.5192912 8.01355151,29.5132995 L12.2173038,22.4373696" />
+            <Path d="M16.8,22.4373696 L3.8,22.4373696 C3.24771525,22.4373696 2.8,21.9896544 2.8,21.4373696 L2.8,15.1 C2.8,14.5477153 3.24771525,14.1 3.8,14.1 L11.8,14.1" />
+            <Path d="M26.5066683,22.4373696 L34.8,22.4373696 C35.3522847,22.4373696 35.8,21.9896544 35.8,21.4373696 L35.8,15.1 C35.8,14.5477153 35.3522847,14.1 34.8,14.1 L21.8,14.1" />
+            <Path d="M15.4670718,3.31922035 L30.365307,29.1237209 C30.7795206,29.8411598 30.5337079,30.7585454 29.8162689,31.172759 L25.1937311,33.8415825 C24.4762921,34.255796 23.5589065,34.0099833 23.144693,33.2925444 L8.24645763,7.48804388 C7.83224406,6.77060495 8.07805679,5.85321933 8.79549574,5.43900578 L13.4180337,2.77018224 C14.1354727,2.35596868 15.0528583,2.60178142 15.4670718,3.31922035 Z" />
+          </Svg>
+          {/*}<Svg
             height='30'
             width='33'
             style={{
-              left: 7
+              left: 7,
             }}>
             <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              stroke={item.isSaved ? backgroundColor : borderColor}
               strokeWidth={item.isSaved ? '1' : '2'}
               fill={item.isSaved ? borderColor : 'none'}
               points="21.1033725 0.74402123 27.1144651 4.08351712 22.5 11 18.5 11 16.882249 8.14815979"
             ></Polygon>
             <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              stroke={item.isSaved ? backgroundColor : borderColor}
               strokeWidth={item.isSaved ? '1' : '2'}
               fill={item.isSaved ? borderColor : 'none'}
               points="16.8235298 22.1285402 12.4972756 29.014584 6.71045315 25.6735605 11.1066646 18.1588232 14.7607651 18.1588232 16.8235298 21.5967643"
             ></Polygon>
             <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              stroke={item.isSaved ? backgroundColor : borderColor}
               strokeWidth={item.isSaved ? '1' : '2'}
               fill={item.isSaved ? borderColor : 'none'}
               points="14.5 18 2 18 2 11 10.5 11"
             ></Polygon>
             <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              stroke={item.isSaved ? backgroundColor : borderColor}
               strokeWidth={item.isSaved ? '1' : '2'}
               fill={item.isSaved ? borderColor : 'none'}
               points="18.5 11 22.5 18 32 18 32 11"
             ></Polygon>
             <Polygon
-              stroke={item.isSaved ? backgroundColorLighter : borderColor}
+              stroke={item.isSaved ? backgroundColor : borderColor}
               strokeWidth={item.isSaved ? '1' : '2'}
               fill={item.isSaved ? borderColor : 'none'}
               points="12.4855083 0.639268135 26.9384494 25.6724966 21.1615506 29.0077907 6.70860939 3.97456225"
             ></Polygon>
-          </Svg>
+          </Svg>{*/}
         </RizzleButton>
         <RizzleButton
           backgroundColor={backgroundColor}
@@ -453,49 +471,84 @@ class Buttons extends React.Component {
           }}
           onPress={isMercuryButtonEnabled ? this.onMercuryPress : () => false}
         >
-          <Svg
+          <Animated.View
             style={{
               position: 'absolute',
-              left: 7,
-              top: 8,
-              opacity: isMercuryButtonEnabled ? 1 : 0.3
+              left: 0,
+              top: 0,
+              width: 50,
+              height: 50,
+              opacity: isCurrent ?
+                this.state.toggleAnimMercury.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0]
+                }) :
+                item && item.showMercuryContent ? 0 : 1,
             }}
-            height='32'
-            width='34'>
-            { showMercuryContent ?
-              <Fragment>
-                <Rect stroke={borderColor} strokeWidth="2" fill="none" opacity="0.5" x="2" y="4" width="14" height="24" rx="2"></Rect>
-                <Path stroke={borderColor} d="M5,9 L13,9"  opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M5,11 L13,11" opacity="0.5" strokeLinecap="square"></Path>
-                <Rect stroke={borderColor} strokeWidth="2" fill={backgroundColor} x="14" y="1" width="16" height="29" rx="2"></Rect>
-                <Path stroke={borderColor} d="M17,6 L27,6" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,8 L27,8" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,12 L27,12" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,14 L27,14" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,10 L27,10" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,16 L27,16" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,18 L27,18" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,20 L27,20" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,22 L27,22" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,24 L27,24" strokeLinecap="square"></Path>
-              </Fragment> :
-              <Fragment>
-                <Rect stroke={borderColor} strokeWidth="2" opacity="0.5" fill="none" x="16" y="4" width="14" height="24" rx="2"></Rect>
-                <Path stroke={borderColor} d="M17,8 L27,8" opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,12 L27,12" opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,14 L27,14" opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,10 L27,10" opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,16 L27,16" opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,18 L27,18" opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,20 L27,20" opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,22 L27,22" opacity="0.5" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M17,24 L27,24" opacity="0.5" strokeLinecap="square"></Path>
-                <Rect stroke={borderColor} strokeWidth="2" fill={backgroundColor} x="2" y="1" width="16" height="29" rx="2"></Rect>
-                <Path stroke={borderColor} d="M6,9 L14,9" strokeLinecap="square"></Path>
-                <Path stroke={borderColor} d="M6,11 L14,11" strokeLinecap="square"></Path>
-              </Fragment>
-            }
-          </Svg>
+          >
+            <Svg
+              style={{
+                position: 'absolute',
+                left: 7,
+                top: 8,
+                opacity: isMercuryButtonEnabled ? 1 : 0.3
+              }}
+              height='32'
+              width='34'>
+              <Rect stroke={borderColor} strokeWidth="2" opacity="0.5" fill="none" x="16" y="4" width="14" height="24" rx="2"></Rect>
+              <Path stroke={borderColor} d="M17,8 L27,8" opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,12 L27,12" opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,14 L27,14" opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,10 L27,10" opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,16 L27,16" opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,18 L27,18" opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,20 L27,20" opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,22 L27,22" opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,24 L27,24" opacity="0.5" strokeLinecap="square"></Path>
+              <Rect stroke={borderColor} strokeWidth="2" fill={backgroundColor} x="2" y="1" width="16" height="29" rx="2"></Rect>
+              <Path stroke={borderColor} d="M6,9 L14,9" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M6,11 L14,11" strokeLinecap="square"></Path>
+            </Svg>
+          </Animated.View>
+          <Animated.View
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: 50,
+              height: 50,
+              opacity: isCurrent ?
+                this.state.toggleAnimMercury :
+                item && item.showMercuryContent ? 0 : 1,
+              // backgroundColor: isCurrent ? 'red' : 'transparent'
+            }}
+          >
+            <Svg
+              style={{
+                position: 'absolute',
+                left: 7,
+                top: 8,
+                opacity: isMercuryButtonEnabled ? 1 : 0.3
+              }}
+              height='32'
+              width='34'
+            >
+              <Rect stroke={borderColor} strokeWidth="2" fill="none" opacity="0.5" x="2" y="4" width="14" height="24" rx="2"></Rect>
+              <Path stroke={borderColor} d="M5,9 L13,9"  opacity="0.5" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M5,11 L13,11" opacity="0.5" strokeLinecap="square"></Path>
+              <Rect stroke={borderColor} strokeWidth="2" fill={backgroundColor} x="14" y="1" width="16" height="29" rx="2"></Rect>
+              <Path stroke={borderColor} d="M17,6 L27,6" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,8 L27,8" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,12 L27,12" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,14 L27,14" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,10 L27,10" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,16 L27,16" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,18 L27,18" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,20 L27,20" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,22 L27,22" strokeLinecap="square"></Path>
+              <Path stroke={borderColor} d="M17,24 L27,24" strokeLinecap="square"></Path>
+            </Svg>
+          </Animated.View>
           {/*}
           <Animated.View style={{
             position: 'absolute',
