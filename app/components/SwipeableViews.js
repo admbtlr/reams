@@ -8,21 +8,38 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import FeedItemContainer from '../containers/FeedItem.js'
+import OnboardingContainer from '../containers/Onboarding.js'
 import { constant, checkIndexBounds, getDisplaySameSlide } from 'react-swipeable-views-core';
 import { panHandler } from '../utils/animationHandlers'
 import { getItemId } from '../utils/get-item'
 import { hslString } from '../utils/colors'
+
+/*
+props = {
+  decrementIndex,
+  incrementIndex,
+  isOnboarding(?),
+  items,
+  setPanAnim
+}
+
+state = {
+  index
+}
+*/
+
+// NB `index` in this component is always the virtual index
 
 class SwipeableViews extends Component {
   static whyDidYouRender = true
   constructor (props) {
     super(props)
     this.props = props
-    this.state = {}
     this.panOffset = new Animated.Value(0)
     this.timerFunctions = {}
     if (!this.props.isOnboarding) {
-      this.updatePanHandler(this.calculateIndexVirtual(this.props.index))
+      this.updatePanHandler(this.props.index)
     }
 
     this.onMomentumScrollEnd = this.onMomentumScrollEnd.bind(this)
@@ -51,105 +68,98 @@ class SwipeableViews extends Component {
   //   return !(JSON.stringify(currentIds) === JSON.stringify(nextIds))
   // }
 
-  static getDerivedStateFromProps (props, state) {
-    const { index, updateTimestamp, virtualBuffer } = props
-    // the updateTimestamp means that we got a new set of props
-    // (cumbersome as hell, but I need to know if this render was
-    // triggered by the parent sending in some props)
-    if (updateTimestamp === state.lastUpdateTimestamp) return null
-    const indexVirtual = index === 0 ?
-      0 :
-      1
-    return (index !== state.index || indexVirtual !== state.indexVirtual) ?
-      {
-        index,
-        indexVirtual,
-        lastUpdateTimestamp: updateTimestamp
-      } :
-      {
-        index: state.index,
-        indexVirtual: state.indexVirtual,
-        lastUpdateTimestamp: updateTimestamp
-      }
-  }
+  // static getDerivedStateFromProps (props, state) {
+  //   const { index, updateTimestamp, virtualBuffer } = props
+  //   // the updateTimestamp means that we got a new set of props
+  //   // (cumbersome as hell, but I need to know if this render was
+  //   // triggered by the parent sending in some props)
+  //   if (updateTimestamp === state.lastUpdateTimestamp) return null
+  //   const indexVirtual = index === 0 ?
+  //     0 :
+  //     1
+  //   return (index !== state.index || indexVirtual !== state.indexVirtual) ?
+  //     {
+  //       index,
+  //       indexVirtual,
+  //       lastUpdateTimestamp: updateTimestamp
+  //     } :
+  //     {
+  //       index: state.index,
+  //       indexVirtual: state.indexVirtual,
+  //       lastUpdateTimestamp: updateTimestamp
+  //     }
+  // }
 
-  calculateIndexVirtual (index) {
-    const {virtualBuffer} = this.props
-    return index === 0 ?
-      0 :
-      1
-  }
+  // calculateIndexVirtual (index) {
+  //   const {virtualBuffer} = this.props
+  //   return index === 0 ?
+  //     0 :
+  //     1
+  // }
 
-  updateIndexVirtual (indexVirtualNew) {
-    const {onChangeIndex, virtualBuffer} = this.props
-    const {indexVirtual} = this.state
-    const indexDelta = indexVirtualNew - this.currentIndexVirtual
+  updateIndex (newIndex) {
+    const {decrementIndex, incrementIndex} = this.props
+    const indexDelta = newIndex - this.currentIndex
     if (indexDelta !== 0) {
-      const indexNew = Math.round(this.currentIndex + indexDelta)
-      // the if is here because of a race condition where the functions are cleared before we get here
-      // if (this.startTimer[indexNew]) {
-      //   this.startTimer[indexNew]()
-      // } else {
-      //   debugger
-      // }
-      const child = this.children[indexVirtualNew]
+      const child = this.children[newIndex]
       // let the fade in animation happen...
       child && this.timerFunctions[child.key] && this.timerFunctions[child.key]()
-      onChangeIndex(indexNew, this.currentIndex || 0)
-      this.currentIndex = indexNew
-      this.currentIndexVirtual = indexVirtualNew
-      this.updatePanHandler(indexVirtualNew)
-      // setTimeout(() => {
-      if (indexVirtualNew ===  indexVirtual + virtualBuffer ||
-        indexVirtualNew === indexVirtual - 1) {
-        this.setState({
-          index: indexNew,
-          indexVirtual: this.calculateIndexVirtual(indexNew)
-        })
+      if (indexDelta > 0) {
+        incrementIndex()
+      } else {
+        decrementIndex()
       }
+      this.currentIndex = newIndex
+      this.updatePanHandler(newIndex)
+      // setTimeout(() => {
+      // if (newIndex ===  indexVirtual + virtualBuffer ||
+      //   newIndex === indexVirtual - 1) {
+      //   this.setState({
+      //     index: newInd,
+      //     indexVirtual: this.calculateIndexVirtual(indexNew)
+      //   })
+      // }
     }
   }
 
   onScrollEndDrag (evt) {
-    const targetOffset = evt.nativeEvent.targetContentOffset.x
-    this.currentOffset = targetOffset
-    const indexVirtualNew = this.currentOffset / this.screenWidth
-    this.updateIndexVirtual(indexVirtualNew)
+    this.currentOffset = evt.nativeEvent.targetContentOffset.x
+    const newIndex = this.currentOffset / this.screenWidth
+    this.updateIndex(newIndex)
   }
 
   onMomentumScrollEnd (evt) {
-    console.log('ON SCROLL END')
     this.currentOffset = evt.nativeEvent.contentOffset.x
-    const indexVirtualNew = this.currentOffset / this.screenWidth
-    this.updateIndexVirtual(indexVirtualNew)
+    const newIndex = this.currentOffset / this.screenWidth
+    this.updateIndex(newIndex)
   }
 
-  getChildIds (index) {
-    const {
-      // items,
-      slideCount,
-      virtualBuffer
-    } = this.props
-    // we only go back by one, but forward by virtual buffer
-    // (this might be a problem for saved items, hmmm...)
-    let indexStart = index === 0 ? 0 : index - 1
-    let indexEnd = index + virtualBuffer > slideCount - 1 ?
-      slideCount - 1 :
-      index + virtualBuffer
-    let childIds = []
+  // getChildIds (index) {
+  //   const {
+  //     // items,
+  //     slideCount,
+  //     virtualBuffer
+  //   } = this.props
+  //   // we only go back by one, but forward by virtual buffer
+  //   // (this might be a problem for saved items, hmmm...)
+  //   let indexStart = index === 0 ? 0 : index - 1
+  //   let indexEnd = index + virtualBuffer > slideCount - 1 ?
+  //     slideCount - 1 :
+  //     index + virtualBuffer
+  //   let childIds = []
 
-    for (let slideIndex = indexStart; slideIndex <= indexEnd; slideIndex += 1) {
-      // const _id = (items && items[slideIndex]) ? items[slideIndex]._id : getItemId(undefined, slideIndex)
-      const _id = getItemId(undefined, slideIndex)
-      childIds.push({
-        index: slideIndex,
-        _id,
-        key: _id
-      })
-    }
+  //   for (let slideIndex = indexStart; slideIndex <= indexEnd; slideIndex += 1) {
+  //     // const _id = (items && items[slideIndex]) ? items[slideIndex]._id : getItemId(undefined, slideIndex)
+  //     const _id = getItemId(undefined, slideIndex)
+  //     childIds.push({
+  //       index: slideIndex,
+  //       _id,
+  //       key: _id
+  //     })
+  //   }
 
-    return childIds
-  }
+  //   return childIds
+  // }
 
   // componentDidMount() {
   //   const indexVirtual = this.calculateIndexVirtual(this.state.index)
@@ -158,12 +168,11 @@ class SwipeableViews extends Component {
   // }
 
   componentDidUpdate (prevProps, prevState) {
-    this.setScrollIndex()
+    this.setScrollIndex(this.currentIndex)
   }
 
-  setScrollIndex () {
-    const indexVirtual = this.calculateIndexVirtual(this.state.index)
-    const x = (indexVirtual) * this.screenWidth
+  setScrollIndex (index) {
+    const x = index * this.screenWidth
     // debugger
     if (this.scrollView && this.scrollView._component) {
       this.scrollView._component.scrollTo({
@@ -173,12 +182,12 @@ class SwipeableViews extends Component {
       })
     }
     if (!this.props.isOnboarding) {
-      this.updatePanHandler(indexVirtual)
+      this.updatePanHandler(index)
     }
   }
 
-  updatePanHandler (indexVirtual) {
-    const panAnimValue = Animated.subtract(this.panOffset, this.screenWidth * (indexVirtual - 1))
+  updatePanHandler (index) {
+    const panAnimValue = Animated.subtract(this.panOffset, this.screenWidth * (index - 1))
     this.props.setPanAnim(panAnimValue)
     panHandler(panAnimValue, this.screenWidth)
   }
@@ -188,53 +197,44 @@ class SwipeableViews extends Component {
   //   this.updatePanHandler(this.state.indexVirtual)
   // }
 
+  renderSlide ({_id, index, setTimerFunction, isVisible}) {
+    if (this.props.isOnboarding) {
+      return <OnboardingContainer
+        index={index}
+        key={index}
+        navigation={this.props.navigation}
+      />
+    } else {
+      return <FeedItemContainer
+        _id={_id}
+        key={_id}
+        setTimerFunction={setTimerFunction}
+        isVisible={isVisible}
+      />
+    }
+  }
+
   render () {
     console.log('RENDER SWIPEABLE VIEWS')
     const {
-      slideRenderer,
-      hysteresis, // eslint-disable-line no-unused-vars
-      onTransitionEnd, // eslint-disable-line no-unused-vars
-      virtualBuffer, // eslint-disable-line no-unused-vars
-      ...other
-    } = this.props
-
-    const {
       index,
-      indexVirtual
-    } = this.state
-
-    this.currentIndex = index
-    this.currentIndexVirtual = indexVirtual
+      items
+    } = this.props
 
     const pageWidth = Dimensions.get('window').width
 
-    this.prevChildren = this.children
-    this.children = []
-
-    this.children = this.getChildIds(index).map(child => slideRenderer({
-      index: child.index,
-      key: child._id,
-      _id: child._id,
+    this.children = items.map((item, itemIndex) => this.renderSlide({
+      index: item.index,
+      key: item._id,
+      _id: item._id,
       setTimerFunction: timerFunc => {
-        this.timerFunctions[child._id] = timerFunc
+        this.timerFunctions[item._id] = timerFunc
       },
-      isVisible: child.index === index
+      isVisible: itemIndex === index
     }))
 
-    // if (this.prevChildren) {
-    //   let child, prevChild
-    //   for (var i = 0; i < this.children.length; i++) {
-    //     child = this.children[i]
-    //     for (var j = 0; j < this.prevChildren.length; j++) {
-    //       prevChild = this.prevChildren[j]
-    //       if (child.key === prevChild.key) {
-    //         this.children[i] === prevChild
-    //       }
-    //     }
-    //   }
-    // }
-
-    this.currentOffset = indexVirtual * pageWidth
+    this.currentIndex = index
+    this.currentOffset = this.currentIndex * pageWidth
 
     return (
       <Animated.ScrollView

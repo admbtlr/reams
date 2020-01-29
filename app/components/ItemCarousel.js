@@ -1,69 +1,138 @@
 import React, { Fragment } from 'react'
-import FeedItemContainer from '../containers/FeedItem.js'
-import OnboardingContainer from '../containers/Onboarding.js'
 import ItemsScreenOnboarding from './ItemsScreenOnboarding'
 import { Text, View } from 'react-native'
 import TextButton from './TextButton'
 import SwipeableViews from './SwipeableViews'
+import ToolbarsContainer from '../containers/Toolbars.js'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
 export const BUFFER_LENGTH = 5
+
+/*
+props = {
+  index,
+  items
+}
+
+state = {
+  index, // actual index
+  items, // bufferedItems
+  bufferIndex
+}
+*/
+
+const getBufferedItems  = (items, index) => {
+  const bufferStart = index === 0 ? index : index - 1
+  const bufferEnd = index + BUFFER_LENGTH > items.length - 1 ?
+    items.length :
+    index + BUFFER_LENGTH + 1
+  return items.slice(bufferStart, bufferEnd)
+}
+
 
 class ItemCarousel extends React.Component {
   constructor (props) {
     super(props)
     this.props = props
 
-    this.renderSlide = this.renderSlide.bind(this)
+    this.index = -1,
+    this.items = []
+    this.bufferIndex = -1
+
     this.onChangeIndex = this.onChangeIndex.bind(this)
+    this.decrementIndex = this.decrementIndex.bind(this)
+    this.incrementIndex = this.incrementIndex.bind(this)
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    // don't update if the item type hasn't changed (unread <> saved)
-    // or if the the items haven't changed
-    // AND nextProps.index is within the (index + BUFFER_LENGTH)
-    // OR if nextProps.index is the same as the index we're currently at)
-    const stringifyBufferedItems = (props) => JSON
-      .stringify(props.items.slice(this.props.index === 0 ?
-        0 :
-        - 1, this.props.index + BUFFER_LENGTH)
-        .map(item => item._id))
+  // static getDerivedStateFromProps (props, state) {
+  //   if ()
+  //   return {
+  //     index: props.index,
+  //     bufferedItems: getBufferedItems(props.items, props.index),
+  //     bufferIndex: props.index === 0 ? 0 : 1
+  //   }
+  // }
 
-    if (this.incomingIndex === null) {
-      return nextProps.index !== this.props.index ||
-        nextProps.displayMode !== this.props.displayMode
-    } else {
-      return nextProps === null ||
-        nextProps.index - this.props.index >= BUFFER_LENGTH ||
-        nextProps.displayMode !== this.props.displayMode ||
-        stringifyBufferedItems(nextProps) !== stringifyBufferedItems(this.props)
-    }
+  _stringifyBufferedItems = (items, index) => JSON
+    .stringify(getBufferedItems(items, index)
+      .map(item => item._id))
+
+  shouldComponentUpdate (nextProps, nextState) {
+    return nextProps.displayMode !== this.props.displayMode ||
+      !(
+        nextProps.index > this.initialIndex - 1 &&
+        nextProps.index < this.initialIndex + BUFFER_LENGTH &&
+        this._stringifyBufferedItems(nextProps.items, this.props.index) ===
+          this._stringifyBufferedItems(this.props.items, this.props.index)
+      )
+  }
+
+  componentDidUpdate () {
+    this.index = this.initialIndex = this.props.index
+  }
+
+  // shouldComponentUpdate (nextProps, nextState) {
+  //   // don't update if the item type hasn't changed (unread <> saved)
+  //   // or if the the items haven't changed
+  //   // AND nextProps.index is within the (index + BUFFER_LENGTH)
+  //   // OR if nextProps.index is the same as the index we're currently at)
+
+  //   if (this.incomingIndex === null) {
+  //     return nextProps.index !== this.props.index ||
+  //       nextProps.displayMode !== this.props.displayMode
+  //   } else {
+  //     return nextProps === null ||
+  //       nextProps.index - this.props.index >= BUFFER_LENGTH ||
+  //       nextProps.displayMode !== this.props.displayMode ||
+  //       _stringifyBufferedItems(nextProps.items, nextProps.initialIndex) !==
+  //         _stringifyBufferedItems(this.props.items, this.props.initialIndex)
+  //   }
+  // }
+
+  incrementIndex () {
+    this.setIndex(this.index + 1, this.bufferIndex + 1)
+  }
+
+  decrementIndex () {
+    this.setIndex(this.index - 1, this.bufferIndex - 1)
+  }
+
+  setIndex (index, bufferIndex) {
+    this.incomingIndex = index
+    const lastIndex = this.index
+    this.index = index
+    this.bufferIndex = bufferIndex
+    this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
   render () {
     const {
       displayMode,
-      index,
       isItemsOnboardingDone,
       isOnboarding,
-      items,
       navigation,
       numItems,
       setPanAnim,
-      toggleDisplayMode
+      toggleDisplayMode,
+      items,
+      index
     } = this.props
+
     if (numItems > 0 || isOnboarding) {
       return (
         <Fragment>
+          {/*}<ToolbarsContainer navigation={this.props.navigation}/>{*/}
           <SwipeableViews
-            virtualBuffer={BUFFER_LENGTH}
-            slideRenderer={this.renderSlide}
-            onChangeIndex={this.onChangeIndex}
-            slideCount={isOnboarding ? 2 : numItems}
-            index={index}
+            // virtualBuffer={BUFFER_LENGTH}
+            incrementIndex={this.incrementIndex}
+            decrementIndex={this.decrementIndex}
+            index={index === 0 ? 0 : 1}
+            items={getBufferedItems(items, index)}
+            // onChangeIndex={this.onChangeIndex}
+            // slideCount={isOnboarding ? 2 : numItems}
+            // index={index}
             isOnboarding={isOnboarding}
-            items={items}
-            updateTimestamp={Date.now()}
+            // updateTimestamp={Date.now()}
             setPanAnim={setPanAnim}
           />
           { !isItemsOnboardingDone &&
@@ -82,33 +151,15 @@ class ItemCarousel extends React.Component {
   }
 
   onChangeIndex (index, lastIndex) {
-    // workaround for a weird bug
-    if (index % 1 !== 0) {
-      return
-    }
+    // // workaround for a weird bug
+    // if (index % 1 !== 0) {
+    //   return
+    // }
     this.incomingIndex = index
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
   // cacheCoverImageComponent
-
-  renderSlide ({_id, index, setTimerFunction, isVisible}) {
-    if (this.props.isOnboarding) {
-      return <OnboardingContainer
-        index={index}
-        key={index}
-        navigation={this.props.navigation}
-      />
-    }
-    if (index >= 0 && index < this.props.numItems) {
-      return <FeedItemContainer
-        _id={_id}
-        key={_id}
-        setTimerFunction={setTimerFunction}
-        isVisible={isVisible}
-      />
-    }
-  }
 }
 
 export default ItemCarousel
