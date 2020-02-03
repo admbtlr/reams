@@ -1,34 +1,46 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import ItemsScreenOnboarding from './ItemsScreenOnboarding'
-import { Text, View } from 'react-native'
+import {
+  ActionSheetIOS,
+  Animated,
+  Text,
+  View
+} from 'react-native'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 import TextButton from './TextButton'
 import SwipeableViews from './SwipeableViews'
-import ToolbarsContainer from '../containers/Toolbars.js'
+import TopBars from './TopBars'
+import FeedExpandedContainer from '../containers/FeedExpanded'
+import ButtonsContainer from '../containers/Buttons.js'
+import ViewButtonsContainer from '../containers/ViewButtons.js'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
+import { hslString } from '../utils/colors'
+import ScrollManager from '../utils/ScrollManager'
 
 export const BUFFER_LENGTH = 5
 
-/*
-props = {
-  index,
-  items
-}
-
-state = {
-  index, // actual index
-  items, // bufferedItems
-  bufferIndex
-}
-*/
+// a kind of memoisation, but not for performance reasons
+// persisting the buffered items makes it easier to decorate
+// them with scrollAnims
+let bufferedItems
 
 const getBufferedItems  = (items, index) => {
   const bufferStart = index === 0 ? index : index - 1
   const bufferEnd = index + BUFFER_LENGTH > items.length - 1 ?
     items.length :
     index + BUFFER_LENGTH + 1
-  return items.slice(bufferStart, bufferEnd)
+  const buffered = items.slice(bufferStart, bufferEnd)
+  if (!bufferedItems || JSON.stringify(buffered.map(item => item._id)) !==
+    JSON.stringify(bufferedItems.map(item => item._id))) {
+    bufferedItems = buffered
+    bufferedItems = buffered.map(item => ({
+      ...item,
+      scrollManager: new ScrollManager()
+    }))
+  }
+  return bufferedItems
 }
-
 
 class ItemCarousel extends React.Component {
   constructor (props) {
@@ -39,9 +51,24 @@ class ItemCarousel extends React.Component {
     this.items = []
     this.bufferIndex = -1
 
+    // this is an intermediate cache of scrollAnims
+    // once we have one for each bufferedItem, we put them into state
+    // so that we can pass them to the TopBars and Buttons
+    this.scrollAnims = {}
+
+    this.state = {
+      panAnim: new Animated.Value(0)
+    }
+
     this.onChangeIndex = this.onChangeIndex.bind(this)
     this.decrementIndex = this.decrementIndex.bind(this)
     this.incrementIndex = this.incrementIndex.bind(this)
+    this.openFeedModal = this.openFeedModal.bind(this)
+    this.launchBrowser = this.launchBrowser.bind(this)
+    this.showShareSheet = this.showShareSheet.bind(this)
+    this.setPanAnim = this.setPanAnim.bind(this)
+    this.setScrollAnim = this.setScrollAnim.bind(this)
+    this.setTopBarScrollAnimSetterAndListener = this.setTopBarScrollAnimSetterAndListener.bind(this)
   }
 
   // static getDerivedStateFromProps (props, state) {
@@ -53,12 +80,15 @@ class ItemCarousel extends React.Component {
   //   }
   // }
 
-  _stringifyBufferedItems = (items, index) => JSON
+  _stringifyBufferedItems (items, index) {
+    return JSON
     .stringify(getBufferedItems(items, index)
       .map(item => item._id))
+  }
 
   shouldComponentUpdate (nextProps, nextState) {
     return nextProps.displayMode !== this.props.displayMode ||
+      this.state !== nextState ||
       !(
         nextProps.index > this.initialIndex - 1 &&
         nextProps.index < this.initialIndex + BUFFER_LENGTH &&
@@ -67,8 +97,14 @@ class ItemCarousel extends React.Component {
       )
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (prevProps, prevState) {
     this.index = this.initialIndex = this.props.index
+    this.bufferIndex = this.index === 0 ? 0 : 1
+    if (prevProps.items && this.props.items &&
+      JSON.stringify(prevProps.items.map(item => item._id)) !==
+        JSON.stringify(this.props.items.map(item => item._id))) {
+      this.scrollAnims = {}
+    }
   }
 
   // shouldComponentUpdate (nextProps, nextState) {
@@ -105,6 +141,118 @@ class ItemCarousel extends React.Component {
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
+  decorateItems (items) {
+    const { feeds, feedsLocal } = this.props
+    const hasCachedIcon = (feedId) => feedsLocal.find(f => f._id === feedId) &&
+      feedsLocal.find(f => f._id === feedId).hasCachedIcon
+    const iconDimensions = (feedId) => feedsLocal.find(f => f._id === feedId) &&
+      feedsLocal.find(f => f._id === feedId).cachedIconDimensions
+    const feedColor = (feedId) => feeds.find(f => f._id === feedId) &&
+      feeds.find(f => f._id === feedId).color
+    return items.map(item => ({
+      ...item,
+      hasCachedIcon: hasCachedIcon(item.feed_id),
+      iconDimensions: iconDimensions(item.feed_id),
+      feedColor: feedColor(item.feed_id)
+    }))
+  }
+
+  openFeedModal () {
+    const { navigation } = this.props.navigation
+    const item = this.bufferedItems[this.bufferIndex]
+    navigation.push('ModalWithGesture', {
+      childView: <FeedExpandedContainer
+          feedId={item.feed_id}
+          close={() => navigation.goBack(null)}
+          navigation={navigation}
+        />
+    })
+  }
+
+  onSavePress (isSaved) {
+    const item = this.bufferedItems[this.bufferIndex]
+    this.props.isOnboarding || this.props.setSaved(item, isSaved)
+  }
+
+  showViewButtons (areVisible) {
+    const item = this.props.items[this.bufferIndex]
+  }
+
+  showShareSheet (isVisible) {
+    const item = this.bufferedItems[this.bufferIndex]
+    if (this.props.isOnboarding || !item) return
+    ActionSheetIOS.showShareActionSheetWithOptions({
+      url: item.url
+    },
+    (error) => {
+      console.error(error)
+    },
+    (success, method) => {
+    })
+  }
+
+  async launchBrowser () {
+    const item = this.bufferedItems[this.bufferIndex]
+    try {
+      await InAppBrowser.isAvailable()
+      InAppBrowser.open(item.url, {
+        // iOS Properties
+        dismissButtonStyle: 'close',
+        preferredBarTintColor: hslString('rizzleBG'),
+        preferredControlTintColor: hslString('rizzleText'),
+        // readerMode: true,
+        enableBarCollapsing: true,
+        // Android Properties
+        showTitle: true,
+        toolbarColor: '#6200EE',
+        secondaryToolbarColor: 'black',
+        enableUrlBarHiding: true,
+        enableDefaultShare: true,
+        forceCloseOnRedirection: false,
+        // Specify full animation resource identifier(package:anim/name)
+        // or only resource name(in case of animation bundled with app).
+        animations: {
+          startEnter: 'slide_in_bottom',
+          startExit: 'slide_out_bottom',
+          endEnter: 'slide_in_bottom',
+          endExit: 'slide_out_bottom',
+        },
+      })
+    } catch (error) {
+      console.log('openLink', error)
+    }
+  }
+
+  setPanAnim (panAnim) {
+    this.setState({ panAnim })
+  }
+
+  setScrollAnim (item_id, scrollAnim) {
+    const item = bufferedItems.find(bi => bi._id === item_id)
+    if (item) {
+      item.scrollManager.setScrollAnim(scrollAnim)
+      if (item.topBarScrollAnimSetter) {
+        // item.topBarScrollAnimSetter(item.scrollManager.getClampedScrollAnim())
+        item.topBarScrollAnimSetter(item.scrollManager.getScrollAnim())
+      }
+    }
+  }
+
+  onScrollEnd (item_id, scrollOffset) {
+    const item = bufferedItems.find(bi => bi._id === item_id)
+    if (item) {
+      item.scrollManager.onScrollEnd(scrollOffset)
+    }
+  }
+
+  setTopBarScrollAnimSetterAndListener (item_id, topBarScrollAnimSetter, topBarScrollAnimListener) {
+    const item = bufferedItems.find(bi => bi._id === item_id)
+    if (item) {
+      item.topBarScrollAnimSetter = topBarScrollAnimSetter
+      item.scrollManager.setScrollListener(topBarScrollAnimListener)
+    }
+  }
+
   render () {
     const {
       displayMode,
@@ -118,27 +266,47 @@ class ItemCarousel extends React.Component {
       index
     } = this.props
 
+    this.bufferedItems = getBufferedItems(items, index)
+
     if (numItems > 0 || isOnboarding) {
+      // do something with setPanAnim on the ToolbarContainer
       return (
         <Fragment>
-          {/*}<ToolbarsContainer navigation={this.props.navigation}/>{*/}
           <SwipeableViews
-            // virtualBuffer={BUFFER_LENGTH}
             incrementIndex={this.incrementIndex}
             decrementIndex={this.decrementIndex}
             index={index === 0 ? 0 : 1}
-            items={getBufferedItems(items, index)}
-            // onChangeIndex={this.onChangeIndex}
-            // slideCount={isOnboarding ? 2 : numItems}
-            // index={index}
+            items={this.bufferedItems}
             isOnboarding={isOnboarding}
-            // updateTimestamp={Date.now()}
-            setPanAnim={setPanAnim}
+            setPanAnim={this.setPanAnim}
+            setScrollAnim={this.setScrollAnim}
+            onScrollEnd={this.onScrollEnd}
           />
           { !isItemsOnboardingDone &&
             !isOnboarding &&
             numItems > 0 &&
             <ItemsScreenOnboarding /> }
+          <TopBars
+            items={this.decorateItems(this.bufferedItems)}
+            navigation={navigation}
+            numItems={numItems}
+            index={index}
+            openFeedModal={this.openFeedModal}
+            panAnim={this.state.panAnim}
+            setTopBarScrollAnimSetterAndListener={this.setTopBarScrollAnimSetterAndListener}
+          />
+          <ButtonsContainer
+            bufferStartIndex={ index === 0 ? index : index - 1 }
+            bufferedItems={this.bufferedItems}
+            panAnim={this.state.panAnim}
+            showViewButtons={this.showViewButtons}
+            showShareSheet={this.showShareSheet}
+            setSaved={this.props.setSaved}
+            toggleViewButtons={this.props.toggleViewButtons}
+            launchBrowser={this.launchBrowser}
+            toggleMercury={this.props.toggleMercury}
+          />
+          <ViewButtonsContainer />
         </Fragment>
       )
     } else {
@@ -209,4 +377,20 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
       </Fragment>
     }
   </View>
+}
+
+ItemCarousel.propTypes = {
+  // from parent
+  navigation: PropTypes.object,
+  styles: PropTypes.object,
+  // from container
+  numItems: PropTypes.number,
+  index: PropTypes.number,
+  items: PropTypes.array,
+  feeds: PropTypes.array,
+  feedsLocal: PropTypes.array,
+  displayMode: PropTypes.string,
+  isItemsOnboardingDone: PropTypes.bool,
+  isOnboarding: PropTypes.bool,
+  toggleViewButtons: PropTypes.func
 }

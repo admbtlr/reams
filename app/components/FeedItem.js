@@ -59,7 +59,7 @@ class FeedItem extends React.Component {
     } = this.props
     setTimerFunction && setTimerFunction(this.startTimer)
     if (isVisible) {
-      setScrollAnim(this.scrollAnim, item._id)
+      setScrollAnim(item._id, this.scrollAnim)
       scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
@@ -100,7 +100,7 @@ class FeedItem extends React.Component {
           isDiff = false
           // this is a bit sneaky...
           if (nextProps.isVisible) {
-            this.props.setScrollAnim(this.scrollAnim, item._id)
+            this.props.setScrollAnim(item._id, this.scrollAnim)
             // and let the buttons know that the scroll handler has changed
             this.props.scrollHandlerAttached(this.props.item._id)
           }
@@ -450,7 +450,7 @@ class FeedItem extends React.Component {
       scrollOffset :
       scrollOffset.nativeEvent.contentOffset.y
     this.props.setScrollOffset(this.props.item, scrollOffset, this.state.webViewHeight)
-    onScrollEnd(scrollOffset)
+    this.props.onScrollEnd(this.props.item._id, scrollOffset)
   }
 
   // called when HTML was loaded and injected JS executed

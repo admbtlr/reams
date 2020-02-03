@@ -30,11 +30,11 @@ const mapDispatchToProps = (dispatch) => {
       type: 'SCROLL_HANDLER_ATTACHED',
       owner: owner
     }),
-    setScrollAnim: (scrollAnim, item_id) => dispatch({
-      type: 'SET_SCROLL_ANIM',
-      scrollAnim,
-      item_id
-    }),
+    // setScrollAnim: (scrollAnim, item_id) => dispatch({
+    //   type: 'SET_SCROLL_ANIM',
+    //   scrollAnim,
+    //   item_id
+    // }),
     showImageViewer: (url) => dispatch({
       type: 'UI_SHOW_IMAGE_VIEWER',
       url

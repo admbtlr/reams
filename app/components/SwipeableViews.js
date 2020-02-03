@@ -38,9 +38,9 @@ class SwipeableViews extends Component {
     this.props = props
     this.panOffset = new Animated.Value(0)
     this.timerFunctions = {}
-    if (!this.props.isOnboarding) {
-      this.updatePanHandler(this.props.index)
-    }
+    // if (!this.props.isOnboarding) {
+    //   this.updatePanHandler(this.props.index)
+    // }
 
     this.onMomentumScrollEnd = this.onMomentumScrollEnd.bind(this)
     this.onScrollEndDrag = this.onScrollEndDrag.bind(this)
@@ -49,7 +49,11 @@ class SwipeableViews extends Component {
     this.screenWidth = Dimensions.get('window').width
   }
 
-  // shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate (nextProps, nextState) {
+    if (!this.props.items || !nextProps.items) return true
+    return JSON.stringify(this.props.items.map(item => item._id)) !==
+      JSON.stringify(nextProps.items.map(item => item._id))
+  }
 
   //   // check current and upcoming item ids and see if they're different
   //   // TODO refactor so that this doesn't need items in its props
@@ -110,7 +114,7 @@ class SwipeableViews extends Component {
         decrementIndex()
       }
       this.currentIndex = newIndex
-      this.updatePanHandler(newIndex)
+      // this.updatePanHandler(newIndex)
       // setTimeout(() => {
       // if (newIndex ===  indexVirtual + virtualBuffer ||
       //   newIndex === indexVirtual - 1) {
@@ -169,6 +173,7 @@ class SwipeableViews extends Component {
 
   componentDidUpdate (prevProps, prevState) {
     this.setScrollIndex(this.currentIndex)
+    this.props.setPanAnim(this.panOffset)
   }
 
   setScrollIndex (index) {
@@ -181,16 +186,16 @@ class SwipeableViews extends Component {
         animated: false
       })
     }
-    if (!this.props.isOnboarding) {
-      this.updatePanHandler(index)
-    }
+    // if (!this.props.isOnboarding) {
+    //   this.updatePanHandler(index)
+    // }
   }
 
-  updatePanHandler (index) {
-    const panAnimValue = Animated.subtract(this.panOffset, this.screenWidth * (index - 1))
-    this.props.setPanAnim(panAnimValue)
-    panHandler(panAnimValue, this.screenWidth)
-  }
+  // updatePanHandler (index) {
+  //   const panAnimValue = Animated.subtract(this.panOffset, this.screenWidth * (index - 1))
+  //   this.props.setPanAnim(panAnimValue)
+  //   panHandler(panAnimValue, this.screenWidth)
+  // }
 
 
   // componentDidUpdate() {
@@ -209,6 +214,8 @@ class SwipeableViews extends Component {
         _id={_id}
         key={_id}
         setTimerFunction={setTimerFunction}
+        setScrollAnim={this.props.setScrollAnim}
+        onScrollEnd={this.props.onScrollEnd}
         isVisible={isVisible}
       />
     }
