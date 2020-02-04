@@ -72,7 +72,8 @@ class Buttons extends React.Component {
         setSaved,
         launchBrowser,
         toggleMercury,
-        toggleViewButtons
+        toggleViewButtons,
+        visible
       } = this.props
       const panAnimDivisor = this.screenDimensions.width
 
@@ -102,21 +103,26 @@ class Buttons extends React.Component {
           1)
 
       return bufferedItems ?
-        bufferedItems.map((item, i) => item ?
-          <ButtonSet
-            item={item}
-            key={'buttons:' + item._id}
-            isCurrent={ i === index - bufferStartIndex }
-            displayMode={displayMode}
-            isDarkBackground={isDarkBackground}
-            launchBrowser={launchBrowser}
-            opacityAnim={opacityAnims[i]}
-            showShareSheet={showShareSheet}
-            toggleMercury={toggleMercury}
-            setSaved={setSaved}
-            toggleViewButtons={toggleViewButtons}
-          /> :
-          null) :
+        bufferedItems.map((item, i) => {
+          const isCurrent = i === index - bufferStartIndex
+          return item ?
+            <ButtonSet
+              item={item}
+              key={'buttons:' + item._id}
+              isCurrent={isCurrent}
+              displayMode={displayMode}
+              isDarkBackground={isDarkBackground}
+              launchBrowser={launchBrowser}
+              opacityAnim={opacityAnims[i]}
+              showShareSheet={showShareSheet}
+              toggleMercury={toggleMercury}
+              setSaved={setSaved}
+              toggleViewButtons={toggleViewButtons}
+              visible={visible || !isCurrent}
+            /> :
+            null
+        })
+           :
         null
     }
   }

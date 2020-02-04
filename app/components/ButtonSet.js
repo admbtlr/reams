@@ -18,6 +18,7 @@ import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
 
 // isDarkBackground, displayMode, isOnboarding
+let areButtonsVisible = true
 
 export default function ButtonSet ({
   displayMode,
@@ -29,14 +30,18 @@ export default function ButtonSet ({
   setSaved,
   showShareSheet,
   toggleMercury,
-  toggleViewButtons
+  toggleViewButtons,
+  visible
 }) {
+  useEffect(() => {
+    makeVisible(visible)
+  }, [visible])
+
   const visibleAnim = new Animated.Value(0)
   const toggleAnimMercury = new Animated.Value(0)
   const toggleAnimSaved = new Animated.Value(0)
 
   const translateDistance = 80
-  let areButtonsVisible = false
 
   let isItemSaved = item.isSaved
   let isItemMercury = item.showMercuryContent
