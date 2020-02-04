@@ -138,18 +138,19 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         width='34'
       >
         <Rect stroke={borderColor} strokeWidth='2' fill={backgroundColor} opacity='0.5' x='14' y='2' width='14' height='25' rx='2'></Rect>
-        <Path stroke={borderColor} d='M17,8 L25,8' opacity='0.5' strokeLinecap='square' />
-        <Path stroke={borderColor} d='M17,10 L25,10' opacity='0.5' strokeLinecap='square' />
+        <Path stroke={borderColor} d='M17,19 L25,19' opacity='0.5' strokeLinecap='square' />
+        <Path stroke={borderColor} d='M17,21 L25,21' opacity='0.5' strokeLinecap='square' />
         <Rect stroke={borderColor} strokeWidth='2' fill={backgroundColor} x='1' y='1' width='16' height='29' rx='2'></Rect>
         <Path stroke={borderColor} d='M4,7 L14,7' strokeLinecap='square' />
+        <Path stroke={borderColor} d='M4,9 L14,9' strokeLinecap='square' />
         <Path stroke={borderColor} d='M4,11 L14,11' strokeLinecap='square' />
         <Path stroke={borderColor} d='M4,13 L14,13' strokeLinecap='square' />
-        <Path stroke={borderColor} d='M4,9 L14,9' strokeLinecap='square' />
         <Path stroke={borderColor} d='M4,15 L14,15' strokeLinecap='square' />
         <Path stroke={borderColor} d='M4,17 L14,17' strokeLinecap='square' />
         <Path stroke={borderColor} d='M4,19 L14,19' strokeLinecap='square' />
         <Path stroke={borderColor} d='M4,21 L14,21' strokeLinecap='square' />
         <Path stroke={borderColor} d='M4,23 L14,23' strokeLinecap='square' />
+        <Path stroke={borderColor} d='M4,25 L14,25' strokeLinecap='square' />
       </Svg>
   }
 }
