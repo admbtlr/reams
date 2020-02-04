@@ -82,7 +82,7 @@ export default class ScrollManager {
       ? STATUS_BAR_HEIGHT
       : -STATUS_BAR_HEIGHT
 
-    // console.log('Scroll ended! Need to animate ' + toValue)
+    console.log('Scroll ended! Need to animate ' + toValue)
     Animated.timing(this.resetAnim, {
       toValue,
       duration: 200,

@@ -6,7 +6,6 @@ import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, diff, getCachedCoverImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
-import {onScrollEnd} from '../utils/animationHandlers'
 import { hslString } from '../utils/colors'
 import log from '../utils/log'
 
@@ -59,7 +58,7 @@ class FeedItem extends React.Component {
     } = this.props
     setTimerFunction && setTimerFunction(this.startTimer)
     if (isVisible) {
-      setScrollAnim(item._id, this.scrollAnim)
+      setScrollAnim(this.scrollAnim)
       scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
@@ -100,7 +99,7 @@ class FeedItem extends React.Component {
           isDiff = false
           // this is a bit sneaky...
           if (nextProps.isVisible) {
-            this.props.setScrollAnim(item._id, this.scrollAnim)
+            this.props.setScrollAnim(this.scrollAnim)
             // and let the buttons know that the scroll handler has changed
             this.props.scrollHandlerAttached(this.props.item._id)
           }
@@ -147,7 +146,7 @@ class FeedItem extends React.Component {
   componentDidUpdate (prevProps, prevState) {
     const { isVisible, item, scrollHandlerAttached, setScrollAnim } = this.props
     if (isVisible && !prevProps.isVisible) {
-      setScrollAnim(this.scrollAnim, item && item._id)
+      setScrollAnim(this.scrollAnim)
       scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
@@ -450,7 +449,7 @@ class FeedItem extends React.Component {
       scrollOffset :
       scrollOffset.nativeEvent.contentOffset.y
     this.props.setScrollOffset(this.props.item, scrollOffset, this.state.webViewHeight)
-    this.props.onScrollEnd(this.props.item._id, scrollOffset)
+    this.props.onScrollEnd(scrollOffset)
   }
 
   // called when HTML was loaded and injected JS executed

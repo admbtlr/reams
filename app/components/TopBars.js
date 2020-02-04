@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Animated,
   Dimensions,
+  StatusBar,
   View
 } from 'react-native'
 import TopBarContainer from '../containers/TopBar'
 import { isIphoneX } from '../utils'
+import { getClampedScrollAnim } from '../utils/animation-handlers'
 import Reactotron from 'reactotron-react-native'
 
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
@@ -18,18 +20,39 @@ function TopBars ({
   items,
   numItems,
   panAnim,
-  setTopBarScrollAnimSetterAndListener
+  setScrollAnimSetterAndListener
 }) {
+  if (!items) return null
   panAnim = panAnim || new Animated.Value(0)
   const panAnimDivisor = screenWidth
 
-  if (!items) return null
+  const [clampedScrollAnim, setClampedScrollAnim] = useState(new Animated.Value(0))
+
+  const scrollListener = {
+    onStatusBarDown: () => {
+      StatusBar.setHidden(false)
+      // showItemButtons()
+    },
+    onStatusBarDownBegin: () => {},
+    onStatusBarUp: () => {
+      // hideAllButtons()
+    },
+    onStatusBarUpBegin: () => {
+      StatusBar.setHidden(true)
+    },
+    onStatusBarReset: () => {
+      StatusBar.setHidden(false)
+      // showItemButtons()
+    }
+  }
+
+  setScrollAnimSetterAndListener(setClampedScrollAnim, scrollListener)
 
   console.log('RENDERING TOPBARS')
   Reactotron.log('RENDERING TOPBARS')
 
   const opacityRanges = items && items.map((item, index) => {
-    let inputRange = [panAnimDivisor * index, panAnimDivisor * (index + 0.9), panAnimDivisor * (index + 1)]
+    let inputRange = [panAnimDivisor * index, panAnimDivisor * (index + 0.5), panAnimDivisor * (index + 1)]
     let outputRange = [1, 1, 0]
     if (index > 0) {
       inputRange.unshift(panAnimDivisor * (index - 1))
@@ -80,30 +103,37 @@ function TopBars ({
       outputRange: [0, STATUS_BAR_HEIGHT]
     })
 
+  const clampedAnimatedValue = Animated.diffClamp(
+    Animated.add(clampedScrollAnim, panTransformAnim),
+    -STATUS_BAR_HEIGHT,
+    0
+  )
+
   const topBars = items.map((item, i) => (
     <TopBarContainer
+      clampedAnimatedValue={clampedAnimatedValue}
       key={item ? item._id : i}
       item={item}
       opacityAnim={opacityAnims[i]}
-      clampedScrollAnim={/*this.state.clampedScrollAnims[item._id]*/new Animated.Value(0)}
       titleTransformAnim={titleTransformAnims[i]}
-      panTransformAnim={panTransformAnim}
       isVisible={i === 1}
       index={index + i - 1}
       numItems={numItems}
-      setTopBarScrollAnimSetterAndListener={setTopBarScrollAnimSetterAndListener}
     />
   ))
 
   return (
-    <View style={{
+    <Animated.View style={{
       position: 'absolute',
       top: 0,
+      transform: [{
+        translateY: clampedAnimatedValue
+      }],
       width: '100%',
       zIndex: 10
     }}>
       {topBars}
-    </View>
+    </Animated.View>
   )
 }
 
@@ -122,13 +152,7 @@ function areEqual (prevProps, nextProps) {
   return prevProps.items && nextProps.items &&
     JSON.stringify(prevProps.items.map(mapItem)) ===
       JSON.stringify(nextProps.items.map(mapItem)) &&
-    prevProps.panAnim === nextProps.panAnim/* ||
-    this.state.clampedScrollAnims !== nextState.clampedScrollAnims ||
-    prevProps.scrollAnim !== nextProps.scrollAnim ||
-    ((prevProps.panAnim && nextProps.panAnim) ?
-      prevProps.panAnim.__getValue() !== nextProps.panAnim.__getValue() :
-      prevProps.panAnim !== nextProps.panAnim)
-  )*/
+    prevProps.panAnim === nextProps.panAnim
 }
 
 export default React.memo(TopBars, areEqual)

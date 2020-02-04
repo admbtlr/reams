@@ -13,7 +13,7 @@ import {
   View
 } from 'react-native'
 import RizzleButton from './RizzleButton'
-import { getRizzleButtonIcon } from '../utils/rizzleButtonIcons'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
 

@@ -114,7 +114,7 @@ export function onScrollEnd (scrollOffset) {
     ? resetValue + STATUS_BAR_HEIGHT
     : resetValue - STATUS_BAR_HEIGHT
 
-  // console.log('Scroll ended! Need to animate ' + toValue)
+  console.log('Scroll ended! Need to animate ' + toValue)
   Animated.timing(resetAnim, {
     toValue,
     duration: 200,
@@ -147,4 +147,8 @@ export function getAnimatedValue () {
 
 export function addScrollListener (listener) {
   scrollListeners.push(listener)
+}
+
+export function setScrollListener (listener) {
+  scrollListeners = [listener]
 }

@@ -3,7 +3,6 @@ import {
   Animated,
   Dimensions,
   Image,
-  StatusBar,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -13,7 +12,7 @@ import Svg, {Circle, G, Polygon, Polyline, Rect, Path, Line} from 'react-native-
 import {
   getClampedScrollAnim,
   addScrollListener
-} from '../utils/animationHandlers'
+} from '../utils/animation-handlers'
 import FeedIconContainer from '../containers/FeedIcon'
 import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
@@ -33,32 +32,9 @@ class TopBar extends React.Component {
     }
     this.screenWidth = Dimensions.get('window').width
 
-    this.onStatusBarDown = this.onStatusBarDown.bind(this)
-    this.onStatusBarUp = this.onStatusBarUp.bind(this)
     this.onDisplayPress = this.onDisplayPress.bind(this)
-    this.setClampedScrollAnim = this.setClampedScrollAnim.bind(this)
   }
 
-  onStatusBarDown () {
-    StatusBar.setHidden(false)
-    this.props.showItemButtons()
-  }
-
-  onStatusBarUp () {
-    this.props.hideAllButtons()
-  }
-
-  onStatusBarDownBegin () {
-  }
-
-  onStatusBarUpBegin () {
-    StatusBar.setHidden(true)
-  }
-
-  onStatusBarReset () {
-    StatusBar.setHidden(false)
-    this.props.showItemButtons()
-  }
 
   getMessage (item) {
     const feedName = item
@@ -67,73 +43,28 @@ class TopBar extends React.Component {
     return feedName || ''
   }
 
-  setClampedScrollAnim (clampedScrollAnim) {
-    this.setState({
-      clampedScrollAnim: clampedScrollAnim
-    })
-  }
-
-  hookUpScrollAnimInfrastructure () {
-    const {
-      item,
-      setTopBarScrollAnimSetterAndListener
-    } = this.props
-    if (item && !this.didHookUpScrollAnimInfrastructure) {
-      console.log(`Hooking up for ${item.title}`)
-      setTopBarScrollAnimSetterAndListener(item._id, this.setClampedScrollAnim, this)
-      this.didHookUpScrollAnimInfrastructure = true
-    }
-  }
-
-  componentDidMount () {
-    this.hookUpScrollAnimInfrastructure()
-  }
-
-  componentDidUpdate () {
-    const { item } = this.props
-    // let clamped = null
-    // if (item && item.scrollManager) {
-    //   clamped = item.scrollManager.getClampedScrollAnim()
-    // }
-    // if (clamped !== this.state.clampedScrollAnim) {
-    //   this.setClampedScrollAnim(clamped)
-    // }
-    this.hookUpScrollAnimInfrastructure()
-  }
-
   shouldComponentUpdate (nextProps, nextState) {
     return this.props.item._id !== nextProps.item._id ||
+      this.props.opacityAnim !== nextProps.opacityAnim ||
       this.state.clampedScrollAnim !== nextState.clampedScrollAnim
   }
 
   render () {
     const {
+      clampedAnimatedValue,
       item,
       opacityAnim,
       titleTransformAnim,
-      panTransformAnim,
       isOnboarding,
       isVisible,
       index,
-      numItems,
-      setTopBarScrollAnimSetterAndListener
+      numItems
     } = this.props
     const { clampedScrollAnim } = this.state
     const textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor: this.getBackgroundColor(item),
       opacity: opacityAnim
-    }
-
-    let clampedAnimatedValue
-    if (clampedScrollAnim && panTransformAnim) {
-      clampedAnimatedValue = Animated.diffClamp(
-        Animated.add(clampedScrollAnim, panTransformAnim),
-        -STATUS_BAR_HEIGHT,
-        0
-      )
-    } else {
-      clampedAnimatedValue = new Animated.Value(0)
     }
 
     return isOnboarding ? null :
@@ -158,10 +89,7 @@ class TopBar extends React.Component {
             },
             shadowRadius: 1,
             shadowOpacity: 0.1,
-            shadowColor: 'rgba(0, 0, 0, 1)',
-            transform: [{
-              translateY: clampedAnimatedValue
-            }]
+            shadowColor: 'rgba(0, 0, 0, 1)'
           }}
         >
           <ViewButtonToggle
@@ -169,10 +97,6 @@ class TopBar extends React.Component {
             buttonColor={this.getHamburgerColor(item)}
             displayMode={this.props.displayMode}
             onPress={this.onDisplayPress}
-            opacityAnim={clampedAnimatedValue.interpolate({
-              inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-              outputRange: [0, 1]
-            })}
             style={{ width: 48 }}
           />
           <View style={{
@@ -202,10 +126,6 @@ class TopBar extends React.Component {
                 marginTop: 0,
                 marginLeft: 0,
                 marginRight: 0,
-                opacity: clampedAnimatedValue.interpolate({
-                  inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-                  outputRange: [0, 1]
-                }),
                 transform: [{
                   translateY: titleTransformAnim || 0
                 }]
@@ -267,10 +187,6 @@ class TopBar extends React.Component {
           </View>
           <FeedsHamburger
             onPress={() => this.props.navigation.navigate('Feeds')}
-            opacityAnim={clampedAnimatedValue.interpolate({
-              inputRange: [-STATUS_BAR_HEIGHT / 2, 0],
-              outputRange: [0, 1]
-            })}
             hamburgerColor={this.getHamburgerColor(item)} />
         </Animated.View>
     </View>)
@@ -395,13 +311,12 @@ class TopBar extends React.Component {
   }
 }
 
-const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.View
+const FeedsHamburger = ({ onPress, hamburgerColor }) => (<Animated.View
     style={{
       position: 'absolute',
       zIndex: 5,
       right: 19,
-      bottom: 15,
-      // opacity: opacityAnim
+      bottom: 15
     }}
   >
     <TouchableOpacity
@@ -444,7 +359,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor, opacityAnim }) => (<Animated.
   </Animated.View>)
 
 
-const ViewButtonToggle = ({ displayMode, onPress, backgroundColor, buttonColor, opacityAnim }) => {
+const ViewButtonToggle = ({ displayMode, onPress, backgroundColor, buttonColor }) => {
   const savedIcon = <Svg width="32px" height="32px" viewBox="0 0 32 32">
       <G strokeWidth="1"  stroke='none' fill="none" fillRule="evenodd">
         <G transform="translate(-1.000000, -3.000000)">
@@ -474,7 +389,6 @@ const ViewButtonToggle = ({ displayMode, onPress, backgroundColor, buttonColor, 
       bottom: 7,
       width: 32,
       height: 38,
-      // opacity: opacityAnim
     }}>
       <TouchableOpacity
         style={{

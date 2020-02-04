@@ -11,7 +11,7 @@ import {
 import FeedItemContainer from '../containers/FeedItem.js'
 import OnboardingContainer from '../containers/Onboarding.js'
 import { constant, checkIndexBounds, getDisplaySameSlide } from 'react-swipeable-views-core';
-import { panHandler } from '../utils/animationHandlers'
+import { panHandler } from '../utils/animation-handlers'
 import { getItemId } from '../utils/get-item'
 import { hslString } from '../utils/colors'
 
@@ -45,6 +45,7 @@ class SwipeableViews extends Component {
     this.onMomentumScrollEnd = this.onMomentumScrollEnd.bind(this)
     this.onScrollEndDrag = this.onScrollEndDrag.bind(this)
     this.setScrollIndex = this.setScrollIndex.bind(this)
+    this.init = this.init.bind(this)
 
     this.screenWidth = Dimensions.get('window').width
   }
@@ -171,9 +172,13 @@ class SwipeableViews extends Component {
   //   this.updatePanHandler(indexVirtual)
   // }
 
-  componentDidUpdate (prevProps, prevState) {
+  init() {
     this.setScrollIndex(this.currentIndex)
     this.props.setPanAnim(this.panOffset)
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    this.init()
   }
 
   setScrollIndex (index) {
@@ -243,13 +248,15 @@ class SwipeableViews extends Component {
     this.currentIndex = index
     this.currentOffset = this.currentIndex * pageWidth
 
+    console.log(items.map(i => i.title))
+
     return (
       <Animated.ScrollView
         bounces={false}
         decelerationRate="fast"
         disableIntervalMomentum={true}
         horizontal
-        onLayout={this.setScrollIndex}
+        onLayout={this.init}
         onMomentumScrollEnd={this.onMomentumScrollEnd}
         onScroll={Animated.event(
           [{ nativeEvent: {

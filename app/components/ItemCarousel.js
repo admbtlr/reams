@@ -16,7 +16,7 @@ import ButtonsContainer from '../containers/Buttons.js'
 import ViewButtonsContainer from '../containers/ViewButtons.js'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { hslString } from '../utils/colors'
-import ScrollManager from '../utils/ScrollManager'
+import { getClampedScrollAnim, onScrollEnd, setScrollListener } from '../utils/animation-handlers'
 
 export const BUFFER_LENGTH = 5
 
@@ -34,10 +34,6 @@ const getBufferedItems  = (items, index) => {
   if (!bufferedItems || JSON.stringify(buffered.map(item => item._id)) !==
     JSON.stringify(bufferedItems.map(item => item._id))) {
     bufferedItems = buffered
-    bufferedItems = buffered.map(item => ({
-      ...item,
-      scrollManager: new ScrollManager()
-    }))
   }
   return bufferedItems
 }
@@ -69,6 +65,7 @@ class ItemCarousel extends React.Component {
     this.setPanAnim = this.setPanAnim.bind(this)
     this.setScrollAnim = this.setScrollAnim.bind(this)
     this.setTopBarScrollAnimSetterAndListener = this.setTopBarScrollAnimSetterAndListener.bind(this)
+    this.setScrollAnimSetterAndListener = this.setScrollAnimSetterAndListener.bind(this)
   }
 
   // static getDerivedStateFromProps (props, state) {
@@ -227,22 +224,19 @@ class ItemCarousel extends React.Component {
     this.setState({ panAnim })
   }
 
-  setScrollAnim (item_id, scrollAnim) {
-    const item = bufferedItems.find(bi => bi._id === item_id)
-    if (item) {
-      item.scrollManager.setScrollAnim(scrollAnim)
-      if (item.topBarScrollAnimSetter) {
-        // item.topBarScrollAnimSetter(item.scrollManager.getClampedScrollAnim())
-        item.topBarScrollAnimSetter(item.scrollManager.getScrollAnim())
-      }
+  setScrollAnim (scrollAnim) {
+    if (this.scrollAnimSetter) {
+      this.scrollAnimSetter(getClampedScrollAnim(scrollAnim))
     }
   }
 
-  onScrollEnd (item_id, scrollOffset) {
-    const item = bufferedItems.find(bi => bi._id === item_id)
-    if (item) {
-      item.scrollManager.onScrollEnd(scrollOffset)
-    }
+  onScrollEnd (scrollOffset) {
+    console.log('Scroll end')
+    onScrollEnd(scrollOffset)
+    // const item = bufferedItems.find(bi => bi._id === item_id)
+    // if (item) {
+    //   item.scrollManager.onScrollEnd(scrollOffset)
+    // }
   }
 
   setTopBarScrollAnimSetterAndListener (item_id, topBarScrollAnimSetter, topBarScrollAnimListener) {
@@ -253,6 +247,10 @@ class ItemCarousel extends React.Component {
     }
   }
 
+  setScrollAnimSetterAndListener (scrollAnimSetter, scrollAnimListener) {
+    this.scrollAnimSetter = scrollAnimSetter
+    setScrollListener(scrollAnimListener)
+  }
   render () {
     const {
       displayMode,
@@ -293,7 +291,7 @@ class ItemCarousel extends React.Component {
             index={index}
             openFeedModal={this.openFeedModal}
             panAnim={this.state.panAnim}
-            setTopBarScrollAnimSetterAndListener={this.setTopBarScrollAnimSetterAndListener}
+            setScrollAnimSetterAndListener={this.setScrollAnimSetterAndListener}
           />
           <ButtonsContainer
             bufferStartIndex={ index === 0 ? index : index - 1 }
