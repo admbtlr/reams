@@ -230,20 +230,30 @@ class SwipeableViews extends Component {
     console.log('RENDER SWIPEABLE VIEWS')
     const {
       index,
-      items
+      isOnboarding,
+      items,
+      navigation
     } = this.props
 
     const pageWidth = Dimensions.get('window').width
 
-    this.children = items.map((item, itemIndex) => this.renderSlide({
-      index: item.index,
-      key: item._id,
-      _id: item._id,
-      setTimerFunction: timerFunc => {
-        this.timerFunctions[item._id] = timerFunc
-      },
-      isVisible: itemIndex === index
-    }))
+    if (isOnboarding) {
+      this.children = [0, 1].map(index => (
+        <OnboardingContainer
+          index={index}
+          navigation={navigation} />
+      ))
+    } else {
+      this.children = items.map((item, itemIndex) => this.renderSlide({
+        index: item.index,
+        key: item._id,
+        _id: item._id,
+        setTimerFunction: timerFunc => {
+          this.timerFunctions[item._id] = timerFunc
+        },
+        isVisible: itemIndex === index
+      }))
+    }
 
     this.currentIndex = index
     this.currentOffset = this.currentIndex * pageWidth

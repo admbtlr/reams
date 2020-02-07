@@ -276,6 +276,7 @@ class ItemCarousel extends React.Component {
             index={index === 0 ? 0 : 1}
             items={this.bufferedItems}
             isOnboarding={isOnboarding}
+            navigation={navigation}
             setPanAnim={this.setPanAnim}
             setScrollAnim={this.setScrollAnim}
             onScrollEnd={this.onScrollEnd}

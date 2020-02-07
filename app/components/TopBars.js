@@ -19,6 +19,7 @@ function TopBars ({
   index,
   isOnboarding,
   items,
+  navigation,
   numItems,
   panAnim,
   setScrollAnimSetterAndListener
@@ -93,7 +94,7 @@ function TopBars ({
   // this depends on whether there is a previous item, which is the case if index > 0
   const panTransformAnim = index > 0 ?
     panAnim.interpolate({
-      inputRange: [0, panAnimDivisor, panAnimDivisor * 2],
+      inputRange: [panAnimDivisor * index - 1, panAnimDivisor * index, panAnimDivisor * index + 1],
       outputRange: [
         STATUS_BAR_HEIGHT,
         0,
@@ -106,7 +107,8 @@ function TopBars ({
     })
 
   const clampedAnimatedValue = Animated.diffClamp(
-    Animated.add(clampedScrollAnim, panTransformAnim),
+    // Animated.add(clampedScrollAnim, panTransformAnim),
+    clampedScrollAnim,
     -STATUS_BAR_HEIGHT,
     0
   )
@@ -116,6 +118,7 @@ function TopBars ({
       clampedAnimatedValue={clampedAnimatedValue}
       key={item ? item._id : i}
       item={item}
+      navigation={navigation}
       opacityAnim={opacityAnims[i]}
       titleTransformAnim={titleTransformAnims[i]}
       isVisible={i === 1}
