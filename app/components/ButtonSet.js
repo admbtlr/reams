@@ -199,7 +199,7 @@ export default function ButtonSet ({
             }) : 0
           }]
         }}
-        onPress={isMercuryButtonEnabled ? toggleMercury : () => false}
+        onPress={isMercuryButtonEnabled ? () => toggleMercury(item) : () => false}
       />
     </Animated.View>
   )

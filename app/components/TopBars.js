@@ -22,13 +22,15 @@ function TopBars ({
   navigation,
   numItems,
   panAnim,
-  setScrollAnimSetterAndListener
+  setScrollAnimSetterAndListener,
+  setBufferIndexChangeListener
 }) {
   if (!items) return null
   panAnim = panAnim || new Animated.Value(0)
   const panAnimDivisor = screenWidth
 
   const [clampedScrollAnim, setClampedScrollAnim] = useState(new Animated.Value(0))
+  const [bufferIndex, setBufferIndex] = useState(index > 0 ? 1 : 0)
   const dispatch = useDispatch()
 
   const scrollListener = {
@@ -38,6 +40,7 @@ function TopBars ({
     },
     onStatusBarDownBegin: () => {},
     onStatusBarUp: () => {
+      StatusBar.setHidden(true)
       dispatch({ type: 'UI_HIDE_ALL_BUTTONS' })
     },
     onStatusBarUpBegin: () => {
@@ -50,8 +53,8 @@ function TopBars ({
   }
 
   setScrollAnimSetterAndListener(setClampedScrollAnim, scrollListener)
+  setBufferIndexChangeListener(setBufferIndex)
 
-  console.log('RENDERING TOPBARS')
   Reactotron.log('RENDERING TOPBARS')
 
   const opacityRanges = items && items.map((item, index) => {
@@ -91,23 +94,41 @@ function TopBars ({
       panAnim.interpolate(titleTransformRanges[i]) :
       0)
 
-  // this depends on whether there is a previous item, which is the case if index > 0
-  const panTransformAnim = index > 0 ?
-    panAnim.interpolate({
-      inputRange: [panAnimDivisor * index - 1, panAnimDivisor * index, panAnimDivisor * index + 1],
-      outputRange: [
-        STATUS_BAR_HEIGHT,
-        0,
-        STATUS_BAR_HEIGHT
-      ]
-    }) :
-    panAnim.interpolate({
-      inputRange: [0, panAnimDivisor],
-      outputRange: [0, STATUS_BAR_HEIGHT]
-    })
+  // need to make a kind of sawtooth so that each panAnimDivisor will reach STATUS_BAR_HEIGHT
+  // I think....
+  let inputRange = []
+  let outputRange = []
+  const hasScrollOffset = (item) => (
+    item.scrollRatio && (items.scrollRatio.html || items.scrollRatio.mercury)
+  )
+
+  for (var i = 0; i < items.length; i++) {
+    const tooth = panAnimDivisor * i
+    const value = hasScrollOffset ? 0 : STATUS_BAR_HEIGHT
+    inputRange = inputRange.concat([tooth])
+    outputRange = outputRange.concat([value])
+  }
+
+  // const panTransformTopBarAnim = index > 0 ?
+  //   panAnim.interpolate({
+  //     inputRange: [panAnimDivisor * index - 1, panAnimDivisor * index, panAnimDivisor * index + 1],
+  //     outputRange: [
+  //       STATUS_BAR_HEIGHT,
+  //       0,
+  //       STATUS_BAR_HEIGHT
+  //     ]
+  //   }) :
+  //   panAnim.interpolate({
+  //     inputRange: [0, panAnimDivisor, panAnimDivisor + 1, panAnimDivisor * 2],
+  //     outputRange: [0, STATUS_BAR_HEIGHT]
+  //   })
+
+  const panTransformTopBarAnim = outputRange.length > 2 ?
+    panAnim.interpolate({ inputRange, outputRange }) :
+    new Animated.Value(0)
 
   const clampedAnimatedValue = Animated.diffClamp(
-    // Animated.add(clampedScrollAnim, panTransformAnim),
+    // Animated.add(clampedScrollAnim, panTransformTopBarAnim),
     clampedScrollAnim,
     -STATUS_BAR_HEIGHT,
     0
@@ -121,7 +142,7 @@ function TopBars ({
       navigation={navigation}
       opacityAnim={opacityAnims[i]}
       titleTransformAnim={titleTransformAnims[i]}
-      isVisible={i === 1}
+      isVisible={i === bufferIndex}
       index={index + i - 1}
       numItems={numItems}
     />
@@ -131,9 +152,6 @@ function TopBars ({
     <Animated.View style={{
       position: 'absolute',
       top: 0,
-      transform: [{
-        translateY: clampedAnimatedValue
-      }],
       width: '100%',
       zIndex: 10
     }}>

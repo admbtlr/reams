@@ -20,7 +20,10 @@ let prevScrollOffset = 0
 let initiated = false
 
 function reset (newScrollAnimValue) {
-  const toValue = 0 - newScrollAnimValue
+  // const toValue = newScrollAnimValue > 0 ?
+  //   STATUS_BAR_HEIGHT :
+  //   -STATUS_BAR_HEIGHT
+  const toValue = -newScrollAnimValue
   scrollValue = 0
   clampedScrollValue = 0
   resetValue = 0
@@ -30,15 +33,17 @@ function reset (newScrollAnimValue) {
   scrollListeners.forEach((listener) => {
     listener.onStatusBarReset()
   })
-  Animated.timing(resetAnim, {
-    toValue,
-    duration: 400,
-    useNativeDriver: true
-  }).start(() => {
-    scrollListeners.forEach((listener) => {
-      listener.onStatusBarReset()
-    })
-  })
+  // Animated.timing(resetAnim, {
+  //   toValue,
+  //   duration: 200,
+  //   // delay: 200,
+  //   useNativeDriver: true
+  // }).start(() => {
+  //   scrollListeners.forEach((listener) => {
+  //     listener.onStatusBarReset()
+  //   })
+  // })
+  // return toValue
 }
 
 export function panHandler (value, divisor) {
@@ -51,13 +56,15 @@ export function getPanValue () {
 }
 
 export function getClampedScrollAnim (feedItemScrollAnim) {
+  let resetValue = 0
   if (feedItemScrollAnim === undefined) return
   if (initiated) {
     reset(feedItemScrollAnim._value)
   }
   initiated = true
   scrollAnim = feedItemScrollAnim
-  resetAnim = new Animated.Value(0)
+  resetAnim = new Animated.Value(resetValue)
+  console.log('Getting Clamped Scroll Anim: ' + scrollAnim._value)
   const scrollAnimNoNeg = scrollAnim.interpolate({
     inputRange: [-1, 0, 1],
     outputRange: [0, 0, 1]
@@ -77,6 +84,7 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
   // because of https://github.com/facebook/react-native/pull/12620
   scrollAnim.addListener(({ value }) => {
     const diff = value - scrollValue
+    // console.log(`Value: ${value}; Diff: ${diff}`)
     scrollValue = value
     clampedScrollValue = Math.min(
       Math.max(clampedScrollValue + diff, 0),
@@ -93,11 +101,27 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
     }
   })
 
+  resetAnim.addListener(({ value }) => {
+    resetValue = value
+  })
+
   clampedAnim = clamped.interpolate({
     inputRange: [0, STATUS_BAR_HEIGHT],
     outputRange: [0, -STATUS_BAR_HEIGHT],
     extrapolate: 'clamp'
   })
+
+  // console.log('Resetting resetAnim to ' + resetValue)
+  // Animated.timing(resetAnim, {
+  //   toValue: resetValue,
+  //   duration: 1000,
+  //   delay: 200,
+  //   useNativeDriver: true
+  // }).start(() => {
+  //   scrollListeners.forEach((listener) => {
+  //     listener.onStatusBarReset()
+  //   })
+  // })
 
   // clampedAnim.addListener(event => {
   //   console.log(`ClampedAnim: ${event.value}`)
@@ -114,12 +138,16 @@ export function onScrollEnd (scrollOffset) {
     ? resetValue + STATUS_BAR_HEIGHT
     : resetValue - STATUS_BAR_HEIGHT
 
-  console.log('Scroll ended! Need to animate ' + toValue)
+  // console.log(`scrollOffset: ${scrollOffset}; scrollValue: ${scrollValue}; clampedScrollValue: ${clampedScrollValue}; toValue: ${toValue}`)
+
+  // console.log('Scroll ended! Need to animate ' + toValue)
   Animated.timing(resetAnim, {
     toValue,
     duration: 200,
     useNativeDriver: true
   }).start()
+
+  resetValue = toValue
 
   if (scrollOffset - prevScrollOffset > 20) {
     scrollListeners.forEach((listener) => {

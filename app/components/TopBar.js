@@ -27,9 +27,6 @@ class TopBar extends React.Component {
     super(props)
     this.props = props
 
-    this.state = {
-      clampedScrollAnims: {}
-    }
     this.screenWidth = Dimensions.get('window').width
 
     this.onDisplayPress = this.onDisplayPress.bind(this)
@@ -45,8 +42,7 @@ class TopBar extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return this.props.item._id !== nextProps.item._id ||
-      this.props.opacityAnim !== nextProps.opacityAnim ||
-      this.state.clampedScrollAnim !== nextState.clampedScrollAnim
+      this.props.opacityAnim !== nextProps.opacityAnim
   }
 
   render () {
@@ -60,11 +56,14 @@ class TopBar extends React.Component {
       index,
       numItems
     } = this.props
-    const { clampedScrollAnim } = this.state
     const textHolderStyles = {
       ...this.getStyles().textHolder,
       backgroundColor: this.getBackgroundColor(item),
       opacity: opacityAnim
+    }
+
+    if (isVisible) {
+      console.log(item.title)
     }
 
     return isOnboarding ? null :
@@ -89,7 +88,10 @@ class TopBar extends React.Component {
             },
             shadowRadius: 1,
             shadowOpacity: 0.1,
-            shadowColor: 'rgba(0, 0, 0, 1)'
+            shadowColor: 'rgba(0, 0, 0, 1)',
+            transform: [{
+              translateY: isVisible ? clampedAnimatedValue : 0
+            }]
           }}
         >
           <ViewButtonToggle

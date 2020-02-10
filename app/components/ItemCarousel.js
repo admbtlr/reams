@@ -64,8 +64,8 @@ class ItemCarousel extends React.Component {
     this.showShareSheet = this.showShareSheet.bind(this)
     this.setPanAnim = this.setPanAnim.bind(this)
     this.setScrollAnim = this.setScrollAnim.bind(this)
-    this.setTopBarScrollAnimSetterAndListener = this.setTopBarScrollAnimSetterAndListener.bind(this)
     this.setScrollAnimSetterAndListener = this.setScrollAnimSetterAndListener.bind(this)
+    this.setBufferIndexChangeListener = this.setBufferIndexChangeListener.bind(this)
   }
 
   // static getDerivedStateFromProps (props, state) {
@@ -135,6 +135,7 @@ class ItemCarousel extends React.Component {
     const lastIndex = this.index
     this.index = index
     this.bufferIndex = bufferIndex
+    this.bufferIndexChangeListener(this.bufferIndex)
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
@@ -231,7 +232,7 @@ class ItemCarousel extends React.Component {
   }
 
   onScrollEnd (scrollOffset) {
-    console.log('Scroll end')
+    // console.log('Scroll end')
     onScrollEnd(scrollOffset)
     // const item = bufferedItems.find(bi => bi._id === item_id)
     // if (item) {
@@ -239,18 +240,15 @@ class ItemCarousel extends React.Component {
     // }
   }
 
-  setTopBarScrollAnimSetterAndListener (item_id, topBarScrollAnimSetter, topBarScrollAnimListener) {
-    const item = bufferedItems.find(bi => bi._id === item_id)
-    if (item) {
-      item.topBarScrollAnimSetter = topBarScrollAnimSetter
-      item.scrollManager.setScrollListener(topBarScrollAnimListener)
-    }
-  }
-
   setScrollAnimSetterAndListener (scrollAnimSetter, scrollAnimListener) {
     this.scrollAnimSetter = scrollAnimSetter
     setScrollListener(scrollAnimListener)
   }
+
+  setBufferIndexChangeListener (bufferIndexChangeListener) {
+    this.bufferIndexChangeListener = bufferIndexChangeListener
+  }
+
   render () {
     const {
       displayMode,
@@ -293,6 +291,7 @@ class ItemCarousel extends React.Component {
             openFeedModal={this.openFeedModal}
             panAnim={this.state.panAnim}
             setScrollAnimSetterAndListener={this.setScrollAnimSetterAndListener}
+            setBufferIndexChangeListener={this.setBufferIndexChangeListener}
           />
           <ButtonsContainer
             bufferStartIndex={ index === 0 ? index : index - 1 }
