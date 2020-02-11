@@ -109,9 +109,11 @@ body {
   .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
-    height: auto !important;
+    height: auto;
     margin: .666rem 0;
     border: 0; }
+  .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle pre {
+    height: auto !important; }
   .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
     width: 100vw;
     max-width: 100vw !important;
@@ -246,7 +248,8 @@ body {
     line-height: 1.33rem;
     font-style: normal;
     padding: 1rem 1rem .5rem;
-    margin: 1rem 0; }
+    margin: 1rem 0;
+    text-align: center; }
   .itemArticle figure cite {
     display: none; }
   .itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {
@@ -260,7 +263,9 @@ body {
     text-align: left; }
   .itemArticle .caption:not(figcaption) {
     display: block;
-    margin: -1rem -4vw 1.666rem; }
+    margin: -0.666rem -4vw 1.666rem; }
+    .itemArticle .caption:not(figcaption) + .caption:not(figcaption) {
+      margin-top: -1.666rem; }
   @media (min-width: 600px) {
     .itemArticle figcaption, .itemArticle blockquote, .itemArticle .caption, .itemArticle img + small {
       margin: 0 -4vw;
