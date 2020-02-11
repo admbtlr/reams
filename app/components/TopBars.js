@@ -21,6 +21,7 @@ function TopBars ({
   items,
   navigation,
   numItems,
+  openFeedModal,
   panAnim,
   setScrollAnimSetterAndListener,
   setBufferIndexChangeListener
@@ -35,19 +36,19 @@ function TopBars ({
 
   const scrollListener = {
     onStatusBarDown: () => {
-      StatusBar.setHidden(false)
+      StatusBar.setHidden(false, 'slide')
       dispatch({ type: 'UI_SHOW_ITEM_BUTTONS' })
     },
     onStatusBarDownBegin: () => {},
     onStatusBarUp: () => {
-      StatusBar.setHidden(true)
+      StatusBar.setHidden(true, 'slide')
       dispatch({ type: 'UI_HIDE_ALL_BUTTONS' })
     },
     onStatusBarUpBegin: () => {
-      StatusBar.setHidden(true)
+      StatusBar.setHidden(true, 'slide')
     },
     onStatusBarReset: () => {
-      StatusBar.setHidden(false)
+      StatusBar.setHidden(false, 'slide')
       dispatch({ type: 'UI_SHOW_ITEM_BUTTONS' })
     }
   }
@@ -137,14 +138,15 @@ function TopBars ({
   const topBars = items.map((item, i) => (
     <TopBarContainer
       clampedAnimatedValue={clampedAnimatedValue}
-      key={item ? item._id : i}
-      item={item}
-      navigation={navigation}
-      opacityAnim={opacityAnims[i]}
-      titleTransformAnim={titleTransformAnims[i]}
-      isVisible={i === bufferIndex}
       index={index + i - 1}
+      isVisible={i === bufferIndex}
+      item={item}
+      key={item ? item._id : i}
+      navigation={navigation}
       numItems={numItems}
+      opacityAnim={opacityAnims[i]}
+      openFeedModal={openFeedModal}
+      titleTransformAnim={titleTransformAnims[i]}
     />
   ))
 
