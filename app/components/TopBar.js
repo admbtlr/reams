@@ -20,6 +20,26 @@ import Reactotron from 'reactotron-react-native'
 
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 
+/* Props:
+- clampedAnimatedValue
+- displayMode *
+- feedFilter *
+- index
+- isDarkBackground *
+- isOnboarding *
+- isVisible
+- item
+- navigation
+- numItems
+- opacityAnim
+- openFeedModal
+- setDisplayMode *
+- showModal *
+- titleTransformAnim
+
+(* = container)
+*/
+
 class TopBar extends React.Component {
   static whyDidYouRender = true
 
@@ -32,13 +52,6 @@ class TopBar extends React.Component {
     this.onDisplayPress = this.onDisplayPress.bind(this)
   }
 
-
-  getMessage (item) {
-    const feedName = item
-      ? item.feed_title
-      : 'Rizzle'
-    return feedName || ''
-  }
 
   shouldComponentUpdate (nextProps, nextState) {
     return this.props.item._id !== nextProps.item._id ||
@@ -94,7 +107,7 @@ class TopBar extends React.Component {
             }]
           }}
         >
-          <ViewButtonToggle
+          <DisplayModeToggle
             backgroundColor={this.getBackgroundColor(item)}
             buttonColor={this.getHamburgerColor(item)}
             displayMode={this.props.displayMode}
@@ -181,7 +194,7 @@ class TopBar extends React.Component {
                       textDecorationLine: 'underline'
                     }}
                   >
-                    {this.getMessage(item)}
+                    {item ? item.feed_title : 'Rizzle'}
                   </Text>
                 </View>
               </Animated.View>
@@ -361,7 +374,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor }) => (<Animated.View
   </Animated.View>)
 
 
-const ViewButtonToggle = ({ displayMode, onPress, backgroundColor, buttonColor }) => {
+const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor }) => {
   const savedIcon = <Svg width="32px" height="32px" viewBox="0 0 32 32">
       <G strokeWidth="1"  stroke='none' fill="none" fillRule="evenodd">
         <G transform="translate(-1.000000, -3.000000)">
