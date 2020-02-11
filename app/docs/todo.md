@@ -1,12 +1,15 @@
 # To Do
 
+- Feedbin integration
+- Feedly integration
 - why isn't icon color detection working?
 - why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?
 - find memory leak
-- Fix undefined error
-    + https://sentry.io/organizations/adam-butler/issues/1361854344/?project=195309&query=is%3Aunresolved
-- replace mercury with browser button for some feeds
+- add per feed setting to always open in expanded view
 - better loading indicator
+
+# Someday / Maybe
+
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - login with apple
