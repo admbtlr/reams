@@ -169,7 +169,7 @@ export default function NewFeedsList (props) {
                 iconExpanded={hashtag}
                 text='Technology'
                 isExpandable={true}
-                renderExpandedView={() => feedList(technology)} />
+                renderExpandedView={() => <View />} />
             </View>
         </View>
       </ScrollView>

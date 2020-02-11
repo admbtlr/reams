@@ -14,11 +14,11 @@ export function animatedValues (state = initialState, action) {
         scrollAnimId: action.item_id
       }
 
-    case 'SET_PAN_ANIM':
-      return {
-        ...state,
-        panAnim: action.panAnim
-      }
+    // case 'SET_PAN_ANIM':
+    //   return {
+    //     ...state,
+    //     panAnim: action.panAnim
+    //   }
 
     default:
       return state

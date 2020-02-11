@@ -114,7 +114,7 @@ export function createItemStyles (item, prevStyles) {
   title.excerptFullWidth = isCoverInline || Math.random() > 0.5
   title.excerptHorizontalAlign = ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
 
-  const dropCapSize = Math.floor(Math.random() * 5) + 2
+  const dropCapSize = Math.floor(Math.random() * 3) + 2
 
   return {
     fontClasses: fonts,

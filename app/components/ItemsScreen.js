@@ -14,7 +14,6 @@ import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import LogoSpinnerContainer from '../containers/LogoSpinner.js'
 import SplashScreen from 'react-native-splash-screen'
-import ToolbarsContainer from '../containers/Toolbars.js'
 import { hslString } from '../utils/colors'
 
 class ItemsScreen extends React.Component {
@@ -55,7 +54,6 @@ class ItemsScreen extends React.Component {
           showHideTransition="slide"
           barStyle={ this.props.displayMode === 'saved' ? 'dark-content' : 'light-content' }
           hidden={false} />
-        <ToolbarsContainer navigation={this.props.navigation}/>
         <View style={styles.infoView} />
         <ItemCarouselContainer
           navigation={this.props.navigation}

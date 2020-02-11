@@ -14,6 +14,8 @@ const mapStateToProps = (state, ownProps) => {
     numItems,
     index,
     items,
+    feeds: state.feeds.feeds,
+    feedsLocal: state.feedsLocal.feeds,
     displayMode: state.itemsMeta.display,
     isItemsOnboardingDone: state.config.isItemsOnboardingDone,
     isOnboarding: state.config.isOnboarding
@@ -39,10 +41,10 @@ const mapDispatchToProps = (dispatch) => {
         })
       }
     },
-    setPanAnim: (panAnim, item_id) => dispatch({
-      type: 'SET_PAN_ANIM',
-      panAnim
-    }),
+    // setPanAnim: (panAnim, item_id) => dispatch({
+    //   type: 'SET_PAN_ANIM',
+    //   panAnim
+    // }),
     toggleDisplayMode: (currentDisplayMode) => {
       return dispatch({
         type: 'SET_DISPLAY_MODE',
@@ -50,7 +52,36 @@ const mapDispatchToProps = (dispatch) => {
           'unread' :
           'saved'
       })
-    }
+    },
+    setSaved: (item, isSaved) => {
+      if (item) {
+        isSaved ?
+          dispatch({
+            type: 'ITEM_SAVE_ITEM',
+            item,
+            savedAt: Date.now()
+          }) :
+          dispatch({
+            type: 'ITEM_UNSAVE_ITEM',
+            item
+          })
+      }
+    },
+    share: () => dispatch({
+      type: 'ITEM_SHARE_ITEM',
+      item
+    }),
+    toggleViewButtons: () => dispatch({
+      type: 'UI_TOGGLE_VIEW_BUTTONS'
+    }),
+    toggleMercury: (item) => {
+      if (item) {
+        dispatch({
+          type: 'ITEM_TOGGLE_MERCURY',
+          item
+        })
+      }
+    },
   }
 }
 

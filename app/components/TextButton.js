@@ -67,7 +67,8 @@ class TextButton extends React.Component {
       color: isInverted ? bgColor : fgColor,
       paddingLeft: 20,
       paddingRight: 20,
-      paddingTop: 3
+      paddingTop: isCompact ? 0 : 3,
+      marginTop: isCompact ? -1 : 0
     }
     if (isExpandable) {
       return (
