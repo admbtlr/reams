@@ -59,7 +59,7 @@ class FeedItem extends React.Component {
     setTimerFunction && setTimerFunction(this.startTimer)
     if (isVisible) {
       setScrollAnim(this.scrollAnim)
-      scrollHandlerAttached(item._id)
+      // scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
   }
@@ -101,7 +101,7 @@ class FeedItem extends React.Component {
           if (nextProps.isVisible) {
             this.props.setScrollAnim(this.scrollAnim)
             // and let the buttons know that the scroll handler has changed
-            this.props.scrollHandlerAttached(this.props.item._id)
+            // this.props.scrollHandlerAttached(this.props.item._id)
           }
           // so is this (startTimer() doesn't always get set correctly)
           nextProps.setTimerFunction && nextProps.setTimerFunction(this.startTimer)
@@ -147,7 +147,7 @@ class FeedItem extends React.Component {
     const { isVisible, item, scrollHandlerAttached, setScrollAnim } = this.props
     if (isVisible && !prevProps.isVisible) {
       setScrollAnim(this.scrollAnim)
-      scrollHandlerAttached(item._id)
+      // scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
   }
