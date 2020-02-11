@@ -68,9 +68,10 @@ export function * initBackend (getFirebase, action) {
       yield call(addSavedItemsFS, savedItems)
     }
 
-    yield spawn(savedItemsListener)
+    // TODO: These listeners are causing a huge memory leak
+    // yield spawn(savedItemsListener)
     yield spawn(feedsListener)
-    yield spawn(readItemsListener)
+    // yield spawn(readItemsListener)
   }
 }
 

@@ -160,10 +160,15 @@ body {
   figure, img, video, iframe, pre {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
-    height: auto !important;
+    height: auto;
     margin: .666rem 0;
     border: 0;
   }
+
+  figure, img, video, pre {
+    height: auto !important;
+  }
+
 
   // p figure:last-child,
   //   p img:last-child,
@@ -331,6 +336,7 @@ body {
     font-style: normal;
     padding: 1rem 1rem .5rem;
     margin: 1rem 0;
+    text-align: center;
   }
 
   figure cite {
@@ -350,7 +356,11 @@ body {
 
   .caption:not(figcaption) {
     display: block;
-    margin: -1rem -4vw 1.666rem;
+    margin: -0.666rem -4vw 1.666rem;
+
+    + .caption:not(figcaption) {
+      margin-top: -1.666rem;
+    }
   }
 
   @media (min-width: 600px) {
