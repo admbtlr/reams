@@ -1,10 +1,12 @@
 # To Do
 
+- move scrollAnim out of redux state
+- do something about Firebase listener memory leaks
+- move all firestore operations out of sagas and into backends
 - Feedbin integration
 - Feedly integration
 - why isn't icon color detection working?
 - why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?
-- find memory leak
 - add per feed setting to always open in expanded view
 - better loading indicator
 
@@ -27,6 +29,7 @@
 
 # Done
 
+- ~~find memory leak~~
 - ~~speed up refresh of item carousel~~
 - ~~fix bug with second item never showing its title~~
 - ~~fix bug with items re-rendering and losing your place when getting new items~~
