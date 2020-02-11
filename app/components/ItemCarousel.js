@@ -145,18 +145,18 @@ class ItemCarousel extends React.Component {
       feedsLocal.find(f => f._id === feedId).hasCachedIcon
     const iconDimensions = (feedId) => feedsLocal.find(f => f._id === feedId) &&
       feedsLocal.find(f => f._id === feedId).cachedIconDimensions
-    const feedColor = (feedId) => feeds.find(f => f._id === feedId) &&
-      feeds.find(f => f._id === feedId).color
+    // const feedColor = (feedId) => feeds.find(f => f._id === feedId) &&
+    //   feeds.find(f => f._id === feedId).color
     return items.map(item => ({
       ...item,
       hasCachedIcon: hasCachedIcon(item.feed_id),
       iconDimensions: iconDimensions(item.feed_id),
-      feedColor: feedColor(item.feed_id)
+      // feedColor: feedColor(item.feed_id)
     }))
   }
 
   openFeedModal () {
-    const { navigation } = this.props.navigation
+    const { navigation } = this.props
     const item = this.bufferedItems[this.bufferIndex]
     navigation.push('ModalWithGesture', {
       childView: <FeedExpandedContainer
