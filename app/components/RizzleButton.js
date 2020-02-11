@@ -185,7 +185,7 @@ class RizzleButton extends React.Component {
           onPressOut={this.onPress}
           style={{
             borderRadius: 25,
-            opacity: 0.9,
+            opacity: 0.95,
             backgroundColor: this.getBackgroundColor(),
             shadowColor: 'black',
             shadowOpacity: 0.1,
