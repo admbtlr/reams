@@ -141,16 +141,16 @@ class ItemCarousel extends React.Component {
 
   decorateItems (items) {
     const { feeds, feedsLocal } = this.props
-    const hasCachedIcon = (feedId) => feedsLocal.find(f => f._id === feedId) &&
+    const hasCachedFeedIcon = (feedId) => feedsLocal.find(f => f._id === feedId) &&
       feedsLocal.find(f => f._id === feedId).hasCachedIcon
-    const iconDimensions = (feedId) => feedsLocal.find(f => f._id === feedId) &&
+    const feedIconDimensions = (feedId) => feedsLocal.find(f => f._id === feedId) &&
       feedsLocal.find(f => f._id === feedId).cachedIconDimensions
     // const feedColor = (feedId) => feeds.find(f => f._id === feedId) &&
     //   feeds.find(f => f._id === feedId).color
     return items.map(item => ({
       ...item,
-      hasCachedIcon: hasCachedIcon(item.feed_id),
-      iconDimensions: iconDimensions(item.feed_id),
+      hasCachedFeedIcon: hasCachedFeedIcon(item.feed_id),
+      feedIconDimensions: feedIconDimensions(item.feed_id),
       // feedColor: feedColor(item.feed_id)
     }))
   }
