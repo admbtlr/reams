@@ -1,5 +1,10 @@
 const initialState = {
-  uid: ''
+  displayName: '',
+  email: '',
+  password: '',
+  signInEmail: '',
+  uid: '',
+  username: ''
 }
 
 export function user (state = initialState, action) {
@@ -11,12 +16,14 @@ export function user (state = initialState, action) {
       }
 
     case 'USER_SET_DETAILS':
-      // if (!action.details) return state
-      return {
-        ...state,
-        displayName: action.details && action.details.displayName,
-        email: action.details && action.details.email,
-        uid: action.details && action.details.uid
+      const { details } = action
+      if (!details) {
+        return state
+      } else {
+        return {
+          ...state,
+          ...details
+        }
       }
 
     case 'USER_SET_SIGN_IN_EMAIL':

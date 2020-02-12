@@ -16,15 +16,15 @@ export function feeds (state = initialState, action) {
         feeds: [
           ...cleanedFeeds,
           {
-            ...action.addedFeed,
+            ...action.feed,
             isNew: true
           }
         ]
       }
     case 'FEEDS_ADD_FEEDS_SUCCESS':
-      let newFeeds = action.addedFeeds.filter(addedFeed => {
+      let newFeeds = action.feeds.filter(feed => {
         return !state.feeds
-          .find(feed => feed.url === addedFeed.url || feed._id === addedFeed._id)
+          .find(feed => feed.url === feed.url || feed._id === feed._id)
       }).map(f => ({
         ...f,
         isNew: true

@@ -12,7 +12,14 @@ import {
   listenToSavedItems,
   setUserDetails
 } from '../firestore'
-import { getConfig, getFeeds, getItems, getUid, getUser } from './selectors'
+import {
+  getConfig,
+  getCredentials,
+  getFeeds,
+  getItems,
+  getUid,
+  getUser
+} from './selectors'
 import { setBackend } from '../backends'
 import { receiveItems } from './fetch-items'
 import { clearReadItems } from './mark-read'
@@ -42,6 +49,9 @@ export function * initBackend (getFirebase, action) {
       getFirebase,
       uid
     }
+  } else if (backend === 'feedbin') {
+    const { username, password } = yield select(getUser)
+    backendConfig = { username, password }
   }
 
   setBackend(backend, backendConfig)
@@ -70,7 +80,7 @@ export function * initBackend (getFirebase, action) {
 
     // TODO: These listeners are causing a huge memory leak
     // yield spawn(savedItemsListener)
-    yield spawn(feedsListener)
+    // yield spawn(feedsListener)
     // yield spawn(readItemsListener)
   }
 }

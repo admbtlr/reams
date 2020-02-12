@@ -3,6 +3,7 @@
 - move scrollAnim out of redux state
 - do something about Firebase listener memory leaks
 - move all firestore operations out of sagas and into backends
+    + ~~feeds~~
 - Feedbin integration
 - Feedly integration
 - why isn't icon color detection working?

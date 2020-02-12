@@ -51,15 +51,17 @@ export function getMercuryUrl (item) {
 }
 
 // old items are (fetched items + read items)
-export async function fetchItems (callback, type, lastUpdated, oldItems, currentItem, feeds) {
+export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) {
 
   // { readItems, newItems }
   let items
 
   if (backend === 'rizzle') {
-    items = await rizzle.fetchItems(callback, type, lastUpdated, oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD)
+    items = await rizzle.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
   } else if (backend === 'feedwrangler') {
-    items = await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD)
+    items = await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
+  } else if (backend === 'feedbin') {
+    items = await feedbin.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
   }
 
   console.log('fetchItemsBackends has ended')
@@ -144,12 +146,32 @@ export async function unsaveItem (item, folder) {
 //   }
 // }
 
-export function addFeed (url) {
+export function addFeed (feed) {
   switch (backend) {
     case 'rizzle':
-      return
+      return rizzle.addFeed(feed)
     case 'feedwrangler':
-      return feedwrangler.addFeed(url)
+      return feedwrangler.addFeed(feed)
+    case 'feedbin':
+      return feedbin.addFeed(feed)
+  }
+}
+
+export function updateFeed (feed) {
+  switch (backend) {
+    case 'rizzle':
+      return rizzle.updateFeed(feed)
+  }
+}
+
+export function removeFeed (feed) {
+  switch (backend) {
+    case 'rizzle':
+      return rizzle.removeFeed(feed)
+    case 'feedwrangler':
+      return feedwrangler.removeFeed(feed)
+    case 'feedbin':
+      return feedbin.removeFeed(feed)
   }
 }
 
