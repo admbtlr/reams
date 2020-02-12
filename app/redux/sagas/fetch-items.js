@@ -72,10 +72,9 @@ export function * fetchItems (type = 'unread') {
   })
 
   const oldItems = yield select(getItems, type)
-  const currentItem = yield select(getCurrentItem, type)
   const lastUpdated = yield select(getLastUpdated, type)
 
-  const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, currentItem, feeds)
+  const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feeds)
 
   let isFirstBatch = true
   let didError = false
@@ -125,10 +124,10 @@ function * receiveAndProcessItems (items, type, isFirstBatch, i) {
   }
 }
 
-function fetchItemsChannel (type, lastUpdated, oldItems, currentItem, feeds) {
+function fetchItemsChannel (type, lastUpdated, oldItems, feeds) {
   const logger = log
   return eventChannel(emitter => {
-    fetchItemsBackends(emitter, type, lastUpdated, oldItems, currentItem, feeds)
+    fetchItemsBackends(emitter, type, lastUpdated, oldItems, feeds)
       .then(() => {
         emitter(END)
       })
@@ -246,6 +245,10 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
   let feed
   let newOrUpdatedFeeds = []
   items.forEach(item => {
+    // note that we have to look at feed.id AND feed._id
+    // this is for feeds that have been migrated from an external provider
+    // to rizzle, whereby feed.id is the exernal provider's id, and
+    // feed._id is rizzle's id
     feed = feeds.find(feed => feed.id === item.feed_id ||
       feed._id === item.feed_id ||
       feed.title === item.feed_title)
@@ -258,7 +261,7 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
     if (!feed.id || !feed.title || !feed.color) {
       feed.id = item.feed_id
       feed.title = item.feed_title
-      feed.color = getFeedColor(feeds)
+      feed.color = getFeedColor()
     }
 
     item.feed_id = feed._id

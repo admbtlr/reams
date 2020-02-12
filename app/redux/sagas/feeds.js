@@ -1,10 +1,9 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
-import { addFeed, getFeedDetails } from '../backends'
+import { addFeed, getFeedDetails, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../../utils/'
 import { hexToHsl, rgbToHsl } from '../../utils/colors'
 import feeds from '../../utils/seedfeeds.js'
-import { addFeedToFirestore, getFeedsFS, removeFeedFromFirestore, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
@@ -15,30 +14,26 @@ function * prepareAndAddFeed (feed) {
   const feeds = yield select(getFeeds)
   if (feeds.find(f => (f.url && f.url === feed.url) ||
     (f._id && f._id === feed._id))) return
-  yield addFeed(feed.url)
-  console.log(`Added feed: ${feed.title}`)
   feed._id = feed._id || id()
-  feed.color = getFeedColor(feeds)
+  feed.color = getFeedColor()
+  yield addFeed(feed)
   return feed
 }
 
 export function * subscribeToFeed (action) {
-  let {feed} = action
-  const addedFeed = yield prepareAndAddFeed(feed)
-  if (!addedFeed) return
-
-  // no need to wait until this has completed...
-  addFeedToFirestore(addedFeed)
-
-  yield put ({
-    type: 'FEEDS_ADD_FEED_SUCCESS',
-    addedFeed
-  })
+  const feed = yield prepareAndAddFeed(action.feed)
+  if (feed) {
+    console.log(`Added feed: ${feed.title}`)
+    yield put ({
+      type: 'FEEDS_ADD_FEED_SUCCESS',
+      feed
+    })
+  }
 }
 
 export function * unsubscribeFromFeed (action) {
   // no need to wait until this has completed...
-  removeFeedFromFirestore(action)
+  removeFeed(action.feed)
 }
 
 export function * markFeedRead (action) {
@@ -71,21 +66,6 @@ export function * markFeedRead (action) {
   }
 }
 
-export function * syncFeeds () {
-  const feeds = yield select(getFeeds)
-  const dbFeeds = yield getFeedsFS()
-  dbFeeds.forEach(dbFeed => {
-    if (!feeds.find(feed => feed._id === dbFeed._id ||
-      feed.url === dbFeed.url)) {
-      feeds.push(dbFeed)
-    }
-  })
-  yield put ({
-    type: 'FEEDS_UPDATE_FEEDS',
-    feeds
-  })
-}
-
 export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
@@ -103,7 +83,7 @@ export function * inflateFeeds () {
       type: 'FEEDS_UPDATE_FEED',
       feed: inflatedFeed
     })
-    upsertFeedsFS([inflatedFeed])
+    updateFeed(inflatedFeed)
   }
   yield cacheFeedFavicons()
 }
@@ -193,18 +173,14 @@ function downloadFeedFavicon (feed) {
 }
 
 export function * subscribeToFeeds (action) {
-  let {feeds} = action
-  let addedFeeds = []
-  for (var i = 0; i < feeds.length; i++) {
+  let feeds = []
+  for (var i = 0; i < action.feeds.length; i++) {
     let f = yield prepareAndAddFeed(feeds[i])
-    if (f) addedFeeds.push(f)
+    if (f) feeds.push(f)
   }
-
-  upsertFeedsFS(addedFeeds)
-
   yield put({
     type: 'FEEDS_ADD_FEEDS_SUCCESS',
-    addedFeeds
+    feeds
   })
 }
 

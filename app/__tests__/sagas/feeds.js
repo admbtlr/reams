@@ -44,7 +44,7 @@ describe('subscribeToFeed', () => {
     expect(dispatched).toEqual([
       {
         type: 'FEEDS_ADD_FEED_SUCCESS',
-        addedFeed: feed_3
+        feed: feed_3
       }
     ])
 

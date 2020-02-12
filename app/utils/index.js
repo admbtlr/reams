@@ -206,7 +206,7 @@ function hashFnv32a(str, asString, seed) {
 }
 
 
-export function getFeedColor (feeds) {
+export function getFeedColor () {
   // const { desaturated } = require('./colors.json')
   // const colorNames = Object.keys(desaturated)
   // const taken = feeds.length < 12 ?
