@@ -14,13 +14,13 @@ export const authenticate = (username, password) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw Error(response.statusText)
+        if (response.status === 401) {
+          return 'unauthorized'
+        } else {
+          return 'unknown error'
+        }
       }
-      return response
-    })
-    .then((response) => response.json())
-    .then(json => {
-      console.log(json)
+      return 'success'
     })
 }
 

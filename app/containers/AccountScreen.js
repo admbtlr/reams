@@ -14,10 +14,13 @@ const mapDispatchToProps = (dispatch) => {
       type: 'UI_SHOW_MODAL',
       modalProps
     }),
-    setBackend: (backend, accessToken) => dispatch({
+    setBackend: (backend, credentials) => dispatch({
       type: 'CONFIG_SET_BACKEND',
       backend,
-      accessToken
+      credentials
+    }),
+    unsetBackend: () => dispatch({
+      type: 'CONFIG_UNSET_BACKEND'
     }),
     setSignInEmail: (email) => dispatch({
       type: 'USER_SET_SIGN_IN_EMAIL',

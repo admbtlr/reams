@@ -17,14 +17,18 @@ const initialState = {
 export function config (state = initialState, action) {
   switch (action.type) {
     case 'CONFIG_SET_BACKEND':
-    const {
-      accessToken,
-      backend
-    } = action
+      const {
+        backend
+      } = action
       return {
         ...state,
-        accessToken,
         backend
+      }
+
+    case 'CONFIG_UNSET_BACKEND':
+      return {
+        ...state,
+        backend: ''
       }
 
     case 'CONFIG_UPDATE_ONBOARDING_INDEX':

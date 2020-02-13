@@ -130,13 +130,16 @@ class FeedsScreen extends React.Component {
         {})
 
     return (
-      <View style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: hslString('rizzleBG')
-        // marginTop: margin
-      }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: hslString('rizzleBG')
+          // marginTop: margin
+        }}
+        testID='feeds-screen'
+      >
         <StatusBar
           animated={true}
           barStyle="dark-content"

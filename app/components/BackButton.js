@@ -9,8 +9,8 @@ import {hslString} from '../utils/colors'
 export default function BackButton({ isLight, onPress, style }) {
   return (
     <View style={{
-      position: 'relative',
-      top: -11,
+      position: 'absolute',
+      top: 22,
       paddingRight: 10,
       ...style
     }}>

@@ -1,10 +1,11 @@
 # To Do
 
-- move scrollAnim out of redux state
+- Feedbin integration
 - do something about Firebase listener memory leaks
 - move all firestore operations out of sagas and into backends
     + ~~feeds~~
-- Feedbin integration
+- upgrade to react-navigation 5.0
+    + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - Feedly integration
 - why isn't icon color detection working?
 - why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?
@@ -21,6 +22,8 @@
 - text highlights
     + https://github.com/react-native-community/react-native-webview/issues/607
 - placeholder images (use letters?)
+- in-app purchases for subscriptions
+    + https://medium.com/@rossbulat/react-native-subscriptions-with-in-app-purchases-setup-fdaf3863e07f
 - Use https://github.com/DylanVann/react-native-fast-image to show cached images
 - scroll effects
 - make buttons use reanimate
@@ -30,6 +33,7 @@
 
 # Done
 
+- ~~move scrollAnim out of redux state~~
 - ~~find memory leak~~
 - ~~speed up refresh of item carousel~~
 - ~~fix bug with second item never showing its title~~

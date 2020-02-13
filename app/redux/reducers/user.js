@@ -2,6 +2,7 @@ const initialState = {
   displayName: '',
   email: '',
   password: '',
+  accessToken: '',
   signInEmail: '',
   uid: '',
   username: ''
@@ -25,6 +26,18 @@ export function user (state = initialState, action) {
           ...details
         }
       }
+
+    case 'CONFIG_SET_BACKEND':
+      const {
+        credentials
+      } = action
+      return {
+        ...state,
+        ...credentials
+      }
+
+    case 'CONFIG_UNSET_BACKEND':
+      return initialState
 
     case 'USER_SET_SIGN_IN_EMAIL':
       return {

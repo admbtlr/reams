@@ -90,12 +90,15 @@ class Onboarding extends React.Component {
     }
 
     return (
-      <Animated.View style={{
-        // backgroundColor: bgColor,
-        flex: 1,
-        overflow: 'hidden',
-        width: Dimensions.get('window').width
-      }}>
+      <Animated.View
+        style={{
+          // backgroundColor: bgColor,
+          flex: 1,
+          overflow: 'hidden',
+          width: Dimensions.get('window').width
+        }}
+        testID={`onboarding-${index}`}
+      >
         <WebView
           decelerationRate='normal'
           onMessage={(event) => {
@@ -124,6 +127,7 @@ class Onboarding extends React.Component {
               position: 'absolute',
               alignSelf: 'center'
             }}
+            testID='super-simple-set-up-button'
           />
         }
       </Animated.View>

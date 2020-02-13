@@ -34,7 +34,7 @@
     "react": "16.8.6",
     "react-devtools": "^3.4.2",
     "react-native": "^0.60.6",
-    "react-native-animated-ellipsis": "^1.1.0",
+    "react-native-animated-ellipsis": "git://github.com/adamvert/react-native-animated-ellipsis",
     "react-native-blur": "^3.1.2",
     "react-native-dark-mode": "^0.2.0",
     "react-native-dash": "0.0.8",
@@ -92,6 +92,7 @@
     "babel-plugin-transform-async-generator-functions": "^6.24.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "browser-sync": "^2.26.7",
+    "detox": "^15.2.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-json-sass": "git://github.com/adamvert/gulp-json-sass",
@@ -118,5 +119,18 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|gl-react-native|redux-persist-filesystem-storage)"
     ]
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/rizzle.app",
+        "build": "xcodebuild -workspace ios/rizzle.xcworkspace -scheme rizzle -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11"
+        }
+      }
+    },
+    "test-runner": "jest"
   }
 }
