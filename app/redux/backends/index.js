@@ -188,7 +188,7 @@ export function authenticate ({username, password, email}, backend) {
     case 'rizzle':
       return
     case 'feedbin':
-      return
+      return feedbin.authenticate(username, password)
     case 'feedwrangler':
       return feedwrangler.authenticate(username, password)
   }

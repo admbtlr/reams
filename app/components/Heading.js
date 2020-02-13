@@ -34,9 +34,9 @@ export default Heading = ({title, isBigger, isWhite, showClose, onClose, showBac
         lineHeight: isBigger ? 50 : 36,
         marginBottom: isBigger ? 30 : 6,
         paddingTop: 18,
-        textAlign: isBigger ? 'center' : 'left',
+        textAlign: 'center',
         color,
-        flex: isBigger ? 1 : 0
+        flex: 1
       }}>{title}</Text>
       {showClose && <XButton
         onPress={onClose}
