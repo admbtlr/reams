@@ -55,6 +55,7 @@ class TopBar extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return this.props.item._id !== nextProps.item._id ||
+      this.props.item.feed_title !== nextProps.feed_title ||
       this.props.opacityAnim !== nextProps.opacityAnim
   }
 
