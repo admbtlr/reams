@@ -138,7 +138,7 @@ function TopBars ({
   const topBars = items.map((item, i) => (
     <TopBarContainer
       clampedAnimatedValue={clampedAnimatedValue}
-      index={index + i - 1}
+      index={index > 0 ? index + i - 1 : index + i}
       isVisible={i === bufferIndex}
       item={item}
       key={item ? item._id : i}
