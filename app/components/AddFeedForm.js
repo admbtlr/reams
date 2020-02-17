@@ -7,7 +7,9 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native'
-import { formElementStyles } from './AccountCredentialsForm'
+import {
+  textInputStyle
+} from '../utils/styles'
 
 const AddFeedForm = ({}) => {
   const width = Dimensions.get('window').width
@@ -18,7 +20,7 @@ const AddFeedForm = ({}) => {
     padding: margin
     }}>
       <TextInput
-        style={formElementStyles.textInputStyle}
+        style={textInputStyle()}
       />
     </View>)
 }
