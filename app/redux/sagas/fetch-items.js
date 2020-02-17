@@ -258,15 +258,23 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
       }
       feeds.push(feed)
     }
-    if (!feed.id || !feed.title || !feed.color) {
+    if (!feed.id) {
+      debugger
       feed.id = item.feed_id
+    }
+    if (!feed.title && item.feed_title) {
+      debugger
       feed.title = item.feed_title
+    }
+    if (!feed.color) {
+      debugger
       feed.color = getFeedColor()
     }
 
     item.feed_id = feed._id
     item.feed_color = feed.color
     item._id = item._id || id(item)
+    item.feed_title = feed.title
   })
   return { feeds, items }
 }

@@ -27,12 +27,15 @@ class GoogleAuth extends React.Component {
         // Login with the credential
         return auth().signInWithCredential(credential)
       })
-      .then((user) => {
+      .then((details) => {
         // If you need to do anything with the user, do it here
         // The user will be logged in automatically by the
         // `onAuthStateChanged` listener we set up in App.js earlier
-        console.log(user)
-        this.props.setBackend('rizzle', user)
+        console.log(details.user._user)
+        this.props.setBackend('rizzle', {
+          uid: details.user.uid,
+          email: details.user.email
+        })
       })
       .catch((error) => {
         const { code, message } = error

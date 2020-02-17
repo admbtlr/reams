@@ -7,9 +7,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setBackend: (backend) => dispatch({
+    setBackend: (backend, credentials) => dispatch({
       type: 'CONFIG_SET_BACKEND',
-      backend
+      backend,
+      credentials
     })
   }
 }

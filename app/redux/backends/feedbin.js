@@ -1,3 +1,7 @@
+import {decode, encode} from 'base-64'
+import { getItemsByIds } from './utils'
+import { getFeedColor, id } from '../../utils'
+
 let credentials = {}
 
 export function init ({ username, password }) {
@@ -6,7 +10,7 @@ export function init ({ username, password }) {
 
 export const authenticate = (username, password) => {
   let url = 'https://api.feedbin.com/v2/authentication.json'
-  const encoded = btoa(`${username}:${password}`)
+  const encoded = encode(`${username}:${password}`)
   return fetch(url, {
     headers: {
       Authorization: `Basic ${encoded}`
@@ -28,8 +32,14 @@ function getUrl (endpoint) {
   return 'https://api.feedbin.com/v2/' + endpoint
 }
 
+function getFetchConfig () {
+  return {
+    headers: getBasicAuthHeader()
+  }
+}
+
 function getBasicAuthHeader () {
-  const encoded = btoa(`${credentials.username}:${credentials.password}`)
+  const encoded = encode(`${credentials.username}:${credentials.password}`)
   return {
     Authorization: `Basic ${encoded}`
   }
@@ -62,8 +72,8 @@ function doRequest (url, options) {
       if (!response.ok) {
         throw Error(response.statusText)
       }
+      return response.json()
     })
-    .then((response) => response.json())
 }
 
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds, maxNum) {
@@ -77,9 +87,9 @@ async function fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum)
   let itemIds = await getRequest(endpoint)
   const oldItemIds = oldItems.map(oi => oi.id)
   const newIds = itemIds.filter(id => !oldItemIds.includes(id))
-  const url = getUrl()
   if (newIds.length > 0) {
-    await getItemsByIds(newIds, url, mapFeedbinItemToRizzleItem, callback)
+    const url = getUrl('entries.json?ids=')
+    await getItemsByIds(newIds, url, mapFeedbinItemToRizzleItem, callback, getFetchConfig())
   }
 }
 
@@ -95,17 +105,21 @@ export const unsaveItem = (item, folder) => {
 }
 
 export async function fetchFeeds (oldFeeds) {
-  const feeds = await getRequest('subscriptions.json')
-  const oldFeedIds = oldFeeds.map(of => of.id)
-  const newFeeds = feeds.filter(f => !oldFeedIds.includes(f.id))
+  let feeds = await getRequest('subscriptions.json')
+  if (oldFeeds) {
+    const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.id) : []
+    feeds = feeds.filter(f => !oldFeedIds.includes(f.feed_id))
+  }
+  feeds = feeds
     .map(feed => ({
       _id: id(),
-      id: feed.id,
+      id: feed.feed_id,
       title: feed.title,
       url: feed.feed_url,
-      link: feed.site_url
+      link: feed.site_url,
+      color: getFeedColor()
     }))
-  return newFeeds
+  return feeds
 }
 
 // returns the id

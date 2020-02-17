@@ -10,6 +10,14 @@ import { sendEmailLink } from '../redux/backends/rizzle'
 import { authenticate } from '../redux/backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier } from '../utils'
+import {
+  textInputStyle,
+  textLabelStyle,
+  textButtonStyle,
+  textInfoStyle,
+  textInfoBoldStyle,
+  textInfoItalicStyle
+} from '../utils/styles'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -24,27 +32,6 @@ const baseStyles = {
 }
 
 export const formElementStyles = {
-  textInputStyle: {
-    ...baseStyles,
-    // padding: 8,
-    fontSize: 20 * fontSizeMultiplier(),
-    borderBottomColor: hslString('rizzleText'),
-    borderBottomWidth: 1
-  },
-  textValueStyle: {
-    ...baseStyles,
-    fontSize: 12 * fontSizeMultiplier()
-  },
-  textLabelStyle: {
-    ...baseStyles,
-    fontSize: 12 * fontSizeMultiplier(),
-    marginTop: 3
-  },
-  textButtonStyle: {
-    ...baseStyles,
-    fontSize: 16 * fontSizeMultiplier(),
-    textDecorationLine: 'underline'
-  },
   textInfoStyle: {
     ...baseStyles,
     fontFamily: 'IBMPlexSans',
@@ -141,7 +128,8 @@ class AccountCredentialsForm extends React.Component {
   }
 
   render = () => {
-    const { isActive, service } = this.props
+    const { isActive, service, unsetBackend, user } = this.props
+    const { isErrored, isAuthenticated } = this.state
     const width = Dimensions.get('window').width
     const initialValues = this.props.service === 'rizzle' ?
       {
@@ -151,7 +139,7 @@ class AccountCredentialsForm extends React.Component {
         username: this.state.username,
         password: this.state.password
       }
-    const validationSchemaShape = this.props.service === 'rizzle' ?
+    const validationSchemaShape = service === 'rizzle' ?
       Yup.object().shape({
         email: Yup.string().trim().email('That doesn’t look like a valid email...').required('Required')
       }) :
@@ -159,8 +147,6 @@ class AccountCredentialsForm extends React.Component {
         username: Yup.string().required('Required'),
         password: Yup.string().required('Required')
       })
-    const user = this.props.user
-    const { isErrored, isAuthenticated } = this.state
     return (
       <Formik
         enableReinitialize={true}
@@ -181,44 +167,54 @@ class AccountCredentialsForm extends React.Component {
           <View style={{
             flex: 1
           }}>
-            { service === 'rizzle' ?
-              <RizzleAuth
-                backend={this.props.backend}
-                errors={errors}
-                handleChange={handleChange}
-                handleReset={handleReset}
-                handleSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-                isValid={isValid}
-                submitCount={submitCount}
-                values={values}
-                user={user}
-              /> :
-              ( isActive ?
-                <View style={{
-                  paddingTop: 16,
-                  paddingLeft: 16,
-                  paddingRight: 16,
-                  paddingBottom: 16,
-                  marginTop: 16,
-                  flex: 1,
-                  flexDirection: 'column',
-                  justifyContent: 'space-between'
-                }}>
-                  <Text
-                    style={{
-                      ...formElementStyles.textInfoStyle,
-                      color: hslString('white'),
-                      marginTop: 0,
-                      textAlign: 'center'
-                    }}>You are using {service[0].toUpperCase() + service.slice(1)}.</Text>
-                  <Button
-                    color={hslString('white')}
-                    title={`Stop using ${service[0].toUpperCase() + service.slice(1)}`}
-                    onPress={this.props.unsetBackend}
-                    testID={`${service}-logout-button`}
-                  />
-                </View> :
+            { isActive ?
+              <View style={{
+                // backgroundColor: hslString('logo1'),
+                paddingTop: 16,
+                paddingLeft: 16,
+                paddingRight: 16,
+                paddingBottom: 16,
+                marginTop: 16,
+                flex: 1,
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <Text
+                  style={{
+                    ...textInfoItalicStyle('white'),
+                    marginTop: 0,
+                    textAlign: 'center'
+                  }}>You are using {service[0].toUpperCase() + service.slice(1)}.</Text>
+                <Text style={textInfoStyle('white')}>
+                  <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}</Text>
+                <TouchableOpacity
+                  accessibilityLabel={`Stop using ${service[0].toUpperCase() + service.slice(1)}`}
+                  color={hslString('white')}
+                  onPress={() => {
+                    unsetBackend()
+                  }}
+                  testID={`${service}-logout-button`}
+                >
+                  <Text style={{
+                    ...textInfoStyle('white'),
+                    textDecorationLine: 'underline'
+                  }}>Stop using {service[0].toUpperCase() + service.slice(1)}</Text>
+                </TouchableOpacity>
+              </View> :
+              ( service === 'rizzle' ?
+                <RizzleAuth
+                  backend={this.props.backend}
+                  errors={errors}
+                  handleChange={handleChange}
+                  handleReset={handleReset}
+                  handleSubmit={handleSubmit}
+                  isSubmitting={isSubmitting}
+                  isValid={isValid}
+                  submitCount={submitCount}
+                  values={values}
+                  user={user}
+                /> :
                 <View style={{
                   paddingTop: 16,
                   paddingLeft: 16,
@@ -227,12 +223,13 @@ class AccountCredentialsForm extends React.Component {
                 }}>
                   <TextInput
                     autoCapitalize='none'
+                    keyboardType='email-address'
                     onChangeText={handleChange('username')}
-                    style={formElementStyles.textInputStyle}
+                    style={textInputStyle()}
                     testID={`${service}-username-text-input`}
                     value={values.username}
                   />
-                  <Text style={formElementStyles.textLabelStyle}>User name</Text>
+                  <Text style={textLabelStyle()}>User name</Text>
                   <View style={{
                     position: 'relative',
                     height: 48
@@ -241,7 +238,7 @@ class AccountCredentialsForm extends React.Component {
                       onChangeText={handleChange('password')}
                       secureTextEntry={true}
                       style={{
-                        ...formElementStyles.textInputStyle,
+                        ...textInputStyle(),
                         marginTop: 24
                       }}
                       testID={`${service}-password-text-input`}
@@ -259,10 +256,10 @@ class AccountCredentialsForm extends React.Component {
                       </View>
                     }
                   </View>
-                  <Text style={formElementStyles.textLabelStyle}>Password</Text>
+                  <Text style={textLabelStyle()}>Password</Text>
                   { isSubmitting ?
                     <Text style={{
-                      ...formElementStyles.textLabelStyle,
+                      ...textLabelStyle(),
                       marginTop: 6,
                       textAlign: 'center'
                     }}>Submitting...</Text> :
@@ -281,7 +278,7 @@ class AccountCredentialsForm extends React.Component {
                       marginRight: -16
                     }}>
                       <Text style={{
-                        ...formElementStyles.textLabelStyle,
+                        ...textLabelStyle(),
                         color: hslString('white'),
                         textAlign: 'center'
                       }}>{ errors.submit }</Text>

@@ -24,15 +24,35 @@ class TextButton extends React.Component {
     this.expand = this.expand.bind(this)
   }
 
+  componentDidUpdate () {
+    if (this.props.isExpanded !== this.state.isExpanded) {
+      this.setState({
+        isExpanded: this.props.isExpanded
+      })
+    }
+  }
+
   expand () {
     this.setState({
       ...this.state,
       isExpanded: !this.state.isExpanded
     })
+    this.props.onExpand && this.props.onExpand()
   }
 
   render () {
-    const { icon, isActive, isExpandable, isInverted, isCompact, noResize, onPress, testID, text } = this.props
+    const {
+      icon,
+      isActive,
+      isExpandable,
+      isInverted,
+      isCompact,
+      noResize,
+      onExpand,
+      onPress,
+      testID,
+      text
+    } = this.props
     const { isExpanded } = this.state
     const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || hslString('buttonBG')

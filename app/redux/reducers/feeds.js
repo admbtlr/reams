@@ -22,19 +22,23 @@ export function feeds (state = initialState, action) {
         ]
       }
     case 'FEEDS_ADD_FEEDS_SUCCESS':
-      let newFeeds = action.feeds.filter(feed => {
-        return !state.feeds
-          .find(feed => feed.url === feed.url || feed._id === feed._id)
-      }).map(f => ({
-        ...f,
-        isNew: true
-      }))
+      let newFeeds = action.feeds.filter(f => !state.feeds
+          .find(feed => feed.url === f.url || feed._id === f._id))
+        .map(f => ({
+          ...f,
+          isNew: true
+        }))
       return {
         ...state,
         feeds: [
           ...state.feeds,
           ...newFeeds
         ]
+      }
+    case 'FEEDS_REFRESH_FEED_LIST':
+      return {
+        ...state,
+        feeds: action.feeds
       }
     case 'FEEDS_ADD_FEED':
       console.log(action)
@@ -66,6 +70,9 @@ export function feeds (state = initialState, action) {
           } :
           feed)
       }
+
+    case 'CONFIG_UNSET_BACKEND':
+      return initialState
 
     case 'ITEM_ADD_READING_TIME':
       feeds = [ ...state.feeds ]
