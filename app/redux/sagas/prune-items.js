@@ -2,7 +2,7 @@ import { InteractionManager } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
 import { deleteItemsAS } from '../async-storage'
 
-import { getItems, getConfig, getSavedItems } from './selectors'
+import { getItems, getConfig, getSavedItems, getUnreadItems } from './selectors'
 
 import log from '../../utils/log'
 import { removeCachedCoverImages } from '../../utils/item-utils'
@@ -29,13 +29,31 @@ export function * pruneItems (action) {
     }))
   })
   yield call(InteractionManager.runAfterInteractions)
+  removeItems({ items: toPrune })
+}
+
+export function * removeItems (action) {
+  const items = action.items
+  yield call(InteractionManager.runAfterInteractions)
   const savedItems = yield select(getSavedItems)
-  const itemsToClear = toPrune
+  const itemsToClear = items
     .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
+  yield * doRemoveItems(itemsToClear)
+}
+
+export function * removeAllItems () {
+  yield call(InteractionManager.runAfterInteractions)
+  const savedItems = yield select(getSavedItems)
+  const unreadItems = yield select(getUnreadItems)
+  const itemsToClear = savedItems.concat(unreadItems)
+  yield * doRemoveItems(itemsToClear)
+}
+
+function * doRemoveItems (items) {
   try {
-    yield call(deleteItemsAS, itemsToClear)
+    yield call(deleteItemsAS, items)
   } catch(err) {
     log('deleteItemsAS', err)
   }
-  removeCachedCoverImages(itemsToClear)
+  removeCachedCoverImages(items)
 }

@@ -8,6 +8,7 @@ import {
   getSavedItemsFS,
   removeSavedItemFS,
   addFeedFS,
+  getFeedsFS,
   upsertFeedsFS,
   removeFeedFS,
   setDb,
@@ -167,7 +168,7 @@ export async function removeFeed (feed) {
 }
 
 export async function fetchFeeds () {
-
+  return getFeedsFS()
 }
 
 export const markFeedRead = (feed, olderThan, items) => {

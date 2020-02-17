@@ -1,6 +1,7 @@
 # To Do
 
-- Feedbin integration
+- why don't items updated their feed color?
+- where's my feed title gone?
 - do something about Firebase listener memory leaks
 - move all firestore operations out of sagas and into backends
     + ~~feeds~~
@@ -33,6 +34,9 @@
 
 # Done
 
+- ~~Feedbin integration~~
+- ~~have I broken the rizzle backend?~~
+- ~~why isn't the userid getting set when I log into rizzle?~~
 - ~~move scrollAnim out of redux state~~
 - ~~find memory leak~~
 - ~~speed up refresh of item carousel~~

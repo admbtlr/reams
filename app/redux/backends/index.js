@@ -146,6 +146,17 @@ export async function unsaveItem (item, folder) {
 //   }
 // }
 
+export function fetchFeeds () {
+  switch (backend) {
+    case 'rizzle':
+      return rizzle.fetchFeeds()
+    case 'feedwrangler':
+      return feedwrangler.fetchFeeds()
+    case 'feedbin':
+      return feedbin.fetchFeeds()
+  }
+}
+
 export function addFeed (feed) {
   switch (backend) {
     case 'rizzle':

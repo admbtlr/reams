@@ -230,6 +230,16 @@ export const itemsUnread = (state = initialState, action) => {
         items: state.items.filter(i => i.feed_id !== action.id)
       }
 
+    case 'ITEMS_REMOVE_ITEMS':
+      const itemIds = action.items.map(f => f._id)
+      return {
+        ...state,
+        items: state.items.filter(i => !items.includes(i._id))
+      }
+
+    case 'CONFIG_UNSET_BACKEND':
+      return initialState
+
     case 'FEEDS_UPDATE_FEED':
       const feed = action.feed
       return {

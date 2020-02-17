@@ -1,13 +1,13 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
-import { addFeed, getFeedDetails, removeFeed, updateFeed } from '../backends'
+import { addFeed, fetchFeeds, getFeedDetails, hasBackend, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../../utils/'
 import { hexToHsl, rgbToHsl } from '../../utils/colors'
 import feeds from '../../utils/seedfeeds.js'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
-import { getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
+import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
 import log from '../../utils/log'
 
 function * prepareAndAddFeed (feed) {
@@ -34,6 +34,40 @@ export function * subscribeToFeed (action) {
 export function * unsubscribeFromFeed (action) {
   // no need to wait until this has completed...
   removeFeed(action.feed)
+}
+
+export function * fetchAllFeeds () {
+  const config = yield select(getConfig)
+  if (!config.isOnline || !hasBackend()) return
+
+  let oldFeeds = yield select(getFeeds) || []
+  let newFeeds = yield fetchFeeds()
+  let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => nf.id === of.id || nf.url === of.url))
+  if (toRemove) {
+    oldFeeds = oldFeeds.filter(of => !toRemove.includes(of))
+  }
+  newFeeds = newFeeds.filter(f => !oldFeeds
+      .find(feed => feed.url === f.url || feed.id === f.id || feed._id === f._id))
+    .map(f => ({
+      ...f,
+      isNew: true
+    }))
+  const feeds = oldFeeds.concat(newFeeds)
+
+  yield put({
+    type: 'FEEDS_REFRESH_FEED_LIST',
+    feeds
+  })
+
+  if (toRemove && toRemove.length) {
+    const items = yield select(getUnreadItems)
+    const dirtyFeedIds = toRemove.map(f => f._id)
+    const dirtyItems = items.filter(i => dirtyFeedIds.includes(i.feed_id))
+    yield put({
+      type: 'ITEMS_REMOVE_ITEMS',
+      items: dirtyItems
+    })
+  }
 }
 
 export function * markFeedRead (action) {
@@ -67,9 +101,12 @@ export function * markFeedRead (action) {
 }
 
 export function * inflateFeeds () {
-  const feeds = yield select(getFeeds)
-  for (let feed of feeds) {
+  let feeds
+  while (true) {
     yield delay((typeof __TEST__ === 'undefined') ? 500 : 10)
+    feeds = yield select(getFeeds)
+    if (feeds.filter(f => f.isNew).length === 0) break
+    let feed = feeds.filter(f => f.isNew)[0]
     if (feed.inflatedDate && Date.now() - feed.inflatedDate < 1000 * 60 * 60 * 24 * 7) continue
     let details = yield call(getFeedDetails, feed)
     details = convertColorIfNecessary(details)

@@ -101,6 +101,9 @@ export function feedsLocal (state = initialState, action) {
         }))
       }
 
+    case 'CONFIG_UNSET_BACKEND':
+      return initialState
+
     default:
       return state
 
