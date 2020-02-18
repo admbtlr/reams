@@ -830,7 +830,8 @@ class ItemTitle extends React.Component {
         marginTop: 10,
         width: 66,
         height: 16,
-        backgroundColor: this.getForegroundColor()
+        backgroundColor: this.getForegroundColor(),
+        borderRadius: 3
       }} />
     </Animated.View>
   }
