@@ -101,12 +101,9 @@ export function * markFeedRead (action) {
 }
 
 export function * inflateFeeds () {
-  let feeds
-  while (true) {
+  const feeds = yield select(getFeeds)
+  for (let feed of feeds) {
     yield delay((typeof __TEST__ === 'undefined') ? 500 : 10)
-    feeds = yield select(getFeeds)
-    if (feeds.filter(f => f.isNew).length === 0) break
-    let feed = feeds.filter(f => f.isNew)[0]
     if (feed.inflatedDate && Date.now() - feed.inflatedDate < 1000 * 60 * 60 * 24 * 7) continue
     let details = yield call(getFeedDetails, feed)
     details = convertColorIfNecessary(details)
