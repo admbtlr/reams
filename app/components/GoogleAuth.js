@@ -94,7 +94,7 @@ class GoogleAuth extends React.Component {
               }}
             />
             <Text style={{
-              ...textButtonStyle,
+              ...textButtonStyle(),
               color: '#B61C2D'
             }}>Sign in with Google</Text>
           </View>

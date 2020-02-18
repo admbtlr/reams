@@ -1,4 +1,4 @@
-import { call, cancelled, fork, put, select, take } from 'redux-saga/effects'
+import { call, cancelled, delay, fork, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import { InteractionManager } from 'react-native'
 
@@ -243,8 +243,12 @@ function incrementFeedUnreadCounts (items, feeds) {
 
 function * createFeedsWhereNeededAndAddInfo (items, feeds) {
   let feed
+  let item
   let newOrUpdatedFeeds = []
-  items.forEach(item => {
+  for (var i = 0; i < items.length; i++) {
+    // give the loop a chance to stop in case the fork has been cancelled
+    yield delay(1)
+    item = items[i]
     // note that we have to look at feed.id AND feed._id
     // this is for feeds that have been migrated from an external provider
     // to rizzle, whereby feed.id is the exernal provider's id, and
@@ -275,6 +279,6 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
     item.feed_color = feed.color
     item._id = item._id || id(item)
     item.feed_title = feed.title
-  })
+  }
   return { feeds, items }
 }

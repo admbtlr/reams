@@ -20,6 +20,10 @@ export function setBackend (bcknd, config) {
   backends[backend].init(config)
 }
 
+export function unsetBackend () {
+  backend = undefined
+}
+
 export function hasBackend () {
   return !!backend
 }

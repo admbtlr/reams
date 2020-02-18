@@ -201,6 +201,7 @@ export function removeSavedItemFS (item) {
 
 export function addSavedItemsFS (items) {
   const collectionRef = getUserDb().collection('items-saved')
+  debugger
   for (item of items) {
     collectionRef.doc(item._id)
       .set(item)

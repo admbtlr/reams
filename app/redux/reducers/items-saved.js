@@ -43,6 +43,9 @@ export const itemsSaved = (state = initialState, action) => {
       }
       return { ...state }
 
+    case 'CONFIG_UNSET_BACKEND':
+      return initialState
+
     case 'ITEMS_UPDATE_CURRENT_INDEX':
       if (action.displayMode !== 'saved') return state
 
