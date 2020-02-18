@@ -12,6 +12,7 @@ import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
 import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed } from './feeds'
 import { initBackend } from './backend'
+import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
 
 let downloadsFork
@@ -38,7 +39,8 @@ function * startDownloads (backend) {
   yield call(inflateFeeds)
 }
 
-function * cancelForks () {
+function * killBackend () {
+  unsetBackend()
   if (downloadsFork) {
     yield cancel(downloadsFork)
   }
@@ -48,7 +50,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery(REHYDRATE, init, getFirebase)
   yield takeEvery('CONFIG_SET_BACKEND', init, getFirebase)
   yield takeEvery('CONFIG_UNSET_BACKEND', removeAllItems)
-  yield takeEvery('CONFIG_UNSET_BACKEND', cancelForks)
+  yield takeEvery('CONFIG_UNSET_BACKEND', killBackend)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   yield takeEvery('FEEDS_ADD_FEEDS', subscribeToFeeds)
   yield takeEvery('FEED_MARK_READ', markFeedRead)
