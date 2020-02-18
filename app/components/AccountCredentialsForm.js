@@ -191,9 +191,7 @@ class AccountCredentialsForm extends React.Component {
                 <TouchableOpacity
                   accessibilityLabel={`Stop using ${service[0].toUpperCase() + service.slice(1)}`}
                   color={hslString('white')}
-                  onPress={() => {
-                    unsetBackend()
-                  }}
+                  onPress={unsetBackend}
                   testID={`${service}-logout-button`}
                 >
                   <Text style={{
@@ -263,12 +261,23 @@ class AccountCredentialsForm extends React.Component {
                       marginTop: 6,
                       textAlign: 'center'
                     }}>Submitting...</Text> :
-                    <Button
+                    <TouchableOpacity
+                      accessibilityLabel={`Authenticate with ${service[0].toUpperCase() + service.slice(1)}`}
+                      color={hslString('white')}
                       disabled={isSubmitting || !isValid}
-                      title="Submit"
                       onPress={handleSubmit}
+                      style={{
+                        alignSelf: 'center',
+                        marginTop: 5,
+                        marginBottom: 5
+                      }}
                       testID={`${service}-submit-button`}
-                    />
+                    >
+                      <Text style={{
+                        ...textInfoStyle('logo1'),
+                        textDecorationLine: 'underline'
+                      }}>Submit</Text>
+                    </TouchableOpacity>
                   }
                   { errors.submit &&
                     <View style={{
