@@ -37,6 +37,7 @@ export function deflateItem (item) {
       : 0),
     created_at: item.created_at,
     feed_id: item.feed_id,
+    feed_title: item.feed_title,
     feed_color: item.feed_color,
     hasCoverImage: item.hasCoverImage,
     imageDimensions: item.imageDimensions,
