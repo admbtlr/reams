@@ -174,9 +174,10 @@ export function id (item) {
   if (item && typeof item === 'string') {
     return hashFnv32a(item, true)
   } else if (item && item.url) {
-    return hashFnv32a(item.url, true) + '-' + (item.feed_id ?
-      item.feed_id.split('-')[0] :
-      item.created_at)
+    return hashFnv32a(item.url, true) + '-' +
+      (item.feed_id && typeof item.feed_id === 'string' ?
+        item.feed_id.split('-')[0] :
+        Math.round(item.created_at / 1000000))
   } else {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
@@ -217,5 +218,5 @@ export function getFeedColor () {
   //   randomIndex = Math.floor(Math.random() * colorNames.length)
   // }
   // return colorNames[randomIndex]
-  return [Math.round(Math.random() * 360), 40, 50]
+  return [Math.round(Math.random() * 360), 20, 50]
 }
