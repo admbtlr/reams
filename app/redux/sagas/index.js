@@ -1,18 +1,21 @@
-import { call, delay, fork, put, select, takeEvery } from 'redux-saga/effects'
+import { call, cancel, delay, fork, select, takeEvery } from 'redux-saga/effects'
 import { REHYDRATE } from 'redux-persist'
 
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems, filterItemsForFirestoreRead } from './mark-read'
-import { pruneItems } from './prune-items'
+import { pruneItems, removeItems, removeAllItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
 import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
-import { markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed } from './feeds'
+import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed } from './feeds'
 import { initBackend } from './backend'
+import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
+
+let downloadsFork
 
 function * init (getFirebase, action) {
   if (action.key && action.key !== 'primary') return
@@ -21,12 +24,13 @@ function * init (getFirebase, action) {
 
   yield initBackend(getFirebase, action)
   yield call(inflateItems)
-  yield fork(startDownloads)
+  downloadsFork = yield fork(startDownloads, config.backend)
 }
 
-function * startDownloads () {
+function * startDownloads (backend) {
   // let the app render and get started
   delay(3000)
+  yield call(fetchAllFeeds)
   yield call(fetchAllItems)
   yield call(decorateItems)
   yield call(clearReadItems)
@@ -35,9 +39,18 @@ function * startDownloads () {
   yield call(inflateFeeds)
 }
 
+function * killBackend () {
+  unsetBackend()
+  if (downloadsFork) {
+    yield cancel(downloadsFork)
+  }
+}
+
 export function * initSagas (getFirebase) {
   yield takeEvery(REHYDRATE, init, getFirebase)
   yield takeEvery('CONFIG_SET_BACKEND', init, getFirebase)
+  yield takeEvery('CONFIG_UNSET_BACKEND', removeAllItems)
+  yield takeEvery('CONFIG_UNSET_BACKEND', killBackend)
   yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
   yield takeEvery('FEEDS_ADD_FEEDS', subscribeToFeeds)
   yield takeEvery('FEED_MARK_READ', markFeedRead)
@@ -57,6 +70,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
   yield takeEvery('ITEMS_RECEIVED_REMOTE_READ', filterItemsForFirestoreRead)
   yield takeEvery('ITEMS_UPDATE_CURRENT_INDEX', markLastItemRead)
+  yield takeEvery('ITEMS_REMOVE_ITEMS', removeItems)
   yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
   // yield takeEvery('CONFIG_SET_FEED_FILTER', inflateItems)
   // yield takeEvery('USER_SET_UID', clearReadItems)

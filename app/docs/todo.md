@@ -1,13 +1,20 @@
 # To Do
 
-- why isn't icon color detection working?
-- why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?
-- remodel sign-in page like Mediums's
-- make it work without Firebase (i.e. no login)
-- find memory leak
-- Fix undefined error
-    + https://sentry.io/organizations/adam-butler/issues/1361854344/?project=195309&query=is%3Aunresolved
+- add a message component
+- do something about Firebase listener memory leaks
+- move all firestore operations out of sagas and into backends
+    + ~~feeds~~
+- upgrade to react-navigation 5.0
+    + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
+- make rizzle basic work
+- Feedly integration
+- add per feed setting to always open in expanded view
+>>>>>>> master
 - better loading indicator
+- replace https://github.com/request/request-promise-native in the server, since it's now deprecated
+
+# Someday / Maybe
+
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - login with apple
@@ -16,6 +23,8 @@
 - text highlights
     + https://github.com/react-native-community/react-native-webview/issues/607
 - placeholder images (use letters?)
+- in-app purchases for subscriptions
+    + https://medium.com/@rossbulat/react-native-subscriptions-with-in-app-purchases-setup-fdaf3863e07f
 - Use https://github.com/DylanVann/react-native-fast-image to show cached images
 - scroll effects
 - make buttons use reanimate
@@ -25,8 +34,17 @@
 
 # Done
 
-- ~~why doesn't this page work with the share extension?~~
-- ~~replace mercury with browser button for some feeds~~
+- ~~why isn't icon color detection working?~~
+- ~~why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?~~
+- ~~fix the navigation~~
+- ~~why doesn't the topbar show the correct item feed_color?~~
+- ~~Feedbin integration~~
+- ~~where's my feed title gone?~~
+- ~~have I broken the rizzle backend?~~
+- ~~why isn't the userid getting set when I log into rizzle?~~
+- ~~move scrollAnim out of redux state~~
+- ~~find memory leak~~
+>>>>>>> master
 - ~~speed up refresh of item carousel~~
 - ~~fix bug with second item never showing its title~~
 - ~~fix bug with items re-rendering and losing your place when getting new items~~

@@ -12,7 +12,14 @@ import {
   listenToSavedItems,
   setUserDetails
 } from '../firestore'
-import { getConfig, getFeeds, getItems, getUid, getUser } from './selectors'
+import {
+  getConfig,
+  getCredentials,
+  getFeeds,
+  getItems,
+  getUid,
+  getUser
+} from './selectors'
 import { setBackend } from '../backends'
 import { receiveItems } from './fetch-items'
 import { clearReadItems } from './mark-read'
@@ -42,6 +49,9 @@ export function * initBackend (getFirebase, action) {
       getFirebase,
       uid
     }
+  } else if (backend === 'feedbin') {
+    const { username, password } = yield select(getUser)
+    backendConfig = { username, password }
   }
 
   setBackend(backend, backendConfig)
@@ -58,19 +68,22 @@ export function * initBackend (getFirebase, action) {
 
       // copy existing saved items over to rizzle
       let savedItems = yield select(getItems, 'saved')
-      savedItems = savedItems.map(item => item.savedAt ?
-        item :
-        {
-          ...item,
-          savedAt: item.savedAt || item.created_at || Date.now()
-        })
-      savedItems = yield call(getItemsAS, savedItems)
-      yield call(addSavedItemsFS, savedItems)
+      if (savedItems.length) {
+        savedItems = savedItems.map(item => item.savedAt ?
+          item :
+          {
+            ...item,
+            savedAt: item.savedAt || item.created_at || Date.now()
+          })
+        savedItems = yield call(getItemsAS, savedItems)
+        yield call(addSavedItemsFS, savedItems)
+      }
     }
 
-    yield spawn(savedItemsListener)
-    yield spawn(feedsListener)
-    yield spawn(readItemsListener)
+    // TODO: These listeners are causing a huge memory leak
+    // yield spawn(savedItemsListener)
+    // yield spawn(feedsListener)
+    // yield spawn(readItemsListener)
   }
 }
 

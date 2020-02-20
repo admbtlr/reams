@@ -146,6 +146,8 @@ export const itemsUnread = (state = initialState, action) => {
         ...state,
         items: carouselled.items,
         index: carouselled.index
+        // items,
+        // index
       }
 
     case 'ITEMS_PRUNE_UNREAD':
@@ -185,6 +187,8 @@ export const itemsUnread = (state = initialState, action) => {
         ...state,
         items: carouselled.items,
         index: carouselled.index
+        // items,
+        // index
       }
 
     case 'UNREAD_ITEMS_SET_LAST_UPDATED':
@@ -223,8 +227,18 @@ export const itemsUnread = (state = initialState, action) => {
     case 'FEEDS_REMOVE_FEED':
       return {
         ...state,
-        items: state.items.filter(i => i.feed_id !== action.id)
+        items: state.items.filter(i => i.feed_id !== action.feed._id)
       }
+
+    case 'ITEMS_REMOVE_ITEMS':
+      const itemIds = action.items.map(f => f._id)
+      return {
+        ...state,
+        items: state.items.filter(i => !items.includes(i._id))
+      }
+
+    case 'CONFIG_UNSET_BACKEND':
+      return initialState
 
     case 'FEEDS_UPDATE_FEED':
       const feed = action.feed

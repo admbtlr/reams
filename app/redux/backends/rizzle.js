@@ -7,6 +7,10 @@ import {
   getReadItemsFS,
   getSavedItemsFS,
   removeSavedItemFS,
+  addFeedFS,
+  getFeedsFS,
+  upsertFeedsFS,
+  removeFeedFS,
   setDb,
   setUid } from '../firestore'
 // import { filterItemsForStale } from '../realm/stale-items'
@@ -36,8 +40,8 @@ export async function sendEmailLink (email) {
 
 }
 
-// callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum
-export async function fetchItems (callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum) {
+// callback, type, lastUpdated, oldItems, feeds, maxNum
+export async function fetchItems (callback, type, lastUpdated, oldItems, feeds, maxNum) {
   if (type === 'saved') {
     let savedItems = await getSavedItemsFS()
     savedItems = savedItems.filter(savedItem => !!!oldItems.find(oldItem => oldItem._id === savedItem._id))
@@ -149,6 +153,22 @@ export const saveItem = (item, folder) => {
 
 export const unsaveItem = (item, folder) => {
   return removeSavedItemFS(item)
+}
+
+export async function addFeed (feed) {
+  addFeedFS(feed)
+}
+
+export async function updateFeed (feed) {
+  upsertFeedsFS([feed])
+}
+
+export async function removeFeed (feed) {
+  removeFeedFS(feed)
+}
+
+export async function fetchFeeds () {
+  return getFeedsFS()
 }
 
 export const markFeedRead = (feed, olderThan, items) => {

@@ -1,6 +1,7 @@
 import { InteractionManager } from 'react-native'
 import { store } from '../store'
 import { id } from '../../utils'
+import { getItemsByIds } from './utils'
 import log from '../../utils/log'
 
 let feedWranglerAccessToken = '07de039941196f956e9e86e202574419'
@@ -40,7 +41,7 @@ export const authenticate = (username, password) => {
     })
 }
 
-export const fetchItems = async function (callback, type, lastUpdated, oldItems, currentItem, feeds, maxNum) {
+export const fetchItems = async function (callback, type, lastUpdated, oldItems, feeds, maxNum) {
   let newItems
   let newIds = await fetchItemIds(lastUpdated, type)
   newIds = newIds || []
@@ -56,7 +57,10 @@ export const fetchItems = async function (callback, type, lastUpdated, oldItems,
   const idsToExpand = newItems.filter(item => !!!item._id)
 
   if (idsToExpand && idsToExpand.length > 0) {
-    const expandedItems = await getItemsByIds(idsToExpand, callback)
+    const url = 'https://feedwrangler.net/api/v2/feed_items/get?'
+      + 'access_token=' + feedWranglerAccessToken
+      + '&feed_item_ids='
+    const expandedItems = await getItemsByIds(idsToExpand, url, mapFeedwranglerItemToRizzleItem, callback)
     return true
   }
   return true
@@ -92,48 +96,6 @@ async function fetchItemIds (createdSince, type) {
   })
 }
 
-async function getItemsByIds (itemIds, callback) {
-  const chunkArray = (arr) => {
-    let chunkStart = 0, chunkEnd
-    let chunkedIds = []
-    const chunkSize = 100
-    itemIds = itemIds || []
-    while (chunkStart < itemIds.length) {
-      if (chunkStart + chunkSize < itemIds.length) {
-         chunkEnd = chunkStart + chunkSize
-      } else {
-        chunkEnd = itemIds.length
-      }
-      chunkedIds.push(itemIds.slice(chunkStart, chunkEnd))
-      chunkStart = chunkEnd
-    }
-    return chunkedIds
-  }
-  const chunkedItemsIds = chunkArray(itemIds)
-  const promises = chunkedItemsIds.map(itemIdChunk => {
-    let url = 'https://feedwrangler.net/api/v2/feed_items/get?'
-    url += 'access_token=' + feedWranglerAccessToken
-    url += '&feed_item_ids=' + itemIdChunk.reduce((accum, id) => `${accum}${id.id},`, '')
-    return fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText)
-        }
-        return response
-      })
-      .then((response) => response.json())
-      .then((json) => {
-        callback(json.feed_items.map(mapFeedwranglerItemToRizzleItem))
-        return true
-      })
-      .catch(e => {
-        log('getItemsByIds', e)
-      })
-  })
-  return Promise.all(promises)
-    .then(_ => true)
-}
-
 const mapFeedwranglerItemToRizzleItem = (item) => {
   return {
     _id: id(item),
@@ -151,32 +113,32 @@ const mapFeedwranglerItemToRizzleItem = (item) => {
   }
 }
 
-export const receiveUnreadItems = (response, createdSince, page) => {
-  return response.json()
-    .then((feed) => {
-      const items = [...feed.feed_items].map((item) => {
-        return {
-          id: item.feed_item_id,
-          url: item.url,
-          external_url: item.url,
-          title: item.title,
-          content_html: item.body,
-          date_published: item.published_at,
-          date_modified: item.updated_at,
-          created_at: item.created_at,
-          author: item.author,
-          feed_title: item.feed_name,
-          feed_id: item.feed_id
-        }
-      })
-      itemsCache = itemsCache.concat(items)
-      if (items.length === itemsFetchBatchSize) {
-        return getUnreadItems(createdSince, page + 1)
-      } else {
-        return Promise.resolve(itemsCache)
-      }
-    })
-}
+// export const receiveUnreadItems = (response, createdSince, page) => {
+//   return response.json()
+//     .then((feed) => {
+//       const items = [...feed.feed_items].map((item) => {
+//         return {
+//           id: item.feed_item_id,
+//           url: item.url,
+//           external_url: item.url,
+//           title: item.title,
+//           content_html: item.body,
+//           date_published: item.published_at,
+//           date_modified: item.updated_at,
+//           created_at: item.created_at,
+//           author: item.author,
+//           feed_title: item.feed_name,
+//           feed_id: item.feed_id
+//         }
+//       })
+//       itemsCache = itemsCache.concat(items)
+//       if (items.length === itemsFetchBatchSize) {
+//         return getUnreadItems(createdSince, page + 1)
+//       } else {
+//         return Promise.resolve(itemsCache)
+//       }
+//     })
+// }
 
 function getItemIds (createdSince, offset = 0, type = 'unread') {
   let url = 'https://feedwrangler.net/api/v2/feed_items/list_ids?'

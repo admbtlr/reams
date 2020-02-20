@@ -26,15 +26,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    scrollHandlerAttached: (owner) => dispatch({
-      type: 'SCROLL_HANDLER_ATTACHED',
-      owner: owner
-    }),
-    setScrollAnim: (scrollAnim, item_id) => dispatch({
-      type: 'SET_SCROLL_ANIM',
-      scrollAnim,
-      item_id
-    }),
+    // scrollHandlerAttached: (owner) => dispatch({
+    //   type: 'SCROLL_HANDLER_ATTACHED',
+    //   owner: owner
+    // }),
     showImageViewer: (url) => dispatch({
       type: 'UI_SHOW_IMAGE_VIEWER',
       url
@@ -45,7 +40,6 @@ const mapDispatchToProps = (dispatch) => {
       offset,
       scrollRatio: Number(Number.parseFloat(offset / totalHeight).toPrecision(4))
     })
-    // scrollHandler: (e) => dispatch(itemDidScroll(e.nativeEvent.contentOffset.y))
   }
 }
 

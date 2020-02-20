@@ -1,44 +1,73 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
-import { addFeed, getFeedDetails } from '../backends'
+import { addFeed, fetchFeeds, getFeedDetails, hasBackend, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../../utils/'
 import { hexToHsl, rgbToHsl } from '../../utils/colors'
 import feeds from '../../utils/seedfeeds.js'
-import { addFeedToFirestore, getFeedsFS, removeFeedFromFirestore, upsertFeedsFS } from '../firestore/'
 const { desaturated } = require('../../utils/colors.json')
 const RNFS = require('react-native-fs')
 
-import { getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
+import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
 import log from '../../utils/log'
 
 function * prepareAndAddFeed (feed) {
   const feeds = yield select(getFeeds)
   if (feeds.find(f => (f.url && f.url === feed.url) ||
     (f._id && f._id === feed._id))) return
-  yield addFeed(feed.url)
-  console.log(`Added feed: ${feed.title}`)
   feed._id = feed._id || id()
-  feed.color = getFeedColor(feeds)
+  feed.color = getFeedColor()
+  yield addFeed(feed)
   return feed
 }
 
 export function * subscribeToFeed (action) {
-  let {feed} = action
-  const addedFeed = yield prepareAndAddFeed(feed)
-  if (!addedFeed) return
-
-  // no need to wait until this has completed...
-  addFeedToFirestore(addedFeed)
-
-  yield put ({
-    type: 'FEEDS_ADD_FEED_SUCCESS',
-    addedFeed
-  })
+  const feed = yield prepareAndAddFeed(action.feed)
+  if (feed) {
+    console.log(`Added feed: ${feed.title}`)
+    yield put ({
+      type: 'FEEDS_ADD_FEED_SUCCESS',
+      feed
+    })
+  }
 }
 
 export function * unsubscribeFromFeed (action) {
   // no need to wait until this has completed...
-  removeFeedFromFirestore(action)
+  removeFeed(action.feed)
+}
+
+export function * fetchAllFeeds () {
+  const config = yield select(getConfig)
+  if (!config.isOnline || !hasBackend()) return
+
+  let oldFeeds = yield select(getFeeds) || []
+  let newFeeds = yield fetchFeeds()
+  let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => nf.id === of.id || nf.url === of.url))
+  if (toRemove) {
+    oldFeeds = oldFeeds.filter(of => !toRemove.includes(of))
+  }
+  newFeeds = newFeeds.filter(f => !oldFeeds
+      .find(feed => feed.url === f.url || feed.id === f.id || feed._id === f._id))
+    .map(f => ({
+      ...f,
+      isNew: true
+    }))
+  const feeds = oldFeeds.concat(newFeeds)
+
+  yield put({
+    type: 'FEEDS_REFRESH_FEED_LIST',
+    feeds
+  })
+
+  if (toRemove && toRemove.length) {
+    const items = yield select(getUnreadItems)
+    const dirtyFeedIds = toRemove.map(f => f._id)
+    const dirtyItems = items.filter(i => dirtyFeedIds.includes(i.feed_id))
+    yield put({
+      type: 'ITEMS_REMOVE_ITEMS',
+      items: dirtyItems
+    })
+  }
 }
 
 export function * markFeedRead (action) {
@@ -71,21 +100,6 @@ export function * markFeedRead (action) {
   }
 }
 
-export function * syncFeeds () {
-  const feeds = yield select(getFeeds)
-  const dbFeeds = yield getFeedsFS()
-  dbFeeds.forEach(dbFeed => {
-    if (!feeds.find(feed => feed._id === dbFeed._id ||
-      feed.url === dbFeed.url)) {
-      feeds.push(dbFeed)
-    }
-  })
-  yield put ({
-    type: 'FEEDS_UPDATE_FEEDS',
-    feeds
-  })
-}
-
 export function * inflateFeeds () {
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
@@ -103,27 +117,30 @@ export function * inflateFeeds () {
       type: 'FEEDS_UPDATE_FEED',
       feed: inflatedFeed
     })
-    upsertFeedsFS([inflatedFeed])
+    updateFeed(inflatedFeed)
   }
   yield cacheFeedFavicons()
 }
 
 function convertColorIfNecessary (details) {
   let color
+  debugger
   if (details.color && details.color.indexOf('#') === 0 && details.color.length === 7) {
     color = hexToHsl(details.color.substring(1))
   } else if (details.color && details.color.indexOf('rgb') === 0) {
     let rgb = details.color.substring(4, details.color.length - 1).split(',')
       .map(l => l.trim())
     color = rgbToHsl(Number.parseInt(rgb[0], 10), Number.parseInt(rgb[1], 10), Number.parseInt(rgb[2], 10))
+  } else if (typeof details.color === 'object' && details.color.length === 3) {
+    color = details.color
   } else {
     color = [Math.round(Math.random() * 360), 50, 30]
   }
   if (color[1] > 70) {
-    color[1] = 30 + (color[1] - 30) / 2
+    color[1] = Math.round(30 + (color[1] - 30) / 2)
   }
   if (color[2] > 50) {
-    color[2] = 30 + (color[2] - 30) / 2
+    color[2] = Math.round(30 + (color[2] - 30) / 2)
   }
   return {
     ...details,
@@ -193,18 +210,14 @@ function downloadFeedFavicon (feed) {
 }
 
 export function * subscribeToFeeds (action) {
-  let {feeds} = action
-  let addedFeeds = []
-  for (var i = 0; i < feeds.length; i++) {
+  let feeds = []
+  for (var i = 0; i < action.feeds.length; i++) {
     let f = yield prepareAndAddFeed(feeds[i])
-    if (f) addedFeeds.push(f)
+    if (f) feeds.push(f)
   }
-
-  upsertFeedsFS(addedFeeds)
-
   yield put({
     type: 'FEEDS_ADD_FEEDS_SUCCESS',
-    addedFeeds
+    feeds
   })
 }
 

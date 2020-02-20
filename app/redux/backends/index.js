@@ -1,3 +1,4 @@
+import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { mergeItems, id } from '../../utils/merge-items'
 import moment from 'moment'
 import log from '../../utils/log'
@@ -5,6 +6,8 @@ import log from '../../utils/log'
 const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
 const rizzle = require('./rizzle')
+
+const group = 'group.com.adam-butler.rizzle'
 
 const MAX_ITEMS_TO_DOWNLOAD = 5000
 
@@ -18,6 +21,11 @@ let backends = {
 export function setBackend (bcknd, config) {
   backend = bcknd
   backends[backend].init(config)
+  SharedGroupPreferences.setItem('backend', backend, group)
+}
+
+export function unsetBackend () {
+  backend = undefined
 }
 
 export function hasBackend () {
@@ -51,15 +59,17 @@ export function getMercuryUrl (item) {
 }
 
 // old items are (fetched items + read items)
-export async function fetchItems (callback, type, lastUpdated, oldItems, currentItem, feeds) {
+export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) {
 
   // { readItems, newItems }
   let items
 
   if (backend === 'rizzle') {
-    items = await rizzle.fetchItems(callback, type, lastUpdated, oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD)
+    items = await rizzle.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
   } else if (backend === 'feedwrangler') {
-    items = await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, currentItem, feeds, MAX_ITEMS_TO_DOWNLOAD)
+    items = await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
+  } else if (backend === 'feedbin') {
+    items = await feedbin.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
   }
 
   console.log('fetchItemsBackends has ended')
@@ -95,6 +105,8 @@ export async function markItemRead (item) {
       return rizzle.markItemRead(item)
     case 'feedwrangler':
       return feedwrangler.markItemRead(item)
+    case 'feedbin':
+      return feedbin.markItemRead(item)
   }
 }
 
@@ -108,6 +120,8 @@ export async function markItemsRead (items, feedId = null, olderThan = null) {
       } else {
         return feedwrangler.markItemsRead(items)
       }
+    case 'feedbin':
+      return feedbin.markItemsRead(items)
   }
 }
 
@@ -115,6 +129,9 @@ export async function saveItem (item, folder) {
   switch (backend) {
     case 'rizzle':
       await rizzle.saveItem(item, folder)
+      break
+    case 'feedbin':
+      await feedbin.saveItem(item)
       break
     case 'feedwrangler':
       await feedwrangler.saveItem(item)
@@ -144,12 +161,43 @@ export async function unsaveItem (item, folder) {
 //   }
 // }
 
-export function addFeed (url) {
+export function fetchFeeds () {
   switch (backend) {
     case 'rizzle':
-      return
+      return rizzle.fetchFeeds()
     case 'feedwrangler':
-      return feedwrangler.addFeed(url)
+      return feedwrangler.fetchFeeds()
+    case 'feedbin':
+      return feedbin.fetchFeeds()
+  }
+}
+
+export function addFeed (feed) {
+  switch (backend) {
+    case 'rizzle':
+      return rizzle.addFeed(feed)
+    case 'feedwrangler':
+      return feedwrangler.addFeed(feed)
+    case 'feedbin':
+      return feedbin.addFeed(feed)
+  }
+}
+
+export function updateFeed (feed) {
+  switch (backend) {
+    case 'rizzle':
+      return rizzle.updateFeed(feed)
+  }
+}
+
+export function removeFeed (feed) {
+  switch (backend) {
+    case 'rizzle':
+      return rizzle.removeFeed(feed)
+    case 'feedwrangler':
+      return feedwrangler.removeFeed(feed)
+    case 'feedbin':
+      return feedbin.removeFeed(feed)
   }
 }
 
@@ -166,7 +214,7 @@ export function authenticate ({username, password, email}, backend) {
     case 'rizzle':
       return
     case 'feedbin':
-      return
+      return feedbin.authenticate(username, password)
     case 'feedwrangler':
       return feedwrangler.authenticate(username, password)
   }

@@ -38,13 +38,15 @@ function * executeAction (action) {
   switch (action.type) {
     case 'ITEM_MARK_READ':
       try {
-        yield call(InteractionManager.runAfterInteractions)
-        yield call (markItemRead, action.item)
-        yield call(InteractionManager.runAfterInteractions)
-        updateItemAS({
-          ...action.item,
-          readAt: Date.now()
-        })
+        if (action.item) {
+          yield call(InteractionManager.runAfterInteractions)
+          yield call (markItemRead, action.item)
+          yield call(InteractionManager.runAfterInteractions)
+          updateItemAS({
+            ...action.item,
+            readAt: Date.now()
+          })
+        }
         yield call(InteractionManager.runAfterInteractions)
         yield put({
           type: 'REMOTE_ACTIONS_ACTION_COMPLETED',

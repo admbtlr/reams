@@ -1,5 +1,11 @@
 const initialState = {
-  uid: ''
+  displayName: '',
+  email: '',
+  password: '',
+  accessToken: '',
+  signInEmail: '',
+  uid: '',
+  username: ''
 }
 
 export function user (state = initialState, action) {
@@ -11,13 +17,27 @@ export function user (state = initialState, action) {
       }
 
     case 'USER_SET_DETAILS':
-      // if (!action.details) return state
+      const { details } = action
+      if (!details) {
+        return state
+      } else {
+        return {
+          ...state,
+          ...details
+        }
+      }
+
+    case 'CONFIG_SET_BACKEND':
+      const {
+        credentials
+      } = action
       return {
         ...state,
-        displayName: action.details && action.details.displayName,
-        email: action.details && action.details.email,
-        uid: action.details && action.details.uid
+        ...credentials
       }
+
+    case 'CONFIG_UNSET_BACKEND':
+      return initialState
 
     case 'USER_SET_SIGN_IN_EMAIL':
       return {

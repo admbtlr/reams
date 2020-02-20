@@ -9,12 +9,22 @@ import {hslString} from '../utils/colors'
 export default function BackButton({ isLight, onPress, style }) {
   return (
     <View style={{
-      position: 'relative',
-      top: -11,
+      position: 'absolute',
+      top: 12,
+      paddingTop: 10,
       paddingRight: 10,
+      paddingLeft: 10,
+      marginLeft: -10,
+      zIndex: 10,
       ...style
     }}>
       <TouchableOpacity
+        hitSlop={{
+          top: 10,
+          right: 10,
+          bottom: 0,
+          left: 10
+        }}
         onPress={onPress}
         style={{
           width: 14,

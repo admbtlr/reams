@@ -6,7 +6,6 @@ import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, diff, getCachedCoverImagePath} from '../utils/'
 import {createItemStyles} from '../utils/createItemStyles'
-import {onScrollEnd} from '../utils/animationHandlers'
 import { hslString } from '../utils/colors'
 import log from '../utils/log'
 
@@ -59,8 +58,8 @@ class FeedItem extends React.Component {
     } = this.props
     setTimerFunction && setTimerFunction(this.startTimer)
     if (isVisible) {
-      setScrollAnim(this.scrollAnim, item._id)
-      scrollHandlerAttached(item._id)
+      setScrollAnim(this.scrollAnim)
+      // scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
   }
@@ -100,9 +99,9 @@ class FeedItem extends React.Component {
           isDiff = false
           // this is a bit sneaky...
           if (nextProps.isVisible) {
-            this.props.setScrollAnim(this.scrollAnim, item._id)
+            this.props.setScrollAnim(this.scrollAnim)
             // and let the buttons know that the scroll handler has changed
-            this.props.scrollHandlerAttached(this.props.item._id)
+            // this.props.scrollHandlerAttached(this.props.item._id)
           }
           // so is this (startTimer() doesn't always get set correctly)
           nextProps.setTimerFunction && nextProps.setTimerFunction(this.startTimer)
@@ -147,8 +146,8 @@ class FeedItem extends React.Component {
   componentDidUpdate (prevProps, prevState) {
     const { isVisible, item, scrollHandlerAttached, setScrollAnim } = this.props
     if (isVisible && !prevProps.isVisible) {
-      setScrollAnim(this.scrollAnim, item && item._id)
-      scrollHandlerAttached(item._id)
+      setScrollAnim(this.scrollAnim)
+      // scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
   }
@@ -189,6 +188,7 @@ class FeedItem extends React.Component {
     // if (/*__DEV__ ||*/ !this.props.item.styles) {
     //   this.props.item.styles = createItemStyles(this.props.item)
     // }
+    const { item } = this.props
     let {
       feed_title,
       url,
@@ -258,11 +258,15 @@ class FeedItem extends React.Component {
       data = banner_image
     }
 
+    const feedColor = item.feed_color ?
+      hslString(this.props.item.feed_color, this.props.isDarkBackground ? 'darkmode' : '') :
+      hslString('logo1')
+
     const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkBackground ? 'dark-background' : ''}">
   <head>
     <style>
 :root {
-  --feed-color: ${hslString(this.props.item.feed_color, this.props.isDarkBackground ? 'darkmode' : '')};
+  --feed-color: ${feedColor};
   --font-path-prefix: ${ server === '' ? '../' : server };
 }
     </style>
@@ -450,7 +454,7 @@ class FeedItem extends React.Component {
       scrollOffset :
       scrollOffset.nativeEvent.contentOffset.y
     this.props.setScrollOffset(this.props.item, scrollOffset, this.state.webViewHeight)
-    onScrollEnd(scrollOffset)
+    this.props.onScrollEnd(scrollOffset)
   }
 
   // called when HTML was loaded and injected JS executed

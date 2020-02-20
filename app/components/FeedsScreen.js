@@ -46,14 +46,14 @@ class FeedsScreen extends React.Component {
     const { feeds, navigation } = this.props
     this.props.navigation.addListener('didFocus', () => {
       if (feeds.length === 0) {
-        navigation.push('Modal', {
-          childView: <NewFeedsList
-            close={() => {
-              navigation.goBack(null)
-            }}
-            navigation={navigation}
-          />
-        })
+        // navigation.push('Modal', {
+        //   childView: <NewFeedsList
+        //     close={() => {
+        //       navigation.goBack(null)
+        //     }}
+        //     navigation={navigation}
+        //   />
+        // })
       }
     })
   }
@@ -130,13 +130,16 @@ class FeedsScreen extends React.Component {
         {})
 
     return (
-      <View style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: hslString('rizzleBG')
-        // marginTop: margin
-      }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: hslString('rizzleBG')
+          // marginTop: margin
+        }}
+        testID='feeds-screen'
+      >
         <StatusBar
           animated={true}
           barStyle="dark-content"

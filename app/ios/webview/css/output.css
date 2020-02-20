@@ -72,7 +72,7 @@ body {
   .itemArticle h1, .itemArticle h2, .itemArticle h3 {
     color: var(--feed-color); }
   .itemArticle h1, .itemArticle h2 {
-    font-size: 1rem;
+    font-size: 1.2rem;
     line-height: 1.33rem;
     margin: 3rem 0 .5rem; }
   .itemArticle h2 {
@@ -80,15 +80,15 @@ body {
   .itemArticle h2, .itemArticle h4 {
     font-weight: normal; }
   .itemArticle h3, .itemArticle h4 {
-    font-size: 0.75rem;
+    font-size: 1rem;
     line-height: 1rem;
     margin: 2rem 0 0.2rem; }
+  .itemArticle h4 {
+    font-size: 0.75rem; }
   .itemArticle h5, .itemArticle h6 {
     font-size: calc(1rem / 1.7);
     line-height: 1rem;
     margin: 1rem 0 0; }
-  .itemArticle h4 {
-    font-style: italic; }
 
 .itemArticle {
   position: relative;
@@ -109,9 +109,11 @@ body {
   .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
-    height: auto !important;
+    height: auto;
     margin: .666rem 0;
     border: 0; }
+  .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle pre {
+    height: auto !important; }
   .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
     width: 100vw;
     max-width: 100vw !important;
@@ -246,7 +248,8 @@ body {
     line-height: 1.33rem;
     font-style: normal;
     padding: 1rem 1rem .5rem;
-    margin: 1rem 0; }
+    margin: 1rem 0;
+    text-align: center; }
   .itemArticle figure cite {
     display: none; }
   .itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {
@@ -260,7 +263,9 @@ body {
     text-align: left; }
   .itemArticle .caption:not(figcaption) {
     display: block;
-    margin: -1rem -4vw 1.666rem; }
+    margin: -0.666rem -4vw 1.666rem; }
+    .itemArticle .caption:not(figcaption) + .caption:not(figcaption) {
+      margin-top: -1.666rem; }
   @media (min-width: 600px) {
     .itemArticle figcaption, .itemArticle blockquote, .itemArticle .caption, .itemArticle img + small {
       margin: 0 -4vw;
@@ -797,7 +802,8 @@ hr {
   display: none !important; }
 
 .itemArticle a, .itemArticle a:active, .itemArticle a:visited {
-  -webkit-text-decoration-color: var(--feed-color); }
+  text-decoration: none;
+  border-bottom: 2px solid var(--feed-color); }
 
 .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
   color: var(--feed-color); }

@@ -95,7 +95,8 @@ export default class Rizzle extends Component {
     this.authSubscription = auth().onAuthStateChanged((details) => {
       this.store.dispatch({
         type: 'USER_SET_DETAILS',
-        details
+        uid: details.uid,
+        email: details.email
       })
       this.setState({ details })
       console.log('Authenticated! ' + details)

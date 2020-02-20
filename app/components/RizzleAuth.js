@@ -36,17 +36,17 @@ class RizzleAuth extends React.Component {
       <View style={{
         marginTop: 40
       }}>
-        <Text style={textInfoStyle()}>
-          <Text style={textInfoBoldStyle()}>Name:</Text> {user.displayName}</Text>
-        <Text style={textInfoStyle()}>
-          <Text style={textInfoBoldStyle()}>Email:</Text> {user.email}</Text>
+        <Text style={textInfoStyle('white')}>
+          <Text style={textInfoBoldStyle('white')}>Name:</Text> {user.displayName}</Text>
+        <Text style={textInfoStyle('white')}>
+          <Text style={textInfoBoldStyle('white')}>Email:</Text> {user.email}</Text>
         <Text style={{
-          ...textInfoStyle(),
+          ...textInfoStyle('white'),
           fontSize: 12,
           lineHeight: 18
         }}>
           <Text style={{
-            ...textInfoBoldStyle(),
+            ...textInfoBoldStyle('white'),
             fontSize: 12
           }}>UserId:</Text> {user.uid}</Text>
         <GoogleAuth isLoggedIn={true}/>

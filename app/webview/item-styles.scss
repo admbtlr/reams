@@ -112,7 +112,7 @@ body {
   }
 
   h1, h2 {
-    font-size: 1rem;
+    font-size: 1.2rem;
     line-height: 1.33rem;
     margin: 3rem 0 .5rem;
   }
@@ -123,17 +123,17 @@ body {
     font-weight: normal;
   }
   h3, h4 {
-    font-size: 0.75rem;
+    font-size: 1rem;
     line-height: 1rem;
     margin: 2rem 0 0.2rem;
+  }
+  h4 {
+    font-size: 0.75rem;
   }
   h5, h6 {
     font-size: calc(1rem / 1.7);
     line-height: 1rem;
     margin: 1rem 0 0;
-  }
-  h4 {
-    font-style: italic;
   }
 }
 
@@ -160,10 +160,15 @@ body {
   figure, img, video, iframe, pre {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
-    height: auto !important;
+    height: auto;
     margin: .666rem 0;
     border: 0;
   }
+
+  figure, img, video, pre {
+    height: auto !important;
+  }
+
 
   // p figure:last-child,
   //   p img:last-child,
@@ -331,6 +336,7 @@ body {
     font-style: normal;
     padding: 1rem 1rem .5rem;
     margin: 1rem 0;
+    text-align: center;
   }
 
   figure cite {
@@ -350,7 +356,11 @@ body {
 
   .caption:not(figcaption) {
     display: block;
-    margin: -1rem -4vw 1.666rem;
+    margin: -0.666rem -4vw 1.666rem;
+
+    + .caption:not(figcaption) {
+      margin-top: -1.666rem;
+    }
   }
 
   @media (min-width: 600px) {
@@ -1031,8 +1041,8 @@ hr {
 .itemArticle {
   a, a:active, a:visited {
     // color: $value;
-    // text-decoration: none;
-    -webkit-text-decoration-color: var(--feed-color);
+    text-decoration: none;
+    border-bottom: 2px solid var(--feed-color);
   }
 
   blockquote.short-blockquote, .pullquote, aside {

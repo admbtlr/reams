@@ -16,25 +16,29 @@ export function feeds (state = initialState, action) {
         feeds: [
           ...cleanedFeeds,
           {
-            ...action.addedFeed,
+            ...action.feed,
             isNew: true
           }
         ]
       }
     case 'FEEDS_ADD_FEEDS_SUCCESS':
-      let newFeeds = action.addedFeeds.filter(addedFeed => {
-        return !state.feeds
-          .find(feed => feed.url === addedFeed.url || feed._id === addedFeed._id)
-      }).map(f => ({
-        ...f,
-        isNew: true
-      }))
+      let newFeeds = action.feeds.filter(f => !state.feeds
+          .find(feed => feed.url === f.url || feed._id === f._id))
+        .map(f => ({
+          ...f,
+          isNew: true
+        }))
       return {
         ...state,
         feeds: [
           ...state.feeds,
           ...newFeeds
         ]
+      }
+    case 'FEEDS_REFRESH_FEED_LIST':
+      return {
+        ...state,
+        feeds: action.feeds
       }
     case 'FEEDS_ADD_FEED':
       console.log(action)
@@ -43,7 +47,7 @@ export function feeds (state = initialState, action) {
     case 'FEEDS_REMOVE_FEED':
       return {
         ...state,
-        feeds: state.feeds.filter(feed => feed._id !== action.id)
+        feeds: state.feeds.filter(feed => feed._id !== action.feed._id)
       }
 
     case 'FEEDS_UPDATE_FEEDS':
@@ -66,6 +70,9 @@ export function feeds (state = initialState, action) {
           } :
           feed)
       }
+
+    case 'CONFIG_UNSET_BACKEND':
+      return initialState
 
     case 'ITEM_ADD_READING_TIME':
       feeds = [ ...state.feeds ]

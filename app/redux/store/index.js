@@ -37,12 +37,12 @@ function configureStore () {
     // combineReducers(reducers),
     {},
     // composeEnhancers(
-    compose(
+    composeEnhancers(
       // applyMiddleware(thunk),
       // reactReduxFirebase(firebase, reactReduxFirebaseConfig),
       // reduxFirestore(firebase),
       applyMiddleware(sagaMiddleware),
-      Reactotron.createEnhancer()
+      // Reactotron.createEnhancer()
     )
   )
 

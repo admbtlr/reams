@@ -201,6 +201,7 @@ export function removeSavedItemFS (item) {
 
 export function addSavedItemsFS (items) {
   const collectionRef = getUserDb().collection('items-saved')
+  debugger
   for (item of items) {
     collectionRef.doc(item._id)
       .set(item)
@@ -266,13 +267,13 @@ export async function listenToFeeds (receiveFeeds) {
     })
 }
 
-export function addFeedToFirestore (feed) {
+export function addFeedFS (feed) {
   const collectionRef = getUserDb().collection('feeds')
   return upsertFeed(feed, collectionRef)
 }
 
-export async function removeFeedFromFirestore (feed) {
-  const doc = await getUserDb().collection('feeds').doc(feed.id)
+export async function removeFeedFS (feed) {
+  const doc = await getUserDb().collection('feeds').doc(feed._id)
   doc.delete()
     .then(_ => {
       console.log('Removed feed')

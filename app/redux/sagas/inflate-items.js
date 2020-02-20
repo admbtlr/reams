@@ -49,6 +49,7 @@ export function * inflateItems (action) {
     })
     yield spawn(getItemsFromAS, itemsToInflate, itemsToDeflate)
   } catch (err) {
+    if (__DEV___) debugger
     log('inflateItems', err)
   }
 }

@@ -3,12 +3,21 @@ import * as Yup from 'yup'
 import React from 'react'
 import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import OnePassword from 'react-native-onepassword'
+import AnimatedEllipsis from 'react-native-animated-ellipsis'
 
 import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../redux/backends/rizzle'
 import { authenticate } from '../redux/backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier } from '../utils'
+import {
+  textInputStyle,
+  textLabelStyle,
+  textButtonStyle,
+  textInfoStyle,
+  textInfoBoldStyle,
+  textInfoItalicStyle
+} from '../utils/styles'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -23,27 +32,6 @@ const baseStyles = {
 }
 
 export const formElementStyles = {
-  textInputStyle: {
-    ...baseStyles,
-    // padding: 8,
-    fontSize: 20 * fontSizeMultiplier(),
-    borderBottomColor: hslString('rizzleText'),
-    borderBottomWidth: 1
-  },
-  textValueStyle: {
-    ...baseStyles,
-    fontSize: 12 * fontSizeMultiplier()
-  },
-  textLabelStyle: {
-    ...baseStyles,
-    fontSize: 12 * fontSizeMultiplier(),
-    marginTop: 3
-  },
-  textButtonStyle: {
-    ...baseStyles,
-    fontSize: 16 * fontSizeMultiplier(),
-    textDecorationLine: 'underline'
-  },
   textInfoStyle: {
     ...baseStyles,
     fontFamily: 'IBMPlexSans',
@@ -61,7 +49,8 @@ class AccountCredentialsForm extends React.Component {
     this.state = {
       is1Password: true,
       username: '',
-      password: ''
+      password: '',
+      isSubmitting: false
     }
 
     this.onePasswordHandler = this.onePasswordHandler.bind(this)
@@ -101,19 +90,46 @@ class AccountCredentialsForm extends React.Component {
     }
   }
 
-  async authenticateUser ({username, password, email}) {
-    if (this.props.service === 'rizzle') {
+  async authenticateUser ({username, password, email}, {setSubmitting, setErrors}) {
+    const { service, setBackend } = this.props
+    if (service === 'rizzle') {
       email = email.trim()
       this.props.setSignInEmail(email)
       await sendEmailLink(email)
       console.log(`email: ${email}`)
     } else {
-      const accessToken = await authenticate({username, password}, this.props.service)
-      this.props.setBackend('feedwrangler', accessToken)
+      const response = await authenticate({username, password}, service)
+      console.log(response)
+      if (response === 'success') {
+        if (service === 'feedwrangler') {
+          setBackend('feedwrangler', {
+            accessToken: response
+          })
+        } else if (service === 'feedbin') {
+          setBackend('feedbin', {
+            username,
+            password
+          })
+        }
+        setSubmitting(false)
+        this.setState({
+          isAuthenticated: true
+        })
+      } else {
+        setErrors({
+          submit: 'Error: please check username and password'
+        })
+        setSubmitting(false)
+        this.setState({
+          isAuthenticated: false
+        })
+      }
     }
   }
 
   render = () => {
+    const { isActive, service, unsetBackend, user } = this.props
+    const { isErrored, isAuthenticated } = this.state
     const width = Dimensions.get('window').width
     const initialValues = this.props.service === 'rizzle' ?
       {
@@ -123,7 +139,7 @@ class AccountCredentialsForm extends React.Component {
         username: this.state.username,
         password: this.state.password
       }
-    const validationSchemaShape = this.props.service === 'rizzle' ?
+    const validationSchemaShape = service === 'rizzle' ?
       Yup.object().shape({
         email: Yup.string().trim().email('That doesn’t look like a valid email...').required('Required')
       }) :
@@ -131,7 +147,6 @@ class AccountCredentialsForm extends React.Component {
         username: Yup.string().required('Required'),
         password: Yup.string().required('Required')
       })
-    const user = this.props.user
     return (
       <Formik
         enableReinitialize={true}
@@ -149,64 +164,137 @@ class AccountCredentialsForm extends React.Component {
           submitCount,
           values
         }) => (
-          <View>
-            { this.props.service === 'rizzle' ?
-              <RizzleAuth
-                backend={this.props.backend}
-                errors={errors}
-                handleChange={handleChange}
-                handleReset={handleReset}
-                handleSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-                isValid={isValid}
-                submitCount={submitCount}
-                values={values}
-                user={user}
-              /> :
+          <View style={{
+            flex: 1
+          }}>
+            { isActive ?
               <View style={{
+                // backgroundColor: hslString('logo1'),
                 paddingTop: 16,
                 paddingLeft: 16,
                 paddingRight: 16,
-                marginTop: 16
+                paddingBottom: 16,
+                marginTop: 16,
+                flex: 1,
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'space-between'
               }}>
-                <TextInput
-                  onChangeText={handleChange('username')}
-                  style={formElementStyles.textInputStyle}
-                  value={values.username}
-                />
-                <Text style={formElementStyles.textLabelStyle}>User name</Text>
+                <Text
+                  style={{
+                    ...textInfoItalicStyle('white'),
+                    marginTop: 0,
+                    textAlign: 'center'
+                  }}>You are using {service[0].toUpperCase() + service.slice(1)}.</Text>
+                <Text style={textInfoStyle('white')}>
+                  <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}</Text>
+                <TouchableOpacity
+                  accessibilityLabel={`Stop using ${service[0].toUpperCase() + service.slice(1)}`}
+                  color={hslString('white')}
+                  onPress={unsetBackend}
+                  testID={`${service}-logout-button`}
+                >
+                  <Text style={{
+                    ...textInfoStyle('white'),
+                    textDecorationLine: 'underline'
+                  }}>Stop using {service[0].toUpperCase() + service.slice(1)}</Text>
+                </TouchableOpacity>
+              </View> :
+              ( service === 'rizzle' ?
+                <RizzleAuth
+                  backend={this.props.backend}
+                  errors={errors}
+                  handleChange={handleChange}
+                  handleReset={handleReset}
+                  handleSubmit={handleSubmit}
+                  isSubmitting={isSubmitting}
+                  isValid={isValid}
+                  submitCount={submitCount}
+                  values={values}
+                  user={user}
+                /> :
                 <View style={{
-                  position: 'relative',
-                  height: 48
+                  paddingTop: 16,
+                  paddingLeft: 16,
+                  paddingRight: 16,
+                  marginTop: 16
                 }}>
                   <TextInput
-                    onChangeText={handleChange('password')}
-                    secureTextEntry={true}
-                    style={{
-                      ...formElementStyles.textInputStyle,
-                      marginTop: 24
-                    }}
-                    value={values.password}
+                    autoCapitalize='none'
+                    keyboardType='email-address'
+                    onChangeText={handleChange('username')}
+                    style={textInputStyle()}
+                    testID={`${service}-username-text-input`}
+                    value={values.username}
                   />
-                  { this.state.is1Password &&
+                  <Text style={textLabelStyle()}>User name</Text>
+                  <View style={{
+                    position: 'relative',
+                    height: 48
+                  }}>
+                    <TextInput
+                      onChangeText={handleChange('password')}
+                      secureTextEntry={true}
+                      style={{
+                        ...textInputStyle(),
+                        marginTop: 24
+                      }}
+                      testID={`${service}-password-text-input`}
+                      value={values.password}
+                    />
+                    { this.state.is1Password &&
+                      <View style={{
+                        position: 'absolute',
+                        top: 16,
+                        right: 0
+                      }}>
+                        <Button
+                          title='1P'
+                          onPress={() => this.onePasswordHandler(this.props.service)} />
+                      </View>
+                    }
+                  </View>
+                  <Text style={textLabelStyle()}>Password</Text>
+                  { isSubmitting ?
+                    <Text style={{
+                      ...textLabelStyle(),
+                      marginTop: 6,
+                      textAlign: 'center'
+                    }}>Submitting...</Text> :
+                    <TouchableOpacity
+                      accessibilityLabel={`Authenticate with ${service[0].toUpperCase() + service.slice(1)}`}
+                      color={hslString('white')}
+                      disabled={isSubmitting || !isValid}
+                      onPress={handleSubmit}
+                      style={{
+                        alignSelf: 'center',
+                        marginTop: 5,
+                        marginBottom: 5
+                      }}
+                      testID={`${service}-submit-button`}
+                    >
+                      <Text style={{
+                        ...textInfoStyle('logo1'),
+                        textDecorationLine: 'underline'
+                      }}>Submit</Text>
+                    </TouchableOpacity>
+                  }
+                  { errors.submit &&
                     <View style={{
-                      position: 'absolute',
-                      top: 16,
-                      right: 0
+                      backgroundColor: hslString('logo2'),
+                      padding: 5,
+                      marginLeft: -16,
+                      marginRight: -16
                     }}>
-                      <Button
-                        title='1P'
-                        onPress={() => this.onePasswordHandler(this.props.service)} />
+                      <Text style={{
+                        ...textLabelStyle(),
+                        color: hslString('white'),
+                        textAlign: 'center'
+                      }}>{ errors.submit }</Text>
                     </View>
                   }
                 </View>
-                <Text style={formElementStyles.textLabelStyle}>Password</Text>
-                <Button
-                  disabled={isSubmitting || !isValid}
-                  title="Submit"
-                  onPress={handleSubmit}
-                />
-              </View>
+              )
             }
           </View>
         )}

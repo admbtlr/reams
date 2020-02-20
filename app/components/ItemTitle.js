@@ -144,7 +144,7 @@ class ItemTitle extends React.Component {
       useNativeDriver: true
     }
 
-    Animated.stagger(50, [
+    Animated.stagger(100, [
       Animated.timing(this.fadeInAnim1, params),
       Animated.timing(this.fadeInAnim2, params),
       Animated.timing(this.fadeInAnim3, params),
@@ -468,7 +468,7 @@ class ItemTitle extends React.Component {
       transform: [{
         translateY: anim.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, -20]
+          outputRange: [100, -20]
         })
       }]
 
@@ -482,7 +482,7 @@ class ItemTitle extends React.Component {
     if (!styles) return null
 
     // just so we can render something before it's been calculated
-    const fontSize = styles.fontSize || 40
+    const fontSize = styles.fontSize || 42
     let lineHeight = Math.floor(fontSize * styles.lineHeightAsMultiplier)
     if (lineHeight < fontSize) lineHeight = fontSize
 
@@ -830,7 +830,8 @@ class ItemTitle extends React.Component {
         marginTop: 10,
         width: 66,
         height: 16,
-        backgroundColor: this.getForegroundColor()
+        backgroundColor: this.getForegroundColor(),
+        borderRadius: 3
       }} />
     </Animated.View>
   }
@@ -906,14 +907,17 @@ class ItemTitle extends React.Component {
 
     let style = {
       ...innerViewStyle,
-      paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
+      paddingTop: !coverImageStyles.isInline &&
+        (styles.borderWidth || styles.bg) ?
+          excerptLineHeight / 2 :
+          0,
       paddingBottom: !showCoverImage ?
           excerptLineHeight :
         (styles.borderWidth || styles.bg) ?
           excerptLineHeight / 2 :
           excerptLineHeight,
       ...excerptBg,
-      borderTopWidth: 0,
+      // borderTopWidth: styles.borderWidth,
       // opacity: anim,
       marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
       width: (excerpt.length > 70) && (!showCoverImage || styles.excerptFullWidth || excerpt.length > 100) ?
@@ -927,8 +931,17 @@ class ItemTitle extends React.Component {
     }
     style = this.addAnimationsIfNecessary(style, anim)
 
+    const borderBar = <Animated.View style={{
+      width: this.screenWidth * 0.666,
+      height: 1,
+      backgroundColor: this.getExcerptColor(),
+      alignSelf: 'center',
+      marginBottom: excerptLineHeight * 0.5
+    }} />
+
     return (
       <View>
+        { styles.borderWidth > 0 && borderBar }
         <Animated.View style={style}>
           <Animated.Text
             maxFontSizeMultiplier={1.2}
@@ -971,9 +984,9 @@ class ItemTitle extends React.Component {
           textColorDarkBackground :
           this.getForegroundColor(),
       backgroundColor: 'transparent',
-      fontSize: this.getExcerptFontSize(),
+      fontSize: this.getExcerptFontSize() * 0.9,
       fontFamily: this.getFontFamily('bold', 'author'),
-      lineHeight: Math.round(this.getExcerptFontSize() * 1.4),
+      lineHeight: Math.round(this.getExcerptFontSize() * 0.9),
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
@@ -1002,7 +1015,7 @@ class ItemTitle extends React.Component {
         !coverImageStyles.isInline/* &&
         !coverImageStyles.isScreen*/ ? 'white' : '#666', // hslString(item.feed_color, 'desaturated'),
       backgroundColor: 'transparent',
-      fontSize: this.getExcerptFontSize() * 0.9,
+      fontSize: this.getExcerptFontSize() * 0.8,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: Math.round(this.getExcerptFontSize() * 1.4),
       textAlign: styles.textAlign,
@@ -1071,9 +1084,9 @@ class ItemTitle extends React.Component {
     } else if (coverImageStyles.isBW ||
       coverImageStyles.isMultiply ||
       coverImageStyles.isScreen) {
-      return 'rgba(0,0,0,0.3)'
-    } else {
       return 'rgba(0,0,0,0.4)'
+    } else {
+      return 'rgba(0,0,0,0.6)'
     }
   }
 

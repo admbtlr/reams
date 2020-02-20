@@ -20,21 +20,19 @@
     "@sentry/react-native": "^1.1.0",
     "@welldone-software/why-did-you-render": "^3.5.0",
     "autoprefixer": "^6.7.7",
-    "co": "^4.6.0",
+    "base-64": "^0.1.0",
     "entities": "^1.1.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "formik": "^1.4.2",
     "fuzzball": "^1.2.2",
-    "generator-to-promise": "^1.0.0",
     "headline-quotes": "^2.1.1",
     "lz-string": "^1.4.4",
     "moment": "^2.22.2",
     "path": "^0.12.7",
     "prop-types": "^15.6.0",
     "react": "16.8.6",
-    "react-devtools": "^3.4.2",
     "react-native": "^0.60.6",
-    "react-native-animated-ellipsis": "^1.1.0",
+    "react-native-animated-ellipsis": "git://github.com/adamvert/react-native-animated-ellipsis",
     "react-native-blur": "^3.1.2",
     "react-native-dark-mode": "^0.2.0",
     "react-native-dash": "0.0.8",
@@ -92,6 +90,7 @@
     "babel-plugin-transform-async-generator-functions": "^6.24.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "browser-sync": "^2.26.7",
+    "detox": "^15.2.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-json-sass": "git://github.com/adamvert/gulp-json-sass",
@@ -101,6 +100,7 @@
     "gulp-webserver": "^0.9.1",
     "jest": "^24.5.0",
     "metro-react-native-babel-preset": "^0.54.1",
+    "react-devtools": "^3.4.2",
     "react-test-renderer": "16.8.3",
     "reactotron-react-native": "^4.0.2",
     "reactotron-redux": "^3.1.2",
@@ -118,5 +118,18 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|gl-react-native|redux-persist-filesystem-storage)"
     ]
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/rizzle.app",
+        "build": "xcodebuild -workspace ios/rizzle.xcworkspace -scheme rizzle -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11"
+        }
+      }
+    },
+    "test-runner": "jest"
   }
 }

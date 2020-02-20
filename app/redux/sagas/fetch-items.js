@@ -1,4 +1,4 @@
-import { call, cancelled, fork, put, select, take } from 'redux-saga/effects'
+import { call, cancelled, delay, fork, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import { InteractionManager } from 'react-native'
 
@@ -60,22 +60,25 @@ export function * fetchItems (type = 'unread') {
     type: 'ITEMS_IS_LOADING',
     isLoading: true
   })
-  let feeds = yield select(getFeeds)
-  feeds = feeds.filter(f => !f.isMuted)
-  const feedsLocal = yield select(getFeedsLocal)
-  feeds = feeds.map(f => {
-    const feedLocal = feedsLocal.find(fl => fl._id === f._id)
-    return feedLocal && feedLocal.isNew ? {
-      ...f,
-      isNew: true
-    } : f
-  })
+  let feeds
+
+  if (type === 'unread') {
+    feeds = yield select(getFeeds)
+    feeds = feeds.filter(f => !f.isMuted)
+    const feedsLocal = yield select(getFeedsLocal)
+    feeds = feeds.map(f => {
+      const feedLocal = feedsLocal.find(fl => fl._id === f._id)
+      return feedLocal && feedLocal.isNew ? {
+        ...f,
+        isNew: true
+      } : f
+    })
+  }
 
   const oldItems = yield select(getItems, type)
-  const currentItem = yield select(getCurrentItem, type)
   const lastUpdated = yield select(getLastUpdated, type)
 
-  const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, currentItem, feeds)
+  const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feeds)
 
   let isFirstBatch = true
   let didError = false
@@ -125,10 +128,10 @@ function * receiveAndProcessItems (items, type, isFirstBatch, i) {
   }
 }
 
-function fetchItemsChannel (type, lastUpdated, oldItems, currentItem, feeds) {
+function fetchItemsChannel (type, lastUpdated, oldItems, feeds) {
   const logger = log
   return eventChannel(emitter => {
-    fetchItemsBackends(emitter, type, lastUpdated, oldItems, currentItem, feeds)
+    fetchItemsBackends(emitter, type, lastUpdated, oldItems, feeds)
       .then(() => {
         emitter(END)
       })
@@ -157,11 +160,11 @@ export function * receiveItems (items, type) {
       feeds,
       skipFetchItems: true
     })
-
-    items = yield cleanUpItems(items, type)
-    console.log('cleaning up items took ' + (Date.now() - now))
-    now = Date.now()
   }
+
+  items = yield cleanUpItems(items, type)
+  console.log('cleaning up items took ' + (Date.now() - now))
+  now = Date.now()
 
   yield call(InteractionManager.runAfterInteractions)
   now = Date.now()
@@ -187,7 +190,9 @@ function * cleanUpItems (items, type) {
   const fixCreatedAt = (item) => ({
     ...item,
     created_at: typeof item.created_at === 'number'
-      ? (item.created_at > Date.parse('Jan 01 2000') ? item.created_at : item.created_at * 1000)
+      ? (item.created_at > Date.parse('Jan 01 2000') ?
+          item.created_at :
+          item.created_at * 1000)
       : Date.parse(item.created_at),
     original_created_at: item.created_at
   })
@@ -205,8 +210,13 @@ function * cleanUpItems (items, type) {
       isSaved: true
     } :
     item
+  const setId = (item) => ({
+    ...item,
+    _id: item._id || id(item)
+  })
 
-  return items.map(nullValuesToEmptyStrings)
+  return items
+    .map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
     .map(sanitizeContent)
@@ -214,6 +224,7 @@ function * cleanUpItems (items, type) {
     .map(fixCreatedAt)
     .map(addDateFetched)
     .map(setSavedIfNecessary)
+    .map(setId)
 }
 
 function incrementFeedUnreadCounts (items, feeds) {
@@ -244,70 +255,41 @@ function incrementFeedUnreadCounts (items, feeds) {
 
 function * createFeedsWhereNeededAndAddInfo (items, feeds) {
   let feed
+  let item
   let newOrUpdatedFeeds = []
-  items.forEach(item => {
+  for (var i = 0; i < items.length; i++) {
+    // give the loop a chance to stop in case the fork has been cancelled
+    yield delay(1)
+    item = items[i]
+    // note that we have to look at feed.id AND feed._id
+    // this is for feeds that have been migrated from an external provider
+    // to rizzle, whereby feed.id is the exernal provider's id, and
+    // feed._id is rizzle's id
     feed = feeds.find(feed => feed.id === item.feed_id ||
       feed._id === item.feed_id ||
       feed.title === item.feed_title)
     if (!feed) {
       feed = {
-        _id: id(),
+        _id: id()
       }
       feeds.push(feed)
     }
-    if (!feed.id || !feed.title || !feed.color) {
+    if (!feed.id) {
+      debugger
       feed.id = item.feed_id
+    }
+    if (!feed.title && item.feed_title) {
+      debugger
       feed.title = item.feed_title
-      feed.color = getFeedColor(feeds)
+    }
+    if (!feed.color) {
+      debugger
+      feed.color = getFeedColor()
     }
 
     item.feed_id = feed._id
     item.feed_color = feed.color
-    item._id = item._id || id(item)
-  })
+    item.feed_title = feed.title
+  }
   return { feeds, items }
 }
-
-// export function * fetchItems () {
-//   const oldItems = yield select(getItems, 'items')
-//   const currentItem = yield select(getCurrentItem)
-//   let latestDate = 0
-//   if (oldItems.length > 0) {
-//     latestDate = [ ...oldItems ].sort((a, b) => b.created_at - a.created_at)[0].created_at
-//   }
-//   try {
-//     yield put({
-//       type: 'ITEMS_IS_LOADING',
-//       isLoading: true
-//     })
-//     const newItems = yield fetchUnreadItems(latestDate)
-//     yield put({
-//       type: 'ITEMS_IS_LOADING',
-//       isLoading: true,
-//       numItems: newItems.length
-//     })
-//     if (__DEV__) {
-//       newItems = newItems.slice(-100)
-//     }
-//     console.log(`Fetched ${newItems.length} items`)
-//     const { read, unread } = mergeItems(oldItems, newItems, currentItem)
-//     console.log(`And now I have ${unread.length} unread items`)
-//     yield put({
-//       type: 'ITEMS_FETCH_DATA_SUCCESS',
-//       items: unread
-//     })
-//     yield put({
-//       type: 'ITEMS_IS_LOADING',
-//       isLoading: false
-//     })
-//     // now remove the cached images for all the read items
-//     removeCachedCoverImages(read)
-//   } catch (error) {
-//     yield put({
-//       type: 'ITEMS_HAS_ERRORED',
-//       hasErrored: true,
-//       error
-//     })
-//   }
-// }
-
