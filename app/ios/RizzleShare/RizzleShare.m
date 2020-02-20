@@ -3,6 +3,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLog.h>
+#import <Firebase.h>
 
 @interface RizzleShare : ReactNativeShareExtension
 @end
@@ -24,6 +25,10 @@ RCT_EXPORT_MODULE();
 
   // Uncomment for console output in Xcode console for release mode on device:
   // RCTSetLogThreshold(RCTLogLevelInfo - 1);
+
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
 
   return rootView;
 }
