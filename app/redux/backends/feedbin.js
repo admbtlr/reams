@@ -46,39 +46,40 @@ function getBasicAuthHeader () {
 }
 
 function getRequest (endpoint) {
-  return doRequest(getUrl(endpoint), {
-    headers: getBasicAuthHeader()
-  })
+  return doRequest(getUrl(endpoint))
 }
 
 function postRequest (endpoint, body) {
   return doRequest(getUrl(endpoint), {
     method: 'POST',
-    headers: getBasicAuthHeader(),
     body: JSON.stringify(body)
   })
 }
 
-function deleteRequest (endpoint, body) {
+function deleteRequest (endpoint, body, expectNoContent = false) {
   return doRequest(getUrl(endpoint), {
     method: 'DELETE',
-    headers: getBasicAuthHeader()
-  })
+    body: JSON.stringify(body)
+  }, expectNoContent)
 }
 
-function doRequest (url, options) {
+function doRequest (url, options = {}, expectNoContent = false) {
+  options.headers = options.headers || getBasicAuthHeader()
+  options.headers['Content-Type'] = 'application/json; charset=utf-8'
   return fetch(url, options)
     .then((response) => {
       if (!response.ok) {
         throw Error(response.statusText)
       }
-      return response.json()
+      return expectNoContent || response.json()
     })
 }
 
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds, maxNum) {
   if (type === 'unread') {
     await fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum)
+  } else if (type === 'saved') {
+    await fetchSavedItems (callback, lastUpdated, oldItems, feeds, maxNum)
   }
 }
 
@@ -93,15 +94,45 @@ async function fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum)
   }
 }
 
-export async function markItemRead (item) {}
+async function fetchSavedItems (callback, lastUpdated, oldItems, feeds, maxNum) {
+  const endpoint = 'starred_entries.json'
+  let itemIds = await getRequest(endpoint)
+  const oldItemIds = oldItems.map(oi => oi.id)
+  const newIds = itemIds.filter(id => !oldItemIds.includes(id))
+  if (newIds.length > 0) {
+    const url = getUrl('entries.json?ids=')
+    await getItemsByIds(newIds, url, mapFeedbinItemToRizzleItem, callback, getFetchConfig())
+  }
+}
+
+export async function markItemRead (item) {
+  return markItemsRead([item])
+}
 
 export async function markItemsRead (items) {
+  const endpoint = 'unread_entries.json'
+  const body = {
+    unread_entries: items.map(i => i.id)
+  }
+  let itemIds = await deleteRequest(endpoint, body)
 }
 
-export const saveItem = (item, folder) => {
+export async function saveItem (item, folder) {
+  const endpoint = 'starred_entries.json'
+  const body = {
+    starred_entries: [item.id]
+  }
+  let itemId = await postRequest(endpoint, body)
+  return itemId === item.id
 }
 
-export const unsaveItem = (item, folder) => {
+export async function unsaveItem (item, folder) {
+  const endpoint = 'starred_entries.json'
+  const body = {
+    starred_entries: [item.id]
+  }
+  let itemId = await deleteRequest(endpoint, body)
+  return itemId === item.id
 }
 
 export async function fetchFeeds (oldFeeds) {
@@ -114,6 +145,7 @@ export async function fetchFeeds (oldFeeds) {
     .map(feed => ({
       _id: id(),
       id: feed.feed_id,
+      subscription_id: feed.id,
       title: feed.title,
       url: feed.feed_url,
       link: feed.site_url,
@@ -131,7 +163,7 @@ export async function addFeed (feed) {
 }
 
 export async function removeFeed (feed) {
-  await deleteRequest(`subscriptions/${feed.id}.json`)
+  await deleteRequest(`subscriptions/${feed.subscription_id}.json`, {}, true)
 }
 
 export const markFeedRead = (feed, olderThan, items) => {

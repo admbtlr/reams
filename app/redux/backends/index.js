@@ -1,3 +1,4 @@
+import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { mergeItems, id } from '../../utils/merge-items'
 import moment from 'moment'
 import log from '../../utils/log'
@@ -5,6 +6,8 @@ import log from '../../utils/log'
 const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
 const rizzle = require('./rizzle')
+
+const group = 'group.com.adam-butler.rizzle'
 
 const MAX_ITEMS_TO_DOWNLOAD = 5000
 
@@ -18,6 +21,7 @@ let backends = {
 export function setBackend (bcknd, config) {
   backend = bcknd
   backends[backend].init(config)
+  SharedGroupPreferences.setItem('backend', backend, group)
 }
 
 export function unsetBackend () {
@@ -101,6 +105,8 @@ export async function markItemRead (item) {
       return rizzle.markItemRead(item)
     case 'feedwrangler':
       return feedwrangler.markItemRead(item)
+    case 'feedbin':
+      return feedbin.markItemRead(item)
   }
 }
 
@@ -114,6 +120,8 @@ export async function markItemsRead (items, feedId = null, olderThan = null) {
       } else {
         return feedwrangler.markItemsRead(items)
       }
+    case 'feedbin':
+      return feedbin.markItemsRead(items)
   }
 }
 
@@ -121,6 +129,9 @@ export async function saveItem (item, folder) {
   switch (backend) {
     case 'rizzle':
       await rizzle.saveItem(item, folder)
+      break
+    case 'feedbin':
+      await feedbin.saveItem(item)
       break
     case 'feedwrangler':
       await feedwrangler.saveItem(item)

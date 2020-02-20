@@ -188,6 +188,7 @@ class FeedItem extends React.Component {
     // if (/*__DEV__ ||*/ !this.props.item.styles) {
     //   this.props.item.styles = createItemStyles(this.props.item)
     // }
+    const { item } = this.props
     let {
       feed_title,
       url,
@@ -257,11 +258,15 @@ class FeedItem extends React.Component {
       data = banner_image
     }
 
+    const feedColor = item.feed_color ?
+      hslString(this.props.item.feed_color, this.props.isDarkBackground ? 'darkmode' : '') :
+      hslString('logo1')
+
     const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkBackground ? 'dark-background' : ''}">
   <head>
     <style>
 :root {
-  --feed-color: ${hslString(this.props.item.feed_color, this.props.isDarkBackground ? 'darkmode' : '')};
+  --feed-color: ${feedColor};
   --font-path-prefix: ${ server === '' ? '../' : server };
 }
     </style>

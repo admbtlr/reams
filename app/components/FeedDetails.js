@@ -254,7 +254,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             icon={unsubscribeIcon}
             noResize={true}
             onPress={() => {
-              unsubscribe(feed._id)
+              unsubscribe(feed)
               navigation.goBack(null)
             }}
             text='Unsubscribe' />
