@@ -2,7 +2,7 @@ import { put, select } from 'redux-saga/effects'
 import { decorateItem } from './decorate-items'
 import { id } from '../../utils'
 import { upsertSavedItemFS } from '../firestore/'
-import { getItems, getItem } from './selectors'
+import { getConfig, getItems, getItem } from './selectors'
 
 export function * saveExternalUrl (action) {
   let item = {
@@ -46,6 +46,8 @@ export function * saveExternalUrl (action) {
 
 export function * maybeUpsertSavedItem (action) {
   if (!action.isSaved) return
+  const backend = yield select(getConfig)
+  if (backend !== 'rizzle') return
   const item = yield select(getItem, action.item._id, 'saved')
   upsertSavedItemFS(item)
 }
