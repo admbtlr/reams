@@ -21,6 +21,7 @@ import AppStateListenerContainer from '../containers/AppStateListener.js'
 import ConnectionListenerContainer from '../containers/ConnectionListener.js'
 import RizzleModalContainer from '../containers/RizzleModal.js'
 import Splash from './Splash'
+import Message from './Message'
 import ActionExtensionScreen from './Action'
 import { setBackend } from '../redux/backends'
 import { hslString } from '../utils/colors'
@@ -189,6 +190,7 @@ export default class Rizzle extends Component {
         <AppStateListenerContainer />
         <ConnectionListenerContainer />
         <AppContainer />
+        <Message />
         <Splash />
       </View>)
 
