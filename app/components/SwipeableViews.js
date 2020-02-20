@@ -240,6 +240,7 @@ class SwipeableViews extends Component {
     if (isOnboarding) {
       this.children = [0, 1].map(index => (
         <OnboardingContainer
+          key={index}
           index={index}
           navigation={navigation} />
       ))
