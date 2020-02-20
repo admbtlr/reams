@@ -147,7 +147,7 @@ class TopBar extends React.Component {
                 }]
               }}>
                 { item && item.hasCachedFeedIcon &&
-                  <View style={{marginTop: 9}}>
+                  <View style={{marginTop: -8}}>
                     <FeedIconContainer
                       id={item.feed_id}
                       dimensions={item.feedIconDimensions}
@@ -211,7 +211,7 @@ class TopBar extends React.Component {
   getBackgroundColor (item) {
     const feedColor = item ? item.feed_color : null
     return this.props.displayMode == 'saved' ?
-      hslString('rizzleBG') :
+      hslString('rizzleFG') :
       (feedColor ?
         hslString(feedColor, 'desaturated') :
         hslString('rizzleSaved'))
@@ -221,7 +221,7 @@ class TopBar extends React.Component {
     return this.props.displayMode == 'saved' ?
       (this.props.isDarkBackground ?
         'hsl(0, 0%, 80%)' :
-        hslString('rizzleText')) :
+        hslString('white')) :
         'white'
   }
 
@@ -332,7 +332,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor }) => (<Animated.View
       position: 'absolute',
       zIndex: 5,
       right: 19,
-      bottom: 15
+      bottom: 20
     }}
   >
     <TouchableOpacity
@@ -402,7 +402,7 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
     <Animated.View style={{
       position: 'absolute',
       left: 20,
-      bottom: 7,
+      bottom: 15,
       width: 32,
       height: 38,
     }}>
