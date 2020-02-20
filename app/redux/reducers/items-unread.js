@@ -227,7 +227,7 @@ export const itemsUnread = (state = initialState, action) => {
     case 'FEEDS_REMOVE_FEED':
       return {
         ...state,
-        items: state.items.filter(i => i.feed_id !== action.id)
+        items: state.items.filter(i => i.feed_id !== action.feed._id)
       }
 
     case 'ITEMS_REMOVE_ITEMS':

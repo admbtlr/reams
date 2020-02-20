@@ -47,7 +47,7 @@ export function feeds (state = initialState, action) {
     case 'FEEDS_REMOVE_FEED':
       return {
         ...state,
-        feeds: state.feeds.filter(feed => feed._id !== action.id)
+        feeds: state.feeds.filter(feed => feed._id !== action.feed._id)
       }
 
     case 'FEEDS_UPDATE_FEEDS':

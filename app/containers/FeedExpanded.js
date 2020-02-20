@@ -67,9 +67,9 @@ const mapDispatchToProps = (dispatch) => {
     clearReadItems: () => dispatch({
       type: 'ITEMS_CLEAR_READ'
     }),
-    unsubscribe: (id) => dispatch({
+    unsubscribe: (feed) => dispatch({
       type: 'FEEDS_REMOVE_FEED',
-      id
+      feed
     }),
     toggleMute: (id) => dispatch({
       type: 'FEED_TOGGLE_MUTE',
