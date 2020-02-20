@@ -246,7 +246,7 @@ export function setShowCoverImage (item, currentItem) {
     ...item,
     showCoverImage: item.hasCoverImage &&
       (currentItem ? item._id !== currentItem._id : true) &&
-      (getLongestContentLength(item) > 2000)
+      (getLongestContentLength(item) > 1500)
   }
 }
 
