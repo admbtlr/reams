@@ -1228,8 +1228,8 @@ hr {
 .itemArticle {
   a, a:active, a:visited {
     // color: $value;
-    // text-decoration: none;
-    -webkit-text-decoration-color: var(--feed-color);
+    text-decoration: none;
+    border-bottom: 2px solid var(--feed-color);
   }
 
   blockquote.short-blockquote, .pullquote, aside {
