@@ -98,23 +98,32 @@ app.get('/feed-meta/', async (req, res) => {
   const readMeta = async (items) => {
     if (items && items.length) {
       const meta = items[0].meta
-      // console.log(meta)
       feedMeta = {
         description: meta.description,
-        favicon: meta.favicon,
+        favicon: meta.favicon || (meta.imge && { url: meta.image.url }),
         image: meta.image.url,
         link: meta.link
           .replace(/\?.*/, '')
           .replace(/(.*?\/\/.*?\/).*/, '$1'),
         color: meta.color
       }
+      const knownSite = knownSites.find(ks => ks.url === feedMeta.link)
+      if (knownSite) {
+        feedMeta.favicon = { url: knownSite.favicon },
+        feedMeta.color = knownSite.color
+        res.send(feedMeta)
+        return
+      }
       try {
-        const body = await rp(feedMeta.link)
+        const body = await rp({
+          uri: feedMeta.link,
+          followAllRedirects: true
+        })
         const favicon = await getFavicon(feedMeta.link, body)
-        const color = getColor(body) || (favicon ?
-          await getColorFromFavicon(favicon.url, meta.title.replace(/[^A-Za-z]/g, '')) :
+        feedMeta.favicon = favicon || feedMeta.favicon
+        const color = getColor(body) || (feedMeta.favicon ?
+          await getColorFromFavicon(feedMeta.favicon.url, meta.title.replace(/[^A-Za-z]/g, '')) :
           null)
-        feedMeta.favicon = favicon
         feedMeta.color = color || feedMeta.color
       } catch (e) {
         console.log(e)
@@ -126,42 +135,62 @@ app.get('/feed-meta/', async (req, res) => {
   }
 
   const getFavicon = async (link, body) => {
-    return parseFavicon.parseFavicon(body, {})
-      .then(favicons => {
-        // console.log(favicons)
-        let favicon
-        const getSize = f => f.size
-          ? f.size.split('x')[0]
-          : 0
-        if (favicons && favicons.length > 0) {
-          favicons = favicons.sort((a, b) => getSize(a) - getSize(b))
-            .filter(f => f.type && f.type === 'image/png'
-              || (f.path && f.path.indexOf('png') !== -1)
-              || (f.url && f.url.indexOf('png') !== -1))
-          if (favicons.length) {
-            // try and get the smallest one larger than 63
-            favicon = favicons.find(f => getSize(f) > 63)
-             || favicons[0]
-          }
-        }
-        if (favicon) {
-          if (favicon.url && favicon.url.startsWith('//')) {
-            favicon.url = 'https:' + favicon.url
-          } else if (favicon.url && favicon.url.startsWith('/')) {
-            favicon.url = (link.endsWith('/') ?
-              link.substring(0, link.length - 1) :
-              link
-            ) + favicon.url
-          } else if (!favicon.url && favicon.path) {
-            if (favicon.path.startsWith('//')) {
-              favicon.url = 'https:' + favicon.path
+    // console.log(body)
+    let favicons = await parseFavicon.parseFavicon(body, {})
+    let favicon
+    const getSize = f => f.size
+      ? f.size.split('x')[0]
+      : 0
+    if (favicons && favicons.length > 0) {
+      favicons = favicons.sort((a, b) => getSize(a) - getSize(b))
+        .filter(f => f.type && f.type === 'image/png'
+          || (f.path && f.path.indexOf('png') !== -1)
+          || (f.url && f.url.indexOf('png') !== -1))
+      if (favicons.length) {
+        let goodFavicons = []
+        // try and get the smallest one larger than 63
+        // favicon = favicons.find(f => getSize(f) > 63)
+        //  || favicons[0]
+        for (var i = 0; i < favicons.length; i++) {
+          favicon = resolveUrl(favicons[i], link)
+          try {
+            const response = await rp({
+              uri: favicon.url,
+              resolveWithFullResponse: true
+            })
+            if (response.statusCode !== 404) {
+              console.log(`${favicon.url} is good`)
+              goodFavicons.push(favicon)
             } else {
-              favicon.url = link.substring(0, link.length - 1) + favicon.path
+              console.log(`${favicon.url} is bad`)
             }
+          } catch (error) {
+            console.log(`${favicon.url} is bad`)
           }
         }
-        return favicon
-      })
+        favicon = goodFavicons.find(f => getSize(f) > 63)
+         || goodFavicons[0]
+      }
+    }
+    return favicon
+  }
+
+  const resolveUrl = (favicon, link) => {
+    if (favicon.url && favicon.url.startsWith('//')) {
+      favicon.url = 'https:' + favicon.url
+    } else if (favicon.url && favicon.url.startsWith('/')) {
+      favicon.url = (link.endsWith('/') ?
+        link.substring(0, link.length - 1) :
+        link
+      ) + favicon.url
+    } else if (!favicon.url && favicon.path) {
+      if (favicon.path.startsWith('//')) {
+        favicon.url = 'https:' + favicon.path
+      } else {
+        favicon.url = link.substring(0, link.length - 1) + favicon.path
+      }
+    }
+    return favicon
   }
 
   const getColor = (body) => {
@@ -284,7 +313,8 @@ function fetch (feed, done, fail, includeMeta) {
 
   feedparser.on('error', (error) => {
     console.log(`That's an error... (${finalUrl})`)
-    fail ? fail(error) : console.log(error)
+    console.log(error)
+    // fail ? fail(error) : console.log(error)
   })
 
   feedparser.on('end', () => {
@@ -376,3 +406,11 @@ const server = app.listen(port, () => {
 
   console.log('Rizzle API listening at http://%s:%s', host, port)
 });
+
+const knownSites = [
+  {
+    url: 'https://sidebar.io/',
+    favicon: 'https://sidebar.io/img/favicon/favicon-32x32.png',
+    color: '#f36c3d'
+  }
+]
