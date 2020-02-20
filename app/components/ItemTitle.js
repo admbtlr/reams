@@ -907,14 +907,17 @@ class ItemTitle extends React.Component {
 
     let style = {
       ...innerViewStyle,
-      paddingTop: !coverImageStyles.isInline && (styles.borderWidth || styles.bg) ? excerptLineHeight / 2 : 0,
+      paddingTop: !coverImageStyles.isInline &&
+        (styles.borderWidth || styles.bg) ?
+          excerptLineHeight / 2 :
+          0,
       paddingBottom: !showCoverImage ?
           excerptLineHeight :
         (styles.borderWidth || styles.bg) ?
           excerptLineHeight / 2 :
           excerptLineHeight,
       ...excerptBg,
-      borderTopWidth: 0,
+      // borderTopWidth: styles.borderWidth,
       // opacity: anim,
       marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
       width: (excerpt.length > 70) && (!showCoverImage || styles.excerptFullWidth || excerpt.length > 100) ?
@@ -928,8 +931,17 @@ class ItemTitle extends React.Component {
     }
     style = this.addAnimationsIfNecessary(style, anim)
 
+    const borderBar = <Animated.View style={{
+      width: this.screenWidth * 0.666,
+      height: 1,
+      backgroundColor: this.getExcerptColor(),
+      alignSelf: 'center',
+      marginBottom: excerptLineHeight * 0.5
+    }} />
+
     return (
       <View>
+        { styles.borderWidth > 0 && borderBar }
         <Animated.View style={style}>
           <Animated.Text
             maxFontSizeMultiplier={1.2}
@@ -1072,9 +1084,9 @@ class ItemTitle extends React.Component {
     } else if (coverImageStyles.isBW ||
       coverImageStyles.isMultiply ||
       coverImageStyles.isScreen) {
-      return 'rgba(0,0,0,0.3)'
-    } else {
       return 'rgba(0,0,0,0.4)'
+    } else {
+      return 'rgba(0,0,0,0.6)'
     }
   }
 

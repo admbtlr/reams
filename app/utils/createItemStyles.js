@@ -100,7 +100,6 @@ export function createItemStyles (item, prevStyles) {
       Math.random() > 0.3
   // title.borderWidth = title.invertBG || title.isVertical || isContain ? 0 :
   //   (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
-  title.borderWidth = 0
 
   // to stop the predominance of white on black titles
   // if (title.invertBG) {
@@ -113,6 +112,11 @@ export function createItemStyles (item, prevStyles) {
 
   title.excerptFullWidth = isCoverInline || Math.random() > 0.5
   title.excerptHorizontalAlign = ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
+
+  title.borderWidth = title.textAlign === 'center' &&
+    !title.bg &&
+    !title.invertBG &&
+    Math.random() > 0.5 ? 1 : 0
 
   const dropCapSize = Math.floor(Math.random() * 3) + 2
 
