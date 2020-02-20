@@ -138,7 +138,6 @@ class TopBar extends React.Component {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: 64,
-                // width: Dimensions.get('window').width - 84,
                 marginTop: 0,
                 marginLeft: 0,
                 marginRight: 0,
@@ -147,7 +146,7 @@ class TopBar extends React.Component {
                 }]
               }}>
                 { item && item.hasCachedFeedIcon &&
-                  <View style={{marginTop: -8}}>
+                  <View style={{marginTop: 2}}>
                     <FeedIconContainer
                       id={item.feed_id}
                       dimensions={item.feedIconDimensions}
@@ -157,7 +156,7 @@ class TopBar extends React.Component {
                 }
                 <View style={{
                   flexDirection: 'column',
-                  marginTop: -10
+                  marginTop: 0
                 }}>
                   <Text
                     style={{
@@ -332,7 +331,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor }) => (<Animated.View
       position: 'absolute',
       zIndex: 5,
       right: 19,
-      bottom: 20
+      bottom: 15
     }}
   >
     <TouchableOpacity
@@ -402,7 +401,7 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
     <Animated.View style={{
       position: 'absolute',
       left: 20,
-      bottom: 15,
+      bottom: 10,
       width: 32,
       height: 38,
     }}>
