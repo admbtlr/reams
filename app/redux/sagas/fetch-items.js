@@ -60,16 +60,20 @@ export function * fetchItems (type = 'unread') {
     type: 'ITEMS_IS_LOADING',
     isLoading: true
   })
-  let feeds = yield select(getFeeds)
-  feeds = feeds.filter(f => !f.isMuted)
-  const feedsLocal = yield select(getFeedsLocal)
-  feeds = feeds.map(f => {
-    const feedLocal = feedsLocal.find(fl => fl._id === f._id)
-    return feedLocal && feedLocal.isNew ? {
-      ...f,
-      isNew: true
-    } : f
-  })
+  let feeds
+
+  if (type === 'unread') {
+    feeds = yield select(getFeeds)
+    feeds = feeds.filter(f => !f.isMuted)
+    const feedsLocal = yield select(getFeedsLocal)
+    feeds = feeds.map(f => {
+      const feedLocal = feedsLocal.find(fl => fl._id === f._id)
+      return feedLocal && feedLocal.isNew ? {
+        ...f,
+        isNew: true
+      } : f
+    })
+  }
 
   const oldItems = yield select(getItems, type)
   const lastUpdated = yield select(getLastUpdated, type)
@@ -156,11 +160,11 @@ export function * receiveItems (items, type) {
       feeds,
       skipFetchItems: true
     })
-
-    items = yield cleanUpItems(items, type)
-    console.log('cleaning up items took ' + (Date.now() - now))
-    now = Date.now()
   }
+
+  items = yield cleanUpItems(items, type)
+  console.log('cleaning up items took ' + (Date.now() - now))
+  now = Date.now()
 
   yield call(InteractionManager.runAfterInteractions)
   now = Date.now()
@@ -186,7 +190,9 @@ function * cleanUpItems (items, type) {
   const fixCreatedAt = (item) => ({
     ...item,
     created_at: typeof item.created_at === 'number'
-      ? (item.created_at > Date.parse('Jan 01 2000') ? item.created_at : item.created_at * 1000)
+      ? (item.created_at > Date.parse('Jan 01 2000') ?
+          item.created_at :
+          item.created_at * 1000)
       : Date.parse(item.created_at),
     original_created_at: item.created_at
   })
@@ -204,8 +210,13 @@ function * cleanUpItems (items, type) {
       isSaved: true
     } :
     item
+  const setId = (item) => ({
+    ...item,
+    _id: item._id || id(item)
+  })
 
-  return items.map(nullValuesToEmptyStrings)
+  return items
+    .map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
     .map(sanitizeContent)
@@ -213,6 +224,7 @@ function * cleanUpItems (items, type) {
     .map(fixCreatedAt)
     .map(addDateFetched)
     .map(setSavedIfNecessary)
+    .map(setId)
 }
 
 function incrementFeedUnreadCounts (items, feeds) {
@@ -277,7 +289,6 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
 
     item.feed_id = feed._id
     item.feed_color = feed.color
-    item._id = item._id || id(item)
     item.feed_title = feed.title
   }
   return { feeds, items }
