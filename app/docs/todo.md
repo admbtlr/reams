@@ -1,17 +1,16 @@
 # To Do
 
-- why don't items updated their feed color?
-- where's my feed title gone?
+- add a message component
 - do something about Firebase listener memory leaks
 - move all firestore operations out of sagas and into backends
     + ~~feeds~~
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
+- make rizzle basic work
 - Feedly integration
-- why isn't icon color detection working?
-- why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?
 - add per feed setting to always open in expanded view
 - better loading indicator
+- replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 
 # Someday / Maybe
 
@@ -34,7 +33,12 @@
 
 # Done
 
+- ~~why isn't icon color detection working?~~
+- ~~why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?~~
+- ~~fix the navigation~~
+- ~~why doesn't the topbar show the correct item feed_color?~~
 - ~~Feedbin integration~~
+- ~~where's my feed title gone?~~
 - ~~have I broken the rizzle backend?~~
 - ~~why isn't the userid getting set when I log into rizzle?~~
 - ~~move scrollAnim out of redux state~~
