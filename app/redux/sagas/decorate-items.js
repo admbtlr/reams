@@ -181,8 +181,15 @@ function * getNextItemToDecorate (pendingDecoration) {
 
 export function * decorateItem (item) {
   let imageStuff = {}
-  const items = yield getItemsAS([item])
-  item = items[0] || item
+  let items = yield getItemsAS([item])
+  // TODO do something about this...
+  // feed_color is mutable and could have changed while the item was deflated
+  if (items[0]) {
+    item = {
+      ...items[0],
+      feed_color: item.feed_color || items[0].feed_color
+    }
+  }
   consoleLog(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield call(loadMercuryStuff, item)
   if (!mercuryStuff) {

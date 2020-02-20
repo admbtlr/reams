@@ -124,20 +124,23 @@ export function * inflateFeeds () {
 
 function convertColorIfNecessary (details) {
   let color
+  debugger
   if (details.color && details.color.indexOf('#') === 0 && details.color.length === 7) {
     color = hexToHsl(details.color.substring(1))
   } else if (details.color && details.color.indexOf('rgb') === 0) {
     let rgb = details.color.substring(4, details.color.length - 1).split(',')
       .map(l => l.trim())
     color = rgbToHsl(Number.parseInt(rgb[0], 10), Number.parseInt(rgb[1], 10), Number.parseInt(rgb[2], 10))
+  } else if (typeof details.color === 'object' && details.color.length === 3) {
+    color = details.color
   } else {
     color = [Math.round(Math.random() * 360), 50, 30]
   }
   if (color[1] > 70) {
-    color[1] = 30 + (color[1] - 30) / 2
+    color[1] = Math.round(30 + (color[1] - 30) / 2)
   }
   if (color[2] > 50) {
-    color[2] = 30 + (color[2] - 30) / 2
+    color[2] = Math.round(30 + (color[2] - 30) / 2)
   }
   return {
     ...details,
