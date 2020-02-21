@@ -167,11 +167,7 @@
     "rizzleChrome": "hsl(0, 0%, 95%)",
     "bodyBG": "hsl(60, 17%, 96%)",
     "bodyBGDark": "hsl(0, 0%, 0%)",
-<<<<<<< HEAD
-    "logo1": "hsl(186, 39%, 48%)",
-=======
     "logo1": "hsl(186, 40%, 50%)",
->>>>>>> master
     "logo2": "hsl(360, 70%, 60%)"
   },
   "darkMode": {
@@ -187,11 +183,7 @@
     "rizzleChrome": "hsl(0, 0%, 95%)",
     "bodyBG": "hsl(240, 0%, 0%)",
     "bodyBGDark": "hsl(0, 0%, 0%)",
-<<<<<<< HEAD
-    "logo1": "hsl(186, 39%, 48%)",
-=======
     "logo1": "hsl(186, 40%, 50%)",
->>>>>>> master
     "logo2": "hsl(360, 70%, 60%)"
   }
 

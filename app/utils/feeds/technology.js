@@ -47,10 +47,6 @@ export const technology = [{
   "url": "http://googleblog.blogspot.com/atom.xml",
   "description": "Insights from Googlers into our products, technology, and the Google culture."
 }, {
-  "title": "Android Central - Android Forums, News, Reviews, Help and Android Wallpapers",
-  "url": "http://www.androidcentral.com/feed",
-  "description": "Your buyer’s guide for the best Android phones, deals, news, and reviews! Android Central covers smartphones, watches, tablets, ChromeOS devices, Google Home, and all compatible peripherals in this smart world we're living in. Read all this and more on Android Central."
-}, {
   "title": "MacRumors",
   "url": "http://www.macrumors.com/macrumors.xml",
   "description": "Apple, iPhone, iPad, Mac News and Rumors."

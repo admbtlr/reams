@@ -1,4 +1,4 @@
-[{
+export const design = [{
   "title": "Design Milk",
   "url": "http://feeds.feedburner.com/design-milk",
   "description": "Dedicated to modern design."

@@ -9,7 +9,6 @@
 - make rizzle basic work
 - Feedly integration
 - add per feed setting to always open in expanded view
->>>>>>> master
 - better loading indicator
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 
@@ -44,7 +43,6 @@
 - ~~why isn't the userid getting set when I log into rizzle?~~
 - ~~move scrollAnim out of redux state~~
 - ~~find memory leak~~
->>>>>>> master
 - ~~speed up refresh of item carousel~~
 - ~~fix bug with second item never showing its title~~
 - ~~fix bug with items re-rendering and losing your place when getting new items~~
