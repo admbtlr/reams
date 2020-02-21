@@ -16,7 +16,8 @@ import Svg, {Circle, Group, Path} from 'react-native-svg'
 import TextButton from './TextButton'
 import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
-// import {technology} from '../utils/feeds/technology'
+import {technology} from '../utils/feeds/technology'
+import {design} from '../utils/feeds/design'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
@@ -76,29 +77,41 @@ export default function NewFeedsList (props) {
     height='32'
     viewBox='0 0 32 32'
     style={{
-      top: -4,
-      left: -4
+      top: -2,
+      left: -2
     }}>
-      <Circle
-        fill="#000000" cx="16" cy="16" r="16" />
       <Path d="M11.791,19.538 L9.307,19.538 L9.307,17.008 L12.251,17.008 L12.596,14.938 L10.181,14.938 L10.181,12.408 L13.056,12.408 L13.838,7.946 L16.529,7.946 L13.7,24 L11.009,24 L11.791,19.538 Z M18.3,7.946 L20.991,7.946 L20.209,12.408 L22.693,12.408 L22.693,14.938 L19.749,14.938 L19.404,17.008 L21.819,17.008 L21.819,19.538 L18.944,19.538 L18.162,24 L15.471,24 L18.3,7.946 Z" fill="#F0F0F0" fill-rule="nonzero" />
     </Svg>
 
-  const feedList = (feeds) => (
+  const FeedList = ({feeds}) => {
+    return (
     <View style={{
       marginTop: 16,
       paddingTop: 16,
       paddingRight: 16
     }}>
-      { feeds.map(feed => (
-        <View style={{
-          flexDirection: 'row'
-        }}>
+      { feeds.map((feed, index) => (
+        <View
+          key={`technology-${index}`}
+          style={{
+            flexDirection: 'row',
+            // height: 300
+          }}>
           <View style={{
             width: 70 * fontSizeMultiplier(),
             height: 70
           }}>
-            { /* icon goes here */ }
+          <Image
+            // resizeMode='contain'
+            source={require('../assets/images/favicons/tech-crunch.png')}
+            style={{
+              // flex: 1,
+              marginLeft: 20,
+              marginTop: 8,
+              height: 32,
+              width: 32
+            }}
+          />
           </View>
           <View style={{
             flexDirection: 'column',
@@ -119,7 +132,7 @@ export default function NewFeedsList (props) {
         </View>
       ))}
     </View>
-  )
+  )}
 
 
   return (
@@ -161,15 +174,30 @@ export default function NewFeedsList (props) {
           }}>1. Use the Rizzle Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Rizzle icon.</Text>
           <Text style={{
             ...textStyles(),
-            ...boldStyles
+            ...boldStyles,
+            marginBottom: 36
           }}>2. Select your favourite topics to find more sites to add:</Text>
             <View>
               <TextButton
+                buttonStyle={{ marginBottom: 36 }}
+                iconBg={true}
                 iconCollapsed={hashtag}
                 iconExpanded={hashtag}
                 text='Technology'
                 isExpandable={true}
-                renderExpandedView={() => <View />} />
+                isExpanded={true}
+                renderExpandedView={() => <FeedList feeds={technology} />} />
+            </View>
+            <View>
+              <TextButton
+                buttonStyle={{ marginBottom: 36 }}
+                iconBg={true}
+                iconCollapsed={hashtag}
+                iconExpanded={hashtag}
+                text='Design'
+                isExpandable={true}
+                isExpanded={false}
+                renderExpandedView={() => <FeedList feeds={design} />} />
             </View>
         </View>
       </ScrollView>
