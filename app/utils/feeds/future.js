@@ -121,16 +121,11 @@
 }, {
   "title": "Brad Ideas",
   "url": "http://ideas.4brad.com/index.rdf",
-  "description": "Brad Templeton is Chairman Emeritus of the EFF, Singularity U founding computing faculty, software architect and internet entrepreneur, robotic car strategist, futurist lecturer, photographer and Burning Man artist. This is an \\"
-  ideas\\ " blog rather than a \\"
-  cool thing I saw today\\ " blog. Many of the items are not topical. If you like what you read, I recommend you also browse back in the archives, starting with the best of blog section. It also has various \\"
-  topic\\ " and \\"
-  tag\\ " sections (see menu on right) and some are sub blogs like Robocars, photography and Going Green. Try my home page for more info and contact data."
+  "description": "Brad Templeton is Chairman Emeritus of the EFF, Singularity U founding computing faculty, software architect and internet entrepreneur, robotic car strategist, futurist lecturer, photographer and Burning Man artist. This is an \"ideas\" blog rather than a \"cool thing I saw today\" blog. Many of the items are not topical. If you like what you read, I recommend you also browse back in the archives, starting with the best of blog section. It also has various\"topic\" and \"tag\" sections (see menu on right) and some are sub blogs like Robocars, photography and Going Green. Try my home page for more info and contact data."
 }, {
   "title": "By Matthew Griffin Futurist and Keynote Speaker",
   "url": "http://www.globalfuturist.org/feed/",
-  "description": "Matthew Griffin, award winning futurist and international keynote speaker, also known as the \\"
-  Fanatical Futurist\\ " demystifies and brings the future to life."
+  "description": "Matthew Griffin, award winning futurist and international keynote speaker, also known as the \"Fanatical Futurist\" demystifies and brings the future to life."
 }, {
   "title": "Slate Magazine",
   "url": "http://www.slate.com/blogs/future_tense.fulltext.all.10.rss",
