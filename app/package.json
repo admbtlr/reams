@@ -18,6 +18,8 @@
     "@react-native-firebase/firestore": "^6.2.0",
     "@react-native-firebase/ml-vision": "^6.2.0",
     "@sentry/react-native": "^1.1.0",
+    "@types/react": "^16.9.21",
+    "@types/react-native": "^0.61.16",
     "@welldone-software/why-did-you-render": "^3.5.0",
     "autoprefixer": "^6.7.7",
     "base-64": "^0.1.0",
@@ -101,11 +103,13 @@
     "jest": "^24.5.0",
     "metro-react-native-babel-preset": "^0.54.1",
     "react-devtools": "^3.4.2",
+    "react-native-typescript-transformer": "^1.2.13",
     "react-test-renderer": "16.8.3",
     "reactotron-react-native": "^4.0.2",
     "reactotron-redux": "^3.1.2",
     "reactotron-redux-saga": "^4.2.3",
-    "sinon": "^7.3.2"
+    "sinon": "^7.3.2",
+    "typescript": "^3.8.2"
   },
   "jest": {
     "globals": {
