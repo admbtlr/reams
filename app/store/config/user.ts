@@ -6,6 +6,16 @@ import {
   UNSET_BACKEND 
 } from './types'
 
+export interface UserState {
+  readonly displayName: string
+  readonly email: string
+  readonly password: string
+  readonly accessToken: string
+  readonly signInEmail: string
+  readonly uid: string
+  readonly username: string
+}
+
 const initialState = {
   displayName: '',
   email: '',
