@@ -1,4 +1,8 @@
 import { ConfigActionTypes, REMOTE_ACTION_COMPLETED } from './types'
+import { 
+  MARK_ITEM_READ,
+  MARK_ITEMS_READ 
+} from '../items/types'
 
 export interface RemoteActionQueueState {
   readonly actions: object[]
@@ -13,8 +17,8 @@ export function remoteActionQueue (
   action: ConfigActionTypes | any
 ) : RemoteActionQueueState {
   switch (action.type) {
-    case 'ITEM_MARK_READ':
-    case 'ITEMS_MARK_READ':
+    case MARK_ITEM_READ:
+    case MARK_ITEMS_READ:
       return {
         ...state,
         actions: [

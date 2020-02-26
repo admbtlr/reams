@@ -1,6 +1,10 @@
 import { InteractionManager } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
-import { markItemRead } from '../backends'
+import { 
+  CLEAR_READ_IETMS_SUCCESS,
+  MARK_ITEM_READ,
+  MARK_ITEMS_READ
+} from '../store/items/types'
 import { getReadItemsFS } from '../storage/firestore'
 import { deleteItemsAS } from '../storage/async-storage'
 
@@ -20,7 +24,7 @@ export function * markLastItemRead (action) {
   const item = unreadItems[lastIndex]
   yield call(InteractionManager.runAfterInteractions)
   yield put ({
-    type: 'ITEM_MARK_READ',
+    type: MARK_ITEM_READ,
     item
   })
 }
@@ -32,13 +36,6 @@ export function * markItemsRead (action) {
   if (display !== 'unread' || typeof(action.lastIndex) === 'undefined') {
     return
   }
-  const readItems = action.items
-  const items = yield select(getItems)
-  const currentItem = unreadItems[lastIndex]
-  yield call(InteractionManager.runAfterInteractions)
-  yield put({
-    type: 'ITEMS_MARK_READ_SUCCESS'
-  })
 }
 
 export function * clearReadItems () {
@@ -64,7 +61,7 @@ export function * clearReadItems () {
 
   yield call(InteractionManager.runAfterInteractions)
   yield put({
-    type: 'ITEMS_CLEAR_READ_SUCCESS'
+    type: CLEAR_READ_IETMS_SUCCESS
   })
   removeCachedCoverImages(itemsToClear)
 }
@@ -75,7 +72,7 @@ export function * filterItemsForFirestoreRead () {
   const readItemsObj = getReadItemsFS()
   const itemsToMarkRead = items.filter(item => readItemsObj[item._id] !== undefined)
   yield put({
-    type: 'ITEMS_MARK_READ',
+    type: MARK_ITEMS_READ,
     items: itemsToMarkRead.map(i => ({
       _id: i._id,
       id: i.id,

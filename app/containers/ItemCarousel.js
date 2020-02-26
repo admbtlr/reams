@@ -1,5 +1,11 @@
 import { connect } from 'react-redux'
 import { UPDATE_ONBOARDING_INDEX } from '../store/config/types'
+import { 
+  SAVE_ITEM,
+  TOGGLE_MERCURY_VIEW,
+  UNSAVE_ITEM,
+  UPDATE_CURRENT_INDEX 
+} from '../store/items/types'
 import ItemCarousel from '../components/ItemCarousel.js'
 import { getIndex, getItems } from '../utils/get-item'
 
@@ -35,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
         })
       } else {
         dispatch({
-          type: 'ITEMS_UPDATE_CURRENT_INDEX',
+          type: UPDATE_CURRENT_INDEX,
           index,
           lastIndex,
           displayMode
@@ -58,12 +64,12 @@ const mapDispatchToProps = (dispatch) => {
       if (item) {
         isSaved ?
           dispatch({
-            type: 'ITEM_SAVE_ITEM',
+            type: SAVE_ITEM,
             item,
             savedAt: Date.now()
           }) :
           dispatch({
-            type: 'ITEM_UNSAVE_ITEM',
+            type: UNSAVE_ITEM,
             item
           })
       }
@@ -78,7 +84,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleMercury: (item) => {
       if (item) {
         dispatch({
-          type: 'ITEM_TOGGLE_MERCURY',
+          type: TOGGLE_MERCURY_VIEW,
           item
         })
       }

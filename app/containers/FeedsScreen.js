@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { SET_FEED_FILTER } from '../store/config/types'
+import { UPDATE_CURRENT_INDEX } from '../store/items/types'
 import FeedsScreen from '../components/FeedsScreen.js'
 
 const testFeeds = [
@@ -87,7 +88,7 @@ const mapDispatchToProps = (dispatch) => {
       olderThan: olderThan || Math.floor(Date.now() / 1000)
     }),
     setIndex: (index) => dispatch({
-      type: 'ITEMS_UPDATE_CURRENT_INDEX',
+      type: UPDATE_CURRENT_INDEX,
       index,
       displayMode: 'unread'
     }),

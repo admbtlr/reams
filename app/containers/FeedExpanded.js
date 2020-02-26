@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { SET_FEED_FILTER } from '../store/config/types'
+import { UPDATE_CURRENT_INDEX } from '../store/items/types'
 import FeedExpanded from '../components/FeedExpanded.js'
 // import {getCachedCoverImagePath} from '../utils/'
 
@@ -55,7 +56,7 @@ const mapDispatchToProps = (dispatch) => {
       feedFilter: id
     }),
     setIndex: (index) => dispatch({
-      type: 'ITEMS_UPDATE_CURRENT_INDEX',
+      type: UPDATE_CURRENT_INDEX,
       index,
       displayMode: 'unread'
     }),

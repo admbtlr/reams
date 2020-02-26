@@ -2,6 +2,8 @@ import { connect } from 'react-redux'
 import FeedItem from '../components/FeedItem.js'
 import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
 
+import { SET_SCROLL_OFFSET } from '../store/items/types'
+
 const mapStateToProps = (state, ownProps) => {
   const items = getItems(state)
   const index = getIndex(state)
@@ -35,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
       url
     }),
     setScrollOffset: (item, offset, totalHeight) => dispatch({
-      type: 'ITEM_SET_SCROLL_OFFSET',
+      type: SET_SCROLL_OFFSET,
       item,
       offset,
       scrollRatio: Number(Number.parseFloat(offset / totalHeight).toPrecision(4))

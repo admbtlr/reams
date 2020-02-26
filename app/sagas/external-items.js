@@ -1,4 +1,8 @@
 import { put, select } from 'redux-saga/effects'
+import { 
+  ITEM_DECORATION_FAILURE,
+  ITEM_DECORATION_SUCCESS
+} from '../store/items/types'
 import { decorateItem } from './decorate-items'
 import { id } from '../utils'
 import { upsertSavedItemFS } from '../storage/firestore'
@@ -22,13 +26,13 @@ export function * saveExternalUrl (action) {
     if (decoration.mercuryStuff.error) {
       yield call(InteractionManager.runAfterInteractions)
       yield put({
-        type: 'ITEM_DECORATION_FAILURE',
+        type: ITEM_DECORATION_FAILURE,
         ...decoration,
         isSaved: true
       })
     } else {
       yield put({
-        type: 'ITEM_DECORATION_SUCCESS',
+        type: ITEM_DECORATION_SUCCESS,
         ...decoration,
         isSaved: true
       })

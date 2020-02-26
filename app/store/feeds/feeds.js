@@ -1,4 +1,11 @@
 import { UNSET_BACKEND } from '../config/types'
+import { 
+  ADD_READING_TIME,
+  MARK_ITEM_READ,
+  MARK_ITEMS_READ,
+  PRUNE_UNREAD,
+  SAVE_ITEM
+} from '../items/types'
 
 const initialState = {
   feeds: [],
@@ -76,7 +83,7 @@ export function feeds (state = initialState, action) {
     case UNSET_BACKEND:
       return initialState
 
-    case 'ITEM_ADD_READING_TIME':
+    case ADD_READING_TIME:
       feeds = [ ...state.feeds ]
       feed = feeds.find(feed => feed._id === action.item.feed_id)
 
@@ -128,7 +135,7 @@ export function feeds (state = initialState, action) {
           feed)
       }
 
-    case 'ITEM_SAVE_ITEM':
+    case SAVE_ITEM:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
@@ -183,13 +190,13 @@ export function feeds (state = initialState, action) {
           feed)
       }
 
-    case 'ITEMS_MARK_READ':
+    case MARK_ITEMS_READ:
       return updateUnreadCounts(action.items, state)
 
-    case 'ITEMS_PRUNE_UNREAD':
+    case PRUNE_UNREAD:
       return updateUnreadCounts(action.prunedItems, state)
 
-    case 'ITEM_MARK_READ':
+    case MARK_ITEM_READ:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
