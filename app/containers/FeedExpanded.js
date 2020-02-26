@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { SET_FEED_FILTER } from '../store/config/types'
 import FeedExpanded from '../components/FeedExpanded.js'
 // import {getCachedCoverImagePath} from '../utils/'
 
@@ -50,7 +51,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     filterItems: (id) => dispatch({
-      type: 'CONFIG_SET_FEED_FILTER',
+      type: SET_FEED_FILTER,
       feedFilter: id
     }),
     setIndex: (index) => dispatch({

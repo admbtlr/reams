@@ -1,4 +1,4 @@
-import { store } from '../redux/store'
+import { store } from '../store'
 
 const { colors, darker, lighter, desaturated, desaturatedDarker, ui, darkMode } = require('./colors.json')
 

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { SET_BACKEND } from '../store/config/types'
 import GoogleAuth from '../components/GoogleAuth'
 
 const mapStateToProps = (state) => {
@@ -8,7 +9,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setBackend: (backend, credentials) => dispatch({
-      type: 'CONFIG_SET_BACKEND',
+      type: SET_BACKEND,
       backend,
       credentials
     })

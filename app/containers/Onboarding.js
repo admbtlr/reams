@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { TOGGLE_ONBOARDING } from '../store/config/types'
 import Onboarding from '../components/Onboarding.js'
 // import { itemDidScroll } from '../redux/actions/item.js'
 
@@ -27,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
       type: 'UI_HIDE_LOADING_ANIMATION'
     }),
     endOnboarding: () => dispatch({
-      type: 'CONFIG_TOGGLE_ONBOARDING',
+      type: TOGGLE_ONBOARDING,
       isOnboarding: false
     })
   }

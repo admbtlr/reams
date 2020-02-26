@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { IS_ONLINE } from '../store/config/types'
 import ConnectionListener from '../components/ConnectionListener.js'
 
 
@@ -9,7 +10,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     isOnline: (isOnline) => dispatch({
-      type: 'CONFIG_IS_ONLINE',
+      type: IS_ONLINE,
       isOnline
     })
   }
