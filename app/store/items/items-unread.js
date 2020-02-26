@@ -1,6 +1,26 @@
 import {combineReducers} from 'redux'
 import {REHYDRATE} from 'redux-persist'
 import { UNSET_BACKEND } from '../config/types'
+import { 
+  ADD_READING_TIME,
+  CLEAR_READ_IETMS_SUCCESS,
+  FLATE_ITEMS,
+  FLATE_ITEMS_ERROR,
+  ITEM_DECORATION_FAILURE,
+  ITEM_DECORATION_SUCCESS,
+  MARK_ITEM_READ,
+  MARK_ITEMS_READ,
+  PRUNE_UNREAD,
+  REMOVE_ITEMS,
+  SAVE_ITEM,
+  SET_SCROLL_OFFSET,
+  SET_TITLE_FONT_RESIZED,
+  SET_TITLE_FONT_SIZE,
+  SET_UNREAD_LAST_UPDATED,
+  TOGGLE_MERCURY_VIEW,
+  UNSAVE_ITEM,
+  UPDATE_CURRENT_INDEX 
+} from './types'
 import {
   itemMarkRead,
   itemsMarkRead,
@@ -63,43 +83,7 @@ export const itemsUnread = (state = initialState, action) => {
   let carouselled
 
   switch (action.type) {
-    case 'ITEMS_REHYDRATE_UNREAD':
-      // workaround to make up for slideable bug
-      if (action.items) {
-        console.log('REHYDRATE UNREAD ITEMS!')
-        return {
-          items: action.items
-          // index: incoming.index < 0 ? 0 : incoming.index,
-          // savedIndex: incoming.savedIndex < 0 ? 0 : incoming.savedIndex,
-        }
-      }
-      return { ...state }
-
-    // case 'UPDATE_ITEM':
-    //   items = state[key]
-    //   newItems = items.map(item =>
-    //     item._id === action.item._id
-    //       ? action.item
-    //       : item
-    //   )
-    //   return {
-    //     ...state,
-    //     key: newItems
-    //   }
-
-    // case 'INSERT_ITEM':
-    //   if (action.item._id === '9999999999') {
-    //     return state
-    //   }
-    //   return {
-    //     ...state,
-    //     items: [
-    //       action.item,
-    //       ...state.items
-    //     ]
-    //   }
-
-    case 'ITEMS_UPDATE_CURRENT_INDEX':
+    case UPDATE_CURRENT_INDEX:
       if (action.displayMode === 'unread') {
         newState.index = action.index
       }
@@ -108,7 +92,7 @@ export const itemsUnread = (state = initialState, action) => {
         ...newState
       }
 
-    case 'ITEMS_BATCH_FETCHED':
+    case ITEMS_BATCH_FETCHED:
       if (action.itemType !== 'unread') return state
       const feeds = action.feeds
       items = [...state.items]
@@ -134,7 +118,7 @@ export const itemsUnread = (state = initialState, action) => {
         // index
       }
 
-    case 'ITEMS_PRUNE_UNREAD':
+    case PRUNE_UNREAD:
       items = [...state.items]
       index = state.index
       if (items.length < action.maxItems) {
@@ -161,7 +145,7 @@ export const itemsUnread = (state = initialState, action) => {
         items: items.filter(item => item.feed_id !== action.id)
       }
 
-    case 'ITEMS_CLEAR_READ_SUCCESS':
+    case CLEAR_READ_IETMS_SUCCESS:
       items = [...state.items]
       index = state.index
       currentItem = items[state.index]
@@ -175,13 +159,13 @@ export const itemsUnread = (state = initialState, action) => {
         // index
       }
 
-    case 'UNREAD_ITEMS_SET_LAST_UPDATED':
+    case SET_UNREAD_LAST_UPDATED:
       return {
         ...state,
         lastUpdated: Date.now()
       }
 
-    case 'ITEM_ADD_READING_TIME':
+    case ADD_READING_TIME:
       newState = { ...state }
       let item = newState.items.find(item => item._id === action.item._id)
       if (!item) return newState
@@ -193,19 +177,19 @@ export const itemsUnread = (state = initialState, action) => {
       }
       return newState
 
-    case 'ITEMS_FLATE':
+    case FLATE_ITEMS:
       return itemsFlate(action, state)
 
-    case 'ITEMS_FLATE_ERROR':
+    case FLATE_ITEMS_ERROR:
       return itemsFlateError(action, state)
 
-    case 'ITEM_MARK_READ':
+    case MARK_ITEM_READ:
       return itemMarkRead(action, state)
 
-    case 'ITEMS_MARK_READ':
+    case MARK_ITEMS_READ:
       return itemsMarkRead(action, state)
 
-    case 'ITEM_SET_SCROLL_OFFSET':
+    case SET_SCROLL_OFFSET:
       return itemSetScrollOffset(action, state)
 
     case 'FEEDS_REMOVE_FEED':
@@ -214,7 +198,7 @@ export const itemsUnread = (state = initialState, action) => {
         items: state.items.filter(i => i.feed_id !== action.feed._id)
       }
 
-    case 'ITEMS_REMOVE_ITEMS':
+    case REMOVE_ITEMS:
       const itemIds = action.items.map(f => f._id)
       return {
         ...state,
@@ -236,7 +220,7 @@ export const itemsUnread = (state = initialState, action) => {
           item)
       }
 
-    case 'ITEM_SAVE_ITEM':
+    case SAVE_ITEM:
       return {
         ...state,
         items: state.items.map(item => item._id === action.item._id ?
@@ -248,7 +232,7 @@ export const itemsUnread = (state = initialState, action) => {
           item)
       }
 
-    case 'ITEM_UNSAVE_ITEM':
+    case UNSAVE_ITEM:
       return {
         ...state,
         items: state.items.map(item => item._id === action.item._id ?
@@ -259,19 +243,19 @@ export const itemsUnread = (state = initialState, action) => {
           item)
       }
 
-    case 'ITEM_TOGGLE_MERCURY':
+    case TOGGLE_MERCURY_VIEW:
       return itemToggleMercury(action, state)
 
-    case 'ITEM_DECORATION_SUCCESS':
+    case ITEM_DECORATION_SUCCESS:
       return action.isSaved ? state : itemDecorationSuccess(action, state)
 
-    case 'ITEM_DECORATION_FAILURE':
+    case ITEM_DECORATION_FAILURE:
       return action.isSaved ? state : itemDecorationFailure(action, state)
 
-    case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
+    case SET_TITLE_FONT_SIZE:
       return updateCurrentItemTitleFontSize(action, state)
 
-    case 'UPDATE_CURRENT_ITEM_TITLE_FONT_RESIZED':
+    case SET_TITLE_FONT_RESIZED:
       return updateCurrentItemTitleFontResized(action, state)
 
     default:
@@ -279,7 +263,7 @@ export const itemsUnread = (state = initialState, action) => {
   }
 }
 
-// check for the three items in the carousel
+// check for the items that are currently in the carousel
 // places them at the beginning of the new items array
 // and sets index appropriately
 // (sucks that reducers need to think about UI implementation, but :shrug:)

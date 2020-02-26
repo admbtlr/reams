@@ -1,6 +1,10 @@
 import { InteractionManager } from 'react-native'
 import { call, put, select, spawn } from 'redux-saga/effects'
 
+import { 
+  FLATE_ITEMS,
+  FLATE_ITEMS_ERROR 
+} from '../store/items/types'
 import { isInflated, deflateItem, inflateStyles } from '../utils/item-utils'
 import log from '../utils/log'
 import { getActiveItems, getDisplay, getFeedFilter, getIndex, getItems } from './selectors'
@@ -10,9 +14,9 @@ import { getItemsAS } from '../storage/async-storage'
 export function * inflateItems (action) {
   // OK. This is complicated.
   // This saga could be triggered by a number of actions:
-  // 1. ITEM_UNSAVE_ITEM - { item }
+  // 1. UNSAVE_ITEM - { item }
   // 2. SET_DISPLAY_MODE - { displayMode }
-  // 3. ITEMS_UPDATE_CURRENT_INDEX - { index }
+  // 3. UPDATE_CURRENT_INDEX - { index }
   // 4. init - {}
   // 5. fetchItems - { index}
   // 6. saveItem - { displayMode, saved }
@@ -74,9 +78,8 @@ function * getItemsFromAS (itemsToInflate, itemsToDeflate) {
     })
     const erroredItems = inflatedItems.filter(i => i.error)
     if (erroredItems.length) {
-      // dispatch an ITEMS_FLATE_ERROR event
       yield put({
-        type: 'ITEMS_FLATE_ERROR',
+        type: FLATE_ITEMS_ERROR,
         items: erroredItems
       })
       return
@@ -93,7 +96,7 @@ function * getItemsFromAS (itemsToInflate, itemsToDeflate) {
   // inflatedItems = inflatedItems.map(inflateStyles)
   if (inflatedItems.length > 0 || itemsToDeflate.length > 0) {
     yield put({
-      type: 'ITEMS_FLATE',
+      type: FLATE_ITEMS,
       itemsToInflate: inflatedItems,
       itemsToDeflate
     })

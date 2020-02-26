@@ -1,5 +1,6 @@
 import { InteractionManager } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
+import PRUNE_UNREAD from '../store/items/types'
 import { deleteItemsAS } from '../storage/async-storage'
 
 import { getItems, getConfig, getSavedItems, getUnreadItems } from './selectors'
@@ -19,7 +20,7 @@ export function * pruneItems (action) {
 
   yield call(InteractionManager.runAfterInteractions)
   yield put({
-    type: 'ITEMS_PRUNE_UNREAD',
+    type: PRUNE_UNREAD,
     maxItems: MAX_UNREAD,
     itemSort: config.itemSort,
     prunedItems: toPrune.map(item => ({

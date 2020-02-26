@@ -1,6 +1,10 @@
 import { InteractionManager } from 'react-native'
 import { call, delay, put, select, spawn } from 'redux-saga/effects'
-import REMOTE_ACTION_COMPLETED from '../store/config/types'
+import { REMOTE_ACTION_COMPLETED } from '../store/config/types'
+import { 
+  MARK_ITEM_READ,
+  MARK_ITEMS_READ 
+} from '../store/items/types'
 import { markItemRead, markItemsRead } from '../backends'
 import { deleteItemsAS, updateItemAS } from '../storage/async-storage'
 import { removeCachedCoverImages } from '../utils/item-utils'
@@ -37,7 +41,7 @@ function * executeAction (action) {
   yield call(InteractionManager.runAfterInteractions)
   // console.log('Executing action: ' + action.type)
   switch (action.type) {
-    case 'ITEM_MARK_READ':
+    case MARK_ITEM_READ:
       try {
         if (action.item) {
           yield call(InteractionManager.runAfterInteractions)
@@ -57,7 +61,7 @@ function * executeAction (action) {
         console.log(error)
       }
       break
-    case 'ITEMS_MARK_READ':
+    case MARK_ITEMS_READ:
       try {
         yield call(InteractionManager.runAfterInteractions)
         yield call(markItemsRead, action.items, action.feedId, action.olderThan)
