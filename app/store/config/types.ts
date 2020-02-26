@@ -27,7 +27,8 @@ export const SET_SIGN_IN_EMAIL = 'SET_SIGN_IN_EMAIL'
 
 interface setBackendAction {
   type: typeof SET_BACKEND
-  backend: string
+  backend: string,
+  credentials: object | null
 }
 
 interface unsetBackendAction {
