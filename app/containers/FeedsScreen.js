@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { SET_FEED_FILTER } from '../store/config/types'
 import FeedsScreen from '../components/FeedsScreen.js'
 
 const testFeeds = [
@@ -102,8 +103,8 @@ const mapDispatchToProps = (dispatch) => {
       type: 'ITEMS_CLEAR_READ'
     }),
     clearFeedFilter: () => dispatch({
-      type: 'CONFIG_SET_FEED_FILTER',
-      feedId: null
+      type: SET_FEED_FILTER,
+      feedFilter: null
     })
   }
 }

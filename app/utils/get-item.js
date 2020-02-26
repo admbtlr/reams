@@ -1,4 +1,4 @@
-import { store } from '../redux/store'
+import { store } from '../store'
 
 export const getItems = (state, type) => {
   const feedFilter = state.config.feedFilter

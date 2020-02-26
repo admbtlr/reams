@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { UPDATE_ONBOARDING_INDEX } from '../store/config/types'
 import ItemCarousel from '../components/ItemCarousel.js'
 import { getIndex, getItems } from '../utils/get-item'
 
@@ -27,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
     updateCurrentIndex: (index, lastIndex, displayMode, isOnboarding) => {
       if (isOnboarding) {
         return dispatch({
-          type: 'CONFIG_UPDATE_ONBOARDING_INDEX',
+          type: UPDATE_ONBOARDING_INDEX,
           index,
           lastIndex,
           displayMode

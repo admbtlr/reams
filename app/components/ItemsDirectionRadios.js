@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import { Direction, SET_ITEM_SORT, SET_SHOW_NUM_UNREAD } from '../store/config/types'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier } from '../utils'
@@ -54,19 +55,19 @@ class ItemsDirectionRadios extends React.Component {
             <TextButton
               buttonStyle={buttonStyle}
               bgColor='transparent'
-              isActive={this.props.itemSort === 'backwards'}
+              isActive={this.props.itemSort === Direction.backwards}
               isCompact={true}
               onPress={() => {
-                this.props.setItemSort('backwards')
+                this.props.setItemSort(Direction.backwards)
               }}
               text="Backwards" />
             <TextButton
               buttonStyle={buttonStyle}
               bgColor='transparent'
-              isActive={this.props.itemSort === 'forwards'}
+              isActive={this.props.itemSort === Direction.forwards}
               isCompact={true}
               onPress={() => {
-                this.props.setItemSort('forwards')
+                this.props.setItemSort(Direction.forwards)
               }}
               text="Forwards" />
           </View>
@@ -106,11 +107,11 @@ let ItemsDirectionRadiosContainer = connect(
   }),
   dispatch => ({
     setItemSort: (itemSort) => dispatch({
-      type: 'CONFIG_SET_ITEM_SORT',
+      type: SET_ITEM_SORT,
       itemSort
     }),
     setShowNumUnread: (showNumUnread) => dispatch({
-      type: 'CONFIG_SET_SHOW_NUM_UNREAD',
+      type: SET_SHOW_NUM_UNREAD,
       showNumUnread
     })
   })

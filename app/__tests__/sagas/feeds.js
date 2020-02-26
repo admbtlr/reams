@@ -1,10 +1,10 @@
 import { runSaga } from 'redux-saga'
 import sinon from 'sinon'
 import { InteractionManager } from 'react-native'
-import * as firestore from '../../redux/firestore'
-import * as backends from '../../redux/backends'
+import * as firestore from '../../storage/firestore'
+import * as backends from '../../backends'
 
-import { inflateFeeds, subscribeToFeed, syncFeeds } from '../../redux/sagas/feeds'
+import { inflateFeeds, subscribeToFeed, syncFeeds } from '../../sagas/feeds'
 
 const feeds_1_2 = [
   {
