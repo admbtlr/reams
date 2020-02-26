@@ -3,7 +3,8 @@ import {
   SET_SIGN_IN_EMAIL,
   SET_UID,
   SET_USER_DETAILS,
-  UNSET_BACKEND 
+  UNSET_BACKEND,
+  ConfigActionTypes
 } from './types'
 
 export interface UserState {
@@ -26,7 +27,10 @@ const initialState = {
   username: ''
 }
 
-export function user (state = initialState, action) {
+export function user (
+  state = initialState, 
+  action: ConfigActionTypes
+) : UserState {
   switch (action.type) {
     case SET_UID:
       return {
