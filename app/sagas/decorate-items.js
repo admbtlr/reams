@@ -3,6 +3,11 @@ import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
 import vision from '@react-native-firebase/ml-vision'
 import { Image, InteractionManager } from 'react-native'
+import { 
+  FLATE_ITEMS,
+  ITEM_DECORATION_FAILURE,
+  ITEM_DECORATION_SUCCESS
+} from '../store/items/types'
 import { getCachedCoverImagePath, getImageDimensions } from '../utils'
 import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createItemStyles'
 import { deflateItem } from '../utils/item-utils'
@@ -29,28 +34,6 @@ export function * decorateItems (action) {
   let item
   let count = 0
 
-  // this is weird... but it was the only way I could dispatch actions
-  // it's not possible from within the co call below
-  // yield spawn(function * () {
-  //   let decoratedCount
-  //   while (true) {
-  //     yield call(delay, 300)
-  //     const dispatchNow = [...toDispatch]
-  //     toDispatch = []
-  //     for (decoration of dispatchNow) {
-  //       if (decoration.error) {
-  //         yield call(InteractionManager.runAfterInteractions)
-  //         yield put({
-  //           type: 'ITEM_DECORATION_FAILURE',
-  //           ...decoration
-  //         })
-  //       } else {
-  //         yield applyDecoration(decoration)
-  //       }
-  //     }
-  //   }
-  // })
-
   yield spawn(function * () {
     while (true) {
       const nextItem = yield getNextItemToDecorate(pendingDecoration)
@@ -68,7 +51,7 @@ export function * decorateItems (action) {
             if (decoration.mercuryStuff.error) {
               yield call(InteractionManager.runAfterInteractions)
               yield put({
-                type: 'ITEM_DECORATION_FAILURE',
+                type: ITEM_DECORATION_FAILURE,
                 ...decoration,
                 isSaved: decoration.item && decoration.item.isSaved
               })
@@ -102,7 +85,7 @@ function consoleLog(txt) {
 function * applyDecoration (decoration, isSaved) {
   yield call(InteractionManager.runAfterInteractions)
   yield put({
-    type: 'ITEM_DECORATION_SUCCESS',
+    type: ITEM_DECORATION_SUCCESS,
     ...decoration,
     isSaved
   })
@@ -131,7 +114,7 @@ function * applyDecoration (decoration, isSaved) {
     if (!activeItems.find(ai => ai._id === item._id)) {
       item = deflateItem(item)
       yield put({
-        type: 'ITEMS_FLATE',
+        type: FLATE_ITEMS,
         itemsToInflate: [],
         itemsToDeflate: [item]
       })

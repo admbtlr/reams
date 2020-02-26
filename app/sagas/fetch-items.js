@@ -3,6 +3,10 @@ import { eventChannel, END } from 'redux-saga'
 import { InteractionManager } from 'react-native'
 
 import {
+  ITEMS_BATCH_FETCHED,
+  SET_UNREAD_LAST_UPDATED
+} from '../store/items/types'
+import {
   fetchItems as fetchItemsBackends,
   hasBackend
 } from '../backends'
@@ -101,7 +105,7 @@ export function * fetchItems (type = 'unread') {
     if (!(didError || isFirstBatch)) {
       yield put({
         type: type === 'unread' ?
-          'UNREAD_ITEMS_SET_LAST_UPDATED' :
+          SET_UNREAD_LAST_UPDATED :
           'SAVED_ITEMS_SET_LAST_UPDATED',
         lastUpdated: Date.now()
       })
@@ -178,7 +182,7 @@ export function * receiveItems (items, type) {
 
   now = Date.now()
   yield put({
-    type: 'ITEMS_BATCH_FETCHED',
+    type: ITEMS_BATCH_FETCHED,
     items,
     itemType: type,
     feeds

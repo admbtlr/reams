@@ -1,5 +1,9 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
+import { 
+  MARK_ITEMS_READ,
+  REMOVE_ITEMS 
+} from '../store/items/types'
 import { addFeed, fetchFeeds, getFeedDetails, hasBackend, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../utils'
 import { hexToHsl, rgbToHsl } from '../utils/colors'
@@ -62,7 +66,7 @@ export function * fetchAllFeeds () {
     const dirtyFeedIds = toRemove.map(f => f._id)
     const dirtyItems = items.filter(i => dirtyFeedIds.includes(i.feed_id))
     yield put({
-      type: 'ITEMS_REMOVE_ITEMS',
+      type: REMOVE_ITEMS,
       items: dirtyItems
     })
   }
@@ -82,7 +86,7 @@ export function * markFeedRead (action) {
       }))
     yield call(InteractionManager.runAfterInteractions)
     yield put({
-      type: 'ITEMS_MARK_READ',
+      type: MARK_ITEMS_READ,
       items: itemsToMarkRead.map(i => ({
         _id: i._id,
         id: i.id,

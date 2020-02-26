@@ -1,4 +1,5 @@
 import { UNSET_BACKEND } from '../config/types'
+import { ITEMS_BATCH_FETCHED } from './types'
 
 const initialState = {
   feeds: [],
@@ -93,7 +94,7 @@ export function feedsLocal (state = initialState, action) {
           feed)
       }
 
-    case 'ITEMS_BATCH_FETCHED':
+    case ITEMS_BATCH_FETCHED:
       // not really sure whether I should be using this, but I guess it makes sense...
       return {
         ...state,

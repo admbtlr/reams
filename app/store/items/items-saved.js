@@ -1,4 +1,19 @@
 import { UNSET_BACKEND } from '../config/types'
+import { 
+  FLATE_ITEMS,
+  FLATE_ITEMS_ERROR,
+  ITEM_DECORATION_FAILURE,
+  ITEM_DECORATION_SUCCESS,
+  ITEMS_BATCH_FETCHED, 
+  MARK_ITEM_READ,
+  SAVE_ITEM,
+  SET_SCROLL_OFFSET,
+  SET_TITLE_FONT_RESIZED,
+  SET_TITLE_FONT_SIZE,
+  TOGGLE_MERCURY_VIEW,
+  UNSAVE_ITEM,
+  UPDATE_CURRENT_INDEX 
+} from './types'
 import {
   itemMarkRead,
   itemSetScrollOffset,
@@ -12,11 +27,7 @@ import {
 } from './items-common'
 import {
   addStylesIfNecessary,
-  fixRelativePaths,
-  nullValuesToEmptyStrings,
-  addMercuryStuffToItem,
-  addCoverImageToItem,
-  setShowCoverImage
+  nullValuesToEmptyStrings
 } from '../../utils/item-utils.js'
 
 export const initialState = {
@@ -46,7 +57,7 @@ export const itemsSaved = (state = initialState, action) => {
     case UNSET_BACKEND:
       return initialState
 
-    case 'ITEMS_UPDATE_CURRENT_INDEX':
+    case UPDATE_CURRENT_INDEX:
       if (action.displayMode !== 'saved') return state
 
       return {
@@ -54,16 +65,16 @@ export const itemsSaved = (state = initialState, action) => {
         index: action.index
       }
 
-    case 'ITEM_MARK_READ':
+    case MARK_ITEM_READ:
       return itemMarkRead(action, state)
 
-    case 'ITEM_SET_SCROLL_OFFSET':
+    case SET_SCROLL_OFFSET:
       return itemSetScrollOffset(action, state)
 
-    case 'ITEM_TOGGLE_MERCURY':
+    case TOGGLE_MERCURY_VIEW:
       return itemToggleMercury(action, state)
 
-    case 'ITEM_SAVE_ITEM':
+    case SAVE_ITEM:
       items = [ ...state.items ]
       savedItem = action.item
       savedItem.isSaved = true
@@ -87,7 +98,7 @@ export const itemsSaved = (state = initialState, action) => {
         index: 0
       }
 
-    case 'ITEM_UNSAVE_ITEM':
+    case UNSAVE_ITEM:
       items = state.items
         .filter((item) => item._id !== action.item._id)
         .map(item => item)
@@ -142,7 +153,7 @@ export const itemsSaved = (state = initialState, action) => {
         lastUpdated: Date.now()
       }
 
-    case 'ITEMS_BATCH_FETCHED':
+    case ITEMS_BATCH_FETCHED:
       if (action.itemType !== 'saved') return state
       items = [...state.items]
       currentItem = items[state.index]
@@ -175,25 +186,25 @@ export const itemsSaved = (state = initialState, action) => {
         index
       }
 
-    case 'ITEMS_FLATE':
+    case FLATE_ITEMS:
       return itemsFlate(action, state)
 
-    case 'ITEMS_FLATE_ERROR':
+    case FLATE_ITEMS_ERROR:
       return itemsFlateError(action, state)
 
-    case 'ITEM_DECORATION_SUCCESS':
+    case ITEM_DECORATION_SUCCESS:
       if (!action.isSaved) return state
       let newState = itemDecorationSuccess(action, state)
       newState.items.sort((a, b) => ((b.savedAt || 0) - (a.savedAt || 0)))
       return newState
 
-    case 'ITEM_DECORATION_FAILURE':
+    case ITEM_DECORATION_FAILURE:
       return action.isSaved ? itemDecorationFailure(action, state) : state
 
-    case 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE':
+    case SET_TITLE_FONT_SIZE:
       return updateCurrentItemTitleFontSize(action, state)
 
-    case 'UPDATE_CURRENT_ITEM_TITLE_FONT_RESIZED':
+    case SET_TITLE_FONT_RESIZED:
       if (action.item.title === 'Loading...') return state
       return updateCurrentItemTitleFontResized(action, state)
 
