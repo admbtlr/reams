@@ -6,8 +6,8 @@ import OnePassword from 'react-native-onepassword'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
 
 import RizzleAuth from './RizzleAuth'
-import { sendEmailLink } from '../redux/backends/rizzle'
-import { authenticate } from '../redux/backends'
+import { sendEmailLink } from '../backends/rizzle'
+import { authenticate } from '../backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier } from '../utils'
 import {

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   Dimensions,
@@ -6,7 +6,8 @@ import {
   Text,
   View
 } from 'react-native'
-import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
+import { ITEMS_ONBOARDING_DONE } from '../store/config/types'
 import RizzleButton from './RizzleButton'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
@@ -158,7 +159,7 @@ export default function ItemsScreenOnboarding (props) {
             onPress={() => {
               if (step === 7) {
                 dispatch({
-                  type: 'CONFIG_ITEMS_ONBOARDING_DONE'
+                  type: ITEMS_ONBOARDING_DONE
                 })
               }
               setStep(step + 1)

@@ -1,0 +1,21 @@
+import {
+  SET_BACKEND,
+  UNSET_BACKEND,
+  UPDATE_ONBOARDING_INDEX,
+  TOGGLE_ONBOARDING,
+  ITEMS_ONBOARDING_DONE,
+  FEED_ONBOARDING_DONE,
+  TOGGLE_FIRST_TIME,
+  SET_LAST_UPDATED,
+  SET_FEED_FILTER,
+  IS_ONLINE,
+  SET_ITEM_SORT,
+  SET_SHOW_NUM_UNREAD
+} from './types'
+
+export function setBackend (backend: string) {
+  return {
+    type: SET_BACKEND,
+    backend
+  }
+}
