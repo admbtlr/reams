@@ -1,7 +1,7 @@
 import { InteractionManager } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
 import { 
-  CLEAR_READ_IETMS_SUCCESS,
+  CLEAR_READ_ITEMS_SUCCESS,
   MARK_ITEM_READ,
   MARK_ITEMS_READ
 } from '../store/items/types'
@@ -61,7 +61,7 @@ export function * clearReadItems () {
 
   yield call(InteractionManager.runAfterInteractions)
   yield put({
-    type: CLEAR_READ_IETMS_SUCCESS
+    type: CLEAR_READ_ITEMS_SUCCESS
   })
   removeCachedCoverImages(itemsToClear)
 }

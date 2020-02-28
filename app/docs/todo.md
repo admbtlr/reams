@@ -1,5 +1,6 @@
 # To Do
 
+- deal with feed.number_unread problems
 - add a message component
 - do something about Firebase listener memory leaks
 - move all firestore operations out of sagas and into backends
@@ -7,6 +8,7 @@
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - make rizzle basic work
+- make icon color detection the main colour instead of average
 - Feedly integration
 - add per feed setting to always open in expanded view
 - better loading indicator

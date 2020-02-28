@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { ADD_FEED } from '../store/feeds/types'
 import AppStateListener from '../components/AppStateListener'
 
 const mapStateToProps = (state) => {
@@ -27,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
       })
     },
     addFeed: (feed) => dispatch({
-      type: 'FEEDS_ADD_FEED',
+      type: ADD_FEED,
       feed
     }),
     showModal: (modalProps) => {

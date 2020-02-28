@@ -1,21 +1,39 @@
-import { UNSET_BACKEND } from '../config/types'
-import { ITEMS_BATCH_FETCHED } from './types'
+import { 
+  UNSET_BACKEND,
+  ConfigActionTypes
+} from '../config/types'
+import { 
+  CACHE_FEED_ICON_ERROR,
+  SET_CACHED_FEED_ICON,
+  FEED_HAS_RENDERED_ICON,
+  SET_FEEDS_NEW,
+  SET_CACHED_FEED_COVER_IMAGE,
+  FeedActionTypes,
+  FeedLocal,
+  FeedsLocalState
+} from './types'
+import { 
+  ITEMS_BATCH_FETCHED,
+  ItemActionTypes
+} from '../items/types'
 
-const initialState = {
-  feeds: [],
-  lastUpdated: 0
+const initialState: FeedsLocalState = {
+  feeds: []
 }
 
-export function feedsLocal (state = initialState, action) {
-  let feeds
-  let feed
+export function feedsLocal (
+  state = initialState, 
+  action: FeedActionTypes | ConfigActionTypes | ItemActionTypes
+) {
+  let feeds: FeedLocal[]
+  let feed: FeedLocal | undefined
   let newState, dirtyFeed, dirtyFeedIndex
 
   switch (action.type) {
-    case 'FEED_SET_CACHED_FEED_ICON':
+    case SET_CACHED_FEED_ICON:
       feeds = state.feeds.map(f => f)
-      if (feeds.find(f => f._id === action.id)) {
-        let feed = feeds.find(f => f._id === action.id)
+      feed = feeds.find(f => f._id === action.id)
+      if (feed) {
         feed.hasCachedIcon = true
         feed.cachedIconDimensions = action.dimensions
       } else {
@@ -30,9 +48,9 @@ export function feedsLocal (state = initialState, action) {
         feeds
       }
 
-    case 'FEED_ERROR_CACHING_ICON':
+    case CACHE_FEED_ICON_ERROR:
       feeds = state.feeds.map(f => f)
-      let feed = feeds.find(f => f._id === action.id)
+      feed = feeds.find(f => f._id === action.id)
       if (feed) {
         const errors = feed.numCachingErrors || 0
         feed.numCachingErrors = errors + 1
@@ -49,10 +67,10 @@ export function feedsLocal (state = initialState, action) {
         feeds
       }
 
-    case 'FEED_HAS_RENDERED_ICON':
+    case FEED_HAS_RENDERED_ICON:
       feeds = state.feeds.map(f => f)
-      if (feeds.find(f => f._id === action.id)) {
-        let feed = feeds.find(f => f._id === action.id)
+      feed = feeds.find(f => f._id === action.id)
+      if (feed) {
         feed.hasRenderedIcon = true
       } else {
         feeds.push({
@@ -65,10 +83,10 @@ export function feedsLocal (state = initialState, action) {
         feeds
       }
 
-    case 'FEEDS_SET_NEW':
+    case SET_FEEDS_NEW:
       feeds = state.feeds.map(f => f)
       action.feeds.forEach(newFeed => {
-        let feed = feeds.find(f => f._id === newFeed._id)
+        feed = feeds.find(f => f._id === newFeed._id)
         if (feed) {
            feed.isNew = true
          } else {
@@ -83,7 +101,7 @@ export function feedsLocal (state = initialState, action) {
         feeds
       }
 
-    case 'FEED_SET_CACHED_COVER_IMAGE':
+    case SET_CACHED_FEED_COVER_IMAGE:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.id ?

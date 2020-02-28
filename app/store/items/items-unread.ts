@@ -1,11 +1,21 @@
 import {combineReducers} from 'redux'
 import {REHYDRATE} from 'redux-persist'
-import { UNSET_BACKEND } from '../config/types'
-import { 
+import {
+  UNSET_BACKEND,
+  ConfigActionTypes 
+} from '../config/types'
+import {
+  REMOVE_FEED,
+  UPDATE_FEED,
+  MUTE_FEED_TOGGLE,
+  FeedActionTypes 
+} from '../feeds/types'
+import {
   ADD_READING_TIME,
-  CLEAR_READ_IETMS_SUCCESS,
+  CLEAR_READ_ITEMS_SUCCESS,
   FLATE_ITEMS,
   FLATE_ITEMS_ERROR,
+  ITEMS_BATCH_FETCHED,
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
   MARK_ITEM_READ,
@@ -16,10 +26,14 @@ import {
   SET_SCROLL_OFFSET,
   SET_TITLE_FONT_RESIZED,
   SET_TITLE_FONT_SIZE,
-  SET_UNREAD_LAST_UPDATED,
+  SET_LAST_UPDATED,
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
-  UPDATE_CURRENT_INDEX 
+  UPDATE_CURRENT_INDEX, 
+  Item,
+  ItemActionTypes,
+  ItemsState,
+  ItemType
 } from './types'
 import {
   itemMarkRead,
@@ -41,9 +55,10 @@ import { BUFFER_LENGTH } from '../../components/ItemCarousel'
 //   items: []
 // }
 
-export const initialState = {
+const initialState:ItemsState = {
   items: [],
-  index: 0
+  index: 0,
+  lastUpdated: 0
 }
 
 // Rehydrated items are just:
@@ -73,18 +88,28 @@ export const initialState = {
 // - content_mercury
 
 
-export const itemsUnread = (state = initialState, action) => {
-  let items = []
-  let newItems = []
-  let saved = []
-  let savedItem = {}
-  let newState = {}
-  let currentItem
-  let carouselled
+export function itemsUnread (
+  state = initialState, 
+  action: ItemActionTypes | ConfigActionTypes | FeedActionTypes
+) : ItemsState {
+  let items: Item[] = []
+  let newItems: Item[] = []
+  let index: number
+  let newState: { 
+    index : number, 
+    lastUpdated : number
+    items : Item[]
+  } = {
+    index: 0,
+    items: [],
+    lastUpdated: 0
+  }
+  let currentItem: Item
+  let carouselled: { index : number, items : Item[] }
 
   switch (action.type) {
     case UPDATE_CURRENT_INDEX:
-      if (action.displayMode === 'unread') {
+      if (action.displayMode === ItemType.unread) {
         newState.index = action.index
       }
       return {
@@ -93,8 +118,7 @@ export const itemsUnread = (state = initialState, action) => {
       }
 
     case ITEMS_BATCH_FETCHED:
-      if (action.itemType !== 'unread') return state
-      const feeds = action.feeds
+      if (action.itemType !== ItemType.unread) return state
       items = [...state.items]
       newItems = action.items
       newItems.forEach(newItem => {
@@ -106,7 +130,7 @@ export const itemsUnread = (state = initialState, action) => {
         }
       })
 
-      items = rizzleSort(items, feeds)
+      items = rizzleSort(items)
 
       carouselled = maintainCarouselItems(state, items)
 
@@ -137,7 +161,7 @@ export const itemsUnread = (state = initialState, action) => {
         index
       }
 
-    case 'FEED_TOGGLE_MUTE':
+    case MUTE_FEED_TOGGLE:
       items = [...state.items]
       // if there are any items from this feed, we must be toggling mute ON
       return {
@@ -145,7 +169,7 @@ export const itemsUnread = (state = initialState, action) => {
         items: items.filter(item => item.feed_id !== action.id)
       }
 
-    case CLEAR_READ_IETMS_SUCCESS:
+    case CLEAR_READ_ITEMS_SUCCESS:
       items = [...state.items]
       index = state.index
       currentItem = items[state.index]
@@ -159,15 +183,17 @@ export const itemsUnread = (state = initialState, action) => {
         // index
       }
 
-    case SET_UNREAD_LAST_UPDATED:
-      return {
-        ...state,
-        lastUpdated: Date.now()
-      }
+    case SET_LAST_UPDATED:
+      if (action.itemType === ItemType.unread) {
+        return {
+          ...state,
+          lastUpdated: Date.now()
+        }
+      } else return state
 
     case ADD_READING_TIME:
       newState = { ...state }
-      let item = newState.items.find(item => item._id === action.item._id)
+      let item = newState.items?.find(item => item._id === action.item._id)
       if (!item) return newState
 
       if (item.readingTime) {
@@ -192,7 +218,7 @@ export const itemsUnread = (state = initialState, action) => {
     case SET_SCROLL_OFFSET:
       return itemSetScrollOffset(action, state)
 
-    case 'FEEDS_REMOVE_FEED':
+    case REMOVE_FEED:
       return {
         ...state,
         items: state.items.filter(i => i.feed_id !== action.feed._id)
@@ -202,13 +228,14 @@ export const itemsUnread = (state = initialState, action) => {
       const itemIds = action.items.map(f => f._id)
       return {
         ...state,
-        items: state.items.filter(i => !items.includes(i._id))
+        items: state.items.filter(i => !items.
+          map(i => i._id).includes(i._id))
       }
 
     case UNSET_BACKEND:
       return initialState
 
-    case 'FEEDS_UPDATE_FEED':
+    case UPDATE_FEED:
       const feed = action.feed
       return {
         ...state,
@@ -267,8 +294,8 @@ export const itemsUnread = (state = initialState, action) => {
 // places them at the beginning of the new items array
 // and sets index appropriately
 // (sucks that reducers need to think about UI implementation, but :shrug:)
-const maintainCarouselItems = (state, items) => {
-  currentItem = state.items[state.index]
+const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
+  let currentItem = state.items[state.index]
   let index = state.index
   const indexStart = state.index === 0 ?
     0 :

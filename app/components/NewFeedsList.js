@@ -13,6 +13,7 @@ import {
   View
 } from 'react-native'
 import Svg, {Circle, Group, Path} from 'react-native-svg'
+import { ADD_FEEDS } from '../store/feeds/types'
 import TextButton from './TextButton'
 import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
@@ -187,7 +188,7 @@ export default function NewFeedsList (props) {
           text="Show me the stories"
           onPress={() => {
             dispatch({
-              type: 'FEEDS_ADD_FEEDS',
+              type: ADD_FEEDS,
               feeds: selectedFeeds
             })
             props.navigation.navigate('Items')
