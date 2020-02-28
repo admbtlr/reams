@@ -4,8 +4,12 @@ import { InteractionManager } from 'react-native'
 
 import {
   ITEMS_BATCH_FETCHED,
-  SET_UNREAD_LAST_UPDATED
+  SET_LAST_UPDATED,
+  ItemType
 } from '../store/items/types'
+import {
+  UPDATE_FEEDS
+} from '../store/feeds/types'
 import {
   fetchItems as fetchItemsBackends,
   hasBackend
@@ -48,9 +52,9 @@ export function * fetchAllItems (includeSaved = true) {
   const config = yield select(getConfig)
   if (!config.isOnline || !hasBackend()) return
 
-  yield fetchItems('unread')
+  yield fetchItems(ItemType.unread)
   if (includeSaved) {
-    yield fetchItems('saved')
+    yield fetchItems(ItemType.saved)
   }
 }
 
@@ -59,14 +63,14 @@ export function * fetchUnreadItems (action) {
   yield fetchAllItems(false)
 }
 
-export function * fetchItems (type = 'unread') {
+export function * fetchItems (type = ItemType.unread) {
   yield put({
     type: 'ITEMS_IS_LOADING',
     isLoading: true
   })
   let feeds
 
-  if (type === 'unread') {
+  if (type === ItemType.unread) {
     feeds = yield select(getFeeds)
     feeds = feeds.filter(f => !f.isMuted)
     const feedsLocal = yield select(getFeedsLocal)
@@ -104,9 +108,8 @@ export function * fetchItems (type = 'unread') {
     // so don't set the last updated date
     if (!(didError || isFirstBatch)) {
       yield put({
-        type: type === 'unread' ?
-          SET_UNREAD_LAST_UPDATED :
-          'SAVED_ITEMS_SET_LAST_UPDATED',
+        type: SET_LAST_UPDATED,
+        itemType: type,
         lastUpdated: Date.now()
       })
       yield put({
@@ -152,7 +155,7 @@ export function * receiveItems (items, type) {
   console.log('Received ' + items.length + ' new items')
   let feeds
   let now = Date.now()
-  if (type === 'unread') {
+  if (type === ItemType.unread) {
     feeds = yield select(getFeeds)
     const updated = yield createFeedsWhereNeededAndAddInfo(items, feeds)
     feeds = updated.feeds
@@ -160,7 +163,7 @@ export function * receiveItems (items, type) {
     console.log('createFeedsWhereNeededAndAddInfo took ' + (Date.now() - now))
     now = Date.now()
     yield put({
-      type: 'FEEDS_UPDATE_FEEDS',
+      type: UPDATE_FEEDS,
       feeds,
       skipFetchItems: true
     })
@@ -208,7 +211,7 @@ function * cleanUpItems (items, type) {
   const setShowCoverImageIfNotCurrent = (item) => item === currentItem ?
     item :
     setShowCoverImage(item)
-  const setSavedIfNecessary = item => type === 'saved' ?
+  const setSavedIfNecessary = item => type === ItemType.saved ?
     {
       ...item,
       isSaved: true

@@ -1,4 +1,20 @@
 import {
+  Item,
+  ItemsState,
+  ItemActionTypes,
+  ItemType,
+  flateItemsAction,
+  flateItemsErrorAction,
+  itemDecorationFailureAction,
+  itemDecorationSuccessAction,
+  markItemReadAction,
+  markItemsReadAction,
+  setScrollOffsetAction,
+  setTitleFontResizedAction,
+  setTitleFontSizeAction,
+  toggleMercuryViewAction
+} from './types'
+import {
   addStylesIfNecessary,
   addMercuryStuffToItem,
   addCoverImageToItem,
@@ -6,7 +22,10 @@ import {
   setShowCoverImage
 } from '../../utils/item-utils.js'
 
-export const itemMarkRead = (action, state) => {
+export const itemMarkRead = (
+  action: markItemReadAction, 
+  state: ItemsState
+) => {
   const items = state.items.map(item => {
     if (item._id === action.item._id) {
       item.readAt = Date.now()
@@ -19,7 +38,10 @@ export const itemMarkRead = (action, state) => {
   }
 }
 
-export const itemsMarkRead = (action, state) => {
+export function itemsMarkRead (
+  action: markItemsReadAction, 
+  state: ItemsState
+) {
   if (action.items.length === 0) {
     return state
   }
@@ -36,7 +58,10 @@ export const itemsMarkRead = (action, state) => {
   }
 }
 
-export const itemSetScrollOffset = (action, state) => {
+export function itemSetScrollOffset (
+  action: setScrollOffsetAction, 
+  state: ItemsState
+) {
   let items = state.items.map(item => {
     if (item._id === action.item._id) {
       // need to gracefully migrate to new format
@@ -56,7 +81,10 @@ export const itemSetScrollOffset = (action, state) => {
   }
 }
 
-export const itemToggleMercury = (action, state) => {
+export function itemToggleMercury (
+  action: toggleMercuryViewAction, 
+  state: ItemsState
+) {
   let items = [ ...state.items ]
   let item = items.find((item) => item._id === action.item._id)
   if (item && item.content_mercury) {
@@ -69,9 +97,12 @@ export const itemToggleMercury = (action, state) => {
   }
 }
 
-export const itemDecorationSuccess = (action, state) => {
+export function itemDecorationSuccess (
+  action: itemDecorationSuccessAction, 
+  state: ItemsState
+) {
   const currentItem = state.items[state.index]
-  const testAndDecorate = (item) => {
+  const testAndDecorate = (item: Item) => {
     if (item._id === action.item._id) {
       // note that I'm using action.item as the base
       // there's a small chance that this might be stale,
@@ -95,14 +126,17 @@ export const itemDecorationSuccess = (action, state) => {
   if (!action.item) {
     throw "action.item is not defined in itemDecorationSuccess"
   }
-  items = state.items.map(testAndDecorate).map(addStylesIfNecessary)
+  const items: Item[] = state.items.map(testAndDecorate).map(addStylesIfNecessary)
   return {
     ...state,
     items
   }
 }
 
-export const itemDecorationFailure = (action, state) => {
+export function itemDecorationFailure (
+  action: itemDecorationFailureAction, 
+  state: ItemsState
+) {
   const items = state.items.map(item => {
     if (item._id === action.item._id) {
       item.decoration_failures = item.decoration_failures || 0
@@ -121,7 +155,10 @@ export const itemDecorationFailure = (action, state) => {
   }
 }
 
-export const updateCurrentItemTitleFontSize = (action, state) => {
+export function updateCurrentItemTitleFontSize (
+  action: setTitleFontSizeAction, 
+  state: ItemsState
+) {
   let stateChanged = false
   const newItems = state.items.map(item => {
     if (item._id === action.item._id) {
@@ -142,7 +179,10 @@ export const updateCurrentItemTitleFontSize = (action, state) => {
     state
 }
 
-export const updateCurrentItemTitleFontResized = (action, state) => {
+export function updateCurrentItemTitleFontResized (
+  action: setTitleFontResizedAction, 
+  state: ItemsState
+) {
   const newItems = state.items.map(item => {
     if (item._id === action.item._id) {
       item.styles.title.fontResized = true
@@ -155,7 +195,10 @@ export const updateCurrentItemTitleFontResized = (action, state) => {
   }
 }
 
-export const itemsFlate = (action, state) => {
+export function itemsFlate (
+  action: flateItemsAction, 
+  state: ItemsState
+) {
   // the items in the action are already inflated/deflated
   const flatedItems = action.itemsToInflate
     .concat(action.itemsToDeflate)
@@ -180,7 +223,10 @@ export const itemsFlate = (action, state) => {
   }
 }
 
-export const itemsFlateError = (action, state) => {
+export function itemsFlateError (
+  action: flateItemsErrorAction, 
+  state: ItemsState
+) {
   // something's gone wrong, so just remove them
   const erroredItems = action.items
   const items = [...state.items].filter(i => (

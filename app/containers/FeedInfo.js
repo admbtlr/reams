@@ -1,4 +1,8 @@
 import { connect } from 'react-redux'
+import { 
+  MARK_FEED_READ,
+  REMOVE_FEED 
+} from '../store/feeds/types'
 import FeedInfo from '../components/FeedInfo.js'
 import { getIndex, getItems } from '../utils/get-item'
 
@@ -16,11 +20,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     markAllRead: (id) => dispatch({
-      type: 'FEED_MARK_READ',
+      type: MARK_FEED_READ,
       id
     }),
     unsubscribe: (id) => dispatch({
-      type: 'FEEDS_REMOVE_FEED',
+      type: REMOVE_FEED,
       id
     })
   }

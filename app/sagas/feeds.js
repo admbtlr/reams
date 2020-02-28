@@ -4,6 +4,14 @@ import {
   MARK_ITEMS_READ,
   REMOVE_ITEMS 
 } from '../store/items/types'
+import {
+  ADD_FEED_SUCCESS,
+  ADD_FEEDS_SUCCESS,
+  ERROR_CACHING_FEED_ICON,
+  REFRESH_FEED_LIST,
+  SET_CACHED_FEED_ICON,
+  UPDATE_FEED
+} from '../store/feeds/types'
 import { addFeed, fetchFeeds, getFeedDetails, hasBackend, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../utils'
 import { hexToHsl, rgbToHsl } from '../utils/colors'
@@ -27,7 +35,7 @@ export function * subscribeToFeed (action) {
   if (feed) {
     console.log(`Added feed: ${feed.title}`)
     yield put ({
-      type: 'FEEDS_ADD_FEED_SUCCESS',
+      type: ADD_FEED_SUCCESS,
       feed
     })
   }
@@ -57,7 +65,7 @@ export function * fetchAllFeeds () {
   const feeds = oldFeeds.concat(newFeeds)
 
   yield put({
-    type: 'FEEDS_REFRESH_FEED_LIST',
+    type: REFRESH_FEED_LIST,
     feeds
   })
 
@@ -116,7 +124,7 @@ export function * inflateFeeds () {
     }
     yield call(InteractionManager.runAfterInteractions)
     yield put({
-      type: 'FEEDS_UPDATE_FEED',
+      type: UPDATE_FEED,
       feed: inflatedFeed
     })
     updateFeed(inflatedFeed)
@@ -166,7 +174,7 @@ function * cacheFeedFavicons () {
         const dimensions = yield call(getImageDimensions, fileName)
         yield call(InteractionManager.runAfterInteractions)
         yield put({
-          type: 'FEED_SET_CACHED_FEED_ICON',
+          type: SET_CACHED_FEED_ICON,
           cachedIconPath: fileName,
           dimensions,
           id: feed._id
@@ -174,7 +182,7 @@ function * cacheFeedFavicons () {
       } catch (error) {
         // log(`Error downloading icon for ${feed.url}: ${error.message}`)
         yield put({
-          type: 'FEED_ERROR_CACHING_ICON',
+          type: ERROR_CACHING_FEED_ICON,
           id: feed._id
         })
       }
@@ -218,7 +226,7 @@ export function * subscribeToFeeds (action) {
     if (f) feeds.push(f)
   }
   yield put({
-    type: 'FEEDS_ADD_FEEDS_SUCCESS',
+    type: ADD_FEEDS_SUCCESS,
     feeds
   })
 }

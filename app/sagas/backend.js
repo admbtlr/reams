@@ -3,6 +3,10 @@ import { eventChannel, END } from 'redux-saga'
 import { call, put, select, spawn, take } from 'redux-saga/effects'
 
 import { SET_BACKEND } from '../store/config/types'
+import { 
+  SET_FEEDS_NEW,
+  UPDATE_FEEDS
+} from '../store/feeds/types'
 import { getItemsAS } from '../storage/async-storage'
 import {
   addSavedItemsFS,
@@ -150,14 +154,14 @@ function * receiveFeeds (dbFeeds) {
     }
   })
   // do this first so that isNew is set before the first item fetch
-  // (whicb is triggered by the FEEDS_UPDATE_FEEDS action)
+  // (whicb is triggered by the UPDATE_FEEDS action)
   if (newFeeds.length > 0) {
     yield put ({
-      type: 'FEEDS_SET_NEW',
+      type: SET_FEEDS_NEW,
       feeds: newFeeds
     })
     yield put ({
-      type: 'FEEDS_UPDATE_FEEDS',
+      type: UPDATE_FEEDS,
       feeds
     })
   }

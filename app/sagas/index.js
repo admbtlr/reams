@@ -8,6 +8,15 @@ import {
   UNSAVE_ITEM,
   UPDATE_CURRENT_INDEX 
 } from '../store/items/types'
+import {
+  ADD_FEED,
+  ADD_FEED_SUCCESS,
+  ADD_FEEDS,
+  ADD_FEEDS_SUCCESS,
+  MARK_FEED_READ,
+  REMOVE_FEED,
+  UPDATE_FEEDS
+} from '../store/feeds/types'
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems, filterItemsForFirestoreRead } from './mark-read'
@@ -58,14 +67,14 @@ export function * initSagas (getFirebase) {
   yield takeEvery(SET_BACKEND, init, getFirebase)
   yield takeEvery(UNSET_BACKEND, removeAllItems)
   yield takeEvery(UNSET_BACKEND, killBackend)
-  yield takeEvery('FEEDS_ADD_FEED', subscribeToFeed)
-  yield takeEvery('FEEDS_ADD_FEEDS', subscribeToFeeds)
-  yield takeEvery('FEED_MARK_READ', markFeedRead)
-  yield takeEvery('FEEDS_ADD_FEED_SUCCESS', fetchUnreadItems)
-  yield takeEvery('FEEDS_ADD_FEEDS_SUCCESS', inflateFeeds)
-  yield takeEvery('FEEDS_ADD_FEEDS_SUCCESS', fetchUnreadItems)
-  yield takeEvery('FEEDS_UPDATE_FEEDS', fetchUnreadItems)
-  yield takeEvery('FEEDS_REMOVE_FEED', unsubscribeFromFeed)
+  yield takeEvery(ADD_FEED, subscribeToFeed)
+  yield takeEvery(ADD_FEEDS, subscribeToFeeds)
+  yield takeEvery(MARK_FEED_READ, markFeedRead)
+  yield takeEvery(ADD_FEED_SUCCESS, fetchUnreadItems)
+  yield takeEvery(ADD_FEEDS_SUCCESS, inflateFeeds)
+  yield takeEvery(ADD_FEEDS_SUCCESS, fetchUnreadItems)
+  yield takeEvery(UPDATE_FEEDS, fetchUnreadItems)
+  yield takeEvery(REMOVE_FEED, unsubscribeFromFeed)
   yield takeEvery(SAVE_ITEM, markItemSaved)
   yield takeEvery(UNSAVE_ITEM, markItemUnsaved)
   yield takeEvery(ITEM_DECORATION_SUCCESS, maybeUpsertSavedItem)
