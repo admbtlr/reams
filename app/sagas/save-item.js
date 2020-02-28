@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import { call, put, select } from 'redux-saga/effects'
 import { saveItem, unsaveItem } from '../backends/'
 import { inflateItems } from './inflate-items'
@@ -23,7 +24,7 @@ export function * markItemUnsaved (action) {
     item: action.item
   })
   const displayMode = select(getDisplay)
-  if (displayMode === 'saved') {
+  if (displayMode === ItemType.saved) {
     const index = select(getIndex)
     yield call(inflateItems, { displayMode, index })
   }

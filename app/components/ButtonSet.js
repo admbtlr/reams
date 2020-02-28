@@ -1,20 +1,11 @@
-import React, { useEffect, useState, Fragment } from 'react'
-import { useDispatch } from 'react-redux'
+import { ItemType } from '../store/items/types'
+import React, { useEffect } from 'react'
 import {
   Animated,
   Dimensions,
-  Image,
-  InteractionManager,
-  ScrollView,
-  StatusBar,
-  StatusBarAnimation,
-  Text,
-  TouchableOpacity,
-  View
 } from 'react-native'
 import RizzleButton from './RizzleButton'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
 
 // isDarkBackground, displayMode, isOnboarding
@@ -55,15 +46,15 @@ export default function ButtonSet ({
     ['hsl(45, 60%, 51%)', 'hsl(210, 60%, 51%)', 'hsl(15, 60%, 51%)'] :
     [strokeColor, strokeColor, strokeColor]
   const saveFillColors = ['white', 'white', 'white']
-  let activeColor = displayMode === 'saved' ?
+  let activeColor = displayMode === ItemType.saved ?
       hslString('rizzleText', 'ui') :
     item ?
       hslString(item.feed_color, 'darkmodable') :
     null
-  const borderColor = displayMode == 'saved' ?
+  const borderColor = displayMode == ItemType.saved ?
     isDarkBackground ? 'hsl(0, 0%, 80%)' : hslString('rizzleText') :
     activeColor
-  const backgroundColor = displayMode == 'saved' ?
+  const backgroundColor = displayMode == ItemType.saved ?
     hslString('rizzleBG') :
     hslString('buttonBG')
   const backgroundColorLighter = backgroundColor.replace(/[0-9]*\%\)/, '70%)')

@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import { InteractionManager } from 'react-native'
 import { call, put, select, spawn } from 'redux-saga/effects'
 
@@ -24,7 +25,7 @@ export function * inflateItems (action) {
   const displayMode = yield select(getDisplay)
   const index = yield select(getIndex, displayMode)
   let items = yield select(getItems, displayMode)
-  if (displayMode === 'unread' && feedFilter) {
+  if (displayMode === ItemType.unread && feedFilter) {
     items = items.filter(i => i.feed_id === feedFilter)
   }
   if (items.length === 0) {
