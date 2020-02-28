@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { ADD_FEEDS } from '../store/feeds/types'
 import App from '../components/App.js'
 
 const mapStateToProps = (state, ownProps) => {
@@ -15,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
       isFirstTime: false
     }),
     addFeeds: (feeds) => dispatch({
-      type: 'FEEDS_ADD_FEEDS',
+      type: ADD_FEEDS,
       feeds
     }),
     screenChanged: (screen) => dispatch({

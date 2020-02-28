@@ -1,24 +1,48 @@
-import { UNSET_BACKEND } from '../config/types'
+import { 
+  UNSET_BACKEND,
+  ConfigActionTypes
+} from '../config/types'
+import {
+  ADD_FEED_SUCCESS,
+  ADD_FEEDS_SUCCESS,
+  REFRESH_FEED_LIST,
+  ADD_FEED,
+  REMOVE_FEED,
+  UPDATE_FEEDS,
+  UPDATE_FEED,
+  LIKE_FEED_TOGGLE,
+  UNLIKE_FEED,
+  MUTE_FEED_TOGGLE,
+  UNMUTE_FEED,
+  FeedActionTypes,
+  FeedsState
+} from './types'
 import { 
   ADD_READING_TIME,
   MARK_ITEM_READ,
   MARK_ITEMS_READ,
   PRUNE_UNREAD,
-  SAVE_ITEM
+  SAVE_ITEM,
+  SHARE_ITEM,
+  ItemActionTypes,
+  Item
 } from '../items/types'
 
-const initialState = {
+const initialState:FeedsState = {
   feeds: [],
   lastUpdated: 0
 }
 
-export function feeds (state = initialState, action) {
+export function feeds (
+  state = initialState, 
+  action: FeedActionTypes | ConfigActionTypes | ItemActionTypes
+) {
   let feeds
   let feed
   let newState, dirtyFeed, dirtyFeedIndex
 
   switch (action.type) {
-    case 'FEEDS_ADD_FEED_SUCCESS':
+    case ADD_FEED_SUCCESS:
       let cleanedFeeds = state.feeds.filter(feed => !!feed)
       return {
         ...state,
@@ -30,7 +54,7 @@ export function feeds (state = initialState, action) {
           }
         ]
       }
-    case 'FEEDS_ADD_FEEDS_SUCCESS':
+    case ADD_FEEDS_SUCCESS:
       let newFeeds = action.feeds.filter(f => !state.feeds
           .find(feed => feed.url === f.url || feed._id === f._id))
         .map(f => ({
@@ -44,22 +68,22 @@ export function feeds (state = initialState, action) {
           ...newFeeds
         ]
       }
-    case 'FEEDS_REFRESH_FEED_LIST':
+    case REFRESH_FEED_LIST:
       return {
         ...state,
         feeds: action.feeds
       }
-    case 'FEEDS_ADD_FEED':
+    case ADD_FEED:
       console.log(action)
       return state
 
-    case 'FEEDS_REMOVE_FEED':
+    case REMOVE_FEED:
       return {
         ...state,
         feeds: state.feeds.filter(feed => feed._id !== action.feed._id)
       }
 
-    case 'FEEDS_UPDATE_FEEDS':
+    case UPDATE_FEEDS:
       return {
         ...state,
         feeds: action.feeds.map(f => ({
@@ -68,7 +92,7 @@ export function feeds (state = initialState, action) {
         }))
       }
 
-    case 'FEEDS_UPDATE_FEED':
+    case UPDATE_FEED:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.feed._id ?
@@ -96,11 +120,11 @@ export function feeds (state = initialState, action) {
 
       feed.number_read = feed.number_read || 0
       feed.number_read++
-      feed.number_unread--
+      feed.number_unread && feed.number_unread--
 
-      const getContentLength = (item) => {
+      const getContentLength = (item: Item) => {
         if (item.hasShownMercury) {
-          return item.content_mercury.length
+          return item.content_mercury ? item.content_mercury.length : 0
         } else if (item.content_html) {
           return item.content_html.length
         } else {
@@ -109,13 +133,13 @@ export function feeds (state = initialState, action) {
       }
 
       const readingRate = action.readingTime / getContentLength(action.item)
-      feed.reading_rate = (feed.reading_rate && feed.reading_rate !== 'NaN') ?
+      feed.reading_rate = (feed.reading_rate && feed.reading_rate !== NaN) ?
         feed.reading_rate :
         0
       feed.reading_rate = (feed.reading_rate * (feed.number_read - 1) + readingRate) / feed.number_read
       feed.reading_rate = Number.parseFloat(feed.reading_rate.toFixed(4))
 
-      if (feed.reading_rate === null || feed.reading_rate === 'NaN') {
+      if (feed.reading_rate === null || feed.reading_rate === NaN) {
         debugger
       }
 
@@ -124,7 +148,7 @@ export function feeds (state = initialState, action) {
         feeds
       }
 
-    case 'ITEM_SHARE_ITEM':
+    case SHARE_ITEM:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
@@ -146,7 +170,7 @@ export function feeds (state = initialState, action) {
           feed)
       }
 
-    case 'FEED_TOGGLE_LIKE':
+    case LIKE_FEED_TOGGLE:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.id ?
@@ -157,7 +181,7 @@ export function feeds (state = initialState, action) {
           feed)
       }
 
-    case 'FEED_UNLIKE':
+    case UNLIKE_FEED:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.id ?
@@ -168,7 +192,7 @@ export function feeds (state = initialState, action) {
           feed)
       }
 
-    case 'FEED_TOGGLE_MUTE':
+    case MUTE_FEED_TOGGLE:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.id ?
@@ -179,7 +203,7 @@ export function feeds (state = initialState, action) {
           feed)
       }
 
-    case 'FEED_UNMUTE':
+    case UNMUTE_FEED:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.id ?
@@ -202,7 +226,7 @@ export function feeds (state = initialState, action) {
         feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
           {
             ...feed,
-            number_unread: feed.number_unread - 1
+            number_unread: feed.number_unread ? feed.number_unread - 1 : 0
           } :
           feed)
       }
@@ -212,8 +236,8 @@ export function feeds (state = initialState, action) {
   }
 }
 
-function updateUnreadCounts (itemsToClear, state) {
-  let feedsWithCleared = {}
+function updateUnreadCounts (itemsToClear: Item[], state: FeedsState) {
+  let feedsWithCleared: { [key: string]: number } = {}
   itemsToClear.forEach(item => {
     let feed
     if (feedsWithCleared[item.feed_id]) {
@@ -227,7 +251,7 @@ function updateUnreadCounts (itemsToClear, state) {
     feeds: state.feeds.map(feed => feedsWithCleared[feed._id] ?
       {
         ...feed,
-        number_unread: feed.number_unread - feedsWithCleared[feed._id]
+        number_unread: (feed.number_unread || 0) - feedsWithCleared[feed._id]
       } :
       feed)
   }

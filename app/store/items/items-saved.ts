@@ -1,4 +1,7 @@
-import { UNSET_BACKEND } from '../config/types'
+import {
+  UNSET_BACKEND,
+  ConfigActionTypes 
+} from '../config/types'
 import { 
   FLATE_ITEMS,
   FLATE_ITEMS_ERROR,
@@ -7,12 +10,18 @@ import {
   ITEMS_BATCH_FETCHED, 
   MARK_ITEM_READ,
   SAVE_ITEM,
+  SAVE_EXTERNAL_ITEM,
   SET_SCROLL_OFFSET,
   SET_TITLE_FONT_RESIZED,
   SET_TITLE_FONT_SIZE,
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
-  UPDATE_CURRENT_INDEX 
+  UNSAVE_ITEMS,
+  UPDATE_CURRENT_INDEX,
+  Item,
+  ItemActionTypes,
+  ItemsState,
+  ItemType
 } from './types'
 import {
   itemMarkRead,
@@ -30,35 +39,38 @@ import {
   nullValuesToEmptyStrings
 } from '../../utils/item-utils.js'
 
-export const initialState = {
+const initialState:ItemsState = {
   items: [],
-  index: 0
+  index: 0,
+  lastUpdated: 0
 }
 
-export const itemsSaved = (state = initialState, action) => {
-  let items = []
-  let newItems = []
-  let savedItems = []
-  let savedItem = {}
-  let newState = {}
-  let currentItem
+export function itemsSaved (
+  state = initialState, 
+  action: ItemActionTypes | ConfigActionTypes
+) : ItemsState {
+  let items: Item[] = []
+  let newItems: Item[] = []
+  let savedItem: Item
+  let index: number
+  let newState: { 
+    index : number, 
+    lastUpdated : number
+    items : Item[]
+  } = {
+    index: 0,
+    items: [],
+    lastUpdated: 0
+  }
+  let currentItem: Item
+  let carouselled: { index : number, items : Item[] }
 
   switch (action.type) {
-    case 'ITEMS_REHYDRATE_SAVED':
-      // workaround to make up for slideable bug
-      if (action.items) {
-        console.log('REHYDRATE SAVED ITEMS!')
-        return {
-          items: action.items
-        }
-      }
-      return { ...state }
-
     case UNSET_BACKEND:
       return initialState
 
     case UPDATE_CURRENT_INDEX:
-      if (action.displayMode !== 'saved') return state
+      if (action.displayMode !== ItemType.saved) return state
 
       return {
         ...state,
@@ -85,7 +97,7 @@ export const itemsSaved = (state = initialState, action) => {
         items
       }
 
-    case 'ITEM_SAVE_EXTERNAL_ITEM':
+    case SAVE_EXTERNAL_ITEM:
       items = [ ...state.items ]
       savedItem = nullValuesToEmptyStrings(action.item)
       savedItem = addStylesIfNecessary(savedItem)
@@ -111,7 +123,7 @@ export const itemsSaved = (state = initialState, action) => {
         index
       }
 
-    case 'ITEMS_UNSAVE_ITEMS':
+    case UNSAVE_ITEMS:
       currentItem = state.items[state.index]
       items = state.items
         .filter((item) => {
@@ -154,7 +166,7 @@ export const itemsSaved = (state = initialState, action) => {
       }
 
     case ITEMS_BATCH_FETCHED:
-      if (action.itemType !== 'saved') return state
+      if (action.itemType !== ItemType.saved) return state
       items = [...state.items]
       currentItem = items[state.index]
       newItems = action.items.map(item => ({
@@ -195,7 +207,7 @@ export const itemsSaved = (state = initialState, action) => {
     case ITEM_DECORATION_SUCCESS:
       if (!action.isSaved) return state
       let newState = itemDecorationSuccess(action, state)
-      newState.items.sort((a, b) => ((b.savedAt || 0) - (a.savedAt || 0)))
+      newState.items.sort((a: Item, b: Item) => ((b.savedAt || 0) - (a.savedAt || 0)))
       return newState
 
     case ITEM_DECORATION_FAILURE:

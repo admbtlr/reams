@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { FEED_HAS_RENDERED_ICON } from '../store/feeds/types'
 import FeedIcon from '../components/FeedIcon.js'
 
 const feedsWithInvertedIcons = [
@@ -33,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setRenderedFeedIcon: (id) => dispatch({
-      type: 'FEED_HAS_RENDERED_ICON',
+      type: FEED_HAS_RENDERED_ICON,
       id
     })
   }

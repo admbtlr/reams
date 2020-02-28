@@ -1,6 +1,12 @@
 import { runSaga } from 'redux-saga'
 import sinon from 'sinon'
 import { InteractionManager } from 'react-native'
+
+import {
+  ADD_FEED_SUCCESS,
+  UPDATE_FEEDS,
+  UPDATE_FEED
+} from '../store/feeds/types'
 import * as firestore from '../../storage/firestore'
 import * as backends from '../../backends'
 
@@ -43,7 +49,7 @@ describe('subscribeToFeed', () => {
     })
     expect(dispatched).toEqual([
       {
-        type: 'FEEDS_ADD_FEED_SUCCESS',
+        type: ADD_FEED_SUCCESS,
         feed: feed_3
       }
     ])
@@ -74,7 +80,7 @@ describe('syncFeeds', () => {
     }, syncFeeds)
     expect(dispatched).toEqual([
       {
-        type: 'FEEDS_UPDATE_FEEDS',
+        type: UPDATE_FEEDS,
         feeds: [
           {
             _id: 111111,
@@ -111,7 +117,7 @@ describe('syncFeeds', () => {
     }, syncFeeds)
     expect(dispatched).toEqual([
       {
-        type: 'FEEDS_UPDATE_FEEDS',
+        type: UPDATE_FEEDS,
         feeds: [
           {
             _id: 333334,
@@ -152,7 +158,7 @@ describe('inflateFeeds', () => {
   //     getState: () => ({ feeds: { feeds: feeds_1_2 }})
   //   }, inflateFeeds)
   //   expect(dispatched).toEqual(feeds_1_2.map(feed => ({
-  //     type: 'FEEDS_UPDATE_FEED',
+  //     type: UPDATE_FEED,
   //     feed: {
   //       ...feed,
   //       description: 'We are literally here'

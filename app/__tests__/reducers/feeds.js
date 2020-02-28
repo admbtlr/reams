@@ -1,4 +1,4 @@
-import { feeds } from '../../store/feeds/feeds.js/index.js.js'
+import { feeds } from '../../store/feeds/feeds.ts/index.js.js.js'
 
 describe('feeds reducer', () => {
   it('should return the initial state', () => {

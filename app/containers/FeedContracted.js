@@ -1,5 +1,10 @@
 import { connect } from 'react-redux'
 import { SET_FEED_FILTER } from '../store/config/types'
+import { 
+  MARK_FEED_READ,
+  REMOVE_FEED,
+  SET_CACHED_FEED_COVER_IMAGE
+} from '../store/feeds/types'
 import FeedContracted from '../components/FeedContracted.js'
 import {getCachedCoverImagePath} from '../utils/'
 
@@ -47,7 +52,7 @@ const mapDispatchToProps = (dispatch) => {
       feedFilter: id
     }),
     markAllRead: (id, originalId, olderThan) => dispatch({
-      type: 'FEED_MARK_READ',
+      type: MARK_FEED_READ,
       id,
       originalId,
       olderThan: olderThan || Date.now()
@@ -56,12 +61,12 @@ const mapDispatchToProps = (dispatch) => {
       type: 'ITEMS_CLEAR_READ'
     }),
     unsubscribe: (id) => dispatch({
-      type: 'FEEDS_REMOVE_FEED',
+      type: REMOVE_FEED,
       id
     }),
     setCachedCoverImage: (feedId, cachedCoverImageId) => {
       return dispatch({
-        type: 'FEED_SET_CACHED_COVER_IMAGE',
+        type: SET_CACHED_FEED_COVER_IMAGE,
         id: feedId,
         cachedCoverImageId
       })

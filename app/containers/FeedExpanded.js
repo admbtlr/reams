@@ -1,6 +1,13 @@
 import { connect } from 'react-redux'
 import { SET_FEED_FILTER } from '../store/config/types'
 import { UPDATE_CURRENT_INDEX } from '../store/items/types'
+import {
+  MARK_FEED_READ,
+  REMOVE_FEED,
+  LIKE_FEED_TOGGLE,
+  MUTE_FEED_TOGGLE,
+  SET_CACHED_FEED_COVER_IMAGE
+} from '../store/feeds/types'
 import FeedExpanded from '../components/FeedExpanded.js'
 // import {getCachedCoverImagePath} from '../utils/'
 
@@ -61,7 +68,7 @@ const mapDispatchToProps = (dispatch) => {
       displayMode: 'unread'
     }),
     markAllRead: (id, originalId, olderThan) => dispatch({
-      type: 'FEED_MARK_READ',
+      type: MARK_FEED_READ,
       id,
       originalId,
       olderThan: olderThan || Date.now()
@@ -70,20 +77,20 @@ const mapDispatchToProps = (dispatch) => {
       type: 'ITEMS_CLEAR_READ'
     }),
     unsubscribe: (feed) => dispatch({
-      type: 'FEEDS_REMOVE_FEED',
+      type: REMOVE_FEED,
       feed
     }),
     toggleMute: (id) => dispatch({
-      type: 'FEED_TOGGLE_MUTE',
+      type: MUTE_FEED_TOGGLE,
       id
     }),
     toggleLike: (id) => dispatch({
-      type: 'FEED_TOGGLE_LIKE',
+      type: LIKE_FEED_TOGGLE,
       id
     }),
     setCachedCoverImage: (feedId, cachedCoverImageId) => {
       return dispatch({
-        type: 'FEED_SET_CACHED_COVER_IMAGE',
+        type: SET_CACHED_FEED_COVER_IMAGE,
         id: feedId,
         cachedCoverImageId
       })
