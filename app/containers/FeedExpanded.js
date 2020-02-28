@@ -1,6 +1,9 @@
 import { connect } from 'react-redux'
 import { SET_FEED_FILTER } from '../store/config/types'
-import { UPDATE_CURRENT_INDEX } from '../store/items/types'
+import { 
+  UPDATE_CURRENT_INDEX,
+  ItemType 
+} from '../store/items/types'
 import {
   MARK_FEED_READ,
   REMOVE_FEED,
@@ -65,7 +68,7 @@ const mapDispatchToProps = (dispatch) => {
     setIndex: (index) => dispatch({
       type: UPDATE_CURRENT_INDEX,
       index,
-      displayMode: 'unread'
+      displayMode: ItemType.unread
     }),
     markAllRead: (id, originalId, olderThan) => dispatch({
       type: MARK_FEED_READ,

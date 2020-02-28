@@ -4,7 +4,10 @@ import {
   MARK_FEED_READ,
   REMOVE_FEED
 } from '../store/feeds/types'
-import { UPDATE_CURRENT_INDEX } from '../store/items/types'
+import { 
+  UPDATE_CURRENT_INDEX,
+  ItemType 
+} from '../store/items/types'
 import FeedsScreen from '../components/FeedsScreen.js'
 
 const testFeeds = [
@@ -94,7 +97,7 @@ const mapDispatchToProps = (dispatch) => {
     setIndex: (index) => dispatch({
       type: UPDATE_CURRENT_INDEX,
       index,
-      displayMode: 'unread'
+      displayMode: ItemType.unread
     }),
     showModal: (modalProps) => dispatch({
       type: 'UI_SHOW_MODAL',

@@ -1,6 +1,6 @@
 export enum ItemType {
-  unread,
-  saved
+  unread = 'unread',
+  saved = 'saved'
 }
 
 export interface Item {

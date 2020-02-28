@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import { connect } from 'react-redux'
 import { ADD_FEED } from '../store/feeds/types'
 import AppStateListener from '../components/AppStateListener'
@@ -24,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
       })
       dispatch({
         type: 'SET_DISPLAY_MODE',
-        displayMode: 'saved'
+        displayMode: ItemType.saved
       })
     },
     addFeed: (feed) => dispatch({

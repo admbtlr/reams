@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import ItemsScreenOnboarding from './ItemsScreenOnboarding'
@@ -338,7 +339,7 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
     width: '66%',
     marginLeft: '16.67%'
   }}>
-    { displayMode === 'saved' ?
+    { displayMode === ItemType.saved ?
       <Fragment>
         <Text style={{
           ...textInfoBoldStyle,
