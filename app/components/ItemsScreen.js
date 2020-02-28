@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import React from 'react'
 import {
   Dimensions,
@@ -52,7 +53,7 @@ class ItemsScreen extends React.Component {
       }}>
         <StatusBar
           showHideTransition="slide"
-          barStyle={ this.props.displayMode === 'saved' ? 'dark-content' : 'light-content' }
+          barStyle={ this.props.displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
           hidden={false} />
         <View style={styles.infoView} />
         <ItemCarouselContainer

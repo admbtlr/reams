@@ -4,7 +4,8 @@ import {
   SAVE_ITEM,
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
-  UPDATE_CURRENT_INDEX 
+  UPDATE_CURRENT_INDEX,
+  ItemType
 } from '../store/items/types'
 import ItemCarousel from '../components/ItemCarousel.js'
 import { getIndex, getItems } from '../utils/get-item'
@@ -55,9 +56,9 @@ const mapDispatchToProps = (dispatch) => {
     toggleDisplayMode: (currentDisplayMode) => {
       return dispatch({
         type: 'SET_DISPLAY_MODE',
-        displayMode: currentDisplayMode === 'saved' ?
-          'unread' :
-          'saved'
+        displayMode: currentDisplayMode === ItemType.saved ?
+          ItemType.unread :
+          ItemType.saved
       })
     },
     setSaved: (item, isSaved) => {

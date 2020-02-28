@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import React from 'react'
 import {Animated, Dimensions, Easing, Text, View, WebView} from 'react-native'
 import {BlurView} from 'react-native-blur'
@@ -447,7 +448,7 @@ class ItemTitle extends React.Component {
   }
 
   getForegroundColor () {
-    if (this.props.displayMode === 'saved') {
+    if (this.props.displayMode === ItemType.saved) {
       return hslString('rizzleText')
     } else {
       return hslString(this.props.item.feed_color, 'desaturated')
