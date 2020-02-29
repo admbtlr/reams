@@ -3,6 +3,7 @@ import FeedItem from '../components/FeedItem.js'
 import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
 
 import { SET_SCROLL_OFFSET } from '../store/items/types'
+import { SHOW_IMAGE_VIEWER } from '../store/ui/types'
 
 const mapStateToProps = (state, ownProps) => {
   const items = getItems(state)
@@ -33,7 +34,7 @@ const mapDispatchToProps = (dispatch) => {
     //   owner: owner
     // }),
     showImageViewer: (url) => dispatch({
-      type: 'UI_SHOW_IMAGE_VIEWER',
+      type: SHOW_IMAGE_VIEWER,
       url
     }),
     setScrollOffset: (item, offset, totalHeight) => dispatch({

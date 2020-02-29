@@ -1,5 +1,6 @@
 # To Do
 
+- move DISPLAY_MODE to ui, also SET_DARK_MODE
 - deal with feed.number_unread problems
 - add a message component
 - do something about Firebase listener memory leaks

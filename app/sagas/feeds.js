@@ -134,7 +134,6 @@ export function * inflateFeeds () {
 
 function convertColorIfNecessary (details) {
   let color
-  debugger
   if (details.color && details.color.indexOf('#') === 0 && details.color.length === 7) {
     color = hexToHsl(details.color.substring(1))
   } else if (details.color && details.color.indexOf('rgb') === 0) {

@@ -15,6 +15,9 @@ import * as Sentry from '@sentry/react-native'
 import { GoogleSignin } from '@react-native-community/google-signin'
 
 import { SET_BACKEND, SET_USER_DETAILS } from '../store/config/types'
+import { 
+  SHOW_MODAL
+} from '../store/ui/types'
 import AppContainer from '../containers/App.js'
 import AppStateListenerContainer from '../containers/AppStateListener.js'
 import ConnectionListenerContainer from '../containers/ConnectionListener.js'
@@ -138,7 +141,7 @@ export default class Rizzle extends Component<Props, State> {
       .catch(err => {
         console.log('Error logging in')
         that.store.dispatch({
-          type: 'UI_SHOW_MODAL',
+          type: SHOW_MODAL,
           modalProps: {
             modalText: [
               {

@@ -1,3 +1,4 @@
+import { HIDE_IMAGE_VIEWER } from '../store/ui/types'
 import { connect } from 'react-redux'
 import RizzleImageViewer from '../components/RizzleImageViewer.js'
 
@@ -11,7 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     hideImageViewer: () => dispatch({
-      type: 'UI_HIDE_IMAGE_VIEWER'
+      type: HIDE_IMAGE_VIEWER
     })
   }
 }

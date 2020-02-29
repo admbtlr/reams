@@ -96,14 +96,10 @@ export function itemsUnread (
   let newItems: Item[] = []
   let index: number
   let newState: { 
-    index : number, 
-    lastUpdated : number
-    items : Item[]
-  } = {
-    index: 0,
-    items: [],
-    lastUpdated: 0
-  }
+    index? : number, 
+    lastUpdated? : number
+    items? : Item[]
+  } = {}
   let currentItem: Item
   let carouselled: { index : number, items : Item[] }
 
@@ -194,14 +190,17 @@ export function itemsUnread (
     case ADD_READING_TIME:
       newState = { ...state }
       let item = newState.items?.find(item => item._id === action.item._id)
-      if (!item) return newState
+      if (!item) return state
 
       if (item.readingTime) {
         item.readingTime += action.readingTime
       } else {
         item.readingTime = action.readingTime
       }
-      return newState
+      return {
+        ...state,
+        ...newState
+      }
 
     case FLATE_ITEMS:
       return itemsFlate(action, state)
