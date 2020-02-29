@@ -6,6 +6,11 @@ import {
   View
 } from 'react-native'
 import { useDispatch } from 'react-redux'
+import { 
+  HIDE_ALL_BUTTONS,
+  SHOW_ITEM_BUTTONS
+} from '../store/ui/types'
+
 import TopBarContainer from '../containers/TopBar'
 import { isIphoneX } from '../utils'
 import { getClampedScrollAnim } from '../utils/animation-handlers'
@@ -37,19 +42,19 @@ function TopBars ({
   const scrollListener = {
     onStatusBarDown: () => {
       StatusBar.setHidden(false, 'slide')
-      dispatch({ type: 'UI_SHOW_ITEM_BUTTONS' })
+      dispatch({ type: SHOW_ITEM_BUTTONS })
     },
     onStatusBarDownBegin: () => {},
     onStatusBarUp: () => {
       StatusBar.setHidden(true, 'slide')
-      dispatch({ type: 'UI_HIDE_ALL_BUTTONS' })
+      dispatch({ type: HIDE_ALL_BUTTONS })
     },
     onStatusBarUpBegin: () => {
       StatusBar.setHidden(true, 'slide')
     },
     onStatusBarReset: () => {
       StatusBar.setHidden(false, 'slide')
-      dispatch({ type: 'UI_SHOW_ITEM_BUTTONS' })
+      dispatch({ type: SHOW_ITEM_BUTTONS })
     }
   }
 

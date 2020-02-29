@@ -1,5 +1,12 @@
 import { connect } from 'react-redux'
 import { TOGGLE_ONBOARDING } from '../store/config/types'
+import {
+  HIDE_ALL_BUTTONS,
+  HIDE_LOADING_ANIMATION,
+  SHOW_ITEM_BUTTONS,
+  SHOW_VIEW_BUTTONS
+} from '../store/ui/types'
+
 import Onboarding from '../components/Onboarding.js'
 // import { itemDidScroll } from '../redux/actions/item.js'
 
@@ -16,16 +23,16 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     showItemButtons: () => dispatch({
-      type: 'UI_SHOW_ITEM_BUTTONS'
+      type: SHOW_ITEM_BUTTONS
     }),
     showViewButtons: () => dispatch({
-      type: 'UI_SHOW_VIEW_BUTTONS'
+      type: SHOW_VIEW_BUTTONS
     }),
     hideAllButtons: () => dispatch({
-      type: 'UI_HIDE_ALL_BUTTONS'
+      type: HIDE_ALL_BUTTONS
     }),
     hideLoadingAnimation: () => dispatch({
-      type: 'UI_HIDE_LOADING_ANIMATION'
+      type: HIDE_LOADING_ANIMATION
     }),
     endOnboarding: () => dispatch({
       type: TOGGLE_ONBOARDING,
