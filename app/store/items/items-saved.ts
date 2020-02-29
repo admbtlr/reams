@@ -12,6 +12,7 @@ import {
   SAVE_ITEM,
   SAVE_EXTERNAL_ITEM,
   SET_SCROLL_OFFSET,
+  SET_LAST_UPDATED,
   SET_TITLE_FONT_RESIZED,
   SET_TITLE_FONT_SIZE,
   TOGGLE_MERCURY_VIEW,
@@ -54,7 +55,7 @@ export function itemsSaved (
   let savedItem: Item
   let index: number
   let newState: { 
-    index : number, 
+    index? : number, 
     lastUpdated : number
     items : Item[]
   } = {
@@ -159,11 +160,13 @@ export function itemsSaved (
     //     index
     //   }
 
-    case 'SAVED_ITEMS_SET_LAST_UPDATED':
-      return {
-        ...state,
-        lastUpdated: Date.now()
-      }
+    case SET_LAST_UPDATED:
+      if (action.itemType === ItemType.unread) {
+        return {
+          ...state,
+          lastUpdated: Date.now()
+        }
+      } else return state
 
     case ITEMS_BATCH_FETCHED:
       if (action.itemType !== ItemType.saved) return state

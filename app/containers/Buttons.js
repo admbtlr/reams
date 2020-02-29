@@ -1,3 +1,10 @@
+import {
+  SHOW_MODAL
+} from '../store/ui/types'
+import { 
+  SET_DISPLAY_MODE
+} from '../store/items/types'
+
 import { connect } from 'react-redux'
 import Buttons from '../components/Buttons.js'
 import { getIndex, getItems } from '../utils/get-item'
@@ -28,11 +35,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setDisplayMode: (displayMode) => dispatch({
-      type: 'SET_DISPLAY_MODE',
+      type: SET_DISPLAY_MODE,
       displayMode
     }),
     showModal: (modalProps) => dispatch({
-      type: 'UI_SHOW_MODAL',
+      type: SHOW_MODAL,
       modalProps
     })
   }

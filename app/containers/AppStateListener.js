@@ -1,6 +1,12 @@
 import { ItemType } from '../store/items/types'
 import { connect } from 'react-redux'
 import { ADD_FEED } from '../store/feeds/types'
+import { 
+  SHOW_MODAL
+} from '../store/ui/types'
+import { 
+  SET_DISPLAY_MODE
+} from '../store/items/types'
 import AppStateListener from '../components/AppStateListener'
 
 const mapStateToProps = (state) => {
@@ -24,7 +30,7 @@ const mapDispatchToProps = (dispatch) => {
         url
       })
       dispatch({
-        type: 'SET_DISPLAY_MODE',
+        type: SET_DISPLAY_MODE,
         displayMode: ItemType.saved
       })
     },
@@ -35,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
     showModal: (modalProps) => {
       console.log("SHOW MODAL!")
       dispatch({
-        type: 'UI_SHOW_MODAL',
+        type: SHOW_MODAL,
         modalProps
       })
     },

@@ -7,6 +7,9 @@ import {
   UPDATE_CURRENT_INDEX,
   ItemType
 } from '../store/items/types'
+import { 
+  TOGGLE_VIEW_BUTTONS
+} from '../store/ui/types'
 import ItemCarousel from '../components/ItemCarousel.js'
 import { getIndex, getItems } from '../utils/get-item'
 
@@ -80,7 +83,7 @@ const mapDispatchToProps = (dispatch) => {
       item
     }),
     toggleViewButtons: () => dispatch({
-      type: 'UI_TOGGLE_VIEW_BUTTONS'
+      type: TOGGLE_VIEW_BUTTONS
     }),
     toggleMercury: (item) => {
       if (item) {

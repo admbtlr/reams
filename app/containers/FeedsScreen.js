@@ -8,6 +8,9 @@ import {
   UPDATE_CURRENT_INDEX,
   ItemType 
 } from '../store/items/types'
+import { 
+  SHOW_MODAL
+} from '../store/ui/types'
 import FeedsScreen from '../components/FeedsScreen.js'
 
 const testFeeds = [
@@ -100,7 +103,7 @@ const mapDispatchToProps = (dispatch) => {
       displayMode: ItemType.unread
     }),
     showModal: (modalProps) => dispatch({
-      type: 'UI_SHOW_MODAL',
+      type: SHOW_MODAL,
       modalProps
     }),
     unsubscribe: (id) => dispatch({

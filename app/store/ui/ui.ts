@@ -1,3 +1,19 @@
+import {
+  FETCH_DATA_SUCCESS,
+  HIDE_ALL_BUTTONS,
+  HIDE_IMAGE_VIEWER,
+  HIDE_LOADING_ANIMATION,
+  HIDE_MODAL,
+  SHOW_IMAGE_VIEWER,
+  SHOW_ITEM_BUTTONS,
+  SHOW_MODAL,
+  SHOW_VIEW_BUTTONS,
+  TOGGLE_HIDE_MODAL,
+  TOGGLE_VIEW_BUTTONS,
+  UIActionTypes,
+  UIState
+} from './types'
+
 const initialState = {
   viewButtonsVisible: false,
   itemButtonsVisible: false,
@@ -6,71 +22,75 @@ const initialState = {
   showLoadingAnimation: true,
   imageViewerVisible: false,
   imageViewerUrl: '',
-  hiddenModals: []
+  hiddenModals: [],
+  message: ''
 }
 
-export function ui (state = initialState, action) {
+export function ui (
+  state: UIState = initialState, 
+  action: UIActionTypes
+) {
   switch (action.type) {
-    case 'UI_TOGGLE_VIEW_BUTTONS':
+    case TOGGLE_VIEW_BUTTONS:
       return {
         ...state,
         viewButtonsVisible: !state.viewButtonsVisible
       }
 
-    case 'UI_SHOW_VIEW_BUTTONS':
+    case SHOW_VIEW_BUTTONS:
       return {
         ...state,
         viewButtonsVisible: true
       }
 
-    case 'UI_SHOW_ITEM_BUTTONS':
+    case SHOW_ITEM_BUTTONS:
       return {
         ...state,
         itemButtonsVisible: true
       }
 
-    case 'UI_HIDE_ALL_BUTTONS':
+    case HIDE_ALL_BUTTONS:
       return {
         ...state,
         viewButtonsVisible: false,
         itemButtonsVisible: false
       }
 
-    case 'UI_SHOW_MODAL':
+    case SHOW_MODAL:
       return {
         ...state,
         modalVisible: true,
         modalProps: action.modalProps
       }
 
-    case 'UI_HIDE_MODAL':
+    case HIDE_MODAL:
       return {
         ...state,
         modalVisible: false
       }
 
-    case 'UI_HIDE_LOADING_ANIMATION':
-    case 'ITEMS_FETCH_DATA_SUCCESS':
+    case HIDE_LOADING_ANIMATION:
+    case FETCH_DATA_SUCCESS:
       return {
         ...state,
         showLoadingAnimation: false
       }
 
-    case 'UI_SHOW_IMAGE_VIEWER':
+    case SHOW_IMAGE_VIEWER:
       return {
         ...state,
         imageViewerVisible: true,
         imageViewerUrl: action.url
       }
 
-    case 'UI_HIDE_IMAGE_VIEWER':
+    case HIDE_IMAGE_VIEWER:
       return {
         ...state,
         imageViewerVisible: false,
         imageViewerUrl: ''
       }
 
-    case 'UI_TOGGLE_HIDE_MODAL':
+    case TOGGLE_HIDE_MODAL:
       let hiddenModals = state.hiddenModals || []
       hiddenModals = [
         ...hiddenModals,

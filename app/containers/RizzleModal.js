@@ -1,3 +1,7 @@
+import { 
+  HIDE_MODAL,
+  TOGGLE_HIDE_MODAL
+} from '../store/ui/types'
 import { connect } from 'react-redux'
 import RizzleModal from '../components/RizzleModal.js'
 
@@ -12,10 +16,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     modalHide: () => dispatch({
-      type: 'UI_HIDE_MODAL'
+      type: HIDE_MODAL
     }),
     toggleHide: modalName => dispatch({
-      type: 'UI_TOGGLE_HIDE_MODAL',
+      type: TOGGLE_HIDE_MODAL,
       modalName
     })
   }
