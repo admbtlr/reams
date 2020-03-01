@@ -727,13 +727,6 @@ article {
   margin-bottom: $step * 6;
 }
 
-article > div:not(:last-of-type) {
-  p:last-child,
-  figure:last-child {
-    // margin-bottom: 2rem;
-  }
-}
-
 hr {
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
@@ -1059,6 +1052,26 @@ hr {
 
 .headerFontSans2 {
   h1, h3, h5 {
+    font-family: "Poppins-ExtraBold";
+  }
+  h2, h4 {
+    font-family: "Poppins-Regular";
+  }
+  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "Poppins-Italic";
+
+    em {
+      font-family: "Poppins-Regular";
+    }
+
+    strong {
+      font-family: "Poppins-ExtraBoldItalic";
+    }
+  }
+}
+
+.headerFontSans3 {
+  h1, h3, h5 {
     font-family: "Montserrat-Bold";
   }
   h2, h4 {
@@ -1077,67 +1090,43 @@ hr {
   }
 }
 
-.headerFontSans3 {
-  h1, h3, h5 {
-    font-family: "IBMPlexSans-Bold";
-  }
-  h2, h4 {
-    font-family: "IBMPlexSans-Light";
-  }
-  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "IBMPlexSans-Italic";
+// .headerFontSerif1 {
+//   h1, h3, h5 {
+//     font-family: "IBMPlexSerif-Bold";
+//   }
+//   h2, h4 {
+//     font-family: "IBMPlexSerif-Light";
+//   }
+//   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+//     font-family: "IBMPlexSerif-Italic";
 
-    em {
-      font-family: "IBMPlexSans";
-    }
+//     em {
+//       font-family: "IBMPlexSerif";
+//     }
 
-    strong {
-      font-family: "IBMPlexSans-BoldItalic";
-    }
+//     strong {
+//       font-family: "IBMPlexSerif-BoldItalic";
+//     }
 
-    em strong, strong em {
-      font-family: "IBMPlexSans-Bold";
-    }
-  }
-}
+//     em strong, strong em {
+//       font-family: "IBMPlexSerif-Bold";
+//     }
+//   }
+// }
+
+// .headerFontSerif2 {
+//   h1, h3, h5 {
+//     font-family: "Arvo-Bold";
+//   }
+//   h2, h4 {
+//     font-family: "Arvo";
+//   }
+//   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+//     font-family: "Arvo";
+//   }
+// }
 
 .headerFontSerif1 {
-  h1, h3, h5 {
-    font-family: "IBMPlexSerif-Bold";
-  }
-  h2, h4 {
-    font-family: "IBMPlexSerif-Light";
-  }
-  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "IBMPlexSerif-Italic";
-
-    em {
-      font-family: "IBMPlexSerif";
-    }
-
-    strong {
-      font-family: "IBMPlexSerif-BoldItalic";
-    }
-
-    em strong, strong em {
-      font-family: "IBMPlexSerif-Bold";
-    }
-  }
-}
-
-.headerFontSerif2 {
-  h1, h3, h5 {
-    font-family: "Arvo-Bold";
-  }
-  h2, h4 {
-    font-family: "Arvo";
-  }
-  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "Arvo";
-  }
-}
-
-.headerFontSerif3 {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Black";
   }

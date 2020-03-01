@@ -72,19 +72,33 @@ const fontStyles = {
   // },
   headerFontSans1: {
     bold: {
-      fontFamily: 'IBMPlexSansCond-Bold'
+      fontFamily: 'AvenirNextCondensed-Bold'
     },
     boldItalic: {
-      fontFamily: 'IBMPlexSansCond-BoldItalic'
+      fontFamily: 'AvenirNextCondensed-BoldItalic'
     },
     regular: {
-      fontFamily: 'IBMPlexSansCond-ExtraLight'
+      fontFamily: 'AvenirNext-Medium'
     },
     regularItalic: {
-      fontFamily: 'IBMPlexSansCond-ExtraLightItalic'
+      fontFamily: 'AvenirNext-MediumItalic'
     }
   },
   headerFontSans2: {
+    bold: {
+      fontFamily: 'Poppins-ExtraBold'
+    },
+    boldItalic: {
+      fontFamily: 'Poppins-ExtraBoldItalic'
+    },
+    regular: {
+      fontFamily: 'Poppins-Regular'
+    },
+    regularItalic: {
+      fontFamily: 'Poppins-Italic'
+    }
+  },
+  headerFontSans3: {
     bold: {
       fontFamily: 'Montserrat-Bold'
     },
@@ -96,20 +110,6 @@ const fontStyles = {
     },
     regularItalic: {
       fontFamily: 'Montserrat-LightItalic'
-    }
-  },
-  headerFontSans3: {
-    bold: {
-      fontFamily: 'Futura-CondensedExtraBold'
-    },
-    boldItalic: {
-      fontFamily: 'Futura-CondensedExtraBold'
-    },
-    regular: {
-      fontFamily: 'Futura-Medium'
-    },
-    regularItalic: {
-      fontFamily: 'Futura-MediumItalic'
     }
   }
 }

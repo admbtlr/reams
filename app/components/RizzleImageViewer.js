@@ -3,7 +3,6 @@ import { Dimensions, Modal, View } from 'react-native'
 // import Modal from 'react-native-modalbox'
 import { VibrancyView } from 'react-native-blur'
 import ImageViewer from 'react-native-image-zoom-viewer'
-import LogoSpinner from './LogoSpinner'
 
 class RizzleImageViewer extends React.Component {
 
@@ -27,7 +26,7 @@ class RizzleImageViewer extends React.Component {
             imageUrls={[{
               url: this.props.url
             }]}
-            loadingRender={() => <LogoSpinner />}
+            //loadingRender={() => <LogoSpinner />}
             renderIndicator={(currentIndex, allSize) => null}
             saveToLocalByLongPress={false}
             maxOverflow={0}
