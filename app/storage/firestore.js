@@ -218,7 +218,7 @@ export async function getSavedItemsFS (items) {
 export async function listenToSavedItems (receiveItems) {
   getUserDb()
     .collection('items-saved')
-    .onSnapshot((snapshot) => {
+    .onSnapshot({}, (snapshot) => {
       if (snapshot === null) return
       const docChanges = snapshot.docChanges()
       if (docChanges) {
@@ -239,7 +239,7 @@ export async function listenToSavedItems (receiveItems) {
 export async function listenToReadItems (receiveItems) {
   getUserDb()
     .collection('items-read')
-    .onSnapshot((snapshot) => {
+    .onSnapshot({}, (snapshot) => {
       if (snapshot === null) return
       if (snapshot.metadata.hasPendingWrites) {
         // generated locally, ignore
@@ -259,7 +259,7 @@ export async function listenToReadItems (receiveItems) {
 export async function listenToFeeds (receiveFeeds) {
   getUserDb()
     .collection('feeds')
-    .onSnapshot((snapshot) => {
+    .onSnapshot({}, (snapshot) => {
       if (snapshot === null) return
       if (snapshot._changes) {
         receiveFeeds(snapshot._docs.map(doc => doc._data))
