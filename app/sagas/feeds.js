@@ -7,7 +7,7 @@ import {
 import {
   ADD_FEED_SUCCESS,
   ADD_FEEDS_SUCCESS,
-  ERROR_CACHING_FEED_ICON,
+  CACHE_FEED_ICON_ERROR,
   REFRESH_FEED_LIST,
   SET_CACHED_FEED_ICON,
   UPDATE_FEED
@@ -181,7 +181,7 @@ function * cacheFeedFavicons () {
       } catch (error) {
         // log(`Error downloading icon for ${feed.url}: ${error.message}`)
         yield put({
-          type: ERROR_CACHING_FEED_ICON,
+          type: CACHE_FEED_ICON_ERROR,
           id: feed._id
         })
       }
