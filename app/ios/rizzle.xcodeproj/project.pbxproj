@@ -81,6 +81,10 @@
 		66D9D0CE5D3A459F9B53579E /* PTSerif-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */; };
 		CCC549379A404E4784782CCA /* PTSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */; };
 		6808D92C526845F5BCD20577 /* PTSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */; };
+		EA14D3AC6EF74834BD9F374B /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97E5394F826B4A158A48E0BA /* Poppins-ExtraBold.ttf */; };
+		64D3961D798B425594AC7304 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 499AB3DC82924245886CE016 /* Poppins-ExtraBoldItalic.ttf */; };
+		9959FEFBA8B64C37A69ED763 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2A58A1A800A4EFC8940698A /* Poppins-Italic.ttf */; };
+		74F3470AA8294D438D93B4C9 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AFB220B18334EF1B5381A18 /* Poppins-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -241,6 +245,10 @@
 		66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */ = {isa = PBXFileReference; name = "PTSerif-BoldItalic.ttf"; path = "../assets/fonts/PTSerif-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */ = {isa = PBXFileReference; name = "PTSerif-Italic.ttf"; path = "../assets/fonts/PTSerif-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */ = {isa = PBXFileReference; name = "PTSerif-Regular.ttf"; path = "../assets/fonts/PTSerif-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		97E5394F826B4A158A48E0BA /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		499AB3DC82924245886CE016 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A2A58A1A800A4EFC8940698A /* Poppins-Italic.ttf */ = {isa = PBXFileReference; name = "Poppins-Italic.ttf"; path = "../assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9AFB220B18334EF1B5381A18 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +354,10 @@
 				66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */,
 				B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */,
 				43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */,
+				97E5394F826B4A158A48E0BA /* Poppins-ExtraBold.ttf */,
+				499AB3DC82924245886CE016 /* Poppins-ExtraBoldItalic.ttf */,
+				A2A58A1A800A4EFC8940698A /* Poppins-Italic.ttf */,
+				9AFB220B18334EF1B5381A18 /* Poppins-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -669,6 +681,10 @@
 				66D9D0CE5D3A459F9B53579E /* PTSerif-BoldItalic.ttf in Resources */,
 				CCC549379A404E4784782CCA /* PTSerif-Italic.ttf in Resources */,
 				6808D92C526845F5BCD20577 /* PTSerif-Regular.ttf in Resources */,
+				EA14D3AC6EF74834BD9F374B /* Poppins-ExtraBold.ttf in Resources */,
+				64D3961D798B425594AC7304 /* Poppins-ExtraBoldItalic.ttf in Resources */,
+				9959FEFBA8B64C37A69ED763 /* Poppins-Italic.ttf in Resources */,
+				74F3470AA8294D438D93B4C9 /* Poppins-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -948,7 +964,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 352;
+				CURRENT_PROJECT_VERSION = 353;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -994,7 +1010,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 352;
+				CURRENT_PROJECT_VERSION = 353;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1049,7 +1065,7 @@
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 352;
+				CURRENT_PROJECT_VERSION = 353;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -1109,7 +1125,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 352;
+				CURRENT_PROJECT_VERSION = 353;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

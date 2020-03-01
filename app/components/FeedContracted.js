@@ -99,28 +99,23 @@ class FeedContracted extends React.PureComponent {
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 1),
-          debug('Gesture state began, startClock', startClock(clock))
         ]),
         cond(and(eq(gestureState, State.FAILED), neq(config.toValue, 0)), [
           set(state.finished, 0),
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 0),
-          debug('Gesture state failed, startClock', startClock(clock))
         ]),
         cond(and(eq(gestureState, State.END), neq(config.toValue, 0)), [
           set(state.finished, 0),
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 0),
-          debug('Gesture state ended, startClock', startClock(clock))
         ]),
         timing(clock, state, config),
         cond(state.finished, [
-          debug('Animation finished, stopClock', stopClock(clock)),
         ]),
         cond(and(eq(gestureState, State.END), state.finished), [
-          debug('Animation finished, gesture state ended, call this.hide', call([], this.onPress))
         ]),
         interpolate(state.position, {
           inputRange: [0, 1],

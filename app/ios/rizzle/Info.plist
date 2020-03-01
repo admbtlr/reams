@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>352</string>
+	<string>353</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -74,8 +74,6 @@
 		<string>IBMPlexSerif-Light.ttf</string>
 		<string>IBMPlexSerif-LightItalic.ttf</string>
 		<string>IBMPlexSerif-Regular.ttf</string>
-		<string>Eczar-ExtraBold.ttf</string>
-		<string>Eczar-Regular.ttf</string>
 		<string>PlayfairDisplay-Black.ttf</string>
 		<string>PlayfairDisplay-BlackItalic.ttf</string>
 		<string>PlayfairDisplay-Italic.ttf</string>
@@ -99,6 +97,10 @@
 		<string>PTSerif-BoldItalic.ttf</string>
 		<string>PTSerif-Italic.ttf</string>
 		<string>PTSerif-Regular.ttf</string>
+		<string>Poppins-ExtraBold.ttf</string>
+		<string>Poppins-ExtraBoldItalic.ttf</string>
+		<string>Poppins-Italic.ttf</string>
+		<string>Poppins-Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

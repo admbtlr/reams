@@ -13,8 +13,6 @@ import {
 import { NavigationEvents } from 'react-navigation'
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
-import LogoSpinnerContainer from '../containers/LogoSpinner.js'
-import SplashScreen from 'react-native-splash-screen'
 import { hslString } from '../utils/colors'
 
 class ItemsScreen extends React.Component {
