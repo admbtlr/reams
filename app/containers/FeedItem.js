@@ -10,14 +10,17 @@ const mapStateToProps = (state, ownProps) => {
   const index = getIndex(state)
   const itemIndex = items.findIndex(item => item._id === ownProps._id)
   const item = items[itemIndex]
-  const feed_color = item && state.feeds.feeds.find(f => f._id === item.feed_id) &&
+  const feed = item && state.feeds.feeds.find(f => f._id === item.feed_id)
+  const feed_color = feed &&
     state.feeds.feeds.find(f => f._id === item.feed_id).color
+  const showMercuryContent = feed && item &&
+    (feed.isMercury || item.showMercuryContent)
   return {
     item: {
       ...item,
       feed_color
     },
-    showMercuryContent: item && item.showMercuryContent,
+    showMercuryContent,
     isDarkMode: state.ui.isDarkMode,
     fontSize: state.ui.fontSize,
     isImageViewerVisible: state.ui.imageViewerVisible,

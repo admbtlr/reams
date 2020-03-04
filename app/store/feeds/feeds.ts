@@ -14,6 +14,7 @@ import {
   UNLIKE_FEED,
   MUTE_FEED_TOGGLE,
   UNMUTE_FEED,
+  MERCURY_FEED_TOGGLE,
   FeedActionTypes,
   FeedsState
 } from './types'
@@ -210,6 +211,17 @@ export function feeds (
           {
             ...feed,
             isMuted: false
+          } :
+          feed)
+      }
+
+    case MERCURY_FEED_TOGGLE:
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.id ?
+          {
+            ...feed,
+            isMercury: !!!feed.isMercury
           } :
           feed)
       }

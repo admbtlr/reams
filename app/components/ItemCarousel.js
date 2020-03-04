@@ -26,7 +26,7 @@ export const BUFFER_LENGTH = 5
 // them with scrollAnims
 let bufferedItems
 
-const getBufferedItems  = (items, index) => {
+const getBufferedItems  = (items, index, feeds) => {
   const bufferStart = index === 0 ? index : index - 1
   const bufferEnd = index + BUFFER_LENGTH > items.length - 1 ?
     items.length :
@@ -36,7 +36,10 @@ const getBufferedItems  = (items, index) => {
     JSON.stringify(bufferedItems.map(item => item._id))) {
     bufferedItems = buffered
   }
-  return bufferedItems
+  return bufferedItems.map(bi => ({
+    ...bi,
+    isFeedMercury: feeds && feeds.length > 0 && feeds.find(f => f._id === bi.feed_id).isMercury
+  }))
 }
 
 class ItemCarousel extends React.Component {
@@ -78,9 +81,9 @@ class ItemCarousel extends React.Component {
   //   }
   // }
 
-  _stringifyBufferedItems (items, index) {
+  _stringifyBufferedItems (items, index, feeds) {
     return JSON
-    .stringify(getBufferedItems(items, index)
+    .stringify(getBufferedItems(items, index, feeds)
       .map(item => item._id))
   }
 
@@ -90,8 +93,8 @@ class ItemCarousel extends React.Component {
       !(
         nextProps.index > this.initialIndex - 1 &&
         nextProps.index < this.initialIndex + BUFFER_LENGTH &&
-        this._stringifyBufferedItems(nextProps.items, this.props.index) ===
-          this._stringifyBufferedItems(this.props.items, this.props.index)
+        this._stringifyBufferedItems(nextProps.items, this.props.index, this.props.feeds) ===
+          this._stringifyBufferedItems(this.props.items, this.props.index, this.props.feeds)
       )
   }
 
@@ -253,6 +256,7 @@ class ItemCarousel extends React.Component {
   render () {
     const {
       displayMode,
+      feeds,
       isItemsOnboardingDone,
       isOnboarding,
       navigation,
@@ -263,7 +267,7 @@ class ItemCarousel extends React.Component {
       index
     } = this.props
 
-    this.bufferedItems = getBufferedItems(items, index)
+    this.bufferedItems = getBufferedItems(items, index, feeds)
 
     if (numItems > 0 || isOnboarding) {
       // do something with setPanAnim on the ToolbarContainer

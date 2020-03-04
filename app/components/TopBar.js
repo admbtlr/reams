@@ -119,8 +119,8 @@ class TopBar extends React.Component {
           <View style={{
             top: isIphoneX() ? 44 : 22,
             flex: 1,
-            marginLeft: 90,
-            marginRight: 90
+            marginLeft: 80,
+            marginRight: 80
           }}>
             <TouchableOpacity
               key={`inner-{id()}`}
@@ -332,7 +332,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor }) => (<Animated.View
       position: 'absolute',
       zIndex: 5,
       right: 19,
-      bottom: 15
+      bottom: 18
     }}
   >
     <TouchableOpacity
@@ -402,7 +402,7 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
     <Animated.View style={{
       position: 'absolute',
       left: 20,
-      bottom: 10,
+      bottom: 11,
       width: 32,
       height: 38,
     }}>
