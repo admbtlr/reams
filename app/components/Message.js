@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import {
   Animated,
   Dimensions,
+  Easing,
   Text,
   View
 } from 'react-native'
@@ -13,33 +14,47 @@ import {
 } from '../utils/styles'
 
 const screenWidth = Dimensions.get('window').width
-
-const transformAnim = new Animated.Value(-20)
+const offscreenDistance = -25
+const transformAnim = new Animated.Value(offscreenDistance)
 
 export default function Message (props) {
   const [isVisible, setVisible] = useState([])
+  const [visibleMessage, setVisibleMessage] = useState([])
 
-  const message = useSelector(state => {
-    return state.toolbar.message.length === 0 ?
-      'Message here' :
-      state.toolbar.message
-  })
+  const message = useSelector(state => state.toolbar.message)
 
   if (isVisible && message.length === 0) {
-    setVisible(false)
+    Animated.timing(transformAnim, {
+      toValue: offscreenDistance,
+      easing: Easing.out(Easing.quad),
+      useNativeDrive: true
+    }).start(_ => {
+      setVisibleMessage(message)
+      setVisible(false)
+    })
   } else if (!isVisible && message.length > 0) {
-    setVisible(true)
+    setVisibleMessage(message)
+    Animated.timing(transformAnim, {
+      toValue: 0,
+      easing: Easing.out(Easing.quad),
+      useNativeDrive: true
+    }).start(_ => {
+      setVisible(true)
+    })
   }
 
   return /*message.length === 0 ? null :*/ (
-    <View style={{
+    <Animated.View style={{
       position: 'absolute',
       top: isIphoneX ? 38 : 2,
       width: screenWidth,
       flex: 1,
       flexAlign: 'center',
       justifyContent: 'center',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      transform: [{
+        translateY: transformAnim
+      }]
     }}>
       <View style={{
         backgroundColor: hslString('white'),
@@ -52,8 +67,8 @@ export default function Message (props) {
         shadowColor: 'black',
         shadowOpacity: 0.4
       }}>
-        <Text style={textInfoStyle}>{message}</Text>
+        <Text style={textInfoStyle}>{visibleMessage}</Text>
       </View>
-    </View>
+    </Animated.View>
   )
 }

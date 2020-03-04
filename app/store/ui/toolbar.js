@@ -11,7 +11,7 @@ export function toolbar (state = initialState, action) {
       return {
         ...state,
         message: action.isLoading
-          ? 'Loading Stories' + (action.numItems
+          ? 'Loading stories' + (action.numItems
             ? ` (${action.numItems})`
             : '')
           : ''

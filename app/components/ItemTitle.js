@@ -1048,7 +1048,7 @@ class ItemTitle extends React.Component {
     const theDate = (typeof date === 'number') ? date : date
     let showYear = (moment(theDate).year() !== moment().year())
     const formattedDate = moment(theDate)
-      .format('MMM DD' + (showYear ? ' YYYY' : '') + ', h:mma')
+      .format('MMMM Do' + (showYear ? ' YYYY' : '') + ', h:mma')
 
     return dateView = (
       <Animated.Text
