@@ -1,6 +1,7 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
 import { 
+  CLEAR_READ_ITEMS,
   MARK_ITEMS_READ,
   REMOVE_ITEMS 
 } from '../store/items/types'
@@ -103,7 +104,7 @@ export function * markFeedRead (action) {
     })
     yield call(InteractionManager.runAfterInteractions)
     yield put({
-      type: 'ITEMS_CLEAR_READ'
+      type: CLEAR_READ_ITEMS
     })
   } catch (error) {
     console.log(error)

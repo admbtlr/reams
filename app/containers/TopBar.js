@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     displayMode: state.itemsMeta.display,
     feedFilter: state.config.feedFilter,
-    isDarkBackground: state.webView.isDarkBackground,
+    isDarkMode: state.ui.isDarkMode,
     isOnboarding: state.config.isOnboarding,
     ...ownProps
   }

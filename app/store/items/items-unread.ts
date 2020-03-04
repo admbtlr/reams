@@ -294,14 +294,15 @@ export function itemsUnread (
 // and sets index appropriately
 // (sucks that reducers need to think about UI implementation, but :shrug:)
 const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
+  const buffer = 1 // rather than BUFFER_LENGTH 
   let currentItem = state.items[state.index]
   let index = state.index
   const indexStart = state.index === 0 ?
     0 :
     state.index - 1
-  const indexEnd = state.index + BUFFER_LENGTH >= state.items.length ?
+  const indexEnd = state.index + buffer >= state.items.length ?
     state.items.length - 1 :
-    state.index + BUFFER_LENGTH
+    state.index + buffer
   if (currentItem) {
     const currentItems = state.items.slice(indexStart, indexEnd+1)
     items = items.filter(item => !currentItems.find(ci => ci._id === item._id))

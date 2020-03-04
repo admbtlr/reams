@@ -108,3 +108,23 @@
   src: url(../fonts/Montserrat-BoldItalic.ttf);
 }
 
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url(../fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Poppins-Italic";
+  src: url(../fonts/Poppins-Italic.ttf);
+}
+
+@font-face {
+  font-family: "Poppins-ExtraBold";
+  src: url(../fonts/Poppins-ExtraBold.ttf);
+}
+
+@font-face {
+  font-family: "Poppins-ExtraBoldItalic";
+  src: url(../fonts/Poppins-ExtraBoldItalic.ttf);
+}
+

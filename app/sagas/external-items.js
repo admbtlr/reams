@@ -1,7 +1,8 @@
 import { put, select } from 'redux-saga/effects'
 import { 
   ITEM_DECORATION_FAILURE,
-  ITEM_DECORATION_SUCCESS
+  ITEM_DECORATION_SUCCESS,
+  SAVE_EXTERNAL_ITEM
 } from '../store/items/types'
 import { decorateItem } from './decorate-items'
 import { id } from '../utils'
@@ -17,7 +18,7 @@ export function * saveExternalUrl (action) {
     is_external: true
   }
   yield put({
-    type: 'ITEM_SAVE_EXTERNAL_ITEM',
+    type: SAVE_EXTERNAL_ITEM,
     item,
     savedAt: Date.now()
   })

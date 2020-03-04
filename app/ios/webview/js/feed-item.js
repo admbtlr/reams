@@ -270,7 +270,7 @@ function getHeight () {
   return Math.ceil(document.querySelector('article').getBoundingClientRect().height)
 }
 
-function toggleDarkBackground(isDarkBackground) {
+function toggleDarkMode(isDarkMode) {
   const html = document.getElementsByTagName('html')[0]
   html.classList.toggle('dark-background')
 }

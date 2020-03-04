@@ -1,6 +1,6 @@
 import { InteractionManager } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
-import PRUNE_UNREAD from '../store/items/types'
+import { PRUNE_UNREAD } from '../store/items/types'
 import { deleteItemsAS } from '../storage/async-storage'
 
 import { getItems, getConfig, getSavedItems, getUnreadItems } from './selectors'

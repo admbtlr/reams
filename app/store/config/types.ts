@@ -16,6 +16,8 @@ export const SET_FEED_FILTER = 'SET_FEED_FILTER'
 export const IS_ONLINE = 'IS_ONLINE'
 export const SET_ITEM_SORT = 'SET_ITEM_SORT'
 export const SET_SHOW_NUM_UNREAD = 'SET_SHOW_NUM_UNREAD'
+export const STATE_ACTIVE = 'STATE_ACTIVE'
+export const STATE_INACTIVE = 'STATE_INACTIVE'
 
 // remote action queue
 export const REMOTE_ACTION_COMPLETED = 'REMOTE_ACTION_COMPLETED'

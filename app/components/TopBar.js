@@ -26,7 +26,7 @@ export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 - displayMode *
 - feedFilter *
 - index
-- isDarkBackground *
+- isDarkMode *
 - isOnboarding *
 - isVisible
 - item
@@ -219,7 +219,7 @@ class TopBar extends React.Component {
 
   getForegroundColor (item) {
     return this.props.displayMode == ItemType.saved ?
-      (this.props.isDarkBackground ?
+      (this.props.isDarkMode ?
         'hsl(0, 0%, 80%)' :
         hslString('white')) :
         'white'

@@ -121,7 +121,7 @@ class ViewButtons extends React.Component {
               })
             }]
           }}
-          onPress={this.props.toggleDarkBackground}
+          onPress={this.props.toggleDarkMode}
           >
           <Image
             source={require('../img/night-mode.png')}

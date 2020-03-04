@@ -8,7 +8,6 @@ import { feedsLocal } from './feeds/feeds-local'
 import { toolbar } from './ui/toolbar'
 import { ui } from './ui/ui'
 import { user } from './config/user'
-import { webView } from './ui/webView'
 import { config } from './config/config'
 import { remoteActionQueue } from './config/remote-action-queue'
 
@@ -41,7 +40,6 @@ export default function makeRootReducer () {
     feedsLocal,
     toolbar,
     ui,
-    webView,
     remoteActionQueue,
     config,
     user
