@@ -3,7 +3,6 @@
 - move DISPLAY_MODE to ui, also SET_DARK_MODE
 - deal with feed.number_unread problems
 - add a message component
-- do something about Firebase listener memory leaks
 - move all firestore operations out of sagas and into backends
     + ~~feeds~~
 - upgrade to react-navigation 5.0
@@ -36,6 +35,7 @@
 
 # Done
 
+- ~~do something about Firebase listener memory leaks~~
 - ~~why isn't icon color detection working?~~
 - ~~why does a feed with color [0,0,0] get changed to [(...),(...),(...)]?~~
 - ~~fix the navigation~~

@@ -20,8 +20,10 @@ export interface UIState {
   readonly showLoadingAnimation: boolean
   readonly imageViewerVisible: boolean
   readonly imageViewerUrl: string
+  readonly isDarkMode: boolean
   readonly hiddenModals: string[]
   readonly message: string
+  readonly fontSize: number
 }
 
 export const TOGGLE_VIEW_BUTTONS = 'TOGGLE_VIEW_BUTTONS'
@@ -36,6 +38,12 @@ export const HIDE_IMAGE_VIEWER = 'HIDE_IMAGE_VIEWER'
 export const TOGGLE_HIDE_MODAL = 'TOGGLE_HIDE_MODAL'
 export const FETCH_ITEMS = 'FETCH_ITEMS'
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS'
+export const SET_DARK_MODE = 'SET_DARK_MODE'
+export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE'
+export const INCREASE_FONT_SIZE = 'INCREASE_FONT_SIZE'
+export const DECREASE_FONT_SIZE = 'DECREASE_FONT_SIZE'
+export const ITEMS_SCREEN_BLUR = 'ITEMS_SCREEN_BLUR'
+export const ITEMS_SCREEN_FOCUS = 'ITEMS_SCREEN_FOCUS'
 
 interface toggleViewButtonsAction {
   type: typeof TOGGLE_VIEW_BUTTONS
@@ -84,6 +92,23 @@ interface fetchDataSuccessAction {
   type: typeof FETCH_DATA_SUCCESS
 }
 
+interface setDarkModeAction {
+  type: typeof SET_DARK_MODE
+  isDarkMode: boolean
+}
+
+interface toggleDarkModeAction {
+  type: typeof TOGGLE_DARK_MODE
+}
+
+interface increaseFontSizeAction {
+  type: typeof INCREASE_FONT_SIZE
+}
+
+interface decreaseFontSizeAction {
+  type: typeof DECREASE_FONT_SIZE
+}
+
 export type UIActionTypes = toggleViewButtonsAction |
   showViewButtonsAction |
   showItemButtonsAction |
@@ -94,4 +119,8 @@ export type UIActionTypes = toggleViewButtonsAction |
   showImageViewerAction |
   hideImageViewerAction |
   toggleHideModalAction |
-  fetchDataSuccessAction
+  fetchDataSuccessAction |
+  setDarkModeAction |
+  toggleDarkModeAction |
+  increaseFontSizeAction |
+  decreaseFontSizeAction

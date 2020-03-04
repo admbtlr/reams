@@ -116,7 +116,7 @@ app.get('/feed-meta/', async (req, res) => {
       }
       try {
         const body = await rp({
-          uri: feedMeta.link,
+          uri: derelativise(feedMeta.link),
           followAllRedirects: true
         })
         const favicon = await getFavicon(feedMeta.link, body)
@@ -208,24 +208,32 @@ app.get('/feed-meta/', async (req, res) => {
   const getColorFromFavicon = async (faviconUrl, fileName) => {
     const path = `/tmp/${fileName}.png`
     return rp.get({
-      url: faviconUrl,
+      url: derelativise(faviconUrl),
       encoding: null
     })
       .then(res => {
         const buffer = Buffer.from(res, 'utf8')
         fs.writeFileSync(path, buffer)
-        return ColorThief.getColor(path, 3)
+        return ColorThief.getPalette(path)
       })
-      .then(color => `rgb(${color.join(',')})`)
+      .then(palette => {
+        return `rgb(${palette[0].join(',')})`
+      })
   }
 
-  fetch(feedUrl, readMeta, () => res.send(), true)
+  fetch(derelativise(feedUrl), readMeta, () => res.send(), true)
 })
 
 // Serve index page
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/build/index.html')
 })
+
+function derelativise (url) {
+  return url.indexOf('//') === 0 ?
+  `https:${url}` :
+  url
+}
 
 function filterItems (items, lastUpdated) {
   const parseDate = (date) => typeof date !== 'number'

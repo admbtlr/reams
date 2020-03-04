@@ -1,3 +1,9 @@
+import { 
+  DECREASE_FONT_SIZE,
+  INCREASE_FONT_SIZE,
+  TOGGLE_DARK_MODE 
+} from '../store/ui/types'
+
 import { connect } from 'react-redux'
 import ViewButtons from '../components/ViewButtons.js'
 
@@ -10,13 +16,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     increaseFontSize: () => dispatch({
-      type: 'WEBVIEW_INCREASE_FONT_SIZE'
+      type: INCREASE_FONT_SIZE
     }),
     decreaseFontSize: () => dispatch({
-      type: 'WEBVIEW_DECREASE_FONT_SIZE'
+      type: DECREASE_FONT_SIZE
     }),
-    toggleDarkBackground: () => dispatch({
-      type: 'WEBVIEW_TOGGLE_BACKGROUND'
+    toggleDarkMode: () => dispatch({
+      type: TOGGLE_DARK_MODE
     })
   }
 }

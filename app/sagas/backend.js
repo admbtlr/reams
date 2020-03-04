@@ -2,6 +2,10 @@ import { InteractionManager } from 'react-native'
 import { eventChannel, END } from 'redux-saga'
 import { call, put, select, spawn, take } from 'redux-saga/effects'
 
+import { 
+  RECEIVED_REMOTE_READ_ITEMS,
+  UNSAVE_ITEMS 
+} from '../store/items/types'
 import { SET_BACKEND } from '../store/config/types'
 import { 
   SET_FEEDS_NEW,
@@ -134,7 +138,7 @@ function * receiveSavedItems (items) {
   const removedSaved = items.removed
   if (removedSaved.length) {
     yield put({
-      type: 'ITEMS_UNSAVE_ITEMS',
+      type: UNSAVE_ITEMS,
       items: removedSaved
     })
   }
@@ -168,19 +172,7 @@ function * receiveFeeds (dbFeeds) {
 
 function * receiveReadItems (readItems) {
   yield put ({
-    type: 'ITEMS_RECEIVED_REMOTE_READ',
+    type: RECEIVED_REMOTE_READ_ITEMS,
     date: Date.now()
   })
-  // if (!readItems) {
-  //   // the read items cache has been initialised
-  //   yield put ({
-  //     type: 'ITEMS_READ_ITEMS_INITIALISED'
-  //   })
-
-  // } else {
-  //   yield put ({
-  //     type: 'ITEMS_RECEIVED_REMOTE_READ',
-  //     readItems
-  //   })
-  // }
 }

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { SET_FEED_FILTER } from '../store/config/types'
-import { 
+import {
+  CLEAR_READ_ITEMS, 
   UPDATE_CURRENT_INDEX,
   ItemType 
 } from '../store/items/types'
@@ -77,7 +78,7 @@ const mapDispatchToProps = (dispatch) => {
       olderThan: olderThan || Date.now()
     }),
     clearReadItems: () => dispatch({
-      type: 'ITEMS_CLEAR_READ'
+      type: CLEAR_READ_ITEMS
     }),
     unsubscribe: (feed) => dispatch({
       type: REMOVE_FEED,

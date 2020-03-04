@@ -5,7 +5,7 @@
   "dependencies": {
     "@postlight/mercury-parser": "git+https://github.com/adamvert/mercury-parser#rizzle",
     "babel-register": "^6.26.0",
-    "colorthief": "^2.3.0",
+    "colorthief": "git+https://github.com/adamvert/color-thief#3465330",
     "express": "^4.16.2",
     "feedparser": "^2.2.8",
     "iconv-lite": "^0.5.0",

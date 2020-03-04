@@ -1,13 +1,17 @@
 import {
+  DECREASE_FONT_SIZE,
   FETCH_DATA_SUCCESS,
   HIDE_ALL_BUTTONS,
   HIDE_IMAGE_VIEWER,
   HIDE_LOADING_ANIMATION,
   HIDE_MODAL,
+  INCREASE_FONT_SIZE,
+  SET_DARK_MODE,
   SHOW_IMAGE_VIEWER,
   SHOW_ITEM_BUTTONS,
   SHOW_MODAL,
   SHOW_VIEW_BUTTONS,
+  TOGGLE_DARK_MODE,
   TOGGLE_HIDE_MODAL,
   TOGGLE_VIEW_BUTTONS,
   UIActionTypes,
@@ -23,8 +27,13 @@ const initialState = {
   imageViewerVisible: false,
   imageViewerUrl: '',
   hiddenModals: [],
-  message: ''
+  message: '',
+  isDarkMode: false,
+  fontSize: 3
 }
+
+const MAX_FONT_SIZE = 5
+const MIN_FONT_SIZE = 0
 
 export function ui (
   state: UIState = initialState, 
@@ -76,7 +85,19 @@ export function ui (
         showLoadingAnimation: false
       }
 
-    case SHOW_IMAGE_VIEWER:
+      case TOGGLE_DARK_MODE:
+        return {
+          ...state,
+          isDarkMode: !state.isDarkMode
+        }
+  
+      case SET_DARK_MODE:
+        return {
+          ...state,
+          isDarkMode: action.isDarkMode
+        }
+  
+        case SHOW_IMAGE_VIEWER:
       return {
         ...state,
         imageViewerVisible: true,
@@ -101,7 +122,23 @@ export function ui (
         hiddenModals
       }
 
-    default:
+    case INCREASE_FONT_SIZE:
+      let fontSize = state.fontSize + 1
+      fontSize = fontSize > MAX_FONT_SIZE ? MAX_FONT_SIZE : fontSize
+      return {
+        ...state,
+        fontSize
+      }
+
+    case DECREASE_FONT_SIZE:
+      fontSize = state.fontSize - 1
+      fontSize = fontSize < MIN_FONT_SIZE ? MIN_FONT_SIZE : fontSize
+      return {
+        ...state,
+        fontSize
+      }
+
+      default:
       return state
   }
 }

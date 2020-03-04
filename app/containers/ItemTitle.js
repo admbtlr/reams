@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
     styles: styles,
     // this is just a foul hack to see what's going on
     fontSize: styles && styles.fontSize,
-    isDarkBackground: state.webView.isDarkBackground,
+    isDarkMode: state.ui.isDarkMode,
     displayMode: state.itemsMeta.display
   }
 }

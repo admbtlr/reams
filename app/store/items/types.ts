@@ -49,15 +49,18 @@ export const SET_DISPLAY_MODE = 'SET_DISPLAY_MODE'
 export const UPDATE_CURRENT_INDEX = 'UPDATE_CURRENT_INDEX'
 export const ITEMS_BATCH_FETCHED = 'ITEMS_BATCH_FETCHED'
 export const PRUNE_UNREAD = 'PRUNE_UNREAD'
+export const CLEAR_READ_ITEMS = 'CLEAR_READ_ITEMS'
 export const CLEAR_READ_ITEMS_SUCCESS = 'CLEAR_READ_ITEMS_SUCCESS'
 export const SET_LAST_UPDATED = 'SET_LAST_UPDATED'
 export const REMOVE_ITEMS = 'REMOVE_ITEMS'
 export const SAVE_ITEM = 'SAVE_ITEM'
+export const SAVE_EXTERNAL_URL = 'SAVE_EXTERNAL_URL'
 export const SAVE_EXTERNAL_ITEM = 'SAVE_EXTERNAL_ITEM'
 export const UNSAVE_ITEM = 'UNSAVE_ITEM'
 export const UNSAVE_ITEMS = 'UNSAVE_ITEMS'
 export const MARK_ITEM_READ = 'MARK_ITEM_READ'
 export const MARK_ITEMS_READ = 'MARK_ITEMS_READ'
+export const RECEIVED_REMOTE_READ_ITEMS = 'RECEIVED_REMOTE_READ_ITEMS'
 export const SHARE_ITEM = 'SHARE_ITEM'
 export const TOGGLE_MERCURY_VIEW = 'TOGGLE_MERCURY_VIEW'
 export const FLATE_ITEMS = 'FLATE_ITEMS'
@@ -118,6 +121,11 @@ interface saveExternalItemAction {
   type: typeof SAVE_EXTERNAL_ITEM
   item: Item
   savedAt: number
+}
+
+export interface saveExternalUrlAction {
+  type: typeof SAVE_EXTERNAL_URL
+  url: string
 }
 
 interface unsaveItemAction {

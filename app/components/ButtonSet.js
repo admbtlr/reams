@@ -8,13 +8,13 @@ import RizzleButton from './RizzleButton'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { hslString } from '../utils/colors'
 
-// isDarkBackground, displayMode, isOnboarding
+// isDarkMode, displayMode, isOnboarding
 let areButtonsVisible = true
 
 export default function ButtonSet ({
   displayMode,
   isCurrent,
-  isDarkBackground,
+  isDarkMode,
   item,
   launchBrowser,
   opacityAnim,
@@ -37,7 +37,7 @@ export default function ButtonSet ({
   let isItemSaved = item.isSaved
   let isItemMercury = item.showMercuryContent
 
-  const strokeColor = isDarkBackground ?
+  const strokeColor = isDarkMode ?
     'hsl(0, 0%, 70%)' :
     'black'
   const showMercuryContent = item && item.showMercuryContent
@@ -52,7 +52,7 @@ export default function ButtonSet ({
       hslString(item.feed_color, 'darkmodable') :
     null
   const borderColor = displayMode == ItemType.saved ?
-    isDarkBackground ? 'hsl(0, 0%, 80%)' : hslString('rizzleText') :
+    isDarkMode ? 'hsl(0, 0%, 80%)' : hslString('rizzleText') :
     activeColor
   const backgroundColor = displayMode == ItemType.saved ?
     hslString('rizzleBG') :
