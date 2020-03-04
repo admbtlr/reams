@@ -987,7 +987,7 @@ class ItemTitle extends React.Component {
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.9,
       fontFamily: this.getFontFamily('bold', 'author'),
-      lineHeight: Math.round(this.getExcerptFontSize() * 0.9),
+      lineHeight: Math.round(this.getExcerptFontSize() * 0.95),
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
@@ -1048,7 +1048,7 @@ class ItemTitle extends React.Component {
     const theDate = (typeof date === 'number') ? date : date
     let showYear = (moment(theDate).year() !== moment().year())
     const formattedDate = moment(theDate)
-      .format('dddd Do MMMM' + (showYear ? ' YYYY' : '') + ', h:mm a')
+      .format('MMMM Do' + (showYear ? ' YYYY' : '') + ', h:mma')
 
     return dateView = (
       <Animated.Text

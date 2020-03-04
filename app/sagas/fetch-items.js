@@ -52,10 +52,18 @@ export function * fetchAllItems (includeSaved = true) {
   const config = yield select(getConfig)
   if (!config.isOnline || !hasBackend()) return
 
+  yield put({
+    type: 'ITEMS_IS_LOADING',
+    isLoading: true
+  })
   yield fetchItems(ItemType.unread)
   if (includeSaved) {
     yield fetchItems(ItemType.saved)
   }
+  yield put({
+    type: 'ITEMS_IS_LOADING',
+    isLoading: false
+  })
 }
 
 export function * fetchUnreadItems (action) {
@@ -64,10 +72,6 @@ export function * fetchUnreadItems (action) {
 }
 
 export function * fetchItems (type = ItemType.unread) {
-  yield put({
-    type: 'ITEMS_IS_LOADING',
-    isLoading: true
-  })
   let feeds
 
   if (type === ItemType.unread) {
@@ -116,10 +120,6 @@ export function * fetchItems (type = ItemType.unread) {
         type: 'ITEMS_FETCH_DATA_SUCCESS'
       })
     }
-    yield put({
-      type: 'ITEMS_IS_LOADING',
-      isLoading: false
-    })
     itemsChannel.close()
   }
 }
