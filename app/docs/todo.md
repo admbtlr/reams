@@ -7,6 +7,7 @@
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - make rizzle basic work
+- make Feedwrangler work fully
 - Feedly integration
 - add per feed setting to always open in expanded view
 - better loading indicator
