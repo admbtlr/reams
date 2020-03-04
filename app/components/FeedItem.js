@@ -114,10 +114,10 @@ class FeedItem extends React.Component {
           }
           break
 
-        case 'isDarkBackground':
+        case 'isDarkMode':
           if (this.webView) {
             isDiff = false
-            this.webView.injectJavaScript(`toggleDarkBackground(${nextProps.isDarkBackground})`)
+            this.webView.injectJavaScript(`toggleDarkMode(${nextProps.isDarkMode})`)
           }
           break
 
@@ -259,10 +259,10 @@ class FeedItem extends React.Component {
     }
 
     const feedColor = item.feed_color ?
-      hslString(this.props.item.feed_color, this.props.isDarkBackground ? 'darkmode' : '') :
+      hslString(this.props.item.feed_color, this.props.isDarkMode ? 'darkmode' : '') :
       hslString('logo1')
 
-    const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkBackground ? 'dark-background' : ''}">
+    const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkMode ? 'dark-background' : ''}">
   <head>
     <style>
 :root {
@@ -385,7 +385,7 @@ class FeedItem extends React.Component {
               alignItems: 'center',
               justifyContent: 'center',
               height: this.state.webViewHeight,
-              backgroundColor: this.props.isDarkBackground ? 'black' : hslString('rizzleBg')
+              backgroundColor: this.props.isDarkMode ? 'black' : hslString('rizzleBg')
             }}
             source={{
               html: html,

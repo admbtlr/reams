@@ -117,7 +117,7 @@ const fontStyles = {
 const paddingUnit = 28
 
 const textColor = 'hsl(0, 0%, 20%)'
-const textColorDarkBackground = 'hsl(0, 0%, 70%)'
+const textColorDarkMode = 'hsl(0, 0%, 70%)'
 
 class ItemTitle extends React.Component {
   // static whyDidYouRender = true
@@ -141,7 +141,8 @@ class ItemTitle extends React.Component {
     const params = {
       toValue: 1,
       duration: 250,
-      easing: Easing.bezier(.66, 0, .33, 1),
+      easing: Easing.out(Easing.quad),
+      // easing: Easing.bezier(.66, 0, .33, 1),
       useNativeDriver: true
     }
 
@@ -430,10 +431,9 @@ class ItemTitle extends React.Component {
     changes = diff(this.props, nextProps, diff(this.state, nextState))
     // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
     // console.log(changes)
-    if (changes.fontSize) {
+    if (changes.fontSize || changes.isDarkMode) {
       isDiff = true
     }
-    // }
     return isDiff
   }
 
@@ -525,7 +525,7 @@ class ItemTitle extends React.Component {
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
         this.getForegroundColor())
     // if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
-    if (!showCoverImage || coverImageStyles.isInline) color = this.props.isDarkBackground ? textColorDarkBackground : textColor
+    if (!showCoverImage || coverImageStyles.isInline) color = this.props.isDarkMode ? textColorDarkMode : textColor
 
     const invertBGPadding = 3
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
@@ -851,7 +851,7 @@ class ItemTitle extends React.Component {
     const { coverImageStyles, showCoverImage, item, styles } = this.props
     let excerptColor
     if (!showCoverImage || coverImageStyles.isInline || coverImageStyles.isContain) {
-      excerptColor = this.props.isDarkBackground ? textColorDarkBackground : textColor
+      excerptColor = this.props.isDarkMode ? textColorDarkMode : textColor
     // } else if (styles.invertBG) {
     //   excerptColor = 'black'
     } else if (showCoverImage && styles.isExcerptTone) {
@@ -981,8 +981,8 @@ class ItemTitle extends React.Component {
     let authorStyle = {
       color: showCoverImage && !coverImageStyles.isInline ?
           'white' :
-        this.props.isDarkBackground ?
-          textColorDarkBackground :
+        this.props.isDarkMode ?
+          textColorDarkMode :
           this.getForegroundColor(),
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.9,

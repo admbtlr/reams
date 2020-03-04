@@ -1,10 +1,19 @@
 import { call, cancel, delay, fork, select, takeEvery } from 'redux-saga/effects'
 import { REHYDRATE } from 'redux-persist'
-import { SET_BACKEND, UNSET_BACKEND } from '../store/config/types'
+import { 
+  SET_BACKEND, 
+  STATE_ACTIVE,
+  STATE_INACTIVE,
+  UNSET_BACKEND 
+} from '../store/config/types'
 import {
+  CLEAR_READ_ITEMS,
   ITEM_DECORATION_SUCCESS,
+  RECEIVED_REMOTE_READ_ITEMS,
   REMOVE_ITEMS,
+  SAVE_EXTERNAL_URL,
   SAVE_ITEM,
+  SET_DISPLAY_MODE,
   UNSAVE_ITEM,
   UPDATE_CURRENT_INDEX 
 } from '../store/items/types'
@@ -17,6 +26,11 @@ import {
   REMOVE_FEED,
   UPDATE_FEEDS
 } from '../store/feeds/types'
+import {
+  FETCH_ITEMS,
+  ITEMS_SCREEN_BLUR,
+  ITEMS_SCREEN_FOCUS
+} from '../store/ui/types'
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems, filterItemsForFirestoreRead } from './mark-read'
@@ -79,20 +93,20 @@ export function * initSagas (getFirebase) {
   yield takeEvery(UNSAVE_ITEM, markItemUnsaved)
   yield takeEvery(ITEM_DECORATION_SUCCESS, maybeUpsertSavedItem)
   yield takeEvery(UNSAVE_ITEM, inflateItems)
-  yield takeEvery('SET_DISPLAY_MODE', inflateItems)
+  yield takeEvery(SET_DISPLAY_MODE, inflateItems)
   yield takeEvery(UPDATE_CURRENT_INDEX, inflateItems)
-  yield takeEvery('ITEMS_FETCH_ITEMS', clearReadItems)
-  yield takeEvery('ITEMS_FETCH_ITEMS', fetchAllItems)
-  yield takeEvery('ITEMS_CLEAR_READ', clearReadItems)
-  yield takeEvery('ITEMS_RECEIVED_REMOTE_READ', filterItemsForFirestoreRead)
+  yield takeEvery(FETCH_ITEMS, clearReadItems)
+  yield takeEvery(FETCH_ITEMS, fetchAllItems)
+  yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)
+  yield takeEvery(RECEIVED_REMOTE_READ_ITEMS, filterItemsForFirestoreRead)
   yield takeEvery(UPDATE_CURRENT_INDEX, markLastItemRead)
   yield takeEvery(REMOVE_ITEMS, removeItems)
-  yield takeEvery('SAVE_EXTERNAL_URL', saveExternalUrl)
+  yield takeEvery(SAVE_EXTERNAL_URL, saveExternalUrl)
 
   // reading timer
   yield takeEvery(UPDATE_CURRENT_INDEX, currentItemChanged)
-  yield takeEvery('STATE_ACTIVE', appActive)
-  yield takeEvery('STATE_INACTIVE', appInactive)
-  yield takeEvery('NAVIGATION_ITEMS_SCREEN_FOCUS', screenActive)
-  yield takeEvery('NAVIGATION_ITEMS_SCREEN_BLUR', screenInactive)
+  yield takeEvery(STATE_ACTIVE, appActive)
+  yield takeEvery(STATE_INACTIVE, appInactive)
+  yield takeEvery(ITEMS_SCREEN_FOCUS, screenActive)
+  yield takeEvery(ITEMS_SCREEN_BLUR, screenInactive)
 }

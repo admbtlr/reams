@@ -18,7 +18,8 @@ const mapStateToProps = (state, ownProps) => {
       feed_color
     },
     showMercuryContent: item && item.showMercuryContent,
-    ...state.webView,
+    isDarkMode: state.ui.isDarkMode,
+    fontSize: state.ui.fontSize,
     isImageViewerVisible: state.ui.imageViewerVisible,
     coverImageComponent: ownProps.coverImageComponent,
     setTimerFunction: ownProps.setTimerFunction,

@@ -5,6 +5,7 @@ import {
   REMOVE_FEED
 } from '../store/feeds/types'
 import { 
+  CLEAR_READ_ITEMS,
   UPDATE_CURRENT_INDEX,
   ItemType 
 } from '../store/items/types'
@@ -111,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
       id
     }),
     clearReadItems: () => dispatch({
-      type: 'ITEMS_CLEAR_READ'
+      type: CLEAR_READ_ITEMS
     }),
     clearFeedFilter: () => dispatch({
       type: SET_FEED_FILTER,

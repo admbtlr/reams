@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
   //   index
   // }
   return {
-    isDarkBackground: state.webView.isDarkBackground
+    isDarkMode: state.ui.isDarkMode
   }
 }
 

@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
     isCurrentItemMercuryButtonEnabled: currentItem && currentItem.content_mercury,
     displayMode: state.itemsMeta.display,
     visible: state.ui.itemButtonsVisible,
-    isDarkBackground: state.webView.isDarkBackground,
+    isDarkMode: state.ui.isDarkMode,
     isOnboarding: state.config.isOnboarding,
     // panAnim: state.animatedValues.panAnim
   }

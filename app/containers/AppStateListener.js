@@ -1,7 +1,16 @@
-import { ItemType } from '../store/items/types'
+import { 
+  SAVE_EXTERNAL_URL,
+  ItemType
+} from '../store/items/types'
+import { 
+  STATE_ACTIVE,
+  STATE_INACTIVE
+} from '../store/config/types'
 import { connect } from 'react-redux'
 import { ADD_FEED } from '../store/feeds/types'
 import { 
+  FETCH_ITEMS,
+  SET_DARK_MODE,
   SHOW_MODAL
 } from '../store/ui/types'
 import { 
@@ -21,12 +30,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: () => dispatch({
-      type: 'ITEMS_FETCH_ITEMS'
+      type: FETCH_ITEMS
     }),
     updateCurrentAppState: (state) => dispatch(updateCurrentAppState(state)),
     saveURL: (url) => {
       dispatch({
-        type: 'SAVE_EXTERNAL_URL',
+        type: SAVE_EXTERNAL_URL,
         url
       })
       dispatch({
@@ -45,17 +54,14 @@ const mapDispatchToProps = (dispatch) => {
         modalProps
       })
     },
-    finishedCheckingBuckets: () => dispatch({
-      type: 'UI_FINSHED_CHECKING_BUCKETS'
-    }),
     appWentInactive: () => dispatch({
-      type: 'STATE_INACTIVE'
+      type: STATE_INACTIVE
     }),
     appWentActive: () => dispatch({
-      type: 'STATE_ACTIVE'
+      type: STATE_ACTIVE
     }),
     setDarkMode: (isDarkMode) => dispatch({
-      type: 'WEBVIEW_SET_DARK_MODE',
+      type: SET_DARK_MODE,
       isDarkMode
     })
   }
