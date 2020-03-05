@@ -10,6 +10,7 @@ import {
   REMOVE_FEED,
   LIKE_FEED_TOGGLE,
   MUTE_FEED_TOGGLE,
+  MERCURY_FEED_TOGGLE,
   SET_CACHED_FEED_COVER_IMAGE
 } from '../store/feeds/types'
 import FeedExpanded from '../components/FeedExpanded.js'
@@ -90,6 +91,10 @@ const mapDispatchToProps = (dispatch) => {
     }),
     toggleLike: (id) => dispatch({
       type: LIKE_FEED_TOGGLE,
+      id
+    }),
+    toggleMercury: (id) => dispatch({
+      type: MERCURY_FEED_TOGGLE,
       id
     }),
     setCachedCoverImage: (feedId, cachedCoverImageId) => {

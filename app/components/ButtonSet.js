@@ -35,12 +35,13 @@ export default function ButtonSet ({
   const translateDistance = 80
 
   let isItemSaved = item.isSaved
-  let isItemMercury = item.showMercuryContent
+  let isItemMercury = item && 
+    (item.showMercuryContent || item.isFeedMercury) &&
+    item.content_mercury
 
   const strokeColor = isDarkMode ?
     'hsl(0, 0%, 70%)' :
     'black'
-  const showMercuryContent = item && item.showMercuryContent
   const isMercuryButtonEnabled = item && item.content_mercury
   const saveStrokeColours = item && item.isSaved ?
     ['hsl(45, 60%, 51%)', 'hsl(210, 60%, 51%)', 'hsl(15, 60%, 51%)'] :
