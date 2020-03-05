@@ -6,10 +6,9 @@
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - make rizzle basic work
+- improved add feed experience
 - make Feedwrangler work fully
 - Feedly integration
-- add per feed setting to always open in expanded view
-- better loading indicator
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 
 # Someday / Maybe
@@ -33,6 +32,8 @@
 
 # Done
 
+- ~~better loading indicator~~
+- ~~add per feed setting to always open in expanded view~~
 - ~~add a message component~~
 - ~~make icon color detection the main colour instead of average~~
 - ~~move DISPLAY_MODE to ui, also SET_DARK_MODE~~

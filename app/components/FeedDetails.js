@@ -10,6 +10,7 @@ import Svg, {Circle, Polyline, Path, Line} from 'react-native-svg'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
 import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.03
@@ -25,10 +26,11 @@ const createTimeString = (seconds) => {
       seconds + ' seconds')
 }
 
-export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, filterItems, navigation, setIndex, toggleMute, toggleLike }) {
+export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, filterItems, navigation, setIndex, toggleMute, toggleLike, toggleMercury }) {
   const [isLiked, setLiked] = useState(feed.isLiked)
   const [isMuted, setMuted] = useState(feed.isMuted)
   const [isFiltered, setFiltered] = useState(feed.isFiltered)
+  const [isMercury, setMercury] = useState(feed.isMercury)
 
   const bold = {
     fontFamily: 'IBMPlexMono-Bold',
@@ -163,6 +165,21 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
     <Line x1='17' y1='16' x2='23' y2='16' />
   </Svg>
 
+  const mercuryIcon = <View style={{
+    top: 32,
+    left: 32,
+    transform: [
+      { scale: 0.8 },
+      { rotateZ: '180deg' }
+    ]
+  }}>
+    { getRizzleButtonIcon(
+      'showMercuryIconOn', 
+      isMercury ? hslString('buttonBG') : hslString('rizzleText'), 
+      isMercury ? hslString('rizzleText') : hslString('buttonBG'), 
+      true) }
+  </View>
+
   return (
     <View style={{
       flex: 1,
@@ -222,14 +239,13 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               marginRight: margin,
               marginBottom: margin
             }}
-            icon={discardAllIcon}
+            icon={unsubscribeIcon}
             noResize={true}
             onPress={() => {
-              setTimeout(() => {
-                markAllRead(feed._id, feed.id, Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
-              }, 100)
+              unsubscribe(feed)
+              navigation.goBack(null)
             }}
-            text='Discard old' />
+            text='Unsubscribe' />
           <TextButton
             isCompact={compactButtons}
             buttonStyle={{
@@ -243,21 +259,21 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
                 markAllRead(feed._id, feed.id)
               }, 100)
             }}
-            text='Discard all' />
+            text='Discard stories' />
           <TextButton
             isCompact={compactButtons}
             buttonStyle={{
               minWidth: '48%',
-              marginRight: margin,
-              marginBottom: margin
+              marginRight: margin
             }}
-            icon={unsubscribeIcon}
+            icon={mercuryIcon}
+            isInverted={isMercury}
             noResize={true}
             onPress={() => {
-              unsubscribe(feed)
-              navigation.goBack(null)
+              setMercury(!isMercury)
+              toggleMercury(feed._id)
             }}
-            text='Unsubscribe' />
+            text='Show full' />
           <TextButton
             isCompact={compactButtons}
             buttonStyle={{
@@ -278,7 +294,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             isCompact={compactButtons}
             buttonStyle={{
               minWidth: '48%',
-              marginRight: margin
+              marginRight: margin,
+              marginBottom: margin
             }}
             icon={muteIcon}
             isInverted={isMuted}

@@ -12,6 +12,7 @@ export interface Feed {
   number_saved?: number
   isLiked?: boolean
   isMuted?: boolean
+  isMercury?: boolean
 }
 
 export interface FeedLocal {
@@ -50,6 +51,7 @@ export const UNLIKE_FEED = 'UNLIKE_FEED'
 export const MUTE_FEED_TOGGLE = 'MUTE_FEED_TOGGLE'
 export const UNMUTE_FEED = 'UNMUTE_FEED'
 export const MARK_FEED_READ = 'MARK_FEED_READ'
+export const MERCURY_FEED_TOGGLE = 'MERCURY_FEED_TOGGLE'
 
 export const CACHE_FEED_ICON_ERROR = 'CACHE_FEED_ICON_ERROR'
 export const SET_CACHED_FEED_ICON = 'SET_CACHED_FEED_ICON'
@@ -117,6 +119,11 @@ interface unmuteFeedAction {
   id: string
 }
 
+interface mercuryFeedToggleAction {
+  type: typeof MERCURY_FEED_TOGGLE
+  id: string
+}
+
 interface markFeedReadAction {
   type: typeof MARK_FEED_READ
   id: string
@@ -166,6 +173,7 @@ export type FeedActionTypes = addFeedSuccessAction |
   unlikeFeedAction |
   muteFeedToggleAction |
   unmuteFeedAction |
+  mercuryFeedToggleAction |
   markFeedReadAction |
   cacheFeedIconErrorAction |
   setCachedFeedIconAction |
