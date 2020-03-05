@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import React from 'react'
 import {
   Animated,
@@ -120,7 +121,7 @@ class ViewButtons extends React.Component {
               })
             }]
           }}
-          onPress={this.props.toggleDarkBackground}
+          onPress={this.props.toggleDarkMode}
           >
           <Image
             source={require('../img/night-mode.png')}
@@ -136,7 +137,7 @@ class ViewButtons extends React.Component {
   }
 
   getStyles() {
-    const backgroundColor = this.props.displayMode == 'saved' ? hslString('rizzleBGAlt') : hslString('rizzleBG')
+    const backgroundColor = this.props.displayMode == ItemType.saved ? hslString('rizzleBGAlt') : hslString('rizzleBG')
     return {
       base: {
         position: 'absolute',

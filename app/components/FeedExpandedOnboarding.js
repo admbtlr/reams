@@ -7,6 +7,7 @@ import {
   View
 } from 'react-native'
 import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
+import { FEED_ONBOARDING_DONE } from '../store/config/types'
 import RizzleButton from './RizzleButton'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
@@ -116,7 +117,7 @@ export default function FeedExpandedOnboarding (props) {
             onPress={() => {
               if (step === 5) {
                 dispatch({
-                  type: 'CONFIG_FEED_ONBOARDING_DONE'
+                  type: FEED_ONBOARDING_DONE
                 })
               }
               setStep(step + 1)

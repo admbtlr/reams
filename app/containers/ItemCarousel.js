@@ -1,4 +1,15 @@
 import { connect } from 'react-redux'
+import { UPDATE_ONBOARDING_INDEX } from '../store/config/types'
+import { 
+  SAVE_ITEM,
+  TOGGLE_MERCURY_VIEW,
+  UNSAVE_ITEM,
+  UPDATE_CURRENT_INDEX,
+  ItemType
+} from '../store/items/types'
+import { 
+  TOGGLE_VIEW_BUTTONS
+} from '../store/ui/types'
 import ItemCarousel from '../components/ItemCarousel.js'
 import { getIndex, getItems } from '../utils/get-item'
 
@@ -27,14 +38,14 @@ const mapDispatchToProps = (dispatch) => {
     updateCurrentIndex: (index, lastIndex, displayMode, isOnboarding) => {
       if (isOnboarding) {
         return dispatch({
-          type: 'CONFIG_UPDATE_ONBOARDING_INDEX',
+          type: UPDATE_ONBOARDING_INDEX,
           index,
           lastIndex,
           displayMode
         })
       } else {
         dispatch({
-          type: 'ITEMS_UPDATE_CURRENT_INDEX',
+          type: UPDATE_CURRENT_INDEX,
           index,
           lastIndex,
           displayMode
@@ -48,21 +59,21 @@ const mapDispatchToProps = (dispatch) => {
     toggleDisplayMode: (currentDisplayMode) => {
       return dispatch({
         type: 'SET_DISPLAY_MODE',
-        displayMode: currentDisplayMode === 'saved' ?
-          'unread' :
-          'saved'
+        displayMode: currentDisplayMode === ItemType.saved ?
+          ItemType.unread :
+          ItemType.saved
       })
     },
     setSaved: (item, isSaved) => {
       if (item) {
         isSaved ?
           dispatch({
-            type: 'ITEM_SAVE_ITEM',
+            type: SAVE_ITEM,
             item,
             savedAt: Date.now()
           }) :
           dispatch({
-            type: 'ITEM_UNSAVE_ITEM',
+            type: UNSAVE_ITEM,
             item
           })
       }
@@ -72,12 +83,12 @@ const mapDispatchToProps = (dispatch) => {
       item
     }),
     toggleViewButtons: () => dispatch({
-      type: 'UI_TOGGLE_VIEW_BUTTONS'
+      type: TOGGLE_VIEW_BUTTONS
     }),
     toggleMercury: (item) => {
       if (item) {
         dispatch({
-          type: 'ITEM_TOGGLE_MERCURY',
+          type: TOGGLE_MERCURY_VIEW,
           item
         })
       }

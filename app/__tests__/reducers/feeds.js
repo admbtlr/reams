@@ -1,4 +1,5 @@
-import { feeds } from '../../redux/reducers/feeds.js'
+import { ADD_READING_TIME } from '../store/items/types'
+import { feeds } from '../../store/feeds/feeds.ts/index.js.js.js'
 
 describe('feeds reducer', () => {
   it('should return the initial state', () => {
@@ -11,7 +12,7 @@ describe('feeds reducer', () => {
   it('should handle ADD_READING_TIME', () => {
     expect(
       feeds([], {
-        type: 'ADD_READING_TIME'
+        type: ADD_READING_TIME
       })
     ).toEqual([])
   })

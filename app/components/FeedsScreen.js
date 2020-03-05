@@ -155,7 +155,6 @@ class FeedsScreen extends React.Component {
           ListHeaderComponent={<ListHeaderComponent
             backend={this.props.backend}
             clearReadItems={this.props.clearReadItems}
-            itemSort={this.props.itemSort}
             navigation={navigation}
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}

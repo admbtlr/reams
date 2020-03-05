@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import GoogleAuth from '../containers/GoogleAuth'
-import { authenticate } from '../redux/backends'
-import { sendEmailLink } from '../redux/backends/rizzle'
+import { authenticate } from '../backends'
+import { sendEmailLink } from '../backends/rizzle'
 import { hslString } from '../utils/colors'
 import {
   textInputStyle,

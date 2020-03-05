@@ -12,7 +12,7 @@ import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { useDarkMode } from 'react-native-dark-mode'
 import { parseString } from 'react-native-xml2js'
 
-import { isIgnoredUrl, addIgnoredUrl } from '../redux/async-storage'
+import { isIgnoredUrl, addIgnoredUrl } from '../storage/async-storage'
 import log from '../utils/log'
 
 class AppStateListener extends React.Component {

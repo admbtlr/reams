@@ -1,4 +1,18 @@
 import { connect } from 'react-redux'
+import { SET_FEED_FILTER } from '../store/config/types'
+import {
+  CLEAR_READ_ITEMS, 
+  UPDATE_CURRENT_INDEX,
+  ItemType 
+} from '../store/items/types'
+import {
+  MARK_FEED_READ,
+  REMOVE_FEED,
+  LIKE_FEED_TOGGLE,
+  MUTE_FEED_TOGGLE,
+  MERCURY_FEED_TOGGLE,
+  SET_CACHED_FEED_COVER_IMAGE
+} from '../store/feeds/types'
 import FeedExpanded from '../components/FeedExpanded.js'
 // import {getCachedCoverImagePath} from '../utils/'
 
@@ -50,38 +64,42 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     filterItems: (id) => dispatch({
-      type: 'CONFIG_SET_FEED_FILTER',
+      type: SET_FEED_FILTER,
       feedFilter: id
     }),
     setIndex: (index) => dispatch({
-      type: 'ITEMS_UPDATE_CURRENT_INDEX',
+      type: UPDATE_CURRENT_INDEX,
       index,
-      displayMode: 'unread'
+      displayMode: ItemType.unread
     }),
     markAllRead: (id, originalId, olderThan) => dispatch({
-      type: 'FEED_MARK_READ',
+      type: MARK_FEED_READ,
       id,
       originalId,
       olderThan: olderThan || Date.now()
     }),
     clearReadItems: () => dispatch({
-      type: 'ITEMS_CLEAR_READ'
+      type: CLEAR_READ_ITEMS
     }),
     unsubscribe: (feed) => dispatch({
-      type: 'FEEDS_REMOVE_FEED',
+      type: REMOVE_FEED,
       feed
     }),
     toggleMute: (id) => dispatch({
-      type: 'FEED_TOGGLE_MUTE',
+      type: MUTE_FEED_TOGGLE,
       id
     }),
     toggleLike: (id) => dispatch({
-      type: 'FEED_TOGGLE_LIKE',
+      type: LIKE_FEED_TOGGLE,
+      id
+    }),
+    toggleMercury: (id) => dispatch({
+      type: MERCURY_FEED_TOGGLE,
       id
     }),
     setCachedCoverImage: (feedId, cachedCoverImageId) => {
       return dispatch({
-        type: 'FEED_SET_CACHED_COVER_IMAGE',
+        type: SET_CACHED_FEED_COVER_IMAGE,
         id: feedId,
         cachedCoverImageId
       })

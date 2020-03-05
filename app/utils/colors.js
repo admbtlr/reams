@@ -1,4 +1,4 @@
-import { store } from '../redux/store'
+import { store } from '../store'
 
 const { colors, darker, lighter, desaturated, desaturatedDarker, ui, darkMode } = require('./colors.json')
 
@@ -161,7 +161,7 @@ export function hslString (color, modifier = '', alpha) {
     let lightness = color[2]
     // if (modifier === 'darkmode') {
     if (modifier === 'darkmodable' &&
-      (store && store.getState().webView.isDarkBackground)) {
+      (store && store.getState().ui.isDarkMode)) {
       lightness = lightness < 30 ?
         50 + (30 - lightness) :
         lightness
@@ -186,7 +186,7 @@ export function hslString (color, modifier = '', alpha) {
       palette = colors
   }
   color = palette[color] ||
-    ((modifier !== 'strict' && store && store.getState().webView.isDarkBackground) ?
+    ((modifier !== 'strict' && store && store.getState().ui.isDarkMode) ?
       darkMode[color] :
       ui[color])
   if (alpha) {

@@ -1,3 +1,9 @@
+import { 
+  SET_DISPLAY_MODE
+} from '../store/items/types'
+import { 
+  SHOW_MODAL
+} from '../store/ui/types'
 import { connect } from 'react-redux'
 import TopBar from '../components/TopBar.js'
 import { getItems, getIndex } from '../utils/get-item'
@@ -6,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     displayMode: state.itemsMeta.display,
     feedFilter: state.config.feedFilter,
-    isDarkBackground: state.webView.isDarkBackground,
+    isDarkMode: state.ui.isDarkMode,
     isOnboarding: state.config.isOnboarding,
     ...ownProps
   }
@@ -15,11 +21,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setDisplayMode: (displayMode) => dispatch({
-      type: 'SET_DISPLAY_MODE',
+      type: SET_DISPLAY_MODE,
       displayMode
     }),
     showModal: (modalProps) => dispatch({
-      type: 'UI_SHOW_MODAL',
+      type: SHOW_MODAL,
       modalProps
     }),
   }

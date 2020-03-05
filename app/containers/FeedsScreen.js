@@ -1,4 +1,17 @@
 import { connect } from 'react-redux'
+import { SET_FEED_FILTER } from '../store/config/types'
+import { 
+  MARK_FEED_READ,
+  REMOVE_FEED
+} from '../store/feeds/types'
+import { 
+  CLEAR_READ_ITEMS,
+  UPDATE_CURRENT_INDEX,
+  ItemType 
+} from '../store/items/types'
+import { 
+  SHOW_MODAL
+} from '../store/ui/types'
 import FeedsScreen from '../components/FeedsScreen.js'
 
 const testFeeds = [
@@ -80,30 +93,30 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     markAllRead: (olderThan) => dispatch({
-      type: 'FEED_MARK_READ',
+      type: MARK_FEED_READ,
       id: null,
       originalId: null,
       olderThan: olderThan || Math.floor(Date.now() / 1000)
     }),
     setIndex: (index) => dispatch({
-      type: 'ITEMS_UPDATE_CURRENT_INDEX',
+      type: UPDATE_CURRENT_INDEX,
       index,
-      displayMode: 'unread'
+      displayMode: ItemType.unread
     }),
     showModal: (modalProps) => dispatch({
-      type: 'UI_SHOW_MODAL',
+      type: SHOW_MODAL,
       modalProps
     }),
     unsubscribe: (id) => dispatch({
-      type: 'FEEDS_REMOVE_FEED',
+      type: REMOVE_FEED,
       id
     }),
     clearReadItems: () => dispatch({
-      type: 'ITEMS_CLEAR_READ'
+      type: CLEAR_READ_ITEMS
     }),
     clearFeedFilter: () => dispatch({
-      type: 'CONFIG_SET_FEED_FILTER',
-      feedId: null
+      type: SET_FEED_FILTER,
+      feedFilter: null
     })
   }
 }

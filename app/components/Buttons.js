@@ -64,7 +64,7 @@ class Buttons extends React.Component {
         index,
         bufferStartIndex,
         displayMode,
-        isDarkBackground,
+        isDarkMode,
         bufferedItems,
         panAnim,
         showDisplayButtons,
@@ -111,7 +111,7 @@ class Buttons extends React.Component {
               key={'buttons:' + item._id}
               isCurrent={isCurrent}
               displayMode={displayMode}
-              isDarkBackground={isDarkBackground}
+              isDarkMode={isDarkMode}
               launchBrowser={launchBrowser}
               opacityAnim={opacityAnims[i]}
               showShareSheet={showShareSheet}
@@ -144,7 +144,7 @@ Buttons.propTypes = {
   index: PropTypes.number,
   displayMode: PropTypes.string,
   visible: PropTypes.bool,
-  isDarkBackground: PropTypes.bool,
+  isDarkMode: PropTypes.bool,
   isOnboarding: PropTypes.bool,
   panAnim: PropTypes.object
 }

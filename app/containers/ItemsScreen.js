@@ -1,4 +1,10 @@
 import { connect } from 'react-redux'
+import { SET_FEED_FILTER } from '../store/config/types'
+import { CLEAR_READ_ITEMS } from '../store/items/types'
+import {
+  ITEMS_SCREEN_BLUR,
+  ITEMS_SCREEN_FOCUS
+} from '../store/ui/types'
 import ItemsScreen from '../components/ItemsScreen.js'
 
 const mapStateToProps = (state) => {
@@ -12,20 +18,20 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     clearReadItems: () => dispatch({
-      type: 'ITEMS_CLEAR_READ'
+      type: CLEAR_READ_ITEMS
     }),
     clearFeedFilter: () => dispatch({
-      type: 'CONFIG_SET_FEED_FILTER',
-      feedId: null
+      type: SET_FEED_FILTER,
+      feedFilter: null
     }),
     screenDidFocus: () => {
       console.log('Focus!')
       return dispatch({
-        type: 'NAVIGATION_ITEMS_SCREEN_FOCUS'
+        type: ITEMS_SCREEN_FOCUS
       })
     },
     screenWillBlur: () => dispatch({
-      type: 'NAVIGATION_ITEMS_SCREEN_BLUR'
+      type: ITEMS_SCREEN_BLUR
     })
   }
 }

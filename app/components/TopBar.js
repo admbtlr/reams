@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import React, { Fragment } from 'react'
 import {
   Animated,
@@ -25,7 +26,7 @@ export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 - displayMode *
 - feedFilter *
 - index
-- isDarkBackground *
+- isDarkMode *
 - isOnboarding *
 - isVisible
 - item
@@ -118,8 +119,8 @@ class TopBar extends React.Component {
           <View style={{
             top: isIphoneX() ? 44 : 22,
             flex: 1,
-            marginLeft: 90,
-            marginRight: 90
+            marginLeft: 80,
+            marginRight: 80
           }}>
             <TouchableOpacity
               key={`inner-{id()}`}
@@ -169,7 +170,7 @@ class TopBar extends React.Component {
                       textAlign: item && item.hasCachedFeedIcon ?
                         'left' : 'center'
                     }}
-                  >{this.props.displayMode === 'saved' ?
+                  >{this.props.displayMode === ItemType.saved ?
                     'Saved Stories' :
                     this.props.feedFilter ?
                       'Filtered Stories' :
@@ -209,7 +210,7 @@ class TopBar extends React.Component {
 
   getBackgroundColor (item) {
     const feedColor = item ? item.feed_color : null
-    return this.props.displayMode == 'saved' ?
+    return this.props.displayMode == ItemType.saved ?
       hslString('rizzleFG') :
       (feedColor ?
         hslString(feedColor, 'desaturated') :
@@ -217,8 +218,8 @@ class TopBar extends React.Component {
   }
 
   getForegroundColor (item) {
-    return this.props.displayMode == 'saved' ?
-      (this.props.isDarkBackground ?
+    return this.props.displayMode == ItemType.saved ?
+      (this.props.isDarkMode ?
         'hsl(0, 0%, 80%)' :
         hslString('white')) :
         'white'
@@ -226,7 +227,7 @@ class TopBar extends React.Component {
 
   getBorderBottomColor (item) {
     const feedColor = item ? item.feed_color : null
-    return this.props.displayMode == 'saved' ?
+    return this.props.displayMode == ItemType.saved ?
       hslString('rizzleSaved') :
       (feedColor ?
         hslString(feedColor) :
@@ -234,14 +235,14 @@ class TopBar extends React.Component {
   }
 
   getHamburgerColor (item) {
-    return this.props.displayMode == 'saved' ?
+    return this.props.displayMode == ItemType.saved ?
       this.getForegroundColor() :
       'rgba(255, 255, 255, 0.6)'
   }
 
   onDisplayPress () {
     const { displayMode, isOnboarding, setDisplayMode, showModal } = this.props
-    const modalText = displayMode == 'saved' ?
+    const modalText = displayMode == ItemType.saved ?
       [
         {
           text: 'You are now in unread mode',
@@ -262,7 +263,7 @@ class TopBar extends React.Component {
           style: []
         }
       ]
-    isOnboarding || setDisplayMode(displayMode === 'unread' ? 'saved' : 'unread')
+    isOnboarding || setDisplayMode(displayMode === ItemType.unread ? ItemType.saved : ItemType.unread)
     showModal({
       modalText,
       modalHideCancel: true,
@@ -331,7 +332,7 @@ const FeedsHamburger = ({ onPress, hamburgerColor }) => (<Animated.View
       position: 'absolute',
       zIndex: 5,
       right: 19,
-      bottom: 15
+      bottom: 18
     }}
   >
     <TouchableOpacity
@@ -401,7 +402,7 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
     <Animated.View style={{
       position: 'absolute',
       left: 20,
-      bottom: 10,
+      bottom: 11,
       width: 32,
       height: 38,
     }}>
@@ -412,7 +413,7 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
         }}
         onPress={onPress}
       >
-        { displayMode === 'unread' ? savedIcon : unreadIcon}
+        { displayMode === ItemType.unread ? savedIcon : unreadIcon}
       </TouchableOpacity>
     </Animated.View>
   )

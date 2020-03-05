@@ -1,4 +1,8 @@
 import { connect } from 'react-redux'
+import { SET_BACKEND, SET_SIGN_IN_EMAIL, UNSET_BACKEND } from '../store/config/types'
+import { 
+  SHOW_MODAL
+} from '../store/ui/types'
 import AccountScreen from '../components/AccountScreen.js'
 
 const mapStateToProps = (state) => {
@@ -11,19 +15,19 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     showModal: (modalProps) => dispatch({
-      type: 'UI_SHOW_MODAL',
+      type: SHOW_MODAL,
       modalProps
     }),
     setBackend: (backend, credentials) => dispatch({
-      type: 'CONFIG_SET_BACKEND',
+      type: SET_BACKEND,
       backend,
       credentials
     }),
     unsetBackend: () => dispatch({
-      type: 'CONFIG_UNSET_BACKEND'
+      type: UNSET_BACKEND
     }),
     setSignInEmail: (email) => dispatch({
-      type: 'USER_SET_SIGN_IN_EMAIL',
+      type: SET_SIGN_IN_EMAIL,
       email
     })
   }

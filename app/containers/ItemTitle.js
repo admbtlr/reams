@@ -1,5 +1,8 @@
 import { connect } from 'react-redux'
-import { getIndex, getItems } from '../utils/get-item'
+import { 
+  SET_TITLE_FONT_RESIZED,
+  SET_TITLE_FONT_SIZE
+} from '../store/items/types'
 import ItemTitle from '../components/ItemTitle.js'
 
 const mapStateToProps = (state, ownProps) => {
@@ -14,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
     styles: styles,
     // this is just a foul hack to see what's going on
     fontSize: styles && styles.fontSize,
-    isDarkBackground: state.webView.isDarkBackground,
+    isDarkMode: state.ui.isDarkMode,
     displayMode: state.itemsMeta.display
   }
 }
@@ -22,12 +25,12 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     updateFontSize: (item, fontSize) => dispatch({
-      type: 'UPDATE_CURRENT_ITEM_TITLE_FONT_SIZE',
+      type: SET_TITLE_FONT_SIZE,
       fontSize,
       item
     }),
     setFontResized: (item) => dispatch({
-      type: 'UPDATE_CURRENT_ITEM_TITLE_FONT_RESIZED',
+      type: SET_TITLE_FONT_RESIZED,
       item
     })
   }
