@@ -105,8 +105,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
       return <Svg
         style={{
           position: 'absolute',
-          left: 7,
-          top: 8,
+          left: 9,
+          top: 9,
           opacity: isEnabled ? 1 : 0.3
         }}
         height='34'
