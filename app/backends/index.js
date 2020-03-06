@@ -53,7 +53,7 @@ export async function loadMercuryStuff (item) {
 }
 
 export function getMercuryUrl (item) {
-  let url = 'https://api.rizzle.net/mercury/?url=' +
+  let url = 'https://api.rizzle.net/api/mercury/?url=' +
     encodeURIComponent(item.url)
   return url
 }
