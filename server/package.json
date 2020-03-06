@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@now/node": "^1.4.1",
     "@postlight/mercury-parser": "git+https://github.com/adamvert/mercury-parser#rizzle",
+    "axios": "^0.19.2",
     "babel-register": "^6.26.0",
     "colorthief": "git+https://github.com/adamvert/color-thief#3465330",
     "express": "^4.16.2",

@@ -184,7 +184,7 @@ async searchForRSS (url) {
       })
       for (feed of feeds) {
         try {
-          const res = await fetch('https://api.rizzle.net/feed-title/?url=' + feed)
+          const res = await fetch('https://api.rizzle.net/api/feed-title/?url=' + feed)
           const json = await res.json()
           if (json.title) {
             fullFeeds.push({

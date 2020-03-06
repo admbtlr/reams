@@ -77,7 +77,7 @@ function extractErroredFeeds (unreadItemsArrays) {
 
 const fetchUnreadItems = (feeds, lastUpdated) => {
   const promises = feeds.filter(feed => !!feed).map(feed => {
-    const url = `https://api.rizzle.net/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
+    const url = `https://api.rizzle.net/api/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
     // const url = `http://localhost:8080/feed/?url=${feed.url}`
     return fetch(url).then(response => {
       return { response, feed }
@@ -114,7 +114,7 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
   let body = {
     feeds: bodyFeeds
   }
-  return fetch('https://api.rizzle.net/feeds/', {
+  return fetch('https://api.rizzle.net/api/feeds/', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -176,7 +176,7 @@ export const markFeedRead = (feed, olderThan, items) => {
 }
 
 export async function getFeedDetails (feed) {
-  const url = `https://api.rizzle.net/feed-meta/?url=${feed.url}`
+  const url = `https://api.rizzle.net/api/feed-meta/?url=${feed.url}`
   return fetch(url).then(response => {
     return { response, feed }
   }).then(({response, feed}) => {
