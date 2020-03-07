@@ -111,29 +111,39 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
     _id: feed._id,
     lastUpdated: feed.isNew ? 0 : lastUpdated
   }))
-  let body = {
-    feeds: bodyFeeds
-  }
-  return fetch('https://api.rizzle.net/api/feeds/', {
+  debugger
+  // chunk into 10 at a time and do a Promise.all
+  // to avoid body size restriction on server
+  let chunked = bodyFeeds.reduce((acc, val, index) => {
+    const key = Math.floor(index / 10)
+    if (!acc[key]) {
+      acc[key] = []
+    }
+    acc[key].push(val)
+    return acc
+  }, [])
+  const promises = Object.values(chunked).map(feeds => fetch('http://localhost:3000/api/feeds', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify({ feeds })
   })
-    .then(res => {
-      return res.json()
+    .then(res => res.json()))
+  return Promise.all(promises)
+    .then(chunkedItems => {
+      return chunkedItems.reduce((items, chunk) => items.concat(chunk), [])
+        .map(mapRizzleServerItemToRizzleItem)
+        .map(item => {
+          const feed = feeds.find(feed => feed._id === item.feed_id)
+          return {
+            ...item,
+            feed_title: feed.title,
+            feed_color: feed.color
+          }
+        })
     })
-    .then(items => items.map(mapRizzleServerItemToRizzleItem)
-      .map(item => {
-        const feed = feeds.find(feed => feed._id === item.feed_id)
-        return {
-          ...item,
-          feed_title: feed.title,
-          feed_color: feed.color
-        }
-      }))
     .catch(err => {
       console.log(err)
     })
