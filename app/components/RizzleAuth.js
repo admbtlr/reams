@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react'
-import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import GoogleAuth from '../containers/GoogleAuth'
-import { authenticate } from '../backends'
-import { sendEmailLink } from '../backends/rizzle'
-import { hslString } from '../utils/colors'
+import { fontSizeMultiplier } from '../utils'
 import {
   textInputStyle,
   textLabelStyle,
@@ -111,7 +109,7 @@ class RizzleAuth extends React.Component {
                   marginLeft: 20,
                   position: 'relative',
                   top: 8,
-                  width: 24
+                  width: 24 * fontSizeMultiplier()
                 }}
               >
                 <Text style={textButtonStyle()}>Go</Text>
