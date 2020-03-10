@@ -65,12 +65,13 @@ class TextButton extends React.Component {
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
       justifyContent: 'flex-start',
-      flex: 1,
+      flex: 0,
       height: (isCompact ? 32 : 42) * fontSizeMultiplier(),
       maxHeight: 42 * fontSizeMultiplier(),
-      ...this.props.buttonStyle,
       maxWidth: 700,
-      paddingTop: 8
+      width: '100%',
+      ...this.props.buttonStyle,
+      paddingTop: 8 * fontSizeMultiplier()
     }
     if (Dimensions.get('window').width > 950) {
       if (this.props.buttonStyle && this.props.buttonStyle.width) {
@@ -87,10 +88,10 @@ class TextButton extends React.Component {
       lineHeight: (isExpanded ? 24 : 18) * fontSizeMultiplier(),
       textAlign: 'center',
       color: isInverted ? bgColor : fgColor,
-      paddingLeft: 20,
-      paddingRight: 20,
-      paddingTop: isCompact ? 0 : 3,
-      marginTop: isCompact ? -1 : 0
+      paddingLeft: 20 * fontSizeMultiplier(),
+      paddingRight: 20 * fontSizeMultiplier(),
+      paddingTop: (isCompact ? 0 : 3) * fontSizeMultiplier(),
+      marginTop: (isCompact ? -1 : 0) * fontSizeMultiplier()
     }
     if (isExpandable) {
       return (
@@ -107,7 +108,7 @@ class TextButton extends React.Component {
             left: 4 * fontSizeMultiplier(),
             height: (isCompact ? 24 : 32) * fontSizeMultiplier(),
             width: (isCompact ? 24 : 32) * fontSizeMultiplier(),
-            padding: 2,
+            padding: 2 * fontSizeMultiplier(),
             borderRadius: this.props.iconBg ? ((isCompact ? 24 : 32) * fontSizeMultiplier()) / 2 : 0,
             backgroundColor: this.props.iconBg ? (isInverted ? bgColor : fgColor) : 'transparent'
           }}>

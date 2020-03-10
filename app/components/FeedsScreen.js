@@ -2,24 +2,14 @@ import React, { Fragment } from 'react'
 import {
   Dimensions,
   FlatList,
-  Linking,
-  Platform,
-  ScrollView,
   StatusBar,
   Text,
-  TextBox,
-  TouchableOpacity,
   View
 } from 'react-native'
-import SplashScreen from 'react-native-splash-screen'
-import { NativeViewGestureHandler } from 'react-native-gesture-handler'
-import { VibrancyView } from 'react-native-blur'
 import FeedContracted from '../containers/FeedContracted'
 import FeedExpanded from '../containers/FeedExpanded'
 import TextButton from './TextButton'
-import AddFeedForm from './AddFeedForm'
 import Heading from './Heading'
-import XButton from './XButton'
 import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
@@ -42,20 +32,6 @@ class FeedsScreen extends React.Component {
 
     this.open = this.open.bind(this)
     this.close = this.close.bind(this)
-
-    const { feeds, navigation } = this.props
-    this.props.navigation.addListener('didFocus', () => {
-      if (feeds.length === 0) {
-        // navigation.push('Modal', {
-        //   childView: <NewFeedsList
-        //     close={() => {
-        //       navigation.goBack(null)
-        //     }}
-        //     navigation={navigation}
-        //   />
-        // })
-      }
-    })
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -69,29 +45,6 @@ class FeedsScreen extends React.Component {
     }
     return true
   }
-
-  // componentDidUpdate (prevProps, prevState) {
-  //   // if we're deselecting a feed, wait for the animation to finish, then hide the animatable
-  //   if (this.state.prevSelectedFeedElement !== null &&
-  //     this.state.selectedFeedElement === null) {
-  //     setTimeout(() => {
-  //       // make sure that the user hasn't selected another feed in the meantime
-  //       if (this.state.selectedFeedElement === null) {
-  //         this.setState({
-  //           ...this.state,
-  //           showExpandingFeed: false,
-  //           prevSelectedFeedElement: null,
-  //           prevSelectedFeedElementXCoord: null,
-  //           prevSelectedFeedElementYCoord: null
-  //         })
-  //       }
-  //     }, 200)
-  //   }
-  // }
-
-  // componentDidMount = () => {
-  //   SplashScreen.hide()
-  // }
 
   open = (feed, index, position) => {
     this.activeFeedId.setValue(feed._id)
@@ -176,78 +129,6 @@ class FeedsScreen extends React.Component {
     </View>
     )
   }
-
-  // setExpandAnim = (expandAnim) => {
-  //   this.setState({
-  //     expandAnim
-  //   })
-  // }
-
-  // disableScroll = (disable) => {
-  //   if (this.state.scrollEnabled !== !disable) {
-  //     this.setState({
-  //       ...this.state,
-  //       scrollEnabled: !disable
-  //     })
-  //   }
-  // }
-
-  // onFeedPress = (feed) => {
-  //   const testForScrolling = () => {
-  //     if (!this.isScrolling) {
-  //       this.selectFeed(feed)
-  //     }
-  //   }
-  //   setTimeout(testForScrolling.bind(this), 200)
-  // }
-
-  // selectFeed = (feed) => {
-  //   if (this.state.selectedFeedElement !== feed) {
-  //     const prevSelectedFeedElement = feed === null ?
-  //       this.state.selectedFeedElement :
-  //       null
-  //     const prevSelectedFeedElementXCoord = (feed === null || feed.currentX === null) ?
-  //       this.state.selectedFeedElementXCoord :
-  //       null
-  //     const prevSelectedFeedElementYCoord = (feed === null || feed.currentY === null) ?
-  //       this.state.selectedFeedElementYCoord :
-  //       null
-  //     let nextState = {
-  //       ...this.state,
-  //       selectedFeedElement: feed,
-  //       selectedFeedElementXCoord: feed && feed.currentX,
-  //       selectedFeedElementYCoord: feed && feed.currentY,
-  //       selectedFeedElementScaleAnim: feed && feed._scale,
-  //       selectedFeedElementGestureState: feed && feed.gestureState,
-  //       prevSelectedFeedElement,
-  //       prevSelectedFeedElementXCoord,
-  //       prevSelectedFeedElementYCoord
-  //     }
-  //     if (feed !== null || this.state.selectedFeedElement !== null) {
-  //       nextState.showExpandingFeed = true
-  //     }
-  //     this.setState(nextState)
-  //   }
-  // }
-
-  // deselectFeed = () => {
-  //   const prevSelectedFeedElement = this.state.selectedFeedElement
-  //   const prevSelectedFeedElementXCoord = this.state.selectedFeedElementXCoord
-  //   const prevSelectedFeedElementYCoord = this.state.selectedFeedElementYCoord
-  //   this.setState({
-  //     ...this.state,
-  //     modalElement: null,
-  //     selectedFeedElementXCoord: null,
-  //     selectedFeedElementYCoord: null,
-  //     selectedFeedElementScaleAnim: null,
-  //     selectedFeedElementGestureState: null,
-  //     prevSelectedFeedElement,
-  //     prevSelectedFeedElementXCoord,
-  //     prevSelectedFeedElementYCoord,
-  //     showExpandingFeed: false,
-  //     scrollEnabled: true
-  //   })
-  // }
 
   renderFeed = ({item, index}) => {
     // const isSelected = this.state.selectedFeedElement !== null &&
@@ -334,7 +215,8 @@ class ListHeaderComponent extends React.Component {
           buttonStyle={{
             alignSelf: 'flex-end',
             marginBottom: margin / 2,
-            minWidth: buttonWidth
+            minWidth: buttonWidth,
+            width: buttonWidth
           }}
         />
         <Heading />

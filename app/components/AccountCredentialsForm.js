@@ -165,7 +165,7 @@ class AccountCredentialsForm extends React.Component {
           values
         }) => (
           <View style={{
-            flex: 1
+            flex: 0
           }}>
             { isActive ?
               <View style={{
@@ -175,7 +175,7 @@ class AccountCredentialsForm extends React.Component {
                 paddingRight: 16,
                 paddingBottom: 16,
                 marginTop: 16,
-                flex: 1,
+                flex: 0,
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'space-between'
@@ -192,6 +192,9 @@ class AccountCredentialsForm extends React.Component {
                   accessibilityLabel={`Stop using ${service[0].toUpperCase() + service.slice(1)}`}
                   color={hslString('white')}
                   onPress={unsetBackend}
+                  style={{
+                    marginTop: 16
+                  }}
                   testID={`${service}-logout-button`}
                 >
                   <Text style={{
@@ -217,7 +220,8 @@ class AccountCredentialsForm extends React.Component {
                   paddingTop: 16,
                   paddingLeft: 16,
                   paddingRight: 16,
-                  marginTop: 16
+                  marginTop: 16,
+                  marginBottom: 16
                 }}>
                   <TextInput
                     autoCapitalize='none'

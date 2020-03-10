@@ -37,6 +37,7 @@ export default function Message (props) {
     Animated.timing(transformAnim, {
       toValue: 0,
       easing: Easing.out(Easing.quad),
+      duration: 200,
       useNativeDrive: true
     }).start(_ => {
       setVisible(true)
@@ -46,7 +47,7 @@ export default function Message (props) {
   return /*message.length === 0 ? null :*/ (
     <Animated.View style={{
       position: 'absolute',
-      top: isIphoneX ? 38 : 2,
+      top: isIphoneX() ? 38 : 2,
       width: screenWidth,
       flex: 1,
       flexAlign: 'center',
