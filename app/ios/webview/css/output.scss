@@ -467,14 +467,7 @@ body {
     }
     & > img.img-portrait:first-child:not(.img-small) {
       top: -1.5rem;
-      // margin-bottom: -1.5rem;
     }
-    // & > figure:first-child figcaption {
-    //   position: relative;
-    //   top: -1rem;
-    //   margin-bottom: 2rem;
-
-    // }
   }
 
   & > *:empty,
@@ -1134,14 +1127,14 @@ hr {
     font-family: "PlayfairDisplay-Regular";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "PlayfairDisplay-Italic";
+    font-family: "IBMPlexSerif-Italic";
 
     em {
-      font-family: "PlayfairDisplay";
+      font-family: "IBMPlexSerif";
     }
 
     strong {
-      font-family: "PlayfairDisplay-BoldItalic";
+      font-family: "IBMPlexSerif-BoldItalic";
     }
 
     em strong, strong em {

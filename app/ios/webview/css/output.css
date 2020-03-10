@@ -761,11 +761,11 @@ hr {
   font-family: "PlayfairDisplay-Regular"; }
 
 .headerFontSerif1 figcaption, .headerFontSerif1 img + small, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) {
-  font-family: "PlayfairDisplay-Italic"; }
+  font-family: "IBMPlexSerif-Italic"; }
   .headerFontSerif1 figcaption em, .headerFontSerif1 img + small em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em {
-    font-family: "PlayfairDisplay"; }
+    font-family: "IBMPlexSerif"; }
   .headerFontSerif1 figcaption strong, .headerFontSerif1 img + small strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong {
-    font-family: "PlayfairDisplay-BoldItalic"; }
+    font-family: "IBMPlexSerif-BoldItalic"; }
   .headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em {
     font-family: "PlayfairDisplay-Bold"; }
 
