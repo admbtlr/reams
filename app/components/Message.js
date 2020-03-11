@@ -70,11 +70,10 @@ export default function Message (props) {
         shadowOpacity: 0.2,
         flexDirection: 'row'
       }}>
-        <Text style={textInfoStyle}>{visibleMessage}</Text>
-        <AnimatedEllipsis style={{ 
+        <Text style={textInfoStyle}>{visibleMessage}<AnimatedEllipsis style={{ 
           color: 'black',
           marginLeft: -2
-        }} />
+        }} /></Text>
       </View>
     </Animated.View>
   )

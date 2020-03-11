@@ -53,16 +53,13 @@ export default class AnimatedEllipsis extends Component {
         key={i} 
         style={{
           ...this.props.style, 
-          opacity: this.anim.interpolate(this.opacityMaps[i])
+          opacity: this.anim.interpolate(this.opacityMaps[i]),
         }}
-      >
-        {' '}
-        .
-      </Animated.Text>
+      >.</Animated.Text>
     );
 
-    return <View style={styles.container}>{dots}</View>
-    // return <View style={styles.container}><Text>...</Text></View>
+    // return <View style={styles.container}>{dots}</View>
+    return <React.Fragment>{dots}</React.Fragment>
   }
 }
 

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import {
+  Animated,
   Dimensions,
   Image,
   Text,
@@ -322,7 +323,7 @@ async searchForRSS (url) {
                   justifyContent: 'center',
                   padding: 20
                 }}>
-                  <Text
+                  <Animated.Text
                     style={{
                       ...textStyle,
                       color: hslString('rizzleText'),
@@ -330,11 +331,11 @@ async searchForRSS (url) {
                       paddingRight: 20
                     }}>{searchingForRss
                       ? 'Looking for an available feed' :
-                      'Getting feed details'}<AnimatedEllipsis style={{
-                    color: hslString('rizzleText'),
-                    fontSize: 16,
-                    letterSpacing: -5
-                  }}/></Text>
+                      'Getting feed details'}<AnimatedEllipsis style={{ 
+                        color: hslString('rizzleText'),
+                        fontSize: 16
+                      }} />
+                  </Animated.Text>
                   <Text> </Text>
                 </View>
               }
@@ -365,7 +366,7 @@ async searchForRSS (url) {
                         marginTop: 16,
                         fontFamily: 'IBMPlexMono',
                         marginBottom: 10
-                      }}>Select a feed to add to Rizzle:</Text>
+                      }}>Subscribe to a feed from this site:</Text>
                   </View>
                   <View style={{
                     flex: 1,
@@ -380,7 +381,7 @@ async searchForRSS (url) {
                           key={index}
                           style={{
                             paddingHorizontal: 10,
-                            paddingVertical: 5
+                            paddingVertical: 10
                           }}
                           onPress={() => { this.addFeed(feed.url) }}>
                           <Text style={{
