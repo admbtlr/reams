@@ -1,20 +1,21 @@
 import React, { Fragment } from 'react'
 import {
+  Dimensions,
   Image,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
-import Modal from 'react-native-modal'
 import ShareExtension from 'react-native-share-extension'
-import AnimatedEllipsis from 'react-native-animated-ellipsis'
 import * as Sentry from '@sentry/react-native'
 // import { RNSKBucket } from 'react-native-swiss-knife'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 
 import TextButton from './TextButton'
+import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
 import {hslString} from '../utils/colors'
+import { DocumentDirectoryPath } from 'react-native-fs'
 
 
 class Share extends React.Component {
@@ -250,8 +251,6 @@ async searchForRSS (url) {
 
   onClose = () => {
     ShareExtension.close()
-    // https://github.com/alinz/react-native-share-extension/issues/64
-    crashMe()
   }
 
   closing = () => this.setState({ isOpen: false })
@@ -283,6 +282,150 @@ async searchForRSS (url) {
     } = this.state
     console.log(this.state.rssUrls)
     return (
+      <View style={{
+        backgroundColor: hslString('rizzleBG'),
+        alignItems: 'center',
+        justifyContent:'center',
+      flex: 1
+      }}>
+          <View style={{
+            // backgroundColor: hslString('rizzleBG'),
+            // width: 350,
+            // height: 300,
+            padding: 16,
+            paddingTop: 32,
+            paddingBottom: 64,
+            // borderRadius: 14
+            minWidth: '100%',
+            // height: 'auto'
+          }}>
+            <View style={{
+              flex: 1,
+              justifyContent: 'space-between'
+            }}>
+              <XButton
+                onPress={() => {
+                  this.setState({ isOpen: false })
+                  console.log('Closing')
+                  this.onClose()
+                }}
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: -16,
+                  zIndex: 10
+                }}
+              />
+              { (searchingForRss || retrievingRss) &&
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  padding: 20
+                }}>
+                  <Text
+                    style={{
+                      ...textStyle,
+                      color: hslString('rizzleText'),
+                      paddingLeft: 20,
+                      paddingRight: 20
+                    }}>{searchingForRss
+                      ? 'Looking for an available feed' :
+                      'Getting feed details'}<AnimatedEllipsis style={{
+                    color: hslString('rizzleText'),
+                    fontSize: 16,
+                    letterSpacing: -5
+                  }}/></Text>
+                  <Text> </Text>
+                </View>
+              }
+              { (!searchingForRss && !retrievingRss &&
+                (!rssUrls || rssUrls.length === 0)) &&
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  padding: 20
+                }}>
+                  <Text
+                    style={{
+                      ...textStyle,
+                      fontFamily: 'IBMPlexSans-Bold'
+                    }}>No feed found 😢</Text>
+                  <Text style={{
+                    ...textStyle,
+                    fontFamily: 'IBMPlexSans-Light'
+                  }}>Sorry, we can’t add this site to Rizzle yet.</Text>
+                </View>
+              }
+              { !!rssUrls && rssUrls.length > 0 &&
+                <Fragment>
+                  <View style={{ flex: 0 }}>
+                    <Text
+                      style={{
+                        ...textStyle,
+                        marginTop: 16,
+                        fontFamily: 'IBMPlexMono',
+                        marginBottom: 10
+                      }}>Select a feed to add to Rizzle:</Text>
+                  </View>
+                  <View style={{
+                    flex: 1,
+                    justifyContent: 'space-between'
+                  }}>
+                    <View style={{
+                      flex: 1,
+                      textAlign: 'left'
+                      // justifyContent: 'center'
+                    }}>
+                      { rssUrls.map((feed, index) => (<TouchableOpacity
+                          key={index}
+                          style={{
+                            paddingHorizontal: 10,
+                            paddingVertical: 5
+                          }}
+                          onPress={() => { this.addFeed(feed.url) }}>
+                          <Text style={{
+                            ...textStyle,
+                            textAlign: 'left',
+                            fontFamily: 'IBMPlexSans-Bold'
+                          }}>{ feed.title }</Text>
+                          <Text style={{
+                            ...textStyle,
+                            textAlign: 'left',
+                            fontFamily: 'IBMPlexSans-Light',
+                            fontSize: 16
+                          }}>{ feed.description }</Text>
+                        </TouchableOpacity>))
+                      }
+                    </View>
+                    <Text
+                      style={{
+                        ...textStyle,
+                        fontFamily: 'IBMPlexMono',
+                        marginBottom: 10,
+                        flex: 0
+                      }}>… or …</Text>
+                  </View>
+                </Fragment>
+              }
+            </View>
+            <TextButton
+              text="Save this page in Rizzle"
+              buttonStyle={{ 
+                marginBottom: 0,
+                width: Dimensions.get('window').width - 32
+              }}
+              onPress={this.savePage}
+            />
+          </View>
+      </View>
+
+    );
+  }
+}
+
+export default Share
+
+/* 
       <Modal
         coverScreen={true}
         hasBackdrop={false}
@@ -417,8 +560,4 @@ async searchForRSS (url) {
           </View>
         </View>
       </Modal>
-    );
-  }
-}
-
-export default Share
+*/

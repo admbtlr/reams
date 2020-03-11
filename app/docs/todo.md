@@ -1,5 +1,6 @@
 # To Do
 
+- fix share extension
 - deal with feed.number_unread problems
 - move all firestore operations out of sagas and into backends
     + ~~feeds~~
