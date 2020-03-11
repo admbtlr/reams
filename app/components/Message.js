@@ -7,6 +7,7 @@ import {
   Text,
   View
 } from 'react-native'
+import AnimatedEllipsis from './AnimatedEllipsis'
 import { hslString } from '../utils/colors'
 import { isIphoneX, fontSizeMultiplier } from '../utils'
 import {
@@ -15,7 +16,7 @@ import {
 
 const screenWidth = Dimensions.get('window').width
 const offscreenDistance = -25
-const transformAnim = new Animated.Value(offscreenDistance)
+const transformAnim = new Animated.Value(0)
 
 export default function Message (props) {
   const [isVisible, setVisible] = useState([])
@@ -66,9 +67,14 @@ export default function Message (props) {
         borderRadius: 9,
         shadowRadius: 20,
         shadowColor: 'black',
-        shadowOpacity: 0.4
+        shadowOpacity: 0.2,
+        flexDirection: 'row'
       }}>
         <Text style={textInfoStyle}>{visibleMessage}</Text>
+        <AnimatedEllipsis style={{ 
+          color: 'black',
+          marginLeft: -2
+        }} />
       </View>
     </Animated.View>
   )

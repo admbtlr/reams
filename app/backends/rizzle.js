@@ -111,7 +111,6 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
     _id: feed._id,
     lastUpdated: feed.isNew ? 0 : lastUpdated
   }))
-  debugger
   // chunk into 10 at a time and do a Promise.all
   // to avoid body size restriction on server
   let chunked = bodyFeeds.reduce((acc, val, index) => {

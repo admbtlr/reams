@@ -21,7 +21,7 @@ RCT_EXPORT_MODULE();
                                                       moduleName:@"RizzleShare"
                                                initialProperties:nil
                                                    launchOptions:nil];
-  rootView.backgroundColor = nil;
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:0.87f green:0.85f blue:0.79f alpha:1];
 
   // Uncomment for console output in Xcode console for release mode on device:
   // RCTSetLogThreshold(RCTLogLevelInfo - 1);
