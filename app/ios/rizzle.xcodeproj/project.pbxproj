@@ -44,6 +44,7 @@
 		668CE94C2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
 		668CE9EE2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
+		66958E5124194C9E00C06DD7 /* PTSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66958E5024194C9E00C06DD7 /* PTSerif-Bold.ttf */; };
 		6697466F23057C6400EDCFE7 /* rizzle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697462F23057C6200EDCFE7 /* rizzle.png */; };
 		6697467023057C6400EDCFE7 /* Splash-20190815.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697466E23057C6400EDCFE7 /* Splash-20190815.png */; };
 		66A92E2823D88B12000E6D96 /* wordmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2223D88B12000E6D96 /* wordmark@2x.png */; };
@@ -190,6 +191,7 @@
 		668CE9492153A38C00CA3EDF /* PlayfairDisplay-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-BoldItalic.ttf"; path = "../assets/fonts/PlayfairDisplay-BoldItalic.ttf"; sourceTree = "<group>"; };
 		668CE94A2153A38C00CA3EDF /* PlayfairDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-Bold.ttf"; path = "../assets/fonts/PlayfairDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		668CE9EC2158BE6A00CA3EDF /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
+		66958E5024194C9E00C06DD7 /* PTSerif-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PTSerif-Bold.ttf"; path = "../assets/fonts/PTSerif-Bold.ttf"; sourceTree = "<group>"; };
 		6697462F23057C6200EDCFE7 /* rizzle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rizzle.png; path = ../img/splash/rizzle.png; sourceTree = "<group>"; };
 		6697466E23057C6400EDCFE7 /* Splash-20190815.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Splash-20190815.png"; path = "../img/splash/Splash-20190815.png"; sourceTree = "<group>"; };
 		66A92E2223D88B12000E6D96 /* wordmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@2x.png"; path = "../assets/images/wordmark@2x.png"; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				66958E5024194C9E00C06DD7 /* PTSerif-Bold.ttf */,
 				66DEF8E22417FBF1000BA7ED /* wordmark.png */,
 				66DEF8E12417FBF1000BA7ED /* wordmark@2x.png */,
 				66DEF8E32417FBF1000BA7ED /* wordmark@3x.png */,
@@ -703,6 +706,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66958E5124194C9E00C06DD7 /* PTSerif-Bold.ttf in Resources */,
 				66DEF8E42417FBF1000BA7ED /* wordmark@2x.png in Resources */,
 				66DEF8E52417FBF1000BA7ED /* wordmark.png in Resources */,
 				66DEF8E62417FBF1000BA7ED /* wordmark@3x.png in Resources */,

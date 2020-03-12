@@ -69,6 +69,7 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>PTSerif-Bold.ttf</string>
 		<string>IBMPlexMono-Regular.ttf</string>
 		<string>IBMPlexSans-Bold.ttf</string>
 		<string>IBMPlexMono-Light.ttf</string>

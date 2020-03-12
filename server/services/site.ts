@@ -7,52 +7,41 @@ export async function findFeeds (url) {
     return
   }
   let homeUrl = matches[1]
-  // console.log(`Checking ${homeUrl}`)
+  console.log(`Checking ${homeUrl}`)
 
   try {
     // start with the current page
     let res = await axios.get(url, {
-      timeout: 5000
+      timeout: 5000,
+      maxRedirects: 5
     })
     let body = res.data
-    let linkTag: string 
-    
-    linkTag = checkForLinkToRssFile(body)
-    if (linkTag) {
-      // console.log('FOUND RSS URL IN A LINK: ' + linkTag)
-      feeds.push(parseLinkTag(linkTag, homeUrl))
-    }
-
-    linkTag = checkForLinkWithRssInText(body)
-    if (linkTag) {
-      // console.log('FOUND RSS URL IN A LINK WITH RSS TEXT: ' + linkTag)
-      feeds.push(parseLinkTag(linkTag, homeUrl))
-    }
+    feeds = feeds.concat(checkForLinks(body, homeUrl))
 
     // now try the homepage
-    res = await axios.get(url)
+    res = await axios.get(homeUrl, {
+      timeout: 5000,
+      maxRedirects: 5
+    })
     body = res.data
-
-    linkTag = checkForRSSHeader(body)
-    if (linkTag) {
-      // console.log('FOUND RSS URL IN HEADER: ' + linkTag)
-      feeds.push(parseLinkTag(linkTag, homeUrl))
-    }
-
-    linkTag = checkForLinkToRssFile(body)
-    if (linkTag) {
-      // console.log('FOUND RSS URL IN A LINK: ' + linkTag)
-      feeds.push(parseLinkTag(linkTag, homeUrl))
-    }
-
-    linkTag = checkForLinkWithRssInText(body)
-    if (linkTag) {
-      // console.log('FOUND RSS URL IN A LINK WITH RSS TEXT: ' + linkTag)
-      feeds.push(parseLinkTag(linkTag, homeUrl))
-    }
-
+    feeds = feeds.concat(checkForHeader(body, homeUrl))
+    feeds = feeds.concat(checkForLinks(body, homeUrl))
     feeds = feeds.concat(await checkKnownRssLocations(url))
       .filter((feed, index, self) => self.indexOf(feed) === index)
+
+    // now examine the feed pages we've found
+    let extraFeeds = []
+    // console.log('Looking for links in found feed pages')
+    for (const feed of feeds) {
+      // console.log(`Now checking for links within ${feed}`)
+      res = await axios.get(feed)
+      if (res.headers['content-type'] && 
+        res.headers['content-type'].indexOf('text/html') !== -1) {
+        const body = res.data
+        extraFeeds = extraFeeds.concat(checkForLinks(body, homeUrl))
+      }
+    }
+    feeds = feeds.concat(extraFeeds)
 
   } catch (error) {
     // console.log(`Error fetching page: ${error.message}`)
@@ -77,6 +66,32 @@ export async function findFeeds (url) {
 
     return fullFeeds
   }
+}
+
+function checkForLinks (body: string, homeUrl: string) {
+  let feeds = []
+  let linkTag = checkForLinkToRssFile(body)
+  if (linkTag) {
+    // console.log('FOUND RSS URL IN A LINK: ' + linkTag)
+    feeds.push(parseLinkTag(linkTag, homeUrl))
+  }
+
+  linkTag = checkForLinkWithRssInText(body)
+  if (linkTag) {
+    // console.log('FOUND RSS URL IN A LINK WITH RSS TEXT: ' + linkTag)
+    feeds.push(parseLinkTag(linkTag, homeUrl))
+  }
+  return feeds
+}
+
+function checkForHeader (body: string, homeUrl: string) {
+  let feeds = []
+  let linkTag = checkForRSSHeader(body)
+  if (linkTag) {
+    // console.log('FOUND RSS URL IN HEADER: ' + linkTag)
+    feeds.push(parseLinkTag(linkTag, homeUrl))
+  }
+  return feeds
 }
 
 function checkForRSSHeader (body: string) : string {

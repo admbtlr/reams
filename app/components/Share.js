@@ -42,178 +42,27 @@ class Share extends React.Component {
     this.savePage = this.savePage.bind(this)
   }
 
- checkForRSSHeader (body) {
-  // matches = body.match(/(\<link[^>]*?rel="alternate".*?(rss|atom)\+xml.*\>)/)
-  matches = body.match(/<link[^>]*?rel="alternate"[^>]*?(rss|atom)\+xml.*?>/)
-  return (matches && matches.length > 0) ?
-    matches[0] :
-    null
-}
-
- checkForLinkToRssFile (body) {
-  console.log('Full body length: ' + body.length)
-  console.log('Now checking for links to rss files')
-  body = body.replace(/<script[^]*?<\/script>/mg, '')
-  // console.log(body)
-  console.log('Scriptless body length: ' + body.length)
-  // look for links to rss files
-  const now = Date.now()
-  matches = body.match(/<a.*?href.*?>/g)
-  var regex = /<a.*?href.*?\.(rss|atom).*?>/
-  matches = matches.filter(m => regex.test(m))
-  console.log(`Searching for links to RSS files took ${(Date.now() - now)}ms`)
-  return (matches && matches.length > 0) ?
-    matches[1] :
-    null
-}
-
- checkForLinkWithRssInText (body) {
-  console.log('Checking for link with RSS in text')
-  body = body.replace(/<script[^]*?<\/script>/mg, '')
-  const now = Date.now()
-  matches = body.match(/href[^>]*?>(rss|atom)/i)
-  console.log(`Searching for links with RSS in text took ${(Date.now() - now)}ms`)
-  return (matches && matches.length > 0 && matches[0]) ?
-    matches[0] :
-    null
-}
-
-async checkKnownRssLocations (url) {
-  // Wordpress: /feed and /<page>/feed
-  // Tumblr: /rss
-  let feeds = []
-  let matches = url.match(/(http[s]*:\/\/.+?(\/|$))(.*?(\/|$))/)
-  const host = matches[1]
-  const subfolder = matches[3].length > 0 ?
-    (matches[3].indexOf('/') === matches[3].length - 1 ?
-      matches[3] :
-      matches[3] + '/') :
-    ''
-  console.log('URL: ' + url)
-  console.log('SUBFOLDER: ' + subfolder)
-
-  let feedUrl, res, json
-
-  feedUrl = host + 'feed'
-  try {
-    console.log(`Checking ${host}feed`)
-    res = await fetch(host + 'feed')
-    if (res.ok) {
-      feeds.push(feedUrl)
+  async searchForRSS (url) {
+    const res = await fetch(`https://api.rizzle.net/api/find-feeds?url=${url}`)
+    const rssUrls = await res.json()
+    console.log(rssUrls)
+    let state = {
+      ...this.state,
+      searchingForRss: false,
+      retrievingRss: false
     }
-  } catch (error) {}
-
-  try {
-    console.log(`Checking ${host}${subfolder}feed`)
-    feedUrl = host + subfolder + 'feed'
-    res = await fetch(host + 'feed')
-    if (res.ok) {
-      feeds.push(feedUrl)
+    if (rssUrls && rssUrls.length > 0) {
+      state.rssUrls = rssUrls
     }
-  } catch (error) {}
-
-  try {
-    console.log(`Checking ${host}rss`)
-    feedUrl = host + 'rss'
-    res = await fetch(host + 'feed')
-    if (res.ok) {
-      feeds.push(feedUrl)
-    }
-  } catch (error) {}
-
-  return feeds
-}
-
-async searchForRSS (url) {
-    let feeds = []
-    let matches = url.match(/(http[s]*:\/\/.+?(\/|$))/)
-    if (!matches || matches.length === 0) {
-      return
-    }
-    let homeUrl = matches[1]
-    console.log(`Checking ${homeUrl}`)
-
-    try {
-      // start with the current page
-      let res = await fetch(url)
-      let body = await res.text()
-
-      linkTag = this.checkForLinkToRssFile(body)
-      if (linkTag) {
-        console.log('FOUND RSS URL IN A LINK: ' + linkTag)
-        feeds.push(this.parseLinkTag(linkTag, homeUrl))
-      }
-
-      linkTag = this.checkForLinkWithRssInText(body)
-      if (linkTag) {
-        console.log('FOUND RSS URL IN A LINK WITH RSS TEXT: ' + linkTag)
-        feeds.push(this.parseLinkTag(linkTag, homeUrl))
-      }
-
-      // now try the homepage
-      res = await fetch(homeUrl)
-      body = await res.text()
-
-      let linkTag = this.checkForRSSHeader(body)
-      if (linkTag) {
-        console.log('FOUND RSS URL IN HEADER: ' + linkTag)
-        feeds.push(this.parseLinkTag(linkTag, homeUrl))
-      }
-
-      linkTag = this.checkForLinkToRssFile(body)
-      if (linkTag) {
-        console.log('FOUND RSS URL IN A LINK: ' + linkTag)
-        feeds.push(this.parseLinkTag(linkTag, homeUrl))
-      }
-
-      linkTag = this.checkForLinkWithRssInText(body)
-      if (linkTag) {
-        console.log('FOUND RSS URL IN A LINK WITH RSS TEXT: ' + linkTag)
-        feeds.push(this.parseLinkTag(linkTag, homeUrl))
-      }
-
-      feeds = feeds.concat(await this.checkKnownRssLocations(url))
-        .filter((feed, index, self) => self.indexOf(feed) === index)
-
-    } catch (error) {
-      console.log(`Error fetching page: ${error.message}`)
-    } finally {
-      let fullFeeds = []
-      console.log('Got feeds: ' + feeds)
-      this.setState({
-        searchingForRss: false,
-        retrievingRss: true
-      })
-      for (feed of feeds) {
-        try {
-          const res = await fetch('https://api.rizzle.net/api/feed-title/?url=' + feed)
-          const json = await res.json()
-          if (json.title) {
-            fullFeeds.push({
-              title: json.title,
-              description: json.description || 'No description',
-              url: feed
-            })
-          }
-        } catch (error) {
-          console.log('ERROR GETTING FEEDS: ' + error)
-        }
-      }
-      // console.log(fullFeeds)
-
-      return fullFeeds
-    }
+    this.setState(state)
   }
 
-  parseLinkTag (linkTag, homeUrl) {
-    let rssUrl = linkTag && linkTag.match(/href="(.*?)"/)[1]
-    console.log('MATCHING...')
-    if (!rssUrl.startsWith('http')) {
-      rssUrl = (homeUrl + rssUrl)
-      rssUrl = rssUrl.replace(/([^:])\/\//, '$1/')
-    }
-    console.log(`Found an RSS feed: ${rssUrl}`)
-    return rssUrl
+  async getPageTitle(url) {
+    const res = await fetch(`https://api.rizzle.net/api/mercury?url=${url}`)
+    const mercury = await res.json()
+    this.setState({
+      title: mercury.title
+    })
   }
 
   async componentDidMount() {
@@ -230,17 +79,8 @@ async searchForRSS (url) {
         value,
         searchingForRss: true
       })
-      const rssUrls = await this.searchForRSS(value)
-      console.log(rssUrls)
-      let state = {
-        ...this.state,
-        searchingForRss: false,
-        retrievingRss: false
-      }
-      if (rssUrls && rssUrls.length > 0) {
-        state.rssUrls = rssUrls
-      }
-      this.setState(state)
+      this.getPageTitle(value)
+      this.searchForRSS(value)
     } catch(e) {
       console.log('errrr', e)
     }
@@ -259,13 +99,13 @@ async searchForRSS (url) {
   async addFeed (url) {
     // console.log(this.state.rssUrl)
     await SharedGroupPreferences.setItem('feed', url, this.group)
-    this.closing()
+    this.onClose()
   }
 
   async savePage () {
     console.log(SharedGroupPreferences)
     await SharedGroupPreferences.setItem('page', this.state.value, this.group)
-    this.closing()
+    this.onClose()
   }
 
   render() {
@@ -275,13 +115,22 @@ async searchForRSS (url) {
       fontSize: 18,
       textAlign: 'center'
     }
+    const helpText = {
+      color: hslString('rizzleText'),
+      fontFamily: 'IBMPlexSans-Light',
+      fontSize: 18,
+      textAlign: 'left',
+      marginBottom: 16
+    }
     const {
       searchingForRss,
       retrievingRss,
       isOpen,
-      rssUrls
+      rssUrls,
+      title
     } = this.state
-    console.log(this.state.rssUrls)
+    // console.log(this.state.rssUrls)
+    const margin = 24
     return (
       <View style={{
         backgroundColor: hslString('rizzleBG'),
@@ -293,9 +142,9 @@ async searchForRSS (url) {
             // backgroundColor: hslString('rizzleBG'),
             // width: 350,
             // height: 300,
-            padding: 16,
-            paddingTop: 32,
-            paddingBottom: 64,
+            padding: margin,
+            paddingTop: margin * 2,
+            paddingBottom: margin * 4,
             // borderRadius: 14
             minWidth: '100%',
             // height: 'auto'
@@ -317,20 +166,38 @@ async searchForRSS (url) {
                   zIndex: 10
                 }}
               />
+              <Text style={{
+                fontFamily: 'PTSerif-Bold',
+                fontSize: 32,
+                lineHeight: 36,
+                marginBottom: 6,
+                paddingTop: 18,
+                textAlign: 'center',
+                color: hslString('rizzleText')
+              }}>Rizzle</Text>
+              <View style={{
+                height: 1,
+                backgroundColor: hslString('rizzleText'),
+                opacity: 0.2,
+                marginBottom: margin
+              }} />
+              <Text
+                style={helpText}
+              >You can subscribe to a feed from this website:</Text>
               { (searchingForRss || retrievingRss) &&
                 <View style={{
                   flex: 1,
                   justifyContent: 'center',
-                  padding: 20
+                  padding: margin
                 }}>
                   <Animated.Text
                     style={{
                       ...textStyle,
                       color: hslString('rizzleText'),
-                      paddingLeft: 20,
-                      paddingRight: 20
+                      paddingLeft: 24,
+                      paddingRight: 24
                     }}>{searchingForRss
-                      ? 'Looking for an available feed' :
+                      ? 'Searching for available feeds' :
                       'Getting feed details'}<AnimatedEllipsis style={{ 
                         color: hslString('rizzleText'),
                         fontSize: 16
@@ -344,71 +211,61 @@ async searchForRSS (url) {
                 <View style={{
                   flex: 1,
                   justifyContent: 'center',
-                  padding: 20
+                  padding: margin
                 }}>
                   <Text
                     style={{
                       ...textStyle,
                       fontFamily: 'IBMPlexSans-Bold'
-                    }}>No feed found 😢</Text>
+                    }}>No feeds found 😢</Text>
                   <Text style={{
                     ...textStyle,
                     fontFamily: 'IBMPlexSans-Light'
-                  }}>Sorry, we can’t add this site to Rizzle yet.</Text>
+                  }}>Sorry, we can’t find any feeds on this website.</Text>
                 </View>
               }
               { !!rssUrls && rssUrls.length > 0 &&
-                <Fragment>
-                  <View style={{ flex: 0 }}>
-                    <Text
-                      style={{
-                        ...textStyle,
-                        marginTop: 16,
-                        fontFamily: 'IBMPlexMono',
-                        marginBottom: 10
-                      }}>Subscribe to a feed from this site:</Text>
-                  </View>
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'space-between'
+                }}>
                   <View style={{
                     flex: 1,
-                    justifyContent: 'space-between'
+                    textAlign: 'left'
+                    // justifyContent: 'center'
                   }}>
-                    <View style={{
-                      flex: 1,
-                      textAlign: 'left'
-                      // justifyContent: 'center'
-                    }}>
-                      { rssUrls.map((feed, index) => (<TouchableOpacity
-                          key={index}
-                          style={{
-                            paddingHorizontal: 10,
-                            paddingVertical: 10
-                          }}
-                          onPress={() => { this.addFeed(feed.url) }}>
-                          <Text style={{
-                            ...textStyle,
-                            textAlign: 'left',
-                            fontFamily: 'IBMPlexSans-Bold'
-                          }}>{ feed.title }</Text>
-                          <Text style={{
-                            ...textStyle,
-                            textAlign: 'left',
-                            fontFamily: 'IBMPlexSans-Light',
-                            fontSize: 16
-                          }}>{ feed.description }</Text>
-                        </TouchableOpacity>))
-                      }
-                    </View>
-                    <Text
-                      style={{
-                        ...textStyle,
-                        fontFamily: 'IBMPlexMono',
-                        marginBottom: 10,
-                        flex: 0
-                      }}>… or …</Text>
+                    { rssUrls.map((feed, index) => (<TouchableOpacity
+                        key={index}
+                        style={{
+                          paddingHorizontal: 0,
+                          paddingVertical: margin
+                        }}
+                        onPress={() => { this.addFeed(feed.url) }}>
+                        <Text style={{
+                          ...textStyle,
+                          textAlign: 'left',
+                          fontFamily: 'IBMPlexSans-Bold',
+                          fontSize: 20
+                        }}>{ feed.title }</Text>
+                        <Text style={{
+                          ...textStyle,
+                          textAlign: 'left',
+                          fontFamily: 'IBMPlexSans-Light',
+                          fontSize: 16
+                        }}>{ feed.description }</Text>
+                      </TouchableOpacity>))
+                    }
                   </View>
-                </Fragment>
+                </View>
               }
             </View>
+            <Text
+              style={helpText}>Or you can save { title ? 
+                <Text style={{
+                  fontFamily: 'IBMPlexSans-Bold'
+                }}>{title}</Text> : 
+                'this page' 
+              } to read later:</Text>
             <TextButton
               text="Save this page in Rizzle"
               buttonStyle={{ 
