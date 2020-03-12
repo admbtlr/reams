@@ -59,19 +59,23 @@ export default function Message (props) {
       }]
     }}>
       <View style={{
-        backgroundColor: hslString('white'),
+        backgroundColor: hslString('rizzleText'),
         width: 'auto',
-        height: 18,
+        height: 20,
         paddingLeft: 10,
         paddingRight: 10,
+        paddingTop: 1,
         borderRadius: 9,
         shadowRadius: 20,
         shadowColor: 'black',
         shadowOpacity: 0.2,
         flexDirection: 'row'
       }}>
-        <Text style={textInfoStyle}>{visibleMessage}<AnimatedEllipsis style={{ 
-          color: 'black',
+        <Text style={{
+          ...textInfoStyle,
+          color: 'white'
+        }}>{visibleMessage}<AnimatedEllipsis style={{ 
+          color: 'white',
           marginLeft: -2
         }} /></Text>
       </View>

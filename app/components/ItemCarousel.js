@@ -268,6 +268,7 @@ class ItemCarousel extends React.Component {
     } = this.props
 
     this.bufferedItems = getBufferedItems(items, index, feeds)
+    this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
 
     if (numItems > 0 || isOnboarding) {
       // do something with setPanAnim on the ToolbarContainer

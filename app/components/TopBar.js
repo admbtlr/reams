@@ -77,9 +77,9 @@ class TopBar extends React.Component {
       opacity: opacityAnim
     }
 
-    if (isVisible) {
-      console.log(item.title)
-    }
+    // if (isVisible) {
+    //   console.log('Visible item: ' + item.title)
+    // }
 
     return isOnboarding ? null :
     (
