@@ -36,7 +36,7 @@ function TopBars ({
   const panAnimDivisor = screenWidth
 
   const [clampedScrollAnim, setClampedScrollAnim] = useState(new Animated.Value(0))
-  const [bufferIndex, setBufferIndex] = useState(index > 0 ? 1 : 0)
+  const [bufferIndex, setBufferIndex] = useState(1)
   const dispatch = useDispatch()
 
   const scrollListener = {
@@ -61,7 +61,7 @@ function TopBars ({
   setScrollAnimSetterAndListener(setClampedScrollAnim, scrollListener)
   setBufferIndexChangeListener(setBufferIndex)
 
-  Reactotron.log('RENDERING TOPBARS')
+  // console.log('RENDERING TOPBARS')
 
   const opacityRanges = items && items.map((item, index) => {
     let inputRange = [panAnimDivisor * index, panAnimDivisor * (index + 0.5), panAnimDivisor * (index + 1)]
