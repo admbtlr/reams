@@ -14,14 +14,7 @@ import {
   fetchItems as fetchItemsBackends,
   hasBackend
 } from '../backends'
-import {
-  addUnreadItemsToFirestore,
-  upsertFeedsFS,
-  incrementUnreadCountFS,
-  updateFeedsFS
-} from '../storage/firestore'
-import { clearItemsAS, setItemsAS } from '../storage/async-storage'
-import { mergeItems } from '../utils/merge-items.js'
+import { setItemsAS } from '../storage/async-storage'
 import { getFeedColor, id } from '../utils'
 import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,

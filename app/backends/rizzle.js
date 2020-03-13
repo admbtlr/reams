@@ -164,6 +164,10 @@ export const unsaveItem = (item, folder) => {
   return removeSavedItemFS(item)
 }
 
+export function saveExternalItem (item, folder) {
+  return upsertSavedItemFS(item)
+}
+
 export async function addFeed (feed) {
   addFeedFS(feed)
 }

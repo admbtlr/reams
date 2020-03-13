@@ -152,6 +152,15 @@ export async function unsaveItem (item, folder) {
   return item
 }
 
+export async function saveExternalItem (item, folder) {
+  switch (backend) {
+    case 'rizzle':
+      await rizzle.saveExternalItem(item, folder)
+      break
+  }
+}
+
+
 // export function markFeedRead (feed, olderThan, items) {
 //   switch (backend) {
 //     case 'rizzle':

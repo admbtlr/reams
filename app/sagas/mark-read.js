@@ -67,7 +67,7 @@ export function * clearReadItems () {
 }
 
 // called when the Firestore read items cache has been initialised
-export function * filterItemsForFirestoreRead () {
+export function * filterItemsForRead () {
   const items = yield select(getUnreadItems)
   const readItemsObj = getReadItemsFS()
   const itemsToMarkRead = items.filter(item => readItemsObj[item._id] !== undefined)
