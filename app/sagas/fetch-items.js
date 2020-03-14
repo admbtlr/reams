@@ -11,8 +11,7 @@ import {
   UPDATE_FEEDS
 } from '../store/feeds/types'
 import {
-  fetchItems as fetchItemsBackends,
-  hasBackend
+  fetchItems as fetchItemsBackends
 } from '../backends'
 import { setItemsAS } from '../storage/async-storage'
 import { getFeedColor, id } from '../utils'
@@ -43,7 +42,7 @@ let feeds
 
 export function * fetchAllItems (includeSaved = true) {
   const config = yield select(getConfig)
-  if (!config.isOnline || !hasBackend()) return
+  if (!config.isOnline/* || !hasBackend()*/) return
 
   yield put({
     type: 'ITEMS_IS_LOADING',

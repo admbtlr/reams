@@ -51,10 +51,10 @@ export function * initBackend (getFirebase, action) {
 
   if (backend === 'rizzle') {
     const uid = yield select(getUid)
-    backendConfig = {
-      getFirebase,
-      uid
-    }
+    backendConfig = uid && uid.length > 0 ? {
+        getFirebase,
+        uid
+      } : {}
   } else if (backend === 'feedbin') {
     const { username, password } = yield select(getUser)
     backendConfig = { username, password }
@@ -62,7 +62,7 @@ export function * initBackend (getFirebase, action) {
 
   setBackend(backend, backendConfig)
 
-  if (backend === 'rizzle') {
+  if (backend === 'rizzle' && uid) {
     if (isNew) {
       // set the user details
       const user = yield select(getUser)
