@@ -5,10 +5,7 @@
   - no firestore? so what about read stories?
   - do we even need to keep track of read stories with rizzle basic?
 - signup button on onboarding screen has no margins
-- 
 - deal with feed.number_unread problems
-- move all firestore operations out of sagas and into backends
-    + ~~feeds~~
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - improved add feed experience
@@ -37,6 +34,7 @@
 
 # Done
 
+- ~~move all firestore operations out of sagas and into backends~~
 - ~~fix TopBar~~
 - ~~fix share extension~~
 - ~~better loading indicator~~

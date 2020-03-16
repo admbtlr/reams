@@ -125,7 +125,8 @@ class Onboarding extends React.Component {
             buttonStyle={{
               bottom: 30,
               position: 'absolute',
-              alignSelf: 'center'
+              alignSelf: 'center',
+              width: Dimensions.get('window').width - 60
             }}
             testID='super-simple-set-up-button'
           />
