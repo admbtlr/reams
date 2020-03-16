@@ -11,7 +11,7 @@ import AnimatedEllipsis from './AnimatedEllipsis'
 import { hslString } from '../utils/colors'
 import { isIphoneX, fontSizeMultiplier } from '../utils'
 import {
-  textInfoStyle
+  textInfoMonoStyle
 } from '../utils/styles'
 
 const screenWidth = Dimensions.get('window').width
@@ -72,7 +72,8 @@ export default function Message (props) {
         flexDirection: 'row'
       }}>
         <Text style={{
-          ...textInfoStyle,
+          ...textInfoMonoStyle,
+          fontSize: 14,
           color: 'white'
         }}>{visibleMessage}<AnimatedEllipsis style={{ 
           color: 'white',

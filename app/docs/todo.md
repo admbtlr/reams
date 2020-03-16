@@ -4,6 +4,8 @@
   - what does that involve?
   - no firestore? so what about read stories?
   - do we even need to keep track of read stories with rizzle basic?
+- signup button on onboarding screen has no margins
+- 
 - deal with feed.number_unread problems
 - move all firestore operations out of sagas and into backends
     + ~~feeds~~
