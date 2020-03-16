@@ -10,6 +10,7 @@
     "colorthief": "git+https://github.com/adamvert/color-thief#3465330",
     "express": "^4.16.2",
     "feedparser": "^2.2.8",
+    "ico-to-png": "^0.2.1",
     "iconv-lite": "^0.5.0",
     "parse-favicon": "^2.0.0",
     "request": "^2.88.0",
