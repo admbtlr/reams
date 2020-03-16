@@ -59,10 +59,6 @@ export function * fetchAllFeeds () {
   }
   newFeeds = newFeeds.filter(f => !oldFeeds
       .find(feed => feed.url === f.url || feed.id === f.id || feed._id === f._id))
-    .map(f => ({
-      ...f,
-      isNew: true
-    }))
   const feeds = oldFeeds.concat(newFeeds)
 
   yield put({
