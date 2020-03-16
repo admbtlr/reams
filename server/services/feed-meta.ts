@@ -58,7 +58,6 @@ const getFavicon = async (link, body) => {
     ? f.size.split('x')[0]
     : 0
   if (favicons && favicons.length > 0) {
-    console.log(favicons)
     favicons = favicons.sort((a, b) => getSize(a) - getSize(b))
       .filter(f => (f.type && f.type === 'image/png')
         || (f.type && f.type === 'image/x-icon')
@@ -66,7 +65,6 @@ const getFavicon = async (link, body) => {
         || (f.url && f.url.indexOf('.png') !== -1)
         || (f.path && f.path.indexOf('.ico') !== -1)
         || (f.url && f.url.indexOf('.ico') !== -1))
-    console.log(favicons)
     if (favicons.length) {
       let goodFavicons = []
       // try and get the smallest one larger than 63
@@ -128,12 +126,10 @@ const getColor = (body) => {
 
 async function convertToPngIfNecessary (path, size) {
   if (path.indexOf('.ico') !== -1) {
-    console.log(path)
     const src = fs.readFileSync(path)
     const sizeNum = size ?
       Number.parseInt(size.split('x')[0]) :
       64 // is this a reasonable default?
-    console.log(sizeNum)
     const pngSrc = await icoToPng(src, sizeNum)
     path = path.replace(/ico/, 'png')
     fs.writeFileSync(path, pngSrc)
