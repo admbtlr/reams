@@ -49,19 +49,12 @@ export function feeds (
         ...state,
         feeds: [
           ...cleanedFeeds,
-          {
-            ...action.feed,
-            isNew: true
-          }
+          action.feed
         ]
       }
     case ADD_FEEDS_SUCCESS:
       let newFeeds = action.feeds.filter(f => !state.feeds
           .find(feed => feed.url === f.url || feed._id === f._id))
-        .map(f => ({
-          ...f,
-          isNew: true
-        }))
       return {
         ...state,
         feeds: [
@@ -87,10 +80,7 @@ export function feeds (
     case UPDATE_FEEDS:
       return {
         ...state,
-        feeds: action.feeds.map(f => ({
-          ...f,
-          isNew: false
-        }))
+        feeds: action.feeds
       }
 
     case UPDATE_FEED:
@@ -99,8 +89,7 @@ export function feeds (
         feeds: state.feeds.map(feed => feed._id === action.feed._id ?
           {
             ...feed,
-            ...action.feed,
-            isNew: false
+            ...action.feed
           } :
           feed)
       }
