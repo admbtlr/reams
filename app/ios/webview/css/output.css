@@ -875,6 +875,8 @@ html.onboarding {
     text-align: center; }
     html.onboarding p strong {
       font-family: "IBMPlexSans-Bold"; }
+    html.onboarding p em {
+      font-family: "IBMPlexSans-Italic"; }
   html.onboarding a {
     color: white; }
   html.onboarding .swipe {
