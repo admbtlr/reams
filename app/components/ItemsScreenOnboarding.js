@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 import { ITEMS_ONBOARDING_DONE } from '../store/config/types'
+import { SHOW_ITEM_BUTTONS } from '../store/ui/types'
 import RizzleButton from './RizzleButton'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
@@ -20,6 +21,7 @@ function getStyles () {
     textAlign: 'left',
     fontFamily: 'IBMPlexSans',
     fontSize: 16 * fontSizeMultiplier(),
+    lineHeight: 22 * fontSizeMultiplier(),
     color: hslString('rizzleText'),
     marginBottom: 16 * fontSizeMultiplier()
   }
@@ -44,19 +46,20 @@ const getTexts = () => [
     <Text style={ getStyles().textStyle }>This is the <Text style={ getStyles().boldStyle }>Unread Stories Screen</Text>. It shows all the new stories from the sites that you have subscribed to.</Text>
     <Text style={ getStyles().textStyle }>Scroll down to read a story, or just swipe on to the next one.</Text>
   </Fragment>,
-  <Fragment>
-    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Big Button</Text> shows you how many articles are currently in your feed, and how many you have already read (or swiped past).</Text>
-    <Text style={ getStyles().textStyle }>Tap it to switch to the <Text style={ getStyles().boldStyle }>Saved Stories Screen</Text>: this is how you can access all the articles you’ve saved, either from within Rizzle, or by copying a URL and opening Rizzle, or by using the <Text style={ getStyles().boldStyle }>Rizzle Share Extension</Text>.</Text>
-  </Fragment>,
-  <Fragment>
-    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Rizzle Button</Text> saves a story. You access the Saved Stories Screen by tapping The Big Button.</Text>
-    <Text style={ getStyles().textStyle }>(You remember The Big Button, right?)</Text>
-  </Fragment>,
+  <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Eye</Text> lets you change the text size. Also dark mode (which by the way happens automatically too, if that’s how you roll).</Text>,
   <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Share Button</Text> is a share button. It works like every other share button you’ve ever used.</Text>,
   <Fragment>
-    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Mysterious Fourth Button...</Text> Some sites only include teasers in their feed. This button toggles between the teaser and the whole story, in all its full-bore glory.</Text>
+    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Rizzle Button</Text> saves a story. You can then access your saved stories by tapping the big box in the top left-hand corner.</Text>
+    <Text style={ getStyles().textStyle }>(We’ll get to that in a minute)</Text>
   </Fragment>,
-  <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Eye</Text> lets you change the text size. Also dark mode (which by the way happens automatically too, obvs).</Text>,
+  <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Browser Button</Text> opens the page that this story originally came from, so that you can view it in its natural habitat.</Text>,
+  <Fragment>
+    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Show Full Text Button</Text> (a/k/a The Weird Button On The End)</Text>
+    <Text style={ getStyles().textStyle }>Some sites only include teasers in their feed. This button toggles between the teaser and the whole story, in all its full-bore glory.</Text>
+  </Fragment>,
+  <Fragment>
+    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Big Box Button</Text> takes you to the <Text style={ getStyles().boldStyle }>Saved Stories Screen</Text>: this is how you can access all the articles you’ve saved, either from within Rizzle, or by copying a URL and opening Rizzle, or by using the <Text style={ getStyles().boldStyle }>Rizzle Share Extension</Text>.</Text>
+  </Fragment>,
   <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Ellipsis</Text> takes you to the feeds screen, where you can see all the sites you’ve subscribed to.</Text>,
   <Fragment>
     <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>That’s it!</Text> For now, at least...</Text>
@@ -119,6 +122,10 @@ export default function ItemsScreenOnboarding (props) {
   const [ step, setStep ] = useState(0)
   const dispatch = useDispatch()
 
+  dispatch({
+    type: SHOW_ITEM_BUTTONS
+  })
+
   const multiplier = fontSizeMultiplier()
 
   return step === 8 ? null : (
@@ -136,20 +143,20 @@ export default function ItemsScreenOnboarding (props) {
       }}>
         <View style={{
           position: 'absolute',
-          bottom: step < 5 ? 80 : 'auto',
-          top: step >= 5 && step < 7 ?
-            (isIphoneX() ? 100 : 80) :
+          bottom: step < 6 ? 85 : 'auto',
+          top: step >= 6 && step < 8 ?
+            (isIphoneX() ? 110 : 90) :
             'auto',
-          left: step < 5 ?
+          left: step < 6 ?
             (screenWidth > 500 ? (screenWidth - 500) / 2 : 25) :
-            step === 5 ? 10 : 'auto',
-          right: step === 6 ? 10 : 'auto',
+            step === 6 ? 10 : 'auto',
+          right: step === 7 ? 10 : 'auto',
           // height: 200,
           width: screenWidth > 500 ? 500 : screenWidth - 50,
           backgroundColor: hslString('rizzleBG'),
           padding: 20 * fontSizeMultiplier(),
-          paddingBottom: step < 5 ? 50 : 20,
-          paddingTop: step >= 5 && step < 7 ? 50 : 20,
+          paddingBottom: step < 6 ? 50 : 20,
+          paddingTop: step >= 6 && step < 8 ? 50 : 20,
           borderRadius: 10,
           flexDirection: 'column'
         }}>
@@ -157,7 +164,7 @@ export default function ItemsScreenOnboarding (props) {
           <TextButton
             noResize={true}
             onPress={() => {
-              if (step === 7) {
+              if (step === 8) {
                 dispatch({
                   type: ITEMS_ONBOARDING_DONE
                 })
@@ -166,12 +173,13 @@ export default function ItemsScreenOnboarding (props) {
             }}
             text={[
               'Got it',
+              'Eye understand',
               'Got it',
               'Got it',
               'Got it',
               'Hunky Dory',
-              'Eye understand',
               'Got it already...',
+              'Are we there yet?',
               'Finally!'
             ][step]} />
         </View>
@@ -190,18 +198,11 @@ export default function ItemsScreenOnboarding (props) {
           paddingRight: 20,
           height: 50
         }}>
-          <View>
-            <RizzleButton
-              style={{
-                width: 'auto',
-                paddingHorizontal: 25,
-                opacity: 0
-              }}
-            >
-              <Text style={ getStyles().buttonTextStyle }>
-                {index + 1} / {numItems}
-              </Text>
-            </RizzleButton>
+          <View style={{
+            width: 40,
+            height: 50,
+            marginLeft: 10
+          }}>
             { step === 1 && downArrow()}
           </View>
           <View style={{
@@ -222,26 +223,33 @@ export default function ItemsScreenOnboarding (props) {
           }}>
             { step === 4 && downArrow()}
           </View>
+          <View style={{
+            width: 40,
+            height: 50,
+            marginRight: 10
+          }}>
+            { step === 5 && downArrow()}
+          </View>
         </View>
         <View style={{
           position: 'absolute',
           zIndex: 100,
-          top: isIphoneX() ? 105 : 85,
-          left: screenWidth * 0.05 - 7,
-          width: 40,
-          height: 40
-        }}>
-          { step === 5 && upArrow()}
-        </View>
-        <View style={{
-          position: 'absolute',
-          zIndex: 100,
-          top: isIphoneX() ? 105 : 85,
-          right: screenWidth * 0.05 - 4,
+          top: isIphoneX() ? 115 : 95,
+          left: screenWidth * 0.05 - 3,
           width: 40,
           height: 40
         }}>
           { step === 6 && upArrow()}
+        </View>
+        <View style={{
+          position: 'absolute',
+          zIndex: 100,
+          top: isIphoneX() ? 115 : 95,
+          right: screenWidth * 0.05 - 4,
+          width: 40,
+          height: 40
+        }}>
+          { step === 7 && upArrow()}
         </View>
       </View>
     </Fragment>
