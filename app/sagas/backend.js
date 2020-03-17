@@ -68,22 +68,22 @@ export function * initBackend (getFirebase, action) {
       const user = yield select(getUser)
       yield call(setUserDetails, user)
 
-      // copy existing feeds over to rizzle
-      const feeds = yield select(getFeeds)
-      yield call(upsertFeedsFS, feeds)
+      // // copy existing feeds over to rizzle
+      // const feeds = yield select(getFeeds)
+      // yield call(upsertFeedsFS, feeds)
 
-      // copy existing saved items over to rizzle
-      let savedItems = yield select(getItems, 'saved')
-      if (savedItems.length) {
-        savedItems = savedItems.map(item => item.savedAt ?
-          item :
-          {
-            ...item,
-            savedAt: item.savedAt || item.created_at || Date.now()
-          })
-        savedItems = yield call(getItemsAS, savedItems)
-        yield call(addSavedItemsFS, savedItems)
-      }
+      // // copy existing saved items over to rizzle
+      // let savedItems = yield select(getItems, 'saved')
+      // if (savedItems.length) {
+      //   savedItems = savedItems.map(item => item.savedAt ?
+      //     item :
+      //     {
+      //       ...item,
+      //       savedAt: item.savedAt || item.created_at || Date.now()
+      //     })
+      //   savedItems = yield call(getItemsAS, savedItems)
+      //   yield call(addSavedItemsFS, savedItems)
+      // }
     }
 
     yield spawn(savedItemsListener)

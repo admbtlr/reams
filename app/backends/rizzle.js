@@ -77,7 +77,7 @@ function extractErroredFeeds (unreadItemsArrays) {
 
 const fetchUnreadItems = (feeds, lastUpdated) => {
   const promises = feeds.filter(feed => !!feed).map(feed => {
-    const url = `https://api.rizzle.net/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
+    const url = `https://api.rizzle.net/api/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
     // const url = `http://localhost:8080/feed/?url=${feed.url}`
     return fetch(url).then(response => {
       return { response, feed }
@@ -111,29 +111,38 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
     _id: feed._id,
     lastUpdated: feed.isNew ? 0 : lastUpdated
   }))
-  let body = {
-    feeds: bodyFeeds
-  }
-  return fetch('https://api.rizzle.net/feeds/', {
+  // chunk into 10 at a time and do a Promise.all
+  // to avoid body size restriction on server
+  let chunked = bodyFeeds.reduce((acc, val, index) => {
+    const key = Math.floor(index / 10)
+    if (!acc[key]) {
+      acc[key] = []
+    }
+    acc[key].push(val)
+    return acc
+  }, [])
+  const promises = Object.values(chunked).map(feeds => fetch('https://api.rizzle.net/api/feeds', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify({ feeds })
   })
-    .then(res => {
-      return res.json()
+    .then(res => res.json()))
+  return Promise.all(promises)
+    .then(chunkedItems => {
+      return chunkedItems.reduce((items, chunk) => items.concat(chunk), [])
+        .map(mapRizzleServerItemToRizzleItem)
+        .map(item => {
+          const feed = feeds.find(feed => feed._id === item.feed_id)
+          return {
+            ...item,
+            feed_title: feed.title,
+            feed_color: feed.color
+          }
+        })
     })
-    .then(items => items.map(mapRizzleServerItemToRizzleItem)
-      .map(item => {
-        const feed = feeds.find(feed => feed._id === item.feed_id)
-        return {
-          ...item,
-          feed_title: feed.title,
-          feed_color: feed.color
-        }
-      }))
     .catch(err => {
       console.log(err)
     })
@@ -176,7 +185,7 @@ export const markFeedRead = (feed, olderThan, items) => {
 }
 
 export async function getFeedDetails (feed) {
-  const url = `https://api.rizzle.net/feed-meta/?url=${feed.url}`
+  const url = `https://api.rizzle.net/api/feed-meta/?url=${feed.url}`
   return fetch(url).then(response => {
     return { response, feed }
   }).then(({response, feed}) => {

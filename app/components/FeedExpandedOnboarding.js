@@ -28,10 +28,10 @@ const boldStyle = {
 }
 
 const texts = () => [
-  <Text style={ textStyle() }><Text style={ boldStyle }>Discard old</Text> gets rid of stories from this site that are more than a week old.</Text>,
-  <Text style={ textStyle() }><Text style={ boldStyle }>Discard all</Text> gets rid of, well, all the stories from this site.</Text>,
   <Text style={ textStyle() }><Text style={ boldStyle }>Unsubscribe</Text> removes this site from your feed.</Text>,
-  <Text style={ textStyle() }><Text style={ boldStyle }>Read stories</Text> lets you read stories from only this site, without being distracted by other stories from other sites trying to tell you other things.</Text>,
+  <Text style={ textStyle() }><Text style={ boldStyle }>Discard stories</Text> gets rid of all the stories from this site that you haven’t yet read.</Text>,
+  <Text style={ textStyle() }><Text style={ boldStyle }>Show full</Text> lets you specify that you always want the full text view for stories from this site.</Text>,
+  <Text style={ textStyle() }><Text style={ boldStyle }>Filter stories</Text> lets you read stories from only this site, without being distracted by other stories from other sites trying to tell you other things.</Text>,
   <Text style={ textStyle() }><Text style={ boldStyle }>Mute</Text> lets you keep a site in your feed, but not actually see any of the its stories. It’s sometimes a handy temporary measure.</Text>,
   <Text style={ textStyle() }>If you <Text style={ boldStyle }>Like</Text> a site, its stories will always move to the front of your feed, so you’ll see them first.</Text>
 ]
@@ -93,7 +93,7 @@ export default function FeedExpandedOnboarding (props) {
       }}>
         <View style={{
           position: 'absolute',
-          bottom: margin * 2 +
+          bottom: margin * 4 +
             210 * (1 + (fontSizeMultiplier() - 1) * 1.4) -
             Math.round((step+1) / 2) * 54 * (1 + (fontSizeMultiplier() - 1) * 1.8),
           left: step % 2 == 0 ?
@@ -151,7 +151,7 @@ export default function FeedExpandedOnboarding (props) {
           flexWrap: 'wrap',
           justifyContent: 'space-between',
           width: '100%',
-          marginBottom: margin
+          marginBottom: margin * 3
         }}>
           <View
             style={{

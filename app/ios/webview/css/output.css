@@ -247,9 +247,9 @@ body {
     font-size: 1rem;
     line-height: 1.33rem;
     font-style: normal;
-    padding: 1rem 1rem .5rem;
+    padding: 1rem 1.5rem 1rem 1rem;
     margin: 1rem 0;
-    text-align: center; }
+    text-align: left; }
   .itemArticle figure cite {
     display: none; }
   .itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {
@@ -761,11 +761,11 @@ hr {
   font-family: "PlayfairDisplay-Regular"; }
 
 .headerFontSerif1 figcaption, .headerFontSerif1 img + small, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) {
-  font-family: "PlayfairDisplay-Italic"; }
+  font-family: "IBMPlexSerif-Italic"; }
   .headerFontSerif1 figcaption em, .headerFontSerif1 img + small em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em {
-    font-family: "PlayfairDisplay"; }
+    font-family: "IBMPlexSerif"; }
   .headerFontSerif1 figcaption strong, .headerFontSerif1 img + small strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong {
-    font-family: "PlayfairDisplay-BoldItalic"; }
+    font-family: "IBMPlexSerif-BoldItalic"; }
   .headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em {
     font-family: "PlayfairDisplay-Bold"; }
 
@@ -875,6 +875,8 @@ html.onboarding {
     text-align: center; }
     html.onboarding p strong {
       font-family: "IBMPlexSans-Bold"; }
+    html.onboarding p em {
+      font-family: "IBMPlexSans-Italic"; }
   html.onboarding a {
     color: white; }
   html.onboarding .swipe {

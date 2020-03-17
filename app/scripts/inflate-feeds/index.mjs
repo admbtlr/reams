@@ -3,8 +3,8 @@ import rp from 'request-promise'
 import request from 'request'
 import {technology} from '../../utils/feeds/technology.mjs'
 
-const getMeta = async (feedUrl) => {
-  const metaUrl = 'https://api.rizzle.net/feed-meta/?url=' + feedUrl
+const getFaviconUrl = async (feedUrl) => {
+  const metaUrl = 'https://api.rizzle.net/api/feed-meta/?url=' + feedUrl
   try {
     const meta = await rp({
       uri: metaUrl,

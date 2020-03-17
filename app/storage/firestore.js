@@ -218,20 +218,22 @@ export async function getSavedItemsFS (items) {
 export async function listenToSavedItems (receiveItems) {
   getUserDb()
     .collection('items-saved')
-    .onSnapshot({}, (snapshot) => {
-      if (snapshot === null) return
-      const docChanges = snapshot.docChanges()
-      if (docChanges) {
-        const added = docChanges
-          .filter(dc => dc.type === 'added')
-          .map(dc => dc.doc.data())
-        const removed = docChanges
-          .filter(dc => dc.type === 'removed')
-          .map(dc => dc.doc.data())
-        const modified = docChanges
-          .filter(dc => dc.type === 'modified')
-          .map(dc => dc.doc.data())
-        receiveItems({ added, modified, removed })
+    .onSnapshot({
+      next: (snapshot) => {
+        if (snapshot === null) return
+        const docChanges = snapshot.docChanges()
+        if (docChanges) {
+          const added = docChanges
+            .filter(dc => dc.type === 'added')
+            .map(dc => dc.doc.data())
+          const removed = docChanges
+            .filter(dc => dc.type === 'removed')
+            .map(dc => dc.doc.data())
+          const modified = docChanges
+            .filter(dc => dc.type === 'modified')
+            .map(dc => dc.doc.data())
+          receiveItems({ added, modified, removed })
+        }
       }
     })
 }
@@ -239,19 +241,21 @@ export async function listenToSavedItems (receiveItems) {
 export async function listenToReadItems (receiveItems) {
   getUserDb()
     .collection('items-read')
-    .onSnapshot({}, (snapshot) => {
-      if (snapshot === null) return
-      if (snapshot.metadata.hasPendingWrites) {
-        // generated locally, ignore
-      } else {
-        let docs = snapshot.docChanges()
-          .map(dc => dc.doc.data())
-        docs.forEach(doc => {
-          readItems[doc._id] = doc.readAt
-        })
-        receiveItems({
-          dateReceived: Date.now()
-        })
+    .onSnapshot({
+      next: (snapshot) => {
+        if (snapshot === null) return
+        if (snapshot.metadata.hasPendingWrites) {
+          // generated locally, ignore
+        } else {
+          let docs = snapshot.docChanges()
+            .map(dc => dc.doc.data())
+          docs.forEach(doc => {
+            readItems[doc._id] = doc.readAt
+          })
+          receiveItems({
+            dateReceived: Date.now()
+          })
+        }
       }
     })
 }
@@ -259,10 +263,12 @@ export async function listenToReadItems (receiveItems) {
 export async function listenToFeeds (receiveFeeds) {
   getUserDb()
     .collection('feeds')
-    .onSnapshot({}, (snapshot) => {
-      if (snapshot === null) return
-      if (snapshot._changes) {
-        receiveFeeds(snapshot._docs.map(doc => doc._data))
+    .onSnapshot({
+      next: (snapshot) => {
+        if (snapshot === null) return
+        if (snapshot._changes) {
+          receiveFeeds(snapshot._docs.map(doc => doc._data))
+        }
       }
     })
 }

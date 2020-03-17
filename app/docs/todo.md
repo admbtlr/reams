@@ -1,11 +1,12 @@
 # To Do
 
+- make rizzle basic work
+  - what does that involve?
+  - no firestore? so what about read stories?
+  - do we even need to keep track of read stories with rizzle basic?
 - deal with feed.number_unread problems
-- move all firestore operations out of sagas and into backends
-    + ~~feeds~~
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
-- make rizzle basic work
 - improved add feed experience
 - make Feedwrangler work fully
 - Feedly integration
@@ -32,6 +33,10 @@
 
 # Done
 
+- ~~signup button on onboarding screen has no margins~~
+- ~~move all firestore operations out of sagas and into backends~~
+- ~~fix TopBar~~
+- ~~fix share extension~~
 - ~~better loading indicator~~
 - ~~add per feed setting to always open in expanded view~~
 - ~~add a message component~~

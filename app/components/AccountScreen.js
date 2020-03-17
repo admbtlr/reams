@@ -11,9 +11,7 @@ import {
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TextButton from './TextButton'
-import GoogleAuth from './GoogleAuth'
 import AccountCredentialsForm from './AccountCredentialsForm'
-import XButton from './XButton'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier } from '../utils'
@@ -45,6 +43,10 @@ class AccountScreen extends React.Component {
     const { backend } = this.props
     const { expandedBackend } = this.state
     const width = Dimensions.get('window').width
+    const buttonWidth = width > 950 ?
+      600 :
+      '100%'
+
     const margin = width * 0.05
     const height = Dimensions.get('window').height
     const textStyles = {
@@ -120,7 +122,11 @@ class AccountScreen extends React.Component {
               }}>If you don’t have an account, you can use <Text style={italicStyles}>Rizzle Basic</Text> for free. <Text style={italicStyles}>Rizzle Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Rizzle stays in Rizzle: you can’t sync your data with <Text style={italicStyles}>Rizzle Basic</Text>.</Text>
               <TextButton
                 text={ 'Rizzle Basic' }
-                buttonStyle={{ marginBottom: 42 }}
+                buttonStyle={{ 
+                  alignSelf: 'center',
+                  marginBottom: 42,
+                  width: buttonWidth 
+                }}
                 iconBg={true}
                 iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'rizzle' ? 'logo1' : 'white')) }
                 iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'rizzle' ? 'logo1' : 'white')) }
@@ -139,7 +145,11 @@ class AccountScreen extends React.Component {
                 />}
               />
               <TextButton
-                buttonStyle={{ marginBottom: 42 }}
+                buttonStyle={{ 
+                  alignSelf: 'center',
+                  marginBottom: 42,
+                  width: buttonWidth 
+                }}
                 iconBg={true}
                 iconCollapsed={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'white')) }
                 iconExpanded={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'white')) }
@@ -160,7 +170,11 @@ class AccountScreen extends React.Component {
               />
               <TextButton
                 text="Feedly"
-                buttonStyle={{ marginBottom: 42 }}
+                buttonStyle={{ 
+                  alignSelf: 'center',
+                  marginBottom: 42,
+                  width: buttonWidth 
+                }}
                 iconBg={true}
                 iconCollapsed={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'white')) }
                 iconExpanded={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'white')) }
@@ -178,7 +192,11 @@ class AccountScreen extends React.Component {
               />
               <TextButton
                 text="Feed Wrangler"
-                buttonStyle={{ marginBottom: 42 }}
+                buttonStyle={{ 
+                  alignSelf: 'center',
+                  marginBottom: 42,
+                  width: buttonWidth 
+                }}
                 isExpandable={true}
                 isExpanded={ backend === 'feedwrangler' }
                 isInverted={ backend === 'feedwrangler' }

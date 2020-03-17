@@ -467,14 +467,7 @@ body {
     }
     & > img.img-portrait:first-child:not(.img-small) {
       top: -1.5rem;
-      // margin-bottom: -1.5rem;
     }
-    // & > figure:first-child figcaption {
-    //   position: relative;
-    //   top: -1rem;
-    //   margin-bottom: 2rem;
-
-    // }
   }
 
   & > *:empty,
@@ -521,9 +514,9 @@ body {
     font-size: 1rem;
     line-height: 1.33rem;
     font-style: normal;
-    padding: 1rem 1rem .5rem;
+    padding: 1rem 1.5rem 1rem 1rem;
     margin: 1rem 0;
-    text-align: center;
+    text-align: left;
   }
 
   figure cite {
@@ -1134,14 +1127,14 @@ hr {
     font-family: "PlayfairDisplay-Regular";
   }
   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "PlayfairDisplay-Italic";
+    font-family: "IBMPlexSerif-Italic";
 
     em {
-      font-family: "PlayfairDisplay";
+      font-family: "IBMPlexSerif";
     }
 
     strong {
-      font-family: "PlayfairDisplay-BoldItalic";
+      font-family: "IBMPlexSerif-BoldItalic";
     }
 
     em strong, strong em {
@@ -1366,6 +1359,9 @@ html.onboarding {
 
     strong {
       font-family: "IBMPlexSans-Bold";
+    }
+    em {
+      font-family: "IBMPlexSans-Italic";
     }
   }
 
