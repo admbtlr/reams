@@ -26,7 +26,7 @@ export const BUFFER_LENGTH = 5
 // them with scrollAnims
 let bufferedItems
 
-const getBufferedItems  = (items, index, feeds) => {
+const getBufferedItems  = (items, index, displayMode, feeds) => {
   const bufferStart = index === 0 ? index : index - 1
   const bufferEnd = index + BUFFER_LENGTH > items.length - 1 ?
     items.length :
@@ -36,10 +36,11 @@ const getBufferedItems  = (items, index, feeds) => {
     JSON.stringify(bufferedItems.map(item => item._id))) {
     bufferedItems = buffered
   }
-  return bufferedItems.map(bi => ({
-    ...bi,
-    isFeedMercury: feeds && feeds.length > 0 && feeds.find(f => f._id === bi.feed_id).isMercury
-  }))
+  return displayMode === ItemType.saved ? bufferedItems : 
+    bufferedItems.map(bi => ({
+      ...bi,
+      isFeedMercury: feeds && feeds.length > 0 && feeds.find(f => f._id === bi.feed_id).isMercury
+    }))
 }
 
 class ItemCarousel extends React.Component {
@@ -81,9 +82,9 @@ class ItemCarousel extends React.Component {
   //   }
   // }
 
-  _stringifyBufferedItems (items, index, feeds) {
+  _stringifyBufferedItems (items, index, displayMode, feeds) {
     return JSON
-    .stringify(getBufferedItems(items, index, feeds)
+    .stringify(getBufferedItems(items, index, displayMode, feeds)
       .map(item => item._id))
   }
 
@@ -93,8 +94,8 @@ class ItemCarousel extends React.Component {
       !(
         nextProps.index > this.initialIndex - 1 &&
         nextProps.index < this.initialIndex + BUFFER_LENGTH &&
-        this._stringifyBufferedItems(nextProps.items, this.props.index, this.props.feeds) ===
-          this._stringifyBufferedItems(this.props.items, this.props.index, this.props.feeds)
+        this._stringifyBufferedItems(nextProps.items, this.props.index, this.props.displayMode, this.props.feeds) ===
+          this._stringifyBufferedItems(this.props.items, this.props.index, this.props.displayMode, this.props.feeds)
       )
   }
 
@@ -267,7 +268,7 @@ class ItemCarousel extends React.Component {
       index
     } = this.props
 
-    this.bufferedItems = getBufferedItems(items, index, feeds)
+    this.bufferedItems = getBufferedItems(items, index, displayMode, feeds)
     this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
 
     if (numItems > 0 || isOnboarding) {
