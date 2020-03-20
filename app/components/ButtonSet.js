@@ -211,6 +211,7 @@ const getStyles = () => {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignSelf: 'center',
       marginBottom: 20,
       paddingLeft: 20,
       paddingRight: 20
