@@ -1,6 +1,7 @@
 # To Do
 
 - make rizzle basic work
+- button alignment on ipad
   - what does that involve?
   - no firestore? so what about read stories?
   - do we even need to keep track of read stories with rizzle basic?
