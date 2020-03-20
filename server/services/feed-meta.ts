@@ -3,6 +3,7 @@ import { derelativise } from './url'
 const rp = require('request-promise')
 const fs = require("fs")
 const parseFavicon = require('parse-favicon')
+const icoToPng = require('ico-to-png')
 const ColorThief = require('colorthief')
 
 export const getMeta = async (items) : Promise<{
@@ -37,7 +38,7 @@ export const getMeta = async (items) : Promise<{
       const favicon = await getFavicon(feedMeta.link, body)
       feedMeta.favicon = favicon || feedMeta.favicon
       const color = getColor(body) || (feedMeta.favicon ?
-        await getColorFromFavicon(feedMeta.favicon.url, meta.title.replace(/[^A-Za-z]/g, '')) :
+        await getColorFromFavicon(feedMeta.favicon.url, feedMeta.favicon.size, meta.title.replace(/[^A-Za-z0-9]/g, '')) :
         null)
       feedMeta.color = color || feedMeta.color
     } catch (e) {
@@ -58,9 +59,12 @@ const getFavicon = async (link, body) => {
     : 0
   if (favicons && favicons.length > 0) {
     favicons = favicons.sort((a, b) => getSize(a) - getSize(b))
-      .filter(f => f.type && f.type === 'image/png'
-        || (f.path && f.path.indexOf('png') !== -1)
-        || (f.url && f.url.indexOf('png') !== -1))
+      .filter(f => (f.type && f.type === 'image/png')
+        || (f.type && f.type === 'image/x-icon')
+        || (f.path && f.path.indexOf('.png') !== -1)
+        || (f.url && f.url.indexOf('.png') !== -1)
+        || (f.path && f.path.indexOf('.ico') !== -1)
+        || (f.url && f.url.indexOf('.ico') !== -1))
     if (favicons.length) {
       let goodFavicons = []
       // try and get the smallest one larger than 63
@@ -120,20 +124,33 @@ const getColor = (body) => {
   return color
 }
 
-const getColorFromFavicon = async (faviconUrl, fileName) => {
-  const path = `/tmp/${fileName}.png`
-  return rp.get({
+async function convertToPngIfNecessary (path, size) {
+  if (path.indexOf('.ico') !== -1) {
+    const src = fs.readFileSync(path)
+    const sizeNum = size ?
+      Number.parseInt(size.split('x')[0]) :
+      64 // is this a reasonable default?
+    const pngSrc = await icoToPng(src, sizeNum)
+    path = path.replace(/ico/, 'png')
+    fs.writeFileSync(path, pngSrc)
+  }
+  return path
+}
+
+const getColorFromFavicon = async (faviconUrl, size, fileName) => {
+  const extension = faviconUrl.indexOf('.ico') !== -1 ?
+    'ico' :
+    'png'
+  let path = `/tmp/${fileName}.${extension}`
+  const res = await rp.get({
     url: derelativise(faviconUrl),
     encoding: null
   })
-    .then(res => {
-      const buffer = Buffer.from(res, 'utf8')
-      fs.writeFileSync(path, buffer)
-      return ColorThief.getPalette(path)
-    })
-    .then(palette => {
-      return `rgb(${palette[0].join(',')})`
-    })
+  const buffer = Buffer.from(res, 'utf8')
+  fs.writeFileSync(path, buffer)
+  path = await convertToPngIfNecessary(path, size)
+  const palette = await ColorThief.getPalette(path)
+  return `rgb(${palette[0].join(',')})`
 }
 
 const knownSites = [

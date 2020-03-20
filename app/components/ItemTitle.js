@@ -444,7 +444,7 @@ class ItemTitle extends React.Component {
     // } else {
     //   return 100
     // }
-    return this.screenWidth > 700 ? 75 : 100
+    return this.screenWidth > 700 ? 80 : 100
   }
 
   getForegroundColor () {
