@@ -17,8 +17,8 @@ import { ADD_FEEDS } from '../store/feeds/types'
 import TextButton from './TextButton'
 import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
-import {technology} from '../utils/feeds/technology'
-import {design} from '../utils/feeds/design'
+import {feeds} from '../utils/feeds/feeds'
+// import {culture} from '../utils/feeds/culture'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
@@ -42,6 +42,8 @@ const margin = screenWidth * 0.05
 
 const buttonAnim = new Animated.Value(margin * 4)
 
+const culture = feeds.filter(f => f.category === 'culture')
+const technology = feeds.filter(f => f.category === 'technology')
 
 export default function NewFeedsList (props) {
   const [selectedFeeds, setFeeds] = useState([])
@@ -85,58 +87,6 @@ export default function NewFeedsList (props) {
         fill={ hslString('rizzleBG')}
         fill-rule="nonzero" />
     </Svg>
-
-  const FeedList = ({feeds}) => {
-    return (
-    <View style={{
-      marginTop: 16,
-      paddingTop: 16,
-      paddingRight: 16
-    }}>
-      { feeds.map((feed, index) => (
-        <View
-          key={`technology-${index}`}
-          style={{
-            flexDirection: 'row',
-            // height: 300
-          }}>
-          <View style={{
-            width: 70 * fontSizeMultiplier(),
-            height: 70
-          }}>
-          <Image
-            // resizeMode='contain'
-            source={require('../assets/images/favicons/tech-crunch.png')}
-            style={{
-              // flex: 1,
-              marginLeft: 20,
-              marginTop: 8,
-              height: 32,
-              width: 32
-            }}
-          />
-          </View>
-          <View style={{
-            flexDirection: 'column',
-            flex: 1
-          }}>
-            <Text style={{
-              ...textStyles(),
-              ...boldStyles,
-              fontSize: 20
-            }}>{feed.title}</Text>
-            <Text style={{
-              ...textStyles(),
-              fontSize: 16,
-              marginTop: 0,
-              marginBottom: 24
-            }}>{feed.description}</Text>
-          </View>
-        </View>
-      ))}
-    </View>
-  )}
-
 
   return (
     <Fragment>
@@ -197,10 +147,10 @@ export default function NewFeedsList (props) {
                 iconBg={true}
                 iconCollapsed={hashtag}
                 iconExpanded={hashtag}
-                text='Design'
+                text='Culture'
                 isExpandable={true}
-                isExpanded={false}
-                renderExpandedView={() => <FeedList feeds={design} />} />
+                isExpanded={true}
+                renderExpandedView={() => <FeedList feeds={culture} />} />
             </View>
         </View>
       </ScrollView>
@@ -233,6 +183,16 @@ export default function NewFeedsList (props) {
   )
 }
 
+const FeedList = ({feeds}) => {
+  return (
+  <View style={{
+    marginTop: 16,
+    paddingTop: 16
+  }}>
+    { feeds.map((feed, index) => <FeedToggle feed={feed}/>)}
+  </View>
+)}
+
 const FeedToggle = (props) => {
   const [isSelected, setSelected] = useState(false)
   const { feed, isLast, toggleFeedSelected } = props
@@ -258,17 +218,58 @@ const FeedToggle = (props) => {
   return (
     <Fragment>
       <TouchableOpacity
-        onPress={() => {
-          toggleFeedSelected(feed, !isSelected)
-          return setSelected(!isSelected)
-        }}
-        style={buttonStyles}>
-        <Text style={titleStyles}>{feed.title}</Text>
-        <Text style={descriptionStyles}>{feed.description}</Text>
+      onPress={() => {
+        // toggleFeedSelected(feed, !isSelected)
+        return setSelected(!isSelected)
+      }}
+      style={{
+          flexDirection: 'row',
+          backgroundColor: isSelected ? feed.color || hslString('rizzleText') : 'transparent',
+          paddingTop: 16,
+          paddingRight: 16
+          // height: 300
+      }}>
+        <View style={{
+          width: 65 * fontSizeMultiplier(),
+          height: 70
+        }}>
+          {feed.favicon && <Image
+            // resizeMode='contain'
+            source={feed.favicon.source}
+            style={{
+              // flex: 1,
+              marginLeft: 16,
+              marginTop: 8,
+              height: 32,
+              width: 32
+            }}
+          />}
+        </View>
+        <View style={{
+          flexDirection: 'column',
+          flex: 1
+        }}>
+          <Text style={{
+            ...textStyles(),
+            ...boldStyles,
+            color: isSelected ? 'white' : hslString('rizzleText'),
+            fontSize: 20
+          }}>{feed.title}</Text>
+          <Text style={{
+            ...textStyles(),
+            color: isSelected ? 'white' : hslString('rizzleText'),
+            opacity: 0.7,
+            fontSize: 16,
+            marginTop: 0,
+            marginBottom: 24
+          }}>{feed.description}</Text>
+        </View>
       </TouchableOpacity>
       <View style={{
         height: 1,
-        backgroundColor: isSelected || isLast ? 'transparent' : 'rgba(0,0,0,0.1)'
+        paddingLeft: 16,
+        paddingRight: 16,
+        backgroundColor: isSelected || isLast ? 'transparent' : 'rgba(0,0,0,0.1)',
       }} />
     </Fragment>
   )

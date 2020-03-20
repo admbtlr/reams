@@ -1,201 +1,251 @@
 [{
   "title": "Politico ",
   "url": "http://feeds.politico.com/politico/rss/politicopicks",
-  "description": "Politics, Policy, Political News Top Stories."
+  "description": "Politics, Policy, Political News Top Stories.",
+  "category": "politics"
 }, {
   "title": "Washington Post - Politics ",
   "url": "http://www.washingtonpost.com/wp-dyn/rss/politics/index.xml",
-  "description": "Post Politics from The Washington Post is the source for political news headlines, in-depth politics coverage, political opinion, breaking news on the Trump administration and White House, Congress, the Supreme Court, elections..."
+  "description": "Post Politics from The Washington Post is the source for political news headlines, in-depth politics coverage, political opinion, breaking news on the Trump administration and White House, Congress, the Supreme Court, elections...",
+  "category": "politics"
 }, {
   "title": "NYT - Politics ",
   "url": "http://www.nytimes.com/services/xml/rss/nyt/Politics.xml",
-  "description": "Politics"
+  "description": "Politics",
+  "category": "politics"
 }, {
   "title": "The Atlantic - Politics",
   "url": "http://feeds.feedburner.com/AtlanticPoliticsChannel",
-  "description": "The Atlantic covers breaking news, analysis, opinion around Washington, national and international politics on the official site of the Atlantic Magazine."
+  "description": "The Atlantic covers breaking news, analysis, opinion around Washington, national and international politics on the official site of the Atlantic Magazine.",
+  "category": "politics"
 }, {
   "title": "FiveThirtyEight",
   "url": "http://fivethirtyeight.com/features/feed/",
-  "description": "Nate Silver’s FiveThirtyEight uses statistical analysis — hard numbers — to tell compelling stories about politics, sports, science, economics and culture."
+  "description": "Nate Silver’s FiveThirtyEight uses statistical analysis — hard numbers — to tell compelling stories about politics, sports, science, economics and culture.",
+  "category": "politics"
 }, {
   "title": "TheHill",
   "url": "http://www.thehill.com/index.php?option=com_rd_rss&id=1",
-  "description": "The latest news from Capitol Hill."
+  "description": "The latest news from Capitol Hill.",
+  "category": "politics"
 }, {
   "title": "Vox - All",
   "url": "http://www.vox.com/rss/index.xml",
-  "description": "Vox is a general interest news site for the 21st century."
+  "description": "Vox is a general interest news site for the 21st century.",
+  "category": "politics"
 }, {
   "title": "The Intercept",
   "url": "https://firstlook.org/theintercept/feed/",
-  "description": "The Intercept."
+  "description": "The Intercept.",
+  "category": "politics"
 }, {
   "title": "Talking Points Memo ",
   "url": "http://feeds.feedburner.com/talking-points-memo",
-  "description": "Talking Points Memo - News, Commentary, Analysis"
+  "description": "Talking Points Memo - News, Commentary, Analysis",
+  "category": "politics"
 }, {
   "title": "ThinkProgress",
   "url": "http://thinkprogress.org/feed/",
-  "description": "Moving news forward."
+  "description": "Moving news forward.",
+  "category": "politics"
 }, {
   "title": "Axios",
   "url": "https://www.axios.com/feeds/feed.rss",
-  "description": "Smart, efficient news worthy of your time, attention, and trust"
+  "description": "Smart, efficient news worthy of your time, attention, and trust",
+  "category": "politics"
 }, {
   "title": "Democracy Now!",
   "url": "http://www.democracynow.org/democracynow.rss",
-  "description": "Democracy Now! is an independent daily TV & radio news program, hosted by award-winning journalists Amy Goodman and Juan González. We provide daily global news headlines, in-depth interviews and investigative reports without any advertisements or government funding. Our programming shines a spotlight on corporate and government abuses of power and lifts up the stories of ordinary people working to make change in extraordinary times. Democracy Now! is live weekdays at 8am ET and available 24/7 through our website and podcasts."
+  "description": "Democracy Now! is an independent daily TV & radio news program, hosted by award-winning journalists Amy Goodman and Juan González. We provide daily global news headlines, in-depth interviews and investigative reports without any advertisements or government funding. Our programming shines a spotlight on corporate and government abuses of power and lifts up the stories of ordinary people working to make change in extraordinary times. Democracy Now! is live weekdays at 8am ET and available 24/7 through our website and podcasts.",
+  "category": "politics"
 }, {
   "title": " Crooks and Liars ",
   "url": "http://feeds.feedburner.com/crooksandliars/YaCP",
-  "description": "A progressive news blog focusing on political events and the news coverage of them."
+  "description": "A progressive news blog focusing on political events and the news coverage of them.",
+  "category": "politics"
 }, {
   "title": "Mother Jones ",
   "url": "http://feeds.feedburner.com/KevinDrum",
-  "description": "Investigative journalism, politics, chart-tastic, sometimes sarcastic. Voted Magazine of the Year, 2017, by the National Association of Magazine Editors."
+  "description": "Investigative journalism, politics, chart-tastic, sometimes sarcastic. Voted Magazine of the Year, 2017, by the National Association of Magazine Editors.",
+  "category": "politics"
 }, {
   "title": "CNN.com - RSS Channel - Politics",
   "url": "http://rss.cnn.com/rss/cnn_allpolitics.rss",
-  "description": "CNN.com delivers up-to-the-minute news and information on the latest top stories, weather, entertainment, politics and more."
+  "description": "CNN.com delivers up-to-the-minute news and information on the latest top stories, weather, entertainment, politics and more.",
+  "category": "politics"
 }, {
   "title": "The Daily Wire",
   "url": "http://www.dailywire.com/rss.xml",
-  "description": "Led by the incomparable Ben Shapiro, The Daily Wire is a hard-hitting, irreverent news and commentary site for a new generation of conservatives."
+  "description": "Led by the incomparable Ben Shapiro, The Daily Wire is a hard-hitting, irreverent news and commentary site for a new generation of conservatives.",
+  "category": "politics"
 }, {
   "title": "Articles and Investigations - ProPublica",
   "url": "http://feeds.propublica.org/propublica/main",
-  "description": "Latest Articles and Investigations from ProPublica, an independent, non-profit newsroom that produces investigative journalism in the public interest."
+  "description": "Latest Articles and Investigations from ProPublica, an independent, non-profit newsroom that produces investigative journalism in the public interest.",
+  "category": "politics"
 }, {
   "title": "National Review",
   "url": "http://www.nationalreview.com/rss.xml",
-  "description": "Leading conservative magazine and website covering news, politics, current events, and culture with detailed analysis and commentary."
+  "description": "Leading conservative magazine and website covering news, politics, current events, and culture with detailed analysis and commentary.",
+  "category": "politics"
 }, {
   "title": "FOX news",
   "url": "http://www.foxnews.com/xmlfeed/rss/0,4313,0,00.rss",
-  "description": "FOXNews.com - Breaking news and video. Latest Current News: U.S., World, Entertainment, Health, Business, Technology, Politics, Sports."
+  "description": "FOXNews.com - Breaking news and video. Latest Current News: U.S., World, Entertainment, Health, Business, Technology, Politics, Sports.",
+  "category": "politics"
 }, {
   "title": "The Federalist",
   "url": "http://thefederalist.com/feed/",
-  "description": "The Federalist is a web magazine focused on culture, politics, and religion. Be lovers of freedom and anxious for the fray."
+  "description": "The Federalist is a web magazine focused on culture, politics, and religion. Be lovers of freedom and anxious for the fray.",
+  "category": "politics"
 }, {
   "title": "Politics - U.S. Political News, Opinion and Analysis",
   "url": "http://www.huffingtonpost.com/feeds/verticals/politics/index.xml",
-  "description": "The latest news on Donald Trump, Congress, campaigns, elections, policy and everything politics from HuffPost."
+  "description": "The latest news on Donald Trump, Congress, campaigns, elections, policy and everything politics from HuffPost.",
+  "category": "politics"
 }, {
   "title": "RealClearPolitics - Homepage",
   "url": "http://www.realclearpolitics.com/index.xml",
-  "description": "RealClearPolitics (RCP) is an independent, non-partisan media company that is the trusted source for the best news, analysis and commentary."
+  "description": "RealClearPolitics (RCP) is an independent, non-partisan media company that is the trusted source for the best news, analysis and commentary.",
+  "category": "politics"
 }, {
   "title": "FactCheck.org",
   "url": "http://factcheck.org/feed/rss/",
-  "description": "A Project of The Annenberg Public Policy Center"
+  "description": "A Project of The Annenberg Public Policy Center",
+  "category": "politics"
 }, {
   "title": "Slate Magazine",
   "url": "http://feeds.slate.com/slate-101526",
-  "description": "Online magazine of news, politics, technology, and culture. Combines humor and insight in thoughtful analyses of current events and political news."
+  "description": "Online magazine of news, politics, technology, and culture. Combines humor and insight in thoughtful analyses of current events and political news.",
+  "category": "politics"
 }, {
   "title": "The Daily Beast Latest Articles",
   "url": "http://feeds.feedburner.com/thedailybeast/articles",
-  "description": "The Daily Beast Latest Articles"
+  "description": "The Daily Beast Latest Articles",
+  "category": "politics"
 }, {
   "title": "Politifact.com Truth-O-Meter rulings from National",
   "url": "http://www.politifact.com/feeds/statements/truth-o-meter/",
-  "description": "The latest statements PolitiFact.com has reviewed"
+  "description": "The latest statements PolitiFact.com has reviewed",
+  "category": "politics"
 }, {
   "title": "The New Republic",
   "url": "http://www.tnr.com/toc/topstories.rss",
-  "description": "Founded in 1914, The New Republic is a media organization dedicated to addressing today’s most critical issues."
+  "description": "Founded in 1914, The New Republic is a media organization dedicated to addressing today’s most critical issues.",
+  "category": "politics"
 }, {
   "title": "Article – The Nation",
   "url": "http://www.thenation.com/rss/articles",
-  "description": "The Nation is the oldest continuously published weekly magazine in the United States, covering progressive political and cultural news, opinion, and analysis."
+  "description": "The Nation is the oldest continuously published weekly magazine in the United States, covering progressive political and cultural news, opinion, and analysis.",
+  "category": "politics"
 }, {
   "title": "American Thinker",
   "url": "http://feeds.feedburner.com/americanthinker",
-  "description": "American Thinker is a daily internet publication devoted to the thoughtful exploration of issues of importance to Americans."
+  "description": "American Thinker is a daily internet publication devoted to the thoughtful exploration of issues of importance to Americans.",
+  "category": "politics"
 }, {
   "title": "Political Wire",
   "url": "http://politicalwire.com/headlines.xml",
-  "description": "All the political news in one place"
+  "description": "All the political news in one place",
+  "category": "politics"
 }, {
   "title": "Jacobin",
   "url": "http://jacobinmag.com/feed/",
-  "description": "Jacobin is a leading voice of the American left, offering socialist perspectives on politics, economics, and culture."
+  "description": "Jacobin is a leading voice of the American left, offering socialist perspectives on politics, economics, and culture.",
+  "category": "politics"
 }, {
   "title": "Truthdig RSS",
   "url": "http://feeds.feedburner.com/Truthdig",
-  "description": "Truthdig RSS Feed - Dedicated to reporting on current issues that are insufficiently covered by mainstream media. Drilling beneath the headlines, Truthdig provides expert reporting and commentary and offer an outlet for original work by exceptional journalists."
+  "description": "Truthdig RSS Feed - Dedicated to reporting on current issues that are insufficiently covered by mainstream media. Drilling beneath the headlines, Truthdig provides expert reporting and commentary and offer an outlet for original work by exceptional journalists.",
+  "category": "politics"
 }, {
   "title": "Wonkette",
   "url": "http://wonkette.com/feed",
-  "description": "Wonkette"
+  "description": "Wonkette",
+  "category": "politics"
 }, {
   "title": "Daily Kos",
   "url": "http://rss.dailykos.com/dailykos/index.xml",
-  "description": "News Community Action"
+  "description": "News Community Action",
+  "category": "politics"
 }, {
   "title": "Michelle Malkin",
   "url": "http://feeds.feedburner.com/michellemalkin/posts",
-  "description": "This WordPress.com site is the cat’s pajamas"
+  "description": "This WordPress.com site is the cat’s pajamas",
+  "category": "politics"
 }, {
   "title": "Crooked Media",
   "url": "https://crooked.com/feed/",
-  "description": "We need a better conversation about politics in this country. That’s why we launched Crooked Media ."
+  "description": "We need a better conversation about politics in this country. That’s why we launched Crooked Media .",
+  "category": "politics"
 }, {
   "title": "Latest – Reason.com",
   "url": "http://www.reason.com/news/index.xml",
-  "description": "Free Minds and Free Markets"
+  "description": "Free Minds and Free Markets",
+  "category": "politics"
 }, {
   "title": "News - Esquire",
   "url": "http://www.esquire.com/blogs/politics/politics-rss/",
-  "description": "Esquire is your destination for the latest news headlines, political developments, celebrity interviews, mens fashion advice, and food & drink recipes."
+  "description": "Esquire is your destination for the latest news headlines, political developments, celebrity interviews, mens fashion advice, and food & drink recipes.",
+  "category": "politics"
 }, {
   "title": "Raw Story",
   "url": "http://www.rawstory.com/rs/feed/",
-  "description": "Celebrating 16 Years of Independent Journalism"
+  "description": "Celebrating 16 Years of Independent Journalism",
+  "category": "politics"
 }, {
   "title": "The Daily Signal",
   "url": "http://blog.heritage.org/feed/",
-  "description": "The Daily Signal is the multimedia news organization of The Heritage Foundation covering policy and political news, conservative commentary and analysis."
+  "description": "The Daily Signal is the multimedia news organization of The Heritage Foundation covering policy and political news, conservative commentary and analysis.",
+  "category": "politics"
 }, {
   "title": "Hotair",
   "url": "http://feeds.feedburner.com/hotair/main",
-  "description": "The world’s first, full-service conservative Internet broadcast network"
+  "description": "The world’s first, full-service conservative Internet broadcast network",
+  "category": "politics"
 }, {
   "title": "The Daily Caller",
   "url": "http://dailycaller.com/feed/",
-  "description": "The Daily Caller features breaking news, opinion, research, and entertainment 24 hours a day."
+  "description": "The Daily Caller features breaking news, opinion, research, and entertainment 24 hours a day.",
+  "category": "politics"
 }, {
   "title": "Power LinePower Line",
   "url": "http://feeds.powerlineblog.com/powerlineblog/livefeed",
-  "description": "Powerline feed"
+  "description": "Powerline feed",
+  "category": "politics"
 }, {
   "title": "Instapundit",
   "url": "http://pajamasmedia.com/instapundit/feed/",
-  "description": ""
+  "description": "",
+  "category": "politics"
 }, {
   "title": "Redstate",
   "url": "http://www.redstate.com/feed/",
-  "description": "Where the VRWC Collaborates Online"
+  "description": "Where the VRWC Collaborates Online",
+  "category": "politics"
 }, {
   "title": "Hullabaloo by digby",
   "url": "http://feeds.feedburner.com/Hullabaloo",
-  "description": "DFH/blogger/humanoid writer for @Salon"
+  "description": "DFH/blogger/humanoid writer for @Salon",
+  "category": "politics"
 }, {
   "title": "Eschaton",
   "url": "http://feeds.feedburner.com/blogspot/bRuz",
-  "description": "robot feed for Eschaton the blog"
+  "description": "robot feed for Eschaton the blog",
+  "category": "politics"
 }, {
   "title": "The American Conservative",
   "url": "http://www.theamericanconservative.com/feed/",
-  "description": "The American Conservative exists to promote a “Main Street” conservatism that opposes unchecked power in government and business; promotes the flourishing"
+  "description": "The American Conservative exists to promote a “Main Street” conservatism that opposes unchecked power in government and business; promotes the flourishing",
+  "category": "politics"
 }, {
   "title": "The Week",
   "url": "http://theweek.com/home.rss",
-  "description": "Political News and Cartoons, Current Events and Entertainment Online"
+  "description": "Political News and Cartoons, Current Events and Entertainment Online",
+  "category": "politics"
 }, {
   "title": "Politics : NPR",
   "url": "http://www.npr.org/rss/rss.php?id=1014",
-  "description": "NPR's expanded coverage of U.S. and world politics, the latest news from Congress and the White House, and elections."
+  "description": "NPR's expanded coverage of U.S. and world politics, the latest news from Congress and the White House, and elections.",
+  "category": "politics"
 }]
