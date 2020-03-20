@@ -128,7 +128,7 @@ class AccountCredentialsForm extends React.Component {
   }
 
   render = () => {
-    const { isActive, service, unsetBackend, user } = this.props
+    const { isActive, service, setBackend, unsetBackend, user } = this.props
     const serviceDisplay = service === 'basic' ?
       'Rizzle Basic' :
       service[0].toUpperCase() + service.slice(1)
@@ -195,7 +195,7 @@ class AccountCredentialsForm extends React.Component {
                 <TouchableOpacity
                   accessibilityLabel={`Stop using ${serviceDisplay}`}
                   color={hslString('white')}
-                  onPress={unsetBackend}
+                  onPress={() => setBackend('basic')}
                   style={{
                     marginTop: 16
                   }}
