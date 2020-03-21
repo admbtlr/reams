@@ -188,7 +188,10 @@ class FeedItem extends React.Component {
     // if (/*__DEV__ ||*/ !this.props.item.styles) {
     //   this.props.item.styles = createItemStyles(this.props.item)
     // }
-    const { item } = this.props
+    const { 
+      item,
+      showMercuryContent 
+    } = this.props
     let {
       feed_title,
       url,
@@ -246,7 +249,7 @@ class FeedItem extends React.Component {
     // not sure how this can happen...
     content_html = content_html || ''
 
-    let body = this.props.showMercuryContent ? content_mercury : content_html
+    let body = showMercuryContent ? content_mercury : content_html
     body = body || ''
     body = this.stripInlineStyles(body)
     body = this.stripEmptyTags(body)
