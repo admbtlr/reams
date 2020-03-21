@@ -187,25 +187,28 @@ class AccountCredentialsForm extends React.Component {
                     marginTop: 0,
                     textAlign: 'center'
                   }}>You are using {serviceDisplay}.</Text>
-                { service === 'basic' ||
-                  <Text style={textInfoStyle('white')}>
-                    <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
-                  </Text>
-                }        
-                <TouchableOpacity
-                  accessibilityLabel={`Stop using ${serviceDisplay}`}
-                  color={hslString('white')}
-                  onPress={() => setBackend('basic')}
-                  style={{
-                    marginTop: 16
-                  }}
-                  testID={`${service}-logout-button`}
-                >
-                  <Text style={{
-                    ...textInfoStyle('white'),
-                    textDecorationLine: 'underline'
-                  }}>Stop using {serviceDisplay}</Text>
-                </TouchableOpacity>
+                { service === 'basic' ?
+                  <View style={{ height: 32 }} /> :
+                  <React.Fragment>
+                    <Text style={textInfoStyle('white')}>
+                      <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
+                    </Text>
+                    <TouchableOpacity
+                      accessibilityLabel={`Stop using ${serviceDisplay}`}
+                      color={hslString('white')}
+                      onPress={() => setBackend('basic')}
+                      style={{
+                        marginTop: 16
+                      }}
+                      testID={`${service}-logout-button`}
+                    >
+                      <Text style={{
+                        ...textInfoStyle('white'),
+                        textDecorationLine: 'underline'
+                      }}>Stop using {serviceDisplay}</Text>
+                    </TouchableOpacity>
+                  </React.Fragment>
+              }
               </View> :
               ( service === 'rizzle' ?
                 <RizzleAuth

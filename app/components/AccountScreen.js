@@ -135,6 +135,7 @@ class AccountScreen extends React.Component {
                   backend={backend}
                   isActive={ backend === 'basic' }
                   service='basic'
+                  setBackend={this.props.setBackend}
                   setSignInEmail={this.props.setSignInEmail}
                   unsetBackend={this.props.unsetBackend}
                   user={this.props.user}
