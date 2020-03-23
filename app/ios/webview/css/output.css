@@ -240,6 +240,9 @@ body {
     -webkit-hyphens: none; }
     .itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type, .itemArticle aside > p:last-of-type {
       margin-bottom: 0; }
+    @media (min-width: 600px) {
+      .itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
+        width: 100%; } }
   .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
     color: white;
     background-color: transparent;
