@@ -508,6 +508,13 @@ body {
     & > p:last-of-type {
       margin-bottom: 0;
     }
+
+    @media (min-width: 600px) {
+      & {
+        width: 100%;
+      }
+    }
+
   }
 
   blockquote.short-blockquote, .pullquote, aside {

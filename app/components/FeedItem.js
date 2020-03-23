@@ -38,6 +38,7 @@ class FeedItem extends React.Component {
     this.setFadeInFunction = this.setFadeInFunction.bind(this)
 
     this.screenDimensions = Dimensions.get('window')
+    this.hasWebViewResized = false
 
     // use this to that we can call startTimer() from SwipeableViews
     // (not great, but OK)
@@ -156,7 +157,7 @@ class FeedItem extends React.Component {
     const that = this
     const item = that.props.item
     setTimeout(() => {
-      if (!that.scrollView) return
+      if (!that.scrollView || !that.hasWebViewResized) return
       if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
       const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
       if (!scrollRatio) return
@@ -193,8 +194,6 @@ class FeedItem extends React.Component {
       showMercuryContent 
     } = this.props
     let {
-      feed_title,
-      url,
       title,
       author,
       banner_image,
@@ -232,7 +231,7 @@ class FeedItem extends React.Component {
       : 'scrolling'
     const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
-    const height = this.screenDimensions.height
+    const minHeight = this.state.webViewHeight
     let server = ''
     if (__DEV__) {
       server = 'http://localhost:8888/'
@@ -280,7 +279,7 @@ class FeedItem extends React.Component {
   <body class="${visibleClass} ${scrollingClass} ${blockquoteClass} ${this.props.displayMode}" data-cover="${data}">
     <article
       class="${articleClasses}"
-      style="min-height: ${height}px; width: 100vw;">
+      style="min-height: ${minHeight}px; width: 100vw;">
       ${body}
     </article>
   </body>
@@ -358,6 +357,7 @@ class FeedItem extends React.Component {
             showCoverImage={showCoverImage}
             coverImageStyles={styles.coverImage}
             setFadeInFunction={this.setFadeInFunction}
+            layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
           <WebView
             allowsFullscreenVideo={true}
@@ -398,6 +398,13 @@ class FeedItem extends React.Component {
         </Animated.ScrollView>
       </Animated.View>
     )
+  }
+
+  setWebViewStartY (y) {
+    console.log(`WebView starts at ${y}`)
+    this.setState({
+      webViewHeight: y
+    })
   }
 
   passScrollPositionToWebView (position) {
@@ -491,6 +498,7 @@ class FeedItem extends React.Component {
           })
           that.scrollToOffset()
           that.pendingWebViewHeightId = null
+          that.hasWebViewResized = true
         }, 500)
       }
     }

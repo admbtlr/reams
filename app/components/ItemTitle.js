@@ -438,12 +438,6 @@ class ItemTitle extends React.Component {
   }
 
   getWidthPercentage () {
-    // let {showCoverImage, coverImageStyles} = this.props
-    // if (showCoverImage && !coverImageStyles.isInline) {
-    //   return this.screenWidth > 700 ? 66 : 100
-    // } else {
-    //   return 100
-    // }
     return this.screenWidth > 700 ? 80 : 100
   }
 
@@ -476,8 +470,14 @@ class ItemTitle extends React.Component {
     }
   }
 
+  // called by outerView to set the bottom y of the title
+  onLayout (bottomY) {
+    console.log('ItemTitle onLayout bottom y: ' + bottomY)
+    this.props.layoutListener && this.props.layoutListener(bottomY)
+  }
+
   render () {
-    let {styles, title, date, showCoverImage, coverImageStyles} = this.props
+    let {styles, showCoverImage, coverImageStyles} = this.props
 
     // this means the item hasn't been inflated from Firebase yet
     if (!styles) return null
@@ -507,8 +507,7 @@ class ItemTitle extends React.Component {
       titleAnimation,
       excerptAnimation,
       authorAnimation,
-      barAnimation,
-      shadow
+      barAnimation
     } = this.getAnimationValues()
 
     const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
@@ -617,13 +616,9 @@ class ItemTitle extends React.Component {
     const outerViewStyle = {
       width: this.screenWidth,
       height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight/* * 1.2*/,
-      // height: 'auto',
-      // position: 'absolute',
-      // paddingTop: coverImageStyles.isInline ? 0 : outerPadding.paddingTop,
       paddingTop: coverImageStyles.isInline ? 0 : getTopBarHeight(),
-      // paddingTop: 100,
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
-      marginTop: (!this.props.showCoverImage) ? 0 : 0,
+      marginTop: 0,
       marginBottom: 0,
       top: 0,
       left: 0,
@@ -770,11 +765,16 @@ class ItemTitle extends React.Component {
     const authorView = this.renderAuthor(authorAnimation)
 
     return (
-      <Animated.View style={{
-        ...outerViewStyle,
-        justifyContent: showCoverImage ? justifiers[styles.valign] : 'flex-start',
-        alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start'
-      }}>
+      <Animated.View 
+        onLayout={event => this.onLayout(event.nativeEvent.layout.height +
+          event.nativeEvent.layout.y)}
+        ref={(view) => { this.outerView = view }}
+        style={{
+          ...outerViewStyle,
+          justifyContent: showCoverImage ? justifiers[styles.valign] : 'flex-start',
+          alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start'
+        }}
+      >
         <Animated.View
           style={{
             ...innerViewStyle,
