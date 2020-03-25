@@ -284,6 +284,7 @@ body {
     padding: 0;
     line-height: 1em;
     -webkit-hyphens: none;
+    hyphens: none;
   }
 
   // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
@@ -333,6 +334,7 @@ body {
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
+  hyphens: auto;
   -webkit-text-size-adjust:none;
 
   p, center {
@@ -459,7 +461,7 @@ body {
     & > figure:first-child,
     & > img:first-child:not(.img-small),
     & > iframe:first-child,
-    & > p:first-child > iframe:first-child, {
+    & > p:first-child > iframe:first-child {
       position: relative;
       top: -2rem;
       margin-top: 0;
@@ -501,6 +503,7 @@ body {
     display: block;
     position: relative;
     -webkit-hyphens: none;
+    hyphens: none;
 
     & > p:last-of-type {
       margin-bottom: 0;
@@ -617,7 +620,7 @@ body {
   }
 
   // breaks between sections
-  & > div + div:not(:first-of-type) {
+  // & > div + div:not(:first-of-type) {
 
     // &:before {
     //   content: '';
@@ -646,7 +649,7 @@ body {
     // & > p:first-of-type {
     //   margin-top: $step * 4
     // }
-  }
+  // }
 
   ul, ol {
     list-style-type: none;
@@ -1140,12 +1143,6 @@ hr {
     em strong, strong em {
       font-family: "PlayfairDisplay-Bold";
     }
-  }
-}
-
-.itemArticle {
-  a, a:active, a:visited {
-    /*text-decoration: none;*/
   }
 }
 
