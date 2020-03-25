@@ -36,11 +36,17 @@ const getBufferedItems  = (items, index, displayMode, feeds) => {
     JSON.stringify(bufferedItems.map(item => item._id))) {
     bufferedItems = buffered
   }
-  return displayMode === ItemType.saved ? bufferedItems : 
-    bufferedItems.map(bi => ({
-      ...bi,
-      isFeedMercury: feeds && feeds.length > 0 && feeds.find(f => f._id === bi.feed_id).isMercury
-    }))
+  if (displayMode === ItemType.saved) {
+    return bufferedItems
+  } else {
+    return bufferedItems.map(bi => {
+      const feed = feeds && feeds.length > 0 && feeds.find(f => f._id === bi.feed_id)
+      return {
+        ...bi,
+        isFeedMercury: feed && feed.isMercury
+      }
+    })
+  }
 }
 
 class ItemCarousel extends React.Component {

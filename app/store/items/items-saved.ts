@@ -1,4 +1,5 @@
 import {
+  SET_BACKEND,
   UNSET_BACKEND,
   ConfigActionTypes 
 } from '../config/types'
@@ -67,6 +68,7 @@ export function itemsSaved (
   let carouselled: { index : number, items : Item[] }
 
   switch (action.type) {
+    case SET_BACKEND:
     case UNSET_BACKEND:
       return initialState
 

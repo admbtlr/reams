@@ -13,7 +13,7 @@ import {
   SET_CACHED_FEED_ICON,
   UPDATE_FEED
 } from '../store/feeds/types'
-import { addFeed, fetchFeeds, getFeedDetails, hasBackend, removeFeed, updateFeed } from '../backends'
+import { addFeed, fetchFeeds, getFeedDetails, isRizzleBasic, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../utils'
 import { hexToHsl, rgbToHsl } from '../utils/colors'
 import feeds from '../utils/seedfeeds.js'
@@ -49,7 +49,7 @@ export function * unsubscribeFromFeed (action) {
 
 export function * fetchAllFeeds () {
   const config = yield select(getConfig)
-  if (!config.isOnline || !hasBackend()) return
+  if (!config.isOnline || isRizzleBasic()) return []
 
   let oldFeeds = yield select(getFeeds) || []
   let newFeeds = yield fetchFeeds()

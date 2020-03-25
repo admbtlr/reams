@@ -33,7 +33,7 @@ import {
 } from '../store/ui/types'
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
-import { markLastItemRead, clearReadItems, filterItemsForFirestoreRead } from './mark-read'
+import { markLastItemRead, clearReadItems, filterItemsForRead } from './mark-read'
 import { pruneItems, removeItems, removeAllItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
@@ -98,7 +98,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(FETCH_ITEMS, fetchAllItems)
   yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)
-  yield takeEvery(RECEIVED_REMOTE_READ_ITEMS, filterItemsForFirestoreRead)
+  yield takeEvery(RECEIVED_REMOTE_READ_ITEMS, filterItemsForRead)
   yield takeEvery(UPDATE_CURRENT_INDEX, markLastItemRead)
   yield takeEvery(REMOVE_ITEMS, removeItems)
   yield takeEvery(SAVE_EXTERNAL_URL, saveExternalUrl)
