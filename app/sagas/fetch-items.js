@@ -11,17 +11,9 @@ import {
   UPDATE_FEEDS
 } from '../store/feeds/types'
 import {
-  fetchItems as fetchItemsBackends,
-  hasBackend
+  fetchItems as fetchItemsBackends
 } from '../backends'
-import {
-  addUnreadItemsToFirestore,
-  upsertFeedsFS,
-  incrementUnreadCountFS,
-  updateFeedsFS
-} from '../storage/firestore'
-import { clearItemsAS, setItemsAS } from '../storage/async-storage'
-import { mergeItems } from '../utils/merge-items.js'
+import { setItemsAS } from '../storage/async-storage'
 import { getFeedColor, id } from '../utils'
 import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,
@@ -50,7 +42,7 @@ let feeds
 
 export function * fetchAllItems (includeSaved = true) {
   const config = yield select(getConfig)
-  if (!config.isOnline || !hasBackend()) return
+  if (!config.isOnline/* || !hasBackend()*/) return
 
   yield put({
     type: 'ITEMS_IS_LOADING',

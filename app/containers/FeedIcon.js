@@ -27,7 +27,7 @@ const mapStateToProps = (state, ownProps) => {
     feed,
     hasRenderedIcon: feedLocal && feedLocal.hasRenderedIcon,
     hasCachedIcon: feedLocal && feedLocal.hasCachedIcon,
-    shouldInvert: feedsWithInvertedIcons.indexOf(feed.title) !== -1
+    shouldInvert: feed && feedsWithInvertedIcons.indexOf(feed.title) !== -1
   }
 }
 

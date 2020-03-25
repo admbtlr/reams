@@ -128,9 +128,10 @@ class AccountCredentialsForm extends React.Component {
   }
 
   render = () => {
-    const { isActive, service, unsetBackend, user } = this.props
-    const { isErrored, isAuthenticated } = this.state
-    const width = Dimensions.get('window').width
+    const { isActive, service, setBackend, unsetBackend, user } = this.props
+    const serviceDisplay = service === 'basic' ?
+      'Rizzle Basic' :
+      service[0].toUpperCase() + service.slice(1)
     const initialValues = this.props.service === 'rizzle' ?
       {
         email: this.state.email
@@ -185,23 +186,29 @@ class AccountCredentialsForm extends React.Component {
                     ...textInfoItalicStyle('white'),
                     marginTop: 0,
                     textAlign: 'center'
-                  }}>You are using {service[0].toUpperCase() + service.slice(1)}.</Text>
-                <Text style={textInfoStyle('white')}>
-                  <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}</Text>
-                <TouchableOpacity
-                  accessibilityLabel={`Stop using ${service[0].toUpperCase() + service.slice(1)}`}
-                  color={hslString('white')}
-                  onPress={unsetBackend}
-                  style={{
-                    marginTop: 16
-                  }}
-                  testID={`${service}-logout-button`}
-                >
-                  <Text style={{
-                    ...textInfoStyle('white'),
-                    textDecorationLine: 'underline'
-                  }}>Stop using {service[0].toUpperCase() + service.slice(1)}</Text>
-                </TouchableOpacity>
+                  }}>You are using {serviceDisplay}.</Text>
+                { service === 'basic' ?
+                  <View style={{ height: 32 }} /> :
+                  <React.Fragment>
+                    <Text style={textInfoStyle('white')}>
+                      <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
+                    </Text>
+                    <TouchableOpacity
+                      accessibilityLabel={`Stop using ${serviceDisplay}`}
+                      color={hslString('white')}
+                      onPress={() => setBackend('basic')}
+                      style={{
+                        marginTop: 16
+                      }}
+                      testID={`${service}-logout-button`}
+                    >
+                      <Text style={{
+                        ...textInfoStyle('white'),
+                        textDecorationLine: 'underline'
+                      }}>Stop using {serviceDisplay}</Text>
+                    </TouchableOpacity>
+                  </React.Fragment>
+              }
               </View> :
               ( service === 'rizzle' ?
                 <RizzleAuth

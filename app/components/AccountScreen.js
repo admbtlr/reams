@@ -72,10 +72,6 @@ class AccountScreen extends React.Component {
       marginTop: 0,
       marginBottom: 0
     }
-    const backendName = {
-      rizzle: 'Rizzle',
-      feedwrangler: 'Feedwrangler'
-    }[backend] || ''
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={{
@@ -128,17 +124,18 @@ class AccountScreen extends React.Component {
                   width: buttonWidth 
                 }}
                 iconBg={true}
-                iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'rizzle' ? 'logo1' : 'white')) }
-                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'rizzle' ? 'logo1' : 'white')) }
+                iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'white')) }
+                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'white')) }
                 isExpandable={true}
-                isExpanded={backend === 'rizzle' || expandedBackend === 'rizzle'}
-                isInverted={ backend === 'rizzle' }
-                onExpand={() => this.setExpandedBackend('rizzle')}
-                fgColor={ backend === 'rizzle' && hslString('logo1') }
+                isExpanded={backend === 'basic' || expandedBackend === 'basic'}
+                isInverted={ backend === 'basic' }
+                onExpand={() => this.setExpandedBackend('basic')}
+                fgColor={ backend === 'basic' && hslString('logo1') }
                 renderExpandedView={() => <AccountCredentialsForm
                   backend={backend}
-                  isActive={ backend === 'rizzle' }
-                  service='rizzle'
+                  isActive={ backend === 'basic' }
+                  service='basic'
+                  setBackend={this.props.setBackend}
                   setSignInEmail={this.props.setSignInEmail}
                   unsetBackend={this.props.unsetBackend}
                   user={this.props.user}

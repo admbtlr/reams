@@ -15,10 +15,11 @@ let backend
 let backends = {
   feedbin,
   feedwrangler,
-  rizzle
+  basic: rizzle,
+  plus: rizzle
 }
 
-export function setBackend (bcknd, config) {
+export function setBackend (bcknd, config = {}) {
   backend = bcknd
   backends[backend].init(config)
   SharedGroupPreferences.setItem('backend', backend, group)
@@ -28,8 +29,8 @@ export function unsetBackend () {
   backend = undefined
 }
 
-export function hasBackend () {
-  return !!backend
+export function isRizzleBasic () {
+  return backend === 'basic'
 }
 
 export async function loadMercuryStuff (item) {
@@ -64,12 +65,14 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) 
   // { readItems, newItems }
   let items
 
-  if (backend === 'rizzle') {
-    items = await rizzle.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
-  } else if (backend === 'feedwrangler') {
-    items = await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
-  } else if (backend === 'feedbin') {
-    items = await feedbin.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
+  switch (backend) {
+    case 'basic':
+    case 'plus':
+      return await rizzle.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
+    case 'feedwrangler':
+      return await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
+    case 'feedbin':
+      return await feedbin.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
   }
 
   console.log('fetchItemsBackends has ended')
@@ -92,7 +95,8 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) 
 
 export function fetchUnreadIds () {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       return
     case 'feedwrangler':
       return feedwrangler.fetchUnreadIds()
@@ -101,7 +105,8 @@ export function fetchUnreadIds () {
 
 export async function markItemRead (item) {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       return rizzle.markItemRead(item)
     case 'feedwrangler':
       return feedwrangler.markItemRead(item)
@@ -112,7 +117,8 @@ export async function markItemRead (item) {
 
 export async function markItemsRead (items, feedId = null, olderThan = null) {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       return rizzle.markItemsRead(items)
     case 'feedwrangler':
       if (feedId) {
@@ -127,7 +133,8 @@ export async function markItemsRead (items, feedId = null, olderThan = null) {
 
 export async function saveItem (item, folder) {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       await rizzle.saveItem(item, folder)
       break
     case 'feedbin':
@@ -142,7 +149,8 @@ export async function saveItem (item, folder) {
 
 export async function unsaveItem (item, folder) {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       await rizzle.unsaveItem(item, folder)
       break
     case 'feedwrangler':
@@ -151,6 +159,16 @@ export async function unsaveItem (item, folder) {
   }
   return item
 }
+
+export async function saveExternalItem (item, folder) {
+  switch (backend) {
+    case 'basic':
+    case 'plus':
+      await rizzle.saveExternalItem(item, folder)
+      break
+  }
+}
+
 
 // export function markFeedRead (feed, olderThan, items) {
 //   switch (backend) {
@@ -163,7 +181,8 @@ export async function unsaveItem (item, folder) {
 
 export function fetchFeeds () {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       return rizzle.fetchFeeds()
     case 'feedwrangler':
       return feedwrangler.fetchFeeds()
@@ -175,7 +194,8 @@ export function fetchFeeds () {
 export async function addFeed (feed) {
   let id
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       return rizzle.addFeed(feed)
     case 'feedwrangler':
       id = await feedwrangler.addFeed(feed)
@@ -190,14 +210,16 @@ export async function addFeed (feed) {
 
 export function updateFeed (feed) {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       return rizzle.updateFeed(feed)
   }
 }
 
 export function removeFeed (feed) {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       return rizzle.removeFeed(feed)
     case 'feedwrangler':
       return feedwrangler.removeFeed(feed)
@@ -216,7 +238,8 @@ export async function getFeedDetails (feed) {
 
 export function authenticate ({username, password, email}, backend) {
   switch (backend) {
-    case 'rizzle':
+    case 'basic':
+    case 'plus':
       return
     case 'feedbin':
       return feedbin.authenticate(username, password)

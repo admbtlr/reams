@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import {REHYDRATE} from 'redux-persist'
 import {
+  SET_BACKEND,
   UNSET_BACKEND,
   ConfigActionTypes 
 } from '../config/types'
@@ -231,6 +232,7 @@ export function itemsUnread (
           map(i => i._id).includes(i._id))
       }
 
+    case SET_BACKEND:
     case UNSET_BACKEND:
       return initialState
 

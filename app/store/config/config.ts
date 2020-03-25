@@ -32,7 +32,7 @@ export interface ConfigState {
 }
 
 const initialState = {
-  backend: '',
+  backend: 'basic',
   accessToken: '',
   isFirstTime: true,
   isOnboarding: true,
