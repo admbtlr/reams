@@ -293,10 +293,11 @@ export const markFeedRead = (feed, olderThan) => {
     })
 }
 
-export const addFeed = (feedUrl) => {
-  let url = 'https://feedwrangler.net/api/v2/subscriptions/add_feed?'
+// returns id
+export const addFeed = (feed) => {
+  let url = 'https://feedwrangler.net/api/v2/subscriptions/add_feed_and_wait?'
   url += 'access_token=' + feedWranglerAccessToken
-  url += '&feed_url=' + feedUrl
+  url += '&feed_url=' + feed.url
   return fetch(url)
     .then((response) => {
       if (!response.ok) {
@@ -307,6 +308,7 @@ export const addFeed = (feedUrl) => {
     .then((response) => response.json())
     .then(json => {
       console.log(json)
+      return json.feed.feed_id
     })
     .catch(e => {
       log('Error at addFeed: ' + e)

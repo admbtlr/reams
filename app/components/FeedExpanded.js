@@ -59,6 +59,9 @@ class FeedExpanded extends React.Component {
       feed,
       isFeedOnboardingDone
     } = this.props
+
+    if (!feed) return null
+
     const { iconDimensions } = feed
 
     // just don't show favicons

@@ -165,7 +165,8 @@ export const unsaveItem = (item, folder) => {
 }
 
 export async function addFeed (feed) {
-  addFeedFS(feed)
+  await addFeedFS(feed)
+  return feed
 }
 
 export async function updateFeed (feed) {

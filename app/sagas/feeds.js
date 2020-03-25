@@ -26,8 +26,8 @@ function * prepareAndAddFeed (feed) {
   if (feeds.find(f => (f.url && f.url === feed.url) ||
     (f._id && f._id === feed._id))) return
   feed._id = feed._id || id()
-  feed.color = getFeedColor()
-  yield addFeed(feed)
+  feed.color = feed.color || getFeedColor()
+  feed = yield addFeed(feed)
   return feed
 }
 
@@ -108,17 +108,27 @@ export function * markFeedRead (action) {
 }
 
 export function * inflateFeeds () {
+  let inflatedFeed
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
+    let inflatedFeed
     yield delay((typeof __TEST__ === 'undefined') ? 500 : 10)
-    if (feed.inflatedDate && Date.now() - feed.inflatedDate < 1000 * 60 * 60 * 24 * 7) continue
-    let details = yield call(getFeedDetails, feed)
-    details = convertColorIfNecessary(details)
-    const inflatedFeed = {
-      ...feed,
-      ...details,
-      inflatedDate: Date.now()
+    if (feed.inflatedDate && Date.now() - feed.inflatedDate < 1000 * 60 * 60 * 24 * 7) {
+      inflatedFeed = feed
+    } else if (!feed.favicon) {
+      let details = yield call(getFeedDetails, feed)
+      inflatedFeed = {
+        ...feed,
+        ...details,
+        inflatedDate: Date.now()
+      }
+    } else {
+      inflatedFeed = {
+        ...feed,
+        inflatedDate: Date.now()
+      }
     }
+    inflatedFeed = convertColorIfNecessary(inflatedFeed)
     yield call(InteractionManager.runAfterInteractions)
     yield put({
       type: UPDATE_FEED,
@@ -129,16 +139,16 @@ export function * inflateFeeds () {
   yield cacheFeedFavicons()
 }
 
-function convertColorIfNecessary (details) {
+function convertColorIfNecessary (feed) {
   let color
-  if (details.color && details.color.indexOf('#') === 0 && details.color.length === 7) {
-    color = hexToHsl(details.color.substring(1))
-  } else if (details.color && details.color.indexOf('rgb') === 0) {
-    let rgb = details.color.substring(4, details.color.length - 1).split(',')
+  if (feed.color && feed.color.indexOf('#') === 0 && feed.color.length === 7) {
+    color = hexToHsl(feed.color.substring(1))
+  } else if (feed.color && feed.color.indexOf('rgb') === 0) {
+    let rgb = feed.color.substring(4, feed.color.length - 1).split(',')
       .map(l => l.trim())
     color = rgbToHsl(Number.parseInt(rgb[0], 10), Number.parseInt(rgb[1], 10), Number.parseInt(rgb[2], 10))
-  } else if (typeof details.color === 'object' && details.color.length === 3) {
-    color = details.color
+  } else if (typeof feed.color === 'object' && feed.color.length === 3) {
+    color = [ ...feed.color ]
   } else {
     color = [Math.round(Math.random() * 360), 50, 30]
   }
@@ -149,8 +159,8 @@ function convertColorIfNecessary (details) {
     color[2] = Math.round(30 + (color[2] - 30) / 2)
   }
   return {
-    ...details,
-    color: color || details.color
+    ...feed,
+    color: color || feed.color
   }
 }
 
@@ -218,7 +228,7 @@ function downloadFeedFavicon (feed) {
 export function * subscribeToFeeds (action) {
   let feeds = []
   for (var i = 0; i < action.feeds.length; i++) {
-    let f = yield prepareAndAddFeed(feeds[i])
+    let f = yield prepareAndAddFeed(action.feeds[i])
     if (f) feeds.push(f)
   }
   yield put({

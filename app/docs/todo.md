@@ -4,6 +4,7 @@
   - what does that involve?
   - no firestore? so what about read stories?
   - do we even need to keep track of read stories with rizzle basic?
+- mercury state doesn't get updated for visible stories
 - deal with feed.number_unread problems
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html

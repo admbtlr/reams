@@ -42,11 +42,44 @@ const margin = screenWidth * 0.05
 
 const buttonAnim = new Animated.Value(margin * 4)
 
-const culture = feeds.filter(f => f.category === 'culture')
-const technology = feeds.filter(f => f.category === 'technology')
+const art = {
+  title: 'Art',
+  feeds: feeds.filter(f => f.category === 'art')
+}
+const business = {
+  title: 'Business',
+  name: 'business',
+  feeds: feeds.filter(f => f.category === 'business')
+}
+const culture = {
+  title: 'Culture',
+  name: 'culture',
+  feeds: feeds.filter(f => f.category === 'culture')
+}
+const design = {
+  title: 'Design',
+  name: 'design',
+  feeds: feeds.filter(f => f.category === 'design')
+}
+const future = {
+  title: 'Future',
+  name: 'future',
+  feeds: feeds.filter(f => f.category === 'future')
+}
+const politics = {
+  title: 'Politics',
+  name: 'politics',
+  feeds: feeds.filter(f => f.category === 'politics')
+}
+const technology = {
+  title: 'Technology',
+  name: 'technology',
+  feeds: feeds.filter(f => f.category === 'technology')
+}
 
 export default function NewFeedsList (props) {
   const [selectedFeeds, setFeeds] = useState([])
+  const [expandedFeedSets, setExpandedFeedSets] = useState([])
   const dispatch = useDispatch()
 
   const toggleFeedSelected = (feed, isSelected) => {
@@ -59,21 +92,40 @@ export default function NewFeedsList (props) {
     }
   }
 
-  useEffect(() => {
-    if (selectedFeeds.length > 0) {
-      Animated.spring(buttonAnim, {
-        toValue: 0,
-        duration: 300,
-        useNative: true
-      }).start()
+  const toggleExpandedFeedSet = (feedSetName) => {
+    let feedSets = [ ...expandedFeedSets ]
+    if (feedSets.indexOf(feedSetName) !== -1) {
+      feedSets = feedSets.filter(fs => fs !== feedSetName)
     } else {
-      Animated.spring(buttonAnim, {
-        toValue: margin * 4,
-        duration: 300,
-        useNative: true
-      }).start()
+      feedSets.push(feedSetName)        
     }
-  })
+    return setExpandedFeedSets(feedSets)
+  }
+
+  const addFeeds = () => {
+    console.log(selectedFeeds)
+    dispatch({
+      type: ADD_FEEDS,
+      feeds: selectedFeeds
+    })
+    props.close()
+  }
+
+  // useEffect(() => {
+  //   if (selectedFeeds.length > 0) {
+  //     Animated.spring(buttonAnim, {
+  //       toValue: 0,
+  //       duration: 300,
+  //       useNative: true
+  //     }).start()
+  //   } else {
+  //     Animated.spring(buttonAnim, {
+  //       toValue: margin * 4,
+  //       duration: 300,
+  //       useNative: true
+  //     }).start()
+  //   }
+  // })
 
   const hashtag = <Svg
     width='32'
@@ -123,35 +175,48 @@ export default function NewFeedsList (props) {
           />
           <Text style={{
             ...textStyles(),
-            ...boldStyles
+            ...boldStyles,
+            marginBottom: 32
           }}>1. Use the Rizzle Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Rizzle icon.</Text>
           <Text style={{
             ...textStyles(),
             ...boldStyles,
             marginBottom: 36
           }}>2. Select your favourite topics to find more sites to add:</Text>
-            <View>
+          {
+            [
+              technology,
+              politics, 
+              culture, 
+              art, 
+              business, 
+              design, 
+              future
+            ].map((feedSet, i) => <View key={`feedSet-${i}`}>
               <TextButton
                 buttonStyle={{ marginBottom: 36 }}
                 iconBg={true}
                 iconCollapsed={hashtag}
                 iconExpanded={hashtag}
-                text='Technology'
+                key={feedSet.name}
+                name={feedSet.name}
+                text={feedSet.title}
                 isExpandable={true}
-                isExpanded={true}
-                renderExpandedView={() => <FeedList feeds={technology} />} />
-            </View>
-            <View>
-              <TextButton
-                buttonStyle={{ marginBottom: 36 }}
-                iconBg={true}
-                iconCollapsed={hashtag}
-                iconExpanded={hashtag}
-                text='Culture'
-                isExpandable={true}
-                isExpanded={true}
-                renderExpandedView={() => <FeedList feeds={culture} />} />
-            </View>
+                isExpanded={expandedFeedSets.indexOf(feedSet.name) !== -1}
+                isGroup={true}
+                onExpand={() => toggleExpandedFeedSet(feedSet.name)}
+                renderExpandedView={() => <FeedList 
+                  feeds={feedSet.feeds}
+                  toggleFeedSelected={toggleFeedSelected}
+                />} />
+            </View>)
+          }
+          <TextButton
+            isDisabled={ selectedFeeds.length === 0 }
+            isInverted={true}
+            onPress={addFeeds}
+            text={`Add ${selectedFeeds.length > 0 ? selectedFeeds.length : ''} site${selectedFeeds.length !== 1 ? 's' : ''} to my feed`}
+          />
         </View>
       </ScrollView>
       <Animated.View style={{
@@ -183,13 +248,17 @@ export default function NewFeedsList (props) {
   )
 }
 
-const FeedList = ({feeds}) => {
+const FeedList = ({feeds, toggleFeedSelected}) => {
   return (
   <View style={{
     marginTop: 16,
-    paddingTop: 16
+    paddingTop: 0
   }}>
-    { feeds.map((feed, index) => <FeedToggle feed={feed}/>)}
+    { feeds.map((feed, index) => <FeedToggle 
+        key={`feed-toggle-${index}`}
+        feed={feed}
+        toggleFeedSelected={toggleFeedSelected}
+      />)}
   </View>
 )}
 
@@ -219,7 +288,7 @@ const FeedToggle = (props) => {
     <Fragment>
       <TouchableOpacity
       onPress={() => {
-        // toggleFeedSelected(feed, !isSelected)
+        toggleFeedSelected(feed, !isSelected)
         return setSelected(!isSelected)
       }}
       style={{

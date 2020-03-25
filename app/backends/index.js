@@ -172,14 +172,19 @@ export function fetchFeeds () {
   }
 }
 
-export function addFeed (feed) {
+export async function addFeed (feed) {
+  let id
   switch (backend) {
     case 'rizzle':
       return rizzle.addFeed(feed)
     case 'feedwrangler':
-      return feedwrangler.addFeed(feed)
+      id = await feedwrangler.addFeed(feed)
+      feed.id = id
+      return feed
     case 'feedbin':
-      return feedbin.addFeed(feed)
+      id = await feedbin.addFeed(feed)
+      feed.id = id
+      return feed
   }
 }
 
