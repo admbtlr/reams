@@ -6,7 +6,7 @@ import {
 } from '../store/items/types'
 import { decorateItem } from './decorate-items'
 import { id } from '../utils'
-import { upsertSavedItemFS } from '../storage/firestore'
+import { saveExternalItem } from '../backends'
 import { getConfig, getItems, getItem } from './selectors'
 
 export function * saveExternalUrl (action) {
@@ -42,7 +42,7 @@ export function * saveExternalUrl (action) {
       const items = yield select(getItems, 'saved')
       item = items.find(i => i._id === item._id)
 
-      upsertSavedItemFS(item)
+      saveExternalItem(item)
     }
   } catch (err) {
     console.log(err)
@@ -54,6 +54,6 @@ export function * maybeUpsertSavedItem (action) {
   const backend = yield select(getConfig)
   if (backend !== 'rizzle') return
   const item = yield select(getItem, action.item._id, 'saved')
-  upsertSavedItemFS(item)
+  saveExternalItem(item)
 }
 

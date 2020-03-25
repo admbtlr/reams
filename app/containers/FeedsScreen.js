@@ -78,7 +78,8 @@ const mapStateToProps = (state) => {
   const backendLabels = {
     feedbin: 'Feedbin',
     feedwrangler: 'Feedwrangler',
-    rizzle: 'Rizzle'
+    rizzle: 'Rizzle',
+    basic: 'Rizzle Basic'
   }
 
   return {

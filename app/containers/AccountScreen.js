@@ -18,11 +18,16 @@ const mapDispatchToProps = (dispatch) => {
       type: SHOW_MODAL,
       modalProps
     }),
-    setBackend: (backend, credentials) => dispatch({
-      type: SET_BACKEND,
-      backend,
-      credentials
-    }),
+    setBackend: (backend, credentials) => {
+      dispatch({
+        type: UNSET_BACKEND
+      })
+      dispatch({
+        type: SET_BACKEND,
+        backend,
+        credentials
+      })
+    },
     unsetBackend: () => dispatch({
       type: UNSET_BACKEND
     }),

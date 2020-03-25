@@ -30,7 +30,7 @@ class FeedIcon extends React.Component {
     const width = 32
     const height = 32
     let dim = dimensions || iconDimensions
-    const image = <Image
+    const image = feed ? <Image
       width={width}
       height={height}
       source={{ uri: getCachedFeedIconPath(feed._id) }}
@@ -38,10 +38,10 @@ class FeedIcon extends React.Component {
         width,
         height
       }}
-    />
+    /> : null
     return hasCachedIcon && dim && dim.width > 0 ?
       <View style={{
-        backgroundColor: feed.color,
+        backgroundColor: feed ? feed.color : 'white',
         // margin: 10,
         width,
         height,
