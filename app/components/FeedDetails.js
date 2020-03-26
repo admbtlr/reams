@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import {
   Dimensions,
   ScrollView,
-  StatusBar,
   Text,
   View
 } from 'react-native'

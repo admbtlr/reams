@@ -1,11 +1,11 @@
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 
-import ItemsScreenContainer from '../containers/ItemsScreen.js'
-import AccountScreenContainer from '../containers/AccountScreen.js'
-import FeedsScreenContainer from '../containers/FeedsScreen.js'
+import ItemsScreenContainer from '../containers/ItemsScreen'
+import AccountScreenContainer from '../containers/AccountScreen'
+import FeedsScreenContainer from '../containers/FeedsScreen'
 import NewFeedsList from './NewFeedsList'
-import ModalScreen from './ModalScreen.js'
+import ModalScreen from './ModalScreen'
 
 const navigationOptions = {
   gesturesEnabled: false

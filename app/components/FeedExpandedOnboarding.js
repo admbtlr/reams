@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   Dimensions,
@@ -6,12 +6,11 @@ import {
   Text,
   View
 } from 'react-native'
-import Svg, {Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
 import { FEED_ONBOARDING_DONE } from '../store/config/types'
-import RizzleButton from './RizzleButton'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
-import { isIphoneX, fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier } from '../utils'
 
 const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.025

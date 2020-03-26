@@ -1,14 +1,10 @@
 import React from 'react'
 import {
   Dimensions,
-  Image,
   Text,
-  TextInput,
   TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Path} from 'react-native-svg'
-import AccountCredentialsForm from './AccountCredentialsForm'
 import {hslString} from '../utils/colors'
 import { fontSizeMultiplier } from '../utils'
 

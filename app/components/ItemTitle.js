@@ -1,8 +1,7 @@
 import { ItemType } from '../store/items/types'
 import React from 'react'
 import {Animated, Dimensions, Easing, Text, View, WebView} from 'react-native'
-import {BlurView} from 'react-native-blur'
-import rnTextSize, { TSFontSpecs } from 'react-native-text-size'
+import rnTextSize from 'react-native-text-size'
 import moment from 'moment'
 import quote from 'headline-quotes'
 

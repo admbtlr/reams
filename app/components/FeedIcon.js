@@ -1,14 +1,10 @@
 import React from 'react'
 import {
   Image,
-  InteractionManager,
   View
 } from 'react-native'
 const RNFS = require('react-native-fs')
-import { Invert } from 'react-native-image-filter-kit'
-import { hslString, hslStringToBlendColor, hslToBlendColor, hslToHslString } from '../utils/colors'
-import {getCachedFeedIconPath, getRenderedFeedIconPath} from '../utils/'
-import log from '../utils/log'
+import {getCachedFeedIconPath} from '../utils/'
 
 class FeedIcon extends React.Component {
   constructor (props) {

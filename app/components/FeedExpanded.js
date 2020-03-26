@@ -1,30 +1,16 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import {
   Dimensions,
-  Image,
-  InteractionManager,
-  ScrollView,
-  StatusBar,
-  StatusBarAnimation,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
-import Animated from 'react-native-reanimated'
-import { PanGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler'
 import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedIconCorner from './FeedIconCorner'
 import FeedDetails from './FeedDetails'
-import FeedLikedMuted from './FeedLikedMuted'
 import XButton from './XButton'
 import FeedExpandedOnboarding from './FeedExpandedOnboarding'
 import { fontSizeMultiplier } from '../utils'
-
-const DRAG_THRESHOLD = 10
-
-const { width: wWidth, height: wHeight } = Dimensions.get("window")
 
 class FeedExpanded extends React.Component {
 

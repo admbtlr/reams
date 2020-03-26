@@ -3408,7 +3408,7 @@ export const feeds = [{
   "id": 301,
   "title": "Vox - All",
   "url": "http://www.vox.com/rss/index.xml",
-  "description": null,
+  "description": "Understand the news",
   "category": "politics",
   "favicon": {
     "source": require('../../assets/images/favicons/301.png'),
@@ -3421,7 +3421,7 @@ export const feeds = [{
   "id": 302,
   "title": "The Intercept",
   "url": "https://firstlook.org/theintercept/feed/",
-  "description": null,
+  "description": "Dedicated to holding the powerful accountable through fearless, adversarial journalism",
   "category": "politics",
   "favicon": {
     "source": require('../../assets/images/favicons/302.png'),
@@ -3430,6 +3430,18 @@ export const feeds = [{
   },
   "link": "https://theintercept.com/",
   "color": "/assets/2214238a301dd75d1287e68e41a4e74a.png"
+}, {
+  "id": 345,
+  "title": "Quartz",
+  "description": "Quartz is a digitally native news outlet for the new global economy.",
+  "url": "https://cms.qz.com/feed/",
+  "category": "politics",
+  "favicon": {
+    "source": require('../../assets/images/favicons/345.png'),
+    "url": "https://qz.com/public/images/favicon.ico"
+  },
+  "link": "https://qz.com/",
+  "color": "#000000"
 }, {
   "id": 303,
   "title": "Talking Points Memo ",

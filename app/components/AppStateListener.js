@@ -1,12 +1,7 @@
 import React from 'react'
 import {
-  Alert,
   AppState,
-  Clipboard,
-  Linking,
-  Text,
-  TouchableHighlight,
-  View
+  Clipboard
 } from 'react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { useDarkMode } from 'react-native-dark-mode'

@@ -4,15 +4,13 @@ import {
   Animated,
   Dimensions,
   Image,
-  InteractionManager,
   ScrollView,
   StatusBar,
-  StatusBarAnimation,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Circle, Group, Path} from 'react-native-svg'
+import Svg, {Path} from 'react-native-svg'
 import { ADD_FEEDS } from '../store/feeds/types'
 import TextButton from './TextButton'
 import { fontSizeMultiplier } from '../utils'

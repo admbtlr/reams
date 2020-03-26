@@ -1,25 +1,14 @@
 import React from 'react'
 import {
   Dimensions,
-  Image,
-  InteractionManager,
-  PanResponder,
-  Platform,
-  ScrollView,
-  StatusBar,
-  StatusBarAnimation,
   Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from 'react-native'
 import Animated, { Easing } from 'react-native-reanimated'
 import { TapGestureHandler, State } from 'react-native-gesture-handler'
-import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
-import { blendColor, hslString, hslToHslString } from '../utils/colors'
+import { hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
-import FeedUnreadCounter from './FeedUnreadCounter'
 import FeedIconContainer from '../containers/FeedIcon'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import { fontSizeMultiplier } from '../utils'

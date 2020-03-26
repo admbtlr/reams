@@ -1,8 +1,8 @@
 import React from 'react'
 import {View} from 'react-native'
-import TopBarContainer from '../containers/TopBar.js'
-import ButtonsContainer from '../containers/Buttons.js'
-import ViewButtonsContainer from '../containers/ViewButtons.js'
+import TopBarContainer from '../containers/TopBar'
+import ButtonsContainer from '../containers/Buttons'
+import ViewButtonsContainer from '../containers/ViewButtons'
 
 class Toolbars extends React.PureComponent {
   // shouldComponentUpdate (nextProps, nextState) {

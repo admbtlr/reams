@@ -1,5 +1,6 @@
 # To Do
 
+- donwload Quartz favicon and continue with old feeds
 - mercury state doesn't get updated for visible stories
 - deal with feed.number_unread problems
 - upgrade to react-navigation 5.0
