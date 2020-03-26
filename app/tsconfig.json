@@ -4,7 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "esModuleInterop": true,
-    "incremental": "true",
+    "incremental": true,
     "isolatedModules": true,
     "jsx": "react-native",
     "lib": ["es6"],

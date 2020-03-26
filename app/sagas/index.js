@@ -84,6 +84,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery(ADD_FEED, subscribeToFeed)
   yield takeEvery(ADD_FEEDS, subscribeToFeeds)
   yield takeEvery(MARK_FEED_READ, markFeedRead)
+  yield takeEvery(ADD_FEED_SUCCESS, inflateFeeds)
   yield takeEvery(ADD_FEED_SUCCESS, fetchUnreadItems)
   yield takeEvery(ADD_FEEDS_SUCCESS, inflateFeeds)
   yield takeEvery(ADD_FEEDS_SUCCESS, fetchUnreadItems)

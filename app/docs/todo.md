@@ -1,7 +1,6 @@
 # To Do
 
 - make rizzle basic work
-- button alignment on ipad
   - what does that involve?
   - no firestore? so what about read stories?
   - do we even need to keep track of read stories with rizzle basic?
@@ -35,6 +34,8 @@
 
 # Done
 
+- ~~button alignment on ipad~~
+- ~~feedLocal isNew doesn't get set properly when adding a feed?~~
 - ~~signup button on onboarding screen has no margins~~
 - ~~move all firestore operations out of sagas and into backends~~
 - ~~fix TopBar~~

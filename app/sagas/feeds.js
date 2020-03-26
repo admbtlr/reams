@@ -108,7 +108,6 @@ export function * markFeedRead (action) {
 }
 
 export function * inflateFeeds () {
-  let inflatedFeed
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
     let inflatedFeed
