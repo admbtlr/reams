@@ -78,9 +78,13 @@ export function feeds (
       }
 
     case UPDATE_FEEDS:
+      feeds = state.feeds.map(f => {
+        let updatedFeed = action.feeds.find(uf => uf._id === f._id)
+        return updatedFeed || f
+      })
       return {
         ...state,
-        feeds: action.feeds
+        feeds
       }
 
     case UPDATE_FEED:
