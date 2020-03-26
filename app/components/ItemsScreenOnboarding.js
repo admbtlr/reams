@@ -128,7 +128,7 @@ export default function ItemsScreenOnboarding (props) {
 
   const multiplier = fontSizeMultiplier()
 
-  return step === 8 ? null : (
+  return step === 9 ? null : (
     <Fragment>
       <View style={{
         ...StyleSheet.absoluteFillObject,
