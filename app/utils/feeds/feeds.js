@@ -25,7 +25,8 @@ export const feeds = [{
     "size": null
   },
   "image": "http://www.techcrunch.com/wp-content/themes/techcrunchmu/images/techcrunch_logo.png",
-  "link": "https://techcrunch.com/"
+  "link": "https://techcrunch.com/",
+  "color": "rgb(53,192,117)"
 }, {
   "id": 2,
   "title": "The Verge",
@@ -3353,16 +3354,16 @@ export const feeds = [{
 }, {
   "id": 295,
   "title": "Politico ",
-  "url": "http://feeds.politico.com/politico/rss/politicopicks",
+  "url": "https://www.politico.com/rss/politicopicks.xml",
   "description": "Politics, Policy, Political News Top Stories.",
-  "category": "politics"
-}, {
-  "id": 296,
-  "title": "Washington Post - Politics ",
-  "url": "http://www.washingtonpost.com/wp-dyn/rss/politics/index.xml",
-  "description": "Post Politics from The Washington Post is the source for political news headlines, in-depth politics coverage and political opinion, plus breaking news on the Trump administration and White House, Congress, the Supreme Court, elections and more.",
   "category": "politics",
-  "link": "http://www.washingtonpost.com/"
+  "favicon": {
+    "source": require('../../assets/images/favicons/295.png'),
+    "url": "https://static.politico.com/cf/05/ee684a274496b04fa20ba2978da1/politico.png",
+    "size": "64x64",
+    },
+    "link": "https://www.politico.com/",
+    "color": "#dc0228"
 }, {
   "id": 297,
   "title": "NYT - Politics ",
@@ -3404,12 +3405,6 @@ export const feeds = [{
   "link": "https://fivethirtyeight.com/",
   "color": "rgb(239,114,55)"
 }, {
-  "id": 300,
-  "title": "TheHill",
-  "url": "http://www.thehill.com/index.php?option=com_rd_rss&id=1",
-  "description": "The latest news from Capitol Hill.",
-  "category": "politics"
-}, {
   "id": 301,
   "title": "Vox - All",
   "url": "http://www.vox.com/rss/index.xml",
@@ -3438,7 +3433,7 @@ export const feeds = [{
 }, {
   "id": 303,
   "title": "Talking Points Memo ",
-  "url": "http://feeds.feedburner.com/talking-points-memo",
+  "url": "http://talkingpointsmemo.com/feed/all",
   "description": "Talking Points Memo - News, Commentary, Analysis",
   "category": "politics",
   "image": "http://www.talkingpointsmemo.com/images/tpm-rdflogo.jpg",
@@ -3557,8 +3552,8 @@ export const feeds = [{
 }, {
   "id": 313,
   "title": "FOX news",
-  "url": "http://www.foxnews.com/xmlfeed/rss/0,4313,0,00.rss",
-  "description": "FOX News Channel - We Report. You Decide.",
+  "url": "https://feeds.feedburner.com/foxnews/latest",
+  "description": "FOXNews.com - Breaking news and video. Latest Current News: U.S., World, Entertainment, Health, Business, Technology, Politics, Sports.",
   "category": "politics",
   "favicon": {
     "source": require('../../assets/images/favicons/313.png'),
