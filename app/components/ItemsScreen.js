@@ -10,7 +10,6 @@ import {
   Text,
   View
 } from 'react-native'
-import { NavigationEvents } from 'react-navigation'
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import { hslString } from '../utils/colors'

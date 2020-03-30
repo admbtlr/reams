@@ -1,10 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import {
   Dimensions,
-  Text,
   TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from 'react-native'
 import {

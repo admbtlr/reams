@@ -9,7 +9,6 @@ import {
 import Svg, { Path } from 'react-native-svg'
 import { ITEMS_ONBOARDING_DONE } from '../store/config/types'
 import { SHOW_ITEM_BUTTONS } from '../store/ui/types'
-import RizzleButton from './RizzleButton'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
 import { isIphoneX, fontSizeMultiplier } from '../utils'
@@ -128,7 +127,7 @@ export default function ItemsScreenOnboarding (props) {
 
   const multiplier = fontSizeMultiplier()
 
-  return step === 8 ? null : (
+  return step === 9 ? null : (
     <Fragment>
       <View style={{
         ...StyleSheet.absoluteFillObject,

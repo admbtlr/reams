@@ -1,5 +1,3 @@
-import {combineReducers} from 'redux'
-import {REHYDRATE} from 'redux-persist'
 import {
   SET_BACKEND,
   UNSET_BACKEND,

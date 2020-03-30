@@ -1,7 +1,5 @@
 import React from 'react'
 import { Dimensions, Modal, View } from 'react-native'
-// import Modal from 'react-native-modalbox'
-import { VibrancyView } from 'react-native-blur'
 import ImageViewer from 'react-native-image-zoom-viewer'
 
 class RizzleImageViewer extends React.Component {

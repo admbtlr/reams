@@ -3,21 +3,9 @@ import { useDispatch } from 'react-redux'
 import {
   Animated,
   Dimensions,
-  Image,
-  InteractionManager,
-  ScrollView,
-  StatusBar,
-  StatusBarAnimation,
-  Text,
-  TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Circle, Group, Path} from 'react-native-svg'
-import { ADD_FEEDS } from '../store/feeds/types'
-import TextButton from './TextButton'
-import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
-import { Header } from 'react-navigation-stack'
 import Heading from './Heading'
 // import {technology} from '../utils/feeds/technology'
 

@@ -1,15 +1,11 @@
 # To Do
 
-- make rizzle basic work
-- button alignment on ipad
-  - what does that involve?
-  - no firestore? so what about read stories?
-  - do we even need to keep track of read stories with rizzle basic?
-- signup button on onboarding screen has no margins
+- donwload Quartz favicon and continue with old feeds
+- mercury state doesn't get updated for visible stories
 - deal with feed.number_unread problems
+- upgrade to react native 62
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
-- improved add feed experience
 - make Feedwrangler work fully
 - Feedly integration
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
@@ -35,6 +31,11 @@
 
 # Done
 
+- ~~improved add feed experience~~
+- ~~make rizzle basic work~~
+- ~~button alignment on ipad~~
+- ~~feedLocal isNew doesn't get set properly when adding a feed?~~
+- ~~signup button on onboarding screen has no margins~~
 - ~~move all firestore operations out of sagas and into backends~~
 - ~~fix TopBar~~
 - ~~fix share extension~~

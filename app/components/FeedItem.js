@@ -1,11 +1,10 @@
 import React from 'react'
-import {Animated, Dimensions, InteractionManager, Linking, ScrollView, View} from 'react-native'
+import {Animated, Dimensions, Linking, View} from 'react-native'
 import {WebView} from 'react-native-webview'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, diff, getCachedCoverImagePath} from '../utils/'
-import {createItemStyles} from '../utils/createItemStyles'
 import { hslString } from '../utils/colors'
 import log from '../utils/log'
 

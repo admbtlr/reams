@@ -5,10 +5,7 @@ import {
   Dimensions,
   Easing,
   Image,
-  TouchableWithoutFeedback,
-  View
 } from 'react-native'
-import ImageResizeMode from 'react-native/Libraries/Image/ImageResizeMode'
 import SplashScreen from 'react-native-splash-screen'
 
 import { hslString } from '../utils/colors'

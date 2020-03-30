@@ -16,7 +16,6 @@ import TextButton from './TextButton'
 import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
 import {hslString} from '../utils/colors'
-import { DocumentDirectoryPath } from 'react-native-fs'
 
 
 class Share extends React.Component {

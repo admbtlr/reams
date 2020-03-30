@@ -157,7 +157,7 @@ function * receiveFeeds (dbFeeds) {
     }
   })
   // do this first so that isNew is set before the first item fetch
-  // (whicb is triggered by the UPDATE_FEEDS action)
+  // (which is triggered by the UPDATE_FEEDS action)
   if (newFeeds.length > 0) {
     yield put ({
       type: SET_FEEDS_NEW,

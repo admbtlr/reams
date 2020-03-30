@@ -1,22 +1,17 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import log from '../utils/log'
-import Reactotron from '../reactotron.config'
 
 // export async function getItemAS (key) {
 
 // }
 
 export async function getItemsAS (keys) {
-  const bench = Reactotron.benchmark("getItemsAS benchmark")
   if (typeof keys[0] === 'object') {
     keys = keys.map(item => item._id)
   }
   try {
-    bench.step('getting the data from AS')
     const keyVals = await AsyncStorage.multiGet(keys)
-    bench.step('got the data from AS')
     const mapped = keyVals.map(keyVal => JSON.parse(keyVal[1]))
-    bench.stop('mapped the data from AS')
     return mapped
   } catch (err) {
     log('getItemsAS', err)

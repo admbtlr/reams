@@ -3,21 +3,14 @@ import React, { Fragment } from 'react'
 import {
   Animated,
   Dimensions,
-  Image,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from 'react-native'
-import Svg, {Circle, G, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
-import {
-  getClampedScrollAnim,
-  addScrollListener
-} from '../utils/animation-handlers'
+import Svg, {Circle, G, Rect, Path} from 'react-native-svg'
 import FeedIconContainer from '../containers/FeedIcon'
-import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
+import { id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
-import Reactotron from 'reactotron-react-native'
 
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 

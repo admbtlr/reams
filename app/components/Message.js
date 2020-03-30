@@ -64,7 +64,7 @@ export default function Message (props) {
         height: 20,
         paddingLeft: 10,
         paddingRight: 10,
-        paddingTop: 1,
+        paddingTop: 2,
         borderRadius: 9,
         shadowRadius: 20,
         shadowColor: 'black',
@@ -73,7 +73,7 @@ export default function Message (props) {
       }}>
         <Text style={{
           ...textInfoMonoStyle,
-          fontSize: 14,
+          fontSize: 13,
           color: 'white'
         }}>{visibleMessage}<AnimatedEllipsis style={{ 
           color: 'white',
