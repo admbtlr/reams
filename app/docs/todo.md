@@ -3,6 +3,7 @@
 - donwload Quartz favicon and continue with old feeds
 - mercury state doesn't get updated for visible stories
 - deal with feed.number_unread problems
+- upgrade to react native 62
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - make Feedwrangler work fully

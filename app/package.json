@@ -1,5 +1,5 @@
 {
-  "name": "Rizzle",
+  "name": "rizzle",
   "version": "0.3.1",
   "private": true,
   "scripts": {
@@ -40,7 +40,7 @@
     "react-native-deep-linking": "^2.2.0",
     "react-native-device-info": "^5.4.1",
     "react-native-fs": "2.15.2",
-    "react-native-gesture-handler": "^1.2.1",
+    "react-native-gesture-handler": "^1.6.1",
     "react-native-haptic-feedback": "^1.8.2",
     "react-native-html-parser": "0.0.5",
     "react-native-image-filter-kit": "^0.5.18",
@@ -50,7 +50,7 @@
     "react-native-modal": "^11.4.0",
     "react-native-modalbox": "^1.7.1",
     "react-native-onepassword": "^1.0.6",
-    "react-native-reanimated": "^1.0.1",
+    "react-native-reanimated": "^1.7.1",
     "react-native-redash": "^7.5.0",
     "react-native-screens": "^2.0.0-alpha.11",
     "react-native-share-extension": "git+https://github.com/adamvert/react-native-share-extension#master",
