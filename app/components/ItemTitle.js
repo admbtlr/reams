@@ -128,15 +128,21 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
-    this.fadeInAnim1 = new Animated.Value(this.props.isVisible ? 1 : -1)
-    this.fadeInAnim2 = new Animated.Value(this.props.isVisible ? 1 : 0)
-    this.fadeInAnim3 = new Animated.Value(this.props.isVisible ? 1 : 0)
-    this.fadeInAnim4 = new Animated.Value(this.props.isVisible ? 1 : 0)
-    this.fadeInAnim5 = new Animated.Value(this.props.isVisible ? 1 : 0)
+    this.fadeInAnim1 = new Animated.Value(this.props.isVisible ||
+      !deviceCanHandleAnimations() ? 1 : -1)
+    this.fadeInAnim2 = new Animated.Value(this.props.isVisible ||
+      !deviceCanHandleAnimations() ? 1 : 0)
+    this.fadeInAnim3 = new Animated.Value(this.props.isVisible ||
+      !deviceCanHandleAnimations() ? 1 : 0)
+    this.fadeInAnim4 = new Animated.Value(this.props.isVisible ||
+      !deviceCanHandleAnimations() ? 1 : 0)
+    this.fadeInAnim5 = new Animated.Value(this.props.isVisible ||
+      !deviceCanHandleAnimations() ? 1 : 0)
     this.fadeIn = this.fadeIn.bind(this)
   }
 
   fadeIn () {
+    if (!deviceCanHandleAnimations()) return
     const params = {
       toValue: 1,
       duration: 250,
@@ -451,8 +457,7 @@ class ItemTitle extends React.Component {
   addAnimationsIfNecessary (style, anim) {
     const { showCoverImage, coverImageStyles } = this.props
     if (!showCoverImage ||
-      coverImageStyles.isInline ||
-      !deviceCanHandleAnimations()) {
+      coverImageStyles.isInline) {
       return style
     }
     return {
@@ -627,8 +632,7 @@ class ItemTitle extends React.Component {
         // 'white' :
         hslString('bodyBG') :
         overlayColour,
-      opacity: !deviceCanHandleAnimations() ||
-        coverImageStyles.isInline || !showCoverImage ?
+      opacity: coverImageStyles.isInline || !showCoverImage ?
         1 :
         opacity
     }

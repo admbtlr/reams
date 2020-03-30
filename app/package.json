@@ -109,9 +109,6 @@
     "react-devtools": "^3.4.2",
     "react-native-typescript-transformer": "^1.2.13",
     "react-test-renderer": "16.8.3",
-    "reactotron-react-native": "^4.0.2",
-    "reactotron-redux": "^3.1.2",
-    "reactotron-redux-saga": "^4.2.3",
     "sinon": "^7.3.2",
     "typesafe-actions": "^5.1.0",
     "typescript": "^3.8.3"

@@ -18,7 +18,7 @@ import {
 let isRizzlePlus = false
 
 export function init ({ getFirebase, uid }) {
-  if (uid) {
+  if (uid && getFirebase) {
     setDb(getFirebase().firestore())
     setUid(uid)
     isRizzlePlus = true 

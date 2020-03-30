@@ -128,6 +128,7 @@ class SwipeableViews extends Component {
   onMomentumScrollEnd (evt) {
     this.currentOffset = evt.nativeEvent.contentOffset.x
     const newIndex = this.currentOffset / this.screenWidth
+    // this.setScrollIndex(2)
     this.updateIndex(newIndex)
   }
 
