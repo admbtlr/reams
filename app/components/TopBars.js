@@ -13,10 +13,6 @@ import {
 
 import TopBarContainer from '../containers/TopBar'
 import { isIphoneX } from '../utils'
-<<<<<<< HEAD
-=======
-import { getClampedScrollAnim } from '../utils/animation-handlers'
->>>>>>> fix: feed expansion again
 
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 
