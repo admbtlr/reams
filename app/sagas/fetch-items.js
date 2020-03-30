@@ -273,7 +273,7 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
       }
       newOrUpdatedFeeds.push(feed)
     }
-    if (!feed.id) {
+    if (feed.id === undefined) {
       debugger
       feed.id = item.feed_id
       if (!newOrUpdatedFeeds.find(f => f._id === feed._id)) {
