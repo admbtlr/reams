@@ -1,7 +1,5 @@
 import React from 'react'
-import FeedItemContainer from '../containers/FeedItem.js'
 import {Animated, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native'
-import SwipeableViews from './SwipeableViews'
 
 import {hslString} from '../utils/colors'
 

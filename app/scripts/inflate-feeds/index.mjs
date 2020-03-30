@@ -1,45 +1,70 @@
 import fs from 'fs'
 import rp from 'request-promise'
-import request from 'request'
-import {technology} from '../../utils/feeds/technology.mjs'
+import {feeds} from '../../utils/feeds/index.mjs'
 
-const getFaviconUrl = async (feedUrl) => {
-  const metaUrl = 'https://api.rizzle.net/api/feed-meta/?url=' + feedUrl
+const getMeta = async (feedUrl) => {
+  const metaUrl = 'http://localhost:3000/api/feed-meta?url=' + feedUrl
   try {
     const meta = await rp({
       uri: metaUrl,
       json: true
     })
-    console.log(feedUrl)
-    if (meta && meta.favicon && meta.favicon.url) {
-      return meta.favicon.url
-    } else {
-      return null
-    }
+    return meta
   } catch (e) {
     return e.message
   }
-
 }
 
 const getMetas = async (feeds) => {
-
+  let newFeeds = []
   for (let feed of feeds) {
-    const meta = await getMeta(feed.url)
-    let description = feed.description
-    if (meta.description && !feed.description) {
-      description = meta.description
-    }
-    feed = {
+    console.log(`Getting meta for ${feed.title}`)
+    let meta = await getMeta(feed.url)
+    // meta = typeof meta === 'object' ? meta : {}
+    newFeeds.push({
       ...feed,
       ...meta
+    })
+  }
+  console.log(newFeeds)
+  return newFeeds
+}
+
+const downloadFavicons = async (feeds) => {
+  for (let feed of feeds) {
+    if (feed.favicon && feed.favicon.url) {
+      console.log(`Getting favicon for ${feed.title}`)
+      const fileName = feed.id
+      const extension = feed.favicon.url.indexOf('.ico') !== -1 ?
+        'ico' : 'png'
+      let path = `/tmp/favicons/${fileName}.${extension}`
+      const res = await rp.get({
+        url: feed.favicon.url,
+        encoding: null
+      })
+      const buffer = Buffer.from(res, 'utf8')
+      fs.writeFileSync(path, buffer)
     }
   }
-  // console.log(feeds)
   return feeds
 }
 
-getMetas(technology)
-  .then(feeds => {
-    console.log(feeds)
-  })
+const addIds = (feeds) => feeds.map((f, i) => ({
+  id: i,
+  ...f
+}))
+
+const writeJSON = (feeds) => {
+  fs.writeFileSync('/tmp/feeds.js', JSON.stringify(feeds))
+}
+
+const inflate = async (feeds) => {
+  let newFeeds = addIds(feeds)
+  newFeeds = await getMetas(newFeeds.slice(300, 400))
+  await downloadFavicons(newFeeds)
+  writeJSON(newFeeds)
+  return true  
+}
+
+inflate(feeds).then(_ => true)
+

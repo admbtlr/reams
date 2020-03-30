@@ -1,14 +1,10 @@
 import React from 'react'
 import {
   Dimensions,
-  Image,
   Text,
-  TextInput,
   TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Path} from 'react-native-svg'
-import AccountCredentialsForm from './AccountCredentialsForm'
 import {hslString} from '../utils/colors'
 import { fontSizeMultiplier } from '../utils'
 
@@ -24,8 +20,9 @@ class TextButton extends React.Component {
     this.expand = this.expand.bind(this)
   }
 
-  componentDidUpdate () {
-    if (this.props.isExpanded !== this.state.isExpanded) {
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.isExpanded !== this.state.isExpanded &&
+      this.state.isExpanded === prevState.isExpanded) {
       this.setState({
         isExpanded: this.props.isExpanded
       })
@@ -33,18 +30,27 @@ class TextButton extends React.Component {
   }
 
   expand () {
-    this.setState({
-      ...this.state,
-      isExpanded: !this.state.isExpanded
-    })
-    this.props.onExpand && this.props.onExpand()
+    const { isGroup, text } = this.props
+    // if this is part of a group, assume that the parent controls expanded states
+    if (isGroup) {
+      this.props.onExpand && this.props.onExpand()
+    } else {
+      const isExpanded = !this.state.isExpanded
+      this.setState({
+        ...this.state,
+        isExpanded
+      })
+      this.props.onExpand && this.props.onExpand(isExpanded)
+    }
   }
 
   render () {
     const {
+      isDisabled,
       icon,
       isActive,
       isExpandable,
+      isGroup,
       isInverted,
       isCompact,
       noResize,
@@ -115,12 +121,16 @@ class TextButton extends React.Component {
             { isExpanded ? this.props.iconExpanded : this.props.iconCollapsed }
           </View>
           <TouchableOpacity
+            disabled={isDisabled}
             onPress={this.expand}
             testID={testID}
           >
             <Text
               maxFontSizeMultiplier={1.2}
-              style={textStyle}
+              style={{
+                ...textStyle,
+                opacity: isDisabled ? 0.6 : 1
+              }}
             >{text}</Text>
           </TouchableOpacity>
           { this.props.renderExpandedView() }
@@ -137,6 +147,7 @@ class TextButton extends React.Component {
       }
       return (
         <TouchableOpacity
+          disabled={isDisabled}
           onPress={onPress}
           style={buttonStyle}
           testID={testID}>
@@ -150,8 +161,11 @@ class TextButton extends React.Component {
           >{icon}</View>
           <Text
             maxFontSizeMultiplier={1.2}
-            style={textStyle}
-          >{text}</Text>
+            style={{
+              ...textStyle,
+              opacity: isDisabled ? 0.6 : 1
+            }}
+        >{text}</Text>
         </TouchableOpacity>
       )
     }

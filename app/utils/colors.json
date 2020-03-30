@@ -174,7 +174,7 @@
     "black": "hsl(0, 0%, 0%)",
     "white": "hsl(0, 0%, 100%)",
     "buttonBG": "hsl(0, 0%, 10%)",
-    "rizzleFG": "hsl(263, 14%, 16%)",
+    "rizzleFG": "hsl(263, 14%, 86%)",
     "rizzleBG": "hsl(300, 10%, 17%)",
     "rizzleSaved": "hsl(264, 10%, 30%)",
     "rizzleBGAlt": "hsl(11, 21%, 16%)",

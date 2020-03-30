@@ -159,7 +159,7 @@ export async function addFeed (feed) {
   const f = await postRequest('subscriptions.json', {
     feed_url: feed.url
   })
-  return f.id
+  return f.feed_id
 }
 
 export async function removeFeed (feed) {

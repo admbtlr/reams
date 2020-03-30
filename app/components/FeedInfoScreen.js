@@ -1,8 +1,6 @@
 import React from 'react'
 import {
-  Animated,
   Dimensions,
-  PanResponder,
   Text,
   TouchableWithoutFeedback,
   View

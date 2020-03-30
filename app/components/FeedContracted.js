@@ -1,25 +1,14 @@
 import React from 'react'
 import {
   Dimensions,
-  Image,
-  InteractionManager,
-  PanResponder,
-  Platform,
-  ScrollView,
-  StatusBar,
-  StatusBarAnimation,
   Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from 'react-native'
 import Animated, { Easing } from 'react-native-reanimated'
 import { TapGestureHandler, State } from 'react-native-gesture-handler'
-import Svg, {Circle, Polygon, Polyline, Rect, Path, Line} from 'react-native-svg'
-import { blendColor, hslString, hslToHslString } from '../utils/colors'
+import { hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
-import FeedUnreadCounter from './FeedUnreadCounter'
 import FeedIconContainer from '../containers/FeedIcon'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import { fontSizeMultiplier } from '../utils'
@@ -99,23 +88,28 @@ class FeedContracted extends React.PureComponent {
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 1),
+          startClock(clock)
         ]),
         cond(and(eq(gestureState, State.FAILED), neq(config.toValue, 0)), [
           set(state.finished, 0),
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 0),
+          startClock(clock)
         ]),
         cond(and(eq(gestureState, State.END), neq(config.toValue, 0)), [
           set(state.finished, 0),
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 0),
+          startClock(clock)
         ]),
         timing(clock, state, config),
         cond(state.finished, [
+          stopClock(clock),
         ]),
         cond(and(eq(gestureState, State.END), state.finished), [
+          call([], this.onPress)
         ]),
         interpolate(state.position, {
           inputRange: [0, 1],
@@ -257,7 +251,7 @@ class FeedContracted extends React.PureComponent {
                   flexWrap: 'wrap',
                   fontFamily: 'IBMPlexSansCond-Bold',
                   fontSize: 24 * fontSizeMultiplier(),
-                  lineHeight: 24 * fontSizeMultiplier()
+                  lineHeight: 28 * fontSizeMultiplier()
                 }}>{feed.title}</Text>
               </View>
               <View style={{

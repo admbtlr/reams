@@ -3,7 +3,6 @@ import {Animated, Dimensions, Linking, Text, View} from 'react-native'
 import {WebView} from 'react-native-webview'
 
 import TextButton from './TextButton'
-const { colors, desaturated, ui } = require('../utils/colors.json')
 
 class Onboarding extends React.Component {
   constructor (props) {

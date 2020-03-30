@@ -1,13 +1,8 @@
 import React from 'react'
 import {
   Animated,
-  Image,
-  InteractionManager
 } from 'react-native'
-const RNFS = require('react-native-fs')
-import { blendColor } from '../utils/colors'
 import {getCachedCoverImagePath} from '../utils/'
-import log from '../utils/log'
 
 class FeedCoverImage extends React.Component {
 

@@ -1,18 +1,10 @@
-import React, { Component, Children } from 'react'
+import React, { Component } from 'react'
 import {
   Animated,
   Dimensions,
-  InteractionManager,
-  PanResponder,
-  ScrollView,
-  StyleSheet,
-  View,
 } from 'react-native'
 import FeedItemContainer from '../containers/FeedItem.js'
 import OnboardingContainer from '../containers/Onboarding.js'
-import { constant, checkIndexBounds, getDisplaySameSlide } from 'react-swipeable-views-core';
-import { panHandler } from '../utils/animation-handlers'
-import { getItemId } from '../utils/get-item'
 import { hslString } from '../utils/colors'
 
 /*
@@ -136,6 +128,7 @@ class SwipeableViews extends Component {
   onMomentumScrollEnd (evt) {
     this.currentOffset = evt.nativeEvent.contentOffset.x
     const newIndex = this.currentOffset / this.screenWidth
+    // this.setScrollIndex(2)
     this.updateIndex(newIndex)
   }
 

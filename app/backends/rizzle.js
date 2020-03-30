@@ -18,7 +18,7 @@ import {
 let isRizzlePlus = false
 
 export function init ({ getFirebase, uid }) {
-  if (uid) {
+  if (uid && getFirebase) {
     setDb(getFirebase().firestore())
     setUid(uid)
     isRizzlePlus = true 
@@ -185,8 +185,9 @@ export function saveExternalItem (item, folder) {
 
 export async function addFeed (feed) {
   if (isRizzlePlus) {
-    addFeedFS(feed)
+    await addFeedFS(feed)
   }
+  return feed
 }
 
 export async function updateFeed (feed) {

@@ -8,7 +8,7 @@ const ColorThief = require('colorthief')
 
 export const getMeta = async (items) : Promise<{
   description?: string
-  favicon?: string
+  favicon?: { url: string, size: string }
   image?: string
   link?: string
   color?: string | []
@@ -44,7 +44,13 @@ export const getMeta = async (items) : Promise<{
     } catch (e) {
       console.log(e)
     }
-    return feedMeta
+    return {
+      ...feedMeta,
+      favicon: feedMeta.favicon ? {
+        url: feedMeta.favicon.url,
+        size: feedMeta.favicon.size
+      } : undefined
+    }
   } else {
     return {}
   }

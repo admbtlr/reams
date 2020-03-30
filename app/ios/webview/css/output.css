@@ -68,7 +68,8 @@ body {
   .itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle h4, .itemArticle h5 {
     padding: 0;
     line-height: 1em;
-    -webkit-hyphens: none; }
+    -webkit-hyphens: none;
+    hyphens: none; }
   .itemArticle h1, .itemArticle h2, .itemArticle h3 {
     color: var(--feed-color); }
   .itemArticle h1, .itemArticle h2 {
@@ -99,6 +100,7 @@ body {
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
+  hyphens: auto;
   -webkit-text-size-adjust: none;
   /* gambling that it's a video */ }
   .itemArticle p, .itemArticle center {
@@ -237,7 +239,8 @@ body {
     padding: 1rem 0.5rem;
     display: block;
     position: relative;
-    -webkit-hyphens: none; }
+    -webkit-hyphens: none;
+    hyphens: none; }
     .itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type, .itemArticle aside > p:last-of-type {
       margin-bottom: 0; }
     @media (min-width: 600px) {
@@ -771,9 +774,6 @@ hr {
     font-family: "IBMPlexSerif-BoldItalic"; }
   .headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em {
     font-family: "PlayfairDisplay-Bold"; }
-
-.itemArticle a, .itemArticle a:active, .itemArticle a:visited {
-  /*text-decoration: none;*/ }
 
 .feedflare {
   display: none !important; }

@@ -4,7 +4,6 @@ import {
   Dimensions,
   Switch,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 import { Direction, SET_ITEM_SORT, SET_SHOW_NUM_UNREAD } from '../store/config/types'

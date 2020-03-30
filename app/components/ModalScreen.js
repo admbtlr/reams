@@ -5,7 +5,6 @@ import {
   View
 } from 'react-native'
 import { isIphoneX } from '../utils'
-import { hslString } from '../utils/colors'
 
 export default function ModalScreen ({ child, navigation }) {
   return (

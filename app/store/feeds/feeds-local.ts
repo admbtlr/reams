@@ -11,7 +11,9 @@ import {
   SET_CACHED_FEED_COVER_IMAGE,
   FeedActionTypes,
   FeedLocal,
-  FeedsLocalState
+  FeedsLocalState,
+  ADD_FEED_SUCCESS,
+  ADD_FEEDS_SUCCESS
 } from './types'
 import { 
   ITEMS_BATCH_FETCHED,
@@ -28,9 +30,33 @@ export function feedsLocal (
 ) {
   let feeds: FeedLocal[]
   let feed: FeedLocal | undefined
-  let newState, dirtyFeed, dirtyFeedIndex
 
   switch (action.type) {
+    case ADD_FEED_SUCCESS:
+      feeds = state.feeds.filter(f => f._id !== action.feed._id)
+      return {
+        ...state,
+        feeds: [
+          ...feeds,
+          {
+            _id: action.feed._id,
+            isNew: true
+          }
+        ]
+      }
+    case ADD_FEEDS_SUCCESS:
+      feeds = action.feeds.filter(f => !state.feeds
+        .find(feed => feed._id === f._id)).map(f => ({
+          _id: f._id,
+          isNew: true
+        }))
+      return {
+        ...state,
+        feeds: [
+          ...state.feeds,
+          ...feeds
+        ]
+      }
     case SET_CACHED_FEED_ICON:
       feeds = state.feeds.map(f => f)
       feed = feeds.find(f => f._id === action.id)

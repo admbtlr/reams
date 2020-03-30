@@ -1,12 +1,7 @@
 import React from 'react'
 import {
-  Alert,
   AppState,
-  Clipboard,
-  Linking,
-  Text,
-  TouchableHighlight,
-  View
+  Clipboard
 } from 'react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { useDarkMode } from 'react-native-dark-mode'
@@ -122,18 +117,29 @@ class AppStateListener extends React.Component {
             return response.text()
           })
           .then((xml) => {
-            let parsed = parseString(xml, (error, result) => {
+            parseString(xml, (error, result) => {
+              if (error) {
+                throw error
+              }
               let title, description
               if (result.rss) {
-                title = result.rss.channel[0].title[0]
+                title = typeof result.rss.channel[0].title[0] === 'string' ?
+                  result.rss.channel[0].title[0] :
+                  result.rss.channel[0].title[0]._
                 description = result.rss.channel[0].description ?
-                  result.rss.channel[0].description[0] :
+                  (typeof result.rss.channel[0].description[0] === 'string' ?
+                    result.rss.channel[0].description[0] :
+                    result.rss.channel[0].description[0]._) :
                   ''
               } else if (result.feed) {
                 // atom
-                title = result.feed.title[0]
-                description = result.feed.subtitle ?
-                  result.feed.subtitle[0] :
+                title = typeof result.feed.title[0] === 'string' ? 
+                  result.feed.title[0] : 
+                  result.feed.title[0]._
+                description = typeof result.feed.subtitle ?
+                  (typeof result.feed.subtitle[0] === 'string' ? 
+                    result.feed.subtitle[0] : 
+                    result.feed.subtitle[0]._) :
                   ''
               }
               this.showSaveFeedModal(url, title, description, that)
