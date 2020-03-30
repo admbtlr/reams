@@ -99,23 +99,28 @@ class FeedContracted extends React.PureComponent {
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 1),
+          startClock(clock)
         ]),
         cond(and(eq(gestureState, State.FAILED), neq(config.toValue, 0)), [
           set(state.finished, 0),
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 0),
+          startClock(clock)
         ]),
         cond(and(eq(gestureState, State.END), neq(config.toValue, 0)), [
           set(state.finished, 0),
           set(state.time, 0),
           set(state.frameTime, 0),
           set(config.toValue, 0),
+          startClock(clock)
         ]),
         timing(clock, state, config),
         cond(state.finished, [
+          stopClock(clock),
         ]),
         cond(and(eq(gestureState, State.END), state.finished), [
+          call([], this.onPress)
         ]),
         interpolate(state.position, {
           inputRange: [0, 1],
@@ -257,7 +262,7 @@ class FeedContracted extends React.PureComponent {
                   flexWrap: 'wrap',
                   fontFamily: 'IBMPlexSansCond-Bold',
                   fontSize: 24 * fontSizeMultiplier(),
-                  lineHeight: 24 * fontSizeMultiplier()
+                  lineHeight: 28 * fontSizeMultiplier()
                 }}>{feed.title}</Text>
               </View>
               <View style={{

@@ -8,7 +8,6 @@ import firestore from '@react-native-firebase/firestore'
 import { getFirebase } from 'react-redux-firebase'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import log from '../utils/log'
-import Reactotron from '../reactotron.config'
 
 let store = null
 
@@ -17,8 +16,8 @@ function configureStore () {
     realtime: window.__DEV__
   })
 
-  const sagaMonitor = Reactotron.createSagaMonitor()
-  const sagaMiddleware = createSagaMiddleware({ sagaMonitor })
+  // const sagaMonitor = Reactotron.createSagaMonitor()
+  const sagaMiddleware = createSagaMiddleware()
 
   const persistConfig = {
     key: 'primary',

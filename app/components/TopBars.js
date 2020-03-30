@@ -14,7 +14,6 @@ import {
 import TopBarContainer from '../containers/TopBar'
 import { isIphoneX } from '../utils'
 import { getClampedScrollAnim } from '../utils/animation-handlers'
-import Reactotron from 'reactotron-react-native'
 
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 

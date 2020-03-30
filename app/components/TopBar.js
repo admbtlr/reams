@@ -17,7 +17,6 @@ import {
 import FeedIconContainer from '../containers/FeedIcon'
 import { getCachedFeedIconPath, id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
-import Reactotron from 'reactotron-react-native'
 
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 

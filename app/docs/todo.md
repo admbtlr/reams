@@ -7,6 +7,7 @@
   - do we even need to keep track of read stories with rizzle basic?
 - signup button on onboarding screen has no margins
 - deal with feed.number_unread problems
+- upgrade to react native 62
 - upgrade to react-navigation 5.0
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - improved add feed experience
