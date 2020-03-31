@@ -1,7 +1,26 @@
-# Uncomment the next line to define a global platform for your project
 platform :ios, '10.0'
 
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+def add_flipper_pods!
+  version = '~> 0.33.1'
+  pod 'FlipperKit', version, :configuration => 'Debug'
+  pod 'FlipperKit/FlipperKitLayoutPlugin', version, :configuration => 'Debug'
+  pod 'FlipperKit/SKIOSNetworkPlugin', version, :configuration => 'Debug'
+  pod 'FlipperKit/FlipperKitUserDefaultsPlugin', version, :configuration => 'Debug'
+  pod 'FlipperKit/FlipperKitReactPlugin', version, :configuration => 'Debug'
+end
+
+# Post Install processing for Flipper
+def flipper_post_install(installer)
+  installer.pods_project.targets.each do |target|
+    if target.name == 'YogaKit'
+      target.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '4.1'
+      end
+    end
+  end
+end
 
 # pod 'Firebase/Core', '~> 5.20.1'
 # pod 'Firebase/Auth', '~> 5.20.1'
@@ -37,9 +56,9 @@ target 'rizzle' do
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
-  pod 'ReactCommon/jscallinvoker', :path => "../node_modules/react-native/ReactCommon"
+  pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
-  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
 
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
@@ -50,6 +69,8 @@ target 'rizzle' do
 
   use_native_modules!
 
+  add_flipper_pods!
+
   # https://github.com/alinz/react-native-share-extension/issues/182
   target 'RizzleShare' do
     use_native_modules!
@@ -57,9 +78,16 @@ target 'rizzle' do
   end
 end
 
-# Add this, taken from: https://github.com/facebook/react-native/issues/25792#issuecomment-517295859
-# https://github.com/alinz/react-native-share-extension/issues/182
 post_install do |installer|
+
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable these next few lines.
+  flipper_post_install(installer)
+
+  # Taken from: https://github.com/facebook/react-native/issues/25792#issuecomment-517295859
+  # https://github.com/alinz/react-native-share-extension/issues/182
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
