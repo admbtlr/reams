@@ -210,6 +210,7 @@
 		66DEF8E12417FBF1000BA7ED /* wordmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@2x.png"; path = "../assets/images/wordmark@2x.png"; sourceTree = "<group>"; };
 		66DEF8E22417FBF1000BA7ED /* wordmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wordmark.png; path = ../assets/images/wordmark.png; sourceTree = "<group>"; };
 		66DEF8E32417FBF1000BA7ED /* wordmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@3x.png"; path = "../assets/images/wordmark@3x.png"; sourceTree = "<group>"; };
+		66F5220524334A54000F0CA0 /* rizzle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rizzle-Bridging-Header.h"; sourceTree = "<group>"; };
 		66FBE127221C3C6A003F9FA8 /* RNInAppBrowser.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNInAppBrowser.xcodeproj; path = "../node_modules/react-native-inappbrowser-reborn/ios/RNInAppBrowser.xcodeproj"; sourceTree = "<group>"; };
 		6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		78D2BA048E8A4D53940A372C /* Arvo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Regular.ttf"; path = "../assets/fonts/Arvo-Regular.ttf"; sourceTree = "<group>"; };
@@ -297,6 +298,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				664B4B271FAB59A9006C6DF9 /* webview */,
 				668CE9EC2158BE6A00CA3EDF /* icons.xcassets */,
+				66F5220524334A54000F0CA0 /* rizzle-Bridging-Header.h */,
 			);
 			name = rizzle;
 			sourceTree = "<group>";
@@ -553,6 +555,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = LQ43Q9L9MY;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -956,6 +959,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = rizzle/rizzle.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -992,6 +996,9 @@
 				PRODUCT_NAME = rizzle;
 				PROVISIONING_PROFILE = "17c847ba-6126-4981-85a9-120fc34fab45";
 				PROVISIONING_PROFILE_SPECIFIER = "iOS Development (all certs)";
+				SWIFT_OBJC_BRIDGING_HEADER = "rizzle-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1004,6 +1011,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = rizzle/rizzle.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -1039,6 +1047,8 @@
 				PRODUCT_NAME = rizzle;
 				PROVISIONING_PROFILE = "7ce17c38-fb6c-4a94-beb5-c82f33426323";
 				PROVISIONING_PROFILE_SPECIFIER = "Rizzle App Store";
+				SWIFT_OBJC_BRIDGING_HEADER = "rizzle-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
