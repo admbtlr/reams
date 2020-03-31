@@ -261,7 +261,8 @@ class ItemTitle extends React.Component {
   async getMaxFontSize () {
     let { styles } = this.props
     const that = this
-    const limit = Math.round(this.screenWidth / 10)
+    const width = this.screenWidth * this.getWidthPercentage() / 100
+    const limit = Math.round(width / 10)
     let maxSize
     const longestWord = this.getLongestWord()
     let sizes = []
@@ -271,7 +272,7 @@ class ItemTitle extends React.Component {
     }
 
     return Promise.all(sizes.map((size) => rnTextSize.measure({
-        text: [styles.isUpperCase ? longestWord.toLocaleUpperCase() : longestWord],
+        text: styles.isUpperCase ? longestWord.toLocaleUpperCase() : longestWord,
         fontSize: size,
         fontFamily: this.getFontFamily(),
         width: 1000
@@ -289,6 +290,10 @@ class ItemTitle extends React.Component {
       }
       return null
     }).then(maxSize => (maxSize > limit) ? limit : maxSize)
+      .catch(e => {
+        debugger
+        console.log(e)
+      })
 
   }
 
@@ -308,7 +313,7 @@ class ItemTitle extends React.Component {
     }
 
     Promise.all(sizes.map((size) => rnTextSize.measure({
-        text: [styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle],
+        text: styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle,
         width: this.getInnerWidth(size, styles.isItalic),
         fontSize: size,
         fontFamily: this.getFontFamily(),
