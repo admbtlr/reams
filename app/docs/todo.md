@@ -1,5 +1,7 @@
 # To Do
 
+- do something about the empty library when linking
+    - `/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target x86_64-apple-ios10.0-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk -L/Users/adam/Library/Developer/Xcode/DerivedData/rizzle-cqojtsvehzvcnofqcxsikvrxemsv/Build/Products/Debug-iphonesimulator -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/iphonesimulator -L -L/Users/adam/Library/Developer/Xcode/DerivedData/rizzle-cqojtsvehzvcnofqcxsikvrxemsv/Build/Products/Debug-iphonesimulator/AppAuth...`
 - mercury state doesn't get updated for visible stories
 - deal with feed.number_unread problems
 - upgrade to react native 62
