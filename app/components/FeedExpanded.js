@@ -9,8 +9,10 @@ import FeedCoverImage from './FeedCoverImage'
 import FeedIconCorner from './FeedIconCorner'
 import FeedDetails from './FeedDetails'
 import XButton from './XButton'
+import NavButton from './NavButton'
 import FeedExpandedOnboarding from './FeedExpandedOnboarding'
 import { fontSizeMultiplier } from '../utils'
+import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
 class FeedExpanded extends React.Component {
 
@@ -41,9 +43,13 @@ class FeedExpanded extends React.Component {
 
   render () {
     const {
+      clearReadItems,
       close,
       feed,
-      isFeedOnboardingDone
+      filterItems,
+      isFeedOnboardingDone,
+      navigation,
+      setIndex
     } = this.props
 
     if (!feed) return null
@@ -147,6 +153,19 @@ class FeedExpanded extends React.Component {
           padding: 0,
           margin: 0
         }}>
+          <NavButton
+            onPress={() => {
+              clearReadItems()
+              filterItems(feed._id)
+              setIndex(0)
+              navigation.navigate('Items')
+            }}
+          >
+            <Text style={{ 
+              ...textInfoStyle(),
+              flex: 1   
+            }}>Read stories from <Text style={textInfoBoldStyle()}>{feed.title}</Text></Text>
+          </NavButton>
           <FeedDetails { ...this.props } />
         </View>
         <View style={{

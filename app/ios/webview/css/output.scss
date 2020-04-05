@@ -297,11 +297,15 @@ body {
 
   h1, h2, h3 {
     color: var(--feed-color);
+
+    a {
+      color: var(--feed-color) !important;
+    }
   }
 
   h1, h2 {
     font-size: 1.2rem;
-    line-height: 1.33rem;
+    line-height: 1.5rem;
     margin: 3rem 0 .5rem;
   }
   h2 {
@@ -312,7 +316,7 @@ body {
   }
   h3, h4 {
     font-size: 1rem;
-    line-height: 1rem;
+    line-height: 1.33rem;
     margin: 2rem 0 0.2rem;
   }
   h4 {
@@ -398,7 +402,7 @@ body {
     &.img-small {
       float: left;
       clear: left;
-      margin: 0.25rem 0 0.5rem 0.66rem;
+      margin: 0.25rem 0.5rem 0.5rem 0;
     }
   }
 
@@ -577,6 +581,7 @@ body {
       left: calc(50% - 50vw);
       margin: 0 0 1rem;
       padding: 1rem calc(50vw - 50%);
+      width: 100vw;
     }
   }
 
@@ -737,6 +742,18 @@ hr {
   height: 16px;
   background-color: var(--feed-color);
   border: 0;
+}
+
+@mixin firstLineFontFamily($fontFamily) {
+  .itemArticle {
+    & > p:not(.short-para):first-of-type,
+    & > div:first-of-type > p:not(.short-para):first-of-type,
+    & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-line {
+        font-family: $fontFamily;
+      }
+    }
+  }
 }
 
 @mixin dropCapFontSize($size) {
@@ -945,6 +962,14 @@ hr {
     font-family: "LibreBaskerville-Bold";
     font-weight: normal;
   }
+
+  strong em, em strong {
+    font-family: "LibreBaskerville-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("LibreBaskerville-Bold")
 }
 
 .bodyFontSans1 {
@@ -966,6 +991,8 @@ hr {
     font-style: normal;
     font-weight: normal;
   }
+
+  @include firstLineFontFamily("IBMPlexSans-Bold")
 }
 
 .bodyFontSerif2 {
@@ -986,6 +1013,8 @@ hr {
     font-style: normal;
     font-weight: normal;
   }
+
+  @include firstLineFontFamily("IowanOldStyle-Bold")
 }
 
 .bodyFontSans2 {
@@ -1006,6 +1035,8 @@ hr {
     font-style: normal;
     font-weight: normal;
   }
+
+  @include firstLineFontFamily("AvenirNext-Bold")
 }
 
 .bodyFontSerif3 {
@@ -1027,6 +1058,8 @@ hr {
     font-style: normal;
     font-weight: normal;
   }
+
+  @include firstLineFontFamily("IBMPlexSerif-Bold")
 }
 
 .headerFontSans1 {
@@ -1264,10 +1297,10 @@ hr {
 
 body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
   color: #000;
-}
 
-.dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
-  color: #ddd;
+  .dark-background & {
+    color: #ddd;
+  }
 }
 
 @mixin ipad {
@@ -1278,6 +1311,7 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
     @content;
   }
 }
+
 
 html.onboarding {
   // this is now my rem value

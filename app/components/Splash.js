@@ -11,7 +11,7 @@ import SplashScreen from 'react-native-splash-screen'
 import { hslString } from '../utils/colors'
 import { isFirstLaunch } from '../utils'
 
-export default function Splash ({ fadeOut }) {
+export default function Splash () {
   const { height, width } = Dimensions.get('window')
   const rizzleAnim = new Animated.Value(0)
   const scaleAnim = new Animated.Value(1)

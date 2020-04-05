@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, {Circle, Path, Polygon, Rect} from 'react-native-svg'
+import Svg, {Circle, G, Path, Polygon, Rect} from 'react-native-svg'
 import { fontSizeMultiplier } from '../utils'
 
 export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isEnabled) {
@@ -193,6 +193,47 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path transform='translate(-1, 0)' d='M15.4670718,3.31922035 L30.365307,29.1237209 C30.7795206,29.8411598 30.5337079,30.7585454 29.8162689,31.172759 L25.1937311,33.8415825 C24.4762921,34.255796 23.5589065,34.0099833 23.144693,33.2925444 L8.24645763,7.48804388 C7.83224406,6.77060495 8.07805679,5.85321933 8.79549574,5.43900578 L13.4180337,2.77018224 C14.1354727,2.35596868 15.0528583,2.60178142 15.4670718,3.31922035 Z' />
       </Svg>
 
-  }
-}
+    case 'saved':
+      return <Svg width="32px" height="32px" viewBox="0 0 32 32">
+        <G strokeWidth="1"  stroke='none' fill="none" fillRule="evenodd">
+          <G transform="translate(-1.000000, -3.000000)">
+            <G transform="translate(1.000000, 3.000000)">
+              <Path fill={borderColor} d="M2,6 L2,27 C2,28.65 3.4,30 5.11111111,30 L26.8888889,30 C28.6071081,30 30,28.6568542 30,27 L30,6 M0,5 C0,5.00566956 0,4.33900289 0,3 C0,0.991495663 0.444444444,4.4408921e-15 3,4.4408921e-15 L29,4.4408921e-15 C31.5555556,4.4408921e-15 32,1 32,3 L32,5" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              <Rect stroke={backgroundColor} fill='white' transform="translate(16.000000, 17.500000) rotate(120.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
+              <Rect stroke={backgroundColor} fill='white' x="7.5" y="15.5" width="17" height="4" />
+              <Rect stroke={backgroundColor} fill='white' transform="translate(16.000000, 17.500000) rotate(60.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
+            </G>
+          </G>
+        </G>
+      </Svg>
 
+    case 'unread':
+      return <Svg width="30px" height="26px" viewBox="0 0 30 26">
+        <G stroke="none" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <G transform="translate(-2.000000, -8.000000)" strokeWidth="2">
+            <G transform="translate(3.000000, 3.000000)">
+              <Path stroke={borderColor} strokeWidth="2" d="M0,22 L0,27 C0,28.65 1.4,30 3.11111111,30 L24.8888889,30 C26.6071081,30 28,28.6568542 28,27 L28,22" />
+              <Path strokeOpacity="0.7" stroke={borderColor} strokeWidth="1" d="M3,24 L25,24 M3,27 L25,27 M3,18 L25,18 M3,21 L25,21 M3,12 L25,12 M3,15 L25,15 M3,6 L25,6 M3,9 L25,9" />
+            </G>
+          </G>
+        </G>
+      </Svg>
+
+    case 'rss':
+      return <Svg width="32" height="32" viewBox="0 0 24 24" fill={borderColor} stroke={borderColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <Path d="M4 11a9 9 0 0 1 9 9" />
+        <Path d="M4 4a16 16 0 0 1 16 16" />
+        <Circle cx="5" cy="19" r="1" />
+      </Svg>
+
+    case'back':
+      return <Svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={borderColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <Path d="M15 18l-6-6 6-6"/>
+      </Svg>
+
+    case 'forward':
+      return <Svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={borderColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <Path d="M9 18l6-6-6-6"/>
+      </Svg>
+}
+}

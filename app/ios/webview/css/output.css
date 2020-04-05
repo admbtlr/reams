@@ -72,9 +72,11 @@ body {
     hyphens: none; }
   .itemArticle h1, .itemArticle h2, .itemArticle h3 {
     color: var(--feed-color); }
+    .itemArticle h1 a, .itemArticle h2 a, .itemArticle h3 a {
+      color: var(--feed-color) !important; }
   .itemArticle h1, .itemArticle h2 {
     font-size: 1.2rem;
-    line-height: 1.33rem;
+    line-height: 1.5rem;
     margin: 3rem 0 .5rem; }
   .itemArticle h2 {
     font-size: 1rem; }
@@ -82,7 +84,7 @@ body {
     font-weight: normal; }
   .itemArticle h3, .itemArticle h4 {
     font-size: 1rem;
-    line-height: 1rem;
+    line-height: 1.33rem;
     margin: 2rem 0 0.2rem; }
   .itemArticle h4 {
     font-size: 0.75rem; }
@@ -137,7 +139,7 @@ body {
     .itemArticle img.img-portrait.img-small, .itemArticle img.img-small.img-small {
       float: left;
       clear: left;
-      margin: 0.25rem 0 0.5rem 0.66rem; }
+      margin: 0.25rem 0.5rem 0.5rem 0; }
   .itemArticle figure img.img-portrait, .itemArticle figure img.img-small {
     width: calc(100% - 1rem);
     margin-bottom: 0; }
@@ -289,7 +291,8 @@ body {
       margin-bottom: 1rem;
       left: calc(50% - 50vw);
       margin: 0 0 1rem;
-      padding: 1rem calc(50vw - 50%); } }
+      padding: 1rem calc(50vw - 50%);
+      width: 100vw; } }
   .itemArticle a.unused, .itemArticle a.unused:active, .itemArticle a.unused:visited {
     color: inherit !important;
     /*text-decoration: none;*/
@@ -664,6 +667,14 @@ hr {
   .bodyFontSerif1 strong {
     font-family: "LibreBaskerville-Bold";
     font-weight: normal; }
+  .bodyFontSerif1 strong em, .bodyFontSerif1 em strong {
+    font-family: "LibreBaskerville-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal; }
+  .bodyFontSerif1 .itemArticle > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSerif1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSerif1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+    font-family: "LibreBaskerville-Bold"; }
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans-Regular", sans-serif;
@@ -678,6 +689,10 @@ hr {
     font-family: "IBMPlexSans-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }
+  .bodyFontSans1 .itemArticle > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSans1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSans1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+    font-family: "IBMPlexSans-Bold"; }
 
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif; }
@@ -691,6 +706,10 @@ hr {
     font-family: "IowanOldStyle-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }
+  .bodyFontSerif2 .itemArticle > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+    font-family: "IowanOldStyle-Bold"; }
 
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif; }
@@ -704,6 +723,10 @@ hr {
     font-family: "AvenirNext-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }
+  .bodyFontSans2 .itemArticle > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSans2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSans2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+    font-family: "AvenirNext-Bold"; }
 
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif-Regular", serif;
@@ -718,6 +741,10 @@ hr {
     font-family: "IBMPlexSerif-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }
+  .bodyFontSerif3 .itemArticle > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSerif3 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
+  .bodyFontSerif3 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+    font-family: "IBMPlexSerif-Bold"; }
 
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold"; }
@@ -808,9 +835,8 @@ hr {
 
 body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
   color: #000; }
-
-.dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
-  color: #ddd; }
+  .dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
+    color: #ddd; }
 
 html.onboarding {
   font-size: calc(7vw); }

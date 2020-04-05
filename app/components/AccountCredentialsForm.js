@@ -208,7 +208,20 @@ class AccountCredentialsForm extends React.Component {
                       }}>Stop using {serviceDisplay}</Text>
                     </TouchableOpacity>
                   </React.Fragment>
-              }
+                }
+                <TouchableOpacity
+                  accessibilityLabel={`Go to your feeds`}
+                  color={hslString('white')}
+                  onPress={() => this.props.navigation.navigate('Feeds')}
+                  testID={`${service}-feeds-button`}
+                >
+                  <Text style={{
+                    ...textInfoBoldStyle('white'),
+                    fontSize: 20
+                  }}><Text style={{
+                    textDecorationLine: 'underline'
+                  }}>Go to Your Feeds</Text> ></Text>
+                </TouchableOpacity>
               </View> :
               ( service === 'rizzle' ?
                 <RizzleAuth

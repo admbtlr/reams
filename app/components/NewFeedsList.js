@@ -13,9 +13,12 @@ import {
 import Svg, {Path} from 'react-native-svg'
 import { ADD_FEEDS } from '../store/feeds/types'
 import TextButton from './TextButton'
+import XButton from './XButton'
 import { fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
 import {feeds} from '../utils/feeds/feeds'
+import { textInfoBoldStyle } from '../utils/styles'
+import { rgba } from 'react-native-image-filter-kit'
 // import {culture} from '../utils/feeds/culture'
 
 const textStyles = () => ({
@@ -78,7 +81,9 @@ const technology = {
 export default function NewFeedsList (props) {
   const [selectedFeeds, setFeeds] = useState([])
   const [expandedFeedSets, setExpandedFeedSets] = useState([])
+  const [headerHeight, setHeaderHeight] = useState(100)
   const dispatch = useDispatch()
+  // let headerExpanded = 
 
   const toggleFeedSelected = (feed, isSelected) => {
     if (isSelected) {
@@ -109,6 +114,12 @@ export default function NewFeedsList (props) {
     props.close()
   }
 
+  const scrollY = new Animated.Value(0)
+
+  const onScrollEnd = () => {
+    console.log('Scroll ended')
+  }
+
   // useEffect(() => {
   //   if (selectedFeeds.length > 0) {
   //     Animated.spring(buttonAnim, {
@@ -126,8 +137,8 @@ export default function NewFeedsList (props) {
   // })
 
   const hashtag = <Svg
-    width='32'
-    height='32'
+    width={32 * fontSizeMultiplier()}
+    height={32 * fontSizeMultiplier()}
     viewBox='0 0 32 32'
     style={{
       top: -2,
@@ -138,17 +149,37 @@ export default function NewFeedsList (props) {
         fill-rule="nonzero" />
     </Svg>
 
+  const screenWidth = Dimensions.get('window').width
+
   return (
-    <Fragment>
-      <ScrollView
+    <View>
+      <XButton
+        onPress={props.close}
+        style={{
+          top: screenWidth * 0.05,
+          right: screenWidth * 0.05 + 1
+        }}
+      />
+      <Animated.ScrollView
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'flex-start',
           backgroundColor: hslString('logo1'),
-          paddingLeft: Dimensions.get('window').width * 0.05,
-          paddingRight: Dimensions.get('window').width * 0.05
+          paddingLeft: screenWidth * 0.05,
+          paddingRight: screenWidth * 0.05
           // marginTop: margin
         }}
+        onScrollEnd={onScrollEnd}
+        onScroll={Animated.event(
+          [{ nativeEvent: {
+            contentOffset: {
+              y: scrollY
+            }
+          }}],
+          { useNativeDriver: true }
+        )}
+        showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
         style={{
           backgroundColor: hslString('logo1'),
           flex: 1
@@ -158,19 +189,10 @@ export default function NewFeedsList (props) {
           barStyle="dark-content"
           showHideTransition="slide"/>
         <View style={{
-          marginTop: 30,
+          marginTop: 200,
           marginBottom: 64,
-          width: Dimensions.get('window').width * 0.9
+          width: screenWidth * 0.9
         }}>
-          <Heading
-            title='Read More About Stuff You Love'
-            showClose={true}
-            isBigger={true}
-            isWhite={true}
-            onClose={() => {
-              props.close()
-            }}
-          />
           <Text style={{
             ...textStyles(),
             ...boldStyles,
@@ -216,33 +238,73 @@ export default function NewFeedsList (props) {
             text={`Add ${selectedFeeds.length > 0 ? selectedFeeds.length : ''} site${selectedFeeds.length !== 1 ? 's' : ''} to my feed`}
           />
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
       <Animated.View style={{
-        position: 'absolute',
-        bottom: margin * 2,
-        left: margin,
-        width: screenWidth - margin * 2,
-        justifyContent: 'center',
-        transform: [
-          { translateY: buttonAnim }
-        ]
+          position: 'absolute',
+          left: screenWidth * 0.05,
+          top: screenWidth * 0.05,
+          zIndex: 10,
+          opacity: scrollY.interpolate({ 
+            inputRange: [0, headerHeight * 0.9, headerHeight],
+            outputRange: [0, 0, 1] 
+          })
       }}>
-        <TextButton
-          text="Show me the stories"
-          onPress={() => {
-            dispatch({
-              type: ADD_FEEDS,
-              feeds: selectedFeeds
-            })
-            props.navigation.navigate('Items')
-          }}
-          buttonStyle={{
-            marginLeft: margin,
-            marginRight: margin
-          }}
-        />
+        <TouchableOpacity style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          padding: screenWidth * 0.0125,
+          borderRadius: screenWidth * 0.05
+        }}>
+          <Text style={textInfoBoldStyle('logo1')}>ADD SITES</Text>
+        </TouchableOpacity>
       </Animated.View>
-    </Fragment>
+      <Animated.View 
+        onLayout={(ne) => {
+          setHeaderHeight(ne.nativeEvent.layout.height)
+        }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          zIndex: 5,
+          paddingTop: 28,
+          backgroundColor: hslString('logo1'),
+          transform: [{
+            translateY: scrollY.interpolate({
+              inputRange: [0, headerHeight],
+              outputRange: [0, -(headerHeight * 0.3)],
+              extrapolate: 'clamp'
+            })
+          }, {
+            scaleY: scrollY.interpolate({
+              inputRange: [0, headerHeight],
+              outputRange: [1, 70 / headerHeight],
+              extrapolate: 'clamp'
+            })
+          }]
+      }}>
+        <Animated.View style={{
+          width: '90%',
+          marginLeft: '5%',
+          borderBottomWidth: 1,
+          paddingBottom: screenWidth * 0.05,
+          borderBottomColor: 'rgba(255, 255, 255, 0.5)',
+        }}>
+          <Animated.Text style={{
+            fontFamily: 'PTSerif-Bold',
+            color: 'white',
+            fontSize: 40,
+            lineHeight: 50,
+            opacity: scrollY.interpolate({
+              inputRange: [0, 50],
+              outputRange: [1, 0]
+            }),
+            paddingTop: 18,
+            textAlign: 'center',        
+          }}>Read More About Stuff You Love</Animated.Text>
+        </Animated.View>
+      </Animated.View>
+    </View>
   )
 }
 

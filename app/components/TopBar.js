@@ -11,6 +11,7 @@ import Svg, {Circle, G, Rect, Path} from 'react-native-svg'
 import FeedIconContainer from '../containers/FeedIcon'
 import { id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 
@@ -102,12 +103,8 @@ class TopBar extends React.Component {
             }]
           }}
         >
-          <DisplayModeToggle
-            backgroundColor={this.getBackgroundColor(item)}
-            buttonColor={this.getHamburgerColor(item)}
-            displayMode={this.props.displayMode}
-            onPress={this.onDisplayPress}
-            style={{ width: 48 }}
+          <BackButton
+            navigation={this.props.navigation}
           />
           <View style={{
             top: isIphoneX() ? 44 : 22,
@@ -194,9 +191,9 @@ class TopBar extends React.Component {
               </Animated.View>
             </TouchableOpacity>
           </View>
-          <FeedsHamburger
+          {/*}<FeedsHamburger
             onPress={() => this.props.navigation.navigate('Feeds')}
-            hamburgerColor={this.getHamburgerColor(item)} />
+                  hamburgerColor={this.getHamburgerColor(item)} />{*/}
         </Animated.View>
     </View>)
   }
@@ -394,8 +391,8 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
   return (
     <Animated.View style={{
       position: 'absolute',
-      left: 20,
-      bottom: 11,
+      left: 0,
+      bottom: 13,
       width: 32,
       height: 38,
     }}>
@@ -404,14 +401,38 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
           // borderRadius: 14,
           // backgroundColor: 'rgba(0, 0, 0, 0.3)'
         }}
-        onPress={onPress}
       >
-        { displayMode === ItemType.unread ? savedIcon : unreadIcon}
+        { getRizzleButtonIcon('back', 'white') }
+        { /*displayMode === ItemType.unread ? savedIcon : unreadIcon*/ }
       </TouchableOpacity>
     </Animated.View>
   )
 }
 
+const BackButton = ({ navigation: { goBack } }) => (
+  <Animated.View style={{
+    position: 'absolute',
+    left: 0,
+    bottom: 3,
+    width: 32,
+    height: 48,
+    paddingRight: 50
+  }}>
+    <TouchableOpacity
+      onPress={() => {
+        goBack()
+      }}
+      style={{
+        paddingBottom: 10,
+        paddingLeft: 0,
+        paddingRight: 50,
+        paddingTop: 10        
+      }}
+    >
+      { getRizzleButtonIcon('back', 'white') }
+    </TouchableOpacity>
+  </Animated.View>
+)
 
 export const getTopBarHeight = () => STATUS_BAR_HEIGHT// +
   // (isIphoneX() ? 44 : 22)

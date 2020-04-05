@@ -22,12 +22,11 @@ class ItemsScreen extends React.Component {
   }
 
   componentDidMount () {
-    // SplashScreen.hide()
-    this.focusListener = this.props.navigation.addListener('didFocus', this.props.screenDidFocus)
-    this.blurListener = this.props.navigation.addListener('willBlur', this.props.screenWillBlur)
-    if (!this.props.isOnboarding && !this.props.isAuthenticated) {
-      this.props.navigation.navigate('Account')
-    }
+    // this.focusListener = this.props.navigation.addListener('didFocus', this.props.screenDidFocus)
+    // this.blurListener = this.props.navigation.addListener('willBlur', this.props.screenWillBlur)
+    // if (!this.props.isOnboarding && !this.props.isAuthenticated) {
+    //   this.props.navigation.navigate('Account')
+    // }
   }
 
   componentDidUpdate () {
@@ -37,8 +36,8 @@ class ItemsScreen extends React.Component {
   }
 
   componentWillUnmount () {
-    this.focusListener.remove()
-    this.blurListener.remove()
+    // this.focusListener.remove()
+    // this.blurListener.remove()
   }
 
   render = () => {

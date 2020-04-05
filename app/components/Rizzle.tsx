@@ -6,6 +6,7 @@ import {
   StatusBar,
   View
 } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
 import DeepLinking from 'react-native-deep-linking'
 import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
@@ -186,32 +187,29 @@ export default class Rizzle extends Component<Props, State> {
     const rrfProps = {
       firebase: firebase.app(),
       config: rrfConfig,
-      dispatch: this.store.dispatch
+      dispatch: this.store?.dispatch
     }
 
-    const component = this.props.isActionExtension ?
-      <ActionExtensionScreen /> :
-      (<View style={{
-        flex: 1,
-        backgroundColor: hslString('rizzleBG')}}>
-        <RizzleModalContainer />
-        <StatusBar
-          barStyle='light-content'
-          hidden={false} />
-        <AppStateListenerContainer />
-        <ConnectionListenerContainer />
-        <AppContainer />
-        <Message />
-        <Splash />
-      </View>)
-
     return (
-      <Provider store={this.store}>
-        <ReactReduxFirebaseProvider {...rrfProps}>
-          { component }
-        </ReactReduxFirebaseProvider>
-      </Provider>
+      <NavigationContainer>
+        <Provider store={this.store}>
+          <ReactReduxFirebaseProvider {...rrfProps}>
+            <View style={{
+              flex: 1,
+              backgroundColor: hslString('rizzleBG')}}>
+              <RizzleModalContainer />
+              <StatusBar
+                barStyle='light-content'
+                hidden={false} />
+              <AppStateListenerContainer />
+              <ConnectionListenerContainer />
+              <AppContainer />
+              <Message />
+              <Splash />
+            </View>
+          </ReactReduxFirebaseProvider>
+        </Provider>
+      </NavigationContainer>
     )
   }
 }
-
