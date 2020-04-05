@@ -78,6 +78,8 @@ const technology = {
   feeds: feeds.filter(f => f.category === 'technology')
 }
 
+const scrollY = new Animated.Value(0)
+
 export default function NewFeedsList (props) {
   const [selectedFeeds, setFeeds] = useState([])
   const [expandedFeedSets, setExpandedFeedSets] = useState([])
@@ -112,12 +114,6 @@ export default function NewFeedsList (props) {
       feeds: selectedFeeds
     })
     props.close()
-  }
-
-  const scrollY = new Animated.Value(0)
-
-  const onScrollEnd = () => {
-    console.log('Scroll ended')
   }
 
   // useEffect(() => {
@@ -156,7 +152,7 @@ export default function NewFeedsList (props) {
       <XButton
         onPress={props.close}
         style={{
-          top: screenWidth * 0.05,
+          top: screenWidth * 0.025,
           right: screenWidth * 0.05 + 1
         }}
       />
@@ -169,7 +165,6 @@ export default function NewFeedsList (props) {
           paddingRight: screenWidth * 0.05
           // marginTop: margin
         }}
-        onScrollEnd={onScrollEnd}
         onScroll={Animated.event(
           [{ nativeEvent: {
             contentOffset: {
@@ -242,68 +237,73 @@ export default function NewFeedsList (props) {
       <Animated.View style={{
           position: 'absolute',
           left: screenWidth * 0.05,
-          top: screenWidth * 0.05,
+          top: screenWidth * 0.025,
           zIndex: 10,
           opacity: scrollY.interpolate({ 
             inputRange: [0, headerHeight * 0.9, headerHeight],
             outputRange: [0, 0, 1] 
           })
       }}>
-        <TouchableOpacity style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.5)',
-          padding: screenWidth * 0.0125,
-          borderRadius: screenWidth * 0.05
-        }}>
-          <Text style={textInfoBoldStyle('logo1')}>ADD SITES</Text>
-        </TouchableOpacity>
+        <TextButton 
+          disabled={selectedFeeds.length === 0}
+          onPress={addFeeds}
+          text={`Add ${selectedFeeds.length} Sites`}
+        />
       </Animated.View>
-      <Animated.View 
-        onLayout={(ne) => {
-          setHeaderHeight(ne.nativeEvent.layout.height)
-        }}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          zIndex: 5,
-          paddingTop: 28,
-          backgroundColor: hslString('logo1'),
-          transform: [{
-            translateY: scrollY.interpolate({
-              inputRange: [0, headerHeight],
-              outputRange: [0, -(headerHeight * 0.3)],
-              extrapolate: 'clamp'
-            })
-          }, {
-            scaleY: scrollY.interpolate({
-              inputRange: [0, headerHeight],
-              outputRange: [1, 70 / headerHeight],
-              extrapolate: 'clamp'
-            })
-          }]
+      <View style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        zIndex: 5,
       }}>
-        <Animated.View style={{
-          width: '90%',
-          marginLeft: '5%',
-          borderBottomWidth: 1,
-          paddingBottom: screenWidth * 0.05,
-          borderBottomColor: 'rgba(255, 255, 255, 0.5)',
+        <View style={{
+          backgroundColor: hslString('logo1', '', 0.98),
+          paddingTop: screenWidth * 0.1
         }}>
-          <Animated.Text style={{
-            fontFamily: 'PTSerif-Bold',
-            color: 'white',
-            fontSize: 40,
-            lineHeight: 50,
-            opacity: scrollY.interpolate({
-              inputRange: [0, 50],
-              outputRange: [1, 0]
-            }),
-            paddingTop: 18,
-            textAlign: 'center',        
-          }}>Read More About Stuff You Love</Animated.Text>
+        </View>
+        <Animated.View 
+          onLayout={(ne) => {
+            setHeaderHeight(ne.nativeEvent.layout.height)
+          }}
+          style={{
+            top: -screenWidth * 0.025,
+            backgroundColor: hslString('logo1'),
+            transform: [{
+              translateY: scrollY.interpolate({
+                inputRange: [0, headerHeight],
+                outputRange: [0, -(headerHeight * 0.5)],
+                extrapolate: 'clamp'
+              })
+            }, {
+              scaleY: scrollY.interpolate({
+                inputRange: [0, headerHeight],
+                outputRange: [1, 0],
+                extrapolate: 'clamp'
+              })
+            }]
+        }}>
+          <Animated.View style={{
+            width: '90%',
+            marginLeft: '5%',
+            borderBottomWidth: 1,
+            paddingBottom: screenWidth * 0.05,
+            borderBottomColor: 'rgba(255, 255, 255, 0.5)',
+          }}>
+            <Animated.Text style={{
+              fontFamily: 'PTSerif-Bold',
+              color: 'white',
+              fontSize: 40,
+              lineHeight: 40,
+              opacity: scrollY.interpolate({
+                inputRange: [0, 50],
+                outputRange: [1, 0]
+              }),
+              textAlign: 'center',        
+            }}>Read More About Stuff You Love</Animated.Text>
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
+      </View>
     </View>
   )
 }

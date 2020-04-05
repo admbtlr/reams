@@ -48,7 +48,7 @@ export default function Message (props) {
   return /*message.length === 0 ? null :*/ (
     <Animated.View style={{
       position: 'absolute',
-      top: isIphoneX() ? 38 : 2 * fontSizeMultiplier(),
+      top: isIphoneX() ? 38 : 6 * fontSizeMultiplier(),
       width: screenWidth,
       flex: 1,
       flexAlign: 'center',
@@ -65,7 +65,7 @@ export default function Message (props) {
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 5,
-        paddingBottom: 5,
+        paddingBottom: 3,
         borderRadius: (13 * fontSizeMultiplier() + 10) / 2,
         shadowRadius: 20,
         shadowColor: 'black',
