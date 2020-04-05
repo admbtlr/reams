@@ -324,7 +324,6 @@ body {
     padding: 0 0 .5rem; }
     .itemArticle li:before {
       width: 0.4rem;
-      display: inline-block;
       content: "";
       float: left;
       height: .15rem;
