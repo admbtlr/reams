@@ -2,12 +2,8 @@ import { ItemType } from '../store/items/types'
 import React from 'react'
 import {
   Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   View
 } from 'react-native'
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
@@ -22,26 +18,22 @@ class ItemsScreen extends React.Component {
   }
 
   componentDidMount () {
-    // this.focusListener = this.props.navigation.addListener('didFocus', this.props.screenDidFocus)
-    // this.blurListener = this.props.navigation.addListener('willBlur', this.props.screenWillBlur)
-    // if (!this.props.isOnboarding && !this.props.isAuthenticated) {
-    //   this.props.navigation.navigate('Account')
-    // }
+    const { screenDidFocus, screenWillBlur } = this.props
+    this.focusListener = this.props.navigation.addListener('focus', screenDidFocus)
+    this.blurListener = this.props.navigation.addListener('blur', screenWillBlur)
+    screenDidFocus()
   }
 
   componentDidUpdate () {
-    if (!this.props.isOnboarding && !this.props.isAuthenticated) {
-      this.props.navigation.navigate('Account')
-    }
   }
 
   componentWillUnmount () {
-    // this.focusListener.remove()
-    // this.blurListener.remove()
+    this.focusListener.remove()
+    this.blurListener.remove()
   }
 
   render = () => {
-    const { isOnboarding } = this.props
+    const { displayMode, navigation } = this.props
     return (
       <View style={{
         flex: 1,
@@ -49,11 +41,11 @@ class ItemsScreen extends React.Component {
       }}>
         <StatusBar
           showHideTransition="slide"
-          barStyle={ this.props.displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
+          barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
           hidden={false} />
         <View style={styles.infoView} />
         <ItemCarouselContainer
-          navigation={this.props.navigation}
+          navigation={navigation}
           style={styles.ItemCarousel} />
         <RizzleImageViewerContainer />
       </View>
@@ -94,5 +86,4 @@ const styles = StyleSheet.create({
   }
 })
 
-// export default ItemsScreen
 export default ItemsScreen

@@ -50,14 +50,13 @@
 		66A92E2823D88B12000E6D96 /* wordmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2223D88B12000E6D96 /* wordmark@2x.png */; };
 		66A92E2923D88B12000E6D96 /* wordmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2323D88B12000E6D96 /* wordmark.png */; };
 		66A92E2A23D88B12000E6D96 /* wordmark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2423D88B12000E6D96 /* wordmark@3x.png */; };
-		66A92E2B23D88B12000E6D96 /* rosette@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2523D88B12000E6D96 /* rosette@2x.png */; };
+		66A92E2B23D88B12000E6D96 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2523D88B12000E6D96 /* splash@2x.png */; };
 		66A92E2C23D88B12000E6D96 /* rosette.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2623D88B12000E6D96 /* rosette.png */; };
 		66A92E2D23D88B12000E6D96 /* rosette@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2723D88B12000E6D96 /* rosette@3x.png */; };
 		66A92E5123DAEAC8000E6D96 /* Paratype PT Sans Free Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */; };
 		66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */; };
 		66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		66ACB1271FD97094002BC66F /* RizzleShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ACB1261FD97094002BC66F /* RizzleShare.m */; };
-		66ACB1491FDAA026002BC66F /* icon-152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB1481FDAA026002BC66F /* icon-152x152.png */; };
 		66BE7B63233E3C3C00183A41 /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */; };
 		66BE7B64233E3C3C00183A41 /* IBMPlexMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */; };
 		66BE7BA4233E3C6A00183A41 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */; };
@@ -197,7 +196,7 @@
 		66A92E2223D88B12000E6D96 /* wordmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@2x.png"; path = "../assets/images/wordmark@2x.png"; sourceTree = "<group>"; };
 		66A92E2323D88B12000E6D96 /* wordmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wordmark.png; path = ../assets/images/wordmark.png; sourceTree = "<group>"; };
 		66A92E2423D88B12000E6D96 /* wordmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@3x.png"; path = "../assets/images/wordmark@3x.png"; sourceTree = "<group>"; };
-		66A92E2523D88B12000E6D96 /* rosette@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rosette@2x.png"; path = "../assets/images/rosette@2x.png"; sourceTree = "<group>"; };
+		66A92E2523D88B12000E6D96 /* splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash@2x.png"; path = "../assets/images/splash@2x.png"; sourceTree = "<group>"; };
 		66A92E2623D88B12000E6D96 /* rosette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rosette.png; path = ../assets/images/rosette.png; sourceTree = "<group>"; };
 		66A92E2723D88B12000E6D96 /* rosette@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rosette@3x.png"; path = "../assets/images/rosette@3x.png"; sourceTree = "<group>"; };
 		66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Paratype PT Sans Free Font License.txt"; path = "../assets/fonts/Paratype PT Sans Free Font License.txt"; sourceTree = "<group>"; };
@@ -205,7 +204,6 @@
 		66ACB11D1FD9705E002BC66F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		66ACB11F1FD9705E002BC66F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66ACB1261FD97094002BC66F /* RizzleShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RizzleShare.m; sourceTree = "<group>"; };
-		66ACB1481FDAA026002BC66F /* icon-152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-152x152.png"; path = "../img/icon-152x152.png"; sourceTree = "<group>"; };
 		66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSerif-BoldItalic.ttf"; path = "../assets/fonts/PTSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
 		66DEF8E12417FBF1000BA7ED /* wordmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@2x.png"; path = "../assets/images/wordmark@2x.png"; sourceTree = "<group>"; };
 		66DEF8E22417FBF1000BA7ED /* wordmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wordmark.png; path = ../assets/images/wordmark.png; sourceTree = "<group>"; };
@@ -291,7 +289,6 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				66ACB1481FDAA026002BC66F /* icon-152x152.png */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -306,7 +303,7 @@
 			children = (
 				66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */,
 				66A92E2623D88B12000E6D96 /* rosette.png */,
-				66A92E2523D88B12000E6D96 /* rosette@2x.png */,
+				66A92E2523D88B12000E6D96 /* splash@2x.png */,
 				66A92E2723D88B12000E6D96 /* rosette@3x.png */,
 				66A92E2323D88B12000E6D96 /* wordmark.png */,
 				66A92E2223D88B12000E6D96 /* wordmark@2x.png */,
@@ -680,7 +677,7 @@
 				95B2E1EC57184AC288AE9F32 /* LibreBaskerville-Bold.ttf in Resources */,
 				CA950E66A737450B801A5604 /* LibreBaskerville-Italic.ttf in Resources */,
 				165F6C9F0D804EC790DC575E /* LibreBaskerville-Regular.ttf in Resources */,
-				66A92E2B23D88B12000E6D96 /* rosette@2x.png in Resources */,
+				66A92E2B23D88B12000E6D96 /* splash@2x.png in Resources */,
 				451E8399A2A047438CD9C39C /* IBMPlexSansCondensed-Bold.ttf in Resources */,
 				497A4D2419654AD0897AEA42 /* IBMPlexSansCondensed-BoldItalic.ttf in Resources */,
 				39D61C8BEC984326A5FBD4A6 /* IBMPlexSansCondensed-ExtraLight.ttf in Resources */,
@@ -718,7 +715,6 @@
 				6673781520431A0100572989 /* IBMPlexMono-Regular.ttf in Resources */,
 				66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */,
 				668CE9EE2158BE6A00CA3EDF /* icons.xcassets in Resources */,
-				66ACB1491FDAA026002BC66F /* icon-152x152.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,7 +955,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 375;
+				CURRENT_PROJECT_VERSION = 378;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -1006,7 +1002,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 375;
+				CURRENT_PROJECT_VERSION = 378;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1062,7 +1058,7 @@
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 375;
+				CURRENT_PROJECT_VERSION = 378;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -1123,7 +1119,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 375;
+				CURRENT_PROJECT_VERSION = 378;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1212,7 +1208,12 @@
 					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
-				"HEADER_SEARCH_PATHS[arch=*]" = "$(inherited) $(SRCROOT)/../node_modules/react-native/React/** $(SRCROOT)/../node_modules/react-native-share-extension/ios/** $(SRCROOT)/../node_modules/react-native-splash-screen/ios";
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1265,7 +1266,12 @@
 					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
-				"HEADER_SEARCH_PATHS[arch=*]" = "$(inherited) $(SRCROOT)/../node_modules/react-native/React/** $(SRCROOT)/../node_modules/react-native-share-extension/ios/** $(SRCROOT)/../node_modules/react-native-splash-screen/ios";
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-share-extension/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;

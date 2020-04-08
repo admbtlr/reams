@@ -154,12 +154,15 @@ class FeedExpanded extends React.Component {
           margin: 0
         }}>
           <NavButton
+            hasBottomBorder={true}
+            hasTopBorder={true}
             onPress={() => {
               clearReadItems()
               filterItems(feed._id)
               setIndex(0)
               navigation.navigate('Items')
             }}
+            viewStyle={{ marginBottom: 0 }}
           >
             <Text style={{ 
               ...textInfoStyle(),

@@ -146,6 +146,8 @@ export default function NewFeedsList (props) {
     </Svg>
 
   const screenWidth = Dimensions.get('window').width
+  const collapsedHeaderHeight = screenWidth * 0.05 + 32 * fontSizeMultiplier() // allow space for the TextButton
+
 
   return (
     <View>
@@ -163,7 +165,6 @@ export default function NewFeedsList (props) {
           backgroundColor: hslString('logo1'),
           paddingLeft: screenWidth * 0.05,
           paddingRight: screenWidth * 0.05
-          // marginTop: margin
         }}
         onScroll={Animated.event(
           [{ nativeEvent: {
@@ -184,7 +185,7 @@ export default function NewFeedsList (props) {
           barStyle="dark-content"
           showHideTransition="slide"/>
         <View style={{
-          marginTop: 200,
+          marginTop: headerHeight + collapsedHeaderHeight + screenWidth * 0.05,
           marginBottom: 64,
           width: screenWidth * 0.9
         }}>
@@ -239,27 +240,31 @@ export default function NewFeedsList (props) {
           left: screenWidth * 0.05,
           top: screenWidth * 0.025,
           zIndex: 10,
-          opacity: scrollY.interpolate({ 
-            inputRange: [0, headerHeight * 0.9, headerHeight],
-            outputRange: [0, 0, 1] 
-          })
+          opacity: selectedFeeds.length === 0 ? 0 :
+            scrollY.interpolate({ 
+              inputRange: [0, headerHeight * 0.9, headerHeight],
+              outputRange: [0, 0, 1] 
+            })
       }}>
         <TextButton 
-          disabled={selectedFeeds.length === 0}
+          isDisabled={selectedFeeds.length === 0}
+          isCompact={true}
           onPress={addFeeds}
-          text={`Add ${selectedFeeds.length} Sites`}
+          text={`Add ${selectedFeeds.length > 0 ? selectedFeeds.length : ''} Site${selectedFeeds.length === 1 ? '' : 's'}`}
         />
       </Animated.View>
-      <View style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        zIndex: 5,
-      }}>
+      <View 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          zIndex: 5,
+        }}
+      >
         <View style={{
           backgroundColor: hslString('logo1', '', 0.98),
-          paddingTop: screenWidth * 0.1
+          paddingTop: collapsedHeaderHeight
         }}>
         </View>
         <Animated.View 
@@ -294,7 +299,7 @@ export default function NewFeedsList (props) {
               fontFamily: 'PTSerif-Bold',
               color: 'white',
               fontSize: 40,
-              lineHeight: 40,
+              lineHeight: 48,
               opacity: scrollY.interpolate({
                 inputRange: [0, 50],
                 outputRange: [1, 0]

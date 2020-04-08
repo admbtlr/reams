@@ -116,7 +116,7 @@ export function addMercuryStuffToItem (item, mercury) {
       hasLoadedMercuryStuff: true,
       showMercuryContent: true
     }
-    return derelativise(item)
+    return fixRelativePaths(item)
   }
 
   // if excerpt == content_html, showMercury
@@ -186,7 +186,7 @@ export function addMercuryStuffToItem (item, mercury) {
     decoratedItem[visibleContentKey] = decoratedItem[visibleContentKey].replace(/<img.*?>/, '')
   }
 
-  return derelativise(decoratedItem)
+  return fixRelativePaths(decoratedItem)
 }
 
 function stripTags (text) {
@@ -246,7 +246,7 @@ export function setShowCoverImage (item, currentItem) {
   return {
     ...item,
     showCoverImage: item.hasCoverImage &&
-      (currentItem ? item._id !== currentItem._id : true) &&
+      // (currentItem ? item._id !== currentItem._id : true) &&
       (getLongestContentLength(item) > 1500)
   }
 }
