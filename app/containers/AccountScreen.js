@@ -34,7 +34,13 @@ const mapDispatchToProps = (dispatch) => {
     setSignInEmail: (email) => dispatch({
       type: SET_SIGN_IN_EMAIL,
       email
-    })
+    }),
+    setDisplayMode: (displayMode) => {
+      return dispatch({
+        type: 'SET_DISPLAY_MODE',
+        displayMode
+      })
+    },
   }
 }
 

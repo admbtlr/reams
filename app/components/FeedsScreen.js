@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   StatusBar,
+  TouchableOpacity,
   Text,
   View
 } from 'react-native'
@@ -13,9 +14,10 @@ import Heading from './Heading'
 import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
-import { deepEqual } from '../utils/'
+import { deepEqual, getInset } from '../utils/'
 import Animated from 'react-native-reanimated'
 import { fontSizeMultiplier } from '../utils'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 const { Value } = Animated
 
@@ -75,7 +77,7 @@ class FeedsScreen extends React.Component {
     console.log((isShowingExpandedFeed ? 'S' : 'Not s') + 'howing expanded feed')
     console.log(this.state)
     const width = Dimensions.get('window').width
-    const margin = width * 0.04
+    const margin = width * 0.05
     const extraFeedProps = this.state.selectedFeedElement ?
       this.state.selectedFeedElement.props :
       (this.state.prevSelectedFeedElement ?
@@ -107,6 +109,7 @@ class FeedsScreen extends React.Component {
           initialNumToRender={3}
           ListHeaderComponent={<ListHeaderComponent
             backend={this.props.backend}
+            clearFeedFilter={this.props.clearFeedFilter}
             clearReadItems={this.props.clearReadItems}
             navigation={navigation}
             numItems={this.props.numItems}
@@ -118,6 +121,7 @@ class FeedsScreen extends React.Component {
           numColumns={width > 500 ? 2 : 1}
           renderItem={this.renderFeed}
           scrollEnabled={this.state.scrollEnabled}
+          showsVerticalScrollIndicator={false}
           onScrollBeginDrag={() => { this.isScrolling = true }}
           onScrollEndDrag={() => { this.isScrolling = false }}
           windowSize={6}
@@ -190,20 +194,11 @@ class ListHeaderComponent extends React.Component {
     }
     return (
       <View style={{
-        marginTop: 55,
-        marginBottom: 64,
-        width: Dimensions.get('window').width * 0.9
+        // marginTop: 55,
+        marginBottom: 40,
+        width: screenWidth - getInset() * 2
       }}>
-        <Heading
-          title='Your Feeds'
-          showBack={true}
-          onBack={() => {
-            this.props.clearReadItems()
-            this.props.setIndex(0)
-            navigation.navigate('Items')
-          }}
-        />
-        <Text style={{
+        {/*}<Text style={{
           ...textStyles,
           marginBottom: 0
         }}>You are using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.backend }</Text> to manage your feeds.</Text>
@@ -253,15 +248,28 @@ class ListHeaderComponent extends React.Component {
         </View>
         <ItemsDirectionRadiosContainer />
         <Heading title='' />
-        <View style={{ height: margin*2 }} />
-        <TextButton
-          text="Add some feeds"
-          buttonStyle={{ marginBottom: 0 }}
+          <View style={{ height: margin*2 }} />{*/}
+        <NavButton
+          text="Unread stories"
+          hasBottomBorder={true}
+          hasTopBorder={true}
+          icon={ getRizzleButtonIcon('unread', hslString('rizzleText')) }
           onPress={() => {
-            navigation.push('Modal', {
+            this.props.clearFeedFilter()
+            this.props.navigation.navigate('Items')
+          }}
+        />
+        <TextButton
+          text="Add feeds"
+          buttonStyle={{ 
+            marginTop: 40,
+            marginBottom: 0 
+          }}
+          onPress={() => {
+            navigation.push('ModalWithGesture', {
               childView: <NewFeedsList
                 close={() => {
-                  navigation.goBack(null)
+                  navigation.navigate('Main')
                 }}
                 navigation={navigation}
               />

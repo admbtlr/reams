@@ -25,6 +25,6 @@
         </view>
     </objects>
     <resources>
-        <image name="rosette.png" width="148" height="147"/>
+        <image name="rosette.png" width="150" height="150"/>
     </resources>
 </document>

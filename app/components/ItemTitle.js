@@ -481,7 +481,6 @@ class ItemTitle extends React.Component {
 
   // called by outerView to set the bottom y of the title
   onLayout (bottomY) {
-    console.log('ItemTitle onLayout bottom y: ' + bottomY)
     this.props.layoutListener && this.props.layoutListener(bottomY)
   }
 
@@ -950,7 +949,6 @@ class ItemTitle extends React.Component {
 
     return (
       <View>
-        { styles.borderWidth > 0 && borderBar }
         <Animated.View style={style}>
           <Animated.Text
             maxFontSizeMultiplier={1.2}

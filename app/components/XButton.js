@@ -21,6 +21,7 @@ class XButton extends React.Component {
         right: 0,
         top: 0,
         width: 28,
+        zIndex: 10,
         ...this.props.style
       }}>
         <TouchableOpacity

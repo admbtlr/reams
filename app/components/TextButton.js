@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native'
 import {hslString} from '../utils/colors'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getInset } from '../utils'
 
 class TextButton extends React.Component {
   constructor (props) {
@@ -63,6 +63,8 @@ class TextButton extends React.Component {
     const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || hslString('buttonBG')
     const borderColor = this.props.hideBorder ? bgColor : fgColor
+    const screenWidth = Dimensions.get('window').width
+    const inset = getInset()
     let buttonStyle = {
       borderColor: borderColor,
       backgroundColor: isInverted ? fgColor : bgColor,
@@ -79,11 +81,11 @@ class TextButton extends React.Component {
       ...this.props.buttonStyle,
       paddingTop: 8 * fontSizeMultiplier()
     }
-    if (Dimensions.get('window').width > 950) {
+    if (screenWidth > 767) {
       if (this.props.buttonStyle && this.props.buttonStyle.width) {
         buttonStyle.width = this.props.buttonStyle.width
       } else if (!noResize) {
-        buttonStyle.maxWidth = 600
+        buttonStyle.maxWidth = screenWidth - getInset() * 4
         buttonStyle.alignSelf = 'center'
       }
     }
@@ -94,6 +96,7 @@ class TextButton extends React.Component {
       lineHeight: (isExpanded ? 24 : 18) * fontSizeMultiplier(),
       textAlign: 'center',
       color: isInverted ? bgColor : fgColor,
+      opacity: isDisabled ? 0.5 : 1,
       paddingLeft: 20 * fontSizeMultiplier(),
       paddingRight: 20 * fontSizeMultiplier(),
       paddingTop: (isCompact ? 0 : 3) * fontSizeMultiplier(),

@@ -113,10 +113,10 @@ export function createItemStyles (item, prevStyles) {
   title.excerptFullWidth = isCoverInline || Math.random() > 0.5
   title.excerptHorizontalAlign = ['left', 'center', 'right'][Math.floor(Math.random() * 3)]
 
-  title.borderWidth = title.textAlign === 'center' &&
-    !title.bg &&
-    !title.invertBG &&
-    Math.random() > 0.5 ? 1 : 0
+  // title.borderWidth = title.textAlign === 'center' &&
+  //   !title.bg &&
+  //   !title.invertBG &&
+  //   Math.random() > 0.5 ? 1 : 0
 
   const dropCapSize = Math.floor(Math.random() * 3) + 2
 
@@ -153,6 +153,7 @@ export function createItemStyles (item, prevStyles) {
 export function setCoverInline (oldStyles) {
   let styles = { ...oldStyles }
   styles.isCoverInline = true
+  styles.showCoverImage = true
   styles.coverImage.isInline = true
   styles.title.textAlign = 'left'
   styles.title.isVertical = false

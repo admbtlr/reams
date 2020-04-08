@@ -204,6 +204,7 @@ export function * decorateItem (item) {
         imageStuff.imageDimensions.height < imageStuff.imageDimensions.width / 1.8
       ) || mercuryStuff.excerpt && mercuryStuff.excerpt.length > 120)) {
       item.styles && (item.styles = setCoverInline(item.styles))
+      item.showCoverImage = true
     }
   }
 

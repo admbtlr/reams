@@ -400,7 +400,6 @@ class FeedItem extends React.Component {
   }
 
   setWebViewStartY (y) {
-    console.log(`WebView starts at ${y}`)
     this.setState({
       webViewHeight: y
     })

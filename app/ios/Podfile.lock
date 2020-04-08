@@ -534,6 +534,8 @@ PODS:
     - React
   - react-native-netinfo (4.6.1):
     - React
+  - react-native-safe-area-context (0.7.3):
+    - React
   - react-native-shared-group-preferences (1.1.19):
     - React
   - react-native-splash-screen (3.2.0):
@@ -583,6 +585,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.6.3):
     - React
+  - RNCMaskedView (0.1.7):
+    - React
   - RNDeviceInfo (5.4.1):
     - React
   - RNFBApp (6.2.0):
@@ -631,9 +635,9 @@ PODS:
     - React
   - RNReanimated (1.7.1):
     - React
-  - RNScreens (2.0.0-alpha.13):
+  - RNScreens (2.4.0):
     - React
-  - RNSentry (1.1.0):
+  - RNSentry (1.3.6):
     - React
     - Sentry (~> 4.4.0)
   - RNSVG (9.13.3):
@@ -664,6 +668,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-blur (from `../node_modules/react-native-blur`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-shared-group-preferences (from `../node_modules/react-native-shared-group-preferences`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -682,6 +687,7 @@ DEPENDENCIES:
   - ReactNativeShareExtension (from `../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
@@ -773,6 +779,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-blur"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   react-native-shared-group-preferences:
     :path: "../node_modules/react-native-shared-group-preferences"
   react-native-splash-screen:
@@ -807,6 +815,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCMaskedView:
+    :path: "../node_modules/@react-native-community/masked-view"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFBApp:
@@ -897,6 +907,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 99b82aeb51d67d9025ab4eb8ccb8132f8dcebf69
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-netinfo: 16c6408c311572f17f9ffc3fa12614489307b6cf
+  react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-shared-group-preferences: 4911b6ab1f99f473bbe96d7714274e26ded04647
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 7eefdb64f283cae1bebe82ebd8ddeb4b805900c0
@@ -914,6 +925,7 @@ SPEC CHECKSUMS:
   ReactNativeShareExtension: 69f7b8d9fbc338fc10f5927ee4f286295bcd249f
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
   RNCAsyncStorage: 6b57de0f6cb0dcfd17521af1681fa39001d3efff
+  RNCMaskedView: 90dd32f5b786bd562e876e1421ea77c700cbf71e
   RNDeviceInfo: 54556486cd02538dbef727f39292d096abe0cf0e
   RNFBApp: 5b215aacc09105a1761de31b9a0eb2abcce06253
   RNFBAuth: 61673c0d38ce225c315e7be13a1b494904baedd2
@@ -928,8 +940,8 @@ SPEC CHECKSUMS:
   RNInAppBrowser: de9ec087677135681d5794a702c1e21e6a0c3b56
   RNReactNativeHapticFeedback: e11a4da0ce174e9f88b03cbaf5d76d94633cdee2
   RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48
-  RNScreens: 3a9ec369c7608d36f037bd14340a95a005f3f9d5
-  RNSentry: 932ac1c8b2f581b1c8be5812f88ff556c99e7fb7
+  RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
+  RNSentry: d892cbdee165cc6159d71e2a7954efdb8a361918
   RNSVG: f6177f8d7c095fada7cfee2e4bb7388ba426064c
   RNTextSize: 91955a6ea2adda9dc7802ce472b7a4dc717686f6
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
