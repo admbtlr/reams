@@ -5,7 +5,7 @@ import {
   TransitionPresets 
 } from '@react-navigation/stack'
 
-import ItemsScreenContainer from '../containers/ItemsScreen'
+import ItemsScreen from './ItemsScreen'
 import AccountScreenContainer from '../containers/AccountScreen'
 import FeedsScreenContainer from '../containers/FeedsScreen'
 import Headring from './Heading'
@@ -148,7 +148,7 @@ const Main = () => (
       }} />
     <MainStack.Screen
       name='Items'
-      component={ItemsScreenContainer}
+      component={ItemsScreen}
       options={{
         headerShown: false
       }} />

@@ -1,59 +1,62 @@
 import { ItemType } from '../store/items/types'
 import React from 'react'
 import {
-  Dimensions,
   StatusBar,
   StyleSheet,
-  View
+  View,
+  Dimensions
 } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { useFocusEffect } from '@react-navigation/native'
+import {
+  ITEMS_SCREEN_BLUR,
+  ITEMS_SCREEN_FOCUS
+} from '../store/ui/types'
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import { hslString } from '../utils/colors'
 
-class ItemsScreen extends React.Component {
+export default function ItemsScreen ({ navigation }) {
+  const dispatch = useDispatch()
+  const displayMode = useSelector(state => state.itemsMeta.display)
 
-  constructor (props) {
-    super(props)
-    this.props = props
+  const didFocus = () => {
+    dispatch({
+      type: ITEMS_SCREEN_FOCUS
+    })
+  }
+  const didBlur = () => {
+    dispatch({
+      type: ITEMS_SCREEN_BLUR
+    })
   }
 
-  componentDidMount () {
-    const { screenDidFocus, screenWillBlur } = this.props
-    this.focusListener = this.props.navigation.addListener('focus', screenDidFocus)
-    this.blurListener = this.props.navigation.addListener('blur', screenWillBlur)
-    screenDidFocus()
-  }
+  useFocusEffect(
+    React.useCallback(() => {
+      didFocus()
+      return didBlur
+    })
+  )
 
-  componentDidUpdate () {
-  }
-
-  componentWillUnmount () {
-    this.focusListener.remove()
-    this.blurListener.remove()
-  }
-
-  render = () => {
-    const { displayMode, navigation } = this.props
-    return (
-      <View style={{
-        flex: 1,
-        backgroundColor: hslString('bodyBG')
-      }}>
-        <StatusBar
-          showHideTransition="slide"
-          barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
-          hidden={false} />
-        <View style={styles.infoView} />
-        <ItemCarouselContainer
-          navigation={navigation}
-          style={styles.ItemCarousel} />
-        <RizzleImageViewerContainer />
-      </View>
-    )
-  }
+  return (
+    <View style={{
+      flex: 1,
+      backgroundColor: hslString('bodyBG')
+    }}>
+      <StatusBar
+        showHideTransition="slide"
+        barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
+        hidden={false} />
+      <View style={styles.infoView} />
+      <ItemCarouselContainer
+        navigation={navigation}
+        style={styles.ItemCarousel} />
+      <RizzleImageViewerContainer />
+    </View>
+  )
 }
 
-const {height, width} = Dimensions.get('window')
+const {height, width} = Dimensions.get('screen')
 
 const styles = StyleSheet.create({
   mainView: {
@@ -85,5 +88,3 @@ const styles = StyleSheet.create({
     left: (width - 1024) / 2
   }
 })
-
-export default ItemsScreen
