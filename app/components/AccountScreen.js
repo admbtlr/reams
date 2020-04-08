@@ -11,10 +11,12 @@ import {
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TextButton from './TextButton'
+import NavButton from './NavButton'
 import AccountCredentialsForm from './AccountCredentialsForm'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getInset } from '../utils'
+import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
 class AccountScreen extends React.Component {
 
@@ -72,6 +74,7 @@ class AccountScreen extends React.Component {
       marginTop: 0,
       marginBottom: 0
     }
+    console.log(hslString('rizzleText', '', 0.5))
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={{
@@ -83,7 +86,9 @@ class AccountScreen extends React.Component {
           backgroundColor: hslString('rizzleBG')
         }}
       >
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+        >
           <View
             style={{
               flex: 1,
@@ -96,32 +101,49 @@ class AccountScreen extends React.Component {
               showHideTransition="slide"
               barStyle="dark-content" />
             <View style={{
-              marginTop: 55,
               marginBottom: 64,
               minHeight: height - 55 - 64,
-              width: width * 0.9,
-              marginLeft: margin,
-              marginRight: margin
+              width: width - getInset() * 2,
+              marginLeft: getInset(),
+              marginRight: getInset()
             }}>
-              <Heading
-                title='Your Account'
-                isBigger={false}
-                showBack={ this.props.user.uid !== null }
-                onBack={() => {
+              <NavButton
+                hasBottomBorder={true}
+                hasTopBorder={true}
+                icon={getRizzleButtonIcon('rss', hslString('rizzleText', '', 0.9))}
+                onPress={() => {
+                  this.props.setDisplayMode('unread')
                   this.props.navigation.navigate('Feeds')
                 }}
+                text='Your Feeds'
+                viewStyle={{ paddingLeft: 5 }}
               />
-              <Text style={ textTipStyles }>If you have an account with an RSS service, enter your details below.</Text>
-              <Text style={{
-                ...textTipStyles,
-                marginBottom: 30
-              }}>If you don’t have an account, you can use <Text style={italicStyles}>Rizzle Basic</Text> for free. <Text style={italicStyles}>Rizzle Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Rizzle stays in Rizzle: you can’t sync your data with <Text style={italicStyles}>Rizzle Basic</Text>.</Text>
+              <NavButton
+                hasBottomBorder={true}
+                icon={getRizzleButtonIcon('saved', hslString('rizzleText', '', 0.8), hslString('rizzleText', '', 0.3))}
+                onPress={() => {
+                  this.props.setDisplayMode('saved')
+                  this.props.navigation.navigate('Items')
+                }}
+                text='Your Saved Stories'
+                viewStyle={{ paddingLeft: 5 }}
+              />
+              { this.props.backend ? null :
+                <View>
+                  <Text style={ textTipStyles }>If you have an account with an RSS service, enter your details below.</Text>
+                  <Text style={{
+                    ...textTipStyles,
+                    marginBottom: 30
+                  }}>If you don’t have an account, you can use <Text style={italicStyles}>Rizzle Basic</Text> for free. <Text style={italicStyles}>Rizzle Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Rizzle stays in Rizzle: you can’t sync your data with <Text style={italicStyles}>Rizzle Basic</Text>.</Text>
+                </View>
+              }
               <TextButton
                 text={ 'Rizzle Basic' }
                 buttonStyle={{ 
                   alignSelf: 'center',
                   marginBottom: 42,
-                  width: buttonWidth 
+                  marginTop: 42,
+                  // width: buttonWidth 
                 }}
                 iconBg={true}
                 iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'white')) }
@@ -134,6 +156,7 @@ class AccountScreen extends React.Component {
                 renderExpandedView={() => <AccountCredentialsForm
                   backend={backend}
                   isActive={ backend === 'basic' }
+                  navigation={this.props.navigation}
                   service='basic'
                   setBackend={this.props.setBackend}
                   setSignInEmail={this.props.setSignInEmail}
@@ -145,7 +168,7 @@ class AccountScreen extends React.Component {
                 buttonStyle={{ 
                   alignSelf: 'center',
                   marginBottom: 42,
-                  width: buttonWidth 
+                  // width: buttonWidth 
                 }}
                 iconBg={true}
                 iconCollapsed={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'white')) }
@@ -170,7 +193,7 @@ class AccountScreen extends React.Component {
                 buttonStyle={{ 
                   alignSelf: 'center',
                   marginBottom: 42,
-                  width: buttonWidth 
+                  // width: buttonWidth 
                 }}
                 iconBg={true}
                 iconCollapsed={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'white')) }
@@ -192,7 +215,7 @@ class AccountScreen extends React.Component {
                 buttonStyle={{ 
                   alignSelf: 'center',
                   marginBottom: 42,
-                  width: buttonWidth 
+                  // width: buttonWidth 
                 }}
                 isExpandable={true}
                 isExpanded={ backend === 'feedwrangler' }

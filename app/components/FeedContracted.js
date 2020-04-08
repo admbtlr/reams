@@ -11,9 +11,7 @@ import FeedCoverImage from './FeedCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
 import FeedIconContainer from '../containers/FeedIcon'
 import FeedExpandedContainer from '../containers/FeedExpanded'
-import { fontSizeMultiplier } from '../utils'
-
-const { width, height } = Dimensions.get("window")
+import { fontSizeMultiplier, getInset, getMargin } from '../utils'
 
 const {
   and,
@@ -46,7 +44,7 @@ class FeedContracted extends React.PureComponent {
     this.margin = this.screenWidth * 0.05
     this.cardWidth = this.screenWidth < 500 ?
       this.screenWidth - this.margin * 2 :
-      (this.screenWidth - this.margin * 3) / 2
+      (this.screenWidth - getInset() * 2 - getMargin()) / 2
     this.screenHeight = dim.height
 
     this.cardHeight = this.screenWidth < 500 ?
@@ -128,7 +126,7 @@ class FeedContracted extends React.PureComponent {
     navigation.push('ModalWithGesture', {
       childView: <FeedExpandedContainer
           feed={feed}
-          close={() => navigation.goBack(null)}
+          close={() => navigation.navigate('Main')}
           navigation={navigation}
         />
     })

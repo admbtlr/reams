@@ -101,7 +101,7 @@ export function addMercuryStuffToItem (item, mercury) {
   //   allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
   // })
   if (item.is_external) {
-    return {
+    item = {
       ...item,
       external_url: item.url,
       title: mercury.title,
@@ -116,6 +116,7 @@ export function addMercuryStuffToItem (item, mercury) {
       hasLoadedMercuryStuff: true,
       showMercuryContent: true
     }
+    return fixRelativePaths(item)
   }
 
   // if excerpt == content_html, showMercury
@@ -185,7 +186,7 @@ export function addMercuryStuffToItem (item, mercury) {
     decoratedItem[visibleContentKey] = decoratedItem[visibleContentKey].replace(/<img.*?>/, '')
   }
 
-  return decoratedItem
+  return fixRelativePaths(decoratedItem)
 }
 
 function stripTags (text) {
@@ -245,7 +246,7 @@ export function setShowCoverImage (item, currentItem) {
   return {
     ...item,
     showCoverImage: item.hasCoverImage &&
-      (currentItem ? item._id !== currentItem._id : true) &&
+      // (currentItem ? item._id !== currentItem._id : true) &&
       (getLongestContentLength(item) > 1500)
   }
 }

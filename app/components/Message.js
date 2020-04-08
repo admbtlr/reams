@@ -15,7 +15,7 @@ import {
 } from '../utils/styles'
 
 const screenWidth = Dimensions.get('window').width
-const offscreenDistance = -25
+const offscreenDistance = -28 * fontSizeMultiplier()
 const transformAnim = new Animated.Value(0)
 
 export default function Message (props) {
@@ -48,7 +48,7 @@ export default function Message (props) {
   return /*message.length === 0 ? null :*/ (
     <Animated.View style={{
       position: 'absolute',
-      top: isIphoneX() ? 38 : 2,
+      top: isIphoneX() ? 38 : 6 * fontSizeMultiplier(),
       width: screenWidth,
       flex: 1,
       flexAlign: 'center',
@@ -59,13 +59,14 @@ export default function Message (props) {
       }]
     }}>
       <View style={{
-        backgroundColor: hslString('rizzleText'),
+        backgroundColor: hslString('buttonBG'),
         width: 'auto',
-        height: 20,
+        // height: 20,
         paddingLeft: 10,
         paddingRight: 10,
-        paddingTop: 2,
-        borderRadius: 9,
+        paddingTop: 5,
+        paddingBottom: 3,
+        borderRadius: (13 * fontSizeMultiplier() + 10) / 2,
         shadowRadius: 20,
         shadowColor: 'black',
         shadowOpacity: 0.2,
@@ -73,10 +74,11 @@ export default function Message (props) {
       }}>
         <Text style={{
           ...textInfoMonoStyle,
-          fontSize: 13,
-          color: 'white'
+          fontSize: 13 * fontSizeMultiplier(),
+          lineHeight: 13 * fontSizeMultiplier(),
+          color: hslString('rizzleText')
         }}>{visibleMessage}<AnimatedEllipsis style={{ 
-          color: 'white',
+          color: hslString('rizzleText'),
           marginLeft: -2
         }} /></Text>
       </View>

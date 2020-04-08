@@ -106,8 +106,7 @@ class ItemCarousel extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    this.index = this.initialIndex = this.props.index
-    this.bufferIndex = this.index === 0 ? 0 : 1
+    this.initIndex()
     if (prevProps.items && this.props.items &&
       JSON.stringify(prevProps.items.map(item => item._id)) !==
         JSON.stringify(this.props.items.map(item => item._id))) {
@@ -132,6 +131,11 @@ class ItemCarousel extends React.Component {
   //         _stringifyBufferedItems(this.props.items, this.props.initialIndex)
   //   }
   // }
+
+  initIndex () {
+    this.index = this.initialIndex = this.props.index
+    this.bufferIndex = this.index === 0 ? 0 : 1
+  }
 
   incrementIndex () {
     this.setIndex(this.index + 1, this.bufferIndex + 1)
@@ -273,6 +277,8 @@ class ItemCarousel extends React.Component {
       items,
       index
     } = this.props
+
+    this.initIndex()
 
     this.bufferedItems = getBufferedItems(items, index, displayMode, feeds)
     this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)

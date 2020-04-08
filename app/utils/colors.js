@@ -190,7 +190,7 @@ export function hslString (color, modifier = '', alpha) {
       darkMode[color] :
       ui[color])
   if (alpha) {
-    color = color.replace('hsl', 'hsla').replace(')', `${alpha})`)
+    color = color.replace('hsl', 'hsla').replace(')', `, ${alpha})`)
   }
   return color
 }

@@ -23,21 +23,21 @@ export default Heading = ({title, isBigger, isWhite, showClose, onClose, showBac
   return <Fragment>
     <View style={{
       alignItems: 'flex-end',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      paddingBottom: isBigger ? 30 : 6
     }}>
       {showBack && <BackButton
         onPress={onBack}
       />}
-      <Text style={{
+      {title ? <Text style={{
         fontFamily: 'PTSerif-Bold',
         fontSize: isBigger ? 40 : 32,
         lineHeight: isBigger ? 50 : 36,
-        marginBottom: isBigger ? 30 : 6,
         paddingTop: 18,
         textAlign: 'center',
         color,
         flex: 1
-      }}>{title}</Text>
+      }}>{title}</Text> : null}
       {showClose && <XButton
         onPress={onClose}
         style={xStyle}

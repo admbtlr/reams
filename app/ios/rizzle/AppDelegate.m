@@ -41,7 +41,7 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"rizzle"
                                             initialProperties:nil];
 
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  // rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
@@ -50,6 +50,7 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+  self.window.backgroundColor = [UIColor blackColor];
   [self.window makeKeyAndVisible];
 
   [RNSplashScreen show];

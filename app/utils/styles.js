@@ -37,7 +37,7 @@ export const textInfoStyle = (color) => ({
   fontFamily: 'IBMPlexSans',
   marginLeft: 20,
   marginRight: 20,
-  fontSize: 18 * fontSizeMultiplier()
+  fontSize: 16 * fontSizeMultiplier()
 })
 
 export const textInfoBoldStyle = (color) => ({

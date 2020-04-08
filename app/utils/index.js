@@ -159,15 +159,31 @@ export const isIpad = () => {
   return Platform.OS === 'ios' && width > 700
 }
 
-let screenWidth, screenHeight
-export const fontSizeMultiplier = () => {
+const getDimensions = () => {
   if (!screenWidth || !screenHeight) {
     screenWidth = Dimensions.get('window').width
     screenHeight = Dimensions.get('window').height
   }
+}
+
+let screenWidth, screenHeight
+export const fontSizeMultiplier = () => {
+  getDimensions()
   return screenWidth * screenHeight < 300000 ?
     0.85 : // this is iPhone 8 at this point
     screenWidth < 768 ? 1 : (screenWidth / 768).toPrecision(4)
+}
+
+export const getInset = () => {
+  getDimensions()
+  return screenWidth < 768 ?
+    screenWidth * 0.05 :
+    screenWidth * 0.1
+}
+
+export const getMargin = () => {
+  getDimensions()
+  return screenWidth * 0.05
 }
 
 export function id (item) {
