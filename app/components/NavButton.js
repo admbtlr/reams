@@ -12,10 +12,11 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 export default NavButton = ({ children, icon, onPress, text, hasBottomBorder, hasTopBorder, viewStyle={} }) => (
   <View style={{
-    borderBottomColor: hslString('rizzleText', '', 0.5),
+    borderBottomColor: hslString('rizzleText', '', 0.2),
     borderBottomWidth: hasBottomBorder ? 1 : 0,
-    borderTopColor: hslString('rizzleText', '', 0.5),
-    borderTopWidth: hasTopBorder ? 1 : 0
+    borderTopColor: hslString('rizzleText', '', 0.2),
+    borderTopWidth: hasTopBorder ? 1 : 0,
+    marginTop: 1
   }}>
     <TouchableOpacity 
       onPress={ onPress }

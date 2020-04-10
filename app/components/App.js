@@ -117,7 +117,9 @@ const Main = () => (
     screenOptions={{
       headerStyle: {
         backgroundColor: hslString('rizzleBG'),
-        height: STATUS_BAR_HEIGHT
+        height: STATUS_BAR_HEIGHT,
+        // https://github.com/react-navigation/react-navigation/issues/6899
+        shadowOffset: { height: 0, width: 0 }
       },
       headerTintColor: hslString('rizzleText'),
       headerTitleStyle: {

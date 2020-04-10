@@ -101,7 +101,7 @@ class AccountScreen extends React.Component {
               showHideTransition="slide"
               barStyle="dark-content" />
             <View style={{
-              marginBottom: 64,
+              // marginBottom: 64,
               minHeight: height - 55 - 64,
               width: width - getInset() * 2,
               marginLeft: getInset(),
@@ -110,7 +110,7 @@ class AccountScreen extends React.Component {
               <NavButton
                 hasBottomBorder={true}
                 hasTopBorder={true}
-                icon={getRizzleButtonIcon('rss', hslString('rizzleText', '', 0.9))}
+                icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
                 onPress={() => {
                   this.props.setDisplayMode('unread')
                   this.props.navigation.navigate('Feeds')
@@ -120,7 +120,7 @@ class AccountScreen extends React.Component {
               />
               <NavButton
                 hasBottomBorder={true}
-                icon={getRizzleButtonIcon('saved', hslString('rizzleText', '', 0.8), hslString('rizzleText', '', 0.3))}
+                icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
                 onPress={() => {
                   this.props.setDisplayMode('saved')
                   this.props.navigation.navigate('Items')

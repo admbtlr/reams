@@ -194,7 +194,6 @@ class ListHeaderComponent extends React.Component {
     }
     return (
       <View style={{
-        // marginTop: 55,
         marginBottom: 40,
         width: screenWidth - getInset() * 2
       }}>
