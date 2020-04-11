@@ -190,13 +190,13 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         contentContainerStyle={{
           flex: 1,
           flexDirection: 'column',
-          justifyContent: 'space-between'
+          justifyContent: 'space-around'
         }}
       >
         { feed.description && feed.description.length > 0 ?
           <View style={{
             flex: 1,
-            justifyContent: 'space-around'
+            justifyContent: 'center'
           }}>
             <Text style={{
               color: hslString(feed.color, 'darkmodable'), //hslString('rizzleText'),
