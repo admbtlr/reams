@@ -146,8 +146,8 @@ class AccountScreen extends React.Component {
                   // width: buttonWidth 
                 }}
                 iconBg={true}
-                iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'white')) }
-                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'white')) }
+                iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
                 isExpandable={true}
                 isExpanded={backend === 'basic' || expandedBackend === 'basic'}
                 isInverted={ backend === 'basic' }
@@ -171,8 +171,8 @@ class AccountScreen extends React.Component {
                   // width: buttonWidth 
                 }}
                 iconBg={true}
-                iconCollapsed={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'white')) }
-                iconExpanded={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'white')) }
+                iconCollapsed={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'buttonBG')) }
                 isExpandable={true}
                 isExpanded={ backend === 'feedbin' || expandedBackend === 'feedbin'}
                 isInverted={ backend === 'feedbin' }
@@ -196,8 +196,8 @@ class AccountScreen extends React.Component {
                   // width: buttonWidth 
                 }}
                 iconBg={true}
-                iconCollapsed={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'white')) }
-                iconExpanded={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'white')) }
+                iconCollapsed={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'buttonBG')) }
                 isExpandable={true}
                 isExpanded={backend === 'feedly' || expandedBackend === 'feedly'}
                 onExpand={() => this.setExpandedBackend('feedly')}

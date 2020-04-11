@@ -181,14 +181,13 @@ class AccountCredentialsForm extends React.Component {
                 alignItems: 'center',
                 justifyContent: 'space-between'
               }}>
-                <Text
-                  style={{
-                    ...textInfoItalicStyle('white'),
-                    marginTop: 0,
-                    textAlign: 'center'
-                  }}>You are using {serviceDisplay}.</Text>
                 { service === 'basic' ?
-                  <View style={{ height: 32 }} /> :
+                  <View style={{
+                    marginLeft: -16,
+                    marginRight: -16
+                  }}>
+                    <Text style={textInfoStyle('white')}><Text style={textInfoItalicStyle('white')}>Rizzle Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Rizzle stays in Rizzle: you can’t sync your data with <Text style={textInfoItalicStyle('white')}>Rizzle Basic</Text>.</Text>
+                  </View> :
                   <React.Fragment>
                     <Text style={textInfoStyle('white')}>
                       <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
@@ -209,19 +208,6 @@ class AccountCredentialsForm extends React.Component {
                     </TouchableOpacity>
                   </React.Fragment>
                 }
-                <TouchableOpacity
-                  accessibilityLabel={`Go to your feeds`}
-                  color={hslString('white')}
-                  onPress={() => this.props.navigation.navigate('Feeds')}
-                  testID={`${service}-feeds-button`}
-                >
-                  <Text style={{
-                    ...textInfoBoldStyle('white'),
-                    fontSize: 20
-                  }}><Text style={{
-                    textDecorationLine: 'underline'
-                  }}>Go to Your Feeds</Text> ></Text>
-                </TouchableOpacity>
               </View> :
               ( service === 'rizzle' ?
                 <RizzleAuth
