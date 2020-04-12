@@ -234,8 +234,10 @@ class FeedItem extends React.Component {
     // if (/*__DEV__ ||*/ !this.props.item.styles) {
     //   this.props.item.styles = createItemStyles(this.props.item)
     // }
-    const { 
+    const {
+      isVisible,
       item,
+      panAnim,
       showMercuryContent 
     } = this.props
     let {
@@ -245,6 +247,7 @@ class FeedItem extends React.Component {
       content_html,
       content_mercury,
       faceCentreNormalised,
+      feed_color,
       hasCoverImage,
       imageDimensions,
       showCoverImage,
@@ -268,7 +271,7 @@ class FeedItem extends React.Component {
 
     let coverImageClasses = ''
     let coverClasses = ''
-    const visibleClass = this.props.isVisible
+    const visibleClass = isVisible
       ? 'visible'
       : ''
     const scrollingClass = this.scrollAnim === 0
@@ -306,7 +309,7 @@ class FeedItem extends React.Component {
     }
 
     const feedColor = item.feed_color ?
-      hslString(this.props.item.feed_color, this.props.isDarkMode ? 'darkmode' : '') :
+      hslString(feed_color, this.props.isDarkMode ? 'darkmode' : '') :
       hslString('logo1')
 
     const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkMode ? 'dark-background' : ''}">
@@ -348,10 +351,10 @@ class FeedItem extends React.Component {
     const coverImage = <CoverImage
             styles={styles.coverImage}
             scrollAnim={this.scrollAnim}
-            imagePath={!!hasCoverImage && getCachedCoverImagePath(this.props.item)}
+            imagePath={!!hasCoverImage && getCachedCoverImagePath(item)}
             imageDimensions={!!hasCoverImage && imageDimensions}
             faceCentreNormalised={faceCentreNormalised}
-            feedTitle={this.props.item.feed_title}
+            feedTitle={item.feed_title}
           />
 
     return (
@@ -388,10 +391,10 @@ class FeedItem extends React.Component {
           <ItemTitleContainer
             anims={this.anims}
             addAnimation={this.addAnimation}
-            item={this.props.item}
-            isVisible={this.props.isVisible}
+            item={item}
+            isVisible={isVisible}
             title={title}
-            excerpt={this.props.item.excerpt}
+            excerpt={item.excerpt}
             date={savedAt || created_at}
             scrollOffset={this.scrollAnim}
             font={styles.fontClasses.heading}
