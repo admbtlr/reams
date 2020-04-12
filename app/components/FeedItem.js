@@ -50,39 +50,45 @@ class FeedItem extends React.Component {
   }
 
   initAnimatedValues () {
-    const { isVisible } = this.props
-    this.anims = [new Animated.Value(isVisible ||
-      !deviceCanHandleAnimations() ? 1 : -1)]
-    for (let i = 1; i < 6; i++) {
-      this.anims[i] = new Animated.Value(isVisible ||
-        !deviceCanHandleAnimations() ? 1 : 0)
-    }
+    const { panAnim } = this.props
+    this.anims = [0, 0, 0, 0, 0, 0].map((a, i) => panAnim.interpolate({
+      inputRange: [0, 0.3 - i * 0.05, 0.7 + i * 0.05, 1],
+      outputRange: [1, 0, 0, 1]
+    }))
+    // const { isVisible } = this.props
+    // this.anims = [new Animated.Value(isVisible ||
+    //   !deviceCanHandleAnimations() ? 1 : -1)]
+    // for (let i = 1; i < 6; i++) {
+    //   this.anims[i] = new Animated.Value(isVisible ||
+    //     !deviceCanHandleAnimations() ? 1 : 0)
+    // }
   }
 
   fadeIn () {
-    if (!deviceCanHandleAnimations()) return
-    const params = {
-      toValue: 1,
-      duration: 250,
-      easing: Easing.out(Easing.quad),
-      // easing: Easing.bezier(.66, 0, .33, 1),
-      useNativeDriver: true
-    }
+    // if (!deviceCanHandleAnimations()) return
+    // const params = {
+    //   toValue: 1,
+    //   duration: 250,
+    //   easing: Easing.out(Easing.quad),
+    //   // easing: Easing.bezier(.66, 0, .33, 1),
+    //   useNativeDriver: true
+    // }
 
-    Animated.stagger(100, [
-      Animated.timing(this.anims[0], params),
-      Animated.timing(this.anims[1], params),
-      Animated.timing(this.anims[2], params),
-      Animated.timing(this.anims[3], params),
-      Animated.timing(this.anims[4], params),
-      Animated.timing(this.anims[5], params)
-    ]).start()
+    // Animated.stagger(100, [
+    //   Animated.timing(this.anims[0], params),
+    //   Animated.timing(this.anims[1], params),
+    //   Animated.timing(this.anims[2], params),
+    //   Animated.timing(this.anims[3], params),
+    //   Animated.timing(this.anims[4], params),
+    //   Animated.timing(this.anims[5], params)
+    // ]).start()
   }
 
   addAnimation (style, anim) {
+    const width = Dimensions.get('window').width * 0.05
     return {
       ...style,
-      left: 10,
+      left: width,
       opacity: anim.interpolate({
         inputRange: [0, 0.3, 1],
         outputRange: [0, 1, 1]
@@ -90,7 +96,7 @@ class FeedItem extends React.Component {
       transform: [{
         translateX: anim.interpolate({
           inputRange: [0, 1],
-          outputRange: [50, -10]
+          outputRange: [width, -width]
         })
       }]
     }

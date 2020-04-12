@@ -1069,10 +1069,10 @@ class ItemTitle extends React.Component {
             inputRange: [-50, 100, 300],
             outputRange: [1, 1, 0]
           }), anims[0]),
-        titleAnimation: new Animated.Value(1),
-        excerptAnimation: anims[1],
-        authorAnimation: anims[2],
-        dateAnimation: anims[3], 
+        titleAnimation: anims[1],
+        excerptAnimation: anims[2],
+        authorAnimation: anims[3],
+        dateAnimation: anims[4], 
         barAnimation: anims[4],
         shadow: scrollOffset.interpolate({
             inputRange: [-100, -20, 0, 40, 400],

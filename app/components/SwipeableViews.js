@@ -136,7 +136,7 @@ class SwipeableViews extends Component {
       this.children = items.map((item, itemIndex) => {
         console.log(itemIndex)
         let inputRange = [pageWidth * itemIndex, pageWidth * (itemIndex + 1)]
-        let outputRange = [1, 2]
+        let outputRange = [1, 0]
         if (itemIndex > 0) {
           inputRange = [0, pageWidth * (itemIndex - 1)].concat(inputRange)
           outputRange = [0, 0].concat(outputRange)
