@@ -52,8 +52,8 @@ class FeedItem extends React.Component {
   initAnimatedValues () {
     const { panAnim } = this.props
     this.anims = [0, 0, 0, 0, 0, 0].map((a, i) => panAnim.interpolate({
-      inputRange: [0, 0.3 - i * 0.05, 0.7 + i * 0.05, 1],
-      outputRange: [1, 0, 0, 1]
+      inputRange: [0, 0.3, 0.7, 1, 1.3 - i * 0.05, 1.7 + i * 0.05, 2],
+      outputRange: [0, 0.3, 0.7, 1, 1.3, 1.7, 2]
     }))
     // const { isVisible } = this.props
     // this.anims = [new Animated.Value(isVisible ||
@@ -90,13 +90,13 @@ class FeedItem extends React.Component {
       ...style,
       left: width,
       opacity: anim.interpolate({
-        inputRange: [0, 0.3, 1],
-        outputRange: [0, 1, 1]
+        inputRange: [0, 1, 1.1, 1.2, 2],
+        outputRange: [1, 1, 1, 0, 0]
       }),
       transform: [{
         translateX: anim.interpolate({
-          inputRange: [0, 1],
-          outputRange: [width, -width]
+          inputRange: [0, 0.5, 0.7, 1, 1.05, 2],
+          outputRange: [-width, -width, -width, -width, width * 4, width * 4]
         })
       }]
     }
@@ -106,6 +106,7 @@ class FeedItem extends React.Component {
     const {
       isVisible,
       item,
+      panAnim,
       scrollHandlerAttached,
       setScrollAnim,
       setTimerFunction
@@ -191,6 +192,9 @@ class FeedItem extends React.Component {
             }
           }
           break
+
+        case 'panAnim':
+          console.log('panAnim changed!')
       }
     }
     return isDiff

@@ -1068,7 +1068,10 @@ class ItemTitle extends React.Component {
         opacity: Animated.add(scrollOffset.interpolate({
             inputRange: [-50, 100, 300],
             outputRange: [1, 1, 0]
-          }), anims[0]),
+          }), anims[0].interpolate({
+            inputRange: [0, 1.3, 1.5, 2],
+            outputRange: [1, 1, 0, 0]
+          })),
         titleAnimation: anims[1],
         excerptAnimation: anims[2],
         authorAnimation: anims[3],
@@ -1084,7 +1087,10 @@ class ItemTitle extends React.Component {
       opacity: Animated.add(scrollOffset.interpolate({
           inputRange: [-50, -25, 0, 100, 200],
           outputRange: [0, 1, 1, 1, 0]
-        }), anims[0]),
+        }), anims[0].interpolate({
+          inputRange: [0, 1, 1.3, 2],
+          outputRange: [1, 1, -1, -1]
+        })),
       titleAnimation: anims[1],
       excerptAnimation: anims[2],
       authorAnimation: anims[3],

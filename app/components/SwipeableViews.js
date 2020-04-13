@@ -133,13 +133,12 @@ class SwipeableViews extends Component {
           navigation={navigation} />
       ))
     } else {
-      this.children = items.map((item, itemIndex) => {
-        console.log(itemIndex)
-        let inputRange = [pageWidth * itemIndex, pageWidth * (itemIndex + 1)]
-        let outputRange = [1, 0]
+      this.children = items.map((item, itemIndex, items) => {
+        let inputRange = [pageWidth * itemIndex, pageWidth * (itemIndex + 1), pageWidth * items.length]
+        let outputRange = [1, 0, 0]
         if (itemIndex > 0) {
           inputRange = [0, pageWidth * (itemIndex - 1)].concat(inputRange)
-          outputRange = [0, 0].concat(outputRange)
+          outputRange = [2, 2].concat(outputRange)
         }
         return this.renderSlide({
           index: item.index,
