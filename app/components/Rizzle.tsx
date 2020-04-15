@@ -196,7 +196,7 @@ export default class Rizzle extends Component<Props, State> {
           <ReactReduxFirebaseProvider {...rrfProps}>
             <View style={{
               flex: 1,
-              backgroundColor: hslString('rizzleBG')}}>
+              backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
               <RizzleModalContainer />
               <StatusBar
                 barStyle='light-content'

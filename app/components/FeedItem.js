@@ -1,10 +1,10 @@
 import React from 'react'
-import {Animated, Dimensions, Linking, View} from 'react-native'
+import {Animated, Dimensions, Easing, Linking, View} from 'react-native'
 import {WebView} from 'react-native-webview'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
-import {deepEqual, diff, getCachedCoverImagePath} from '../utils/'
+import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
 import { hslString } from '../utils/colors'
 import log from '../utils/log'
 
@@ -25,9 +25,10 @@ class FeedItem extends React.Component {
     this.scrollAnim = new Animated.Value(0)
 
     this.state = {
-      webViewHeight: 0,
-      scaleAnim: new Animated.Value(1)
+      webViewHeight: 0
     }
+
+    this.initAnimatedValues(false)
 
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
@@ -45,13 +46,75 @@ class FeedItem extends React.Component {
   }
 
   startTimer () {
-    this.titleFadeIn && this.titleFadeIn()
+    this.fadeIn()
   }
 
+  initAnimatedValues (isMounted) {
+    const { panAnim } = this.props
+    const anims = [0, 0, 0, 0, 0, 0].map((a, i) => panAnim.interpolate({
+      inputRange: [0, 0.3, 0.7, 1, 1.3 - i * 0.05, 1.7 + i * 0.05, 2],
+      outputRange: [0, 0.3, 0.7, 1, 1.3, 1.7, 2]
+    }))
+    if (isMounted) {
+      this.anims = anims
+      this.setState({
+        animsUpdated: Date.now()
+      })
+    } else {
+      this.anims = anims
+    }
+      // const { isVisible } = this.props
+    // this.anims = [new Animated.Value(isVisible ||
+    //   !deviceCanHandleAnimations() ? 1 : -1)]
+    // for (let i = 1; i < 6; i++) {
+    //   this.anims[i] = new Animated.Value(isVisible ||
+    //     !deviceCanHandleAnimations() ? 1 : 0)
+    // }
+  }
+
+  fadeIn () {
+    // if (!deviceCanHandleAnimations()) return
+    // const params = {
+    //   toValue: 1,
+    //   duration: 250,
+    //   easing: Easing.out(Easing.quad),
+    //   // easing: Easing.bezier(.66, 0, .33, 1),
+    //   useNativeDriver: true
+    // }
+
+    // Animated.stagger(100, [
+    //   Animated.timing(this.anims[0], params),
+    //   Animated.timing(this.anims[1], params),
+    //   Animated.timing(this.anims[2], params),
+    //   Animated.timing(this.anims[3], params),
+    //   Animated.timing(this.anims[4], params),
+    //   Animated.timing(this.anims[5], params)
+    // ]).start()
+  }
+
+  addAnimation (style, anim) {
+    const width = Dimensions.get('window').width * 0.05
+    return {
+      ...style,
+      left: width,
+      opacity: anim.interpolate({
+        inputRange: [0, 1, 1.1, 1.2, 2],
+        outputRange: [1, 1, 1, 0, 0]
+      }),
+      transform: [{
+        translateX: anim.interpolate({
+          inputRange: [0, 0.5, 0.7, 1, 1.05, 2],
+          outputRange: [-width, -width, -width, -width, width * 4, width * 4]
+        })
+      }]
+    }
+  }
+  
   componentDidMount () {
     const {
       isVisible,
       item,
+      panAnim,
       scrollHandlerAttached,
       setScrollAnim,
       setTimerFunction
@@ -70,6 +133,10 @@ class FeedItem extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     if (this.isAnimating) return true
+    // if (this.anims !== nextState.anims) {
+    //   debugger
+    //   return true
+    // }
     const { item } = this.props
     let changes
     let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
@@ -121,7 +188,6 @@ class FeedItem extends React.Component {
           }
           break
 
-        case 'scaleAnim':
         case 'index':
         case 'setTimerFunction':
           isDiff = false
@@ -138,16 +204,21 @@ class FeedItem extends React.Component {
             }
           }
           break
+
+        case 'panAnim':
+          console.log('panAnim changed!')
       }
     }
     return isDiff
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    const { isVisible, item, scrollHandlerAttached, setScrollAnim } = this.props
+  componentDidUpdate (prevProps) {
+    const { isVisible, item, setScrollAnim } = this.props
+    if (this.props.renderDate !== prevProps.renderDate) {
+      this.initAnimatedValues(true)
+    }
     if (isVisible && !prevProps.isVisible) {
       setScrollAnim(this.scrollAnim)
-      // scrollHandlerAttached(item._id)
       item.scrollRatio > 0 && this.scrollToOffset()
     }
   }
@@ -188,8 +259,10 @@ class FeedItem extends React.Component {
     // if (/*__DEV__ ||*/ !this.props.item.styles) {
     //   this.props.item.styles = createItemStyles(this.props.item)
     // }
-    const { 
+    const {
+      isVisible,
       item,
+      panAnim,
       showMercuryContent 
     } = this.props
     let {
@@ -199,6 +272,7 @@ class FeedItem extends React.Component {
       content_html,
       content_mercury,
       faceCentreNormalised,
+      feed_color,
       hasCoverImage,
       imageDimensions,
       showCoverImage,
@@ -207,8 +281,16 @@ class FeedItem extends React.Component {
       excerpt,
       savedAt
     } = this.props.item
-    // console.log(`-------- RENDER: ${title} ---------`)
+    // if (isVisible) {
+    //   console.log(`-------- RENDER: ${title} ---------`)
+    //   this.panAnimListener = panAnim.addListener(v => {
+    //     console.log(title + ' ' + v.value)
+    //   })
+    // } else {
+    //   if (this.panAnimListener) this.panAnimListener.removeListener()
+    // }
     // let bodyHtml = { __html: body }
+
     let articleClasses = [
       ...Object.values(styles.fontClasses),
       'itemArticle',
@@ -222,7 +304,7 @@ class FeedItem extends React.Component {
 
     let coverImageClasses = ''
     let coverClasses = ''
-    const visibleClass = this.props.isVisible
+    const visibleClass = isVisible
       ? 'visible'
       : ''
     const scrollingClass = this.scrollAnim === 0
@@ -260,7 +342,7 @@ class FeedItem extends React.Component {
     }
 
     const feedColor = item.feed_color ?
-      hslString(this.props.item.feed_color, this.props.isDarkMode ? 'darkmode' : '') :
+      hslString(feed_color, this.props.isDarkMode ? 'darkmode' : '') :
       hslString('logo1')
 
     const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkMode ? 'dark-background' : ''}">
@@ -302,23 +384,19 @@ class FeedItem extends React.Component {
     const coverImage = <CoverImage
             styles={styles.coverImage}
             scrollAnim={this.scrollAnim}
-            imagePath={!!hasCoverImage && getCachedCoverImagePath(this.props.item)}
+            imagePath={!!hasCoverImage && getCachedCoverImagePath(item)}
             imageDimensions={!!hasCoverImage && imageDimensions}
             faceCentreNormalised={faceCentreNormalised}
-            feedTitle={this.props.item.feed_title}
+            feedTitle={item.feed_title}
           />
 
     return (
-      <Animated.View
+      <View
         ref={(ref) => { this.view = ref }}
         style={{
           backgroundColor: hslString('bodyBG'),
           flex: 1,
-          overflow: 'hidden',
-          transform: [
-            { scaleX: this.state.scaleAnim },
-            { scaleY: this.state.scaleAnim }
-          ]
+          overflow: 'hidden'
         }}
       >
         { showCoverImage && !styles.isCoverInline && coverImage }
@@ -344,10 +422,12 @@ class FeedItem extends React.Component {
         >
           { showCoverImage && styles.isCoverInline && coverImage }
           <ItemTitleContainer
-            item={this.props.item}
-            isVisible={this.props.isVisible}
+            anims={this.anims}
+            addAnimation={this.addAnimation}
+            item={item}
+            isVisible={isVisible}
             title={title}
-            excerpt={this.props.item.excerpt}
+            excerpt={item.excerpt}
             date={savedAt || created_at}
             scrollOffset={this.scrollAnim}
             font={styles.fontClasses.heading}
@@ -358,44 +438,48 @@ class FeedItem extends React.Component {
             setFadeInFunction={this.setFadeInFunction}
             layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
-          <WebView
-            allowsFullscreenVideo={true}
-            decelerationRate='normal'
-            injectedJavaScript={'(document.body && document.body.scrollHeight) && document.body.scrollHeight'}
-            mixedContentMode='compatibility'
-            onMessage={(event) => {
-              const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
-              if (msg.substring(0, 6) === 'image:') {
-                that.props.showImageViewer(msg.substring(6))
-              } else if (msg.substring(0, 5) === 'link:') {
-                const url = msg.substring(5)
-                // console.log('OPEN LINK: ' + url)
-                if (!__DEV__) {
-                  Linking.openURL(url)
+          <Animated.View style={styles.coverImage.isInline || !showCoverImage ? 
+            this.addAnimation({}, this.anims[5]) :
+            {}}>
+            <WebView
+              allowsFullscreenVideo={true}
+              decelerationRate='normal'
+              injectedJavaScript={'(document.body && document.body.scrollHeight) && document.body.scrollHeight'}
+              mixedContentMode='compatibility'
+              onMessage={(event) => {
+                const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
+                if (msg.substring(0, 6) === 'image:') {
+                  that.props.showImageViewer(msg.substring(6))
+                } else if (msg.substring(0, 5) === 'link:') {
+                  const url = msg.substring(5)
+                  // console.log('OPEN LINK: ' + url)
+                  if (!__DEV__) {
+                    Linking.openURL(url)
+                  }
+                } else if (msg.substring(0,7) === 'resize:') {
+                  that.updateWebViewHeight(parseInt(msg.substring(7)))
                 }
-              } else if (msg.substring(0,7) === 'resize:') {
-                that.updateWebViewHeight(parseInt(msg.substring(7)))
-              }
-            }}
-            onNavigationStateChange={this.onNavigationStateChange}
-            {...openLinksExternallyProp}
-            originWhitelist={['*']}
-            ref={(ref) => { this.webView = ref }}
-            scalesPageToFit={false}
-            scrollEnabled={false}
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: this.state.webViewHeight,
-              backgroundColor: this.props.isDarkMode ? 'black' : hslString('rizzleBg')
-            }}
-            source={{
-              html: html,
-              baseUrl: 'web/'}}
-            useWebKit={false}
-          />
+              }}
+              onNavigationStateChange={this.onNavigationStateChange}
+              {...openLinksExternallyProp}
+              originWhitelist={['*']}
+              ref={(ref) => { this.webView = ref }}
+              scalesPageToFit={false}
+              scrollEnabled={false}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: this.state.webViewHeight,
+                backgroundColor: this.props.isDarkMode ? 'black' : hslString('rizzleBg')
+              }}
+              source={{
+                html: html,
+                baseUrl: 'web/'}}
+              useWebKit={false}
+            />
+          </Animated.View>
         </Animated.ScrollView>
-      </Animated.View>
+      </View>
     )
   }
 

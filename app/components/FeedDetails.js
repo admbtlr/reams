@@ -47,7 +47,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       fontSize: 16 * fontSizeMultiplier(),
       // marginTop: margin * 2,
       marginBottom: margin,
-      textAlign: 'center'
+      textAlign: 'left'
     }}>You’ve read
       <Text style={bold}> {feed.numRead} </Text>
       {feed.numRead === 1 ? 'story' : 'stories'} from
@@ -190,28 +190,28 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         contentContainerStyle={{
           flex: 1,
           flexDirection: 'column',
-          justifyContent: 'space-between'
+          justifyContent: 'space-around'
         }}
       >
         { feed.description && feed.description.length > 0 ?
           <View style={{
             flex: 1,
-            justifyContent: 'space-around'
+            justifyContent: 'center'
           }}>
             <Text style={{
-              color: hslString('rizzleText'),
+              color: hslString(feed.color, 'darkmodable'), //hslString('rizzleText'),
               fontFamily: 'IBMPlexSans-Bold',
               fontSize: feed.description.length > 100 ? 18 : 20,
               fontSize: (feed.description.length > 100 ? 18 : 20) *
                 fontSizeMultiplier(),
-              textAlign: 'center'
+              textAlign: 'left'
             }}>{ feed.description }</Text>
-            <View style={{
+            {/*<View style={{
               height: 1,
               backgroundColor: hslString('rizzleText'),
               opacity: 0.2,
               marginBottom: margin
-            }} />
+            }} />*/}
           </View> : null
         }
         <View style={{

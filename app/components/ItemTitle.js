@@ -127,37 +127,6 @@ class ItemTitle extends React.Component {
     const window = Dimensions.get('window')
     this.screenWidth = window.width
     this.screenHeight = window.height
-
-    this.fadeInAnim1 = new Animated.Value(this.props.isVisible ||
-      !deviceCanHandleAnimations() ? 1 : -1)
-    this.fadeInAnim2 = new Animated.Value(this.props.isVisible ||
-      !deviceCanHandleAnimations() ? 1 : 0)
-    this.fadeInAnim3 = new Animated.Value(this.props.isVisible ||
-      !deviceCanHandleAnimations() ? 1 : 0)
-    this.fadeInAnim4 = new Animated.Value(this.props.isVisible ||
-      !deviceCanHandleAnimations() ? 1 : 0)
-    this.fadeInAnim5 = new Animated.Value(this.props.isVisible ||
-      !deviceCanHandleAnimations() ? 1 : 0)
-    this.fadeIn = this.fadeIn.bind(this)
-  }
-
-  fadeIn () {
-    if (!deviceCanHandleAnimations()) return
-    const params = {
-      toValue: 1,
-      duration: 250,
-      easing: Easing.out(Easing.quad),
-      // easing: Easing.bezier(.66, 0, .33, 1),
-      useNativeDriver: true
-    }
-
-    Animated.stagger(100, [
-      Animated.timing(this.fadeInAnim1, params),
-      Animated.timing(this.fadeInAnim2, params),
-      Animated.timing(this.fadeInAnim3, params),
-      Animated.timing(this.fadeInAnim4, params),
-      Animated.timing(this.fadeInAnim5, params)
-    ]).start()
   }
 
   getRenderedTitle (title) {
@@ -254,7 +223,6 @@ class ItemTitle extends React.Component {
   }
 
   async componentDidMount () {
-    this.props.setFadeInFunction(this.fadeIn)
     this.componentDidUpdate()
   }
 
@@ -298,7 +266,7 @@ class ItemTitle extends React.Component {
   }
 
   async componentDidUpdate () {
-    const {styles, coverImageStyles, textAlign} = this.props
+    const {styles} = this.props
 
     if (styles.fontResized) return
 
@@ -441,7 +409,7 @@ class ItemTitle extends React.Component {
     changes = diff(this.props, nextProps, diff(this.state, nextState))
     // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
     // console.log(changes)
-    if (changes.fontSize || changes.isDarkMode) {
+    if (changes.fontSize || changes.isDarkMode || changes.anims) {
       isDiff = true
     }
     return isDiff
@@ -456,26 +424,6 @@ class ItemTitle extends React.Component {
       return hslString('rizzleText')
     } else {
       return hslString(this.props.item.feed_color, 'desaturated')
-    }
-  }
-
-  addAnimationsIfNecessary (style, anim) {
-    const { showCoverImage, coverImageStyles } = this.props
-    if (!showCoverImage ||
-      coverImageStyles.isInline) {
-      return style
-    }
-    return {
-      ...style,
-      top: 20,
-      opacity: anim,
-      transform: [{
-        translateY: anim.interpolate({
-          inputRange: [0, 1],
-          outputRange: [100, -20]
-        })
-      }]
-
     }
   }
 
@@ -515,6 +463,7 @@ class ItemTitle extends React.Component {
       titleAnimation,
       excerptAnimation,
       authorAnimation,
+      dateAnimation,
       barAnimation
     } = this.getAnimationValues()
 
@@ -618,7 +567,7 @@ class ItemTitle extends React.Component {
       ...border,
       borderColor: color,
     }
-    innerViewStyle = this.addAnimationsIfNecessary(innerViewStyle, titleAnimation)
+    innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation)
     const overlayColour = this.getOverlayColor()
     const outerPadding = this.getOuterVerticalPadding()
     const outerViewStyle = {
@@ -768,7 +717,7 @@ class ItemTitle extends React.Component {
     const excerptView = this.props.excerpt
       ? this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView, excerptAnimation)
       : null
-    const dateView = this.renderDate(authorAnimation)
+    const dateView = this.renderDate(dateAnimation)
     const authorView = this.renderAuthor(authorAnimation)
 
     return (
@@ -830,7 +779,7 @@ class ItemTitle extends React.Component {
   }
 
   renderBar (anim) {
-    let style = this.addAnimationsIfNecessary({}, anim)
+    let style = this.props.addAnimation({}, anim)
     return <Animated.View style={style}>
       <View style={{
         marginLeft: this.horizontalMargin,
@@ -937,7 +886,7 @@ class ItemTitle extends React.Component {
         'right': 'flex-end'
       }[styles.excerptHorizontalAlign],
     }
-    style = this.addAnimationsIfNecessary(style, anim)
+    style = this.props.addAnimation(style, anim)
 
     const borderBar = <Animated.View style={{
       width: this.screenWidth * 0.666,
@@ -1002,7 +951,7 @@ class ItemTitle extends React.Component {
       padding: 0,
       width: this.screenWidth
     }
-    authorStyle = this.addAnimationsIfNecessary(authorStyle, anim)
+    authorStyle = this.props.addAnimation(authorStyle, anim)
     if (item.author) {
       return (
         <Animated.Text
@@ -1048,7 +997,7 @@ class ItemTitle extends React.Component {
     //   ]
     //   dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
     // }
-    dateStyle = this.addAnimationsIfNecessary(dateStyle, anim)
+    dateStyle = this.props.addAnimation(dateStyle, anim)
 
     // TODO this is feedwrangler... fix it
     const theDate = (typeof date === 'number') ? date : date
@@ -1056,7 +1005,7 @@ class ItemTitle extends React.Component {
     const formattedDate = moment(theDate)
       .format('MMMM Do' + (showYear ? ' YYYY' : '') + ', h:mma')
 
-    return dateView = (
+    return (
       <Animated.Text
         maxFontSizeMultiplier={1.2}
         style={dateStyle}
@@ -1113,32 +1062,41 @@ class ItemTitle extends React.Component {
   }
 
   getAnimationValues () {
-    if (this.props.coverImageStyles.isInline) {
+    const { anims, scrollOffset, showCoverImage, coverImageStyles } = this.props
+    if (!showCoverImage || coverImageStyles.isInline) {
       return {
-        opacity: Animated.add(this.props.scrollOffset.interpolate({
+        opacity: Animated.add(scrollOffset.interpolate({
             inputRange: [-50, 100, 300],
             outputRange: [1, 1, 0]
-          }), this.fadeInAnim1),
-        titleAnimation: this.fadeInAnim2,
-        excerptAnimation: this.fadeInAnim3,
-        authorAnimation: this.fadeInAnim4,
-        barAnimation: this.fadeInAnim5,
-        shadow: this.props.scrollOffset.interpolate({
+          }), anims[0].interpolate({
+            inputRange: [0, 1.3, 1.5, 2],
+            outputRange: [1, 1, 0, 0]
+          })),
+        titleAnimation: anims[1],
+        excerptAnimation: anims[2],
+        authorAnimation: anims[3],
+        dateAnimation: anims[4], 
+        barAnimation: anims[4],
+        shadow: scrollOffset.interpolate({
             inputRange: [-100, -20, 0, 40, 400],
             outputRange: [1, 1, 1, 1, 0]
           })
       }
     }
     return {
-      opacity: Animated.add(this.props.scrollOffset.interpolate({
+      opacity: Animated.add(scrollOffset.interpolate({
           inputRange: [-50, -25, 0, 100, 200],
           outputRange: [0, 1, 1, 1, 0]
-        }), this.fadeInAnim1),
-      titleAnimation: this.fadeInAnim2,
-      excerptAnimation: this.fadeInAnim3,
-      authorAnimation: this.fadeInAnim4,
-      barAnimation: this.fadeInAnim5,
-      shadow: this.props.scrollOffset.interpolate({
+        }), anims[0].interpolate({
+          inputRange: [0, 1, 1.3, 2],
+          outputRange: [1, 1, -1, -1]
+        })),
+      titleAnimation: anims[1],
+      excerptAnimation: anims[2],
+      authorAnimation: anims[3],
+      dateAnimation: anims[4],
+      barAnimation: anims[4],
+      shadow: scrollOffset.interpolate({
           inputRange: [-100, -20, 0, 40, 200],
           outputRange: [0, 1, 1, 1, 0]
         })
