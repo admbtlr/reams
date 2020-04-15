@@ -57,6 +57,7 @@ class TopBar extends React.Component {
   render () {
     const {
       clampedAnimatedValue,
+      displayMode,
       item,
       opacityAnim,
       titleTransformAnim,
@@ -160,7 +161,7 @@ class TopBar extends React.Component {
                       textAlign: item && item.hasCachedFeedIcon ?
                         'left' : 'center'
                     }}
-                  >{this.props.displayMode === ItemType.saved ?
+                  >{displayMode === ItemType.saved ?
                     'Saved Stories' :
                     this.props.feedFilter ?
                       'Filtered Stories' :
@@ -191,9 +192,11 @@ class TopBar extends React.Component {
               </Animated.View>
             </TouchableOpacity>
           </View>
-          {/*}<FeedsHamburger
-            onPress={() => this.props.navigation.navigate('Feeds')}
-                  hamburgerColor={this.getHamburgerColor(item)} />{*/}
+          {/*<DisplayModeToggle
+            displayMode={displayMode}
+            backgroundColor={this.getBackgroundColor()}
+            buttonColor={this.getForegroundColor()}
+          />*/}
         </Animated.View>
     </View>)
   }
@@ -274,7 +277,7 @@ class TopBar extends React.Component {
         position: 'absolute',
         top: 0,
         height: isIphoneX() ? 44 : 22,
-        width: '100%'
+        width: '100%',
       },
       textHolder: {
         // flex: 1,
@@ -391,19 +394,19 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
   return (
     <Animated.View style={{
       position: 'absolute',
-      left: 0,
-      bottom: 13,
+      right: 15,
+      bottom: 10,
       width: 32,
       height: 38,
+      zIndex: 10,
     }}>
       <TouchableOpacity
         style={{
-          // borderRadius: 14,
-          // backgroundColor: 'rgba(0, 0, 0, 0.3)'
+          borderRadius: 14,
+          backgroundColor: 'rgba(0, 0, 0, 0.3)'
         }}
       >
-        { getRizzleButtonIcon('back', 'white') }
-        { /*displayMode === ItemType.unread ? savedIcon : unreadIcon*/ }
+        { displayMode === ItemType.unread ? savedIcon : unreadIcon }
       </TouchableOpacity>
     </Animated.View>
   )

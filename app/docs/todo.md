@@ -1,11 +1,8 @@
 # To Do
 
-- donwload Quartz favicon and continue with old feeds
 - mercury state doesn't get updated for visible stories
 - deal with feed.number_unread problems
 - upgrade to react native 62
-- upgrade to react-navigation 5.0
-    + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - make Feedwrangler work fully
 - Feedly integration
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
@@ -31,6 +28,8 @@
 
 # Done
 
+- ~~upgrade to react-navigation 5.0~~
+    + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - ~~improved add feed experience~~
 - ~~make rizzle basic work~~
 - ~~button alignment on ipad~~
