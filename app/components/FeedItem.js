@@ -34,19 +34,9 @@ class FeedItem extends React.Component {
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this)
     this.openLink = this.openLink.bind(this)
-    this.startTimer = this.startTimer.bind(this)
-    this.setFadeInFunction = this.setFadeInFunction.bind(this)
 
     this.screenDimensions = Dimensions.get('window')
     this.hasWebViewResized = false
-
-    // use this to that we can call startTimer() from SwipeableViews
-    // (not great, but OK)
-    this.view = React.createRef()
-  }
-
-  startTimer () {
-    this.fadeIn()
   }
 
   initAnimatedValues (isMounted) {
@@ -57,39 +47,14 @@ class FeedItem extends React.Component {
     }))
     if (isMounted) {
       this.anims = anims
+      // weird little hack to ensure a re-render
+      // (when I put the anims into state I got ugly errors)
       this.setState({
         animsUpdated: Date.now()
       })
     } else {
       this.anims = anims
     }
-      // const { isVisible } = this.props
-    // this.anims = [new Animated.Value(isVisible ||
-    //   !deviceCanHandleAnimations() ? 1 : -1)]
-    // for (let i = 1; i < 6; i++) {
-    //   this.anims[i] = new Animated.Value(isVisible ||
-    //     !deviceCanHandleAnimations() ? 1 : 0)
-    // }
-  }
-
-  fadeIn () {
-    // if (!deviceCanHandleAnimations()) return
-    // const params = {
-    //   toValue: 1,
-    //   duration: 250,
-    //   easing: Easing.out(Easing.quad),
-    //   // easing: Easing.bezier(.66, 0, .33, 1),
-    //   useNativeDriver: true
-    // }
-
-    // Animated.stagger(100, [
-    //   Animated.timing(this.anims[0], params),
-    //   Animated.timing(this.anims[1], params),
-    //   Animated.timing(this.anims[2], params),
-    //   Animated.timing(this.anims[3], params),
-    //   Animated.timing(this.anims[4], params),
-    //   Animated.timing(this.anims[5], params)
-    // ]).start()
   }
 
   addAnimation (style, anim) {
@@ -114,12 +79,8 @@ class FeedItem extends React.Component {
     const {
       isVisible,
       item,
-      panAnim,
-      scrollHandlerAttached,
       setScrollAnim,
-      setTimerFunction
     } = this.props
-    setTimerFunction && setTimerFunction(this.startTimer)
     if (isVisible) {
       setScrollAnim(this.scrollAnim)
       // scrollHandlerAttached(item._id)
@@ -127,51 +88,29 @@ class FeedItem extends React.Component {
     }
   }
 
-  setFadeInFunction (fadeInFunction) {
-    this.titleFadeIn = fadeInFunction
-  }
-
   shouldComponentUpdate (nextProps, nextState) {
     if (this.isAnimating) return true
-    // if (this.anims !== nextState.anims) {
-    //   debugger
-    //   return true
-    // }
     const { item } = this.props
     let changes
     let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
-    // console.log('Should update? - '
-      // + this.props.item.title
-      // + (isDiff ? ' - YES' : ' - NO'))
     if (isDiff) {
       changes = diff(this.props, nextProps, diff(this.state, nextState))
-      // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
-      // console.log(changes)
     }
 
     // various special cases
-    // (this is horrible, but setTimerFunction is always a change, so filter it out
-    // before testing for the special cases)
     if (changes && changes.item && Object.keys(changes.item).length === 0) {
       delete changes.item
-    }
-    if (changes && changes.setTimerFunction) {
-      delete changes.setTimerFunction
     }
     if (changes && Object.keys(changes).length === 0) {
       isDiff == false
     } else if (changes && Object.keys(changes).length === 1) {
-      switch (Object.keys(changes).filter(k => k !== 'setTimerFunction')[0]) {
+      switch (Object.keys(changes)) {
         case 'isVisible':
           isDiff = false
           // this is a bit sneaky...
           if (nextProps.isVisible) {
             this.props.setScrollAnim(this.scrollAnim)
-            // and let the buttons know that the scroll handler has changed
-            // this.props.scrollHandlerAttached(this.props.item._id)
           }
-          // so is this (startTimer() doesn't always get set correctly)
-          nextProps.setTimerFunction && nextProps.setTimerFunction(this.startTimer)
           break
 
         case 'fontSize':
@@ -189,9 +128,6 @@ class FeedItem extends React.Component {
           break
 
         case 'index':
-        case 'setTimerFunction':
-          isDiff = false
-          break
 
         case 'item':
           if (Object.keys(changes.item).length === 1) {
@@ -256,13 +192,9 @@ class FeedItem extends React.Component {
         height: this.screenDimensions.height }} />
     }
 
-    // if (/*__DEV__ ||*/ !this.props.item.styles) {
-    //   this.props.item.styles = createItemStyles(this.props.item)
-    // }
     const {
       isVisible,
       item,
-      panAnim,
       showMercuryContent 
     } = this.props
     let {
@@ -302,8 +234,6 @@ class FeedItem extends React.Component {
       styles.dropCapIsBold ? 'dropCapIsBold' : '',
       styles.dropCapIsStroke ? 'dropCapIsStroke' : ''].join(' ')
 
-    let coverImageClasses = ''
-    let coverClasses = ''
     const visibleClass = isVisible
       ? 'visible'
       : ''
@@ -322,9 +252,6 @@ class FeedItem extends React.Component {
       styles.coverImage.isInline = false
       styles.isCoverInline = false
     }
-
-    const authorHeading = !!author ? `<h2 class="author">${author}</h2>` : ''
-    const excerptPara = !!excerpt ? `<p class="excerpt">${excerpt}</p>` : ''
 
     // not sure how this can happen...
     content_html = content_html || ''
@@ -435,7 +362,6 @@ class FeedItem extends React.Component {
             hasCoverImage={hasCoverImage}
             showCoverImage={showCoverImage}
             coverImageStyles={styles.coverImage}
-            setFadeInFunction={this.setFadeInFunction}
             layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
           <Animated.View style={styles.coverImage.isInline || !showCoverImage ? 
@@ -532,9 +458,6 @@ class FeedItem extends React.Component {
   onScrollEndDrag = (e) => {
     const that = this
     const offset = e.nativeEvent.contentOffset.y
-    this.scrollEndTimer = setTimeout(() => {
-      that.onMomentumScrollEnd.apply(that, [offset])
-    }, 250)
   }
 
   onMomentumScrollBegin = (e) => {
