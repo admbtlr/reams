@@ -28,7 +28,7 @@ class FeedItem extends React.Component {
       webViewHeight: 0
     }
 
-    this.initAnimatedValues()
+    this.initAnimatedValues(false)
 
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
@@ -49,13 +49,21 @@ class FeedItem extends React.Component {
     this.fadeIn()
   }
 
-  initAnimatedValues () {
+  initAnimatedValues (isMounted) {
     const { panAnim } = this.props
-    this.anims = [0, 0, 0, 0, 0, 0].map((a, i) => panAnim.interpolate({
+    const anims = [0, 0, 0, 0, 0, 0].map((a, i) => panAnim.interpolate({
       inputRange: [0, 0.3, 0.7, 1, 1.3 - i * 0.05, 1.7 + i * 0.05, 2],
       outputRange: [0, 0.3, 0.7, 1, 1.3, 1.7, 2]
     }))
-    // const { isVisible } = this.props
+    if (isMounted) {
+      this.anims = anims
+      this.setState({
+        animsUpdated: Date.now()
+      })
+    } else {
+      this.anims = anims
+    }
+      // const { isVisible } = this.props
     // this.anims = [new Animated.Value(isVisible ||
     //   !deviceCanHandleAnimations() ? 1 : -1)]
     // for (let i = 1; i < 6; i++) {
@@ -125,6 +133,10 @@ class FeedItem extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     if (this.isAnimating) return true
+    // if (this.anims !== nextState.anims) {
+    //   debugger
+    //   return true
+    // }
     const { item } = this.props
     let changes
     let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
@@ -202,6 +214,9 @@ class FeedItem extends React.Component {
 
   componentDidUpdate (prevProps) {
     const { isVisible, item, setScrollAnim } = this.props
+    if (this.props.renderDate !== prevProps.renderDate) {
+      this.initAnimatedValues(true)
+    }
     if (isVisible && !prevProps.isVisible) {
       setScrollAnim(this.scrollAnim)
       item.scrollRatio > 0 && this.scrollToOffset()
@@ -266,8 +281,16 @@ class FeedItem extends React.Component {
       excerpt,
       savedAt
     } = this.props.item
-    // console.log(`-------- RENDER: ${title} ---------`)
+    // if (isVisible) {
+    //   console.log(`-------- RENDER: ${title} ---------`)
+    //   this.panAnimListener = panAnim.addListener(v => {
+    //     console.log(title + ' ' + v.value)
+    //   })
+    // } else {
+    //   if (this.panAnimListener) this.panAnimListener.removeListener()
+    // }
     // let bodyHtml = { __html: body }
+
     let articleClasses = [
       ...Object.values(styles.fontClasses),
       'itemArticle',

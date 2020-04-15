@@ -409,7 +409,7 @@ class ItemTitle extends React.Component {
     changes = diff(this.props, nextProps, diff(this.state, nextState))
     // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
     // console.log(changes)
-    if (changes.fontSize || changes.isDarkMode) {
+    if (changes.fontSize || changes.isDarkMode || changes.anims) {
       isDiff = true
     }
     return isDiff
