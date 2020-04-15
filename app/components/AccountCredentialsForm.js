@@ -100,10 +100,10 @@ class AccountCredentialsForm extends React.Component {
     } else {
       const response = await authenticate({username, password}, service)
       console.log(response)
-      if (response === 'success') {
+      if (response.status === 'success') {
         if (service === 'feedwrangler') {
           setBackend('feedwrangler', {
-            accessToken: response
+            accessToken: response.token
           })
         } else if (service === 'feedbin') {
           setBackend('feedbin', {
