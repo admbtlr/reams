@@ -29,7 +29,6 @@ class SwipeableViews extends Component {
     super(props)
     this.props = props
     this.panOffset = new Animated.Value(0)
-    this.timerFunctions = {}
 
     this.onMomentumScrollEnd = this.onMomentumScrollEnd.bind(this)
     this.onScrollEndDrag = this.onScrollEndDrag.bind(this)
@@ -50,8 +49,6 @@ class SwipeableViews extends Component {
     const indexDelta = newIndex - this.currentIndex
     if (indexDelta !== 0) {
       const child = this.children[newIndex]
-      // let the fade in animation happen...
-      child && this.timerFunctions[child.key] && this.timerFunctions[child.key]()
       if (indexDelta > 0) {
         incrementIndex()
       } else {
@@ -93,7 +90,7 @@ class SwipeableViews extends Component {
     }
   }
 
-  renderSlide ({_id, index, setTimerFunction, isVisible, panAnim}) {
+  renderSlide ({_id, index, isVisible, panAnim}) {
     if (this.props.isOnboarding) {
       return <OnboardingContainer
         index={index}
@@ -104,7 +101,6 @@ class SwipeableViews extends Component {
       return <FeedItemContainer
         _id={_id}
         key={_id}
-        setTimerFunction={setTimerFunction}
         setScrollAnim={this.props.setScrollAnim}
         onScrollEnd={this.props.onScrollEnd}
         isVisible={isVisible}
@@ -145,9 +141,6 @@ class SwipeableViews extends Component {
           index: item.index,
           key: item._id,
           _id: item._id,
-          setTimerFunction: timerFunc => {
-            this.timerFunctions[item._id] = timerFunc
-          },
           isVisible: itemIndex === index,
           panAnim: this.panOffset.interpolate({
             inputRange, outputRange
