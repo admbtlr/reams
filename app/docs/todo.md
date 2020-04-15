@@ -4,11 +4,12 @@
 - deal with feed.number_unread problems
 - upgrade to react native 62
 - make Feedwrangler work fully
-- Feedly integration
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 
 # Someday / Maybe
 
+- use 
+- Feedly integration
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
 - login with apple

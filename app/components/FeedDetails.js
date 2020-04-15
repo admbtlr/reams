@@ -25,7 +25,7 @@ const createTimeString = (seconds) => {
       seconds + ' seconds')
 }
 
-export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, filterItems, navigation, setIndex, toggleMute, toggleLike, toggleMercury }) {
+export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, close, filterItems, navigation, setIndex, toggleMute, toggleLike, toggleMercury }) {
   const [isLiked, setLiked] = useState(feed.isLiked)
   const [isMuted, setMuted] = useState(feed.isMuted)
   const [isFiltered, setFiltered] = useState(feed.isFiltered)
@@ -241,8 +241,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             icon={unsubscribeIcon}
             noResize={true}
             onPress={() => {
-              navigation.goBack(null)
               unsubscribe(feed)
+              close()
             }}
             text='Unsubscribe' />
           <TextButton

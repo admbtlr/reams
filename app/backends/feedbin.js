@@ -19,12 +19,20 @@ export const authenticate = (username, password) => {
     .then((response) => {
       if (!response.ok) {
         if (response.status === 401) {
-          return 'unauthorized'
+          return {
+            status: 'error',
+            message: 'unauthorized'
+          }
         } else {
-          return 'unknown error'
+          return  {
+            status: 'error',
+            message: 'unknown error'
+          }
         }
       }
-      return 'success'
+      return {
+        status: 'success'
+      }
     })
 }
 

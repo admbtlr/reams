@@ -1,6 +1,6 @@
 import { InteractionManager } from 'react-native'
 import { store } from '../store'
-import { id } from '../utils'
+import { getFeedColor, id } from '../utils'
 import { getItemsByIds } from './utils'
 import log from '../utils/log'
 
@@ -32,9 +32,16 @@ export const authenticate = (username, password) => {
     .then((response) => response.json())
     .then(json => {
       if (json.result === 'success') {
-        return json.access_token
+        return {
+          status: 'success',
+          token: json.access_token
+        }
+      } else {
+        return {
+          status: 'error',
+          message: 'unknown error'
+        }
       }
-      console.log(json)
     })
     .catch(e => {
       log('authenticate', e)
@@ -312,5 +319,48 @@ export const addFeed = (feed) => {
     })
     .catch(e => {
       log('Error at addFeed: ' + e)
+    })
+}
+
+// returns id
+export const removeFeed = (feed) => {
+  let url = 'https://feedwrangler.net/api/v2/subscriptions/remove_feed?'
+  url += 'access_token=' + feedWranglerAccessToken
+  url += '&feed_id=' + feed.id
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .catch(e => {
+      log('Error at addFeed: ' + e)
+    })
+}
+
+export const fetchFeeds = () => {
+  let url = 'https://feedwrangler.net/api/v2/subscriptions/list?'
+  url += 'access_token=' + feedWranglerAccessToken
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    })
+    .then((response) => response.json())
+    .then(json => {
+      return json.feeds.map(feed => ({
+        _id: id(),
+        id: feed.feed_id,
+        title: feed.title,
+        url: feed.feed_url,
+        link: feed.site_url,
+        color: getFeedColor()
+      }))
+    })
+    .catch(e => {
+      log('Error at fetchFeeds: ' + e)
     })
 }
