@@ -41,10 +41,16 @@ class FeedItem extends React.Component {
 
   initAnimatedValues (isMounted) {
     const { panAnim } = this.props
-    const anims = [0, 0, 0, 0, 0, 0].map((a, i) => panAnim.interpolate({
-      inputRange: [0, 0.3, 0.7, 1, 1.3 - i * 0.05, 1.7 + i * 0.05, 2],
-      outputRange: [0, 0.3, 0.7, 1, 1.3, 1.7, 2]
-    }))
+    const anims = [0, 0, 0, 0, 0, 0].map((a, i) => {
+      const inputRange = [0, 0.3, 0.7, 1, 1.3 - i * 0.05, 1.7 + i * 0.05, 2]
+      const outputRange = [0, 0.3, 0.7, 1, 1.3, 1.7, 2]
+      // console.log(inputRange)
+      // console.log(outputRange)
+      return panAnim.interpolate({
+        inputRange,
+        outputRange
+      })
+    })
     if (isMounted) {
       this.anims = anims
       // weird little hack to ensure a re-render
@@ -63,12 +69,12 @@ class FeedItem extends React.Component {
       ...style,
       left: width,
       opacity: anim.interpolate({
-        inputRange: [0, 1, 1.1, 1.2, 2],
+        inputRange: [0, 1, 1.03, 1.05, 2],
         outputRange: [1, 1, 1, 0, 0]
       }),
       transform: [{
         translateX: anim.interpolate({
-          inputRange: [0, 0.5, 0.7, 1, 1.05, 2],
+          inputRange: [0, 0.5, 0.7, 1, 1.03, 2],
           outputRange: [-width, -width, -width, -width, width * 4, width * 4]
         })
       }]
@@ -410,9 +416,16 @@ class FeedItem extends React.Component {
   }
 
   setWebViewStartY (y) {
-    this.setState({
-      webViewHeight: y
-    })
+    // this is causing the `CALayerInvalidGeometry` bug
+    // https://sentry.io/organizations/adam-butler/issues/1608223243
+    // so don't call setState for now until I figure it out
+    // (to do with the animation that is set of the Animated.View that holds the WebView)
+    if (y < this.screenDimensions.height) {
+      console.log(y)
+      // this.setState({
+      //   webViewHeight: Math.round(this.screenDimensions.height - y)
+      // })
+    }
   }
 
   passScrollPositionToWebView (position) {
