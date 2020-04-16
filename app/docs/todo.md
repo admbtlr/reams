@@ -1,14 +1,16 @@
 # To Do
 
+- button on initial onboarding
+- use https://github.com/cruip/open-react-template for website
+- make Feedwrangler work fully
+- edit new feeds list, Politics section
 - mercury state doesn't get updated for visible stories
 - deal with feed.number_unread problems
 - upgrade to react native 62
-- make Feedwrangler work fully
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 
 # Someday / Maybe
 
-- use 
 - Feedly integration
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274

@@ -181,7 +181,7 @@ class CoverImage extends React.Component {
             style={{
               resizeMode: 'cover',
               // alignSelf: 'flex-end',
-              height: isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight * 1.2,
+              height: isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight,
               width: isInline || resizeMode === 'contain' ? this.screenWidth : imageWidth,
               left:  isInline || resizeMode === 'contain' ? 0 : -imageOffset
             }} />

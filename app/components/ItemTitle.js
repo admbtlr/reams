@@ -580,7 +580,7 @@ class ItemTitle extends React.Component {
           getTopBarHeight(),
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
       marginTop: 0,
-      marginBottom: 0,
+      marginBottom: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
       top: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
       left: 0,
       flexDirection: 'column',

@@ -17,6 +17,7 @@ import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getInset } from '../utils'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
+import { ItemType } from '../store/items/types'
 
 class AccountScreen extends React.Component {
 
@@ -30,8 +31,12 @@ class AccountScreen extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.backend && this.props.backend !== prevProps.backend) {
-      this.props.navigation.navigate('Feeds')
+    const { backend, displayMode } = this.props
+    if (backend && backend !== prevProps.backend) {
+      if (displayMode === ItemType.unread) {
+        this.props.navigation.push('Feeds')
+      }
+      this.props.navigation.push('Items')
     }
   }
 
@@ -218,12 +223,12 @@ class AccountScreen extends React.Component {
                   // width: buttonWidth 
                 }}
                 isExpandable={true}
-                isExpanded={ backend === 'feedwrangler' || expandedBackend === 'feedlwrangler' }
+                isExpanded={ backend === 'feedwrangler' }
                 isInverted={ backend === 'feedwrangler' }
                 bgColor={ backend === 'feedwrangler' && hslString('logo1') }
                 onExpand={() => this.setExpandedBackend('feedwrangler')}
                 renderExpandedView={() => <AccountCredentialsForm
-                  isActive={ backend === 'feedwrangler' }
+                  isActive={ backend === 'feedwrangler' || expandedBackend === 'feedwrangler'}
                   service='feedwrangler'
                   setBackend={this.props.setBackend}
                   unsetBackend={this.props.unsetBackend}

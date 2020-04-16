@@ -421,7 +421,6 @@ class FeedItem extends React.Component {
     // so don't call setState for now until I figure it out
     // (to do with the animation that is set of the Animated.View that holds the WebView)
     if (y < this.screenDimensions.height) {
-      console.log(y)
       // this.setState({
       //   webViewHeight: Math.round(this.screenDimensions.height - y)
       // })

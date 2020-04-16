@@ -227,12 +227,6 @@ export default function NewFeedsList (props) {
                 />} />
             </View>)
           }
-          <TextButton
-            isDisabled={ selectedFeeds.length === 0 }
-            isInverted={true}
-            onPress={addFeeds}
-            text={`Add ${selectedFeeds.length > 0 ? selectedFeeds.length : ''} site${selectedFeeds.length !== 1 ? 's' : ''} to my feed`}
-          />
         </View>
       </Animated.ScrollView>
       <Animated.View style={{

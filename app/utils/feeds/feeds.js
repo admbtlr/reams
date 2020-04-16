@@ -1,3 +1,4 @@
+const nextId = 347
 export const feeds = [{
   "id": 0,
   "title": "Engadget",
@@ -51,14 +52,6 @@ export const feeds = [{
   },
   "link": "https://www.gizmodo.com",
   "color": "#008CBA"
-}, {
-  "id": 4,
-  "title": "Wired",
-  "url": "http://feeds.wired.com/wired/index",
-  "description": "Channel Description",
-  "category": "technology",
-  "link": "https://www.wired.com/",
-  "color": "#000000"
 }, {
   "id": 5,
   "title": "Lifehacker",
@@ -140,8 +133,14 @@ export const feeds = [{
   "url": "http://googleblog.blogspot.com/atom.xml",
   "description": "Insights from Googlers into our products, technology, and the Google culture.",
   "category": "technology",
+  "favicon": {
+    "source": require('../../assets/images/favicons/11.png'),
+    "url": "https://www.iconfinder.com/icons/682665/download/png/64",
+    "size": null
+  },
   "image": "https://www.blog.google/static/blogv2/images/google.png",
-  "link": "https://www.blog.google/"
+  "link": "https://www.blog.google/",
+  "color": "#4285f4"
 }, {
   "id": 12,
   "title": "MacRumors",
@@ -201,7 +200,11 @@ export const feeds = [{
   "url": "http://news.ycombinator.com/rss",
   "description": "Links for the intellectually curious, ranked by readers.",
   "category": "technology",
-  "link": "https://news.ycombinator.com/"
+  "favicon": {
+    "source": require('../../assets/images/favicons/16.png'),
+  },
+  "link": "https://news.ycombinator.com/",
+  "color": "#ff6600"
 }, {
   "id": 17,
   "title": "TechRadar - All the latest technology news",
@@ -213,19 +216,6 @@ export const feeds = [{
   },
   "link": "https://www.techradar.com/",
   "color": "#2f6e91"
-}, {
-  "id": 18,
-  "title": "How-To Geek",
-  "url": "http://feeds.howtogeek.com/HowToGeek",
-  "description": "We Explain Technology",
-  "category": "technology"
-}, {
-  "id": 19,
-  "title": "Techmeme",
-  "url": "http://www.techmeme.com/index.xml",
-  "description": "Tech Web, page A1",
-  "category": "technology",
-  "link": "http://www.techmeme.com/"
 }, {
   "id": 20,
   "title": "Wirecutter: Reviews for the Real World",
@@ -267,14 +257,6 @@ export const feeds = [{
   "link": "https://bgr.com/",
   "color": "#0080FF"
 }, {
-  "id": 23,
-  "title": "Techdirt.",
-  "url": "http://www.techdirt.com/techdirt_rss.xml",
-  "description": "Easily digestible tech news...",
-  "category": "technology",
-  "image": "https://ii.techdirt.com/s/t/i/td-88x31.gif",
-  "link": "https://www.techdirt.com/"
-}, {
   "id": 24,
   "title": "Tech Insider",
   "url": "http://feeds.feedburner.com/typepad/alleyinsider/silicon_alley_insider",
@@ -302,12 +284,6 @@ export const feeds = [{
   "link": "https://daringfireball.net/",
   "color": "rgb(74,82,90)"
 }, {
-  "id": 26,
-  "title": "Gigaom",
-  "url": "http://feeds.feedburner.com/ommalik",
-  "description": "Your industry partner in emerging technology research",
-  "category": "technology"
-}, {
   "id": 27,
   "title": "NYT > Technology",
   "url": "http://www.nytimes.com/services/xml/rss/nyt/Technology.xml",
@@ -321,19 +297,6 @@ export const feeds = [{
   "image": "https://static01.nyt.com/images/misc/NYT_logo_rss_250x40.png",
   "link": "https://www.nytimes.com/",
   "color": "rgb(17,17,17)"
-}, {
-  "id": 28,
-  "title": "Blog – Hackaday",
-  "url": "http://www.hackaday.com/rss.xml",
-  "description": "Fresh hacks every day",
-  "category": "technology",
-  "favicon": {
-    "source": require('../../assets/images/favicons/28.png'),
-    "url": "https://hackaday.com/wp-content/themes/hackaday-2/favicon.ico",
-    "size": null
-  },
-  "link": "https://hackaday.com/",
-  "color": "#1a1a1a"
 }, {
   "id": 29,
   "title": "Boing Boing",
@@ -351,9 +314,15 @@ export const feeds = [{
 }, {
   "id": 30,
   "title": "New on MIT Technology Review",
-  "url": "http://www.technologyreview.com/rss/rss.aspx",
+  "url": "https://www.technologyreview.com/feed/",
   "description": "The mission of MIT Technology Review is to bring about better-informed and more conscious decisions about technology through authoritative, influential, and trustworthy journalism.",
-  "category": "technology"
+  "category": "technology",
+  "favicon": {
+    "source": require('../../assets/images/favicons/30.png'),
+    "url": "https://www.technologyreview.com/static/media/favicon.e6925c50.ico"
+  },
+  "link": "https://www.technologyreview.com/",
+  "color": "#000000"
 }, {
   "id": 31,
   "title": "9to5Mac",
@@ -380,12 +349,6 @@ export const feeds = [{
   },
   "link": "https://www.androidpolice.com/",
   "color": "#0041C8"
-}, {
-  "id": 33,
-  "title": "ExtremeTechExtremeTech",
-  "url": "http://rssnewsapps.ziffdavis.com/extreme.xml",
-  "description": "ExtremeTech is the Web's top destination for news and analysis of emerging science and technology trends, and important software, hardware, and gadgets.",
-  "category": "technology"
 }, {
   "id": 34,
   "title": "MakeUseOf",
@@ -426,48 +389,16 @@ export const feeds = [{
   "link": "https://www.vice.com/",
   "color": "#000000"
 }, {
-  "id": 37,
-  "title": "SlashGear",
-  "url": "http://feeds.slashgear.com/slashgear",
-  "description": "The Definitive Guide to Tech and Cars",
-  "category": "technology",
-  "image": "http://s3.amazonaws.com/twitter_production/profile_images/65809077/slashgear_bigger.jpg",
-  "link": "https://www.slashgear.com/"
-}, {
-  "id": 38,
-  "title": "GSMArena.com - Latest articles",
-  "url": "http://www.gsmarena.com/rss-news-reviews.php3",
-  "description": "GSMArena.com is the ultimate resource for GSM handset information. This feed contains the latest articles (news and reviews) in chronological order.",
-  "category": "technology",
-  "favicon": {
-    "source": require('../../assets/images/favicons/38.png'),
-    "url": "https://fdn.gsmarena.com/imgroot/static/favicon.ico",
-    "size": null
-  },
-  "image": "https://cdn2.gsmarena.com/w/css/logo-gsmarena-com.gif",
-  "link": "https://www.gsmarena.com/",
-  "color": "rgb(129,130,133)"
-}, {
   "id": 39,
   "title": "BBC News - Technology",
-  "url": "http://newsrss.bbc.co.uk/rss/newsonline_world_edition/technology/rss.xml",
+  "url": "http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int#",
   "description": "BBC News - Technology",
   "category": "technology",
+  "favicon": {
+    "source": require('../../assets/images/favicons/39.png')
+  },
   "image": "https://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif",
   "link": "https://www.bbc.co.uk/"
-}, {
-  "id": 40,
-  "title": "Android Authority",
-  "url": "http://feeds.feedburner.com/androidauthority",
-  "description": "Android News, Reviews, How To",
-  "category": "technology",
-  "favicon": {
-    "source": require('../../assets/images/favicons/40.png'),
-    "url": "https://www.androidauthority.com/wp-content/themes/aa/images/aa-mascot-192x192.png?v=1.0.1",
-    "size": "192x192"
-  },
-  "link": "https://www.androidauthority.com/",
-  "color": "#FFFFFF"
 }, {
   "id": 41,
   "title": "Yahoo Tech",
@@ -483,19 +414,6 @@ export const feeds = [{
   "link": "https://finance.yahoo.com/",
   "color": "#400090"
 }, {
-  "id": 42,
-  "title": "Windows Central - News, Forums, Reviews, Help for Windows 10 and all things Microsoft.",
-  "url": "http://feeds.feedburner.com/wmexperts",
-  "description": null,
-  "category": "technology",
-  "favicon": {
-    "source": require('../../assets/images/favicons/42.png'),
-    "url": "https://www.windowscentral.com/sites/wpcentral.com/files/images/icons/apple-touch-72x72.png",
-    "size": "72x72"
-  },
-  "link": "https://www.windowscentral.com/",
-  "color": "#CE0E5F"
-}, {
   "id": 43,
   "title": "TED Talks Daily (SD video)",
   "url": "http://feeds.feedburner.com/tedtalks_video",
@@ -509,12 +427,6 @@ export const feeds = [{
   "image": "https://pl.tedcdn.com/rss_feed_images/ted_talks_main_podcast/video.png",
   "link": "https://www.ted.com/",
   "color": "#E62B1E"
-}, {
-  "id": 44,
-  "title": "Make: DIY Projects and Ideas for Makers",
-  "url": "http://blog.makezine.com/index.xml",
-  "description": "Make: is the voice of the Maker Movement, empowering, inspiring and connecting makers worldwide.",
-  "category": "technology"
 }, {
   "id": 45,
   "title": "New Atlas - New Technology & Science News",
@@ -555,14 +467,6 @@ export const feeds = [{
   },
   "link": "https://appleinsider.com/",
   "color": "rgb(51,60,69)"
-}, {
-  "id": 48,
-  "title": "Digital Inspiration Technology Blog",
-  "url": "http://feeds.labnol.org/labnol",
-  "description": "Tech, a la carte",
-  "category": "technology",
-  "link": "https://www.labnol.org",
-  "color": "#703a88"
 }, {
   "id": 49,
   "title": "Colossal",
@@ -639,20 +543,6 @@ export const feeds = [{
   "link": "https://www.juxtapoz.com/",
   "color": "rgb(35,31,32)"
 }, {
-  "id": 55,
-  "title": "Lines and Colors",
-  "url": "http://www.linesandcolors.com/feed/",
-  "description": "Blog on painting, drawing, sketching, illustration, comics and other visual art",
-  "category": "art",
-  "link": "http://linesandcolors.com/"
-}, {
-  "id": 56,
-  "title": "The Jealous Curator",
-  "url": "http://www.thejealouscurator.com/blog/feed/",
-  "description": null,
-  "category": "art",
-  "link": "https://www.thejealouscurator.com/"
-}, {
   "id": 57,
   "title": "Artsy News",
   "url": "https://www.artsy.net/rss/news",
@@ -665,21 +555,6 @@ export const feeds = [{
   },
   "link": "https://www.artsy.net/",
   "color": "rgb(99,0,190)"
-}, {
-  "id": 58,
-  "title": "Arrested Motion",
-  "url": "http://arrestedmotion.com/feed/",
-  "description": "\"the aim of every artist is to arrest motion...\" -Faulkner",
-  "category": "art",
-  "link": "https://arrestedmotion.com/"
-}, {
-  "id": 59,
-  "title": "Hi-Fructose Magazine",
-  "url": "http://hifructose.com/feed/",
-  "description": "The New Contemporary Art Magazine",
-  "category": "art",
-  "image": "https://hifructose.com/wp-content/uploads/2016/05/cropped-HFwhitelogoforMOCA-32x32.jpg",
-  "link": "https://hifructose.com/"
 }, {
   "id": 60,
   "title": "ArtsJournal",
@@ -828,26 +703,6 @@ export const feeds = [{
   "link": "http://www.fubiz.net/",
   "color": "rgb(197,45,73)"
 }, {
-  "id": 71,
-  "title": "Artblog",
-  "url": "http://www.theartblog.org/feed/",
-  "description": "An Ongoing Conversation about Art and Community in Philadelphia and the World",
-  "category": "art",
-  "link": "http://www.theartblog.org/"
-}, {
-  "id": 72,
-  "title": "IGNANT",
-  "url": "http://feeds2.feedburner.com/ignant",
-  "description": "IGNANT is an award-winning online magazine featuring the finest in art, design, photography, travel and architecture",
-  "category": "art",
-  "favicon": {
-    "source": require('../../assets/images/favicons/72.png'),
-    "url": "https://www.ignant.com/apple-touch-icon.png?v=kP3MA599J8",
-    "size": "180x180"
-  },
-  "link": "https://www.ignant.com/",
-  "color": "rgb(0,0,0)"
-}, {
   "id": 73,
   "title": "Art and design | The Guardian",
   "url": "http://www.guardian.co.uk/rssfeed/0,,40,00.xml",
@@ -861,47 +716,6 @@ export const feeds = [{
   "image": "https://assets.guim.co.uk/images/guardian-logo-rss.c45beb1bafa34b347ac333af2e6fe23f.png",
   "link": "https://www.theguardian.com/",
   "color": "#052962"
-}, {
-  "id": 74,
-  "title": "Muddy Colors",
-  "url": "http://muddycolors.blogspot.com/feeds/posts/default",
-  "description": "A Fantasy Arts Community",
-  "category": "art",
-  "image": "http://www.muddycolors.com/wp-content/uploads/2017/12/MC-Banner-logo_web-100x100.jpg",
-  "link": "http://www.muddycolors.com/"
-}, {
-  "id": 75,
-  "title": "Bad at Sports",
-  "url": "http://badatsports.com/feed/",
-  "description": "Contemporay art talk without the ego",
-  "category": "art",
-  "link": "http://badatsports.com/"
-}, {
-  "id": 76,
-  "title": "Doodlers Anonymous",
-  "url": "http://feeds.feedburner.com/DoodlersAnonymous",
-  "description": "Art, Draw, Doodle, Create - Daily Inspiration",
-  "category": "art",
-  "favicon": {
-    "source": require('../../assets/images/favicons/76.png'),
-    "url": "https://www.doodlersanonymous.com/images/favicons/apple-touch-icon-72x72.png",
-    "size": "72x72"
-  },
-  "link": "https://www.doodlersanonymous.com/",
-  "color": "#da532c"
-}, {
-  "id": 77,
-  "title": "Urban Sketchers",
-  "url": "http://www.urbansketchers.org/feeds/posts/default",
-  "description": null,
-  "category": "art",
-  "favicon": {
-    "source": require('../../assets/images/favicons/77.png'),
-    "url": "http://www.urbansketchers.org/favicon.ico",
-    "size": null
-  },
-  "link": "http://www.urbansketchers.org/",
-  "color": "rgb(35,31,32)"
 }, {
   "id": 78,
   "title": "Design You Trust",
@@ -929,27 +743,6 @@ export const feeds = [{
   "image": "http://x818.com/isntKK.png",
   "link": "https://thisisnthappiness.com/"
 }, {
-  "id": 80,
-  "title": "Scene360",
-  "url": "http://feeds.feedburner.com/Scene360Illusion",
-  "description": null,
-  "category": "art",
-  "image": "http://illusion.scene360.com/wp-content/themes/sahara-10/images/feedburner_illusion.gif",
-  "link": "https://scene360.com/"
-}, {
-  "id": 81,
-  "title": "Mousse Magazine",
-  "url": "http://moussemagazine.it/feed/",
-  "description": null,
-  "category": "art",
-  "link": "http://moussemagazine.it/"
-}, {
-  "id": 82,
-  "title": "Two Coats of Paint",
-  "url": "http://www.twocoatsofpaint.com/feeds/posts/default",
-  "description": "NYC blogazine for painting, painting, and more painting. Published continuously since 2007.",
-  "category": "art"
-}, {
   "id": 83,
   "title": "Magazine | Artspace",
   "url": "http://www.artspace.com/magazine/rss",
@@ -975,13 +768,6 @@ export const feeds = [{
   },
   "link": "https://abduzeedo.com/",
   "color": "rgb(0,0,0)"
-}, {
-  "id": 85,
-  "title": "SUPERSONIC ART",
-  "url": "http://supersonicelectronic.com/rss",
-  "description": "Supersonic Art is New Contemporary Art curated by Zach Tutor",
-  "category": "art",
-  "link": "https://supersonicart.com/"
 }, {
   "id": 86,
   "title": "swissmiss",
@@ -1036,12 +822,6 @@ export const feeds = [{
   "link": "http://illustrationart.blogspot.com/",
   "color": "rgb(254,102,2)"
 }, {
-  "id": 90,
-  "title": "StreetArtNews",
-  "url": "http://www.streetartnews.net/feeds/posts/default",
-  "description": "Daily coverage of everything new in Urban and Street Art",
-  "category": "art"
-}, {
   "id": 91,
   "title": "Behance Featured Projects",
   "url": "http://feeds.feedburner.com/behance/vorr",
@@ -1055,14 +835,6 @@ export const feeds = [{
   "link": "http://www.behance.net/",
   "color": "rgb(5,150,233)"
 }, {
-  "id": 92,
-  "title": "INAG | I Need A Guide",
-  "url": "http://ineedaguide.blogspot.com/feeds/posts/default",
-  "description": "Art & Contemporary Imagery",
-  "category": "art",
-  "image": "http://inagblog.com/wp-content/uploads/2018/05/Inag____-70x70.jpg",
-  "link": "http://inagblog.com/"
-}, {
   "id": 93,
   "title": "The Art Newspaper",
   "url": "http://theartnewspaper.com//rss.xml",
@@ -1075,12 +847,6 @@ export const feeds = [{
   },
   "link": "http://github.com/",
   "color": "#1e2327"
-}, {
-  "id": 94,
-  "title": "Concept Art World",
-  "url": "http://conceptartworld.com/?feed=rss2",
-  "description": "Concept Art World is a concept art blog and directory that features news, concept artists, illustrators and designers working in film, game and animation.",
-  "category": "art"
 }, {
   "id": 95,
   "title": "Core77",
@@ -1115,14 +881,6 @@ export const feeds = [{
   "description": "Artdaily.org - The First Art Newspaper in the Net",
   "category": "art",
   "link": "https://www.artdaily.org/"
-}, {
-  "id": 98,
-  "title": "Parka Blogs - Art books, art products",
-  "url": "http://parkablogs.com/rss.xml",
-  "description": null,
-  "category": "art",
-  "link": "https://www.parkablogs.com/",
-  "color": "rgb(0,132,255)"
 }, {
   "id": 99,
   "title": "Harvard Business Review ",
@@ -1181,7 +939,13 @@ export const feeds = [{
   "title": "TIME",
   "url": "http://rss.time.com/web/time/rss/top/index.xml",
   "description": "Current & Breaking News | National & World Updates",
-  "category": "business"
+  "category": "business",
+  "favicon": {
+    "source": require('../../assets/images/favicons/103.png'),
+    "url": "https://time.com/img/favicons/favicon-72.png",
+    "color": "rgb(233,6,6)"
+  },
+  "link": "https://time.com/"
 }, {
   "id": 104,
   "title": "Fast Company",
@@ -1210,18 +974,6 @@ export const feeds = [{
   "link": "https://www.theatlantic.com/",
   "color": "#000000"
 }, {
-  "id": 106,
-  "title": "Inc.com",
-  "url": "http://www.inc.com/rss.xml",
-  "description": "Inc.com, the daily resource for entrepreneurs.",
-  "category": "business"
-}, {
-  "id": 107,
-  "title": "Forbes - Entrepreneurs",
-  "url": "http://www.forbes.com/entrepreneurs/index.xml",
-  "description": "Forbes is a leading source for reliable news and updated analysis on Entrepreneurs. Read the breaking Entrepreneurs coverage and top headlines on Forbes.com",
-  "category": "business"
-}, {
   "id": 108,
   "title": "VentureBeat",
   "url": "http://venturebeat.com/feed/",
@@ -1235,13 +987,6 @@ export const feeds = [{
   "image": "https://venturebeat.com/wp-content/themes/vb-news/brand/img/logos/VB_Extended_Logo_40H.png",
   "link": "https://venturebeat.com/",
   "color": "rgb(16,16,16)"
-}, {
-  "id": 109,
-  "title": "Bloomberg",
-  "url": "http://www.newslookup.com/rss/business/bloomberg.rss",
-  "description": "News feeds provided by Newslookup.com.",
-  "category": "business",
-  "link": "http://www.bloomberg.com/"
 }, {
   "id": 110,
   "title": "NYT > Business",
@@ -1269,25 +1014,6 @@ export const feeds = [{
   },
   "link": "https://seths.blog/",
   "color": "rgb(255,140,0)"
-}, {
-  "id": 112,
-  "title": "McKinsey",
-  "url": "http://rss.mckinseyquarterly.com/ad",
-  "description": "Since 1926, the trusted advisor to the world's leading businesses, governments & institutions.",
-  "category": "business"
-}, {
-  "id": 113,
-  "title": "Freakonomics",
-  "url": "http://freakonomics.blogs.nytimes.com/feed/",
-  "description": "The hidden side of everything",
-  "category": "business",
-  "link": "https://freakonomics.com/"
-}, {
-  "id": 114,
-  "title": "WSJ.com: US Business",
-  "url": "http://online.wsj.com/xml/rss/3_7014.xml",
-  "description": "Breaking news and analysis from the U.S. and around the world at WSJ.com. Politics, Economics, Markets, Life & Arts, and in-depth reporting.",
-  "category": "business"
 }, {
   "id": 115,
   "title": "Reuters: Business News",
@@ -1329,28 +1055,6 @@ export const feeds = [{
   "link": "http://www.calculatedriskblog.com/",
   "color": "rgb(255,0,255)"
 }, {
-  "id": 118,
-  "title": "Small Business Trends",
-  "url": "http://feeds.feedburner.com/SmallBusinessTrends",
-  "description": "Founded in 2003, Small Business Trends is an award-winning online publication for small business owners, entrepreneurs and the people who interact with them. It is one of the most popular independent small business publications on the web.\r\r\n\r\r\nTogether with hundreds of expert contributors, Small Business Trends brings you the news, tips, advice and resources you need. \"Small business success... delivered daily.\"",
-  "category": "business",
-  "image": "http://smallbiztrends.com/wp-content/uploads/2012/08/sbt-logo-Aug-2012-144x107.jpg",
-  "link": "https://smallbiztrends.com/"
-}, {
-  "id": 119,
-  "title": "BBC News - Business",
-  "url": "http://newsrss.bbc.co.uk/rss/newsonline_world_edition/business/rss.xml",
-  "description": "BBC News - Business",
-  "category": "business",
-  "image": "https://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif",
-  "link": "https://www.bbc.co.uk/"
-}, {
-  "id": 120,
-  "title": "MarketWatch.com - Top Stories",
-  "url": "http://www.marketwatch.com/rss/topstories",
-  "description": "MarketWatch, a leading publisher of business and financial news, offers users up-to-the minute news, investment tools, and subscription products.",
-  "category": "business"
-}, {
   "id": 121,
   "title": "MIT Sloan Management Review",
   "url": "http://feeds.feedburner.com/mitsmr",
@@ -1391,28 +1095,6 @@ export const feeds = [{
   "link": "https://www.strategy-business.com/",
   "color": "rgb(24,66,124)"
 }, {
-  "id": 124,
-  "title": "Yahoo News - Latest News & Headlines",
-  "url": "http://rss.news.yahoo.com/rss/topstories",
-  "description": "The latest news and headlines from Yahoo! News. Get breaking news stories and in-depth coverage with videos and photos.",
-  "category": "business",
-  "image": "http://l.yimg.com/rz/d/yahoo_news_en-US_s_f_p_168x21_news.png",
-  "link": "https://www.yahoo.com/"
-}, {
-  "id": 125,
-  "title": "Business",
-  "url": "http://www.washingtonpost.com/wp-dyn/rss/business/index.xml",
-  "description": "The source for business news and analysis. Covering economic policy, business policy, financial news, economic issues, stock market data, local business, technology and more.",
-  "category": "business",
-  "link": "http://www.washingtonpost.com/"
-}, {
-  "id": 126,
-  "title": "International homepage",
-  "url": "http://www.ft.com/rss/home/us",
-  "description": "International homepage",
-  "category": "business",
-  "link": "https://www.ft.com/"
-}, {
   "id": 127,
   "title": "Business - News, Opinion and Analysis",
   "url": "http://www.huffingtonpost.com/feeds/verticals/business/index.xml",
@@ -1424,14 +1106,6 @@ export const feeds = [{
     "size": null
   },
   "link": "https://www.huffpost.com/"
-}, {
-  "id": 128,
-  "title": "AVC",
-  "url": "http://feeds.feedburner.com/AVc",
-  "description": "Musings of a VC in NYC",
-  "category": "business",
-  "image": "https://avc.com/content/uploads/2020/01/cropped-avc-eye-32x32.jpg",
-  "link": "https://avc.com/"
 }, {
   "id": 129,
   "title": "Knowledge@Wharton",
@@ -1512,96 +1186,6 @@ export const feeds = [{
   "link": "https://mashable.com/",
   "color": "rgb(0,174,240)"
 }, {
-  "id": 135,
-  "title": "Harvard Business Review (uploads) on YouTube",
-  "url": "http://gdata.youtube.com/feeds/base/users/HarvardBusiness/uploads?alt=rss&v=2&orderby=published&client=ytapi-youtube-profile",
-  "description": "At Harvard Business Review, we believe in management. If the world’s organizations and institutions were run more effectively, if our leaders made better decisions, if people worked more productively, we believe that all of us — employees, bosses, customers, our families, and the people our businesses affect — would be better off. So we try to arm our readers with ideas that help them become smarter, more creative, and more courageous in their work. We enlist the foremost experts in a wide range of topics, including career planning, strategy, leadership, work-life balance, negotiations, innovation, and managing teams. Harvard Business Review empowers professionals around the world to lead themselves and their organizations more effectively and to make a positive impact.",
-  "category": "business"
-}, {
-  "id": 136,
-  "title": "NBC News Business",
-  "url": "http://rss.msnbc.msn.com/id/3032071/device/rss/rss.xml",
-  "description": "Go to NBCNews.com for breaking news, videos, and the latest top stories in world news, business, politics, health and pop culture.",
-  "category": "business"
-}, {
-  "id": 137,
-  "title": "The Smart Passive Income ",
-  "url": "http://feeds.feedburner.com/smartpassiveincome",
-  "description": "Smart Passive Income",
-  "category": "business",
-  "favicon": {
-    "source": require('../../assets/images/favicons/137.png'),
-    "url": "https://www.smartpassiveincome.com/wp-content/uploads/2019/11/cropped-favicon-1-192x192.png",
-    "size": "192x192"
-  },
-  "image": "https://www.smartpassiveincome.com/wp-content/uploads/2019/11/cropped-favicon-1-32x32.png",
-  "link": "https://www.smartpassiveincome.com/",
-  "color": "rgb(0,153,69)"
-}, {
-  "id": 138,
-  "title": "Financial Post - Top Stories",
-  "url": "http://feeds.feedburner.com/FP_TopStories",
-  "description": "Canada Business News | Financial Updates & Information",
-  "category": "business",
-  "image": "https://financialpostcom.files.wordpress.com/2017/09/financialpost-38x250.png",
-  "link": "https://business.financialpost.com/"
-}, {
-  "id": 139,
-  "title": "Moneycontrol Latest News",
-  "url": "http://moneycontrol.com/rss/latestnews.xml",
-  "description": "Latest News from Moneycontrol.com",
-  "category": "business",
-  "favicon": {
-    "source": require('../../assets/images/favicons/139.png'),
-    "url": "https://img-d02.moneycontrol.co.in/images/responsive/common/apple-touch-icon.png",
-    "size": null
-  },
-  "image": "https://img-d02.moneycontrol.co.in/images/top2010/moneycontrol_logo.jpg",
-  "link": "https://www.moneycontrol.com",
-  "color": "rgb(0,102,160)"
-}, {
-  "id": 140,
-  "title": "rediff money",
-  "url": "http://www.rediff.com/rss/moneyrss.xml",
-  "description": "Indias largest news and entertainment service online.",
-  "category": "business",
-  "favicon": {
-    "source": require('../../assets/images/favicons/140.png'),
-    "url": "https://im.rediff.com/favicon.ico",
-    "size": null
-  },
-  "image": "https://www.rediff.com/uim/red_log.gif",
-  "link": "https://www.rediff.com/",
-  "color": "rgb(210,0,0)"
-}, {
-  "id": 141,
-  "title": "The Motley Fool",
-  "url": "http://www.fool.com/About/headlines/rss_headlines.asp",
-  "description": "The Motley Fool provides leading insight and analysis about stocks, helping investors stay informed.",
-  "category": "business"
-}, {
-  "id": 142,
-  "title": "Business Opportunities",
-  "url": "http://www.business-opportunities.biz/feed/",
-  "description": "The original blog about business opportunities and business ideas for small business entrepreneurs",
-  "category": "business",
-  "image": "https://www.business-opportunities.biz/wp-content/uploads/2017/09/bizopps.jpg",
-  "link": "https://www.business-opportunities.biz/"
-}, {
-  "id": 143,
-  "title": "Both Sides of the Table",
-  "url": "http://feeds.feedburner.com/BothSidesOfTheTable",
-  "description": "Perspectives of a 2x entrepreneur turned VC at @UpfrontVC, the largest and most active early-stage fund in Southern California. Snapchat: msuster - Medium",
-  "category": "business",
-  "favicon": {
-    "source": require('../../assets/images/favicons/143.png'),
-    "url": "https://cdn-images-1.medium.com/fit/c/152/152/1*qMXnBz8XoZzgguxADcbGWQ.png",
-    "size": "76x76"
-  },
-  "image": "https://cdn-images-1.medium.com/proxy/1*TGH72Nnw24QL3iV9IOm4VA.png",
-  "link": "https://bothsidesofthetable.com/",
-  "color": "#000000"
-}, {
   "id": 144,
   "title": "Business | The Guardian",
   "url": "http://www.guardian.co.uk/business/rss",
@@ -1615,60 +1199,6 @@ export const feeds = [{
   "image": "https://assets.guim.co.uk/images/guardian-logo-rss.c45beb1bafa34b347ac333af2e6fe23f.png",
   "link": "https://www.theguardian.com/",
   "color": "#052962"
-}, {
-  "id": 145,
-  "title": "Steve Blank",
-  "url": "http://steveblank.com/feed/",
-  "description": "Entrepreneurship and Innovation",
-  "category": "business",
-  "image": "https://secure.gravatar.com/blavatar/c470566538ebdffc3e38025ca6ac5da6?s=96&d=https%3A%2F%2Fs0.wp.com%2Fi%2Fbuttonw-com.png",
-  "link": "https://steveblank.com/"
-}, {
-  "id": 146,
-  "title": "Copyblogger",
-  "url": "http://feeds.copyblogger.com/Copyblogger",
-  "description": "Soutions for Smarter Content Marketing.",
-  "category": "business"
-}, {
-  "id": 147,
-  "title": "Knowledge feed articles",
-  "url": "http://knowledge.insead.edu/rss.cfm",
-  "description": "The business school for the world",
-  "category": "business",
-  "favicon": {
-    "source": require('../../assets/images/favicons/147.png'),
-    "url": "https://knowledge.insead.edu/sites/www.insead.edu/files/images/apple-touch-icon.png",
-    "size": "180x180"
-  },
-  "image": "http://knowledge.insead.edu/sites/all/themes/knowledge/ui/img/logo-knowledge-144.png",
-  "link": "http://knowledge.insead.edu/",
-  "color": "rgb(0,104,75)"
-}, {
-  "id": 148,
-  "title": "James Altucher",
-  "url": "http://feeds.feedburner.com/jamesaltucher",
-  "description": null,
-  "category": "business",
-  "favicon": {
-    "source": require('../../assets/images/favicons/148.png'),
-    "url": "https://jamesaltucher.com/wp-content/themes/jamesaltucher/images/icons/fav/favicon.ico",
-    "size": null
-  },
-  "link": "https://jamesaltucher.com/",
-  "color": "rgb(39,170,225)"
-}, {
-  "id": 149,
-  "title": "VICE",
-  "url": "http://www.vice.com/rss",
-  "description": "RSS feed for https://www.vice.com",
-  "category": "culture",
-  "favicon": {
-    "source": require('../../assets/images/favicons/149.png'),
-    "url": "https://vice-web-statics-cdn.vice.com/favicons/vice/apple-touch-icon-72x72.png",
-    "size": "72x72"
-  },
-  "link": "https://www.vice.com/",
-  "color": "#000000"
 }, {
   "id": 150,
   "title": "The New Yorker - Culture",
@@ -1748,6 +1278,19 @@ export const feeds = [{
   "link": "https://www.buzzfeed.com/",
   "color": "#ee3322"
 }, {
+  "id": 346,
+  "title": "ribbonfarm",
+  "url": "https://www.ribbonfarm.com/feed/",
+  "description": "constructions in magical thinking",
+  "category": "culture",
+  "favicon": {
+    "source": require('../../assets/images/favicons/346.png'),
+    "url": "https://cdn2.bustle.com/flavorwire/2020/icon-f9033a8771.png",
+    "size": null
+  },
+  "link": "https://www.ribbonfarm.com",
+  "color": "rgb(244,227,101)"
+}, {
   "id": 156,
   "title": "Flavorwire",
   "url": "http://feeds.feedburner.com/flavorwire-rss",
@@ -1812,6 +1355,19 @@ export const feeds = [{
   "link": "https://www.theguardian.com/",
   "color": "#052962"
 }, {
+  "id": 149,
+  "title": "VICE",
+  "url": "http://www.vice.com/rss",
+  "description": "RSS feed for https://www.vice.com",
+  "category": "culture",
+  "favicon": {
+    "source": require('../../assets/images/favicons/149.png'),
+    "url": "https://vice-web-statics-cdn.vice.com/favicons/vice/apple-touch-icon-72x72.png",
+    "size": "72x72"
+  },
+  "link": "https://www.vice.com/",
+  "color": "#000000"
+}, {
   "id": 162,
   "title": "Dangerous Minds",
   "url": "http://feeds.feedburner.com/dangerousminds/dot/net",
@@ -1824,40 +1380,6 @@ export const feeds = [{
   },
   "link": "https://dangerousminds.net/",
   "color": "rgb(0,0,0)"
-}, {
-  "id": 163,
-  "title": "Thought Catalog",
-  "url": "http://feeds.feedburner.com/ThoughtCatalog",
-  "description": "Thought Catalog is a digital youth culture magazine dedicated to your stories and ideas.",
-  "category": "culture",
-  "image": "https://secure.gravatar.com/blavatar/ad0dd598237791f07ddddde10a35a828?s=96&d=https%3A%2F%2Fs0.wp.com%2Fi%2Fbuttonw-com.png",
-  "link": "https://thoughtcatalog.com/"
-}, {
-  "id": 164,
-  "title": "PostSecret",
-  "url": "http://postsecret.blogspot.com/feeds/posts/default",
-  "description": null,
-  "category": "culture",
-  "favicon": {
-    "source": require('../../assets/images/favicons/164.png'),
-    "url": "https://www.blogger.com/favicon.ico",
-    "size": null
-  },
-  "link": "http://postsecret.blogspot.com/",
-  "color": "rgb(254,102,2)"
-}, {
-  "id": 165,
-  "title": "The Art of Manliness",
-  "url": "http://feeds2.feedburner.com/TheArtOfManliness",
-  "description": "Men's Interests and Lifestyle",
-  "category": "culture",
-  "favicon": {
-    "source": require('../../assets/images/favicons/165.png'),
-    "url": "https://www.artofmanliness.com/wp-content/themes/aom/assets/img/icon.png",
-    "size": null
-  },
-  "link": "https://www.artofmanliness.com/",
-  "color": "rgb(44,40,34)"
 }, {
   "id": 166,
   "title": "Arts & Letters Daily",
