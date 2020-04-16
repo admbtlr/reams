@@ -572,12 +572,16 @@ class ItemTitle extends React.Component {
     const outerPadding = this.getOuterVerticalPadding()
     const outerViewStyle = {
       width: this.screenWidth,
-      height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight/* * 1.2*/,
-      paddingTop: coverImageStyles.isInline ? 0 : getTopBarHeight(),
+      height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
+      paddingTop: coverImageStyles.isInline ? 
+        0 : 
+        showCoverImage ? 
+          getTopBarHeight() + this.screenHeight * 0.2 :
+          getTopBarHeight(),
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
       marginTop: 0,
       marginBottom: 0,
-      top: 0,
+      top: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
       left: 0,
       flexDirection: 'column',
       backgroundColor: !showCoverImage || coverImageStyles.isInline ?

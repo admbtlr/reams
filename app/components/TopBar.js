@@ -202,9 +202,12 @@ class TopBar extends React.Component {
   }
 
   getBackgroundColor (item) {
-    const feedColor = item ? item.feed_color : null
+    let feedColor = item ? item.feed_color : null
+    if (item.showCoverImage && item.styles && !item.styles.isCoverInline) {
+      feedColor = 'transparent'
+    }
     return this.props.displayMode == ItemType.saved ?
-      hslString('rizzleFG') :
+      hslString('rizzleSaved') :
       (feedColor ?
         hslString(feedColor, 'desaturated') :
         hslString('rizzleSaved'))
