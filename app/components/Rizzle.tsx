@@ -126,6 +126,7 @@ export default class Rizzle extends Component<Props, State> {
     })
 
     InteractionManager.setDeadline(100)
+    
   }
 
   handleUrl ({ url }) {
