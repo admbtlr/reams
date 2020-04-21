@@ -30,14 +30,19 @@ class AccountScreen extends React.Component {
     this.setExpandedBackend = this.setExpandedBackend.bind(this)
   }
 
-  componentDidUpdate (prevProps) {
+  redirectToItems () {
     const { backend, displayMode } = this.props
-    if (backend && backend !== prevProps.backend) {
+    if (backend) {
+      debugger
       if (displayMode === ItemType.unread) {
         this.props.navigation.push('Feeds')
       }
       this.props.navigation.push('Items')
     }
+  }
+
+  componentDidMount () {
+    this.redirectToItems()
   }
 
   setExpandedBackend (backend) {
@@ -150,6 +155,7 @@ class AccountScreen extends React.Component {
                   marginTop: 42,
                   // width: buttonWidth 
                 }}
+                hideBorder={backend === 'basic' || expandedBackend === 'basic'}
                 iconBg={true}
                 iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
                 iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }

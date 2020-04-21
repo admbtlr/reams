@@ -4,7 +4,6 @@
 - use https://github.com/cruip/open-react-template for website
 - make Feedwrangler work fully
 - edit new feeds list, Politics section
-- mercury state doesn't get updated for visible stories
 - deal with feed.number_unread problems
 - upgrade to react native 62
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
@@ -31,6 +30,7 @@
 
 # Done
 
+- ~~mercury state doesn't get updated for visible stories~~
 - ~~upgrade to react-navigation 5.0~~
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
 - ~~improved add feed experience~~

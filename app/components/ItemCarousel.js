@@ -396,7 +396,7 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
         <TextButton
           text='Add some feeds'
           onPress={ () => {
-            navigation.navigate('Feeds')
+            navigation.goBack()
           }} />
       </Fragment>
     }

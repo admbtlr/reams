@@ -62,7 +62,9 @@ class TextButton extends React.Component {
     const { isExpanded } = this.state
     const fgColor = this.props.fgColor || hslString('rizzleText')
     const bgColor = this.props.bgColor || hslString('buttonBG')
-    const borderColor = this.props.hideBorder ? bgColor : hslString('rizzleText', '', 0.5)
+    const borderColor = this.props.hideBorder ? 
+      (isInverted ? fgColor : bgColor) : 
+      hslString('rizzleText', '', 0.5)
     const screenWidth = Dimensions.get('window').width
     const inset = getInset()
     let buttonStyle = {

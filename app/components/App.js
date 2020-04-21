@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { 
   createStackNavigator, 
   HeaderStyleInterpolators,
@@ -14,7 +14,7 @@ import ModalScreen from './ModalScreen'
 
 import {STATUS_BAR_HEIGHT} from './TopBar'
 import { hslString } from '../utils/colors'
-import { StackActions } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 import { fontSizeMultiplier } from '../utils'
 
 const navigationOptions = {
@@ -157,35 +157,37 @@ const Main = () => (
   </MainStack.Navigator>
 )
 
-export default App = () => (
-  <AppStack.Navigator
-    initialRouteName='Main'
-    mode='modal'
-    screenOptions={{
-      headerShown: false
-    }}
-  >
-    <AppStack.Screen
-      name='Main'
-      component={Main}
-    />
-    <AppStack.Screen
-      name='ModalWithGesture'
-      component={ModalScreen}
-      options={{
-        transparentCard: true,
-        cardOverlayEnabled: true,
-        cardStyle: {
-          backgroundColor: 'transparent'
-        },
-        ...TransitionPresets.ModalPresentationIOS
+export default App = () => {
+  return (
+    <AppStack.Navigator
+      initialRouteName='Main'
+      mode='modal'
+      screenOptions={{
+        headerShown: false
       }}
-      navigationOptions={{
-        gestureResponseDistance: {
-          vertical: 800
-        }
-      }}
-    />
-  </AppStack.Navigator>
-)
+    >
+      <AppStack.Screen
+        name='Main'
+        component={Main}
+      />
+      <AppStack.Screen
+        name='ModalWithGesture'
+        component={ModalScreen}
+        options={{
+          transparentCard: true,
+          cardOverlayEnabled: true,
+          cardStyle: {
+            backgroundColor: 'transparent'
+          },
+          ...TransitionPresets.ModalPresentationIOS
+        }}
+        navigationOptions={{
+          gestureResponseDistance: {
+            vertical: 800
+          }
+        }}
+      />
+    </AppStack.Navigator>
+  )
+}
 // export default createAppContainer(TheStack)
