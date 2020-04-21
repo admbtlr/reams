@@ -241,8 +241,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             icon={unsubscribeIcon}
             noResize={true}
             onPress={() => {
-              unsubscribe(feed)
               close()
+              unsubscribe(feed)
             }}
             text='Unsubscribe' />
           <TextButton

@@ -170,7 +170,7 @@ class SwipeableViews extends Component {
         )}
         overscroll='never'
         ref={(ref) => { this.scrollView = ref }}
-        scrollEventThrottle={1}
+        scrollEventThrottle={0.1}
         scrollToOverflowEnabled={true}
         showsHorizontalScrollIndicator={false}
         snapToEnd={true}

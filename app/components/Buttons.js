@@ -42,15 +42,19 @@ class Buttons extends React.Component {
   // }
 
   shouldComponentUpdate (nextProps, nextState) {
-    // don't update if the only thing that's changed is saved or mercury state
+    // include content_mercury to upate the buttons once the item has been decorated
+    const mapFunc = item => ({
+      _id: item._id,
+      content_mercury: item.content_mercury
+    })
     return !(this.props.index === nextProps.index &&
       this.props.displayMode === nextProps.displayMode &&
       this.props.visible === nextProps.visible &&
       this.props.numItems === nextProps.numItems &&
       this.props.bufferedItems &&
       nextProps.bufferedItems &&
-      JSON.stringify(this.props.bufferedItems.map(item => item._id)) ===
-        JSON.stringify(nextProps.bufferedItems.map(item => item._id)))
+      JSON.stringify(this.props.bufferedItems.map(mapFunc)) ===
+        JSON.stringify(nextProps.bufferedItems.map(mapFunc)))
     // debugger
     // return true
   }

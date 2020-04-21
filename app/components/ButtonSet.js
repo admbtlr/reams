@@ -42,7 +42,7 @@ export default function ButtonSet ({
   const strokeColor = isDarkMode ?
     'hsl(0, 0%, 70%)' :
     'black'
-  const isMercuryButtonEnabled = item && item.content_mercury
+  const isMercuryButtonEnabled = item && item.hasLoadedMercuryStuff
   const saveStrokeColours = item && item.isSaved ?
     ['hsl(45, 60%, 51%)', 'hsl(210, 60%, 51%)', 'hsl(15, 60%, 51%)'] :
     [strokeColor, strokeColor, strokeColor]
