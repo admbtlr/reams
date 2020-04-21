@@ -26,14 +26,18 @@ export const BUFFER_LENGTH = 5
 // them with scrollAnims
 let bufferedItems
 
-const getBufferedItems  = (items, index, displayMode, feeds) => {
+const getBufferedItems  = (items, index, displayMode, feeds, includeMercury) => {
   const bufferStart = index === 0 ? index : index - 1
   const bufferEnd = index + BUFFER_LENGTH > items.length - 1 ?
     items.length :
     index + BUFFER_LENGTH + 1
   const buffered = items.slice(bufferStart, bufferEnd)
-  if (!bufferedItems || JSON.stringify(buffered.map(item => item._id)) !==
-    JSON.stringify(bufferedItems.map(item => item._id))) {
+  const mapItem = item => ({
+    _id: item._id,
+    hasLoadedMercuryStuff: item.hasLoadedMercuryStuff
+  })
+  if (!bufferedItems || JSON.stringify(buffered.map(mapItem)) !==
+    JSON.stringify(bufferedItems.map(mapItem))) {
     bufferedItems = buffered
   }
   if (displayMode === ItemType.saved) {
@@ -88,10 +92,13 @@ class ItemCarousel extends React.Component {
   //   }
   // }
 
-  _stringifyBufferedItems (items, index, displayMode, feeds) {
+  _stringifyBufferedItems (items, index, displayMode, feeds, includeMercury = false) {
     return JSON
     .stringify(getBufferedItems(items, index, displayMode, feeds)
-      .map(item => item._id))
+      .map(item => includeMercury ? {
+        _id: item._id,
+        hasLoadedMercuryStuff: item.hasLoadedMercuryStuff
+      } : item._id))
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -100,8 +107,8 @@ class ItemCarousel extends React.Component {
       !(
         nextProps.index > this.initialIndex - 1 &&
         nextProps.index < this.initialIndex + BUFFER_LENGTH &&
-        this._stringifyBufferedItems(nextProps.items, this.props.index, this.props.displayMode, this.props.feeds) ===
-          this._stringifyBufferedItems(this.props.items, this.props.index, this.props.displayMode, this.props.feeds)
+        this._stringifyBufferedItems(nextProps.items, this.props.index, this.props.displayMode, this.props.feeds, true) ===
+          this._stringifyBufferedItems(this.props.items, this.props.index, this.props.displayMode, this.props.feeds, true)
       )
   }
 
