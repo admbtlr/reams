@@ -117,17 +117,19 @@ class Onboarding extends React.Component {
           useWebKit={false}
         />
         { this.props.index === 1 &&
-          <TextButton
-            text="Do the super simple sign-up thing"
-            buttonStyle={{ marginBottom: 0 }}
-            onPress={this.endOnboarding}
-            buttonStyle={{
-              bottom: 30,
-              position: 'absolute',
-              alignSelf: 'center',
-            }}
-            testID='super-simple-set-up-button'
-          />
+          <View style={{
+            bottom: 30,
+            position: 'absolute',
+            alignSelf: 'center'
+          }}>
+            <TextButton
+              text="Do the super simple set-up thing"
+              onPress={this.endOnboarding}
+              buttonStyle={{
+              }}
+              testID='super-simple-set-up-button'
+            />
+          </View>
         }
       </Animated.View>
     )

@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     backend: state.config.backend,
-    displayMode: state.itemsMeta.displayMode
+    displayMode: state.itemsMeta.display
   }
 }
 

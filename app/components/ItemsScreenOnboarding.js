@@ -56,10 +56,10 @@ const getTexts = () => [
     <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Show Full Text Button</Text> (a/k/a The Weird Button On The End)</Text>
     <Text style={ getStyles().textStyle }>Some sites only include teasers in their feed. This button toggles between the teaser and the whole story, in all its full-bore glory.</Text>
   </Fragment>,
-  <Fragment>
-    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Big Box Button</Text> takes you to the <Text style={ getStyles().boldStyle }>Saved Stories Screen</Text>: this is how you can access all the articles you’ve saved, either from within Rizzle, or by copying a URL and opening Rizzle, or by using the <Text style={ getStyles().boldStyle }>Rizzle Share Extension</Text>.</Text>
-  </Fragment>,
-  <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Ellipsis</Text> takes you to the feeds screen, where you can see all the sites you’ve subscribed to.</Text>,
+  // <Fragment>
+  //   <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Big Box Button</Text> takes you to the <Text style={ getStyles().boldStyle }>Saved Stories Screen</Text>: this is how you can access all the articles you’ve saved, either from within Rizzle, or by copying a URL and opening Rizzle, or by using the <Text style={ getStyles().boldStyle }>Rizzle Share Extension</Text>.</Text>
+  // </Fragment>,
+  <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Back Button</Text> takes you to the feeds screen, where you can see all the sites you’ve subscribed to.</Text>,
   <Fragment>
     <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>That’s it!</Text> For now, at least...</Text>
     <Text style={ getStyles().textStyle }>Now swipe your way through your stories, and enjoy unencumbered edification – free of advertising, paywalls, shouty comments and everything else that turned the internet from 🦄 🌈 to 😭.</Text>
@@ -127,7 +127,7 @@ export default function ItemsScreenOnboarding (props) {
 
   const multiplier = fontSizeMultiplier()
 
-  return step === 9 ? null : (
+  return step === 8 ? null : (
     <Fragment>
       <View style={{
         ...StyleSheet.absoluteFillObject,
@@ -163,7 +163,7 @@ export default function ItemsScreenOnboarding (props) {
           <TextButton
             noResize={true}
             onPress={() => {
-              if (step === 8) {
+              if (step === 7) {
                 dispatch({
                   type: ITEMS_ONBOARDING_DONE
                 })
