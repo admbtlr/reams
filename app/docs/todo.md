@@ -1,6 +1,5 @@
 # To Do
 
-- button on initial onboarding
 - use https://github.com/cruip/open-react-template for website
 - make Feedwrangler work fully
 - edit new feeds list, Politics section
@@ -30,6 +29,7 @@
 
 # Done
 
+- ~~button on initial onboarding~~
 - ~~mercury state doesn't get updated for visible stories~~
 - ~~upgrade to react-navigation 5.0~~
     + https://reactnavigation.org/blog/2020/02/06/react-navigation-5.0.html
