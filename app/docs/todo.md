@@ -1,6 +1,5 @@
 # To Do
 
-- use https://github.com/cruip/open-react-template for website
 - make Feedwrangler work fully
 - edit new feeds list, Politics section
 - deal with feed.number_unread problems
@@ -29,6 +28,7 @@
 
 # Done
 
+- ~~use https://github.com/cruip/open-react-template for website~~
 - ~~button on initial onboarding~~
 - ~~mercury state doesn't get updated for visible stories~~
 - ~~upgrade to react-navigation 5.0~~
