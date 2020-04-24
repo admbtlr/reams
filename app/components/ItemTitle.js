@@ -421,7 +421,7 @@ class ItemTitle extends React.Component {
 
   getForegroundColor () {
     if (this.props.displayMode === ItemType.saved) {
-      return hslString('rizzleText')
+      return hslString('logo1')
     } else {
       return hslString(this.props.item.feed_color, 'desaturated')
     }
