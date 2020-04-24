@@ -176,6 +176,8 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
+  - BVLinearGradient (2.5.6):
+    - React
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
   - DoubleConversion (1.1.6)
@@ -626,10 +628,12 @@ PODS:
   - RNGoogleSignin (3.0.3):
     - GoogleSignIn (~> 5.0.0)
     - React
+  - RNICloudStore (0.1.0):
+    - React
   - RNImageFilterKit (0.5.18):
     - Bolts (= 1.9.0)
     - React
-  - RNInAppBrowser (3.3.3):
+  - RNInAppBrowser (3.4.0):
     - React
   - RNReactNativeHapticFeedback (1.8.2):
     - React
@@ -650,6 +654,7 @@ PODS:
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
@@ -698,6 +703,7 @@ DEPENDENCIES:
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
+  - RNICloudStore (from `../node_modules/react-native-icloudstore`)
   - RNImageFilterKit (from `../node_modules/react-native-image-filter-kit`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
@@ -747,6 +753,8 @@ SPEC REPOS:
     - Sentry
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -837,6 +845,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-community/google-signin"
+  RNICloudStore:
+    :path: "../node_modules/react-native-icloudstore"
   RNImageFilterKit:
     :path: "../node_modules/react-native-image-filter-kit"
   RNInAppBrowser:
@@ -862,6 +872,7 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
@@ -936,8 +947,9 @@ SPEC CHECKSUMS:
   RNFS: 54da03c2b7d862c42ea3ca8c7f86f892760a535a
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNGoogleSignin: a10b849c165088c737d4465de6c2062f24d06002
+  RNICloudStore: bc6e225811637c09bd1eb055d6cd7448e61cd451
   RNImageFilterKit: 2932400468ec53733061b91b9cdc72e011f16d6c
-  RNInAppBrowser: de9ec087677135681d5794a702c1e21e6a0c3b56
+  RNInAppBrowser: 6097fbc6b09051b40a6a9ec22caf7af40b115ec0
   RNReactNativeHapticFeedback: e11a4da0ce174e9f88b03cbaf5d76d94633cdee2
   RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48
   RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
