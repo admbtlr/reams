@@ -69,13 +69,13 @@ class FeedItem extends React.Component {
       ...style,
       left: width,
       opacity: anim.interpolate({
-        inputRange: [0, 1, 1.03, 1.05, 2],
+        inputRange: [0, 1, 1.01, 1.02, 2],
         outputRange: [1, 1, 1, 0, 0]
       }),
       transform: [{
         translateX: anim.interpolate({
-          inputRange: [0, 0.5, 0.7, 1, 1.03, 2],
-          outputRange: [-width, -width, -width, -width, width * 4, width * 4]
+          inputRange: [0, 0.5, 0.7, 1, 1.01, 1.02, 2],
+          outputRange: [-width, -width, -width, -width, width * 2.5, width * 4, width * 4]
         })
       }]
     }
