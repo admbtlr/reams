@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Circle, G, Rect, Path} from 'react-native-svg'
+import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
+import LinearGradient from 'react-native-linear-gradient'
 import FeedIconContainer from '../containers/FeedIcon'
 import { id, isIphoneX } from '../utils'
 import { hslString } from '../utils/colors'
@@ -116,8 +117,7 @@ class TopBar extends React.Component {
             <TouchableOpacity
               key={`inner-{id()}`}
               onPress={() => {
-                if (isOnboarding) return
-                console.log('BUTTON PRESSED!')
+                if (isOnboarding || displayMode === ItemType.saved) return
                 this.props.openFeedModal()
               }}
               style={{
@@ -171,7 +171,6 @@ class TopBar extends React.Component {
                     ellipsizeMode='tail'
                     style={{
                       ...this.getStyles().feedName,
-
                       fontSize: 18,
                       lineHeight: 22,
                       fontFamily: this.props.feedFilter ?
@@ -183,7 +182,7 @@ class TopBar extends React.Component {
                       // paddingBottom: 15,
                       textAlign: item && item.hasCachedFeedIcon ?
                         'left' : 'center',
-                      textDecorationLine: 'underline'
+                      textDecorationLine: displayMode === ItemType.saved ? 'none' : 'underline'
                     }}
                   >
                     {item ? item.feed_title : 'Rizzle'}
@@ -192,22 +191,39 @@ class TopBar extends React.Component {
               </Animated.View>
             </TouchableOpacity>
           </View>
-          {/*<DisplayModeToggle
+          <DisplayModeToggle
             displayMode={displayMode}
             backgroundColor={this.getBackgroundColor()}
             buttonColor={this.getForegroundColor()}
-          />*/}
-        </Animated.View>
+            onDisplayPress={() => {
+              this.onDisplayPress()
+            }}
+          />
+          { displayMode === ItemType.saved &&
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={[hslString('logo1'), hslString('logo2')]}
+              style={{
+                position: 'absolute',
+                height: 5,
+                width: '100%',
+                top: STATUS_BAR_HEIGHT - 5,
+                left: 0
+              }}
+            />
+          }
+</Animated.View>
     </View>)
   }
 
   getBackgroundColor (item) {
     let feedColor = item ? item.feed_color : null
-    if (item.showCoverImage && item.styles && !item.styles.isCoverInline) {
+    if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline) {
       feedColor = 'transparent'
     }
     return this.props.displayMode == ItemType.saved ?
-      hslString('rizzleSaved') :
+      hslString('rizzleBG') :
       (feedColor ?
         hslString(feedColor, 'desaturated') :
         hslString('rizzleSaved'))
@@ -217,7 +233,7 @@ class TopBar extends React.Component {
     return this.props.displayMode == ItemType.saved ?
       (this.props.isDarkMode ?
         'hsl(0, 0%, 80%)' :
-        hslString('white')) :
+        hslString('rizzleText')) :
         'white'
   }
 
@@ -371,19 +387,20 @@ const FeedsHamburger = ({ onPress, hamburgerColor }) => (<Animated.View
   </Animated.View>)
 
 
-const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor }) => {
-  const savedIcon = <Svg width="32px" height="32px" viewBox="0 0 32 32">
-      <G strokeWidth="1"  stroke='none' fill="none" fillRule="evenodd">
-        <G transform="translate(-1.000000, -3.000000)">
-          <G transform="translate(1.000000, 3.000000)">
-            <Path fill={buttonColor} d="M2,6 L2,27 C2,28.65 3.4,30 5.11111111,30 L26.8888889,30 C28.6071081,30 30,28.6568542 30,27 L30,6 M0,5 C0,5.00566956 0,4.33900289 0,3 C0,0.991495663 0.444444444,4.4408921e-15 3,4.4408921e-15 L29,4.4408921e-15 C31.5555556,4.4408921e-15 32,1 32,3 L32,5" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            <Rect stroke={backgroundColor} fill='white' transform="translate(16.000000, 17.500000) rotate(120.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
-            <Rect stroke={backgroundColor} fill='white' x="7.5" y="15.5" width="17" height="4" />
-            <Rect stroke={backgroundColor} fill='white' transform="translate(16.000000, 17.500000) rotate(60.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
-          </G>
-        </G>
-      </G>
-    </Svg>
+const DisplayModeToggle = ({ displayMode, onDisplayPress, backgroundColor, buttonColor }) => {
+  // const savedIcon = <Svg width="32px" height="32px" viewBox="0 0 32 32">
+  //     <G strokeWidth="1"  stroke='none' fill="none" fillRule="evenodd">
+  //       <G transform="translate(-1.000000, -3.000000)">
+  //         <G transform="translate(1.000000, 3.000000)">
+  //           <Path fill={buttonColor} d="M2,6 L2,27 C2,28.65 3.4,30 5.11111111,30 L26.8888889,30 C28.6071081,30 30,28.6568542 30,27 L30,6 M0,5 C0,5.00566956 0,4.33900289 0,3 C0,0.991495663 0.444444444,4.4408921e-15 3,4.4408921e-15 L29,4.4408921e-15 C31.5555556,4.4408921e-15 32,1 32,3 L32,5" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+  //           <Rect stroke={backgroundColor} fill='rgba(255, 255, 255, 0.8)' transform="translate(16.000000, 17.500000) rotate(120.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
+  //           <Rect stroke={backgroundColor} fill='white' x="7.5" y="15.5" width="17" height="4" />
+  //           <Rect stroke={backgroundColor} fill='white' transform="translate(16.000000, 17.500000) rotate(60.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
+  //         </G>
+  //       </G>
+  //     </G>
+  //   </Svg>
+  const savedIcon = getRizzleButtonIcon('saved', buttonColor, backgroundColor)
   const unreadIcon = <Svg width="30px" height="26px" viewBox="0 0 30 26">
     <G stroke="none" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round">
       <G transform="translate(-2.000000, -8.000000)" strokeWidth="2">
@@ -404,9 +421,12 @@ const DisplayModeToggle = ({ displayMode, onPress, backgroundColor, buttonColor 
       zIndex: 10,
     }}>
       <TouchableOpacity
+        onPress={() => {
+          onDisplayPress()
+        }}
         style={{
           borderRadius: 14,
-          backgroundColor: 'rgba(0, 0, 0, 0.3)'
+          // backgroundColor: 'rgba(0, 0, 0, 0.3)'
         }}
       >
         { displayMode === ItemType.unread ? savedIcon : unreadIcon }
