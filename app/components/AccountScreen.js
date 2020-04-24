@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react'
 import {
   Dimensions,
-  FlatList,
   Image,
   ScrollView,
   StatusBar,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -33,7 +31,6 @@ class AccountScreen extends React.Component {
   redirectToItems () {
     const { backend, displayMode } = this.props
     if (backend) {
-      debugger
       if (displayMode === ItemType.unread) {
         this.props.navigation.push('Feeds')
       }
@@ -84,7 +81,18 @@ class AccountScreen extends React.Component {
       marginTop: 0,
       marginBottom: 0
     }
-    console.log(hslString('rizzleText', '', 0.5))
+    const feedWranglerLogo = <Image
+      source={require('../img/feedwrangler.png')}
+      width={24}
+      height={24}
+      style={{
+        left: -2,
+        top: -2,
+        width: 32,
+        height: 32
+      }}
+    />
+
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={{
@@ -149,6 +157,7 @@ class AccountScreen extends React.Component {
               }
               <TextButton
                 text={ 'Rizzle Basic' }
+                borderColor={ backend === 'basic' && hslString('logo1') }
                 buttonStyle={{ 
                   alignSelf: 'center',
                   marginBottom: 42,
@@ -176,6 +185,7 @@ class AccountScreen extends React.Component {
                 />}
               />
               <TextButton
+                borderColor={ backend === 'feedbin' && hslString('logo1') }
                 buttonStyle={{ 
                   alignSelf: 'center',
                   marginBottom: 42,
@@ -199,7 +209,7 @@ class AccountScreen extends React.Component {
                 testID='feedbin-button'
                 text='Feedbin'
               />
-              <TextButton
+              {/*<TextButton
                 text="Feedly"
                 buttonStyle={{ 
                   alignSelf: 'center',
@@ -220,7 +230,7 @@ class AccountScreen extends React.Component {
                   user={this.props.user}
                 isInverted={ backend === 'feedly' }
                 />}
-              />
+                />*/}
               <TextButton
                 text="Feed Wrangler"
                 buttonStyle={{ 
@@ -228,6 +238,8 @@ class AccountScreen extends React.Component {
                   marginBottom: 42,
                   // width: buttonWidth 
                 }}
+                iconCollapsed={feedWranglerLogo}  
+                iconExpanded={feedWranglerLogo}  
                 isExpandable={true}
                 isExpanded={ backend === 'feedwrangler' }
                 isInverted={ backend === 'feedwrangler' }
