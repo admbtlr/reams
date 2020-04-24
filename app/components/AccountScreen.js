@@ -246,7 +246,7 @@ class AccountScreen extends React.Component {
                 bgColor={ backend === 'feedwrangler' && hslString('logo1') }
                 onExpand={() => this.setExpandedBackend('feedwrangler')}
                 renderExpandedView={() => <AccountCredentialsForm
-                  isActive={ backend === 'feedwrangler' || expandedBackend === 'feedwrangler'}
+                  isActive={ backend === 'feedwrangler' }
                   service='feedwrangler'
                   setBackend={this.props.setBackend}
                   unsetBackend={this.props.unsetBackend}
