@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Dimensions,
+  LayoutAnimation,
   Text,
   TouchableOpacity,
   View
@@ -36,6 +37,16 @@ class TextButton extends React.Component {
       this.props.onExpand && this.props.onExpand()
     } else {
       const isExpanded = !this.state.isExpanded
+      LayoutAnimation.configureNext({
+        ...LayoutAnimation.Presets.spring,
+        duration: 400,
+        update: { type: 'spring', springDamping: 0.8 }
+      })
+      // LayoutAnimation.configureNext({
+      //   duration: 300,
+      //   type: LayoutAnimation.Types.spring,
+      //   springDamping: 0.6
+      // })
       this.setState({
         ...this.state,
         isExpanded
