@@ -437,29 +437,30 @@ class FeedItem extends React.Component {
 
   async openLink (url) {
     try {
-      await InAppBrowser.isAvailable()
-      const result = await InAppBrowser.open(url, {
-        // iOS Properties
-        dismissButtonStyle: 'close',
-        preferredBarTintColor: 'white',
-        preferredControlTintColor: hslString(this.props.item.feed_color),
-        readerMode: false,
-        // Android Properties
-        showTitle: true,
-        toolbarColor: '#6200EE',
-        secondaryToolbarColor: 'black',
-        enableUrlBarHiding: true,
-        enableDefaultShare: true,
-        forceCloseOnRedirection: false,
-        // Specify full animation resource identifier(package:anim/name)
-        // or only resource name(in case of animation bundled with app).
-        animations: {
-          startEnter: 'slide_in_bottom',
-          startExit: 'slide_out_bottom',
-          endEnter: 'slide_in_bottom',
-          endExit: 'slide_out_bottom',
-        },
-      })
+      if (await InAppBrowser.isAvailable()) {
+        const result = await InAppBrowser.open(url, {
+          // iOS Properties
+          dismissButtonStyle: 'close',
+          preferredBarTintColor: 'white',
+          preferredControlTintColor: hslString(this.props.item.feed_color),
+          readerMode: false,
+          // Android Properties
+          showTitle: true,
+          toolbarColor: '#6200EE',
+          secondaryToolbarColor: 'black',
+          enableUrlBarHiding: true,
+          enableDefaultShare: true,
+          forceCloseOnRedirection: false,
+          // Specify full animation resource identifier(package:anim/name)
+          // or only resource name(in case of animation bundled with app).
+          animations: {
+            startEnter: 'slide_in_bottom',
+            startExit: 'slide_out_bottom',
+            endEnter: 'slide_in_bottom',
+            endExit: 'slide_out_bottom',
+          },
+        })
+      }
     } catch (error) {
       log('openLink', error)
     }
