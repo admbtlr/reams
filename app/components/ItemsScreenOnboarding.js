@@ -55,8 +55,10 @@ const getTexts = () => [
   <Fragment>
     <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Show Full Text Button</Text> (a/k/a The Weird Button On The End)</Text>
     <Text style={ getStyles().textStyle }>Some sites only include teasers in their feed. This button toggles between the teaser and the whole story, in all its full-bore glory.</Text>
+    <Text style={ getStyles().textStyle }>You can turn on the full text view for whole feeds in the feed details screen.</Text>
   </Fragment>,
   <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Back Button</Text> takes you to the feeds screen, where you can see all the sites you’ve subscribed to.</Text>,
+  <Text style={ getStyles().textStyle }>Hit the feed name to open the <Text style={ getStyles().boldStyle }>feed details screen</Text>, where you can see info and stats about this feed, and configure how it behaves.</Text>,
   <Fragment>
     <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Big Box Button</Text> takes you to the <Text style={ getStyles().boldStyle }>Saved Stories Screen</Text>: this is how you can access all the articles you’ve saved, either from within Rizzle, or by copying a URL and opening Rizzle, or by using the <Text style={ getStyles().boldStyle }>Rizzle Share Extension</Text>.</Text>
   </Fragment>,
@@ -127,7 +129,7 @@ export default function ItemsScreenOnboarding (props) {
 
   const multiplier = fontSizeMultiplier()
 
-  return step === 9 ? null : (
+  return step === 10 ? null : (
     <Fragment>
       <View style={{
         ...StyleSheet.absoluteFillObject,
@@ -143,19 +145,19 @@ export default function ItemsScreenOnboarding (props) {
         <View style={{
           position: 'absolute',
           bottom: step < 6 ? 85 : 'auto',
-          top: step >= 6 && step < 8 ?
+          top: step >= 6 && step < 9 ?
             (isIphoneX() ? 110 : 90) :
             'auto',
           left: step < 6 ?
             (screenWidth > 500 ? (screenWidth - 500) / 2 : 25) :
             step === 6 ? 10 : 'auto',
-          right: step === 7 ? 10 : 'auto',
+          right: step === 8 ? 10 : 'auto',
           // height: 200,
           width: screenWidth > 500 ? 500 : screenWidth - 50,
           backgroundColor: hslString('rizzleBG'),
           padding: 20 * fontSizeMultiplier(),
           paddingBottom: step < 6 ? 50 : 20,
-          paddingTop: step >= 6 && step < 8 ? 50 : 20,
+          paddingTop: step >= 6 && step < 9 ? 50 : 20,
           borderRadius: 10,
           flexDirection: 'column'
         }}>
@@ -175,8 +177,8 @@ export default function ItemsScreenOnboarding (props) {
               'Eye understand',
               'Got it',
               'Got it',
-              'Got it',
               'Hunky Dory',
+              'Got it',
               'Got it already...',
               'Are we there yet?',
               'Finally!'
@@ -244,11 +246,21 @@ export default function ItemsScreenOnboarding (props) {
           position: 'absolute',
           zIndex: 100,
           top: isIphoneX() ? 115 : 95,
-          right: screenWidth * 0.05 - 4,
+          left: screenWidth * 0.5 - 20,
           width: 40,
           height: 40
         }}>
           { step === 7 && upArrow()}
+        </View>
+        <View style={{
+          position: 'absolute',
+          zIndex: 100,
+          top: isIphoneX() ? 115 : 95,
+          right: screenWidth * 0.05 - 4,
+          width: 40,
+          height: 40
+        }}>
+          { step === 8 && upArrow()}
         </View>
       </View>
     </Fragment>
