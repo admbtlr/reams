@@ -1285,7 +1285,7 @@ export const feeds = [{
   "category": "culture",
   "favicon": {
     "source": require('../../assets/images/favicons/346.png'),
-    "url": "https://cdn2.bustle.com/flavorwire/2020/icon-f9033a8771.png",
+    "url": "https://206hwf3fj4w52u3br03fi242-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/cropped-rfnewlogo-192x192.png",
     "size": null
   },
   "link": "https://www.ribbonfarm.com",
