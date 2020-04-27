@@ -48,7 +48,7 @@ const getTexts = () => [
   <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Eye</Text> lets you change the text size. Also dark mode (which by the way happens automatically too, if that’s how you roll).</Text>,
   <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Share Button</Text> is a share button. It works like every other share button you’ve ever used.</Text>,
   <Fragment>
-    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Rizzle Button</Text> saves a story. You can then access your saved stories by tapping the big box in the top left-hand corner.</Text>
+    <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Rizzle Button</Text> saves a story. You can then access your saved stories by tapping the big box in the top right-hand corner.</Text>
     <Text style={ getStyles().textStyle }>(We’ll get to that in a minute)</Text>
   </Fragment>,
   <Text style={ getStyles().textStyle }><Text style={ getStyles().boldStyle }>The Browser Button</Text> opens the page that this story originally came from, so that you can view it in its natural habitat.</Text>,
