@@ -74,8 +74,8 @@ class FeedItem extends React.Component {
       }),
       transform: [{
         translateX: anim.interpolate({
-          inputRange: [0, 0.5, 0.7, 1, 1.01, 1.02, 2],
-          outputRange: [-width, -width, -width, -width, width * 2.5, width * 4, width * 4]
+          inputRange: [0, 1, 1.05, 2],
+          outputRange: [-width, -width, width * 2.5, width * 2.5]
         })
       }]
     }
@@ -471,6 +471,9 @@ class FeedItem extends React.Component {
   onScrollEndDrag = (e) => {
     const that = this
     const offset = e.nativeEvent.contentOffset.y
+    this.scrollEndTimer = setTimeout(() => {
+      that.onMomentumScrollEnd.apply(that, [offset])
+    }, 250)
   }
 
   onMomentumScrollBegin = (e) => {
