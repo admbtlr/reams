@@ -113,8 +113,6 @@ const fontStyles = {
   }
 }
 
-const paddingUnit = 28
-
 const textColor = 'hsl(0, 0%, 20%)'
 const textColorDarkMode = 'hsl(0, 0%, 70%)'
 
@@ -161,28 +159,6 @@ class ItemTitle extends React.Component {
     return lineHeight > 60 ?
       Math.round(lineHeight / 4) :
       Math.round(lineHeight / 2)
-  }
-
-  // NB returns an object, {paddingTop, paddingBottom}
-  getOuterVerticalPadding () {
-    let paddingTop, paddingBottom
-    const {showCoverImage, coverImageStyles, styles} = this.props
-    const verticalPadding = 85
-    paddingTop = isIphoneX() ?
-      verticalPadding * 1.25 + this.screenHeight * 0.1 :
-      verticalPadding + this.screenHeight * 0.1
-    paddingBottom = verticalPadding + this.screenHeight * 0.1
-
-    if (!showCoverImage) {
-      paddingBottom = 0
-    } else if (coverImageStyles.isInline) {
-      paddingTop = Math.round(styles.lineHeight / 2)
-      paddingBottom = 0
-    }
-    return {
-      paddingTop,
-      paddingBottom
-    }
   }
 
   getInnerHorizontalPadding (fontSize) {
@@ -569,7 +545,6 @@ class ItemTitle extends React.Component {
     }
     innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation)
     const overlayColour = this.getOverlayColor()
-    const outerPadding = this.getOuterVerticalPadding()
     const outerViewStyle = {
       width: this.screenWidth,
       height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
