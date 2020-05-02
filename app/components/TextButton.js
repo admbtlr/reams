@@ -82,16 +82,17 @@ class TextButton extends React.Component {
       borderColor || hslString('rizzleText', '', 0.5)
     const screenWidth = Dimensions.get('window').width
     const inset = getInset()
+    const height = (isCompact ? 14 : 24) + (18 * fontSizeMultiplier())
     let buttonStyle = {
       borderColor: borderColor,
       backgroundColor: isInverted ? fgColor : bgColor,
       borderWidth: 1,
-      borderRadius: (isCompact ? 16 : 21) * fontSizeMultiplier(),
+      borderRadius: height / 2,
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
       justifyContent: 'flex-start',
       flex: 0,
-      height: (isCompact ? 32 : 42) * fontSizeMultiplier(),
+      height,
       maxHeight: 42 * fontSizeMultiplier(),
       maxWidth: 700,
       width: '100%',
@@ -117,7 +118,7 @@ class TextButton extends React.Component {
       paddingLeft: 20 * fontSizeMultiplier(),
       paddingRight: 20 * fontSizeMultiplier(),
       paddingTop: (isCompact ? 0 : 3) * fontSizeMultiplier(),
-      marginTop: (isCompact ? -1 : 0) * fontSizeMultiplier()
+      marginTop: (isCompact ? -1 : 0)
     }
     if (isExpandable) {
       return (
@@ -130,11 +131,11 @@ class TextButton extends React.Component {
           }}>
           <View style={{
             position: 'absolute',
-            top: (isCompact ? 2 : 4) * fontSizeMultiplier(),
-            left: 4 * fontSizeMultiplier(),
+            top: (isCompact ? 2 : 4),
+            left: 4,
             height: (isCompact ? 24 : 32) * fontSizeMultiplier(),
             width: (isCompact ? 24 : 32) * fontSizeMultiplier(),
-            padding: 2 * fontSizeMultiplier(),
+            padding: 2,
             borderRadius: this.props.iconBg ? ((isCompact ? 24 : 32) * fontSizeMultiplier()) / 2 : 0,
             backgroundColor: this.props.iconBg ? (isInverted ? bgColor : fgColor) : 'transparent'
           }}>
@@ -174,8 +175,8 @@ class TextButton extends React.Component {
           <View
             style={{
               position: 'absolute',
-              top: (isCompact ? 3 : 8) * fontSizeMultiplier(),
-              left: 8 * fontSizeMultiplier(),
+              top: (isCompact ? 4 : 8),
+              left: 8,
               backgroundColor: 'transparent'
             }}
           >{icon}</View>

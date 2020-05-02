@@ -104,8 +104,8 @@ export default function ButtonSet ({
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
-        iconOff={getRizzleButtonIcon('toggleViewButtonsIcon', borderColor, backgroundColor)}
-        iconOn={getRizzleButtonIcon('toggleViewButtonsIcon', borderColor, backgroundColor)}
+        iconOff={getRizzleButtonIcon('toggleViewButtonsIcon', borderColor, backgroundColor, true, false)}
+        iconOn={getRizzleButtonIcon('toggleViewButtonsIcon', borderColor, backgroundColor, true, false)}
         initialToggleState={false}
         isToggle={true}
         style={{
@@ -134,14 +134,14 @@ export default function ButtonSet ({
         }}
         onPress={showShareSheet}
         >
-        { getRizzleButtonIcon('showShareSheetIcon', borderColor, backgroundColor) }
+        { getRizzleButtonIcon('showShareSheetIcon', borderColor, backgroundColor, true, false) }
       </RizzleButton>
       <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
-        iconOff={getRizzleButtonIcon('saveButtonIconOff', borderColor, backgroundColor)}
-        iconOn={getRizzleButtonIcon('saveButtonIconOn', borderColor, backgroundColor)}
+        iconOff={getRizzleButtonIcon('saveButtonIconOff', borderColor, backgroundColor, true, false)}
+        iconOn={getRizzleButtonIcon('saveButtonIconOn', borderColor, backgroundColor, true, false)}
         initialToggleState={isItemSaved}
         isToggle={true}
         style={{
@@ -172,14 +172,14 @@ export default function ButtonSet ({
           launchBrowser()
         }}
         >
-        { getRizzleButtonIcon('launchBrowserIcon', borderColor, backgroundColor) }
+        { getRizzleButtonIcon('launchBrowserIcon', borderColor, backgroundColor, true, false) }
       </RizzleButton>
       <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
-        iconOff={getRizzleButtonIcon('showMercuryIconOff', borderColor, backgroundColor, isMercuryButtonEnabled)}
-        iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, isMercuryButtonEnabled)}
+        iconOff={getRizzleButtonIcon('showMercuryIconOff', borderColor, backgroundColor, isMercuryButtonEnabled, false)}
+        iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, isMercuryButtonEnabled, false)}
         initialToggleState={isItemMercury}
         isToggle={true}
         style={{

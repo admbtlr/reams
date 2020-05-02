@@ -11,6 +11,7 @@
 - Feedly integration
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
+    - https://github.com/antfu/i18n-ally#readme
 - login with apple
     + https://github.com/invertase/react-native-apple-authentication
 - make extension work with more data types

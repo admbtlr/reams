@@ -83,13 +83,13 @@ class AccountScreen extends React.Component {
     }
     const feedWranglerLogo = <Image
       source={require('../img/feedwrangler.png')}
-      width={24}
-      height={24}
+      width={24 * fontSizeMultiplier()}
+      height={24 * fontSizeMultiplier()}
       style={{
         left: -2,
         top: -2,
-        width: 32,
-        height: 32
+        width: 32 * fontSizeMultiplier(),
+        height: 32 * fontSizeMultiplier()
       }}
     />
 

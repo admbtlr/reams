@@ -2,15 +2,19 @@ import React from 'react'
 import Svg, {Circle, G, Path, Polygon, Rect} from 'react-native-svg'
 import { fontSizeMultiplier } from '../utils'
 
-export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isEnabled) {
+export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isEnabled, applyFontScaling = true) {
+  const fontScale = (size) => applyFontScaling ?
+    fontSizeMultiplier() * size :
+    size
+
   switch (iconName) {
     case 'toggleViewButtonsIcon':
       return <Svg
-        height='40'
-        width='40'
+        height={ fontScale(40) }
+        width={ fontScale(40) }
         style={{
-          left: 13,
-          top: 13
+          left: fontScale(13),
+          top: fontScale(13)
         }}>
         <Path
           d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'
@@ -30,12 +34,12 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'showShareSheetIcon':
       return <Svg
-        height='32'
-        width='32'
+        height={ fontScale(32) }
+        width={ fontScale(32) }
         style={{
           position: 'absolute',
-          left: 14,
-          top: 7
+          left: fontScale(14),
+          top: fontScale(7)
         }}>
         <Path stroke={borderColor} strokeWidth={2} fill='none' transform='translate(1, 0)' d='M5,12 C4.71689466,12 4.34958605,12 4,12 C-4.54747351e-13,12 -4.54747351e-13,12.5662107 -4.54747351e-13,16 C-4.54747351e-13,20 -4.54747351e-13,22 -4.54747351e-13,26 C-4.54747351e-13,30 -4.54747351e-13,30 4,30 C8,30 10,30 14,30 C18,30 18,30 18,26 C18,22 18,24 18,17 C18,12 17.9526288,12.0459865 14,12 C13.4028116,11.9930521 13.7719806,12 13,12'/>
         <Path stroke={borderColor} strokeWidth={2} d='M10,18.25 L10,1' strokeLinecap='round'/>
@@ -45,15 +49,15 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'saveButtonIconOff':
       return <Svg
-        width='35px'
-        height='34px'
+        width={ fontScale(35) }
+        height={ fontScale(35) }
         viewBox='0 0 37 34'
         strokeWidth='2'
         stroke={borderColor}
         fill='none'
         style={{
-          left: 6,
-          top: 6
+          left: fontScale(6),
+          top: fontScale(6)
         }}>
         <Path d='M19.3058823,10 L23.3013283,2.88768776 C23.5718232,2.40617867 24.1814428,2.2351178 24.6629519,2.50561262 C24.6681837,2.50855168 24.673389,2.51153779 24.6785671,2.51457056 L30.2152447,5.75736369 C30.689889,6.03535949 30.850899,6.64450404 30.5756101,7.12072339 L26.5410884,14.1' />
         <Path d='M19.3058823,26.548712 L15.2922426,33.6568385 C15.0206918,34.1377529 14.4106983,34.3074756 13.9297839,34.0359249 C13.9294556,34.0357395 13.9291274,34.035554 13.9287993,34.0353682 L8.38060649,30.8942713 C7.89999957,30.6221768 7.73096688,30.0119917 8.0030614,29.5313848 C8.00649499,29.52532 8.00999188,29.5192912 8.01355151,29.5132995 L12.2173038,22.4373696' />
@@ -64,15 +68,15 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'saveButtonIconOn':
       return <Svg
-        width='42px'
-        height='39px'
+        width={ fontScale(42) }
+        height={ fontScale(39) }
         viewBox='0 0 42 39'
         strokeWidth='1'
         stroke={backgroundColor}
         fill={borderColor}
         style={{
-          left: 5,
-          top: 6
+          left: fontScale(5),
+          top: fontScale(6)
         }}>
           <Path d='M16.9091367,3.78663033 L32.7855762,30.8423987 C33.2269867,31.5946265 32.9650341,32.5564964 32.2004888,32.9907953 L27.2744394,35.7890308 C26.5098941,36.2233297 25.5322738,35.9655974 25.0908634,35.2133697 L9.21442378,8.15760134 C8.77301333,7.40537359 9.0349659,6.44350367 9.79951122,6.00920478 L14.7255607,3.2109692 C15.4901061,2.7766703 16.4677264,3.03440257 16.9091367,3.78663033 Z' id='Path-Copy-2' transform='translate(21.000000, 19.500000) rotate(60.000000) translate(-21.000000, -19.500000) ' />
           <Path d='M16.9091367,3.78663033 L32.7855762,30.8423987 C33.2269867,31.5946265 32.9650341,32.5564964 32.2004888,32.9907953 L27.2744394,35.7890308 C26.5098941,36.2233297 25.5322738,35.9655974 25.0908634,35.2133697 L9.21442378,8.15760134 C8.77301333,7.40537359 9.0349659,6.44350367 9.79951122,6.00920478 L14.7255607,3.2109692 C15.4901061,2.7766703 16.4677264,3.03440257 16.9091367,3.78663033 Z' id='Path' transform='translate(21.000000, 19.500000) rotate(-60.000000) translate(-21.000000, -19.500000) ' />
@@ -81,8 +85,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'launchBrowserIcon':
       return <Svg
-        height='32'
-        width='32'
+        height={ fontScale(32) }
+        width={ fontScale(32) }
         viewBox='0 0 24 24'
         fill='none'
         stroke={borderColor}
@@ -91,8 +95,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinejoin='round'
         style={{
           position: 'absolute',
-          left: 8,
-          top: 8
+          left: fontScale(8),
+          top: fontScale(8)
         }}>
         <Circle cx='12' cy='12' r='11' />
         <Polygon
@@ -106,12 +110,14 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
       return <Svg
         style={{
           position: 'absolute',
-          left: 9,
-          top: 9,
+          left: fontScale(9),
+          top: fontScale(9),
           opacity: isEnabled ? 1 : 0.3
         }}
-        height='34'
-        width='34'>
+        height={ fontScale(34) }
+        width={ fontScale(34) }
+        viewBox='0 0 34 34'>
+        
         <Rect stroke={borderColor} strokeWidth='2' opacity='0.5' fill='none' x='16' y='4' width='14' height='24' rx='2'></Rect>
         <Path stroke={borderColor} d='M17,8 L27,8' opacity='0.5' strokeLinecap='square' />
         <Path stroke={borderColor} d='M17,12 L27,12' opacity='0.5' strokeLinecap='square' />
@@ -131,12 +137,13 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
       return <Svg
         style={{
           position: 'absolute',
-          left: 12,
-          top: 10,
+          left: fontScale(12),
+          top: fontScale(10),
           opacity: isEnabled ? 1 : 0.3
         }}
-        height='34'
-        width='34'
+        height={ fontScale(34) }
+        width={ fontScale(34) }
+        viewBox='0 0 34 34'
       >
         <Rect stroke={borderColor} strokeWidth='2' fill={backgroundColor} opacity='0.5' x='14' y='2' width='14' height='25' rx='2' />
         <Path stroke={borderColor} d='M17,19 L25,19' opacity='0.5' strokeLinecap='square' />
@@ -170,8 +177,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'feedly':
       return <Svg 
-        width={28 * fontSizeMultiplier()} 
-        height={28 * fontSizeMultiplier()} 
+        width={fontScale(28)} 
+        height={fontScale(28)} 
         viewBox='0 0 28 28'
       >
         <Path fill={backgroundColor} d='M16.0336326,3.33375996 C14.9218819,2.22208001 13.102885,2.22208001 11.9910636,3.33375996 L1.83375996,13.4912051 C0.722080014,14.6029557 0.722080014,16.4220233 1.83375996,17.5339154 L9.08174345,24.7818989 C9.58645464,25.2216207 10.246108,25.4880845 10.9680635,25.4880845 L17.0569863,25.4880845 C17.8504372,25.4880845 18.5687154,25.166461 19.0885602,24.6467577 L26.19624,17.5388656 C27.30792,16.4271857 27.30792,14.6080474 26.19624,13.4964382 L16.0336326,3.33375996 L16.0336326,3.33375996 Z M15.7506917,21.8854494 L14.7364605,22.8994683 C14.6624899,22.9737218 14.5600202,23.0196175 14.4468721,23.0196175 L13.578107,23.0196175 C13.47493,23.0196175 13.3810879,22.9815007 13.3088145,22.9187742 L12.2749946,21.8846714 C12.116163,21.7261934 12.116163,21.4665186 12.2749946,21.3080406 L13.7239973,19.8587549 C13.8826875,19.7003476 14.1423623,19.7003476 14.3006282,19.8587549 L15.7506917,21.308677 C15.9093818,21.4672964 15.9093818,21.7268299 15.7506917,21.8854494 L15.7506917,21.8854494 Z M15.7506917,15.8061442 L11.6967372,19.8598865 C11.6227666,19.9341399 11.5201554,19.9798235 11.4070073,19.9799649 L10.5382422,19.9799649 C10.4354896,19.9799649 10.3413645,19.9418482 10.2693741,19.879051 L9.23505911,18.8451603 C9.07658108,18.6863995 9.07658108,18.4268661 9.23505911,18.2683172 L13.7239973,13.7795205 C13.8826875,13.6207596 14.1423623,13.6207596 14.3009818,13.7795205 L15.7506917,15.2294425 C15.9093818,15.388062 15.9093818,15.6475954 15.7506917,15.8061442 L15.7506917,15.8061442 Z M15.7506917,9.72641465 L8.65687239,16.8198803 C8.58290184,16.8941337 8.48036139,16.9399587 8.36728402,16.9399587 L7.49851887,16.9399587 C7.39555411,16.9399587 7.30142905,16.9020541 7.22965073,16.8392569 L6.1953358,15.8051541 C6.03671632,15.6467468 6.03671632,15.3870012 6.1953358,15.2284525 L13.7239973,7.69986172 C13.8826875,7.54124225 14.1421502,7.54124225 14.3006282,7.69986172 L15.7506917,9.14978371 C15.9093818,9.30840318 15.9093818,9.56779517 15.7506917,9.72641465 L15.7506917,9.72641465 Z' />
@@ -179,8 +186,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'rizzle':
       return <Svg
-        width={28 * fontSizeMultiplier()}
-        height={28 * fontSizeMultiplier()}
+        width={fontScale(28)}
+        height={fontScale(28)}
         viewBox='0 0 37 36'
         strokeWidth='2'
         stroke={backgroundColor}
