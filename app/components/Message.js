@@ -15,7 +15,7 @@ import {
 } from '../utils/styles'
 
 const screenWidth = Dimensions.get('window').width
-const offscreenDistance = -28 * fontSizeMultiplier()
+const offscreenDistance = -28
 const transformAnim = new Animated.Value(0)
 
 export default function Message (props) {
@@ -54,6 +54,10 @@ export default function Message (props) {
       flexAlign: 'center',
       justifyContent: 'center',
       flexDirection: 'row',
+      opacity: transformAnim.interpolate({
+        inputRange: [offscreenDistance, offscreenDistance * 0.9, 0],
+        outputRange: [0, 1, 1]
+      }),
       transform: [{
         translateY: transformAnim
       }]

@@ -23,9 +23,9 @@ import { rgba } from 'react-native-image-filter-kit'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
-  fontSize: 18,
-  lineHeight: 24,
-  marginTop: 9,
+  fontSize: 18 * fontSizeMultiplier(),
+  lineHeight: 24 * fontSizeMultiplier(),
+  marginTop: 9 * fontSizeMultiplier(),
   textAlign: 'left',
   color: hslString('rizzleText')
 })
@@ -35,7 +35,7 @@ const boldStyles = {
 const headerStyles = () => ({
   ...textStyles(),
   fontFamily: 'IBMPlexSerif',
-  marginTop: 18
+  marginTop: 18 * fontSizeMultiplier()
 })
 
 const screenWidth = Dimensions.get('window').width
@@ -335,7 +335,7 @@ const FeedToggle = (props) => {
   }
   const titleStyles = {
     fontFamily: 'IBMPlexSans-Bold',
-    fontSize: 24,
+    fontSize: 24 * fontSizeMultiplier(),
     color: isSelected ? hslString('bodyBG') : hslString('rizzleText')
   }
   const descriptionStyles = {
@@ -358,7 +358,7 @@ const FeedToggle = (props) => {
           // height: 300
       }}>
         <View style={{
-          width: 65 * fontSizeMultiplier(),
+          width: 65,
           height: 70
         }}>
           {feed.favicon && <Image
@@ -381,13 +381,13 @@ const FeedToggle = (props) => {
             ...textStyles(),
             ...boldStyles,
             color: isSelected ? 'white' : hslString('rizzleText'),
-            fontSize: 20
+            fontSize: 20 * fontSizeMultiplier()
           }}>{feed.title}</Text>
           <Text style={{
             ...textStyles(),
             color: isSelected ? 'white' : hslString('rizzleText'),
             opacity: 0.7,
-            fontSize: 16,
+            fontSize: 16 * fontSizeMultiplier(),
             marginTop: 0,
             marginBottom: 24
           }}>{feed.description}</Text>

@@ -6,7 +6,7 @@ import moment from 'moment'
 import quote from 'headline-quotes'
 
 import {hslString} from '../utils/colors'
-import {deepEqual, deviceCanHandleAnimations, diff, isIphoneX} from '../utils'
+import {deepEqual, diff, fontSizeMultiplier} from '../utils'
 import {getTopBarHeight} from './TopBar'
 
 const entities = require('entities')
@@ -274,7 +274,12 @@ class ItemTitle extends React.Component {
 
       // console.log(this.displayTitle)
       // console.log(values)
-      const maxHeight = this.screenHeight / 1.5
+      const maxHeight = this.screenHeight / (
+        this.screenWidth / this.screenHeight < 0.5 ?
+          1.5 : // iphone X etc.
+          2 // iphone 8, SE etc.
+      )
+      const sensibleSize = 42 * fontSizeMultiplier()
       // now go through them and find the first one that
       // (a) is less than 50% screen height
       values = values.filter(v => v.height < maxHeight)
@@ -293,7 +298,10 @@ class ItemTitle extends React.Component {
 
       // (c) if we go down to 4 lines, is the fontSize > 42?
       let fourLines = values.find(v => v.numLines === 4)
-      if (fourLines && fourLines.size && fourLines.size > optimal && fourLines.size > 42) {
+      if (fourLines && 
+        fourLines.size && 
+        fourLines.size > optimal && 
+        fourLines.size > sensibleSize) {
         optimal = fourLines
       }
 
@@ -303,7 +311,7 @@ class ItemTitle extends React.Component {
       // this avoids shrinking the font size too much
       if (maxViable / optimal > 2) optimal = maxViable
 
-      if (maxViable < 42) optimal = maxViable
+      if (maxViable < sensibleSize) optimal = maxViable
 
       // this is a bit sketchy...
       if (styles.invertBG) optimal.size = Math.round(optimal.size * 0.9)
@@ -779,7 +787,7 @@ class ItemTitle extends React.Component {
   getExcerptLineHeight () {
     let excerptLineHeight = Math.round(Math.min(this.screenHeight, this.screenWidth) / 16)
     if (excerptLineHeight > 32) excerptLineHeight = 32
-    return excerptLineHeight
+    return excerptLineHeight * fontSizeMultiplier()
   }
 
   getExcerptColor () {

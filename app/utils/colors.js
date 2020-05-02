@@ -167,7 +167,10 @@ export function hslString (color, modifier = '', alpha) {
         lightness
     }
     return `hsl(${color[0]}, ${color[1]}%, ${lightness}%)`
-  } else if (typeof color === 'string' && color.startsWith('#')) {
+  } else if (typeof color === 'string' && (
+      color.startsWith('#') ||
+      color.startsWith('rgb') ||
+      color.startsWith('hsl'))) {
     return hexToHsl(color)
   }
   let palette
