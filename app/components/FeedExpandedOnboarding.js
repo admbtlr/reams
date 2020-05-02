@@ -40,12 +40,12 @@ const arrow = () => (
     position: 'absolute',
     zIndex: 100,
     transform: [{
-      translateY: -55
+      translateY: -55 * fontSizeMultiplier()
     }]
   }}>
     <Svg
-      width='40'
-      height='40'
+      width={40 * fontSizeMultiplier()}
+      height={40 * fontSizeMultiplier()}
       fill='none'
       stroke={hslString('rizzleText')}
       strokeWidth='3'

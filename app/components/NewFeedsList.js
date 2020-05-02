@@ -236,7 +236,7 @@ export default function NewFeedsList (props) {
           zIndex: 10,
           opacity: selectedFeeds.length === 0 ? 0 :
             scrollY.interpolate({ 
-              inputRange: [0, headerHeight * 0.9, headerHeight],
+              inputRange: [0, headerHeight * 0.4, headerHeight * 0.5],
               outputRange: [0, 0, 1] 
             })
       }}>
@@ -292,8 +292,8 @@ export default function NewFeedsList (props) {
             <Animated.Text style={{
               fontFamily: 'PTSerif-Bold',
               color: 'white',
-              fontSize: 40,
-              lineHeight: 48,
+              fontSize: 40 * fontSizeMultiplier(),
+              lineHeight: 48 * fontSizeMultiplier(),
               opacity: scrollY.interpolate({
                 inputRange: [0, 50],
                 outputRange: [1, 0]

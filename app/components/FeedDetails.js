@@ -165,8 +165,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
   </Svg>
 
   const mercuryIcon = <View style={{
-    top: 32,
-    left: 32,
+    top: 32 * fontSizeMultiplier(),
+    left: 32 * fontSizeMultiplier(),
     transform: [
       { scale: 0.8 },
       { rotateZ: '180deg' }

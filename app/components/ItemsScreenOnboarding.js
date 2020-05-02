@@ -179,6 +179,7 @@ export default function ItemsScreenOnboarding (props) {
               'Got it',
               'Hunky Dory',
               'Got it',
+              'Got it',
               'Got it already...',
               'Are we there yet?',
               'Finally!'
