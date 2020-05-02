@@ -228,6 +228,7 @@ class FeedItem extends React.Component {
     //   if (this.panAnimListener) this.panAnimListener.removeListener()
     // }
     // let bodyHtml = { __html: body }
+    const { webViewHeight } = this.state
 
     let articleClasses = [
       ...Object.values(styles.fontClasses),
@@ -248,7 +249,7 @@ class FeedItem extends React.Component {
       : 'scrolling'
     const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
-    const minHeight = this.state.webViewHeight
+    const minHeight = webViewHeight
     let server = ''
     if (__DEV__) {
       server = 'http://localhost:8888/'
@@ -370,9 +371,10 @@ class FeedItem extends React.Component {
             coverImageStyles={styles.coverImage}
             layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
-          <Animated.View style={styles.coverImage.isInline || !showCoverImage ? 
-            this.addAnimation({}, this.anims[5]) :
-            {}}>
+          <Animated.View style={webViewHeight > 0 && 
+            (styles.coverImage.isInline || !showCoverImage) ? 
+              this.addAnimation({}, this.anims[5]) :
+              {}}>
             <WebView
               allowsFullscreenVideo={true}
               decelerationRate='normal'
@@ -401,7 +403,7 @@ class FeedItem extends React.Component {
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: this.state.webViewHeight,
+                height: webViewHeight,
                 backgroundColor: this.props.isDarkMode ? 'black' : hslString('rizzleBg')
               }}
               source={{
