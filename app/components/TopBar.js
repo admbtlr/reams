@@ -10,7 +10,7 @@ import {
 import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
 import LinearGradient from 'react-native-linear-gradient'
 import FeedIconContainer from '../containers/FeedIcon'
-import { id, isIphoneX } from '../utils'
+import { id, isIphoneX, fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
@@ -107,6 +107,7 @@ class TopBar extends React.Component {
         >
           <BackButton
             navigation={this.props.navigation}
+            isSaved={displayMode === ItemType.saved}
           />
           <View style={{
             top: isIphoneX() ? 44 : 22,
@@ -153,7 +154,7 @@ class TopBar extends React.Component {
                   <Text
                     style={{
                       ...this.getStyles().feedName,
-                      fontSize: 14,
+                      fontSize: 14 * fontSizeMultiplier(),
                       fontFamily: this.props.feedFilter ?
                         'IBMPlexSansCond-Bold' :
                         'IBMPlexSansCond',
@@ -171,7 +172,7 @@ class TopBar extends React.Component {
                     ellipsizeMode='tail'
                     style={{
                       ...this.getStyles().feedName,
-                      fontSize: 18,
+                      fontSize: 18 * fontSizeMultiplier(),
                       lineHeight: 22,
                       fontFamily: this.props.feedFilter ?
                         'IBMPlexSansCond-Bold' :
@@ -319,7 +320,7 @@ class TopBar extends React.Component {
       feedName: {
         // flex: 1,
         color: hslString('rizzleFG'),
-        fontSize: 20,
+        fontSize: 20 * fontSizeMultiplier(),
         fontFamily: 'IBMPlexMono',
         textAlign: 'center',
         marginLeft: 5
@@ -327,7 +328,7 @@ class TopBar extends React.Component {
       feedActions: {
         flex: 1,
         color: hslString('rizzleFG'),
-        fontSize: 20,
+        fontSize: 20 * fontSizeMultiplier(),
         // fontFamily: 'AvenirNext-Regular',
         fontFamily: 'IBMPlexMono',
         fontFamily: 'IBMPlexMono',
@@ -435,7 +436,7 @@ const DisplayModeToggle = ({ displayMode, onDisplayPress, backgroundColor, butto
   )
 }
 
-const BackButton = ({ navigation: { goBack } }) => (
+const BackButton = ({ isSaved, navigation: { goBack } }) => (
   <Animated.View style={{
     position: 'absolute',
     left: 0,
@@ -455,7 +456,8 @@ const BackButton = ({ navigation: { goBack } }) => (
         paddingTop: 10        
       }}
     >
-      { getRizzleButtonIcon('back', 'white') }
+      { getRizzleButtonIcon('back', isSaved ?
+          'black' : 'white') }
     </TouchableOpacity>
   </Animated.View>
 )
