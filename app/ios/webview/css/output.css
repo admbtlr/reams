@@ -676,7 +676,7 @@ hr {
     font-family: "LibreBaskerville-Bold"; }
 
 .bodyFontSans1 {
-  font-family: "IBMPlexSans-Regular", sans-serif;
+  font-family: "IBMPlexSans", sans-serif;
   font-size: calc(1rem / 1.6); }
   .bodyFontSans1 em {
     font-family: "IBMPlexSans-Italic", sans-serif;
@@ -728,7 +728,7 @@ hr {
     font-family: "AvenirNext-Bold"; }
 
 .bodyFontSerif3 {
-  font-family: "IBMPlexSerif-Regular", serif;
+  font-family: "IBMPlexSerif", serif;
   font-size: calc(1rem / 1.7); }
   .bodyFontSerif3 em {
     font-family: "IBMPlexSerif-Italic", sans-serif;
