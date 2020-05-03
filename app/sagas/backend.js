@@ -11,7 +11,6 @@ import {
   SET_FEEDS_NEW,
   UPDATE_FEEDS
 } from '../store/feeds/types'
-import { getItemsAS } from '../storage/async-storage'
 import {
   addSavedItemsFS,
   upsertFeedsFS,

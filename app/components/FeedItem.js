@@ -409,7 +409,6 @@ class FeedItem extends React.Component {
               source={{
                 html: html,
                 baseUrl: 'web/'}}
-              useWebKit={false}
             />
           </Animated.View>
         </Animated.ScrollView>
