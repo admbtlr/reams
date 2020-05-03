@@ -38,7 +38,7 @@ class Onboarding extends React.Component {
 
     const { index } = this.props
 
-    const bodies = [`<h1>Welcome to Rizzle!</h1>
+    const bodies = [`<h1>Welcome to Rizzle</h1>
       <p><strong>Rizzle is a better way to read the&nbsp;web.</strong></p>
       <p>You subscribe to the sites you love and trust. Every time one of those sites publishes a new story, it shows up&nbsp;here.</p>
       <p>No more searching, page reloading, or waiting for someone else to share what they’ve&nbsp;found.</p>`,
