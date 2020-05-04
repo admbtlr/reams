@@ -93,6 +93,31 @@ class AccountScreen extends React.Component {
       }}
     />
 
+    const getAttributes = (service) => ({
+      borderColor: backend === service && hslString('logo1'),
+      buttonStyle: { 
+        alignSelf: 'center',
+        marginBottom: 42,
+        // width: buttonWidth 
+      },
+      iconBg: true,
+      iconCollapsed:  getRizzleButtonIcon(service, null, hslString(backend === service ? 'logo1' : 'buttonBG')), 
+      iconExpanded:  getRizzleButtonIcon(service, null, hslString(backend === service ? 'logo1' : 'buttonBG')),
+      isExpandable: true,
+      isExpanded: backend === service || expandedBackend === service,
+      isInverted: backend === service,
+      fgColor:  backend === service && hslString('logo1'),
+      onExpand: () => this.setExpandedBackend(service),
+      renderExpandedView: () => <AccountCredentialsForm
+        isActive={backend === service}
+        service={service}
+        setBackend={this.props.setBackend}
+        unsetBackend={this.props.unsetBackend}
+        user={this.props.user}
+      />,
+      testID: `${service}-button`
+    })
+
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={{
