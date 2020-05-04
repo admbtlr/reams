@@ -114,7 +114,6 @@ class Onboarding extends React.Component {
           source={{
             html: html,
             baseUrl: 'web/'}}
-          useWebKit={false}
         />
         { this.props.index === 1 &&
           <View style={{

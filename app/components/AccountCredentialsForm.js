@@ -2,7 +2,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import React from 'react'
 import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import OnePassword from 'react-native-onepassword'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
 
 import RizzleAuth from './RizzleAuth'
@@ -47,47 +46,11 @@ class AccountCredentialsForm extends React.Component {
     super(props)
     this.props = props
     this.state = {
-      is1Password: true,
       username: '',
       password: '',
       isSubmitting: false
     }
 
-    this.onePasswordHandler = this.onePasswordHandler.bind(this)
-    this.authenticateUser = this.authenticateUser.bind(this)
-  }
-
-  async componentDidMount () {
-    try {
-      const is1Password = await OnePassword.isSupported()
-      this.setState({
-        ...this.state,
-        is1Password
-      })
-    } catch (e) {
-      console.log('OnePassword not installed on this device.')
-      // this.setState({
-      //   ...this.state,
-      //   is1Password: false
-      // })
-    }
-  }
-
-  async onePasswordHandler (service) {
-    const url = services[service]
-    try {
-      const url = services[service]
-      const creds = await OnePassword.findLogin(url)
-      const { username, password } = creds
-      this.setState({
-        ...this.state,
-        username,
-        password
-      })
-      console.log(`Found user ${username} with a ${password.length} character password`)
-    } catch (e) {
-      console.warn('User did not choose a login in the OnePassword prompt.')
-    }
   }
 
   async authenticateUser ({username, password, email}, {setSubmitting, setErrors}) {
@@ -252,17 +215,6 @@ class AccountCredentialsForm extends React.Component {
                       testID={`${service}-password-text-input`}
                       value={values.password}
                     />
-                    { this.state.is1Password &&
-                      <View style={{
-                        position: 'absolute',
-                        top: 16,
-                        right: 0
-                      }}>
-                        <Button
-                          title='1P'
-                          onPress={() => this.onePasswordHandler(this.props.service)} />
-                      </View>
-                    }
                   </View>
                   <Text style={textLabelStyle()}>Password</Text>
                   { isSubmitting ?
