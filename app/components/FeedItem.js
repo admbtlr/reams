@@ -110,7 +110,7 @@ class FeedItem extends React.Component {
     if (changes && Object.keys(changes).length === 0) {
       isDiff == false
     } else if (changes && Object.keys(changes).length === 1) {
-      switch (Object.keys(changes)) {
+      switch (Object.keys(changes)[0]) {
         case 'isVisible':
           isDiff = false
           // this is a bit sneaky...
@@ -324,6 +324,14 @@ class FeedItem extends React.Component {
             feedTitle={item.feed_title}
           />
 
+    const injectedJavaScript = `
+      window.setTimeout(() => {
+        if (document.body && document.body.scrollHeight) {
+          window.ReactNativeWebView.postMessage('resize:' + document.body.scrollHeight);
+        }  
+      }, 500)
+      true;`
+
     return (
       <View
         ref={(ref) => { this.view = ref }}
@@ -378,7 +386,7 @@ class FeedItem extends React.Component {
             <WebView
               allowsFullscreenVideo={true}
               decelerationRate='normal'
-              injectedJavaScript={'(document.body && document.body.scrollHeight) && document.body.scrollHeight'}
+              injectedJavaScript={ injectedJavaScript }
               mixedContentMode='compatibility'
               onMessage={(event) => {
                 const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
