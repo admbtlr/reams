@@ -194,7 +194,7 @@ class TopBar extends React.Component {
           </View>
           <DisplayModeToggle
             displayMode={displayMode}
-            backgroundColor={this.getBackgroundColor()}
+            backgroundColor={this.getBackgroundColor(item, false)}
             buttonColor={this.getForegroundColor()}
             onDisplayPress={() => {
               this.onDisplayPress()
@@ -218,16 +218,17 @@ class TopBar extends React.Component {
     </View>)
   }
 
-  getBackgroundColor (item) {
+  getBackgroundColor (item, allowTransparent = true) {
     let feedColor = item ? item.feed_color : null
-    if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline) {
+    if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
       feedColor = 'transparent'
     }
-    return this.props.displayMode == ItemType.saved ?
+    const bgColor = this.props.displayMode == ItemType.saved ?
       hslString('rizzleBG') :
       (feedColor ?
         hslString(feedColor, 'desaturated') :
         hslString('rizzleSaved'))
+    return bgColor
   }
 
   getForegroundColor (item) {
