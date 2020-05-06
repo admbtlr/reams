@@ -8,7 +8,7 @@ import {
 } from '../store/items/types'
 import { SET_BACKEND } from '../store/config/types'
 import { 
-  SET_FEEDS_NEW,
+  SET_FEEDS,
   UPDATE_FEEDS
 } from '../store/feeds/types'
 import {
@@ -54,40 +54,23 @@ export function * initBackend (getFirebase, action) {
         getFirebase,
         uid
       } : {}
-  } else if (backend === 'feedbin') {
-    const { username, password } = yield select(getUser)
-    backendConfig = { username, password }
-  }
+    setBackend(backend, backendConfig)
 
-  setBackend(backend, backendConfig)
-
-  if (backend === 'rizzle' && uid) {
     if (isNew) {
       // set the user details
       const user = yield select(getUser)
       yield call(setUserDetails, user)
-
-      // // copy existing feeds over to rizzle
-      // const feeds = yield select(getFeeds)
-      // yield call(upsertFeedsFS, feeds)
-
-      // // copy existing saved items over to rizzle
-      // let savedItems = yield select(getItems, 'saved')
-      // if (savedItems.length) {
-      //   savedItems = savedItems.map(item => item.savedAt ?
-      //     item :
-      //     {
-      //       ...item,
-      //       savedAt: item.savedAt || item.created_at || Date.now()
-      //     })
-      //   savedItems = yield call(getItemsAS, savedItems)
-      //   yield call(addSavedItemsFS, savedItems)
-      // }
     }
 
     yield spawn(savedItemsListener)
     yield spawn(feedsListener)
     yield spawn(readItemsListener)
+  } else {
+    if (backend === 'feedbin') {
+      const { username, password } = yield select(getUser)
+      backendConfig = { username, password }
+    }
+    setBackend(backend, backendConfig)
   }
 }
 
@@ -155,15 +138,9 @@ function * receiveFeeds (dbFeeds) {
       newFeeds.push(dbFeed)
     }
   })
-  // do this first so that isNew is set before the first item fetch
-  // (which is triggered by the UPDATE_FEEDS action)
   if (newFeeds.length > 0) {
     yield put ({
-      type: SET_FEEDS_NEW,
-      feeds: newFeeds
-    })
-    yield put ({
-      type: UPDATE_FEEDS,
+      type: SET_FEEDS,
       feeds
     })
   }
