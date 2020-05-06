@@ -6,6 +6,7 @@ import {
   ADD_FEED_SUCCESS,
   ADD_FEEDS_SUCCESS,
   REFRESH_FEED_LIST,
+  SET_FEEDS,
   ADD_FEED,
   REMOVE_FEED,
   UPDATE_FEEDS,
@@ -15,6 +16,7 @@ import {
   MUTE_FEED_TOGGLE,
   UNMUTE_FEED,
   MERCURY_FEED_TOGGLE,
+  Feed,
   FeedActionTypes,
   FeedsState
 } from './types'
@@ -53,7 +55,7 @@ export function feeds (
         ]
       }
     case ADD_FEEDS_SUCCESS:
-      let newFeeds = action.feeds.filter(f => !state.feeds
+      let newFeeds = action.feeds.filter((f:Feed) => !state.feeds
           .find(feed => feed.url === f.url || feed._id === f._id))
       return {
         ...state,
@@ -63,6 +65,7 @@ export function feeds (
         ]
       }
     case REFRESH_FEED_LIST:
+    case SET_FEEDS:
       return {
         ...state,
         feeds: action.feeds
@@ -79,7 +82,7 @@ export function feeds (
 
     case UPDATE_FEEDS:
       feeds = state.feeds.map(f => {
-        let updatedFeed = action.feeds.find(uf => uf._id === f._id)
+        let updatedFeed = action.feeds.find((uf:Feed) => uf._id === f._id)
         return updatedFeed || f
       })
       return {

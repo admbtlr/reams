@@ -7,7 +7,7 @@ import {
   CACHE_FEED_ICON_ERROR,
   SET_CACHED_FEED_ICON,
   FEED_HAS_RENDERED_ICON,
-  SET_FEEDS_NEW,
+  SET_FEEDS,
   SET_CACHED_FEED_COVER_IMAGE,
   FeedActionTypes,
   FeedLocal,
@@ -110,13 +110,11 @@ export function feedsLocal (
         feeds
       }
 
-    case SET_FEEDS_NEW:
+    case SET_FEEDS:
       feeds = state.feeds.map(f => f)
       action.feeds.forEach(newFeed => {
         feed = feeds.find(f => f._id === newFeed._id)
-        if (feed) {
-           feed.isNew = true
-         } else {
+        if (!feed) {
           feeds.push({
             _id: newFeed._id,
             isNew: true

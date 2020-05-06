@@ -182,57 +182,30 @@ class AccountScreen extends React.Component {
               }
               <TextButton
                 text={ 'Rizzle Basic' }
-                borderColor={ backend === 'basic' && hslString('logo1') }
+                { ...getAttributes('basic') }
+                iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
                 buttonStyle={{ 
                   alignSelf: 'center',
                   marginBottom: 42,
                   marginTop: 42,
-                  // width: buttonWidth 
                 }}
-                hideBorder={backend === 'basic' || expandedBackend === 'basic'}
-                iconBg={true}
+              />
+              {__DEV__ && <TextButton
+                text={ 'Rizzle +' }
+                { ...getAttributes('rizzle') }
                 iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
                 iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
-                isExpandable={true}
-                isExpanded={backend === 'basic' || expandedBackend === 'basic'}
-                isInverted={ backend === 'basic' }
-                onExpand={() => this.setExpandedBackend('basic')}
-                fgColor={ backend === 'basic' && hslString('logo1') }
-                renderExpandedView={() => <AccountCredentialsForm
-                  backend={backend}
-                  isActive={ backend === 'basic' }
-                  navigation={this.props.navigation}
-                  service='basic'
-                  setBackend={this.props.setBackend}
-                  setSignInEmail={this.props.setSignInEmail}
-                  unsetBackend={this.props.unsetBackend}
-                  user={this.props.user}
-                />}
+              />}
+              <TextButton
+                text={ 'Feedbin' }
+                { ...getAttributes('feedbin') }
               />
               <TextButton
-                borderColor={ backend === 'feedbin' && hslString('logo1') }
-                buttonStyle={{ 
-                  alignSelf: 'center',
-                  marginBottom: 42,
-                  // width: buttonWidth 
-                }}
-                iconBg={true}
-                iconCollapsed={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('feedbin', null, hslString(backend === 'feedbin' ? 'logo1' : 'buttonBG')) }
-                isExpandable={true}
-                isExpanded={ backend === 'feedbin' || expandedBackend === 'feedbin'}
-                isInverted={ backend === 'feedbin' }
-                fgColor={ backend === 'feedbin' && hslString('logo1') }
-                onExpand={() => this.setExpandedBackend('feedbin')}
-                renderExpandedView={() => <AccountCredentialsForm
-                  isActive={ backend === 'feedbin' }
-                  service='feedbin'
-                  setBackend={this.props.setBackend}
-                  unsetBackend={this.props.unsetBackend}
-                  user={this.props.user}
-                />}
-                testID='feedbin-button'
-                text='Feedbin'
+                text={ 'Feedwrangler' }
+                { ...getAttributes('feedwrangler') }
+                iconCollapsed={feedWranglerLogo}  
+                iconExpanded={feedWranglerLogo}  
               />
               {/*<TextButton
                 text="Feedly"
@@ -256,28 +229,6 @@ class AccountScreen extends React.Component {
                 isInverted={ backend === 'feedly' }
                 />}
                 />*/}
-              <TextButton
-                text="Feed Wrangler"
-                buttonStyle={{ 
-                  alignSelf: 'center',
-                  marginBottom: 42,
-                  // width: buttonWidth 
-                }}
-                iconCollapsed={feedWranglerLogo}  
-                iconExpanded={feedWranglerLogo}  
-                isExpandable={true}
-                isExpanded={ backend === 'feedwrangler' }
-                isInverted={ backend === 'feedwrangler' }
-                bgColor={ backend === 'feedwrangler' && hslString('logo1') }
-                onExpand={() => this.setExpandedBackend('feedwrangler')}
-                renderExpandedView={() => <AccountCredentialsForm
-                  isActive={ backend === 'feedwrangler' }
-                  service='feedwrangler'
-                  setBackend={this.props.setBackend}
-                  unsetBackend={this.props.unsetBackend}
-                  user={this.props.user}
-                />}
-              />
             </View>
           </View>
         </ScrollView>

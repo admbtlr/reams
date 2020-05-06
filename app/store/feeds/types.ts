@@ -41,6 +41,7 @@ export interface FeedsLocalState {
 export const ADD_FEED_SUCCESS = 'ADD_FEED_SUCCESS'
 export const ADD_FEEDS_SUCCESS = 'ADD_FEEDS_SUCCESS'
 export const REFRESH_FEED_LIST = 'REFRESH_FEED_LIST'
+export const SET_FEEDS = 'SET_FEEDS'
 export const ADD_FEED = 'ADD_FEED'
 export const ADD_FEEDS = 'ADD_FEEDS'
 export const REMOVE_FEED = 'REMOVE_FEED'
@@ -56,7 +57,6 @@ export const MERCURY_FEED_TOGGLE = 'MERCURY_FEED_TOGGLE'
 export const CACHE_FEED_ICON_ERROR = 'CACHE_FEED_ICON_ERROR'
 export const SET_CACHED_FEED_ICON = 'SET_CACHED_FEED_ICON'
 export const FEED_HAS_RENDERED_ICON = 'FEED_HAS_RENDERED_ICON'
-export const SET_FEEDS_NEW = 'SET_FEEDS_NEW'
 export const SET_CACHED_FEED_COVER_IMAGE = 'SET_CACHED_FEED_COVER_IMAGE'
 
 interface addFeedSuccessAction {
@@ -71,6 +71,11 @@ interface addFeedsSuccessAction {
 
 interface refreshFeedListAction {
   type: typeof REFRESH_FEED_LIST
+  feeds: Feed[]
+}
+
+interface setFeedsAction {
+  type: typeof SET_FEEDS
   feeds: Feed[]
 }
 
@@ -150,11 +155,6 @@ interface feedHasRenderedIconAction {
   id: string
 }
 
-interface setFeedsNewAction {
-  type: typeof SET_FEEDS_NEW
-  feeds: Feed[]
-}
-
 interface setCachedFeedCoverImageAction {
   type: typeof SET_CACHED_FEED_COVER_IMAGE
   id: string
@@ -168,6 +168,7 @@ export type FeedActionTypes = addFeedSuccessAction |
   addFeedsAction |
   removeFeedAction |
   updateFeedsAction |
+  setFeedsAction |
   updateFeedAction |
   likeFeedToggleAction |
   unlikeFeedAction |
@@ -178,5 +179,4 @@ export type FeedActionTypes = addFeedSuccessAction |
   cacheFeedIconErrorAction |
   setCachedFeedIconAction |
   feedHasRenderedIconAction |
-  setFeedsNewAction |
   setCachedFeedCoverImageAction

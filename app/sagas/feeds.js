@@ -52,7 +52,7 @@ export function * fetchAllFeeds () {
   if (!config.isOnline || isRizzleBasic()) return []
 
   let oldFeeds = yield select(getFeeds) || []
-  let newFeeds = yield fetchFeeds()
+  let newFeeds = yield fetchFeeds() || []
   let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => nf.id === of.id || nf.url === of.url))
   if (toRemove) {
     oldFeeds = oldFeeds.filter(of => !toRemove.includes(of))
