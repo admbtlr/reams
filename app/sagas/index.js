@@ -24,7 +24,8 @@ import {
   ADD_FEEDS_SUCCESS,
   MARK_FEED_READ,
   REMOVE_FEED,
-  UPDATE_FEEDS
+  UPDATE_FEEDS,
+  SET_FEEDS
 } from '../store/feeds/types'
 import {
   FETCH_ITEMS,
@@ -50,6 +51,7 @@ let downloadsFork
 function * init (getFirebase, action) {
   if (action.key && action.key !== 'primary') return
   const config = yield select(getConfig)
+  console.log(config)
   if (!config.backend || config.backend === '') return
 
   yield initBackend(getFirebase, action)
@@ -89,6 +91,7 @@ export function * initSagas (getFirebase) {
   yield takeEvery(ADD_FEEDS_SUCCESS, inflateFeeds)
   yield takeEvery(ADD_FEEDS_SUCCESS, fetchUnreadItems)
   yield takeEvery(UPDATE_FEEDS, fetchUnreadItems)
+  yield takeEvery(SET_FEEDS, fetchUnreadItems)
   yield takeEvery(REMOVE_FEED, unsubscribeFromFeed)
   yield takeEvery(SAVE_ITEM, markItemSaved)
   yield takeEvery(UNSAVE_ITEM, markItemUnsaved)

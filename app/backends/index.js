@@ -15,6 +15,7 @@ let backend
 let backends = {
   feedbin,
   feedwrangler,
+  rizzle,
   basic: rizzle,
   plus: rizzle
 }
