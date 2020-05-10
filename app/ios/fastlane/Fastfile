@@ -18,7 +18,19 @@ default_platform(:ios)
 ENV["DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS"] = "-t DAV"
 
 platform :ios do
-  desc "Push a new beta build to TestFlight"
+  desc "Push a new build to TestFlight"
+  lane :alpha do
+    ENV["ENVFILE"] = ".env.alpha"
+    increment_build_number(
+      build_number: latest_testflight_build_number + 1,
+      xcodeproj: "rizzle.xcodeproj")
+    build_app(
+      scheme: "rizzle",
+      include_bitcode: false,
+      xcargs: "UseModernBuildSystem=0")
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true)
+  end
   lane :beta do
     increment_build_number(
       build_number: latest_testflight_build_number + 1,

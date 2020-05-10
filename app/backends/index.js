@@ -68,7 +68,7 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) 
 
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return await rizzle.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
     case 'feedwrangler':
       return await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
@@ -97,7 +97,7 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) 
 export function fetchUnreadIds () {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return
     case 'feedwrangler':
       return feedwrangler.fetchUnreadIds()
@@ -107,7 +107,7 @@ export function fetchUnreadIds () {
 export async function markItemRead (item) {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return rizzle.markItemRead(item)
     case 'feedwrangler':
       return feedwrangler.markItemRead(item)
@@ -119,7 +119,7 @@ export async function markItemRead (item) {
 export async function markItemsRead (items, feedId = null, olderThan = null) {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return rizzle.markItemsRead(items)
     case 'feedwrangler':
       if (feedId) {
@@ -135,7 +135,7 @@ export async function markItemsRead (items, feedId = null, olderThan = null) {
 export async function saveItem (item, folder) {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       await rizzle.saveItem(item, folder)
       break
     case 'feedbin':
@@ -151,7 +151,7 @@ export async function saveItem (item, folder) {
 export async function unsaveItem (item, folder) {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       await rizzle.unsaveItem(item, folder)
       break
     case 'feedwrangler':
@@ -164,7 +164,7 @@ export async function unsaveItem (item, folder) {
 export async function saveExternalItem (item, folder) {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       await rizzle.saveExternalItem(item, folder)
       break
   }
@@ -183,7 +183,7 @@ export async function saveExternalItem (item, folder) {
 export function fetchFeeds () {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return rizzle.fetchFeeds()
     case 'feedwrangler':
       return feedwrangler.fetchFeeds()
@@ -196,7 +196,7 @@ export async function addFeed (feed) {
   let id
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return rizzle.addFeed(feed)
     case 'feedwrangler':
       id = await feedwrangler.addFeed(feed)
@@ -212,7 +212,7 @@ export async function addFeed (feed) {
 export function updateFeed (feed) {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return rizzle.updateFeed(feed)
   }
 }
@@ -220,7 +220,7 @@ export function updateFeed (feed) {
 export function removeFeed (feed) {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return rizzle.removeFeed(feed)
     case 'feedwrangler':
       return feedwrangler.removeFeed(feed)
@@ -240,7 +240,7 @@ export async function getFeedDetails (feed) {
 export function authenticate ({username, password, email}, backend) {
   switch (backend) {
     case 'basic':
-    case 'plus':
+    case 'rizzle':
       return
     case 'feedbin':
       return feedbin.authenticate(username, password)
