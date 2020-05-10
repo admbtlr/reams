@@ -1,4 +1,4 @@
-const nextId = 347
+const nextId = 348
 export const feeds = [{
   "id": 0,
   "title": "Engadget",
@@ -1354,6 +1354,19 @@ export const feeds = [{
   "image": "https://assets.guim.co.uk/images/guardian-logo-rss.c45beb1bafa34b347ac333af2e6fe23f.png",
   "link": "https://www.theguardian.com/",
   "color": "#052962"
+}, {
+  "id": 347,
+  "title": "London Review of Books Blog",
+  "url": "https://lrb.co.uk/blog/feed",
+  "description": "The blog of the London Review of Books",
+  "category": "culture",
+  "favicon": {
+    "source": require('../../assets/images/favicons/347.png'),
+    "url": "https://lrb.co.uk/apple-touch-icon.png",
+    "size": "72x72"
+  },
+  "link": "https://lrb.co.uk/blog/",
+  "color": "rgb(23,40,69)"
 }, {
   "id": 149,
   "title": "VICE",
