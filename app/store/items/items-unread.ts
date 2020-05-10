@@ -7,6 +7,8 @@ import {
   REMOVE_FEED,
   UPDATE_FEED,
   MUTE_FEED_TOGGLE,
+  LIKE_FEED_TOGGLE,
+  UNLIKE_FEED,
   FeedActionTypes 
 } from '../feeds/types'
 import {
@@ -26,6 +28,7 @@ import {
   SET_TITLE_FONT_RESIZED,
   SET_TITLE_FONT_SIZE,
   SET_LAST_UPDATED,
+  SORT_ITEMS,
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
   UPDATE_CURRENT_INDEX, 
@@ -126,9 +129,20 @@ export function itemsUnread (
       })
 
       items = rizzleSort(items)
-
       carouselled = maintainCarouselItems(state, items)
 
+      return {
+        ...state,
+        items: carouselled.items,
+        index: carouselled.index
+        // items,
+        // index
+      }
+
+    case SORT_ITEMS:
+      items = [...state.items]
+      items = rizzleSort(items)
+      carouselled = maintainCarouselItems(state, items)
       return {
         ...state,
         items: carouselled.items,

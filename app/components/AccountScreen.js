@@ -7,6 +7,7 @@ import {
   Text,
   View
 } from 'react-native'
+import Config from "react-native-config"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TextButton from './TextButton'
 import NavButton from './NavButton'
@@ -118,6 +119,8 @@ class AccountScreen extends React.Component {
       testID: `${service}-button`
     })
 
+    console.log(Config)
+
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={{
@@ -191,11 +194,11 @@ class AccountScreen extends React.Component {
                   marginTop: 42,
                 }}
               />
-              {__DEV__ && <TextButton
+              {Config.FLAG_PLUS && <TextButton
                 text={ 'Rizzle +' }
                 { ...getAttributes('rizzle') }
                 iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'biuttonBG')) }
               />}
               <TextButton
                 text={ 'Feedbin' }

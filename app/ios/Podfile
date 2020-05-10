@@ -45,9 +45,6 @@ target 'rizzle' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  # force 1.9.1 because of UIWebView restriction
-  pod 'Bolts/Tasks', '~> 1.9.1'
-
   # # third party deps
   pod 'ReactNativeShareExtension', :podspec => '../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec'
 

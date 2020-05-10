@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { SET_FEED_FILTER } from '../store/config/types'
 import {
   CLEAR_READ_ITEMS, 
+  SORT_ITEMS,
   UPDATE_CURRENT_INDEX,
   ItemType 
 } from '../store/items/types'
@@ -89,10 +90,15 @@ const mapDispatchToProps = (dispatch) => {
       type: MUTE_FEED_TOGGLE,
       id
     }),
-    toggleLike: (id) => dispatch({
-      type: LIKE_FEED_TOGGLE,
-      id
-    }),
+    toggleLike: (id) => {
+      dispatch({
+        type: LIKE_FEED_TOGGLE,
+        id
+      })
+      dispatch({
+        type: SORT_ITEMS
+      })
+    },
     toggleMercury: (id) => dispatch({
       type: MERCURY_FEED_TOGGLE,
       id

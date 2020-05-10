@@ -72,6 +72,7 @@ export const ADD_READING_TIME = 'ADD_READING_TIME'
 export const SET_SCROLL_OFFSET = 'SET_SCROLL_OFFSET'
 export const SET_TITLE_FONT_SIZE = 'SET_TITLE_FONT_SIZE'
 export const SET_TITLE_FONT_RESIZED = 'SET_TITLE_FONT_RESIZED'
+export const SORT_ITEMS = 'SORT_ITEMS'
 
 interface setDisplayModeAction {
   type: typeof SET_DISPLAY_MODE
@@ -212,6 +213,10 @@ export interface setTitleFontResizedAction {
   item: Item
 }
 
+export interface sortItems {
+  type: typeof SORT_ITEMS
+}
+
 export type ItemActionTypes = setDisplayModeAction |
   updateCurrentIndexAction |
   itemsBatchFetchedAction |
@@ -235,4 +240,5 @@ export type ItemActionTypes = setDisplayModeAction |
   addReadingTimeAction |
   setScrollOffsetAction |
   setTitleFontSizeAction |
-  setTitleFontResizedAction
+  setTitleFontResizedAction |
+  sortItems

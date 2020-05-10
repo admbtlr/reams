@@ -1,6 +1,6 @@
 import { store } from '../store'
 
-export default function rizzleSort (items, feeds, shuffleStrength = 2) {
+export default function rizzleSort (items, feeds) {
   feeds = feeds || (store && store.getState().feeds.feeds)
   items.forEach(item => {
     if (!feeds.find(feed => feed._id === item.feed_id)) {
