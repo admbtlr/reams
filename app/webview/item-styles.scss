@@ -332,6 +332,9 @@ body {
       }
     }
 
+    &.is-quote {
+      text-indent: -0.45em;
+    }
   }
 
   blockquote.short-blockquote, .pullquote, aside {
@@ -531,7 +534,7 @@ body {
       color: hsl(0, 0%, 80%);
     }
 
-    blockquote {
+    blockquote:not(.pullquote) {
       background-color: hsl(241, 4%, 11%);
       color: hsl(0, 0%, 90%) !important;
     }

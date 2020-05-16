@@ -209,15 +209,6 @@ function markShortBlockquotes() {
   })
 }
 
-function markQuoteBlockquotes() {
-  const paras = document.querySelectorAll('blockquote')
-  Array.prototype.forEach.call(paras, function (el, i) {
-    if (prev.innerText.trim().substr(-1) == ':') {
-      el.classList.add('quote-blockquote')
-    }
-  })
-}
-
 function markContentHoldingDivs() {
   const divs = document.querySelectorAll('div')
   let isContentHolder
@@ -342,6 +333,9 @@ function removeFiguresWithoutImages() {
 function markPullQuotes() {
   var blockquotes = document.getElementsByTagName('blockquote')
   Array.prototype.forEach.call(blockquotes, function (bq) {
+    if (bq.innerText.startsWith('“')) {
+      bq.classList.add('is-quote')
+    }
     if (bq.innerText.length > 200) return
     var sibling = bq.previousElementSibling ||
       bq.parentElement.previousElementSibling
@@ -350,6 +344,15 @@ function markPullQuotes() {
       if (prevPara.substring(prevPara.length - 1) !== ':') {
         bq.classList.add('pullquote')
       }
+    }
+  })
+}
+
+function markQuoteBlockquotes() {
+  var blockquotes = document.getElementsByTagName('blockquote')
+  Array.prototype.forEach.call(blockquotes, function (bq) {
+    if (bq.innerText.startsWith('“')) {
+      bq.classList.add('is-quote')
     }
   })
 }
@@ -501,6 +504,7 @@ markContentHoldingDivs()
 removeSourceTags()
 removeFiguresWithoutImages()
 markPullQuotes()
+markQuoteBlockquotes()
 removeAllBrs()
 remove1pxImages()
 removeNYTImageText()
