@@ -248,6 +248,8 @@ body {
     @media (min-width: 600px) {
       .itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
         width: 100%; } }
+    .itemArticle blockquote.is-quote, .itemArticle .pullquote.is-quote, .itemArticle aside.is-quote {
+      text-indent: -0.45em; }
   .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
     color: white;
     background-color: transparent;
@@ -344,7 +346,7 @@ body {
     border-bottom: 3px solid rgba(0, 0, 0, 0.1); }
   .dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
     color: #cccccc; }
-  .dark-background .itemArticle blockquote {
+  .dark-background .itemArticle blockquote:not(.pullquote) {
     background-color: #1b1b1d;
     color: #e6e6e6 !important; }
   .dark-background .itemArticle pre {
