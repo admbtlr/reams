@@ -1,8 +1,3 @@
 {
-  "builds": [
-    { "src": "*", "use": "@now/static" },
-    { "src": "img/*", "use": "@now/static" },
-    { "src": "fonts/*", "use": "@now/static" }
-  ],
   "alias": "www.rizzle.app"
 }

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rizzle</title>
+    <meta name="Description" content="Anything related to Rizzle, an app and platform for RSS, 2020 style">
+    <!--link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/prism-base16-monokai.dark.css"-->
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Rizzle">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,200;1,200;0,700;1,700&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <style>
+    :root{--red: hsl(360, 70%, 60%);--lightgray: #e0e0e0;--gray: #C0C0C0;--darkgray: #333;--blue: hsl(186, 40%, 50%);--white: #fff;--rizzleBG: hsl(46, 25%, 80%);--aubergine: #534861}*{box-sizing:border-box}.logo1{color:var(--blue)}.logo2{color:var(--red)}html,body{padding:0;margin:0;font-family:"IBM Plex Sans",sans-serif;font-size:100%;color:var(--darkgray);background-color:var(--rizzleBG)}h1,h2,h3,h4{font-family:"PT Serif",serif;line-height:1.33em;margin-bottom:1rem;color:var(--aubergine)}h1{font-size:3rem;font-weight:700}h2{font-weight:300;margin-top:2rem;opacity:.7;color:var(--blue)}h1+h2{margin-top:0}p:last-child{margin-bottom:0}p,.tmpl-post li,img{font-weight:200;max-width:40rem}p,.tmpl-post li{line-height:1.45}a[href],a[href]:visited{color:var(--blue)}main{padding:1rem 1rem 0}main :first-child{margin-top:0}main>p:first-of-type{margin-top:2rem}@media(min-width: 50em){main,header{width:50em;margin:0 auto}}header{border-bottom:1px solid rgba(0,0,0,.1)}header:after{content:"";display:table;clear:both}table{margin:1em 0}table td,table th{padding-right:1em}pre,code{font-family:Consolas,Menlo,Monaco,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L","Courier New",Courier,monospace;line-height:1.5}pre{font-size:14px;line-height:1.375;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;-moz-tab-size:2;-o-tab-size:2;tab-size:2;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;background-color:#f6f6f6}.highlight-line{display:block;padding:.125em 1em;text-decoration:none;color:inherit}blockquote{margin:1rem 0;padding:2rem;background-color:rgba(255,255,255,.3);font-style:italic}.highlight-line:empty:before{content:" "}.highlight-line+br{display:none}.highlight-line-isdir{color:#b0b0b0;background-color:#222}.highlight-line-active{background-color:#444;background-color:rgba(69,69,69,.8)}.highlight-line-add{background-color:#45844b}.highlight-line-remove{background-color:#902f2f}header{margin-top:1rem;margin-bottom:3rem;padding:1rem}.header-rosette{float:left;height:2rem;margin-top:.1rem}.home{padding:0 1rem 0 .333rem;float:left;margin:0;font-size:1.666em}.home :link:not(:hover){text-decoration:none}.home a{color:var(--aubergine) !important}.nav{padding:0;list-style:none;float:left;margin-left:1em}.nav-item{display:inline-block;margin-right:1em}.nav-item a[href]:not(:hover){text-decoration:none}.nav-item-active{font-weight:700;text-decoration:underline}.postlist{list-style:none;padding:0}.postlist-item{counter-increment:start-from -1}.postlist-item:before{display:inline-block;pointer-events:none;content:"" counter(start-from, decimal-leading-zero) ". ";line-height:100%;text-align:right}.postlist-date,.postlist-item:before{font-size:.8125em;color:var(--darkgray)}.postlist-date{word-spacing:-0.5px}.postlist-link{display:inline-block;padding:.25em .1875em}.postlist-item-active .postlist-link{font-weight:bold}.tmpl-home .postlist-link{font-size:1.1875em;font-weight:700}.tmpl-post h1+h2::after{content:"";display:block;margin-top:2rem;width:100px;height:20px;border-radius:3px;background-color:var(--red)}.tag{display:inline-block;vertical-align:text-top;text-transform:uppercase;font-size:.625em;padding:2px 4px;margin-left:.8em;background-color:var(--red);color:var(--white);border-radius:.25em;text-decoration:none}a[href].tag,a[href].tag:visited{color:#fff}.warning{background-color:#ffc;padding:1em .625em}.warning ol:only-child{margin:0}.direct-link{font-family:sans-serif;text-decoration:none;font-style:normal;margin-left:.1em}a[href].direct-link,a[href].direct-link:visited{color:transparent}a[href].direct-link:focus,a[href].direct-link:focus:visited,:hover>a[href].direct-link,:hover>a[href].direct-link:visited{color:#aaa}.hero{display:flex;flex-direction:column;justify-content:center;align-items:center}.hero .headings{text-align:left}@media(min-width: 50em){.hero .headings{text-align:center}}.hero h1,.hero h2{display:inline;font-size:3rem;line-height:1.1;padding-right:1rem}@media(min-width: 50em){.hero h1,.hero h2{font-size:4rem}}.hero h2{font-weight:400}.hero h2:last-of-type{padding-right:0}.hero p{font-size:1.5rem;line-height:2.5rem;max-width:none;color:var(--aubergine)}.hero p strong{font-weight:700}.hero p:first-of-type{margin-top:3rem}.aspect-ratio-box{width:100%;padding-bottom:calc((100% / 16) * 9);overflow:hidden;height:0;position:relative;margin-top:3rem}.aspect-ratio-box iframe{position:absolute;top:0;left:0;width:100%;height:100%}.flash{margin-top:3rem;padding-top:3rem;padding-bottom:1rem;background-color:var(--blue);margin-left:-1em;padding-left:1em;margin-right:-1em;padding-right:1em}@media(min-width: 50em){.flash{margin-left:calc(-50vw + 25em - 1rem);padding-left:calc(50vw - 25em + 1rem);margin-right:calc(-50vw + 25em - 1rem);padding-right:calc(50vw - 25em + 1rem)}}.flash h1{color:#fff;opacity:1;margin-bottom:0}.flash p{margin-top:0}.flash #mce-EMAIL{width:100%}.flash #mce-EMAIL,.flash #mc-embedded-subscribe{border:0;font-size:1em;padding:.5em;font-family:"IBM Plex Sans",sans-serif;margin-bottom:1rem}.flash #mc-embedded-subscribe{background-color:var(--aubergine);color:#fff;padding:.5em 2em}footer{color:#fff;margin:3rem 0 0;text-align:right}/*# sourceMappingURL=styles.css.map */
+
+  </style>
+  <body>
+    <header>
+      <img class="header-rosette" src="/img/rosette.png">
+      <h1 class="home"><a href="/">Rizzle</a></h1>
+      <!--ul class="nav">
+        <li class="nav-item nav-item-active"><a href="/">Home</a></li>
+        <li class="nav-item"><a href="/blog/">Home</a></li>
+        <li class="nav-item"><a href="/posts/">Archive</a></li>
+        <li class="nav-item"><a href="/about/">About Me</a></li>
+      </ul-->
+    </header>
+
+    <main class="tmpl-home">
+
+      <div class="hero">
+  <div class="headings">
+    <h1>Rizzle.</h1>
+    <h2 class='logo2'>RSS, 2020 style.</h2>
+    <h2 class="logo1">An app for iPhone and iPad, now in beta.</h2>  
+  </div>
+  <div class="aspect-ratio-box">
+    <iframe src="https://player.vimeo.com/video/419898026" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+  <p><strong>Rizzle is a new approach to reading on the web, conceived from the ground up to help you find and read more about things you&nbsp;love. </strong>With AI-driven layouts, delightful interactions and powerful features, Rizzle focuses on the immersive pleasures of text and image.</p>
+</div>
+<div class="flash">
+  <h1 style="border-top: 0; margin: 0; padding: 0;">Join the beta</h1>
+  <p>Want to be the first person on your street to use Rizzle? Enter your email and we’ll add you to the beta testing program.</p>
+  <!-- Begin MailChimp Signup Form -->
+  <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    #mc_embed_signup{background:transparent; clear:left; font:1rem "IBM Plex Mono", monospace; width:100%;}
+    /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+       We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+  </style>
+  <div id="mc_embed_signup">
+    <form action="https://rizzle.us18.list-manage.com/subscribe/post?u=a8892686bce2a2a66d89d433f&amp;id=961c5a1a82" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <div id="mc_embed_signup_scroll">
+        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Your email here" required>
+        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a8892686bce2a2a66d89d433f_961c5a1a82" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+      </div>
+    </form>
+  </div>
+  <footer>Made in Berlin • &copy; 2020 Adam Butler</footer>
+</div>
+<!--h2>Features</h2>
+<ul>
+  <li>
+    <h1>Algorithmic art direction</h1>
+    <ul>
+      <li>AI driven layout engine</li>
+      <li>Icons and colours from the original site</li>
+      <li>Optimised for a gloriously immersive reading experience</li>
+    </ul>
+  </li>
+  <li>
+    <h1>Use exising RSS services such as Feedbin and Feedwrangler, or use the built in Rizzle service</h1>
+  </li>
+  <li>
+    <h1>Directory of available feeds</h1>
+  </li>
+  <li>
+    <h1>Discover feeds with the Rizzle share extension</h1>
+  </li>
+  <li>
+    <h1>Save external stories</h1>
+  </li>
+  <li>
+    <h1>Full text view</h1>
+  </li>
+  <li>
+    <h1>Beautiful typography</h1>
+  </li>
+  <li>
+    <h1>Remember reading position</h1>
+  </li>
+  <li>
+    <h1>Statistics</h1>
+  </li>
+</ul-->
+
+
+    </main>
+
+    <!--footer>
+      <p><em>This is an <a href="https://www.11ty.io/">Eleventy project</a> created from the <a href="https://github.com/11ty/eleventy-base-blog"><code>eleventy-base-blog</code> repo</a>.</em></p>
+    </footer-->
+
+    <!-- Current page: / -->
+  </body>
+</html>
