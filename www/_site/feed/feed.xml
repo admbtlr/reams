@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>Rizzle</title>
+	<subtitle>I am writing about my experiences as a naval navel-gazer.</subtitle>
+	
+	<link href="https://myurl.com/feed/feed.xml" rel="self"/>
+	<link href="https://myurl.com/"/>
+	<updated>2020-04-17T02:00:00+02:00</updated>
+	<id>https://myurl.com/</id>
+	<author>
+		<name>Your Name Here</name>
+		<email>youremailaddress@example.com</email>
+	</author>
+	
+	<entry>
+		<title>It’s a blog</title>
+		<link href="https://myurl.com/blog/thirdpost/"/>
+		<updated>2020-04-16T02:00:00+02:00</updated>
+		<id>https://myurl.com/blog/thirdpost/</id>
+		<content type="html">&lt;p&gt;I’ve always been meaning to start a blog. I keep thinking about how great it would be to keep track of the myriad of thoughts that swirl through my head like old plastic bags. And obviously I’ve always enjoyed following other peoples’ old plastic bags via RSS.&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Re. Library JSON, a Decentralised Goodreads</title>
+		<link href="https://myurl.com/blog/re_library_json/"/>
+		<updated>2020-04-17T02:00:00+02:00</updated>
+		<id>https://myurl.com/blog/re_library_json/</id>
+		<content type="html">&lt;p&gt;Tom Critchlow makes a &lt;a href=&quot;https://tomcritchlow.com/2020/04/15/library-json/&quot;&gt;proposal&lt;/a&gt; for a kind of indie web version of Goodreads, that would make it easy to publish lists of books in a unified and interoperable fashion.&lt;/p&gt;
+&lt;p&gt;(As Tom says,&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;at some point almost every side-project-slinger has tried their hand at building a “books website”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;so I should probably mention &lt;a href=&quot;https://github.com/adamvert/booxel&quot;&gt;Booxel&lt;/a&gt;, a ebookstore framework that I built in 2013 and failed to cajole a couple of indie publishers into using. It had some nifty features like format conversion, digital watermarking (“social DRM”) and automatic Kindle sideloading of purchased books. I had dreams of a loosely affiliated network of independent online ebookstores that provided frictionless enough UX to tempt people away from Amazon. But I digress.)&lt;/p&gt;
+&lt;p&gt;Tom proposes a “web of books” that uses something similar to RSS to describes books and libraries, and comes up with a simple JSON spec, which looks very workable.&lt;/p&gt;
+&lt;h2 id=&quot;a-universal-book-id-solution&quot;&gt;A Universal Book ID Solution &lt;a class=&quot;direct-link&quot; href=&quot;#a-universal-book-id-solution&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;He wonders about a “universal book ID solution”... at which point I immediately thought of &lt;a href=&quot;https://en.wikipedia.org/wiki/International_Standard_Book_Number&quot;&gt;ISBN numbers&lt;/a&gt;. But it turns out that ISBNs, while universally unique (well, &lt;a href=&quot;https://en.wikipedia.org/wiki/International_Standard_Book_Number#cite_note-1&quot;&gt;almost&lt;/a&gt;), are too granular: a particular ISBN only refer to a particular edition of a book: hardback, paperback, ebook editions can all have different ISBNs. And since ISBNs are assigned by publishers, a book published by two different publishers (as is often the case, since various publishers will own various geographical rights) will have at least two different ISBNs.&lt;/p&gt;
+&lt;p&gt;As an example, here is a selection of ISBNs assigned to editions of Tom McCarthy’s Satin Island:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Knopf (hardback): 978-0307593955&lt;/li&gt;
+&lt;li&gt;Jonathan Cape (hardback): 978-0224090193&lt;/li&gt;
+&lt;li&gt;Vintage Contemporaries (paperback): 978-0307739629&lt;/li&gt;
+&lt;li&gt;Vintage (paperback): 978-0099546993&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There’s already some web infrastructure around ISBNs – &lt;a href=&quot;https://isbnsearch.org/isbn/9780099546993&quot;&gt;isbnsearch.org&lt;/a&gt; and &lt;a href=&quot;https://www.worldcat.org/search?q=9780099546993&quot;&gt;WorldCat&lt;/a&gt; for example. Open Library has an API that lets you search by ISBN, but its selection is incomplete – it doesn’t have the Vintage edition of Satin Island, for example, although it does have the &lt;a href=&quot;http://openlibrary.org/search.json?q=9780307739629&quot;&gt;Vintage Contemporaries edition&lt;/a&gt;. Maybe it would be an acceptable kludge to just say that Open Library has the canonical ISBNs for each book and use the one that they list as the universal identifier?&lt;/p&gt;
+&lt;h2 id=&quot;rss&quot;&gt;RSS &lt;a class=&quot;direct-link&quot; href=&quot;#rss&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Matt Webb &lt;a href=&quot;http://interconnected.org/home/2020/04/16/rss_for_books&quot;&gt;suggests&lt;/a&gt; using actually existing RSS, instead of “something similar to it”. This is a very pragmatic idea, since it uses what’s already there – he points to podcasts, which use RSS plus custom tags. But there are two problems with this, that I can see:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RSS is horrible to use. My approach to RSS is to use someone else’s library to convert it to JSON and then start working with that. So skipping the “someone else’s library” step makes a lot of sense to me. This is a specific form of a more generalised dilemma that often crops up in system design: do you (a) use what’s already there – even if it’s kind of crappy by today’s standards – just because &lt;em&gt;it’s already there&lt;/em&gt;, or do you (b) invent something less crappy? (a) is analogous to the old dictum that “the best camera is the one that’s in your pocket”. (b) is more idealistic, more noble, and probably more naïve; imagining myself to be all those things, I usually tend towards (b). (a) is usually the right choice. In this case, though, I genuinely think that (b) is better because...&lt;/li&gt;
+&lt;li&gt;RSS is more dynamic and less structured than I think that a “web of books” would ideally be. I can imagine that some of the social media type indieweb innovations (&lt;a href=&quot;https://indieweb.org/webmention.io&quot;&gt;webmentions&lt;/a&gt;, &lt;a href=&quot;https://web.hypothes.is/&quot;&gt;highlights&lt;/a&gt;, &lt;a href=&quot;https://www.w3.org/TR/activitystreams-core/&quot;&gt;activity streams&lt;/a&gt;) would make for particularly fruitful integrations. Along similar lines, I definitely like @ravernkoh’s &lt;a href=&quot;https://twitter.com/ravernkoh/status/1250654173701369856&quot;&gt;idea&lt;/a&gt; of adding a ”following” section to a library as a seed for building webs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I’m looking forward to seeing how this progresses, and I’m already wondering how it would make sense to integrate book libraries into Rizzle.&lt;/p&gt;
+</content>
+	</entry>
+</feed>

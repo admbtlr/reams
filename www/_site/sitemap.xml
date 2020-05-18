@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://myurl.com/blog/thirdpost/</loc>
+    <lastmod>2020-04-16</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/blog/re_library_json/</loc>
+    <lastmod>2020-04-17</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/about/</loc>
+    <lastmod>2020-04-17</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/posts/</loc>
+    <lastmod>2020-04-17</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/</loc>
+    <lastmod>2020-04-17</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/page-list/</loc>
+    <lastmod>2020-04-17</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/tags/</loc>
+    <lastmod>2020-04-17</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/tags/books/</loc>
+    <lastmod>2020-04-17</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/blog/</loc>
+    <lastmod>2020-04-29</lastmod>
+  </url>
+</urlset>
