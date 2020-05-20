@@ -73,7 +73,11 @@ export function fixRelativePaths (item) {
   const matches = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)
   if (!matches) return item
   const host = matches[0]
-  const derelativise = s => s.replace(/src="\//g, `src="${host}/`)
+  const derelativise = s => {
+    s = s.replace(/src="\/\//g, 'src="https://')
+    s = s.replace(/src="\//g, `src="${host}/`)
+    return s
+  }
   if (item.content_html) item.content_html = derelativise(item.content_html)
   if (item.content_mercury) item.content_mercury = derelativise(item.content_mercury)
   if (item.body) item.body = derelativise(item.body)
