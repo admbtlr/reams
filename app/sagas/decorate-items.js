@@ -172,6 +172,9 @@ export function * decorateItem (item) {
       ...items[0],
       feed_color: item.feed_color || items[0].feed_color
     }
+  } else {
+    // this item is not in AS... how is that possible? in any case, bail on it
+    return
   }
   consoleLog(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield call(loadMercuryStuff, item)
