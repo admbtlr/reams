@@ -1,7 +1,9 @@
 # To Do
 
+- adding [feed](https://www.project-syndicate.org/) via 
 - make Feedwrangler work fully
 - edit new feeds list, Politics section
+  - add https://www.project-syndicate.org/about
 - deal with feed.number_unread problems
 - upgrade to react native 62
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
