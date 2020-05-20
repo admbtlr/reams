@@ -13,7 +13,8 @@ const mapStateToProps = (state, ownProps) => {
   const feed = item && state.feeds.feeds.find(f => f._id === item.feed_id)
   const feed_color = feed &&
     state.feeds.feeds.find(f => f._id === item.feed_id).color
-  const showMercuryContent = item.showMercuryContent ||
+  const showMercuryContent = item.showMercuryContent !== undefined ? 
+    item.showMercuryContent :
     feed && feed.isMercury
   return {
     item: {
