@@ -5,11 +5,12 @@ import {
   Dimensions,
   Easing,
   Image,
+  Text
 } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 
 import { hslString } from '../utils/colors'
-import { isFirstLaunch } from '../utils'
+import { isFirstLaunch, fontSizeMultiplier } from '../utils'
 
 export default function Splash () {
   const { height, width } = Dimensions.get('window')
@@ -112,20 +113,20 @@ export default function Splash () {
       <Animated.View style={{
         position: 'absolute',
         bottom: -height * 0.25,
-        left: width * 0.333,
+        // left: width * 0.333,
         zIndex: 10,
         transform: [{
           translateY: rizzleAnim
         }]
       }}>
-        <Image
-          resizeMode='contain'
-          source={require('../assets/images/wordmark.png')}
+        <Text
           style={{
-            flex: 1,
-            width: width * 0.333
+            fontFamily: 'PTSerif-Bold',
+            color: hslString('logo3'),
+            fontSize: 40 * fontSizeMultiplier(),
+            textAlign: 'center'
           }}
-        />
+        >Reams</Text>
       </Animated.View>
     </Animated.View>
 }
