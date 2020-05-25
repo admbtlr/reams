@@ -662,13 +662,13 @@ hr {
 .bodyFontSerif1 {
   font-family: "LibreBaskerville-Regular", serif;
   font-size: calc(1rem / 1.8); }
-  .bodyFontSerif1 em {
+  .bodyFontSerif1 em, .bodyFontSerif1 i {
     font-family: "LibreBaskerville-Italic";
     font-style: normal; }
-  .bodyFontSerif1 strong {
+  .bodyFontSerif1 strong, .bodyFontSerif1 b {
     font-family: "LibreBaskerville-Bold";
     font-weight: normal; }
-  .bodyFontSerif1 strong em, .bodyFontSerif1 em strong {
+  .bodyFontSerif1 strong em, .bodyFontSerif1 em strong, .bodyFontSerif1 b i, .bodyFontSerif1 i b {
     font-family: "LibreBaskerville-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }
@@ -680,13 +680,13 @@ hr {
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
   font-size: calc(1rem / 1.6); }
-  .bodyFontSans1 em {
+  .bodyFontSans1 em, .bodyFontSans1 i {
     font-family: "IBMPlexSans-Italic", sans-serif;
     font-style: normal; }
-  .bodyFontSans1 strong {
+  .bodyFontSans1 strong, .bodyFontSans1 b {
     font-family: "IBMPlexSans-Bold", sans-serif;
     font-weight: normal; }
-  .bodyFontSans1 strong em, .bodyFontSans1 em strong {
+  .bodyFontSans1 strong em, .bodyFontSans1 em strong, .bodyFontSans1 b i, .bodyFontSans1 i b {
     font-family: "IBMPlexSans-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }
@@ -697,13 +697,13 @@ hr {
 
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif; }
-  .bodyFontSerif2 em {
+  .bodyFontSerif2 em, .bodyFontSerif2 i {
     font-family: "IowanOldStyle-Italic", sans-serif;
     font-style: normal; }
-  .bodyFontSerif2 strong {
+  .bodyFontSerif2 strong, .bodyFontSerif2 b {
     font-family: "IowanOldStyle-Bold", sans-serif;
     font-weight: normal; }
-  .bodyFontSerif2 strong em, .bodyFontSerif2 em strong {
+  .bodyFontSerif2 strong em, .bodyFontSerif2 em strong, .bodyFontSerif2 b i, .bodyFontSerif2 i b {
     font-family: "IowanOldStyle-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }
@@ -714,13 +714,13 @@ hr {
 
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif; }
-  .bodyFontSans2 em {
+  .bodyFontSans2 em, .bodyFontSans2 i {
     font-family: "AvenirNext-Italic", sans-serif;
     font-style: normal; }
-  .bodyFontSans2 strong {
+  .bodyFontSans2 strong, .bodyFontSans2 b {
     font-family: "AvenirNext-Bold", sans-serif;
     font-weight: normal; }
-  .bodyFontSans2 strong em, .bodyFontSans2 em strong {
+  .bodyFontSans2 strong em, .bodyFontSans2 em strong, .bodyFontSans2 b i, .bodyFontSans2 i b {
     font-family: "AvenirNext-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }
@@ -732,13 +732,13 @@ hr {
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif", serif;
   font-size: calc(1rem / 1.7); }
-  .bodyFontSerif3 em {
+  .bodyFontSerif3 em, .bodyFontSerif3 i {
     font-family: "IBMPlexSerif-Italic", sans-serif;
     font-style: normal; }
-  .bodyFontSerif3 strong {
+  .bodyFontSerif3 strong, .bodyFontSerif3 b {
     font-family: "IBMPlexSerif-Bold", sans-serif;
     font-weight: normal; }
-  .bodyFontSerif3 strong em, .bodyFontSerif3 em strong {
+  .bodyFontSerif3 strong em, .bodyFontSerif3 em strong, .bodyFontSerif3 b i, .bodyFontSerif3 i b {
     font-family: "IBMPlexSerif-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal; }

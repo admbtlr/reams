@@ -768,17 +768,17 @@ hr {
   font-family: "LibreBaskerville-Regular", serif;
   font-size: calc(1rem / 1.8);
 
-  em {
+  em, i {
     font-family: "LibreBaskerville-Italic";
     font-style: normal;
   }
 
-  strong {
+  strong, b {
     font-family: "LibreBaskerville-Bold";
     font-weight: normal;
   }
 
-  strong em, em strong {
+  strong em, em strong, b i, i b {
     font-family: "LibreBaskerville-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -791,17 +791,17 @@ hr {
   font-family: "IBMPlexSans", sans-serif;
   font-size: calc(1rem / 1.6);
 
-  em {
+  em, i {
     font-family: "IBMPlexSans-Italic", sans-serif;
     font-style: normal;
   }
 
-  strong {
+  strong, b {
     font-family: "IBMPlexSans-Bold", sans-serif;
     font-weight: normal;
   }
 
-  strong em, em strong {
+  strong em, em strong, b i, i b {
     font-family: "IBMPlexSans-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -813,17 +813,17 @@ hr {
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif;
 
-  em {
+  em, i {
     font-family: "IowanOldStyle-Italic", sans-serif;
     font-style: normal;
   }
 
-  strong {
+  strong, b {
     font-family: "IowanOldStyle-Bold", sans-serif;
     font-weight: normal;
   }
 
-  strong em, em strong {
+  strong em, em strong, b i, i b {
     font-family: "IowanOldStyle-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -835,17 +835,17 @@ hr {
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif;
 
-  em {
+  em, i {
     font-family: "AvenirNext-Italic", sans-serif;
     font-style: normal;
   }
 
-  strong {
+  strong, b {
     font-family: "AvenirNext-Bold", sans-serif;
     font-weight: normal;
   }
 
-  strong em, em strong {
+  strong em, em strong, b i, i b {
     font-family: "AvenirNext-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -858,17 +858,17 @@ hr {
   font-family: "IBMPlexSerif", serif;
   font-size: calc(1rem / 1.7);
 
-  em {
+  em, i {
     font-family: "IBMPlexSerif-Italic", sans-serif;
     font-style: normal;
   }
 
-  strong {
+  strong, b {
     font-family: "IBMPlexSerif-Bold", sans-serif;
     font-weight: normal;
   }
 
-  strong em, em strong {
+  strong em, em strong, b i, i b {
     font-family: "IBMPlexSerif-BoldItalic", sans-serif;
     font-style: normal;
     font-weight: normal;
