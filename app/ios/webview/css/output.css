@@ -650,9 +650,9 @@ hr {
 .itemArticle.dropCapSize7 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.6rem; }
 
-.itemArticle.dropCapIsBold > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapIsBold > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapIsBold > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
+.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-weight: 700; }
 
 .single-char-para {

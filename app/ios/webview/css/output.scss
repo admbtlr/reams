@@ -934,7 +934,9 @@ hr {
     @include dropCapMarginTop(0.6rem);
   }
 
-  &.dropCapIsBold {
+  // this :not(.dropCapIsStroke) is to avoid a Safari bug 
+  // where the outline gets doubled
+  &.dropCapIsBold:not(.dropCapIsStroke) {
     &,
       & > div:first-of-type,
       & > div:first-of-type > div:first-of-type {
