@@ -417,7 +417,7 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {styles, showCoverImage, coverImageStyles} = this.props
+    let {scrollOffset, styles, showCoverImage, coverImageStyles} = this.props
 
     // this means the item hasn't been inflated from Firebase yet
     if (!styles) return null
@@ -552,6 +552,14 @@ class ItemTitle extends React.Component {
       borderColor: color,
     }
     innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation)
+    if (!showCoverImage || !coverImageStyles.isInline) {
+      innerViewStyle.transform.push({
+        translateY: scrollOffset.interpolate({
+          inputRange: [-1, 0, 1],
+          outputRange: [-0.75, 0, 0]
+        })
+      })  
+    }
     const overlayColour = this.getOverlayColor()
     const outerViewStyle = {
       width: this.screenWidth,
@@ -808,7 +816,7 @@ class ItemTitle extends React.Component {
   // barView gets passed in here because we need to include it in the excerptView
   // when using an coverImage with contain, for the flex layout
   renderExcerpt (innerViewStyle, fontStyle, shadowStyle, barView, anim) {
-    const { coverImageStyles, excerpt, showCoverImage, item, styles } = this.props
+    const { coverImageStyles, excerpt, scrollOffset, showCoverImage, styles } = this.props
     let excerptShadowStyle
     let excerptColor = this.getExcerptColor()
 
@@ -875,6 +883,15 @@ class ItemTitle extends React.Component {
     }
     style = this.props.addAnimation(style, anim)
 
+    if (!coverImageStyles.isInline) {
+      style.transform.push({
+        translateY: scrollOffset.interpolate({
+          inputRange: [-1, 0, 1],
+          outputRange: [-0.5, 0, 0]
+        })
+      })  
+    }
+
     const borderBar = <Animated.View style={{
       width: this.screenWidth * 0.666,
       height: 1,
@@ -919,7 +936,7 @@ class ItemTitle extends React.Component {
   }
 
   renderAuthor (anim) {
-    const { coverImageStyles, date, item, showCoverImage, styles } = this.props
+    const { coverImageStyles, date, item, scrollOffset, showCoverImage, styles } = this.props
     let authorStyle = {
       color: showCoverImage && !coverImageStyles.isInline ?
           'white' :
@@ -939,6 +956,14 @@ class ItemTitle extends React.Component {
       width: this.screenWidth
     }
     authorStyle = this.props.addAnimation(authorStyle, anim)
+    if (!coverImageStyles.isInline) {
+      authorStyle.transform.push({
+        translateY: scrollOffset.interpolate({
+          inputRange: [-1, 0, 1],
+          outputRange: [-0.25, 0, 0]
+        })
+      })  
+    }
     if (item.author) {
       return (
         <Animated.Text
@@ -952,7 +977,7 @@ class ItemTitle extends React.Component {
   }
 
   renderDate (anim) {
-    const { coverImageStyles, date, item, showCoverImage, styles } = this.props
+    const { coverImageStyles, date, scrollOffset, showCoverImage, styles } = this.props
     let dateStyle = {
       color: showCoverImage &&
         !coverImageStyles.isInline/* &&
@@ -985,6 +1010,14 @@ class ItemTitle extends React.Component {
     //   dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
     // }
     dateStyle = this.props.addAnimation(dateStyle, anim)
+    if (!coverImageStyles.isInline) {
+      dateStyle.transform.push({
+        translateY: scrollOffset.interpolate({
+          inputRange: [-1, 0, 1],
+          outputRange: [-0.25, 0, 0]
+        })
+      })  
+    }
 
     // TODO this is feedwrangler... fix it
     const theDate = (typeof date === 'number') ? date : date
