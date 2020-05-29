@@ -193,7 +193,7 @@ export default function NewFeedsList (props) {
             ...textStyles(),
             ...boldStyles,
             marginBottom: 32
-          }}>1. Use the Rizzle Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Rizzle icon.</Text>
+          }}>1. Use the Reams Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Reams icon.</Text>
           <Text style={{
             ...textStyles(),
             ...boldStyles,

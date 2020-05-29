@@ -16,6 +16,7 @@ import {STATUS_BAR_HEIGHT} from './TopBar'
 import { hslString } from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
 import { fontSizeMultiplier } from '../utils'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 const navigationOptions = {
   gesturesEnabled: false
@@ -139,7 +140,8 @@ const Main = () => (
       component={AccountScreenContainer}
       options={{
         title: 'Your Account',
-        headerStyleInterpolator: HeaderStyleInterpolators.forUIKit
+        headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
+        headerBackImage: getRizzleButtonIcon('account'),
       }} />
     <MainStack.Screen
       name='Feeds'

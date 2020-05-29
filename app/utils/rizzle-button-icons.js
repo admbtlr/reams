@@ -161,6 +161,21 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path stroke={borderColor} d='M4,25 L14,25' strokeLinecap='square' />
       </Svg>
 
+    case 'account':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke={borderColor}
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'>
+        <Path d='M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3'/>
+        <Circle cx='12' cy='10' r='3'/>
+        <Circle cx='12' cy='12' r='10'/>
+      </Svg>
+
     case 'feedbin':
       return <Svg
         height={ 26 *  fontSizeMultiplier()}
@@ -200,47 +215,66 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path transform='translate(-1, 0)' d='M15.4670718,3.31922035 L30.365307,29.1237209 C30.7795206,29.8411598 30.5337079,30.7585454 29.8162689,31.172759 L25.1937311,33.8415825 C24.4762921,34.255796 23.5589065,34.0099833 23.144693,33.2925444 L8.24645763,7.48804388 C7.83224406,6.77060495 8.07805679,5.85321933 8.79549574,5.43900578 L13.4180337,2.77018224 C14.1354727,2.35596868 15.0528583,2.60178142 15.4670718,3.31922035 Z' />
       </Svg>
 
+    case 'reams':
+      return <Svg 
+        width={fontScale(28)}
+        height={fontScale(21)}
+        viewBox='0 0 86 62'
+        style={{
+          top: 3
+        }}>
+        <G stroke='none' strokeWidth='1' fill='none' fill-rule='evenodd'>
+              <G transform='translate(0, -18)'>
+                <Path d='M51.7684022,18.2939028 L85.0581178,31.0727549 C86.2802996,31.5611922 86.3471768,33.396598 85.0581178,34.0559741 L38.5512823,55.4411725 C37.2028121,56.0037476 35.1177522,56.0534077 33.8967237,55.5561561 L0.770060627,42.550983 C-0.414524331,42.1048732 -0.191043463,40.4637918 1.1562602,39.9051095 L47.2911351,18.6878639 C48.5803325,18.0347765 50.5837037,17.8566457 51.7684022,18.2939028 Z' fill={backgroundColor} />
+                <Path d='M17.4077967,42.8900122 C18.0659162,43.324396 18.6761466,43.7492468 19.2384363,44.164475 C19.8011218,44.5803062 20.2924777,45.0123849 20.7124556,45.4606358 L18.8741305,46.263448 L4,40.4455001 L5.83798443,39.6451802 C7.08565925,39.7790823 8.19061231,39.9450951 9.15288214,40.1432814 C10.1155167,40.3419509 11.0574083,40.5503655 11.9785936,40.7685508 L49.0021119,23.4318088 C48.2291004,22.9534917 47.6002849,22.5040235 47.1154227,22.0830686 C46.6309054,21.6626362 46.2320531,21.266261 45.9187393,20.8937625 L47.7011824,20 L52.6618581,21.8992705 C54.1685427,22.4796877 55.9001829,23.0758497 57.8573129,23.6884049 C59.816697,24.3040856 61.6491122,24.945761 63.3544592,25.6132877 C65.2137318,26.3434738 66.7267317,27.1422259 67.8929329,28.0088636 C69.0608179,28.8780402 69.7446462,29.7965687 69.9436046,30.7628612 C70.1422466,31.7296536 69.8162287,32.7265068 68.9639879,33.7514501 C68.1102521,34.7741147 66.610785,35.8113632 64.4640114,36.8605494 C61.4443258,38.3235742 58.2000162,39.2302476 54.7351259,39.5866758 C51.2688396,39.9396853 47.8395156,39.8160242 44.4510184,39.2219643 C43.2506203,41.194492 42.1433156,43.1816717 41.1294731,45.1842148 C40.1120493,47.1812813 39.1886698,49.1945327 38.3597274,51.2247136 L39.6305478,53.305435 L38.0451155,54 L31.0912634,51.1628927 L30.6895609,49.5052496 C31.0990228,48.4244134 31.57135,47.3946902 32.1064676,46.4158912 C32.6406749,45.4356764 33.2520447,44.4674267 33.9404356,43.5108456 C34.6277017,42.5524954 35.3822644,41.6017216 36.20401,40.6582663 C37.0244467,39.7127395 37.9280266,38.7179252 38.9144627,37.6732909 L33.5775449,35.5756578 L17.4077967,42.8900122 Z M58.798629,27.3720875 C57.8859055,27.0111711 57.1146592,26.7252111 56.4846099,26.513825 C55.854803,26.3027811 55.2314791,26.1315403 54.6145576,26 L36,35.1060142 L40.1030153,36.7331004 C42.7305552,37.7815594 45.7380475,38.1811455 49.121386,37.9248196 C52.5039419,37.6660777 55.6926245,36.8086433 58.6830602,35.3457895 C61.7495098,33.8304694 63.1805577,32.3757988 62.9818267,30.9911796 C62.7833598,29.6071593 61.3878618,28.3992611 58.798629,27.3720875 Z' fill={borderColor} />
+                <Path d='M1.03614458,48.1916296 C21.830632,57.5008122 33.5311325,62.1554036 36.1376459,62.1554036 C38.7441594,62.1554036 55.0195625,54.8642955 84.9638554,40.2820793' stroke={backgroundColor} strokeWidth='4' strokeLinecap='round' />
+                <Path d='M1.03614458,56.5317117 C21.9597019,65.8408943 33.7247373,70.4954856 36.3312508,70.4954856 C38.9377642,70.4954856 55.1486324,63.2043776 84.9638554,48.6221614' stroke={backgroundColor} strokeWidth='4' strokeLinecap='round' />
+                <Path d='M1.03614458,64.1774025 C21.9597019,73.4865852 33.7247373,78.1411765 36.3312508,78.1411765 C38.9377642,78.1411765 55.1486324,70.8500684 84.9638554,56.2678523' stroke={backgroundColor} strokeWidth='4' strokeLinecap='round' />
+              </G>
+        </G>
+      </Svg>
+
     case 'saved':
-      return <Svg width="32px" height="32px" viewBox="0 0 32 32">
-        <G strokeWidth="1"  stroke='none' fill="none" fillRule="evenodd">
-          <G transform="translate(-1.000000, -3.000000)">
-            <G transform="translate(1.000000, 3.000000)">
-              <Path fill={borderColor} opacity={0.9} d="M2,6 L2,27 C2,28.65 3.4,30 5.11111111,30 L26.8888889,30 C28.6071081,30 30,28.6568542 30,27 L30,6 M0,5 C0,5.00566956 0,4.33900289 0,3 C0,0.991495663 0.444444444,4.4408921e-15 3,4.4408921e-15 L29,4.4408921e-15 C31.5555556,4.4408921e-15 32,1 32,3 L32,5" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-              <Rect stroke={backgroundColor} fill={borderColor} transform="translate(16.000000, 17.500000) rotate(120.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
-              <Rect stroke={backgroundColor} fill={borderColor} x="7.5" y="15.5" width="17" height="4" />
-              <Rect stroke={backgroundColor} fill={borderColor} transform="translate(16.000000, 17.500000) rotate(60.000000) translate(-16.000000, -17.500000) " x="7.5" y="15.5" width="17" height="4" />
+      return <Svg width='32px' height='32px' viewBox='0 0 32 32'>
+        <G strokeWidth='1'  stroke='none' fill='none' fillRule='evenodd'>
+          <G transform='translate(-1.000000, -3.000000)'>
+            <G transform='translate(1.000000, 3.000000)'>
+              <Path fill={borderColor} opacity={0.9} d='M2,6 L2,27 C2,28.65 3.4,30 5.11111111,30 L26.8888889,30 C28.6071081,30 30,28.6568542 30,27 L30,6 M0,5 C0,5.00566956 0,4.33900289 0,3 C0,0.991495663 0.444444444,4.4408921e-15 3,4.4408921e-15 L29,4.4408921e-15 C31.5555556,4.4408921e-15 32,1 32,3 L32,5' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round' />
+              <Rect stroke={backgroundColor} fill={borderColor} transform='translate(16.000000, 17.500000) rotate(120.000000) translate(-16.000000, -17.500000) ' x='7.5' y='15.5' width='17' height='4' />
+              <Rect stroke={backgroundColor} fill={borderColor} x='7.5' y='15.5' width='17' height='4' />
+              <Rect stroke={backgroundColor} fill={borderColor} transform='translate(16.000000, 17.500000) rotate(60.000000) translate(-16.000000, -17.500000) ' x='7.5' y='15.5' width='17' height='4' />
             </G>
           </G>
         </G>
       </Svg>
 
     case 'unread':
-      return <Svg width="30px" height="26px" viewBox="0 0 30 26">
-        <G stroke="none" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <G transform="translate(-2.000000, -8.000000)" strokeWidth="2">
-            <G transform="translate(3.000000, 3.000000)">
-              <Path stroke={borderColor} strokeWidth="3" d="M0,22 L0,27 C0,28.65 1.4,30 3.11111111,30 L24.8888889,30 C26.6071081,30 28,28.6568542 28,27 L28,22" />
-              <Path strokeOpacity="0.7" stroke={borderColor} strokeWidth="1" d="M3,24 L25,24 M3,27 L25,27 M3,18 L25,18 M3,21 L25,21 M3,12 L25,12 M3,15 L25,15 M3,6 L25,6 M3,9 L25,9" />
+      return <Svg width='30px' height='26px' viewBox='0 0 30 26'>
+        <G stroke='none' strokeWidth='1' fill='none' strokeLinecap='round' strokeLinejoin='round'>
+          <G transform='translate(-2.000000, -8.000000)' strokeWidth='2'>
+            <G transform='translate(3.000000, 3.000000)'>
+              <Path stroke={borderColor} strokeWidth='3' d='M0,22 L0,27 C0,28.65 1.4,30 3.11111111,30 L24.8888889,30 C26.6071081,30 28,28.6568542 28,27 L28,22' />
+              <Path strokeOpacity='0.7' stroke={borderColor} strokeWidth='1' d='M3,24 L25,24 M3,27 L25,27 M3,18 L25,18 M3,21 L25,21 M3,12 L25,12 M3,15 L25,15 M3,6 L25,6 M3,9 L25,9' />
             </G>
           </G>
         </G>
       </Svg>
 
     case 'rss':
-      return <Svg width="32" height="32" viewBox="0 0 24 24" fill='none' stroke={borderColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <Path d="M4 11a9 9 0 0 1 9 9" />
-        <Path d="M4 4a16 16 0 0 1 16 16" />
-        <Circle cx="5" cy="19" r="1" />
+      return <Svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke={borderColor} strokeWidth='3' strokeLinecap='round' strokeLinejoin='round'>
+        <Path d='M4 11a9 9 0 0 1 9 9' />
+        <Path d='M4 4a16 16 0 0 1 16 16' />
+        <Circle cx='5' cy='19' r='1' />
       </Svg>
 
     case'back':
-      return <Svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={borderColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <Path d="M15 18l-6-6 6-6"/>
+      return <Svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke={borderColor} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+        <Path d='M15 18l-6-6 6-6'/>
       </Svg>
 
     case 'forward':
-      return <Svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={borderColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <Path d="M9 18l6-6-6-6"/>
+      return <Svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke={borderColor} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+        <Path d='M9 18l6-6-6-6'/>
       </Svg>
 }
 }
