@@ -9,11 +9,11 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 # pod 'Firebase/Firestore', '~> 5.20.1'
 # pod 'GoogleSignIn', '~> 4.4.0'
 
-target 'rizzle' do
+target 'Reams' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
-  # Pods for rizzle
+  # Pods for Reams
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -51,7 +51,7 @@ target 'rizzle' do
   use_native_modules!
 
   # https://github.com/alinz/react-native-share-extension/issues/182
-  target 'RizzleShare' do
+  target 'ReamsShare' do
     use_native_modules!
     inherit! :complete
   end

@@ -43,7 +43,7 @@ const initialState = {
   isOnline: false,
   itemSort: Direction.forwards,
   showNumUnread: true,
-  isItemsOnboardingDone: false,
+  isItemsOnboardingDone: true,
   isFeedOnboardingDone: false
 }
 

@@ -51,11 +51,11 @@
 		66A92E2923D88B12000E6D96 /* wordmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2323D88B12000E6D96 /* wordmark.png */; };
 		66A92E2A23D88B12000E6D96 /* wordmark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2423D88B12000E6D96 /* wordmark@3x.png */; };
 		66A92E2B23D88B12000E6D96 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2523D88B12000E6D96 /* splash@2x.png */; };
-		66A92E2C23D88B12000E6D96 /* rosette.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2623D88B12000E6D96 /* rosette.png */; };
+		66A92E2C23D88B12000E6D96 /* ream.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2623D88B12000E6D96 /* ream.png */; };
 		66A92E2D23D88B12000E6D96 /* rosette@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2723D88B12000E6D96 /* rosette@3x.png */; };
 		66A92E5123DAEAC8000E6D96 /* Paratype PT Sans Free Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */; };
 		66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */; };
-		66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		66ACB1221FD9705E002BC66F /* Reams.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* Reams.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		66ACB1271FD97094002BC66F /* RizzleShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ACB1261FD97094002BC66F /* RizzleShare.m */; };
 		66BE7B63233E3C3C00183A41 /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */; };
 		66BE7B64233E3C3C00183A41 /* IBMPlexMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */; };
@@ -130,7 +130,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				66ACB1221FD9705E002BC66F /* RizzleShare.appex in Embed App Extensions */,
+				66ACB1221FD9705E002BC66F /* Reams.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,7 +148,7 @@
 		0F6EEEC401334B5AAECD02EF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		10CE094C597650E49050F153 /* Pods-rizzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rizzle.release.xcconfig"; path = "Pods/Target Support Files/Pods-rizzle/Pods-rizzle.release.xcconfig"; sourceTree = "<group>"; };
 		11CD500228D549F8B770CE5F /* libRNTextSize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextSize.a; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* rizzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rizzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Reams.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reams.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = rizzle/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = rizzle/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -197,10 +197,10 @@
 		66A92E2323D88B12000E6D96 /* wordmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wordmark.png; path = ../assets/images/wordmark.png; sourceTree = "<group>"; };
 		66A92E2423D88B12000E6D96 /* wordmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@3x.png"; path = "../assets/images/wordmark@3x.png"; sourceTree = "<group>"; };
 		66A92E2523D88B12000E6D96 /* splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash@2x.png"; path = "../assets/images/splash@2x.png"; sourceTree = "<group>"; };
-		66A92E2623D88B12000E6D96 /* rosette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rosette.png; path = ../assets/images/rosette.png; sourceTree = "<group>"; };
+		66A92E2623D88B12000E6D96 /* ream.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ream.png; path = ../assets/images/ream.png; sourceTree = "<group>"; };
 		66A92E2723D88B12000E6D96 /* rosette@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rosette@3x.png"; path = "../assets/images/rosette@3x.png"; sourceTree = "<group>"; };
 		66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Paratype PT Sans Free Font License.txt"; path = "../assets/fonts/Paratype PT Sans Free Font License.txt"; sourceTree = "<group>"; };
-		66ACB1171FD9705E002BC66F /* RizzleShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RizzleShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		66ACB1171FD9705E002BC66F /* Reams.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Reams.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		66ACB11D1FD9705E002BC66F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		66ACB11F1FD9705E002BC66F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66ACB1261FD97094002BC66F /* RizzleShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RizzleShare.m; sourceTree = "<group>"; };
@@ -282,7 +282,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* rizzle */ = {
+		13B07FAE1A68108700A75B9A /* Reams */ = {
 			isa = PBXGroup;
 			children = (
 				66737812204314A900572989 /* rizzle.entitlements */,
@@ -295,14 +295,14 @@
 				664B4B271FAB59A9006C6DF9 /* webview */,
 				668CE9EC2158BE6A00CA3EDF /* icons.xcassets */,
 			);
-			name = rizzle;
+			name = Reams;
 			sourceTree = "<group>";
 		};
 		2C43049EDC2C47639C4475E6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				66A92E4A23DAEAC7000E6D96 /* Paratype PT Sans Free Font License.txt */,
-				66A92E2623D88B12000E6D96 /* rosette.png */,
+				66A92E2623D88B12000E6D96 /* ream.png */,
 				66A92E2523D88B12000E6D96 /* splash@2x.png */,
 				66A92E2723D88B12000E6D96 /* rosette@3x.png */,
 				66A92E2323D88B12000E6D96 /* wordmark.png */,
@@ -456,7 +456,7 @@
 				668CE8D32153992F00CA3EDF /* PlayfairDisplay-BoldItalic.otf */,
 				668CE8CE2153991100CA3EDF /* PlayfairDisplaySC-Bold.ttf */,
 				668CE8CF2153991100CA3EDF /* PlayfairDisplaySC-BoldItalic.ttf */,
-				13B07FAE1A68108700A75B9A /* rizzle */,
+				13B07FAE1A68108700A75B9A /* Reams */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				66ACB1181FD9705E002BC66F /* RizzleShare */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -473,8 +473,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* rizzle.app */,
-				66ACB1171FD9705E002BC66F /* RizzleShare.appex */,
+				13B07F961A680F5B00A75B9A /* Reams.app */,
+				66ACB1171FD9705E002BC66F /* Reams.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -493,9 +493,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* rizzle */ = {
+		13B07F861A680F5B00A75B9A /* Reams */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "rizzle" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Reams" */;
 			buildPhases = (
 				F82496E2F766D097FF902995 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -514,14 +514,14 @@
 			dependencies = (
 				66ACB1211FD9705E002BC66F /* PBXTargetDependency */,
 			);
-			name = rizzle;
+			name = Reams;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* rizzle.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Reams.app */;
 			productType = "com.apple.product-type.application";
 		};
-		66ACB1161FD9705E002BC66F /* RizzleShare */ = {
+		66ACB1161FD9705E002BC66F /* ReamsShare */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "RizzleShare" */;
+			buildConfigurationList = 66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "ReamsShare" */;
 			buildPhases = (
 				804C4851453E18A160C0ED37 /* [CP] Check Pods Manifest.lock */,
 				66ACB1131FD9705E002BC66F /* Sources */,
@@ -534,9 +534,9 @@
 			);
 			dependencies = (
 			);
-			name = RizzleShare;
+			name = ReamsShare;
 			productName = RizzleShare;
-			productReference = 66ACB1171FD9705E002BC66F /* RizzleShare.appex */;
+			productReference = 66ACB1171FD9705E002BC66F /* Reams.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -575,7 +575,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "rizzle" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Reams" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -599,8 +599,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* rizzle */,
-				66ACB1161FD9705E002BC66F /* RizzleShare */,
+				13B07F861A680F5B00A75B9A /* Reams */,
+				66ACB1161FD9705E002BC66F /* ReamsShare */,
 			);
 		};
 /* End PBXProject section */
@@ -635,7 +635,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66A92E5123DAEAC8000E6D96 /* Paratype PT Sans Free Font License.txt in Resources */,
-				66A92E2C23D88B12000E6D96 /* rosette.png in Resources */,
+				66A92E2C23D88B12000E6D96 /* ream.png in Resources */,
 				664BDD0523C74231007D6D3F /* IBMPlexSansCondensed-Light.ttf in Resources */,
 				664B4B281FAB59A9006C6DF9 /* webview in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
@@ -919,7 +919,7 @@
 /* Begin PBXTargetDependency section */
 		66ACB1211FD9705E002BC66F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 66ACB1161FD9705E002BC66F /* RizzleShare */;
+			target = 66ACB1161FD9705E002BC66F /* ReamsShare */;
 			targetProxy = 66ACB1201FD9705E002BC66F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -955,7 +955,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
@@ -984,7 +984,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
-				PRODUCT_NAME = rizzle;
+				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "17c847ba-6126-4981-85a9-120fc34fab45";
 				PROVISIONING_PROFILE_SPECIFIER = "iOS Development (all certs)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1002,7 +1002,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1030,7 +1030,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
-				PRODUCT_NAME = rizzle;
+				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "7ce17c38-fb6c-4a94-beb5-c82f33426323";
 				PROVISIONING_PROFILE_SPECIFIER = "Rizzle App Store";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1058,7 +1058,7 @@
 				CODE_SIGN_ENTITLEMENTS = RizzleShare/RizzleShare.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_TESTABILITY = YES;
@@ -1089,7 +1089,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "88ffb5b8-2236-45a5-8f61-0bb41c4771dc";
 				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Development (all certs)";
 				SKIP_INSTALL = YES;
@@ -1119,7 +1119,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 17;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1149,7 +1149,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "7e474486-339d-4efe-bbf7-02b53209e00b";
 				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Extension App Store";
 				SKIP_INSTALL = YES;
@@ -1282,7 +1282,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "rizzle" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Reams" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1291,7 +1291,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "RizzleShare" */ = {
+		66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "ReamsShare" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				66ACB1241FD9705E002BC66F /* Debug */,
@@ -1300,7 +1300,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "rizzle" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Reams" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

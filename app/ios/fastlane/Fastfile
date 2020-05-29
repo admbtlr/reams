@@ -23,9 +23,9 @@ platform :ios do
     ENV["ENVFILE"] = ".env.alpha"
     increment_build_number(
       build_number: latest_testflight_build_number + 1,
-      xcodeproj: "rizzle.xcodeproj")
+      xcodeproj: "Reams.xcodeproj")
     build_app(
-      scheme: "rizzle",
+      scheme: "Reams",
       include_bitcode: false,
       xcargs: "UseModernBuildSystem=0")
     upload_to_testflight(
@@ -34,9 +34,9 @@ platform :ios do
   lane :beta do
     increment_build_number(
       build_number: latest_testflight_build_number + 1,
-      xcodeproj: "rizzle.xcodeproj")
+      xcodeproj: "Reams.xcodeproj")
     build_app(
-      scheme: "rizzle",
+      scheme: "Reams",
       include_bitcode: false,
       xcargs: "UseModernBuildSystem=0")
     upload_to_testflight(

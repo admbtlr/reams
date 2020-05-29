@@ -173,7 +173,7 @@ class Share extends React.Component {
                 paddingTop: 18,
                 textAlign: 'center',
                 color: hslString('rizzleText')
-              }}>Rizzle</Text>
+              }}>Reams</Text>
               <View style={{
                 height: 1,
                 backgroundColor: hslString('rizzleText'),
@@ -266,7 +266,7 @@ class Share extends React.Component {
                 'this page' 
               } to read later:</Text>
             <TextButton
-              text="Save this page in Rizzle"
+              text="Save this page in Reams"
               buttonStyle={{ 
                 marginBottom: 0,
                 width: Dimensions.get('window').width - 32
@@ -358,7 +358,7 @@ export default Share
                   <Text style={{
                     ...textStyle,
                     fontFamily: 'IBMPlexSans-Light'
-                  }}>Sorry, we can’t add this site to Rizzle yet.</Text>
+                  }}>Sorry, we can’t add this site to Reams yet.</Text>
                 </View>
               }
               { !!rssUrls && rssUrls.length > 0 &&
