@@ -149,7 +149,7 @@ class AccountCredentialsForm extends React.Component {
                     marginLeft: -16,
                     marginRight: -16
                   }}>
-                    <Text style={textInfoStyle('white')}><Text style={textInfoItalicStyle('white')}>Rizzle Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Rizzle stays in Rizzle: you can’t sync your data with <Text style={textInfoItalicStyle('white')}>Rizzle Basic</Text>.</Text>
+                    <Text style={textInfoStyle('white')}><Text style={textInfoItalicStyle('white')}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t sync your data with <Text style={textInfoItalicStyle('white')}>Reams Basic</Text>.</Text>
                   </View> :
                   <React.Fragment>
                     <Text style={textInfoStyle('white')}>

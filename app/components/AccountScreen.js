@@ -180,14 +180,14 @@ class AccountScreen extends React.Component {
                   <Text style={{
                     ...textTipStyles,
                     marginBottom: 30
-                  }}>If you don’t have an account, you can use <Text style={italicStyles}>Rizzle Basic</Text> for free. <Text style={italicStyles}>Rizzle Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Rizzle stays in Rizzle: you can’t sync your data with <Text style={italicStyles}>Rizzle Basic</Text>.</Text>
+                  }}>If you don’t have an account, you can use <Text style={italicStyles}>Reams Basic</Text> for free. <Text style={italicStyles}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t sync your data with <Text style={italicStyles}>Reams Basic</Text>.</Text>
                 </View>
               }
               <TextButton
-                text={ 'Rizzle Basic' }
+                text={ 'Reams Basic' }
                 { ...getAttributes('basic') }
-                iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
+                iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'basic' ? 'white' : 'rizzleText'), hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'basic' ? 'white' : 'rizzleText'), hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
                 buttonStyle={{ 
                   alignSelf: 'center',
                   marginBottom: 42,
@@ -195,10 +195,10 @@ class AccountScreen extends React.Component {
                 }}
               />
               {Config.FLAG_PLUS && <TextButton
-                text={ 'Rizzle +' }
+                text={ 'Reams +' }
                 { ...getAttributes('rizzle') }
-                iconCollapsed={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('rizzle', null, hslString(backend === 'basic' ? 'logo1' : 'biuttonBG')) }
+                iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'biuttonBG')) }
               />}
               <TextButton
                 text={ 'Feedbin' }

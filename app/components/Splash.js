@@ -103,11 +103,11 @@ export default function Splash () {
           SplashScreen.hide()
         }}
         // resizeMode='contain'
-        source={require('../assets/images/rosette.png')}
+        source={require('../assets/images/ream.png')}
         style={{
           // flex: 1,
-          height: 147,
-          width: 148
+          height: 209,
+          width: 251
         }}
       />
       <Animated.View style={{

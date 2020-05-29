@@ -13,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rosette.png" id="dyg-Gw-aSI">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ream.png" id="dyg-Gw-aSI">
                     <rect key="frame" x="20" y="53" width="374" height="736"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -25,6 +25,6 @@
         </view>
     </objects>
     <resources>
-        <image name="rosette.png" width="150" height="150"/>
+        <image name="ream.png" width="200" height="168"/>
     </resources>
 </document>
