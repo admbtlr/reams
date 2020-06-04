@@ -82,11 +82,6 @@ export function * fetchItems (type = ItemType.unread) {
   const oldItems = yield select(getItems, type)
   const lastUpdated = yield select(getLastUpdated, type)
 
-  if (Date.now() - lastUpdated < 10 * 60 * 1000) {
-    console.log('Updated les than 10 minutes ago')
-    return
-  }
-
   const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feeds)
 
   let isFirstBatch = true
