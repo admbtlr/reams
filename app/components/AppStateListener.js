@@ -136,7 +136,7 @@ class AppStateListener extends React.Component {
                 title = typeof result.feed.title[0] === 'string' ? 
                   result.feed.title[0] : 
                   result.feed.title[0]._
-                description = typeof result.feed.subtitle ?
+                description = result.feed.subtitle ?
                   (typeof result.feed.subtitle[0] === 'string' ? 
                     result.feed.subtitle[0] : 
                     result.feed.subtitle[0]._) :
