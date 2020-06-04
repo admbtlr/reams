@@ -13,6 +13,8 @@ const calculateHeight = `
     window.ReactNativeWebView.postMessage(getHeight())
 `
 
+const INITIAL_WEBVIEW_HEIGHT = 1000
+
 class FeedItem extends React.Component {
   // static whyDidYouRender = true
   constructor(props) {
@@ -25,7 +27,7 @@ class FeedItem extends React.Component {
     this.scrollAnim = new Animated.Value(0)
 
     this.state = {
-      webViewHeight: 0
+      webViewHeight: INITIAL_WEBVIEW_HEIGHT
     }
 
     this.initAnimatedValues(false)
