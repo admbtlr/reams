@@ -63,7 +63,7 @@ export default function Message (props) {
       }]
     }}>
       <View style={{
-        backgroundColor: hslString('buttonBG'),
+        backgroundColor: hslString('logo1'),
         width: 'auto',
         // height: 20,
         paddingLeft: 10,
@@ -80,9 +80,9 @@ export default function Message (props) {
           ...textInfoMonoStyle,
           fontSize: 13 * fontSizeMultiplier(),
           lineHeight: 13 * fontSizeMultiplier(),
-          color: hslString('rizzleText')
+          color: hslString('white')
         }}>{visibleMessage}<AnimatedEllipsis style={{ 
-          color: hslString('rizzleText'),
+          color: hslString('white'),
           marginLeft: -2
         }} /></Text>
       </View>

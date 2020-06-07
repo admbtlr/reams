@@ -157,7 +157,7 @@ export function addMercuryStuffToItem (item, mercury) {
 
   if (mercuryPartial.length > htmlPartial.length &&
     fuzz.partial_ratio(htmlPartial.substring(0, 500), mercuryPartial.substring(0, 500)) > 90) {
-    decoratedItem.showMercury = true
+    decoratedItem.showMercuryContent = true
   }
 
   if (decoratedItem.excerpt && decoratedItem.excerpt.length > 0 &&
@@ -166,7 +166,7 @@ export function addMercuryStuffToItem (item, mercury) {
       // excerpt is first paragraph of content_html
       decoratedItem.content_html = decoratedItem.content_html.replace(`<p>${decoratedItem.excerpt}</p>`, '')
     } else if (decoratedItem.excerpt === htmlPartial && mercuryPartial.length > 0) {
-      decoratedItem.showMercury = true
+      decoratedItem.showMercuryContent = true
     } else {
       decoratedItem.excerpt = null
     }
@@ -174,7 +174,7 @@ export function addMercuryStuffToItem (item, mercury) {
 
   if (htmlPartial.length < 500 &&
     fuzz.partial_ratio(htmlPartial, mercuryPartial.substring(0, 500)) > 90) {
-    decoratedItem.showMercury = true
+    decoratedItem.showMercuryContent = true
   }
 
   const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]

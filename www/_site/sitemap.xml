@@ -13,36 +13,41 @@
   
   <url>
     <loc>https://myurl.com/about/</loc>
-    <lastmod>2020-04-17</lastmod>
+    <lastmod>2020-05-27</lastmod>
   </url>
   
   <url>
     <loc>https://myurl.com/posts/</loc>
-    <lastmod>2020-04-17</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myurl.com/</loc>
-    <lastmod>2020-04-17</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myurl.com/page-list/</loc>
-    <lastmod>2020-04-17</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myurl.com/tags/</loc>
-    <lastmod>2020-04-17</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://myurl.com/tags/books/</loc>
-    <lastmod>2020-04-17</lastmod>
+    <lastmod>2020-05-27</lastmod>
   </url>
   
   <url>
     <loc>https://myurl.com/blog/</loc>
-    <lastmod>2020-04-29</lastmod>
+    <lastmod>2020-05-27</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/</loc>
+    <lastmod>2020-05-27</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/page-list/</loc>
+    <lastmod>2020-05-27</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/tags/</loc>
+    <lastmod>2020-05-27</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/tags/books/</loc>
+    <lastmod>2020-05-27</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://myurl.com/beta/</loc>
+    <lastmod>2020-06-02</lastmod>
   </url>
 </urlset>

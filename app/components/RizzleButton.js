@@ -150,11 +150,7 @@ class RizzleButton extends React.Component {
     let newProps = Object.assign({}, this.props)
     const {
       children,
-      iconOff,
-      iconOn,
-      isOn,
       isToggle,
-      onPress,
       style
     } = this.props
     delete newProps.style

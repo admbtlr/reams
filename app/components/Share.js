@@ -268,8 +268,11 @@ class Share extends React.Component {
             <TextButton
               text="Save this page in Reams"
               buttonStyle={{ 
+                alignSelf: 'center',
+                paddingLeft: 50,
+                paddingRight: 50,
                 marginBottom: 0,
-                width: Dimensions.get('window').width - 32
+                // width: Dimensions.get('window').width - 32
               }}
               onPress={this.savePage}
             />

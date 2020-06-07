@@ -123,7 +123,7 @@ class SwipeableViews extends Component {
     // this.panAnimValues = items.map((item, key) => )
 
     if (isOnboarding) {
-      this.children = [0, 1].map(index => (
+      this.children = [0, 1, 2].map(index => (
         <OnboardingContainer
           key={index}
           index={index}

@@ -21,9 +21,12 @@
     {% include "css/styles.css" ignore missing %}
   </style>
   <body>
+    {% if templateClass !== 'tmpl-home' %}
     <header>
-      <img class="header-rosette" src="/img/rosette.png">
-      <h1 class="home"><a href="{{ '/' | url }}">{{ metadata.title }}</a></h1>
+      <a class="homelink" href="{{ '/' | url }}">
+        <img class="header-rosette" src="/img/ream.png">
+        <h1 class="home">{{ metadata.title }}</h1>
+      </a>
 
       {#- Read more about `eleventy-navigation` at https://www.11ty.dev/docs/plugins/navigation/ #}
       <!--ul class="nav">
@@ -32,11 +35,12 @@
       {%- endfor %}
       </ul-->
     </header>
+    {% endif %}
 
     <main{% if templateClass %} class="{{ templateClass }}"{% endif %}>
-
       {{ content | safe }}
     </main>
+    <footer>Made in Berlin • &copy; 2020 Adam Butler</footer>
 
     <!--footer>
       <p><em>This is an <a href="https://www.11ty.io/">Eleventy project</a> created from the <a href="https://github.com/11ty/eleventy-base-blog"><code>eleventy-base-blog</code> repo</a>.</em></p>

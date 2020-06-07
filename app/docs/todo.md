@@ -1,5 +1,6 @@
 # To Do
 
+- bug: add feed, get items, remove feed, still two items remaining
 - adding [feed](https://www.project-syndicate.org/) via 
 - make Feedwrangler work fully
 - edit new feeds list, Politics section
