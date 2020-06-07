@@ -273,9 +273,9 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <G strokeWidth='1'  stroke='none' fill='none' fillRule='evenodd'>
           <G transform='translate(-1.000000, -3.000000)'>
             <G transform='translate(1.000000, 3.000000)'>
-              <Path fill={borderColor} opacity={0.9} d='M 2 7 L 2 27 C 2 29 3 30 5 30 L 27 30 C 29 30 30 29 30 27 L 30 7 M 0 6 L 0 3 C 0 2 1 0 3 0 L 29 0 C 31 0 32 2 32 3 V 6 Z' />
-              <Path stroke={backgroundColor} fill={borderColor} d='M 11 27 L 11 12 C 11 10 11 10 13 10 H 19 C 21 10 21 10 21 12 V 27 L 16 23 Z' />
-              <Path stroke={backgroundColor} opacity={0.5} d='M 16 13 V 20 M 14 13 V 20 M 18 13 V 20' />
+              <Path fill={borderColor} opacity={0.7} d='M 2 7 L 2 27 C 2 29 3 30 5 30 L 27 30 C 29 30 30 29 30 27 L 30 7 M 0 6 L 0 2 C 0 2 0 0 2 0 L 30 0 C 32 0 32 2 32 2 V 6 Z' />
+              <Path stroke={backgroundColor} fill={borderColor} d='M 12 26 L 12 12 C 12 10 12 10 14 10 H 18 C 20 10 20 10 20 12 V 26 L 16 22 Z' />
+              <Path stroke={backgroundColor} opacity={0.5} d='M 16 13 V 19 M 14 13 V 19 M 18 13 V 19' />
             </G>
           </G>
         </G>

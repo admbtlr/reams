@@ -251,7 +251,7 @@ class FeedItem extends React.Component {
       : 'scrolling'
     const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
-    const minHeight = webViewHeight
+    const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 0 : webViewHeight
     let server = ''
     if (__DEV__) {
       server = 'http://localhost:8888/'
@@ -329,7 +329,8 @@ class FeedItem extends React.Component {
     const injectedJavaScript = `
       window.setTimeout(() => {
         if (document.body && document.body.scrollHeight) {
-          window.ReactNativeWebView.postMessage('resize:' + document.body.scrollHeight);
+          const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
+          window.ReactNativeWebView.postMessage('resize:' + height);
         }  
       }, 500)
       true;`
@@ -381,7 +382,7 @@ class FeedItem extends React.Component {
             coverImageStyles={styles.coverImage}
             layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
-          <Animated.View style={webViewHeight > 0 && 
+          <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
             (styles.coverImage.isInline || !showCoverImage) ? 
               this.addAnimation({}, this.anims[5]) :
               {}}>

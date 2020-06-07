@@ -169,6 +169,8 @@ const getDimensions = () => {
 let screenWidth, screenHeight
 export const fontSizeMultiplier = () => {
   getDimensions()
+  // this happens for the schare extension
+  if (screenWidth === 0 && screenHeight === 0) return 1
   return screenWidth * screenHeight < 310000 ?
     0.75 : // this is iPhone 8 at this point
     screenWidth < 768 ? 1 : (screenWidth / 768).toPrecision(4)

@@ -1320,6 +1320,12 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
 
 
 html.onboarding {
+
+  --logo1: hsl(186, 40%, 50%);
+  --logo2: hsl(360, 70%, 60%);
+  --logo3: hsl(260, 30%, 30%);
+  --bg: hsl(46, 23%, 83%);
+
   // this is now my rem value
   // it's the body lineheight
   font-size: calc(7vw);
@@ -1331,8 +1337,8 @@ html.onboarding {
     margin: 0;
     // font-family: "IBMPlexMono";
     width: 100vw;
-    background-color: hsl(46, 23%, 83%);
-    color: hsl(263, 14%, 16%);
+    background-color: var(--logo1);
+    color: white;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -1363,8 +1369,8 @@ html.onboarding {
     align-items: center;
   }
 
-  h1 {
-    color: hsl(263, 31%, 33%);
+  h1, h2 {
+    color: var(--logo3);
     font-size: 2rem;
     font-family: PTSerif-Bold;
     font-weight: inherit;
@@ -1374,14 +1380,18 @@ html.onboarding {
     // height: calc(50% - 250px);
   }
 
-  h1::before {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h1::before, h2::before {
     content: "";
     display: block;
     width: 100%;
     height: 12vh;
     margin-top: 6vh;
     margin-bottom: 6vh;
-    background-image: url("../img/logo@2x.png");
+    background-image: url("../img/ream@2x.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -1394,7 +1404,7 @@ html.onboarding {
 
   p {
     font-family: "IBMPlexSans";
-    color: hsl(264, 10%, 30%);
+    color: white;
     font-size: 0.666rem;
     line-height: 1rem;
     margin: 0 0 1rem;
@@ -1438,3 +1448,16 @@ html.onboarding {
   }
 }
 
+html.onboarding.onboarding-1:not(.dark-background) body {
+  background-color: var(--logo2);
+
+  h1 {
+    color: var(--bg);
+  }
+}
+
+html.onboarding.onboarding-2:not(.dark-background) body {
+  h1 {
+    color: var(--bg);
+  }
+}
