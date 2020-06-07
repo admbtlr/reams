@@ -367,36 +367,44 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
     { displayMode === ItemType.saved ?
       <Fragment>
         <Text style={{
-          ...textInfoBoldStyle,
+          ...textInfoBoldStyle(),
           fontSize: 22,
-          marginBottom: 24
+          marginBottom: 24,
+          marginLeft: 0,
+          marginRight: 0
         }}>This is the area for your saved stories, but you don’t have any right now</Text>
         <Text style={{
-          ...textInfoStyle,
+          ...textInfoStyle(),
           fontSize: 20,
-          marginBottom: 24
+          marginBottom: 24,
+          marginLeft: 0,
+          marginRight: 0
         }}>You can save stories from your feed, or direct from Safari using the Rizzle Share Extension</Text>
         <TextButton
-          text='Go to your feed'
+          text='Go back to Your Account'
           onPress={ () => {
-            toggleDisplayMode(displayMode)
+            navigation.navigate('Account')
           }} />
       </Fragment> :
       <Fragment>
         <Text style={{
-          ...textInfoBoldStyle,
+          ...textInfoBoldStyle(),
           fontSize: 22,
-          marginBottom: 24
-        }}>You have no unread stories! 🎉</Text>
+          marginBottom: 24,
+          marginLeft: 0,
+          marginRight: 0
+        }}>You have no unread stories!</Text>
         <Text style={{
-          ...textInfoStyle,
-          fontSize: 20,
-          marginBottom: 24
-        }}>Celebrate by going outside for a bit. Or you could just add some more feeds...</Text>
+          ...textInfoStyle(),
+          fontSize: 18,
+          marginBottom: 24,
+          marginLeft: 0,
+          marginRight: 0
+        }}>This is the moment when you put down your phone and go outside for a bit. Or alternatively you could just add some more feeds...</Text>
         <TextButton
           text='Add some feeds'
           onPress={ () => {
-            navigation.goBack()
+            navigation.navigate('Feeds')
           }} />
       </Fragment>
     }

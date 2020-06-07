@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     backend: state.config.backend,
-    displayMode: state.itemsMeta.display
+    displayMode: state.itemsMeta.display,
+    isFirstTime: state.config.isFirstTime || state.config.isOnboarding
   }
 }
 

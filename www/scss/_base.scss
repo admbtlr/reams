@@ -26,6 +26,8 @@ body {
   font-size: 100%; 
   color: var(--darkgray);
   background-color: var(--rizzleBG);
+  display: flex;
+  flex-direction: column;
 }
 h1, h2, h3, h4 {
   font-family: 'PT Serif', serif;
@@ -55,7 +57,7 @@ p,
 .tmpl-post li,
 img {
   font-weight: 200;
-  max-width: 40rem; /* 600px /16 */
+  max-width: 50rem; 
 }
 p,
 .tmpl-post li {
@@ -77,6 +79,10 @@ main > p:first-of-type {
   main, header {
     width: 50em;
     margin: 0 auto;
+  }
+  footer {
+    padding-left: calc(50vw - 25em);
+    padding-right: calc(50vw - 25em);
   }
 }
 header {
@@ -289,4 +295,28 @@ a[href].direct-link:focus:visited,
 :hover > a[href].direct-link,
 :hover > a[href].direct-link:visited {
   color: #aaa;
+}
+
+footer {
+  color: white;
+  margin: 0;
+  padding-top: 6rem;
+  padding-bottom: 1rem;
+  background-color: var(--blue);
+  text-align: right;
+}
+
+// https://css-tricks.com/couple-takes-sticky-footer/
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1 0 auto;
+}
+.footer {
+  flex-shrink: 0;
 }

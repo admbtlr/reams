@@ -1,8 +1,11 @@
 .hero {
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  padding-top: 5rem;
 
   .headings {
     text-align: left;
@@ -66,8 +69,10 @@
 }
 
 .flash {
-  margin-top: 3rem;
-  padding-top: 3rem;
+  flex-shrink: 0;
+
+  margin-top: 6rem;
+  padding-top: 6rem;
   padding-bottom: 1rem;
   background-color: var(--blue);
 
@@ -91,6 +96,9 @@
 
   p { 
     margin-top: 0;
+    font-size: 1.33rem;
+    line-height: 2rem;
+    color: var(--aubergine);
   }
 
   #mce-EMAIL {
@@ -110,10 +118,4 @@
     color: white;
     padding: .5em 2em;
   }
-}
-
-footer {
-  color: white;
-  margin: 3rem 0 0;
-  text-align: right;
 }

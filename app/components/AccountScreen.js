@@ -174,13 +174,11 @@ class AccountScreen extends React.Component {
                 text='Your Saved Stories'
                 viewStyle={{ paddingLeft: 5 }}
               />
-              { this.props.backend ? null :
-                <View>
-                  <Text style={ textTipStyles }>If you have an account with an RSS service, enter your details below.</Text>
-                  <Text style={{
-                    ...textTipStyles,
-                    marginBottom: 30
-                  }}>If you don’t have an account, you can use <Text style={italicStyles}>Reams Basic</Text> for free. <Text style={italicStyles}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t sync your data with <Text style={italicStyles}>Reams Basic</Text>.</Text>
+              { this.props.isFirstTime &&
+                <View style={{
+                  marginTop: 42
+                }}>
+                  <Text style={ textTipStyles }>If you already have an account with an RSS service, enter your details below. Alternatively you can use <Text style={italicStyles}>Reams Basic</Text> for free.</Text>
                 </View>
               }
               <TextButton

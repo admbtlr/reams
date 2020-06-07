@@ -13,7 +13,8 @@ import {
   FeedLocal,
   FeedsLocalState,
   ADD_FEED_SUCCESS,
-  ADD_FEEDS_SUCCESS
+  ADD_FEEDS_SUCCESS,
+  REMOVE_FEED
 } from './types'
 import { 
   ITEMS_BATCH_FETCHED,
@@ -57,6 +58,13 @@ export function feedsLocal (
           ...feeds
         ]
       }
+
+    case REMOVE_FEED:
+      return {
+        ...state,
+        feeds: state.feeds.filter(feed => feed._id !== action.feed._id)
+      }
+  
     case SET_CACHED_FEED_ICON:
       feeds = state.feeds.map(f => f)
       feed = feeds.find(f => f._id === action.id)

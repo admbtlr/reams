@@ -35,8 +35,8 @@ export const textButtonStyle = (color) => ({
 export const textInfoStyle = (color) => ({
   ...baseStyles(color),
   fontFamily: 'IBMPlexSans',
-  marginLeft: 20,
-  marginRight: 20,
+  marginLeft: 20 * fontSizeMultiplier(),
+  marginRight: 20 * fontSizeMultiplier(),
   fontSize: 16 * fontSizeMultiplier()
 })
 
