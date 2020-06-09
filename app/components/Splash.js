@@ -106,8 +106,8 @@ export default function Splash () {
         source={require('../assets/images/ream.png')}
         style={{
           // flex: 1,
-          height: 209,
-          width: 251
+          height: 166,
+          width: 200
         }}
       />
       <Animated.View style={{
