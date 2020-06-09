@@ -1,4 +1,4 @@
-const nextId = 348
+const nextId = 349
 export const feeds = [{
   "id": 0,
   "title": "Engadget",
@@ -1071,7 +1071,7 @@ export const feeds = [{
   "color": "rgb(24,66,124)"
 }, {
   "id": 127,
-  "title": "Business - News, Opinion and Analysis",
+  "title": "Huffington Post - Business",
   "url": "http://www.huffingtonpost.com/feeds/verticals/business/index.xml",
   "description": "Keep up with latest business news and insights on the changing economy. Including topics such as labor and employment, inequality and more.",
   "category": "business",
@@ -1149,7 +1149,7 @@ export const feeds = [{
   "link": "https://www.getrichslowly.org/"
 }, {
   "id": 134,
-  "title": "Business",
+  "title": "Mashable - Business",
   "url": "http://feeds.mashable.com/mashable/business",
   "description": "The latest articles about Business from Mashable, the media and tech company",
   "category": "business",
@@ -2604,13 +2604,6 @@ export const feeds = [{
   "link": "https://futuristech.info/",
   "color": "rgb(6,7,8)"
 }, {
-  "id": 271,
-  "title": "Blog",
-  "url": "http://www.diamandis.com/blog/rss.xml",
-  "description": null,
-  "category": "future",
-  "link": "https://www.diamandis.com/"
-}, {
   "id": 272,
   "title": "Reimagining the Future",
   "url": "http://frankdiana.wordpress.com/feed/",
@@ -2678,20 +2671,6 @@ export const feeds = [{
   },
   "link": "http://oaklandfuturist.com/",
   "color": "rgb(193,158,157)"
-}, {
-  "id": 278,
-  "title": "Brad Ideas",
-  "url": "http://ideas.4brad.com/index.rdf",
-  "description": "Brad Templeton is Chairman Emeritus of the EFF, Singularity U founding computing faculty, software architect and internet entrepreneur, robotic car strategist, futurist lecturer, photographer and Burning Man artist. This is an \"ideas\" blog rather than a \"cool thing I saw today\" blog. Many of the items are not topical. If you like what you read, I recommend you also browse back in the archives, starting with the best of blog section. It also has various\"topic\" and \"tag\" sections (see menu on right) and some are sub blogs like Robocars, photography and Going Green. Try my home page for more info and contact data.",
-  "category": "future"
-}, {
-  "id": 279,
-  "title": "By Matthew Griffin Futurist and Keynote Speaker",
-  "url": "http://www.globalfuturist.org/feed/",
-  "description": "Unlimited Thinking . Exponential Potential",
-  "category": "future",
-  "image": "https://i1.wp.com/www.fanaticalfuturist.com/wp-content/uploads/2018/01/GFM_Small_Diamond_Logo.jpg?fit=32%2C32&ssl=1",
-  "link": "https://www.fanaticalfuturist.com/"
 }, {
   "id": 280,
   "title": "Slate Magazine",
@@ -2804,13 +2783,6 @@ export const feeds = [{
   "link": "https://futurethinkers.org/",
   "color": "rgb(0,184,248)"
 }, {
-  "id": 293,
-  "title": "InsideFutures.com Commentary",
-  "url": "http://www.insidefutures.com/rss/rss20.php",
-  "description": "Futures market commentary from leading industry experts.",
-  "category": "future",
-  "link": "http://www.insidefutures.com"
-}, {
   "id": 295,
   "title": "Politico ",
   "url": "https://www.politico.com/rss/politicopicks.xml",
@@ -2913,7 +2885,7 @@ export const feeds = [{
   "id": 305,
   "title": "Axios",
   "url": "https://www.axios.com/feeds/feed.rss",
-  "description": "Axios",
+  "description": "Axios gets you smarter, faster with news & information that matters.",
   "category": "politics",
   "favicon": {
     "source": require('../../assets/images/favicons/305.png'),
@@ -2979,7 +2951,7 @@ export const feeds = [{
   "color": "rgb(13,13,13)"
 }, {
   "id": 311,
-  "title": "Articles and Investigations - ProPublica",
+  "title": "ProPublica",
   "url": "http://feeds.propublica.org/propublica/main",
   "description": "Latest Articles and Investigations from ProPublica, an independent, non-profit newsroom that produces investigative journalism in the public interest.",
   "category": "politics",
@@ -3107,7 +3079,7 @@ export const feeds = [{
   "color": "rgb(0,0,0)"
 }, {
   "id": 322,
-  "title": "Article – The Nation",
+  "title": "The Nation",
   "url": "http://www.thenation.com/rss/articles",
   "description": "The Nation Magazine",
   "category": "politics",
@@ -3118,13 +3090,6 @@ export const feeds = [{
   },
   "link": "https://www.thenation.com/",
   "color": "rgb(192,32,38)"
-}, {
-  "id": 323,
-  "title": "American Thinker",
-  "url": "http://feeds.feedburner.com/americanthinker",
-  "description": null,
-  "category": "politics",
-  "link": "https://www.americanthinker.com/"
 }, {
   "id": 325,
   "title": "Jacobin",
@@ -3321,4 +3286,16 @@ export const feeds = [{
   "category": "politics",
   "image": "https://media.npr.org/images/podcasts/primary/npr_generic_image_300.jpg?s=200",
   "link": "https://www.npr.org/"
+}, {
+  "id": 348,
+  "title": "Project Syndicate",
+  "url": "https://www.project-syndicate.org/rss",
+  "description": "Project Syndicate - The World’s Opinion Page",
+  "category": "politics",
+  "favicon": {
+    "source": require('../../assets/images/favicons/348.png'),
+    "size": "180x180"
+  },
+  "link": "https://www.project-syndicate.org/",
+  "color": "rgb(209,29,40)"
 }]
