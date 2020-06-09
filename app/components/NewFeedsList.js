@@ -43,39 +43,47 @@ const margin = screenWidth * 0.05
 
 const buttonAnim = new Animated.Value(margin * 4)
 
+const sortByTitle = (a, b) => {
+  aTitle = a.title.toUpperCase()
+  bTitle = b.title.toUpperCase()
+  if (aTitle < bTitle) return -1
+  if (aTitle > bTitle) return 1
+  return 0
+}
+
 const art = {
   title: 'Art',
-  feeds: feeds.filter(f => f.category === 'art')
+  feeds: feeds.filter(f => f.category === 'art').sort(sortByTitle)
 }
 const business = {
   title: 'Business',
   name: 'business',
-  feeds: feeds.filter(f => f.category === 'business')
+  feeds: feeds.filter(f => f.category === 'business').sort(sortByTitle)
 }
 const culture = {
   title: 'Culture',
   name: 'culture',
-  feeds: feeds.filter(f => f.category === 'culture')
+  feeds: feeds.filter(f => f.category === 'culture').sort(sortByTitle)
 }
 const design = {
   title: 'Design',
   name: 'design',
-  feeds: feeds.filter(f => f.category === 'design')
+  feeds: feeds.filter(f => f.category === 'design').sort(sortByTitle)
 }
 const future = {
   title: 'Future',
   name: 'future',
-  feeds: feeds.filter(f => f.category === 'future')
+  feeds: feeds.filter(f => f.category === 'future').sort(sortByTitle)
 }
 const politics = {
   title: 'Politics',
   name: 'politics',
-  feeds: feeds.filter(f => f.category === 'politics')
+  feeds: feeds.filter(f => f.category === 'politics').sort(sortByTitle)
 }
 const technology = {
   title: 'Technology',
   name: 'technology',
-  feeds: feeds.filter(f => f.category === 'technology')
+  feeds: feeds.filter(f => f.category === 'technology').sort(sortByTitle)
 }
 
 const scrollY = new Animated.Value(0)
