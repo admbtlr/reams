@@ -936,5 +936,7 @@ html.onboarding.onboarding-1:not(.dark-background) body {
   html.onboarding.onboarding-1:not(.dark-background) body h1 {
     color: var(--bg); }
 
-html.onboarding.onboarding-2:not(.dark-background) body h1 {
-  color: var(--bg); }
+html.onboarding.onboarding-2:not(.dark-background) body {
+  background-color: var(--logo3); }
+  html.onboarding.onboarding-2:not(.dark-background) body h2 {
+    color: var(--bg); }

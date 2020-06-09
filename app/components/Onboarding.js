@@ -45,8 +45,9 @@ class Onboarding extends React.Component {
       `<h1>Built for Readers</h1>
       <p>Each story is algorithmically art-directed for you. If something looks interesting, go ahead and read it. If it looks <em>really</em> interesting, save it for&nbsp;later.</p>`,
       `<h2>Read more about stuff you love</h2>
-      <p>Subscribe to sites from the built-in library. Or use the Reams share extension to subscribe to sites directly from Safari, or to save individual pages to read later.</p>
-      <p>Ready? Go ahead and...</p>`
+      <p>Subscribe to sites from the built-in library.</p>
+      <p>Use the Reams share extension to subscribe to sites directly from Safari, or to save individual pages to read later.</p>
+      <p>Ready for Reams? Go ahead and...</p>`
     ]
 
     const swipeArrow = index !== 2 ?

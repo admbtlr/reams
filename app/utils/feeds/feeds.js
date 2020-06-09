@@ -2,7 +2,7 @@ const nextId = 348
 export const feeds = [{
   "id": 0,
   "title": "Engadget",
-  "url": "http://www.engadget.com/rss-full.xml",
+  "url": "https://www.engadget.com/rss.xml",
   "description": "Engadget is a web magazine with obsessive daily coverage of everything new in gadgets and consumer electronics",
   "category": "technology",
   "favicon": {
@@ -17,8 +17,8 @@ export const feeds = [{
 }, {
   "id": 1,
   "title": "TechCrunch",
-  "url": "http://feeds.feedburner.com/Techcrunch",
-  "description": "TechCrunch is a group-edited blog that profiles the companies, products and events defining and transforming the new web.",
+  "url": "https://techcrunch.com/feed/",
+  "description": "Startup and Technology News",
   "category": "technology",
   "favicon": {
     "source": require('../../assets/images/favicons/1.png'),
@@ -31,7 +31,7 @@ export const feeds = [{
 }, {
   "id": 2,
   "title": "The Verge",
-  "url": "http://www.theverge.com/rss/full.xml",
+  "url": "https://theverge.com/rss/index.xml",
   "description": null,
   "category": "technology",
   "favicon": {
@@ -44,7 +44,7 @@ export const feeds = [{
 }, {
   "id": 3,
   "title": "Gizmodo",
-  "url": "http://feeds.gawker.com/gizmodo/full",
+  "url": "https://gizmodo.com/rss",
   "description": "We come from the future",
   "category": "technology",
   "favicon": {
@@ -55,8 +55,8 @@ export const feeds = [{
 }, {
   "id": 5,
   "title": "Lifehacker",
-  "url": "http://feeds.gawker.com/lifehacker/vip",
-  "description": "Don't live to geek; geek to live.",
+  "url": "hhttps://lifehacker.com/rss",
+  "description": "Do everything better",
   "category": "technology",
   "favicon": {
     "source": require('../../assets/images/favicons/5.png'),
@@ -66,7 +66,7 @@ export const feeds = [{
 }, {
   "id": 6,
   "title": "Ars Technica",
-  "url": "http://feeds.arstechnica.com/arstechnica/index/",
+  "url": "https://arstechnica.com/feed",
   "description": "Serving the Technologist for more than a decade. IT news, reviews, and analysis.",
   "category": "technology",
   "favicon": {
@@ -75,23 +75,10 @@ export const feeds = [{
   "image": "https://cdn.arstechnica.net/wp-content/uploads/2016/10/cropped-ars-logo-512_480-32x32.png",
   "link": "https://arstechnica.com/"
 }, {
-  "id": 7,
-  "title": "Slashdot",
-  "url": "http://rss.slashdot.org/Slashdot/slashdot",
-  "description": "News for nerds, stuff that matters",
-  "category": "technology",
-  "favicon": {
-    "source": require('../../assets/images/favicons/7.png'),
-    "url": "https://slashdot.org/favicon.ico",
-    "size": null
-  },
-  "link": "https://slashdot.org/",
-  "color": "rgb(10,52,52)"
-}, {
   "id": 8,
   "title": "Mashable",
-  "url": "http://feeds.mashable.com/Mashable",
-  "description": "Mashable is a leading source for news, information & resources for the Connected Generation.",
+  "url": "https://www.mashable.com/feed",
+  "description": "Mashable is a global, multi-platform media and entertainment company.",
   "category": "technology",
   "favicon": {
     "source": require('../../assets/images/favicons/8.png'),
@@ -935,18 +922,6 @@ export const feeds = [{
   "link": "https://www.entrepreneur.com/",
   "color": "#131318"
 }, {
-  "id": 103,
-  "title": "TIME",
-  "url": "http://rss.time.com/web/time/rss/top/index.xml",
-  "description": "Current & Breaking News | National & World Updates",
-  "category": "business",
-  "favicon": {
-    "source": require('../../assets/images/favicons/103.png'),
-    "url": "https://time.com/img/favicons/favicon-72.png",
-    "color": "rgb(233,6,6)"
-  },
-  "link": "https://time.com/"
-}, {
   "id": 104,
   "title": "Fast Company",
   "url": "http://feeds.feedburner.com/fastcompany/headlines",
@@ -1742,12 +1717,6 @@ export const feeds = [{
   "link": "https://www.nytimes.com/",
   "color": "rgb(17,17,17)"
 }, {
-  "id": 193,
-  "title": "PAPER",
-  "url": "http://www.papermag.com/rss.xml",
-  "description": "Where things start.",
-  "category": "culture"
-}, {
   "id": 194,
   "title": "PopMatters",
   "url": "http://feeds.feedburner.com/Popmatters",
@@ -1789,12 +1758,6 @@ export const feeds = [{
   "image": "https://images.complex.com/complex/image/upload/c_pad,g_west,h_40,w_125/v1464104389/COMPLEX_2015_RGB.png",
   "link": "https://www.complex.com/",
   "color": "#000000"
-}, {
-  "id": 197,
-  "title": "Harper's MagazineHarper's Magazine",
-  "url": "http://harpers.org/rss/frontpage-rss20.xml",
-  "description": "Harper's Magazine, the oldest general-interest monthly in America, explores the issues that drive our national conversation, through long-form narrative journalism and essays, and such celebrated features as the iconic Harper's Index.",
-  "category": "culture"
 }, {
   "id": 198,
   "title": "The Point Magazine",
@@ -2050,14 +2013,6 @@ export const feeds = [{
   "link": "https://www.itsnicethat.com/",
   "color": "#6219ff"
 }, {
-  "id": 218,
-  "title": "Creative Bloq",
-  "url": "http://feeds.feedburner.com/CreativeBloq",
-  "description": "Creative Bloq Latest 25 Articles",
-  "category": "design",
-  "image": "http://assets.futurecdn.net/img/future-tag.png",
-  "link": "http://fse.futurelicensing.com/"
-}, {
   "id": 219,
   "title": "Logo Design Love",
   "url": "http://feeds.feedburner.com/logodesignlove",
@@ -2081,9 +2036,15 @@ export const feeds = [{
 }, {
   "id": 221,
   "title": "A List Apart: The Full Feed",
-  "url": "http://www.alistapart.com/rss.xml",
+  "url": "https://alistapart.com/main/feed/",
   "description": "Articles for people who make web sites.",
-  "category": "design"
+  "category": "design",
+  "favicon": {
+    "source": require('../../assets/images/favicons/221.png'),
+    "size": "180x180"
+  },
+  "link": "https://alistapart.com/",
+  "color": "rgb(0,0,0)"
 }, {
   "id": 222,
   "title": "Yatzer RSS Feed",
@@ -2097,12 +2058,6 @@ export const feeds = [{
   },
   "link": "https://www.yatzer.com/",
   "color": "rgb(0,0,0)"
-}, {
-  "id": 223,
-  "title": "Apartment Therapy| Saving the world, one room at a time",
-  "url": "http://www.apartmenttherapy.com/main/atom.xml",
-  "description": "Saving the world, one room at a time",
-  "category": "design"
 }, {
   "id": 224,
   "title": "Eye on Design",
@@ -2175,13 +2130,6 @@ export const feeds = [{
   },
   "link": "https://www.sfgirlbybay.com/",
   "color": "#FFFFFF"
-}, {
-  "id": 230,
-  "title": "Trendir",
-  "url": "http://www.trendir.com/atom.xml",
-  "description": "The Latest Trends in Modern House Design and Decorating",
-  "category": "design",
-  "link": "https://www.trendir.com/"
 }, {
   "id": 231,
   "title": "Young House Love",
@@ -2278,9 +2226,15 @@ export const feeds = [{
 }, {
   "id": 238,
   "title": "Creative Review",
-  "url": "http://www.creativereview.co.uk/dynamic.php?page_id=12&subject=",
-  "description": "From advertising, photography and film, to design, music and fashion. How is creativity changing your world?",
-  "category": "design"
+  "url": "https://www.creativereview.co.uk/rss",
+  "description": "The best in creativity",
+  "category": "design",
+  "favicon": {
+    "source": require('../../assets/images/favicons/238.png'),
+    "size": null
+  },
+  "link": "https://www.creativereview.co.uk/",
+  "color": "#de1301"
 }, {
   "id": 239,
   "title": "Designmodo",
@@ -2388,12 +2342,6 @@ export const feeds = [{
   "image": "https://www.subtraction.com/wp-content/uploads/2016/10/cropped-subtraction-logo-32x32.png",
   "link": "https://www.subtraction.com/",
   "color": "rgb(0,0,0)"
-}, {
-  "id": 247,
-  "title": "Designer News Feed",
-  "url": "https://news.layervault.com/?format=rss",
-  "description": "All of the stories from the frontpage of Designer News",
-  "category": "design"
 }, {
   "id": 248,
   "title": "Blog – Designer Daily: graphic and web design blog",
@@ -2806,18 +2754,6 @@ export const feeds = [{
   "link": "https://jackuldrich.com/",
   "color": "rgb(209,178,209)"
 }, {
-  "id": 285,
-  "title": "NFA CFTC Rule Submission Letters",
-  "url": "http://www.nfa.futures.org/rss/ruleSubmissionsRSS.xml",
-  "description": "List of Rule Submissions to the CFTC",
-  "category": "future"
-}, {
-  "id": 286,
-  "title": "gordonmcdowell (uploads) on YouTube",
-  "url": "http://gdata.youtube.com/feeds/base/users/gordonmcdowell/uploads?alt=rss&v=2&orderby=published&client=ytapi-youtube-profile",
-  "description": "Videographer in Calgary, Alberta, Canada. Thorium & MSR advocate. Working to educate public on Molten Salt Reactors, Liquid Fluoride Thorium Reactors, and the reasons that today's reactors are not what nuclear power ought to be.",
-  "category": "future"
-}, {
   "id": 287,
   "title": "The Medical Futurist",
   "url": "http://scienceroll.com/feed/",
@@ -2830,12 +2766,6 @@ export const feeds = [{
   "title": "SpaceCollective posts",
   "url": "http://spacecollective.org/feed-rss.php?t=a&f=po",
   "description": "",
-  "category": "future"
-}, {
-  "id": 289,
-  "title": "NFA Regulatory Actions",
-  "url": "http://www.nfa.futures.org/rss/regActionsRSS.xml",
-  "description": "NFA is the industry wide, self-regulatory organization for the U.S. derivatives industry, providing innovative and effective regulatory programs.",
   "category": "future"
 }, {
   "id": 290,
@@ -2880,12 +2810,6 @@ export const feeds = [{
   "description": "Futures market commentary from leading industry experts.",
   "category": "future",
   "link": "http://www.insidefutures.com"
-}, {
-  "id": 294,
-  "title": "Open Source Ecology",
-  "url": "http://blog.opensourceecology.org/feed/",
-  "description": "We’re developing open source industrial machines that can be made for a fraction of commercial costs, and sharing our designs online for free. The goal of Open Source Ecology is to create an open source economy – an efficient economy which increases innovation by open collaboration.",
-  "category": "future"
 }, {
   "id": 295,
   "title": "Politico ",
@@ -2964,7 +2888,7 @@ export const feeds = [{
     "size": null
   },
   "link": "https://theintercept.com/",
-  "color": "/assets/2214238a301dd75d1287e68e41a4e74a.png"
+  "color": "rgb(102, 83, 255)"
 }, {
   "id": 345,
   "title": "Quartz",
@@ -2986,12 +2910,6 @@ export const feeds = [{
   "image": "http://www.talkingpointsmemo.com/images/tpm-rdflogo.jpg",
   "link": "https://talkingpointsmemo.com/"
 }, {
-  "id": 304,
-  "title": "ThinkProgress",
-  "url": "http://thinkprogress.org/feed/",
-  "description": "Moving news forward.",
-  "category": "politics"
-}, {
   "id": 305,
   "title": "Axios",
   "url": "https://www.axios.com/feeds/feed.rss",
@@ -3005,17 +2923,8 @@ export const feeds = [{
   "link": "https://www.axios.com/",
   "color": "rgb(34,34,34)"
 }, {
-  "id": 306,
-  "title": "Democracy Now!",
-  "url": "http://www.democracynow.org/democracynow.rss",
-  "description": "Democracy Now! is an independent daily TV & radio news program, hosted by award-winning journalists Amy Goodman and Juan González. We provide daily global news headlines, in-depth interviews and investigative reports without any advertisements or government funding. Our programming shines a spotlight on corporate and government abuses of power and lifts up the stories of ordinary people working to make change in extraordinary times. Democracy Now! is live weekdays at 8am ET and available 24/7 through our website and podcasts.",
-  "category": "politics",
-  "image": "http://www.democracynow.org/assets/dn-logo-for-podcast-6a4a4bf4fd60611b6a491af167db3af1.png",
-  "link": "http://www.democracynow.org/",
-  "color": "daily_shows_content"
-}, {
   "id": 307,
-  "title": " Crooks and Liars ",
+  "title": "Crooks and Liars ",
   "url": "http://feeds.feedburner.com/crooksandliars/YaCP",
   "description": null,
   "category": "politics",
@@ -3081,7 +2990,7 @@ export const feeds = [{
   },
   "image": "https://assets.propublica.org/propublica-rss-logo.png",
   "link": "https://www.propublica.org/",
-  "color": "#FFFFFF"
+  "color": "rgb(48, 65, 84)"
 }, {
   "id": 312,
   "title": "National Review",
@@ -3184,12 +3093,6 @@ export const feeds = [{
   "image": "https://img.thedailybeast.com/image/upload/v1550872986/White2x_hcwpd6.png",
   "link": "https://www.thedailybeast.com/"
 }, {
-  "id": 320,
-  "title": "Politifact.com Truth-O-Meter rulings from National",
-  "url": "http://www.politifact.com/feeds/statements/truth-o-meter/",
-  "description": "The latest statements PolitiFact.com has reviewed",
-  "category": "politics"
-}, {
   "id": 321,
   "title": "The New Republic",
   "url": "http://www.tnr.com/toc/topstories.rss",
@@ -3201,7 +3104,7 @@ export const feeds = [{
     "size": "72x72"
   },
   "link": "https://newrepublic.com/",
-  "color": "rgb(215,210,204)"
+  "color": "rgb(0,0,0)"
 }, {
   "id": 322,
   "title": "Article – The Nation",
@@ -3222,12 +3125,6 @@ export const feeds = [{
   "description": null,
   "category": "politics",
   "link": "https://www.americanthinker.com/"
-}, {
-  "id": 324,
-  "title": "Political Wire",
-  "url": "http://politicalwire.com/headlines.xml",
-  "description": "All the political news in one place",
-  "category": "politics"
 }, {
   "id": 325,
   "title": "Jacobin",
@@ -3272,9 +3169,16 @@ export const feeds = [{
 }, {
   "id": 328,
   "title": "Daily Kos",
-  "url": "http://rss.dailykos.com/dailykos/index.xml",
+  "url": "https://www.dailykos.com/user/main/rss.xml",
   "description": "News Community Action",
-  "category": "politics"
+  "category": "politics",
+  "favicon": {
+    "source": require('../../assets/images/favicons/328.png'),
+    "url": "https://assets.dailykos.com/assets/apple-icon-72x72-cedbd31ea42daa1b17815fdee907d737.png",
+    "size": "72x72"
+  },
+  "link": "https://www.dailykos.com/",
+  "color": "rgb(234,120,6)"
 }, {
   "id": 329,
   "title": "Michelle Malkin",
@@ -3301,12 +3205,6 @@ export const feeds = [{
   },
   "link": "https://crooked.com/",
   "color": "#00aba9"
-}, {
-  "id": 331,
-  "title": "Latest – Reason.com",
-  "url": "http://www.reason.com/news/index.xml",
-  "description": "Free Minds and Free Markets",
-  "category": "politics"
 }, {
   "id": 332,
   "title": "News - Esquire",
@@ -3368,32 +3266,6 @@ export const feeds = [{
   "image": "https://dailycaller.com/wp-content/uploads/2019/07/favicon.ico",
   "link": "https://dailycaller.com/",
   "color": "rgb(0,0,0)"
-}, {
-  "id": 337,
-  "title": "Power LinePower Line",
-  "url": "http://feeds.powerlineblog.com/powerlineblog/livefeed",
-  "description": null,
-  "category": "politics",
-  "favicon": {
-    "source": require('../../assets/images/favicons/337.png'),
-    "url": "https://www.powerlineblog.com/wp-content/themes/powerline/images/icon.png",
-    "size": null
-  },
-  "link": "https://www.powerlineblog.com/",
-  "color": "rgb(209,209,209)"
-}, {
-  "id": 338,
-  "title": "Instapundit",
-  "url": "http://pajamasmedia.com/instapundit/feed/",
-  "description": null,
-  "category": "politics",
-  "link": "https://pjmedia.com/"
-}, {
-  "id": 339,
-  "title": "Redstate",
-  "url": "http://www.redstate.com/feed/",
-  "description": "Where the VRWC Collaborates Online",
-  "category": "politics"
 }, {
   "id": 340,
   "title": "Hullabaloo by digby",
