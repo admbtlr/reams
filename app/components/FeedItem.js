@@ -388,6 +388,7 @@ class FeedItem extends React.Component {
               {}}>
             <WebView
               allowsFullscreenVideo={true}
+              allowsLinkPreview={true}
               decelerationRate='normal'
               injectedJavaScript={ injectedJavaScript }
               mixedContentMode='compatibility'
