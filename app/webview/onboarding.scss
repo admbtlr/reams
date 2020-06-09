@@ -137,7 +137,8 @@ html.onboarding.onboarding-1:not(.dark-background) body {
 }
 
 html.onboarding.onboarding-2:not(.dark-background) body {
-  h1 {
+  background-color: var(--logo3);
+  h2 {
     color: var(--bg);
   }
 }

@@ -193,27 +193,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
           justifyContent: 'space-around'
         }}
       >
-        { feed.description && feed.description.length > 0 ?
-          <View style={{
-            flex: 1,
-            justifyContent: 'center'
-          }}>
-            <Text style={{
-              color: hslString(feed.color, 'darkmodable'), //hslString('rizzleText'),
-              fontFamily: 'IBMPlexSans-Bold',
-              fontSize: feed.description.length > 100 ? 18 : 20,
-              fontSize: (feed.description.length > 100 ? 18 : 20) *
-                fontSizeMultiplier(),
-              textAlign: 'left'
-            }}>{ feed.description }</Text>
-            {/*<View style={{
-              height: 1,
-              backgroundColor: hslString('rizzleText'),
-              opacity: 0.2,
-              marginBottom: margin
-            }} />*/}
-          </View> : null
-        }
         <View style={{
           flex: 1,
           justifyContent: 'center'
