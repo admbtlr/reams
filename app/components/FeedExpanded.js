@@ -126,6 +126,14 @@ class FeedExpanded extends React.Component {
                 fontSize: 32 * fontSizeMultiplier(),
                 lineHeight: 32 * fontSizeMultiplier()
               }}>{feed.title}</Text>
+              { feed.description && feed.description.length > 0 && <Text style={{
+                ...textStyles,
+                fontFamily: 'IBMPlexSans',
+                fontSize: (feed.description.length > 100 ? 18 : 20) *
+                  fontSizeMultiplier(),
+                textAlign: 'left',
+                marginBottom: 16 * fontSizeMultiplier()
+              }}>{ feed.description }</Text> }
             </View>
             <View style={{
               paddingBottom: 5,
@@ -136,7 +144,7 @@ class FeedExpanded extends React.Component {
                 ...textStyles,
                 fontFamily: 'IBMPlexMono-Light',
                 fontSize: 16 * fontSizeMultiplier()
-              }}>{feed.numUnread} unread</Text>
+              }}>{feed.numUnread} unread stories</Text>
             </View>
           </View>
           <FeedIconCorner

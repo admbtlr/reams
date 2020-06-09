@@ -308,20 +308,30 @@ export function itemsUnread (
 // and sets index appropriately
 // (sucks that reducers need to think about UI implementation, but :shrug:)
 const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
-  const buffer = 1 // rather than BUFFER_LENGTH 
+  // const buffer = 1 // rather than BUFFER_LENGTH 
+  // let currentItem = state.items[state.index]
+  // let index = state.index
+  // const indexStart = state.index === 0 ?
+  //   0 :
+  //   state.index - 1
+  // const indexEnd = state.index + buffer >= state.items.length ?
+  //   state.items.length - 1 :
+  //   state.index + buffer
+  // if (currentItem) {
+  //   const currentItems = state.items.slice(indexStart, indexEnd+1)
+  //   items = items.filter(item => !currentItems.find(ci => ci._id === item._id))
+  //   items = currentItems.concat(items)
+  //   index = currentItems.indexOf(currentItem)
+  // }
+  // return { items, index }
+
+  // redo: just keep the current item, place at front of array
+  const index = 0
   let currentItem = state.items[state.index]
-  let index = state.index
-  const indexStart = state.index === 0 ?
-    0 :
-    state.index - 1
-  const indexEnd = state.index + buffer >= state.items.length ?
-    state.items.length - 1 :
-    state.index + buffer
   if (currentItem) {
-    const currentItems = state.items.slice(indexStart, indexEnd+1)
-    items = items.filter(item => !currentItems.find(ci => ci._id === item._id))
-    items = currentItems.concat(items)
-    index = currentItems.indexOf(currentItem)
+    items = items.filter(item => currentItem._id !== item._id)
+    items.unshift(currentItem)
   }
   return { items, index }
+
 }
