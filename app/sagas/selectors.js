@@ -34,7 +34,7 @@ export function getActiveItems (state) {
   const displayMode = state.itemsMeta.display
   const items = getItemsUtils(state, displayMode)
   const index = getIndexUtils(state, displayMode)
-  const buffer = 8
+  const buffer = items.length < 8 ? items.length : 8
   let activeItems = [ items[index] ]
   for (var i = -buffer; i <= buffer; i++) {
     if (index + i >= 0 && index + i < items.length) {

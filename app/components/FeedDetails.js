@@ -13,6 +13,7 @@ import { hslString } from '../utils/colors'
 import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1'
 
 const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.03
@@ -202,9 +203,9 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
   </Svg>
 
   const mercuryIcon = <View style={{
-    width: 28,
-    top: 22,
-    left: 10,
+    width: 28 * fontSizeMultiplier(),
+    top: 22 * fontSizeMultiplier(),
+    left: 8 * fontSizeMultiplier(),
     transform: [{ rotateZ: '180deg' }, { scale: 0.9 }]
   }}>
     { getRizzleButtonIcon(
@@ -214,13 +215,12 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
 
   return (
     <View style={{
-      flex: 1,
-      justifyContent: 'space-around',
+      justifyContent: 'flex-start',
       margin: 0,
       padding: margin
     }}>
         <View style={{
-          flex: 1,
+          flex: -1,
           justifyContent: 'center'
         }}>
           { feedStats }
@@ -240,11 +240,13 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
           }}
           viewStyle={{ marginBottom: 0 }}
         >
-          <Text style={{ 
-            ...textInfoStyle(),
-            marginLeft: 6,
-            flex: 1   
-          }}>Read stories from <Text style={textInfoBoldStyle()}>{feed.title}</Text></Text>
+          <Text 
+            numberOfLines={1}
+            style={{ 
+              ...textInfoStyle(),
+              marginLeft: 6,
+              flex: 1,
+            }}>Read stories from <Text style={textInfoBoldStyle()}>{feed.title}</Text></Text>
         </NavButton>
         <View style={{
             flexDirection: 'column',
@@ -294,6 +296,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
           flex: 0,
           flexDirection: 'row',
           flexWrap: 'wrap',
+          // minHeight: 100,
           justifyContent: 'space-between',
           width: '100%',
           marginBottom: margin,

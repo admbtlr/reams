@@ -77,7 +77,8 @@ class FeedExpanded extends React.Component {
             backgroundColor: hslString(feed.color, 'desaturated'),
             // position: 'relative',
             overflow: 'hidden',
-            flex: 2,
+            flex: 0,
+            flexGrow: 1,
             width: this.screenWidth
             // ...positionStyles
           }}>
@@ -85,7 +86,10 @@ class FeedExpanded extends React.Component {
             ref={c => this.imageView = c}
             style={{
               // height: '100%',
-              width: '100%'
+              width: '100%',
+              minHeight: 200,
+              overflow: 'hidden',
+              flex: 1
             }}>
             <FeedCoverImage
               feed={feed}
@@ -156,17 +160,18 @@ class FeedExpanded extends React.Component {
         </View>
         <View style={{
           backgroundColor: hslString('rizzleBG'),
-          flex: 3,
+          flex: 0,
           padding: 0,
-          margin: 0
+          margin: 0,
+          flexGrow: 0
         }}>
           <FeedDetails { ...this.props } />
         </View>
         <View style={{
           // opacity: this.expandAnim,
           position: 'absolute',
-          right: 10,
-          top: 10
+          right: 10 * fontSizeMultiplier(),
+          top: 10 * fontSizeMultiplier()
         }}>
           <XButton
             isLight={true}
