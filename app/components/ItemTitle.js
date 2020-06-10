@@ -1086,10 +1086,10 @@ class ItemTitle extends React.Component {
     if (!showCoverImage || coverImageStyles.isInline) {
       return {
         opacity: Animated.add(scrollOffset.interpolate({
-            inputRange: [-50, 100, 300],
+            inputRange: [-50, 0, 500],
             outputRange: [1, 1, 0]
           }), anims[0].interpolate({
-            inputRange: [0, 1.3, 1.5, 2],
+            inputRange: [0, 1.2, 1.8, 2],
             outputRange: [1, 1, 0, 0]
           })),
         titleAnimation: anims[1],
