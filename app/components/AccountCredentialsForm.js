@@ -134,11 +134,11 @@ class AccountCredentialsForm extends React.Component {
             { isActive ?
               <View style={{
                 // backgroundColor: hslString('logo1'),
-                paddingTop: 16,
-                paddingLeft: 16,
-                paddingRight: 16,
-                paddingBottom: 16,
-                marginTop: 16,
+                paddingTop: 16 * fontSizeMultiplier(),
+                paddingLeft: 16 * fontSizeMultiplier(),
+                paddingRight: 16 * fontSizeMultiplier(),
+                paddingBottom: 16 * fontSizeMultiplier(),
+                marginTop: 16 * fontSizeMultiplier(),
                 flex: 0,
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -146,8 +146,8 @@ class AccountCredentialsForm extends React.Component {
               }}>
                 { service === 'basic' ?
                   <View style={{
-                    marginLeft: -16,
-                    marginRight: -16
+                    marginLeft: -24 * fontSizeMultiplier(),
+                    marginRight: -24 * fontSizeMultiplier()
                   }}>
                     <Text style={textInfoStyle('white')}><Text style={textInfoItalicStyle('white')}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t sync your data with <Text style={textInfoItalicStyle('white')}>Reams Basic</Text>.</Text>
                   </View> :

@@ -12,10 +12,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toggleFirstTime: (isFirstTime) => dispatch({
-      type: TOGGLE_FIRST_TIME,
-      isFirstTime: false
-    }),
     addFeeds: (feeds) => dispatch({
       type: ADD_FEEDS,
       feeds

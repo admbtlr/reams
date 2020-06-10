@@ -131,7 +131,7 @@ class FeedContracted extends React.PureComponent {
   }
 
   render = () => {
-    const { feed, index, activeFeedId } = this.props
+    const { feed, index } = this.props
     const {
       _id,
       coverImageDimensions,

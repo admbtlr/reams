@@ -18,6 +18,7 @@ import ViewButtonsContainer from '../containers/ViewButtons.js'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { hslString } from '../utils/colors'
 import { getClampedScrollAnim, onScrollEnd, setScrollListener } from '../utils/animation-handlers'
+import { fontSizeMultiplier } from '../utils'
 
 export const BUFFER_LENGTH = 5
 
@@ -365,18 +366,18 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
     marginLeft: '16.67%'
   }}>
     { displayMode === ItemType.saved ?
-      <Fragment>
+      <View style={{ flex: 1}}>
         <Text style={{
           ...textInfoBoldStyle(),
-          fontSize: 22,
-          marginBottom: 24,
+          fontSize: 22 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
           marginLeft: 0,
           marginRight: 0
         }}>This is the area for your saved stories, but you don’t have any right now</Text>
         <Text style={{
           ...textInfoStyle(),
-          fontSize: 20,
-          marginBottom: 24,
+          fontSize: 20 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
           marginLeft: 0,
           marginRight: 0
         }}>You can save stories from your feed, or direct from Safari using the Rizzle Share Extension</Text>
@@ -385,28 +386,35 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
           onPress={ () => {
             navigation.navigate('Account')
           }} />
-      </Fragment> :
-      <Fragment>
+      </View> :
+      <View style={{ 
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'stretch'
+      }}>
         <Text style={{
           ...textInfoBoldStyle(),
-          fontSize: 22,
-          marginBottom: 24,
+          fontSize: 22 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
           marginLeft: 0,
           marginRight: 0
         }}>You have no unread stories!</Text>
         <Text style={{
           ...textInfoStyle(),
-          fontSize: 18,
-          marginBottom: 24,
+          fontSize: 18 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
           marginLeft: 0,
           marginRight: 0
-        }}>This is the moment when you put down your phone and go outside for a bit. Or alternatively you could just add some more feeds...</Text>
+        }}>This is the moment when you put down your phone and go outside for a bit. Or alternatively you could...</Text>
         <TextButton
-          text='Add some feeds'
+          buttonStyle={{
+            width: 'auto'
+          }}
+          text='Add some more feeds'
           onPress={ () => {
             navigation.navigate('Feeds')
           }} />
-      </Fragment>
+      </View>
     }
   </View>
 }
