@@ -64,7 +64,7 @@ class ViewButtons extends React.Component {
         }}>
         <RizzleButton
           style={{
-            marginBottom: 28,
+            marginBottom: 25,
             transform: [{
               translateX: this.state.anim.interpolate({
                 inputRange: [0, 0.25, 0.5, 1],
@@ -78,14 +78,13 @@ class ViewButtons extends React.Component {
             source={require('../img/increase-font-size.png')}
             style={{
               position: 'relative',
-              left: -2,
-              width: 56,
-              height: 56
+              width: 50,
+              height: 50
             }}/>
         </RizzleButton>
         <RizzleButton
           style={{
-            marginBottom: 28,
+            marginBottom: 25,
             transform: [{
               translateX: this.state.anim.interpolate({
                 inputRange: [0, 0.25, 0.5, 0.75, 1],
@@ -99,9 +98,8 @@ class ViewButtons extends React.Component {
             source={require('../img/decrease-font-size.png')}
             style={{
               position: 'relative',
-              left: -2,
-              width: 56,
-              height: 56
+              width: 50,
+              height: 50
             }}/>
         </RizzleButton>
         <RizzleButton
@@ -120,9 +118,8 @@ class ViewButtons extends React.Component {
             source={require('../img/night-mode.png')}
             style={{
               position: 'relative',
-              width: 56,
-              height: 56,
-              left: -2
+              width: 50,
+              height: 50,
             }}/>
         </RizzleButton>
       </Animated.View>
@@ -148,7 +145,7 @@ class ViewButtons extends React.Component {
         opacity: 0.95,
         width: 56,
         height: 56,
-        borderRadius: 28,
+        borderRadius: 25,
         justifyContent: 'center',
         flexDirection: 'column',
         shadowOffset: {
