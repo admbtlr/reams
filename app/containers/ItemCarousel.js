@@ -1,5 +1,8 @@
 import { connect } from 'react-redux'
-import { UPDATE_ONBOARDING_INDEX } from '../store/config/types'
+import { 
+  TOGGLE_FIRST_TIME,
+  UPDATE_ONBOARDING_INDEX
+} from '../store/config/types'
 import { 
   SAVE_ITEM,
   TOGGLE_MERCURY_VIEW,
@@ -93,6 +96,10 @@ const mapDispatchToProps = (dispatch) => {
         })
       }
     },
+    notFirstTime: () => dispatch({
+      type: TOGGLE_FIRST_TIME,
+      isFirstTime: false
+    }),
   }
 }
 

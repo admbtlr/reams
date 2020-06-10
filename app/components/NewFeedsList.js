@@ -14,7 +14,7 @@ import Svg, {Path} from 'react-native-svg'
 import { ADD_FEEDS } from '../store/feeds/types'
 import TextButton from './TextButton'
 import XButton from './XButton'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getMargin } from '../utils'
 import { hslString } from '../utils/colors'
 import {feeds} from '../utils/feeds/feeds'
 import { textInfoBoldStyle } from '../utils/styles'
@@ -162,8 +162,8 @@ export default function NewFeedsList (props) {
       <XButton
         onPress={props.close}
         style={{
-          top: screenWidth * 0.025,
-          right: screenWidth * 0.05 + 1
+          top: getMargin() / 2,
+          right: getMargin() + 1
         }}
       />
       <Animated.ScrollView
@@ -171,8 +171,8 @@ export default function NewFeedsList (props) {
           alignItems: 'center',
           justifyContent: 'flex-start',
           backgroundColor: hslString('logo1'),
-          paddingLeft: screenWidth * 0.05,
-          paddingRight: screenWidth * 0.05
+          paddingLeft: getMargin(),
+          paddingRight: getMargin()
         }}
         onScroll={Animated.event(
           [{ nativeEvent: {
@@ -193,19 +193,19 @@ export default function NewFeedsList (props) {
           barStyle="dark-content"
           showHideTransition="slide"/>
         <View style={{
-          marginTop: headerHeight + collapsedHeaderHeight + screenWidth * 0.05,
-          marginBottom: 64,
+          marginTop: headerHeight + collapsedHeaderHeight + getMargin(),
+          marginBottom: 64 * fontSizeMultiplier(),
           width: screenWidth * 0.9
         }}>
           <Text style={{
             ...textStyles(),
             ...boldStyles,
-            marginBottom: 32
+            marginBottom: 32 * fontSizeMultiplier()
           }}>1. Use the Reams Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Reams icon.</Text>
           <Text style={{
             ...textStyles(),
             ...boldStyles,
-            marginBottom: 36
+            marginBottom: 36 * fontSizeMultiplier()
           }}>2. Select your favourite topics to find more sites to add:</Text>
           {
             [
@@ -218,7 +218,7 @@ export default function NewFeedsList (props) {
               future
             ].map((feedSet, i) => <View key={`feedSet-${i}`}>
               <TextButton
-                buttonStyle={{ marginBottom: 36 }}
+                buttonStyle={{ marginBottom: 36 * fontSizeMultiplier() }}
                 iconBg={true}
                 iconCollapsed={hashtag}
                 iconExpanded={hashtag}
@@ -239,8 +239,8 @@ export default function NewFeedsList (props) {
       </Animated.ScrollView>
       <Animated.View style={{
           position: 'absolute',
-          left: screenWidth * 0.05,
-          top: screenWidth * 0.025,
+          left: getMargin(),
+          top:  getMargin() /2,
           zIndex: 10,
           opacity: selectedFeeds.length === 0 ? 0 :
             scrollY.interpolate({ 
@@ -294,7 +294,7 @@ export default function NewFeedsList (props) {
             width: '90%',
             marginLeft: '5%',
             borderBottomWidth: 1,
-            paddingBottom: screenWidth * 0.05,
+            paddingBottom: getMargin(),
             borderBottomColor: 'rgba(255, 255, 255, 0.5)',
           }}>
             <Animated.Text style={{
@@ -318,7 +318,7 @@ export default function NewFeedsList (props) {
 const FeedList = ({feeds, toggleFeedSelected}) => {
   return (
   <View style={{
-    marginTop: 16,
+    marginTop: 16 * fontSizeMultiplier(),
     paddingTop: 0
   }}>
     { feeds.map((feed, index) => <FeedToggle 
@@ -361,8 +361,8 @@ const FeedToggle = (props) => {
       style={{
           flexDirection: 'row',
           backgroundColor: isSelected ? feed.color || hslString('rizzleText') : 'transparent',
-          paddingTop: 16,
-          paddingRight: 16
+          paddingTop: 16 * fontSizeMultiplier(),
+          paddingRight: 16 * fontSizeMultiplier()
           // height: 300
       }}>
         <View style={{
@@ -374,10 +374,10 @@ const FeedToggle = (props) => {
             source={feed.favicon.source}
             style={{
               // flex: 1,
-              marginLeft: 16,
-              marginTop: 8,
-              height: 32,
-              width: 32
+              marginLeft: 16 * fontSizeMultiplier(),
+              marginTop: 8 * fontSizeMultiplier(),
+              height: 32 * fontSizeMultiplier(),
+              width: 32 * fontSizeMultiplier()
             }}
           />}
         </View>
@@ -397,14 +397,14 @@ const FeedToggle = (props) => {
             opacity: 0.7,
             fontSize: 16 * fontSizeMultiplier(),
             marginTop: 0,
-            marginBottom: 24
+            marginBottom: 24 * fontSizeMultiplier()
           }}>{feed.description}</Text>
         </View>
       </TouchableOpacity>
       <View style={{
         height: 1,
-        paddingLeft: 16,
-        paddingRight: 16,
+        paddingLeft: 16 * fontSizeMultiplier(),
+        paddingRight: 16 * fontSizeMultiplier(),
         backgroundColor: isSelected || isLast ? 'transparent' : 'rgba(0,0,0,0.1)',
       }} />
     </Fragment>

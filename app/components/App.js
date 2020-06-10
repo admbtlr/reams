@@ -192,4 +192,3 @@ export default App = () => {
     </AppStack.Navigator>
   )
 }
-// export default createAppContainer(TheStack)

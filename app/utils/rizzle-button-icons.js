@@ -63,7 +63,7 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinecap="round"
         strokeLinejoin="round">
         <Path d="M 18 23 l -6 -5 l -6 5 V 5 a 2 2 0 0 1 2 -2 h 8 a 2 2 0 0 1 2 2 z" />
-        <Path strokeWidth='1' style={{ opacity: 0.6 }} d='M 10 7 L 10 16 M 12 7 L 12 16 M 14 7 L 14 16' />
+        <Path strokeWidth='1' style={{ opacity: 0.6 }} d='M 10 10 H 14 M 10 12 H 14 M 10 14 H 14' />
       </Svg>
     // return <Svg
       //   width={ fontScale(35) }
@@ -99,7 +99,7 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinecap="round"
         strokeLinejoin="round">
         <Path d="M 18 21 A 2 2 0 0 1 16 23 h -8 A 2 2 0 0 1 6 21 V 3 l 6 4 L 18 3 z" />
-        <Path strokeWidth='1' stroke={backgroundColor} style={{ opacity: 0.6 }} d='M 10 10 L 10 13 M 12 10 L 12 13 M 14 10 L 14 13' />
+        <Path strokeWidth='1' stroke={backgroundColor} style={{ opacity: 0.6 }} d='M 10 12 H 14 M 10 14 H 14 M 10 16 H 14' />
       </Svg>
     // return <Svg
       //   width={ fontScale(42) }
@@ -269,20 +269,26 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
       </Svg>
 
     case 'saved':
-      return <Svg width='32px' height='32px' viewBox='0 0 32 32'>
+      return <Svg 
+        width={fontScale(32)} 
+        height={fontScale(32)} 
+        viewBox='0 0 32 32'>
         <G strokeWidth='1'  stroke='none' fill='none' fillRule='evenodd'>
           <G transform='translate(-1.000000, -3.000000)'>
             <G transform='translate(1.000000, 3.000000)'>
-              <Path fill={borderColor} opacity={0.7} d='M 2 7 L 2 27 C 2 29 3 30 5 30 L 27 30 C 29 30 30 29 30 27 L 30 7 M 0 6 L 0 2 C 0 2 0 0 2 0 L 30 0 C 32 0 32 2 32 2 V 6 Z' />
+              <Path fill={borderColor} opacity={0.8} d='M 2 7 L 2 27 C 2 29 3 30 5 30 L 27 30 C 29 30 30 29 30 27 L 30 7 M 0 6 L 0 2 C 0 2 0 0 2 0 L 30 0 C 32 0 32 2 32 2 V 6 Z' />
               <Path stroke={backgroundColor} fill={borderColor} d='M 12 26 L 12 12 C 12 10 12 10 14 10 H 18 C 20 10 20 10 20 12 V 26 L 16 22 Z' />
-              <Path stroke={backgroundColor} opacity={0.5} d='M 16 13 V 19 M 14 13 V 19 M 18 13 V 19' />
+              <Path stroke={backgroundColor} opacity={0.5} d='M 14 14 H 18 M 14 16 H 18 M 14 18 H 18' />
             </G>
           </G>
         </G>
       </Svg>
 
     case 'unread':
-      return <Svg width='30px' height='26px' viewBox='0 0 30 26'>
+      return <Svg 
+        width={fontScale(30)} 
+        height={fontScale(26)} 
+        viewBox='0 0 30 26'>
         <G stroke='none' strokeWidth='1' fill='none' strokeLinecap='round' strokeLinejoin='round'>
           <G transform='translate(-2.000000, -8.000000)' strokeWidth='2'>
             <G transform='translate(3.000000, 3.000000)'>
@@ -294,19 +300,43 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
       </Svg>
 
     case 'rss':
-      return <Svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke={borderColor} strokeWidth='3' strokeLinecap='round' strokeLinejoin='round'>
+      return <Svg 
+        width={fontScale(32)}  
+        height={fontScale(32)} 
+        viewBox='0 0 24 24' 
+        fill='none' 
+        stroke={borderColor} 
+        strokeWidth='3' 
+        strokeLinecap='round' 
+        strokeLinejoin='round'>
         <Path d='M4 11a9 9 0 0 1 9 9' />
         <Path d='M4 4a16 16 0 0 1 16 16' />
         <Circle cx='5' cy='19' r='1' />
       </Svg>
 
     case'back':
-      return <Svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke={borderColor} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+      return <Svg 
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke={borderColor}
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'>
         <Path d='M15 18l-6-6 6-6'/>
       </Svg>
 
     case 'forward':
-      return <Svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke={borderColor} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke={borderColor}
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'>
         <Path d='M9 18l6-6-6-6'/>
       </Svg>
 }

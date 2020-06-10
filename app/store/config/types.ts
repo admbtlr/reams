@@ -55,7 +55,7 @@ interface feedOnboardingDoneAction {
   type: typeof FEED_ONBOARDING_DONE
 }
 
-interface toggleFirstTimeAtion {
+interface toggleFirstTimeAction {
   type: typeof TOGGLE_FIRST_TIME
   isFirstTime: boolean
 }
@@ -106,7 +106,7 @@ export type ConfigActionTypes = setBackendAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |
   feedOnboardingDoneAction |
-  toggleFirstTimeAtion |
+  toggleFirstTimeAction |
   setFeedFilterAction |
   isOnlineAction |
   setItemSortAction |
