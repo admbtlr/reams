@@ -795,7 +795,7 @@ class ItemTitle extends React.Component {
   getExcerptLineHeight () {
     let excerptLineHeight = Math.round(Math.min(this.screenHeight, this.screenWidth) / 16)
     if (excerptLineHeight > 32) excerptLineHeight = 32
-    return excerptLineHeight * fontSizeMultiplier()
+    return excerptLineHeight// * fontSizeMultiplier()
   }
 
   getExcerptColor () {

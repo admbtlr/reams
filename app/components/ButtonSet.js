@@ -7,6 +7,7 @@ import {
 import RizzleButton from './RizzleButton'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { hslString } from '../utils/colors'
+import { getMargin, isIphoneX } from '../utils'
 
 // isDarkMode, displayMode, isOnboarding
 let areButtonsVisible = true
@@ -212,9 +213,9 @@ const getStyles = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignSelf: 'center',
-      marginBottom: 20,
-      paddingLeft: 20,
-      paddingRight: 20
+      marginBottom: getMargin() / (isIphoneX() ? 1 : 2),
+      paddingLeft: getMargin() / (screenDimensions.width < 321 ? 2 : 1),
+      paddingRight: getMargin() / (screenDimensions.width < 321 ? 2 : 1)
     },
     buttonSVG: {
       paddingLeft: 3
