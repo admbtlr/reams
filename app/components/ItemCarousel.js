@@ -366,7 +366,11 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
     marginLeft: '16.67%'
   }}>
     { displayMode === ItemType.saved ?
-      <View style={{ flex: 1}}>
+      <View style={{ 
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'stretch'
+      }}>
         <Text style={{
           ...textInfoBoldStyle(),
           fontSize: 22 * fontSizeMultiplier(),
