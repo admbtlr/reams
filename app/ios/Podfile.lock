@@ -158,11 +158,11 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
-  - AppAuth (1.3.0):
-    - AppAuth/Core (= 1.3.0)
-    - AppAuth/ExternalUserAgent (= 1.3.0)
-  - AppAuth/Core (1.3.0)
-  - AppAuth/ExternalUserAgent (1.3.0)
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
   - Bolts/Tasks (1.9.0)
   - boost-for-react-native (1.63.0)
   - BoringSSL-GRPC (0.0.3):
@@ -284,9 +284,9 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - GoogleAPIClientForREST/Core (1.3.11):
+  - GoogleAPIClientForREST/Core (1.4.1):
     - GTMSessionFetcher (>= 1.1.7)
-  - GoogleAPIClientForREST/Vision (1.3.11):
+  - GoogleAPIClientForREST/Vision (1.4.1):
     - GoogleAPIClientForREST/Core
     - GTMSessionFetcher (>= 1.1.7)
   - GoogleAppMeasurement (6.1.6):
@@ -295,7 +295,7 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
-  - GoogleDataTransport (6.0.0)
+  - GoogleDataTransport (6.2.1)
   - GoogleDataTransportCCTSupport (3.0.0):
     - GoogleDataTransport (~> 6.0)
     - nanopb (~> 0.3.901)
@@ -364,8 +364,8 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - PromisesObjC (1.2.8)
-  - Protobuf (3.11.4)
+  - PromisesObjC (1.2.9)
+  - Protobuf (3.12.0)
   - RCTRequired (0.61.0)
   - RCTTypeSafety (0.61.0):
     - FBLazyVector (= 0.61.0)
@@ -638,16 +638,16 @@ PODS:
     - React
   - RNScreens (2.4.0):
     - React
-  - RNSentry (1.3.6):
+  - RNSentry (1.4.5):
     - React
-    - Sentry (~> 4.4.0)
+    - Sentry (~> 5.1.4)
   - RNSVG (12.1.0):
     - React
   - RNTextSize (4.0.0-rc.1):
     - React
-  - Sentry (4.4.3):
-    - Sentry/Core (= 4.4.3)
-  - Sentry/Core (4.4.3)
+  - Sentry (5.1.4):
+    - Sentry/Core (= 5.1.4)
+  - Sentry/Core (5.1.4)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -866,7 +866,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
-  AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
@@ -891,9 +891,9 @@ SPEC CHECKSUMS:
   FirebaseMLVisionFaceModel: d6ba42000f263df52187aee936262bc2002b3389
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  GoogleAPIClientForREST: 0f19a8280dfe6471f76016645d26eb5dae305101
+  GoogleAPIClientForREST: e50dc3267b3131ee3a25e707c10204f6bec15ae9
   GoogleAppMeasurement: dfe55efa543e899d906309eaaac6ca26d249862f
-  GoogleDataTransport: 061fe7d9b476710e3cd8ea51e8e07d8b67c2b420
+  GoogleDataTransport: 9a8a16f79feffc7f42096743de2a7c4815e84020
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleToolboxForMac: 800648f8b3127618c1b59c7f97684427630c5ea3
@@ -904,8 +904,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
-  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
+  PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
+  Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
   RCTRequired: 1f0d5c0baf372e291f70b6b1275b19142bdce931
   RCTTypeSafety: 3b7329bbb97065c1f6ff7157f8eaf0da60fdc13d
   React: e419a1c0c3afe96300511585756bbea2f9f35e04
@@ -952,10 +952,10 @@ SPEC CHECKSUMS:
   RNReactNativeHapticFeedback: e11a4da0ce174e9f88b03cbaf5d76d94633cdee2
   RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48
   RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
-  RNSentry: d892cbdee165cc6159d71e2a7954efdb8a361918
+  RNSentry: 0a70359ddacbfb9b1cbbb0971e54065b9f70ac57
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNTextSize: 91955a6ea2adda9dc7802ce472b7a4dc717686f6
-  Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
+  Sentry: 74f2ad93a20a5567a1badaedf5b3f60b142ad082
   Yoga: 3f70bbd9aa01e04eefec36e2a085b2fc0ff1dd98
 
 PODFILE CHECKSUM: 467149fb2e80594ba96366ade289338d6d5d4814
