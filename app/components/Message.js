@@ -15,7 +15,7 @@ import {
 } from '../utils/styles'
 
 const screenWidth = Dimensions.get('window').width
-const offscreenDistance = -28
+const offscreenDistance = isIphoneX() ? -28 : -36
 const transformAnim = new Animated.Value(0)
 
 export default function Message (props) {
@@ -48,7 +48,7 @@ export default function Message (props) {
   return /*message.length === 0 ? null :*/ (
     <Animated.View style={{
       position: 'absolute',
-      top: isIphoneX() ? 38 : 6 * fontSizeMultiplier(),
+      top: isIphoneX() ? 38 : 18,
       width: screenWidth,
       flex: 1,
       flexAlign: 'center',

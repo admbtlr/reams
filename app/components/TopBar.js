@@ -14,7 +14,7 @@ import { id, isIphoneX, fontSizeMultiplier } from '../utils'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
-export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
+export const STATUS_BAR_HEIGHT = (70 * fontSizeMultiplier()) + (isIphoneX() ? 44 : 22)
 
 /* Props:
 - clampedAnimatedValue
@@ -113,8 +113,8 @@ class TopBar extends React.Component {
           <View style={{
             top: isIphoneX() ? 44 : 22,
             flex: 1,
-            marginLeft: 80,
-            marginRight: 80
+            marginLeft: 80 * fontSizeMultiplier(),
+            marginRight: 80 * fontSizeMultiplier()
           }}>
             <TouchableOpacity
               key={`inner-{id()}`}
@@ -124,14 +124,14 @@ class TopBar extends React.Component {
               }}
               style={{
                 backgroundColor: 'transparent',
-                height: 70,
+                height: 70 * fontSizeMultiplier(),
               }}>
               <Animated.View style={{
                 flex: 1,
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height: 64,
+                height: 64 * fontSizeMultiplier(),
                 marginTop: 0,
                 marginLeft: 0,
                 marginRight: 0,
@@ -174,7 +174,7 @@ class TopBar extends React.Component {
                     style={{
                       ...this.getStyles().feedName,
                       fontSize: 18 * fontSizeMultiplier(),
-                      lineHeight: 22,
+                      lineHeight: 22 * fontSizeMultiplier(),
                       fontFamily: this.props.feedFilter ?
                         'IBMPlexSansCond-Bold' :
                         'IBMPlexSansCond-Bold',
@@ -334,7 +334,7 @@ class TopBar extends React.Component {
         // fontFamily: 'AvenirNext-Regular',
         fontFamily: 'IBMPlexMono',
         fontFamily: 'IBMPlexMono',
-        height: 36,
+        height: 36 * fontSizeMultiplier(),
         textAlign: 'center',
         padding: 10
       }
@@ -417,8 +417,8 @@ const DisplayModeToggle = ({ displayMode, onDisplayPress, backgroundColor, butto
   return (
     <Animated.View style={{
       position: 'absolute',
-      right: 15,
-      bottom: 10,
+      right: 15 * fontSizeMultiplier(),
+      bottom: 10 * fontSizeMultiplier(),
       width: 32,
       height: 38,
       zIndex: 10,
@@ -442,7 +442,7 @@ const BackButton = ({ isSaved, navigation: { goBack } }) => (
   <Animated.View style={{
     position: 'absolute',
     left: 0,
-    bottom: 3,
+    bottom: 8 * fontSizeMultiplier(),
     width: 32,
     height: 48,
     paddingRight: 50
@@ -459,7 +459,7 @@ const BackButton = ({ isSaved, navigation: { goBack } }) => (
       }}
     >
       { getRizzleButtonIcon('back', isSaved ?
-          'black' : 'white') }
+          'black' : 'white', 'transparent', true, false) }
     </TouchableOpacity>
   </Animated.View>
 )
