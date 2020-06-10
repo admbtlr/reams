@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import {
+  Animated,
   Dimensions,
   Image,
   ScrollView,
@@ -17,8 +18,11 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getInset } from '../utils'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { ItemType } from '../store/items/types'
+// import Animated from 'react-native-reanimated'
 
 class AccountScreen extends React.Component {
+
+  scrollAnim = new Animated.Value(0)
 
   constructor (props) {
     super(props)
@@ -60,25 +64,20 @@ class AccountScreen extends React.Component {
     const margin = width * 0.05
     const height = Dimensions.get('window').height
     const textStyles = {
-      fontFamily: 'IBMPlexSans',
-      fontSize: 20 * fontSizeMultiplier(),
-      lineHeight: 32 * fontSizeMultiplier(),
+      ...textInfoStyle(),
       marginTop: margin,
       marginBottom: margin,
-      padding: 8 * fontSizeMultiplier(),
-      textAlign: 'left',
-      color: hslString('rizzleText')
-    }
-    const boldStyles = {
-      fontFamily: 'IBMPlexSans-Bold'
+      marginLeft: 0,
+      marginRight: 0,
+      // padding: 8 * fontSizeMultiplier(),
     }
     const italicStyles = {
       fontFamily: 'IBMPlexSans-Italic'
     }
     const textTipStyles = {
       ...textStyles,
-      fontSize: 14 * fontSizeMultiplier(),
-      lineHeight: 20 * fontSizeMultiplier(),
+      fontSize: 16 * fontSizeMultiplier(),
+      lineHeight: 22 * fontSizeMultiplier(),
       marginTop: 0,
       marginBottom: 0
     }
@@ -123,6 +122,7 @@ class AccountScreen extends React.Component {
 
     return (
       <KeyboardAwareScrollView
+        bounces={false}
         contentContainerStyle={{
           flex: 1,
           backgroundColor: hslString('rizzleBG')
@@ -132,9 +132,18 @@ class AccountScreen extends React.Component {
           backgroundColor: hslString('rizzleBG')
         }}
       >
-        <ScrollView
+        <Animated.ScrollView
           showsVerticalScrollIndicator={false}
-        >
+          onScroll={Animated.event(
+            [{ nativeEvent: {
+              contentOffset: { y: this.scrollAnim }
+            }}],
+            {
+              useNativeDriver: true
+            }
+          )}
+          scrollEventThrottle={1}
+      >
           <View
             style={{
               flex: 1,
@@ -153,27 +162,42 @@ class AccountScreen extends React.Component {
               marginLeft: getInset(),
               marginRight: getInset()
             }}>
-              <NavButton
-                hasBottomBorder={true}
-                hasTopBorder={true}
-                icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
-                onPress={() => {
-                  this.props.setDisplayMode('unread')
-                  this.props.navigation.navigate('Feeds')
-                }}
-                text='Your Feeds'
-                viewStyle={{ paddingLeft: 5 }}
-              />
-              <NavButton
-                hasBottomBorder={true}
-                icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
-                onPress={() => {
-                  this.props.setDisplayMode('saved')
-                  this.props.navigation.navigate('Items')
-                }}
-                text='Your Saved Stories'
-                viewStyle={{ paddingLeft: 5 }}
-              />
+              <Animated.View style={{
+                transform: [
+                  // {
+                  //   translateY: this.scrollAnim.interpolate({
+                  //     inputRange: [-1, 0, 1],
+                  //     outputRange: [-1, 0, 0]
+                  //   })
+                  // }
+                ]
+              }}>
+                <NavButton
+                  hasBottomBorder={true}
+                  hasTopBorder={true}
+                  icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
+                  onPress={() => {
+                    this.props.setDisplayMode('unread')
+                    this.props.navigation.navigate('Feeds')
+                  }}
+                  scrollAnim={this.scrollAnim}
+                  index={0}
+                  text='Your Feeds'
+                  viewStyle={{ paddingLeft: 5 }}
+                />
+                <NavButton
+                  hasBottomBorder={true}
+                  icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
+                  onPress={() => {
+                    this.props.setDisplayMode('saved')
+                    this.props.navigation.navigate('Items')
+                  }}
+                  scrollAnim={this.scrollAnim}
+                  index={1}
+                  text='Your Saved Stories'
+                  viewStyle={{ paddingLeft: 5 }}
+                />
+              </Animated.View>
               { this.props.isFirstTime &&
                 <View style={{
                   marginTop: 42
@@ -232,7 +256,7 @@ class AccountScreen extends React.Component {
                 />*/}
             </View>
           </View>
-        </ScrollView>
+        </Animated.ScrollView>
       </KeyboardAwareScrollView>
     )
   }

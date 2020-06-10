@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import {
+  Animated,
   Dimensions,
   FlatList,
   StatusBar,
@@ -15,11 +16,10 @@ import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
 import { deepEqual, getInset } from '../utils/'
-import Animated from 'react-native-reanimated'
 import { fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
-const { Value } = Animated
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 class FeedsScreen extends React.Component {
 
@@ -30,7 +30,7 @@ class FeedsScreen extends React.Component {
       scrollEnabled: true,
       modal: null
     }
-    this.activeFeedId = new Value(-1)
+    this.scrollAnim = new Animated.Value(0)
 
     this.open = this.open.bind(this)
     this.close = this.close.bind(this)
@@ -49,14 +49,12 @@ class FeedsScreen extends React.Component {
   }
 
   open = (feed, index, position) => {
-    this.activeFeedId.setValue(feed._id)
     this.setState({
       modal: { feed, position }
     })
   }
 
   close = () => {
-    this.activeFeedId.setValue(-1)
     this.setState({
       modal: null
     })
@@ -99,7 +97,7 @@ class FeedsScreen extends React.Component {
           animated={true}
           barStyle="dark-content"
           showHideTransition="slide"/>
-        <FlatList
+        <AnimatedFlatList
           data={this.props.feeds}
           keyExtractor={feed => feed._id}
           contentContainerStyle={{
@@ -115,10 +113,21 @@ class FeedsScreen extends React.Component {
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}
             markAllRead={this.props.markAllRead}
+            scrollAnim={this.scrollAnim}
             setIndex={this.props.setIndex}
             showModal={this.props.showModal}
           />}
           numColumns={width > 500 ? 2 : 1}
+          onScroll={Animated.event(
+            [{ nativeEvent: {
+              contentOffset: { y: this.scrollAnim }
+            }}],
+            {
+              useNativeDriver: true
+            }
+          )}
+          scrollEventThrottle={1}
+
           renderItem={this.renderFeed}
           scrollEnabled={this.state.scrollEnabled}
           showsVerticalScrollIndicator={false}
@@ -137,7 +146,7 @@ class FeedsScreen extends React.Component {
   renderFeed = ({item, index}) => {
     // const isSelected = this.state.selectedFeedElement !== null &&
     //   this.state.selectedFeedElement.props.feedId === item._id
-    const { open, close, activeFeedId } = this;
+    const { open } = this;
     const { modal } = this.state;
     return item && <FeedContracted
       key={item._id}
@@ -145,7 +154,7 @@ class FeedsScreen extends React.Component {
       index={index}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
-      {...{ modal, open, activeFeedId }}
+      {...{ modal, open }}
     />
   }
 }
@@ -253,28 +262,40 @@ class ListHeaderComponent extends React.Component {
           hasBottomBorder={true}
           hasTopBorder={true}
           icon={ getRizzleButtonIcon('unread', hslString('rizzleText')) }
+          index={0}
           onPress={() => {
             this.props.clearFeedFilter()
             this.props.navigation.navigate('Items')
           }}
+          scrollAnim={this.props.scrollAnim}
+          index={1}
         />
-        <TextButton
-          text="Add feeds"
-          buttonStyle={{ 
-            marginTop: 40,
-            marginBottom: 0 
-          }}
-          onPress={() => {
-            navigation.push('ModalWithGesture', {
-              childView: <NewFeedsList
-                close={() => {
-                  navigation.navigate('Main')
-                }}
-                navigation={navigation}
-              />
+        <Animated.View style={{
+          transform: [{
+            translateY: this.props.scrollAnim.interpolate({
+              inputRange: [-1, 0, 1],
+              outputRange: [-.5, 0, 0]
             })
-          }}
-        />
+          }]
+        }}>
+          <TextButton
+            text="Add feeds"
+            buttonStyle={{ 
+              marginTop: 40,
+              marginBottom: 0,
+            }}
+            onPress={() => {
+              navigation.push('ModalWithGesture', {
+                childView: <NewFeedsList
+                  close={() => {
+                    navigation.navigate('Main')
+                  }}
+                  navigation={navigation}
+                />
+              })
+            }}
+          />
+        </Animated.View>
       </View>
     )
   }
