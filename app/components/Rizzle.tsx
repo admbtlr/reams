@@ -79,7 +79,8 @@ export default class Rizzle extends Component<Props, State> {
     //   })
 
     Sentry.init({
-      dsn: 'https://1dad862b663640649e6c46afed28a37f@sentry.io/195309'
+      dsn: 'https://1dad862b663640649e6c46afed28a37f@sentry.io/195309',
+      enableAutoSessionTracking: true
     })
 
     // if (__DEV__) SplashScreen.hide()
