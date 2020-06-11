@@ -940,3 +940,5 @@ html.onboarding.onboarding-2:not(.dark-background) body {
   background-color: var(--logo3); }
   html.onboarding.onboarding-2:not(.dark-background) body h2 {
     color: var(--bg); }
+  html.onboarding.onboarding-2:not(.dark-background) body h2::before {
+    background-image: url("../img/ream-beige@2x.png"); }
