@@ -51,6 +51,7 @@ class AccountCredentialsForm extends React.Component {
       isSubmitting: false
     }
 
+    this.authenticateUser = this.authenticateUser.bind(this)
   }
 
   async authenticateUser ({username, password, email}, {setSubmitting, setErrors}) {
