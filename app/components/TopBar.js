@@ -111,7 +111,7 @@ class TopBar extends React.Component {
             top: 0,
             bottom: 0,
             backgroundColor: this.getBackgroundColor(item),
-            opacity: this.getBackgroundOpacityAnim(item, opacityAnim, scrollAnim)
+            opacity: this.getBackgroundOpacityAnim(item, scrollAnim)
           }} />
           <BackButton
             navigation={this.props.navigation}
@@ -226,17 +226,16 @@ class TopBar extends React.Component {
     </View>)
   }
 
-  getBackgroundOpacityAnim (item, opacityAnim, scrollAnim, allowTransparent = true) {
+  getBackgroundOpacityAnim (item, scrollAnim, allowTransparent = true) {
     if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
       // feedColor = 'transparent'
       return scrollAnim.interpolate({
-        inputRange: [0, 50, this.screenHeight],
-        outputRange: [0, 1, 1]
+        inputRange: [0, STATUS_BAR_HEIGHT, STATUS_BAR_HEIGHT + 50],
+        outputRange: [0, 0, 1]
       })
     } else {
-      return opacityAnim
+      return 1
     }
-
   }
 
   getBackgroundColor (item) {
