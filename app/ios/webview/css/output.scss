@@ -166,7 +166,7 @@ $ui: (
   rizzleChrome: hsl(0, 0%, 95%),
   bodyBG: hsl(60, 17%, 96%),
   bodyBGDark: hsl(0, 0%, 0%),
-  logo1: hsl(186, 40%, 50%),
+  logo1: hsl(186, 39%, 48%),
   logo2: hsl(360, 70%, 60%),
   logo3: hsl(260, 30%, 30%),
 );
@@ -1460,5 +1460,9 @@ html.onboarding.onboarding-2:not(.dark-background) body {
   background-color: var(--logo3);
   h2 {
     color: var(--bg);
+  }
+
+  h2::before {
+    background-image: url("../img/ream-beige@2x.png");
   }
 }
