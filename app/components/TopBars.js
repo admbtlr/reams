@@ -26,6 +26,7 @@ function TopBars ({
   numItems,
   openFeedModal,
   panAnim,
+  setClampedScrollAnimSetterAndListener,
   setScrollAnimSetterAndListener,
   setBufferIndexChangeListener
 }) {
@@ -34,10 +35,11 @@ function TopBars ({
   const panAnimDivisor = screenWidth
 
   const [clampedScrollAnim, setClampedScrollAnim] = useState(new Animated.Value(0))
+  const [scrollAnim, setScrollAnim] = useState(new Animated.Value(0))
   const [bufferIndex, setBufferIndex] = useState(1)
   const dispatch = useDispatch()
 
-  const scrollListener = {
+  const clampedScrollListener = {
     onStatusBarDown: () => {
       StatusBar.setHidden(false, 'slide')
       dispatch({ type: SHOW_ITEM_BUTTONS })
@@ -56,7 +58,10 @@ function TopBars ({
     }
   }
 
-  setScrollAnimSetterAndListener(setClampedScrollAnim, scrollListener)
+  const scrollListener = {}
+
+  setClampedScrollAnimSetterAndListener(setClampedScrollAnim, clampedScrollListener)
+  setScrollAnimSetterAndListener(setScrollAnim, scrollListener)
   setBufferIndexChangeListener(setBufferIndex)
 
   // console.log('RENDERING TOPBARS')
@@ -149,6 +154,7 @@ function TopBars ({
       numItems={numItems}
       opacityAnim={opacityAnims[i]}
       openFeedModal={openFeedModal}
+      scrollAnim={scrollAnim}
       titleTransformAnim={titleTransformAnims[i]}
     />
   ))

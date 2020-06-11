@@ -17,14 +17,14 @@ import ButtonsContainer from '../containers/Buttons.js'
 import ViewButtonsContainer from '../containers/ViewButtons.js'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { hslString } from '../utils/colors'
-import { getClampedScrollAnim, onScrollEnd, setScrollListener } from '../utils/animation-handlers'
+import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
 import { fontSizeMultiplier } from '../utils'
 
 export const BUFFER_LENGTH = 5
 
 // a kind of memoisation, but not for performance reasons
 // persisting the buffered items makes it easier to decorate
-// them with scrollAnims
+// them with clampedScrollAnims
 let bufferedItems
 
 const getBufferedItems  = (items, index, displayMode, feeds, includeMercury) => {
@@ -63,10 +63,10 @@ class ItemCarousel extends React.Component {
     this.items = []
     this.bufferIndex = -1
 
-    // this is an intermediate cache of scrollAnims
+    // this is an intermediate cache of clampedScrollAnims
     // once we have one for each bufferedItem, we put them into state
     // so that we can pass them to the TopBars and Buttons
-    this.scrollAnims = {}
+    this.clampedScrollAnims = {}
 
     this.state = {
       panAnim: new Animated.Value(0)
@@ -80,6 +80,7 @@ class ItemCarousel extends React.Component {
     this.showShareSheet = this.showShareSheet.bind(this)
     this.setPanAnim = this.setPanAnim.bind(this)
     this.setScrollAnim = this.setScrollAnim.bind(this)
+    this.setClampedScrollAnimSetterAndListener = this.setClampedScrollAnimSetterAndListener.bind(this)
     this.setScrollAnimSetterAndListener = this.setScrollAnimSetterAndListener.bind(this)
     this.setBufferIndexChangeListener = this.setBufferIndexChangeListener.bind(this)
   }
@@ -118,7 +119,7 @@ class ItemCarousel extends React.Component {
     if (prevProps.items && this.props.items &&
       JSON.stringify(prevProps.items.map(item => item._id)) !==
         JSON.stringify(this.props.items.map(item => item._id))) {
-      this.scrollAnims = {}
+      this.clampedScrollAnims = {}
     }
   }
 
@@ -249,8 +250,11 @@ class ItemCarousel extends React.Component {
   }
 
   setScrollAnim (scrollAnim) {
+    if (this.clampedScrollAnimSetter) {
+      this.clampedScrollAnimSetter(getClampedScrollAnim(scrollAnim))
+    }
     if (this.scrollAnimSetter) {
-      this.scrollAnimSetter(getClampedScrollAnim(scrollAnim))
+      this.scrollAnimSetter(scrollAnim)
     }
   }
 
@@ -261,6 +265,11 @@ class ItemCarousel extends React.Component {
     // if (item) {
     //   item.scrollManager.onScrollEnd(scrollOffset)
     // }
+  }
+
+  setClampedScrollAnimSetterAndListener (clampedScrollAnimSetter, clampedScrollAnimListener) {
+    this.clampedScrollAnimSetter = clampedScrollAnimSetter
+    setClampedScrollListener(clampedScrollAnimListener)
   }
 
   setScrollAnimSetterAndListener (scrollAnimSetter, scrollAnimListener) {
@@ -317,6 +326,7 @@ class ItemCarousel extends React.Component {
             index={index}
             openFeedModal={this.openFeedModal}
             panAnim={this.state.panAnim}
+            setClampedScrollAnimSetterAndListener={this.setClampedScrollAnimSetterAndListener}
             setScrollAnimSetterAndListener={this.setScrollAnimSetterAndListener}
             setBufferIndexChangeListener={this.setBufferIndexChangeListener}
           />

@@ -1,6 +1,7 @@
 import {Animated} from 'react-native'
 import {STATUS_BAR_HEIGHT} from '../components/TopBar.js'
 
+let clampedScrollListeners = []
 let scrollListeners = []
 
 let panAnim = new Animated.Value(0)
@@ -30,7 +31,7 @@ function reset (newScrollAnimValue) {
   prevScrollOffset = 0
   scrollAnim.removeAllListeners()
   resetAnim.removeAllListeners()
-  scrollListeners.forEach((listener) => {
+  clampedScrollListeners.forEach((listener) => {
     listener.onStatusBarReset()
   })
   // Animated.timing(resetAnim, {
@@ -39,7 +40,7 @@ function reset (newScrollAnimValue) {
   //   // delay: 200,
   //   useNativeDriver: true
   // }).start(() => {
-  //   scrollListeners.forEach((listener) => {
+  //   clampedScrollListeners.forEach((listener) => {
   //     listener.onStatusBarReset()
   //   })
   // })
@@ -91,11 +92,11 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
       STATUS_BAR_HEIGHT
     )
     if (diff > 0) {
-      scrollListeners.forEach((listener) => {
+      clampedScrollListeners.forEach((listener) => {
         listener.onStatusBarUpBegin()
       })
     } else {
-      scrollListeners.forEach((listener) => {
+      clampedScrollListeners.forEach((listener) => {
         listener.onStatusBarDownBegin()
       })
     }
@@ -118,7 +119,7 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
   //   delay: 200,
   //   useNativeDriver: true
   // }).start(() => {
-  //   scrollListeners.forEach((listener) => {
+  //   clampedScrollListeners.forEach((listener) => {
   //     listener.onStatusBarReset()
   //   })
   // })
@@ -150,11 +151,11 @@ export function onScrollEnd (scrollOffset) {
   resetValue = toValue
 
   if (scrollOffset - prevScrollOffset > 20) {
-    scrollListeners.forEach((listener) => {
+    clampedScrollListeners.forEach((listener) => {
       listener.onStatusBarUp()
     })
   } else if (scrollOffset - prevScrollOffset < -20) {
-    scrollListeners.forEach((listener) => {
+    clampedScrollListeners.forEach((listener) => {
       listener.onStatusBarDown()
     })
   }
@@ -174,7 +175,11 @@ export function getAnimatedValue () {
 // }
 
 export function addScrollListener (listener) {
-  scrollListeners.push(listener)
+  clampedScrollListeners.push(listener)
+}
+
+export function setClampedScrollListener (listener) {
+  clampedScrollListeners = [listener]
 }
 
 export function setScrollListener (listener) {

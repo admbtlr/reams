@@ -44,6 +44,7 @@ class TopBar extends React.Component {
     this.props = props
 
     this.screenWidth = Dimensions.get('window').width
+    this.screenHeight = Dimensions.get('window').height
 
     this.onDisplayPress = this.onDisplayPress.bind(this)
   }
@@ -62,17 +63,13 @@ class TopBar extends React.Component {
       displayMode,
       item,
       opacityAnim,
+      scrollAnim,
       titleTransformAnim,
       isOnboarding,
       isVisible,
       index,
       numItems
     } = this.props
-    const textHolderStyles = {
-      ...this.getStyles().textHolder,
-      backgroundColor: this.getBackgroundColor(item),
-      opacity: opacityAnim
-    }
 
     // if (isVisible) {
     //   console.log('Visible item: ' + item.title)
@@ -85,11 +82,12 @@ class TopBar extends React.Component {
           key={item ? item._id : id()}
           pointerEvents={isVisible ? 'auto' : 'none'}
           style={{
-            ...textHolderStyles,
+            ...this.getStyles().textHolder,
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'center',
             // height: 281 + STATUS_BAR_HEIGHT,
+            opacity: opacityAnim,
             overflow: 'hidden',
             // paddingTop: 80,
             position: 'absolute',
@@ -106,6 +104,15 @@ class TopBar extends React.Component {
             }]
           }}
         >
+          <Animated.View style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            backgroundColor: this.getBackgroundColor(item),
+            opacity: this.getBackgroundOpacityAnim(item, opacityAnim, scrollAnim)
+          }} />
           <BackButton
             navigation={this.props.navigation}
             isSaved={displayMode === ItemType.saved}
@@ -219,11 +226,24 @@ class TopBar extends React.Component {
     </View>)
   }
 
-  getBackgroundColor (item, allowTransparent = true) {
-    let feedColor = item ? item.feed_color : null
+  getBackgroundOpacityAnim (item, opacityAnim, scrollAnim, allowTransparent = true) {
     if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
-      feedColor = 'transparent'
+      // feedColor = 'transparent'
+      return scrollAnim.interpolate({
+        inputRange: [0, 50, this.screenHeight],
+        outputRange: [0, 1, 1]
+      })
+    } else {
+      return opacityAnim
     }
+
+  }
+
+  getBackgroundColor (item) {
+    let feedColor = item ? item.feed_color : null
+    // if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
+    //   feedColor = 'transparent'
+    // }
     const bgColor = this.props.displayMode == ItemType.saved ?
       hslString('rizzleBG') :
       (feedColor ?
