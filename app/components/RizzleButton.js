@@ -95,8 +95,8 @@ class RizzleButton extends React.Component {
       iconOn,
       initialToggleState
     } = this.props
-    this.toggleState = initialToggleState
-    this.toggleAnim = new Animated.Value(initialToggleState ? 1 : 0)
+    this.toggleState = this.toggleState || initialToggleState
+    this.toggleAnim = this.toggleAnim || new Animated.Value(initialToggleState ? 1 : 0)
     const style = {
       position: 'absolute',
       left: 0,
