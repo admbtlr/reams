@@ -1,4 +1,5 @@
 import { store } from '../store'
+import { consoleLog } from './log'
 
 export default function rizzleSort (items, feeds) {
   feeds = feeds || (store && store.getState().feeds.feeds)
@@ -8,8 +9,14 @@ export default function rizzleSort (items, feeds) {
       console.log(item)
     }
   })
-  const liked = items.filter(item => feeds.find(feed => feed._id === item.feed_id)
-    .isLiked)
+  const liked = items.filter(item => {
+    const feed = feeds.find(feed => feed._id === item.feed_id)
+    // occasionally feed here is undefined. wtf?
+    if (feed == null) {
+      consoleLog('Cannot find feed ' + item.feed_id)
+    }
+    return feed && feed.isLiked
+  })
   const notLiked = items.filter(item => liked.indexOf(item) === -1)
   liked.sort((a, b) => b.created_at - a.created_at)
   notLiked.sort((a, b) => b.created_at - a.created_at)
