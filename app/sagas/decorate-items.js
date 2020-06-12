@@ -70,7 +70,7 @@ export function * decorateItems (action) {
           pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
         }
       } else {
-        yield delay(1000)
+        yield delay(3000)
       }
     }
   })
