@@ -36,7 +36,8 @@ platform :ios do
       build_number: latest_testflight_build_number + 1,
       xcodeproj: "Reams.xcodeproj")
     commit_version_bump(
-      message: "chore: version bump"
+      message: "chore: version bump",
+      xcodeproj: "Reams.xcodeproj"
     )
     add_git_tag
     push_to_git_remote
