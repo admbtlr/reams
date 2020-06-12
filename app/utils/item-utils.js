@@ -177,7 +177,10 @@ export function addMercuryStuffToItem (item, mercury) {
     decoratedItem.showMercuryContent = true
   }
 
+  decoratedItem = fixRelativePaths(decoratedItem)
+
   const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
+  const imageSrcIsUrl = (path) => path.startsWith('http')
   let visibleContentKey = decoratedItem.showMercuryContent ?
     'content_mercury' :
     'content_html'
@@ -186,11 +189,12 @@ export function addMercuryStuffToItem (item, mercury) {
   if (firstImg &&
     decoratedItem.banner_image &&
     decoratedItem.styles.coverImage.isInline &&
+    imageSrcIsUrl(firstImg) &&
     getImageFileName(firstImg) === getImageFileName(decoratedItem.banner_image)) {
     decoratedItem[visibleContentKey] = decoratedItem[visibleContentKey].replace(/<img.*?>/, '')
   }
 
-  return fixRelativePaths(decoratedItem)
+  return decoratedItem
 }
 
 function stripTags (text) {

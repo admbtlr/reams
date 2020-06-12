@@ -274,21 +274,21 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
       newOrUpdatedFeeds.push(feed)
     }
     if (feed.id === undefined) {
-      debugger
+      if (__DEV__) debugger
       feed.id = item.feed_id
       if (!newOrUpdatedFeeds.find(f => f._id === feed._id)) {
         newOrUpdatedFeeds.push(feed)
       }
     }
     if (!feed.title && item.feed_title) {
-      debugger
+      if (__DEV__) debugger
       feed.title = item.feed_title
       if (!newOrUpdatedFeeds.find(f => f._id === feed._id)) {
         newOrUpdatedFeeds.push(feed)
       }
     }
     if (!feed.color) {
-      debugger
+      if (__DEV__) debugger
       feed.color = getFeedColor()
       if (!newOrUpdatedFeeds.find(f => f._id === feed._id)) {
         newOrUpdatedFeeds.push(feed)
