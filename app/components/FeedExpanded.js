@@ -42,22 +42,13 @@ class FeedExpanded extends React.Component {
 
   render () {
     const {
-      clearReadItems,
       close,
       feed,
-      filterItems,
-      isFeedOnboardingDone,
-      navigation,
-      setIndex
     } = this.props
 
     if (!feed) return null
 
     const { iconDimensions } = feed
-
-    // just don't show favicons
-    // TODO: delete them completely?
-    const showFavicon = false
 
     const textStyles = {
       color: 'white',
@@ -94,7 +85,7 @@ class FeedExpanded extends React.Component {
             <FeedCoverImage
               feed={feed}
               width={this.screenWidth}
-              height={this.screenHeight * 0.5}
+              height={this.screenHeight * 0.6}
               setCachedCoverImage={this.props.setCachedCoverImage} />
             <View style={{
               position: 'absolute',
@@ -129,7 +120,7 @@ class FeedExpanded extends React.Component {
                 fontSize: 32 * fontSizeMultiplier(),
                 lineHeight: 32 * fontSizeMultiplier()
               }}>{feed.title}</Text>
-              { feed.description && feed.description.length > 0 && <Text style={{
+              { feed.description !== undefined && feed.description.length > 0 && <Text style={{
                 ...textStyles,
                 fontFamily: 'IBMPlexSans',
                 fontSize: (feed.description.length > 100 ? 18 : 20) *
