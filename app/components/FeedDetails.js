@@ -314,6 +314,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             onPress={() => {
               close()
               unsubscribe(feed)
+              clearReadItems()
             }}
             text='Unsubscribe' />
           <TextButton
