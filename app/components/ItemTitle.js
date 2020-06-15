@@ -616,7 +616,7 @@ class ItemTitle extends React.Component {
       backgroundColor: showCoverImage ?
         (styles.isMonochrome ? 'white' : this.getForegroundColor()) :
         'transparent',
-      marginBottom: (showCoverImage && !coverImageStyles.isInline && styles.invertedBGMargin || 0) * 10
+      marginBottom: (showCoverImage && !coverImageStyles.isInline && styles.invertedBGMargin || 0) * 3
     }
 
     let server = ''
