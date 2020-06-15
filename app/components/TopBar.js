@@ -112,7 +112,22 @@ class TopBar extends React.Component {
             bottom: 0,
             backgroundColor: this.getBackgroundColor(item),
             opacity: this.getBackgroundOpacityAnim(item, scrollAnim)
-          }} />
+          }}>
+            { displayMode === ItemType.saved &&
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[hslString('logo1'), hslString('logo2')]}
+                style={{
+                  position: 'absolute',
+                  height: 5,
+                  width: '100%',
+                  top: STATUS_BAR_HEIGHT - 5,
+                  left: 0
+                }}
+              />
+            }
+          </Animated.View>
           <BackButton
             navigation={this.props.navigation}
             isSaved={displayMode === ItemType.saved}
@@ -208,27 +223,13 @@ class TopBar extends React.Component {
               this.onDisplayPress()
             }}
           />
-          { displayMode === ItemType.saved &&
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={[hslString('logo1'), hslString('logo2')]}
-              style={{
-                position: 'absolute',
-                height: 5,
-                width: '100%',
-                top: STATUS_BAR_HEIGHT - 5,
-                left: 0
-              }}
-            />
-          }
-</Animated.View>
+      </Animated.View>
     </View>)
   }
 
   getBackgroundOpacityAnim (item, scrollAnim, allowTransparent = true) {
-    if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
-      // feedColor = 'transparent'
+    if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent
+      && this.props.displayMode != ItemType.saved) {
       return scrollAnim.interpolate({
         inputRange: [0, STATUS_BAR_HEIGHT, STATUS_BAR_HEIGHT + 50],
         outputRange: [0, 0, 1]
