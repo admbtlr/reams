@@ -65,6 +65,12 @@ const sortFeeds = (a, b) => (a.isLiked && b.isLiked) ?
   //   (a.title < b.title ? -1 : 1) :
       (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1)
 
+const addUnreadCount = (feed, items) => {
+  const unreadItems = items.filter(i => i.feed_id === feed._id)
+  feed.number_unread = unreadItems.length
+  return feed
+}
+
 const normaliseTitle = (title) => title.slice(0, 4).toUpperCase() === 'THE ' ?
   title.slice(4).toUpperCase() :
   title.toUpperCase()
@@ -74,6 +80,7 @@ const normaliseTitle = (title) => title.slice(0, 4).toUpperCase() === 'THE ' ?
 const mapStateToProps = (state) => {
   const items = state.itemsUnread.items
   const feeds = state.feeds.feeds.slice().sort(sortFeeds)
+    .map(f => addUnreadCount(f, items))
   const itemSort = state.config.itemSort
   const backendLabels = {
     feedbin: 'Feedbin',
