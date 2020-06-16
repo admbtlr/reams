@@ -609,7 +609,8 @@ class ItemTitle extends React.Component {
         color,
       paddingLeft: 2,
       paddingRight: 2,
-      marginTop: 1
+      marginTop: 1,
+      top: this.props.font === 'headerFontSans1' ? 3 : 0
     }
 
     const invertedTitleWrapperStyle = {
