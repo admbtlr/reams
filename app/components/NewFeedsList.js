@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   Animated,
@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import Svg, {Path} from 'react-native-svg'
 import { ADD_FEEDS } from '../store/feeds/types'
+import OPMLImport from './OPMLImport'
 import TextButton from './TextButton'
 import XButton from './XButton'
 import { fontSizeMultiplier, getMargin } from '../utils'
@@ -202,11 +203,27 @@ export default function NewFeedsList (props) {
             ...boldStyles,
             marginBottom: 32 * fontSizeMultiplier()
           }}>1. Use the Reams Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Reams icon.</Text>
+          <View style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap'
+          }}>
+            <Text style={{
+              ...textStyles(),
+              ...boldStyles,
+              marginBottom: 32 * fontSizeMultiplier()
+            }}>2. </Text><OPMLImport 
+              textStyles={{
+                ...textStyles(),
+                ...boldStyles,
+                textDecorationLine: 'underline'
+              }}
+            />
+          </View>
           <Text style={{
             ...textStyles(),
             ...boldStyles,
             marginBottom: 36 * fontSizeMultiplier()
-          }}>2. Select your favourite topics to find more sites to add:</Text>
+          }}>3. Select your favourite topics to find more sites to add:</Text>
           {
             [
               technology,
