@@ -533,6 +533,8 @@ PODS:
     - React
   - react-native-config (1.0.0):
     - React
+  - react-native-document-picker (3.5.2):
+    - React
   - react-native-image-filter-kit (0.7.1):
     - Bolts/Tasks (= 1.9.0)
     - React
@@ -670,6 +672,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-blur (from `../node_modules/react-native-blur`)
   - react-native-config (from `../node_modules/react-native-config`)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-filter-kit (from `../node_modules/react-native-image-filter-kit`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -785,6 +788,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-blur"
   react-native-config:
     :path: "../node_modules/react-native-config"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
   react-native-image-filter-kit:
     :path: "../node_modules/react-native-image-filter-kit"
   react-native-netinfo:
@@ -917,6 +922,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 99b82aeb51d67d9025ab4eb8ccb8132f8dcebf69
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-config: 7db9b96479164dfd7b2be68eb9079e08279511c4
+  react-native-document-picker: 1be88dafddd6565f883df156a7abd08466812e97
   react-native-image-filter-kit: f771a8afc4279b917d47cc391b5b422d461245fc
   react-native-netinfo: 16c6408c311572f17f9ffc3fa12614489307b6cf
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
