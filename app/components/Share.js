@@ -16,6 +16,7 @@ import TextButton from './TextButton'
 import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
 import {hslString} from '../utils/colors'
+import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
 
 
 class Share extends React.Component {
@@ -130,6 +131,12 @@ class Share extends React.Component {
     } = this.state
     // console.log(this.state.rssUrls)
     const margin = 24
+    const saveIcon = <View style={{
+      top: -12,
+      left: -12
+    }}>
+      {getRizzleButtonIcon('saveButtonIconOff', hslString('rizzleText'), hslString('rizzleBG'))}
+    </View>
     return (
       <View style={{
         backgroundColor: hslString('rizzleBG'),
@@ -274,6 +281,7 @@ class Share extends React.Component {
                 marginBottom: 0,
                 // width: Dimensions.get('window').width - 32
               }}
+              icon={saveIcon}
               onPress={this.savePage}
             />
           </View>
