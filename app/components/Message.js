@@ -22,7 +22,7 @@ export default function Message (props) {
   const [isVisible, setVisible] = useState([])
   const [visibleMessage, setVisibleMessage] = useState([])
 
-  const message = useSelector(state => state.toolbar.message)
+  const message = useSelector(state => state.ui.message)
 
   if (isVisible && message.length === 0) {
     Animated.timing(transformAnim, {

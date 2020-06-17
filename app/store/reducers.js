@@ -5,7 +5,6 @@ import { itemsSaved } from './items/items-saved'
 import { itemsMeta } from './items/items-meta'
 import { feeds } from './feeds/feeds'
 import { feedsLocal } from './feeds/feeds-local'
-import { toolbar } from './ui/toolbar'
 import { ui } from './ui/ui'
 import { user } from './config/user'
 import { config } from './config/config'
@@ -38,7 +37,6 @@ export default function makeRootReducer () {
     itemsMeta,
     feeds,
     feedsLocal,
-    toolbar,
     ui,
     remoteActionQueue,
     config,

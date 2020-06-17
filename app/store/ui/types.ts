@@ -44,6 +44,7 @@ export const INCREASE_FONT_SIZE = 'INCREASE_FONT_SIZE'
 export const DECREASE_FONT_SIZE = 'DECREASE_FONT_SIZE'
 export const ITEMS_SCREEN_BLUR = 'ITEMS_SCREEN_BLUR'
 export const ITEMS_SCREEN_FOCUS = 'ITEMS_SCREEN_FOCUS'
+export const SET_MESSAGE = 'SET_MESSAGE'
 
 interface toggleViewButtonsAction {
   type: typeof TOGGLE_VIEW_BUTTONS
@@ -109,6 +110,11 @@ interface decreaseFontSizeAction {
   type: typeof DECREASE_FONT_SIZE
 }
 
+interface setMessageAction {
+  type: typeof SET_MESSAGE
+  message: string
+}
+
 export type UIActionTypes = toggleViewButtonsAction |
   showViewButtonsAction |
   showItemButtonsAction |
@@ -123,4 +129,5 @@ export type UIActionTypes = toggleViewButtonsAction |
   setDarkModeAction |
   toggleDarkModeAction |
   increaseFontSizeAction |
-  decreaseFontSizeAction
+  decreaseFontSizeAction |
+  setMessageAction

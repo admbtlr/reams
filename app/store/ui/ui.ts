@@ -14,6 +14,7 @@ import {
   TOGGLE_DARK_MODE,
   TOGGLE_HIDE_MODAL,
   TOGGLE_VIEW_BUTTONS,
+  SET_MESSAGE,
   UIActionTypes,
   UIState
 } from './types'
@@ -138,7 +139,13 @@ export function ui (
         fontSize
       }
 
-      default:
+    case SET_MESSAGE:
+      return {
+        ...state,
+        message: action.message
+      }
+
+    default:
       return state
   }
 }

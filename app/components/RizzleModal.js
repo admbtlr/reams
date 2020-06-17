@@ -77,7 +77,10 @@ class RizzleModal extends React.Component {
         onClosed={this.onClosed}
         >
        <View style={{...this.getStyles().base}}>
-        <View style={{...this.getStyles().inner}}>
+        <View style={{
+          ...this.getStyles().inner,
+          ...(modalProps.isError ? this.getStyles().error : {})
+        }}>
           <View style={{...this.getStyles().textHolder}}>{this.formatText(modalProps.modalText)}</View>
           { modalProps.modalHideable &&
             <View style={{
@@ -86,8 +89,8 @@ class RizzleModal extends React.Component {
             }}>
               <Switch
                 trackColor={{
-                  false: hslString('rizzleText', '', 0.3),
-                  true: hslString('rizzleText')
+                  false: hslString('rizzleBG', '', 0.3),
+                  true: hslString('rizzleBG')
                 }}
                 onValueChange={ value => {
                   this.setState({
@@ -147,22 +150,25 @@ class RizzleModal extends React.Component {
         alignItems: 'center'
       },
       inner: {
-        backgroundColor: hslString('rizzleBG'),
+        backgroundColor: hslString('logo1'),
         borderRadius: 20,
         width: 300
+      },
+      error: {
+        backgroundColor: hslString('logo2')
       },
       buttonHolder: {
         flexDirection: 'row',
         height: 40,
         borderTopWidth: 1,
-        borderColor: 'rgba(0,0,0,0.3)'
+        borderColor: hslString('rizzleBG', '', 0.3)
       },
       textHolder: {
         margin: 20,
         marginTop: 15
       },
       text: {
-        color: hslString('rizzleText'),
+        color: hslString('rizzleBG'),
         fontFamily: 'IBMPlexMono',
         fontSize: 16,
         textAlign: 'center'
@@ -199,7 +205,7 @@ class RizzleModal extends React.Component {
       },
       touchable: {
         flex: 1,
-        borderColor: 'rgba(0,0,0,0.3)'
+        borderColor: hslString('rizzleBG', '', 0.3)
       },
       buttonText: {
         margin: 5,
