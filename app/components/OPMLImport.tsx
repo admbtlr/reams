@@ -117,11 +117,11 @@ export default function OPMLImport (props: { textStyles?: {}}) {
           isError: true,
           modalText: [
             {
-              text: 'Error',
+              text: 'Error Reading File',
               style: ['title']
             },
             {
-              text: 'There was an error reading the OPML file. Are you sure that was the correct file?',
+              text: 'There was an error reading the OPML file. Are you sure you chose the right one?',
               style: ['text']
             }
           ],
