@@ -11,6 +11,9 @@ import {
   UPDATE_FEEDS
 } from '../store/feeds/types'
 import {
+  SET_MESSAGE
+} from '../store/ui/types'
+import {
   fetchItems as fetchItemsBackends
 } from '../backends'
 import { setItemsAS } from '../storage/async-storage'
@@ -45,16 +48,16 @@ export function * fetchAllItems (includeSaved = true) {
   if (!config.isOnline/* || !hasBackend()*/) return
 
   yield put({
-    type: 'ITEMS_IS_LOADING',
-    isLoading: true
+    type: SET_MESSAGE,
+    message: 'Loading stories'
   })
   yield fetchItems(ItemType.unread)
   if (includeSaved) {
     yield fetchItems(ItemType.saved)
   }
   yield put({
-    type: 'ITEMS_IS_LOADING',
-    isLoading: false
+    type: SET_MESSAGE,
+    message: ''
   })
 }
 

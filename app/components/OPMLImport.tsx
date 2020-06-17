@@ -9,6 +9,7 @@ import DocumentPicker from 'react-native-document-picker'
 import { parseString } from 'react-native-xml2js'
 const RNFS = require('react-native-fs')
 import { ADD_FEEDS } from '../store/feeds/types'
+import { SET_MESSAGE, SHOW_MODAL } from '../store/ui/types'
 
 const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
@@ -44,10 +45,16 @@ interface Feed {
 export default function OPMLImport (props: { textStyles?: {}}) {
   const dispatch = useDispatch()
   let feeds: Array<Feed> = []
+  let res: {
+    uri?: string,
+    type?: string,
+    name?: string,
+    size?: number
+  } = {}
 
   const openDocumentPicker = async (): Promise<void> => {
     try {
-      const res = await DocumentPicker.pick()
+      res = await DocumentPicker.pick()
       console.log(
         res.uri,
         res.type, // mime type
@@ -61,36 +68,69 @@ export default function OPMLImport (props: { textStyles?: {}}) {
         throw err;
       }
     }
-    const filePath = `file://${RNFS.DocumentDirectoryPath}/subscriptions.xml`
+    try {
+    const filePath = __DEV__ ?
+      `file://${RNFS.DocumentDirectoryPath}/subscriptions.xmls` :
+      res.uri
     const contents = await RNFS.readFile(filePath)
-    const traverse = (o: any, feeds: Array<Feed>) => {
-      let iterable = o
-      if (!Array.isArray(o)) {
-        iterable = Object.values(o)
-      }
-      iterable.forEach((leaf: any) => {
-        if (leaf && leaf.xmlUrl) {
-          feeds.push({
-            url: leaf.xmlUrl,
-            title: leaf.title
-          })
+      const traverse = (o: any, feeds: Array<Feed>) => {
+        let iterable = o
+        if (!Array.isArray(o)) {
+          iterable = Object.values(o)
         }
-        if (leaf != null && typeof(leaf) === 'object') {
-          traverse(leaf, feeds)
+        iterable.forEach((leaf: any) => {
+          if (leaf && leaf.xmlUrl) {
+            feeds.push({
+              url: leaf.xmlUrl,
+              title: leaf.title
+            })
+          }
+          if (leaf != null && typeof(leaf) === 'object') {
+            traverse(leaf, feeds)
+          }
+        })
+      }
+    
+      parseString(contents, (err: any, result: any) => {
+        if (err) throw err
+        console.log(result)
+        traverse(result, feeds)
+        if (feeds.length > 0) {
+          dispatch({
+            type: SET_MESSAGE,
+            message: 'Adding feeds'
+          })
+          dispatch({
+            type: ADD_FEEDS,
+            feeds
+          })  
+        }
+      })  
+    } catch (err) {
+      dispatch({
+        type: SET_MESSAGE,
+        message: ''
+      })
+      dispatch({
+        type: SHOW_MODAL,
+        modalProps: {
+          isError: true,
+          modalText: [
+            {
+              text: 'Error',
+              style: ['title']
+            },
+            {
+              text: 'There was an error reading the OPML file. Are you sure that was the correct file?',
+              style: ['text']
+            }
+          ],
+          modalHideCancel: true,
+          modalShow: true,
+          modalOnOk: () => {}
         }
       })
     }
-  
-    parseString(contents, (err: any, result: any) => {
-      if (err) return
-      console.log(result)
-      traverse(result, feeds)
-      console.log(feeds)
-      dispatch({
-        type: ADD_FEEDS, 
-        feeds
-      })
-    })
   }
   
   
