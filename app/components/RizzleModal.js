@@ -78,10 +78,11 @@ class RizzleModal extends React.Component {
         >
        <View style={{...this.getStyles().base}}>
         <View style={{
-          ...this.getStyles().inner,
-          ...(modalProps.isError ? this.getStyles().error : {})
+          ...this.getStyles().inner
         }}>
-          <View style={{...this.getStyles().textHolder}}>{this.formatText(modalProps.modalText)}</View>
+          <View style={{
+            ...this.getStyles().textHolder
+            }}>{this.formatText(modalProps.modalText)}</View>
           { modalProps.modalHideable &&
             <View style={{
               flexDirection: 'row',
@@ -155,13 +156,14 @@ class RizzleModal extends React.Component {
         width: 300
       },
       error: {
-        backgroundColor: 'rgba(0,0,0,0.3)'
+        backgroundColor: hslString('logo2'),
+        color: hslString('rizzleBG')
       },
       buttonHolder: {
         flexDirection: 'row',
         height: 40,
         borderTopWidth: 1,
-        borderColor: hslString('rizzleBG', '', 0.3)
+        borderColor: hslString('rizzleText', '', 0.2)
       },
       textHolder: {
         margin: 20,
