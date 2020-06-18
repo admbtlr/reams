@@ -89,8 +89,8 @@ class RizzleModal extends React.Component {
             }}>
               <Switch
                 trackColor={{
-                  false: hslString('rizzleBG', '', 0.3),
-                  true: hslString('rizzleBG')
+                  false: hslString('rizzleText', '', 0.3),
+                  true: hslString('rizzleText')
                 }}
                 onValueChange={ value => {
                   this.setState({
@@ -150,12 +150,12 @@ class RizzleModal extends React.Component {
         alignItems: 'center'
       },
       inner: {
-        backgroundColor: hslString('logo1'),
+        backgroundColor: hslString('rizzleBG'),
         borderRadius: 20,
         width: 300
       },
       error: {
-        backgroundColor: hslString('logo2')
+        backgroundColor: 'rgba(0,0,0,0.3)'
       },
       buttonHolder: {
         flexDirection: 'row',
@@ -168,7 +168,7 @@ class RizzleModal extends React.Component {
         marginTop: 15
       },
       text: {
-        color: hslString('rizzleBG'),
+        color: hslString('rizzleText'),
         fontFamily: 'IBMPlexMono',
         fontSize: 16,
         textAlign: 'center'
@@ -205,7 +205,7 @@ class RizzleModal extends React.Component {
       },
       touchable: {
         flex: 1,
-        borderColor: hslString('rizzleBG', '', 0.3)
+        borderColor: 'rgba(0,0,0,0.3)'
       },
       buttonText: {
         margin: 5,
