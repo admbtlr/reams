@@ -121,7 +121,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-Notification-5.png",
+      "filename" : "Icon-Notification-6.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-Notification-7.png",
       "scale" : "1x"
     },
     {
@@ -162,6 +167,12 @@
     {
       "idiom" : "universal",
       "filename" : "Icon-Notification-4.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-Notification-5.png",
       "unassigned" : true,
       "scale" : "1x"
     }
