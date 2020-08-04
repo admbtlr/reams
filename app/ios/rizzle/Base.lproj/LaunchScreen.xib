@@ -25,6 +25,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ream.png" width="200" height="168"/>
+        <image name="ream.png" width="256" height="256"/>
     </resources>
 </document>
