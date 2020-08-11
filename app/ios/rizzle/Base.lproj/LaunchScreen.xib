@@ -13,9 +13,10 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ream.png" id="dyg-Gw-aSI">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ream" id="dyg-Gw-aSI">
                     <rect key="frame" x="20" y="53" width="374" height="736"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="0.87320631742477417" green="0.84965544939041138" blue="0.78427970409393311" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -25,6 +26,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ream.png" width="256" height="256"/>
+        <image name="ream" width="256" height="256"/>
     </resources>
 </document>
