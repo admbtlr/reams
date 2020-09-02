@@ -1106,7 +1106,7 @@ class ItemTitle extends React.Component {
     }
     return {
       opacity: Animated.add(scrollOffset.interpolate({
-          inputRange: [-50, -25, 0, 100, 200],
+          inputRange: [-50, -10, 0, 100, 200],
           outputRange: [0, 1, 1, 1, 0]
         }), anims[0].interpolate({
           inputRange: [0, 1, 1.3, 2],
