@@ -96,8 +96,8 @@ export function createItemStyles (item, prevStyles) {
         'middle' :
         ['top', 'bottom'][Math.floor(Math.random() * 2)])
   title.isBold = title.isMonochrome ?
-      Math.random() > 0.5 :
-      Math.random() > 0.3
+      Math.random() > 0.8 :
+      Math.random() > 0.8
   // title.borderWidth = title.invertBG || title.isVertical || isContain ? 0 :
   //   (Math.random() > 0.3 ? Math.floor(Math.random() * 5) : 0 )
 
