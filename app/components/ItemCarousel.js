@@ -185,7 +185,7 @@ class ItemCarousel extends React.Component {
     navigation.push('ModalWithGesture', {
       childView: <FeedExpandedContainer
           feedId={item.feed_id}
-          close={() => navigation.goBack(null)}
+          close={() => navigation.navigate('Items')}
           navigation={navigation}
         />
     })
