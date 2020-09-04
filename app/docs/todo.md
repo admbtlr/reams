@@ -1,8 +1,8 @@
 # To Do
 
+- bug: unsubscribe from feed > feed modal goes blank, doesn't close
 - bug: add feed, get items, remove feed, still two items remaining
 - make Feedwrangler work fully
-- deal with feed.number_unread problems
 - upgrade to react native 62
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 
@@ -29,7 +29,8 @@
 
 # Done
 
-- edit new feeds list, Politics section
+- ~~deal with feed.number_unread problems~~
+- ~~edit new feeds list, Politics section~~
   - add https://www.project-syndicate.org/about
 - ~~use https://github.com/cruip/open-react-template for website~~
 - ~~button on initial onboarding~~
