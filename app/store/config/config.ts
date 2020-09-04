@@ -12,8 +12,12 @@ import {
   SET_FEED_FILTER,
   IS_ONLINE,
   SET_ITEM_SORT,
-  SET_SHOW_NUM_UNREAD
+  SET_SHOW_NUM_UNREAD,
 } from "./types"
+import { 
+  FeedActionTypes,
+  REMOVE_FEED 
+} from "../feeds/types"
 
 export interface ConfigState {
   readonly backend: string
@@ -49,16 +53,18 @@ const initialState = {
 
 export function config (
   state = initialState, 
-  action: ConfigActionTypes
+  action: ConfigActionTypes | FeedActionTypes
 ) : ConfigState {
   switch (action.type) {
     case SET_BACKEND:
       const {
-        backend
+        backend,
+        credentials
       } = action
       return {
         ...state,
-        backend
+        backend,
+        ...credentials
       }
 
     case UNSET_BACKEND:
@@ -103,6 +109,12 @@ export function config (
       return {
         ...state,
         feedFilter: action.feedFilter
+      }
+
+    case REMOVE_FEED:
+      return {
+        ...state,
+        feedFilter: null
       }
 
     case IS_ONLINE:
