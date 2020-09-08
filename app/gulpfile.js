@@ -1,7 +1,6 @@
 // var postcss = require('gulp-postcss')
-var gulp = require('gulp')
+const { dest, parallel, src, watch } = require('gulp')
 var webserver = require('gulp-webserver')
-var watch = require('gulp-watch')
 var concat = require('gulp-concat')
 var gls = require('gulp-live-server');
 var sass = require('gulp-sass');
@@ -17,32 +16,32 @@ var jsonSass = require('gulp-json-sass');
 //   gulp.watch('./sass/**/*.scss', ['sass']);
 // });
 
-gulp.task('css', function () {
-  return gulp.src(['utils/colors.json', 'webview/*.scss'])
+function css (cb) {
+  return src(['utils/colors.json', 'webview/*.scss'])
     .pipe(jsonSass())
     .pipe(concat('output.scss'))
-    .pipe(gulp.dest('./ios/webview/css'))
+    .pipe(dest('./ios/webview/css'))
     .pipe(sass())
-    .pipe(gulp.dest('./ios/webview/css'))
-})
+    .pipe(dest('./ios/webview/css'))
+}
 
-gulp.task('js', function () {
-  return gulp.src('webview/*.js')
-    .pipe(gulp.dest('./ios/webview/js'))
-})
+function js (cb) {
+  return src('webview/*.js')
+    .pipe(dest('./ios/webview/js'))
+}
 
-gulp.task('serve', function () {
-  return gulp.src('./ios')
+function serve (cb) {
+  return src('./ios')
     .pipe(webserver({
       port: 8888,
       open: true
     }))
-})
+}
 
-gulp.task('watch', function() {
+function watchAll () {
   // Watch .scss files
-  gulp.watch('webview/*.scss', ['css']);
-  gulp.watch('webview/*.js', ['js']);
-})
+  watch('webview/*.scss', css);
+  watch('webview/*.js', js);
+}
 
-gulp.task('default', [ 'css', 'js', 'serve', 'watch' ]);
+exports.default = parallel(css, js, serve, watchAll)
