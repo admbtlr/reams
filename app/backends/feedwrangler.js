@@ -14,7 +14,7 @@ const CLIENT_KEY = 'fdc257afbb554f67888c2aee80481e8e'
 let feeds
 
 export const init = (config) => {
-  feedWranglerAccessToken = config.accessToken
+  feedWranglerAccessToken = config.accessToken || config.credentials.accessToken
 }
 
 export const authenticate = (username, password) => {
