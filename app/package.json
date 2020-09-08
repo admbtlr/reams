@@ -102,7 +102,7 @@
     "babel-plugin-transform-remove-console": "^6.9.4",
     "browser-sync": "^2.26.7",
     "detox": "^15.2.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-json-sass": "git://github.com/adamvert/gulp-json-sass",
     "gulp-live-server": "0.0.31",
