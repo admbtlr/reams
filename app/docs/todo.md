@@ -1,7 +1,14 @@
 # To Do
 
+- bug: refreshing of the carousel, which makes items reappear and dance around
+- bug: how come the share extension broke?
 - bug: unsubscribe from feed > feed modal goes blank, doesn't close
 - bug: add feed, get items, remove feed, still two items remaining
+- J dropcaps
+- read srcsets to get the right image
+- replace face detection?
+  - https://github.com/jwagner/smartcrop.js/issues/89
+  - https://stackoverflow.com/questions/60074775/how-to-save-base64-image-using-node-js
 - make Feedwrangler work fully
 - upgrade to react native 62
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
@@ -29,6 +36,7 @@
 
 # Done
 
+- ~~can I stop the current item from having the animation when I swipe right again?~~
 - ~~deal with feed.number_unread problems~~
 - ~~edit new feeds list, Politics section~~
   - add https://www.project-syndicate.org/about

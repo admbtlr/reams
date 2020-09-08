@@ -36,6 +36,7 @@ class FeedItem extends React.Component {
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this)
     this.openLink = this.openLink.bind(this)
+    this.addAnimation = this.addAnimation.bind(this)
 
     this.screenDimensions = Dimensions.get('window')
     this.hasWebViewResized = false
@@ -67,19 +68,26 @@ class FeedItem extends React.Component {
 
   addAnimation (style, anim) {
     const width = Dimensions.get('window').width * 0.05
-    return {
-      ...style,
-      left: width,
-      opacity: anim.interpolate({
-        inputRange: [0, 1, 1.05, 1.1, 2],
-        outputRange: [1, 1, 1, 0, 0]
-      }),
-      transform: [{
-        translateX: anim.interpolate({
-          inputRange: [0, 1.01, 1.1, 2],
-          outputRange: [-width, -width, width * 4, width * 4]
-        })
-      }]
+    if (this.props.isVisible) {
+      return {
+        ...style,
+        transform: []
+      }
+    } else {
+      return {
+        ...style,
+        left: width,
+        opacity: anim.interpolate({
+          inputRange: [0, 1, 1.05, 1.1, 2],
+          outputRange: [1, 1, 1, 0, 0]
+        }),
+        transform: [{
+          translateX: anim.interpolate({
+            inputRange: [0, 1.01, 1.1, 2],
+            outputRange: [-width, -width, width * 4, width * 4]
+          })
+        }]
+      }  
     }
   }
   
@@ -114,7 +122,7 @@ class FeedItem extends React.Component {
     } else if (changes && Object.keys(changes).length === 1) {
       switch (Object.keys(changes)[0]) {
         case 'isVisible':
-          isDiff = false
+          // isDiff = false
           // this is a bit sneaky...
           if (nextProps.isVisible) {
             this.props.setScrollAnim(this.scrollAnim)
