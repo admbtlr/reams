@@ -139,7 +139,8 @@ body {
     .itemArticle img.img-portrait.img-small, .itemArticle img.img-small.img-small {
       float: left;
       clear: left;
-      margin: 0.25rem 0.5rem 0.5rem 0; }
+      margin: 0.25rem 1rem 1rem 0;
+      left: 0; }
   .itemArticle figure img.img-portrait, .itemArticle figure img.img-small {
     width: calc(100% - 1rem);
     margin-bottom: 0; }
@@ -803,7 +804,7 @@ hr {
   .headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em {
     font-family: "PlayfairDisplay-Bold"; }
 
-.feedflare {
+.feedflare, .mc-embed-signup {
   display: none !important; }
 
 .itemArticle a, .itemArticle a:active, .itemArticle a:visited {
