@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import { CommonActions } from '@react-navigation/native'
 import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
 import LinearGradient from 'react-native-linear-gradient'
 import FeedIconContainer from '../containers/FeedIcon'
@@ -298,7 +299,20 @@ class TopBar extends React.Component {
           style: []
         }
       ]
-    isOnboarding || setDisplayMode(displayMode === ItemType.unread ? ItemType.saved : ItemType.unread)
+    if (!isOnboarding) {
+      setDisplayMode(displayMode === ItemType.unread ? ItemType.saved : ItemType.unread)
+      this.props.navigation.dispatch((state) => {
+        // remove or insert feeds screen, as required
+        const routes = displayMode === ItemType.unread ?
+          [state.routes[0], state.routes[2]] :
+          [state.routes[0], { name: 'Feeds' }, state.routes[1]]
+        return CommonActions.reset({
+          ...state,
+          routes,
+          index: routes.length - 1,
+        })
+      })
+    }
     showModal({
       modalText,
       modalHideCancel: true,
@@ -434,6 +448,7 @@ const DisplayModeToggle = ({ displayMode, onDisplayPress, backgroundColor, butto
       </G>
     </G>
   </Svg>
+
   return (
     <Animated.View style={{
       position: 'absolute',
@@ -458,7 +473,7 @@ const DisplayModeToggle = ({ displayMode, onDisplayPress, backgroundColor, butto
   )
 }
 
-const BackButton = ({ isSaved, navigation: { goBack } }) => (
+const BackButton = ({ isSaved, navigation, navigation: { navigate } }) => (
   <Animated.View style={{
     position: 'absolute',
     left: 0,
@@ -469,7 +484,7 @@ const BackButton = ({ isSaved, navigation: { goBack } }) => (
   }}>
     <TouchableOpacity
       onPress={() => {
-        goBack()
+        navigate(isSaved ? 'Account' : 'Feeds')
       }}
       style={{
         paddingBottom: 10,
