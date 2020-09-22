@@ -100,7 +100,7 @@ export function nullValuesToEmptyStrings (item) {
   return item
 }
 
-export function addMercuryStuffToItem (item, mercury) {
+export async function addMercuryStuffToItem (item, mercury) {
   // mercury.content = sanitizeHtml(mercury.content, {
   //   allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
   // })
@@ -173,6 +173,7 @@ export function addMercuryStuffToItem (item, mercury) {
   }
 
   if (htmlPartial.length < 500 &&
+    devoratedItem.content_mercury.length > decoratedItem.content_html.length &&
     fuzz.partial_ratio(htmlPartial, mercuryPartial.substring(0, 500)) > 90) {
     decoratedItem.showMercuryContent = true
   }

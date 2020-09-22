@@ -211,7 +211,7 @@ export function itemsSaved (
 
     case ITEM_DECORATION_SUCCESS:
       if (!action.isSaved) return state
-      let newState = itemDecorationSuccess(action, state)
+      let newState = itemDecorationSuccess(action.item, state)
       newState.items.sort((a: Item, b: Item) => ((b.savedAt || 0) - (a.savedAt || 0)))
       return newState
 

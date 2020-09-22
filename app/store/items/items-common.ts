@@ -98,34 +98,16 @@ export function itemToggleMercury (
 }
 
 export function itemDecorationSuccess (
-  action: itemDecorationSuccessAction, 
+  itemDecorated: Item, 
   state: ItemsState
 ) {
   const currentItem = state.items[state.index]
-  const testAndDecorate = (item: Item) => {
-    if (item._id === action.item._id) {
-      // note that I'm using action.item as the base
-      // there's a small chance that this might be stale,
-      // if e.g. it's been read since it was initially plucked in the decorate-item saga
-      const decorated = addMercuryStuffToItem(action.item, action.mercuryStuff)
-      item = {
-        ...item,
-        ...decorated
-      }
-
-      item = addCoverImageToItem(item, action.imageStuff)
-      item.hasCoverImage = !!item.coverImageFile
-      item = setShowCoverImage(item, currentItem)
-      item = removeCoverImageDuplicate(item)
-      // this is just to pick up styles.coverImage.isInline
-      // item.styles = action.item.styles
-    }
-    return item
-  }
-
-  if (!action.item) {
-    throw "action.item is not defined in itemDecorationSuccess"
-  }
+  const testAndDecorate = (item: Item) => item._id === itemDecorated._id ? itemDecorated : item
+  // I had this comment here before I refactored, not sure if it's still relevant?
+  // note that I'm using action.item as the base
+  // there's a small chance that this might be stale,
+  // if e.g. it's been read since it was initially plucked in the decorate-item saga
+    
   const items: Item[] = state.items.map(testAndDecorate).map(addStylesIfNecessary)
   return {
     ...state,

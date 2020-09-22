@@ -83,10 +83,10 @@ function consoleLog(txt) {
 }
 
 function * applyDecoration (decoration, isSaved) {
-  yield call(InteractionManager.runAfterInteractions)
+  const itemDecorated = applyDecoration(decoration)
   yield put({
     type: ITEM_DECORATION_SUCCESS,
-    ...decoration,
+    item: itemDecorated,
     isSaved
   })
   items = yield select(getItems)
@@ -120,6 +120,21 @@ function * applyDecoration (decoration, isSaved) {
       })
     }
   }
+}
+
+function * decorateItem (decoration) {
+  const { item, mercuryStuff, imageStuff } = decoration
+  const decorated = await addMercuryStuffToItem(item, mercuryStuff)
+  item = {
+    ...item,
+    ...decorated
+  }
+
+  item = addCoverImageToItem(item, imageStuff)
+  item.hasCoverImage = !!item.coverImageFile
+  item = setShowCoverImage(item, currentItem)
+  item = removeCoverImageDuplicate(item)
+  return item
 }
 
 function * getNextItemToDecorate (pendingDecoration) {
