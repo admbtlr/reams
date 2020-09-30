@@ -25,7 +25,8 @@ import { nullValuesToEmptyStrings,
   sanitizeContent,
   removeCachedCoverImages,
   setShowCoverImage,
-  deflateItem
+  deflateItem, 
+  cleanUpHtml
 } from '../utils/item-utils'
 import log from '../utils/log'
 import {
@@ -39,7 +40,6 @@ import {
   getLastUpdated,
   getUid
 } from './selectors'
-
 
 let feeds
 
@@ -221,6 +221,7 @@ function * cleanUpItems (items, type) {
     .map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
     .map(addStylesIfNecessary)
+    .map(cleanUpHtml)
     .map(sanitizeContent)
     .map(setShowCoverImageIfNotCurrent)
     .map(fixCreatedAt)

@@ -205,15 +205,15 @@ describe('markShortBlockquotes', () => {
 //     expect(document.documentElement.outerHTML).toEqual(expected)  
 //   })
 
-// describe('removeSourceTags', () => {
-//     //(document)
-//   it('should do what it says', () => {
-//     const { document } = (new JSDOM(`${prefix}<section><p>a</p></section><div><section><p>b</p></section></div>${postfix}`))
-  // .window
-//     const expected = `${prefix}<section><p>a</p></section><div><section><p>b</p></section></div>${postfix}`
-//     removeSourceTags(document)
-//     expect(document.documentElement.outerHTML).toEqual(expected)  
-//   })
+describe('removeSourceTags', () => {
+    //(document)
+  it('should do what it says', () => {
+    const { document } = (new JSDOM(`${prefix}<section><p>a</p></section><div><section><p>b</p></section></div>${postfix}`))
+  .window
+    const expected = `${prefix}<section><p>a</p></section><div><section><p>b</p></section></div>${postfix}`
+    removeSourceTags(document)
+    expect(document.documentElement.outerHTML).toEqual(expected)  
+  })
 
 // describe('removeFiguresWithoutImages', () => {
 //     //(document)

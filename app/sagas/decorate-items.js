@@ -45,6 +45,7 @@ export function * decorateItems (action) {
         if (!nextItem) continue // somehow item can become undefined here...?
         consoleLog(`About to retrieve decoration for ${nextItem.title}`)
         try {
+          debugger
           const decoration = yield decorateItem(nextItem)
           if (decoration) {
             consoleLog(`Got decoration for ${nextItem.title}`)
@@ -83,7 +84,7 @@ function consoleLog(txt) {
 }
 
 function * applyDecoration (decoration, isSaved) {
-  const itemDecorated = applyDecoration(decoration)
+  const itemDecorated = yield applyDecorationToItem(decoration)
   yield put({
     type: ITEM_DECORATION_SUCCESS,
     item: itemDecorated,
@@ -122,9 +123,9 @@ function * applyDecoration (decoration, isSaved) {
   }
 }
 
-function * decorateItem (decoration) {
+function * applyDecorationToItem (decoration) {
   const { item, mercuryStuff, imageStuff } = decoration
-  const decorated = await addMercuryStuffToItem(item, mercuryStuff)
+  const decorated = yield addMercuryStuffToItem(item, mercuryStuff)
   item = {
     ...item,
     ...decorated

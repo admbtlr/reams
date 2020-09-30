@@ -1,4 +1,4 @@
-const jsdom = require("jsdom")
+const jsdom = require('jsdom-jscore-rn')
 
 const { JSDOM } = jsdom
 

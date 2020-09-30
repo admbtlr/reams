@@ -6,6 +6,7 @@ import {createItemStyles, compressStyles, expandStyles} from './createItemStyles
 import {getCachedCoverImagePath} from './index'
 import log from './log'
 import LZString from 'lz-string'
+import cleanUpContent from './clean-up-content'
 
 export function addStylesIfNecessary (item, index, items) {
   if (item.styles && !item.styles.temporary) {
@@ -81,6 +82,12 @@ export function fixRelativePaths (item) {
   if (item.content_html) item.content_html = derelativise(item.content_html)
   if (item.content_mercury) item.content_mercury = derelativise(item.content_mercury)
   if (item.body) item.body = derelativise(item.body)
+  return item
+}
+
+export function cleanUpHtml (item) {
+  if (item.content_html) item.content_html = cleanUpContent(item.content_html)
+  if (item.content_mercury) item.content_mercury = cleanUpContent(item.content_mercury)
   return item
 }
 

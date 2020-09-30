@@ -30,7 +30,7 @@
     "formik": "^1.4.2",
     "fuzzball": "^1.2.2",
     "headline-quotes": "^2.1.1",
-    "jsdom": "^16.4.0",
+    "jsdom-jscore-rn": "^0.1.8",
     "lz-string": "^1.4.4",
     "moment": "^2.22.2",
     "opmltojs": "^0.4.9",

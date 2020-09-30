@@ -1,7 +1,10 @@
 # To Do
 
-- in-browser js causes render delays! move to item init (with jsdom?)
+- in-browser js causes render delays! ~~move to item init (with jsdom?)~~
+  - only do it on first load, then store fixed up dom on item
+  - while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded
 - do I need react-native-image-filter-kit?
+  - yes, but only for the feed icons
 - bug: refreshing of the carousel, which makes items reappear and dance around
 - bug: how come the share extension broke?
 - bug: unsubscribe from feed > feed modal goes blank, doesn't close
@@ -17,6 +20,8 @@
 - make Feedwrangler work fully
 - upgrade to react native 62
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
+- move backend to postgres, running on https://www.elephantsql.com/
+  - using node-postgres, which looks very nice!
 
 # Someday / Maybe
 
