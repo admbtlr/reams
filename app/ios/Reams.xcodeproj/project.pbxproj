@@ -185,6 +185,7 @@
 		66ACB11D1FD9705E002BC66F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		66ACB11F1FD9705E002BC66F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66ACB1261FD97094002BC66F /* RizzleShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RizzleShare.m; sourceTree = "<group>"; };
+		66ADA0FB2527172B0021BE0F /* Reams-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Reams-Bridging-Header.h"; sourceTree = "<group>"; };
 		66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSerif-BoldItalic.ttf"; path = "../assets/fonts/PTSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
 		6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		78D2BA048E8A4D53940A372C /* Arvo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Regular.ttf"; path = "../assets/fonts/Arvo-Regular.ttf"; sourceTree = "<group>"; };
@@ -274,6 +275,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				664B4B271FAB59A9006C6DF9 /* webview */,
 				668CE9EC2158BE6A00CA3EDF /* icons.xcassets */,
+				66ADA0FB2527172B0021BE0F /* Reams-Bridging-Header.h */,
 			);
 			name = Reams;
 			sourceTree = "<group>";
@@ -513,6 +515,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = LQ43Q9L9MY;
+						LastSwiftMigration = 1200;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -899,6 +902,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = rizzle/rizzle.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -935,6 +939,9 @@
 				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "17c847ba-6126-4981-85a9-120fc34fab45";
 				PROVISIONING_PROFILE_SPECIFIER = "iOS Development (all certificates)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Reams-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -947,6 +954,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = rizzle/rizzle.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -982,6 +990,8 @@
 				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "7ce17c38-fb6c-4a94-beb5-c82f33426323";
 				PROVISIONING_PROFILE_SPECIFIER = "Reams App Store ArtsyMBP";
+				SWIFT_OBJC_BRIDGING_HEADER = "Reams-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
