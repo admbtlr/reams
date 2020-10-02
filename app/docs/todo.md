@@ -5,6 +5,9 @@
   - while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded
 - do I need react-native-image-filter-kit?
   - yes, but only for the feed icons
+- upgrade to RN 0.62
+  - https://reactnative.thenativebits.com/courses/upgrading-react-native/upgrade-to-react-native-0.62/
+  - https://github.com/react-native-community/upgrade-support/issues/13
 - bug: refreshing of the carousel, which makes items reappear and dance around
 - bug: how come the share extension broke?
 - bug: unsubscribe from feed > feed modal goes blank, doesn't close
