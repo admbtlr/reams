@@ -18,25 +18,26 @@ export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 
 const screenWidth = Dimensions.get('window').width
 
-function TopBars ({
-  index,
-  isOnboarding,
-  items,
-  navigation,
-  numItems,
-  openFeedModal,
-  panAnim,
-  setClampedScrollAnimSetterAndListener,
-  setScrollAnimSetterAndListener,
-  setBufferIndexChangeListener
-}) {
+function TopBars (props) {
   if (!items) return null
+  const {
+    index,
+    isOnboarding,
+    items,
+    navigation,
+    numItems,
+    openFeedModal,
+    panAnim,
+    setClampedScrollAnimSetterAndListener,
+    setScrollAnimSetterAndListener,
+    setBufferIndexChangeListener
+  }  = props 
   panAnim = panAnim || new Animated.Value(0)
   const panAnimDivisor = screenWidth
 
   const [clampedScrollAnim, setClampedScrollAnim] = useState(new Animated.Value(0))
   const [scrollAnim, setScrollAnim] = useState(new Animated.Value(0))
-  const [bufferIndex, setBufferIndex] = useState(1)
+  const [bufferIndex, setBufferIndex] = useState(props.bufferIndex || 1)
   const dispatch = useDispatch()
 
   const clampedScrollListener = {

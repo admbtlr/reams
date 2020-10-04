@@ -159,7 +159,7 @@ class ItemCarousel extends React.Component {
     const lastIndex = this.index
     this.index = index
     this.bufferIndex = bufferIndex
-    this.bufferIndexChangeListener(this.bufferIndex)
+    this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
@@ -298,7 +298,7 @@ class ItemCarousel extends React.Component {
     this.initIndex()
 
     this.bufferedItems = getBufferedItems(items, index, displayMode, feeds)
-    this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
+    // this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
 
     if (numItems > 0 || isOnboarding) {
       // do something with setPanAnim on the ToolbarContainer
@@ -324,6 +324,7 @@ class ItemCarousel extends React.Component {
             navigation={navigation}
             numItems={numItems}
             index={index}
+            bufferIndex={this.bufferIndex}
             openFeedModal={this.openFeedModal}
             panAnim={this.state.panAnim}
             setClampedScrollAnimSetterAndListener={this.setClampedScrollAnimSetterAndListener}
