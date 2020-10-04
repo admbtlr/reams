@@ -36,7 +36,7 @@ export default class AnimatedEllipsis extends Component {
         {
           toValue: 1,
           duration: 1500,
-          useNativeDrvier: true,
+          useNativeDriver: true,
           isInteraction: false
         }
       )
