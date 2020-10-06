@@ -10,7 +10,6 @@ import { connect } from 'react-redux'
 import { ADD_FEED } from '../store/feeds/types'
 import { 
   FETCH_ITEMS,
-  SET_DARK_MODE,
   SHOW_MODAL
 } from '../store/ui/types'
 import { 
