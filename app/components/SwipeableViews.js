@@ -81,8 +81,8 @@ class SwipeableViews extends Component {
 
   setScrollIndex (index) {
     const x = index * this.screenWidth
-    if (this.scrollView && this.scrollView._component) {
-      this.scrollView._component.scrollTo({
+    if (this.scrollView) {
+      this.scrollView.scrollTo({
         x,
         y: 0,
         animated: false

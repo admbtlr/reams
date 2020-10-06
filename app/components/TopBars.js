@@ -17,6 +17,7 @@ import { isIphoneX } from '../utils'
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 
 const screenWidth = Dimensions.get('window').width
+const initialBufferIndex = 1
 
 function TopBars (props) {
   const {
@@ -36,7 +37,7 @@ function TopBars (props) {
 
   const [clampedScrollAnim, setClampedScrollAnim] = useState(new Animated.Value(0))
   const [scrollAnim, setScrollAnim] = useState(new Animated.Value(0))
-  const [bufferIndex, setBufferIndex] = useState(props.bufferIndex || 1)
+  const [bufferIndex, setBufferIndex] = useState(initialBufferIndex)
   const dispatch = useDispatch()
 
   const clampedScrollListener = {
@@ -63,6 +64,9 @@ function TopBars (props) {
   setClampedScrollAnimSetterAndListener(setClampedScrollAnim, clampedScrollListener)
   setScrollAnimSetterAndListener(setScrollAnim, scrollListener)
   setBufferIndexChangeListener(setBufferIndex)
+  if (props.bufferIndex !== bufferIndex) {
+    setBufferIndex(props.bufferIndex)
+  }
 
   // console.log('RENDERING TOPBARS')
 
