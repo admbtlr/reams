@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Animated,
   Dimensions,
@@ -17,27 +17,34 @@ import { isIphoneX } from '../utils'
 export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
 
 const screenWidth = Dimensions.get('window').width
+const initialBufferIndex = 1
 
-function TopBars ({
-  index,
-  isOnboarding,
-  items,
-  navigation,
-  numItems,
-  openFeedModal,
-  panAnim,
-  setClampedScrollAnimSetterAndListener,
-  setScrollAnimSetterAndListener,
-  setBufferIndexChangeListener
-}) {
+function TopBars (props) {
+  const {
+    index,
+    isOnboarding,
+    items,
+    navigation,
+    numItems,
+    openFeedModal,
+    setClampedScrollAnimSetterAndListener,
+    setScrollAnimSetterAndListener,
+    setBufferIndexChangeListener
+  }  = props 
   if (!items) return null
-  panAnim = panAnim || new Animated.Value(0)
+  panAnim = props.panAnim || new Animated.Value(0)
   const panAnimDivisor = screenWidth
 
   const [clampedScrollAnim, setClampedScrollAnim] = useState(new Animated.Value(0))
   const [scrollAnim, setScrollAnim] = useState(new Animated.Value(0))
-  const [bufferIndex, setBufferIndex] = useState(1)
+  const [bufferIndex, setBufferIndex] = useState(initialBufferIndex)
   const dispatch = useDispatch()
+  const prevItemsRef = useRef(items)
+  useEffect(() => {
+    prevItemsRef.current = items
+  })
+  const prevItems = prevItemsRef.current
+
 
   const clampedScrollListener = {
     onStatusBarDown: () => {
@@ -63,6 +70,9 @@ function TopBars ({
   setClampedScrollAnimSetterAndListener(setClampedScrollAnim, clampedScrollListener)
   setScrollAnimSetterAndListener(setScrollAnim, scrollListener)
   setBufferIndexChangeListener(setBufferIndex)
+  if (props.bufferIndex !== bufferIndex && items !== prevItems) {
+    setBufferIndex(props.bufferIndex)
+  }
 
   // console.log('RENDERING TOPBARS')
 

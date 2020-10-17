@@ -1,13 +1,20 @@
 # To Do
 
+- it looks like topBars.bufferIndex is first set correctly (say, bi), and then is set to bi-1
+  - this means isVisible is set wrongly on the visible TopBar and the one before that, which means that they don't respond to scroll events
+  - check TopBars:150, TopBar:79, ItemCarousel:162
+- seems that this is because ItemCarousel renders every time one of the currently buffered items is decorated (is that necessary?), which means it then calls `initIndex()`, both in `render()` and in `componentDidUpdate()`
+- just changed the `shouldComponentUpdate` logic to return `false` if the only change is item decoration
+  - this will stop the buttons getting updated when an item is decorated, which is a problem, but it stops the ItemCarousel from rendering all the time
+  - still doesn't solve the problem though :(
+- OK now I fixed it - TopBars doesn't just compare the itemBuffer but also the items when deciding whether to reset the itemBuffer
+  - now I need to fix the fact that the buttons (probably) don't get updated when an item is decorated
+
 - in-browser js causes render delays! ~~move to item init (with jsdom?)~~
   - only do it on first load, then store fixed up dom on item
   - while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded
 - do I need react-native-image-filter-kit?
   - yes, but only for the feed icons
-- upgrade to RN 0.62
-  - https://reactnative.thenativebits.com/courses/upgrading-react-native/upgrade-to-react-native-0.62/
-  - https://github.com/react-native-community/upgrade-support/issues/13
 - bug: refreshing of the carousel, which makes items reappear and dance around
 - bug: how come the share extension broke?
 - bug: unsubscribe from feed > feed modal goes blank, doesn't close
@@ -49,6 +56,7 @@
 
 # Done
 
+- ~~upgrade to RN 0.62~~
 - ~~can I stop the current item from having the animation when I swipe right again?~~
 - ~~deal with feed.number_unread problems~~
 - ~~edit new feeds list, Politics section~~
