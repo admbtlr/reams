@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Animated,
   Dimensions,
@@ -39,6 +39,12 @@ function TopBars (props) {
   const [scrollAnim, setScrollAnim] = useState(new Animated.Value(0))
   const [bufferIndex, setBufferIndex] = useState(initialBufferIndex)
   const dispatch = useDispatch()
+  const prevItemsRef = useRef(items)
+  useEffect(() => {
+    prevItemsRef.current = items
+  })
+  const prevItems = prevItemsRef.current
+
 
   const clampedScrollListener = {
     onStatusBarDown: () => {
@@ -64,7 +70,7 @@ function TopBars (props) {
   setClampedScrollAnimSetterAndListener(setClampedScrollAnim, clampedScrollListener)
   setScrollAnimSetterAndListener(setScrollAnim, scrollListener)
   setBufferIndexChangeListener(setBufferIndex)
-  if (props.bufferIndex !== bufferIndex) {
+  if (props.bufferIndex !== bufferIndex && items !== prevItems) {
     setBufferIndex(props.bufferIndex)
   }
 

@@ -109,8 +109,8 @@ class ItemCarousel extends React.Component {
       !(
         nextProps.index > this.initialIndex - 1 &&
         nextProps.index < this.initialIndex + BUFFER_LENGTH &&
-        this._stringifyBufferedItems(nextProps.items, this.props.index, this.props.displayMode, this.props.feeds, true) ===
-          this._stringifyBufferedItems(this.props.items, this.props.index, this.props.displayMode, this.props.feeds, true)
+        this._stringifyBufferedItems(nextProps.items, this.props.index, this.props.displayMode, this.props.feeds, false) ===
+          this._stringifyBufferedItems(this.props.items, this.props.index, this.props.displayMode, this.props.feeds, false)
       )
   }
 
