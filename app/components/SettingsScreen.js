@@ -51,13 +51,13 @@ export default function SettingsScreen (props) {
       Animated.spring(buttonAnim, {
         toValue: 0,
         duration: 300,
-        useNative: true
+        useNativeDriver: true
       }).start()
     } else {
       Animated.spring(buttonAnim, {
         toValue: margin * 4,
         duration: 300,
-        useNative: true
+        useNativeDriver: true
       }).start()
     }
   })

@@ -38,7 +38,8 @@ class FeedInfo extends React.Component {
         {
           toValue: 1,
           duration: 1000,
-          isInteraction: false
+          isInteraction: false,
+          useNativeDriver: false
         }
       ),
       Animated.timing(
@@ -46,7 +47,8 @@ class FeedInfo extends React.Component {
         {
           toValue: 0,
           duration: 1000,
-          isInteraction: false
+          isInteraction: false,
+          useNativeDriver: false
         }
       )
     ]).start(event => {
@@ -62,7 +64,7 @@ class FeedInfo extends React.Component {
       bounciness: 12,
       toValue: this.state.detailsVisible ? 168 : 0,
       duration: 200,
-      // useNativeDriver: true
+      useNativeDriver: false
     }
     Animated.spring(
       this.detailsHeight,

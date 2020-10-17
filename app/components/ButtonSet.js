@@ -89,7 +89,7 @@ export default function ButtonSet ({
       toValue: isItemMercury ? 1 : 0,
       delay: 250,
       duration: 500,
-      // useNativeDriver: true
+      useNativeDriver: false
     }).start()
   }
 

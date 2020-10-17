@@ -39,7 +39,8 @@ export default function Splash () {
         scaleAnim,
         {
           toValue: 20,
-          duration: 500
+          duration: 500,
+          useNativeDriver: true
         }
       ).start(() => {
         setFaded(true)
@@ -61,7 +62,8 @@ export default function Splash () {
             scaleAnim,
             {
               toValue: 20,
-              duration: 500
+              duration: 500,
+              useNativeDriver: true
             }
           ).start(() => {
             setFaded(true)
