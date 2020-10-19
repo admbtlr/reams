@@ -1,5 +1,6 @@
 import { ItemType } from '../store/items/types'
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Animated,
   Dimensions,
@@ -29,9 +30,17 @@ export default function ButtonSet ({
     makeVisible(visible)
   }, [visible])
 
+  const selectItem = state => item ?
+    (state.itemsUnread.items.find(i => i._id === item._id) ||
+    state.itemsSaved.items.find(i => i._id === item._id)) :
+    null
+  const liveItem = useSelector(selectItem)
+
   const visibleAnim = new Animated.Value(0)
   const toggleAnimMercury = new Animated.Value(0)
   const toggleAnimSaved = new Animated.Value(0)
+
+  item = liveItem
 
   const translateDistance = 80
 
