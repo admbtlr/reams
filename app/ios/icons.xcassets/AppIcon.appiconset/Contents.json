@@ -111,7 +111,7 @@
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "iTunesArtwork@2x.png",
+      "filename" : "iTunesArtwork@2x Copy.png",
       "scale" : "1x"
     },
     {
@@ -121,12 +121,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-Notification-6.png",
+      "filename" : "Icon-Notification-8.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-Notification-7.png",
+      "filename" : "Icon-Notification-9.png",
       "scale" : "1x"
     },
     {
@@ -173,6 +173,18 @@
     {
       "idiom" : "universal",
       "filename" : "Icon-Notification-5.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-Notification-6.png",
+      "unassigned" : true,
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Icon-Notification-7.png",
       "unassigned" : true,
       "scale" : "1x"
     }
