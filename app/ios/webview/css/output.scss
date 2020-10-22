@@ -404,7 +404,8 @@ body {
     &.img-small {
       float: left;
       clear: left;
-      margin: 0.25rem 0.5rem 0.5rem 0;
+      margin: 0.25rem 1rem 1rem 0;
+      left: 0;
     }
   }
 
@@ -1192,7 +1193,7 @@ hr {
   }
 }
 
-.feedflare {
+.feedflare, .mc-embed-signup {
   display: none !important;
 }
 
@@ -1388,9 +1389,9 @@ html.onboarding {
     content: "";
     display: block;
     width: 100%;
-    height: 12vh;
-    margin-top: 6vh;
-    margin-bottom: 6vh;
+    height: 20vh;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
     background-image: url("../img/ream@2x.png");
     background-size: contain;
     background-repeat: no-repeat;
@@ -1457,12 +1458,11 @@ html.onboarding.onboarding-1:not(.dark-background) body {
 }
 
 html.onboarding.onboarding-2:not(.dark-background) body {
-  background-color: var(--logo3);
+  background-color: var(--bg);
   h2 {
-    color: var(--bg);
+    color: var(--logo1);
   }
-
-  h2::before {
-    background-image: url("../img/ream-beige@2x.png");
+  p {
+    color: var(--logo3);
   }
 }

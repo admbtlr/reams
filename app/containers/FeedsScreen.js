@@ -57,13 +57,13 @@ const testFeeds = [
   }
 ]
 
-const sortFeeds = (a, b) => (a.isLiked && b.isLiked) ?
+const sortFeeds = (a, b) => (a.isLiked && b.isLiked) || (a.number_unread === 0 && b.number_unread === 0) ?
   (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1) :
   a.isLiked ? -1 :
     b.isLiked ? 1 :
-  // b.number_unread === a.number_unread ?
-  //   (a.title < b.title ? -1 : 1) :
-      (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1)
+      a.number_unread === 0 ? 1 :
+        b.number_unread === 0 ? -1 :
+          (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1)
 
 const addUnreadCount = (feed, items) => {
   const unreadItems = items.filter(i => i.feed_id === feed._id)
@@ -79,8 +79,9 @@ const normaliseTitle = (title) => title.slice(0, 4).toUpperCase() === 'THE ' ?
 
 const mapStateToProps = (state) => {
   const items = state.itemsUnread.items
-  const feeds = state.feeds.feeds.slice().sort(sortFeeds)
+  const feeds = state.feeds.feeds.slice()
     .map(f => addUnreadCount(f, items))
+    .sort(sortFeeds)
   const itemSort = state.config.itemSort
   const backendLabels = {
     feedbin: 'Feedbin',

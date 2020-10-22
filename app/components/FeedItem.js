@@ -125,7 +125,9 @@ class FeedItem extends React.Component {
           // isDiff = false
           // this is a bit sneaky...
           if (nextProps.isVisible) {
-            this.props.setScrollAnim(this.scrollAnim)
+            setTimeout(() => {
+              this.props.setScrollAnim(this.scrollAnim)
+            }, 0)
           }
           break
 
@@ -183,7 +185,7 @@ class FeedItem extends React.Component {
       if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
       const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
       if (!scrollRatio) return
-      that.scrollView._component.scrollTo({
+      that.scrollView.scrollTo({
         x: 0,
         y: scrollRatio * that.state.webViewHeight,
         animated: true

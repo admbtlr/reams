@@ -28,7 +28,7 @@ export default function Message (props) {
     Animated.timing(transformAnim, {
       toValue: offscreenDistance,
       easing: Easing.out(Easing.quad),
-      useNativeDrive: true
+      useNativeDriver: true
     }).start(_ => {
       setVisibleMessage(message)
       setVisible(false)
@@ -39,7 +39,7 @@ export default function Message (props) {
       toValue: 0,
       easing: Easing.out(Easing.quad),
       duration: 200,
-      useNativeDrive: true
+      useNativeDriver: true
     }).start(_ => {
       setVisible(true)
     })

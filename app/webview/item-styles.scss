@@ -215,7 +215,8 @@ body {
     &.img-small {
       float: left;
       clear: left;
-      margin: 0.25rem 0.5rem 0.5rem 0;
+      margin: 0.25rem 1rem 1rem 0;
+      left: 0;
     }
   }
 
@@ -1003,7 +1004,7 @@ hr {
   }
 }
 
-.feedflare {
+.feedflare, .mc-embed-signup {
   display: none !important;
 }
 

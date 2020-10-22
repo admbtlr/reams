@@ -9,7 +9,6 @@ import {
   View
 } from 'react-native'
 import Config from "react-native-config"
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TextButton from './TextButton'
 import NavButton from './NavButton'
 import AccountCredentialsForm from './AccountCredentialsForm'
@@ -121,17 +120,6 @@ class AccountScreen extends React.Component {
     console.log(Config)
 
     return (
-      <KeyboardAwareScrollView
-        bounces={false}
-        contentContainerStyle={{
-          flex: 1,
-          backgroundColor: hslString('rizzleBG')
-        }}
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        style={{
-          backgroundColor: hslString('rizzleBG')
-        }}
-      >
         <Animated.ScrollView
           showsVerticalScrollIndicator={false}
           onScroll={Animated.event(
@@ -143,6 +131,9 @@ class AccountScreen extends React.Component {
             }
           )}
           scrollEventThrottle={1}
+          style={{
+            backgroundColor: hslString('rizzleBG')
+          }}
       >
           <View
             style={{
@@ -257,7 +248,6 @@ class AccountScreen extends React.Component {
             </View>
           </View>
         </Animated.ScrollView>
-      </KeyboardAwareScrollView>
     )
   }
 }
