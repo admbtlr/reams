@@ -69,90 +69,93 @@ class RizzleModal extends React.Component {
 
     this.isOpen = isVisible
     return (
-      <View style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}>
-      <Modal
-        animationType="slide"
-        style={{ backgroundColor: 'transparent' }}
-        visible={isVisible}
-        onDismiss={this.onClosed}
-        transparent={true}
-        >
-        <View style={{
+      <View 
+        pointerEvents='none'
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
           flex: 1,
           justifyContent: "center",
-          alignItems: "center",              
+          alignItems: "center",
         }}>
-        <View style={{
-          ...this.getStyles().inner
-        }}>
+        <Modal
+          animationType="slide"
+          style={{ backgroundColor: 'transparent' }}
+          visible={isVisible}
+          onDismiss={this.onClosed}
+          transparent={true}
+          >
           <View style={{
-            ...this.getStyles().textHolder
-            }}>{this.formatText(modalProps.modalText)}</View>
-          { modalProps.modalHideable &&
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",              
+            pointerEvents: 'box-none'
+          }}>
             <View style={{
-              flexDirection: 'row',
-              justifyContent: 'center'
+              ...this.getStyles().inner
             }}>
-              <Switch
-                trackColor={{
-                  false: hslString('rizzleText', '', 0.3),
-                  true: hslString('rizzleText')
-                }}
-                onValueChange={ value => {
-                  this.setState({
-                    toggleHideModal: value
-                  })
-                }}
-                value={this.state.toggleHideModal}
-                style={{
-                  marginRight: 10,
-                  marginTop: -4.9,
-                  marginBottom: 20
-                }}/>
-              { this.formatText([{
-                text: 'Don’t show this again',
-                style: ['em', 'smaller']
-              }]) }
+              <View style={{
+                ...this.getStyles().textHolder
+                }}>{this.formatText(modalProps.modalText)}</View>
+              { modalProps.modalHideable &&
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center'
+                }}>
+                  <Switch
+                    trackColor={{
+                      false: hslString('rizzleText', '', 0.3),
+                      true: hslString('rizzleText')
+                    }}
+                    onValueChange={ value => {
+                      this.setState({
+                        toggleHideModal: value
+                      })
+                    }}
+                    value={this.state.toggleHideModal}
+                    style={{
+                      marginRight: 10,
+                      marginTop: -4.9,
+                      marginBottom: 20
+                    }}/>
+                  { this.formatText([{
+                    text: 'Don’t show this again',
+                    style: ['em', 'smaller']
+                  }]) }
+                </View>
+              }
+              <View style={{...this.getStyles().buttonHolder}}>
+                { modalProps.modalHideCancel ||
+                  <TouchableOpacity
+                    style={{
+                      ...this.getStyles().touchable,
+                      borderRightWidth: 1
+                    }}
+                    onPress={this.onCancel}>
+                    <Text
+                      style={{
+                        ...this.getStyles().text,
+                        ...this.getStyles().buttonText
+                      }}>Cancel</Text>
+                  </TouchableOpacity>
+                }
+                <TouchableOpacity
+                  style={{...this.getStyles().touchable}}
+                  onPress={this.onOK}>
+                  <Text
+                    style={{
+                      ...this.getStyles().text,
+                      ...this.getStyles().buttonText,
+                      ...this.getStyles().strong
+                    }}>OK</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          }
-          <View style={{...this.getStyles().buttonHolder}}>
-            { modalProps.modalHideCancel ||
-              <TouchableOpacity
-                style={{
-                  ...this.getStyles().touchable,
-                  borderRightWidth: 1
-                }}
-                onPress={this.onCancel}>
-                <Text
-                  style={{
-                    ...this.getStyles().text,
-                    ...this.getStyles().buttonText
-                  }}>Cancel</Text>
-              </TouchableOpacity>
-            }
-            <TouchableOpacity
-              style={{...this.getStyles().touchable}}
-              onPress={this.onOK}>
-              <Text
-                style={{
-                  ...this.getStyles().text,
-                  ...this.getStyles().buttonText,
-                  ...this.getStyles().strong
-                }}>OK</Text>
-            </TouchableOpacity>
           </View>
-        </View>
-        </View>
-      </Modal>
+        </Modal>
       </View>
     )
   }
