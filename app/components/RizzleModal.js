@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react'
 import {
+  Modal,
   StyleSheet,
   Switch,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
-import Modal from 'react-native-modalbox'
 import {hslString} from '../utils/colors'
 
 class RizzleModal extends React.Component {
@@ -69,14 +69,28 @@ class RizzleModal extends React.Component {
 
     this.isOpen = isVisible
     return (
+      <View style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
       <Modal
-        backdrop={true}
+        animationType="slide"
         style={{ backgroundColor: 'transparent' }}
-        position="center"
-        isOpen={isVisible}
-        onClosed={this.onClosed}
+        visible={isVisible}
+        onDismiss={this.onClosed}
+        transparent={true}
         >
-       <View style={{...this.getStyles().base}}>
+        <View style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",              
+        }}>
         <View style={{
           ...this.getStyles().inner
         }}>
@@ -137,8 +151,9 @@ class RizzleModal extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-       </View>
+        </View>
       </Modal>
+      </View>
     )
   }
 

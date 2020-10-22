@@ -3,7 +3,6 @@ import { Provider } from 'react-redux'
 import {
   InteractionManager,
   Linking,
-  LogBox,
   StatusBar,
   View
 } from 'react-native'
@@ -92,14 +91,10 @@ export default class Rizzle extends Component<Props, State> {
     setTimeout(() => {
       global.isStarting = false
     }, 5000)
-
-    LogBox.ignoreAllLogs()
   }
 
   // https://www.ekreative.com/universal-linking-in-react-native-for-ios/
   componentDidMount () {
-    LogBox.ignoreAllLogs()
-
     // set up deep linking
     this.addRoutesToDeepLinking()
     Linking.addEventListener('url', this.handleUrl)
@@ -199,7 +194,6 @@ export default class Rizzle extends Component<Props, State> {
             <View style={{
               flex: 1,
               backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
-              <RizzleModalContainer />
               <StatusBar
                 barStyle='light-content'
                 hidden={false} />
@@ -207,6 +201,7 @@ export default class Rizzle extends Component<Props, State> {
               <ConnectionListenerContainer />
               <AppContainer />
               <Message />
+              <RizzleModalContainer />
               <Splash />
             </View>
           </ReactReduxFirebaseProvider>
