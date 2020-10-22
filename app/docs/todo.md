@@ -16,8 +16,10 @@
 - do I need react-native-image-filter-kit?
   - yes, but only for the feed icons
 - bug: refreshing of the carousel, which makes items reappear and dance around
+  - fixed?
 - bug: how come the share extension broke?
 - bug: unsubscribe from feed > feed modal goes blank, doesn't close
+  - can't recreate?
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
 - use more built-in fonts?
@@ -28,7 +30,6 @@
   - https://github.com/jwagner/smartcrop.js/issues/89
   - https://stackoverflow.com/questions/60074775/how-to-save-base64-image-using-node-js
 - make Feedwrangler work fully
-- upgrade to react native 62
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 - move backend to postgres, running on https://www.elephantsql.com/
   - using node-postgres, which looks very nice!
@@ -56,6 +57,7 @@
 
 # Done
 
+- ~~upgrade to react native 62~~
 - ~~upgrade to RN 0.62~~
 - ~~can I stop the current item from having the animation when I swipe right again?~~
 - ~~deal with feed.number_unread problems~~
