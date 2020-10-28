@@ -54,7 +54,7 @@ class FeedItem extends React.Component {
         outputRange
       })
     })
-    if (isMounted) {
+    if (isMounted && JSON.stringify(this.anims) !== JSON.stringify(anims)) {
       this.anims = anims
       // weird little hack to ensure a re-render
       // (when I put the anims into state I got ugly errors)
@@ -66,12 +66,22 @@ class FeedItem extends React.Component {
     }
   }
 
-  addAnimation (style, anim) {
+  addAnimation (style, anim, isVisible) {
     const width = Dimensions.get('window').width * 0.05
-    if (this.props.isVisible) {
+    if (isVisible) {
       return {
         ...style,
-        transform: []
+        left: width,
+        opacity: anim.interpolate({
+          inputRange: [0, 1, 1.05, 1.1, 2],
+          outputRange: [1, 1, 1, 1, 1]
+        }),
+        transform: [{
+          translateX: anim.interpolate({
+            inputRange: [0, 1.01, 1.1, 2],
+            outputRange: [-width, -width, -width, -width]
+          })
+        }]
       }
     } else {
       return {
@@ -356,24 +366,25 @@ class FeedItem extends React.Component {
       >
         { showCoverImage && !styles.isCoverInline && coverImage }
         <Animated.ScrollView
-          onScroll={Animated.event(
+          onScroll={this.scrollAnim && Animated.event(
               [{ nativeEvent: {
                 contentOffset: { y: this.scrollAnim }
               }}],
               {
-                useNativeDriver: true,
-                // listener: event => {
-                //   console.log(event.nativeEvent.contentOffset.y)
-                //   this.passScrollPositionToWebView(event.nativeEvent.contentOffset.y)
-                // }
+                useNativeDriver: true
               }
             )}
           onMomentumScrollBegin={this.onMomentumScrollBegin}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
+          pinchGestureEnabled={false}
           ref={(ref) => { this.scrollView = ref }}
           scrollEventThrottle={1}
-          style={{flex: 1}}
+          style={{
+            flex: 1,
+            minHeight: 100,
+            minWidth: 100
+          }}
         >
           { showCoverImage && styles.isCoverInline && coverImage }
           <ItemTitleContainer
@@ -394,7 +405,7 @@ class FeedItem extends React.Component {
           />
           <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
             (styles.coverImage.isInline || !showCoverImage) ? 
-              this.addAnimation({}, this.anims[5]) :
+              this.addAnimation({}, this.anims[5], isVisible) :
               {}}>
             <WebView
               allowsFullscreenVideo={true}
