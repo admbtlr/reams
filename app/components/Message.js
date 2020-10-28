@@ -21,16 +21,16 @@ const offscreenDistance = 130
 const transformAnim = new Animated.Value(0)
 
 export default function Message (props) {
-  // const [isVisible, setVisible] = useState([])
-  // const [visibleMessage, setVisibleMessage] = useState([])
+  const [isVisible, setVisible] = useState([])
+  const [visibleMessage, setVisibleMessage] = useState([])
 
-  // const message = useSelector(state => state.ui.message)
+  const message = useSelector(state => state.ui.message)
   const buttonsVisible = useSelector(state => state.ui.itemButtonsVisible)
-  const message = "This is the message"
-  const visibleMessage = "This is the visible message"
-  const isVisible = false
-  const setVisible = () => true
-  const setVisibleMessage = () => true
+  // const message = "This is the message"
+  // const visibleMessage = "This is the visible message"
+  // const isVisible = false
+  // const setVisible = () => true
+  // const setVisibleMessage = () => true
 
   if (isVisible && message.length === 0) {
     Animated.timing(transformAnim, {
@@ -53,6 +53,15 @@ export default function Message (props) {
     }).start(_ => {
       setVisible(true)
     })
+  } else if (isVisible && message.length > 0) {
+    // this means that the button visibility has changed (I think)
+    Animated.timing(transformAnim, {
+      toValue: buttonsVisible ? 0 : 60,
+      easing: Easing.out(Easing.quad),
+      duration: 200,
+      delay: buttonsVisible ? 0 : 600,
+      useNativeDriver: true
+    }).start()
   }
 
   return /*message.length === 0 ? null :*/ (

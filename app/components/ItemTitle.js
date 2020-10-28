@@ -417,7 +417,7 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {scrollOffset, styles, showCoverImage, coverImageStyles} = this.props
+    let {scrollOffset, styles, showCoverImage, coverImageStyles, isVisible} = this.props
 
     // this means the item hasn't been inflated from Firebase yet
     if (!styles) return null
@@ -551,7 +551,7 @@ class ItemTitle extends React.Component {
       ...border,
       borderColor: color,
     }
-    innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation)
+    innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation, isVisible)
     if (!showCoverImage || !coverImageStyles.isInline) {
       innerViewStyle.transform.push({
         translateY: scrollOffset.interpolate({
@@ -584,24 +584,13 @@ class ItemTitle extends React.Component {
         1 :
         opacity
     }
-    let textStyle = {
-      ...fontStyle,
-      // ...viewStyle
-    }
 
-
-    // TODO: if I decide that images with contain need shadow, change createItemStyles:86
     let shadowStyle = showCoverImage && styles.hasShadow ? {
       textShadowColor: 'rgba(0,0,0,0.1)',
       // textShadowOffset: { width: shadow, height: shadow }
       textShadowOffset: { width: 1, height: 1 },
       textShadowRadius: 10
     } : {}
-
-    textStyle = {
-      ...fontStyle,
-      ...shadowStyle
-    }
 
     const invertedTitleStyle = {
       color: showCoverImage ?
@@ -618,11 +607,6 @@ class ItemTitle extends React.Component {
         (styles.isMonochrome ? 'white' : this.getForegroundColor()) :
         'transparent',
       marginBottom: (showCoverImage && !coverImageStyles.isInline && styles.invertedBGMargin || 0) * 3
-    }
-
-    let server = ''
-    if (__DEV__) {
-      server = 'http://localhost:8888/'
     }
 
     const justifiers = {
@@ -733,9 +717,6 @@ class ItemTitle extends React.Component {
             marginLeft: styles.invertBG ? this.horizontalMargin - invertedTitleStyle.paddingLeft : this.horizontalMargin,
             justifyContent: this.aligners[styles.textAlign]
           }}
-          // onLayout={(event) => {
-          //   this.adjustFontSize(event.nativeEvent.layout.height)
-          // }}
           ref={(view) => { this.innerView = view }}
         >
           {typeof(this.renderedTitle) === 'object' && this.renderedTitle}
@@ -775,7 +756,7 @@ class ItemTitle extends React.Component {
   }
 
   renderBar (anim) {
-    let style = this.props.addAnimation({}, anim)
+    let style = this.props.addAnimation({}, anim, this.props.isVisible)
     return <Animated.View style={style}>
       <View style={{
         marginLeft: this.horizontalMargin,
@@ -882,7 +863,7 @@ class ItemTitle extends React.Component {
         'right': 'flex-end'
       }[styles.excerptHorizontalAlign],
     }
-    style = this.props.addAnimation(style, anim)
+    style = this.props.addAnimation(style, anim, this.props.isVisible)
 
     if (!coverImageStyles.isInline) {
       style.transform.push({
@@ -956,7 +937,7 @@ class ItemTitle extends React.Component {
       padding: 0,
       width: this.screenWidth
     }
-    authorStyle = this.props.addAnimation(authorStyle, anim)
+    authorStyle = this.props.addAnimation(authorStyle, anim, this.props.isVisible)
     if (!coverImageStyles.isInline) {
       authorStyle.transform.push({
         translateY: scrollOffset.interpolate({
@@ -1010,7 +991,7 @@ class ItemTitle extends React.Component {
     //   ]
     //   dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
     // }
-    dateStyle = this.props.addAnimation(dateStyle, anim)
+    dateStyle = this.props.addAnimation(dateStyle, anim, this.props.isVisible)
     if (!coverImageStyles.isInline) {
       dateStyle.transform.push({
         translateY: scrollOffset.interpolate({
