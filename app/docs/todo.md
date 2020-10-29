@@ -1,13 +1,10 @@
 # To Do
 
-- content sometimes disappears because of removing FeedItem transitions when visible
 - in-browser js causes render delays! ~~move to item init (with jsdom?)~~
   - only do it on first load, then store fixed up dom on item
   - while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded
 - do I need react-native-image-filter-kit?
   - yes, but only for the feed icons
-- bug: refreshing of the carousel, which makes items reappear and dance around
-  - fixed?
 - bug: how come the share extension broke?
 - bug: unsubscribe from feed > feed modal goes blank, doesn't close
   - can't recreate?
@@ -48,6 +45,8 @@
 
 # Done
 
+- ~~bug: refreshing of the carousel, which makes items reappear and dance around~~
+- ~~content sometimes disappears because of removing FeedItem transitions when visible~~
 - ~~upgrade to react native 62~~
 - ~~upgrade to RN 0.62~~
 - ~~can I stop the current item from having the animation when I swipe right again?~~
