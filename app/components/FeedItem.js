@@ -1,5 +1,5 @@
 import React from 'react'
-import {Animated, Dimensions, Easing, Linking, View} from 'react-native'
+import {ActivityIndicator, Animated, Dimensions, Easing, Linking, View} from 'react-native'
 import {WebView} from 'react-native-webview'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
@@ -406,7 +406,18 @@ class FeedItem extends React.Component {
           <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
             (styles.coverImage.isInline || !showCoverImage) ? 
               this.addAnimation({}, this.anims[5], isVisible) :
-              {}}>
+              {}}
+          >
+            <View style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              paddingTop: 100
+            }}>
+              <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
+            </View>
             <WebView
               allowsFullscreenVideo={true}
               allowsLinkPreview={true}
