@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
     user: state.user,
     backend: state.config.backend,
     displayMode: state.itemsMeta.display,
+    isDarkMode: state.ui.isDarkMode,
     isFirstTime: state.config.isFirstTime || state.config.isOnboarding
   }
 }
