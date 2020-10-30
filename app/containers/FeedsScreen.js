@@ -93,6 +93,7 @@ const mapStateToProps = (state) => {
   return {
     backend: backendLabels[state.config.backend],
     feeds,
+    isDarkMode: state.ui.isDarkMode,
     numItems: items.length,
     itemSort,
     uid: state.user.uid

@@ -164,8 +164,29 @@ export function blendColor (colorName, modifier = '') {
   return hslStringToBlendColor(hslString(colorName, modifier))
 }
 
+function makeDarkModeFriendly (color) {
+  if (color.startsWith('#')) {
+    if (/[012]{6}/.test(color.substring(1))) {
+      return '#ffffff'
+    }
+  } else if (color.startsWith('rgb')) {
+    const [r, g, b] = color.substring(4, color.length - 1).split(',')
+      .map(v => Number.parseInt(v.trim()))
+    if (isRgbDark([r,g,b])) {
+      return 'rgb(0,0,0)'
+    }
+  }
+  return color
+}
+
+const isRgbDark = ([r,g,b]) => [r,g,b].reduce((accum, curr) => accum && (curr < 20), true)
+
 export function hslString (color, modifier = '', alpha) {
+  const isDarkMode = store && store.getState().ui.isDarkMode
   if (typeof color === 'string') {
+    if (modifier === 'darkmodable' && isDarkMode) {
+      color = makeDarkModeFriendly(color)
+    }
     if (color.startsWith('#')) {
       color = hexToHsl(color.replace('#', ''))
     } else if (color.startsWith('rgb')) {
@@ -174,10 +195,9 @@ export function hslString (color, modifier = '', alpha) {
   }
   if (typeof color === 'object') {
     let lightness = color[2]
-    if (modifier === 'darkmodable' &&
-      (store && store.getState().ui.isDarkMode)) {
+    if (modifier === 'darkmodable' && isDarkMode) {
       lightness = lightness < 30 ?
-        50 + (30 - lightness) :
+        100 - lightness :
         lightness
     }
     return `hsl(${color[0]}, ${color[1]}%, ${lightness}%)`
@@ -201,7 +221,7 @@ export function hslString (color, modifier = '', alpha) {
       palette = colors
   }
   color = palette[color] ||
-    ((modifier !== 'strict' && store && store.getState().ui.isDarkMode) ?
+    ((modifier !== 'strict' && isDarkMode) ?
       darkMode[color] :
       ui[color])
   if (alpha) {

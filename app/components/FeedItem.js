@@ -297,8 +297,9 @@ class FeedItem extends React.Component {
       data = banner_image
     }
 
+    const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
     const feedColor = item.feed_color ?
-      hslString(feed_color, this.props.isDarkMode ? 'darkmode' : '') :
+      hslString(feed_color, 'darkmodable') :
       hslString('logo1')
 
     const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkMode ? 'dark-background' : ''}">
@@ -313,7 +314,7 @@ class FeedItem extends React.Component {
     <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   </head>
-  <body class="${visibleClass} ${scrollingClass} ${blockquoteClass} ${this.props.displayMode}" data-cover="${data}">
+  <body class="${visibleClass} ${scrollingClass} ${blockquoteClass} ${this.props.displayMode}" style="background-color: ${bodyColor}" data-cover="${data}">
     <article
       class="${articleClasses}"
       style="min-height: ${minHeight}px; width: 100vw;">
@@ -355,11 +356,15 @@ class FeedItem extends React.Component {
       }, 500)
       true;`
 
+    const bodyStyle = {
+      backgroundColor: bodyColor
+    }
+
     return (
       <View
         ref={(ref) => { this.view = ref }}
         style={{
-          backgroundColor: hslString('bodyBG'),
+          backgroundColor: bodyColor,
           flex: 1,
           overflow: 'hidden'
         }}
@@ -405,8 +410,8 @@ class FeedItem extends React.Component {
           />
           <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
             (styles.coverImage.isInline || !showCoverImage) ? 
-              this.addAnimation({}, this.anims[5], isVisible) :
-              {}}
+              this.addAnimation(bodyStyle, this.anims[5], isVisible) :
+              bodyStyle}
           >
             <View style={{
               position: "absolute",
@@ -414,7 +419,8 @@ class FeedItem extends React.Component {
               right: 0,
               bottom: 0,
               left: 0,
-              paddingTop: 100
+              paddingTop: 100,
+              backgroundColor: bodyColor
             }}>
               <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
             </View>
@@ -448,12 +454,12 @@ class FeedItem extends React.Component {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: webViewHeight,
-                backgroundColor: this.props.isDarkMode ? 'black' : hslString('rizzleBg')
+                backgroundColor: bodyColor
               }}
               source={{
                 html: html,
                 baseUrl: 'web/'}}
-            />
+              />
           </Animated.View>
         </Animated.ScrollView>
       </View>
