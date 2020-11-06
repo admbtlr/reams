@@ -271,7 +271,7 @@ class FeedItem extends React.Component {
       : 'scrolling'
     const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
-    const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 0 : webViewHeight
+    const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 1 : webViewHeight
     let server = ''
     if (__DEV__) {
       server = 'http://localhost:8888/'
