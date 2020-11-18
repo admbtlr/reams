@@ -203,6 +203,11 @@ function * cleanUpItems (items, type) {
     date_fetched: Math.round(Date.now())
   })
   const currentItem = yield select(getCurrentItem)
+
+  // actually this is sketchy because the items in the store might be deflated
+  // OTOH, maybe this is OK, because any _visible_ items will probably be inflated
+  const existingItems = (yield select(getItems))?.filter(ei => items.find(i => i._id === ei._id))
+
   const setShowCoverImageIfNotCurrent = (item) => item === currentItem ?
     item :
     setShowCoverImage(item)
@@ -220,7 +225,7 @@ function * cleanUpItems (items, type) {
   return items
     .map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
-    .map(addStylesIfNecessary)
+    .map((item) => existingItems && existingItems.find(ei => ei._id === item._id) ? item : addStylesIfNecessary(item))
     .map(sanitizeContent)
     .map(setShowCoverImageIfNotCurrent)
     .map(fixCreatedAt)

@@ -113,12 +113,13 @@ export function itemDecorationSuccess (
         ...decorated
       }
 
-      item = addCoverImageToItem(item, action.imageStuff)
-      item.hasCoverImage = !!item.coverImageFile
-      item = setShowCoverImage(item, currentItem)
-      item = removeCoverImageDuplicate(item)
-      // this is just to pick up styles.coverImage.isInline
-      // item.styles = action.item.styles
+      // don't want to add a cover image to a currently visible item
+      if (item._id !== currentItem._id) {
+        item = addCoverImageToItem(item, action.imageStuff)
+        item.hasCoverImage = !!item.coverImageFile
+        item = setShowCoverImage(item, currentItem)
+        item = removeCoverImageDuplicate(item)
+      }
     }
     return item
   }
