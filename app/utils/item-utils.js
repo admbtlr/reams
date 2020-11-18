@@ -11,7 +11,7 @@ export function addStylesIfNecessary (item, index, items) {
   if (item.styles && !item.styles.temporary) {
     return item
   } else {
-    const prevStyles = index > 0 ? items[index-1].styles : null
+    const prevStyles = index > 0 ? items[index].styles : null
     let styles = createItemStyles(item, prevStyles)
     if (item.title === 'Loading...') {
       styles.temporary = true
