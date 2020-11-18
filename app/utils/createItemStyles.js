@@ -61,7 +61,6 @@ export function createItemStyles (item, prevStyles) {
   title.interBolded = shouldInterBold(entities.decode(item.title))
   // this is probably just too ugly to be allowed...
   // title.interStyled = title.interBolded && Math.random() > 0.5
-  title.maximiseFont = isCoverInline || Math.random() > 0.5
   title.textAlign = (item.showCoverImage && !isCoverInline && Math.random() > 0.5) || Math.random() > 0.8
     ? 'center'
     : 'left'
@@ -211,7 +210,6 @@ export function getStylesCompressionMap () {
     title: {
       color: 'c',
       interBolded: 'inB',
-      maximiseFont: 'mF',
       textAlign: 'tA',
       title: 't',
       isVertical: 'iV',

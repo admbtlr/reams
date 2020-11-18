@@ -3,11 +3,11 @@
 - in-browser js causes render delays! ~~move to item init (with jsdom?)~~
   - only do it on first load, then store fixed up dom on item
   - while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded
-- do I need react-native-image-filter-kit?
-  - yes, but only for the feed icons
-- bug: how come the share extension broke?
-- bug: unsubscribe from feed > feed modal goes blank, doesn't close
+- replace the dark mode module with appearance
+- keyboard avoiding view in account screen doesn't work
+- ~~bug: unsubscribe from feed > feed modal goes blank, doesn't close~~
   - can't recreate?
+  - might have fixed it by adding a `currentItem` check in mark-read.js L50
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
 - use more built-in fonts?
@@ -45,6 +45,9 @@
 
 # Done
 
+- ~~bug: how come the share extension broke?~~
+- ~~do I need react-native-image-filter-kit?~~
+  - yes, but only for the feed icons
 - ~~bug: refreshing of the carousel, which makes items reappear and dance around~~
 - ~~content sometimes disappears because of removing FeedItem transitions when visible~~
 - ~~upgrade to react native 62~~
