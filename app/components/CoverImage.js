@@ -68,6 +68,11 @@ class CoverImage extends React.Component {
       faceCentreNormalised,
       imageDimensions
     } = this.props
+
+    // this can happen if 
+    if (!imageDimensions) {
+
+    }
     const absolute = {
       position: 'absolute',
       top: '0%',
@@ -82,6 +87,12 @@ class CoverImage extends React.Component {
       // weird bug with the top pixel row of images
       top: -1,
       marginBottom: -1
+    }
+    if (imageDimensions.width === 0 || imageDimensions.height === 0 || !imageDimensions.width || !imageDimensions.height) {
+      // I should be fixing the root cause of this, but :shrug:
+      // I think it happens when a visible item gets mercuried 
+      // this is just a stopgap solution
+      return <View style={inline} />
     }
     const position = isInline ? inline : absolute
     const scrollAnim = this.props.scrollAnim || 0
@@ -235,40 +246,7 @@ class CoverImage extends React.Component {
         </Animated.View>
       )
     } else {
-      // const radius = this.screenWidth * 0.4
-      const cx = this.screenWidth * 0.5
-      const cy = this.screenHeight * 0.5
-      const fill = this.flipColours ? 'white' : this.getColor()
-      style.backgroundColor = this.flipColours ? this.getColor() : 'white'
-
-      return (
-        <Animated.View
-          shouldRasterizeIOS
-          style={style}
-        >
-          <Svg
-            height={this.screenHeight * 1.2}
-            width={this.screenWidth * 1.2}
-          >
-            {this.letters.map((l, i) =>
-              (<Text
-                x={cx * 1.6}
-                y={cy}
-                fontSize={l.size}
-                fontFamily='IBMPlexMono'
-                fontWeight={l.weight}
-                fill={fill}
-                fillOpacity='0.5'
-                originX={cx}
-                originY={cy}
-                rotate={l.rotation}
-                textAnchor='middle'
-                key={i}
-              >{l.letter}</Text>)
-            )}
-          </Svg>
-        </Animated.View>
-      )
+      return <Animated.View />
     }
   }
 

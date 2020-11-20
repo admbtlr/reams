@@ -350,14 +350,16 @@ class FeedItem extends React.Component {
       }
     }
 
-    const coverImage = <CoverImage
-            styles={styles.coverImage}
-            scrollAnim={this.scrollAnim}
-            imagePath={!!hasCoverImage && getCachedCoverImagePath(item)}
-            imageDimensions={!!hasCoverImage && imageDimensions}
-            faceCentreNormalised={faceCentreNormalised}
-            feedTitle={item.feed_title}
-          />
+    const coverImage = showCoverImage ? 
+      <CoverImage
+        styles={styles.coverImage}
+        scrollAnim={this.scrollAnim}
+        imagePath={!!hasCoverImage && getCachedCoverImagePath(item)}
+        imageDimensions={!!hasCoverImage && imageDimensions}
+        faceCentreNormalised={faceCentreNormalised}
+        feedTitle={item.feed_title}
+      /> :
+      null
 
     const injectedJavaScript = `
       window.setTimeout(() => {
