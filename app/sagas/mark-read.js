@@ -47,7 +47,7 @@ export function * clearReadItems () {
   const currentItem = yield select(getCurrentItem, displayMode)
   let itemsToClear = readItems
     .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
-    .filter(item => item._id !== currentItem._id)
+    .filter(item => currentItem && (item._id !== currentItem._id))
   if (currentItem) {
     itemsToClear = itemsToClear.filter(item => item._id !== currentItem._id)
   }
