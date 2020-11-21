@@ -238,7 +238,9 @@ export async function cacheCoverImage (item, imageURL) {
   try {
     await RNFS.downloadFile({
       fromUrl: imageURL,
-      toFile: fileName
+      toFile: fileName,
+      begin: () => {},
+      progress: () => {}
     }).promise
     return fileName
   } catch(err) {
