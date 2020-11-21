@@ -101,7 +101,10 @@ export function itemDecorationSuccess (
   action: itemDecorationSuccessAction, 
   state: ItemsState
 ) {
-  const currentItem = state.items[state.index]
+  const currentItems = [
+    state.items[state.index],
+    state.items[state.index + 1 < state.items.length ? state.index + 1 : state.index + 1]
+  ]
   const testAndDecorate = (item: Item) => {
     if (item._id === action.item._id) {
       // note that I'm using action.item as the base
@@ -114,10 +117,10 @@ export function itemDecorationSuccess (
       }
 
       // don't want to add a cover image to a currently visible item
-      if (item._id !== currentItem._id) {
+      if (!currentItems.find(ci => item._id !== ci._id)) {
         item = addCoverImageToItem(item, action.imageStuff)
         item.hasCoverImage = !!item.coverImageFile
-        item = setShowCoverImage(item, currentItem)
+        item = setShowCoverImage(item, currentItems[0])
         item = removeCoverImageDuplicate(item)
       }
     }

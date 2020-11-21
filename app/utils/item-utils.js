@@ -179,21 +179,6 @@ export function addMercuryStuffToItem (item, mercury) {
 
   decoratedItem = fixRelativePaths(decoratedItem)
 
-  const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
-  const imageSrcIsUrl = (path) => path.startsWith('http')
-  let visibleContentKey = decoratedItem.showMercuryContent ?
-    'content_mercury' :
-    'content_html'
-  const firstImg = /<img.*?src="(.*?)".*?>/.exec(decoratedItem[visibleContentKey]) &&
-    /<img.*?src="(.*?)".*?>/.exec(decoratedItem[visibleContentKey])[1]
-  if (firstImg &&
-    decoratedItem.banner_image &&
-    decoratedItem.styles.coverImage.isInline &&
-    imageSrcIsUrl(firstImg) &&
-    getImageFileName(firstImg) === getImageFileName(decoratedItem.banner_image)) {
-    decoratedItem[visibleContentKey] = decoratedItem[visibleContentKey].replace(/<img.*?>/, '')
-  }
-
   return decoratedItem
 }
 
@@ -261,18 +246,19 @@ export function setShowCoverImage (item, currentItem) {
 
 export function removeCoverImageDuplicate (item) {
   if (item.showCoverImage && item.styles && item.styles.coverImage.isInline && item.banner_image) {
-    const coverUrl = item.banner_image
-    const imgRegEx = /<img.*?>/g
-    let content_html = item.content_html || ''
-    let content_mercury = item.content_mercury || ''
-    const images = imgRegEx.exec(content_html)
-    if (images && images[0].indexOf(coverUrl) !== -1) {
-      content_html = content_html.replace(/<img.*?>/, '')
-    }
-    item = {
-      ...item,
-      content_html,
-      content_mercury
+    const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
+    const imageSrcIsUrl = (path) => path.startsWith('http')
+    let visibleContentKey = item.showMercuryContent ?
+      'content_mercury' :
+      'content_html'
+    const firstImg = /<img.*?src="(.*?)".*?>/.exec(item[visibleContentKey]) &&
+      /<img.*?src="(.*?)".*?>/.exec(item[visibleContentKey])[1]
+    if (firstImg &&
+      item.banner_image &&
+      item.styles.coverImage.isInline &&
+      imageSrcIsUrl(firstImg) &&
+      getImageFileName(firstImg) === getImageFileName(item.banner_image)) {
+      item[visibleContentKey] = item[visibleContentKey].replace(/<img.*?>/, '')
     }
   }
   return item
