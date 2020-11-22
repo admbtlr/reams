@@ -249,7 +249,7 @@ body {
     @media (min-width: 600px) {
       .itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
         width: 100%; } }
-    .itemArticle blockquote.is-quote, .itemArticle .pullquote.is-quote, .itemArticle aside.is-quote {
+    .itemArticle blockquote.is-quote p:first-child, .itemArticle .pullquote.is-quote p:first-child, .itemArticle aside.is-quote p:first-child {
       text-indent: -0.45em; }
   .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
     color: white;
