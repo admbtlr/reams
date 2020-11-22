@@ -333,7 +333,7 @@ body {
       }
     }
 
-    &.is-quote {
+    &.is-quote p:first-child {
       text-indent: -0.45em;
     }
   }
