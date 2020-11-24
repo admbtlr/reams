@@ -1,13 +1,17 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useDarkMode } from 'react-native-dark-mode'
+import { Appearance } from 'react-native'
 import { SET_DARK_MODE } from '../store/ui/types'
 
 export default function DarkModeListener () {
   const dispatch = useDispatch()
-  dispatch({ 
-    type: SET_DARK_MODE,
-    isDarkMode: useDarkMode() })
+  useEffect(() => {
+    const colorScheme = Appearance.getColorScheme()
+    console.log(colorScheme)
+    dispatch({ 
+      type: SET_DARK_MODE,
+      isDarkMode: colorScheme === 'dark' })  
+  })
 
   return null
 }

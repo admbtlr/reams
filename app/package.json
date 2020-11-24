@@ -41,7 +41,6 @@
     "react-native-animated-ellipsis": "git://github.com/adamvert/react-native-animated-ellipsis",
     "react-native-blur": "^3.1.2",
     "react-native-config": "^1.0.0",
-    "react-native-dark-mode": "^0.2.0",
     "react-native-dash": "0.0.8",
     "react-native-deep-linking": "^2.2.0",
     "react-native-device-info": "^5.4.1",
