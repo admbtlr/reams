@@ -287,7 +287,7 @@ export function itemsUnread (
       return itemToggleMercury(action, state)
 
     case ITEM_DECORATION_SUCCESS:
-      return action.isSaved ? state : itemDecorationSuccess(action, state)
+      return action.isSaved ? state : itemDecorationSuccess(action, state, action.displayMode === 'unread')
 
     case ITEM_DECORATION_FAILURE:
       return action.isSaved ? state : itemDecorationFailure(action, state)

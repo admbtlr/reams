@@ -84,12 +84,14 @@ function consoleLog(txt) {
 
 function * applyDecoration (decoration, isSaved) {
   yield call(InteractionManager.runAfterInteractions)
+  const displayMode = yield select(getDisplay)
   yield put({
     type: ITEM_DECORATION_SUCCESS,
     ...decoration,
-    isSaved
+    isSaved,
+    displayMode
   })
-  items = yield select(getItems)
+  const items = yield select(getItems)
   decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
   // consoleLog(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
 

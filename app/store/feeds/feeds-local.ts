@@ -18,6 +18,7 @@ import {
 } from './types'
 import { 
   ITEMS_BATCH_FETCHED,
+  MARK_ITEM_READ,
   ItemActionTypes
 } from '../items/types'
 
@@ -143,6 +144,19 @@ export function feedsLocal (
             cachedCoverImageId: action.cachedCoverImageId
           } :
           feed)
+      }
+
+    case MARK_ITEM_READ:
+      const item = action.item
+      const feedWithDirtyImage = state.feeds.find(f => f.cachedCoverImageId === item._id)
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => ({
+          ...feed,
+          cachedCoverImageId: feed.cachedCoverImageId === item._id ?
+            null :
+            feed.cachedCoverImageId
+        }))
       }
 
     case ITEMS_BATCH_FETCHED:

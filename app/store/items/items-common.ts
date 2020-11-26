@@ -99,7 +99,8 @@ export function itemToggleMercury (
 
 export function itemDecorationSuccess (
   action: itemDecorationSuccessAction, 
-  state: ItemsState
+  state: ItemsState,
+  isCurrentDisplayMode: boolean
 ) {
   const currentItems = [
     state.items[state.index],
@@ -117,7 +118,7 @@ export function itemDecorationSuccess (
       }
 
       // don't want to add a cover image to a currently visible item
-      if (!currentItems.find(ci => item._id !== ci._id)) {
+      if (!(isCurrentDisplayMode && currentItems.find(ci => item._id !== ci._id))) {
         item = addCoverImageToItem(item, action.imageStuff)
         item.hasCoverImage = !!item.coverImageFile
         item = setShowCoverImage(item, currentItems[0])
