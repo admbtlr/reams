@@ -13,33 +13,26 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleVersion</key>
-	<string>42</string>
+	<string>45</string>
 	<key>NSExtension</key>
 	<dict>
-		<key>NSExtensionAttributes</key>
-		<dict>
-			<key>NSExtensionActivationRule</key>
-			<dict>
-				<key>NSExtensionActivationUsesStrictMatching</key>
-				<integer>2</integer>
-				<key>NSExtensionAttributes</key>
-				<dict>
-					<key>RequestsOpenAccess</key>
-					<true/>
-					<key>NSExtensionActivationRule</key>
-					<string>SUBQUERY(extensionItems, $e, (
-            SUBQUERY($e.attachments, $a, ANY $a.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.url&quot;).@count == 1
-            )).@count == 1
-            </string>
-				</dict>
-				<key>NSExtensionActivationDictionaryVersion</key>
-				<integer>2</integer>
-			</dict>
-		</dict>
-		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.share-services</string>
-		<key>NSExtensionMainStoryboard</key>
-		<string>MainInterface</string>
+    <key>NSExtensionAttributes</key>
+    <dict>
+        <key>NSExtensionActivationRule</key>
+        <string>  SUBQUERY (
+         extensionItems,
+         $extensionItem,
+         SUBQUERY (
+            $extensionItem.attachments,
+            $attachment,
+            ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.url"
+           ).@count > 0
+         ).@count > 0</string>
+    </dict>
+    <key>NSExtensionMainStoryboard</key>
+    <string>MainInterface</string>
+    <key>NSExtensionPointIdentifier</key>
+    <string>com.apple.share-services</string>	
 	</dict>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>

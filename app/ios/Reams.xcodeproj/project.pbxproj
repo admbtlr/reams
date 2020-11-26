@@ -40,6 +40,7 @@
 		664B4B281FAB59A9006C6DF9 /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 664B4B271FAB59A9006C6DF9 /* webview */; };
 		664BDD0523C74231007D6D3F /* IBMPlexSansCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 664BDD0323C7422F007D6D3F /* IBMPlexSansCondensed-Light.ttf */; };
 		664BDD0623C74231007D6D3F /* IBMPlexSansCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 664BDD0423C74231007D6D3F /* IBMPlexSansCondensed-Regular.ttf */; };
+		66548831256ADB8000917A34 /* PTSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BDE46CA9895347E7B471BC74 /* PTSerif-Bold.ttf */; };
 		6673781520431A0100572989 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 667378142043199F00572989 /* IBMPlexMono-Regular.ttf */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
 		668CE9EE2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
@@ -657,6 +658,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66548831256ADB8000917A34 /* PTSerif-Bold.ttf in Resources */,
 				66DEF8D72417F045000BA7ED /* GoogleService-Info.plist in Resources */,
 				663FABD5237ED5B000052531 /* IBMPlexSans-Light.ttf in Resources */,
 				66BE7BA4233E3C6A00183A41 /* IBMPlexSans-Bold.ttf in Resources */,
@@ -912,9 +914,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 45;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
@@ -943,7 +946,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
 				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "17c847ba-6126-4981-85a9-120fc34fab45";
-				PROVISIONING_PROFILE_SPECIFIER = "iOS Development (all certificates)";
+				PROVISIONING_PROFILE_SPECIFIER = "Reams Dev Artsy MBP";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reams-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -964,7 +967,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 45;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1024,9 +1027,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 45;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
+				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1057,7 +1061,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle.share";
 				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "88ffb5b8-2236-45a5-8f61-0bb41c4771dc";
-				PROVISIONING_PROFILE_SPECIFIER = "Rizzle Share Development (all certs)";
+				PROVISIONING_PROFILE_SPECIFIER = "ShareEx Dev Artsy MBP";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1086,7 +1090,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 45;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

@@ -175,7 +175,8 @@ export interface itemDecorationSuccessAction {
   item: Item
   mercuryStuff: MercuryStuff
   imageStuff: object
-  isSaved: boolean
+  isSaved: boolean,
+  displayMode: string
 }
 
 export interface itemDecorationFailureAction {

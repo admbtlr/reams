@@ -230,7 +230,6 @@ class FeedItem extends React.Component {
     } = this.props
     let {
       title,
-      author,
       banner_image,
       content_html,
       content_mercury,
@@ -241,11 +240,8 @@ class FeedItem extends React.Component {
       showCoverImage,
       styles,
       created_at,
-      excerpt,
       savedAt
     } = this.props.item
-
-    this.wasMercury
 
     // prevent visible re-renders that change layout
     if (isVisible && showCoverImage && this.wasShowCoverImage === false) {
@@ -263,6 +259,10 @@ class FeedItem extends React.Component {
     // }
     // let bodyHtml = { __html: body }
     const { webViewHeight } = this.state
+
+    if (styles === undefined) {
+      console.log('what?')
+    }
 
     let articleClasses = [
       ...Object.values(styles.fontClasses),
