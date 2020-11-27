@@ -118,7 +118,7 @@ export function itemDecorationSuccess (
       }
 
       // don't want to add a cover image to a currently visible item
-      if (!(isCurrentDisplayMode && currentItems.find(ci => item._id !== ci._id))) {
+      if (!(isCurrentDisplayMode && !!currentItems.find(ci => item._id === ci._id))) {
         item = addCoverImageToItem(item, action.imageStuff)
         item.hasCoverImage = !!item.coverImageFile
         item = setShowCoverImage(item, currentItems[0])

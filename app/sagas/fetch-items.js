@@ -23,21 +23,17 @@ import { nullValuesToEmptyStrings,
   fixRelativePaths,
   addStylesIfNecessary,
   sanitizeContent,
-  removeCachedCoverImages,
-  setShowCoverImage,
   deflateItem
 } from '../utils/item-utils'
 import log from '../utils/log'
 import {
   getConfig,
   getCurrentItem,
-  getDisplay,
   getFeeds,
   getFeedsLocal,
   getIndex,
   getItems,
   getLastUpdated,
-  getUid
 } from './selectors'
 
 
@@ -208,9 +204,6 @@ function * cleanUpItems (items, type) {
   // OTOH, maybe this is OK, because any _visible_ items will probably be inflated
   const existingItems = (yield select(getItems))?.filter(ei => items.find(i => i._id === ei._id))
 
-  const setShowCoverImageIfNotCurrent = (item) => item === currentItem ?
-    item :
-    setShowCoverImage(item)
   const setSavedIfNecessary = item => type === ItemType.saved ?
     {
       ...item,
@@ -227,7 +220,6 @@ function * cleanUpItems (items, type) {
     .map(fixRelativePaths)
     .map((item) => existingItems && existingItems.find(ei => ei._id === item._id) ? item : addStylesIfNecessary(item))
     .map(sanitizeContent)
-    .map(setShowCoverImageIfNotCurrent)
     .map(fixCreatedAt)
     .map(addDateFetched)
     .map(setSavedIfNecessary)
