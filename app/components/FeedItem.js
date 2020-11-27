@@ -505,7 +505,9 @@ class FeedItem extends React.Component {
       if (await InAppBrowser.isAvailable()) {
         const result = await InAppBrowser.open(url, {
           // iOS Properties
+          animated: true,
           dismissButtonStyle: 'close',
+          modalEnabled: true,
           preferredBarTintColor: 'white',
           preferredControlTintColor: hslString(this.props.item.feed_color),
           readerMode: false,
@@ -513,8 +515,6 @@ class FeedItem extends React.Component {
           showTitle: true,
           toolbarColor: '#6200EE',
           secondaryToolbarColor: 'black',
-          enableUrlBarHiding: true,
-          enableDefaultShare: true,
           forceCloseOnRedirection: false,
           // Specify full animation resource identifier(package:anim/name)
           // or only resource name(in case of animation bundled with app).
