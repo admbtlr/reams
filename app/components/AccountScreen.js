@@ -3,11 +3,13 @@ import {
   Animated,
   Dimensions,
   Image,
+  KeyboardAvoidingView,
   ScrollView,
   StatusBar,
   Text,
   View
 } from 'react-native'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 import Config from "react-native-config"
 import TextButton from './TextButton'
 import NavButton from './NavButton'
@@ -120,17 +122,17 @@ class AccountScreen extends React.Component {
     console.log(Config)
 
     return (
-        <Animated.ScrollView
+        <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          onScroll={Animated.event(
-            [{ nativeEvent: {
-              contentOffset: { y: this.scrollAnim }
-            }}],
-            {
-              useNativeDriver: true
-            }
-          )}
-          scrollEventThrottle={1}
+          // onScroll={Animated.event(
+          //   [{ nativeEvent: {
+          //     contentOffset: { y: this.scrollAnim }
+          //   }}],
+          //   {
+          //     useNativeDriver: true
+          //   }
+          // )}
+          // scrollEventThrottle={1}
           style={{
             backgroundColor: hslString('rizzleBG')
           }}
@@ -247,7 +249,7 @@ class AccountScreen extends React.Component {
                 />*/}
             </View>
           </View>
-        </Animated.ScrollView>
+        </KeyboardAwareScrollView>
     )
   }
 }
