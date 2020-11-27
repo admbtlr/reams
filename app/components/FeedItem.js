@@ -40,6 +40,8 @@ class FeedItem extends React.Component {
 
     this.screenDimensions = Dimensions.get('window')
     this.hasWebViewResized = false
+
+    this.wasShowCoverImage = this.props.item.showCoverImage
   }
 
   initAnimatedValues (isMounted) {
@@ -158,10 +160,7 @@ class FeedItem extends React.Component {
         case 'index':
 
         case 'item':
-          if (nextProps.item.content_mercury !== this.props.content_mercury && 
-            nextProps.isVisible === this.props.isVisible === true) {
-            isDiff = false
-          } else if (Object.keys(changes.item).length === 1) {
+          if (Object.keys(changes.item).length === 1) {
             switch (Object.keys(changes.item)[0]) {
               case 'scrollRatio':
               case 'readingTime':
@@ -243,21 +242,6 @@ class FeedItem extends React.Component {
       savedAt
     } = this.props.item
 
-    // prevent visible re-renders that change layout
-    if (isVisible && showCoverImage && this.wasShowCoverImage === false) {
-      showCoverImage = false
-    }
-    this.wasShowCoverImage = !!showCoverImage
-
-    // if (isVisible) {
-    //   console.log(`-------- RENDER: ${title} ---------`)
-    //   this.panAnimListener = panAnim.addListener(v => {
-    //     console.log(title + ' ' + v.value)
-    //   })
-    // } else {
-    //   if (this.panAnimListener) this.panAnimListener.removeListener()
-    // }
-    // let bodyHtml = { __html: body }
     const { webViewHeight } = this.state
 
     if (styles === undefined) {
