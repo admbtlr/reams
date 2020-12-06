@@ -52,7 +52,7 @@ export function * inflateItems (action) {
         itemsToInflate.push(i)
       }
     })
-    yield getItemsFromAS(itemsToInflate, itemsToDeflate)
+    yield spawn(getItemsFromAS, itemsToInflate, itemsToDeflate)
   } catch (err) {
     if (__DEV___) debugger
     log('inflateItems', err)

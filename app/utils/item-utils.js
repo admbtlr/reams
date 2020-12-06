@@ -44,7 +44,7 @@ export function deflateItem (item) {
     hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
-    styles: !!item.styles, // set to true so that styles don't get regenerated
+    styles: item.styles,
     title: item.title,
     url: item.url,
     isSaved: item.isSaved,
