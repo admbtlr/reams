@@ -212,6 +212,7 @@ class FeedItem extends React.Component {
 
   isInflated () {
     const inflated = typeof this.props.item.content_html !== 'undefined'
+      && typeof this.props.item.styles !== 'undefined'
     return inflated
   }
 
