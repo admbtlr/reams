@@ -3,6 +3,7 @@ import { findFeeds } from '../services/site'
 
 export default async (req: NowRequest, res: NowResponse) => {
   const siteUrl = req.query.url || 'http://localhost:3000/api/headers'
-  const feeds = await findFeeds(siteUrl)
+  const extended = !!req.query.extended
+  const feeds = await findFeeds(siteUrl, extended)
   res.json(feeds)
 }

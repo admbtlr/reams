@@ -1,5 +1,7 @@
 # To Do
 
+- finish share extension perf improvements
+  - deduping feeds doesn't seem to work
 - figure out how to re-enable animated scroll view with keyboard avoiding
 - in-browser js causes render delays! ~~move to item init (with jsdom?)~~
   - only do it on first load, then store fixed up dom on item
@@ -9,6 +11,8 @@
 - use more built-in fonts?
   - (match fonts to blogs???)
   - https://fonts.google.com/specimen/Syne
+  - https://fonts.google.com/specimen/Oswald
+  - https://fonts.google.com/specimen/Open+Sans+Condensed
 - read srcsets to get the right image
 - replace face detection?
   - https://github.com/jwagner/smartcrop.js/issues/89

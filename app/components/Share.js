@@ -17,6 +17,7 @@ import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
 import {hslString} from '../utils/colors'
 import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
+import { rgba } from 'react-native-image-filter-kit'
 
 
 class Share extends React.Component {
@@ -42,27 +43,57 @@ class Share extends React.Component {
     this.savePage = this.savePage.bind(this)
   }
 
-  async searchForRSS (url) {
-    const res = await fetch(`https://api.rizzle.net/api/find-feeds?url=${url}`)
-    const rssUrls = await res.json()
-    console.log(rssUrls)
-    let state = {
-      ...this.state,
-      searchingForRss: false,
-      retrievingRss: false
-    }
-    if (rssUrls && rssUrls.length > 0) {
-      state.rssUrls = rssUrls
-    }
-    this.setState(state)
+  dedupeFeeds (feeds) {
+    var hashTable = {};
+
+    return feeds.filter(function (el) {
+      var key = JSON.stringify({
+        title: el.title,
+        description: el.description
+      })
+      var match = Boolean(hashTable[key])
+  
+      return (match ? false : hashTable[key] = true)
+    })
   }
 
+  async searchForRSS (url) {
+    fetch(`https://api.rizzle.net/api/find-feeds?url=${url}`)
+      .then(res => res.json())
+      .then(rssUrls => {
+        const feeds = this.state.rssUrls.concat(rssUrls)
+        const deduped = this.dedupeFeeds(feeds)
+        this.setState({ 
+          rssUrls: deduped 
+        })
+      })
+    fetch(`https://api.rizzle.net/api/find-feeds?url=${url}&extended=1`)
+      .then(res => res.json())
+      .then(rssUrls => {
+        const deduped = this.dedupeFeeds(this.state.rssUrls.concat(rssUrls))
+        this.setState({ 
+          rssUrls: deduped,
+          searchingForRss: false,
+          retrievingRss: false
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
+
   async getPageTitle(url) {
-    const res = await fetch(`https://api.rizzle.net/api/mercury?url=${url}`)
-    const mercury = await res.json()
-    this.setState({
-      title: mercury.title
-    })
+    fetch(url)
+      .then(res => {
+        return res.text()
+      })
+      .then(text => {
+        const found = text.match(/\<title.*?\>(.*?)\<\/title/)
+        if (found && found.length > 1) {
+          this.setState({
+            title: found[1]
+          })  
+        }
+      })
   }
 
   async componentDidMount() {
@@ -190,28 +221,6 @@ class Share extends React.Component {
               <Text
                 style={helpText}
               >You can subscribe to a feed from this website:</Text>
-              { (searchingForRss || retrievingRss) &&
-                <View style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  padding: margin
-                }}>
-                  <Animated.Text
-                    style={{
-                      ...textStyle,
-                      color: hslString('rizzleText'),
-                      paddingLeft: 24,
-                      paddingRight: 24
-                    }}>{searchingForRss
-                      ? 'Searching for available feeds' :
-                      'Getting feed details'}<AnimatedEllipsis style={{ 
-                        color: hslString('rizzleText'),
-                        fontSize: 16
-                      }} />
-                  </Animated.Text>
-                  <Text> </Text>
-                </View>
-              }
               { (!searchingForRss && !retrievingRss &&
                 (!rssUrls || rssUrls.length === 0)) &&
                 <View style={{
@@ -237,14 +246,20 @@ class Share extends React.Component {
                 }}>
                   <View style={{
                     flex: 1,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    paddingTop: margin
                     // justifyContent: 'center'
                   }}>
-                    { rssUrls.map((feed, index) => (<TouchableOpacity
+                    { rssUrls.map((feed, index) => (
+                      <TouchableOpacity
                         key={index}
                         style={{
                           paddingHorizontal: 0,
-                          paddingVertical: margin
+                          paddingVertical: margin,
+                          borderTopWidth: index === 0 ? 1 : 0,
+                          borderTopColor: 'rgba(0,0,0,0.1)',
+                          borderBottomWidth: 1,
+                          borderBottomColor: 'rgba(0,0,0,0.1)'
                         }}
                         onPress={() => { this.addFeed(feed.url) }}>
                         <Text style={{
@@ -264,6 +279,29 @@ class Share extends React.Component {
                   </View>
                 </View>
               }
+              { (searchingForRss || retrievingRss) &&
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  padding: margin
+                }}>
+                  <Animated.Text
+                    style={{
+                      ...textStyle,
+                      color: hslString('rizzleText'),
+                      paddingLeft: 24,
+                      paddingRight: 24
+                    }}>{searchingForRss
+                      ? 'Searching for feeds' :
+                      'Getting feed details'}<AnimatedEllipsis style={{ 
+                        color: hslString('rizzleText'),
+                        fontSize: 16
+                      }} />
+                  </Animated.Text>
+                  <Text> </Text>
+                </View>
+              }
+
             </View>
             <Text
               style={helpText}>Or you can save { title ? 
