@@ -1,10 +1,12 @@
 # To Do
 
+- fix splash
 - muting a feed on non-rizzle accounts
 - figure out how to re-enable animated scroll view with keyboard avoiding
-- in-browser js causes render delays! ~~move to item init (with jsdom?)~~
+- in-browser js causes render delays! 
+  - ~~move to item init (with jsdom?)~~
   - only do it on first load, then store fixed up dom on item
-  - while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded
+  - ~~while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded~~
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
 - use more built-in fonts?
