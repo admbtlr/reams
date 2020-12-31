@@ -352,7 +352,13 @@ class FeedItem extends React.Component {
           const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
           window.ReactNativeWebView.postMessage('resize:' + height);
         }  
-      }, 500)
+      }, 500);
+      window.onload = () => {
+        if (document.body && document.body.scrollHeight) {
+          const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
+          window.ReactNativeWebView.postMessage('resize:' + height);
+        }  
+      };
       true;`
 
     const bodyStyle = {
