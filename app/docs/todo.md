@@ -1,7 +1,8 @@
 # To Do
 
-- finish share extension perf improvements
-  - deduping feeds doesn't seem to work
+- muting a feed on non-rizzle accounts
+- tweets don't display properly
+- browser doesn't display modally
 - figure out how to re-enable animated scroll view with keyboard avoiding
 - in-browser js causes render delays! ~~move to item init (with jsdom?)~~
   - only do it on first load, then store fixed up dom on item
@@ -46,6 +47,7 @@
 
 # Done
 
+- ~~finish share extension perf improvements~~
 - ~~keyboard avoiding view in account screen doesn't work~~
 - ~~bug: unsubscribe from feed > feed modal goes blank, doesn't close~~
   - can't recreate?
