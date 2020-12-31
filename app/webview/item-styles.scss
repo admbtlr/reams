@@ -306,7 +306,7 @@ body {
 
 
   /* gambling that it's a video */
-  iframe:not(.twitter-tweet), video {
+  *:not(.twitter-tweet) > iframe, video {
     height: 55vw !important;
   }
 
@@ -359,13 +359,13 @@ body {
     padding: .25rem .5rem;
     font-size: 0.5rem;
     font-weight: 300;
-    line-height: 0.75rem;
-    color: hsl(0, 0%, 60%);
+    line-height: 0.67rem;
+    color: hsl(0, 0%, 50%);
     position: relative;
     text-align: left;
   }
 
-  .caption:not(figcaption) {
+  *:not(figcaption) > not(figcaption).caption:not(figcaption) {
     display: block;
     margin: -0.666rem -4vw 1.666rem;
 
@@ -438,6 +438,10 @@ body {
 
   twitter-widget {
     margin: 4vw auto !important;
+  }
+
+  .twitter-tweet {
+    display: block !important;
   }
 
   pre {
@@ -887,7 +891,7 @@ hr {
   h2, h4 {
     font-family: "AvenirNext-Medium";
   }
-  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic";
 
     em {
@@ -911,7 +915,7 @@ hr {
   h2, h4 {
     font-family: "Poppins-Regular";
   }
-  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Poppins-Italic";
 
     em {
@@ -931,7 +935,7 @@ hr {
   h2, h4 {
     font-family: "Montserrat-Light";
   }
-  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-LightItalic";
 
     em {
@@ -951,7 +955,7 @@ hr {
 //   h2, h4 {
 //     font-family: "IBMPlexSerif-Light";
 //   }
-//   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+//   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
 //     font-family: "IBMPlexSerif-Italic";
 
 //     em {
@@ -975,7 +979,7 @@ hr {
 //   h2, h4 {
 //     font-family: "Arvo";
 //   }
-//   figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+//   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
 //     font-family: "Arvo";
 //   }
 // }
@@ -987,7 +991,7 @@ hr {
   h2, h4 {
     font-family: "PlayfairDisplay-Regular";
   }
-  figcaption, img + small, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-Italic";
 
     em {
