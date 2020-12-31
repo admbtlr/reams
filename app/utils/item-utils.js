@@ -156,7 +156,7 @@ export function addMercuryStuffToItem (item, mercury) {
     stripTags(decoratedItem.content_mercury)
     : ''
 
-  if (mercuryPartial.length > htmlPartial.length &&
+  if (mercuryPartial.length / htmlPartial.length > 1.3 &&
     fuzz.partial_ratio(htmlPartial.substring(0, 500), mercuryPartial.substring(0, 500)) > 90) {
     decoratedItem.showMercuryContent = true
   }
