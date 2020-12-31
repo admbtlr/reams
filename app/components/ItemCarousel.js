@@ -222,23 +222,11 @@ class ItemCarousel extends React.Component {
         dismissButtonStyle: 'close',
         preferredBarTintColor: hslString('rizzleBG'),
         preferredControlTintColor: hslString('rizzleText'),
+        animated: true,
+        modalEnabled: true,
+        // modalPresentationStyle: "popover",
         // readerMode: true,
         enableBarCollapsing: true,
-        // Android Properties
-        showTitle: true,
-        toolbarColor: '#6200EE',
-        secondaryToolbarColor: 'black',
-        enableUrlBarHiding: true,
-        enableDefaultShare: true,
-        forceCloseOnRedirection: false,
-        // Specify full animation resource identifier(package:anim/name)
-        // or only resource name(in case of animation bundled with app).
-        animations: {
-          startEnter: 'slide_in_bottom',
-          startExit: 'slide_out_bottom',
-          endEnter: 'slide_in_bottom',
-          endExit: 'slide_out_bottom',
-        },
       })
     } catch (error) {
       console.log('openLink', error)
