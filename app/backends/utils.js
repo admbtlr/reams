@@ -35,7 +35,7 @@ export async function getItemsByIds (itemIds, url, itemMapFunction, callback, fe
         return true
       })
       .catch(e => {
-        debugger
+        // debugger
         log('getItemsByIds', e)
       })
   })
