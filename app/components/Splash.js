@@ -72,7 +72,7 @@ export default function Splash () {
       })
   })
 
-  hideWhenReady()
+  // hideWhenReady()
 
   return hasFaded ? null :
     <Animated.View
@@ -108,8 +108,8 @@ export default function Splash () {
         source={require('../assets/images/ream.png')}
         style={{
           // flex: 1,
-          height: 246,
-          width: 217
+          height: 217,
+          width: 246
         }}
       />
       <Animated.View style={{
