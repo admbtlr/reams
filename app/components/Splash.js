@@ -72,7 +72,7 @@ export default function Splash () {
       })
   })
 
-  // hideWhenReady()
+  hideWhenReady()
 
   return hasFaded ? null :
     <Animated.View
