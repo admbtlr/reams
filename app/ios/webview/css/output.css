@@ -110,7 +110,7 @@ body {
     margin-bottom: .666rem; }
   .itemArticle sup {
     line-height: 0; }
-  .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
+  .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe:not(.instagram-media), .itemArticle pre {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
     height: auto;
@@ -230,7 +230,7 @@ body {
     top: -2rem;
     margin-top: 0;
     margin-bottom: 0; }
-  .itemArticle *:not(.twitter-tweet) > iframe, .itemArticle video {
+  .itemArticle *:not(.twitter-tweet) > iframe:not(.instagram-media), .itemArticle iframe video {
     height: 55vw !important; }
   .itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
     margin: 0 0 1rem;

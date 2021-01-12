@@ -163,7 +163,7 @@ body {
     line-height: 0;
   }
 
-  figure, img, video, iframe, pre {
+  figure, img, video, iframe:not(.instagram-media), pre {
     position: relative !important;
     max-width: calc(100vw - 1rem) !important;
     height: auto;
@@ -306,7 +306,7 @@ body {
 
 
   /* gambling that it's a video */
-  *:not(.twitter-tweet) > iframe, video {
+  *:not(.twitter-tweet) > iframe:not(.instagram-media), iframe video {
     height: 55vw !important;
   }
 
