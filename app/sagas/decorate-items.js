@@ -1,6 +1,7 @@
 import { call, delay, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
+import jpeg from 'jpeg-js'
 import vision from '@react-native-firebase/ml-vision'
 import { Image, InteractionManager } from 'react-native'
 import { 
@@ -23,11 +24,16 @@ import {
   getSavedItems
 } from './selectors'
 import { getItemsAS, updateItemAS } from '../storage/async-storage'
+import { decodeJpeg } from '@tensorflow/tfjs-react-native'
+
+const blazeface = require('@tensorflow-models/blazeface')
 
 let pendingDecoration = [] // a local cache
 let toDispatch = []
 
-const showLogs = false
+let tfModel = null
+
+const showLogs = true
 
 export function * decorateItems (action) {
   let items
@@ -253,17 +259,30 @@ export async function cacheCoverImage (item, imageURL) {
 }
 
 async function faceDetection (imageFileName, dimensions) {
-  const processed = await vision().faceDetectorProcessImage(imageFileName)
-  if (!processed || !processed.length) return
-  const boundingBoxes = processed.map(p => p.boundingBox)
-  // sort by size, taking the width as representative thereof
-  boundingBoxes.sort((a, b) => (b[2] - b[0]) - (a[2] - a[0]))
-  const centreX = boundingBoxes[0][0] +
-    (boundingBoxes[0][2] - boundingBoxes[0][0]) / 2
-  const centreY = boundingBoxes[0][1] +
-    (boundingBoxes[0][3] - boundingBoxes[0][1]) / 2
-  return {
-    x: centreX / dimensions.width,
-    y: centreY / dimensions.height
+  tfModel = tfModel || await blazeface.load()
+  try {
+    const jpegData = await RNFS.readFile(`file:///${imageFileName}`, 'base64')
+    console.log('Done reading the jpeg data')
+    const buffer = new global.Buffer(jpegData)
+    const imageData = new Uint8Array(buffer) //jpeg.decode(buffer, {useTArray: true})  // Decode image data to a tensor  
+    const imageTensor = decodeJpeg(imageData)
+    const processed = await model.estimateFaces(imageTensor)
+    console.log(processed)  
+  } catch (e) {
+    console.log(e)
   }
+
+  // const processed = await vision().faceDetectorProcessImage(imageFileName)
+  // if (!processed || !processed.length) return
+  // const boundingBoxes = processed.map(p => p.boundingBox)
+  // // sort by size, taking the width as representative thereof
+  // boundingBoxes.sort((a, b) => (b[2] - b[0]) - (a[2] - a[0]))
+  // const centreX = boundingBoxes[0][0] +
+  //   (boundingBoxes[0][2] - boundingBoxes[0][0]) / 2
+  // const centreY = boundingBoxes[0][1] +
+  //   (boundingBoxes[0][3] - boundingBoxes[0][1]) / 2
+  // return {
+  //   x: centreX / dimensions.width,
+  //   y: centreY / dimensions.height
+  // }
 }

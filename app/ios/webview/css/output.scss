@@ -354,7 +354,7 @@ body {
 
   figure, img, video, iframe:not(.instagram-media), pre {
     position: relative !important;
-    max-width: calc(100vw - 1rem) !important;
+    max-width: 100vw;
     height: auto;
     margin: .666rem 0;
     border: 0;
@@ -375,7 +375,7 @@ body {
 
   figure, img, video, iframe, pre {
     width: 100vw;
-    max-width: 100vw !important;
+    max-width: 100vw;
     width: 100vw !important;
     left: -4vw;
     overflow: scroll;
