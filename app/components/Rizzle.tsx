@@ -25,8 +25,8 @@ import ConnectionListenerContainer from '../containers/ConnectionListener'
 import RizzleModalContainer from '../containers/RizzleModal'
 import Splash from './Splash'
 import Message from './Message'
-import ActionExtensionScreen from './Action'
-import { hslString } from '../utils/colors'
+import * as tf from '@tensorflow/tfjs'
+import '@tensorflow/tfjs-react-native'
 
 export interface Props {
   isActionExtension?: boolean
@@ -94,7 +94,7 @@ export default class Rizzle extends Component<Props, State> {
   }
 
   // https://www.ekreative.com/universal-linking-in-react-native-for-ios/
-  componentDidMount () {
+  async componentDidMount () {
     // set up deep linking
     this.addRoutesToDeepLinking()
     Linking.addEventListener('url', this.handleUrl)
@@ -122,6 +122,9 @@ export default class Rizzle extends Component<Props, State> {
     })
 
     InteractionManager.setDeadline(100)
+
+    await tf.ready()
+    console.log('Tensor Flow is ready')
     
   }
 
