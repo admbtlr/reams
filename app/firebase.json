@@ -1,5 +1,5 @@
 {
   "react-native": {
-    "ml_vision_face_model": true
+    "ml_vision_face_model": false
   }
 }

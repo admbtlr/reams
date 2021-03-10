@@ -178,21 +178,13 @@ PODS:
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - DoubleConversion (1.1.6)
-  - EXCamera (9.1.1):
-    - UMBarCodeScannerInterface
-    - UMCameraInterface
-    - UMCore
-    - UMFaceDetectorInterface
-    - UMFileSystemInterface
-    - UMImageLoaderInterface
-    - UMPermissionsInterface
   - EXConstants (9.3.5):
     - UMConstantsInterface
     - UMCore
   - EXFileSystem (9.3.0):
     - UMCore
     - UMFileSystemInterface
-  - EXGL (10.0.0):
+  - EXGL (10.1.0):
     - EXGL_CPP
     - UMCameraInterface
     - UMCore
@@ -229,12 +221,6 @@ PODS:
   - Firebase/Firestore (6.13.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.8.0)
-  - Firebase/MLVision (6.13.0):
-    - Firebase/CoreOnly
-    - FirebaseMLVision (~> 0.19.0)
-  - Firebase/MLVisionFaceModel (6.13.0):
-    - Firebase/CoreOnly
-    - FirebaseMLVisionFaceModel (~> 0.19.0)
   - FirebaseAnalytics (6.1.6):
     - FirebaseCore (~> 6.4)
     - FirebaseInstanceID (~> 4.2)
@@ -284,26 +270,6 @@ PODS:
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
-  - FirebaseMLCommon (0.19.0):
-    - FirebaseCore (~> 6.3)
-    - FirebaseInstanceID (~> 4.2)
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
-    - GoogleUtilities/UserDefaults (~> 6.0)
-    - GTMSessionFetcher/Core (~> 1.1)
-    - Protobuf (~> 3.5)
-  - FirebaseMLVision (0.19.0):
-    - FirebaseCore (~> 6.3)
-    - FirebaseMLCommon (~> 0.19)
-    - GoogleAPIClientForREST/Core (~> 1.3)
-    - GoogleAPIClientForREST/Vision (~> 1.3)
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - GTMSessionFetcher/Core (~> 1.1)
-    - Protobuf (~> 3.5)
-  - FirebaseMLVisionFaceModel (0.19.0):
-    - FirebaseMLVision (~> 0.19)
   - Flipper (0.54.0):
     - Flipper-Folly (~> 2.2)
     - Flipper-RSocket (~> 1.1)
@@ -360,11 +326,6 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - GoogleAPIClientForREST/Core (1.4.3):
-    - GTMSessionFetcher (>= 1.1.7)
-  - GoogleAPIClientForREST/Vision (1.4.3):
-    - GoogleAPIClientForREST/Core
-    - GTMSessionFetcher (>= 1.1.7)
   - GoogleAppMeasurement (6.1.6):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -379,18 +340,6 @@ PODS:
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.2.2):
-    - GoogleToolboxForMac/Defines (= 2.2.2)
-  - GoogleToolboxForMac/Defines (2.2.2)
-  - GoogleToolboxForMac/Logger (2.2.2):
-    - GoogleToolboxForMac/Defines (= 2.2.2)
-  - "GoogleToolboxForMac/NSData+zlib (2.2.2)":
-    - GoogleToolboxForMac/Defines (= 2.2.2)
-  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.2.2)":
-    - GoogleToolboxForMac/DebugUtils (= 2.2.2)
-    - GoogleToolboxForMac/Defines (= 2.2.2)
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.2)"
-  - "GoogleToolboxForMac/NSString+URLArguments (2.2.2)"
   - GoogleUtilities/AppDelegateSwizzler (6.7.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -444,7 +393,6 @@ PODS:
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
   - PromisesObjC (1.2.10)
-  - Protobuf (3.13.0)
   - RCTRequired (0.63.3)
   - RCTTypeSafety (0.63.3):
     - FBLazyVector (= 0.63.3)
@@ -613,20 +561,22 @@ PODS:
   - React-jsinspector (0.63.3)
   - react-native-blur (0.8.0):
     - React
-  - react-native-config (1.0.0):
+  - react-native-config (1.4.2):
+    - react-native-config/App (= 1.4.2)
+  - react-native-config/App (1.4.2):
+    - React-Core
+  - react-native-document-picker (3.5.4):
     - React
-  - react-native-document-picker (3.5.2):
-    - React
-  - react-native-image-filter-kit (0.7.1):
+  - react-native-image-filter-kit (0.7.3):
     - Bolts/Tasks (= 1.9.0)
     - React
-  - react-native-netinfo (4.6.1):
+  - react-native-netinfo (4.7.0):
     - React
   - react-native-safe-area-context (0.7.3):
     - React
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-webview (10.9.1):
+  - react-native-webview (10.10.2):
     - React-Core
   - React-RCTActionSheet (0.63.3):
     - React-Core/RCTActionSheetHeaders (= 0.63.3)
@@ -692,13 +642,13 @@ PODS:
     - React
   - rn-fetch-blob (0.11.2):
     - React-Core
-  - RNCAsyncStorage (1.6.3):
-    - React
-  - RNCClipboard (1.4.0):
+  - RNCAsyncStorage (1.12.1):
+    - React-Core
+  - RNCClipboard (1.5.1):
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
-  - RNDeviceInfo (5.4.1):
+  - RNDeviceInfo (5.6.5):
     - React
   - RNFBApp (6.7.1):
     - Firebase/Core (~> 6.13.0)
@@ -724,39 +674,33 @@ PODS:
     - Firebase/Firestore (~> 6.13.0)
     - React
     - RNFBApp
-  - RNFBMLVision (6.7.1):
-    - Firebase/Core (~> 6.13.0)
-    - Firebase/MLVision (~> 6.13.0)
-    - Firebase/MLVisionFaceModel (~> 6.13.0)
-    - React
-    - RNFBApp
   - RNFS (2.15.2):
     - React
-  - RNGestureHandler (1.6.1):
-    - React
-  - RNGoogleSignin (4.0.0):
+  - RNGestureHandler (1.10.3):
+    - React-Core
+  - RNGoogleSignin (4.0.3):
     - GoogleSignIn (~> 5.0.0)
     - React
   - RNInAppBrowser (3.5.1):
     - React-Core
-  - RNReactNativeHapticFeedback (1.8.2):
+  - RNReactNativeHapticFeedback (1.11.0):
+    - React-Core
+  - RNReactNativeSharedGroupPreferences (1.1.21):
     - React
-  - RNReactNativeSharedGroupPreferences (1.1.19):
-    - React
-  - RNReanimated (1.7.1):
-    - React
-  - RNScreens (2.4.0):
-    - React
-  - RNSentry (1.4.5):
-    - React
-    - Sentry (~> 5.1.4)
+  - RNReanimated (1.13.2):
+    - React-Core
+  - RNScreens (2.18.1):
+    - React-Core
+  - RNSentry (1.9.0):
+    - React-Core
+    - Sentry (~> 5.2.0)
   - RNSVG (12.1.0):
     - React
   - RNTextSize (4.0.0-rc.1):
     - React
-  - Sentry (5.1.10):
-    - Sentry/Core (= 5.1.10)
-  - Sentry/Core (5.1.10)
+  - Sentry (5.2.2):
+    - Sentry/Core (= 5.2.2)
+  - Sentry/Core (5.2.2)
   - UMAppLoader (1.4.0)
   - UMBarCodeScannerInterface (5.4.0)
   - UMCameraInterface (5.4.0)
@@ -781,7 +725,6 @@ PODS:
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - EXCamera (from `../node_modules/expo-camera/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXGL (from `../node_modules/expo-gl/ios`)
@@ -852,7 +795,6 @@ DEPENDENCIES:
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
-  - "RNFBMLVision (from `../node_modules/@react-native-firebase/ml-vision`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
@@ -900,9 +842,6 @@ SPEC REPOS:
     - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseInstanceID
-    - FirebaseMLCommon
-    - FirebaseMLVision
-    - FirebaseMLVisionFaceModel
     - Flipper
     - Flipper-DoubleConversion
     - Flipper-Folly
@@ -910,12 +849,10 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
-    - GoogleAPIClientForREST
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleSignIn
-    - GoogleToolboxForMac
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
@@ -925,7 +862,6 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
-    - Protobuf
     - Sentry
     - YogaKit
 
@@ -934,8 +870,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
-  EXCamera:
-    :path: "../node_modules/expo-camera/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
   EXFileSystem:
@@ -1034,8 +968,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/database"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
-  RNFBMLVision:
-    :path: "../node_modules/@react-native-firebase/ml-vision"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -1098,10 +1030,9 @@ SPEC CHECKSUMS:
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DoubleConversion: cde416483dac037923206447da6e1454df403714
-  EXCamera: 349cf0d7e3bf33e1c22398b375d403d86ef1b5e9
   EXConstants: 5874c3bf65601ce96049412e6e5f43d198c1cdaf
   EXFileSystem: 7c4397042d9a3ae47e6c53c0ce0229d4b4204851
-  EXGL: f1e8164e863974bec2f025dbe188a6a83f326be8
+  EXGL: 872b00c704884298b4ddda57b48a23f10381fafc
   EXGL_CPP: dbbf183d51d05addc48541d72ee1cf46d81d778a
   EXImageLoader: b9f8ac1b2d9bcf9d929a6daf487c70b8425ea7d4
   EXPermissions: 55cadfd11547c07a5390ba7eea63bd998a71018d
@@ -1118,9 +1049,6 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 0144e0706a4761f1b0e8679572eba8095ddb59be
   FirebaseFirestore: 52120e2833f804a874ba1a9f59aab864a8ae2286
   FirebaseInstanceID: ebd2ea79ee38db0cb5f5167b17a0d387e1cc7b6e
-  FirebaseMLCommon: 074a67e05122b1c9f6401a4e33b2cea3b4efd224
-  FirebaseMLVision: 7a456009787690e3b53436092ae9b635563de8f3
-  FirebaseMLVisionFaceModel: 1003e20ab8979cb77d7a39c93faeb58c959a63f1
   Flipper: be611d4b742d8c87fbae2ca5f44603a02539e365
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: c12092ea368353b58e992843a990a3225d4533c3
@@ -1130,12 +1058,10 @@ SPEC CHECKSUMS:
   FlipperKit: ab353d41aea8aae2ea6daaf813e67496642f3d7d
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  GoogleAPIClientForREST: e2d95a611ac06a90d143c93bfd8597719f8b0938
   GoogleAppMeasurement: dfe55efa543e899d906309eaaac6ca26d249862f
   GoogleDataTransport: 9a8a16f79feffc7f42096743de2a7c4815e84020
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GoogleToolboxForMac: 800648f8b3127618c1b59c7f97684427630c5ea3
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
@@ -1145,7 +1071,6 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
-  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
   RCTTypeSafety: edf4b618033c2f1c5b7bc3d90d8e085ed95ba2ab
   React: f36e90f3ceb976546e97df3403e37d226f79d0e3
@@ -1157,13 +1082,13 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b56c03e61c0dd5f5801255f2160a815f4a53d451
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-config: 7db9b96479164dfd7b2be68eb9079e08279511c4
-  react-native-document-picker: 3026780fc04e7ad27534a0f35d5daefb550aa03a
-  react-native-image-filter-kit: 19b6727bc2640bdb0bb50735dfdbfd9ba333599e
-  react-native-netinfo: a59d8426a8484f739fe3a95dd6ad5af1435db05f
-  react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
+  react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
+  react-native-document-picker: c5752781fbc0c126c627c1549b037c139444a4cf
+  react-native-image-filter-kit: 2047cc603ee1b0e506a7b569ce174a7de6a5db15
+  react-native-netinfo: 3dd993921571d01b78a8f91f1caaffcab7a1e1c7
+  react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-webview: c981c0de33cdc842884469b008f067d6132ad7a5
+  react-native-webview: ef8d30ecc5baf6bf7821690180c2f9bf2bdf00c0
   React-RCTActionSheet: 53ea72699698b0b47a6421cb1c8b4ab215a774aa
   React-RCTAnimation: 1befece0b5183c22ae01b966f5583f42e69a83c2
   React-RCTBlob: 0b284339cbe4b15705a05e2313a51c6d8b51fa40
@@ -1176,28 +1101,27 @@ SPEC CHECKSUMS:
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
   ReactNativeShareExtension: 6fe560081dc146e1239879a3936d98a52862279e
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
-  RNCAsyncStorage: 3c304d1adfaea02ec732ac218801cb13897aa8c0
-  RNCClipboard: ce9b77f2881948e9e04af84bd70262ab37adb1c1
-  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
-  RNDeviceInfo: 0e40d9a9031252d2525d8b69a4b3fa8689efcea4
+  RNCAsyncStorage: cb9a623793918c6699586281f0b51cbc38f046f9
+  RNCClipboard: 5e299c6df8e0c98f3d7416b86ae563d3a9f768a3
+  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNDeviceInfo: e841619c3dac5495a095c5455473579ff04908d4
   RNFBApp: 7b539bb25520fa73d6a240f5c6ea569e27683645
   RNFBAuth: c292603069a09065a1b4d3336148beff83e4c897
   RNFBCrashlytics: b34063b906dd0c57a5d286dd743a40c90c8326c7
   RNFBDatabase: 2737d8e87c20246cd91e95743c514e08c791ebe1
   RNFBFirestore: 23757ad7c33d81587a5d7d7d77f3ea22a1103372
-  RNFBMLVision: d2215b1c07de8a15a7aad6aa5922f8e88360caf1
   RNFS: 54da03c2b7d862c42ea3ca8c7f86f892760a535a
-  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
-  RNGoogleSignin: 068788c1e83e5e05ef0bad090ba67fd8f963a2a3
+  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNInAppBrowser: 3733c1aa6699983a1c9b4963e85d5e5a48ad297e
-  RNReactNativeHapticFeedback: e11a4da0ce174e9f88b03cbaf5d76d94633cdee2
-  RNReactNativeSharedGroupPreferences: a45d121cebc53613304843c7153a5f770f0f418a
-  RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48
-  RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
-  RNSentry: 0a70359ddacbfb9b1cbbb0971e54065b9f70ac57
+  RNReactNativeHapticFeedback: 653a8c126a0f5e88ce15ffe280b3ff37e1fbb285
+  RNReactNativeSharedGroupPreferences: 59810b56bac78370946761137891e32443a143ad
+  RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
+  RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
+  RNSentry: 1adaa43b01c6a3ab5091d4d1add66b7c58558898
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
-  RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
-  Sentry: 8715e88b813bde9ad37aead365d5b04ac7302153
+  RNTextSize: 91955a6ea2adda9dc7802ce472b7a4dc717686f6
+  Sentry: 8fa58a051237554f22507fb483b9a1de0171a2dc
   UMAppLoader: 515d02d30e29cf05bbe58f77c59f896840cc5895
   UMBarCodeScannerInterface: 77a5bebdc21106979a363bb057c4fbb46aacc171
   UMCameraInterface: 123f7ebc3f6d0915afd369f7133bf29231ed418b

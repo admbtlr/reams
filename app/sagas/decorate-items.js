@@ -1,8 +1,6 @@
 import { call, delay, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
-import jpeg from 'jpeg-js'
-import vision from '@react-native-firebase/ml-vision'
 import { Image, InteractionManager } from 'react-native'
 import { 
   FLATE_ITEMS,
@@ -24,7 +22,7 @@ import {
   getSavedItems
 } from './selectors'
 import { getItemsAS, updateItemAS } from '../storage/async-storage'
-import { decodeJpeg } from '@tensorflow/tfjs-react-native'
+import { decodeJpeg, fetch } from '@tensorflow/tfjs-react-native'
 
 const blazeface = require('@tensorflow-models/blazeface')
 
@@ -259,30 +257,38 @@ export async function cacheCoverImage (item, imageURL) {
 }
 
 async function faceDetection (imageFileName, dimensions) {
+  let faces
   tfModel = tfModel || await blazeface.load()
   try {
-    const jpegData = await RNFS.readFile(`file:///${imageFileName}`, 'base64')
+    // const jpegData = await RNFS.readFile(`file:///${imageFileName}`, 'base64')
+    const jpegData = await fetch(`file:///${imageFileName}`, {}, { isBinary: true })
     console.log('Done reading the jpeg data')
-    const buffer = new global.Buffer(jpegData)
-    const imageData = new Uint8Array(buffer) //jpeg.decode(buffer, {useTArray: true})  // Decode image data to a tensor  
-    const imageTensor = decodeJpeg(imageData)
-    const processed = await model.estimateFaces(imageTensor)
-    console.log(processed)  
+    // const buffer = new global.Buffer(jpegData)
+    // const imageData = new Uint8Array(buffer) //jpeg.decode(buffer, {useTArray: true})  // Decode image data to a tensor  
+    // const imageTensor = decodeJpeg(imageData)
+
+    const imageDataArrayBuffer = await jpegData.arrayBuffer()
+    const imageData = new Uint8Array(imageDataArrayBuffer)
+    
+    // Decode image data to a tensor
+    const imageTensor = decodeJpeg(imageData);
+
+    faces = await tfModel.estimateFaces(imageTensor)
+    console.log(faces)  
   } catch (e) {
-    console.log(e)
+    console.log(e.message)
+    return
   }
 
-  // const processed = await vision().faceDetectorProcessImage(imageFileName)
-  // if (!processed || !processed.length) return
-  // const boundingBoxes = processed.map(p => p.boundingBox)
-  // // sort by size, taking the width as representative thereof
-  // boundingBoxes.sort((a, b) => (b[2] - b[0]) - (a[2] - a[0]))
-  // const centreX = boundingBoxes[0][0] +
-  //   (boundingBoxes[0][2] - boundingBoxes[0][0]) / 2
-  // const centreY = boundingBoxes[0][1] +
-  //   (boundingBoxes[0][3] - boundingBoxes[0][1]) / 2
-  // return {
-  //   x: centreX / dimensions.width,
-  //   y: centreY / dimensions.height
-  // }
+  // const faces = await vision().faceDetectorProcessImage(imageFileName)
+  if (!faces || faces.length === 0) return
+  const mainFace = faces.sort((a, b) => b.probability - a.probability)[0]
+  const centreX = mainFace.topLeft[0] +
+    (mainFace.bottomRight[0] - mainFace.topLeft[0]) / 2
+  const centreY = mainFace.topLeft[1] +
+    (mainFace.bottomRight[1] - mainFace.topLeft[1]) / 2
+  return {
+    x: centreX / dimensions.width,
+    y: centreY / dimensions.height
+  }
 }

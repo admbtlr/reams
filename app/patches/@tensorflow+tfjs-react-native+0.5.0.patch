@@ -1,0 +1,12 @@
+diff --git a/node_modules/@tensorflow/tfjs-react-native/dist/camera/camera_stream.js b/node_modules/@tensorflow/tfjs-react-native/dist/camera/camera_stream.js
+index 7a51ae5..a30bf33 100644
+--- a/node_modules/@tensorflow/tfjs-react-native/dist/camera/camera_stream.js
++++ b/node_modules/@tensorflow/tfjs-react-native/dist/camera/camera_stream.js
+@@ -16,7 +16,6 @@
+  */
+ import * as React from 'react';
+ import { StyleSheet, PixelRatio, Platform } from 'react-native';
+-import { Camera } from 'expo-camera';
+ import { GLView } from 'expo-gl';
+ import { fromTexture, renderToGLView, detectGLCapabilities } from './camera';
+ const DEFAULT_AUTORENDER = true;
