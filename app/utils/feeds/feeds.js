@@ -86,7 +86,7 @@ export const feeds = [{
     "size": "72x72"
   },
   "link": "https://mashable.com/",
-  "color": "rgb(0,174,240)"
+  "color": "rgb(8, 32, 54)"
 }, {
   "id": 9,
   "title": "The Next Web",
@@ -99,7 +99,7 @@ export const feeds = [{
     "size": "72x72"
   },
   "link": "https://thenextweb.com/",
-  "color": "rgb(246,56,55)"
+  "color": "rgb(0,0,0)"
 }, {
   "id": 10,
   "title": "Digital Trends",
