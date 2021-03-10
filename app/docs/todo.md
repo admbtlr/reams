@@ -1,6 +1,5 @@
 # To Do
 
-- fix splash
 - image viewer is broken - touch event on inappbrowser?
 - muting a feed on non-rizzle accounts
 - figure out how to re-enable animated scroll view with keyboard avoiding
@@ -45,6 +44,7 @@
 
 # Done
 
+- ~~fix splash~~
 - ~~replace face detection?~~
 - ~~tweets don't display properly~~
 - ~~browser doesn't display modally~~

@@ -60,6 +60,24 @@ class FeedsScreen extends React.Component {
     })
   }
 
+  showAddFeeds = () => {
+    const { navigation } = this.props
+    navigation.push('ModalWithGesture', {
+      childView: <NewFeedsList
+        close={() => {
+          navigation.navigate('Main')
+        }}
+        navigation={navigation}
+      />
+    })
+  }
+
+  componentDidMount = () => {
+    if (this.props.feeds.length === 0) {
+      this.showAddFeeds()
+    }
+  }
+
   render = () => {
     const { navigation } = this.props
 
@@ -115,6 +133,7 @@ class FeedsScreen extends React.Component {
             markAllRead={this.props.markAllRead}
             scrollAnim={this.scrollAnim}
             setIndex={this.props.setIndex}
+            showAddFeeds={this.showAddFeeds.bind(this)}
             showModal={this.props.showModal}
           />}
           numColumns={width > 500 ? 2 : 1}
@@ -284,16 +303,7 @@ class ListHeaderComponent extends React.Component {
               marginTop: 40,
               marginBottom: 0,
             }}
-            onPress={() => {
-              navigation.push('ModalWithGesture', {
-                childView: <NewFeedsList
-                  close={() => {
-                    navigation.navigate('Main')
-                  }}
-                  navigation={navigation}
-                />
-              })
-            }}
+            onPress={this.props.showAddFeeds}
           />
         </Animated.View>
       </View>

@@ -1,7 +1,7 @@
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import React from 'react'
-import { Button, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Button, Dimensions, LayoutAnimation, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
 
 import RizzleAuth from './RizzleAuth'
@@ -173,19 +173,32 @@ class AccountCredentialsForm extends React.Component {
                   </React.Fragment>
                 }
               </View> :
-              ( service === 'rizzle' ?
-                <RizzleAuth
-                  backend={this.props.backend}
-                  errors={errors}
-                  handleChange={handleChange}
-                  handleReset={handleReset}
-                  handleSubmit={handleSubmit}
-                  isSubmitting={isSubmitting}
-                  isValid={isValid}
-                  submitCount={submitCount}
-                  values={values}
-                  user={user}
-                /> :
+              ( service === 'basic' ?
+                <View style={{ marginTop: 20, marginBottom: 20 }}>
+                  <Text style={textInfoStyle()}><Text style={textInfoItalicStyle()}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t sync your data with <Text style={textInfoItalicStyle()}>Reams Basic</Text>.</Text>
+                  <TouchableOpacity
+                      accessibilityLabel={'Use Reams Basic'}
+                      color={hslString('white')}
+                      onPress={ () => {
+                        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+                        setBackend('basic')
+                        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+                        this.setState({
+                          isAuthenticated: true
+                        })
+                      }}
+                      style={{
+                        alignSelf: 'center',
+                        marginTop: 5,
+                        marginBottom: 5
+                      }}
+                    >
+                      <Text style={{
+                        ...textInfoStyle('logo1'),
+                        textDecorationLine: 'underline'
+                      }}>Use Reams Basic</Text>
+                    </TouchableOpacity>
+                </View> :
                 <View style={{
                   paddingTop: 16,
                   paddingLeft: 16,

@@ -35,8 +35,11 @@ class AccountScreen extends React.Component {
   }
 
   redirectToItems () {
-    const { backend, displayMode } = this.props
-    if (backend) {
+    const { backend, displayMode, isFirstTime } = this.props
+    if (isFirstTime) {
+      // let's onboard!
+      this.props.navigation.push('Items')
+    } else if (backend) {
       if (displayMode === ItemType.unread) {
         this.props.navigation.push('Feeds')
       }
@@ -77,8 +80,8 @@ class AccountScreen extends React.Component {
     }
     const textTipStyles = {
       ...textStyles,
-      fontSize: 16 * fontSizeMultiplier(),
-      lineHeight: 22 * fontSizeMultiplier(),
+      fontSize: 18 * fontSizeMultiplier(),
+      lineHeight: 24 * fontSizeMultiplier(),
       marginTop: 0,
       marginBottom: 0
     }
@@ -155,47 +158,49 @@ class AccountScreen extends React.Component {
               marginLeft: getInset(),
               marginRight: getInset()
             }}>
-              <Animated.View style={{
-                transform: [
-                  // {
-                  //   translateY: this.scrollAnim.interpolate({
-                  //     inputRange: [-1, 0, 1],
-                  //     outputRange: [-1, 0, 0]
-                  //   })
-                  // }
-                ]
-              }}>
-                <NavButton
-                  hasBottomBorder={true}
-                  hasTopBorder={true}
-                  icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
-                  onPress={() => {
-                    this.props.setDisplayMode('unread')
-                    this.props.navigation.navigate('Feeds')
-                  }}
-                  scrollAnim={this.scrollAnim}
-                  index={0}
-                  text='Your Feeds'
-                  viewStyle={{ paddingLeft: 5 }}
-                />
-                <NavButton
-                  hasBottomBorder={true}
-                  icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
-                  onPress={() => {
-                    this.props.setDisplayMode('saved')
-                    this.props.navigation.navigate('Items')
-                  }}
-                  scrollAnim={this.scrollAnim}
-                  index={1}
-                  text='Your Saved Stories'
-                  viewStyle={{ paddingLeft: 5 }}
-                />
-              </Animated.View>
-              { this.props.isFirstTime &&
+              { !!backend &&
+                <Animated.View style={{
+                  transform: [
+                    // {
+                    //   translateY: this.scrollAnim.interpolate({
+                    //     inputRange: [-1, 0, 1],
+                    //     outputRange: [-1, 0, 0]
+                    //   })
+                    // }
+                  ]
+                }}>
+                  <NavButton
+                    hasBottomBorder={true}
+                    hasTopBorder={true}
+                    icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
+                    onPress={() => {
+                      this.props.setDisplayMode('unread')
+                      this.props.navigation.navigate('Feeds')
+                    }}
+                    scrollAnim={this.scrollAnim}
+                    index={0}
+                    text='Your Feeds'
+                    viewStyle={{ paddingLeft: 5 }}
+                  />
+                  <NavButton
+                    hasBottomBorder={true}
+                    icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
+                    onPress={() => {
+                      this.props.setDisplayMode('saved')
+                      this.props.navigation.navigate('Items')
+                    }}
+                    scrollAnim={this.scrollAnim}
+                    index={1}
+                    text='Your Saved Stories'
+                    viewStyle={{ paddingLeft: 5 }}
+                  />
+                </Animated.View>
+              }
+              { !backend &&
                 <View style={{
                   marginTop: 42
                 }}>
-                  <Text style={ textTipStyles }>If you already have an account with an RSS service, enter your details below. Alternatively you can use <Text style={italicStyles}>Reams Basic</Text> for free.</Text>
+                  <Text style={ textTipStyles }>You need an RSS service to use Reams. If you don’t have an account with one of the supported services, just use <Text style={italicStyles}>Reams Basic</Text>.</Text>
                 </View>
               }
               <TextButton
@@ -215,6 +220,11 @@ class AccountScreen extends React.Component {
                 iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'buttonBG')) }
                 iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'biuttonBG')) }
               />}
+              { !backend &&
+                <View style={{ marginBottom: 42 }}>
+                  <Text style={textTipStyles}>Or, if you already have an account with a supported service, enter your details below:</Text>
+                </View>
+              }
               <TextButton
                 text={ 'Feedbin' }
                 { ...getAttributes('feedbin') }
@@ -225,28 +235,6 @@ class AccountScreen extends React.Component {
                 iconCollapsed={feedWranglerLogo}  
                 iconExpanded={feedWranglerLogo}  
               />
-              {/*<TextButton
-                text="Feedly"
-                buttonStyle={{ 
-                  alignSelf: 'center',
-                  marginBottom: 42,
-                  // width: buttonWidth 
-                }}
-                iconBg={true}
-                iconCollapsed={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('feedly', null, hslString(backend === 'feedly' ? 'logo1' : 'buttonBG')) }
-                isExpandable={true}
-                isExpanded={backend === 'feedly' || expandedBackend === 'feedly'}
-                onExpand={() => this.setExpandedBackend('feedly')}
-                renderExpandedView={() => <AccountCredentialsForm
-                  isActive={ backend === 'feedly' }
-                  service='feedly'
-                  setBackend={this.props.setBackend}
-                  unsetBackend={this.props.unsetBackend}
-                  user={this.props.user}
-                isInverted={ backend === 'feedly' }
-                />}
-                />*/}
             </View>
           </View>
         </KeyboardAwareScrollView>
