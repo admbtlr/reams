@@ -326,11 +326,23 @@ const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
   // return { items, index }
 
   // redo: just keep the current item, place at front of array
+  // re-redo: keep the current item plus two more, to give time for new items to get mercury
   const index = 0
   let currentItem = state.items[state.index]
+  let itemsToKeep: Item[] = []
   if (currentItem) {
-    items = items.filter(item => currentItem._id !== item._id)
-    items.unshift(currentItem)
+    itemsToKeep.push(currentItem)
+    if (state.items.length > state.index + 2) {
+      for (let i = 1; i <= 2; i++) {
+        if (state.items[state.index + i]) {
+          itemsToKeep.push(state.items[state.index + i])
+        }
+      }  
+    }
+  }
+  if (itemsToKeep.length > 0) {
+    items = items.filter(item => !itemsToKeep.find(keeper => keeper._id === item._id))
+    items.unshift(...itemsToKeep)
   }
   return { items, index }
 

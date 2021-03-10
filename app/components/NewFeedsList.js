@@ -164,7 +164,7 @@ export default function NewFeedsList (props) {
         onPress={props.close}
         style={{
           top: getMargin() / 2,
-          right: getMargin() + 1
+          right: getMargin() / 2
         }}
       />
       <Animated.ScrollView
@@ -202,6 +202,10 @@ export default function NewFeedsList (props) {
             ...textStyles(),
             ...boldStyles,
             marginBottom: 32 * fontSizeMultiplier()
+          }}>There are three ways to add new feeds to Reams:</Text>
+          <Text style={{
+            ...textStyles(),
+            marginBottom: 32 * fontSizeMultiplier()
           }}>1. Use the Reams Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Reams icon.</Text>
           <View style={{
             flexDirection: 'row',
@@ -209,21 +213,18 @@ export default function NewFeedsList (props) {
           }}>
             <Text style={{
               ...textStyles(),
-              ...boldStyles,
               marginBottom: 32 * fontSizeMultiplier()
             }}>2. </Text><OPMLImport 
               textStyles={{
                 ...textStyles(),
-                ...boldStyles,
                 textDecorationLine: 'underline'
               }}
             />
           </View>
           <Text style={{
             ...textStyles(),
-            ...boldStyles,
             marginBottom: 36 * fontSizeMultiplier()
-          }}>3. Select your favourite topics to find more sites to add:</Text>
+          }}>3. Select your favourite topics to find new feeds:</Text>
           {
             [
               technology,
@@ -324,7 +325,7 @@ export default function NewFeedsList (props) {
                 outputRange: [1, 0]
               }),
               textAlign: 'center',        
-            }}>Read More About Stuff You Love</Animated.Text>
+            }}>Find New Feeds to Read in Reams</Animated.Text>
           </Animated.View>
         </Animated.View>
       </View>

@@ -36,7 +36,7 @@ export interface ConfigState {
 }
 
 const initialState = {
-  backend: 'basic',
+  backend: '',
   accessToken: '',
   isFirstTime: true,
   isOnboarding: true,
