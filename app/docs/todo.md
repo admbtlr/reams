@@ -1,6 +1,7 @@
 # To Do
 
 - fix splash
+- image viewer is broken - touch event on inappbrowser?
 - muting a feed on non-rizzle accounts
 - figure out how to re-enable animated scroll view with keyboard avoiding
 - in-browser js causes render delays! 
@@ -15,9 +16,6 @@
   - https://fonts.google.com/specimen/Oswald
   - https://fonts.google.com/specimen/Open+Sans+Condensed
 - read srcsets to get the right image
-- replace face detection?
-  - https://github.com/jwagner/smartcrop.js/issues/89
-  - https://stackoverflow.com/questions/60074775/how-to-save-base64-image-using-node-js
 - make Feedwrangler work fully
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 - move backend to postgres, running on https://www.elephantsql.com/
@@ -47,6 +45,7 @@
 
 # Done
 
+- ~~replace face detection?~~
 - ~~tweets don't display properly~~
 - ~~browser doesn't display modally~~
 - ~~finish share extension perf improvements~~
