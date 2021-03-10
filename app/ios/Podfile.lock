@@ -175,10 +175,7 @@ PODS:
     - React
   - CocoaAsyncSocket (7.6.4)
   - CocoaLibEvent (1.0.0)
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
   - DoubleConversion (1.1.6)
-  - Fabric (1.10.2)
   - FBLazyVector (0.63.3)
   - FBReactNativeSpec (0.63.3):
     - Folly (= 2020.01.13.00)
@@ -680,12 +677,6 @@ PODS:
     - Firebase/Core (~> 6.13.0)
     - React
     - RNFBApp
-  - RNFBCrashlytics (6.7.1):
-    - Crashlytics (~> 3.14.0)
-    - Fabric (~> 1.10.2)
-    - Firebase/Core (~> 6.13.0)
-    - React
-    - RNFBApp
   - RNFBDatabase (6.7.1):
     - Firebase/Core (~> 6.13.0)
     - Firebase/Database (~> 6.13.0)
@@ -797,7 +788,6 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
-  - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBMLVision (from `../node_modules/@react-native-firebase/ml-vision`)"
@@ -823,8 +813,6 @@ SPEC REPOS:
     - BoringSSL-GRPC
     - CocoaAsyncSocket
     - CocoaLibEvent
-    - Crashlytics
-    - Fabric
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -949,8 +937,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
-  RNFBCrashlytics:
-    :path: "../node_modules/@react-native-firebase/crashlytics"
   RNFBDatabase:
     :path: "../node_modules/@react-native-firebase/database"
   RNFBFirestore:
@@ -991,9 +977,7 @@ SPEC CHECKSUMS:
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
-  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DoubleConversion: cde416483dac037923206447da6e1454df403714
-  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   FBLazyVector: 878b59e31113e289e275165efbe4b54fa614d43d
   FBReactNativeSpec: 7da9338acfb98d4ef9e5536805a0704572d33c2f
   Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
@@ -1070,7 +1054,6 @@ SPEC CHECKSUMS:
   RNDeviceInfo: 0e40d9a9031252d2525d8b69a4b3fa8689efcea4
   RNFBApp: 7b539bb25520fa73d6a240f5c6ea569e27683645
   RNFBAuth: c292603069a09065a1b4d3336148beff83e4c897
-  RNFBCrashlytics: b34063b906dd0c57a5d286dd743a40c90c8326c7
   RNFBDatabase: 2737d8e87c20246cd91e95743c514e08c791ebe1
   RNFBFirestore: 23757ad7c33d81587a5d7d7d77f3ea22a1103372
   RNFBMLVision: d2215b1c07de8a15a7aad6aa5922f8e88360caf1
