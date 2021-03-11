@@ -1,8 +1,8 @@
-import { call, delay, put, takeEvery, select, spawn } from 'redux-saga/effects'
+import { call, delay, put, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
 import * as FileSystem from 'expo-file-system'
-import { Image, InteractionManager } from 'react-native'
+import { InteractionManager } from 'react-native'
 import { 
   FLATE_ITEMS,
   ITEM_DECORATION_FAILURE,
@@ -17,13 +17,12 @@ import log from '../utils/log'
 import {
   getIndex,
   getItems,
-  getCurrentItem,
   getDisplay,
   getFeeds,
   getSavedItems
 } from './selectors'
 import { getItemsAS, updateItemAS } from '../storage/async-storage'
-import { decodeJpeg, encodeString, fetch } from '@tensorflow/tfjs-react-native'
+import { decodeJpeg } from '@tensorflow/tfjs-react-native'
 import * as tf from '@tensorflow/tfjs'
 
 
