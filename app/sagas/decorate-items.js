@@ -1,6 +1,7 @@
 import { call, delay, put, takeEvery, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
+import * as FileSystem from 'expo-file-system'
 import { Image, InteractionManager } from 'react-native'
 import { 
   FLATE_ITEMS,
@@ -22,7 +23,9 @@ import {
   getSavedItems
 } from './selectors'
 import { getItemsAS, updateItemAS } from '../storage/async-storage'
-import { decodeJpeg, fetch } from '@tensorflow/tfjs-react-native'
+import { decodeJpeg, encodeString, fetch } from '@tensorflow/tfjs-react-native'
+import * as tf from '@tensorflow/tfjs'
+
 
 const blazeface = require('@tensorflow-models/blazeface')
 
@@ -260,16 +263,12 @@ async function faceDetection (imageFileName, dimensions) {
   let faces
   tfModel = tfModel || await blazeface.load()
   try {
-    // const jpegData = await RNFS.readFile(`file:///${imageFileName}`, 'base64')
-    const jpegData = await fetch(`file:///${imageFileName}`, {}, { isBinary: true })
-    console.log('Done reading the jpeg data')
-    // const buffer = new global.Buffer(jpegData)
-    // const imageData = new Uint8Array(buffer) //jpeg.decode(buffer, {useTArray: true})  // Decode image data to a tensor  
-    // const imageTensor = decodeJpeg(imageData)
+    const uri = `file:///${imageFileName}`
+    const imgB64 = await FileSystem.readAsStringAsync(uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    })
+    const imageData = tf.util.encodeString(imgB64, 'base64')
 
-    const imageDataArrayBuffer = await jpegData.arrayBuffer()
-    const imageData = new Uint8Array(imageDataArrayBuffer)
-    
     // Decode image data to a tensor
     const imageTensor = decodeJpeg(imageData);
 
