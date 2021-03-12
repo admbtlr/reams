@@ -48,13 +48,13 @@ import { getConfig } from './selectors'
 
 let downloadsFork
 
-function * init (getFirebase, action) {
+function * init (action) {
   if (action.key && action.key !== 'primary') return
   const config = yield select(getConfig)
   console.log(config)
   if (!config.backend || config.backend === '') return
 
-  yield initBackend(getFirebase, action)
+  yield initBackend(action)
   yield call(inflateItems)
   downloadsFork = yield fork(startDownloads, config.backend)
 }
@@ -78,9 +78,9 @@ function * killBackend () {
   }
 }
 
-export function * initSagas (getFirebase) {
-  yield takeEvery(REHYDRATE, init, getFirebase)
-  yield takeEvery(SET_BACKEND, init, getFirebase)
+export function * initSagas () {
+  yield takeEvery(REHYDRATE, init)
+  yield takeEvery(SET_BACKEND, init)
   yield takeEvery(UNSET_BACKEND, removeAllItems)
   yield takeEvery(UNSET_BACKEND, killBackend)
   yield takeEvery(ADD_FEED, subscribeToFeed)

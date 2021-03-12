@@ -7,11 +7,7 @@ import {
   View
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import DeepLinking from 'react-native-deep-linking'
-import firebase from '@react-native-firebase/app'
-import auth from '@react-native-firebase/auth'
 import { configureStore } from '../store'
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import * as Sentry from '@sentry/react-native'
 import { GoogleSignin } from '@react-native-community/google-signin'
 
@@ -36,7 +32,6 @@ export interface State {}
 
 export default class Rizzle extends Component<Props, State> {
   store?: object
-  authSubscription?: object
 
   static defaultProps = {
     isActionExtension: false
@@ -48,42 +43,13 @@ export default class Rizzle extends Component<Props, State> {
     this.state = {}
     this.store = undefined
 
-    this.handleUrl = this.handleUrl.bind(this)
-
-    // const firebaseConfig = {
-    //   apiKey: "AIzaSyDsV89U3hnA0OInti2aAlCVk_Ymi04-A-o",
-    //   authDomain: "rizzle-base.firebaseapp.com",
-    //   databaseURL: "https://rizzle-base.firebaseio.com",
-    //   storageBucket: "rizzle-base.appspot.com",
-    //   messagingSenderId: "801044191408"
-    // }
-
-    const reactReduxFirebaseConfig = {
-      userProfile: 'users', // firebase root where user profiles are stored
-      // enableLogging: false, // enable/disable Firebase's database logging
-      enableRedirectHandling: false // https://github.com/invertase/react-native-firebase/issues/431
-    }
-
     // is there any special reason why the store was only configured after an anonymous login?
     this.store = configureStore()
-
-    // firebase.auth()
-    //   .signInAnonymously()
-    //   .then(credential => {
-    //     this.store = configureStore()
-    //     this.store.dispatch({
-    //       type: 'USER_SET_UID',
-    //       uid: credential.user.uid
-    //     })
-    //     this.setState({ credential })
-    //   })
 
     Sentry.init({
       dsn: 'https://1dad862b663640649e6c46afed28a37f@sentry.io/195309',
       enableAutoSessionTracking: true
     })
-
-    // if (__DEV__) SplashScreen.hide()
 
     // this is a stupid hack to stop AppState firing on startup
     // which it does on the device in some circumstances
@@ -96,31 +62,6 @@ export default class Rizzle extends Component<Props, State> {
   // https://www.ekreative.com/universal-linking-in-react-native-for-ios/
   async componentDidMount () {
     // set up deep linking
-    this.addRoutesToDeepLinking()
-    Linking.addEventListener('url', this.handleUrl)
-
-    // listen for auth changes
-    this.authSubscription = auth().onAuthStateChanged((details) => {
-      if (this.store !== null && details !== null) {
-        this.store?.dispatch({
-          type: SET_USER_DETAILS,
-          uid: details.uid,
-          email: details.email
-        })
-        this.setState({ details })
-        console.log('Authenticated! ' + details)
-      }
-    })
-
-    // https://github.com/react-native-community/react-native-google-signin
-    GoogleSignin.configure({
-      scopes: [], // what API you want to access on behalf of the user, default is email and profile
-      webClientId: '801044191408-utktg7miqrgg8ii16rl0i63ul0oogmu8.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-      loginHint: '', // [iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible. [See docs here](https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd)
-      accountName: '', // [Android] specifies an account name on the device that should be used
-      // iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-    })
-
     InteractionManager.setDeadline(100)
 
     await tf.ready()
@@ -128,86 +69,23 @@ export default class Rizzle extends Component<Props, State> {
     
   }
 
-  handleUrl ({ url }:{url: String}) {
-    console.log('Handle URL: ' + url)
-    const that = this
-    auth().signInWithEmailLink(this.store.getState().user.signInEmail, url)
-      .then(res => {
-        that.store.dispatch({
-          type: SET_BACKEND,
-          backend: 'rizzle'
-        })
-
-      })
-      .catch(err => {
-        console.log('Error logging in')
-        that.store.dispatch({
-          type: SHOW_MODAL,
-          modalProps: {
-            modalText: [
-              {
-                text: 'Couldn’t sign in :(',
-                style: ['title']
-              },
-              {
-                text: err.message,
-                style: ['text']
-              }
-            ],
-            modalHideCancel: true,
-            modalOnOk: () => {},
-            modalShow: true
-          }
-        })
-      })
-  }
-
-  addRoutesToDeepLinking () {
-    DeepLinking.addScheme('https://')
-    DeepLinking.addRoute('/app.rizzle.net/sign-in', () => {
-      navigate('Account')
-    })
-  }
-
-  componentWillUnmount () {
-    Linking.removeEventListener('url', this.handleUrl)
-    this.authSubscription()
-  }
-
   render () {
-    const rrfConfig = {
-      userProfile: 'users', // firebase root where user profiles are stored
-      useFirestoreForProfile: true,
-      // enableLogging: false, // enable/disable Firebase's database logging
-      enableRedirectHandling: false // https://github.com/invertase/react-native-firebase/issues/431
-    }
-
-    // https://github.com/prescottprue/redux-firestore/issues/240
-    // this needs changing once these issues are fixed
-    const rrfProps = {
-      firebase: firebase.app(),
-      config: rrfConfig,
-      dispatch: this.store?.dispatch
-    }
-
     return (
       <NavigationContainer>
         <Provider store={this.store}>
-          <ReactReduxFirebaseProvider {...rrfProps}>
-            <View style={{
-              flex: 1,
-              backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
-              <StatusBar
-                barStyle='light-content'
-                hidden={false} />
-              <AppStateListenerContainer />
-              <ConnectionListenerContainer />
-              <AppContainer />
-              <Message />
-              <RizzleModalContainer />
-              <Splash />
-            </View>
-          </ReactReduxFirebaseProvider>
+          <View style={{
+            flex: 1,
+            backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
+            <StatusBar
+              barStyle='light-content'
+              hidden={false} />
+            <AppStateListenerContainer />
+            <ConnectionListenerContainer />
+            <AppContainer />
+            <Message />
+            <RizzleModalContainer />
+            <Splash />
+          </View>
         </Provider>
       </NavigationContainer>
     )
