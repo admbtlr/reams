@@ -2,19 +2,12 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import {
   InteractionManager,
-  Linking,
   StatusBar,
   View
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { configureStore } from '../store'
 import * as Sentry from '@sentry/react-native'
-import { GoogleSignin } from '@react-native-community/google-signin'
-
-import { SET_BACKEND, SET_USER_DETAILS } from '../store/config/types'
-import { 
-  SHOW_MODAL
-} from '../store/ui/types'
 import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
 import ConnectionListenerContainer from '../containers/ConnectionListener'
