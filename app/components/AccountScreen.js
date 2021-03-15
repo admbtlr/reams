@@ -1,10 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import {
   Animated,
   Dimensions,
   Image,
-  KeyboardAvoidingView,
-  ScrollView,
   StatusBar,
   Text,
   View
@@ -17,9 +15,8 @@ import AccountCredentialsForm from './AccountCredentialsForm'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getInset } from '../utils'
-import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
+import { textInfoStyle } from '../utils/styles'
 import { ItemType } from '../store/items/types'
-// import Animated from 'react-native-reanimated'
 
 class AccountScreen extends React.Component {
 

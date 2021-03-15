@@ -6,7 +6,6 @@ import {
   View
 } from 'react-native'
 import { GoogleSignin } from '@react-native-community/google-signin'
-import auth from '@react-native-firebase/auth'
 import { textButtonStyle } from '../utils/styles'
 
 class GoogleAuth extends React.Component {

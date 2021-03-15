@@ -30,7 +30,7 @@ import { setBackend } from '../backends'
 import { receiveItems } from './fetch-items'
 import { cacheCoverImage } from './decorate-items'
 
-export function * initBackend (getFirebase, action) {
+export function * initBackend (action) {
   const config = yield select(getConfig)
   const user = yield select(getUser)
 
