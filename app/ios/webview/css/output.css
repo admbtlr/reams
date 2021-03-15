@@ -173,40 +173,41 @@ body {
       margin-bottom: 0.5rem; } }
   .itemArticle > figure:first-child,
   .itemArticle > img:first-child:not(.img-small),
-  .itemArticle > iframe:first-child,
-  .itemArticle > p:first-child > iframe:first-child,
   .itemArticle > *:not(figure):first-child > figure:first-child,
   .itemArticle > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > p:first-child > iframe:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child {
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small) {
     position: relative;
     top: -2rem;
     margin-top: 0;
     margin-bottom: 0rem; }
+  .itemArticle > iframe:first-child,
+  .itemArticle > p:first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > p:first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
+  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child {
+    margin-top: 0; }
   .itemArticle > img.img-portrait:first-child:not(.img-small),
   .itemArticle > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small),
   .itemArticle > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small),
@@ -679,6 +680,10 @@ hr {
   .bodyFontSerif1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "LibreBaskerville-Bold"; }
+  .bodyFontSerif1 p:first-of-type.short-para,
+  .bodyFontSerif1 p:first-of-type.short-para a {
+    font-family: "LibreBaskerville-Bold";
+    color: var(--feed-color); }
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
@@ -697,6 +702,10 @@ hr {
   .bodyFontSans1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSans1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IBMPlexSans-Bold"; }
+  .bodyFontSans1 p:first-of-type.short-para,
+  .bodyFontSans1 p:first-of-type.short-para a {
+    font-family: "IBMPlexSans-Bold";
+    color: var(--feed-color); }
 
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif; }
@@ -714,6 +723,10 @@ hr {
   .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IowanOldStyle-Bold"; }
+  .bodyFontSerif2 p:first-of-type.short-para,
+  .bodyFontSerif2 p:first-of-type.short-para a {
+    font-family: "IowanOldStyle-Bold";
+    color: var(--feed-color); }
 
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif; }
@@ -731,6 +744,10 @@ hr {
   .bodyFontSans2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSans2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "AvenirNext-Bold"; }
+  .bodyFontSans2 p:first-of-type.short-para,
+  .bodyFontSans2 p:first-of-type.short-para a {
+    font-family: "AvenirNext-Bold";
+    color: var(--feed-color); }
 
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif", serif;
@@ -749,6 +766,10 @@ hr {
   .bodyFontSerif3 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif3 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IBMPlexSerif-Bold"; }
+  .bodyFontSerif3 p:first-of-type.short-para,
+  .bodyFontSerif3 p:first-of-type.short-para a {
+    font-family: "IBMPlexSerif-Bold";
+    color: var(--feed-color); }
 
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold"; }

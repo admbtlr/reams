@@ -277,13 +277,15 @@ body {
   & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
   & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child {
     & > figure:first-child,
-    & > img:first-child:not(.img-small),
-    & > iframe:first-child,
-    & > p:first-child > iframe:first-child {
+    & > img:first-child:not(.img-small) {
       position: relative;
       top: -2rem;
       margin-top: 0;
       margin-bottom: 0rem;
+    }
+    & > iframe:first-child,
+    & > p:first-child > iframe:first-child {
+      margin-top: 0;
     }
     & > img.img-portrait:first-child:not(.img-small) {
       top: -1.5rem;
@@ -576,6 +578,14 @@ hr {
   }
 }
 
+@mixin firstShortParaBold($fontFamily) {
+  p:first-of-type.short-para,
+  p:first-of-type.short-para a {
+    font-family: $fontFamily;
+    color: var(--feed-color);
+  }
+}
+
 @mixin dropCapFontSize($size) {
   &,
   & > div:first-of-type,
@@ -791,7 +801,8 @@ hr {
     font-weight: normal;
   }
 
-  @include firstLineFontFamily("LibreBaskerville-Bold")
+  @include firstLineFontFamily("LibreBaskerville-Bold");
+  @include firstShortParaBold("LibreBaskerville-Bold")
 }
 
 .bodyFontSans1 {
@@ -814,7 +825,8 @@ hr {
     font-weight: normal;
   }
 
-  @include firstLineFontFamily("IBMPlexSans-Bold")
+  @include firstLineFontFamily("IBMPlexSans-Bold");
+  @include firstShortParaBold("IBMPlexSans-Bold")
 }
 
 .bodyFontSerif2 {
@@ -836,7 +848,8 @@ hr {
     font-weight: normal;
   }
 
-  @include firstLineFontFamily("IowanOldStyle-Bold")
+  @include firstLineFontFamily("IowanOldStyle-Bold");
+  @include firstShortParaBold("IowanOldStyle-Bold")
 }
 
 .bodyFontSans2 {
@@ -858,7 +871,8 @@ hr {
     font-weight: normal;
   }
 
-  @include firstLineFontFamily("AvenirNext-Bold")
+  @include firstLineFontFamily("AvenirNext-Bold");
+  @include firstShortParaBold("AvenirNext-Bold")
 }
 
 .bodyFontSerif3 {
@@ -881,7 +895,8 @@ hr {
     font-weight: normal;
   }
 
-  @include firstLineFontFamily("IBMPlexSerif-Bold")
+  @include firstLineFontFamily("IBMPlexSerif-Bold");
+  @include firstShortParaBold("IBMPlexSerif-Bold")
 }
 
 .headerFontSans1 {
