@@ -1,5 +1,4 @@
 import Config from 'react-native-config'
-import auth from '@react-native-firebase/auth'
 import {id} from '../utils'
 import {
   addReadItemFS,

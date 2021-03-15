@@ -4,8 +4,6 @@ import makeRootReducer from './reducers'
 import {initSagas} from '../sagas'
 import {persistReducer, persistStore} from 'redux-persist'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
-import firestore from '@react-native-firebase/firestore'
-import { getFirebase } from 'react-redux-firebase'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
 let store = null
@@ -23,8 +21,6 @@ function configureStore () {
     timeout: 30000,
     blacklist: ['animatedValues']
   }
-
-  firestore()
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
 
@@ -47,7 +43,7 @@ function configureStore () {
   }
   persistStore(store, null, onCompletion)
 
-  sagaMiddleware.run(initSagas, getFirebase)
+  sagaMiddleware.run(initSagas)
 
   if (window.__DEV__) {
     window.getState = store.getState
