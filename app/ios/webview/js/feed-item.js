@@ -489,6 +489,10 @@ function removeSrcSets () {
   }
 }
 
+function stopAutoplay () {
+  [].slice.call(document.getElementsByTagName('video')).forEach(v => v.removeAttribute('autoplay'))
+}
+
 // what?
 replaceSectionsWithDivs()
 removeDivsInDivs()
@@ -516,10 +520,12 @@ removeEmptyDivs()
 removeDivsWithImg()
 convertDivsToFigures()
 // removeWidows()
+stopAutoplay()
 
 window.onload = function() {
   markImages()
   addTapMessageToImages()
   // addTapMessageToLinks()
   removeAllBrs()
+  stopAutoplay()
 }

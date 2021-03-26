@@ -15,7 +15,7 @@ import AccountCredentialsForm from './AccountCredentialsForm'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getInset } from '../utils'
-import { textInfoStyle } from '../utils/styles'
+import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
 import { ItemType } from '../store/items/types'
 
 class AccountScreen extends React.Component {
@@ -26,26 +26,33 @@ class AccountScreen extends React.Component {
     super(props)
     this.props = props
     this.state = {
-      expandedBackend: null
+      expandedBackend: !!props.backend ? null : 'basic'
     }
     this.setExpandedBackend = this.setExpandedBackend.bind(this)
   }
 
-  redirectToItems () {
-    const { backend, displayMode, isFirstTime } = this.props
-    if (isFirstTime) {
-      // let's onboard!
+  redirectToItems (gotoFeeds = false) {
+    const { backend, displayMode, isOnboarding } = this.props
+    if (isOnboarding) {
       this.props.navigation.push('Items')
-    } else if (backend) {
-      if (displayMode === ItemType.unread) {
-        this.props.navigation.push('Feeds')
+    }
+    if (backend) {
+      if (!gotoFeeds || displayMode === ItemType.saved) {
+        this.props.navigation.push('Items')
       }
-      this.props.navigation.push('Items')
+      this.props.navigation.push('Feeds')
     }
   }
 
   componentDidMount () {
     this.redirectToItems()
+  }
+
+  componentDidUpdate (prevProps) {
+    const { backend } = this.props
+    if (prevProps.backend === '' && backend !== '') {
+      this.redirectToItems(true)
+    }
   }
 
   setExpandedBackend (backend) {
@@ -55,7 +62,7 @@ class AccountScreen extends React.Component {
   }
 
   render () {
-    const { backend } = this.props
+    const { backend, hasFeeds } = this.props
     const { expandedBackend } = this.state
     const width = Dimensions.get('window').width
     const buttonWidth = width > 950 ?
@@ -82,6 +89,10 @@ class AccountScreen extends React.Component {
       marginTop: 0,
       marginBottom: 0
     }
+    const textTipStylesBold = {
+      ...textTipStyles,
+      fontFamily: 'IBMPlexSans-Bold'
+    }
     const feedWranglerLogo = <Image
       source={require('../img/feedwrangler.png')}
       width={24 * fontSizeMultiplier()}
@@ -93,6 +104,31 @@ class AccountScreen extends React.Component {
         height: 32 * fontSizeMultiplier()
       }}
     />
+
+    const HelpView = ({children, title, style }) => <View style={{padding: width * 0.05, paddingTop: width * 0.01, borderColor: hslString('logo3'), borderWidth: 1, borderRadius: width * 0.04, ...style }}>
+      <View>
+        <View style={{
+          position: 'absolute',
+          backgroundColor: 'white',
+          width:width * 0.07, 
+          height:width * 0.07, 
+          borderRadius: width * 0.035,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginLeft: -width * 0.04,
+          // marginTop: -width * 0.015,
+          marginRight: width * 0.025
+        }}>
+          <Text style={{ fontSize: 24 * fontSizeMultiplier() }}>👉</Text>
+        </View>
+        <View style={{ flex: 1, textAlign: 'center' }}>
+          <Text style={{ ...textInfoBoldStyle(), textAlign: 'center', marginLeft: 0, fontSize: 24 * fontSizeMultiplier() }}>{ title }</Text>
+        </View>
+      </View>
+      <View style={{ flex: 1, marginTop: width * 0.05 }}>
+        {children}
+      </View>
+    </View>
 
     const getAttributes = (service) => ({
       borderColor: backend === service && hslString('logo1'),
@@ -119,7 +155,7 @@ class AccountScreen extends React.Component {
       testID: `${service}-button`
     })
 
-    console.log(Config)
+    // console.log(Config)
 
     return (
         <KeyboardAwareScrollView
@@ -194,12 +230,13 @@ class AccountScreen extends React.Component {
                 </Animated.View>
               }
               { !backend &&
-                <View style={{
-                  marginTop: 42
-                }}>
-                  <Text style={ textTipStyles }>You need an RSS service to use Reams. If you don’t have an account with one of the supported services, just use <Text style={italicStyles}>Reams Basic</Text>.</Text>
-                </View>
+                <HelpView title='Select your RSS service'>
+                  <Text style={ textTipStyles }>You need an RSS service to use Reams. If you don’t have an account with one of the supported services, just use <Text style={ textTipStylesBold }>Reams Basic</Text>.</Text>
+                </HelpView>
               }
+              { /*!!backend && !hasFeeds && <HelpView title='Add some feeds' style={{ marginTop: width * 0.05 }}>
+                  <Text style={ textTipStyles }>Now you need to add some feeds. Tap on <Text style={ textTipStylesBold }>Your Feeds</Text> to do just that.</Text>
+            </HelpView> */} 
               <TextButton
                 text={ 'Reams Basic' }
                 { ...getAttributes('basic') }

@@ -10,7 +10,6 @@ export const UPDATE_ONBOARDING_INDEX = 'UPDATE_ONBOARDING_INDEX'
 export const TOGGLE_ONBOARDING = 'TOGGLE_ONBOARDING'
 export const ITEMS_ONBOARDING_DONE = 'ITEMS_ONBOARDING_DONE'
 export const FEED_ONBOARDING_DONE = 'FEED_ONBOARDING_DONE'
-export const TOGGLE_FIRST_TIME = 'TOGGLE_FIRST_TIME'
 export const SET_LAST_UPDATED = 'SET_LAST_UPDATED'
 export const SET_FEED_FILTER = 'SET_FEED_FILTER'
 export const IS_ONLINE = 'IS_ONLINE'
@@ -53,11 +52,6 @@ interface itemsOnboardingDoneAction {
 
 interface feedOnboardingDoneAction {
   type: typeof FEED_ONBOARDING_DONE
-}
-
-interface toggleFirstTimeAction {
-  type: typeof TOGGLE_FIRST_TIME
-  isFirstTime: boolean
 }
 
 interface setFeedFilterAction {
@@ -106,7 +100,6 @@ export type ConfigActionTypes = setBackendAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |
   feedOnboardingDoneAction |
-  toggleFirstTimeAction |
   setFeedFilterAction |
   isOnlineAction |
   setItemSortAction |

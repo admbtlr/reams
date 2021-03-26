@@ -74,7 +74,7 @@ class FeedsScreen extends React.Component {
 
   componentDidMount = () => {
     if (this.props.feeds.length === 0) {
-      this.showAddFeeds()
+      // this.showAddFeeds()
     }
   }
 
