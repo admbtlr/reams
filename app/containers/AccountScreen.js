@@ -11,7 +11,8 @@ const mapStateToProps = (state) => {
     backend: state.config.backend,
     displayMode: state.itemsMeta.display,
     isDarkMode: state.ui.isDarkMode,
-    isFirstTime: state.config.isFirstTime || state.config.isOnboarding
+    hasFeeds: state.feeds.feeds.length > 0,
+    isOnboarding: state.config.isOnboarding
   }
 }
 

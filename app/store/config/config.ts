@@ -7,7 +7,6 @@ import {
   TOGGLE_ONBOARDING,
   ITEMS_ONBOARDING_DONE,
   FEED_ONBOARDING_DONE,
-  TOGGLE_FIRST_TIME,
   SET_LAST_UPDATED,
   SET_FEED_FILTER,
   IS_ONLINE,
@@ -22,7 +21,6 @@ import {
 export interface ConfigState {
   readonly backend: string
   readonly accessToken: string
-  readonly isFirstTime: boolean
   readonly isOnboarding: boolean
   readonly lastUpdated: number
   readonly onboardingIndex: number
@@ -38,7 +36,6 @@ export interface ConfigState {
 const initialState = {
   backend: '',
   accessToken: '',
-  isFirstTime: true,
   isOnboarding: true,
   lastUpdated: 0,
   onboardingIndex: 0,
@@ -97,12 +94,6 @@ export function config (
       return {
         ...state,
         isFeedOnboardingDone: true
-      }
-
-    case TOGGLE_FIRST_TIME:
-      return {
-        ...state,
-        isFirstTime: action.isFirstTime
       }
 
     case SET_FEED_FILTER:

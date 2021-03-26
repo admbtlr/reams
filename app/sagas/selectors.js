@@ -67,10 +67,6 @@ export function getLastUpdated (state, type) {
   }
 }
 
-export function isFirstTime (state) {
-  return state.config.isFirstTime
-}
-
 export function getRemoteActions (state) {
   return state.remoteActionQueue.actions
 }

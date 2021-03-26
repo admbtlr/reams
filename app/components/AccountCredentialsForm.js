@@ -92,7 +92,7 @@ class AccountCredentialsForm extends React.Component {
   }
 
   render = () => {
-    const { isActive, service, setBackend, unsetBackend, user } = this.props
+    const { isActive, isExpanded, service, setBackend, unsetBackend, user } = this.props
     const serviceDisplay = service === 'basic' ?
       'Rizzle Basic' :
       service[0].toUpperCase() + service.slice(1)
@@ -112,6 +112,9 @@ class AccountCredentialsForm extends React.Component {
         username: Yup.string().required('Required'),
         password: Yup.string().required('Required')
       })
+
+    const reamsText = (isWhite) => <Text style={textInfoStyle(isWhite ? 'white' : '')}><Text style={textInfoItalicStyle(isWhite ? 'white' : '')}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t use your <Text style={textInfoItalicStyle(isWhite ? 'white' : '')}>Reams Basic</Text> account anywhere else, or sync your data with other devices.</Text>
+      
     return (
       <Formik
         enableReinitialize={true}
@@ -150,7 +153,7 @@ class AccountCredentialsForm extends React.Component {
                     marginLeft: -24 * fontSizeMultiplier(),
                     marginRight: -24 * fontSizeMultiplier()
                   }}>
-                    <Text style={textInfoStyle('white')}><Text style={textInfoItalicStyle('white')}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t sync your data with <Text style={textInfoItalicStyle('white')}>Reams Basic</Text>.</Text>
+                    { !!isActive && reamsText(true) }
                   </View> :
                   <React.Fragment>
                     <Text style={textInfoStyle('white')}>
@@ -175,7 +178,7 @@ class AccountCredentialsForm extends React.Component {
               </View> :
               ( service === 'basic' ?
                 <View style={{ marginTop: 20, marginBottom: 20 }}>
-                  <Text style={textInfoStyle()}><Text style={textInfoItalicStyle()}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t sync your data with <Text style={textInfoItalicStyle()}>Reams Basic</Text>.</Text>
+                  { reamsText(false) }
                   <TouchableOpacity
                       accessibilityLabel={'Use Reams Basic'}
                       color={hslString('white')}

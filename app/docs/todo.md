@@ -1,5 +1,8 @@
 # To Do
 
+- the thing with headlines disappearing
+- the thing with styles getting recalculated
+- what's up with Sidecar URLs? they crash inappbrowser
 - image viewer is broken - touch event on inappbrowser?
 - muting a feed on non-rizzle accounts
 - figure out how to re-enable animated scroll view with keyboard avoiding

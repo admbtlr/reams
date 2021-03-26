@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { 
-  TOGGLE_FIRST_TIME,
   UPDATE_ONBOARDING_INDEX
 } from '../store/config/types'
 import { 
@@ -95,11 +94,7 @@ const mapDispatchToProps = (dispatch) => {
           item
         })
       }
-    },
-    notFirstTime: () => dispatch({
-      type: TOGGLE_FIRST_TIME,
-      isFirstTime: false
-    }),
+    }
   }
 }
 

@@ -19,7 +19,7 @@ import { hexToHsl, rgbToHsl } from '../utils/colors'
 import feeds from '../utils/seedfeeds.js'
 const RNFS = require('react-native-fs')
 
-import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, isFirstTime } from './selectors'
+import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems } from './selectors'
 
 function * prepareAndAddFeed (feed) {
   const feeds = yield select(getFeeds)
@@ -234,11 +234,4 @@ export function * subscribeToFeeds (action) {
     type: ADD_FEEDS_SUCCESS,
     feeds
   })
-}
-
-export function * seedFeeds () {
-  const shouldSeed = yield select(isFirstTime)
-  if (shouldSeed) {
-    yield subscribeToFeeds({feeds})
-  }
 }
