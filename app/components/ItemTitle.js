@@ -1091,7 +1091,7 @@ class ItemTitle extends React.Component {
           outputRange: [0, 1, 1, 1, 0]
         }), anims[0].interpolate({
           inputRange: [0, 1, 1.3, 2],
-          outputRange: [1, 1, -1, -1]
+          outputRange: [1, 1, 0, 0]
         })),
       titleAnimation: anims[1],
       excerptAnimation: anims[2],
