@@ -81,6 +81,10 @@ export function * fetchItems (type = ItemType.unread) {
   const oldItems = yield select(getItems, type)
   const lastUpdated = yield select(getLastUpdated, type)
 
+  if (lastUpdate === -1) {
+    return
+  }
+
   const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feeds)
 
   let isFirstBatch = true

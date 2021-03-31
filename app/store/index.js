@@ -5,6 +5,8 @@ import {initSagas} from '../sagas'
 import {persistReducer, persistStore} from 'redux-persist'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import {composeWithDevTools} from 'redux-devtools-extension'
+import { state } from '../__mocks__/state'
+import Config from 'react-native-config'
 
 let store = null
 
@@ -24,19 +26,27 @@ function configureStore () {
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
 
-  store = createStore(
-    persistedReducer,
-    // combineReducers(reducers),
-    {},
-    // composeEnhancers(
-    composeEnhancers(
-      // applyMiddleware(thunk),
-      // reactReduxFirebase(firebase, reactReduxFirebaseConfig),
-      // reduxFirestore(firebase),
-      applyMiddleware(sagaMiddleware),
-      // Reactotron.createEnhancer()
+  if (Config.USE_STATE) {
+    store = createStore(
+      makeRootReducer(),
+      state,
+      composeEnhancers(
+        applyMiddleware(sagaMiddleware),
+        // Reactotron.createEnhancer()
+      )
+    )  
+  } else {
+    store = createStore(
+      persistedReducer,
+      {},
+      composeEnhancers(
+        applyMiddleware(sagaMiddleware),
+        // Reactotron.createEnhancer()
+      )
     )
-  )
+  }
+
+
 
   const onCompletion = () => {
     console.log('Store persisted')
