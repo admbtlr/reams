@@ -28,11 +28,13 @@ import {
   SET_FEEDS
 } from '../store/feeds/types'
 import {
+  CHECK_BUCKETS,
   FETCH_ITEMS,
   ITEMS_SCREEN_BLUR,
   ITEMS_SCREEN_FOCUS
 } from '../store/ui/types'
 import { decorateItems } from './decorate-items'
+import { checkBuckets } from './check-buckets'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems, filterItemsForRead } from './mark-read'
 import { pruneItems, removeItems, removeAllItems } from './prune-items'
@@ -99,6 +101,7 @@ export function * initSagas () {
   yield takeEvery(UNSAVE_ITEM, inflateItems)
   yield takeEvery(SET_DISPLAY_MODE, inflateItems)
   yield takeEvery(UPDATE_CURRENT_INDEX, inflateItems)
+  yield takeEvery(CHECK_BUCKETS, checkBuckets)
   yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(FETCH_ITEMS, fetchAllItems)
   yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)

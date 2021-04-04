@@ -81,7 +81,7 @@ export function * fetchItems (type = ItemType.unread) {
   const oldItems = yield select(getItems, type)
   const lastUpdated = yield select(getLastUpdated, type)
 
-  if (lastUpdate === -1) {
+  if (lastUpdated === -1) {
     return
   }
 

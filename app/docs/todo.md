@@ -1,7 +1,8 @@
 # To Do
 
-- the thing with headlines disappearing
+- check bucket when closing browser
 - the thing with styles getting recalculated
+  - now suddenly I can't recreate it properly?
 - what's up with Sidecar URLs? they crash inappbrowser
 - image viewer is broken - touch event on inappbrowser?
 - muting a feed on non-rizzle accounts
@@ -47,6 +48,7 @@
 
 # Done
 
+- ~~the thing with headlines disappearing~~
 - ~~fix splash~~
 - ~~replace face detection?~~
 - ~~tweets don't display properly~~
