@@ -1,7 +1,6 @@
 import { call, delay, put, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 const RNFS = require('react-native-fs')
-import * as FileSystem from 'expo-file-system'
 import { InteractionManager } from 'react-native'
 import { 
   FLATE_ITEMS,
@@ -13,6 +12,7 @@ import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createIt
 import { deflateItem } from '../utils/item-utils'
 import { getActiveItems } from './selectors'
 import log from '../utils/log'
+import { faceDetection } from '../utils/face-detection'
 
 import {
   getIndex,
@@ -22,16 +22,10 @@ import {
   getSavedItems
 } from './selectors'
 import { getItemsAS, updateItemAS } from '../storage/async-storage'
-import { decodeJpeg } from '@tensorflow/tfjs-react-native'
-import * as tf from '@tensorflow/tfjs'
 
-
-const blazeface = require('@tensorflow-models/blazeface')
 
 let pendingDecoration = [] // a local cache
 let toDispatch = []
-
-let tfModel = null
 
 const showLogs = true
 
@@ -255,38 +249,5 @@ export async function cacheCoverImage (item, imageURL) {
     consoleLog(`Loading cover image for ${item._id} failed :(`)
     consoleLog(err)
     return false
-  }
-}
-
-async function faceDetection (imageFileName, dimensions) {
-  let faces
-  tfModel = tfModel || await blazeface.load()
-  try {
-    const uri = `file:///${imageFileName}`
-    const imgB64 = await FileSystem.readAsStringAsync(uri, {
-      encoding: FileSystem.EncodingType.Base64,
-    })
-    const imageData = tf.util.encodeString(imgB64, 'base64')
-
-    // Decode image data to a tensor
-    const imageTensor = decodeJpeg(imageData);
-
-    faces = await tfModel.estimateFaces(imageTensor)
-    console.log(faces)  
-  } catch (e) {
-    console.log(e.message)
-    return
-  }
-
-  // const faces = await vision().faceDetectorProcessImage(imageFileName)
-  if (!faces || faces.length === 0) return
-  const mainFace = faces.sort((a, b) => b.probability - a.probability)[0]
-  const centreX = mainFace.topLeft[0] +
-    (mainFace.bottomRight[0] - mainFace.topLeft[0]) / 2
-  const centreY = mainFace.topLeft[1] +
-    (mainFace.bottomRight[1] - mainFace.topLeft[1]) / 2
-  return {
-    x: centreX / dimensions.width,
-    y: centreY / dimensions.height
   }
 }

@@ -287,6 +287,8 @@ PODS:
   - react-native-image-filter-kit (0.7.3):
     - Bolts/Tasks (= 1.9.0)
     - React
+  - react-native-image-resizer (1.4.4):
+    - React-Core
   - react-native-netinfo (4.7.0):
     - React
   - react-native-safe-area-context (0.7.3):
@@ -463,6 +465,7 @@ DEPENDENCIES:
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-filter-kit (from `../node_modules/react-native-image-filter-kit`)
+  - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -583,6 +586,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-document-picker"
   react-native-image-filter-kit:
     :path: "../node_modules/react-native-image-filter-kit"
+  react-native-image-resizer:
+    :path: "../node_modules/react-native-image-resizer"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
@@ -717,6 +722,7 @@ SPEC CHECKSUMS:
   react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
   react-native-document-picker: c5752781fbc0c126c627c1549b037c139444a4cf
   react-native-image-filter-kit: 2047cc603ee1b0e506a7b569ce174a7de6a5db15
+  react-native-image-resizer: b08cf4b346a7bbfe82eb7a535434c58969e729c7
   react-native-netinfo: 3dd993921571d01b78a8f91f1caaffcab7a1e1c7
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
