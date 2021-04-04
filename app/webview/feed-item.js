@@ -166,8 +166,12 @@ function removeEmptyDivs () {
 function markShortParagraphs () {
   const paras = document.querySelectorAll('p')
   Array.prototype.forEach.call(paras, function (el, i) {
-    if (el.innerText.length < 200) {
+    const text = el.innerText
+    if (text.length < 200) {
       el.classList.add('short-para')
+    }
+    if (text.trim().endsWith(':')) {
+      el.classList.add('ends-with-colon')
     }
   })
 }
