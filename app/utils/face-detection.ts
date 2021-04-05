@@ -2,11 +2,12 @@ import ImageResizer from 'react-native-image-resizer'
 import * as FileSystem from 'expo-file-system'
 import { decodeJpeg } from '@tensorflow/tfjs-react-native'
 import * as tf from '@tensorflow/tfjs'
+import log from './log'
+import blazeface, { BlazeFaceModel } from '@tensorflow-models/blazeface'
 
 interface dimensions { width: number, height: number}
 
-const blazeface = require('@tensorflow-models/blazeface')
-let tfModel: any = null
+let tfModel: BlazeFaceModel
 
 export async function faceDetection (imageFileName: string, dimensions: dimensions ) {
   let faces
@@ -26,16 +27,21 @@ export async function faceDetection (imageFileName: string, dimensions: dimensio
     await FileSystem.deleteAsync(resized)
     console.log(faces)  
   } catch (e) {
-    console.log(e.message)
+    log(e)
     return
   }
 
-  // const faces = await vision().faceDetectorProcessImage(imageFileName)
+  const mapFromResized = async (coords: tf.Tensor1D | [number, number]) => {
+    const numCoords = Array.isArray(coords) ? coords : await coords.array()
+    return numCoords.map(c => c * 4)
+  }
   if (!faces || faces.length === 0) return
-  const resizedFace = faces.sort((a, b) => b.probability - a.probability)[0]
+  const resizedFace = faces.sort((a, b) => {
+    return (typeof b.probability === 'number' ? b.probability : 0) - (typeof a.probability === 'number' ? a.probability : 0)
+  })[0]
   const mainFace = {
-    topLeft: resizedFace.topLeft.map((x: number) => x * 4),
-    bottomRight: resizedFace.bottomRight.map((x: number) => x * 4)
+    topLeft: await mapFromResized(resizedFace.topLeft),
+    bottomRight: await mapFromResized(resizedFace.bottomRight)
   }
   const centreX = mainFace.topLeft[0] +
     (mainFace.bottomRight[0] - mainFace.topLeft[0]) / 2
