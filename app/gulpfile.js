@@ -34,7 +34,7 @@ function serve (cb) {
   return src('./ios')
     .pipe(webserver({
       port: 8888,
-      open: true
+      open: false
     }))
 }
 

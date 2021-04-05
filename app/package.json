@@ -3,7 +3,7 @@
   "version": "0.3.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "concurrently --kill-others 'node node_modules/react-native/local-cli/cli.js start' 'gulp'",
     "test": "jest",
     "watch": "jest --watch",
     "postinstall": "patch-package"
@@ -23,6 +23,7 @@
     "@welldone-software/why-did-you-render": "^3.5.0",
     "autoprefixer": "^6.7.7",
     "base-64": "^0.1.0",
+    "concurrently": "^6.0.0",
     "entities": "^1.1.1",
     "expo-file-system": "^10.0.0",
     "expo-gl": "^10.0.0",
