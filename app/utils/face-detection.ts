@@ -3,7 +3,8 @@ import * as FileSystem from 'expo-file-system'
 import { decodeJpeg } from '@tensorflow/tfjs-react-native'
 import * as tf from '@tensorflow/tfjs'
 import log from './log'
-import blazeface, { BlazeFaceModel } from '@tensorflow-models/blazeface'
+import { BlazeFaceModel } from '@tensorflow-models/blazeface'
+const blazeface = require('@tensorflow-models/blazeface')
 
 interface dimensions { width: number, height: number}
 
