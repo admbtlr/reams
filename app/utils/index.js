@@ -109,6 +109,10 @@ export function getRenderedFeedIconPath (id) {
   return `${RNFS.DocumentDirectoryPath}/feed-icons/rendered/${id}.png`
 }
 
+export async function fileExists (path) {
+  return RNFS.exists(path)
+}
+
 export function getImageDimensions (path) {
   return new Promise((resolve, reject) => {
     Image.getSize(`file://${path}`, (imageWidth, imageHeight) => {
