@@ -10,6 +10,6 @@ export default function log (functionName, err) {
 
 export function consoleLog(txt, showLogs = __DEV__) {
   if (showLogs) {
-    consoleLog(txt)
+    console.log(txt)
   }
 }
