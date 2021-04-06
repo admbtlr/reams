@@ -58,6 +58,7 @@ export const CACHE_FEED_ICON_ERROR = 'CACHE_FEED_ICON_ERROR'
 export const SET_CACHED_FEED_ICON = 'SET_CACHED_FEED_ICON'
 export const FEED_HAS_RENDERED_ICON = 'FEED_HAS_RENDERED_ICON'
 export const SET_CACHED_FEED_COVER_IMAGE = 'SET_CACHED_FEED_COVER_IMAGE'
+export const REMOVE_FEED_COVER_IMAGE = 'REMOVE_FEED_COVER_IMAGE'
 
 interface addFeedSuccessAction {
   type: typeof ADD_FEED_SUCCESS,
@@ -161,6 +162,11 @@ interface setCachedFeedCoverImageAction {
   cachedCoverImageId: string
 }
 
+interface removeFeedCoverImageAction {
+  type: typeof REMOVE_FEED_COVER_IMAGE
+  id: string
+}
+
 export type FeedActionTypes = addFeedSuccessAction |
   addFeedsSuccessAction |
   refreshFeedListAction |
@@ -179,4 +185,5 @@ export type FeedActionTypes = addFeedSuccessAction |
   cacheFeedIconErrorAction |
   setCachedFeedIconAction |
   feedHasRenderedIconAction |
-  setCachedFeedCoverImageAction
+  setCachedFeedCoverImageAction |
+  removeFeedCoverImageAction

@@ -214,7 +214,8 @@ class FeedContracted extends React.PureComponent {
                 feed={feed}
                 width={this.screenWidth}
                 height={this.screenHeight * 0.5}
-                setCachedCoverImage={this.props.setCachedCoverImage} />
+                setCachedCoverImage={this.props.setCachedCoverImage}
+                removeCoverImage={this.props.removeCoverImage} />
             </View>
             <View style={{
               // borderTopLeftRadius: 19,
