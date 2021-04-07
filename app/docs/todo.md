@@ -1,7 +1,7 @@
 # To Do
 
-- the thing with headlines disappearing
 - the thing with styles getting recalculated
+- nav stack is broken
 - what's up with Sidecar URLs? they crash inappbrowser
 - image viewer is broken - touch event on inappbrowser?
 - muting a feed on non-rizzle accounts
@@ -47,6 +47,7 @@
 
 # Done
 
+- ~~the thing with headlines disappearing~~
 - ~~fix splash~~
 - ~~replace face detection?~~
 - ~~tweets don't display properly~~
