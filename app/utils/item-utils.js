@@ -27,9 +27,9 @@ export function deflateItem (item) {
   if (!item) {
     log('Item is null?')
   }
-  const styles = item.styles
+  // const styles = item.styles
   // const compressed = LZString.compressToUTF16(JSON.stringify(compressStyles(item.styles)))
-  return {
+  const deflated = {
     _id: item._id,
     banner_image: item.banner_image, // needed by the feed component
     content_length: item.content_length || (item.content_html
@@ -44,12 +44,14 @@ export function deflateItem (item) {
     hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
-    styles: item.styles,
+    // styles: item.styles,
     title: item.title,
     url: item.url,
     isSaved: item.isSaved,
     savedAt: item.savedAt
   }
+  Object.keys(deflated).forEach(key => deflated[key] === undefined && delete deflated[key])
+  return deflated
 }
 
 export function inflateStyles (item) {
