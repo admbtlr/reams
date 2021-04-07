@@ -25,7 +25,12 @@ export function * markLastItemRead (action) {
   yield call(InteractionManager.runAfterInteractions)
   yield put ({
     type: MARK_ITEM_READ,
-    item
+    item: {
+      _id: item._id,
+      feed_id: item.feed_id,
+      title: item.title,
+      id: item.id
+    }
   })
 }
 
