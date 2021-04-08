@@ -40,12 +40,12 @@ class AccountScreen extends React.Component {
       if (!gotoFeeds || displayMode === ItemType.saved) {
         this.props.navigation.push('Items')
       }
-      this.props.navigation.push('Feeds')
+      this.props.navigation.push('Feeds', { gotoItems: true })
     }
   }
 
   componentDidMount () {
-    this.redirectToItems()
+    // this.redirectToItems()
   }
 
   componentDidUpdate (prevProps) {

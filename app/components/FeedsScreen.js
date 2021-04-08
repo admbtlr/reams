@@ -78,6 +78,12 @@ class FeedsScreen extends React.Component {
     }
   }
 
+  componentDidUpdate = () => {
+    if (this.props.route?.params?.gotoItems) {
+      this.props.navigation.push('Items')
+    }
+  }
+
   render = () => {
     const { navigation } = this.props
 
