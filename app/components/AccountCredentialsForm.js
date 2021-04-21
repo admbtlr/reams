@@ -156,9 +156,11 @@ class AccountCredentialsForm extends React.Component {
                     { !!isActive && reamsText(true) }
                   </View> :
                   <React.Fragment>
-                    <Text style={textInfoStyle('white')}>
-                      <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
-                    </Text>
+                    { service !== 'feedwrangler' &&
+                      <Text style={textInfoStyle('white')}>
+                        <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
+                      </Text>
+                    }
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}
                       color={hslString('white')}
