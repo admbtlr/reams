@@ -578,12 +578,18 @@ hr {
   }
 }
 
-@mixin firstShortParaBold($fontFamily) {
-  p:first-of-type.short-para:not(.ends-with-colon),
-  p:first-of-type.short-para:not(.ends-with-colon) a {
-    font-family: $fontFamily;
-    color: var(--feed-color);
-  }
+@mixin firstShortParaBold($fontFamily, $fontFamilyItalic) {
+    p:first-of-type.short-para:not(.ends-with-colon),
+    p:first-of-type.short-para:not(.ends-with-colon) a {
+      font-family: $fontFamily;
+      color: var(--feed-color);
+  
+      em, i, strong, b {
+        font-family: $fontFamilyItalic;
+        font-style: normal;
+        font-size: 1.07em;
+      }
+    }
 }
 
 @mixin dropCapFontSize($size) {
@@ -802,7 +808,7 @@ hr {
   }
 
   @include firstLineFontFamily("LibreBaskerville-Bold");
-  @include firstShortParaBold("LibreBaskerville-Bold")
+  @include firstShortParaBold("LibreBaskerville-Bold", "LibreBaskerville-BoldItalic")
 }
 
 .bodyFontSans1 {
@@ -826,7 +832,7 @@ hr {
   }
 
   @include firstLineFontFamily("IBMPlexSans-Bold");
-  @include firstShortParaBold("IBMPlexSans-Bold")
+  @include firstShortParaBold("IBMPlexSans-Bold", "IBMPlexSans-BoldItalic")
 }
 
 .bodyFontSerif2 {
@@ -849,7 +855,7 @@ hr {
   }
 
   @include firstLineFontFamily("IowanOldStyle-Bold");
-  @include firstShortParaBold("IowanOldStyle-Bold")
+  @include firstShortParaBold("IowanOldStyle-Bold", "IowanOldStyle-BoldItalic")
 }
 
 .bodyFontSans2 {
@@ -872,7 +878,7 @@ hr {
   }
 
   @include firstLineFontFamily("AvenirNext-Bold");
-  @include firstShortParaBold("AvenirNext-Bold")
+  @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic")
 }
 
 .bodyFontSerif3 {
@@ -896,7 +902,7 @@ hr {
   }
 
   @include firstLineFontFamily("IBMPlexSerif-Bold");
-  @include firstShortParaBold("IBMPlexSerif-Bold")
+  @include firstShortParaBold("IBMPlexSerif-Bold", "IBMPlexSerif-BoldItalic")
 }
 
 .headerFontSans1 {
