@@ -1,15 +1,42 @@
-import { put, select } from 'redux-saga/effects'
+import { delay, put, select } from 'redux-saga/effects'
 import { 
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
   SAVE_EXTERNAL_ITEM
 } from '../store/items/types'
+import { 
+  SHOW_MODAL
+} from '../store/ui/types'
 import { decorateItem } from './decorate-items'
 import { id } from '../utils'
 import { saveExternalItem } from '../backends'
-import { getConfig, getItems, getItem } from './selectors'
+import { getConfig, getItems, getItem, getSavedItems } from './selectors'
 
 export function * saveExternalUrl (action) {
+  const savedItems = yield select(getSavedItems)
+  if (savedItems.find(si => si.url === action.url)) {
+    yield delay(1000)
+    yield put ({
+      type: SHOW_MODAL,
+      modalProps: {
+        isError: true,
+        modalText: [
+          {
+            text: 'Error Saving Story',
+            style: ['title']
+          },
+          {
+            text: 'You’ve already saved this story. Saving it again is liable to make everything explode, so let’s just not do it, OK?',
+            style: ['text']
+          }
+        ],
+        modalHideCancel: true,
+        modalShow: true,
+        modalOnOk: () => {}
+      }
+    })
+    return
+  }
   let item = {
     url: action.url,
     _id: id(action.url),
