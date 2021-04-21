@@ -208,7 +208,9 @@ export function * decorateItem (item) {
         Math.random() > 0.5 &&
         imageStuff.imageDimensions.height < imageStuff.imageDimensions.width / 1.8
       ) || mercuryStuff.excerpt && mercuryStuff.excerpt.length > 120)) {
-      item.styles && (item.styles = setCoverInline(item.styles))
+      if (item.styles) {
+        item.styles = setCoverInline(item.styles)
+      }
       item.showCoverImage = true
     }
   }

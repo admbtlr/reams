@@ -162,6 +162,7 @@ export function setCoverInline (oldStyles) {
   styles.coverImage.isScreen = false
   styles.coverImage.isMultiply = false
   styles.coverImage.isBW = false
+  styles.coverImage.showCoverImage = true
   return styles
 }
 

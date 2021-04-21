@@ -2,6 +2,7 @@
 
 - the thing with styles getting recalculated
 - what's up with Sidecar URLs? they crash inappbrowser
+  - huh, the url is null
 - add close button to image viewer
 - can't find feeds here: https://strelkamag.com/en/article/worldbuilding-forever
 - muting a feed on non-rizzle accounts
@@ -20,6 +21,7 @@
   - https://fonts.google.com/specimen/Open+Sans+Condensed
 - read srcsets to get the right image
 - make Feedwrangler work fully
+  - what's missing actually?
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 - move backend to postgres, running on https://www.elephantsql.com/
   - using node-postgres, which looks very nice!
@@ -49,6 +51,8 @@
 
 # Done
 
+- ~~weird rendering error with ghost inline background images~~
+- ~~feedwrangler username is blank in Your Account~~
 - ~~saving the same item twice breaks everything~~
 - ~~nav stack is broken~~
 - ~~the thing with headlines disappearing~~
