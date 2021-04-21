@@ -1,11 +1,12 @@
 # To Do
 
 - the thing with styles getting recalculated
-- nav stack is broken
 - what's up with Sidecar URLs? they crash inappbrowser
-- image viewer is broken - touch event on inappbrowser?
+- add close button to image viewer
+- can't find feeds here: https://strelkamag.com/en/article/worldbuilding-forever
 - muting a feed on non-rizzle accounts
 - figure out how to re-enable animated scroll view with keyboard avoiding
+- is this useful? https://github.com/osamaqarem/react-native-image-colors
 - in-browser js causes render delays! 
   - ~~move to item init (with jsdom?)~~
   - only do it on first load, then store fixed up dom on item
@@ -26,6 +27,7 @@
 
 # Someday / Maybe
 
+- is this useful? https://css-tricks.com/mediastack/
 - Feedly integration
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
@@ -47,6 +49,8 @@
 
 # Done
 
+- ~~saving the same item twice breaks everything~~
+- ~~nav stack is broken~~
 - ~~the thing with headlines disappearing~~
 - ~~fix splash~~
 - ~~replace face detection?~~
