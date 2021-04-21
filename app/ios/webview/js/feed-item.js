@@ -524,12 +524,11 @@ removeEmptyDivs()
 removeDivsWithImg()
 convertDivsToFigures()
 // removeWidows()
-stopAutoplay()
 
-window.onload = function() {
+window.addEventListener("load", function() {
   markImages()
   addTapMessageToImages()
   // addTapMessageToLinks()
   removeAllBrs()
   stopAutoplay()
-}
+})
