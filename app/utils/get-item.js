@@ -16,9 +16,10 @@ export const getCurrentItem = (state, type) => {
 
 export const getIndex = (state, type) => {
   type = type || state.itemsMeta.display
-  return type === 'unread' ?
-    state.itemsUnread.index || 0 :
-    state.itemsSaved.index || 0
+  const index = type === 'unread' ?
+    state.itemsUnread.index :
+    state.itemsSaved.index
+  return index && index >= 0 ? index : 0
 }
 
 export const getItemId = (state, index) => {
