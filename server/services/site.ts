@@ -25,6 +25,8 @@ export async function findFeeds (url, extended) {
       feeds = feeds.concat(checkForLinks(body, homeUrl))
     }
 
+    console.log("State of feeds after first round: " + JSON.stringify(feeds))
+
     if (extended) {
       // now try the homepage
       res = await axios.get(homeUrl, {
@@ -119,11 +121,13 @@ function checkForLinkToRssFile (body: string) : string {
   // look for links to rss files
   const now = Date.now()
   let matches: string[] = body.match(/<a.*?href.*?>/g)
-  var regex = /<a.*?href.*?\.(rss|atom).*?>/
-  matches = matches.filter(m => regex.test(m))
+  var regex1 = /<a.*?href.*?\.(rss|atom).*?>/
+  var regex2 = /<a.*?href.*?rss.*?>/
+  let feeds = matches.filter(m => regex1.test(m))
+  feeds = feeds.concat(matches.filter(m => regex2.test(m)))
   // console.log(`Searching for links to RSS files took ${(Date.now() - now)}ms`)
-  return (matches && matches.length > 0) ?
-    matches[1] :
+  return (feeds && feeds.length > 0) ?
+    feeds[0] :
     null
 }
 
