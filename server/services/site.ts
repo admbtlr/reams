@@ -21,9 +21,7 @@ export async function findFeeds (url, extended) {
     })
     let body = res.data
     feeds = feeds.concat(checkForHeader(body, homeUrl))
-    if (feeds.length === 0) {
-      feeds = feeds.concat(checkForLinks(body, homeUrl))
-    }
+    feeds = feeds.concat(checkForLinks(body, homeUrl))
 
     console.log("State of feeds after first round: " + JSON.stringify(feeds))
 
