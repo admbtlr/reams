@@ -386,16 +386,16 @@ PODS:
     - React-Core
   - RNScreens (2.18.1):
     - React-Core
-  - RNSentry (1.9.0):
+  - RNSentry (2.4.1):
     - React-Core
-    - Sentry (~> 5.2.0)
+    - Sentry (= 6.1.4)
   - RNSVG (12.1.0):
     - React
   - RNTextSize (4.0.0-rc.1):
     - React
-  - Sentry (5.2.2):
-    - Sentry/Core (= 5.2.2)
-  - Sentry/Core (5.2.2)
+  - Sentry (6.1.4):
+    - Sentry/Core (= 6.1.4)
+  - Sentry/Core (6.1.4)
   - UMAppLoader (1.4.0)
   - UMBarCodeScannerInterface (5.4.0)
   - UMCameraInterface (5.4.0)
@@ -737,7 +737,7 @@ SPEC CHECKSUMS:
   React-RCTText: 65a6de06a7389098ce24340d1d3556015c38f746
   React-RCTVibration: 8e9fb25724a0805107fc1acc9075e26f814df454
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
-  ReactNativeShareExtension: 6fe560081dc146e1239879a3936d98a52862279e
+  ReactNativeShareExtension: 69f7b8d9fbc338fc10f5927ee4f286295bcd249f
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
   RNCAsyncStorage: cb9a623793918c6699586281f0b51cbc38f046f9
   RNCClipboard: 5e299c6df8e0c98f3d7416b86ae563d3a9f768a3
@@ -751,10 +751,10 @@ SPEC CHECKSUMS:
   RNReactNativeSharedGroupPreferences: 59810b56bac78370946761137891e32443a143ad
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
-  RNSentry: 1adaa43b01c6a3ab5091d4d1add66b7c58558898
+  RNSentry: 824a6a0ec885428163fe6827aa08014f9962f223
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNTextSize: 91955a6ea2adda9dc7802ce472b7a4dc717686f6
-  Sentry: 8fa58a051237554f22507fb483b9a1de0171a2dc
+  Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   UMAppLoader: 515d02d30e29cf05bbe58f77c59f896840cc5895
   UMBarCodeScannerInterface: 77a5bebdc21106979a363bb057c4fbb46aacc171
   UMCameraInterface: 123f7ebc3f6d0915afd369f7133bf29231ed418b
