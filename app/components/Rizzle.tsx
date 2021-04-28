@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Ref } from 'react'
 import { Provider } from 'react-redux'
 import {
   InteractionManager,
   StatusBar,
   View
 } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { configureStore } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
@@ -23,8 +23,12 @@ export interface Props {
 
 export interface State {}
 
+// Construct a new instrumentation instance. This is needed to communicate between the integration and React
+const routingInstrumentation = new Sentry.ReactNavigationV5Instrumentation()
+
 export default class Rizzle extends Component<Props, State> {
   store?: object
+  navigation: Ref<NavigationContainerRef> = React.createRef()
 
   static defaultProps = {
     isActionExtension: false
@@ -64,7 +68,13 @@ export default class Rizzle extends Component<Props, State> {
 
   render () {
     return (
-      <NavigationContainer>
+      <NavigationContainer        
+        ref={this.navigation}
+        onReady={() => {
+          // Register the navigation container with the instrumentation inside onReady
+          routingInstrumentation.registerNavigationContainer(this.navigation);
+        }}
+      >
         <Provider store={this.store}>
           <View style={{
             flex: 1,
