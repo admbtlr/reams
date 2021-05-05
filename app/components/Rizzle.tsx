@@ -71,7 +71,6 @@ export default class Rizzle extends Component<Props, State> {
       <NavigationContainer        
         ref={this.navigation}
         onReady={() => {
-          // Register the navigation container with the instrumentation inside onReady
           routingInstrumentation.registerNavigationContainer(this.navigation);
         }}
       >
