@@ -45,7 +45,7 @@
     "react-native-config": "^1.0.0",
     "react-native-dash": "0.0.8",
     "react-native-deep-linking": "^2.2.0",
-    "react-native-device-info": "^5.4.1",
+    "react-native-device-info": "^8.1.0",
     "react-native-document-picker": "^3.5.2",
     "react-native-fs": "2.15.2",
     "react-native-gesture-handler": "^1.6.1",

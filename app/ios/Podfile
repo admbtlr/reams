@@ -23,7 +23,7 @@ target 'Reams' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!
+  # use_flipper!
 
   # https://github.com/alinz/react-native-share-extension/issues/182
   target 'ReamsShare' do
