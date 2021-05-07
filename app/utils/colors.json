@@ -172,8 +172,8 @@
     "logo3": "hsl(260, 30%, 30%)"
   },
   "darkMode": {
-    "black": "hsl(0, 0%, 0%)",
-    "white": "hsl(0, 0%, 100%)",
+    "black": "hsl(0, 0%, 100%)",
+    "white": "hsl(0, 0%, 0%)",
     "buttonBG": "hsl(0, 0%, 10%)",
     "rizzleFG": "hsl(263, 14%, 86%)",
     "rizzleBG": "hsl(300, 10%, 17%)",
@@ -184,7 +184,7 @@
     "rizzleChrome": "hsl(0, 0%, 95%)",
     "bodyBG": "hsl(240, 0%, 0%)",
     "bodyBGDark": "hsl(0, 0%, 0%)",
-    "logo1": "hsl(186, 40%, 50%)",
+    "logo1": "hsl(186, 40%, 30%)",
     "logo2": "hsl(360, 70%, 60%)",
     "logo3": "hsl(260, 30%, 30%)"
   }

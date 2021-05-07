@@ -1,12 +1,11 @@
 import React from 'react'
 import {ActivityIndicator, Animated, Dimensions, Easing, Linking, View} from 'react-native'
 import {WebView} from 'react-native-webview'
-import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
 import { hslString } from '../utils/colors'
-import log from '../utils/log'
+import { openLink } from '../utils/open-link'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -35,7 +34,6 @@ class FeedItem extends React.Component {
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this)
-    this.openLink = this.openLink.bind(this)
     this.addAnimation = this.addAnimation.bind(this)
 
     this.screenDimensions = Dimensions.get('window')
@@ -327,7 +325,7 @@ class FeedItem extends React.Component {
       onShouldStartLoadWithRequest: (e) => {
         if (e.navigationType === 'click') {
           // Linking.openURL(e.url)
-          that.openLink(e.url)
+          openLink(e.url, hslString(this.props.item.feed_color))
           return false
         } else {
           return true
@@ -489,37 +487,6 @@ class FeedItem extends React.Component {
 
   launchImageViewer (url) {
     this.props.showImageViewer(url)
-  }
-
-  async openLink (url) {
-    try {
-      if (await InAppBrowser.isAvailable()) {
-        const result = await InAppBrowser.open(url, {
-          // iOS Properties
-          animated: true,
-          dismissButtonStyle: 'close',
-          modalEnabled: true,
-          preferredBarTintColor: 'white',
-          preferredControlTintColor: hslString(this.props.item.feed_color),
-          readerMode: false,
-          // Android Properties
-          showTitle: true,
-          toolbarColor: '#6200EE',
-          secondaryToolbarColor: 'black',
-          forceCloseOnRedirection: false,
-          // Specify full animation resource identifier(package:anim/name)
-          // or only resource name(in case of animation bundled with app).
-          animations: {
-            startEnter: 'slide_in_bottom',
-            startExit: 'slide_out_bottom',
-            endEnter: 'slide_in_bottom',
-            endExit: 'slide_out_bottom',
-          },
-        })
-      }
-    } catch (error) {
-      log('openLink', error)
-    }
   }
 
   // nasty workaround to figure out scrollEnd
