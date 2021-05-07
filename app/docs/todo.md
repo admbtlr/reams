@@ -1,10 +1,7 @@
 # To Do
 
-- the thing with styles getting recalculated
 - what's up with Sidecar URLs? they crash inappbrowser
   - huh, the url is null
-- add close button to image viewer
-- can't find feeds here: https://strelkamag.com/en/article/worldbuilding-forever
 - muting a feed on non-rizzle accounts
 - figure out how to re-enable animated scroll view with keyboard avoiding
 - is this useful? https://github.com/osamaqarem/react-native-image-colors
@@ -51,6 +48,9 @@
 
 # Done
 
+- ~~the thing with styles getting recalculated~~
+- ~~add close button to image viewer~~
+- ~~can't find feeds here: https://strelkamag.com/en/article/worldbuilding-forever~~
 - ~~weird rendering error with ghost inline background images~~
 - ~~feedwrangler username is blank in Your Account~~
 - ~~saving the same item twice breaks everything~~
