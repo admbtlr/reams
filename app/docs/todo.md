@@ -1,31 +1,33 @@
 # To Do
 
+- navgiation (should go straight to stories)
+- some error is happening that stops stories from displaying
 - what's up with Sidecar URLs? they crash inappbrowser
   - huh, the url is null
 - muting a feed on non-rizzle accounts
+- bug: add feed, get items, remove feed, still two items remaining
+- J dropcaps
+- make Feedwrangler work fully
+  - what's missing actually?
+
+# Someday / Maybe
+
+- use more built-in fonts?
+  - (match fonts to blogs???)
+  - https://fonts.google.com/specimen/Syne
+  - https://fonts.google.com/specimen/Oswald
+  - https://fonts.google.com/specimen/Open+Sans+Condensed
 - figure out how to re-enable animated scroll view with keyboard avoiding
 - is this useful? https://github.com/osamaqarem/react-native-image-colors
 - in-browser js causes render delays! 
   - ~~move to item init (with jsdom?)~~
   - only do it on first load, then store fixed up dom on item
   - ~~while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded~~
-- bug: add feed, get items, remove feed, still two items remaining
-- J dropcaps
-- use more built-in fonts?
-  - (match fonts to blogs???)
-  - https://fonts.google.com/specimen/Syne
-  - https://fonts.google.com/specimen/Oswald
-  - https://fonts.google.com/specimen/Open+Sans+Condensed
 - read srcsets to get the right image
-- make Feedwrangler work fully
-  - what's missing actually?
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 - move backend to postgres, running on https://www.elephantsql.com/
   - using node-postgres, which looks very nice!
   - or using supabase?
-
-# Someday / Maybe
-
 - is this useful? https://css-tricks.com/mediastack/
 - Feedly integration
 - i8n 
@@ -48,6 +50,7 @@
 
 # Done
 
+- ~~scrollToOffset firing too soon~~
 - ~~the thing with styles getting recalculated~~
 - ~~add close button to image viewer~~
 - ~~can't find feeds here: https://strelkamag.com/en/article/worldbuilding-forever~~
