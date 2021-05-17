@@ -27,8 +27,10 @@ class Onboarding extends React.Component {
   // }
 
   endOnboarding () {
-    this.props.navigation.navigate('Account')
-    setTimeout(this.props.endOnboarding, 2000)
+    this.props.endOnboarding()
+    this.props.navigation.reset({
+      index: 0,
+      routes: [{name: 'Account'}]})
   }
 
   render () {
