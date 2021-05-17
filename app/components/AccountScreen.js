@@ -40,7 +40,10 @@ class AccountScreen extends React.Component {
       if (!gotoFeeds || displayMode === ItemType.saved) {
         this.props.navigation.push('Items')
       }
-      this.props.navigation.push('Feeds', { gotoItems: true })
+      this.props.navigation.push('Feeds', { 
+        screen: 'Feeds Screen',
+        params: { gotoItems: true }
+      })
     }
   }
 
@@ -52,7 +55,7 @@ class AccountScreen extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { backend } = this.props
+    const { backend, isOnboarding } = this.props
     if (prevProps.backend === '' && backend !== '') {
       this.redirectToItems(true)
     }
