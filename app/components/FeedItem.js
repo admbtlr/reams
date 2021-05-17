@@ -275,7 +275,10 @@ class FeedItem extends React.Component {
     }
 
     if (!showCoverImage || this.isCoverImagePortrait()) {
-      styles.coverImage.isInline = false
+      styles.coverImage = {
+        ...styles.coverImage,
+        isInline: false
+      }
       styles.isCoverInline = false
     }
 
@@ -414,7 +417,7 @@ class FeedItem extends React.Component {
             layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
           <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
-            (styles.coverImage.isInline || !showCoverImage) ? 
+            (styles.coverImage?.isInline || !showCoverImage) ? 
               this.addAnimation(bodyStyle, this.anims[5], isVisible) :
               bodyStyle}
           >
