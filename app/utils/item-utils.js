@@ -248,7 +248,7 @@ export function setShowCoverImage (item, currentItem) {
 }
 
 export function removeCoverImageDuplicate (item) {
-  if (item.showCoverImage && item.styles && item.styles.coverImage.isInline && item.banner_image) {
+  if (item.showCoverImage && item.styles && item.styles.coverImage?.isInline && item.banner_image) {
     const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
     const imageSrcIsUrl = (path) => path.startsWith('http')
     let visibleContentKey = item.showMercuryContent ?
@@ -258,7 +258,7 @@ export function removeCoverImageDuplicate (item) {
       /<img.*?src="(.*?)".*?>/.exec(item[visibleContentKey])[1]
     if (firstImg &&
       item.banner_image &&
-      item.styles.coverImage.isInline &&
+      item.styles.coverImage?.isInline &&
       imageSrcIsUrl(firstImg) &&
       getImageFileName(firstImg) === getImageFileName(item.banner_image)) {
       item[visibleContentKey] = item[visibleContentKey].replace(/<img.*?>/, '')
