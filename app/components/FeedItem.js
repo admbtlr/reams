@@ -40,6 +40,7 @@ class FeedItem extends React.Component {
     this.hasWebViewResized = false
 
     this.wasShowCoverImage = this.props.item.showCoverImage
+    this.currentScrollOffset = 0
   }
 
   initAnimatedValues (isMounted) {
@@ -183,21 +184,22 @@ class FeedItem extends React.Component {
     }
     if (isVisible && !prevProps.isVisible) {
       setScrollAnim(this.scrollAnim)
-      item.scrollRatio > 0 && this.scrollToOffset()
+      this.scrollToOffset()
     }
   }
 
   scrollToOffset () {
-    const that = this
-    const item = that.props.item
+    const {item} = this.props
+    const {webViewHeight} = this.state
+    const scrollView = this.scrollView
+    if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
+    const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
+    if (!scrollView || !this.hasWebViewResized) return
+    if (!scrollRatio || scrollRatio === 0) return
     setTimeout(() => {
-      if (!that.scrollView || !that.hasWebViewResized) return
-      if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
-      const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
-      if (!scrollRatio) return
-      that.scrollView.scrollTo({
+      scrollView.scrollTo({
         x: 0,
-        y: scrollRatio * that.state.webViewHeight,
+        y: scrollRatio * webViewHeight,
         animated: true
       })
     }, 2000)
@@ -507,6 +509,7 @@ class FeedItem extends React.Component {
     scrollOffset = typeof scrollOffset === 'number' ?
       scrollOffset :
       scrollOffset.nativeEvent.contentOffset.y
+    this.currentScrollOffset = scrollOffset
     this.props.setScrollOffset(this.props.item, scrollOffset, this.state.webViewHeight)
     this.props.onScrollEnd(scrollOffset)
   }
@@ -540,7 +543,9 @@ class FeedItem extends React.Component {
             ...that.state,
             webViewHeight: that.pendingWebViewHeight
           })
-          that.scrollToOffset()
+          if (that.currentScrollOffset > 0) {
+            that.scrollToOffset()
+          }
           that.pendingWebViewHeightId = null
           that.hasWebViewResized = true
         }, 500)

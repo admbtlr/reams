@@ -1,6 +1,5 @@
 # To Do
 
-- navgiation (should go straight to stories)
 - some error is happening that stops stories from displaying
 - what's up with Sidecar URLs? they crash inappbrowser
   - huh, the url is null
@@ -50,6 +49,8 @@
 
 # Done
 
+- ~~fix navigation after onboarding (remove onboarding Items screen)~~
+- ~~navgiation (should go straight to stories)~~
 - ~~scrollToOffset firing too soon~~
 - ~~the thing with styles getting recalculated~~
 - ~~add close button to image viewer~~
