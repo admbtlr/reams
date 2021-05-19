@@ -10,8 +10,9 @@ import { configureStore } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
-import ConnectionListenerContainer from '../containers/ConnectionListener'
+import ConnectionListener from './ConnectionListener'
 import RizzleModalContainer from '../containers/RizzleModal'
+import Analytics from './Analytics'
 import Splash from './Splash'
 import Message from './Message'
 import * as tf from '@tensorflow/tfjs'
@@ -82,7 +83,8 @@ export default class Rizzle extends Component<Props, State> {
               barStyle='light-content'
               hidden={false} />
             <AppStateListenerContainer />
-            <ConnectionListenerContainer />
+            <ConnectionListener />
+            <Analytics />
             <AppContainer />
             <Message />
             <RizzleModalContainer />
