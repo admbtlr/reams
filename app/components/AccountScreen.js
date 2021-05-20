@@ -49,13 +49,14 @@ class AccountScreen extends React.Component {
 
   componentDidMount () {
     const { backend, displayMode, isOnboarding } = this.props
-    if (isOnboarding) {
-      this.props.navigation.push('Items')
-    }
+
   }
 
   componentDidUpdate (prevProps) {
     const { backend, isOnboarding } = this.props
+    if (isOnboarding) {
+      this.props.navigation.push('Items')
+    }    
     if (prevProps.backend === '' && backend !== '') {
       this.redirectToItems(true)
     }
