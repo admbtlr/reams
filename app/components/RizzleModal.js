@@ -171,7 +171,10 @@ class RizzleModal extends React.Component {
       inner: {
         backgroundColor: hslString('rizzleBG'),
         borderRadius: 20,
-        width: 300
+        width: 300,
+        shadowColor: 'black',
+        shadowRadius: 10,
+        shadowOpacity: 0.1
       },
       error: {
         backgroundColor: hslString('logo2'),
