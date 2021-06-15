@@ -9,6 +9,7 @@ import {
 import { connect } from 'react-redux'
 import { ADD_FEED } from '../store/feeds/types'
 import { 
+  ADD_MESSAGE,
   FETCH_ITEMS,
   SHOW_MODAL
 } from '../store/ui/types'
@@ -62,6 +63,13 @@ const mapDispatchToProps = (dispatch) => {
     setDarkMode: (isDarkMode) => dispatch({
       type: SET_DARK_MODE,
       isDarkMode
+    }),
+    addMessage: (messageString) => dispatch({
+      type: ADD_MESSAGE,
+      message: {
+        messageString,
+        isSelfDestruct: true
+      }
     })
   }
 }

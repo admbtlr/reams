@@ -68,7 +68,7 @@ class AppStateListener extends React.Component {
         contents.indexOf('rizzle.net') === -1) {
         const isIgnored = await isIgnoredUrl(contents)
         if (!isIgnored) {
-          this.showSavePageModal(contents, this, true)
+          this.showSavePageModal.call(this, contents, true)
         }
       } else if (contents.substring(0, 6) === '<opml>') {
       }
@@ -85,7 +85,7 @@ class AppStateListener extends React.Component {
           value[0] :
           value
         console.log(`Got a page to save: ${value}`)
-        this.showSavePageModal(value, this)
+        this.savePage.call(this, value)
       }
     }).catch(err => {
       // '1' just means that there is nothing in the bucket
@@ -157,7 +157,18 @@ class AppStateListener extends React.Component {
     })
   }
 
-  showSavePageModal (url, scope, isClipboard = false) {
+  savePage (page) {
+    this.props.saveURL(page.url)
+    this.props.addMessage('Saved page: ' + (page.title ?? page.url))
+  }
+
+  addFeed (feed) {
+    this.props.addFeed(feed)
+    this.props.addMessage('Added feed: ' + (feed.title ?? feed.url))
+    this.props.fetchData()
+  }
+
+  showSavePageModal (url, isClipboard = false) {
     let displayUrl = url
     if (displayUrl.length > 64) {
       displayUrl = displayUrl.slice(0, 64) + '…'
@@ -178,13 +189,15 @@ class AppStateListener extends React.Component {
         style: ['hint']
       })
     }
+    const onOk = () => {
+      this.savePage({ url })
+  }
+    // onOk = onOk.bind(this)
     this.props.showModal({
       modalText,
       modalHideCancel: false,
       modalShow: true,
-      modalOnOk: () => {
-        scope.props.saveURL(url)
-      }
+      modalOnOk: onOk.bind(this)
     })
   }
 

@@ -80,6 +80,7 @@ class Share extends React.Component {
       .catch(e => console.log(e))
   }
 
+  decodeEntities = str => str.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
 
   async getPageTitle(url) {
     fetch(url)
@@ -90,7 +91,7 @@ class Share extends React.Component {
         const found = text.match(/\<title.*?\>(.*?)\<\/title/)
         if (found && found.length > 1) {
           this.setState({
-            title: found[1]
+            title: this.decodeEntities(found[1])
           })  
         }
       })
@@ -134,8 +135,11 @@ class Share extends React.Component {
   }
 
   async savePage () {
-    console.log(SharedGroupPreferences)
-    await SharedGroupPreferences.setItem('page', this.state.value, this.group)
+    const page = JSON.stringify({
+      url: this.state.value,
+      title: this.state.title
+    })
+    await SharedGroupPreferences.setItem('page', page, this.group)
     this.onClose()
   }
 
