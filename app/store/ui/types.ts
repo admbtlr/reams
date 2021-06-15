@@ -12,6 +12,11 @@ interface ModalProps {
   modalShow?: boolean
 }
 
+interface Message {
+  messageString: string
+  isSelfDestruct?: boolean
+}
+
 export interface UIState {
   readonly viewButtonsVisible: boolean
   readonly itemButtonsVisible: boolean
@@ -23,6 +28,7 @@ export interface UIState {
   readonly isDarkMode: boolean
   readonly hiddenModals: string[]
   readonly message: string
+  readonly messageQueue: Message[]
   readonly fontSize: number
 }
 
@@ -45,6 +51,8 @@ export const DECREASE_FONT_SIZE = 'DECREASE_FONT_SIZE'
 export const ITEMS_SCREEN_BLUR = 'ITEMS_SCREEN_BLUR'
 export const ITEMS_SCREEN_FOCUS = 'ITEMS_SCREEN_FOCUS'
 export const SET_MESSAGE = 'SET_MESSAGE'
+export const ADD_MESSAGE = 'ADD_MESSAGE'
+export const REMOVE_MESSAGE = 'REMOVE_MESSAGE'
 
 interface toggleViewButtonsAction {
   type: typeof TOGGLE_VIEW_BUTTONS
@@ -115,6 +123,16 @@ interface setMessageAction {
   message: string
 }
 
+interface addMessageAction {
+  type: typeof ADD_MESSAGE
+  message: Message
+}
+
+interface removeMessageAction {
+  type: typeof REMOVE_MESSAGE
+  messageString: string
+}
+
 export type UIActionTypes = toggleViewButtonsAction |
   showViewButtonsAction |
   showItemButtonsAction |
@@ -130,4 +148,6 @@ export type UIActionTypes = toggleViewButtonsAction |
   toggleDarkModeAction |
   increaseFontSizeAction |
   decreaseFontSizeAction |
-  setMessageAction
+  setMessageAction |
+  addMessageAction |
+  removeMessageAction
