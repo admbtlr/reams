@@ -159,6 +159,7 @@ export function setCoverInline (oldStyles) {
   styles.title.invertBG = false
   styles.title.bg = false
   styles.title.hasShadow = false
+  styles.coverImage = styles.coverImage || {}
   styles.coverImage.isScreen = false
   styles.coverImage.isMultiply = false
   styles.coverImage.isBW = false
