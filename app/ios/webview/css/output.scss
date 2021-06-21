@@ -171,8 +171,8 @@ $ui: (
   logo3: hsl(260, 30%, 30%),
 );
 $darkMode: (
-  black: hsl(0, 0%, 0%),
-  white: hsl(0, 0%, 100%),
+  black: hsl(0, 0%, 100%),
+  white: hsl(0, 0%, 0%),
   buttonBG: hsl(0, 0%, 10%),
   rizzleFG: hsl(263, 14%, 86%),
   rizzleBG: hsl(300, 10%, 17%),
@@ -183,7 +183,7 @@ $darkMode: (
   rizzleChrome: hsl(0, 0%, 95%),
   bodyBG: hsl(240, 0%, 0%),
   bodyBGDark: hsl(0, 0%, 0%),
-  logo1: hsl(186, 40%, 50%),
+  logo1: hsl(186, 40%, 30%),
   logo2: hsl(360, 70%, 60%),
   logo3: hsl(260, 30%, 30%),
 );
@@ -767,12 +767,18 @@ hr {
   }
 }
 
-@mixin firstShortParaBold($fontFamily) {
-  p:first-of-type.short-para:not(.ends-with-colon),
-  p:first-of-type.short-para:not(.ends-with-colon) a {
-    font-family: $fontFamily;
-    color: var(--feed-color);
-  }
+@mixin firstShortParaBold($fontFamily, $fontFamilyItalic) {
+    p:first-of-type.short-para:not(.ends-with-colon),
+    p:first-of-type.short-para:not(.ends-with-colon) a {
+      font-family: $fontFamily;
+      color: var(--feed-color);
+  
+      em, i, strong, b {
+        font-family: $fontFamilyItalic;
+        font-style: normal;
+        font-size: 1.07em;
+      }
+    }
 }
 
 @mixin dropCapFontSize($size) {
@@ -991,7 +997,7 @@ hr {
   }
 
   @include firstLineFontFamily("LibreBaskerville-Bold");
-  @include firstShortParaBold("LibreBaskerville-Bold")
+  @include firstShortParaBold("LibreBaskerville-Bold", "LibreBaskerville-BoldItalic")
 }
 
 .bodyFontSans1 {
@@ -1015,7 +1021,7 @@ hr {
   }
 
   @include firstLineFontFamily("IBMPlexSans-Bold");
-  @include firstShortParaBold("IBMPlexSans-Bold")
+  @include firstShortParaBold("IBMPlexSans-Bold", "IBMPlexSans-BoldItalic")
 }
 
 .bodyFontSerif2 {
@@ -1038,7 +1044,7 @@ hr {
   }
 
   @include firstLineFontFamily("IowanOldStyle-Bold");
-  @include firstShortParaBold("IowanOldStyle-Bold")
+  @include firstShortParaBold("IowanOldStyle-Bold", "IowanOldStyle-BoldItalic")
 }
 
 .bodyFontSans2 {
@@ -1061,7 +1067,7 @@ hr {
   }
 
   @include firstLineFontFamily("AvenirNext-Bold");
-  @include firstShortParaBold("AvenirNext-Bold")
+  @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic")
 }
 
 .bodyFontSerif3 {
@@ -1085,7 +1091,7 @@ hr {
   }
 
   @include firstLineFontFamily("IBMPlexSerif-Bold");
-  @include firstShortParaBold("IBMPlexSerif-Bold")
+  @include firstShortParaBold("IBMPlexSerif-Bold", "IBMPlexSerif-BoldItalic")
 }
 
 .headerFontSans1 {
@@ -1338,6 +1344,15 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   }
 }
 
+@mixin se {
+  @media only screen
+  and (min-device-width : 320px)
+  and (max-device-width : 376px)
+  and (-webkit-max-device-pixel-ratio: 2) {
+    @content;
+  }
+}
+
 
 html.onboarding {
 
@@ -1345,6 +1360,7 @@ html.onboarding {
   --logo2: hsl(360, 70%, 60%);
   --logo3: hsl(260, 30%, 30%);
   --bg: hsl(46, 23%, 83%);
+  --text: hsl(300, 20%, 20%);
 
   // this is now my rem value
   // it's the body lineheight
@@ -1357,36 +1373,57 @@ html.onboarding {
     margin: 0;
     // font-family: "IBMPlexMono";
     width: 100vw;
-    background-color: var(--logo1);
+    background-color: var(--bg);
     color: white;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 120;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // padding-top: 200;
   }
 
-  div.logo {
-    position: fixed;
+  body::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    display: block;
     top: 0;
+    left: 0;
     bottom: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url(/webview/img/rizzle.svg);
-    background-size: cover;
-    background-position: var(--logo-position);
+    right: 0;
+    background-image: url("/webview/img/onboarding-bg/onboarding-bg-1@3x.png");
     background-repeat: no-repeat;
-    opacity: 0.05;
-    overflow: hidden;
-    transform: scale(1.3333);
+    background-position-x: left;
+    background-position-y: 95%;
+    background-size: 100%;
+    opacity: 0.5;
   }
 
-  article {
-    padding: 1rem;
+  &.onboarding-1 body::after {
+    background-image: url("/webview/img/onboarding-bg/onboarding-bg-2@3x.png");
+  }
+
+  &.onboarding-2 body::after {
+    background-image: url("/webview/img/onboarding-bg/onboarding-bg-3@3x.png");
+  }
+
+  article, .everything {
+    padding: 0 1rem;
     margin-bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    // background-color: green;
+  }
+
+  .everything {
+    padding: 0;
+    margin-top: calc(50vh - 1rem);
+    justify-content: space-between;
+
+    @include se {
+      margin-top: calc(40vh - 1rem);
+    }
   }
 
   h1, h2 {
@@ -1396,6 +1433,7 @@ html.onboarding {
     font-weight: inherit;
     line-height: 1;
     margin-top: 0;
+    margin-bottom: 0;
     text-align: center;
     // height: calc(50% - 250px);
   }
@@ -1404,13 +1442,14 @@ html.onboarding {
     font-size: 1.5rem;
   }
 
-  h1::before, h2::before {
+  div.everything::before, h2::before {
     content: "";
     display: block;
+    position: absolute;
     width: 100%;
     height: 20vh;
-    margin-top: 4vh;
-    margin-bottom: 4vh;
+    top: 25%;
+    transform: translateY(-50%);
     background-image: url("../img/ream@2x.png");
     background-size: contain;
     background-repeat: no-repeat;
@@ -1422,14 +1461,40 @@ html.onboarding {
     margin: 2em;
   }
 
+  div.content {
+    align-self: flex-end;
+    width: 66%;
+
+    p {
+      text-align: right;
+    }
+  }
+
+  &.onboarding-1 div.content {
+    align-self: center;
+    width: 100%;
+
+    p {
+      text-align: center;
+    }
+  }
+
+  &.onboarding-2 div.content {
+    align-self: flex-start;
+    width: 50%;
+
+    p {
+      text-align: left;
+    }
+  }
+
   p {
     font-family: "IBMPlexSans";
-    color: white;
+    color: var(--text);
     font-size: 0.666rem;
     line-height: 1rem;
     margin: 0 0 1rem;
     max-width: 15rem;
-    text-align: center;
 
     strong {
       font-family: "IBMPlexSans-Bold";
@@ -1437,10 +1502,15 @@ html.onboarding {
     em {
       font-family: "IBMPlexSans-Italic";
     }
+
+    &.subhead {
+      color: var(--logo3);
+      margin-bottom: 8vh;
+    }
   }
 
   a {
-    color: white;
+    color: var(--text);
   }
 
   .swipe {
@@ -1474,10 +1544,14 @@ html.onboarding.onboarding-1:not(.dark-background) body {
   h1 {
     color: var(--bg);
   }
+  p {
+    color: white;
+  }
 }
 
 html.onboarding.onboarding-2:not(.dark-background) body {
-  background-color: var(--bg);
+  background-color: var(--logo1);
+
   h2 {
     color: var(--logo1);
   }

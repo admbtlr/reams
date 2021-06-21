@@ -15,6 +15,8 @@ import {
   TOGGLE_HIDE_MODAL,
   TOGGLE_VIEW_BUTTONS,
   SET_MESSAGE,
+  ADD_MESSAGE,
+  REMOVE_MESSAGE,
   UIActionTypes,
   UIState
 } from './types'
@@ -29,6 +31,7 @@ const initialState = {
   imageViewerUrl: '',
   hiddenModals: [],
   message: '',
+  messageQueue: [],
   isDarkMode: false,
   fontSize: 3
 }
@@ -145,6 +148,30 @@ export function ui (
         message: action.message
       }
 
+    case ADD_MESSAGE:
+      // this is a dirty hack to migrate the store
+      const messageQueue = state.messageQueue ?? []
+      const message = typeof action.message === 'object' ?
+        action.message :
+        {
+          messageString: action.message,
+          isSelfDestruct: false
+        }
+
+      return {
+        ...state,
+        messageQueue: [
+          ...messageQueue,
+          message
+        ]
+      }
+  
+    case REMOVE_MESSAGE:
+      return {
+        ...state,
+        messageQueue: state.messageQueue.filter(m => m.messageString !== action.messageString)
+      }
+    
     default:
       return state
   }

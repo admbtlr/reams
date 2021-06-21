@@ -20,13 +20,12 @@ import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
 import { rgba } from 'react-native-image-filter-kit'
 
 
-class Share extends React.Component {
+export default class Share extends React.Component {
 
   group = 'group.com.adam-butler.rizzle'
 
   constructor(props, context) {
     super(props, context)
-    console.log('Constructor!')
     this.state = {
       isOpen: true,
       type: '',
@@ -80,6 +79,7 @@ class Share extends React.Component {
       .catch(e => console.log(e))
   }
 
+  decodeEntities = str => str.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
 
   async getPageTitle(url) {
     fetch(url)
@@ -90,7 +90,7 @@ class Share extends React.Component {
         const found = text.match(/\<title.*?\>(.*?)\<\/title/)
         if (found && found.length > 1) {
           this.setState({
-            title: found[1]
+            title: this.decodeEntities(found[1])
           })  
         }
       })
@@ -99,6 +99,7 @@ class Share extends React.Component {
   async componentDidMount() {
     try {
       const data = await ShareExtension.data()
+      // console.log(data)
       let { type, value } = data
       console.log(`Value: ${value}`)
       console.log(`Type: ${type}`)
@@ -129,13 +130,28 @@ class Share extends React.Component {
 
   async addFeed (url) {
     // console.log(this.state.rssUrl)
+    const oldFeeds = await SharedGroupPreferences.getItem('feeds', this.group)
+    const feeds = [
+      ...JSON.parse(oldFeeds),
+      url
+    ]
+    await SharedGroupPreferences.setItem('feeds', JSON.stringify(feeds), this.group)
     await SharedGroupPreferences.setItem('feed', url, this.group)
     this.onClose()
   }
 
   async savePage () {
-    console.log(SharedGroupPreferences)
-    await SharedGroupPreferences.setItem('page', this.state.value, this.group)
+    const page = {
+      url: this.state.value,
+      title: this.state.title
+    }
+    const oldPages = await SharedGroupPreferences.getItem('pages', this.group)
+    const pages = [
+      ...JSON.parse(oldPages),
+      page
+    ]
+    await SharedGroupPreferences.setItem('pages', JSON.stringify(pages), this.group)
+    await SharedGroupPreferences.setItem('page', JSON.stringify(page), this.group)
     this.onClose()
   }
 
@@ -329,7 +345,7 @@ class Share extends React.Component {
   }
 }
 
-export default Share
+module.exports = Share
 
 /* 
       <Modal

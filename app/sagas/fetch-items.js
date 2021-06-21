@@ -11,7 +11,8 @@ import {
   UPDATE_FEEDS
 } from '../store/feeds/types'
 import {
-  SET_MESSAGE
+  ADD_MESSAGE,
+  REMOVE_MESSAGE
 } from '../store/ui/types'
 import {
   fetchItems as fetchItemsBackends
@@ -44,7 +45,7 @@ export function * fetchAllItems (includeSaved = true) {
   if (!config.isOnline/* || !hasBackend()*/) return
 
   yield put({
-    type: SET_MESSAGE,
+    type: ADD_MESSAGE,
     message: 'Loading stories'
   })
   yield fetchItems(ItemType.unread)
@@ -52,8 +53,8 @@ export function * fetchAllItems (includeSaved = true) {
     yield fetchItems(ItemType.saved)
   }
   yield put({
-    type: SET_MESSAGE,
-    message: ''
+    type: REMOVE_MESSAGE,
+    messageString: 'Loading stories'
   })
 }
 

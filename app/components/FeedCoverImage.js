@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Animated,
 } from 'react-native'
-import {getCachedCoverImagePath} from '../utils/'
+import {fileExists, getCachedCoverImagePath} from '../utils/'
 
 class FeedCoverImage extends React.Component {
 
@@ -11,9 +11,14 @@ class FeedCoverImage extends React.Component {
     this.props = props
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     const { _id, cachedCoverImageId, coverImageId } = this.props.feed
-    if (coverImageId && !cachedCoverImageId) {
+    const coverImagePath = this.getCoverImagePath()
+    if (!coverImagePath) return
+    const coverImageFileExists = await fileExists(coverImagePath)
+    if (!coverImageFileExists) {
+      this.props.removeCoverImage(_id)
+    } else if (coverImageId && !cachedCoverImageId) {
       this.props.setCachedCoverImage(_id, coverImageId)
     }
   }
@@ -22,24 +27,38 @@ class FeedCoverImage extends React.Component {
     return nextProps.cachedCoverImageId !== this.props.cachedCoverImageId
   }
 
+  async componentDidUpdate () {
+    const { _id } = this.props.feed
+    const coverImageFileExists = await fileExists(this.getCoverImagePath())
+    if (!coverImageFileExists) {
+      this.props.removeCoverImage(_id)
+    }
+  }
+
+  getCoverImagePath () {
+    const {
+      cachedCoverImageId,
+      coverImageId,
+    } = this.props.feed
+
+    const imageId = cachedCoverImageId || coverImageId
+    return imageId ?
+      getCachedCoverImagePath(imageId) :
+      null
+  }
+
   render () {
     const {
-      _id,
-      cachedCoverImageId,
       coverImageDimensions,
-      coverImageId,
       color
     } = this.props.feed
     const { width, height } = this.props
 
-    const imageId = cachedCoverImageId || coverImageId
-    const coverImageUrl = imageId ?
-      `file://${getCachedCoverImagePath(imageId)}` :
-      null
+    const coverImagePath = this.getCoverImagePath()
 
-    return (color && coverImageUrl && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
+    return (color && !!coverImagePath && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
       <Animated.Image
-        source={{ uri: coverImageUrl }}
+        source={{ uri: `file://${coverImagePath}` }}
         style={{
           alignSelf: 'center',
           width,

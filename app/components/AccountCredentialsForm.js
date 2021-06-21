@@ -41,6 +41,7 @@ export const formElementStyles = {
   }
 }
 
+const width = Dimensions.get('window').width
 class AccountCredentialsForm extends React.Component {
   constructor (props) {
     super(props)
@@ -113,7 +114,11 @@ class AccountCredentialsForm extends React.Component {
         password: Yup.string().required('Required')
       })
 
-    const reamsText = (isWhite) => <Text style={textInfoStyle(isWhite ? 'white' : '')}><Text style={textInfoItalicStyle(isWhite ? 'white' : '')}>Reams Basic</Text> lets you subscribe to RSS feeds and read stories, but what happens in Reams stays in Reams: you can’t use your <Text style={textInfoItalicStyle(isWhite ? 'white' : '')}>Reams Basic</Text> account anywhere else, or sync your data with other devices.</Text>
+    const reamsText = (isWhite) => <Text 
+      style={{
+        ...textInfoStyle(isWhite ? 'white' : 'black'),
+        marginBottom: width * 0.05
+      }}><Text style={textInfoBoldStyle(isWhite ? 'white' : 'black')}>Reams Basic</Text> is free, but it doesn’t sync with other devices or apps.</Text>
       
     return (
       <Formik
@@ -156,9 +161,11 @@ class AccountCredentialsForm extends React.Component {
                     { !!isActive && reamsText(true) }
                   </View> :
                   <React.Fragment>
-                    <Text style={textInfoStyle('white')}>
-                      <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
-                    </Text>
+                    { service !== 'feedwrangler' &&
+                      <Text style={textInfoStyle('white')}>
+                        <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
+                      </Text>
+                    }
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}
                       color={hslString('white')}

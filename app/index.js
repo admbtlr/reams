@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 
 import React from 'react'
 import { AppRegistry } from 'react-native'
-import Rizzle from './components/Rizzle'
+// import Rizzle from './components/Rizzle'
 // import Share from './components/Share'
 
 if (__DEV__) {
@@ -10,5 +10,5 @@ if (__DEV__) {
   whyDidYouRender(React)
 }
 
-AppRegistry.registerComponent('rizzle', () => Rizzle)
+AppRegistry.registerComponent('rizzle', () => require('./components/Rizzle'))
 // AppRegistry.registerComponent('RizzleShare', () => Share)

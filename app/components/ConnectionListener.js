@@ -1,27 +1,19 @@
-import React from 'react'
+import {useEffect} from 'react'
 import NetInfo from '@react-native-community/netinfo'
+import { useDispatch } from 'react-redux'
+import { IS_ONLINE } from '../store/config/types'
 
-class ConnectionListener extends React.Component {
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange)
-
-    NetInfo.isConnected.fetch().done(isConnected => {
-      this.props.isOnline(isConnected)
+export default ConnectionListener = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(({isConnected}) => {
+      dispatch({
+        type: IS_ONLINE,
+        isOnline: isConnected
+      })
     })
-  }
+    return unsubscribe
+  })
 
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectionChange)
-  }
-
-  handleConnectionChange = (isConnected) => {
-    this.props.isOnline(isConnected)
-    console.log(`Is connected: ${isConnected}`)
-  }
-
-  render = () => {
-    return null
-  }
+  return null
 }
-
-export default ConnectionListener

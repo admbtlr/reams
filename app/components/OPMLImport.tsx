@@ -9,7 +9,11 @@ import DocumentPicker from 'react-native-document-picker'
 import { parseString } from 'react-native-xml2js'
 const RNFS = require('react-native-fs')
 import { ADD_FEEDS } from '../store/feeds/types'
-import { SET_MESSAGE, SHOW_MODAL } from '../store/ui/types'
+import { 
+  ADD_MESSAGE, 
+  REMOVE_MESSAGE, 
+  SHOW_MODAL 
+} from '../store/ui/types'
 
 const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
@@ -54,7 +58,7 @@ export default function OPMLImport (props: { textStyles?: {}}) {
 
   const openDocumentPicker = async (): Promise<void> => {
     try {
-      res = await DocumentPicker.pick()
+      res = await DocumentPicker.pick({})
       console.log(
         res.uri,
         res.type, // mime type
@@ -97,7 +101,7 @@ export default function OPMLImport (props: { textStyles?: {}}) {
         traverse(result, feeds)
         if (feeds.length > 0) {
           dispatch({
-            type: SET_MESSAGE,
+            type: ADD_MESSAGE,
             message: 'Adding feeds'
           })
           dispatch({
@@ -108,8 +112,8 @@ export default function OPMLImport (props: { textStyles?: {}}) {
       })  
     } catch (err) {
       dispatch({
-        type: SET_MESSAGE,
-        message: ''
+        type: REMOVE_MESSAGE,
+        messageString: 'Adding feeds'
       })
       dispatch({
         type: SHOW_MODAL,

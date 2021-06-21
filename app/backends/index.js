@@ -49,7 +49,7 @@ export async function loadMercuryStuff (item) {
       return
     }
   } catch (error) {
-    log(error)
+    log('loadMercuryStuff', error)
     return
   }
 }

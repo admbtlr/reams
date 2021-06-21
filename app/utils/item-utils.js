@@ -27,9 +27,9 @@ export function deflateItem (item) {
   if (!item) {
     log('Item is null?')
   }
-  const styles = item.styles
+  // const styles = item.styles
   // const compressed = LZString.compressToUTF16(JSON.stringify(compressStyles(item.styles)))
-  return {
+  const deflated = {
     _id: item._id,
     banner_image: item.banner_image, // needed by the feed component
     content_length: item.content_length || (item.content_html
@@ -44,12 +44,14 @@ export function deflateItem (item) {
     hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
-    styles: item.styles,
+    // styles: item.styles,
     title: item.title,
     url: item.url,
     isSaved: item.isSaved,
     savedAt: item.savedAt
   }
+  Object.keys(deflated).forEach(key => deflated[key] === undefined && delete deflated[key])
+  return deflated
 }
 
 export function inflateStyles (item) {
@@ -246,7 +248,7 @@ export function setShowCoverImage (item, currentItem) {
 }
 
 export function removeCoverImageDuplicate (item) {
-  if (item.showCoverImage && item.styles && item.styles.coverImage.isInline && item.banner_image) {
+  if (item.showCoverImage && item.styles && item.styles.coverImage?.isInline && item.banner_image) {
     const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
     const imageSrcIsUrl = (path) => path.startsWith('http')
     let visibleContentKey = item.showMercuryContent ?
@@ -256,7 +258,7 @@ export function removeCoverImageDuplicate (item) {
       /<img.*?src="(.*?)".*?>/.exec(item[visibleContentKey])[1]
     if (firstImg &&
       item.banner_image &&
-      item.styles.coverImage.isInline &&
+      item.styles.coverImage?.isInline &&
       imageSrcIsUrl(firstImg) &&
       getImageFileName(firstImg) === getImageFileName(item.banner_image)) {
       item[visibleContentKey] = item[visibleContentKey].replace(/<img.*?>/, '')

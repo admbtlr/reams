@@ -6,6 +6,7 @@ import {
 import { 
   MARK_FEED_READ,
   REMOVE_FEED,
+  REMOVE_FEED_COVER_IMAGE,
   SET_CACHED_FEED_COVER_IMAGE
 } from '../store/feeds/types'
 import FeedContracted from '../components/FeedContracted.js'
@@ -72,6 +73,12 @@ const mapDispatchToProps = (dispatch) => {
         type: SET_CACHED_FEED_COVER_IMAGE,
         id: feedId,
         cachedCoverImageId
+      })
+    },
+    removeCoverImage: (feedId) => {
+      return dispatch({
+        type: REMOVE_FEED_COVER_IMAGE,
+        id: feedId
       })
     }
   }

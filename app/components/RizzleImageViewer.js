@@ -1,6 +1,9 @@
 import React from 'react'
-import { Dimensions, Modal, View } from 'react-native'
+import { Dimensions, Modal, Text, View } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
+import { textInfoStyle } from '../utils/styles'
+import { fontSizeMultiplier } from '../utils'
+import XButton from './XButton'
 
 class RizzleImageViewer extends React.Component {
 
@@ -11,8 +14,24 @@ class RizzleImageViewer extends React.Component {
 
   render () {
     const {height, width} = Dimensions.get('window')
+    const footer = (
+      <View style={{ 
+        flex: 1, 
+        alignItems: 'center', 
+        backgroundColor: 'rgba(10, 10, 10, 40)',
+        width,
+        padding: 10,
+        paddingBottom: 20
+      }}>
+        <Text style={{
+          ...textInfoStyle,
+          color: 'white',
+          textAlign: 'center',
+        }}>Pinch to zoom, swipe the image down to close.</Text>
+      </View>
+    )
     return this.props.isVisible ? (
-      <View>
+      <View style={{ backgroundColor: 'blue'}}>
         <Modal
           visible={true}
           transparent={true}
@@ -25,11 +44,22 @@ class RizzleImageViewer extends React.Component {
               url: this.props.url
             }]}
             //loadingRender={() => <LogoSpinner />}
+            renderFooter={() => footer}
             renderIndicator={(currentIndex, allSize) => null}
             saveToLocalByLongPress={false}
             maxOverflow={0}
             onSwipeDown={this.props.hideImageViewer}/>
         </Modal>
+        <View style={{
+          backgroundColor: 'red',
+          position: 'absolute',
+          right: 10 * fontSizeMultiplier(),
+          top: 10 * fontSizeMultiplier()
+        }}>
+          <XButton
+            isLight={true}
+            onPress={() => null} />
+        </View>
       </View>
     ) : null
   }

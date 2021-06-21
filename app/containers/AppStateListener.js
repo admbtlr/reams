@@ -5,6 +5,7 @@ import {
 import { connect } from 'react-redux'
 import { 
   CHECK_BUCKETS,
+  ADD_MESSAGE,
   FETCH_ITEMS,
 } from '../store/ui/types'
 import AppStateListener from '../components/AppStateListener'
@@ -36,6 +37,13 @@ const mapDispatchToProps = (dispatch) => {
     setDarkMode: (isDarkMode) => dispatch({
       type: SET_DARK_MODE,
       isDarkMode
+    }),
+    addMessage: (messageString) => dispatch({
+      type: ADD_MESSAGE,
+      message: {
+        messageString,
+        isSelfDestruct: true
+      }
     })
   }
 }

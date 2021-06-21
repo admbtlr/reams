@@ -40,16 +40,23 @@ class AccountScreen extends React.Component {
       if (!gotoFeeds || displayMode === ItemType.saved) {
         this.props.navigation.push('Items')
       }
-      this.props.navigation.push('Feeds')
+      this.props.navigation.push('Feeds', { 
+        screen: 'Feeds Screen',
+        params: { gotoItems: true }
+      })
     }
   }
 
   componentDidMount () {
-    this.redirectToItems()
+    const { backend, displayMode, isOnboarding } = this.props
+
   }
 
   componentDidUpdate (prevProps) {
-    const { backend } = this.props
+    const { backend, isOnboarding } = this.props
+    if (isOnboarding) {
+      this.props.navigation.push('Items')
+    }    
     if (prevProps.backend === '' && backend !== '') {
       this.redirectToItems(true)
     }
@@ -71,28 +78,29 @@ class AccountScreen extends React.Component {
 
     const margin = width * 0.05
     const height = Dimensions.get('window').height
-    const textStyles = {
-      ...textInfoStyle(),
+    const textStyles = (color) => ({
+      ...textInfoStyle(color),
       marginTop: margin,
       marginBottom: margin,
       marginLeft: 0,
       marginRight: 0,
       // padding: 8 * fontSizeMultiplier(),
-    }
+    })
     const italicStyles = {
       fontFamily: 'IBMPlexSans-Italic'
     }
-    const textTipStyles = {
-      ...textStyles,
+    const textTipStyles = (color) => ({
+      ...textStyles(color),
       fontSize: 18 * fontSizeMultiplier(),
-      lineHeight: 24 * fontSizeMultiplier(),
+      lineHeight: 22 * fontSizeMultiplier(),
       marginTop: 0,
-      marginBottom: 0
-    }
-    const textTipStylesBold = {
-      ...textTipStyles,
+      marginBottom: 0,
+      color
+    })
+    const textTipStylesBold = (color) => ({
+      ...textTipStyles(color),
       fontFamily: 'IBMPlexSans-Bold'
-    }
+    })
     const feedWranglerLogo = <Image
       source={require('../img/feedwrangler.png')}
       width={24 * fontSizeMultiplier()}
@@ -105,36 +113,38 @@ class AccountScreen extends React.Component {
       }}
     />
 
-    const HelpView = ({children, title, style }) => <View style={{padding: width * 0.05, paddingTop: width * 0.01, borderColor: hslString('logo3'), borderWidth: 1, borderRadius: width * 0.04, ...style }}>
-      <View>
-        <View style={{
-          position: 'absolute',
-          backgroundColor: 'white',
-          width:width * 0.07, 
-          height:width * 0.07, 
-          borderRadius: width * 0.035,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginLeft: -width * 0.04,
-          // marginTop: -width * 0.015,
-          marginRight: width * 0.025
-        }}>
-          <Text style={{ fontSize: 24 * fontSizeMultiplier() }}>👉</Text>
+    const HelpView = ({children, title, style }) => (
+      <View style={{padding: width * 0.05, paddingTop: width * 0.01, backgroundColor: hslString('logo1'), borderRadius: width * 0.04, ...style }}>
+        <View>
+          <View style={{
+            position: 'absolute',
+            // backgroundColor: 'white',
+            width:width * 0.07, 
+            height:width * 0.07, 
+            borderRadius: width * 0.035,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginLeft: -width * 0.04,
+            // marginTop: -width * 0.015,
+            marginRight: width * 0.025
+          }}>
+            <Text style={{ fontSize: 24 * fontSizeMultiplier() }}>👉</Text>
+          </View>
+          <View style={{ flex: 1, textAlign: 'center' }}>
+            <Text style={{ ...textInfoBoldStyle(), color: 'white', textAlign: 'center', marginLeft: 0, fontSize: 24 * fontSizeMultiplier() }}>{ title }</Text>
+          </View>
         </View>
-        <View style={{ flex: 1, textAlign: 'center' }}>
-          <Text style={{ ...textInfoBoldStyle(), textAlign: 'center', marginLeft: 0, fontSize: 24 * fontSizeMultiplier() }}>{ title }</Text>
+        <View style={{ flex: 1, marginTop: width * 0.05 }}>
+          {children}
         </View>
       </View>
-      <View style={{ flex: 1, marginTop: width * 0.05 }}>
-        {children}
-      </View>
-    </View>
+    )
 
     const getAttributes = (service) => ({
       borderColor: backend === service && hslString('logo1'),
       buttonStyle: { 
         alignSelf: 'center',
-        marginBottom: 42,
+        marginBottom: width * 0.1,
         // width: buttonWidth 
       },
       iconBg: true,
@@ -230,8 +240,8 @@ class AccountScreen extends React.Component {
                 </Animated.View>
               }
               { !backend &&
-                <HelpView title='Select your RSS service'>
-                  <Text style={ textTipStyles }>You need an RSS service to use Reams. If you don’t have an account with one of the supported services, just use <Text style={ textTipStylesBold }>Reams Basic</Text>.</Text>
+                <HelpView title='Select your RSS service' style={{ marginTop: width * 0.05 }}>
+                  <Text style={ textTipStyles('white') }>You need an RSS service to use Reams. If you don’t have an account with one of the supported services, just use <Text style={ textTipStylesBold }>Reams Basic</Text>.</Text>
                 </HelpView>
               }
               { /*!!backend && !hasFeeds && <HelpView title='Add some feeds' style={{ marginTop: width * 0.05 }}>
@@ -244,8 +254,8 @@ class AccountScreen extends React.Component {
                 iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'basic' ? 'white' : 'rizzleText'), hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
                 buttonStyle={{ 
                   alignSelf: 'center',
-                  marginBottom: 42,
-                  marginTop: 42,
+                  marginBottom: width * 0.1,
+                  marginTop: width * 0.1,
                 }}
               />
               {Config.FLAG_PLUS && <TextButton
@@ -255,8 +265,8 @@ class AccountScreen extends React.Component {
                 iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'biuttonBG')) }
               />}
               { !backend &&
-                <View style={{ marginBottom: 42 }}>
-                  <Text style={textTipStyles}>Or, if you already have an account with a supported service, enter your details below:</Text>
+                <View style={{ marginBottom: width * 0.1 }}>
+                  <Text style={textInfoStyle(undefined, 0)}>Or, if you already have an account with a supported service, enter your details below:</Text>
                 </View>
               }
               <TextButton

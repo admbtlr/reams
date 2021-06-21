@@ -14,7 +14,8 @@ import {
   FeedsLocalState,
   ADD_FEED_SUCCESS,
   ADD_FEEDS_SUCCESS,
-  REMOVE_FEED
+  REMOVE_FEED,
+  REMOVE_FEED_COVER_IMAGE
 } from './types'
 import { 
   ITEMS_BATCH_FETCHED,
@@ -146,7 +147,18 @@ export function feedsLocal (
           feed)
       }
 
-    case MARK_ITEM_READ:
+    case REMOVE_FEED_COVER_IMAGE:
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.id ?
+          {
+            ...feed,
+            cachedCoverImageId: null
+          } :
+          feed)
+      }
+  
+      case MARK_ITEM_READ:
       const item = action.item
       const feedWithDirtyImage = state.feeds.find(f => f.cachedCoverImageId === item._id)
       return {

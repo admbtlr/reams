@@ -1,12 +1,11 @@
 import React from 'react'
 import {ActivityIndicator, Animated, Dimensions, Easing, Linking, View} from 'react-native'
 import {WebView} from 'react-native-webview'
-import InAppBrowser from 'react-native-inappbrowser-reborn'
 import CoverImage from './CoverImage'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
 import { hslString } from '../utils/colors'
-import log from '../utils/log'
+import { openLink } from '../utils/open-link'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -35,13 +34,13 @@ class FeedItem extends React.Component {
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this)
-    this.openLink = this.openLink.bind(this)
     this.addAnimation = this.addAnimation.bind(this)
 
     this.screenDimensions = Dimensions.get('window')
     this.hasWebViewResized = false
 
     this.wasShowCoverImage = this.props.item.showCoverImage
+    this.currentScrollOffset = 0
   }
 
   initAnimatedValues (isMounted) {
@@ -185,21 +184,22 @@ class FeedItem extends React.Component {
     }
     if (isVisible && !prevProps.isVisible) {
       setScrollAnim(this.scrollAnim)
-      item.scrollRatio > 0 && this.scrollToOffset()
+      this.scrollToOffset()
     }
   }
 
   scrollToOffset () {
-    const that = this
-    const item = that.props.item
+    const {item} = this.props
+    const {webViewHeight} = this.state
+    const scrollView = this.scrollView
+    if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
+    const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
+    if (!scrollView || !this.hasWebViewResized) return
+    if (!scrollRatio || scrollRatio === 0) return
     setTimeout(() => {
-      if (!that.scrollView || !that.hasWebViewResized) return
-      if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
-      const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
-      if (!scrollRatio) return
-      that.scrollView.scrollTo({
+      scrollView.scrollTo({
         x: 0,
-        y: scrollRatio * that.state.webViewHeight,
+        y: scrollRatio * webViewHeight,
         animated: true
       })
     }, 2000)
@@ -275,7 +275,10 @@ class FeedItem extends React.Component {
     }
 
     if (!showCoverImage || this.isCoverImagePortrait()) {
-      styles.coverImage.isInline = false
+      styles.coverImage = {
+        ...styles.coverImage,
+        isInline: false
+      }
       styles.isCoverInline = false
     }
 
@@ -327,7 +330,7 @@ class FeedItem extends React.Component {
       onShouldStartLoadWithRequest: (e) => {
         if (e.navigationType === 'click') {
           // Linking.openURL(e.url)
-          that.openLink(e.url)
+          openLink(e.url, hslString(this.props.item.feed_color))
           return false
         } else {
           return true
@@ -414,7 +417,7 @@ class FeedItem extends React.Component {
             layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
           <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
-            (styles.coverImage.isInline || !showCoverImage) ? 
+            (styles.coverImage?.isInline || !showCoverImage) ? 
               this.addAnimation(bodyStyle, this.anims[5], isVisible) :
               bodyStyle}
           >
@@ -491,37 +494,6 @@ class FeedItem extends React.Component {
     this.props.showImageViewer(url)
   }
 
-  async openLink (url) {
-    try {
-      if (await InAppBrowser.isAvailable()) {
-        const result = await InAppBrowser.open(url, {
-          // iOS Properties
-          animated: true,
-          dismissButtonStyle: 'close',
-          modalEnabled: true,
-          preferredBarTintColor: 'white',
-          preferredControlTintColor: hslString(this.props.item.feed_color),
-          readerMode: false,
-          // Android Properties
-          showTitle: true,
-          toolbarColor: '#6200EE',
-          secondaryToolbarColor: 'black',
-          forceCloseOnRedirection: false,
-          // Specify full animation resource identifier(package:anim/name)
-          // or only resource name(in case of animation bundled with app).
-          animations: {
-            startEnter: 'slide_in_bottom',
-            startExit: 'slide_out_bottom',
-            endEnter: 'slide_in_bottom',
-            endExit: 'slide_out_bottom',
-          },
-        })
-      }
-    } catch (error) {
-      log('openLink', error)
-    }
-  }
-
   // nasty workaround to figure out scrollEnd
   // https://medium.com/appandflow/react-native-collapsible-navbar-e51a049b560a
   onScrollEndDrag = (e) => {
@@ -540,6 +512,7 @@ class FeedItem extends React.Component {
     scrollOffset = typeof scrollOffset === 'number' ?
       scrollOffset :
       scrollOffset.nativeEvent.contentOffset.y
+    this.currentScrollOffset = scrollOffset
     this.props.setScrollOffset(this.props.item, scrollOffset, this.state.webViewHeight)
     this.props.onScrollEnd(scrollOffset)
   }
@@ -573,7 +546,9 @@ class FeedItem extends React.Component {
             ...that.state,
             webViewHeight: that.pendingWebViewHeight
           })
-          that.scrollToOffset()
+          if (that.currentScrollOffset > 0) {
+            that.scrollToOffset()
+          }
           that.pendingWebViewHeightId = null
           that.hasWebViewResized = true
         }, 500)
