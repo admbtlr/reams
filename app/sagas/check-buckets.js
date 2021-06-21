@@ -38,7 +38,8 @@ function * checkPageBucket () {
         value[0] :
         value
       console.log(`Got a page to save: ${value}`)
-      showSavePageModal(value)
+      // TODO: figure out how to get the page title in the share extension
+      yield savePage({ url: value })
     }
   }).catch(err => {
     // '1' just means that there is nothing in the bucket
@@ -107,6 +108,11 @@ function * checkFeedBucket () {
       log('checkFeedBucket', err)
     }
   })
+}
+
+function * savePage (page) {
+  yield saveURL(page.url)
+  yield addMessage('Saved page: ' + (page.title ?? page.url))
 }
 
 function * showSavePageModal (url, isClipboard = false) {
@@ -181,10 +187,10 @@ function * saveURL (url) {
     type: SAVE_EXTERNAL_URL,
     url
   })
-  yield put({
-    type: SET_DISPLAY_MODE,
-    displayMode: ItemType.saved
-  })
+  // yield put({
+  //   type: SET_DISPLAY_MODE,
+  //   displayMode: ItemType.saved
+  // })
 }
 
 function * addFeed (feed) {
@@ -197,5 +203,13 @@ function * addFeed (feed) {
 function * fetchData () {
   dispatch({
     type: FETCH_ITEMS
+  })
+}
+
+function * addMessage (messageString) {
+  dispatch({
+    type: ADD_MESSAGE,
+    messageString,
+    isSelfDestruct: true
   })
 }
