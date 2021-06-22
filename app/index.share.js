@@ -10,5 +10,5 @@ import Share from './components/Share'
 // }
 
 // AppRegistry.registerComponent('rizzle', () => Rizzle)
-AppRegistry.registerComponent('RizzleShare', Share)
+AppRegistry.registerComponent('RizzleShare', () => Share)
 // AppRegistry.registerComponent('RizzleShare', () => require('./components/Share'))
