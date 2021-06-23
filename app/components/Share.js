@@ -1,15 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import {
   Animated,
-  Dimensions,
-  Image,
+  NativeModules,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
-import ShareExtension from 'react-native-share-extension'
 import * as Sentry from '@sentry/react-native'
-// import { RNSKBucket } from 'react-native-swiss-knife'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 
 import TextButton from './TextButton'
@@ -17,7 +14,6 @@ import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
 import {hslString} from '../utils/colors'
 import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
-import { rgba } from 'react-native-image-filter-kit'
 
 
 class Share extends React.Component {
@@ -99,20 +95,20 @@ class Share extends React.Component {
 
   async componentDidMount() {
     try {
-      const data = await ShareExtension.data()
-      let { type, value } = data
-      console.log(`Value: ${value}`)
+      const sharedData = await NativeModules.RizzleShare.data()
+      let { type, data } = sharedData
+      console.log(`Data: ${data}`)
       console.log(`Type: ${type}`)
-      value = /(http[a-zA-Z0-9:\/\.\-_?&=]*)/.exec(value)[1]
-      console.log(`Value after regex: ${value}`)
+      data = /(http[a-zA-Z0-9:\/\.\-_?&=]*)/.exec(data)[1]
+      console.log(`Data after regex: ${data}`)
       this.setState({
         isOpen: true,
         type,
-        value,
+        data,
         searchingForRss: true
       })
-      this.getPageTitle(value)
-      this.searchForRSS(value)
+      this.getPageTitle(data)
+      this.searchForRSS(data)
     } catch(e) {
       console.log('errrr', e)
     }
@@ -123,7 +119,7 @@ class Share extends React.Component {
   }
 
   onClose = () => {
-    ShareExtension.close()
+    NativeModules.RizzleShare.close()
   }
 
   closing = () => this.setState({ isOpen: false })
