@@ -95,5 +95,3 @@ export default class Rizzle extends Component<Props, State> {
     )
   }
 }
-
-module.exports = Rizzle

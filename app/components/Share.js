@@ -1,15 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import {
   Animated,
-  Dimensions,
-  Image,
+  NativeModules,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
-import ShareExtension from 'react-native-share-extension'
 import * as Sentry from '@sentry/react-native'
-// import { RNSKBucket } from 'react-native-swiss-knife'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 
 import TextButton from './TextButton'
@@ -17,15 +14,15 @@ import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
 import {hslString} from '../utils/colors'
 import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
-import { rgba } from 'react-native-image-filter-kit'
 
 
-export default class Share extends React.Component {
+class Share extends React.Component {
 
   group = 'group.com.adam-butler.rizzle'
 
   constructor(props, context) {
     super(props, context)
+    console.log('Constructor!')
     this.state = {
       isOpen: true,
       type: '',
@@ -98,21 +95,20 @@ export default class Share extends React.Component {
 
   async componentDidMount() {
     try {
-      const data = await ShareExtension.data()
-      // console.log(data)
-      let { type, value } = data
-      console.log(`Value: ${value}`)
+      const sharedData = await NativeModules.RizzleShare.data()
+      let { type, data } = sharedData
+      console.log(`Data: ${data}`)
       console.log(`Type: ${type}`)
-      value = /(http[a-zA-Z0-9:\/\.\-_?&=]*)/.exec(value)[1]
-      console.log(`Value after regex: ${value}`)
+      data = /(http[a-zA-Z0-9:\/\.\-_?&=]*)/.exec(data)[1]
+      console.log(`Data after regex: ${data}`)
       this.setState({
         isOpen: true,
         type,
-        value,
+        data,
         searchingForRss: true
       })
-      this.getPageTitle(value)
-      this.searchForRSS(value)
+      this.getPageTitle(data)
+      this.searchForRSS(data)
     } catch(e) {
       console.log('errrr', e)
     }
@@ -123,35 +119,23 @@ export default class Share extends React.Component {
   }
 
   onClose = () => {
-    ShareExtension.close()
+    NativeModules.RizzleShare.close()
   }
 
   closing = () => this.setState({ isOpen: false })
 
   async addFeed (url) {
     // console.log(this.state.rssUrl)
-    const oldFeeds = await SharedGroupPreferences.getItem('feeds', this.group)
-    const feeds = [
-      ...JSON.parse(oldFeeds),
-      url
-    ]
-    await SharedGroupPreferences.setItem('feeds', JSON.stringify(feeds), this.group)
     await SharedGroupPreferences.setItem('feed', url, this.group)
     this.onClose()
   }
 
   async savePage () {
-    const page = {
+    const page = JSON.stringify({
       url: this.state.value,
       title: this.state.title
-    }
-    const oldPages = await SharedGroupPreferences.getItem('pages', this.group)
-    const pages = [
-      ...JSON.parse(oldPages),
-      page
-    ]
-    await SharedGroupPreferences.setItem('pages', JSON.stringify(pages), this.group)
-    await SharedGroupPreferences.setItem('page', JSON.stringify(page), this.group)
+    })
+    await SharedGroupPreferences.setItem('page', page, this.group)
     this.onClose()
   }
 
@@ -345,7 +329,7 @@ export default class Share extends React.Component {
   }
 }
 
-module.exports = Share
+export default Share
 
 /* 
       <Modal
