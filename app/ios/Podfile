@@ -14,7 +14,6 @@ target 'Reams' do
   use_react_native!(:path => config["reactNativePath"])
 
   # # third party deps
-  pod 'ReactNativeShareExtension', :podspec => '../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec'
   pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
 
   use_native_modules!

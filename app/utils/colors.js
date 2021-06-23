@@ -1,4 +1,4 @@
-import { store } from '../store'
+import { Appearance } from 'react-native'
 
 const { colors, darker, lighter, desaturated, desaturatedDarker, ui, darkMode } = require('./colors.json')
 
@@ -182,7 +182,7 @@ function makeDarkModeFriendly (color) {
 const isRgbDark = ([r,g,b]) => [r,g,b].reduce((accum, curr) => accum && (curr < 20), true)
 
 export function hslString (color, modifier = '', alpha) {
-  const isDarkMode = store && store.getState().ui.isDarkMode
+  const isDarkMode = Appearance.getColorScheme() === 'dark'
   if (typeof color === 'string') {
     if (modifier === 'darkmodable' && isDarkMode) {
       color = makeDarkModeFriendly(color)
