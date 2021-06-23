@@ -20,12 +20,13 @@ import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
 import { rgba } from 'react-native-image-filter-kit'
 
 
-export default class Share extends React.Component {
+class Share extends React.Component {
 
   group = 'group.com.adam-butler.rizzle'
 
   constructor(props, context) {
     super(props, context)
+    console.log('Constructor!')
     this.state = {
       isOpen: true,
       type: '',
@@ -99,7 +100,6 @@ export default class Share extends React.Component {
   async componentDidMount() {
     try {
       const data = await ShareExtension.data()
-      // console.log(data)
       let { type, value } = data
       console.log(`Value: ${value}`)
       console.log(`Type: ${type}`)
@@ -130,28 +130,16 @@ export default class Share extends React.Component {
 
   async addFeed (url) {
     // console.log(this.state.rssUrl)
-    const oldFeeds = await SharedGroupPreferences.getItem('feeds', this.group)
-    const feeds = [
-      ...JSON.parse(oldFeeds),
-      url
-    ]
-    await SharedGroupPreferences.setItem('feeds', JSON.stringify(feeds), this.group)
     await SharedGroupPreferences.setItem('feed', url, this.group)
     this.onClose()
   }
 
   async savePage () {
-    const page = {
+    const page = JSON.stringify({
       url: this.state.value,
       title: this.state.title
-    }
-    const oldPages = await SharedGroupPreferences.getItem('pages', this.group)
-    const pages = [
-      ...JSON.parse(oldPages),
-      page
-    ]
-    await SharedGroupPreferences.setItem('pages', JSON.stringify(pages), this.group)
-    await SharedGroupPreferences.setItem('page', JSON.stringify(page), this.group)
+    })
+    await SharedGroupPreferences.setItem('page', page, this.group)
     this.onClose()
   }
 
@@ -345,7 +333,7 @@ export default class Share extends React.Component {
   }
 }
 
-module.exports = Share
+export default Share
 
 /* 
       <Modal
