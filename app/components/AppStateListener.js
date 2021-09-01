@@ -35,7 +35,7 @@ class AppStateListener extends React.Component {
   async checkBuckets () {
     await this.checkClipboard()
     await this.checkPageBucket()
-    this.checkFeedBucket()
+    await this.checkFeedBucket()
     // see Rizzle component
   }
 
@@ -60,7 +60,7 @@ class AppStateListener extends React.Component {
   async checkClipboard () {
     console.log('Checking clipboard')
     try {
-      let contents = await Clipboard.getString()
+      let contents = await Clipboard.getString() ?? ''
       // TODO make this more robust
       // right now we're ignoring any URLs that include 'rizzle.net'
       // this is due to links getting into clipboard during the email auth process
@@ -81,11 +81,15 @@ class AppStateListener extends React.Component {
     SharedGroupPreferences.getItem('page', this.group).then(value => {
       if (value !== null) {
         SharedGroupPreferences.setItem('page', null, this.group)
-        value = typeof value === 'object' ?
-          value[0] :
-          value
-        console.log(`Got a page to save: ${value}`)
-        this.savePage.call(this, value)
+        const parsed = JSON.parse(value)
+        const pages = typeof parsed === 'object' ?
+          parsed :
+          [parsed]
+        console.log(`Got ${pages.length} page${pages.length === 1 ? '' : 's'} to save`)
+        const that = this
+        pages.forEach(page => {
+          that.savePage.call(that, page)
+        })
       }
     }).catch(err => {
       // '1' just means that there is nothing in the bucket
@@ -95,7 +99,7 @@ class AppStateListener extends React.Component {
     })
   }
 
-  checkFeedBucket () {
+  async checkFeedBucket () {
     SharedGroupPreferences.getItem('feed', this.group).then(value => {
       if (value !== null) {
         const url = value
@@ -158,6 +162,7 @@ class AppStateListener extends React.Component {
   }
 
   savePage (page) {
+    console.log(`Saving page: ${page.url}`)
     this.props.saveURL(page.url)
     this.props.addMessage('Saved page: ' + (page.title ?? page.url))
   }

@@ -131,11 +131,14 @@ class Share extends React.Component {
   }
 
   async savePage () {
-    const page = JSON.stringify({
-      url: this.state.value,
+    const page = {
+      url: this.state.data,
       title: this.state.title
-    })
-    await SharedGroupPreferences.setItem('page', page, this.group)
+    }
+    const raw = await SharedGroupPreferences.getItem('page', this.group)
+    const pages = JSON.parse(raw) || []
+    pages.push(page)
+    await SharedGroupPreferences.setItem('page', JSON.stringify(pages), this.group)
     this.onClose()
   }
 
