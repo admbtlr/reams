@@ -768,15 +768,15 @@ hr {
 }
 
 @mixin firstShortParaBold($fontFamily, $fontFamilyItalic) {
-    p:first-of-type.short-para:not(.ends-with-colon),
-    p:first-of-type.short-para:not(.ends-with-colon) a {
+    > p:first-of-type.short-para:not(.ends-with-colon),
+    > p:first-of-type.short-para:not(.ends-with-colon) a {
       font-family: $fontFamily;
       color: var(--feed-color);
+      font-size: 1.2em;
   
       em, i, strong, b {
         font-family: $fontFamilyItalic;
         font-style: normal;
-        font-size: 1.07em;
       }
     }
 }
