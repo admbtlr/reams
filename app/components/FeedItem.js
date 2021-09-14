@@ -569,7 +569,7 @@ class FeedItem extends React.Component {
   }
 
   stripEmptyTags (html) {
-    const pattern = new RegExp(/<[^\/<]+?>\s*?<\/.+?>/, 'g')
+    const pattern = new RegExp(/<[^\/<]+?>\s*?<\/\1>/, 'g')
     return html ? html.replace(pattern, '') : html
   }
 
