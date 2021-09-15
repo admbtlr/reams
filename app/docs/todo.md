@@ -1,8 +1,6 @@
 # To Do
 
 - some error is happening that stops stories from displaying
-- what's up with Sidecar URLs? they crash inappbrowser
-  - huh, the url is null
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
@@ -49,6 +47,7 @@
 
 # Done
 
+- ~~what's up with Sidecar URLs? they crash inappbrowser~~
 - ~~fix navigation after onboarding (remove onboarding Items screen)~~
 - ~~navgiation (should go straight to stories)~~
 - ~~scrollToOffset firing too soon~~
