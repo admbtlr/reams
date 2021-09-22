@@ -680,18 +680,15 @@ hr {
   .bodyFontSerif1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "LibreBaskerville-Bold"; }
-  .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "LibreBaskerville-Bold";
     color: var(--feed-color);
     font-size: 1.2em; }
-    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a b {
+    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "LibreBaskerville-BoldItalic";
       font-style: normal; }
+    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
@@ -710,18 +707,15 @@ hr {
   .bodyFontSans1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSans1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IBMPlexSans-Bold"; }
-  .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "IBMPlexSans-Bold";
     color: var(--feed-color);
     font-size: 1.2em; }
-    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a b {
+    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "IBMPlexSans-BoldItalic";
       font-style: normal; }
+    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif; }
@@ -739,18 +733,15 @@ hr {
   .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IowanOldStyle-Bold"; }
-  .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "IowanOldStyle-Bold";
     color: var(--feed-color);
     font-size: 1.2em; }
-    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a b {
+    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "IowanOldStyle-BoldItalic";
       font-style: normal; }
+    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif; }
@@ -768,18 +759,15 @@ hr {
   .bodyFontSans2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSans2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "AvenirNext-Bold"; }
-  .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "AvenirNext-Bold";
     color: var(--feed-color);
     font-size: 1.2em; }
-    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a b {
+    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "AvenirNext-BoldItalic";
       font-style: normal; }
+    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif", serif;
@@ -798,18 +786,15 @@ hr {
   .bodyFontSerif3 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif3 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IBMPlexSerif-Bold"; }
-  .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "IBMPlexSerif-Bold";
     color: var(--feed-color);
     font-size: 1.2em; }
-    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a b {
+    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "IBMPlexSerif-BoldItalic";
       font-style: normal; }
+    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold"; }
