@@ -55,7 +55,7 @@ class AccountScreen extends React.Component {
   componentDidUpdate (prevProps) {
     const { backend, isOnboarding } = this.props
     if (isOnboarding) {
-      this.props.navigation.push('Items')
+      this.redirectToItems()
     }    
     if (prevProps.backend === '' && backend !== '') {
       this.redirectToItems(true)
@@ -241,7 +241,11 @@ class AccountScreen extends React.Component {
               }
               { !backend &&
                 <HelpView title='Select your RSS service' style={{ marginTop: width * 0.05 }}>
-                  <Text style={ textTipStyles('white') }>You need an RSS service to use Reams. If you don’t have an account with one of the supported services, just use <Text style={ textTipStylesBold }>Reams Basic</Text>.</Text>
+                  <Text style={ textTipStyles('white') }>If you have an account with either Feedbin or Feed Wrangler, enter your login details below.</Text>
+                  <Text style={{ 
+                    ...textTipStyles('white'),
+                    marginTop: width * 0.05
+                  }}>Alternatively, you can just use Reams Basic.</Text>
                 </HelpView>
               }
               { /*!!backend && !hasFeeds && <HelpView title='Add some feeds' style={{ marginTop: width * 0.05 }}>

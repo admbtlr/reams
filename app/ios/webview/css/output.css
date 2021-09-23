@@ -895,6 +895,10 @@ html.onboarding {
   --bg: hsl(46, 23%, 83%);
   --text: hsl(300, 20%, 20%);
   font-size: calc(7vw); }
+  html.onboarding.onboarding-1 {
+    --text: white; }
+  html.onboarding.dark-background {
+    --text: hsl(300, 20%, 90%); }
   @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-max-device-pixel-ratio: 2) {
     html.onboarding {
       font-size: calc(4vw); } }
@@ -916,9 +920,11 @@ html.onboarding {
     background-image: url("/webview/img/onboarding-bg/onboarding-bg-1@3x.png");
     background-repeat: no-repeat;
     background-position-x: left;
-    background-position-y: 95%;
+    background-position-y: calc(100% - 50px);
     background-size: 100%;
     opacity: 0.5; }
+  html.onboarding.dark-background body::after {
+    opacity: 1; }
   html.onboarding.onboarding-1 body::after {
     background-image: url("/webview/img/onboarding-bg/onboarding-bg-2@3x.png"); }
   html.onboarding.onboarding-2 body::after {
@@ -998,8 +1004,9 @@ html.onboarding {
     width: 100%;
     bottom: 1rem;
     text-align: center;
-    font-size: 0.666rem;
-    font-family: IBMPlexMono; }
+    font-size: 0.5rem;
+    font-family: "IBMPlexSans-Italic";
+    color: var(--text); }
   html.onboarding img {
     display: block;
     margin: -1rem auto 1rem; }
@@ -1013,8 +1020,6 @@ html.onboarding.onboarding-1:not(.dark-background) body {
   background-color: var(--logo2); }
   html.onboarding.onboarding-1:not(.dark-background) body h1 {
     color: var(--bg); }
-  html.onboarding.onboarding-1:not(.dark-background) body p {
-    color: white; }
 
 html.onboarding.onboarding-2:not(.dark-background) body {
   background-color: var(--logo1); }
