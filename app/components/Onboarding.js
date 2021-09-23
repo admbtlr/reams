@@ -2,6 +2,8 @@ import React from 'react'
 import {Animated, Dimensions, Linking, Text, View} from 'react-native'
 import {WebView} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
+import { hslString } from '../utils/colors'
+
 
 import TextButton from './TextButton'
 
@@ -94,7 +96,7 @@ class Onboarding extends React.Component {
     return (
       <Animated.View
         style={{
-          // backgroundColor: bgColor,
+          backgroundColor: hslString('rizzleBG'),
           flex: 1,
           overflow: 'hidden',
           width: Dimensions.get('window').width
