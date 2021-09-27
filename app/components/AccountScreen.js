@@ -35,8 +35,7 @@ class AccountScreen extends React.Component {
     const { backend, displayMode, isOnboarding } = this.props
     if (isOnboarding) {
       this.props.navigation.push('Items')
-    }
-    if (backend) {
+    } else if (backend) {
       if (!gotoFeeds || displayMode === ItemType.saved) {
         this.props.navigation.push('Items')
       }
@@ -48,8 +47,10 @@ class AccountScreen extends React.Component {
   }
 
   componentDidMount () {
-    const { backend, displayMode, isOnboarding } = this.props
-
+    const { isOnboarding } = this.props
+    if (isOnboarding) {
+      this.redirectToItems()
+    }    
   }
 
   componentDidUpdate (prevProps) {
