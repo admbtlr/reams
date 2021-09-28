@@ -37,7 +37,7 @@ const initialState = {
 }
 
 const MAX_FONT_SIZE = 5
-const MIN_FONT_SIZE = 0
+const MIN_FONT_SIZE = 1
 
 export function ui (
   state: UIState = initialState, 
