@@ -72,9 +72,9 @@ export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => 
       }
     }
     try {
-      const filePath = __DEV__ ?
-        `file://${RNFS.DocumentDirectoryPath}/subscriptions.xmls` :
-        res.uri
+      // const filePath = __DEV__ ?
+      //   `file://${RNFS.DocumentDirectoryPath}/subscriptions.xmls` :
+      const filePath = res.uri
       const contents = await RNFS.readFile(filePath)
       const traverse = (o: any, feeds: Array<Feed>) => {
         let iterable = o
