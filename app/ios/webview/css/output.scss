@@ -336,7 +336,7 @@ body {
   z-index: 10;
   padding: 2rem 4vw 3rem;
   width: 100vw;
-  max-width: 22rem;
+  max-width: 25rem;
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
@@ -1404,7 +1404,7 @@ html.onboarding {
     background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
     background-repeat: no-repeat;
     background-position-x: left;
-    background-position-y: calc(100% - 50px);
+    background-position-y: calc(100% - 20px);
     background-size: 100%;
     opacity: 0.5;
   }
@@ -1439,6 +1439,10 @@ html.onboarding {
     @include se {
       margin-top: calc(40vh - 1rem);
     }
+  }
+
+  &.onboarding-1 .everything {
+    margin-top: calc(40vh - 1rem);
   }
 
   h1, h2 {
@@ -1487,7 +1491,6 @@ html.onboarding {
 
   &.onboarding-1 div.content {
     align-self: center;
-    width: 100%;
 
     p {
       text-align: center;
@@ -1509,7 +1512,6 @@ html.onboarding {
     font-size: 0.666rem;
     line-height: 1rem;
     margin: 0 0 1rem;
-    max-width: 15rem;
 
     strong {
       font-family: "IBMPlexSans-Bold";
