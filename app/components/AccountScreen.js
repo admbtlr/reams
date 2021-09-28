@@ -31,18 +31,25 @@ class AccountScreen extends React.Component {
     this.setExpandedBackend = this.setExpandedBackend.bind(this)
   }
 
-  redirectToItems (gotoFeeds = false) {
+  redirectToItems (gotoFeeds = false, useTimeout = false) {
     const { backend, displayMode, isOnboarding } = this.props
+    let args
     if (isOnboarding) {
-      this.props.navigation.push('Items')
+      args = ['Items']
     } else if (backend) {
       if (!gotoFeeds || displayMode === ItemType.saved) {
-        this.props.navigation.push('Items')
+        args = ['Items']
       }
-      this.props.navigation.push('Feeds', { 
+      args = ['Feeds', { 
         screen: 'Feeds Screen',
         params: { gotoItems: true }
-      })
+      }]
+    }
+    if (useTimeout) {
+      const func = this.props.navigation.push
+      setTimeout(() => func(...args), 300)
+    } else {
+      this.props.navigation.push(...args)
     }
   }
 
@@ -59,7 +66,7 @@ class AccountScreen extends React.Component {
       this.redirectToItems()
     }    
     if (prevProps.backend === '' && backend !== '') {
-      this.redirectToItems(true)
+      this.redirectToItems(true, true)
     }
   }
 
@@ -203,16 +210,7 @@ class AccountScreen extends React.Component {
               marginRight: getInset()
             }}>
               { !!backend &&
-                <Animated.View style={{
-                  transform: [
-                    // {
-                    //   translateY: this.scrollAnim.interpolate({
-                    //     inputRange: [-1, 0, 1],
-                    //     outputRange: [-1, 0, 0]
-                    //   })
-                    // }
-                  ]
-                }}>
+                <View>
                   <NavButton
                     hasBottomBorder={true}
                     hasTopBorder={true}
@@ -238,7 +236,7 @@ class AccountScreen extends React.Component {
                     text='Your Saved Stories'
                     viewStyle={{ paddingLeft: 5 }}
                   />
-                </Animated.View>
+                </View>
               }
               { !backend &&
                 <HelpView title='Select your RSS service' style={{ marginTop: width * 0.05 }}>

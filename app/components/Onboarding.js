@@ -68,6 +68,12 @@ class Onboarding extends React.Component {
       'bodyFontSans1'
     ][index]
 
+    const backgroundColor = [
+      'rizzleBG',
+      'logo2',
+      'logo1'
+    ][index]
+
     const html = `<html class="onboarding onboarding-${this.props.index} font-size-3 ${this.props.isDarkMode ? 'dark-background' : ''}">
       <head>
         <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
@@ -96,7 +102,7 @@ class Onboarding extends React.Component {
     return (
       <Animated.View
         style={{
-          backgroundColor: hslString('rizzleBG'),
+          backgroundColor: hslString(backgroundColor),
           flex: 1,
           overflow: 'hidden',
           width: Dimensions.get('window').width

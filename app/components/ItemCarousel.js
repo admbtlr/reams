@@ -408,7 +408,14 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
           marginBottom: 24 * fontSizeMultiplier(),
           marginLeft: 0,
           marginRight: 0
-        }}>This is the moment when you put down your phone and go outside for a bit. Or alternatively you could...</Text>
+        }}>This is the moment when you put down your phone and go outside for a bit.</Text> 
+        <Text style={{
+          ...textInfoStyle(),
+          fontSize: 18 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
+          marginLeft: 0,
+          marginRight: 0
+        }}>Or alternatively you could...</Text>
         <TextButton
           buttonStyle={{
             width: 'auto'

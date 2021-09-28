@@ -44,7 +44,7 @@ html.onboarding {
     left: 0;
     bottom: 0;
     right: 0;
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-1@3x.png");
+    background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
     background-repeat: no-repeat;
     background-position-x: left;
     background-position-y: calc(100% - 50px);
@@ -58,11 +58,11 @@ html.onboarding {
   }
 
   &.onboarding-1 body::after {
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-2@3x.png");
+    background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png");
   }
 
   &.onboarding-2 body::after {
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-3@3x.png");
+    background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png");
   }
 
   article, .everything {
