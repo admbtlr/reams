@@ -98,7 +98,7 @@ body {
   z-index: 10;
   padding: 2rem 4vw 3rem;
   width: 100vw;
-  max-width: 22rem;
+  max-width: 25rem;
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
@@ -920,7 +920,7 @@ html.onboarding {
     background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
     background-repeat: no-repeat;
     background-position-x: left;
-    background-position-y: calc(100% - 50px);
+    background-position-y: calc(100% - 20px);
     background-size: 100%;
     opacity: 0.5; }
   html.onboarding.dark-background body::after {
@@ -942,6 +942,8 @@ html.onboarding {
     @media only screen and (min-device-width: 320px) and (max-device-width: 376px) and (-webkit-max-device-pixel-ratio: 2) {
       html.onboarding .everything {
         margin-top: calc(40vh - 1rem); } }
+  html.onboarding.onboarding-1 .everything {
+    margin-top: calc(40vh - 1rem); }
   html.onboarding h1, html.onboarding h2 {
     color: var(--logo3);
     font-size: 2rem;
@@ -974,8 +976,7 @@ html.onboarding {
     html.onboarding div.content p {
       text-align: right; }
   html.onboarding.onboarding-1 div.content {
-    align-self: center;
-    width: 100%; }
+    align-self: center; }
     html.onboarding.onboarding-1 div.content p {
       text-align: center; }
   html.onboarding.onboarding-2 div.content {
@@ -988,8 +989,7 @@ html.onboarding {
     color: var(--text);
     font-size: 0.666rem;
     line-height: 1rem;
-    margin: 0 0 1rem;
-    max-width: 15rem; }
+    margin: 0 0 1rem; }
     html.onboarding p strong {
       font-family: "IBMPlexSans-Bold"; }
     html.onboarding p em {
