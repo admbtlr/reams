@@ -190,9 +190,14 @@ class AccountCredentialsForm extends React.Component {
                       accessibilityLabel={'Use Reams Basic'}
                       color={hslString('white')}
                       onPress={ () => {
-                        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+                        LayoutAnimation.configureNext({ 
+                          duration: 500, 
+                          create: { type: 'linear', property: 'opacity' }, 
+                          update: { type: 'spring', springDamping: 0.4 }, 
+                          delete: { duration: 100, type: 'linear', property: 'opacity' } 
+                        })
                         setBackend('basic')
-                        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+                        // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
                         this.setState({
                           isAuthenticated: true
                         })

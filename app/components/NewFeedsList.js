@@ -219,6 +219,7 @@ export default function NewFeedsList (props) {
                 ...textStyles(),
                 textDecorationLine: 'underline'
               }}
+              addFeeds={addFeeds}
             />
           </View>
           <Text style={{
