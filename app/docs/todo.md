@@ -1,5 +1,6 @@
 # To Do
 
+- onboarding in dark mode
 - some error is happening that stops stories from displaying
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
