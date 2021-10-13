@@ -57,14 +57,11 @@ export default class Rizzle extends Component<Props, State> {
     }, 5000)
   }
 
-  // https://www.ekreative.com/universal-linking-in-react-native-for-ios/
   async componentDidMount () {
-    // set up deep linking
     InteractionManager.setDeadline(100)
 
     await tf.ready()
-    console.log('Tensor Flow is ready')
-    
+    console.log('Tensor Flow is ready')    
   }
 
   render () {
