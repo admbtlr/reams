@@ -1,7 +1,8 @@
 # To Do
 
 - onboarding in dark mode
-- some error is happening that stops stories from displaying
+- body refreshes when isVisible = true
+  - see fix/item-body-component branch
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
