@@ -450,6 +450,9 @@ class FeedItem extends React.Component {
                   }
                 } else if (msg.substring(0,7) === 'resize:') {
                   that.updateWebViewHeight(parseInt(msg.substring(7)))
+                } else if (msg.substring(0, 7) === 'select:') {
+                  const selectedText = msg.substring(7)
+                  that.props.onTextSelection(selectedText)
                 }
               }}
               onNavigationStateChange={this.onNavigationStateChange}

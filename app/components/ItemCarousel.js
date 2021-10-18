@@ -62,6 +62,7 @@ class ItemCarousel extends React.Component {
     this.index = -1,
     this.items = []
     this.bufferIndex = -1
+    this.selectedText = undefined
 
     // this is an intermediate cache of clampedScrollAnims
     // once we have one for each bufferedItem, we put them into state
@@ -76,6 +77,7 @@ class ItemCarousel extends React.Component {
     this.decrementIndex = this.decrementIndex.bind(this)
     this.incrementIndex = this.incrementIndex.bind(this)
     this.openFeedModal = this.openFeedModal.bind(this)
+    this.onTextSelection = this.onTextSelection.bind(this)
     this.launchBrowser = this.launchBrowser.bind(this)
     this.showShareSheet = this.showShareSheet.bind(this)
     this.setPanAnim = this.setPanAnim.bind(this)
@@ -159,6 +161,7 @@ class ItemCarousel extends React.Component {
     const lastIndex = this.index
     this.index = index
     this.bufferIndex = bufferIndex
+    this.selectedText = undefined
     this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
@@ -204,13 +207,16 @@ class ItemCarousel extends React.Component {
     const item = this.bufferedItems[this.bufferIndex]
     if (this.props.isOnboarding || !item) return
     ActionSheetIOS.showShareActionSheetWithOptions({
-      url: item.url
-    },
-    (error) => {
-      console.error(error)
-    },
-    (success, method) => {
-    })
+        url: item.url,
+        message: this.selectedText,
+        title: item.title
+      },
+      (error) => {
+        console.error(error)
+      },
+      (success, method) => {
+      }
+    )
   }
 
   async launchBrowser () {
@@ -253,6 +259,10 @@ class ItemCarousel extends React.Component {
     // if (item) {
     //   item.scrollManager.onScrollEnd(scrollOffset)
     // }
+  }
+
+  onTextSelection (selectedText) {
+    this.selectedText = selectedText
   }
 
   setClampedScrollAnimSetterAndListener (clampedScrollAnimSetter, clampedScrollAnimListener) {
@@ -302,6 +312,7 @@ class ItemCarousel extends React.Component {
             setPanAnim={this.setPanAnim}
             setScrollAnim={this.setScrollAnim}
             onScrollEnd={this.onScrollEnd}
+            onTextSelection={this.onTextSelection}
           />
           { !isItemsOnboardingDone &&
             !isOnboarding &&

@@ -103,6 +103,7 @@ class SwipeableViews extends Component {
         key={_id}
         setScrollAnim={this.props.setScrollAnim}
         onScrollEnd={this.props.onScrollEnd}
+        onTextSelection={this.props.onTextSelection}
         isVisible={isVisible}
         panAnim={panAnim}
         renderDate={Date.now()} // make sure child components get re-rendered
