@@ -14,6 +14,7 @@ import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
 import {hslString} from '../utils/colors'
 import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
+import log from '../utils/log'
 
 
 class Share extends React.Component {
@@ -135,8 +136,16 @@ class Share extends React.Component {
       url: this.state.data,
       title: this.state.title
     }
-    const raw = await SharedGroupPreferences.getItem('page', this.group)
-    const pages = JSON.parse(raw) || []
+    console.log(this.group)
+    let pages = []
+    try {
+      const raw = await SharedGroupPreferences.getItem('page', this.group)
+      pages = raw ? JSON.parse(raw) : []
+    } catch(error) {
+      if (error !== 1) {
+        log('savePage', error)
+      }
+    }
     pages.push(page)
     await SharedGroupPreferences.setItem('page', JSON.stringify(pages), this.group)
     this.onClose()
