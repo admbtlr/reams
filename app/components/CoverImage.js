@@ -12,6 +12,7 @@ import {
 
 import { hslString } from '../utils/colors'
 import { STATUS_BAR_HEIGHT } from './TopBar'
+import log from '../utils/log'
 
 class CoverImage extends React.Component {
   constructor (props) {
@@ -92,6 +93,10 @@ class CoverImage extends React.Component {
       // I should be fixing the root cause of this, but :shrug:
       // I think it happens when a visible item gets mercuried 
       // this is just a stopgap solution
+      log('Render Cover Image', {
+        name: 'Render Cover Image error', 
+        message: 'Some part of imageDimensions is zero or null: ' + JSON.stringify(imageDimensions)
+      })
       return <View style={inline} />
     }
     const position = isInline ? inline : absolute
