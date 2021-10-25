@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import * as Sentry from '@sentry/react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
+import {decode} from 'html-entities'
 
 import TextButton from './TextButton'
 import AnimatedEllipsis from './AnimatedEllipsis'
@@ -77,8 +78,6 @@ class Share extends React.Component {
       .catch(e => console.log(e))
   }
 
-  decodeEntities = str => str.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
-
   async getPageTitle(url) {
     fetch(url)
       .then(res => {
@@ -88,7 +87,7 @@ class Share extends React.Component {
         const found = text.match(/\<title.*?\>(.*?)\<\/title/)
         if (found && found.length > 1) {
           this.setState({
-            title: this.decodeEntities(found[1])
+            title: decode(found[1])
           })  
         }
       })
