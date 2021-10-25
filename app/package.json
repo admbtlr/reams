@@ -33,6 +33,7 @@
     "formik": "^1.4.2",
     "fuzzball": "^1.2.2",
     "headline-quotes": "^2.1.1",
+    "html-entities": "^2.3.2",
     "install": "^0.13.0",
     "lz-string": "^1.4.4",
     "moment": "^2.22.2",
