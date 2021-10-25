@@ -211,7 +211,8 @@ export function itemsSaved (
 
     case ITEM_DECORATION_SUCCESS:
       if (!action.isSaved) return state
-      let newState = itemDecorationSuccess(action, state, action.displayMode === 'saved')
+      // I'm setting isCurrentDisplayMode to false because I always want saved external items to re-render
+      let newState = itemDecorationSuccess(action, state, false)
       newState.items.sort((a: Item, b: Item) => ((b.savedAt || 0) - (a.savedAt || 0)))
       return newState
 

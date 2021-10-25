@@ -186,7 +186,7 @@ export function * decorateItem (item) {
 
   consoleLog(`Loading Mercury stuff for ${item._id} done`)
   if (mercuryStuff.lead_image_url) {
-    let coverImageFile = yield cacheCoverImage(item, mercuryStuff.lead_image_url)
+    let coverImageFile = yield call (cacheCoverImage, item, mercuryStuff.lead_image_url)
     if (coverImageFile) {
       try {
         const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
@@ -202,7 +202,7 @@ export function * decorateItem (item) {
     }
   }
 
-  if (imageStuff.imageDimensions) {
+  if (imageStuff.imageDimensions && imageStuff.imageDimensions.width) {
     if (!!item.title &&
       ((
         Math.random() > 0.5 &&

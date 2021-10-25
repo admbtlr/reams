@@ -59,10 +59,12 @@ export function * saveExternalUrl (action) {
         isSaved: true
       })
     } else {
+      const displayMode = yield select(getDisplay)
       yield put({
         type: ITEM_DECORATION_SUCCESS,
         ...decoration,
-        isSaved: true
+        isSaved: true,
+        displayMode
       })
 
       // got to go back and find it cos of dodgy reducer side effects
