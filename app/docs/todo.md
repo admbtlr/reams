@@ -1,5 +1,5 @@
-# To Do
 
+- is this what makes TF crash? https://github.com/facebook/flipper/issues/834
 - onboarding in dark mode
 - body refreshes when isVisible = true
   - see fix/item-body-component branch
