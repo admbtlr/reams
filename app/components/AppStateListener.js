@@ -163,7 +163,7 @@ class AppStateListener extends React.Component {
 
   savePage (page) {
     console.log(`Saving page: ${page.url}`)
-    this.props.saveURL(page.url)
+    this.props.saveURL(page.url, page.title)
     this.props.addMessage('Saved page: ' + (page.title ?? page.url))
   }
 
