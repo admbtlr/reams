@@ -33,10 +33,11 @@ const mapDispatchToProps = (dispatch) => {
       type: FETCH_ITEMS
     }),
     updateCurrentAppState: (state) => dispatch(updateCurrentAppState(state)),
-    saveURL: (url) => {
+    saveURL: (url, title) => {
       dispatch({
         type: SAVE_EXTERNAL_URL,
-        url
+        url,
+        title
       })
       dispatch({
         type: SET_DISPLAY_MODE,

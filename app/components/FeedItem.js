@@ -218,10 +218,7 @@ class FeedItem extends React.Component {
     } = this.props
     let {
       title,
-      content_html,
-      content_mercury,
       faceCentreNormalised,
-      feed_color,
       hasCoverImage,
       imageDimensions,
       showCoverImage,
