@@ -60,6 +60,10 @@ class AppStateListener extends React.Component {
   async checkClipboard () {
     console.log('Checking clipboard')
     try {
+      const hasUrl = await Clipboard.hasURL()
+      if (!hasUrl) {
+        return
+      }
       let contents = await Clipboard.getString() ?? ''
       // TODO make this more robust
       // right now we're ignoring any URLs that include 'rizzle.net'
