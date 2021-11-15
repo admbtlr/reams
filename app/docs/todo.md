@@ -1,8 +1,6 @@
 
-- is this what makes TF crash? https://github.com/facebook/flipper/issues/834
+- the nav snafu
 - onboarding in dark mode
-- body refreshes when isVisible = true
-  - see fix/item-body-component branch
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
@@ -49,6 +47,8 @@
 
 # Done
 
+- ~~is this what makes TF crash? https://github.com/facebook/flipper/issues/834~~
+- ~~body refreshes when isVisible = true~~
 - ~~what's up with Sidecar URLs? they crash inappbrowser~~
 - ~~fix navigation after onboarding (remove onboarding Items screen)~~
 - ~~navgiation (should go straight to stories)~~
