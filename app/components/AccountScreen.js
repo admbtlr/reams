@@ -39,17 +39,24 @@ class AccountScreen extends React.Component {
     } else if (backend) {
       if (!gotoFeeds || displayMode === ItemType.saved) {
         args = ['Items']
+      } else if (gotoFeeds) {
+        args = ['Feeds', 'Items', 'Feeds']
+      } else {
+        args = ['Feeds', 'Items']
       }
-      args = ['Feeds', { 
-        screen: 'Feeds Screen',
-        params: { gotoItems: true }
-      }]
     }
+
+    const setNav = (navigation, args) => {
+      if (navigation.canGoBack()) {
+        navigation.popToTop()
+      }
+      args.forEach(arg => navigation.navigate(arg))
+    }
+
     if (useTimeout) {
-      const func = this.props.navigation.push
-      setTimeout(() => func(...args), 300)
+      setTimeout(() => setNav(this.props.navigation, args), 300)
     } else {
-      this.props.navigation.push(...args)
+      setNav(this.props.navigation, args)
     }
   }
 
@@ -63,7 +70,7 @@ class AccountScreen extends React.Component {
   componentDidUpdate (prevProps) {
     const { backend, isOnboarding } = this.props
     if (isOnboarding) {
-      this.redirectToItems()
+      // this.redirectToItems()
     }    
     if (prevProps.backend === '' && backend !== '') {
       this.redirectToItems(true, true)

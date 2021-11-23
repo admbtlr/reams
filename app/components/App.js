@@ -4,6 +4,7 @@ import {
   HeaderStyleInterpolators,
   TransitionPresets 
 } from '@react-navigation/stack'
+import { useSelector } from 'react-redux'
 
 import ItemsScreen from './ItemsScreen'
 import AccountScreenContainer from '../containers/AccountScreen'
@@ -108,56 +109,60 @@ const Feeds = () => (
   </FeedsStack.Navigator>
 )
 
-const Main = () => (
-  <MainStack.Navigator
-    // headerMode='screen'
-    initialRouteName='Account'
-    options={{
-      gesturesEnabled: false
-    }}
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: hslString('rizzleBG'),
-        height: STATUS_BAR_HEIGHT,
-        // https://github.com/react-navigation/react-navigation/issues/6899
-        shadowOffset: { height: 0, width: 0 }
-      },
-      headerTintColor: hslString('rizzleText'),
-      headerTitleStyle: {
-        color: hslString('rizzleText'),
-        fontFamily: 'PTSerif-Bold',
-        fontSize: 32 * fontSizeMultiplier(),
-        lineHeight: 36 * fontSizeMultiplier(),
-      },
-      headerBackTitleStyle: {
-        color: hslString('rizzleText'),
-        fontFamily: 'IBMPlexSans'
-      }
-    }}
-  >
-    <MainStack.Screen
-      name='Account'
-      component={AccountScreenContainer}
+const Main = () => {
+  const isOnboarding = useSelector(state => state.config.isOnboarding)
+  return (
+    <MainStack.Navigator
+      // headerMode='screen'
+      initialRouteName='Account'
       options={{
-        title: 'Your Account',
-        headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
-        headerBackImage: getRizzleButtonIcon('account'),
-      }} />
-    <MainStack.Screen
-      name='Feeds'
-      component={Feeds}
-      options={{
-        title: 'Your Feeds',
-        headerStyleInterpolator: HeaderStyleInterpolators.forUIKit
-      }} />
-    <MainStack.Screen
-      name='Items'
-      component={ItemsScreen}
-      options={{
-        headerShown: false
-      }} />
-  </MainStack.Navigator>
-)
+        gesturesEnabled: false
+      }}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: hslString('rizzleBG'),
+          height: STATUS_BAR_HEIGHT,
+          // https://github.com/react-navigation/react-navigation/issues/6899
+          shadowOffset: { height: 0, width: 0 }
+        },
+        headerTintColor: hslString('rizzleText'),
+        headerTitleStyle: {
+          color: hslString('rizzleText'),
+          fontFamily: 'PTSerif-Bold',
+          fontSize: 32 * fontSizeMultiplier(),
+          lineHeight: 36 * fontSizeMultiplier(),
+        },
+        headerBackTitleStyle: {
+          color: hslString('rizzleText'),
+          fontFamily: 'IBMPlexSans'
+        }
+      }}
+    >
+      <MainStack.Screen
+        name='Account'
+        component={AccountScreenContainer}
+        options={{
+          title: 'Your Account',
+          headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
+          headerBackImage: getRizzleButtonIcon('account'),
+        }} />
+      <MainStack.Screen
+        name='Feeds'
+        component={Feeds}
+        options={{
+          title: 'Your Feeds',
+          headerStyleInterpolator: HeaderStyleInterpolators.forUIKit
+        }} />
+      <MainStack.Screen
+        name='Items'
+        component={ItemsScreen}
+        options={{
+          gestureEnabled: !isOnboarding,
+          headerShown: false
+        }} />
+    </MainStack.Navigator>
+  )
+}
 
 export default App = () => {
   return (
