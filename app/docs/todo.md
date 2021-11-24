@@ -1,5 +1,5 @@
 
-- the nav snafu
+- why do saved external items render twice?
 - onboarding in dark mode
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
@@ -47,6 +47,8 @@
 
 # Done
 
+- ~~why does saving external items only work sometimes?~~
+- ~~the nav snafu~~
 - ~~is this what makes TF crash? https://github.com/facebook/flipper/issues/834~~
 - ~~body refreshes when isVisible = true~~
 - ~~what's up with Sidecar URLs? they crash inappbrowser~~
