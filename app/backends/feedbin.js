@@ -1,10 +1,14 @@
 import {decode, encode} from 'base-64'
+import EncryptedStorage from 'react-native-encrypted-storage'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
 
 let credentials = {}
 
-export function init ({ username, password }) {
+export async function init ({ username, password }) {
+  if (!password) {
+    password = await EncryptedStorage.getItem("feedbin_password")    
+  }
   credentials = { username, password }
 }
 

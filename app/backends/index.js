@@ -1,13 +1,11 @@
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
-import { mergeItems, id } from '../utils/merge-items'
-import moment from 'moment'
 import log from '../utils/log'
 
 const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
 const rizzle = require('./rizzle')
 
-const group = 'group.com.adam-butler.rizzle'
+// const group = 'group.com.adam-butler.rizzle'
 
 const MAX_ITEMS_TO_DOWNLOAD = 5000
 
@@ -20,10 +18,10 @@ let backends = {
   plus: rizzle
 }
 
-export function setBackend (bcknd, config = {}) {
+export async function setBackend (bcknd, config = {}) {
   backend = bcknd
   backends[backend].init(config)
-  SharedGroupPreferences.setItem('backend', backend, group)
+  // SharedGroupPreferences.setItem('backend', backend, group)
 }
 
 export function unsetBackend () {

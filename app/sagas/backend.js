@@ -54,7 +54,7 @@ export function * initBackend (action) {
         getFirebase,
         uid
       } : {}
-    setBackend(backend, backendConfig)
+      yield call(setBackend, backend, backendConfig)
 
     if (isNew) {
       // set the user details
@@ -70,7 +70,7 @@ export function * initBackend (action) {
       const { username, password } = yield select(getUser)
       backendConfig = { username, password }
     }
-    setBackend(backend, backendConfig)
+    yield call(setBackend, backend, backendConfig)
   }
 }
 
