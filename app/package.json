@@ -49,6 +49,7 @@
     "react-native-deep-linking": "^2.2.0",
     "react-native-device-info": "^5.5.5",
     "react-native-document-picker": "^3.5.2",
+    "react-native-encrypted-storage": "^4.0.2",
     "react-native-forage": "^0.5.5",
     "react-native-fs": "2.15.2",
     "react-native-gesture-handler": "^1.6.1",
