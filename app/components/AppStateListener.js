@@ -40,6 +40,8 @@ class AppStateListener extends React.Component {
   }
 
   async handleAppStateChange (nextAppState) {
+    console.log('NEXT APP STATE: ' + nextAppState)
+    console.log('PREV APP STATE: ' + this.props.appState)
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.props.appWentActive()
       this.setState({
@@ -83,6 +85,7 @@ class AppStateListener extends React.Component {
 
   async checkPageBucket () {
     SharedGroupPreferences.getItem('page', this.group).then(value => {
+      console.log('CHECKING PAGE BUCKET: ' + value)
       if (value !== null) {
         SharedGroupPreferences.setItem('page', null, this.group)
         const parsed = JSON.parse(value)
@@ -92,7 +95,10 @@ class AppStateListener extends React.Component {
         console.log(`Got ${pages.length} page${pages.length === 1 ? '' : 's'} to save`)
         const that = this
         pages.forEach(page => {
-          that.savePage.call(that, page)
+          // ugh, need a timeout to allow for rehydration
+          setTimeout(() => {
+            that.savePage.call(that, page)
+          }, 100)
         })
       }
     }).catch(err => {
