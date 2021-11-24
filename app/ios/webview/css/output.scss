@@ -993,13 +993,13 @@ hr {
   }
 
   strong em, em strong, b i, i b {
-    font-family: "LibreBaskerville-BoldItalic", sans-serif;
+    font-family: "LibreBaskerville-Italic", sans-serif;
     font-style: normal;
     font-weight: normal;
   }
 
   @include firstLineFontFamily("LibreBaskerville-Bold");
-  @include firstShortParaBold("LibreBaskerville-Bold", "LibreBaskerville-BoldItalic")
+  @include firstShortParaBold("LibreBaskerville-Bold", "LibreBaskerville-Italic")
 }
 
 .bodyFontSans1 {

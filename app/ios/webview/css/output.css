@@ -673,7 +673,7 @@ hr {
     font-family: "LibreBaskerville-Bold";
     font-weight: normal; }
   .bodyFontSerif1 strong em, .bodyFontSerif1 em strong, .bodyFontSerif1 b i, .bodyFontSerif1 i b {
-    font-family: "LibreBaskerville-BoldItalic", sans-serif;
+    font-family: "LibreBaskerville-Italic", sans-serif;
     font-style: normal;
     font-weight: normal; }
   .bodyFontSerif1 .itemArticle > p:not(.short-para):first-of-type:first-line,
@@ -685,7 +685,7 @@ hr {
     color: var(--feed-color);
     font-size: 1.2em; }
     .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) b {
-      font-family: "LibreBaskerville-BoldItalic";
+      font-family: "LibreBaskerville-Italic";
       font-style: normal; }
     .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a {
       color: var(--feed-color); }
