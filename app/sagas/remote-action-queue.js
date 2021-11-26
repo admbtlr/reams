@@ -10,7 +10,7 @@ import { deleteItemsAS, updateItemAS } from '../storage/async-storage'
 import { removeCachedCoverImages } from '../utils/item-utils'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
 
-const INITIAL_INTERVAL = 20000
+const INITIAL_INTERVAL = 5000
 let interval = INITIAL_INTERVAL
 
 export function * executeRemoteActions () {
