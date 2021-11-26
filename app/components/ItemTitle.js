@@ -564,7 +564,7 @@ class ItemTitle extends React.Component {
     const outerViewStyle = {
       width: this.screenWidth,
       height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
-      paddingTop: coverImageStyles.isInline ? 
+      paddingTop: showCoverImage && coverImageStyles.isInline ? 
         0 : 
         showCoverImage ? 
           getTopBarHeight() + this.screenHeight * 0.2 :
@@ -724,7 +724,11 @@ class ItemTitle extends React.Component {
             <Animated.Text style={{
               ...fontStyle,
               ...shadowStyle,
-              marginBottom: this.props.styles.isUpperCase ? fontSize * -0.3 : 0
+              marginBottom: this.props.styles.isUpperCase ? fontSize * -0.3 : 0,
+              // ensure top of apostrophes, quotes and i dots are not cut off
+              paddingTop: typeof fontStyle.padding === 'number' ? 
+                fontStyle.paddingTop + 10 : 10,
+              marginTop: -10
             }}>
               <Animated.Text>{this.renderedTitle}</Animated.Text>
             </Animated.Text>
