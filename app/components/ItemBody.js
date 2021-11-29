@@ -197,4 +197,4 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showIm
 
 })
 
-ItemBody.whyDidYouRender = true
+// ItemBody.whyDidYouRender = true

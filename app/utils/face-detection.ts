@@ -26,7 +26,7 @@ export async function faceDetection (imageFileName: string, dimensions: dimensio
 
     faces = await tfModel.estimateFaces(imageTensor)
     await FileSystem.deleteAsync(resized)
-    console.log(faces)  
+    // console.log(faces)  
   } catch (e) {
     log(e)
     return
