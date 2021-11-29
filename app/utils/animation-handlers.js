@@ -65,7 +65,6 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
   initiated = true
   scrollAnim = feedItemScrollAnim
   resetAnim = new Animated.Value(resetValue)
-  console.log('Getting Clamped Scroll Anim: ' + scrollAnim._value)
   const scrollAnimNoNeg = scrollAnim.interpolate({
     inputRange: [-1, 0, 1],
     outputRange: [0, 0, 1]

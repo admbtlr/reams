@@ -45,15 +45,10 @@ class SwipeableViews extends Component {
   }
 
   updateIndex (newIndex) {
-    const {decrementIndex, incrementIndex} = this.props
+    const {updateCarouselIndex} = this.props
     const indexDelta = newIndex - this.currentIndex
     if (indexDelta !== 0) {
-      const child = this.children[newIndex]
-      if (indexDelta > 0) {
-        incrementIndex()
-      } else {
-        decrementIndex()
-      }
+      updateCarouselIndex(newIndex)
       this.currentIndex = newIndex
     }
   }

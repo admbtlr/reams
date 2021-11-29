@@ -74,8 +74,7 @@ class ItemCarousel extends React.Component {
     }
 
     this.onChangeIndex = this.onChangeIndex.bind(this)
-    this.decrementIndex = this.decrementIndex.bind(this)
-    this.incrementIndex = this.incrementIndex.bind(this)
+    this.updateCarouselIndex = this.updateCarouselIndex.bind(this)
     this.openFeedModal = this.openFeedModal.bind(this)
     this.onTextSelection = this.onTextSelection.bind(this)
     this.launchBrowser = this.launchBrowser.bind(this)
@@ -156,6 +155,11 @@ class ItemCarousel extends React.Component {
     this.setIndex(this.index - 1, this.bufferIndex - 1)
   }
 
+  updateCarouselIndex (bufferIndex) {
+    const diff = bufferIndex - this.bufferIndex
+    this.setIndex(this.index + diff, bufferIndex)
+  }
+
   setIndex (index, bufferIndex) {
     this.incomingIndex = index
     const lastIndex = this.index
@@ -163,6 +167,7 @@ class ItemCarousel extends React.Component {
     this.bufferIndex = bufferIndex
     this.selectedText = undefined
     this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
+    console.log('setIndex', this.index, this.bufferIndex)
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
@@ -303,8 +308,6 @@ class ItemCarousel extends React.Component {
       return (
         <Fragment>
           <SwipeableViews
-            incrementIndex={this.incrementIndex}
-            decrementIndex={this.decrementIndex}
             index={index === 0 ? 0 : 1}
             items={this.bufferedItems}
             isOnboarding={isOnboarding}
@@ -313,6 +316,7 @@ class ItemCarousel extends React.Component {
             setScrollAnim={this.setScrollAnim}
             onScrollEnd={this.onScrollEnd}
             onTextSelection={this.onTextSelection}
+            updateCarouselIndex={this.updateCarouselIndex}
           />
           { !isItemsOnboardingDone &&
             !isOnboarding &&
