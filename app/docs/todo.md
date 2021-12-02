@@ -1,5 +1,5 @@
 
-- why do saved external items render twice?
+- why do saved external items (sometimes) render twice?
 - onboarding in dark mode
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
