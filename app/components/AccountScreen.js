@@ -37,7 +37,7 @@ class AccountScreen extends React.Component {
     if (isOnboarding) {
       args = ['Items']
     } else if (backend) {
-      if (!gotoFeeds || displayMode === ItemType.saved) {
+      if (displayMode === ItemType.saved) {
         args = ['Items']
       } else if (gotoFeeds) {
         args = ['Feeds', 'Items', 'Feeds']
@@ -73,7 +73,7 @@ class AccountScreen extends React.Component {
       // this.redirectToItems()
     }    
     if (prevProps.backend === '' && backend !== '') {
-      this.redirectToItems(true, true)
+      this.redirectToItems(false, true)
     }
   }
 
