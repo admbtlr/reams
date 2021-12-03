@@ -31,34 +31,49 @@ class AccountScreen extends React.Component {
     this.setExpandedBackend = this.setExpandedBackend.bind(this)
   }
 
-  redirectToItems (gotoFeeds = false) {
+  redirectToItems (gotoFeeds = false, useTimeout = false) {
     const { backend, displayMode, isOnboarding } = this.props
+    let args
     if (isOnboarding) {
-      this.props.navigation.push('Items')
-    }
-    if (backend) {
-      if (!gotoFeeds || displayMode === ItemType.saved) {
-        this.props.navigation.push('Items')
+      args = ['Items']
+    } else if (backend) {
+      if (displayMode === ItemType.saved) {
+        args = ['Items']
+      } else if (gotoFeeds) {
+        args = ['Feeds', 'Items', 'Feeds']
+      } else {
+        args = ['Feeds', 'Items']
       }
-      this.props.navigation.push('Feeds', { 
-        screen: 'Feeds Screen',
-        params: { gotoItems: true }
-      })
+    }
+
+    const setNav = (navigation, args) => {
+      if (navigation.canGoBack()) {
+        navigation.popToTop()
+      }
+      args.forEach(arg => navigation.navigate(arg))
+    }
+
+    if (useTimeout) {
+      setTimeout(() => setNav(this.props.navigation, args), 300)
+    } else {
+      setNav(this.props.navigation, args)
     }
   }
 
   componentDidMount () {
-    const { backend, displayMode, isOnboarding } = this.props
-
+    const { isOnboarding } = this.props
+    if (isOnboarding) {
+      this.redirectToItems()
+    }    
   }
 
   componentDidUpdate (prevProps) {
     const { backend, isOnboarding } = this.props
     if (isOnboarding) {
-      this.props.navigation.push('Items')
+      // this.redirectToItems()
     }    
     if (prevProps.backend === '' && backend !== '') {
-      this.redirectToItems(true)
+      this.redirectToItems(false, true)
     }
   }
 
@@ -202,16 +217,7 @@ class AccountScreen extends React.Component {
               marginRight: getInset()
             }}>
               { !!backend &&
-                <Animated.View style={{
-                  transform: [
-                    // {
-                    //   translateY: this.scrollAnim.interpolate({
-                    //     inputRange: [-1, 0, 1],
-                    //     outputRange: [-1, 0, 0]
-                    //   })
-                    // }
-                  ]
-                }}>
+                <View>
                   <NavButton
                     hasBottomBorder={true}
                     hasTopBorder={true}
@@ -237,11 +243,15 @@ class AccountScreen extends React.Component {
                     text='Your Saved Stories'
                     viewStyle={{ paddingLeft: 5 }}
                   />
-                </Animated.View>
+                </View>
               }
               { !backend &&
                 <HelpView title='Select your RSS service' style={{ marginTop: width * 0.05 }}>
-                  <Text style={ textTipStyles('white') }>You need an RSS service to use Reams. If you don’t have an account with one of the supported services, just use <Text style={ textTipStylesBold }>Reams Basic</Text>.</Text>
+                  <Text style={ textTipStyles('white') }>If you have an account with either Feedbin or Feed Wrangler, enter your login details below.</Text>
+                  <Text style={{ 
+                    ...textTipStyles('white'),
+                    marginTop: width * 0.05
+                  }}>Alternatively, you can just use Reams Basic.</Text>
                 </HelpView>
               }
               { /*!!backend && !hasFeeds && <HelpView title='Add some feeds' style={{ marginTop: width * 0.05 }}>

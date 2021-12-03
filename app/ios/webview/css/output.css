@@ -98,7 +98,7 @@ body {
   z-index: 10;
   padding: 2rem 4vw 3rem;
   width: 100vw;
-  max-width: 22rem;
+  max-width: 24rem;
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
@@ -673,25 +673,22 @@ hr {
     font-family: "LibreBaskerville-Bold";
     font-weight: normal; }
   .bodyFontSerif1 strong em, .bodyFontSerif1 em strong, .bodyFontSerif1 b i, .bodyFontSerif1 i b {
-    font-family: "LibreBaskerville-BoldItalic", sans-serif;
+    font-family: "LibreBaskerville-Italic", sans-serif;
     font-style: normal;
     font-weight: normal; }
   .bodyFontSerif1 .itemArticle > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "LibreBaskerville-Bold"; }
-  .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "LibreBaskerville-Bold";
-    color: var(--feed-color); }
-    .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSerif1 p:first-of-type.short-para:not(.ends-with-colon) a b {
-      font-family: "LibreBaskerville-BoldItalic";
-      font-style: normal;
-      font-size: 1.07em; }
+    color: var(--feed-color);
+    font-size: 1.2em; }
+    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) b {
+      font-family: "LibreBaskerville-Italic";
+      font-style: normal; }
+    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
@@ -710,18 +707,15 @@ hr {
   .bodyFontSans1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSans1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IBMPlexSans-Bold"; }
-  .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "IBMPlexSans-Bold";
-    color: var(--feed-color); }
-    .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSans1 p:first-of-type.short-para:not(.ends-with-colon) a b {
+    color: var(--feed-color);
+    font-size: 1.2em; }
+    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "IBMPlexSans-BoldItalic";
-      font-style: normal;
-      font-size: 1.07em; }
+      font-style: normal; }
+    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .bodyFontSerif2 {
   font-family: "Iowan Old Style", serif; }
@@ -739,18 +733,15 @@ hr {
   .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IowanOldStyle-Bold"; }
-  .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "IowanOldStyle-Bold";
-    color: var(--feed-color); }
-    .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSerif2 p:first-of-type.short-para:not(.ends-with-colon) a b {
+    color: var(--feed-color);
+    font-size: 1.2em; }
+    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "IowanOldStyle-BoldItalic";
-      font-style: normal;
-      font-size: 1.07em; }
+      font-style: normal; }
+    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .bodyFontSans2 {
   font-family: "AvenirNext-Regular", serif; }
@@ -768,18 +759,15 @@ hr {
   .bodyFontSans2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSans2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "AvenirNext-Bold"; }
-  .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "AvenirNext-Bold";
-    color: var(--feed-color); }
-    .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSans2 p:first-of-type.short-para:not(.ends-with-colon) a b {
+    color: var(--feed-color);
+    font-size: 1.2em; }
+    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "AvenirNext-BoldItalic";
-      font-style: normal;
-      font-size: 1.07em; }
+      font-style: normal; }
+    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif", serif;
@@ -798,18 +786,15 @@ hr {
   .bodyFontSerif3 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif3 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
     font-family: "IBMPlexSerif-Bold"; }
-  .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon),
-  .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) a {
+  .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) {
     font-family: "IBMPlexSerif-Bold";
-    color: var(--feed-color); }
-    .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) b,
-    .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) a em,
-    .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) a i,
-    .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) a strong,
-    .bodyFontSerif3 p:first-of-type.short-para:not(.ends-with-colon) a b {
+    color: var(--feed-color);
+    font-size: 1.2em; }
+    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) b {
       font-family: "IBMPlexSerif-BoldItalic";
-      font-style: normal;
-      font-size: 1.07em; }
+      font-style: normal; }
+    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a {
+      color: var(--feed-color); }
 
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold"; }
@@ -910,6 +895,10 @@ html.onboarding {
   --bg: hsl(46, 23%, 83%);
   --text: hsl(300, 20%, 20%);
   font-size: calc(7vw); }
+  html.onboarding.onboarding-1 {
+    --text: white; }
+  html.onboarding.dark-background {
+    --text: hsl(300, 20%, 90%); }
   @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-max-device-pixel-ratio: 2) {
     html.onboarding {
       font-size: calc(4vw); } }
@@ -928,16 +917,18 @@ html.onboarding {
     left: 0;
     bottom: 0;
     right: 0;
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-1@3x.png");
+    background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
     background-repeat: no-repeat;
     background-position-x: left;
-    background-position-y: 95%;
+    background-position-y: calc(100% - 20px);
     background-size: 100%;
     opacity: 0.5; }
+  html.onboarding.dark-background body::after {
+    opacity: 1; }
   html.onboarding.onboarding-1 body::after {
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-2@3x.png"); }
+    background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png"); }
   html.onboarding.onboarding-2 body::after {
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-3@3x.png"); }
+    background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png"); }
   html.onboarding article, html.onboarding .everything {
     padding: 0 1rem;
     margin-bottom: 0;
@@ -951,6 +942,8 @@ html.onboarding {
     @media only screen and (min-device-width: 320px) and (max-device-width: 376px) and (-webkit-max-device-pixel-ratio: 2) {
       html.onboarding .everything {
         margin-top: calc(40vh - 1rem); } }
+  html.onboarding.onboarding-1 .everything {
+    margin-top: calc(40vh - 1rem); }
   html.onboarding h1, html.onboarding h2 {
     color: var(--logo3);
     font-size: 2rem;
@@ -983,8 +976,7 @@ html.onboarding {
     html.onboarding div.content p {
       text-align: right; }
   html.onboarding.onboarding-1 div.content {
-    align-self: center;
-    width: 100%; }
+    align-self: center; }
     html.onboarding.onboarding-1 div.content p {
       text-align: center; }
   html.onboarding.onboarding-2 div.content {
@@ -997,8 +989,7 @@ html.onboarding {
     color: var(--text);
     font-size: 0.666rem;
     line-height: 1rem;
-    margin: 0 0 1rem;
-    max-width: 15rem; }
+    margin: 0 0 1rem; }
     html.onboarding p strong {
       font-family: "IBMPlexSans-Bold"; }
     html.onboarding p em {
@@ -1013,8 +1004,9 @@ html.onboarding {
     width: 100%;
     bottom: 1rem;
     text-align: center;
-    font-size: 0.666rem;
-    font-family: IBMPlexMono; }
+    font-size: 0.5rem;
+    font-family: "IBMPlexSans-Italic";
+    color: var(--text); }
   html.onboarding img {
     display: block;
     margin: -1rem auto 1rem; }
@@ -1028,8 +1020,6 @@ html.onboarding.onboarding-1:not(.dark-background) body {
   background-color: var(--logo2); }
   html.onboarding.onboarding-1:not(.dark-background) body h1 {
     color: var(--bg); }
-  html.onboarding.onboarding-1:not(.dark-background) body p {
-    color: white; }
 
 html.onboarding.onboarding-2:not(.dark-background) body {
   background-color: var(--logo1); }

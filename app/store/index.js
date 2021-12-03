@@ -5,17 +5,23 @@ import {initSagas} from '../sagas'
 import {persistReducer, persistStore} from 'redux-persist'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import { state } from '../__mocks__/state'
+import { state } from '../__mocks__/state-input'
 import Config from 'react-native-config'
+import log from '../utils/log'
 
 let store = null
+let persistor = null
 
 function configureStore () {
   const composeEnhancers = composeWithDevTools({
     realtime: window.__DEV__
   })
 
-  const sagaMiddleware = createSagaMiddleware()
+  const sagaMiddleware = createSagaMiddleware({
+    onError: (error, { sagaStack}) => {
+      log('sagas', error, sagaStack)
+    }
+  })
 
   const persistConfig = {
     key: 'primary',
@@ -26,6 +32,7 @@ function configureStore () {
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
 
+  console.log(state)
   if (Config.USE_STATE) {
     store = createStore(
       makeRootReducer(),
@@ -44,6 +51,7 @@ function configureStore () {
         // Reactotron.createEnhancer()
       )
     )
+    persistor = persistStore(store, null, onCompletion)
   }
 
 
@@ -51,7 +59,6 @@ function configureStore () {
   const onCompletion = () => {
     console.log('Store persisted')
   }
-  persistStore(store, null, onCompletion)
 
   sagaMiddleware.run(initSagas)
 
@@ -62,4 +69,4 @@ function configureStore () {
   return store
 }
 
-export { store, configureStore }
+export { store, configureStore, persistor }

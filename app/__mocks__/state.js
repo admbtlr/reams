@@ -1685,6 +1685,7 @@ export const state = {
     "imageViewerUrl": "",
     "hiddenModals": [
     ],
+    "messageQueue": [],
     "message": "",
     "isDarkMode": false,
     "fontSize": 3,

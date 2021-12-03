@@ -3,6 +3,7 @@ import * as Yup from 'yup'
 import React from 'react'
 import { Button, Dimensions, LayoutAnimation, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
+import EncryptedStorage from 'react-native-encrypted-storage'
 
 import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../backends/rizzle'
@@ -71,9 +72,9 @@ class AccountCredentialsForm extends React.Component {
             accessToken: response.token
           })
         } else if (service === 'feedbin') {
+          await EncryptedStorage.setItem("feedbin_password", password)
           setBackend('feedbin', {
-            username,
-            password
+            username
           })
         }
         setSubmitting(false)
@@ -190,9 +191,14 @@ class AccountCredentialsForm extends React.Component {
                       accessibilityLabel={'Use Reams Basic'}
                       color={hslString('white')}
                       onPress={ () => {
-                        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+                        LayoutAnimation.configureNext({ 
+                          duration: 500, 
+                          create: { type: 'linear', property: 'opacity' }, 
+                          update: { type: 'spring', springDamping: 0.4 }, 
+                          delete: { duration: 100, type: 'linear', property: 'opacity' } 
+                        })
                         setBackend('basic')
-                        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+                        // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
                         this.setState({
                           isAuthenticated: true
                         })

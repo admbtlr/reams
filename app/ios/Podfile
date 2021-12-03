@@ -14,7 +14,6 @@ target 'Reams' do
   use_react_native!(:path => config["reactNativePath"])
 
   # # third party deps
-  pod 'ReactNativeShareExtension', :podspec => '../node_modules/react-native-share-extension/ReactNativeShareExtension.podspec'
   pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
 
   use_native_modules!
@@ -39,6 +38,13 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+    end
+
+    case target.name
+    when 'RCT-Folly'
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+      end
     end
   end
   flipper_post_install(installer)

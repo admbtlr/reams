@@ -116,11 +116,11 @@ export default function NewFeedsList (props) {
     return setExpandedFeedSets(feedSets)
   }
 
-  const addFeeds = () => {
-    console.log(selectedFeeds)
+  const addFeeds = (feeds) => {
+    console.log(feeds)
     dispatch({
       type: ADD_FEEDS,
-      feeds: selectedFeeds
+      feeds: feeds
     })
     props.close()
   }
@@ -219,6 +219,7 @@ export default function NewFeedsList (props) {
                 ...textStyles(),
                 textDecorationLine: 'underline'
               }}
+              addFeeds={addFeeds}
             />
           </View>
           <Text style={{
@@ -269,7 +270,7 @@ export default function NewFeedsList (props) {
         <TextButton 
           isDisabled={selectedFeeds.length === 0}
           isCompact={true}
-          onPress={addFeeds}
+          onPress={() => addFeeds(selectedFeeds) }
           text={`Add ${selectedFeeds.length > 0 ? selectedFeeds.length : ''} Site${selectedFeeds.length === 1 ? '' : 's'}`}
         />
       </Animated.View>

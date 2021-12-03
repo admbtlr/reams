@@ -1,7 +1,6 @@
 const fuzz = require('fuzzball')
 const RNFS = require('react-native-fs')
 const sanitizeHtml = require('sanitize-html')
-import {Dimensions} from 'react-native'
 import {createItemStyles, compressStyles, expandStyles} from './createItemStyles'
 import {getCachedCoverImagePath} from './index'
 import log from './log'

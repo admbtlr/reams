@@ -39,15 +39,15 @@ export function * decorateItems (action) {
       const nextItem = yield getNextItemToDecorate(pendingDecoration)
       // console.log('Looking for new item')
       if (nextItem) {
-        consoleLog(`Got item to decorate: ${nextItem.title}`)
+        // consoleLog(`Got item to decorate: ${nextItem.title}`)
         pendingDecoration.push(nextItem)
         yield delay(3000)
         if (!nextItem) continue // somehow item can become undefined here...?
-        consoleLog(`About to retrieve decoration for ${nextItem.title}`)
+        // consoleLog(`About to retrieve decoration for ${nextItem.title}`)
         try {
           const decoration = yield decorateItem(nextItem)
           if (decoration) {
-            consoleLog(`Got decoration for ${nextItem.title}`)
+            // consoleLog(`Got decoration for ${nextItem.title}`)
             if (decoration.mercuryStuff.error) {
               yield call(InteractionManager.runAfterInteractions)
               yield put({
@@ -178,15 +178,15 @@ export function * decorateItem (item) {
     // this item is not in AS... how is that possible? in any case, bail on it
     return
   }
-  consoleLog(`Loading Mercury stuff for ${item._id}...`)
+  // consoleLog(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield call(loadMercuryStuff, item)
   if (!mercuryStuff) {
     return false
   }
 
-  consoleLog(`Loading Mercury stuff for ${item._id} done`)
+  // consoleLog(`Loading Mercury stuff for ${item._id} done`)
   if (mercuryStuff.lead_image_url) {
-    let coverImageFile = yield cacheCoverImage(item, mercuryStuff.lead_image_url)
+    let coverImageFile = yield call (cacheCoverImage, item, mercuryStuff.lead_image_url)
     if (coverImageFile) {
       try {
         const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
@@ -202,7 +202,7 @@ export function * decorateItem (item) {
     }
   }
 
-  if (imageStuff.imageDimensions) {
+  if (imageStuff.imageDimensions && imageStuff.imageDimensions.width) {
     if (!!item.title &&
       ((
         Math.random() > 0.5 &&

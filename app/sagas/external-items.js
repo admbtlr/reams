@@ -10,7 +10,7 @@ import {
 import { decorateItem } from './decorate-items'
 import { id } from '../utils'
 import { saveExternalItem } from '../backends'
-import { getConfig, getItems, getItem, getSavedItems } from './selectors'
+import { getConfig, getDisplay, getItems, getItem, getSavedItems } from './selectors'
 
 export function * saveExternalUrl (action) {
   const savedItems = yield select(getSavedItems)
@@ -40,7 +40,7 @@ export function * saveExternalUrl (action) {
   let item = {
     url: action.url,
     _id: id(action.url),
-    title: 'Loading...',
+    title: action.title ?? 'Loading...',
     content_html: '',
     is_external: true
   }
@@ -59,10 +59,12 @@ export function * saveExternalUrl (action) {
         isSaved: true
       })
     } else {
+      const displayMode = yield select(getDisplay)
       yield put({
         type: ITEM_DECORATION_SUCCESS,
         ...decoration,
-        isSaved: true
+        isSaved: true,
+        displayMode
       })
 
       // got to go back and find it cos of dodgy reducer side effects

@@ -62,6 +62,7 @@ class ItemCarousel extends React.Component {
     this.index = -1,
     this.items = []
     this.bufferIndex = -1
+    this.selectedText = undefined
 
     // this is an intermediate cache of clampedScrollAnims
     // once we have one for each bufferedItem, we put them into state
@@ -73,9 +74,9 @@ class ItemCarousel extends React.Component {
     }
 
     this.onChangeIndex = this.onChangeIndex.bind(this)
-    this.decrementIndex = this.decrementIndex.bind(this)
-    this.incrementIndex = this.incrementIndex.bind(this)
+    this.updateCarouselIndex = this.updateCarouselIndex.bind(this)
     this.openFeedModal = this.openFeedModal.bind(this)
+    this.onTextSelection = this.onTextSelection.bind(this)
     this.launchBrowser = this.launchBrowser.bind(this)
     this.showShareSheet = this.showShareSheet.bind(this)
     this.setPanAnim = this.setPanAnim.bind(this)
@@ -154,12 +155,19 @@ class ItemCarousel extends React.Component {
     this.setIndex(this.index - 1, this.bufferIndex - 1)
   }
 
+  updateCarouselIndex (bufferIndex) {
+    const diff = bufferIndex - this.bufferIndex
+    this.setIndex(this.index + diff, bufferIndex)
+  }
+
   setIndex (index, bufferIndex) {
     this.incomingIndex = index
     const lastIndex = this.index
     this.index = index
     this.bufferIndex = bufferIndex
+    this.selectedText = undefined
     this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
+    console.log('setIndex', this.index, this.bufferIndex)
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
@@ -204,13 +212,16 @@ class ItemCarousel extends React.Component {
     const item = this.bufferedItems[this.bufferIndex]
     if (this.props.isOnboarding || !item) return
     ActionSheetIOS.showShareActionSheetWithOptions({
-      url: item.url
-    },
-    (error) => {
-      console.error(error)
-    },
-    (success, method) => {
-    })
+        url: item.url,
+        message: this.selectedText,
+        title: item.title
+      },
+      (error) => {
+        console.error(error)
+      },
+      (success, method) => {
+      }
+    )
   }
 
   async launchBrowser () {
@@ -255,6 +266,10 @@ class ItemCarousel extends React.Component {
     // }
   }
 
+  onTextSelection (selectedText) {
+    this.selectedText = selectedText
+  }
+
   setClampedScrollAnimSetterAndListener (clampedScrollAnimSetter, clampedScrollAnimListener) {
     this.clampedScrollAnimSetter = clampedScrollAnimSetter
     setClampedScrollListener(clampedScrollAnimListener)
@@ -293,8 +308,6 @@ class ItemCarousel extends React.Component {
       return (
         <Fragment>
           <SwipeableViews
-            incrementIndex={this.incrementIndex}
-            decrementIndex={this.decrementIndex}
             index={index === 0 ? 0 : 1}
             items={this.bufferedItems}
             isOnboarding={isOnboarding}
@@ -302,6 +315,8 @@ class ItemCarousel extends React.Component {
             setPanAnim={this.setPanAnim}
             setScrollAnim={this.setScrollAnim}
             onScrollEnd={this.onScrollEnd}
+            onTextSelection={this.onTextSelection}
+            updateCarouselIndex={this.updateCarouselIndex}
           />
           { !isItemsOnboardingDone &&
             !isOnboarding &&
@@ -408,7 +423,14 @@ const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
           marginBottom: 24 * fontSizeMultiplier(),
           marginLeft: 0,
           marginRight: 0
-        }}>This is the moment when you put down your phone and go outside for a bit. Or alternatively you could...</Text>
+        }}>This is the moment when you put down your phone and go outside for a bit.</Text> 
+        <Text style={{
+          ...textInfoStyle(),
+          fontSize: 18 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
+          marginLeft: 0,
+          marginRight: 0
+        }}>Or alternatively you could...</Text>
         <TextButton
           buttonStyle={{
             width: 'auto'

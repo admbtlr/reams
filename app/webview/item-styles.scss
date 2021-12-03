@@ -147,7 +147,7 @@ body {
   z-index: 10;
   padding: 2rem 4vw 3rem;
   width: 100vw;
-  max-width: 22rem;
+  max-width: 24rem;
   margin: 0 auto;
   font-family: "Cochin", serif;
   -webkit-hyphens: auto;
@@ -579,16 +579,18 @@ hr {
 }
 
 @mixin firstShortParaBold($fontFamily, $fontFamilyItalic) {
-    p:first-of-type.short-para:not(.ends-with-colon),
-    p:first-of-type.short-para:not(.ends-with-colon) a {
+    > p:first-of-type.short-para:not(.ends-with-colon) {
       font-family: $fontFamily;
       color: var(--feed-color);
+      font-size: 1.2em;
   
       em, i, strong, b {
         font-family: $fontFamilyItalic;
         font-style: normal;
-        font-size: 1.07em;
       }
+      a {
+        color: var(--feed-color);
+      } 
     }
 }
 
@@ -802,13 +804,13 @@ hr {
   }
 
   strong em, em strong, b i, i b {
-    font-family: "LibreBaskerville-BoldItalic", sans-serif;
+    font-family: "LibreBaskerville-Italic", sans-serif;
     font-style: normal;
     font-weight: normal;
   }
 
   @include firstLineFontFamily("LibreBaskerville-Bold");
-  @include firstShortParaBold("LibreBaskerville-Bold", "LibreBaskerville-BoldItalic")
+  @include firstShortParaBold("LibreBaskerville-Bold", "LibreBaskerville-Italic")
 }
 
 .bodyFontSans1 {

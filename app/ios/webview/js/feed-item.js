@@ -531,4 +531,9 @@ window.addEventListener("load", function() {
   // addTapMessageToLinks()
   removeAllBrs()
   stopAutoplay()
+
+  document.addEventListener('selectionchange', () => {
+    window.ReactNativeWebView.postMessage('select:' + document.getSelection());
+  })
 })
+

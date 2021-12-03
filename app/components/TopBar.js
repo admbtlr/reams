@@ -473,7 +473,7 @@ const DisplayModeToggle = ({ displayMode, onDisplayPress, backgroundColor, butto
   )
 }
 
-const BackButton = ({ isSaved, navigation, navigation: { navigate } }) => (
+const BackButton = ({ isSaved, navigation: { navigate } }) => (
   <Animated.View style={{
     position: 'absolute',
     left: 0,

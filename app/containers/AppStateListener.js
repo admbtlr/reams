@@ -21,9 +21,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: () => dispatch({
-      type: FETCH_ITEMS
-    }),
     checkBuckets: () => dispatch({
       type: CHECK_BUCKETS
     }),
@@ -34,17 +31,6 @@ const mapDispatchToProps = (dispatch) => {
     appWentActive: () => dispatch({
       type: STATE_ACTIVE
     }),
-    setDarkMode: (isDarkMode) => dispatch({
-      type: SET_DARK_MODE,
-      isDarkMode
-    }),
-    addMessage: (messageString) => dispatch({
-      type: ADD_MESSAGE,
-      message: {
-        messageString,
-        isSelfDestruct: true
-      }
-    })
   }
 }
 

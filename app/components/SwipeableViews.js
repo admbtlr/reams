@@ -45,15 +45,10 @@ class SwipeableViews extends Component {
   }
 
   updateIndex (newIndex) {
-    const {decrementIndex, incrementIndex} = this.props
+    const {updateCarouselIndex} = this.props
     const indexDelta = newIndex - this.currentIndex
     if (indexDelta !== 0) {
-      const child = this.children[newIndex]
-      if (indexDelta > 0) {
-        incrementIndex()
-      } else {
-        decrementIndex()
-      }
+      updateCarouselIndex(newIndex)
       this.currentIndex = newIndex
     }
   }
@@ -103,6 +98,7 @@ class SwipeableViews extends Component {
         key={_id}
         setScrollAnim={this.props.setScrollAnim}
         onScrollEnd={this.props.onScrollEnd}
+        onTextSelection={this.props.onTextSelection}
         isVisible={isVisible}
         panAnim={panAnim}
         renderDate={Date.now()} // make sure child components get re-rendered

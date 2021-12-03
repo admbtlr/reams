@@ -8,7 +8,6 @@ import {
 import DocumentPicker from 'react-native-document-picker'
 import { parseString } from 'react-native-xml2js'
 const RNFS = require('react-native-fs')
-import { ADD_FEEDS } from '../store/feeds/types'
 import { 
   ADD_MESSAGE, 
   REMOVE_MESSAGE, 
@@ -46,7 +45,7 @@ interface Feed {
   title?:String
 }
 
-export default function OPMLImport (props: { textStyles?: {}}) {
+export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => {} }) {
   const dispatch = useDispatch()
   let feeds: Array<Feed> = []
   let res: {
@@ -73,10 +72,10 @@ export default function OPMLImport (props: { textStyles?: {}}) {
       }
     }
     try {
-    const filePath = __DEV__ ?
-      `file://${RNFS.DocumentDirectoryPath}/subscriptions.xmls` :
-      res.uri
-    const contents = await RNFS.readFile(filePath)
+      // const filePath = __DEV__ ?
+      //   `file://${RNFS.DocumentDirectoryPath}/subscriptions.xmls` :
+      const filePath = res.uri
+      const contents = await RNFS.readFile(filePath)
       const traverse = (o: any, feeds: Array<Feed>) => {
         let iterable = o
         if (!Array.isArray(o)) {
@@ -104,10 +103,11 @@ export default function OPMLImport (props: { textStyles?: {}}) {
             type: ADD_MESSAGE,
             message: 'Adding feeds'
           })
+          props.addFeeds(feeds)
           dispatch({
-            type: ADD_FEEDS,
-            feeds
-          })  
+            type: REMOVE_MESSAGE,
+            messageString: 'Adding feeds'
+          })
         }
       })  
     } catch (err) {

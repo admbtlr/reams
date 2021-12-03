@@ -7,6 +7,14 @@ html.onboarding {
   --bg: hsl(46, 23%, 83%);
   --text: hsl(300, 20%, 20%);
 
+  &.onboarding-1 {
+    --text: white;
+  }
+
+  &.dark-background {
+    --text: hsl(300, 20%, 90%);
+  }
+
   // this is now my rem value
   // it's the body lineheight
   font-size: calc(7vw);
@@ -36,20 +44,25 @@ html.onboarding {
     left: 0;
     bottom: 0;
     right: 0;
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-1@3x.png");
+    background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
     background-repeat: no-repeat;
     background-position-x: left;
-    background-position-y: 95%;
+    background-position-y: calc(100% - 20px);
     background-size: 100%;
     opacity: 0.5;
   }
 
+  // slightly better, but not ideal
+  &.dark-background body::after {
+    opacity: 1;
+  }
+
   &.onboarding-1 body::after {
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-2@3x.png");
+    background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png");
   }
 
   &.onboarding-2 body::after {
-    background-image: url("/webview/img/onboarding-bg/onboarding-bg-3@3x.png");
+    background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png");
   }
 
   article, .everything {
@@ -69,6 +82,10 @@ html.onboarding {
     @include se {
       margin-top: calc(40vh - 1rem);
     }
+  }
+
+  &.onboarding-1 .everything {
+    margin-top: calc(40vh - 1rem);
   }
 
   h1, h2 {
@@ -117,7 +134,6 @@ html.onboarding {
 
   &.onboarding-1 div.content {
     align-self: center;
-    width: 100%;
 
     p {
       text-align: center;
@@ -139,7 +155,6 @@ html.onboarding {
     font-size: 0.666rem;
     line-height: 1rem;
     margin: 0 0 1rem;
-    max-width: 15rem;
 
     strong {
       font-family: "IBMPlexSans-Bold";
@@ -163,8 +178,9 @@ html.onboarding {
     width: 100%;
     bottom: 1rem;
     text-align: center;
-    font-size: 0.666rem;
-    font-family: IBMPlexMono;
+    font-size: 0.5rem;
+    font-family: "IBMPlexSans-Italic";
+    color: var(--text);
   }
 
   img {
@@ -188,9 +204,6 @@ html.onboarding.onboarding-1:not(.dark-background) body {
 
   h1 {
     color: var(--bg);
-  }
-  p {
-    color: white;
   }
 }
 

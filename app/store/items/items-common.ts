@@ -104,7 +104,9 @@ export function itemDecorationSuccess (
 ) {
   const currentItems = [
     state.items[state.index],
-    state.items[state.index + 1 < state.items.length ? state.index + 1 : state.index + 1]
+    state.items[state.index + 1 < state.items.length ? state.index + 1 : state.index],
+    state.items[state.index + 2 < state.items.length ? state.index + 2 : state.index],
+    state.items[state.index + 3 < state.items.length ? state.index + 3 : state.index],
   ]
   const testAndDecorate = (item: Item) => {
     if (item._id === action.item._id) {

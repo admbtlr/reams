@@ -327,7 +327,8 @@ const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
 
   // redo: just keep the current item, place at front of array
   // re-redo: keep the current item plus two more, to give time for new items to get mercury
-  const index = 0
+  // re-re-redo: keep the current item minus two more, to avoid items jumping around and disappearing
+  let index = 0
   let currentItem = state.items[state.index]
   let itemsToKeep: Item[] = []
   if (currentItem) {
@@ -338,6 +339,15 @@ const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
           itemsToKeep.push(state.items[state.index + i])
         }
       }  
+    }
+    if (state.index > 0) {
+
+      for (let i = 1; i <= 2; i++) {
+        if (state.items[state.index - i]) {
+          index++
+          itemsToKeep.unshift(state.items[state.index - i])
+        }
+      }
     }
   }
   if (itemsToKeep.length > 0) {

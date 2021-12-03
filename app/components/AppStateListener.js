@@ -2,12 +2,6 @@ import React, { useEffect } from 'react'
 import {
   AppState
 } from 'react-native'
-import Clipboard from "@react-native-community/clipboard"
-import SharedGroupPreferences from 'react-native-shared-group-preferences'
-import { parseString } from 'react-native-xml2js'
-
-import { isIgnoredUrl, addIgnoredUrl } from '../storage/async-storage'
-import log from '../utils/log'
 import DarkModeListener from './DarkModeListener'
 
 class AppStateListener extends React.Component {
@@ -26,6 +20,8 @@ class AppStateListener extends React.Component {
   }
 
   async handleAppStateChange (nextAppState) {
+    console.log('NEXT APP STATE: ' + nextAppState)
+    console.log('PREV APP STATE: ' + this.props.appState)
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.props.appWentActive()
       this.setState({

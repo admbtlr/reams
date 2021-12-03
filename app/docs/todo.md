@@ -1,10 +1,7 @@
-# To Do
 
 - check bucket when closing browser
-- the thing with styles getting recalculated
-  - now suddenly I can't recreate it properly?
-- what's up with Sidecar URLs? they crash inappbrowser
-  - huh, the url is null
+- why do saved external items (sometimes) render twice?
+- onboarding in dark mode
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
@@ -51,6 +48,11 @@
 
 # Done
 
+- ~~why does saving external items only work sometimes?~~
+- ~~the nav snafu~~
+- ~~is this what makes TF crash? https://github.com/facebook/flipper/issues/834~~
+- ~~body refreshes when isVisible = true~~
+- ~~what's up with Sidecar URLs? they crash inappbrowser~~
 - ~~fix navigation after onboarding (remove onboarding Items screen)~~
 - ~~navgiation (should go straight to stories)~~
 - ~~scrollToOffset firing too soon~~

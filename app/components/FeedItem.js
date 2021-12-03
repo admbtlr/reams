@@ -1,18 +1,12 @@
 import React from 'react'
 import {ActivityIndicator, Animated, Dimensions, Easing, Linking, View} from 'react-native'
-import {WebView} from 'react-native-webview'
 import CoverImage from './CoverImage'
+import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
 import { hslString } from '../utils/colors'
-import { openLink } from '../utils/open-link'
 
-const calculateHeight = `
-  (document.body && document.body.scrollHeight) &&
-    window.ReactNativeWebView.postMessage(getHeight())
-`
-
-const INITIAL_WEBVIEW_HEIGHT = 1000
+export const INITIAL_WEBVIEW_HEIGHT = 1000
 
 class FeedItem extends React.Component {
   // static whyDidYouRender = true
@@ -33,7 +27,6 @@ class FeedItem extends React.Component {
 
     this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
-    this.onNavigationStateChange = this.onNavigationStateChange.bind(this)
     this.addAnimation = this.addAnimation.bind(this)
 
     this.screenDimensions = Dimensions.get('window')
@@ -205,11 +198,6 @@ class FeedItem extends React.Component {
     }, 2000)
   }
 
-  isCoverImagePortrait () {
-    const {imageDimensions} = this.props.item
-    return imageDimensions && imageDimensions.height > imageDimensions.width
-  }
-
   isInflated () {
     const inflated = typeof this.props.item.content_html !== 'undefined'
       && typeof this.props.item.styles !== 'undefined'
@@ -230,11 +218,7 @@ class FeedItem extends React.Component {
     } = this.props
     let {
       title,
-      banner_image,
-      content_html,
-      content_mercury,
       faceCentreNormalised,
-      feed_color,
       hasCoverImage,
       imageDimensions,
       showCoverImage,
@@ -245,98 +229,8 @@ class FeedItem extends React.Component {
 
     const { webViewHeight } = this.state
 
-    if (styles === undefined) {
-      console.log('what?')
-    }
-
-    let articleClasses = [
-      ...Object.values(styles.fontClasses),
-      'itemArticle',
-      styles.color,
-      styles.dropCapFamily === 'header' ? 'dropCapFamilyHeader' : '',
-      styles.dropCapIsMonochrome ? 'dropCapIsMonochrome' : '',
-      `dropCapSize${styles.dropCapSize}`,
-      styles.dropCapIsDrop ? 'dropCapIsDrop' : '',
-      styles.dropCapIsBold ? 'dropCapIsBold' : '',
-      styles.dropCapIsStroke ? 'dropCapIsStroke' : ''].join(' ')
-
-    const visibleClass = isVisible
-      ? 'visible'
-      : ''
-    const scrollingClass = this.scrollAnim === 0
-      ? ''
-      : 'scrolling'
-    const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
-
-    const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 1 : webViewHeight
-    let server = ''
-    if (__DEV__) {
-      server = 'http://localhost:8888/'
-    }
-
-    if (!showCoverImage || this.isCoverImagePortrait()) {
-      styles.coverImage = {
-        ...styles.coverImage,
-        isInline: false
-      }
-      styles.isCoverInline = false
-    }
-
-    // not sure how this can happen...
-    content_html = content_html || ''
-
-    let body = showMercuryContent ? content_mercury : content_html
-    body = body || ''
-    body = this.stripInlineStyles(body)
-    body = this.stripEmptyTags(body)
-    body = this.stripUTags(body)
-
-    // hide the image in the body to avoid repetition
-    let data = ''
-    if (styles.coverImage.isInline) {
-      data = banner_image
-    }
-
     const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
-    const feedColor = item.feed_color ?
-      hslString(feed_color, 'darkmodable') :
-      hslString('logo1')
-
-    const html = `<html class="font-size-${this.props.fontSize} ${this.props.isDarkMode ? 'dark-background' : ''}">
-  <head>
-    <style>
-:root {
-  --feed-color: ${feedColor};
-  --font-path-prefix: ${ server === '' ? '../' : server };
-}
-    </style>
-    <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
-    <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  </head>
-  <body class="${visibleClass} ${scrollingClass} ${blockquoteClass} ${this.props.displayMode}" style="background-color: ${bodyColor}" data-cover="${data}">
-    <article
-      class="${articleClasses}"
-      style="min-height: ${minHeight}px; width: 100vw;">
-      ${body}
-    </article>
-  </body>
-  <script src="${server}webview/js/feed-item.js"></script>
-</html>`
-
     const that = this
-
-    const openLinksExternallyProp = /*__DEV__ ? {} :*/ {
-      onShouldStartLoadWithRequest: (e) => {
-        if (e.navigationType === 'click') {
-          // Linking.openURL(e.url)
-          openLink(e.url, hslString(this.props.item.feed_color))
-          return false
-        } else {
-          return true
-        }
-      }
-    }
 
     const coverImage = showCoverImage ? 
       <CoverImage
@@ -348,21 +242,6 @@ class FeedItem extends React.Component {
         feedTitle={item.feed_title}
       /> :
       null
-
-    const injectedJavaScript = `
-      window.setTimeout(() => {
-        if (document.body && document.body.scrollHeight) {
-          const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
-          window.ReactNativeWebView.postMessage('resize:' + height);
-        }  
-      }, 500);
-      window.onload = () => {
-        if (document.body && document.body.scrollHeight) {
-          const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
-          window.ReactNativeWebView.postMessage('resize:' + height);
-        }  
-      };
-      true;`
 
     const bodyStyle = {
       backgroundColor: bodyColor
@@ -432,42 +311,14 @@ class FeedItem extends React.Component {
             }}>
               <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
             </View>
-            <WebView
-              allowsFullscreenVideo={true}
-              allowsLinkPreview={true}
-              decelerationRate='normal'
-              injectedJavaScript={ injectedJavaScript }
-              mixedContentMode='compatibility'
-              onMessage={(event) => {
-                const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
-                if (msg.substring(0, 6) === 'image:') {
-                  that.props.showImageViewer(msg.substring(6))
-                } else if (msg.substring(0, 5) === 'link:') {
-                  const url = msg.substring(5)
-                  // console.log('OPEN LINK: ' + url)
-                  if (!__DEV__) {
-                    Linking.openURL(url)
-                  }
-                } else if (msg.substring(0,7) === 'resize:') {
-                  that.updateWebViewHeight(parseInt(msg.substring(7)))
-                }
-              }}
-              onNavigationStateChange={this.onNavigationStateChange}
-              {...openLinksExternallyProp}
-              originWhitelist={['*']}
-              ref={(ref) => { this.webView = ref }}
-              scalesPageToFit={false}
-              scrollEnabled={false}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: webViewHeight,
-                backgroundColor: bodyColor
-              }}
-              source={{
-                html: html,
-                baseUrl: 'web/'}}
-              />
+            <ItemBody 
+              bodyColor={bodyColor}
+              item={item}
+              onTextSelection={this.props.onTextSelection}
+              showImageViewer={this.props.showImageViewer}
+              updateWebViewHeight={this.updateWebViewHeight}
+              webViewHeight={this.state.webViewHeight}
+          />
           </Animated.View>
         </Animated.ScrollView>
       </View>
@@ -488,10 +339,6 @@ class FeedItem extends React.Component {
 
   passScrollPositionToWebView (position) {
     // console.log(position)
-  }
-
-  launchImageViewer (url) {
-    this.props.showImageViewer(url)
   }
 
   // nasty workaround to figure out scrollEnd
@@ -560,22 +407,6 @@ class FeedItem extends React.Component {
     if (this.props.item.styles.title.color === 'black') {
       this.props.item.styles.title.color = 'white'
     }
-  }
-
-  stripInlineStyles (html) {
-    if (!html) return html
-    const pattern = new RegExp(/style=".*?"/, 'g')
-    return html.replace(pattern, '')
-  }
-
-  stripEmptyTags (html) {
-    const pattern = new RegExp(/<[^\/<]+?>\s*?<\/.+?>/, 'g')
-    return html ? html.replace(pattern, '') : html
-  }
-
-  stripUTags (html) {
-    const pattern = new RegExp(/<\/?u>/, 'g')
-    return html.replace(pattern, '')
   }
 
   // openLinksExternally (e) {
