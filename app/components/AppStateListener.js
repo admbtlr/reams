@@ -156,7 +156,7 @@ class AppStateListener extends React.Component {
                     result.feed.subtitle[0]._) :
                   ''
               }
-              this.showSaveFeedModal(url, title, description, that)
+              this.showSaveFeedModal(url, title.trim(), description.trim(), that)
             })
           })
           .catch(err => {
