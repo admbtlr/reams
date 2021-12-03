@@ -1,9 +1,9 @@
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
-import { Clipboard } from "react-native"
-import { isIgnoredUrl } from "../storage/async-storage"
+import Clipboard from "@react-native-community/clipboard"
+import { isIgnoredUrl, addIgnoredUrl } from "../storage/async-storage"
 import { parseString } from 'react-native-xml2js'
 import log from '../utils/log'
-import { call } from '@redux-saga/core/effects'
+import { call, delay } from '@redux-saga/core/effects'
 
 const GROUP_NAME = 'group.com.adam-butler.rizzle'
 
@@ -16,7 +16,12 @@ export function * checkBuckets () {
 function * checkClipboard () {
   console.log('Checking clipboard')
   try {
+    const hasUrl = yield call(Clipboard.hasURL)
+    if (!hasUrl) {
+      return
+    }
     let contents = yield call(Clipboard.getString)
+    contents = contents ?? ''
     // TODO make this more robust
     if (contents.substring(0, 4) === 'http') {
       const isIgnored = yield call(isIgnoredUrl, contents)
@@ -34,12 +39,16 @@ function * checkPageBucket () {
   SharedGroupPreferences.getItem('page', GROUP_NAME).then(value => {
     if (value !== null) {
       SharedGroupPreferences.setItem('page', null, GROUP_NAME)
-      value = typeof value === 'object' ?
-        value[0] :
-        value
-      console.log(`Got a page to save: ${value}`)
-      // TODO: figure out how to get the page title in the share extension
-      yield savePage({ url: value })
+      const parsed = JSON.parse(value)
+      const pages = typeof parsed === 'object' ?
+        parsed :
+        [parsed]
+      console.log(`Got ${pages.length} page${pages.length === 1 ? '' : 's'} to save`)
+      // ugh, need a timeout to allow for rehydration
+      yield delay(100)
+      pages.forEach(page => {
+        yield call(savePage, page)
+      })
     }
   }).catch(err => {
     // '1' just means that there is nothing in the bucket
@@ -111,7 +120,7 @@ function * checkFeedBucket () {
 }
 
 function * savePage (page) {
-  yield saveURL(page.url)
+  yield saveURL(page.url, page.title)
   yield addMessage('Saved page: ' + (page.title ?? page.url))
 }
 
@@ -141,7 +150,7 @@ function * showSavePageModal (url, isClipboard = false) {
     modalHideCancel: false,
     modalShow: true,
     modalOnOk: () => {
-      saveURL(url)
+      savePage(url)
     }
   })
 }
