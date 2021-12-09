@@ -1293,11 +1293,6 @@ export const feeds = [{
   "link": "https://boingboing.net/",
   "color": "#b91d47"
 }, {
-  "id": 158,
-  "title": "io9",
-  "url": "http://feeds.gawker.com/io9/vip",
-  "description": "All the top news about comics, Sci-Fi, and fantasy."
-}, {
   "id": 159,
   "title": "Aeon",
   "url": "http://feeds.feedburner.com/AeonMagazineEssays",
@@ -1933,7 +1928,7 @@ export const feeds = [{
   "category": "design",
   "favicon": {
     "source": require('../../assets/images/favicons/211.png'),
-    "url": "https://a5.behance.net/b1f4803ea87d4ca0edd674ab13abde3bc86b62bf/img/site/apple-touch-icon.png?cb=264615658",
+    "url": "https://a5.behance.net/c84c4a7d5e6904ff132141454189d5e5b41f8e89/img/site/apple-touch-icon.png?cb=264615658",
     "size": null
   },
   "link": "http://www.behance.net/",
