@@ -1,4 +1,5 @@
 
+- the very first buttonset is the wrong colour?
 - why do saved external items (sometimes) render twice?
 - onboarding in dark mode
 - muting a feed on non-rizzle accounts

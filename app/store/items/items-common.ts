@@ -151,7 +151,7 @@ export function itemDecorationFailure (
       if (item.decoration_failures > 4) {
         item.content_html = '<p>This story could not be loaded 😞</p><p>'
           + item.url + '</p>' +
-          (action.mercuryStuff.message ? ('<p>' + action.mercuryStuff.message + '</p>') : '')
+          (action.mercuryStuff?.message ? ('<p>' + action.mercuryStuff.message + '</p>') : '')
       }
     }
     return item

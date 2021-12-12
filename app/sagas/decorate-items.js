@@ -49,31 +49,32 @@ export function * decorateItems (action) {
           if (decoration) {
             // consoleLog(`Got decoration for ${nextItem.title}`)
             if (decoration.mercuryStuff.error) {
-              yield call(InteractionManager.runAfterInteractions)
-              yield put({
-                type: ITEM_DECORATION_FAILURE,
-                ...decoration,
-                isSaved: decoration.item && decoration.item.isSaved
-              })
+              yield decorationFailed(decoration)
             } else {
               yield applyDecoration(decoration, nextItem.isSaved)
             }
+          } else {
+            yield decorationFailed(nextItem)
           }
         } catch (error) {
-          consoleLog('Error decorating item, trying again next time around')
-          toDispatch.push({
-            error: true,
-            item: {
-              _id: nextItem._id
-            }
-          })
-          pendingDecoration = pendingDecoration.filter(pending => pending._id !== nextItem._id)
+          yield decorationFailed(nextItem)
         }
       } else {
         yield delay(3000)
       }
     }
   })
+}
+
+function * decorationFailed (item) {
+  consoleLog(`Error decorating item "${item.title}", trying again next time around`)
+  yield call(InteractionManager.runAfterInteractions)
+  yield put({
+    type: ITEM_DECORATION_FAILURE,
+    item,
+    isSaved: item && item.isSaved
+  })
+  pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
 
 function consoleLog(txt) {
@@ -176,7 +177,7 @@ export function * decorateItem (item) {
     }
   } else if (!item.is_external) {
     // this item is not in AS... how is that possible? in any case, bail on it
-    return
+    return false
   }
   // consoleLog(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield call(loadMercuryStuff, item)
