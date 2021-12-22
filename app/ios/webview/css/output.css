@@ -16,22 +16,22 @@ html {
     font-size: calc(6vw); }
     @media (min-width: 600px) {
       html.font-size-2 {
-        font-size: calc(4vw); } }
+        font-size: calc(3.5vw); } }
   html.font-size-3 {
     font-size: calc(7vw); }
     @media (min-width: 600px) {
       html.font-size-3 {
-        font-size: calc(4.5vw); } }
+        font-size: calc(4vw); } }
   html.font-size-4 {
     font-size: calc(8vw); }
     @media (min-width: 600px) {
       html.font-size-4 {
-        font-size: calc(5vw); } }
+        font-size: calc(4.5vw); } }
   html.font-size-5 {
     font-size: calc(9vw); }
     @media (min-width: 600px) {
       html.font-size-5 {
-        font-size: calc(5.5vw); } }
+        font-size: calc(5vw); } }
 
 body {
   margin: 0;
@@ -127,6 +127,11 @@ body {
     @media (min-width: 600px) {
       .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
         left: calc(50% - 50vw); } }
+  @media (min-width: 600px) {
+    .itemArticle .twitter-tweet iframe {
+      left: auto;
+      width: 100% important;
+      max-width: 100%; } }
   .itemArticle pre {
     background-color: white;
     border-bottom: 1px solid #ededed; }
