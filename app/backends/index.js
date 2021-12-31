@@ -7,7 +7,7 @@ const rizzle = require('./rizzle')
 
 // const group = 'group.com.adam-butler.rizzle'
 
-const MAX_ITEMS_TO_DOWNLOAD = 5000
+const MAX_ITEMS_TO_DOWNLOAD = 1000
 
 let backend
 let backends = {

@@ -46,7 +46,10 @@ export function * fetchAllItems (includeSaved = true) {
 
   yield put({
     type: ADD_MESSAGE,
-    message: 'Loading stories'
+    message: {
+      messageString: 'Loading stories',
+      hasEllipsis: true
+    }
   })
   yield fetchItems(ItemType.unread)
   if (includeSaved) {
@@ -95,7 +98,7 @@ export function * fetchItems (type = ItemType.unread) {
     while (true) {
       let items = yield take(itemsChannel)
       if (items.length > 0) {
-        yield fork(receiveAndProcessItems, items, type, isFirstBatch, i)
+        yield call(receiveAndProcessItems, items, type, isFirstBatch, i)
         isFirstBatch = false
         i++
       }

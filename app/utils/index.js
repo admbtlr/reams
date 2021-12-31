@@ -198,9 +198,10 @@ export function id (item) {
     return hashFnv32a(item, true)
   } else if (item && item.url) {
     return hashFnv32a(item.url, true) + '-' +
+      Math.round(item.created_at / 1000000) +
       (item.feed_id && typeof item.feed_id === 'string' ?
-        item.feed_id.split('-')[0] :
-        Math.round(item.created_at / 1000000))
+        '-' + item.feed_id.split('-')[0] :
+        '')
   } else {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)

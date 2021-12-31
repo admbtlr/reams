@@ -118,6 +118,7 @@
     "gulp-watch": "^4.3.11",
     "gulp-webserver": "^0.9.1",
     "jest": "^25.1.0",
+    "jest-fetch-mock": "^3.0.3",
     "metro-react-native-babel-preset": "^0.59.0",
     "patch-package": "^6.4.6",
     "react-devtools": "^3.4.2",
@@ -138,7 +139,8 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|gl-react-native|redux-persist-filesystem-storage)"
-    ]
+    ],
+    "setupFiles": ["./jest.setup.js"]
   },
   "detox": {
     "configurations": {
