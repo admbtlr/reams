@@ -1,4 +1,6 @@
 
+- be more efficient about getting feedbin items
+- handle being offline better (put checks into fetchItems etc.)
 - the very first buttonset is the wrong colour?
 - why do saved external items (sometimes) render twice?
 - onboarding in dark mode

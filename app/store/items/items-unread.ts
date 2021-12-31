@@ -120,7 +120,7 @@ export function itemsUnread (
       items = [...state.items]
       newItems = action.items
       newItems.forEach(newItem => {
-        let indexToUpdate = items.findIndex(item => item.id === newItem.id || item._id === newItem._id)
+        let indexToUpdate = items.findIndex(item => item.id === newItem.id || (item._id === newItem._id && item.title === newItem.title))
         if (indexToUpdate !== -1) {
           items[indexToUpdate] = newItem
         } else {

@@ -29,6 +29,7 @@ export default function Message (props) {
   const buttonsVisible = useSelector(state => state.ui.itemButtonsVisible)
   const nextMessage = messageQueue?.length > 0 ? messageQueue[0].messageString : ''
   const isNextMessageSelfDestruct = !!messageQueue[0]?.isSelfDestruct
+  const isNextMessageEllipsis = !!messageQueue[0]?.hasEllipsis
   const dispatch = useDispatch()
   const popMessage = (messageString) => {
     dispatch({
@@ -125,10 +126,10 @@ export default function Message (props) {
             ...textInfoBoldStyle('rizzleFG'),
             fontSize: 14 * fontSizeMultiplier(),
             lineHeight: 20 * fontSizeMultiplier(),
-          }}>{visibleMessage}{/*<AnimatedEllipsis style={{ 
+          }}>{visibleMessage}{isNextMessageEllipsis && <AnimatedEllipsis style={{ 
           color: hslString('rizzleText'),
           marginLeft: -2
-        }} />*/}</Text>
+        }} />}</Text>
       </View>
     </Animated.View>
   )
