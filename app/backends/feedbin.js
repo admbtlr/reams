@@ -41,6 +41,7 @@ export const authenticate = (username, password) => {
 }
 
 function getUrl (endpoint) {
+  if (endpoint.startsWith('http')) return endpoint
   return 'https://api.feedbin.com/v2/' + endpoint
 }
 
@@ -75,16 +76,32 @@ function deleteRequest (endpoint, body, expectNoContent = false) {
   }, expectNoContent)
 }
 
-function doRequest (url, options = {}, expectNoContent = false) {
+async function doRequest (url, options = {}, expectNoContent = false) {
+  const getNextPage = (headers) => {
+    const links = headers?.get('Links')?.split(',')
+    if (links) {
+      const nextPage = links.find(link => link.indexOf('rel="next"') > -1)
+      return nextPage?.match(/<(.*)>/)[1]
+    } else {
+      return null
+    }
+  }
+
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  return fetch(url, options)
-    .then((response) => {
-      if (!response.ok) {
-        throw Error(response.statusText)
-      }
-      return expectNoContent || response.json()
-    })
+  const response = await fetch(url, options)
+  if (!response.ok) {
+    throw Error(response.statusText)
+  }
+
+  const json = await response.json()
+  if (response.headers) {
+    const nextPage = getNextPage(response.headers)
+    if (nextPage) {
+      json.nextPage = nextPage
+    }
+  }
+  return expectNoContent || json
 }
 
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds, maxNum) {
@@ -95,15 +112,30 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds, 
   }
 }
 
-async function fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum) {
-  const endpoint = 'unread_entries.json'
-  let itemIds = await getRequest(endpoint)
-  const oldItemIds = oldItems.map(oi => oi.id)
-  const newIds = itemIds.filter(id => !oldItemIds.includes(id))
-  if (newIds.length > 0) {
-    const url = getUrl('entries.json?ids=')
-    await getItemsByIds(newIds, url, mapFeedbinItemToRizzleItem, callback, getFetchConfig())
+async function getPaginatedItems (endpoint, maxNum, callback) {
+  let items = []
+  let numItems = 0
+  let nextPage = endpoint
+  while (nextPage) {
+    let response = await getRequest(nextPage)
+    nextPage = response.nextPage
+    // this is a weird setup where the response is an array of items plus potentially a URL keyed on `nextPage`
+    // not even sure how that's supposed to work
+    let newItems = response.filter(i => i !== nextPage)
+    newItems = mapFeedbinItemToRizzleItem(newItems)
+    callback(newItems)
+    numItems += newItems.length
+    if (numItems >= maxNum) {
+      break
+    }
   }
+}
+
+async function fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum) {
+  const date = lastUpdated ? new Date(lastUpdated) : null
+  const endpoint = 'entries.json?read=false&starred=false&per_page=100' + (date ? `&since=${date.toISOString()}` : '')
+  let items = await getPaginatedItems(endpoint, maxNum, callback)
+  // callback(items)
 }
 
 async function fetchSavedItems (callback, lastUpdated, oldItems, feeds, maxNum) {
