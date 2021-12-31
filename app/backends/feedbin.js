@@ -122,7 +122,7 @@ async function getPaginatedItems (endpoint, maxNum, callback) {
     // this is a weird setup where the response is an array of items plus potentially a URL keyed on `nextPage`
     // not even sure how that's supposed to work
     let newItems = response.filter(i => i !== nextPage)
-    newItems = mapFeedbinItemToRizzleItem(newItems)
+    newItems = newItems.map(mapFeedbinItemToRizzleItem)
     callback(newItems)
     numItems += newItems.length
     if (numItems >= maxNum) {
