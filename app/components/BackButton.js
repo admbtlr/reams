@@ -37,7 +37,7 @@ export default function BackButton({ isLight, onPress, style }) {
           <Path
             d="M12 24l-10-10 10-10"
             stroke={hslString('rizzleText')}
-            strokeWidth={4}
+            strokeWidth={3}
             strokeLinecap='round'
             strokeLinejoin='round' />
         </Svg>
