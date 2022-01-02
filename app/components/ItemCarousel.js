@@ -5,6 +5,8 @@ import ItemsScreenOnboarding from './ItemsScreenOnboarding'
 import {
   ActionSheetIOS,
   Animated,
+  Dimensions,
+  Image,
   Text,
   View
 } from 'react-native'
@@ -19,6 +21,9 @@ import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { hslString } from '../utils/colors'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
 import { fontSizeMultiplier } from '../utils'
+import BackButton from './BackButton'
+import {STATUS_BAR_HEIGHT} from './TopBar'
+import EmptyCarousel from './EmptyCarousel'
 
 export const BUFFER_LENGTH = 5
 
@@ -370,79 +375,6 @@ class ItemCarousel extends React.Component {
 }
 
 export default ItemCarousel
-
-const EmptyCarousel = ({ displayMode, navigation, toggleDisplayMode }) => {
-  return <View style={{
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '66%',
-    marginLeft: '16.67%'
-  }}>
-    { displayMode === ItemType.saved ?
-      <View style={{ 
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'stretch'
-      }}>
-        <Text style={{
-          ...textInfoBoldStyle(),
-          fontSize: 22 * fontSizeMultiplier(),
-          marginBottom: 24 * fontSizeMultiplier(),
-          marginLeft: 0,
-          marginRight: 0
-        }}>This is the area for your saved stories, but you don’t have any right now</Text>
-        <Text style={{
-          ...textInfoStyle(),
-          fontSize: 20 * fontSizeMultiplier(),
-          marginBottom: 24 * fontSizeMultiplier(),
-          marginLeft: 0,
-          marginRight: 0
-        }}>You can save stories from your feed, or direct from Safari using the Rizzle Share Extension</Text>
-        <TextButton
-          text='Go back to Your Account'
-          onPress={ () => {
-            navigation.navigate('Account')
-          }} />
-      </View> :
-      <View style={{ 
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'stretch'
-      }}>
-        <Text style={{
-          ...textInfoBoldStyle(),
-          fontSize: 22 * fontSizeMultiplier(),
-          marginBottom: 24 * fontSizeMultiplier(),
-          marginLeft: 0,
-          marginRight: 0
-        }}>You have no unread stories!</Text>
-        <Text style={{
-          ...textInfoStyle(),
-          fontSize: 18 * fontSizeMultiplier(),
-          marginBottom: 24 * fontSizeMultiplier(),
-          marginLeft: 0,
-          marginRight: 0
-        }}>This is the moment when you put down your phone and go outside for a bit.</Text> 
-        <Text style={{
-          ...textInfoStyle(),
-          fontSize: 18 * fontSizeMultiplier(),
-          marginBottom: 24 * fontSizeMultiplier(),
-          marginLeft: 0,
-          marginRight: 0
-        }}>Or alternatively you could...</Text>
-        <TextButton
-          buttonStyle={{
-            width: 'auto'
-          }}
-          text='Add some more feeds'
-          onPress={ () => {
-            navigation.navigate('Feeds')
-          }} />
-      </View>
-    }
-  </View>
-}
 
 ItemCarousel.propTypes = {
   // from parent
