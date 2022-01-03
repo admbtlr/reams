@@ -22,10 +22,8 @@ const initialBufferIndex = 1
 function TopBars (props) {
   const {
     index,
-    isOnboarding,
     items,
     navigation,
-    numItems,
     openFeedModal,
     setClampedScrollAnimSetterAndListener,
     setScrollAnimSetterAndListener,
@@ -161,7 +159,6 @@ function TopBars (props) {
       item={item}
       key={item ? item._id : i}
       navigation={navigation}
-      numItems={numItems}
       opacityAnim={opacityAnims[i]}
       openFeedModal={openFeedModal}
       scrollAnim={scrollAnim}

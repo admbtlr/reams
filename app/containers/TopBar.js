@@ -9,12 +9,15 @@ import TopBar from '../components/TopBar.js'
 import { getItems, getIndex } from '../utils/get-item'
 
 const mapStateToProps = (state, ownProps) => {
+  const displayMode = state.itemsMeta.display
+  const numItems = getItems(state).length
   return {
-    displayMode: state.itemsMeta.display,
+    ...ownProps,
+    displayMode,
+    numItems,
     feedFilter: state.config.feedFilter,
     isDarkMode: state.ui.isDarkMode,
     isOnboarding: state.config.isOnboarding,
-    ...ownProps
   }
 }
 

@@ -1,5 +1,4 @@
 
-- be more efficient about getting feedbin items
 - handle being offline better (put checks into fetchItems etc.)
 - the very first buttonset is the wrong colour?
 - why do saved external items (sometimes) render twice?
@@ -11,7 +10,6 @@
   - what's missing actually?
 
 # Someday / Maybe
-
 - use more built-in fonts?
   - (match fonts to blogs???)
   - https://fonts.google.com/specimen/Syne
@@ -50,6 +48,7 @@
 
 # Done
 
+- ~~be more efficient about getting feedbin items~~
 - ~~why does saving external items only work sometimes?~~
 - ~~the nav snafu~~
 - ~~is this what makes TF crash? https://github.com/facebook/flipper/issues/834~~
