@@ -259,7 +259,7 @@ export function removeCoverImageDuplicate (item) {
       item.banner_image &&
       item.styles.coverImage?.isInline &&
       imageSrcIsUrl(firstImg) &&
-      getImageFileName(firstImg) === getImageFileName(item.banner_image)) {
+      fuzz.ratio(getImageFileName(firstImg), getImageFileName(item.banner_image)) > 70) {
       item[visibleContentKey] = item[visibleContentKey].replace(/<img.*?>/, '')
     }
   }
