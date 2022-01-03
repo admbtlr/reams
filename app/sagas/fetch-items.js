@@ -98,7 +98,7 @@ export function * fetchItems (type = ItemType.unread) {
     while (true) {
       let items = yield take(itemsChannel)
       if (items.length > 0) {
-        yield call(receiveAndProcessItems, items, type, isFirstBatch, i)
+        yield fork(receiveAndProcessItems, items, type, isFirstBatch, i)
         isFirstBatch = false
         i++
       }
@@ -144,7 +144,7 @@ function fetchItemsChannel (type, lastUpdated, oldItems, feeds) {
       .catch(err => {
         logger('fetchItemsChannel', err)
       })
-    return _ => {
+    return () => {
       console.log('Channel closed')
     }
   })

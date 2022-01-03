@@ -73,9 +73,6 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) 
     case 'feedbin':
       return await feedbin.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
   }
-
-  console.log('fetchItemsBackends has ended')
-  return items
 }
 
 // export async function fetchSavedItems (savedItems, currentItem, feeds, lastUpdated, cb) {
