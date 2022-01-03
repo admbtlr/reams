@@ -33,8 +33,7 @@ const EmptyCarousel = ({ displayMode, navigation }) => {
             style={{
               // flex: 1,
               height: 217,
-              width: 246,
-              justifySelf: 'center',
+              width: 246
             }}
           />
           { displayMode === ItemType.saved ?

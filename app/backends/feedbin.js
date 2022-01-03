@@ -134,8 +134,7 @@ async function getPaginatedItems (endpoint, maxNum, callback) {
 async function fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum) {
   const date = lastUpdated ? new Date(lastUpdated) : null
   const endpoint = 'entries.json?read=false&starred=false&per_page=100' + (date ? `&since=${date.toISOString()}` : '')
-  let items = await getPaginatedItems(endpoint, maxNum, callback)
-  // callback(items)
+  await getPaginatedItems(endpoint, maxNum, callback)
 }
 
 async function fetchSavedItems (callback, lastUpdated, oldItems, feeds, maxNum) {
