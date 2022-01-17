@@ -13,6 +13,10 @@ import {
   SET_CACHED_FEED_ICON,
   UPDATE_FEED
 } from '../store/feeds/types'
+import {
+  ADD_MESSAGE,
+  REMOVE_MESSAGE
+} from '../store/ui/types'
 import { addFeed, fetchFeeds, getFeedDetails, isRizzleBasic, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../utils'
 import { hexToHsl, rgbToHsl } from '../utils/colors'
@@ -51,6 +55,13 @@ export function * fetchAllFeeds () {
   const config = yield select(getConfig)
   if (!config.isOnline || isRizzleBasic()) return []
 
+  yield put({
+    type: ADD_MESSAGE,
+    message: {
+      messageString: 'Getting feeds',
+      hasEllipsis: true
+    }
+  })
   let oldFeeds = yield select(getFeeds) || []
   let newFeeds = yield fetchFeeds() || []
   let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => nf.id === of.id || nf.url === of.url))
@@ -75,6 +86,10 @@ export function * fetchAllFeeds () {
       items: dirtyItems
     })
   }
+  yield put({
+    type: REMOVE_MESSAGE,
+    messageString: 'Getting feeds'
+  })
 }
 
 export function * markFeedRead (action) {
