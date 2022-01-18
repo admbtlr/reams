@@ -65,7 +65,7 @@ export default class Rizzle extends Component<Props, State> {
   }
 
   render () {
-    return (
+    const App = (
       <NavigationContainer        
         ref={this.navigation}
         onReady={() => {
@@ -90,5 +90,6 @@ export default class Rizzle extends Component<Props, State> {
         </Provider>
       </NavigationContainer>
     )
+    return App
   }
 }
