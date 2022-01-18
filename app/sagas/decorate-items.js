@@ -66,7 +66,8 @@ export function * decorateItems (action) {
   })
 }
 
-function * decorationFailed (item) {
+function * decorationFailed (decoration) {
+  const { item } = decoration
   consoleLog(`Error decorating item "${item.title}", trying again next time around`)
   yield call(InteractionManager.runAfterInteractions)
   yield put({
