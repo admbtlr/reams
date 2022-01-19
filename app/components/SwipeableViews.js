@@ -55,13 +55,13 @@ class SwipeableViews extends Component {
 
   onScrollEndDrag (evt) {
     this.currentOffset = evt.nativeEvent.targetContentOffset.x
-    const newIndex = this.currentOffset / this.screenWidth
+    const newIndex = Math.round(this.currentOffset / this.screenWidth)
     this.updateIndex(newIndex)
   }
 
   onMomentumScrollEnd (evt) {
     this.currentOffset = evt.nativeEvent.contentOffset.x
-    const newIndex = this.currentOffset / this.screenWidth
+    const newIndex = Math.round(this.currentOffset / this.screenWidth)
     this.updateIndex(newIndex)
   }
 

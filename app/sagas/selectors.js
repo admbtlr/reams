@@ -40,7 +40,7 @@ export function getActiveItems (state) {
     if (index + i >= 0 && index + i < items.length) {
       const activeItem = items[index + i]
       if (!activeItems.find(ai => ai._id === activeItem._id)) {
-        activeItems.push(items[index + i])
+        activeItems.push(activeItem)
       }
     }
   }
