@@ -49,7 +49,7 @@ export function * decorateItems (action) {
           if (decoration) {
             // consoleLog(`Got decoration for ${nextItem.title}`)
             if (decoration.mercuryStuff.error) {
-              yield decorationFailed(decoration)
+              yield decorationFailed(nextItem)
             } else {
               yield applyDecoration(decoration, nextItem.isSaved)
             }
@@ -66,14 +66,14 @@ export function * decorateItems (action) {
   })
 }
 
-function * decorationFailed (decoration) {
-  const { item } = decoration
+function * decorationFailed (item) {
+  if (!item) return
   consoleLog(`Error decorating item "${item.title}", trying again next time around`)
   yield call(InteractionManager.runAfterInteractions)
   yield put({
     type: ITEM_DECORATION_FAILURE,
     item,
-    isSaved: item && item.isSaved
+    isSaved: item.isSaved
   })
   pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
