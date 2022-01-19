@@ -15,7 +15,7 @@
 
 default_platform(:ios)
 
-ENV["DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS"] = "-t DAV"
+# ENV["DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS"] = "-t DAV"
 
 platform :ios do
   desc "Push a new build to TestFlight"
