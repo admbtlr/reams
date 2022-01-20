@@ -1,5 +1,5 @@
 import { ItemType } from '../store/items/types'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import {
   Animated,
@@ -29,14 +29,14 @@ export default function ButtonSet ({
   useEffect(() => {
     makeVisible(visible)
   }, [visible])
-
+  const visibleRef = useRef(true)
   const selectItem = state => item ?
     (state.itemsUnread.items.find(i => i._id === item._id) ||
     state.itemsSaved.items.find(i => i._id === item._id)) :
     null
   const liveItem = useSelector(selectItem)
 
-  const visibleAnim = new Animated.Value(0)
+  const visibleAnim = new Animated.Value(visibleRef.current ? 0 : 1)
   const toggleAnimMercury = new Animated.Value(0)
   const toggleAnimSaved = new Animated.Value(0)
 
@@ -79,16 +79,16 @@ export default function ButtonSet ({
     }
   }
 
-  const makeVisible = (areVisible) => {
+  const makeVisible = (imminentlyVisible) => {
     Animated.timing(
       visibleAnim,
       {
-        toValue: areVisible ? 0 : 1,
-        duration: 800,
+        toValue: imminentlyVisible ? 0 : 1,
+        duration: 600,
         useNativeDriver: true
       }
     ).start(_ => {
-      areButtonsVisible = areVisible ? 0 : 1
+      visibleRef.current = imminentlyVisible
     })
   }
 

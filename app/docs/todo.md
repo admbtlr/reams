@@ -1,7 +1,7 @@
-
+- test adding feeds and stories simultaneously
 - handle being offline better (put checks into fetchItems etc.)
-- the very first buttonset is the wrong colour?
 - why do saved external items (sometimes) render twice?
+- move message down when not in item screen
 - onboarding in dark mode
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
@@ -48,6 +48,7 @@
 
 # Done
 
+- ~~the very first buttonset is the wrong colour?~~
 - ~~be more efficient about getting feedbin items~~
 - ~~why does saving external items only work sometimes?~~
 - ~~the nav snafu~~

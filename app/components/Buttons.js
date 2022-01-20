@@ -47,20 +47,20 @@ class Buttons extends React.Component {
       _id: item._id,
       content_mercury: item.content_mercury
     })
-    return !(this.props.index === nextProps.index &&
-      this.props.displayMode === nextProps.displayMode &&
-      this.props.visible === nextProps.visible &&
-      this.props.numItems === nextProps.numItems &&
-      this.props.bufferedItems &&
-      nextProps.bufferedItems &&
-      JSON.stringify(this.props.bufferedItems.map(mapFunc)) ===
-        JSON.stringify(nextProps.bufferedItems.map(mapFunc)))
+    // return !(this.props.index === nextProps.index &&
+    //   this.props.displayMode === nextProps.displayMode &&
+    //   this.props.visible === nextProps.visible &&
+    //   this.props.numItems === nextProps.numItems &&
+    //   this.props.bufferedItems &&
+    //   nextProps.bufferedItems &&
+    //   JSON.stringify(this.props.bufferedItems.map(mapFunc)) ===
+    //     JSON.stringify(nextProps.bufferedItems.map(mapFunc)))
     // debugger
-    // return true
+    return true
   }
 
   render () {
-    // console.log('RENDER BUTTONS!')
+    console.log('RENDER BUTTONS!')
     if (this.props.isOnboarding) {
       return null
     } else {
