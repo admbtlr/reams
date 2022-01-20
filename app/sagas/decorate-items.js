@@ -160,7 +160,7 @@ function * getNextItemToDecorate (pendingDecoration) {
       nextItem = items.find(i => !i.readAt &&
         i.feed_id === feed._id &&
         !i.hasLoadedMercuryStuff &&
-        i.decoration_failures ? i.decoration_failures < 5 : true &&
+        (i.decoration_failures ? i.decoration_failures < 5 : true) &&
         !pendingDecoration.find(pd => pd._id === i._id))
     }
   }
