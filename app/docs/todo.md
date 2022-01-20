@@ -1,4 +1,5 @@
 - test adding feeds and stories simultaneously
+- we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
 - why do saved external items (sometimes) render twice?
 - move message down when not in item screen
