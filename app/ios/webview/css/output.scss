@@ -1295,6 +1295,9 @@ hr {
 
   blockquote.short-blockquote, .pullquote, aside {
     color: var(--feed-color);
+    a {
+      color: var(--feed-color) !important;
+    }
   }
 
   *:not(:first-of-type) div,
