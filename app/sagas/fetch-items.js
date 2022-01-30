@@ -36,13 +36,23 @@ import {
   getItems,
   getLastUpdated,
 } from './selectors'
+import NetInfo from '@react-native-community/netinfo'
 
 
 let feeds
 
 export function * fetchAllItems (includeSaved = true) {
-  const config = yield select(getConfig)
-  if (!config.isOnline/* || !hasBackend()*/) return
+
+  const isConnectionOK = function* () {
+    // const config = yield select(getConfig)
+    // if (!config.isOnline) return false
+    const netInfo = yield call(NetInfo.fetch)
+    console.log(netInfo)
+    return netInfo.isInternetReachable
+  }
+
+  const connected = yield isConnectionOK()
+  if (!connected) return
 
   yield put({
     type: ADD_MESSAGE,

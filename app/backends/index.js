@@ -34,20 +34,15 @@ export function isRizzleBasic () {
 
 export async function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
-  try {
-    const response = await fetch(url, {
-      'headers': new Headers({
-        'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
-      })
+  const response = await fetch(url, {
+    'headers': new Headers({
+      'x-api-key': 'vTNatJB4JsgmfnKysiE9cOuJonFib4U9176DRF2z'
     })
-    if (response.ok) {
-      return response.json()
-    } else {
-      log(`${response.url}: ${response.status} ${response.statusText}`)
-      return
-    }
-  } catch (error) {
-    log('loadMercuryStuff', error)
+  })
+  if (response.ok) {
+    return response.json()
+  } else {
+    log(`${response.url}: ${response.status} ${response.statusText}`)
     return
   }
 }

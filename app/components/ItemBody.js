@@ -145,7 +145,7 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showIm
   <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 </head>
-<body ${blockquoteClass} ${displayMode}" style="background-color: ${bodyColor}" data-cover="${data}">
+<body class="${blockquoteClass} ${displayMode}" style="background-color: ${bodyColor}" data-cover="${data}">
   <article
     class="${articleClasses}"
     style="min-height: ${minHeight}px; width: 100vw;">

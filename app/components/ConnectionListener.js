@@ -6,10 +6,10 @@ import { IS_ONLINE } from '../store/config/types'
 export default ConnectionListener = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(({isConnected}) => {
+    const unsubscribe = NetInfo.addEventListener(({isInternetReachable}) => {
       dispatch({
         type: IS_ONLINE,
-        isOnline: isConnected
+        isOnline: isInternetReachable
       })
     })
     return unsubscribe
