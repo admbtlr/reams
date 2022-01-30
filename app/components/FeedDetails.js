@@ -9,9 +9,9 @@ import {
 import Svg, {Circle, Polyline, Path, Line} from 'react-native-svg'
 import TextButton from './TextButton'
 import NavButton from './NavButton'
+import SwitchRow from './SwitchRow'
 import { hslString } from '../utils/colors'
 import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
-import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1'
 
@@ -28,36 +28,6 @@ const createTimeString = (seconds) => {
       (hours > 0 ? mins % 60 : mins) + ' minute' + (mins === 1 ? '' : 's') :
       seconds + ' seconds')
 }
-
-const SwitchRow = ({icon, label, value, onValueChange}) => <View style={{
-  flex: 0,
-  flexDirection: 'row',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  marginBottom: margin,
-  paddingTop: margin,
-  borderTopColor: hslString('rizzleText', '', 0.2),
-  borderTopWidth: 1
-}}>
-  <View style={{
-    width: 16,
-    marginLeft: 8 // the internal padding of a TextButton, to align icons
-  }}>{ icon }</View>
-  <Text style={{
-    ...textInfoStyle(),
-    flex: 1
-  }}>{label}</Text>
-  <Switch 
-    onValueChange={onValueChange}
-    trackColor={{
-      false: hslString('rizzleText', '', 0.3),
-      true: hslString('rizzleText')
-    }}
-    value={value}
-  />
-</View>
-
-
 
 export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, close, filterItems, navigation, setIndex, toggleMute, toggleLike, toggleMercury }) {
   const [isLiked, setLiked] = useState(feed.isLiked)
@@ -230,7 +200,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         // backgroundColor: 'red'
         // alignItems: 'flex-end'
       }}>
-        <NavButton
+        {/*<NavButton
           hasTopBorder={true}
           onPress={() => {
             clearReadItems()
@@ -247,7 +217,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               marginLeft: 6,
               flex: 1,
             }}>Read stories from <Text style={textInfoBoldStyle()}>{feed.title}</Text></Text>
-        </NavButton>
+          </NavButton>*/}
         <View style={{
             flexDirection: 'column',
             flex: 0,
@@ -255,22 +225,23 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
           }}>
           <SwitchRow
             label='Always show full text view'
+            help='Show the full text of the story instead of the (possibly truncated) RSS version'
             icon={mercuryIcon}
             onValueChange={() => {
               setMercury(!isMercury)
               toggleMercury(feed._id)
             }}
             value={isMercury} />
-          {/*<SwitchRow
+          <SwitchRow
             label='Only show stories from this feed'
             icon={filterIcon}
             onValueChange={() => {
               clearReadItems()
-              setFiltered(!isFiltered)
-              filterItems(isFiltered ? null : feed._id)
+              setFiltered(!feed.isFiltered)
+              filterItems(feed.isFiltered ? null : feed._id)
               setIndex(0)
             }}
-          value={isFiltered} />*/}
+          value={feed.isFiltered} />
           <SwitchRow
             label='Mute this feed'
             icon={muteIcon}
@@ -290,6 +261,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
                 toggleLike(feed._id)
               }, 100)
             }}
+            help='Stories will always appear at the front of your unread list'
             value={isLiked} />
         </View>
         <View style={{
