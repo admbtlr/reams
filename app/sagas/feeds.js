@@ -166,10 +166,10 @@ function convertColorIfNecessary (feed) {
   } else {
     color = [Math.round(Math.random() * 360), 50, 30]
   }
-  if (color[1] > 70) {
+  if (color[1] > 90) {
     color[1] = Math.round(30 + (color[1] - 30) / 2)
   }
-  if (color[2] > 50) {
+  if (color[2] > 70) {
     color[2] = Math.round(30 + (color[2] - 30) / 2)
   }
   return {

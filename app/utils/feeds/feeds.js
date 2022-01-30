@@ -1404,7 +1404,7 @@ export const feeds = [{
   "category": "culture",
   "favicon": {
     "source": require('../../assets/images/favicons/169.png'),
-    "url": "https://cdn.nybooks.com/wp-content/themes/nyrb/img/touch-icon-iphone-144.png",
+    "url": "https://www.nybooks.com/wp-content/themes/nyrb_2020/img/apple-touch-icon-152x152.png",
     "size": "72x72"
   },
   "link": "https://www.nybooks.com/",
