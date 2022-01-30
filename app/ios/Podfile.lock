@@ -244,7 +244,7 @@ PODS:
     - React
   - react-native-image-resizer (1.4.5):
     - React-Core
-  - react-native-netinfo (5.9.10):
+  - react-native-netinfo (7.1.9):
     - React-Core
   - react-native-safe-area-context (0.7.3):
     - React
@@ -644,7 +644,7 @@ SPEC CHECKSUMS:
   react-native-encrypted-storage: e78d848ce0fb663c2ce306e37921d026809322e6
   react-native-image-filter-kit: 67625a103a9cdc29211a230ee9215c09c1c1942d
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
-  react-native-netinfo: 30fb89fa913c342be82a887b56e96be6d71201dd
+  react-native-netinfo: 87e5bfaf21ea5c6c110941290aa481dd8e849f98
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 0aa2cde4ee7e3e1c5fffdf64dbce9c709aa18155
