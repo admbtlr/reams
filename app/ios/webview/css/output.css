@@ -866,6 +866,8 @@ hr {
 
 .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
   color: var(--feed-color); }
+  .itemArticle blockquote.short-blockquote a, .itemArticle .pullquote a, .itemArticle aside a {
+    color: var(--feed-color) !important; }
 
 .itemArticle *:not(:first-of-type) div:before,
 .itemArticle * div:not(:first-of-type):before,
