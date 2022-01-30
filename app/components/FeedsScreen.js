@@ -73,20 +73,12 @@ class FeedsScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    // if (this.props.feeds.length === 0) {
-    //   // this.showAddFeeds()
-    // } else {
-    //   if (this.props.route?.params?.gotoItems) {
-    //     this.props.navigation.navigate('Items')
-    //   }  
-    // }
-    // this.props.navigation.setParams({})
-}
+    if (this.props.feeds.length === 0) {
+      setTimeout(this.showAddFeeds.bind(this), 500)
+    }
+  }
 
   componentDidUpdate = () => {
-    // if (this.props.route?.params?.gotoItems) {
-    //   this.props.navigation.navigate('Items')
-    // }
   }
 
   render = () => {

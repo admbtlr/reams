@@ -11,6 +11,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 import Config from "react-native-config"
 import TextButton from './TextButton'
 import NavButton from './NavButton'
+import {STATUS_BAR_HEIGHT} from './TopBar'
 import AccountCredentialsForm from './AccountCredentialsForm'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
@@ -61,19 +62,36 @@ class AccountScreen extends React.Component {
   }
 
   componentDidMount () {
-    const { isOnboarding } = this.props
+    const { backend, isOnboarding, navigation } = this.props
     if (isOnboarding) {
       this.redirectToItems()
-    }    
+    } else if (!backend || backend === '') {
+      navigation.setOptions({
+        headerStyle: {
+          backgroundColor: hslString('logo1'),
+          // https://github.com/react-navigation/react-navigation/issues/6899
+          shadowOffset: { height: 0, width: 0 }
+        }
+      })
+    }
   }
 
   componentDidUpdate (prevProps) {
-    const { backend, isOnboarding } = this.props
+    const { backend, isOnboarding, navigation } = this.props
     if (isOnboarding) {
       // this.redirectToItems()
     }    
     if (prevProps.backend === '' && backend !== '') {
-      this.redirectToItems(false, true)
+      this.redirectToItems(true, true)
+    }
+    if (backend?.length  > 0) {
+      navigation.setOptions({
+        headerStyle: {
+          backgroundColor: hslString('rizzleBG'),
+          height: STATUS_BAR_HEIGHT,
+          shadowOffset: { height: 0, width: 0 }
+        }
+      })
     }
   }
 
@@ -84,7 +102,7 @@ class AccountScreen extends React.Component {
   }
 
   render () {
-    const { backend, hasFeeds } = this.props
+    const { backend, hasFeeds, navigation } = this.props
     const { expandedBackend } = this.state
     const width = Dimensions.get('window').width
     const buttonWidth = width > 950 ?
@@ -107,7 +125,7 @@ class AccountScreen extends React.Component {
     const textTipStyles = (color) => ({
       ...textStyles(color),
       fontSize: 18 * fontSizeMultiplier(),
-      lineHeight: 22 * fontSizeMultiplier(),
+      lineHeight: 26 * fontSizeMultiplier(),
       marginTop: 0,
       marginBottom: 0,
       color
@@ -129,27 +147,39 @@ class AccountScreen extends React.Component {
     />
 
     const HelpView = ({children, title, style }) => (
-      <View style={{padding: width * 0.05, paddingTop: width * 0.01, backgroundColor: hslString('logo1'), borderRadius: width * 0.04, ...style }}>
-        <View>
-          <View style={{
+      <View style={{
+        padding: width * 0.05, 
+        backgroundColor: hslString('logo1'), 
+        marginLeft: -width * 0.1, 
+        marginRight: -width * 0.1, 
+        marginTop: 0 - STATUS_BAR_HEIGHT,
+        paddingTop: STATUS_BAR_HEIGHT + width * 0.1,
+        minHeight: STATUS_BAR_HEIGHT + width * 0.05 + 200,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...style 
+      }}>
+        <Image 
+          source={require('../assets/images/feeds-screen-onboarding-bg.png')} 
+          style={{
+            alignSelf: 'center',
+            width: 200 / 311 * 1238,
+            height: 200,
+            marginLeft: -width * 0.05,
             position: 'absolute',
-            // backgroundColor: 'white',
-            width:width * 0.07, 
-            height:width * 0.07, 
-            borderRadius: width * 0.035,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: -width * 0.04,
-            // marginTop: -width * 0.015,
-            marginRight: width * 0.025
-          }}>
-            <Text style={{ fontSize: 24 * fontSizeMultiplier() }}>👉</Text>
-          </View>
-          <View style={{ flex: 1, textAlign: 'center' }}>
-            <Text style={{ ...textInfoBoldStyle(), color: 'white', textAlign: 'center', marginLeft: 0, fontSize: 24 * fontSizeMultiplier() }}>{ title }</Text>
-          </View>
-        </View>
-        <View style={{ flex: 1, marginTop: width * 0.05 }}>
+            top: STATUS_BAR_HEIGHT + width * 0.025,
+          }}
+        />
+        <View style={{ 
+          // flex: 1, 
+          marginTop: 0, 
+          paddingTop: 0, 
+          textAlign: 'center', 
+          alignItems: 'center',
+          paddingHorizontal: width * 0.1,
+          maxWidth: 600 - width * 0.1,
+        }}>
           {children}
         </View>
       </View>
@@ -246,17 +276,13 @@ class AccountScreen extends React.Component {
                 </View>
               }
               { !backend &&
-                <HelpView title='Select your RSS service' style={{ marginTop: width * 0.05 }}>
-                  <Text style={ textTipStyles('white') }>If you have an account with either Feedbin or Feed Wrangler, enter your login details below.</Text>
+                <HelpView>
                   <Text style={{ 
                     ...textTipStyles('white'),
-                    marginTop: width * 0.05
-                  }}>Alternatively, you can just use Reams Basic.</Text>
+                    textAlign: 'center',
+                  }}>If you have an account with either Feedbin or Feed Wrangler, enter your login details below. Alternatively, you can just use Reams Basic.</Text>
                 </HelpView>
               }
-              { /*!!backend && !hasFeeds && <HelpView title='Add some feeds' style={{ marginTop: width * 0.05 }}>
-                  <Text style={ textTipStyles }>Now you need to add some feeds. Tap on <Text style={ textTipStylesBold }>Your Feeds</Text> to do just that.</Text>
-            </HelpView> */} 
               <TextButton
                 text={ 'Reams Basic' }
                 { ...getAttributes('basic') }
