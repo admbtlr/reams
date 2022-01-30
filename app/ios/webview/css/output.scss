@@ -1114,15 +1114,15 @@ hr {
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic";
 
-    em {
+    em, i {
       font-family: "AvenirNext-Medium";
     }
 
-    strong {
+    strong, b {
       font-family: "AvenirNext-BoldItalic";
     }
 
-    em strong, strong em {
+    em strong, strong em, b i, i b {
       font-family: "AvenirNext-Bold";
     }
   }
@@ -1138,12 +1138,16 @@ hr {
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Poppins-Italic";
 
-    em {
+    em, i {
       font-family: "Poppins-Regular";
     }
 
-    strong {
+    strong, b {
       font-family: "Poppins-ExtraBoldItalic";
+    }
+
+    em strong, strong em, b i, i b {
+      font-family: "Poppins-ExtraBold";
     }
   }
 }
@@ -1158,11 +1162,11 @@ hr {
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-LightItalic";
 
-    em {
+    em, i {
       font-family: "Montserrat-Light";
     }
 
-    strong {
+    strong, b {
       font-family: "Montserrat-BoldItalic";
     }
   }
@@ -1214,15 +1218,15 @@ hr {
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-Italic";
 
-    em {
+    em, i {
       font-family: "IBMPlexSerif";
     }
 
-    strong {
+    strong, b {
       font-family: "IBMPlexSerif-BoldItalic";
     }
 
-    em strong, strong em {
+    em strong, strong em, i b, b i {
       font-family: "PlayfairDisplay-Bold";
     }
   }
