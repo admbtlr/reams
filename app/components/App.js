@@ -151,6 +151,7 @@ const Main = () => {
         component={Feeds}
         options={{
           title: 'Your Feeds',
+          headerBackTitleVisible: false,
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit
         }} />
       <MainStack.Screen
