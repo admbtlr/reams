@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import {Linking} from 'react-native'
 import {WebView} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
 import { hslString } from '../utils/colors'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { ADD_ANNOTATION } from '../store/annotations/types'
+import { id } from '../utils'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -26,8 +28,6 @@ window.onload = () => {
 };
 true;`
 
-let webView
-
 const stripInlineStyles = (html) => {
   if (!html) return html
   const pattern = new RegExp(/style=".*?"/, 'g')
@@ -45,6 +45,9 @@ const stripUTags = (html) => {
 }
 
 export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showImageViewer, updateWebViewHeight, webViewHeight }) => {
+  let webView = useRef(null)
+  const dispatch = useDispatch()
+
   const openLinksExternallyProp = /*__DEV__ ? {} :*/ {
     onShouldStartLoadWithRequest: (e) => {
       if (e.navigationType === 'click') {
@@ -65,6 +68,30 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showIm
     if (calculatedHeight) {
       updateWebViewHeight(calculatedHeight)
     }
+  }
+
+  const highlightSelection = () => {
+    if (webView?.current) {
+      webView.current.injectJavaScript(`
+        highlightSelection();
+        true;
+      `)
+    }
+  }
+
+  const onHighlight = (text, occurrence) => {
+    const annotation = {
+      _id: id(),
+      text,
+      occurrence,
+      item_id: item.id,
+      url: item.url,
+      created_at: Date.now()
+    }
+    dispatch({
+      type: ADD_ANNOTATION,
+      annotation
+    })
   }
 
   const { banner_image, content_html, content_mercury, feed_color, showCoverImage, showMercuryContent, styles } = item
@@ -161,6 +188,15 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showIm
     decelerationRate='normal'
     injectedJavaScript={ injectedJavaScript }
     mixedContentMode='compatibility'
+    menuItems={[{ 
+      label: 'Highlight', 
+      key: 'highlight'
+    }]}
+    onCustomMenuSelection={({ nativeEvent }) => {
+      if (nativeEvent?.key === 'highlight') {
+        highlightSelection(nativeEvent.selection)
+      }
+    }}
     onMessage={(event) => {
       const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
       if (msg.substring(0, 6) === 'image:') {
@@ -173,15 +209,19 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showIm
         }
       } else if (msg.substring(0,7) === 'resize:') {
         updateWebViewHeight(parseInt(msg.substring(7)))
-      } else if (msg.substring(0, 7) === 'select:') {
-        const selectedText = msg.substring(7)
-        onTextSelection(selectedText)
+      } else if (msg.substring(0, 10) === 'highlight:') {
+        const selectedText = msg.substring(10)
+        const split = selectedText.split(':')
+        const count = split.splice(-1)[0]
+        const text = split.join(':')
+        console.log('HIGHLIGHT: ' + text + ' (' + count + ')')
+        onHighlight(text, count)
       }
     }}
     onNavigationStateChange={onNavigationStateChange}
     {...openLinksExternallyProp}
     originWhitelist={['*']}
-    ref={(ref) => { webView = ref }}
+    ref={webView}
     scalesPageToFit={false}
     scrollEnabled={false}
     style={{

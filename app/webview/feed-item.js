@@ -497,6 +497,23 @@ function stopAutoplay () {
   [].slice.call(document.getElementsByTagName('video')).forEach(v => v.removeAttribute('autoplay'))
 }
 
+function highlightSelection() {       
+  let selection= window.getSelection()
+  console.log(selection)
+  // if (selection.rangeCount === 0) return
+  let range = selection.getRangeAt(0);
+  let selectedContent = range.extractContents();
+  var span= document.createElement("span");
+  span.style.backgroundColor = "lightpink";
+  span.appendChild(selectedContent);
+  range.insertNode(span);
+  const selectedText = span.innerText;
+  const wholePage = document.body.innerText;
+  // const count = (wholePage.match(new RegExp(selectedText, "g")) || []).length;
+  const occurrence = wholePage.indexOf(selectedText)
+  window.ReactNativeWebView.postMessage("highlight:" + selectedText + ":" + occurrence);
+}
+
 // what?
 replaceSectionsWithDivs()
 removeDivsInDivs()
