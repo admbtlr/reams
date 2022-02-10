@@ -339,5 +339,19 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinejoin='round'>
         <Path d='M9 18l6-6-6-6'/>
       </Svg>
+
+    case 'x':
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke={borderColor}
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'>
+        <Line x1="18" y1="6" x2="6" y2="18" />
+        <Line x1="6" y1="6" x2="18" y2="18" />
+      </Svg>
 }
 }
