@@ -18,6 +18,8 @@ import { hslString } from '../utils/colors'
 import { deepEqual, getInset } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import { useStore } from 'react-redux'
+import FeedFilterIndicator from './FeedFilterIndicator'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
@@ -286,11 +288,13 @@ class ListHeaderComponent extends React.Component {
           icon={ getRizzleButtonIcon('unread', hslString('rizzleText')) }
           index={0}
           onPress={() => {
-            this.props.clearFeedFilter()
             this.props.navigation.navigate('Items')
           }}
           scrollAnim={this.props.scrollAnim}
           index={1}
+        />
+        <FeedFilterIndicator 
+          scrollAnim={this.props.scrollAnim}
         />
         <Animated.View style={{
           transform: [{
