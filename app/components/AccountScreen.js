@@ -77,12 +77,12 @@ class AccountScreen extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { backend, isOnboarding, navigation } = this.props
+    const { backend, hasFeeds, isOnboarding, navigation } = this.props
     if (isOnboarding) {
       // this.redirectToItems()
     }    
     if (prevProps.backend === '' && backend !== '') {
-      this.redirectToItems(true, true)
+      this.redirectToItems(!hasFeeds, true)
     }
     if (backend?.length  > 0) {
       navigation.setOptions({
