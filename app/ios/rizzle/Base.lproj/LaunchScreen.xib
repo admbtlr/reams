@@ -26,6 +26,6 @@
         </view>
     </objects>
     <resources>
-        <image name="AppIconTransparent" width="246.5" height="216.5"/>
+        <image name="AppIconTransparent" width="246" height="217"/>
     </resources>
 </document>
