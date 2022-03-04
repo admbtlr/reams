@@ -6,9 +6,9 @@ To run the app:
 
 ```
 cd app
-npm install
+yarn install
 cd ios; pod install; cd ..
-npm start
+yarn start
 ```
 
 Then in another console:
