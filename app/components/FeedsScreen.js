@@ -141,7 +141,7 @@ class FeedsScreen extends React.Component {
             showAddFeeds={this.showAddFeeds.bind(this)}
             showModal={this.props.showModal}
           />}
-          numColumns={width > 500 ? 2 : 1}
+          numColumns={/*width > 500 ? 2 :*/ 1}
           onScroll={Animated.event(
             [{ nativeEvent: {
               contentOffset: { y: this.scrollAnim }

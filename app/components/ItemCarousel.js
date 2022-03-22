@@ -7,6 +7,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  Platform,
   Text,
   View
 } from 'react-native'
@@ -75,8 +76,20 @@ class ItemCarousel extends React.Component {
     this.clampedScrollAnims = {}
 
     this.state = {
-      panAnim: new Animated.Value(0)
+      panAnim: new Animated.Value(0),
+      orientation: 'portrait'
     }
+
+    const orientationListener = () => {
+      const width = Dimensions.get('window').width
+      const height = Dimensions.get('window').height
+      
+      this.setState({
+          orientation: height > width ? 'portrait' : 'landscape'
+      })
+    }
+
+    Dimensions.addEventListener('change', orientationListener.bind(this))
 
     this.onChangeIndex = this.onChangeIndex.bind(this)
     this.updateCarouselIndex = this.updateCarouselIndex.bind(this)
