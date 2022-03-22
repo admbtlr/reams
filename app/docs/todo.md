@@ -1,3 +1,4 @@
+- landscape mode
 - test adding feeds and stories simultaneously
 - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
@@ -7,8 +8,6 @@
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
-- make Feedwrangler work fully
-  - what's missing actually?
 
 # Someday / Maybe
 - use more built-in fonts?
@@ -49,6 +48,7 @@
 
 # Done
 
+- ~~make Feedwrangler work fully~~
 - ~~the very first buttonset is the wrong colour?~~
 - ~~be more efficient about getting feedbin items~~
 - ~~why does saving external items only work sometimes?~~

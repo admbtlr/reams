@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import { AppState } from 'react-native'
 import Forage from 'react-native-forage'
 import { useSelector } from 'react-redux'
@@ -18,8 +18,10 @@ const Analytics: React.FC<AnalyticsProps> = ({}) => {
   }, [])
 
   const feeds = useSelector(state => state.feeds.feeds)
+  const isRehydrated = useSelector(state => state._persist?.rehydrated)
+  const [rehydrated, setRehydrated] = useState(false)
 
-  if (!!prevFeeds) {
+  if (rehydrated && !!prevFeeds) {
     feeds.forEach(f => {
       if (!prevFeeds.find(pf => pf.url === f.url)) {
         console.log('trackEvent: Add Feed')
@@ -34,6 +36,9 @@ const Analytics: React.FC<AnalyticsProps> = ({}) => {
     title: f.title,
     url: f.url
   }))
+  if (isRehydrated !== rehydrated) {
+    setRehydrated(isRehydrated)
+  }
 
   return null
 }
