@@ -1,5 +1,5 @@
 import {Animated} from 'react-native'
-import {STATUS_BAR_HEIGHT} from '../components/TopBar.js'
+import { getStatusBarHeight } from '../utils'
 
 let clampedScrollListeners = []
 let scrollListeners = []
@@ -22,8 +22,8 @@ let initiated = false
 
 function reset (newScrollAnimValue) {
   // const toValue = newScrollAnimValue > 0 ?
-  //   STATUS_BAR_HEIGHT :
-  //   -STATUS_BAR_HEIGHT
+  //   getStatusBarHeight() :
+  //   -getStatusBarHeight()
   const toValue = -newScrollAnimValue
   scrollValue = 0
   clampedScrollValue = 0
@@ -78,7 +78,7 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
     .diffClamp(
       addedAnims,
       0,
-      STATUS_BAR_HEIGHT)
+      getStatusBarHeight())
 
   // now we have to recreate the diffClamped value
   // because of https://github.com/facebook/react-native/pull/12620
@@ -88,7 +88,7 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
     scrollValue = value
     clampedScrollValue = Math.min(
       Math.max(clampedScrollValue + diff, 0),
-      STATUS_BAR_HEIGHT
+      getStatusBarHeight()
     )
     if (diff > 0) {
       clampedScrollListeners.forEach((listener) => {
@@ -106,8 +106,8 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
   })
 
   clampedAnim = clamped.interpolate({
-    inputRange: [0, STATUS_BAR_HEIGHT],
-    outputRange: [0, -STATUS_BAR_HEIGHT],
+    inputRange: [0, getStatusBarHeight()],
+    outputRange: [0, -getStatusBarHeight()],
     extrapolate: 'clamp'
   })
 
@@ -133,10 +133,10 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
 
 export function onScrollEnd (scrollOffset) {
   // console.log('Scroll ended!')
-  const toValue = scrollValue > STATUS_BAR_HEIGHT &&
-    clampedScrollValue > (STATUS_BAR_HEIGHT) / 2
-    ? resetValue + STATUS_BAR_HEIGHT
-    : resetValue - STATUS_BAR_HEIGHT
+  const toValue = scrollValue > getStatusBarHeight() &&
+    clampedScrollValue > (getStatusBarHeight()) / 2
+    ? resetValue + getStatusBarHeight()
+    : resetValue - getStatusBarHeight()
 
   // console.log(`scrollOffset: ${scrollOffset}; scrollValue: ${scrollValue}; clampedScrollValue: ${clampedScrollValue}; toValue: ${toValue}`)
 

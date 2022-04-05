@@ -13,10 +13,9 @@ import Headring from './Heading'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
 
-import {STATUS_BAR_HEIGHT} from './TopBar'
 import { hslString } from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getStatusBarHeight } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 const navigationOptions = {
@@ -121,7 +120,7 @@ const Main = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: hslString('rizzleBG'),
-          height: STATUS_BAR_HEIGHT,
+          height: getStatusBarHeight(),
           // https://github.com/react-navigation/react-navigation/issues/6899
           shadowOffset: { height: 0, width: 0 }
         },

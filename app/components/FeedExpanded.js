@@ -10,7 +10,7 @@ import FeedIconCorner from './FeedIconCorner'
 import FeedDetails from './FeedDetails'
 import XButton from './XButton'
 import FeedExpandedOnboarding from './FeedExpandedOnboarding'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
 class FeedExpanded extends React.Component {
@@ -21,7 +21,7 @@ class FeedExpanded extends React.Component {
 
     const dim = Dimensions.get('window')
     this.screenWidth = dim.width
-    this.margin = this.screenWidth * 0.05
+    this.margin = getMargin()
     this.screenHeight = dim.height
   }
 

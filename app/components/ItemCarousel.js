@@ -23,7 +23,6 @@ import { hslString } from '../utils/colors'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
 import { fontSizeMultiplier } from '../utils'
 import BackButton from './BackButton'
-import {STATUS_BAR_HEIGHT} from './TopBar'
 import EmptyCarousel from './EmptyCarousel'
 
 export const BUFFER_LENGTH = 5
@@ -76,20 +75,8 @@ class ItemCarousel extends React.Component {
     this.clampedScrollAnims = {}
 
     this.state = {
-      panAnim: new Animated.Value(0),
-      orientation: 'portrait'
+      panAnim: new Animated.Value(0)
     }
-
-    const orientationListener = () => {
-      const width = Dimensions.get('window').width
-      const height = Dimensions.get('window').height
-      
-      this.setState({
-          orientation: height > width ? 'portrait' : 'landscape'
-      })
-    }
-
-    Dimensions.addEventListener('change', orientationListener.bind(this))
 
     this.onChangeIndex = this.onChangeIndex.bind(this)
     this.updateCarouselIndex = this.updateCarouselIndex.bind(this)
@@ -124,6 +111,7 @@ class ItemCarousel extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return nextProps.displayMode !== this.props.displayMode ||
+      nextProps.orientation !== this.props.orientation ||
       this.state !== nextState ||
       !(
         nextProps.index > this.initialIndex - 1 &&
@@ -310,6 +298,7 @@ class ItemCarousel extends React.Component {
       isOnboarding,
       navigation,
       numItems,
+      orientation,
       setPanAnim,
       toggleDisplayMode,
       items,
@@ -330,6 +319,7 @@ class ItemCarousel extends React.Component {
             items={this.bufferedItems}
             isOnboarding={isOnboarding}
             navigation={navigation}
+            orientation={orientation}
             setPanAnim={this.setPanAnim}
             setScrollAnim={this.setScrollAnim}
             onScrollEnd={this.onScrollEnd}

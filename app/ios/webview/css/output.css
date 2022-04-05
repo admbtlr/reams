@@ -7,31 +7,61 @@ html {
   @media (min-width: 600px) {
     html {
       font-size: calc(4vw); } }
+  html.landscape {
+    font-size: calc(7vh); }
+    @media (min-height: 600px) {
+      html.landscape {
+        font-size: calc(4vh); } }
   html.font-size-1 {
     font-size: calc(5vw); }
     @media (min-width: 600px) {
       html.font-size-1 {
         font-size: calc(3vw); } }
+    html.font-size-1.landscape {
+      font-size: calc(5vh); }
+      @media (min-height: 600px) {
+        html.font-size-1.landscape {
+          font-size: calc(3vh); } }
   html.font-size-2 {
     font-size: calc(6vw); }
     @media (min-width: 600px) {
       html.font-size-2 {
         font-size: calc(3.5vw); } }
+    html.font-size-2.landscape {
+      font-size: calc(6vh); }
+      @media (min-height: 600px) {
+        html.font-size-2.landscape {
+          font-size: calc(3.5vh); } }
   html.font-size-3 {
     font-size: calc(7vw); }
     @media (min-width: 600px) {
       html.font-size-3 {
         font-size: calc(4vw); } }
+    html.font-size-3.landscape {
+      font-size: calc(7vh); }
+      @media (min-height: 600px) {
+        html.font-size-3.landscape {
+          font-size: calc(4vh); } }
   html.font-size-4 {
     font-size: calc(8vw); }
     @media (min-width: 600px) {
       html.font-size-4 {
         font-size: calc(4.5vw); } }
+    html.font-size-4.landscape {
+      font-size: calc(8vh); }
+      @media (min-height: 600px) {
+        html.font-size-4.landscape {
+          font-size: calc(4.5vh); } }
   html.font-size-5 {
     font-size: calc(9vw); }
     @media (min-width: 600px) {
       html.font-size-5 {
         font-size: calc(5vw); } }
+    html.font-size-5.landscape {
+      font-size: calc(9vh); }
+      @media (min-height: 600px) {
+        html.font-size-5.landscape {
+          font-size: calc(5vh); } }
 
 body {
   margin: 0;

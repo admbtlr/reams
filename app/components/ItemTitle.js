@@ -6,7 +6,7 @@ import moment from 'moment'
 import quote from 'headline-quotes'
 
 import {hslString} from '../utils/colors'
-import {deepEqual, diff, fontSizeMultiplier} from '../utils'
+import {deepEqual, diff, fontSizeMultiplier, getMargin} from '../utils'
 import {getTopBarHeight} from './TopBar'
 
 const entities = require('entities')
@@ -164,10 +164,10 @@ class ItemTitle extends React.Component {
   getInnerHorizontalPadding (fontSize) {
     if (!this.props.showCoverImage) {
       return 0
-      // return this.screenWidth * 0.05
+      // return getMargin(
     }
     if (this.props.styles.bg) {
-      return this.screenWidth * 0.025
+      return getMargin() / 2
     } else {
       return 0
     }
@@ -182,13 +182,13 @@ class ItemTitle extends React.Component {
 
   getInnerHorizontalMargin () {
     if (this.props.styles.bg) {
-      return this.screenWidth * 0.025
+      return getMargin() / 2
     }
     return !this.props.showCoverImage ?
       0 :
       (this.props.coverImageStyles.isInline ?
-        this.screenWidth * 0.025 :
-        this.screenWidth * 0.05) // allow space for date
+        getMargin() / 2 :
+        getMargin()) // allow space for date
   }
 
   getInnerWidth (fontSize, isItalic) {
@@ -393,7 +393,7 @@ class ItemTitle extends React.Component {
     changes = diff(this.props, nextProps, diff(this.state, nextState))
     // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
     // console.log(changes)
-    if (changes.item.styles || changes.isVisible || changes.fontSize || changes.isDarkMode || changes.anims) {
+    if (changes.item.styles || changes.isVisible || changes.fontSize || changes.isDarkMode || changes.anims || changes.isPortrait) {
       isDiff = true
     }
     return isDiff
@@ -417,10 +417,14 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {scrollOffset, styles, showCoverImage, coverImageStyles, isVisible} = this.props
+    let {scrollOffset, styles, showCoverImage, coverImageStyles, isPortrait, isVisible} = this.props
 
     // this means the item hasn't been inflated from Firebase yet
     if (!styles) return null
+
+    const window = Dimensions.get('window')
+    this.screenWidth = window.width
+    this.screenHeight = window.height
 
     // just so we can render something before it's been calculated
     const fontSize = styles.fontSize || 42
@@ -467,9 +471,9 @@ class ItemTitle extends React.Component {
     // if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
     if (!showCoverImage || coverImageStyles.isInline) color = this.props.isDarkMode ? textColorDarkMode : textColor
 
-    const invertBGPadding = 3
+    const invertBGPadding = 6
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
-    const paddingBottom = this.shouldSplitIntoWords() ? invertBGPadding : 0
+    const paddingBottom = 0 //  this.shouldSplitIntoWords() ? invertBGPadding : 0
     let paddingLeft = showCoverImage && styles.invertBG ? invertBGPadding : 0
     // if (styles.isItalic) {
     //   paddingLeft += fontSize * 0.1
@@ -519,9 +523,7 @@ class ItemTitle extends React.Component {
     // if center aligned and not full width, add left margin
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = this.getWidthPercentage()
-    this.horizontalMargin = (showCoverImage && this.props.coverImageStyles.isInline) ?
-        this.screenWidth * 0.04 :
-        this.screenWidth * 0.04
+    this.horizontalMargin = getMargin() * 0.8 // TODO: why 0.8?
     const width = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
 
     const horizontalPadding = this.getInnerHorizontalPadding(fontSize)
@@ -569,7 +571,10 @@ class ItemTitle extends React.Component {
         showCoverImage ? 
           getTopBarHeight() + this.screenHeight * 0.2 :
           getTopBarHeight(),
-      paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
+      paddingLeft: isPortrait ? 0 : this.horizontalMargin * 2,
+      paddingBottom: coverImageStyles.isInline || !showCoverImage ? 
+        0 : 
+        isPortrait ? 100 : 60,
       marginTop: 0,
       marginBottom: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
       top: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
@@ -749,6 +754,7 @@ class ItemTitle extends React.Component {
             this.props.item.excerpt.length > 0 &&
             styles.excerptInvertBG) ||
           (showCoverImage && coverImageStyles.resizeMode === 'contain') ||
+          (showCoverImage && !this.props.isPortrait) ||
           barView
         }
       </Animated.View>
@@ -812,10 +818,10 @@ class ItemTitle extends React.Component {
         backgroundColor: styles.bg ?
           'rgba(255,255,255,0.95)' :
           this.getForegroundColor(),
-        paddingLeft: this.screenWidth * 0.025,
-        paddingRight: this.screenWidth * 0.025,
-        paddingTop: this.screenWidth * 0.025,
-        paddingBottom: this.screenWidth * 0.025,
+        paddingLeft: getMargin() / 2,
+        paddingRight: getMargin() / 2,
+        paddingTop: getMargin() / 2,
+        paddingBottom: getMargin() / 2,
         marginBottom: this.getExcerptLineHeight()
       } : {}
       excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
@@ -936,8 +942,7 @@ class ItemTitle extends React.Component {
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
-      marginBottom: /*(!showCoverImage || coverImageStyles.isInline) ?
-        0 : this.getExcerptLineHeight()*/ 0,
+      marginBottom: 0,
       padding: 0,
       width: this.screenWidth
     }
@@ -975,8 +980,7 @@ class ItemTitle extends React.Component {
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
-      marginBottom: /*(!showCoverImage || coverImageStyles.isInline) ?
-        */this.getExcerptLineHeight()/* : 18*/,
+      marginBottom: this.getExcerptLineHeight(),
       padding: 0,
       width: this.screenWidth,
       // ...shadowStyle

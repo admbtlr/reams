@@ -3,7 +3,7 @@ import {ActivityIndicator, Animated, Dimensions, Easing, Linking, View} from 're
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
-import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
+import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath, getMargin} from '../utils/'
 import { hslString } from '../utils/colors'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
@@ -61,7 +61,7 @@ class FeedItem extends React.Component {
   }
 
   addAnimation (style, anim, isVisible) {
-    const width = Dimensions.get('window').width * 0.05
+    const width = getMargin()
     if (isVisible) {
       return {
         ...style,
@@ -214,6 +214,7 @@ class FeedItem extends React.Component {
     const {
       isVisible,
       item,
+      orientation,
       showMercuryContent 
     } = this.props
     let {
@@ -232,6 +233,8 @@ class FeedItem extends React.Component {
     const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
     const that = this
 
+    showCoverImage = showCoverImage && !(styles.isCoverInline && orientation === 'landscape')
+
     const coverImage = showCoverImage ? 
       <CoverImage
         styles={styles.coverImage}
@@ -240,6 +243,7 @@ class FeedItem extends React.Component {
         imageDimensions={!!hasCoverImage && imageDimensions}
         faceCentreNormalised={faceCentreNormalised}
         feedTitle={item.feed_title}
+        orientation={orientation}
       /> :
       null
 
@@ -315,6 +319,7 @@ class FeedItem extends React.Component {
               bodyColor={bodyColor}
               item={item}
               onTextSelection={this.props.onTextSelection}
+              orientation={orientation}
               showImageViewer={this.props.showImageViewer}
               updateWebViewHeight={this.updateWebViewHeight}
               webViewHeight={this.state.webViewHeight}

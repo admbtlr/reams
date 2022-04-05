@@ -12,6 +12,7 @@ import {
   IS_ONLINE,
   SET_ITEM_SORT,
   SET_SHOW_NUM_UNREAD,
+  SET_ORIENTATION,
 } from "./types"
 import { 
   FeedActionTypes,
@@ -27,6 +28,7 @@ export interface ConfigState {
   readonly onboardingLength: number
   readonly feedFilter: string | null
   readonly isOnline: boolean
+  readonly orientation: string
   readonly itemSort: Direction
   readonly showNumUnread: boolean
   readonly isItemsOnboardingDone: boolean
@@ -42,6 +44,7 @@ const initialState = {
   onboardingLength: 13,
   feedFilter: null,
   isOnline: false,
+  orientation: 'portrait',
   itemSort: Direction.forwards,
   showNumUnread: true,
   isItemsOnboardingDone: true,
@@ -114,7 +117,13 @@ export function config (
         isOnline: action.isOnline
       }
 
-    case SET_ITEM_SORT:
+    case SET_ORIENTATION:
+      return {
+        ...state,
+        orientation: action.orientation
+      }
+  
+      case SET_ITEM_SORT:
       return {
         ...state,
         itemSort: action.itemSort

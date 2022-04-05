@@ -9,7 +9,7 @@ import {
 import { Direction, SET_ITEM_SORT, SET_SHOW_NUM_UNREAD } from '../store/config/types'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getMargin } from '../utils'
 
 class ItemsDirectionRadios extends React.Component {
   constructor (props) {
@@ -19,7 +19,7 @@ class ItemsDirectionRadios extends React.Component {
 
   render () {
     const screenWidth = Dimensions.get('window').width
-    const margin = screenWidth * 0.05
+    const margin = getMargin()
     const buttonWidth = (screenWidth - margin * 3) / 2
     const textStyles = {
       fontFamily: 'IBMPlexSans',

@@ -12,6 +12,14 @@ html {
   @media (min-width: 600px) {
     font-size: calc(4vw);
   }
+  &.landscape {
+    font-size: calc(7vh);
+    @media (min-height: 600px) {
+      font-size: calc(4vh);
+    }
+  }
+
+
 
   transition: font-size 0.2s;
 
@@ -20,12 +28,24 @@ html {
     @media (min-width: 600px) {
       font-size: calc(3vw);
     }
+    &.landscape {
+      font-size: calc(5vh);
+      @media (min-height: 600px) {
+        font-size: calc(3vh);
+      }
+    }
   }
 
   &.font-size-2 {
     font-size: calc(6vw);
     @media (min-width: 600px) {
       font-size: calc(3.5vw);
+    }
+    &.landscape {
+      font-size: calc(6vh);
+      @media (min-height: 600px) {
+        font-size: calc(3.5vh);
+      }
     }
   }
 
@@ -34,6 +54,12 @@ html {
     @media (min-width: 600px) {
       font-size: calc(4vw);
     }
+    &.landscape {
+      font-size: calc(7vh);
+      @media (min-height: 600px) {
+        font-size: calc(4vh);
+      }
+    }
   }
 
   &.font-size-4 {
@@ -41,12 +67,24 @@ html {
     @media (min-width: 600px) {
       font-size: calc(4.5vw);
     }
+    &.landscape {
+      font-size: calc(8vh);
+      @media (min-height: 600px) {
+        font-size: calc(4.5vh);
+      }
+    }
   }
 
   &.font-size-5 {
     font-size: calc(9vw);
     @media (min-width: 600px) {
       font-size: calc(5vw);
+    }
+    &.landscape {
+      font-size: calc(9vh);
+      @media (min-height: 600px) {
+        font-size: calc(5vh);
+      }
     }
   }
 }

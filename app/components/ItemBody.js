@@ -44,7 +44,7 @@ const stripUTags = (html) => {
   return html.replace(pattern, '')
 }
 
-export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showImageViewer, updateWebViewHeight, webViewHeight }) => {
+export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }) => {
   const openLinksExternallyProp = /*__DEV__ ? {} :*/ {
     onShouldStartLoadWithRequest: (e) => {
       if (e.navigationType === 'click') {
@@ -133,7 +133,7 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showIm
     hslString(feed_color, 'darkmodable') :
     hslString('logo1')
 
-  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''}">
+  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation}">
 <head>
   <style>
 :root {

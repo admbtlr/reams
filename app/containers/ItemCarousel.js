@@ -31,7 +31,9 @@ const mapStateToProps = (state, ownProps) => {
     feedsLocal: state.feedsLocal.feeds,
     displayMode: state.itemsMeta.display,
     isItemsOnboardingDone: state.config.isItemsOnboardingDone,
-    isOnboarding: state.config.isOnboarding
+    isOnboarding: state.config.isOnboarding,
+    orientation: state.config.orientation
+
   }
 }
 

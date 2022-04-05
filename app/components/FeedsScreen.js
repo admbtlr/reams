@@ -15,7 +15,7 @@ import Heading from './Heading'
 import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
-import { deepEqual, getInset } from '../utils/'
+import { deepEqual, getInset, getMargin } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { useStore } from 'react-redux'
@@ -98,7 +98,7 @@ class FeedsScreen extends React.Component {
     console.log((isShowingExpandedFeed ? 'S' : 'Not s') + 'howing expanded feed')
     console.log(this.state)
     const width = Dimensions.get('window').width
-    const margin = width * 0.05
+    const margin = getMargin()
     const extraFeedProps = this.state.selectedFeedElement ?
       this.state.selectedFeedElement.props :
       (this.state.prevSelectedFeedElement ?
@@ -212,7 +212,7 @@ class ListHeaderComponent extends React.Component {
 
   render = () => {
     const screenWidth = Dimensions.get('window').width
-    const margin = screenWidth * 0.05
+    const margin = getMargin()
     const buttonWidth = (screenWidth - margin * 3) / 2
     const { navigation } = this.props
     const textStyles = {

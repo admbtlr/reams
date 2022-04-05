@@ -17,6 +17,7 @@ import Splash from './Splash'
 import Message from './Message'
 import * as tf from '@tensorflow/tfjs'
 import '@tensorflow/tfjs-react-native'
+import OrientationListener from './OrientationListener'
 
 export interface Props {
   isActionExtension?: boolean
@@ -81,6 +82,7 @@ export default class Rizzle extends Component<Props, State> {
               hidden={false} />
             <AppStateListenerContainer />
             <ConnectionListener />
+            <OrientationListener />
             <Analytics />
             <AppContainer />
             <Message />

@@ -2,16 +2,15 @@ import { ItemType } from '../store/items/types'
 import React, { Fragment } from 'react'
 import { Dimensions, Image, Text, View } from 'react-native'
 import BackButton from './BackButton'
-import { STATUS_BAR_HEIGHT } from './TopBar'
 import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getMargin, getStatusBarHeight } from '../utils'
 
 const EmptyCarousel = ({ displayMode, navigation }) => {
   return <Fragment>
     <BackButton style={{
         position: 'absolute',
-        top: STATUS_BAR_HEIGHT - 60,
-        left: Dimensions.get('window').width * 0.025,
+        top: getStatusBarHeight() - 60,
+        left: getMargin() / 2,
       }}
       onPress={() => navigation.goBack()}
     />

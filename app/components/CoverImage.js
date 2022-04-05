@@ -10,8 +10,8 @@ import {
   ScreenBlendColor
 } from 'react-native-image-filter-kit'
 
+import { getStatusBarHeight } from '../utils'
 import { hslString } from '../utils/colors'
-import { STATUS_BAR_HEIGHT } from './TopBar'
 import log from '../utils/log'
 
 class CoverImage extends React.Component {
@@ -58,6 +58,7 @@ class CoverImage extends React.Component {
 
   shouldComponentUpdate (prevProps, prevState) {
     return prevProps.imagePath !== this.props.imagePath ||
+      prevProps.orientation !== this.props.orientation ||
       (prevProps.imageDimensions ?
         prevProps.imageDimensions.width !== this.props.imageDimensions.width :
         false)
@@ -69,6 +70,11 @@ class CoverImage extends React.Component {
       faceCentreNormalised,
       imageDimensions
     } = this.props
+
+    const window = Dimensions.get('window')
+    this.screenWidth = window.width
+    this.screenHeight = window.height
+
 
     // this can happen if 
     if (!imageDimensions) {
@@ -84,7 +90,7 @@ class CoverImage extends React.Component {
     const inline = {
       flex: 1,
       width: '100%',
-      marginTop: STATUS_BAR_HEIGHT,
+      marginTop: getStatusBarHeight(),
       // weird bug with the top pixel row of images
       top: -1,
       marginBottom: -1

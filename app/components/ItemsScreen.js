@@ -19,6 +19,7 @@ import { hslString } from '../utils/colors'
 export default function ItemsScreen ({ navigation }) {
   const dispatch = useDispatch()
   const displayMode = useSelector(state => state.itemsMeta.display)
+  const orientation = useSelector(state => state.config.orientation)
 
   const didFocus = () => {
     dispatch({
@@ -50,7 +51,8 @@ export default function ItemsScreen ({ navigation }) {
       <View style={styles.infoView} />
       <ItemCarouselContainer
         navigation={navigation}
-        style={styles.ItemCarousel} />
+        style={styles.ItemCarousel}
+        orientation={orientation} />
       <RizzleImageViewerContainer />
     </View>
   )
