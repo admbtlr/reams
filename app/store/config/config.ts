@@ -18,6 +18,7 @@ import {
   FeedActionTypes,
   REMOVE_FEED 
 } from "../feeds/types"
+import { Dimensions } from "react-native"
 
 export interface ConfigState {
   readonly backend: string
@@ -35,6 +36,8 @@ export interface ConfigState {
   readonly isFeedOnboardingDone: boolean
 }
 
+const {width, height } = Dimensions.get('window')
+
 const initialState = {
   backend: '',
   accessToken: '',
@@ -44,7 +47,7 @@ const initialState = {
   onboardingLength: 13,
   feedFilter: null,
   isOnline: false,
-  orientation: 'portrait',
+  orientation: height > width ? 'portrait' : 'landscape',
   itemSort: Direction.forwards,
   showNumUnread: true,
   isItemsOnboardingDone: true,

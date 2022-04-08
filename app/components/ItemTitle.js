@@ -241,10 +241,10 @@ class ItemTitle extends React.Component {
 
   }
 
-  async componentDidUpdate () {
+  async componentDidUpdate (prevProps) {
     const {styles} = this.props
 
-    if (styles.fontResized) return
+    if (styles.fontResized && prevProps.isPortrait === this.props.isPortrait) return
 
     // first get max font size
     const maxFontSize = await this.getMaxFontSize()

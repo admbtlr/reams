@@ -191,9 +191,9 @@ function areEqual (prevProps, nextProps) {
   return prevProps.items && nextProps.items &&
     JSON.stringify(prevProps.items.map(mapItem)) ===
       JSON.stringify(nextProps.items.map(mapItem)) &&
-    prevProps.panAnim === nextProps.panAnim //&&
-    // prevProps.orientation === nextProps.orientation &&
-    // prevProps.scrollAnim === nextProps.scrollAnim
+    prevProps.panAnim === nextProps.panAnim &&
+    prevProps.orientation === nextProps.orientation &&
+    prevProps.scrollAnim === nextProps.scrollAnim
 }
 
 export default React.memo(TopBars, areEqual)
