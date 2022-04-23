@@ -196,7 +196,8 @@ export default function NewFeedsList (props) {
         <View style={{
           marginTop: headerHeight + collapsedHeaderHeight + getMargin(),
           marginBottom: 64 * fontSizeMultiplier(),
-          width: screenWidth * 0.9
+          paddingHorizontal: props.isPortrait ? 0 : getMargin() * 2,
+          width: screenWidth * (props.isPortrait ? 0.9 : 1)
         }}>
           <Text style={{
             ...textStyles(),

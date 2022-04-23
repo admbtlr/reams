@@ -70,6 +70,7 @@ class FeedsScreen extends React.Component {
         close={() => {
           navigation.navigate('Main')
         }}
+        isPortrait={this.props.isPortrait}
         navigation={navigation}
       />
     })
@@ -134,6 +135,7 @@ class FeedsScreen extends React.Component {
             backend={this.props.backend}
             clearFeedFilter={this.props.clearFeedFilter}
             clearReadItems={this.props.clearReadItems}
+            isPortrait={this.props.isPortrait}
             navigation={navigation}
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}
