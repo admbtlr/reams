@@ -44,7 +44,8 @@ class FeedsScreen extends React.Component {
       return true
     } else if (this.props.backend === nextProps.backend &&
       deepEqual(this.props.feeds, nextProps.feeds) &&
-      this.props.numItems === nextProps.numItems) {
+      this.props.numItems === nextProps.numItems &&
+      this.props.isPortrait === nextProps.isPortrait) {
       return false
     }
     return true
@@ -122,6 +123,7 @@ class FeedsScreen extends React.Component {
           showHideTransition="slide"/>
         <AnimatedFlatList
           data={this.props.feeds}
+          key={width}
           keyExtractor={feed => feed._id}
           contentContainerStyle={{
             marginLeft: margin,
@@ -141,7 +143,7 @@ class FeedsScreen extends React.Component {
             showAddFeeds={this.showAddFeeds.bind(this)}
             showModal={this.props.showModal}
           />}
-          numColumns={/*width > 500 ? 2 :*/ 1}
+          numColumns={width > 500 ? 2 : 1}
           onScroll={Animated.event(
             [{ nativeEvent: {
               contentOffset: { y: this.scrollAnim }

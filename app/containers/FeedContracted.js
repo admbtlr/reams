@@ -30,6 +30,7 @@ const mapStateToProps = (state, ownProps) => {
   if (feed) {
     return {
       ...ownProps,
+      isPortrait: state.config.orientation === 'portrait',
       feed: {
         ...feed,
         numUnread: items.filter(i => i.feed_id === feedId).length,

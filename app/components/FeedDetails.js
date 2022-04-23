@@ -15,8 +15,6 @@ import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1'
 
-const screenWidth = Dimensions.get('window').width
-const margin = screenWidth * 0.03
 const compactButtons = !isIphoneX() && !isIpad()
 
 const createTimeString = (seconds) => {
@@ -34,6 +32,9 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
   const [isMuted, setMuted] = useState(feed.isMuted)
   const [isFiltered, setFiltered] = useState(feed.isFiltered)
   const [isMercury, setMercury] = useState(feed.isMercury)
+
+  const screenWidth = Dimensions.get('window').width
+  const margin = screenWidth * 0.03
 
   const bold = {
     fontFamily: 'IBMPlexSans-Bold',
@@ -187,7 +188,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
     <View style={{
       justifyContent: 'flex-start',
       margin: 0,
-      padding: margin
+      padding: margin,
+      paddingHorizontal: screenWidth < 500 ? margin : screenWidth * 0.04
     }}>
         <View style={{
           flex: -1,
