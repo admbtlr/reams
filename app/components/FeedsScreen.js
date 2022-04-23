@@ -214,7 +214,7 @@ class ListHeaderComponent extends React.Component {
     const screenWidth = Dimensions.get('window').width
     const margin = getMargin()
     const buttonWidth = (screenWidth - margin * 3) / 2
-    const { navigation } = this.props
+    const { navigation, isPortrait } = this.props
     const textStyles = {
       fontFamily: 'IBMPlexSans',
       fontSize: 18 * fontSizeMultiplier(),
@@ -228,7 +228,7 @@ class ListHeaderComponent extends React.Component {
     return (
       <View style={{
         marginBottom: 40,
-        width: screenWidth - getInset() * 2
+        width: screenWidth - getInset() * (isPortrait ? 2 : 4)
       }}>
         {/*}<Text style={{
           ...textStyles,

@@ -101,7 +101,7 @@ class AccountScreen extends React.Component {
   }
 
   render () {
-    const { backend, hasFeeds, navigation } = this.props
+    const { backend, hasFeeds, isPortrait, navigation } = this.props
     const { expandedBackend } = this.state
     const width = Dimensions.get('window').width
     const buttonWidth = width > 950 ?
@@ -241,9 +241,8 @@ class AccountScreen extends React.Component {
             <View style={{
               // marginBottom: 64,
               minHeight: height - 55 - 64,
-              width: width - getInset() * 2,
-              marginLeft: getInset(),
-              marginRight: getInset()
+              width: width - getInset() * (isPortrait ? 2 : 4),
+              marginHorizontal: getInset() * (isPortrait ? 1 : 2)
             }}>
               { !!backend &&
                 <View>
