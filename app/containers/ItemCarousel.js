@@ -33,7 +33,6 @@ const mapStateToProps = (state, ownProps) => {
     isItemsOnboardingDone: state.config.isItemsOnboardingDone,
     isOnboarding: state.config.isOnboarding,
     orientation: state.config.orientation
-
   }
 }
 

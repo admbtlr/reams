@@ -27,6 +27,8 @@
   - using node-postgres, which looks very nice!
   - or using supabase?
 - is this useful? https://css-tricks.com/mediastack/
+- icloud integration
+  - https://github.com/XHMM/react-native-cloud-store
 - Feedly integration
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274

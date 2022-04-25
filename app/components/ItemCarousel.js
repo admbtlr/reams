@@ -333,6 +333,7 @@ class ItemCarousel extends React.Component {
           <TopBars
             items={this.decorateItems(this.bufferedItems)}
             navigation={navigation}
+            orientation={orientation}
             numItems={numItems}
             index={index}
             bufferIndex={this.bufferIndex}
