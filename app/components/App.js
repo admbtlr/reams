@@ -158,7 +158,11 @@ const Main = () => {
         component={ItemsScreen}
         options={{
           gestureEnabled: !isOnboarding,
-          headerShown: false
+          headerStyle: {
+            // setting height to 0 instead of removing it completely
+            // stops header ugliness when changing orientation
+            height: 0
+          }
         }} />
     </MainStack.Navigator>
   )
