@@ -162,7 +162,11 @@ const Main = () => {
             // setting height to 0 instead of removing it completely
             // stops header ugliness when changing orientation
             height: 0
-          }
+          },
+          // need to do this to hide the back button when using height: 0
+          // it might not work on Android 
+          // https://stackoverflow.com/questions/54613631/how-to-hide-back-button-in-react-navigation-react-native
+          headerLeft: () => <></>
         }} />
     </MainStack.Navigator>
   )
