@@ -18,6 +18,7 @@ import {
   textInfoBoldStyle,
   textInfoItalicStyle
 } from '../utils/styles'
+import ReamsAuth from './ReamsAuth'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -96,31 +97,30 @@ class AccountCredentialsForm extends React.Component {
   render = () => {
     const { isActive, isExpanded, service, setBackend, unsetBackend, user } = this.props
     const serviceDisplay = service === 'basic' ?
-      'Rizzle Basic' :
+      'Reams Basic' :
       service[0].toUpperCase() + service.slice(1)
-    const initialValues = this.props.service === 'rizzle' ?
-      {
-        email: this.state.email
-      } :
-      {
+    const initialValues = {
         username: this.state.username,
         password: this.state.password
       }
     const validationSchemaShape = service === 'rizzle' ?
       Yup.object().shape({
-        email: Yup.string().trim().email('That doesn’t look like a valid email...').required('Required')
+        username: Yup.string().trim().email('That doesn’t look like a valid email...').required('Required'),
+        password: Yup.string().required('Required')
       }) :
       Yup.object().shape({
         username: Yup.string().required('Required'),
         password: Yup.string().required('Required')
       })
 
-    const reamsText = (isWhite) => <Text 
+    const reamsBasicText = (isWhite) => <Text 
       style={{
         ...textInfoStyle(isWhite ? 'white' : 'black'),
         marginBottom: width * 0.05
       }}><Text style={textInfoBoldStyle(isWhite ? 'white' : 'black')}>Reams Basic</Text> is free, but it doesn’t sync with other devices or apps.</Text>
       
+    const isReamsPlus = service === 'rizzle'
+
     return (
       <Formik
         enableReinitialize={true}
@@ -159,7 +159,7 @@ class AccountCredentialsForm extends React.Component {
                     marginLeft: -24 * fontSizeMultiplier(),
                     marginRight: -24 * fontSizeMultiplier()
                   }}>
-                    { !!isActive && reamsText(true) }
+                    { !!isActive && reamsBasicText(true) }
                   </View> :
                   <React.Fragment>
                     { service !== 'feedwrangler' &&
@@ -186,7 +186,7 @@ class AccountCredentialsForm extends React.Component {
               </View> :
               ( service === 'basic' ?
                 <View style={{ marginTop: 20, marginBottom: 20 }}>
-                  { reamsText(false) }
+                  { reamsBasicText(false) }
                   <TouchableOpacity
                       accessibilityLabel={'Use Reams Basic'}
                       color={hslString('white')}
@@ -215,77 +215,79 @@ class AccountCredentialsForm extends React.Component {
                       }}>Use Reams Basic</Text>
                     </TouchableOpacity>
                 </View> :
-                <View style={{
-                  paddingTop: 16,
-                  paddingLeft: 16,
-                  paddingRight: 16,
-                  marginTop: 16,
-                  marginBottom: 16
-                }}>
-                  <TextInput
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                    onChangeText={handleChange('username')}
-                    style={textInputStyle()}
-                    testID={`${service}-username-text-input`}
-                    value={values.username}
-                  />
-                  <Text style={textLabelStyle()}>User name</Text>
+                isReamsPlus ?
+                  <ReamsAuth email={values.username} handleChange={handleChange} /> :
                   <View style={{
-                    position: 'relative',
-                    height: 48
+                    paddingTop: 16,
+                    paddingLeft: 16,
+                    paddingRight: 16,
+                    marginTop: 16,
+                    marginBottom: 16
                   }}>
                     <TextInput
-                      onChangeText={handleChange('password')}
-                      secureTextEntry={true}
-                      style={{
-                        ...textInputStyle(),
-                        marginTop: 24
-                      }}
-                      testID={`${service}-password-text-input`}
-                      value={values.password}
+                      autoCapitalize='none'
+                      keyboardType='email-address'
+                      onChangeText={handleChange('username')}
+                      style={textInputStyle()}
+                      testID={`${service}-username-text-input`}
+                      value={values.username}
                     />
-                  </View>
-                  <Text style={textLabelStyle()}>Password</Text>
-                  { isSubmitting ?
-                    <Text style={{
-                      ...textLabelStyle(),
-                      marginTop: 6,
-                      textAlign: 'center'
-                    }}>Submitting...</Text> :
-                    <TouchableOpacity
-                      accessibilityLabel={`Authenticate with ${service[0].toUpperCase() + service.slice(1)}`}
-                      color={hslString('white')}
-                      disabled={isSubmitting || !isValid}
-                      onPress={handleSubmit}
-                      style={{
-                        alignSelf: 'center',
-                        marginTop: 5,
-                        marginBottom: 5
-                      }}
-                      testID={`${service}-submit-button`}
-                    >
-                      <Text style={{
-                        ...textInfoStyle('logo1'),
-                        textDecorationLine: 'underline'
-                      }}>Submit</Text>
-                    </TouchableOpacity>
-                  }
-                  { errors.submit &&
+                    <Text style={textLabelStyle()}>User name</Text>
                     <View style={{
-                      backgroundColor: hslString('logo2'),
-                      padding: 5,
-                      marginLeft: -16,
-                      marginRight: -16
+                      position: 'relative',
+                      height: 48
                     }}>
+                      <TextInput
+                        onChangeText={handleChange('password')}
+                        secureTextEntry={true}
+                        style={{
+                          ...textInputStyle(),
+                          marginTop: 24
+                        }}
+                        testID={`${service}-password-text-input`}
+                        value={values.password}
+                      />
+                    </View>
+                    <Text style={textLabelStyle()}>Password</Text>
+                    { isSubmitting ?
                       <Text style={{
                         ...textLabelStyle(),
-                        color: hslString('white'),
+                        marginTop: 6,
                         textAlign: 'center'
-                      }}>{ errors.submit }</Text>
-                    </View>
-                  }
-                </View>
+                      }}>Submitting...</Text> :
+                      <TouchableOpacity
+                        accessibilityLabel={`Authenticate with ${service[0].toUpperCase() + service.slice(1)}`}
+                        color={hslString('white')}
+                        disabled={isSubmitting || !isValid}
+                        onPress={handleSubmit}
+                        style={{
+                          alignSelf: 'center',
+                          marginTop: 5,
+                          marginBottom: 5
+                        }}
+                        testID={`${service}-submit-button`}
+                      >
+                        <Text style={{
+                          ...textInfoStyle('logo1'),
+                          textDecorationLine: 'underline'
+                        }}>Submit</Text>
+                      </TouchableOpacity>
+                    }
+                    { errors.submit &&
+                      <View style={{
+                        backgroundColor: hslString('logo2'),
+                        padding: 5,
+                        marginLeft: -16,
+                        marginRight: -16
+                      }}>
+                        <Text style={{
+                          ...textLabelStyle(),
+                          color: hslString('white'),
+                          textAlign: 'center'
+                        }}>{ errors.submit }</Text>
+                      </View>
+                    }
+                  </View>
               )
             }
           </View>
