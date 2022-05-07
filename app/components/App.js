@@ -13,10 +13,9 @@ import Headring from './Heading'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
 
-import {STATUS_BAR_HEIGHT} from './TopBar'
 import { hslString } from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getStatusBarHeight } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 const navigationOptions = {
@@ -121,7 +120,7 @@ const Main = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: hslString('rizzleBG'),
-          height: STATUS_BAR_HEIGHT,
+          height: getStatusBarHeight(),
           // https://github.com/react-navigation/react-navigation/issues/6899
           shadowOffset: { height: 0, width: 0 }
         },
@@ -159,7 +158,15 @@ const Main = () => {
         component={ItemsScreen}
         options={{
           gestureEnabled: !isOnboarding,
-          headerShown: false
+          headerStyle: {
+            // setting height to 0 instead of removing it completely
+            // stops header ugliness when changing orientation
+            height: 0
+          },
+          // need to do this to hide the back button when using height: 0
+          // it might not work on Android 
+          // https://stackoverflow.com/questions/54613631/how-to-hide-back-button-in-react-navigation-react-native
+          headerLeft: () => <></>
         }} />
     </MainStack.Navigator>
   )

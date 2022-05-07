@@ -7,6 +7,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  Platform,
   Text,
   View
 } from 'react-native'
@@ -22,7 +23,6 @@ import { hslString } from '../utils/colors'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
 import { fontSizeMultiplier } from '../utils'
 import BackButton from './BackButton'
-import {STATUS_BAR_HEIGHT} from './TopBar'
 import EmptyCarousel from './EmptyCarousel'
 
 export const BUFFER_LENGTH = 5
@@ -111,6 +111,7 @@ class ItemCarousel extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return nextProps.displayMode !== this.props.displayMode ||
+      nextProps.orientation !== this.props.orientation ||
       this.state !== nextState ||
       !(
         nextProps.index > this.initialIndex - 1 &&
@@ -297,6 +298,7 @@ class ItemCarousel extends React.Component {
       isOnboarding,
       navigation,
       numItems,
+      orientation,
       setPanAnim,
       toggleDisplayMode,
       items,
@@ -317,6 +319,7 @@ class ItemCarousel extends React.Component {
             items={this.bufferedItems}
             isOnboarding={isOnboarding}
             navigation={navigation}
+            orientation={orientation}
             setPanAnim={this.setPanAnim}
             setScrollAnim={this.setScrollAnim}
             onScrollEnd={this.onScrollEnd}
@@ -330,6 +333,7 @@ class ItemCarousel extends React.Component {
           <TopBars
             items={this.decorateItems(this.bufferedItems)}
             navigation={navigation}
+            orientation={orientation}
             numItems={numItems}
             index={index}
             bufferIndex={this.bufferIndex}

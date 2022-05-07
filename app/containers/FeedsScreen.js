@@ -94,6 +94,7 @@ const mapStateToProps = (state) => {
     backend: backendLabels[state.config.backend],
     feeds,
     isDarkMode: state.ui.isDarkMode,
+    isPortrait: state.config.orientation === 'portrait',
     numItems: items.length,
     itemSort,
     uid: state.user.uid

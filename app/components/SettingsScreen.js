@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { hslString } from '../utils/colors'
 import Heading from './Heading'
+import { getMargin } from 'utils'
 // import {technology} from '../utils/feeds/technology'
 
 const textStyles = () => ({
@@ -27,7 +28,7 @@ const headerStyles = () => ({
 })
 
 const screenWidth = Dimensions.get('window').width
-const margin = screenWidth * 0.05
+const margin = getMargin()
 
 const buttonAnim = new Animated.Value(margin * 4)
 

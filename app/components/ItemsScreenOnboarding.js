@@ -11,7 +11,7 @@ import { ITEMS_ONBOARDING_DONE } from '../store/config/types'
 import { SHOW_ITEM_BUTTONS } from '../store/ui/types'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
-import { isIphoneX, fontSizeMultiplier } from '../utils'
+import { isIphoneX, fontSizeMultiplier, getMargin } from '../utils'
 
 const screenWidth = Dimensions.get('window').width
 
@@ -237,7 +237,7 @@ export default function ItemsScreenOnboarding (props) {
           position: 'absolute',
           zIndex: 100,
           top: isIphoneX() ? 115 : 95,
-          left: screenWidth * 0.05 - 3,
+          left: getMargin() - 3,
           width: 40,
           height: 40
         }}>
@@ -247,7 +247,7 @@ export default function ItemsScreenOnboarding (props) {
           position: 'absolute',
           zIndex: 100,
           top: isIphoneX() ? 115 : 95,
-          left: screenWidth * 0.5 - 20,
+          left: getMargin() - 20,
           width: 40,
           height: 40
         }}>
@@ -257,7 +257,7 @@ export default function ItemsScreenOnboarding (props) {
           position: 'absolute',
           zIndex: 100,
           top: isIphoneX() ? 115 : 95,
-          right: screenWidth * 0.05 - 4,
+          right: getMargin() - 4,
           width: 40,
           height: 40
         }}>

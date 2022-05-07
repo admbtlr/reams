@@ -4,6 +4,7 @@ import {
   SET_TITLE_FONT_SIZE
 } from '../store/items/types'
 import ItemTitle from '../components/ItemTitle.js'
+import { isPortrait } from '../utils'
 
 const mapStateToProps = (state, ownProps) => {
   // const index = getIndex(state)
@@ -18,7 +19,8 @@ const mapStateToProps = (state, ownProps) => {
     // this is just a foul hack to see what's going on
     fontSize: styles && styles.fontSize,
     isDarkMode: state.ui.isDarkMode,
-    displayMode: state.itemsMeta.display
+    displayMode: state.itemsMeta.display,
+    isPortrait: isPortrait()
   }
 }
 

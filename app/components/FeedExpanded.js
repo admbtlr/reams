@@ -10,19 +10,15 @@ import FeedIconCorner from './FeedIconCorner'
 import FeedDetails from './FeedDetails'
 import XButton from './XButton'
 import FeedExpandedOnboarding from './FeedExpandedOnboarding'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
+import { ScrollView } from 'react-native-gesture-handler'
 
 class FeedExpanded extends React.Component {
 
   constructor (props) {
     super(props)
     this.props = props
-
-    const dim = Dimensions.get('window')
-    this.screenWidth = dim.width
-    this.margin = this.screenWidth * 0.05
-    this.screenHeight = dim.height
   }
 
   setFeedExpanded () {
@@ -56,11 +52,20 @@ class FeedExpanded extends React.Component {
       textAlign: 'left'
     }
 
+    const dim = Dimensions.get('window')
+    const screenWidth = dim.width
+    const margin = getMargin()
+    const screenHeight = dim.height
+
+    const EnclosingView = screenWidth < 500 ? View : ScrollView
+
     return (
-      <View style={{
-        padding: 0,
-        margin: 0
-      }}>
+      <EnclosingView 
+        showsVerticalScrollIndicator={false}
+        style={{
+          padding: 0,
+          margin: 0,
+        }}>
         <View
           style={{
             alignItems: 'flex-start',
@@ -70,7 +75,7 @@ class FeedExpanded extends React.Component {
             overflow: 'hidden',
             flex: 0,
             flexGrow: 1,
-            width: this.screenWidth
+            width: screenWidth
             // ...positionStyles
           }}>
           <View
@@ -84,8 +89,8 @@ class FeedExpanded extends React.Component {
             }}>
             <FeedCoverImage
               feed={feed}
-              width={this.screenWidth}
-              height={this.screenHeight * 0.6}
+              width={screenWidth}
+              height={screenHeight * 0.6}
               setCachedCoverImage={this.props.setCachedCoverImage} />
             <View style={{
               position: 'absolute',
@@ -98,9 +103,9 @@ class FeedExpanded extends React.Component {
           </View>
           <View style={{
             width: '100%',
-            paddingLeft: this.margin * 0.5,
+            paddingLeft: screenWidth < 500 ? margin * 0.5 : margin * 2,
             paddingRight: 40,
-            paddingBottom: this.margin * 0.5,
+            paddingBottom: margin * 0.5,
             position: 'absolute',
             bottom: 0,
             flex: 1,
@@ -169,7 +174,7 @@ class FeedExpanded extends React.Component {
             onPress={close} />
         </View>
         { /*isFeedOnboardingDone || <FeedExpandedOnboarding /> */}
-      </View>
+      </EnclosingView>
     )
   }
 }

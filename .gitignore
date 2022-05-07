@@ -61,3 +61,5 @@ app/ios/rizzle-tvOS/Info.plist
 app/ios/rizzle-tvOSTests/Info.plist
 app/ios/rizzleTests/Info.plist
 app/ios/Reams.app.dSYM.zip
+
+.vercel
