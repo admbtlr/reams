@@ -2,6 +2,7 @@ import React, { Component, Ref } from 'react'
 import { Provider } from 'react-redux'
 import {
   InteractionManager,
+  Linking,
   StatusBar,
   View
 } from 'react-native'
@@ -30,6 +31,7 @@ const routingInstrumentation = new Sentry.ReactNavigationV5Instrumentation()
 export default class Rizzle extends Component<Props, State> {
   store?: object
   navigation: Ref<NavigationContainerRef> = React.createRef()
+  linking: any
 
   static defaultProps = {
     isActionExtension: false
@@ -49,6 +51,36 @@ export default class Rizzle extends Component<Props, State> {
       enableAutoSessionTracking: true
     })
 
+    this.linking = {
+      prefixes: ['reams://'],
+      // config: {
+      //   screens: {
+      //     // Account: 'login-callback'
+      //   }
+      // },
+      async getInitialURL() {
+        const url = await Linking.getInitialURL()
+    
+        if (url != null) {
+          if (url.includes('#')) {
+            return url.replace('#', '?')
+          } else {
+            return url
+          }
+        }
+      },
+    
+      subscribe(listener: any) {
+        Linking.addEventListener('url', ({url}) => {
+          if (url.includes('#')) {
+            listener(url.replace('#', '?'))
+          } else {
+            listener(url)
+          }
+        })
+      },
+    }
+    
     // this is a stupid hack to stop AppState firing on startup
     // which it does on the device in some circumstances
     global.isStarting = true
@@ -67,6 +99,7 @@ export default class Rizzle extends Component<Props, State> {
   render () {
     const App = (
       <NavigationContainer        
+        linking={this.linking}
         ref={this.navigation}
         onReady={() => {
           routingInstrumentation.registerNavigationContainer(this.navigation);

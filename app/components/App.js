@@ -18,6 +18,8 @@ import { hslString } from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
 import { fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import { Linking } from 'react-native'
+import ReamsAuth from './ReamsAuth'
 
 const navigationOptions = {
   gesturesEnabled: false
@@ -146,6 +148,10 @@ const Main = () => {
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
           headerBackImage: getRizzleButtonIcon('account'),
         }} />
+      <MainStack.Screen
+        name="login-callback"
+        component={ReamsAuth}
+        options={{title: 'SignIn'}} />
       <MainStack.Screen
         name='Feeds'
         component={Feeds}

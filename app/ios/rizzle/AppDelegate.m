@@ -37,19 +37,19 @@
 @implementation AppDelegate
 
 // These two blocks are for Universal Links
-- (BOOL)application:(UIApplication *)application
-   openURL:(NSURL *)url
-   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
-{
-  return [RCTLinkingManager application:application openURL:url options:options];
-}
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
-  restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
-{
-  return [RCTLinkingManager application:application
-                  continueUserActivity:userActivity
-                    restorationHandler:restorationHandler];
-}
+//- (BOOL)application:(UIApplication *)application
+//   openURL:(NSURL *)url
+//   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+//{
+//  return [RCTLinkingManager application:application openURL:url options:options];
+//}
+//- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
+//  restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+//{
+//  return [RCTLinkingManager application:application
+//                  continueUserActivity:userActivity
+//                    restorationHandler:restorationHandler];
+//}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -108,7 +108,12 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
 #endif
 }
 
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)urlsourceApplication:(NSString *)sourceApplication annotation:(id)annotation{return [RCTLinkingManager application:application openURL:urlsourceApplication:sourceApplication annotation:annotation];}
-
+// deep linking
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
 
 @end

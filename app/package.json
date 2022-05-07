@@ -9,10 +9,8 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.15.5",
-    "@react-native-community/clipboard": "^1.4.0",
-    "@react-native-community/google-signin": "^4.0.0",
-    "@react-native-community/masked-view": "^0.1.7",
+    "@react-native-async-storage/async-storage": "^1.17.3",
+    "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/netinfo": "^7.1.9",
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.9.2",
@@ -47,7 +45,6 @@
     "react-native-blur": "^3.1.2",
     "react-native-config": "^1.0.0",
     "react-native-dash": "0.0.8",
-    "react-native-deep-linking": "^2.2.0",
     "react-native-device-info": "^5.5.5",
     "react-native-document-picker": "^3.5.2",
     "react-native-encrypted-storage": "^4.0.2",

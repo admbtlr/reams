@@ -58,3 +58,4 @@ buck-out/
 Pods/
 
 .env
+.env.alpha

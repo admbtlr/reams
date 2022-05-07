@@ -19,6 +19,8 @@ import { fontSizeMultiplier, getInset } from '../utils'
 import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
 import { ItemType } from '../store/items/types'
 
+import { Link } from '@react-navigation/native'
+
 class AccountScreen extends React.Component {
 
   scrollAnim = new Animated.Value(0)
@@ -316,6 +318,8 @@ class AccountScreen extends React.Component {
                 iconExpanded={feedWranglerLogo}  
               />
             </View>
+            <Link to="/login-callback/?x=3" style={{ marginBottom: 30 }}>Go to login callback</Link>
+            <Link to="/Feeds" style={{ marginBottom: 30 }}>Go to Feeds</Link>
           </View>
         </KeyboardAwareScrollView>
     )

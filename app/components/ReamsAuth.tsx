@@ -9,42 +9,50 @@ import Svg, {Path} from 'react-native-svg'
 import { textInfoStyle, textInputStyle, textLabelStyle } from '../utils/styles'
 import {hslString} from '../utils/colors'
 import supabase from '../storage/supabase';
+import { useDispatch } from 'react-redux'
+import { ADD_MESSAGE } from '../store/ui/types'
+import { useRoute } from '@react-navigation/native'
 
 
 export default function ReamsAuth({ }) {
   const [email, setEmail] = React.useState<string>();
   const [isSending, setSending] = React.useState(false);
+  const dispatch = useDispatch()
+  const route = useRoute()
 
-  // React.useEffect(() => {
-  //   if (route.params?.refresh_token) {
-  //     supabase.auth.signIn({refreshToken: route.params.refresh_token});
-  //   }
-  // }, [route]);
+  React.useEffect(() => {
+    if (route.params?.refresh_token) {
+      supabase.auth.signIn({refreshToken: route.params.refresh_token});
+    }
+  }, [route]);
 
-  async function sendMagicLink(email?: string) {
+  async function sendMagicLink() {
     if (email) {
       setSending(true);
       let result = await supabase.auth.signIn(
         {email},
-        {redirectTo: 'io.supabase.rnquickstart://login-callback/'},
+        {redirectTo: 'reams://Main/login-callback/'},
       );
 
       setSending(false);
 
       if (result.error) {
-        // toast.show({
-        //   placement: 'top',
-        //   title: 'Sign In',
-        //   status: 'error',
-        //   description: 'There was a problem sending your link',
-        // });
+        dispatch({
+          type: ADD_MESSAGE,
+          message: {
+            messageString: 'Error sending link',
+            isSelfDestruct: true,
+            type: 'error'
+          }
+        })
       } else {
-        // toast.show({
-        //   placement: 'top',
-        //   title: 'Sign In',
-        //   status: 'success',
-        //   description: 'A sign in link has been sent to your email',
-        // });
+        dispatch({
+          type: ADD_MESSAGE,
+          message: {
+            messageString: 'Sign in link sent',
+            isSelfDestruct: true
+          }
+        })
       }
     }
   }
@@ -67,8 +75,8 @@ export default function ReamsAuth({ }) {
       <Text style={textLabelStyle()}>Email address</Text>
       <TouchableOpacity
         color={hslString('white')}
-        // disabled={isSubmitting || !isValid}
-        // onPress={handleSubmit}
+        disabled={isSending}
+        onPress={sendMagicLink}
         style={{
           alignSelf: 'center',
           marginTop: 5,
