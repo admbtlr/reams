@@ -13,6 +13,7 @@ export const FEED_ONBOARDING_DONE = 'FEED_ONBOARDING_DONE'
 export const SET_LAST_UPDATED = 'SET_LAST_UPDATED'
 export const SET_FEED_FILTER = 'SET_FEED_FILTER'
 export const IS_ONLINE = 'IS_ONLINE'
+export const SET_ORIENTATION = 'SET_ORIENTATION'
 export const SET_ITEM_SORT = 'SET_ITEM_SORT'
 export const SET_SHOW_NUM_UNREAD = 'SET_SHOW_NUM_UNREAD'
 export const STATE_ACTIVE = 'STATE_ACTIVE'
@@ -64,6 +65,11 @@ interface isOnlineAction {
   isOnline: boolean
 }
 
+interface setOrientationAction {
+  type: typeof SET_ORIENTATION
+  orientation: string
+}
+
 interface setItemSortAction {
   type: typeof SET_ITEM_SORT
   itemSort: Direction
@@ -102,6 +108,7 @@ export type ConfigActionTypes = setBackendAction |
   feedOnboardingDoneAction |
   setFeedFilterAction |
   isOnlineAction |
+  setOrientationAction |
   setItemSortAction |
   setShowNumUnreadAction |
   remoteActionCompletedAction |

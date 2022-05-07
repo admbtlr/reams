@@ -37,18 +37,6 @@ class FeedContracted extends React.PureComponent {
     super(props)
     this.props = props
 
-    const dim = Dimensions.get('window')
-    this.screenWidth = dim.width
-    this.margin = this.screenWidth * 0.05
-    this.cardWidth = this.screenWidth < 500 ?
-      this.screenWidth - this.margin * 2 :
-      (this.screenWidth - getInset() * 2 - getMargin()) / 2
-    this.screenHeight = dim.height
-
-    this.cardHeight = this.screenWidth < 500 ?
-      this.cardWidth / 2 :
-      this.cardWidth
-
     this.currentX = this.props.xCoord || 0
     this.currentY = this.props.yCoord || 0
 
@@ -148,8 +136,6 @@ class FeedContracted extends React.PureComponent {
       textAlign: 'left'
     }
 
-    // console.log("Rendering " + title)
-
     const bold = {
       fontFamily: 'IBMPlexMono-Bold',
       color: hslString(feed.color, 'desaturated')
@@ -168,6 +154,18 @@ class FeedContracted extends React.PureComponent {
       }
     }
 
+    const dim = Dimensions.get('window')
+    const screenWidth = dim.width
+    const margin = getMargin()
+    const cardWidth = screenWidth < 500 ?
+      screenWidth - margin * 2 :
+      (screenWidth - margin * 5) / 2
+    const screenHeight = dim.height
+
+    const cardHeight = screenWidth < 500 || screenHeight < 500 ?
+      cardWidth / 2 :
+      cardWidth
+
     return (
       <TapGestureHandler
         onHandlerStateChange={this.onStateChange}
@@ -175,11 +173,11 @@ class FeedContracted extends React.PureComponent {
         <Animated.View
           style={{
             flex: 1,
-            height: this.cardHeight,
-            width: this.cardWidth,
-            marginBottom: this.margin,
-            marginRight: (index % 2 === 0 && this.screenWidth > 500) ?
-              this.margin :
+            height: cardHeight,
+            width: cardWidth,
+            marginBottom: margin,
+            marginRight: (index % 2 === 0 && screenWidth > 500) ?
+              margin :
               0,
             overflow: 'visible',
             transform: [
@@ -192,8 +190,8 @@ class FeedContracted extends React.PureComponent {
         >
           <View
             style={{
-              height: this.cardHeight,
-              width: this.cardWidth,
+              height: cardHeight,
+              width: cardWidth,
               borderRadius: 16,
               alignItems: 'flex-start',
               justifyContent: 'flex-start',
@@ -212,8 +210,8 @@ class FeedContracted extends React.PureComponent {
             }}>
               <FeedCoverImage
                 feed={feed}
-                width={this.screenWidth}
-                height={this.screenHeight * 0.5}
+                width={screenWidth}
+                height={screenHeight * 0.5}
                 setCachedCoverImage={this.props.setCachedCoverImage}
                 removeCoverImage={this.props.removeCoverImage} />
             </View>
@@ -224,10 +222,10 @@ class FeedContracted extends React.PureComponent {
               width: '100%',
               height: '100%',
               borderRadius: 16,
-              // paddingTop: this.margin * .5,
-              paddingLeft: this.margin * 0.5,
-              paddingRight: this.margin * 0.5,
-              paddingBottom: this.margin * 0.5,
+              // paddingTop: margin * .5,
+              paddingLeft: margin * 0.5,
+              paddingRight: margin * 0.5,
+              paddingBottom: margin * 0.5,
               position: 'absolute',
               flex: 1,
               flexDirection: 'column',
@@ -266,8 +264,8 @@ class FeedContracted extends React.PureComponent {
           </View>
           <View
             style={{
-              height: this.cardHeight,
-              width: this.cardWidth,
+              height: cardHeight,
+              width: cardWidth,
               borderRadius: 16,
               position: 'absolute',
               left: 0,

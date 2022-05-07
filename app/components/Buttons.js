@@ -79,6 +79,7 @@ class Buttons extends React.Component {
         toggleViewButtons,
         visible
       } = this.props
+      this.screenDimensions = Dimensions.get('window')
       const panAnimDivisor = this.screenDimensions.width
 
       const opacityRanges = bufferedItems && bufferedItems.map((item, index) => {

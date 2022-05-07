@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import AnimatedEllipsis from './AnimatedEllipsis'
 import { hslString } from '../utils/colors'
-import { isIphoneX, fontSizeMultiplier } from '../utils'
+import { isIphoneX, fontSizeMultiplier, getMargin } from '../utils'
 import {
   textInfoStyle,
   textInfoBoldStyle
@@ -103,8 +103,8 @@ export default function Message (props) {
         borderWidth: 1,
         borderColor: hslString('rizzleFG', '', 0.5),
         width: 'auto',
-        marginLeft: screenWidth * 0.05,
-        marginRight: screenWidth * 0.05,
+        marginLeft: getMargin(),
+        marginRight: getMargin(),
         paddingLeft: 0,
         paddingRight: 0,
         paddingTop: 10,

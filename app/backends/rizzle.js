@@ -248,7 +248,6 @@ const mapRizzleServerItemToRizzleItem = (item) => {
     created_at: item.pubdate,
     date_modified: item.pubdate,
     date_published: item.pubdate,
-    external_url: item.link,
     feed_title: item.feed_name,
     feed_id: item.feed_id,
     categories: item.categories

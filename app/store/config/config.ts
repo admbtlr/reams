@@ -12,11 +12,13 @@ import {
   IS_ONLINE,
   SET_ITEM_SORT,
   SET_SHOW_NUM_UNREAD,
+  SET_ORIENTATION,
 } from "./types"
 import { 
   FeedActionTypes,
   REMOVE_FEED 
 } from "../feeds/types"
+import { Dimensions } from "react-native"
 
 export interface ConfigState {
   readonly backend: string
@@ -27,11 +29,14 @@ export interface ConfigState {
   readonly onboardingLength: number
   readonly feedFilter: string | null
   readonly isOnline: boolean
+  readonly orientation: string
   readonly itemSort: Direction
   readonly showNumUnread: boolean
   readonly isItemsOnboardingDone: boolean
   readonly isFeedOnboardingDone: boolean
 }
+
+const {width, height } = Dimensions.get('window')
 
 const initialState = {
   backend: '',
@@ -42,6 +47,7 @@ const initialState = {
   onboardingLength: 13,
   feedFilter: null,
   isOnline: false,
+  orientation: height > width ? 'portrait' : 'landscape',
   itemSort: Direction.forwards,
   showNumUnread: true,
   isItemsOnboardingDone: true,
@@ -114,7 +120,13 @@ export function config (
         isOnline: action.isOnline
       }
 
-    case SET_ITEM_SORT:
+    case SET_ORIENTATION:
+      return {
+        ...state,
+        orientation: action.orientation
+      }
+  
+      case SET_ITEM_SORT:
       return {
         ...state,
         itemSort: action.itemSort

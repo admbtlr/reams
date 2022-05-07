@@ -164,34 +164,46 @@ export const isIpad = () => {
   return Platform.OS === 'ios' && width > 700
 }
 
-const getDimensions = () => {
-  if (!screenWidth || !screenHeight) {
-    screenWidth = Dimensions.get('window').width
-    screenHeight = Dimensions.get('window').height
-  }
-}
+export const isPortrait = () => Dimensions.get('window').height > Dimensions.get('window').width
 
 let screenWidth, screenHeight
+
+const getDimensions = () => {
+  // this is a remnant from before we supported both screen orientations
+  // and we were cacheing the dimensions
+  screenWidth = Dimensions.get('window').width
+  screenHeight = Dimensions.get('window').height
+}
+
+const getSmallestDimension = () => {
+  getDimensions()
+  return Math.min(screenWidth, screenHeight)
+}
+
 export const fontSizeMultiplier = () => {
   getDimensions()
+  const smallestDimension = getSmallestDimension()
   // this happens for the schare extension
   if (screenWidth === 0 && screenHeight === 0) return 1
   return screenWidth * screenHeight < 310000 ?
     0.85 : // this is iPhone 8 at this point
-    screenWidth < 768 ? 1 : (screenWidth / 768).toPrecision(4)
+    smallestDimension < 768 ? 1 : (smallestDimension / 768).toPrecision(4)
 }
 
 export const getInset = () => {
-  getDimensions()
-  return screenWidth < 768 ?
-    screenWidth * 0.05 :
-    screenWidth * 0.1
+  const width = getSmallestDimension()
+  return width < 768 ?
+    width * 0.05 :
+    width * 0.1
 }
 
 export const getMargin = () => {
-  getDimensions()
-  return screenWidth * 0.05
+  const width = getSmallestDimension()
+  return width * 0.05
 }
+
+export const getStatusBarHeight = () => 70 * fontSizeMultiplier() + 
+  (isIphoneX() && isPortrait() ? 44 : 22)
 
 export function id (item) {
   if (item && typeof item === 'string') {

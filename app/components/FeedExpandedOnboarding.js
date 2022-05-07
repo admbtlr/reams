@@ -10,10 +10,10 @@ import Svg, { Path } from 'react-native-svg'
 import { FEED_ONBOARDING_DONE } from '../store/config/types'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getMargin } from '../utils'
 
 const screenWidth = Dimensions.get('window').width
-const margin = screenWidth * 0.025
+const margin = getMargin() / 2
 
 const textStyle = () => ({
   textAlign: 'left',

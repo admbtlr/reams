@@ -1,5 +1,5 @@
 $step: 28px;
-$margin: 3vw;
+$margin: 3vmin;
 
 * {
   box-sizing: border-box;
@@ -8,45 +8,47 @@ $margin: 3vw;
 html {
   // this is now my rem value
   // it's the body lineheight
-  font-size: calc(7vw);
-  @media (min-width: 600px) {
-    font-size: calc(4vw);
+  font-size: calc(var(--device-width) * 0.07px);
+  &.tablet {
+    font-size: calc(var(--device-width) * 0.04px);
   }
+
+
 
   transition: font-size 0.2s;
 
   &.font-size-1 {
-    font-size: calc(5vw);
-    @media (min-width: 600px) {
-      font-size: calc(3vw);
+    font-size: calc(var(--device-width) * 0.05px);
+    &.tablet {
+      font-size: calc(var(--device-width) * 0.03px);
     }
   }
 
   &.font-size-2 {
-    font-size: calc(6vw);
-    @media (min-width: 600px) {
-      font-size: calc(3.5vw);
+    font-size: calc(var(--device-width) * 0.06px);
+    &.tablet {
+      font-size: calc(var(--device-width) * 0.035px);
     }
   }
 
   &.font-size-3 {
-    font-size: calc(7vw);
-    @media (min-width: 600px) {
-      font-size: calc(4vw);
+    font-size: calc(var(--device-width) * 0.07px);
+    &.tablet {
+      font-size: calc(var(--device-width) * 0.04px);
     }
   }
 
   &.font-size-4 {
-    font-size: calc(8vw);
-    @media (min-width: 600px) {
-      font-size: calc(4.5vw);
+    font-size: calc(var(--device-width) * 0.08px);
+    &.tablet {
+      font-size: calc(var(--device-width) * 0.045px);
     }
   }
 
   &.font-size-5 {
-    font-size: calc(9vw);
-    @media (min-width: 600px) {
-      font-size: calc(5vw);
+    font-size: calc(var(--device-width) * 0.09px);
+    &.tablet {
+      font-size: calc(var(--device-width) * 0.05px);
     }
   }
 }

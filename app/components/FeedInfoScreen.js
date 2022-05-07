@@ -9,6 +9,7 @@ import {Transition} from 'react-navigation-fluid-transitions'
 import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import { hslString } from '../utils/colors'
+import { getMargin } from 'utils'
 
 class FeedInfoScreen extends React.Component {
 
@@ -20,7 +21,7 @@ class FeedInfoScreen extends React.Component {
   render = () => {
     const width = Dimensions.get('window').width
     const height = Dimensions.get('window').height
-    const margin = width * 0.05
+    const margin = getMargin()
     const feedTitle = this.props.navigation.getParam('feedTitle')
     const feedColor = this.props.navigation.getParam('feedColor')
     const feedId = this.props.navigation.getParam('feedId')

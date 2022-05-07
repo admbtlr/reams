@@ -11,11 +11,9 @@ import { CommonActions } from '@react-navigation/native'
 import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
 import LinearGradient from 'react-native-linear-gradient'
 import FeedIconContainer from '../containers/FeedIcon'
-import { id, isIphoneX, fontSizeMultiplier } from '../utils'
+import { id, isIphoneX, fontSizeMultiplier, getStatusBarHeight, isPortrait } from '../utils'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-
-export const STATUS_BAR_HEIGHT = (70 * fontSizeMultiplier()) + (isIphoneX() ? 44 : 22)
 
 /* Props:
 - clampedAnimatedValue
@@ -44,9 +42,6 @@ class TopBar extends React.Component {
     super(props)
     this.props = props
 
-    this.screenWidth = Dimensions.get('window').width
-    this.screenHeight = Dimensions.get('window').height
-
     this.onDisplayPress = this.onDisplayPress.bind(this)
   }
 
@@ -72,6 +67,9 @@ class TopBar extends React.Component {
       numItems
     } = this.props
 
+    this.screenWidth = Dimensions.get('window').width
+    this.screenHeight = Dimensions.get('window').height
+
     // if (isVisible) {
     //   console.log('Visible item: ' + item.title)
     // }
@@ -87,7 +85,6 @@ class TopBar extends React.Component {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'center',
-            // height: 281 + STATUS_BAR_HEIGHT,
             opacity: opacityAnim,
             overflow: 'hidden',
             // paddingTop: 80,
@@ -123,7 +120,7 @@ class TopBar extends React.Component {
                   position: 'absolute',
                   height: 5,
                   width: '100%',
-                  top: STATUS_BAR_HEIGHT - 5,
+                  top: getStatusBarHeight() - 5,
                   left: 0
                 }}
               />
@@ -134,7 +131,7 @@ class TopBar extends React.Component {
             isSaved={displayMode === ItemType.saved}
           />
           <View style={{
-            top: isIphoneX() ? 44 : 22,
+            top: isIphoneX() && isPortrait() ? 44 : 22,
             flex: 1,
             marginLeft: 80 * fontSizeMultiplier(),
             marginRight: 80 * fontSizeMultiplier()
@@ -232,7 +229,7 @@ class TopBar extends React.Component {
     if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent
       && this.props.displayMode != ItemType.saved) {
       return scrollAnim.interpolate({
-        inputRange: [0, STATUS_BAR_HEIGHT, STATUS_BAR_HEIGHT + 50],
+        inputRange: [0, getStatusBarHeight(), getStatusBarHeight() + 50],
         outputRange: [0, 0, 1]
       })
     } else {
@@ -332,7 +329,7 @@ class TopBar extends React.Component {
         // flex: 1,
         position: 'absolute',
         top: 0,
-        height: isIphoneX() ? 44 : 22,
+        height: isIphoneX() && isPortrait() ? 44 : 22,
         width: '100%',
       },
       textHolder: {
@@ -341,7 +338,7 @@ class TopBar extends React.Component {
         top: 0,
         width: '100%',
         flexDirection: 'row',
-        height: STATUS_BAR_HEIGHT,
+        height: getStatusBarHeight(),
         // overflow: 'hidden',
         backgroundColor: 'transparent',
         // shadowColor: '#000000',
@@ -499,7 +496,7 @@ const BackButton = ({ isSaved, navigation: { navigate } }) => (
   </Animated.View>
 )
 
-export const getTopBarHeight = () => STATUS_BAR_HEIGHT// +
+export const getTopBarHeight = () => getStatusBarHeight()// +
   // (isIphoneX() ? 44 : 22)
 
 export default TopBar

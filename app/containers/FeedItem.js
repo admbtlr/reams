@@ -23,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
     },
     showMercuryContent,
     isDarkMode: state.ui.isDarkMode,
+    orientation: state.config.orientation,
     fontSize: state.ui.fontSize,
     isImageViewerVisible: state.ui.imageViewerVisible,
     coverImageComponent: ownProps.coverImageComponent,

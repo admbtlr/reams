@@ -1,5 +1,5 @@
 import {Animated} from 'react-native'
-import {STATUS_BAR_HEIGHT} from '../components/TopBar.js'
+import { getStatusBarHeight } from 'utils'
 
 export default class ScrollManager {
 
@@ -41,7 +41,7 @@ export default class ScrollManager {
       .diffClamp(
         addedAnims,
         0,
-        STATUS_BAR_HEIGHT)
+        getStatusBarHeight())
 
     // now we have to recreate the diffClamped value
     // because of https://github.com/facebook/react-native/pull/12620
@@ -50,7 +50,7 @@ export default class ScrollManager {
       this.scrollValue = value
       this.clampedScrollValue = Math.min(
         Math.max(this.clampedScrollValue + diff, 0),
-        STATUS_BAR_HEIGHT
+        getStatusBarHeight()
       )
       if (diff > 0) {
         this.scrollListeners.forEach((listener) => {
@@ -64,8 +64,8 @@ export default class ScrollManager {
     })
 
     this.clampedAnim = clamped.interpolate({
-      inputRange: [0, STATUS_BAR_HEIGHT],
-      outputRange: [0, -STATUS_BAR_HEIGHT],
+      inputRange: [0, getStatusBarHeight()],
+      outputRange: [0, -getStatusBarHeight()],
       extrapolate: 'clamp'
     })
 
@@ -77,10 +77,10 @@ export default class ScrollManager {
 
   onScrollEnd (scrollOffset) {
     // console.log('Scroll ended!')
-    const toValue = this.scrollValue > STATUS_BAR_HEIGHT &&
-      this.clampedScrollValue > (STATUS_BAR_HEIGHT) / 2
-      ? STATUS_BAR_HEIGHT
-      : -STATUS_BAR_HEIGHT
+    const toValue = this.scrollValue > getStatusBarHeight() &&
+      this.clampedScrollValue > (getStatusBarHeight()) / 2
+      ? getStatusBarHeight()
+      : -getStatusBarHeight()
 
     console.log('Scroll ended! Need to animate ' + toValue)
     Animated.timing(this.resetAnim, {

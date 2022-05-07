@@ -207,9 +207,9 @@ export default function ButtonSet ({
   )
 }
 
-const screenDimensions = Dimensions.get('window')
 
 const getStyles = () => {
+  const screenDimensions = Dimensions.get('window')
   return {
     base: {
       position: 'absolute',

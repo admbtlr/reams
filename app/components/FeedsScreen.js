@@ -15,7 +15,7 @@ import Heading from './Heading'
 import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
-import { deepEqual, getInset } from '../utils/'
+import { deepEqual, getInset, getMargin } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { useStore } from 'react-redux'
@@ -44,7 +44,8 @@ class FeedsScreen extends React.Component {
       return true
     } else if (this.props.backend === nextProps.backend &&
       deepEqual(this.props.feeds, nextProps.feeds) &&
-      this.props.numItems === nextProps.numItems) {
+      this.props.numItems === nextProps.numItems &&
+      this.props.isPortrait === nextProps.isPortrait) {
       return false
     }
     return true
@@ -69,6 +70,7 @@ class FeedsScreen extends React.Component {
         close={() => {
           navigation.navigate('Main')
         }}
+        isPortrait={this.props.isPortrait}
         navigation={navigation}
       />
     })
@@ -98,7 +100,7 @@ class FeedsScreen extends React.Component {
     console.log((isShowingExpandedFeed ? 'S' : 'Not s') + 'howing expanded feed')
     console.log(this.state)
     const width = Dimensions.get('window').width
-    const margin = width * 0.05
+    const margin = getMargin()
     const extraFeedProps = this.state.selectedFeedElement ?
       this.state.selectedFeedElement.props :
       (this.state.prevSelectedFeedElement ?
@@ -122,6 +124,7 @@ class FeedsScreen extends React.Component {
           showHideTransition="slide"/>
         <AnimatedFlatList
           data={this.props.feeds}
+          key={width}
           keyExtractor={feed => feed._id}
           contentContainerStyle={{
             marginLeft: margin,
@@ -132,6 +135,7 @@ class FeedsScreen extends React.Component {
             backend={this.props.backend}
             clearFeedFilter={this.props.clearFeedFilter}
             clearReadItems={this.props.clearReadItems}
+            isPortrait={this.props.isPortrait}
             navigation={navigation}
             numItems={this.props.numItems}
             numFeeds={this.props.feeds.length}
@@ -212,9 +216,9 @@ class ListHeaderComponent extends React.Component {
 
   render = () => {
     const screenWidth = Dimensions.get('window').width
-    const margin = screenWidth * 0.05
+    const margin = getMargin()
     const buttonWidth = (screenWidth - margin * 3) / 2
-    const { navigation } = this.props
+    const { navigation, isPortrait } = this.props
     const textStyles = {
       fontFamily: 'IBMPlexSans',
       fontSize: 18 * fontSizeMultiplier(),
@@ -228,7 +232,7 @@ class ListHeaderComponent extends React.Component {
     return (
       <View style={{
         marginBottom: 40,
-        width: screenWidth - getInset() * 2
+        width: screenWidth - getInset() * (isPortrait ? 2 : 4)
       }}>
         {/*}<Text style={{
           ...textStyles,

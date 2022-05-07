@@ -40,7 +40,7 @@ const headerStyles = () => ({
 })
 
 const screenWidth = Dimensions.get('window').width
-const margin = screenWidth * 0.05
+const margin = getMargin()
 
 const buttonAnim = new Animated.Value(margin * 4)
 
@@ -155,7 +155,7 @@ export default function NewFeedsList (props) {
     </Svg>
 
   const screenWidth = Dimensions.get('window').width
-  const collapsedHeaderHeight = screenWidth * 0.05 + 32 * fontSizeMultiplier() // allow space for the TextButton
+  const collapsedHeaderHeight = getMargin() + 32 * fontSizeMultiplier() // allow space for the TextButton
 
 
   return (
@@ -196,7 +196,8 @@ export default function NewFeedsList (props) {
         <View style={{
           marginTop: headerHeight + collapsedHeaderHeight + getMargin(),
           marginBottom: 64 * fontSizeMultiplier(),
-          width: screenWidth * 0.9
+          paddingHorizontal: props.isPortrait ? 0 : getMargin() * 2,
+          width: screenWidth * (props.isPortrait ? 0.9 : 1)
         }}>
           <Text style={{
             ...textStyles(),
@@ -293,7 +294,7 @@ export default function NewFeedsList (props) {
             setHeaderHeight(ne.nativeEvent.layout.height)
           }}
           style={{
-            top: -screenWidth * 0.025,
+            top: 0 - getMargin() / 2,
             backgroundColor: hslString('logo1'),
             transform: [{
               translateY: scrollY.interpolate({
