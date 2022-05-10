@@ -35,7 +35,6 @@
 		6332D5CBA60145BBAD467549 /* IBMPlexMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */; };
 		64D3961D798B425594AC7304 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 499AB3DC82924245886CE016 /* Poppins-ExtraBoldItalic.ttf */; };
 		66113521223F8DF4003340DE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
-		663D7FD821A54CD60085CB7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 663D7FD721A54CD60085CB7A /* GoogleService-Info.plist */; };
 		663FABD5237ED5B000052531 /* IBMPlexSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43E02F89082E4739AB0CC9AB /* IBMPlexSans-Light.ttf */; };
 		664B4B281FAB59A9006C6DF9 /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 664B4B271FAB59A9006C6DF9 /* webview */; };
 		664BDD0523C74231007D6D3F /* IBMPlexSansCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 664BDD0323C7422F007D6D3F /* IBMPlexSansCondensed-Light.ttf */; };
@@ -66,7 +65,6 @@
 		66BE7B64233E3C3C00183A41 /* IBMPlexMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */; };
 		66BE7BA4233E3C6A00183A41 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */; };
 		66D9D0CE5D3A459F9B53579E /* PTSerif-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */; };
-		66DEF8D72417F045000BA7ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 663D7FD721A54CD60085CB7A /* GoogleService-Info.plist */; };
 		6808D92C526845F5BCD20577 /* PTSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */; };
 		6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */; };
 		74F3470AA8294D438D93B4C9 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AFB220B18334EF1B5381A18 /* Poppins-Regular.ttf */; };
@@ -649,7 +647,6 @@
 				A349A74FBB2D4F8CA20CEB21 /* IBMPlexSansCondensed-ExtraLightItalic.ttf in Resources */,
 				50797229E0BE442B98C3A263 /* IBMPlexSerif-Thin.ttf in Resources */,
 				228EEA52AEDC41808EAD7326 /* IBMPlexSerif-ThinItalic.ttf in Resources */,
-				663D7FD821A54CD60085CB7A /* GoogleService-Info.plist in Resources */,
 				2592540CC00D4EA4A4980FD2 /* PlayfairDisplaySC-Bold.ttf in Resources */,
 				2515F9723B354E8AB561D2B5 /* PlayfairDisplaySC-BoldItalic.ttf in Resources */,
 				309C7C44D4CC40F0AD8EFCD3 /* PTSerif-Bold.ttf in Resources */,
@@ -672,7 +669,6 @@
 			files = (
 				66548831256ADB8000917A34 /* PTSerif-Bold.ttf in Resources */,
 				66ABE8CE2796B3E2004E15B2 /* ream@2x.png in Resources */,
-				66DEF8D72417F045000BA7ED /* GoogleService-Info.plist in Resources */,
 				663FABD5237ED5B000052531 /* IBMPlexSans-Light.ttf in Resources */,
 				66BE7BA4233E3C6A00183A41 /* IBMPlexSans-Bold.ttf in Resources */,
 				66BE7B63233E3C3C00183A41 /* IBMPlexMono-Bold.ttf in Resources */,
@@ -736,13 +732,11 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reams-ReamsShare/Pods-Reams-ReamsShare-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/react-native-image-filter-kit/bundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bundle.bundle",
 			);
@@ -780,13 +774,11 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/react-native-image-filter-kit/bundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/bundle.bundle",
 			);
