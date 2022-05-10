@@ -6,7 +6,7 @@ import moment from 'moment'
 import quote from 'headline-quotes'
 
 import {hslString} from '../utils/colors'
-import {deepEqual, diff, fontSizeMultiplier, getMargin} from '../utils'
+import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
 
 const entities = require('entities')
@@ -426,6 +426,8 @@ class ItemTitle extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
+    const isFullBleed = showCoverImage && !coverImageStyles.isInline 
+
     // just so we can render something before it's been calculated
     const fontSize = styles.fontSize || 42
     let lineHeight = Math.floor(fontSize * styles.lineHeightAsMultiplier)
@@ -462,7 +464,7 @@ class ItemTitle extends React.Component {
         '')
 
     let color = styles.isMonochrome ?
-      ((showCoverImage && !coverImageStyles.isInline && !styles.bg) ?
+      ((isFullBleed && !styles.bg) ?
         'white' :
         textColor) :
       (styles.isTone ?
@@ -533,7 +535,7 @@ class ItemTitle extends React.Component {
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
       marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
-      marginBottom: showCoverImage && !coverImageStyles.isInline && styles.bg ? this.getExcerptLineHeight() : 0,
+      marginBottom: isFullBleed && styles.bg ? this.getExcerptLineHeight() : 0,
       marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
@@ -565,16 +567,17 @@ class ItemTitle extends React.Component {
     const overlayColour = this.getOverlayColor()
     const outerViewStyle = {
       width: this.screenWidth,
-      height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
+      height: !showCoverImage || coverImageStyles.isInline ? 'auto' : 
+        isPortrait && !isIpad ? this.screenHeight * 1.2 : this.screenHeight * 1.4,
       paddingTop: showCoverImage && coverImageStyles.isInline ? 
         0 : 
         showCoverImage ? 
           getTopBarHeight() + this.screenHeight * 0.2 :
           getTopBarHeight(),
-      paddingLeft: isPortrait ? 0 : this.horizontalMargin * 2,
+      paddingHorizontal: !isFullBleed || isPortrait ? 0 : isIpad ? this.horizontalMargin : this.horizontalMargin * 2, // make space for notch
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 
         0 : 
-        isPortrait ? 100 : 60,
+        isPortrait ? 100 : 0,
       marginTop: 0,
       marginBottom: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
       top: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
@@ -589,6 +592,8 @@ class ItemTitle extends React.Component {
         1 :
         opacity
     }
+
+    // full screen cover + landscape = author and date go below the line
 
     let shadowStyle = showCoverImage && styles.hasShadow ? {
       textShadowColor: 'rgba(0,0,0,0.1)',
@@ -611,7 +616,7 @@ class ItemTitle extends React.Component {
       backgroundColor: showCoverImage ?
         (styles.isMonochrome ? 'white' : this.getForegroundColor()) :
         'transparent',
-      marginBottom: (showCoverImage && !coverImageStyles.isInline && styles.invertedBGMargin || 0) * 3
+      marginBottom: (isFullBleed && styles.invertedBGMargin || 0) * 3
     }
 
     const justifiers = {
@@ -698,6 +703,8 @@ class ItemTitle extends React.Component {
       })
     }
 
+    const isAuthorDateBelowFold = showCoverImage && !isPortrait && !coverImageStyles.isInline
+
     const barView = this.renderBar(barAnimation)
     const excerptView = this.props.excerpt
       ? this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView, excerptAnimation)
@@ -745,8 +752,10 @@ class ItemTitle extends React.Component {
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&
           excerptView }
-        { authorView }
-        { dateView }
+          <View>
+            { authorView }
+            { dateView }
+          </View>
         {(!showCoverImage && this.itemStartsWithImage()) ||
           (showCoverImage &&
             this.props.item.excerpt !== null &&
@@ -971,8 +980,7 @@ class ItemTitle extends React.Component {
     const { coverImageStyles, date, scrollOffset, showCoverImage, styles } = this.props
     let dateStyle = {
       color: showCoverImage &&
-        !coverImageStyles.isInline/* &&
-        !coverImageStyles.isScreen*/ ? 'white' : '#666', // hslString(item.feed_color, 'desaturated'),
+        !coverImageStyles.isInline ? 'white' : '#666', // TODO: what about isDarkMode?
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.8,
       fontFamily: 'IBMPlexMono-Light',
