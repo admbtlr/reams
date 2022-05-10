@@ -34,7 +34,7 @@
     "html-entities": "^2.3.2",
     "install": "^0.13.0",
     "lz-string": "^1.4.4",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "opmltojs": "^0.4.9",
     "path": "^0.12.7",
     "prop-types": "^15.6.0",
