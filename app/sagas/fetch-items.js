@@ -4,6 +4,7 @@ import { InteractionManager } from 'react-native'
 
 import {
   ITEMS_BATCH_FETCHED,
+  MARK_ITEMS_READ,
   SET_LAST_UPDATED,
   ItemType
 } from '../store/items/types'
@@ -15,7 +16,8 @@ import {
   REMOVE_MESSAGE
 } from '../store/ui/types'
 import {
-  fetchItems as fetchItemsBackends
+  fetchItems as fetchItemsBackends,
+  getReadItems as getReadItemsBackends
 } from '../backends'
 import { setItemsAS } from '../storage/async-storage'
 import { getFeedColor, id } from '../utils'
@@ -99,6 +101,11 @@ export function * fetchItems (type = ItemType.unread) {
     return
   }
 
+  const readItems = yield call(getReadItemsBackends, oldItems)
+  yield put({
+    type: MARK_ITEMS_READ,
+    items: readItems
+  })
   const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feeds)
 
   let isFirstBatch = true
