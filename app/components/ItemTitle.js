@@ -565,19 +565,21 @@ class ItemTitle extends React.Component {
       })  
     }
     const overlayColour = this.getOverlayColor()
+    const isIPad = isIpad()
     const outerViewStyle = {
       width: this.screenWidth,
-      height: !showCoverImage || coverImageStyles.isInline ? 'auto' : 
-        isPortrait && !isIpad ? this.screenHeight * 1.2 : this.screenHeight * 1.4,
+      height: !isFullBleed ? 'auto' : 
+        isPortrait || isIpad() ? this.screenHeight * 1.2 : this.screenHeight * 1.4,
       paddingTop: showCoverImage && coverImageStyles.isInline ? 
         0 : 
         showCoverImage ? 
           getTopBarHeight() + this.screenHeight * 0.2 :
           getTopBarHeight(),
-      paddingHorizontal: !isFullBleed || isPortrait ? 0 : isIpad ? this.horizontalMargin : this.horizontalMargin * 2, // make space for notch
+      paddingHorizontal: isPortrait ? 0 : 
+        isIpad() ? this.horizontalMargin : this.horizontalMargin * 2, // make space for notch
       paddingBottom: coverImageStyles.isInline || !showCoverImage ? 
         0 : 
-        isPortrait ? 100 : 0,
+        isPortrait || isIpad() ? 100 : 0, // looks weird, but means that landscape iPhone doesn't make space fot the buttons
       marginTop: 0,
       marginBottom: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
       top: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,

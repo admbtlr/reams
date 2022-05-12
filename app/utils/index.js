@@ -158,10 +158,7 @@ export const isIphoneX = () => {
 }
 
 export const isIpad = () => {
-  let d = Dimensions.get('window')
-  const { height, width } = d
-
-  return Platform.OS === 'ios' && width > 700
+  return Platform.OS === 'ios' && getSmallestDimension() > 700
 }
 
 export const isPortrait = () => Dimensions.get('window').height > Dimensions.get('window').width
