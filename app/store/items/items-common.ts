@@ -148,7 +148,7 @@ export function itemDecorationFailure (
     if (item._id === action.item._id) {
       item.decoration_failures = item.decoration_failures || 0
       item.decoration_failures++
-      if (item.decoration_failures > 4) {
+      if (item.decoration_failures > 4 && !item.content_html) {
         item.content_html = '<p>This story could not be loaded 😞</p><p>'
           + item.url + '</p>' +
           (action.mercuryStuff?.message ? ('<p>' + action.mercuryStuff.message + '</p>') : '')

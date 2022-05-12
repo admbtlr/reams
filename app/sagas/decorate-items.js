@@ -10,7 +10,7 @@ import {
 import { getCachedCoverImagePath, getImageDimensions } from '../utils'
 import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createItemStyles'
 import { deflateItem } from '../utils/item-utils'
-import { getActiveItems } from './selectors'
+import { getActiveItems, getItem } from './selectors'
 import log from '../utils/log'
 import { faceDetection } from '../utils/face-detection'
 
@@ -75,6 +75,8 @@ function * decorationFailed (item) {
     item,
     isSaved: item.isSaved
   })
+  item = yield select(getItem, item._id)
+  yield call(updateItemAS, item)
   pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
 

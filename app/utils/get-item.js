@@ -33,9 +33,14 @@ export const getItemId = (state, index) => {
 }
 
 export const getItem = (state, id, type = 'unread') => {
-  const items = type === 'unread' ?
+  let items = type === 'unread' ?
     state.itemsUnread.items :
     state.itemsSaved.items
-
+  let item = items.find(item => item._id === id)
+  if (!item) {
+    items = type === 'unread' ?
+      state.itemsSaved.items : 
+      state.itemsUnread.items
+  }
   return items.find(item => item._id === id)
 }
