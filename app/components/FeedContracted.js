@@ -119,7 +119,7 @@ class FeedContracted extends React.PureComponent {
   }
 
   render = () => {
-    const { feed, index } = this.props
+    const { feed, index, width } = this.props
     const {
       _id,
       coverImageDimensions,
@@ -157,9 +157,9 @@ class FeedContracted extends React.PureComponent {
     const dim = Dimensions.get('window')
     const screenWidth = dim.width
     const margin = getMargin()
-    const cardWidth = screenWidth < 500 ?
-      screenWidth - margin * 2 :
-      (screenWidth - margin * 5) / 2
+    const cardWidth = width < 500 ?
+      width - margin * 2 :
+      (width - margin) / 2
     const screenHeight = dim.height
 
     const cardHeight = screenWidth < 500 || screenHeight < 500 ?

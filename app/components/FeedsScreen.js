@@ -86,7 +86,7 @@ class FeedsScreen extends React.Component {
   }
 
   render = () => {
-    const { navigation } = this.props
+    const { isPortrait, navigation } = this.props
 
     const isShowingExpandedFeed = this.state.showExpandingFeed &&
       (this.state.selectedFeedElement ?
@@ -99,7 +99,8 @@ class FeedsScreen extends React.Component {
     console.log('Render feeds screen!')
     console.log((isShowingExpandedFeed ? 'S' : 'Not s') + 'howing expanded feed')
     console.log(this.state)
-    const width = Dimensions.get('window').width
+    const screenWidth = Dimensions.get('window').width
+    this.width = screenWidth - getInset() * (isPortrait ? 2 : 4)
     const margin = getMargin()
     const extraFeedProps = this.state.selectedFeedElement ?
       this.state.selectedFeedElement.props :
@@ -124,7 +125,7 @@ class FeedsScreen extends React.Component {
           showHideTransition="slide"/>
         <AnimatedFlatList
           data={this.props.feeds}
-          key={width}
+          key={screenWidth}
           keyExtractor={feed => feed._id}
           contentContainerStyle={{
             marginLeft: margin,
@@ -144,8 +145,9 @@ class FeedsScreen extends React.Component {
             setIndex={this.props.setIndex}
             showAddFeeds={this.showAddFeeds.bind(this)}
             showModal={this.props.showModal}
+            width={this.width}
           />}
-          numColumns={width > 500 ? 2 : 1}
+          numColumns={screenWidth > 500 ? 2 : 1}
           onScroll={Animated.event(
             [{ nativeEvent: {
               contentOffset: { y: this.scrollAnim }
@@ -174,7 +176,7 @@ class FeedsScreen extends React.Component {
   renderFeed = ({item, index}) => {
     // const isSelected = this.state.selectedFeedElement !== null &&
     //   this.state.selectedFeedElement.props.feedId === item._id
-    const { open } = this;
+    const { open, width } = this;
     const { modal } = this.state;
     return item && <FeedContracted
       key={item._id}
@@ -182,7 +184,7 @@ class FeedsScreen extends React.Component {
       index={index}
       navigation={this.props.navigation}
       disableScroll={this.disableScroll}
-      {...{ modal, open }}
+      {...{ modal, open, width }}
     />
   }
 }
@@ -215,76 +217,13 @@ class ListHeaderComponent extends React.Component {
   }
 
   render = () => {
-    const screenWidth = Dimensions.get('window').width
     const margin = getMargin()
-    const buttonWidth = (screenWidth - margin * 3) / 2
-    const { navigation, isPortrait } = this.props
-    const textStyles = {
-      fontFamily: 'IBMPlexSans',
-      fontSize: 18 * fontSizeMultiplier(),
-      lineHeight: 27 * fontSizeMultiplier(),
-      marginTop: margin / 2 ,
-      marginBottom: margin / 2,
-      padding: 8 * fontSizeMultiplier(),
-      textAlign: 'left',
-      color: hslString('rizzleText')
-    }
+    const { navigation, scrollAnim, showAddFeeds, width } = this.props
     return (
       <View style={{
         marginBottom: 40,
-        width: screenWidth - getInset() * (isPortrait ? 2 : 4)
+        width
       }}>
-        {/*}<Text style={{
-          ...textStyles,
-          marginBottom: 0
-        }}>You are using <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.backend }</Text> to manage your feeds.</Text>
-        <TextButton
-          isCompact={true}
-          isInverted={true}
-          text="Change account"
-          onPress={() => navigation.navigate('Account')}
-          buttonStyle={{
-            alignSelf: 'flex-end',
-            marginBottom: margin / 2,
-            minWidth: buttonWidth,
-            width: buttonWidth
-          }}
-        />
-        <Heading />
-        <Text style={{
-          ...textStyles,
-          marginTop: 0,
-          paddingTop: 0
-        }}>You have <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{ this.props.numItems } unread items</Text>.</Text>
-        <View style={{
-          flexDirection: 'row',
-          marginBottom: margin / 2,
-          marginRight: 0 - margin
-        }}>
-          <TextButton
-            buttonStyle={{
-              marginRight: margin
-            }}
-            fgColor='#993030'
-            isCompact={true}
-            onPress={() => {
-              this.props.markAllRead()
-            }}
-            text="Discard all" />
-          <TextButton
-            buttonStyle={{
-              marginRight: margin
-            }}
-            fgColor='#993030'
-            isCompact={true}
-            onPress={() => {
-              this.showMarkOldReadModal(this)
-            }}
-            text="Discard old" />
-        </View>
-        <ItemsDirectionRadiosContainer />
-        <Heading title='' />
-          <View style={{ height: margin*2 }} />{*/}
         <NavButton
           text="Unread stories"
           hasBottomBorder={true}
@@ -292,17 +231,16 @@ class ListHeaderComponent extends React.Component {
           icon={ getRizzleButtonIcon('unread', hslString('rizzleText')) }
           index={0}
           onPress={() => {
-            this.props.navigation.navigate('Items')
+            navigation.navigate('Items')
           }}
-          scrollAnim={this.props.scrollAnim}
-          index={1}
+          scrollAnim={scrollAnim}
         />
         <FeedFilterIndicator 
-          scrollAnim={this.props.scrollAnim}
+          scrollAnim={scrollAnim}
         />
         <Animated.View style={{
           transform: [{
-            translateY: this.props.scrollAnim.interpolate({
+            translateY: scrollAnim.interpolate({
               inputRange: [-1, 0, 1],
               outputRange: [-.5, 0, 0]
             })
@@ -314,7 +252,7 @@ class ListHeaderComponent extends React.Component {
               marginTop: 40,
               marginBottom: 0,
             }}
-            onPress={this.props.showAddFeeds}
+            onPress={showAddFeeds}
           />
         </Animated.View>
       </View>
