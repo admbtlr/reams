@@ -158,7 +158,7 @@ class FeedContracted extends React.PureComponent {
     const screenWidth = dim.width
     const margin = getMargin()
     const cardWidth = width < 500 ?
-      width - margin * 2 :
+      width :
       (width - margin) / 2
     const screenHeight = dim.height
 
