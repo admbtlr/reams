@@ -1,4 +1,3 @@
-- landscape mode
 - test adding feeds and stories simultaneously
 - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
@@ -50,6 +49,7 @@
 
 # Done
 
+- ~~landscape mode~~
 - ~~make Feedwrangler work fully~~
 - ~~the very first buttonset is the wrong colour?~~
 - ~~be more efficient about getting feedbin items~~
