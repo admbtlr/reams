@@ -1,3 +1,5 @@
+- background fetch 
+  - https://github.com/transistorsoft/react-native-background-fetch
 - test adding feeds and stories simultaneously
 - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
