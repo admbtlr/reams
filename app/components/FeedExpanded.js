@@ -153,13 +153,13 @@ class FeedExpanded extends React.Component {
               
             </View>
           </View>
-          <FeedIconCorner
+          {/* <FeedIconCorner
             feed={feed}
             iconDimensions={iconDimensions}
             extraStyle={{
               bottom: 0
             }}
-          />
+          /> */}
         </View>
         <View style={{
           backgroundColor: hslString('rizzleBG'),
