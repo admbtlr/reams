@@ -7,7 +7,7 @@ import {
 import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedIconCorner from './FeedIconCorner'
-import FeedDetails from './FeedDetails'
+import FeedDetails, { FeedStats } from './FeedDetails'
 import XButton from './XButton'
 import FeedExpandedOnboarding from './FeedExpandedOnboarding'
 import { fontSizeMultiplier, getMargin } from '../utils'
@@ -48,7 +48,7 @@ class FeedExpanded extends React.Component {
 
     const textStyles = {
       color: 'white',
-      fontFamily: 'IBMPlexMono-Light',
+      fontFamily: 'IBMPlexSans-Light',
       textAlign: 'left'
     }
 
@@ -57,14 +57,19 @@ class FeedExpanded extends React.Component {
     const margin = getMargin()
     const screenHeight = dim.height
 
-    const EnclosingView = screenWidth < 500 ? View : ScrollView
+    const EnclosingView = screenWidth < 500 ? View : View
 
     return (
       <EnclosingView 
+        alwaysBounceVertical={false}
+        bounces={false}
+        overScrollMode='never'
         showsVerticalScrollIndicator={false}
         style={{
           padding: 0,
           margin: 0,
+          minHeight: '100%',
+          flex: 1
         }}>
         <View
           style={{
@@ -75,13 +80,13 @@ class FeedExpanded extends React.Component {
             overflow: 'hidden',
             flex: 0,
             flexGrow: 1,
-            width: screenWidth
+            width: screenWidth,
             // ...positionStyles
           }}>
           <View
             ref={c => this.imageView = c}
             style={{
-              // height: '100%',
+              // height: screenHeight * 0.6,
               width: '100%',
               minHeight: 200,
               overflow: 'hidden',
@@ -91,7 +96,8 @@ class FeedExpanded extends React.Component {
               feed={feed}
               width={screenWidth}
               height={screenHeight * 0.6}
-              setCachedCoverImage={this.props.setCachedCoverImage} />
+              setCachedCoverImage={this.props.setCachedCoverImage} 
+              removeCoverImage={this.props.removeCoverImage} />
             <View style={{
               position: 'absolute',
               left: 0,
@@ -103,7 +109,7 @@ class FeedExpanded extends React.Component {
           </View>
           <View style={{
             width: '100%',
-            paddingLeft: screenWidth < 500 ? margin * 0.5 : margin * 2,
+            paddingLeft: screenWidth < 500 ? margin * 0.5 : screenWidth * 0.04,
             paddingRight: 40,
             paddingBottom: margin * 0.5,
             position: 'absolute',
@@ -140,10 +146,11 @@ class FeedExpanded extends React.Component {
               paddingRight: 10
             }}>
               <Text style={{
-                ...textStyles,
-                fontFamily: 'IBMPlexMono-Light',
+                ...textInfoStyle('white'),
+                marginLeft: 0,
                 fontSize: 16 * fontSizeMultiplier()
-              }}>{feed.numUnread} unread stories</Text>
+              }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'} • <FeedStats feed={feed} /></Text>
+              
             </View>
           </View>
           <FeedIconCorner

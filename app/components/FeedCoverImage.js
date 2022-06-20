@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Animated,
+  Animated, PushNotificationIOS,
 } from 'react-native'
 import {fileExists, getCachedCoverImagePath} from '../utils/'
 
@@ -62,7 +62,8 @@ class FeedCoverImage extends React.Component {
         style={{
           alignSelf: 'center',
           width,
-          height
+          height,
+          position: 'absolute',
         }}
       /> :
       null

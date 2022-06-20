@@ -13,7 +13,7 @@ import SwitchRow from './SwitchRow'
 import { hslString } from '../utils/colors'
 import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1'
+import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
 const compactButtons = !isIphoneX() && !isIpad()
 
@@ -27,6 +27,36 @@ const createTimeString = (seconds) => {
       seconds + ' seconds')
 }
 
+export const FeedStats = ({ feed }) => {
+  const screenWidth = Dimensions.get('window').width
+  const margin = screenWidth * 0.03
+  const totalReadingTime = createTimeString(feed.readingTime)
+  const avgReadingTime = createTimeString(Math.round(feed.readingTime / feed.numRead))
+  const bold = {
+    fontFamily: 'IBMPlexSans-Bold',
+    // color: hslString(feed.color, 'darkmodable')
+  }
+  const italic = {
+    fontFamily: 'IBMPlexSans-LightItalic'
+  }
+
+  return (
+    <Text style={{
+      ...textInfoStyle('white'),
+      opacity: 0.8
+      // color: hslString('white'),
+      // fontFamily: 'IBMPlexSans-Light',
+      // marginBottom: margin,
+      // textAlign: 'left'
+    }}>You’ve read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from {feed.title}
+      {feed.numRead > 0 &&
+        <Text> It takes you an average of {avgReadingTime} to read each story
+        </Text>
+      }.
+      </Text>)
+
+}
+
 export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, close, filterItems, navigation, setIndex, toggleMute, toggleLike, toggleMercury }) {
   const [isLiked, setLiked] = useState(feed.isLiked)
   const [isMuted, setMuted] = useState(feed.isMuted)
@@ -35,32 +65,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
 
   const screenWidth = Dimensions.get('window').width
   const margin = screenWidth * 0.03
-
-  const bold = {
-    fontFamily: 'IBMPlexSans-Bold',
-    // color: hslString(feed.color, 'darkmodable')
-  }
-  const italic = {
-    fontFamily: 'IBMPlexSans-LightItalic'
-  }
-  const totalReadingTime = createTimeString(feed.readingTime)
-  const avgReadingTime = createTimeString(Math.round(feed.readingTime / feed.numRead))
-  const feedStats = (
-    <Text style={{
-      color: hslString('rizzleText'),
-      fontFamily: 'IBMPlexSans-Light',
-      fontSize: 16 * fontSizeMultiplier(),
-      lineHeight: 24 * fontSizeMultiplier(),
-      marginBottom: margin,
-      textAlign: 'left'
-    }}>You’ve read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from
-      <Text style={bold}> {feed.title}</Text>
-      {feed.numRead > 0 &&
-        <Text> over the course of {totalReadingTime}.
-          It takes you an average of {avgReadingTime} to read each story
-        </Text>
-      }.
-      </Text>)
 
   const likeIcon = <Svg
       viewBox='0 0 32 32'
@@ -188,38 +192,43 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
     <View style={{
       justifyContent: 'flex-start',
       margin: 0,
-      padding: margin,
-      paddingHorizontal: screenWidth < 500 ? margin : screenWidth * 0.04
+      paddingBottom: margin,
     }}>
-        <View style={{
-          flex: -1,
-          justifyContent: 'center'
-        }}>
-          { feedStats }
-        </View>
       <View style={{
         flex: 0,
+        paddingHorizontal: screenWidth < 500 ? margin : screenWidth * 0.04
         // backgroundColor: 'red'
         // alignItems: 'flex-end'
       }}>
-        {/*<NavButton
-          hasTopBorder={true}
+        <NavButton
+          // hasTopBorder={true}
           onPress={() => {
             clearReadItems()
             filterItems(feed._id)
             setIndex(0)
             navigation.navigate('Items')
           }}
-          viewStyle={{ marginBottom: 0 }}
+          viewStyle={{ 
+            marginBottom: 0, 
+            backgroundColor: hslString(feed.color, 'desaturated'),
+            color: 'white',
+            paddingHorizontal: screenWidth < 500 ? margin : screenWidth * 0.04,
+            marginHorizontal: 0 - (screenWidth < 500 ? margin : screenWidth * 0.04),
+            width: screenWidth,
+            marginTop: -1
+         }}
         >
           <Text 
             numberOfLines={1}
             style={{ 
               ...textInfoStyle(),
+              color: 'white',
               marginLeft: 6,
               flex: 1,
-            }}>Read stories from <Text style={textInfoBoldStyle()}>{feed.title}</Text></Text>
-          </NavButton>*/}
+            }}>Read stories from <Text style={{
+              ...textInfoBoldStyle(),
+              color: 'white'}}>{feed.title}</Text></Text>
+        </NavButton>
         <View style={{
             flexDirection: 'column',
             flex: 0,
@@ -234,7 +243,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               toggleMercury(feed._id)
             }}
             value={isMercury} />
-          <SwitchRow
+          {/* <SwitchRow
             label='Only show stories from this feed'
             icon={filterIcon}
             onValueChange={() => {
@@ -243,7 +252,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               filterItems(feed.isFiltered ? null : feed._id)
               setIndex(0)
             }}
-          value={feed.isFiltered} />
+          value={feed.isFiltered} />*/}
           <SwitchRow
             label='Mute this feed'
             icon={muteIcon}

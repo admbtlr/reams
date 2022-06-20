@@ -68,7 +68,7 @@ export default NavButton = ({ children, icon, onPress, text, hasBottomBorder, ha
           }
           <View style={{ 
             alignSelf: 'flex-end'
-          }}>{ getRizzleButtonIcon('forward', hslString('rizzleText')) }</View>
+          }}>{ getRizzleButtonIcon('forward', viewStyle.color || hslString('rizzleText')) }</View>
         </View>
       </TouchableOpacity>
     </Animated.View>

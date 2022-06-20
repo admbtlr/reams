@@ -12,7 +12,8 @@ import {
   LIKE_FEED_TOGGLE,
   MUTE_FEED_TOGGLE,
   MERCURY_FEED_TOGGLE,
-  SET_CACHED_FEED_COVER_IMAGE
+  SET_CACHED_FEED_COVER_IMAGE,
+  REMOVE_FEED_COVER_IMAGE
 } from '../store/feeds/types'
 import FeedExpanded from '../components/FeedExpanded.js'
 // import {getCachedCoverImagePath} from '../utils/'
@@ -108,6 +109,12 @@ const mapDispatchToProps = (dispatch) => {
         type: SET_CACHED_FEED_COVER_IMAGE,
         id: feedId,
         cachedCoverImageId
+      })
+    },
+    removeCoverImage: (feedId) => {
+      return dispatch({
+        type: REMOVE_FEED_COVER_IMAGE,
+        id: feedId
       })
     }
   }
