@@ -61,7 +61,9 @@ function * init (action) {
 
 function * startDownloads (backend) {
   // let the app render and get started
-  yield delay(5000)
+  if (!global.isBackgroundFetch) {
+    yield delay(5000)
+  }
   yield call(fetchAllFeeds)
   yield call(fetchAllItems)
   yield call(decorateItems)

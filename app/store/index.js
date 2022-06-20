@@ -42,7 +42,6 @@ function configureStore () {
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
 
-  console.log(state)
   if (Config.USE_STATE) {
     store = createStore(
       makeRootReducer(),

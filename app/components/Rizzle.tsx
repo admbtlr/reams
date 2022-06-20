@@ -18,6 +18,7 @@ import Message from './Message'
 import * as tf from '@tensorflow/tfjs'
 import '@tensorflow/tfjs-react-native'
 import OrientationListener from './OrientationListener'
+import BackgroundFetch from "react-native-background-fetch";
 
 export interface Props {
   isActionExtension?: boolean
@@ -60,9 +61,28 @@ export default class Rizzle extends Component<Props, State> {
 
   async componentDidMount () {
     InteractionManager.setDeadline(100)
-
+    await this.initBackgroundFetch()
     await tf.ready()
     console.log('Tensor Flow is ready')    
+  }
+
+  async initBackgroundFetch () {
+    const onEvent = async (taskId: string) => {
+      console.log('Background Fetch event', taskId)
+      global.isBackgroundFetch = true
+      await configureStore()
+      global.isBackgroundFetch = false
+      console.warn('Background Fetch finished', taskId)
+      BackgroundFetch.finish(taskId)
+    }
+
+    const onTimeout = async (taskId: string) => {
+      console.warn('Background Fetch timeout', taskId)
+      BackgroundFetch.finish(taskId)
+    }
+
+    let status = await BackgroundFetch.configure({minimumFetchInterval: 15}, onEvent, onTimeout)
+    console.log('[BackgroundFetch] configure status: ', status)
   }
 
   render () {
