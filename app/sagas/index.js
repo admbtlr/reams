@@ -62,19 +62,22 @@ function * init (action) {
 }
 
 function * startDownloads (backend) {
+  const isBackgroundFetch = !!backgroundFetchCallback
   // let the app render and get started
-  if (!global.isBackgroundFetch) {
+  if (!isBackgroundFetch) {
     yield delay(5000)
   }
   yield call(fetchAllFeeds)
   yield call(fetchAllItems)
-  yield call(decorateItems)
   yield call(clearReadItems)
   yield call(pruneItems)
-  yield call(executeRemoteActions)
-  yield call(inflateFeeds)
-  if (backgroundFetchCallback) {
+  if (isBackgroundFetch) {
     backgroundFetchCallback()
+    backgroundFetchCallback = undefined
+  } else {
+    yield call(decorateItems)
+    yield call(executeRemoteActions)
+    yield call(inflateFeeds)  
   }
 }
 
