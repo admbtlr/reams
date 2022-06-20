@@ -13,7 +13,7 @@ import { Dimensions } from 'react-native'
 let store = null
 let persistor = null
 
-function configureStore () {
+function configureStore (backgroundFetchCallback) {
   const composeEnhancers = composeWithDevTools({
     realtime: window.__DEV__
   })
@@ -69,7 +69,7 @@ function configureStore () {
     console.log('Store persisted')
   }
 
-  sagaMiddleware.run(initSagas)
+  sagaMiddleware.run(initSagas, backgroundFetchCallback)
 
   if (window.__DEV__) {
     window.getState = store.getState

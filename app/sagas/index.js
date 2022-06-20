@@ -48,6 +48,8 @@ import { getConfig } from './selectors'
 
 let downloadsFork
 
+let backgroundFetchCallback
+
 function * init (action) {
   if (action.key && action.key !== 'primary') return
   const config = yield select(getConfig)
@@ -71,6 +73,9 @@ function * startDownloads (backend) {
   yield call(pruneItems)
   yield call(executeRemoteActions)
   yield call(inflateFeeds)
+  if (backgroundFetchCallback) {
+    backgroundFetchCallback()
+  }
 }
 
 function * killBackend () {
@@ -80,7 +85,8 @@ function * killBackend () {
   }
 }
 
-export function * initSagas () {
+export function * initSagas (callback) {
+  backgroundFetchCallback = callback
   yield takeEvery(REHYDRATE, init)
   yield takeEvery(SET_BACKEND, init)
   yield takeEvery(UNSET_BACKEND, removeAllItems)

@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native'
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
-import { configureStore } from '../store'
+import { configureStore, persistor } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
@@ -67,13 +67,23 @@ export default class Rizzle extends Component<Props, State> {
   }
 
   async initBackgroundFetch () {
+    let currentTaskId: string | undefined
+
+    const backgroundFetchFinished = () => {
+      console.log('Persisting store')
+      persistor.persist()
+      global.isBackgroundFetch = false
+      console.log('Background Fetch finished', currentTaskId)
+      BackgroundFetch.finish(currentTaskId)
+      currentTaskId = undefined
+    }
+
     const onEvent = async (taskId: string) => {
+      currentTaskId = taskId
       console.log('Background Fetch event', taskId)
       global.isBackgroundFetch = true
-      await configureStore()
-      global.isBackgroundFetch = false
-      console.warn('Background Fetch finished', taskId)
-      BackgroundFetch.finish(taskId)
+      console.log('Calling configure store')
+      await configureStore(backgroundFetchFinished)
     }
 
     const onTimeout = async (taskId: string) => {
