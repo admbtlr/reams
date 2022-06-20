@@ -1,5 +1,5 @@
-- background fetch 
-  - https://github.com/transistorsoft/react-native-background-fetch
+- pages in feedbin
+  - saved external items are in a feed called Pages
 - test adding feeds and stories simultaneously
 - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
@@ -51,6 +51,7 @@
 
 # Done
 
+- ~~background fetch~~
 - ~~landscape mode~~
 - ~~make Feedwrangler work fully~~
 - ~~the very first buttonset is the wrong colour?~~
