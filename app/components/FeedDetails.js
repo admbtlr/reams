@@ -14,6 +14,7 @@ import { hslString } from '../utils/colors'
 import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
+import FeedIconContainer from '../containers/FeedIcon'
 
 const compactButtons = !isIphoneX() && !isIpad()
 
@@ -188,6 +189,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         true) }
   </View>
 
+  const { iconDimensions } = feed
+
   return (
     <View style={{
       justifyContent: 'flex-start',
@@ -213,11 +216,18 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             backgroundColor: hslString(feed.color, 'desaturated'),
             color: 'white',
             paddingHorizontal: screenWidth < 500 ? margin : screenWidth * 0.04,
+            paddingTop: margin * 2,
+            paddingBottom: margin * 2,
             marginHorizontal: 0 - (screenWidth < 500 ? margin : screenWidth * 0.04),
             width: screenWidth,
             marginTop: -1
          }}
         >
+          <FeedIconContainer
+            feed={feed}
+            iconDimensions={iconDimensions}
+          />
+
           <Text 
             numberOfLines={1}
             style={{ 
