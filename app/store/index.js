@@ -1,7 +1,7 @@
 import { compose, createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import makeRootReducer from './reducers'
-import {initSagas} from '../sagas'
+import {backgroundFetch, initSagas} from '../sagas'
 import {createTransform, persistReducer, persistStore} from 'redux-persist'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import {composeWithDevTools} from 'redux-devtools-extension'
@@ -12,13 +12,14 @@ import { Dimensions } from 'react-native'
 
 let store = null
 let persistor = null
+let sagaMiddleware = null
 
-function configureStore (backgroundFetchCallback) {
+function configureStore () {
   const composeEnhancers = composeWithDevTools({
     realtime: window.__DEV__
   })
 
-  const sagaMiddleware = createSagaMiddleware({
+  sagaMiddleware = createSagaMiddleware({
     onError: (error, { sagaStack}) => {
       log('sagas', error, sagaStack)
     }
@@ -69,7 +70,7 @@ function configureStore (backgroundFetchCallback) {
     console.log('Store persisted')
   }
 
-  sagaMiddleware.run(initSagas, backgroundFetchCallback)
+  sagaMiddleware.run(initSagas)
 
   if (window.__DEV__) {
     window.getState = store.getState
@@ -78,4 +79,8 @@ function configureStore (backgroundFetchCallback) {
   return store
 }
 
-export { store, configureStore, persistor }
+function doBackgroundFetch(callback) {
+  sagaMiddleware.run(backgroundFetch, callback)
+}
+
+export { store, configureStore, doBackgroundFetch, persistor }

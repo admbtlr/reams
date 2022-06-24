@@ -61,24 +61,24 @@ function * init (action) {
   downloadsFork = yield fork(startDownloads, config.backend)
 }
 
-function * startDownloads (backend) {
-  const isBackgroundFetch = !!backgroundFetchCallback
-  // let the app render and get started
-  if (!isBackgroundFetch) {
-    yield delay(5000)
-  }
+export function * backgroundFetch (callback) {
   yield call(fetchAllFeeds)
   yield call(fetchAllItems)
   yield call(clearReadItems)
   yield call(pruneItems)
-  if (isBackgroundFetch) {
-    backgroundFetchCallback()
-    backgroundFetchCallback = undefined
-  } else {
-    yield call(decorateItems)
-    yield call(executeRemoteActions)
-    yield call(inflateFeeds)  
-  }
+  callback()
+}
+
+function * startDownloads (backend) {
+  // let the app render and get started
+  yield delay(5000)
+  yield call(fetchAllFeeds)
+  yield call(fetchAllItems)
+  yield call(clearReadItems)
+  yield call(pruneItems)
+  yield call(decorateItems)
+  yield call(executeRemoteActions)
+  yield call(inflateFeeds)  
 }
 
 function * killBackend () {
@@ -88,8 +88,7 @@ function * killBackend () {
   }
 }
 
-export function * initSagas (callback) {
-  backgroundFetchCallback = callback
+export function * initSagas () {
   yield takeEvery(REHYDRATE, init)
   yield takeEvery(SET_BACKEND, init)
   yield takeEvery(UNSET_BACKEND, removeAllItems)

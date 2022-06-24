@@ -33,7 +33,8 @@ const initialState = {
   message: '',
   messageQueue: [],
   isDarkMode: false,
-  fontSize: 3
+  fontSize: 3,
+  isActive: true
 }
 
 const MAX_FONT_SIZE = 5

@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native'
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
-import { configureStore, persistor } from '../store'
+import { configureStore, doBackgroundFetch, persistor } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
@@ -29,8 +29,9 @@ export interface State {}
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationV5Instrumentation()
 
+let store: object | undefined = {}
+
 export default class Rizzle extends Component<Props, State> {
-  store?: object
   navigation: Ref<NavigationContainerRef> = React.createRef()
 
   static defaultProps = {
@@ -41,10 +42,10 @@ export default class Rizzle extends Component<Props, State> {
     super(props)
 
     this.state = {}
-    this.store = undefined
+    store = undefined
 
     // is there any special reason why the store was only configured after an anonymous login?
-    this.store = configureStore()
+    store = configureStore()
 
     Sentry.init({
       dsn: 'https://1dad862b663640649e6c46afed28a37f@sentry.io/195309',
@@ -71,7 +72,7 @@ export default class Rizzle extends Component<Props, State> {
 
     const backgroundFetchFinished = () => {
       console.log('Persisting store')
-      const store = persistor.persist()
+      persistor.persist()
       console.log('Background Fetch finished', currentTaskId)
       BackgroundFetch.finish(currentTaskId)
       currentTaskId = undefined
@@ -83,7 +84,11 @@ export default class Rizzle extends Component<Props, State> {
       currentTaskId = taskId
       console.log('Background Fetch event', taskId)
       console.log('Calling configure store')
-      await configureStore(backgroundFetchFinished)
+      // if the app isn't currently running
+      if (store === undefined) {
+        store = await configureStore()
+      }
+      doBackgroundFetch(backgroundFetchFinished)
     }
 
     const onTimeout = async (taskId: string) => {
@@ -103,7 +108,7 @@ export default class Rizzle extends Component<Props, State> {
           routingInstrumentation.registerNavigationContainer(this.navigation);
         }}
       >
-        <Provider store={this.store}>
+        <Provider store={store}>
           <View style={{
             flex: 1,
             backgroundColor: 'black'/*hslString('rizzleBG')*/}}>

@@ -56,10 +56,12 @@ const mapDispatchToProps = (dispatch) => {
       })
     },
     appWentInactive: () => dispatch({
-      type: STATE_INACTIVE
+      type: STATE_INACTIVE,
+      time: Date.now()
     }),
     appWentActive: () => dispatch({
-      type: STATE_ACTIVE
+      type: STATE_ACTIVE,
+      time: Date.now()
     }),
     setDarkMode: (isDarkMode) => dispatch({
       type: SET_DARK_MODE,
