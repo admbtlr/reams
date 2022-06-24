@@ -71,13 +71,15 @@ export default class Rizzle extends Component<Props, State> {
 
     const backgroundFetchFinished = () => {
       console.log('Persisting store')
-      persistor.persist()
+      const store = persistor.persist()
       console.log('Background Fetch finished', currentTaskId)
       BackgroundFetch.finish(currentTaskId)
       currentTaskId = undefined
+      global.isBackgroundFetch = false
     }
 
     const onEvent = async (taskId: string) => {
+      global.isBackgroundFetch = true
       currentTaskId = taskId
       console.log('Background Fetch event', taskId)
       console.log('Calling configure store')
