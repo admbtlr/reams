@@ -11,6 +11,7 @@ import { decorateItem } from './decorate-items'
 import { id } from '../utils'
 import { saveExternalItem } from '../backends'
 import { getConfig, getDisplay, getItems, getItem, getSavedItems } from './selectors'
+import { createItemStyles } from '../utils/createItemStyles'
 
 export function * saveExternalUrl (action) {
   const savedItems = yield select(getSavedItems)
@@ -44,6 +45,7 @@ export function * saveExternalUrl (action) {
     content_html: '',
     is_external: true
   }
+  item.styles = createItemStyles(item)
   yield put({
     type: SAVE_EXTERNAL_ITEM,
     item,
@@ -71,7 +73,13 @@ export function * saveExternalUrl (action) {
       const items = yield select(getItems, 'saved')
       item = items.find(i => i._id === item._id)
 
-      saveExternalItem(item)
+      const backendItem = saveExternalItem(item)
+
+      // now we need to set the id of the local saved item to the id of the backend saved item
+      yield put({
+        type: SAVE_EXTERNAL_ITEM_SUCCESS,
+        item: backendItem
+      })
     }
   } catch (err) {
     console.log(err)

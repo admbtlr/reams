@@ -178,6 +178,13 @@ export async function unsaveItem (item, folder) {
   return itemId === item.id
 }
 
+export async function saveExternalItem(item) {
+  let endpoint = 'pages.json'
+  let body = { url: item.url }
+  const feedbinItem = await postRequest(endpoint, body)
+  return await saveItem(feedbinItem, 'inbox')
+}
+
 export async function fetchFeeds (oldFeeds) {
   let feeds = await getRequest('subscriptions.json')
   if (oldFeeds) {

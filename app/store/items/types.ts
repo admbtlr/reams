@@ -39,6 +39,11 @@ interface MercuryStuff {
   message?: string
 }
 
+interface BackendItem {
+  id: string
+  url: string
+}
+
 export interface ItemsState {
   readonly items: Item[]
   readonly index: number
@@ -56,6 +61,7 @@ export const REMOVE_ITEMS = 'REMOVE_ITEMS'
 export const SAVE_ITEM = 'SAVE_ITEM'
 export const SAVE_EXTERNAL_URL = 'SAVE_EXTERNAL_URL'
 export const SAVE_EXTERNAL_ITEM = 'SAVE_EXTERNAL_ITEM'
+export const SAVE_EXTERNAL_ITEM_SUCCESS = 'SAVE_EXTERNAL_ITEM_SUCCESS'
 export const UNSAVE_ITEM = 'UNSAVE_ITEM'
 export const UNSAVE_ITEMS = 'UNSAVE_ITEMS'
 export const MARK_ITEM_READ = 'MARK_ITEM_READ'
@@ -122,6 +128,11 @@ interface saveExternalItemAction {
   type: typeof SAVE_EXTERNAL_ITEM
   item: Item
   savedAt: number
+}
+
+interface saveExternalItemSuccessAction {
+  type: typeof SAVE_EXTERNAL_ITEM_SUCCESS
+  item: BackendItem
 }
 
 export interface saveExternalUrlAction {
@@ -227,6 +238,7 @@ export type ItemActionTypes = setDisplayModeAction |
   removeItemsAction |
   saveItemAction |
   saveExternalItemAction |
+  saveExternalItemSuccessAction |
   unsaveItemAction |
   unsaveItemsAction |
   shareItemAction |
