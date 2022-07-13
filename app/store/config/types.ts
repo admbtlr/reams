@@ -100,6 +100,11 @@ interface setSignInEmailAction {
   email: string
 }
 
+interface setStateActiveAction {
+  type: typeof STATE_ACTIVE
+  time: number
+}
+
 export type ConfigActionTypes = setBackendAction |
   unsetBackendAction |
   updateOnboardingInxeAction |
@@ -114,4 +119,5 @@ export type ConfigActionTypes = setBackendAction |
   remoteActionCompletedAction |
   setUidAction |
   setUserDetailsAction |
-  setSignInEmailAction
+  setSignInEmailAction |
+  setStateActiveAction

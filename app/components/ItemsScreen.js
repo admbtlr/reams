@@ -20,6 +20,7 @@ export default function ItemsScreen ({ navigation }) {
   const dispatch = useDispatch()
   const displayMode = useSelector(state => state.itemsMeta.display)
   const orientation = useSelector(state => state.config.orientation)
+  const lastActivated = useSelector(state => state.config.lastActivated)
 
   const didFocus = () => {
     dispatch({
@@ -40,10 +41,12 @@ export default function ItemsScreen ({ navigation }) {
   )
 
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: hslString('bodyBG')
-    }}>
+    <View 
+      key={lastActivated}
+      style={{
+        flex: 1,
+        backgroundColor: hslString('bodyBG'),
+      }}>
       <StatusBar
         showHideTransition="slide"
         barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
