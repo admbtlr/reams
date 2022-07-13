@@ -147,7 +147,10 @@ export async function unsaveItem (item, folder) {
     case 'feedwrangler':
       await feedwrangler.unsaveItem(item)
       break
-  }
+    case 'feedbin':
+      await feedbin.unsaveItem(item)
+      break
+    }
   return item
 }
 
@@ -155,8 +158,10 @@ export async function saveExternalItem (item, folder) {
   switch (backend) {
     case 'basic':
     case 'rizzle':
-      await rizzle.saveExternalItem(item, folder)
+      return await rizzle.saveExternalItem(item, folder)
       break
+    case 'feedbin':
+      return await feedbin.saveExternalItem(item)
   }
 }
 

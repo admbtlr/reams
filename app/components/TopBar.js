@@ -207,7 +207,7 @@ class TopBar extends React.Component {
                       textDecorationLine: displayMode === ItemType.saved ? 'none' : 'underline'
                     }}
                   >
-                    {item ? item.feed_title : 'Rizzle'}
+                    {item.feed_title ? item.feed_title : item.url?.split('/').length > 3 ? item.url.split('/')[2] : ''}
                   </Text>
                 </View>
               </Animated.View>

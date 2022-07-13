@@ -1,7 +1,5 @@
-- pages in feedbin
-  - saved external items are in a feed called Pages
 - test adding feeds and stories simultaneously
-- we need a modal queue!
+  - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
 - why do saved external items (sometimes) render twice?
 - move message down when not in item screen
@@ -51,6 +49,7 @@
 
 # Done
 
+- ~~pages in feedbin~~
 - ~~background fetch~~
 - ~~landscape mode~~
 - ~~make Feedwrangler work fully~~
