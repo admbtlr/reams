@@ -48,6 +48,8 @@ import { getConfig } from './selectors'
 
 let downloadsFork
 
+let backgroundFetchCallback
+
 function * init (action) {
   if (action.key && action.key !== 'primary') return
   const config = yield select(getConfig)
@@ -59,16 +61,24 @@ function * init (action) {
   downloadsFork = yield fork(startDownloads, config.backend)
 }
 
+export function * backgroundFetch (callback) {
+  yield call(fetchAllFeeds)
+  yield call(fetchAllItems)
+  yield call(clearReadItems)
+  yield call(pruneItems)
+  callback()
+}
+
 function * startDownloads (backend) {
   // let the app render and get started
   yield delay(5000)
   yield call(fetchAllFeeds)
   yield call(fetchAllItems)
-  yield call(decorateItems)
   yield call(clearReadItems)
   yield call(pruneItems)
+  yield call(decorateItems)
   yield call(executeRemoteActions)
-  yield call(inflateFeeds)
+  yield call(inflateFeeds)  
 }
 
 function * killBackend () {

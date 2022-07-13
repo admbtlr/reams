@@ -333,19 +333,21 @@ const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
   let itemsToKeep: Item[] = []
   if (currentItem) {
     itemsToKeep.push(currentItem)
-    if (state.items.length > state.index + 2) {
-      for (let i = 1; i <= 2; i++) {
-        if (state.items[state.index + i]) {
-          itemsToKeep.push(state.items[state.index + i])
-        }
-      }  
-    }
-    if (state.index > 0) {
-
-      for (let i = 1; i <= 2; i++) {
-        if (state.items[state.index - i]) {
-          index++
-          itemsToKeep.unshift(state.items[state.index - i])
+    if (!global.isBackgroundFetch) {
+      if (state.items.length > state.index + 2) {
+        for (let i = 1; i <= 2; i++) {
+          if (state.items[state.index + i]) {
+            itemsToKeep.push(state.items[state.index + i])
+          }
+        }  
+      }
+      if (state.index > 0) {
+  
+        for (let i = 1; i <= 2; i++) {
+          if (state.items[state.index - i]) {
+            index++
+            itemsToKeep.unshift(state.items[state.index - i])
+          }
         }
       }
     }

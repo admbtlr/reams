@@ -13,6 +13,8 @@ import {
   SET_ITEM_SORT,
   SET_SHOW_NUM_UNREAD,
   SET_ORIENTATION,
+  STATE_ACTIVE,
+  STATE_INACTIVE,
 } from "./types"
 import { 
   FeedActionTypes,
@@ -34,6 +36,7 @@ export interface ConfigState {
   readonly showNumUnread: boolean
   readonly isItemsOnboardingDone: boolean
   readonly isFeedOnboardingDone: boolean
+  readonly lastActivated: number
 }
 
 const {width, height } = Dimensions.get('window')
@@ -51,7 +54,8 @@ const initialState = {
   itemSort: Direction.forwards,
   showNumUnread: true,
   isItemsOnboardingDone: true,
-  isFeedOnboardingDone: false
+  isFeedOnboardingDone: false,
+  lastActivated: 0
 }
 
 export function config (
@@ -138,6 +142,13 @@ export function config (
         showNumUnread: action.showNumUnread
       }
 
+    case STATE_ACTIVE: {
+      return {
+        ...state,
+        lastActivated: action.time
+      }
+    }
+    
     default:
       return state
   }

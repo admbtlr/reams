@@ -1,6 +1,3 @@
-- background fetch 
-  - https://github.com/transistorsoft/react-native-background-fetch
-- add button to scroll to furthest read position
 - test adding feeds and stories simultaneously
   - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
@@ -52,6 +49,8 @@
 
 # Done
 
+- ~~pages in feedbin~~
+- ~~background fetch~~
 - ~~landscape mode~~
 - ~~make Feedwrangler work fully~~
 - ~~the very first buttonset is the wrong colour?~~
