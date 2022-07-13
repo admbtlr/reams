@@ -171,6 +171,8 @@ function * getNextItemToDecorate (pendingDecoration) {
 
 export function * decorateItem (item) {
   let imageStuff = {}
+  // external items come through here before they have any styles
+  item.styles = item.styles || {}
   let items = yield getItemsAS([item])
   // TODO do something about this...
   // feed_color is mutable and could have changed while the item was deflated

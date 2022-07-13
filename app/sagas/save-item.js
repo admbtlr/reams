@@ -49,7 +49,7 @@ export function * markItemUnsaved (action) {
   })
   const displayMode = select(getDisplay)
   if (displayMode === ItemType.saved) {
-    const index = select(getIndex)
+    const index = yield select(getIndex)
     yield call(inflateItems, { displayMode, index })
   }
 }
