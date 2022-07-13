@@ -39,7 +39,7 @@
     "path": "^0.12.7",
     "prop-types": "^15.6.0",
     "react": "16.13.1",
-    "react-native": "0.63.3",
+    "react-native": "0.64.1",
     "react-native-animated-ellipsis": "git+ssh://git@github.com/admbtlr/react-native-animated-ellipsis",
     "react-native-background-fetch": "^4.1.0",
     "react-native-blob-util": "^0.16.0",
