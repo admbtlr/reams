@@ -1,7 +1,8 @@
 - background fetch 
   - https://github.com/transistorsoft/react-native-background-fetch
+- add button to scroll to furthest read position
 - test adding feeds and stories simultaneously
-- we need a modal queue!
+  - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
 - why do saved external items (sometimes) render twice?
 - move message down when not in item screen

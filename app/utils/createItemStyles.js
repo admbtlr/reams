@@ -153,13 +153,14 @@ export function setCoverInline (oldStyles) {
   let styles = { ...oldStyles }
   styles.isCoverInline = true
   styles.showCoverImage = true
-  styles.coverImage.isInline = true
+  styles.title = styles.title || {}
   styles.title.textAlign = 'left'
   styles.title.isVertical = false
   styles.title.invertBG = false
   styles.title.bg = false
   styles.title.hasShadow = false
   styles.coverImage = styles.coverImage || {}
+  styles.coverImage.isInline = true
   styles.coverImage.isScreen = false
   styles.coverImage.isMultiply = false
   styles.coverImage.isBW = false

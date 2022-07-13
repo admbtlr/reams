@@ -23,7 +23,8 @@ import {
   Item,
   ItemActionTypes,
   ItemsState,
-  ItemType
+  ItemType,
+  SAVE_EXTERNAL_ITEM_SUCCESS
 } from './types'
 import {
   itemMarkRead,
@@ -55,15 +56,6 @@ export function itemsSaved (
   let newItems: Item[] = []
   let savedItem: Item
   let index: number
-  let newState: { 
-    index? : number, 
-    lastUpdated : number
-    items : Item[]
-  } = {
-    index: 0,
-    items: [],
-    lastUpdated: 0
-  }
   let currentItem: Item
   let carouselled: { index : number, items : Item[] }
 
@@ -113,6 +105,19 @@ export function itemsSaved (
         index: 0
       }
 
+    case SAVE_EXTERNAL_ITEM_SUCCESS:
+      const backendItem = action.item
+      items = state.items.map(item => {
+        if (item.url === backendItem.url) {
+          item.id = backendItem.id
+        }
+        return item
+      })
+      return {
+        ...state,
+        items
+      }
+  
     case UNSAVE_ITEM:
       items = state.items
         .filter((item) => item._id !== action.item._id)
@@ -212,9 +217,7 @@ export function itemsSaved (
     case ITEM_DECORATION_SUCCESS:
       if (!action.isSaved) return state
       // I'm setting isCurrentDisplayMode to false because I always want saved external items to re-render
-      let newState = itemDecorationSuccess(action, state, false)
-      newState.items.sort((a: Item, b: Item) => ((b.savedAt || 0) - (a.savedAt || 0)))
-      return newState
+      return itemDecorationSuccess(action, state, false)
 
     case ITEM_DECORATION_FAILURE:
       return action.isSaved ? itemDecorationFailure(action, state) : state
