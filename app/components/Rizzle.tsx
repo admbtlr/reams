@@ -84,19 +84,24 @@ export default class Rizzle extends Component<Props, State> {
       currentTaskId = taskId
       console.log('Background Fetch event', taskId)
       console.log('Calling configure store')
+      Sentry.captureMessage('Background fetch: store is ' + store === undefined ? 'undefined' : 'defined')
       // if the app isn't currently running
       if (store === undefined) {
-        store = await configureStore()
+        Sentry.captureMessage('Background fetch: configuring store')
+        store = await configureStore(() => doBackgroundFetch(backgroundFetchFinished))
+      } else {
+        doBackgroundFetch(backgroundFetchFinished)
       }
-      doBackgroundFetch(backgroundFetchFinished)
     }
 
     const onTimeout = async (taskId: string) => {
       console.warn('Background Fetch timeout', taskId)
+      Sentry.captureMessage('Background Fetch timeout')
       BackgroundFetch.finish(taskId)
     }
 
     let status = await BackgroundFetch.configure({minimumFetchInterval: 15}, onEvent, onTimeout)
+    Sentry.captureMessage('[BackgroundFetch] configure status: ' + status)
     console.log('[BackgroundFetch] configure status: ', status)
   }
 

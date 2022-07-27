@@ -1,7 +1,7 @@
+- add a go to last read point button
 - test adding feeds and stories simultaneously
   - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
-- why do saved external items (sometimes) render twice?
 - move message down when not in item screen
 - onboarding in dark mode
 - muting a feed on non-rizzle accounts
@@ -49,6 +49,7 @@
 
 # Done
 
+- ~~why do saved external items (sometimes) render twice?~~
 - ~~pages in feedbin~~
 - ~~background fetch~~
 - ~~landscape mode~~

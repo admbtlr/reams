@@ -14,7 +14,7 @@ let store = null
 let persistor = null
 let sagaMiddleware = null
 
-function configureStore () {
+function configureStore (rehydrateCallback) {
   const composeEnhancers = composeWithDevTools({
     realtime: window.__DEV__
   })
@@ -61,7 +61,7 @@ function configureStore () {
         // Reactotron.createEnhancer()
       )
     )
-    persistor = persistStore(store, null, onCompletion)
+    persistor = persistStore(store, null, rehydrateCallback || onCompletion)
   }
 
 
