@@ -90,7 +90,7 @@ export default class Rizzle extends Component<Props, State> {
         Sentry.captureMessage('Background fetch: configuring store')
         store = await configureStore(() => doBackgroundFetch(backgroundFetchFinished))
       } else {
-        doBackgroundFetch(backgroundFetchFinished)
+        await doBackgroundFetch(backgroundFetchFinished)
       }
     }
 
@@ -98,6 +98,8 @@ export default class Rizzle extends Component<Props, State> {
       console.warn('Background Fetch timeout', taskId)
       Sentry.captureMessage('Background Fetch timeout')
       BackgroundFetch.finish(taskId)
+      currentTaskId = undefined
+      global.isBackgroundFetch = false
     }
 
     let status = await BackgroundFetch.configure({minimumFetchInterval: 15}, onEvent, onTimeout)
@@ -106,6 +108,10 @@ export default class Rizzle extends Component<Props, State> {
   }
 
   render () {
+    if (global.isBackgroundFetch) {
+      return null
+    }
+    
     const App = (
       <NavigationContainer        
         ref={this.navigation}
