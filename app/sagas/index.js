@@ -62,7 +62,6 @@ function * init (action) {
 }
 
 export function * backgroundFetch (callback) {
-  yield call(fetchAllFeeds)
   yield call(fetchAllItems)
   yield call(clearReadItems)
   yield call(pruneItems)

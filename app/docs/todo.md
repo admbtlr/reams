@@ -1,3 +1,4 @@
+- remove all messages on init
 - add a go to last read point button
 - test adding feeds and stories simultaneously
   - we need a modal queue!

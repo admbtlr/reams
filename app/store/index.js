@@ -79,8 +79,8 @@ function configureStore (rehydrateCallback) {
   return store
 }
 
-function doBackgroundFetch(callback) {
-  sagaMiddleware.run(backgroundFetch, callback)
+async function doBackgroundFetch(callback) {
+  await sagaMiddleware.run(backgroundFetch, callback)
 }
 
 export { store, configureStore, doBackgroundFetch, persistor }
