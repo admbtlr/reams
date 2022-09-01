@@ -101,11 +101,14 @@ export function * fetchItems (type = ItemType.unread) {
     return
   }
 
-  const readItems = yield call(getReadItemsBackends, oldItems)
-  yield put({
-    type: MARK_ITEMS_READ,
-    items: readItems
-  })
+  if (type === ItemType.unread) {
+    const readItems = yield call(getReadItemsBackends, oldItems)
+    yield put({
+      type: MARK_ITEMS_READ,
+      items: readItems
+    })  
+  }
+  
   const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feeds)
 
   let isFirstBatch = true
