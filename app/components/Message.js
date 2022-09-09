@@ -37,11 +37,6 @@ export default function Message (props) {
       messageString
     })
   }
-  // const message = "This is the message"
-  // const visibleMessage = "This is the visible message"
-  // const isVisible = false
-  // const setVisible = () => true
-  // const setVisibleMessage = () => true
 
   // the message has changed (or was set to empty)
   if (isVisible && visibleMessage !== nextMessage) {
