@@ -2,7 +2,8 @@ import { delay, put, select } from 'redux-saga/effects'
 import { 
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
-  SAVE_EXTERNAL_ITEM
+  SAVE_EXTERNAL_ITEM,
+  SAVE_EXTERNAL_ITEM_SUCCESS
 } from '../store/items/types'
 import { 
   SHOW_MODAL
