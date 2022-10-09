@@ -48,17 +48,17 @@ import { getConfig } from './selectors'
 
 let downloadsFork
 
-let backgroundFetchCallback
-
 function * init (action) {
   if (action.key && action.key !== 'primary') return
   const config = yield select(getConfig)
-  console.log(config)
   if (!config.backend || config.backend === '') return
 
   yield initBackend(action)
-  yield call(inflateItems)
-  downloadsFork = yield fork(startDownloads, config.backend)
+
+  if (!global.isBackgroundFetch) {
+    yield call(inflateItems)
+    downloadsFork = yield fork(startDownloads, config.backend)
+  }
 }
 
 export function * backgroundFetch (callback) {

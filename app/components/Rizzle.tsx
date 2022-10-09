@@ -63,21 +63,14 @@ export default class Rizzle extends Component<Props, State> {
   async componentDidMount () {
     InteractionManager.setDeadline(100)
     await this.initBackgroundFetch()
-    await tf.ready()
-    console.log('Tensor Flow is ready')    
+    if (!global.isBackgroundFetch) {
+      await tf.ready()
+      console.log('Tensor Flow is ready')    
+    }
   }
 
   async initBackgroundFetch () {
     let currentTaskId: string | undefined
-
-    const backgroundFetchFinished = () => {
-      console.log('Persisting store')
-      persistor.persist()
-      console.log('Background Fetch finished', currentTaskId)
-      BackgroundFetch.finish(currentTaskId)
-      currentTaskId = undefined
-      global.isBackgroundFetch = false
-    }
 
     const onEvent = async (taskId: string) => {
       global.isBackgroundFetch = true
@@ -92,6 +85,15 @@ export default class Rizzle extends Component<Props, State> {
       } else {
         await doBackgroundFetch(backgroundFetchFinished)
       }
+    }
+
+    const backgroundFetchFinished = () => {
+      console.log('Persisting store')
+      persistor.persist()
+      console.log('Background Fetch finished', currentTaskId)
+      BackgroundFetch.finish(currentTaskId)
+      currentTaskId = undefined
+      global.isBackgroundFetch = false
     }
 
     const onTimeout = async (taskId: string) => {
