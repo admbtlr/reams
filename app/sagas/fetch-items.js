@@ -129,22 +129,8 @@ export function * fetchItems (type = ItemType.unread) {
         itemType: type,
         lastUpdated: Date.now()
       })
-      yield put({
-        type: 'ITEMS_FETCH_DATA_SUCCESS'
-      })
     }
     itemsChannel.close()
-  }
-}
-
-function * receiveAndProcessItems (items, type, isFirstBatch, i) {
-  const index = yield select(getIndex, type)
-  yield call(InteractionManager.runAfterInteractions)
-  yield receiveItems(items, type)
-  if (isFirstBatch) {
-    // this is a little hacky, just getting ready to view some items
-    yield call(InteractionManager.runAfterInteractions)
-    yield inflateItems({ index })
   }
 }
 
@@ -162,6 +148,17 @@ function fetchItemsChannel (type, lastUpdated, oldItems, feeds) {
       console.log('Channel closed')
     }
   })
+}
+
+function * receiveAndProcessItems (items, type, isFirstBatch, i) {
+  const index = yield select(getIndex, type)
+  yield call(InteractionManager.runAfterInteractions)
+  yield receiveItems(items, type)
+  if (isFirstBatch) {
+    // this is a little hacky, just getting ready to view some items
+    yield call(InteractionManager.runAfterInteractions)
+    yield inflateItems({ index })
+  }
 }
 
 export function * receiveItems (items, type) {
