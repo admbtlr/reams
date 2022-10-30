@@ -145,10 +145,10 @@ export async function isFirstLaunch () {
   }
 }
 
-export const isIphoneX = () => {
+export const hasNotchOrIsland = () => {
   let d = Dimensions.get('window');
   const { height, width } = d;
-  const heights = [812, 844, 896]
+  const heights = [812, 844, 896, 852, 932]
 
   return (
     Platform.OS === 'ios' &&
@@ -200,7 +200,7 @@ export const getMargin = () => {
 }
 
 export const getStatusBarHeight = () => 70 * fontSizeMultiplier() + 
-  (isIphoneX() && isPortrait() ? 44 : 22)
+  (hasNotchOrIsland() && isPortrait() ? 44 : 22)
 
 export function id (item) {
   if (item && typeof item === 'string') {

@@ -11,7 +11,7 @@ import { CommonActions } from '@react-navigation/native'
 import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
 import LinearGradient from 'react-native-linear-gradient'
 import FeedIconContainer from '../containers/FeedIcon'
-import { id, isIphoneX, fontSizeMultiplier, getStatusBarHeight, isPortrait } from '../utils'
+import { id, hasNotchOrIsland, fontSizeMultiplier, getStatusBarHeight, isPortrait } from '../utils'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
@@ -89,7 +89,7 @@ class TopBar extends React.Component {
             overflow: 'hidden',
             // paddingTop: 80,
             position: 'absolute',
-            // top: isIphoneX() ? -240 : -260,
+            // top: hasNotchOrIsland() ? -240 : -260,
             shadowOffset: {
               width: 0,
               height: 1
@@ -131,7 +131,7 @@ class TopBar extends React.Component {
             isSaved={displayMode === ItemType.saved}
           />
           <View style={{
-            top: isIphoneX() && isPortrait() ? 44 : 22,
+            top: hasNotchOrIsland() && isPortrait() ? 44 : 22,
             flex: 1,
             marginLeft: 80 * fontSizeMultiplier(),
             marginRight: 80 * fontSizeMultiplier()
@@ -329,7 +329,7 @@ class TopBar extends React.Component {
         // flex: 1,
         position: 'absolute',
         top: 0,
-        height: isIphoneX() && isPortrait() ? 44 : 22,
+        height: hasNotchOrIsland() && isPortrait() ? 44 : 22,
         width: '100%',
       },
       textHolder: {
@@ -497,6 +497,6 @@ const BackButton = ({ isSaved, navigation: { navigate } }) => (
 )
 
 export const getTopBarHeight = () => getStatusBarHeight()// +
-  // (isIphoneX() ? 44 : 22)
+  // (hasNotchOrIsland() ? 44 : 22)
 
 export default TopBar

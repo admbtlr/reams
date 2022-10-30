@@ -11,12 +11,12 @@ import TextButton from './TextButton'
 import NavButton from './NavButton'
 import SwitchRow from './SwitchRow'
 import { hslString } from '../utils/colors'
-import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
+import { hasNotchOrIsland, isIpad, fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import FeedIconContainer from '../containers/FeedIcon'
 
-const compactButtons = !isIphoneX() && !isIpad()
+const compactButtons = !hasNotchOrIsland() && !isIpad()
 
 const createTimeString = (seconds) => {
   const mins = Math.floor(seconds / 60)

@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import AnimatedEllipsis from './AnimatedEllipsis'
 import { hslString } from '../utils/colors'
-import { isIphoneX, fontSizeMultiplier, getMargin } from '../utils'
+import { hasNotchOrIsland, fontSizeMultiplier, getMargin } from '../utils'
 import {
   textInfoStyle,
   textInfoBoldStyle

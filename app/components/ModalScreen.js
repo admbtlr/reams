@@ -4,7 +4,7 @@ import {
   Text,
   View
 } from 'react-native'
-import { isIphoneX } from '../utils'
+import { hasNotchOrIsland } from '../utils'
 
 export default function ModalScreen ({ child, navigation, route }) {
   return (
@@ -13,7 +13,7 @@ export default function ModalScreen ({ child, navigation, route }) {
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'white',
-      // marginTop: isIphoneX() ? 50 : 30,
+      // marginTop: hasNotchOrIsland() ? 50 : 30,
       // borderTopLeftRadius: 10,
       // borderTopRightRadius: 10,
       overflow: 'hidden'

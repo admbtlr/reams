@@ -12,7 +12,7 @@ import {
 } from '../store/ui/types'
 
 import TopBarContainer from '../containers/TopBar'
-import { getStatusBarHeight, isIphoneX } from '../utils'
+import { getStatusBarHeight, hasNotchOrIsland } from '../utils'
 
 const initialBufferIndex = 1
 
