@@ -131,10 +131,32 @@ async function getPaginatedItems (endpoint, maxNum, callback) {
   }
 }
 
+export async function getReadItems (oldItems) {
+  const endpoint = 'unread_entries.json'
+  let unreadItemIds = await getRequest(endpoint)
+  let readItems = []
+  oldItems.forEach(item => {
+    if (!unreadItemIds.includes(item.id)) {
+      readItems.push(item)
+    }
+  })
+  return readItems
+}
+
 async function fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum) {
   const date = lastUpdated ? new Date(lastUpdated) : null
   const endpoint = 'entries.json?read=false&starred=false&per_page=100' + (date ? `&since=${date.toISOString()}` : '')
   await getPaginatedItems(endpoint, maxNum, callback)
+  // const endpoint = 'unread_entries.json'
+  // let itemIds = await getRequest(endpoint)
+  // const oldItemIds = oldItems.map(oi => oi.id)
+  // const newIds = itemIds.filter(id => !oldItemIds.includes(id))
+  // const unreadItems = oldItems.filter(oi => itemIds.includes(oi.id))
+
+  // if (newIds.length > 0) {
+  //   const url = getUrl('entries.json?ids=')
+  //   await getItemsByIds(newIds, url, mapFeedbinItemToRizzleItem, callback, getFetchConfig())
+  // }
 }
 
 async function fetchSavedItems (callback, lastUpdated, oldItems, feeds, maxNum) {
