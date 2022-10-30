@@ -11,7 +11,7 @@ import { ITEMS_ONBOARDING_DONE } from '../store/config/types'
 import { SHOW_ITEM_BUTTONS } from '../store/ui/types'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
-import { isIphoneX, fontSizeMultiplier, getMargin } from '../utils'
+import { hasNotchOrIsland, fontSizeMultiplier, getMargin } from '../utils'
 
 const screenWidth = Dimensions.get('window').width
 
@@ -146,7 +146,7 @@ export default function ItemsScreenOnboarding (props) {
           position: 'absolute',
           bottom: step < 6 ? 85 : 'auto',
           top: step >= 6 && step < 9 ?
-            (isIphoneX() ? 110 : 90) :
+            (hasNotchOrIsland() ? 110 : 90) :
             'auto',
           left: step < 6 ?
             (screenWidth > 500 ? (screenWidth - 500) / 2 : 25) :
@@ -236,7 +236,7 @@ export default function ItemsScreenOnboarding (props) {
         <View style={{
           position: 'absolute',
           zIndex: 100,
-          top: isIphoneX() ? 115 : 95,
+          top: hasNotchOrIsland() ? 115 : 95,
           left: getMargin() - 3,
           width: 40,
           height: 40
@@ -246,7 +246,7 @@ export default function ItemsScreenOnboarding (props) {
         <View style={{
           position: 'absolute',
           zIndex: 100,
-          top: isIphoneX() ? 115 : 95,
+          top: hasNotchOrIsland() ? 115 : 95,
           left: getMargin() - 20,
           width: 40,
           height: 40
@@ -256,7 +256,7 @@ export default function ItemsScreenOnboarding (props) {
         <View style={{
           position: 'absolute',
           zIndex: 100,
-          top: isIphoneX() ? 115 : 95,
+          top: hasNotchOrIsland() ? 115 : 95,
           right: getMargin() - 4,
           width: 40,
           height: 40

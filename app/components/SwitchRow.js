@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { hslString } from '../utils/colors'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
-import { isIphoneX, isIpad, fontSizeMultiplier } from '../utils'
+import { hasNotchOrIsland, isIpad, fontSizeMultiplier } from '../utils'
 
 const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.03

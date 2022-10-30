@@ -1003,7 +1003,7 @@ class ItemTitle extends React.Component {
 
     // if (showCoverImage && !coverImageStyles.isInline) {
     //   dateStyle.position = 'absolute'
-    //   dateStyle.top = this.screenHeight * (isIphoneX() ? 0.11 : 0.08) // heuristic
+    //   dateStyle.top = this.screenHeight * (hasNotchOrIsland() ? 0.11 : 0.08) // heuristic
     // }
 
     // if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {
