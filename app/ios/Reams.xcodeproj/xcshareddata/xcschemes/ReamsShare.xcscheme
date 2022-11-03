@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "66ACB1161FD9705E002BC66F"
-               BuildableName = "Reams.appex"
+               BuildableName = "ReamsShare.appex"
                BlueprintName = "ReamsShare"
                ReferencedContainer = "container:Reams.xcodeproj">
             </BuildableReference>
