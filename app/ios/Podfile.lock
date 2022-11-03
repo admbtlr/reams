@@ -239,15 +239,19 @@ PODS:
     - React
   - react-native-encrypted-storage (4.0.2):
     - React-Core
-  - react-native-image-filter-kit (0.7.7):
+  - react-native-image-filter-kit (0.8.0):
     - Bolts/Tasks (= 1.9.0)
     - React
   - react-native-image-resizer (1.4.5):
     - React-Core
   - react-native-netinfo (8.3.1):
     - React-Core
-  - react-native-safe-area-context (0.7.3):
-    - React
+  - react-native-safe-area-context (4.4.1):
+    - RCT-Folly
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - ReactCommon/turbomodule/core
   - react-native-splash-screen (3.3.0):
     - React-Core
   - react-native-webview (11.23.1):
@@ -324,13 +328,13 @@ PODS:
     - React-Core
   - RNDeviceInfo (5.6.5):
     - React
-  - RNFS (2.15.2):
-    - React
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
   - RNInAppBrowser (3.7.0):
     - React-Core
-  - RNLocalize (1.4.3):
+  - RNLocalize (2.2.4):
     - React-Core
   - RNReactNativeHapticFeedback (1.14.0):
     - React-Core
@@ -593,10 +597,10 @@ SPEC CHECKSUMS:
   react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
   react-native-document-picker: 4921045c5c6c78243010f784eae0a3f4b2af7799
   react-native-encrypted-storage: e78d848ce0fb663c2ce306e37921d026809322e6
-  react-native-image-filter-kit: 67625a103a9cdc29211a230ee9215c09c1c1942d
+  react-native-image-filter-kit: d79137549eb44f8215b7f2be5e77213f605e2c92
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 1a6035d3b9780221d407c277ebfb5722ace00658
-  react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
+  react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: d33e2db8925d090871ffeb232dfa50cb3a727581
   React-perflogger: cc76a4254d19640f1d8ad1c66fdee800414b805c
@@ -615,10 +619,10 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNDeviceInfo: c5f8f3a456adcbba405ace475254b08febc4c095
-  RNFS: 54da03c2b7d862c42ea3ca8c7f86f892760a535a
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
-  RNLocalize: 7c7aeda16c01db7a0918981c14875c0a53be9b79
+  RNLocalize: 0df7970cfc60389f00eb62fd7c097dc75af3fb4f
   RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
   RNReactNativeSharedGroupPreferences: de0121a4224c267bc7e9fb16c398f3f087c8da81
   RNReanimated: c1b56d030d1616239861534d9adb531f8cffab68
