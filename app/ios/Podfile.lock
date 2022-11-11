@@ -6,25 +6,26 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXApplication (4.0.2):
     - ExpoModulesCore
-  - EXConstants (12.1.3):
+  - EXConstants (13.0.2):
     - ExpoModulesCore
   - EXErrorRecovery (3.0.5):
     - ExpoModulesCore
-  - EXFileSystem (13.2.1):
+  - EXFileSystem (13.1.4):
     - ExpoModulesCore
   - EXFont (10.0.5):
     - ExpoModulesCore
-  - EXGL (11.4.0):
+  - EXGL (11.1.2):
     - EXGL_CPP
     - ExpoModulesCore
-  - EXGL_CPP (11.4.0):
+  - EXGL_CPP (11.1.1):
     - React-jsi
   - EXKeepAwake (10.0.2):
     - ExpoModulesCore
-  - Expo (43.0.5):
+  - Expo (44.0.6):
     - ExpoModulesCore
-  - ExpoModulesCore (0.4.10):
+  - ExpoModulesCore (0.6.5):
     - React-Core
+    - ReactCommon/turbomodule/core
   - FBLazyVector (0.64.3)
   - FBReactNativeSpec (0.64.3):
     - RCT-Folly (= 2020.01.13.00)
@@ -569,15 +570,15 @@ SPEC CHECKSUMS:
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   EXApplication: 54fe5bd6268d697771645e8f1aef8b806a65247a
-  EXConstants: 6d585d93723b18d7a8c283591a335609e3bc153e
+  EXConstants: 88bf79622fbd9b476c96d8ec57fe97ca44fe8e3c
   EXErrorRecovery: b0d7582714a2cc896e94a2308a356f94dbf14ef7
-  EXFileSystem: bbfe3441f1f7f64942d8df2aa4264b6c7a27807c
+  EXFileSystem: 08a3033ac372b6346becf07839e1ccef26fb1058
   EXFont: 2597c10ac85a69d348d44d7873eccf5a7576ef5e
-  EXGL: af303c96595c2879a83d0cdc429ee12639f6d78c
-  EXGL_CPP: 26d0d7639ec8fcf9133c2883926ca7a005625ee6
+  EXGL: 0131b79b7d895ffb2569e12a83c9ff8c355c2988
+  EXGL_CPP: 85d2d2802b369b6bbd6278eae58df0918137d967
   EXKeepAwake: bf48d7f740a5cd2befed6cf9a49911d385c6c47d
-  Expo: d9588796cd19999da4d440d87bf7eb7ae4dbd608
-  ExpoModulesCore: c9438f6add0fb7b04b7c64eb97a833d2752a7834
+  Expo: 534e51e607aba8229293297da5585f4b26f50fa1
+  ExpoModulesCore: 32c0ccb47f477d330ee93db72505380adf0de09a
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
   FBReactNativeSpec: 3828571561140e3ce651a76ce9ce4df0a93b2bda
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
@@ -633,6 +634,6 @@ SPEC CHECKSUMS:
   Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
 
-PODFILE CHECKSUM: 81c57eaf7d608315dc09ff2e43d25eecbd590caa
+PODFILE CHECKSUM: 32ae306626d0c150e48e452fb52b622981f71e4b
 
 COCOAPODS: 1.11.3

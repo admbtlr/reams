@@ -50,15 +50,13 @@
 //   InitializeFlipper(application);
 // #endif
 
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                              moduleName:@"rizzle"
-                                              initialProperties:nil];
+  RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
+  RCTRootView *rootView = [self.reactDelegate createRootViewWithBridge:bridge moduleName:@"rizzle" initialProperties:nil];                                              
 
   // rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
+  UIViewController *rootViewController = [self.reactDelegate createRootViewController];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   self.window.backgroundColor = [UIColor blackColor];
