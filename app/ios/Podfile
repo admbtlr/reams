@@ -55,6 +55,16 @@ post_install do |installer|
 
     react_native_post_install(installer)
 
+    # Workaround build error for classic quoted imports
+    # https://github.com/expo/expo/issues/15622#issuecomment-997178071
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        unless ['React-Core', 'React-RCTText'].include? target.name
+          config.build_settings["USE_HEADERMAP"] = "NO"
+        end
+      end
+    end
+
     # Workaround `Cycle inside FBReactNativeSpec` error for react-native 0.64
     # Reference: https://github.com/software-mansion/react-native-screens/issues/842#issuecomment-812543933
     installer.pods_project.targets.each do |target|
