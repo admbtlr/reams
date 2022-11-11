@@ -3,6 +3,7 @@ require File.join(File.dirname(`node --print "require.resolve('react-native/pack
 require File.join(File.dirname(`node --print "require.resolve('@react-native-community/cli-platform-ios/package.json')"`), "native_modules")
 
 platform :ios, '12.0'
+install! 'cocoapods', :deterministic_uuids => false
 
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
@@ -14,9 +15,14 @@ target 'Reams' do
   use_expo_modules!
   config = use_native_modules!
 
+  # Flags change depending on the env values.
+  flags = get_default_flags()
+
   use_react_native!(
     :path => config[:reactNativePath],
-    :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes'
+    :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes',
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
     
   # # third party deps
@@ -40,6 +46,16 @@ end
 # Add this, taken from: https://github.com/facebook/react-native/issues/25792#issuecomment-517295859
 # https://github.com/alinz/react-native-share-extension/issues/182
 post_install do |installer|
+  react_native_post_install(installer)
+  
+  __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
+  begin
+    expo_patch_react_imports!(installer)
+    rescue => e
+    Pod::UI.warn e
+  end  
+
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
@@ -52,8 +68,6 @@ post_install do |installer|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
       end
     end
-
-    react_native_post_install(installer)
 
     # Workaround build error for classic quoted imports
     # https://github.com/expo/expo/issues/15622#issuecomment-997178071
