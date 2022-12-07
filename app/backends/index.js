@@ -20,7 +20,7 @@ let backends = {
 
 export async function setBackend (bcknd, config = {}) {
   backend = bcknd
-  backends[backend].init(config)
+  await backends[backend].init(config)
   // SharedGroupPreferences.setItem('backend', backend, group)
 }
 
