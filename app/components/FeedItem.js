@@ -153,7 +153,7 @@ class FeedItem extends React.Component {
         case 'index':
 
         case 'item':
-          if (Object.keys(changes.item).length === 1) {
+          if (changes && changes.item && Object.keys(changes.item).length === 1) {
             switch (Object.keys(changes.item)[0]) {
               case 'scrollRatio':
               case 'readingTime':
