@@ -13,7 +13,7 @@
       "size" : "20x20"
     },
     {
-      "filename" : "icon_29pt@1x.png",
+      "filename" : "icon_29pt@1x-1.png",
       "idiom" : "iphone",
       "scale" : "1x",
       "size" : "29x29"
@@ -113,6 +113,65 @@
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
+    },
+    {
+      "filename" : "iPad_Mini_Notifications_20_2x.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "20x20"
+    },
+    {
+      "filename" : "iPad_Mini_Spotlight_40_2x.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "40x40"
+    },
+    {
+      "filename" : "iPad_Mini_App_76_2x.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "76x76"
+    },
+    {
+      "filename" : "App store 1024 1x-1.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "1024x1024"
+    },
+    {
+      "filename" : "icon_29pt@1x.png",
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "size" : "29x29",
+      "unassigned" : true
+    },
+    {
+      "filename" : "iPad_Pro_Settings_29_2x.png",
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "size" : "29x29",
+      "unassigned" : true
+    },
+    {
+      "filename" : "icon_40pt@2x~ipad.png",
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "size" : "40x40",
+      "unassigned" : true
+    },
+    {
+      "filename" : "iPad_Pro_Notifications_20_2x.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "20x20",
+      "unassigned" : true
+    },
+    {
+      "filename" : "App store 1024 1x.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "1024x1024",
+      "unassigned" : true
     }
   ],
   "info" : {

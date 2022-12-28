@@ -3,7 +3,7 @@ import {
   TOGGLE_HIDE_MODAL
 } from '../store/ui/types'
 import { connect } from 'react-redux'
-import RizzleModal from '../components/RizzleModal.js'
+import RizzleModal from '../components/RizzleModal'
 
 const mapStateToProps = (state) => {
   return {

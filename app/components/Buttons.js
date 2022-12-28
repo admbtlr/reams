@@ -60,7 +60,6 @@ class Buttons extends React.Component {
   }
 
   render () {
-    console.log('RENDER BUTTONS!')
     if (this.props.isOnboarding) {
       return null
     } else {
@@ -79,6 +78,7 @@ class Buttons extends React.Component {
         toggleViewButtons,
         visible
       } = this.props
+      this.screenDimensions = Dimensions.get('window')
       const panAnimDivisor = this.screenDimensions.width
 
       const opacityRanges = bufferedItems && bufferedItems.map((item, index) => {

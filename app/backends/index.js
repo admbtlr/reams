@@ -20,7 +20,7 @@ let backends = {
 
 export async function setBackend (bcknd, config = {}) {
   backend = bcknd
-  backends[backend].init(config)
+  await backends[backend].init(config)
   // SharedGroupPreferences.setItem('backend', backend, group)
 }
 
@@ -53,12 +53,20 @@ export function getMercuryUrl (item) {
   return url
 }
 
+export async function getReadItems (oldItems) {
+  let unreadOldItems
+  switch (backend) {
+    case 'basic':
+    case 'rizzle':
+    case 'feedwrangler':
+      return []
+    case 'feedbin':
+      return await feedbin.getReadItems(oldItems)
+  }
+}
+
 // old items are (fetched items + read items)
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) {
-
-  // { readItems, newItems }
-  let items
-
   switch (backend) {
     case 'basic':
     case 'rizzle':
@@ -147,7 +155,10 @@ export async function unsaveItem (item, folder) {
     case 'feedwrangler':
       await feedwrangler.unsaveItem(item)
       break
-  }
+    case 'feedbin':
+      await feedbin.unsaveItem(item)
+      break
+    }
   return item
 }
 
@@ -155,8 +166,10 @@ export async function saveExternalItem (item, folder) {
   switch (backend) {
     case 'basic':
     case 'rizzle':
-      await rizzle.saveExternalItem(item, folder)
+      return await rizzle.saveExternalItem(item, folder)
       break
+    case 'feedbin':
+      return await feedbin.saveExternalItem(item)
   }
 }
 
@@ -225,6 +238,35 @@ export async function getFeedDetails (feed) {
       feed = await feedwrangler.getFeedDetails(feed)
   }
   return await rizzle.getFeedDetails(feed)
+}
+
+export async function getCategories () {
+  switch (backend) {
+    case 'feedbin':
+      return await feedbin.getCategories()
+  }
+}
+
+export async function createCategory (category) {
+  switch (backend) {
+    case 'feedbin':
+      return await feedbin.createCategory(category)
+  }
+}
+
+export async function updateCategory (category) {
+  
+  switch (backend) {
+    case 'feedbin':
+      return await feedbin.updateCategory(category)
+  }
+}
+
+export async function deleteCategory (category) {
+  switch (backend) {
+    case 'feedbin':
+      return await feedbin.deleteCategory(category)
+  }
 }
 
 export function authenticate ({username, password, email}, backend) {

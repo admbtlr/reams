@@ -4,6 +4,7 @@ import { InteractionManager } from 'react-native'
 
 import {
   ITEMS_BATCH_FETCHED,
+  MARK_ITEMS_READ,
   SET_LAST_UPDATED,
   ItemType
 } from '../store/items/types'
@@ -15,7 +16,8 @@ import {
   REMOVE_MESSAGE
 } from '../store/ui/types'
 import {
-  fetchItems as fetchItemsBackends
+  fetchItems as fetchItemsBackends,
+  getReadItems as getReadItemsBackends
 } from '../backends'
 import { setItemsAS } from '../storage/async-storage'
 import { getFeedColor, id } from '../utils'
@@ -54,21 +56,25 @@ export function * fetchAllItems (includeSaved = true) {
   const connected = yield isConnectionOK()
   if (!connected) return
 
-  yield put({
-    type: ADD_MESSAGE,
-    message: {
-      messageString: 'Loading stories',
-      hasEllipsis: true
-    }
-  })
+  if (!global.isBackgroundFetch) {
+    yield put({
+      type: ADD_MESSAGE,
+      message: {
+        messageString: 'Loading stories',
+        hasEllipsis: true
+      }
+    })
+  }
   yield fetchItems(ItemType.unread)
   if (includeSaved) {
     yield fetchItems(ItemType.saved)
   }
-  yield put({
-    type: REMOVE_MESSAGE,
-    messageString: 'Loading stories'
-  })
+  if (!global.isBackgroundFetch) {
+    yield put({
+      type: REMOVE_MESSAGE,
+      messageString: 'Loading stories'
+    })
+  }
 }
 
 export function * fetchUnreadItems (action) {
@@ -99,6 +105,16 @@ export function * fetchItems (type = ItemType.unread) {
     return
   }
 
+  if (type === ItemType.unread) {
+    const readItems = yield call(getReadItemsBackends, oldItems)
+    if (readItems.length > 0) {
+      yield put({
+        type: MARK_ITEMS_READ,
+        items: readItems
+      })  
+    }
+  }
+  
   const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feeds)
 
   let isFirstBatch = true
@@ -125,22 +141,8 @@ export function * fetchItems (type = ItemType.unread) {
         itemType: type,
         lastUpdated: Date.now()
       })
-      yield put({
-        type: 'ITEMS_FETCH_DATA_SUCCESS'
-      })
     }
     itemsChannel.close()
-  }
-}
-
-function * receiveAndProcessItems (items, type, isFirstBatch, i) {
-  const index = yield select(getIndex, type)
-  yield call(InteractionManager.runAfterInteractions)
-  yield receiveItems(items, type)
-  if (isFirstBatch) {
-    // this is a little hacky, just getting ready to view some items
-    yield call(InteractionManager.runAfterInteractions)
-    yield inflateItems({ index })
   }
 }
 
@@ -158,6 +160,17 @@ function fetchItemsChannel (type, lastUpdated, oldItems, feeds) {
       console.log('Channel closed')
     }
   })
+}
+
+function * receiveAndProcessItems (items, type, isFirstBatch, i) {
+  const index = yield select(getIndex, type)
+  yield call(InteractionManager.runAfterInteractions)
+  yield receiveItems(items, type)
+  if (isFirstBatch) {
+    // this is a little hacky, just getting ready to view some items
+    yield call(InteractionManager.runAfterInteractions)
+    yield inflateItems({ index })
+  }
 }
 
 export function * receiveItems (items, type) {

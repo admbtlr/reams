@@ -8,7 +8,7 @@ import {
 import RizzleButton from './RizzleButton'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { hslString } from '../utils/colors'
-import { getMargin, isIphoneX } from '../utils'
+import { getMargin, hasNotchOrIsland } from '../utils'
 
 // isDarkMode, displayMode, isOnboarding
 let areButtonsVisible = true
@@ -207,9 +207,9 @@ export default function ButtonSet ({
   )
 }
 
-const screenDimensions = Dimensions.get('window')
 
 const getStyles = () => {
+  const screenDimensions = Dimensions.get('window')
   return {
     base: {
       position: 'absolute',
@@ -222,7 +222,7 @@ const getStyles = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignSelf: 'center',
-      marginBottom: getMargin() / (isIphoneX() ? 1 : 2),
+      marginBottom: getMargin() / (hasNotchOrIsland() ? 1 : 2),
       paddingLeft: getMargin() / (screenDimensions.width < 321 ? 2 : 1),
       paddingRight: getMargin() / (screenDimensions.width < 321 ? 2 : 1)
     },

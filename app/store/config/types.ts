@@ -1,3 +1,6 @@
+import { deleteCategory } from "store/categories/types"
+import { Filter } from "./config"
+
 export enum Direction {
   forwards, 
   backwards
@@ -11,8 +14,9 @@ export const TOGGLE_ONBOARDING = 'TOGGLE_ONBOARDING'
 export const ITEMS_ONBOARDING_DONE = 'ITEMS_ONBOARDING_DONE'
 export const FEED_ONBOARDING_DONE = 'FEED_ONBOARDING_DONE'
 export const SET_LAST_UPDATED = 'SET_LAST_UPDATED'
-export const SET_FEED_FILTER = 'SET_FEED_FILTER'
+export const SET_FILTER = 'SET_FILTER'
 export const IS_ONLINE = 'IS_ONLINE'
+export const SET_ORIENTATION = 'SET_ORIENTATION'
 export const SET_ITEM_SORT = 'SET_ITEM_SORT'
 export const SET_SHOW_NUM_UNREAD = 'SET_SHOW_NUM_UNREAD'
 export const STATE_ACTIVE = 'STATE_ACTIVE'
@@ -20,6 +24,7 @@ export const STATE_INACTIVE = 'STATE_INACTIVE'
 
 // remote action queue
 export const REMOTE_ACTION_COMPLETED = 'REMOTE_ACTION_COMPLETED'
+export const REMOTE_ACTION_ERRORED = 'REMOTE_ACTION_ERRORED'
 
 // user
 export const SET_UID = 'SET_UID'
@@ -54,14 +59,19 @@ interface feedOnboardingDoneAction {
   type: typeof FEED_ONBOARDING_DONE
 }
 
-interface setFeedFilterAction {
-  type: typeof SET_FEED_FILTER
-  feedFilter: string
+interface setFilterAction {
+  type: typeof SET_FILTER
+  filter: Filter | null
 }
 
 interface isOnlineAction {
   type: typeof IS_ONLINE
   isOnline: boolean
+}
+
+interface setOrientationAction {
+  type: typeof SET_ORIENTATION
+  orientation: string
 }
 
 interface setItemSortAction {
@@ -76,6 +86,11 @@ interface setShowNumUnreadAction {
 
 interface remoteActionCompletedAction {
   type: typeof REMOTE_ACTION_COMPLETED
+  action: object
+}
+
+interface remoteActionErroredAction {
+  type: typeof REMOTE_ACTION_ERRORED
   action: object
 }
 
@@ -94,17 +109,25 @@ interface setSignInEmailAction {
   email: string
 }
 
+interface setStateActiveAction {
+  type: typeof STATE_ACTIVE
+  time: number
+}
+
 export type ConfigActionTypes = setBackendAction |
   unsetBackendAction |
   updateOnboardingInxeAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |
   feedOnboardingDoneAction |
-  setFeedFilterAction |
+  setFilterAction |
   isOnlineAction |
+  setOrientationAction |
   setItemSortAction |
   setShowNumUnreadAction |
   remoteActionCompletedAction |
   setUidAction |
   setUserDetailsAction |
-  setSignInEmailAction
+  setSignInEmailAction |
+  setStateActiveAction |
+  deleteCategory

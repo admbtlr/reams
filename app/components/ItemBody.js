@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import {Linking} from 'react-native'
+import React, { useRef, useState } from 'react'
+import {Dimensions, Linking} from 'react-native'
 import {WebView} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
@@ -44,7 +44,7 @@ const stripUTags = (html) => {
   return html.replace(pattern, '')
 }
 
-export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showImageViewer, updateWebViewHeight, webViewHeight }) => {
+export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }) => {
   let webView = useRef(null)
   const dispatch = useDispatch()
 
@@ -160,12 +160,17 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, showIm
     hslString(feed_color, 'darkmodable') :
     hslString('logo1')
 
-  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''}">
+  const { width, height } = Dimensions.get('window')
+  const deviceWidth = height > width ? width: height
+  const deviceWidthToggle = deviceWidth > 600 ? 'tablet' : 'phone'
+
+  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle}">
 <head>
   <style>
 :root {
 --feed-color: ${feedColor};
 --font-path-prefix: ${ server === '' ? '../' : server };
+--device-width: ${deviceWidth};
 }
   </style>
   <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">

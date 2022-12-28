@@ -6,8 +6,9 @@ import moment from 'moment'
 import quote from 'headline-quotes'
 
 import {hslString} from '../utils/colors'
-import {deepEqual, diff, fontSizeMultiplier} from '../utils'
+import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
+import * as Sentry from "@sentry/react-native"
 
 const entities = require('entities')
 
@@ -164,10 +165,10 @@ class ItemTitle extends React.Component {
   getInnerHorizontalPadding (fontSize) {
     if (!this.props.showCoverImage) {
       return 0
-      // return this.screenWidth * 0.05
+      // return getMargin(
     }
     if (this.props.styles.bg) {
-      return this.screenWidth * 0.025
+      return getMargin() / 2
     } else {
       return 0
     }
@@ -182,13 +183,13 @@ class ItemTitle extends React.Component {
 
   getInnerHorizontalMargin () {
     if (this.props.styles.bg) {
-      return this.screenWidth * 0.025
+      return getMargin() / 2
     }
     return !this.props.showCoverImage ?
       0 :
       (this.props.coverImageStyles.isInline ?
-        this.screenWidth * 0.025 :
-        this.screenWidth * 0.05) // allow space for date
+        getMargin() / 2 :
+        getMargin()) // allow space for date
   }
 
   getInnerWidth (fontSize, isItalic) {
@@ -241,10 +242,10 @@ class ItemTitle extends React.Component {
 
   }
 
-  async componentDidUpdate () {
+  async componentDidUpdate (prevProps) {
     const {styles} = this.props
 
-    if (styles.fontResized) return
+    if (prevProps && styles.fontResized && prevProps.isPortrait === this.props.isPortrait) return
 
     // first get max font size
     const maxFontSize = await this.getMaxFontSize()
@@ -323,6 +324,10 @@ class ItemTitle extends React.Component {
       // "This value specifies the number of points by which to adjust kern-pair characters"
       // https://developer.apple.com/documentation/uikit/nskernattributename
 
+      if (!optimal?.size) {
+        Sentry.captureMessage(`Optimal is not an object for "${this.displayTitle}": ${JSON.stringify(optimal)}`)
+      }
+
       // often out by 1...
       optimal.size--
 
@@ -393,7 +398,7 @@ class ItemTitle extends React.Component {
     changes = diff(this.props, nextProps, diff(this.state, nextState))
     // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
     // console.log(changes)
-    if (changes.item.styles || changes.isVisible || changes.fontSize || changes.isDarkMode || changes.anims) {
+    if (changes.item.styles || changes.isVisible || changes.fontSize || changes.isDarkMode || changes.anims || changes.isPortrait) {
       isDiff = true
     }
     return isDiff
@@ -417,10 +422,16 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {scrollOffset, styles, showCoverImage, coverImageStyles, isVisible} = this.props
+    let {scrollOffset, styles, showCoverImage, coverImageStyles, isPortrait, isVisible} = this.props
 
     // this means the item hasn't been inflated from Firebase yet
     if (!styles) return null
+
+    const window = Dimensions.get('window')
+    this.screenWidth = window.width
+    this.screenHeight = window.height
+
+    const isFullBleed = showCoverImage && !coverImageStyles.isInline 
 
     // just so we can render something before it's been calculated
     const fontSize = styles.fontSize || 42
@@ -458,7 +469,7 @@ class ItemTitle extends React.Component {
         '')
 
     let color = styles.isMonochrome ?
-      ((showCoverImage && !coverImageStyles.isInline && !styles.bg) ?
+      ((isFullBleed && !styles.bg) ?
         'white' :
         textColor) :
       (styles.isTone ?
@@ -467,9 +478,9 @@ class ItemTitle extends React.Component {
     // if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
     if (!showCoverImage || coverImageStyles.isInline) color = this.props.isDarkMode ? textColorDarkMode : textColor
 
-    const invertBGPadding = 3
+    const invertBGPadding = 6
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
-    const paddingBottom = this.shouldSplitIntoWords() ? invertBGPadding : 0
+    const paddingBottom = 0 //  this.shouldSplitIntoWords() ? invertBGPadding : 0
     let paddingLeft = showCoverImage && styles.invertBG ? invertBGPadding : 0
     // if (styles.isItalic) {
     //   paddingLeft += fontSize * 0.1
@@ -519,9 +530,7 @@ class ItemTitle extends React.Component {
     // if center aligned and not full width, add left margin
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = this.getWidthPercentage()
-    this.horizontalMargin = (showCoverImage && this.props.coverImageStyles.isInline) ?
-        this.screenWidth * 0.04 :
-        this.screenWidth * 0.04
+    this.horizontalMargin = getMargin() * 0.8 // TODO: why 0.8?
     const width = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
 
     const horizontalPadding = this.getInnerHorizontalPadding(fontSize)
@@ -531,7 +540,7 @@ class ItemTitle extends React.Component {
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
       marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
-      marginBottom: showCoverImage && !coverImageStyles.isInline && styles.bg ? this.getExcerptLineHeight() : 0,
+      marginBottom: isFullBleed && styles.bg ? this.getExcerptLineHeight() : 0,
       marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
@@ -561,15 +570,21 @@ class ItemTitle extends React.Component {
       })  
     }
     const overlayColour = this.getOverlayColor()
+    const isIPad = isIpad()
     const outerViewStyle = {
       width: this.screenWidth,
-      height: !showCoverImage || coverImageStyles.isInline ? 'auto' : this.screenHeight * 1.2,
+      height: !isFullBleed ? 'auto' : 
+        isPortrait || isIpad() ? this.screenHeight * 1.2 : this.screenHeight * 1.4,
       paddingTop: showCoverImage && coverImageStyles.isInline ? 
         0 : 
         showCoverImage ? 
           getTopBarHeight() + this.screenHeight * 0.2 :
           getTopBarHeight(),
-      paddingBottom: coverImageStyles.isInline || !showCoverImage ? 0 : 100,
+      paddingHorizontal: isPortrait ? 0 : 
+        isIpad() ? this.horizontalMargin : this.horizontalMargin * 2, // make space for notch
+      paddingBottom: coverImageStyles.isInline || !showCoverImage ? 
+        0 : 
+        isPortrait || isIpad() ? 100 : 0, // looks weird, but means that landscape iPhone doesn't make space fot the buttons
       marginTop: 0,
       marginBottom: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
       top: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
@@ -584,6 +599,8 @@ class ItemTitle extends React.Component {
         1 :
         opacity
     }
+
+    // full screen cover + landscape = author and date go below the line
 
     let shadowStyle = showCoverImage && styles.hasShadow ? {
       textShadowColor: 'rgba(0,0,0,0.1)',
@@ -606,7 +623,7 @@ class ItemTitle extends React.Component {
       backgroundColor: showCoverImage ?
         (styles.isMonochrome ? 'white' : this.getForegroundColor()) :
         'transparent',
-      marginBottom: (showCoverImage && !coverImageStyles.isInline && styles.invertedBGMargin || 0) * 3
+      marginBottom: (isFullBleed && styles.invertedBGMargin || 0) * 3
     }
 
     const justifiers = {
@@ -693,6 +710,8 @@ class ItemTitle extends React.Component {
       })
     }
 
+    const isAuthorDateBelowFold = showCoverImage && !isPortrait && !coverImageStyles.isInline
+
     const barView = this.renderBar(barAnimation)
     const excerptView = this.props.excerpt
       ? this.renderExcerpt(innerViewStyle, fontStyle, shadowStyle, barView, excerptAnimation)
@@ -740,8 +759,10 @@ class ItemTitle extends React.Component {
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&
           excerptView }
-        { authorView }
-        { dateView }
+          <View>
+            { authorView }
+            { dateView }
+          </View>
         {(!showCoverImage && this.itemStartsWithImage()) ||
           (showCoverImage &&
             this.props.item.excerpt !== null &&
@@ -749,6 +770,7 @@ class ItemTitle extends React.Component {
             this.props.item.excerpt.length > 0 &&
             styles.excerptInvertBG) ||
           (showCoverImage && coverImageStyles.resizeMode === 'contain') ||
+          (showCoverImage && !this.props.isPortrait) ||
           barView
         }
       </Animated.View>
@@ -812,10 +834,10 @@ class ItemTitle extends React.Component {
         backgroundColor: styles.bg ?
           'rgba(255,255,255,0.95)' :
           this.getForegroundColor(),
-        paddingLeft: this.screenWidth * 0.025,
-        paddingRight: this.screenWidth * 0.025,
-        paddingTop: this.screenWidth * 0.025,
-        paddingBottom: this.screenWidth * 0.025,
+        paddingLeft: getMargin() / 2,
+        paddingRight: getMargin() / 2,
+        paddingTop: getMargin() / 2,
+        paddingBottom: getMargin() / 2,
         marginBottom: this.getExcerptLineHeight()
       } : {}
       excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
@@ -936,8 +958,7 @@ class ItemTitle extends React.Component {
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
-      marginBottom: /*(!showCoverImage || coverImageStyles.isInline) ?
-        0 : this.getExcerptLineHeight()*/ 0,
+      marginBottom: 0,
       padding: 0,
       width: this.screenWidth
     }
@@ -966,8 +987,7 @@ class ItemTitle extends React.Component {
     const { coverImageStyles, date, scrollOffset, showCoverImage, styles } = this.props
     let dateStyle = {
       color: showCoverImage &&
-        !coverImageStyles.isInline/* &&
-        !coverImageStyles.isScreen*/ ? 'white' : '#666', // hslString(item.feed_color, 'desaturated'),
+        !coverImageStyles.isInline ? 'white' : '#666', // TODO: what about isDarkMode?
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.8,
       fontFamily: 'IBMPlexMono-Light',
@@ -975,8 +995,7 @@ class ItemTitle extends React.Component {
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
-      marginBottom: /*(!showCoverImage || coverImageStyles.isInline) ?
-        */this.getExcerptLineHeight()/* : 18*/,
+      marginBottom: this.getExcerptLineHeight(),
       padding: 0,
       width: this.screenWidth,
       // ...shadowStyle
@@ -984,7 +1003,7 @@ class ItemTitle extends React.Component {
 
     // if (showCoverImage && !coverImageStyles.isInline) {
     //   dateStyle.position = 'absolute'
-    //   dateStyle.top = this.screenHeight * (isIphoneX() ? 0.11 : 0.08) // heuristic
+    //   dateStyle.top = this.screenHeight * (hasNotchOrIsland() ? 0.11 : 0.08) // heuristic
     // }
 
     // if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {

@@ -12,11 +12,8 @@ import {
 } from '../store/ui/types'
 
 import TopBarContainer from '../containers/TopBar'
-import { isIphoneX } from '../utils'
+import { getStatusBarHeight, hasNotchOrIsland } from '../utils'
 
-export const STATUS_BAR_HEIGHT = 70 + (isIphoneX() ? 44 : 22)
-
-const screenWidth = Dimensions.get('window').width
 const initialBufferIndex = 1
 
 function TopBars (props) {
@@ -31,6 +28,7 @@ function TopBars (props) {
   }  = props 
   if (!items) return null
   panAnim = props.panAnim || new Animated.Value(0)
+  const screenWidth = Dimensions.get('window').width
   const panAnimDivisor = screenWidth
 
   const [clampedScrollAnim, setClampedScrollAnim] = useState(new Animated.Value(0))
@@ -121,7 +119,7 @@ function TopBars (props) {
 
   for (var i = 0; i < items.length; i++) {
     const tooth = panAnimDivisor * i
-    const value = hasScrollOffset ? 0 : STATUS_BAR_HEIGHT
+    const value = hasScrollOffset ? 0 : getStatusBarHeight()
     inputRange = inputRange.concat([tooth])
     outputRange = outputRange.concat([value])
   }
@@ -147,7 +145,7 @@ function TopBars (props) {
   const clampedAnimatedValue = Animated.diffClamp(
     // Animated.add(clampedScrollAnim, panTransformTopBarAnim),
     clampedScrollAnim,
-    -STATUS_BAR_HEIGHT,
+    0 - getStatusBarHeight(),
     0
   )
 
@@ -193,7 +191,9 @@ function areEqual (prevProps, nextProps) {
   return prevProps.items && nextProps.items &&
     JSON.stringify(prevProps.items.map(mapItem)) ===
       JSON.stringify(nextProps.items.map(mapItem)) &&
-    prevProps.panAnim === nextProps.panAnim
+    prevProps.panAnim === nextProps.panAnim &&
+    prevProps.orientation === nextProps.orientation &&
+    prevProps.scrollAnim === nextProps.scrollAnim
 }
 
 export default React.memo(TopBars, areEqual)

@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import AnimatedEllipsis from './AnimatedEllipsis'
 import { hslString } from '../utils/colors'
-import { isIphoneX, fontSizeMultiplier } from '../utils'
+import { hasNotchOrIsland, fontSizeMultiplier, getMargin } from '../utils'
 import {
   textInfoStyle,
   textInfoBoldStyle
@@ -37,11 +37,6 @@ export default function Message (props) {
       messageString
     })
   }
-  // const message = "This is the message"
-  // const visibleMessage = "This is the visible message"
-  // const isVisible = false
-  // const setVisible = () => true
-  // const setVisibleMessage = () => true
 
   // the message has changed (or was set to empty)
   if (isVisible && visibleMessage !== nextMessage) {
@@ -103,8 +98,8 @@ export default function Message (props) {
         borderWidth: 1,
         borderColor: hslString('rizzleFG', '', 0.5),
         width: 'auto',
-        marginLeft: screenWidth * 0.05,
-        marginRight: screenWidth * 0.05,
+        marginLeft: getMargin(),
+        marginRight: getMargin(),
         paddingLeft: 0,
         paddingRight: 0,
         paddingTop: 10,

@@ -10,7 +10,6 @@ import Buttons from '../components/Buttons.js'
 import { getIndex, getItems } from '../utils/get-item'
 
 const mapStateToProps = (state) => {
-  const feedFilter = state.config.feedFilter
   const items = getItems(state)
   const index = state.config.isOnboarding ?
     state.config.onboardingIndex :

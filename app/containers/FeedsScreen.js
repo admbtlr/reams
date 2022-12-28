@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SET_FEED_FILTER } from '../store/config/types'
+import { SET_FILTER } from '../store/config/types'
 import { 
   MARK_FEED_READ,
   REMOVE_FEED
@@ -13,6 +13,7 @@ import {
   SHOW_MODAL
 } from '../store/ui/types'
 import FeedsScreen from '../components/FeedsScreen.js'
+import { CREATE_CATEGORY } from '../store/categories/types'
 
 const testFeeds = [
   {
@@ -83,6 +84,7 @@ const mapStateToProps = (state) => {
     .map(f => addUnreadCount(f, items))
     .sort(sortFeeds)
   const itemSort = state.config.itemSort
+  const categories = state.categories.categories
   const backendLabels = {
     feedbin: 'Feedbin',
     feedwrangler: 'Feedwrangler',
@@ -93,7 +95,9 @@ const mapStateToProps = (state) => {
   return {
     backend: backendLabels[state.config.backend],
     feeds,
+    categories,
     isDarkMode: state.ui.isDarkMode,
+    isPortrait: state.config.orientation === 'portrait',
     numItems: items.length,
     itemSort,
     uid: state.user.uid
@@ -124,9 +128,13 @@ const mapDispatchToProps = (dispatch) => {
     clearReadItems: () => dispatch({
       type: CLEAR_READ_ITEMS
     }),
-    clearFeedFilter: () => dispatch({
-      type: SET_FEED_FILTER,
-      feedFilter: null
+    clearFilter: () => dispatch({
+      type: SET_FILTER,
+      filter: null
+    }),
+    createCategory: (name) => dispatch({
+      type: CREATE_CATEGORY,
+      name
     })
   }
 }

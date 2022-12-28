@@ -1,16 +1,23 @@
 import { InteractionManager } from 'react-native'
 import { call, delay, put, select, spawn } from 'redux-saga/effects'
-import { REMOTE_ACTION_COMPLETED } from '../store/config/types'
+import { REMOTE_ACTION_COMPLETED, REMOTE_ACTION_ERRORED } from '../store/config/types'
 import { 
   MARK_ITEM_READ,
   MARK_ITEMS_READ 
 } from '../store/items/types'
-import { markItemRead, markItemsRead } from '../backends'
+import { 
+  CREATE_CATEGORY_REMOTE, 
+  DELETE_CATEGORY_REMOTE, 
+  UPDATE_CATEGORY, 
+  UPDATE_CATEGORY_REMOTE 
+} from '../store/categories/types'
+import { createCategory, deleteCategory, markItemRead, markItemsRead, updateCategory } from '../backends'
 import { deleteItemsAS, updateItemAS } from '../storage/async-storage'
 import { removeCachedCoverImages } from '../utils/item-utils'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
+import log from '../utils/log'
 
-const INITIAL_INTERVAL = 5000
+const INITIAL_INTERVAL = 2000
 let interval = INITIAL_INTERVAL
 
 export function * executeRemoteActions () {
@@ -39,41 +46,67 @@ function * executeOldestAction () {
 
 function * executeAction (action) {
   yield call(InteractionManager.runAfterInteractions)
-  // console.log('Executing action: ' + action.type)
-  switch (action.type) {
-    case MARK_ITEM_READ:
-      try {
-        if (action.item) {
+  try {
+    switch (action.type) {
+      case MARK_ITEM_READ:
+        try {
+          if (action.item) {
+            yield call(InteractionManager.runAfterInteractions)
+            yield call (markItemRead, action.item)
+            yield call(InteractionManager.runAfterInteractions)
+            updateItemAS({
+              ...action.item,
+              readAt: Date.now()
+            })
+          }
           yield call(InteractionManager.runAfterInteractions)
-          yield call (markItemRead, action.item)
-          yield call(InteractionManager.runAfterInteractions)
-          updateItemAS({
-            ...action.item,
-            readAt: Date.now()
+          yield put({
+            type: REMOTE_ACTION_COMPLETED,
+            action
           })
+        } catch (error) {
+          console.log(error)
         }
-        yield call(InteractionManager.runAfterInteractions)
-        yield put({
-          type: REMOTE_ACTION_COMPLETED,
-          action
-        })
-      } catch (error) {
-        console.log(error)
-      }
-      break
-    case MARK_ITEMS_READ:
-      try {
-        yield call(InteractionManager.runAfterInteractions)
-        yield call(markItemsRead, action.items, action.feedId, action.olderThan)
-        // no need to update in Async Storage, since they'll be cleared anyway
-        yield call(InteractionManager.runAfterInteractions)
-        yield put({
-          type: REMOTE_ACTION_COMPLETED,
-          action
-        })
-      } catch (error) {
-        console.log(error)
-      }
-      break
+        break
+      case MARK_ITEMS_READ:
+        yield execute(markItemsRead, action)
+        break
+      case CREATE_CATEGORY_REMOTE:
+        yield execute(createCategory, action)
+        break  
+      case DELETE_CATEGORY_REMOTE:
+        yield execute(deleteCategory, action)
+        break  
+      case UPDATE_CATEGORY_REMOTE:
+        const newCat = yield execute(updateCategory, action)
+        console.log('newCat', newCat)
+        if (newCat.id !== action.category.id) {
+          yield put({ type: UPDATE_CATEGORY, category: { ...action.category, id: newCat.id }, fromRemote: true })
+        }    
+      }  
+  } catch (error) {
+    console.log(error)
+    yield put({
+      type: REMOTE_ACTION_ERRORED,
+      action
+    })
+  }
+}
+
+function * execute (type, action) {
+  const params = type === markItemsRead ? [action.items, action.feedId, action.olderThan] : 
+    [action.category] 
+  try {
+    yield call(InteractionManager.runAfterInteractions)
+    const ret = yield call(type, ...params)
+    yield call(InteractionManager.runAfterInteractions)
+    yield put({
+      type: REMOTE_ACTION_COMPLETED,
+      action
+    })
+    return ret
+  } catch (error) {
+    console.log(error)
+    throw error
   }
 }

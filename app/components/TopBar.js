@@ -11,16 +11,15 @@ import { CommonActions } from '@react-navigation/native'
 import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
 import LinearGradient from 'react-native-linear-gradient'
 import FeedIconContainer from '../containers/FeedIcon'
-import { id, isIphoneX, fontSizeMultiplier } from '../utils'
+import { id, hasNotchOrIsland, fontSizeMultiplier, getStatusBarHeight, isPortrait } from '../utils'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-
-export const STATUS_BAR_HEIGHT = (70 * fontSizeMultiplier()) + (isIphoneX() ? 44 : 22)
+import { SharedElement } from 'react-navigation-shared-element'
 
 /* Props:
 - clampedAnimatedValue
 - displayMode *
-- feedFilter *
+- filter *
 - index
 - isDarkMode *
 - isOnboarding *
@@ -38,14 +37,11 @@ export const STATUS_BAR_HEIGHT = (70 * fontSizeMultiplier()) + (isIphoneX() ? 44
 */
 
 class TopBar extends React.Component {
-  static whyDidYouRender = true
+  // static whyDidYouRender = true
 
   constructor (props) {
     super(props)
     this.props = props
-
-    this.screenWidth = Dimensions.get('window').width
-    this.screenHeight = Dimensions.get('window').height
 
     this.onDisplayPress = this.onDisplayPress.bind(this)
   }
@@ -62,6 +58,7 @@ class TopBar extends React.Component {
     const {
       clampedAnimatedValue,
       displayMode,
+      filter,
       item,
       opacityAnim,
       scrollAnim,
@@ -71,6 +68,9 @@ class TopBar extends React.Component {
       index,
       numItems
     } = this.props
+
+    this.screenWidth = Dimensions.get('window').width
+    this.screenHeight = Dimensions.get('window').height
 
     // if (isVisible) {
     //   console.log('Visible item: ' + item.title)
@@ -87,12 +87,11 @@ class TopBar extends React.Component {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'center',
-            // height: 281 + STATUS_BAR_HEIGHT,
             opacity: opacityAnim,
             overflow: 'hidden',
             // paddingTop: 80,
             position: 'absolute',
-            // top: isIphoneX() ? -240 : -260,
+            // top: hasNotchOrIsland() ? -240 : -260,
             shadowOffset: {
               width: 0,
               height: 1
@@ -123,18 +122,19 @@ class TopBar extends React.Component {
                   position: 'absolute',
                   height: 5,
                   width: '100%',
-                  top: STATUS_BAR_HEIGHT - 5,
+                  top: getStatusBarHeight() - 5,
                   left: 0
                 }}
               />
             }
           </Animated.View>
           <BackButton
+            isDarkmode={this.props.isDarkMode}
             navigation={this.props.navigation}
             isSaved={displayMode === ItemType.saved}
           />
           <View style={{
-            top: isIphoneX() ? 44 : 22,
+            top: hasNotchOrIsland() && isPortrait() ? 44 : 22,
             flex: 1,
             marginLeft: 80 * fontSizeMultiplier(),
             marginRight: 80 * fontSizeMultiplier()
@@ -179,7 +179,7 @@ class TopBar extends React.Component {
                     style={{
                       ...this.getStyles().feedName,
                       fontSize: 14 * fontSizeMultiplier(),
-                      fontFamily: this.props.feedFilter ?
+                      fontFamily: this.props.filter ?
                         'IBMPlexSansCond-Bold' :
                         'IBMPlexSansCond',
                       color: this.getForegroundColor(),
@@ -187,9 +187,11 @@ class TopBar extends React.Component {
                         'left' : 'center'
                     }}
                   >{displayMode === ItemType.saved ?
-                    'Saved Stories' :
-                    this.props.feedFilter ?
-                      'Filtered Stories' :
+                      'Saved Stories' :
+                      filter?.type ?
+                        (filter.type == 'category' ? 
+                          filter.title :
+                          'Feed') :
                       'Unread Stories'} • { index + 1 } / { numItems }</Text>
                   <Text
                     numberOfLines={2}
@@ -198,7 +200,7 @@ class TopBar extends React.Component {
                       ...this.getStyles().feedName,
                       fontSize: 18 * fontSizeMultiplier(),
                       lineHeight: 22 * fontSizeMultiplier(),
-                      fontFamily: this.props.feedFilter ?
+                      fontFamily: this.props.filter ?
                         'IBMPlexSansCond-Bold' :
                         'IBMPlexSansCond-Bold',
                       // color: this.getBorderBottomColor(item)
@@ -210,7 +212,7 @@ class TopBar extends React.Component {
                       textDecorationLine: displayMode === ItemType.saved ? 'none' : 'underline'
                     }}
                   >
-                    {item ? item.feed_title : 'Rizzle'}
+                    {item.feed_title ? item.feed_title : item.url?.split('/').length > 3 ? item.url.split('/')[2] : ''}
                   </Text>
                 </View>
               </Animated.View>
@@ -232,7 +234,7 @@ class TopBar extends React.Component {
     if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent
       && this.props.displayMode != ItemType.saved) {
       return scrollAnim.interpolate({
-        inputRange: [0, STATUS_BAR_HEIGHT, STATUS_BAR_HEIGHT + 50],
+        inputRange: [0, getStatusBarHeight(), getStatusBarHeight() + 50],
         outputRange: [0, 0, 1]
       })
     } else {
@@ -332,7 +334,7 @@ class TopBar extends React.Component {
         // flex: 1,
         position: 'absolute',
         top: 0,
-        height: isIphoneX() ? 44 : 22,
+        height: hasNotchOrIsland() && isPortrait() ? 44 : 22,
         width: '100%',
       },
       textHolder: {
@@ -341,7 +343,7 @@ class TopBar extends React.Component {
         top: 0,
         width: '100%',
         flexDirection: 'row',
-        height: STATUS_BAR_HEIGHT,
+        height: getStatusBarHeight(),
         // overflow: 'hidden',
         backgroundColor: 'transparent',
         // shadowColor: '#000000',
@@ -473,7 +475,7 @@ const DisplayModeToggle = ({ displayMode, onDisplayPress, backgroundColor, butto
   )
 }
 
-const BackButton = ({ isSaved, navigation: { navigate } }) => (
+const BackButton = ({ isDarkMode, isSaved, navigation: { navigate } }) => (
   <Animated.View style={{
     position: 'absolute',
     left: 0,
@@ -484,7 +486,7 @@ const BackButton = ({ isSaved, navigation: { navigate } }) => (
   }}>
     <TouchableOpacity
       onPress={() => {
-        navigate(isSaved ? 'Account' : 'Feeds')
+        navigate(isSaved ? 'Account' : 'Feeds', { transition: 'default' })
       }}
       style={{
         paddingBottom: 10,
@@ -493,13 +495,13 @@ const BackButton = ({ isSaved, navigation: { navigate } }) => (
         paddingTop: 10        
       }}
     >
-      { getRizzleButtonIcon('back', isSaved ?
+      { getRizzleButtonIcon('back', isSaved && !isDarkMode ?
           'black' : 'white', 'transparent', true, false) }
     </TouchableOpacity>
   </Animated.View>
 )
 
-export const getTopBarHeight = () => STATUS_BAR_HEIGHT// +
-  // (isIphoneX() ? 44 : 22)
+export const getTopBarHeight = () => getStatusBarHeight()// +
+  // (hasNotchOrIsland() ? 44 : 22)
 
 export default TopBar

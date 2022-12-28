@@ -2,36 +2,30 @@
   box-sizing: border-box; }
 
 html {
-  font-size: calc(7vw);
+  font-size: calc(var(--device-width) * 0.07px);
   transition: font-size 0.2s; }
-  @media (min-width: 600px) {
-    html {
-      font-size: calc(4vw); } }
+  html.tablet {
+    font-size: calc(var(--device-width) * 0.04px); }
   html.font-size-1 {
-    font-size: calc(5vw); }
-    @media (min-width: 600px) {
-      html.font-size-1 {
-        font-size: calc(3vw); } }
+    font-size: calc(var(--device-width) * 0.05px); }
+    html.font-size-1.tablet {
+      font-size: calc(var(--device-width) * 0.03px); }
   html.font-size-2 {
-    font-size: calc(6vw); }
-    @media (min-width: 600px) {
-      html.font-size-2 {
-        font-size: calc(3.5vw); } }
+    font-size: calc(var(--device-width) * 0.06px); }
+    html.font-size-2.tablet {
+      font-size: calc(var(--device-width) * 0.035px); }
   html.font-size-3 {
-    font-size: calc(7vw); }
-    @media (min-width: 600px) {
-      html.font-size-3 {
-        font-size: calc(4vw); } }
+    font-size: calc(var(--device-width) * 0.07px); }
+    html.font-size-3.tablet {
+      font-size: calc(var(--device-width) * 0.04px); }
   html.font-size-4 {
-    font-size: calc(8vw); }
-    @media (min-width: 600px) {
-      html.font-size-4 {
-        font-size: calc(4.5vw); } }
+    font-size: calc(var(--device-width) * 0.08px); }
+    html.font-size-4.tablet {
+      font-size: calc(var(--device-width) * 0.045px); }
   html.font-size-5 {
-    font-size: calc(9vw); }
-    @media (min-width: 600px) {
-      html.font-size-5 {
-        font-size: calc(5vw); } }
+    font-size: calc(var(--device-width) * 0.09px); }
+    html.font-size-5.tablet {
+      font-size: calc(var(--device-width) * 0.05px); }
 
 body {
   margin: 0;

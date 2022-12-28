@@ -94,9 +94,12 @@ async function doRequest (url, options = {}, expectNoContent = false) {
     throw Error(response.statusText)
   }
 
-  const json = await response.json()
+  let json, nextPage
   if (response.headers) {
-    const nextPage = getNextPage(response.headers)
+    nextPage = getNextPage(response.headers)
+  }
+  if (!expectNoContent) {
+    json = await response.json()
     if (nextPage) {
       json.nextPage = nextPage
     }
@@ -131,10 +134,32 @@ async function getPaginatedItems (endpoint, maxNum, callback) {
   }
 }
 
+export async function getReadItems (oldItems) {
+  const endpoint = 'unread_entries.json'
+  let unreadItemIds = await getRequest(endpoint)
+  let readItems = []
+  oldItems.forEach(item => {
+    if (!unreadItemIds.includes(item.id)) {
+      readItems.push(item)
+    }
+  })
+  return readItems
+}
+
 async function fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum) {
   const date = lastUpdated ? new Date(lastUpdated) : null
-  const endpoint = 'entries.json?read=false&starred=false&per_page=100' + (date ? `&since=${date.toISOString()}` : '')
+  const endpoint = 'entries.json?read=false&starred=false&per_page=10' + (date ? `&since=${date.toISOString()}` : '')
   await getPaginatedItems(endpoint, maxNum, callback)
+  // const endpoint = 'unread_entries.json'
+  // let itemIds = await getRequest(endpoint)
+  // const oldItemIds = oldItems.map(oi => oi.id)
+  // const newIds = itemIds.filter(id => !oldItemIds.includes(id))
+  // const unreadItems = oldItems.filter(oi => itemIds.includes(oi.id))
+
+  // if (newIds.length > 0) {
+  //   const url = getUrl('entries.json?ids=')
+  //   await getItemsByIds(newIds, url, mapFeedbinItemToRizzleItem, callback, getFetchConfig())
+  // }
 }
 
 async function fetchSavedItems (callback, lastUpdated, oldItems, feeds, maxNum) {
@@ -178,6 +203,13 @@ export async function unsaveItem (item, folder) {
   return itemId === item.id
 }
 
+export async function saveExternalItem(item) {
+  let endpoint = 'pages.json'
+  let body = { url: item.url }
+  const feedbinItem = await postRequest(endpoint, body)
+  return await saveItem(feedbinItem, 'inbox')
+}
+
 export async function fetchFeeds (oldFeeds) {
   let feeds = await getRequest('subscriptions.json')
   if (oldFeeds) {
@@ -215,6 +247,68 @@ export const markFeedRead = (feed, olderThan, items) => {
 export async function getFeedDetails (feed) {
 }
 
+export async function getCategories () {
+  const taggings = await getRequest('taggings.json')
+  if (!taggings) return null
+  const tags = await getRequest('tags.json')
+  // convert from Feedbin's weird format
+  let names = taggings.map(t => t.name)
+  names = [ ...new Set(names) ]
+  return tags.map(tag => ({
+    id: tag.id,
+    name: tag.name,
+    feed_ids: taggings.filter(t => t.name === tag.name).map(t => t.feed_id)
+  }))
+}
+
+export async function createCategory () {
+  // weirdly, this isn't a thing on Feedbin
+}
+
+// returns the category
+export async function updateCategory ({ id, name, feeds }) {
+  const taggings = await getRequest('taggings.json')
+  let tags = await getRequest('tags.json')
+  const oldTag = tags.find(t => t.id === id)
+
+  // AAAARGH if the tag isn't on feedbin because the taggings have been deleted, we need to create it
+  // but then the feedbin id will be different, so we'll need to update our local copy
+
+  const taggingsForTag = taggings.filter(t => t.name === oldTag.name)
+  const oldFeedIds = taggingsForTag.map(t => t.feed_id)
+  const newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.id)).map(f => f.id)
+  const removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.id).includes(ofid))
+  await postRequest('tags.json', {
+    old_name: oldTag.name,
+    new_name: name
+  })
+  const promises = []
+  newFeedIds.forEach(fid => {
+    promises.push(postRequest('taggings.json', {
+      feed_id: fid,
+      name
+    }))
+  })
+  removedFeedIds.forEach(fid => {
+    const tag = taggingsForTag.find(t => t.feed_id === fid)
+    promises.push(deleteRequest(`taggings/${tag.id}.json`, '', true))
+  })
+
+  await Promise.all(promises)
+
+  tags = await getRequest('tags.json')
+  const newTag = tags.find(t => t.name === name)
+  return {
+    id: newTag.id,
+    name,
+    feeds
+  }
+}
+               
+export async function deleteCategory (category) {
+  await deleteRequest('tags.json', { "name": category.name })
+}
+
 const mapFeedbinItemToRizzleItem = (item) => {
   let mappedItem = {
     id: item.id,
@@ -223,8 +317,8 @@ const mapFeedbinItemToRizzleItem = (item) => {
     title: item.title,
     content_html: item.content,
     author: item.author,
-    created_at: item.created_at,
-    date_modified: item.created_at,
+    created_at: new Date(item.created_at).getTime(),
+    date_modified: new Date(item.created_at).getTime(),
     date_published: item.published,
     external_url: item.url,
     feed_title: item.feed_name,

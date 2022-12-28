@@ -3,7 +3,7 @@ import {ActivityIndicator, Animated, Dimensions, Easing, Linking, View} from 're
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
-import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
+import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath, getMargin} from '../utils/'
 import { hslString } from '../utils/colors'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
@@ -61,7 +61,7 @@ class FeedItem extends React.Component {
   }
 
   addAnimation (style, anim, isVisible) {
-    const width = Dimensions.get('window').width * 0.05
+    const width = getMargin()
     if (isVisible) {
       return {
         ...style,
@@ -101,11 +101,19 @@ class FeedItem extends React.Component {
       item,
       setScrollAnim,
     } = this.props
-    if (isVisible) {
-      setScrollAnim(this.scrollAnim)
-      // scrollHandlerAttached(item._id)
-      item.scrollRatio > 0 && this.scrollToOffset()
-    }
+    if (true) {
+      const that = this
+      setTimeout(() => {
+        that.setState({shouldRender: true})
+      }, 200)
+    } else {
+      if (isVisible) {
+        setScrollAnim(this.scrollAnim)
+        // scrollHandlerAttached(item._id)
+        this.scrollToOffset()
+      }
+      }
+    this.hasMounted = true
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -152,7 +160,7 @@ class FeedItem extends React.Component {
         case 'index':
 
         case 'item':
-          if (Object.keys(changes.item).length === 1) {
+          if (changes && changes.item && Object.keys(changes.item).length === 1) {
             switch (Object.keys(changes.item)[0]) {
               case 'scrollRatio':
               case 'readingTime':
@@ -185,16 +193,19 @@ class FeedItem extends React.Component {
     const {item} = this.props
     const {webViewHeight} = this.state
     const scrollView = this.scrollView
+    if (!scrollView) return
+    if (!this.hasWebViewResized) return
     if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
     const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
-    if (!scrollView || !this.hasWebViewResized) return
     if (!scrollRatio || scrollRatio === 0) return
     setTimeout(() => {
-      scrollView.scrollTo({
-        x: 0,
-        y: scrollRatio * webViewHeight,
-        animated: true
-      })
+      if (scrollView) {
+        scrollView.scrollTo({
+          x: 0,
+          y: scrollRatio * webViewHeight,
+          animated: true
+        })
+      }
     }, 2000)
   }
 
@@ -205,15 +216,28 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    if (!this.isInflated()) {
-      return <View style={{
-        width: this.screenDimensions.width,
-        height: this.screenDimensions.height }} />
+    __DEV__ && console.log('Rendering item', this.props.index)
+
+    if (!this.isInflated() || !this.state.shouldRender) {
+      return (
+        <View style={{
+          width: this.screenDimensions.width,
+          height: this.screenDimensions.height,
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
+        </View>
+      )
+
     }
 
     const {
+      index,
       isVisible,
       item,
+      orientation,
       showMercuryContent 
     } = this.props
     let {
@@ -232,6 +256,8 @@ class FeedItem extends React.Component {
     const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
     const that = this
 
+    showCoverImage = showCoverImage && !(styles.isCoverInline && orientation === 'landscape')
+
     const coverImage = showCoverImage ? 
       <CoverImage
         styles={styles.coverImage}
@@ -240,6 +266,7 @@ class FeedItem extends React.Component {
         imageDimensions={!!hasCoverImage && imageDimensions}
         faceCentreNormalised={faceCentreNormalised}
         feedTitle={item.feed_title}
+        orientation={orientation}
       /> :
       null
 
@@ -315,6 +342,7 @@ class FeedItem extends React.Component {
               bodyColor={bodyColor}
               item={item}
               onTextSelection={this.props.onTextSelection}
+              orientation={orientation}
               showImageViewer={this.props.showImageViewer}
               updateWebViewHeight={this.updateWebViewHeight}
               webViewHeight={this.state.webViewHeight}
@@ -393,11 +421,9 @@ class FeedItem extends React.Component {
             ...that.state,
             webViewHeight: that.pendingWebViewHeight
           })
-          if (that.currentScrollOffset > 0) {
-            that.scrollToOffset()
-          }
-          that.pendingWebViewHeightId = null
           that.hasWebViewResized = true
+          that.pendingWebViewHeightId = null
+          that.scrollToOffset()
         }, 500)
       }
     }

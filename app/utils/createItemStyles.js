@@ -58,14 +58,14 @@ export function createItemStyles (item, prevStyles) {
   //   title.widthPercentage = 100 - (Math.floor(Math.random() * Math.max([0, (50 - item.title.length / 2)])))
   // }
 
-  title.interBolded = shouldInterBold(entities.decode(item.title))
+  title.interBolded = shouldInterBold(entities.decodeHTML(item.title))
   // this is probably just too ugly to be allowed...
   // title.interStyled = title.interBolded && Math.random() > 0.5
   title.textAlign = (item.showCoverImage && !isCoverInline && Math.random() > 0.5) || Math.random() > 0.8
     ? 'center'
     : 'left'
   title.title = item.title
-  title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decode(item.title))
+  title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decodeHTML(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.4
   title.isUpperCase = item.title.length < 80 &&
     ((fonts.heading.substring(0, 14) === 'headerFontSans2' && Math.random() > 0.5) ||
@@ -153,13 +153,14 @@ export function setCoverInline (oldStyles) {
   let styles = { ...oldStyles }
   styles.isCoverInline = true
   styles.showCoverImage = true
-  styles.coverImage.isInline = true
+  styles.title = styles.title || {}
   styles.title.textAlign = 'left'
   styles.title.isVertical = false
   styles.title.invertBG = false
   styles.title.bg = false
   styles.title.hasShadow = false
   styles.coverImage = styles.coverImage || {}
+  styles.coverImage.isInline = true
   styles.coverImage.isScreen = false
   styles.coverImage.isMultiply = false
   styles.coverImage.isBW = false

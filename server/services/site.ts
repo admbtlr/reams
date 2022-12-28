@@ -17,7 +17,10 @@ export async function findFeeds (url, extended) {
     console.log(`Sending request to ${url}`)
     let res = await axios.get(url, {
       timeout: 5000,
-      maxRedirects: 5
+      maxRedirects: 5,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
+      }
     })
     let body = res.data
     feeds = feeds.concat(checkForHeader(body, homeUrl))

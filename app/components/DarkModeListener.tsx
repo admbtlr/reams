@@ -7,7 +7,6 @@ export default function DarkModeListener () {
   const dispatch = useDispatch()
   useEffect(() => {
     const colorScheme = Appearance.getColorScheme()
-    console.log(colorScheme)
     dispatch({ 
       type: SET_DARK_MODE,
       isDarkMode: colorScheme === 'dark' })  

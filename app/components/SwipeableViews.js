@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native'
+import { SharedElement } from 'react-navigation-shared-element'
 import FeedItemContainer from '../containers/FeedItem.js'
 import OnboardingContainer from '../containers/Onboarding.js'
 import { hslString } from '../utils/colors'
@@ -40,6 +41,7 @@ class SwipeableViews extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     if (!this.props.items || !nextProps.items) return true
+    if (this.props.orientation !== nextProps.orientation) return true
     return JSON.stringify(this.props.items.map(item => item._id)) !==
       JSON.stringify(nextProps.items.map(item => item._id))
   }
@@ -93,7 +95,7 @@ class SwipeableViews extends Component {
         navigation={this.props.navigation}
       />
     } else {
-      return <FeedItemContainer
+      const feedItemContainer = <FeedItemContainer
         _id={_id}
         key={_id}
         setScrollAnim={this.props.setScrollAnim}
@@ -103,6 +105,7 @@ class SwipeableViews extends Component {
         panAnim={panAnim}
         renderDate={Date.now()} // make sure child components get re-rendered
       />
+      return feedItemContainer
     }
   }
 
@@ -115,7 +118,8 @@ class SwipeableViews extends Component {
       navigation
     } = this.props
 
-    const pageWidth = Dimensions.get('window').width
+    this.screenWidth = Dimensions.get('window').width
+    const pageWidth = this.screenWidth
     // this.panAnimValues = items.map((item, key) => )
 
     if (isOnboarding) {

@@ -15,7 +15,8 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     displayMode,
     numItems,
-    feedFilter: state.config.feedFilter,
+    orientation: state.config.orientation,
+    filter: state.config.filter || null,
     isDarkMode: state.ui.isDarkMode,
     isOnboarding: state.config.isOnboarding,
   }

@@ -7,22 +7,18 @@ import {
 import { blendColor, hslString } from '../utils/colors'
 import FeedCoverImage from './FeedCoverImage'
 import FeedIconCorner from './FeedIconCorner'
-import FeedDetails from './FeedDetails'
+import FeedDetails, { FeedStats } from './FeedDetails'
 import XButton from './XButton'
 import FeedExpandedOnboarding from './FeedExpandedOnboarding'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
+import { ScrollView } from 'react-native-gesture-handler'
 
 class FeedExpanded extends React.Component {
 
   constructor (props) {
     super(props)
     this.props = props
-
-    const dim = Dimensions.get('window')
-    this.screenWidth = dim.width
-    this.margin = this.screenWidth * 0.05
-    this.screenHeight = dim.height
   }
 
   setFeedExpanded () {
@@ -52,15 +48,29 @@ class FeedExpanded extends React.Component {
 
     const textStyles = {
       color: 'white',
-      fontFamily: 'IBMPlexMono-Light',
+      fontFamily: 'IBMPlexSans-Light',
       textAlign: 'left'
     }
 
+    const dim = Dimensions.get('window')
+    const screenWidth = dim.width
+    const margin = getMargin()
+    const screenHeight = dim.height
+
+    const EnclosingView = screenWidth < 500 ? View : View
+
     return (
-      <View style={{
-        padding: 0,
-        margin: 0
-      }}>
+      <EnclosingView 
+        alwaysBounceVertical={false}
+        bounces={false}
+        overScrollMode='never'
+        showsVerticalScrollIndicator={false}
+        style={{
+          padding: 0,
+          margin: 0,
+          minHeight: '100%',
+          flex: 1
+        }}>
         <View
           style={{
             alignItems: 'flex-start',
@@ -70,13 +80,13 @@ class FeedExpanded extends React.Component {
             overflow: 'hidden',
             flex: 0,
             flexGrow: 1,
-            width: this.screenWidth
+            width: screenWidth,
             // ...positionStyles
           }}>
           <View
             ref={c => this.imageView = c}
             style={{
-              // height: '100%',
+              // height: screenHeight * 0.6,
               width: '100%',
               minHeight: 200,
               overflow: 'hidden',
@@ -84,9 +94,10 @@ class FeedExpanded extends React.Component {
             }}>
             <FeedCoverImage
               feed={feed}
-              width={this.screenWidth}
-              height={this.screenHeight * 0.6}
-              setCachedCoverImage={this.props.setCachedCoverImage} />
+              width={screenWidth}
+              height={screenHeight * 0.6}
+              setCachedCoverImage={this.props.setCachedCoverImage} 
+              removeCoverImage={this.props.removeCoverImage} />
             <View style={{
               position: 'absolute',
               left: 0,
@@ -98,9 +109,9 @@ class FeedExpanded extends React.Component {
           </View>
           <View style={{
             width: '100%',
-            paddingLeft: this.margin * 0.5,
+            paddingLeft: screenWidth < 500 ? margin * 0.5 : screenWidth * 0.04,
             paddingRight: 40,
-            paddingBottom: this.margin * 0.5,
+            paddingBottom: margin * 0.5,
             position: 'absolute',
             bottom: 0,
             flex: 1,
@@ -135,19 +146,20 @@ class FeedExpanded extends React.Component {
               paddingRight: 10
             }}>
               <Text style={{
-                ...textStyles,
-                fontFamily: 'IBMPlexMono-Light',
+                ...textInfoStyle('white'),
+                marginLeft: 0,
                 fontSize: 16 * fontSizeMultiplier()
-              }}>{feed.numUnread} unread stories</Text>
+              }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'} • <FeedStats feed={feed} /></Text>
+              
             </View>
           </View>
-          <FeedIconCorner
+          {/* <FeedIconCorner
             feed={feed}
             iconDimensions={iconDimensions}
             extraStyle={{
               bottom: 0
             }}
-          />
+          /> */}
         </View>
         <View style={{
           backgroundColor: hslString('rizzleBG'),
@@ -169,7 +181,7 @@ class FeedExpanded extends React.Component {
             onPress={close} />
         </View>
         { /*isFeedOnboardingDone || <FeedExpandedOnboarding /> */}
-      </View>
+      </EnclosingView>
     )
   }
 }

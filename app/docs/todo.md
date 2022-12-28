@@ -1,14 +1,17 @@
+- text to speech
+- feedly
+- newsletters with fastmail
+- categories in saved
+- how come some feeds don't have a feed_local and don't update?
+- remove all messages on init
 - test adding feeds and stories simultaneously
-- we need a modal queue!
+  - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
-- why do saved external items (sometimes) render twice?
 - move message down when not in item screen
 - onboarding in dark mode
 - muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
-- make Feedwrangler work fully
-  - what's missing actually?
 
 # Someday / Maybe
 - use more built-in fonts?
@@ -28,6 +31,8 @@
   - using node-postgres, which looks very nice!
   - or using supabase?
 - is this useful? https://css-tricks.com/mediastack/
+- icloud integration
+  - https://github.com/XHMM/react-native-cloud-store
 - Feedly integration
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
@@ -49,6 +54,11 @@
 
 # Done
 
+- ~~why do saved external items (sometimes) render twice?~~
+- ~~pages in feedbin~~
+- ~~background fetch~~
+- ~~landscape mode~~
+- ~~make Feedwrangler work fully~~
 - ~~the very first buttonset is the wrong colour?~~
 - ~~be more efficient about getting feedbin items~~
 - ~~why does saving external items only work sometimes?~~

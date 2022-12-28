@@ -45,30 +45,44 @@ import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeTo
 import { initBackend } from './backend'
 import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
+import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
+import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
 
 let downloadsFork
 
 function * init (action) {
   if (action.key && action.key !== 'primary') return
   const config = yield select(getConfig)
-  console.log(config)
   if (!config.backend || config.backend === '') return
 
   yield initBackend(action)
-  yield call(inflateItems)
-  downloadsFork = yield fork(startDownloads, config.backend)
+
+  if (!global.isBackgroundFetch) {
+    yield call(inflateItems)
+    downloadsFork = yield fork(startDownloads, config.backend)
+  }
+}
+
+export function * backgroundFetch (callback) {
+  yield call(fetchAllItems, false)
+  yield call(clearReadItems)
+  yield call(pruneItems)
+  callback()
 }
 
 function * startDownloads (backend) {
-  // let the app render and get started
-  yield delay(5000)
+  if (global.isStarting) {
+    // let the app render and get started
+    yield delay(5000)
+  }
   yield call(fetchAllFeeds)
   yield call(fetchAllItems)
-  yield call(decorateItems)
   yield call(clearReadItems)
   yield call(pruneItems)
+  yield call(getCategories)
+  yield call(decorateItems)
   yield call(executeRemoteActions)
-  yield call(inflateFeeds)
+  yield call(inflateFeeds)  
 }
 
 function * killBackend () {
@@ -99,13 +113,18 @@ export function * initSagas () {
   yield takeEvery(UNSAVE_ITEM, inflateItems)
   yield takeEvery(SET_DISPLAY_MODE, inflateItems)
   yield takeEvery(UPDATE_CURRENT_INDEX, inflateItems)
-  yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(FETCH_ITEMS, fetchAllItems)
+  yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)
   yield takeEvery(RECEIVED_REMOTE_READ_ITEMS, filterItemsForRead)
   yield takeEvery(UPDATE_CURRENT_INDEX, markLastItemRead)
   yield takeEvery(REMOVE_ITEMS, removeItems)
   yield takeEvery(SAVE_EXTERNAL_URL, saveExternalUrl)
+  
+  yield takeEvery(DELETE_CATEGORY, deleteCategory)
+  yield takeEvery(UPDATE_CATEGORY, updateCategory)
+  yield takeEvery(ADD_FEED_TO_CATEGORY, updateCategory)
+  yield takeEvery(REMOVE_FEED_FROM_CATEGORY, updateCategory)
 
   // reading timer
   yield takeEvery(UPDATE_CURRENT_INDEX, currentItemChanged)

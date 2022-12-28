@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Animated,
+  Animated, PushNotificationIOS,
 } from 'react-native'
 import {fileExists, getCachedCoverImagePath} from '../utils/'
 
@@ -12,7 +12,11 @@ class FeedCoverImage extends React.Component {
   }
 
   async componentDidMount () {
-    const { _id, cachedCoverImageId, coverImageId } = this.props.feed
+    const { coverImageId } = this.props.feed
+    const cachedCoverImageId = this.props.feed.feedLocal ?
+      this.props.feed.feedLocal.cachedCoverImageId :
+      null
+    const { _id } = this.props.feed.feed
     const coverImagePath = this.getCoverImagePath()
     if (!coverImagePath) return
     const coverImageFileExists = await fileExists(coverImagePath)
@@ -24,11 +28,12 @@ class FeedCoverImage extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    return nextProps.cachedCoverImageId !== this.props.cachedCoverImageId
+    return nextProps.feed?.feedLocal?.cachedCoverImageId !== 
+      this.props.feed?.feedLocal?.cachedCoverImageId
   }
 
   async componentDidUpdate () {
-    const { _id } = this.props.feed
+    const { _id } = this.props.feed.feed
     const coverImageFileExists = await fileExists(this.getCoverImagePath())
     if (!coverImageFileExists) {
       this.props.removeCoverImage(_id)
@@ -37,9 +42,12 @@ class FeedCoverImage extends React.Component {
 
   getCoverImagePath () {
     const {
-      cachedCoverImageId,
       coverImageId,
     } = this.props.feed
+
+    const cachedCoverImageId = this.props.feed?.feedLocal ? 
+      this.props.feed.feedLocal.cachedCoverImageId :
+      null
 
     const imageId = cachedCoverImageId || coverImageId
     return imageId ?
@@ -48,23 +56,25 @@ class FeedCoverImage extends React.Component {
   }
 
   render () {
-    const {
-      coverImageDimensions,
-      color
-    } = this.props.feed
+    const { coverImageDimensions } = this.props.feed
+    // this is a bit weird... due to the shape of the props coming in to FeedExpanded
+    const color = this.props.feed.feed?.color || this.props.feed.color
     const { width, height } = this.props
 
     const coverImagePath = this.getCoverImagePath()
 
     return (color && !!coverImagePath && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
-      <Animated.Image
-        source={{ uri: `file://${coverImagePath}` }}
-        style={{
-          alignSelf: 'center',
-          width,
-          height
-        }}
-      /> :
+      <Animated.View style={{ width, height }}>
+        <Animated.Image
+          source={{ uri: `file://${coverImagePath}` }}
+          style={{
+            alignSelf: 'center',
+            width,
+            height,
+            position: 'absolute',
+          }}
+        /> 
+      </Animated.View> :
       null
 
   }

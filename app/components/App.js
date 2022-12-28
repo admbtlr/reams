@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { 
+  CardStyleInterpolators,
   createStackNavigator, 
   HeaderStyleInterpolators,
   TransitionPresets 
 } from '@react-navigation/stack'
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
 import { useSelector } from 'react-redux'
 
 import ItemsScreen from './ItemsScreen'
@@ -13,11 +15,11 @@ import Headring from './Heading'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
 
-import {STATUS_BAR_HEIGHT} from './TopBar'
 import { hslString } from '../utils/colors'
 import { useNavigation } from '@react-navigation/native';
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getInset, getStatusBarHeight } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import { Animated, Dimensions, Text } from 'react-native'
 
 const navigationOptions = {
   gesturesEnabled: false
@@ -111,6 +113,18 @@ const Feeds = () => (
 
 const Main = () => {
   const isOnboarding = useSelector(state => state.config.isOnboarding)
+  const windowDim = Dimensions.get('window')
+  const getFeedCardDimensions = () => {
+    const screenWidth = Dimensions.get('window').width
+    const screenHeight = Dimensions.get('window').height
+    const isPortrait = useSelector(state => state.config.orientation === 'portrait')
+    const width = screenWidth - getInset() * (isPortrait ? 2 : 4)
+    const height = screenWidth < 500 || screenHeight < 500 ?
+      width / 2 :
+      width
+    return { width, height }
+  }
+  const feedCardDim = getFeedCardDimensions()
   return (
     <MainStack.Navigator
       // headerMode='screen'
@@ -121,7 +135,7 @@ const Main = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: hslString('rizzleBG'),
-          height: STATUS_BAR_HEIGHT,
+          height: getStatusBarHeight(),
           // https://github.com/react-navigation/react-navigation/issues/6899
           shadowOffset: { height: 0, width: 0 }
         },
@@ -149,18 +163,124 @@ const Main = () => {
       <MainStack.Screen
         name='Feeds'
         component={Feeds}
-        options={{
-          title: 'Your Feeds',
-          headerBackTitleVisible: false,
-          headerStyleInterpolator: HeaderStyleInterpolators.forUIKit
-        }} />
+        options={({route}) => {
+          const toFeeds = route.params?.toFeeds
+          return {
+            title: 'Your Feeds',
+            headerBackTitleVisible: false,
+            headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
+            // this is necessary to make a smoother animation to the Items screen
+            // FeedsScreen has padding in place to simulate the header
+            headerTransparent: true,
+            // cardStyleInterpolator: ({ closing, current, next }) => {
+            //     let anim = Animated.add(current.progress, Animated.multiply(closing, new Animated.Value(5)))
+            //     anim = next ? Animated.add(anim, next.progress) : anim
+            //     return {
+            //       cardStyle: { 
+            //         transform: [
+            //           {
+            //             translateX: anim.interpolate({
+            //               inputRange: [0.2, 1, 2, 3, 5, 6],
+            //               outputRange: [0, 0, 0, 0, windowDim.width, 0],
+            //               extrapolate: 'clamp'
+            //             })
+            //           },
+            //         ],
+            //       }
+            //     }
+            //   }             }
+            }
+          }
+        }
+      />
       <MainStack.Screen
         name='Items'
         component={ItemsScreen}
-        options={{
-          gestureEnabled: !isOnboarding,
-          headerShown: false
-        }} />
+        options={({route}) => {
+          const { feedCardHeight, feedCardWidth, feedCardX, feedCardY, toItems } = route?.params || {}
+          const dimensions = Dimensions.get('window')
+          const translateY = feedCardY ? 
+            feedCardY + feedCardHeight / 2 - dimensions.height / 2 :
+            0
+          const translateX = feedCardX ?
+            feedCardX + feedCardWidth / 2 - dimensions.width / 2 :
+            0
+          return {
+            cardStyleInterpolator: toItems ? 
+              ({ closing, current, next, index }) => {
+                // I use closing so that I can do fancy stuff with the translateX
+                // feeds screen has to act like normal, items screen is custom
+                let anim = Animated.add(current.progress, Animated.multiply(closing, new Animated.Value(5)))
+                anim = next ? Animated.add(anim, Animated.multiply(next.progress, 1)) : anim
+                return {
+                    cardStyle: { 
+                      borderRadius: anim.interpolate({
+                        inputRange: [0, 1, 2],
+                        outputRange: [48, 0, 0],
+                        extrapolate: 'clamp',
+                      }),
+                      opacity: anim.interpolate({
+                        inputRange: [0, 0.2, 1, 2],
+                        outputRange: [0, 1, 1, 1],
+                        extrapolate: 'clamp',
+                      }),
+                      transform: [
+                        {
+                          translateX: anim.interpolate({
+                            inputRange: [0, 1, 2, 3, 5, 6],
+                            outputRange: [translateX, 0, dimensions.width * -0.3, 0, dimensions.width, 0],
+                            extrapolate: 'clamp'
+                          })
+                        },
+                        {
+                          translateY: anim.interpolate({
+                            inputRange: [0, 1, 2],
+                            outputRange: [translateY, 0, 0],
+                            extrapolate: 'clamp'
+                          })
+                        },
+                        {
+                          scaleX: anim.interpolate({
+                            inputRange: [0, 1, 2],
+                            outputRange: [feedCardWidth / dimensions.width, 1, 1],
+                            extrapolate: 'clamp',
+                          })
+                        },
+                        {
+                          scaleY: anim.interpolate({
+                            inputRange: [0, 1, 2],
+                            outputRange: [feedCardHeight / dimensions.height, 1, 1],
+                            extrapolate: 'clamp',
+                          }),
+                        }
+                      ],
+                    }
+                  }
+                } :
+                CardStyleInterpolators.forHorizontalIOS,
+              // headerStyleInterpolator: ({ closing, current: { progress } }) => {
+              //   return {
+              //     headerStyle: {
+              //       opacity: progress.interpolate({
+              //         inputRange: [0, 1],
+              //         outputRange: [1, 1]
+              //       })
+              //     }
+              //   }
+              // },
+              gestureEnabled: false,
+              headerTransparent: true,
+              // need to do this to hide the back button when using height: 0
+              // it might not work on Android 
+              // https://stackoverflow.com/questions/54613631/how-to-hide-back-button-in-react-navigation-react-native
+              headerLeft: () => <></>,
+              title: '',
+              cardStyle: {
+                backgroundColor: 'transparent'
+              }
+            }
+        }} 
+      />
     </MainStack.Navigator>
   )
 }
@@ -171,7 +291,11 @@ export default App = () => {
       initialRouteName='Main'
       mode='modal'
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        cardStyle: {
+              backgroundColor: hslString('rizzleBG')
+            },
+
       }}
     >
       <AppStack.Screen

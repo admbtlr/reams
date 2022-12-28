@@ -8,15 +8,26 @@ import {
   ITEMS_ONBOARDING_DONE,
   FEED_ONBOARDING_DONE,
   SET_LAST_UPDATED,
-  SET_FEED_FILTER,
+  SET_FILTER,
   IS_ONLINE,
   SET_ITEM_SORT,
   SET_SHOW_NUM_UNREAD,
+  SET_ORIENTATION,
+  STATE_ACTIVE,
+  STATE_INACTIVE,
 } from "./types"
 import { 
   FeedActionTypes,
   REMOVE_FEED 
 } from "../feeds/types"
+import { Dimensions } from "react-native"
+import { DELETE_CATEGORY } from "../categories/types"
+
+export interface Filter {
+  title?: string,
+  type: string,
+  _id: string
+}
 
 export interface ConfigState {
   readonly backend: string
@@ -25,13 +36,17 @@ export interface ConfigState {
   readonly lastUpdated: number
   readonly onboardingIndex: number
   readonly onboardingLength: number
-  readonly feedFilter: string | null
+  readonly filter: Filter | null
   readonly isOnline: boolean
+  readonly orientation: string
   readonly itemSort: Direction
   readonly showNumUnread: boolean
   readonly isItemsOnboardingDone: boolean
   readonly isFeedOnboardingDone: boolean
+  readonly lastActivated: number
 }
+
+const {width, height } = Dimensions.get('window')
 
 const initialState = {
   backend: '',
@@ -40,12 +55,14 @@ const initialState = {
   lastUpdated: 0,
   onboardingIndex: 0,
   onboardingLength: 13,
-  feedFilter: null,
+  filter: null,
   isOnline: false,
+  orientation: height > width ? 'portrait' : 'landscape',
   itemSort: Direction.forwards,
   showNumUnread: true,
   isItemsOnboardingDone: true,
-  isFeedOnboardingDone: false
+  isFeedOnboardingDone: false,
+  lastActivated: 0
 }
 
 export function config (
@@ -96,16 +113,24 @@ export function config (
         isFeedOnboardingDone: true
       }
 
-    case SET_FEED_FILTER:
+    case SET_FILTER:
       return {
         ...state,
-        feedFilter: action.feedFilter
+        filter: action.filter
+      }
+
+    case DELETE_CATEGORY:
+      if (state.filter !== null && state.filter._id === action._id) {
+        return {
+          ...state,
+          filter: null
+        }
       }
 
     case REMOVE_FEED:
       return {
         ...state,
-        feedFilter: null
+        filter: null
       }
 
     case IS_ONLINE:
@@ -114,7 +139,13 @@ export function config (
         isOnline: action.isOnline
       }
 
-    case SET_ITEM_SORT:
+    case SET_ORIENTATION:
+      return {
+        ...state,
+        orientation: action.orientation
+      }
+  
+      case SET_ITEM_SORT:
       return {
         ...state,
         itemSort: action.itemSort
@@ -126,6 +157,13 @@ export function config (
         showNumUnread: action.showNumUnread
       }
 
+    case STATE_ACTIVE: {
+      return {
+        ...state,
+        lastActivated: action.time
+      }
+    }
+    
     default:
       return state
   }

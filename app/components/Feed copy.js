@@ -23,6 +23,7 @@ import FeedCoverImage from './FeedCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import TextButton from './TextButton'
 import XButton from './XButton'
+import { getMargin } from 'utils'
 
 const DRAG_THRESHOLD = 10
 
@@ -34,7 +35,7 @@ class Feed extends React.PureComponent {
 
     const dim = Dimensions.get('window')
     this.screenWidth = dim.width
-    this.margin = this.screenWidth * 0.05
+    this.margin = getMargin()
     this.cardWidth = this.screenWidth < 500 ?
       this.screenWidth - this.margin * 2 :
       (this.screenWidth - this.margin * 3) / 2

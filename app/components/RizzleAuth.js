@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
-import GoogleAuth from '../containers/GoogleAuth'
 import { fontSizeMultiplier } from '../utils'
 import {
   textInputStyle,
@@ -47,7 +46,6 @@ class RizzleAuth extends React.Component {
             ...textInfoBoldStyle('white'),
             fontSize: 12
           }}>UserId:</Text> {user.uid}</Text>
-        <GoogleAuth isLoggedIn={true}/>
       </View> :
       <View>
         { submitCount > 0 ?
@@ -130,7 +128,6 @@ class RizzleAuth extends React.Component {
           marginBottom: 20,
           marginTop: 0
         }}>Or you can sign in with an existing account:</Text>
-        <GoogleAuth/>
       </View>
 
   }

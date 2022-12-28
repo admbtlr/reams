@@ -9,7 +9,7 @@ import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../backends/rizzle'
 import { authenticate } from '../backends'
 import { hslString } from '../utils/colors'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier, getMargin } from '../utils'
 import {
   textInputStyle,
   textLabelStyle,
@@ -118,7 +118,7 @@ class AccountCredentialsForm extends React.Component {
     const reamsText = (isWhite) => <Text 
       style={{
         ...textInfoStyle(isWhite ? 'white' : 'black'),
-        marginBottom: width * 0.05
+        marginBottom: getMargin()
       }}><Text style={textInfoBoldStyle(isWhite ? 'white' : 'black')}>Reams Basic</Text> is free, but it doesn’t sync with other devices or apps.</Text>
       
     return (
@@ -128,7 +128,8 @@ class AccountCredentialsForm extends React.Component {
         isInitialValid={this.state.email || this.state.username}
         onSubmit={this.authenticateUser}
         validationSchema={validationSchemaShape}
-        render={({
+      >
+        {({
           errors,
           handleChange,
           handleReset,
@@ -290,7 +291,7 @@ class AccountCredentialsForm extends React.Component {
             }
           </View>
         )}
-      />
+      </Formik>
     )
   }
 }
