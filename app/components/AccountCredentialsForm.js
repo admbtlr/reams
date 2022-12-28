@@ -128,7 +128,8 @@ class AccountCredentialsForm extends React.Component {
         isInitialValid={this.state.email || this.state.username}
         onSubmit={this.authenticateUser}
         validationSchema={validationSchemaShape}
-        render={({
+      >
+        {({
           errors,
           handleChange,
           handleReset,
@@ -290,7 +291,7 @@ class AccountCredentialsForm extends React.Component {
             }
           </View>
         )}
-      />
+      </Formik>
     )
   }
 }

@@ -8,7 +8,7 @@ import {
 } from '../store/items/types'
 import { isInflated, deflateItem, inflateStyles } from '../utils/item-utils'
 import log from '../utils/log'
-import { getActiveItems, getDisplay, getFeedFilter, getIndex, getItems } from './selectors'
+import { getActiveItems, getCategories, getDisplay, getFilter, getIndex, getItems } from './selectors'
 
 import { getItemsAS } from '../storage/async-storage'
 
@@ -21,13 +21,18 @@ export function * inflateItems (action) {
   // 4. init - {}
   // 5. fetchItems - { index}
   // 6. saveItem - { displayMode, saved }
-  const feedFilter = yield select(getFeedFilter)
+  const filter = yield select(getFilter)
+  // let filterFeeds
+  // if (filter?.type === 'category') {
+  //   const categories = yield select(getCategories)
+  //   const category = categories.find(c => c._id === filter._id)
+  //   filterFeeds = category.feeds
+  // } else if (filter?.type === 'feed') {
+  //   filterFeeds = [filter._id]
+  // }
   const displayMode = yield select(getDisplay)
   const index = yield select(getIndex, displayMode)
   let items = yield select(getItems, displayMode)
-  if (displayMode === ItemType.unread && feedFilter) {
-    items = items.filter(i => i.feed_id === feedFilter)
-  }
   if (items.length === 0) {
     return
   }

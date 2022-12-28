@@ -29,7 +29,8 @@ const mapStateToProps = (state, ownProps) => {
     coverImageComponent: ownProps.coverImageComponent,
     setTimerFunction: ownProps.setTimerFunction,
     displayMode: state.itemsMeta.display,
-    isVisible: index === itemIndex
+    isVisible: index === itemIndex,
+    index: itemIndex
   }
 }
 

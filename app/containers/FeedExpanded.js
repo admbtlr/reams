@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SET_FEED_FILTER } from '../store/config/types'
+import { SET_FILTER } from '../store/config/types'
 import {
   CLEAR_READ_ITEMS, 
   SORT_ITEMS,
@@ -37,14 +37,12 @@ const mapStateToProps = (state, ownProps) => {
   const coverImageDimensions = coverImageItem ?
     coverImageItem.imageDimensions :
     null
-  const isFiltered = state.config.feedFilter && state.config.feedFilter === feedId
 
   if (feed) {
     return {
       ...ownProps,
       feed: {
         ...feed,
-        isFiltered,
         numUnread: feedItems.length,
         numRead: feed.number_read || 0,
         readingTime: feed.reading_time || 0,
@@ -66,8 +64,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     filterItems: (id) => dispatch({
-      type: SET_FEED_FILTER,
-      feedFilter: id
+      type: SET_FILTER,
+      filter: { type: 'feed', id }
     }),
     setIndex: (index) => dispatch({
       type: UPDATE_CURRENT_INDEX,

@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native'
+import { SharedElement } from 'react-navigation-shared-element'
 import FeedItemContainer from '../containers/FeedItem.js'
 import OnboardingContainer from '../containers/Onboarding.js'
 import { hslString } from '../utils/colors'
@@ -94,7 +95,7 @@ class SwipeableViews extends Component {
         navigation={this.props.navigation}
       />
     } else {
-      return <FeedItemContainer
+      const feedItemContainer = <FeedItemContainer
         _id={_id}
         key={_id}
         setScrollAnim={this.props.setScrollAnim}
@@ -104,6 +105,7 @@ class SwipeableViews extends Component {
         panAnim={panAnim}
         renderDate={Date.now()} // make sure child components get re-rendered
       />
+      return feedItemContainer
     }
   }
 

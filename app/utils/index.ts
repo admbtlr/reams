@@ -177,7 +177,7 @@ const getSmallestDimension = () => {
   return Math.min(screenWidth, screenHeight)
 }
 
-export const fontSizeMultiplier = () => {
+export const fontSizeMultiplier: any = () => {
   getDimensions()
   const smallestDimension = getSmallestDimension()
   // this happens for the schare extension

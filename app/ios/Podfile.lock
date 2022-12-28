@@ -364,6 +364,8 @@ PODS:
   - RNSentry (3.4.3):
     - React-Core
     - Sentry (= 7.11.0)
+  - RNSharedElement (0.8.4):
+    - React-Core
   - RNSVG (12.4.4):
     - React-Core
   - RNTextSize (4.0.0-rc.1):
@@ -441,6 +443,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
+  - RNSharedElement (from `../node_modules/react-native-shared-element`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNTextSize (from `../node_modules/react-native-text-size/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -582,6 +585,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
+  RNSharedElement:
+    :path: "../node_modules/react-native-shared-element"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNTextSize:
@@ -657,6 +662,7 @@ SPEC CHECKSUMS:
   RNReanimated: c1b56d030d1616239861534d9adb531f8cffab68
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNSentry: 85f6525b5fe8d2ada065858026b338605b3c09da
+  RNSharedElement: eb7d506733952d58634f34c82ec17e82f557e377
   RNSVG: ecd661f380a07ba690c9c5929c475a44f432d674
   RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
   Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341

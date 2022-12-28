@@ -6,10 +6,11 @@ import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textLabelStyle } from '../utils/styles'
 import { hslString } from '../utils/colors'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { SET_FILTER } from 'store/config/types'
 
 export default function FeedFilterIndicator ({ scrollAnim }) {
-  const currentFilterId = useSelector(state => state.config.feedFilter)
-  const currentFeed = useSelector(state => state.feeds.feeds.find(feed => feed._id === currentFilterId))
+  const currentFilterIds = useSelector(state => state.config.feedFilter)
+  const currentFeeds = useSelector(state => state.feeds.feeds.find(feed => currentFilterIds.indexOf(feed._id) > -1))
   const dispatch = useDispatch()
 
   const style = {
@@ -21,7 +22,7 @@ export default function FeedFilterIndicator ({ scrollAnim }) {
   const expansionRatio = 0.1
 
   return (
-    currentFilterId &&
+    currentFilterIds.length === 1 &&
       <>
         <Animated.View style={{
           flexDirection: "row",
@@ -40,11 +41,11 @@ export default function FeedFilterIndicator ({ scrollAnim }) {
             alignSelf: 'center',
           }}>Currently filtered for stories from <Text style={{
             fontFamily: 'IBMPlexSans-Bold'
-          }}>{currentFeed.title}</Text></Text>
+          }}>{currentFeeds[0].title}</Text></Text>
           <TouchableOpacity
             onPress={() => {
               LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-              dispatch({ type: 'SET_FEED_FILTER', feedFilter: null })
+              dispatch({ type: SET_FILTER, filter: null })
             }}
           >
             <View style={{

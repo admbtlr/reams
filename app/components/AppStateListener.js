@@ -40,8 +40,8 @@ class AppStateListener extends React.Component {
   }
 
   async handleAppStateChange (nextAppState) {
-    console.log('NEXT APP STATE: ' + nextAppState)
-    console.log('PREV APP STATE: ' + this.props.appState)
+    // console.log('NEXT APP STATE: ' + nextAppState)
+    // console.log('PREV APP STATE: ' + this.props.appState)
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.props.appWentActive()
       this.setState({
@@ -60,7 +60,7 @@ class AppStateListener extends React.Component {
   }
 
   async checkClipboard () {
-    console.log('Checking clipboard')
+    // console.log('Checking clipboard')
     try {
       const hasUrl = await Clipboard.hasURL()
       if (!hasUrl) {
@@ -85,14 +85,14 @@ class AppStateListener extends React.Component {
 
   async checkPageBucket () {
     SharedGroupPreferences.getItem('page', this.group).then(value => {
-      console.log('CHECKING PAGE BUCKET: ' + value)
+      // console.log('CHECKING PAGE BUCKET: ' + value)
       if (value !== null) {
         SharedGroupPreferences.setItem('page', null, this.group)
         const parsed = JSON.parse(value)
         const pages = typeof parsed === 'object' ?
           parsed :
           [parsed]
-        console.log(`Got ${pages.length} page${pages.length === 1 ? '' : 's'} to save`)
+        // console.log(`Got ${pages.length} page${pages.length === 1 ? '' : 's'} to save`)
         const that = this
         pages.forEach(page => {
           // ugh, need a timeout to allow for rehydration
@@ -115,7 +115,7 @@ class AppStateListener extends React.Component {
         const url = value
         const that = this
         SharedGroupPreferences.setItem('feed', null, this.group)
-        console.log(`Got a feed to subscribe to: ${url}`)
+        // console.log(`Got a feed to subscribe to: ${url}`)
         // TODO check that value is a feed url
         // TODO check that feed is not already subscribed!
         // right now it will just get ignored if it's already subscribed
@@ -172,7 +172,7 @@ class AppStateListener extends React.Component {
   }
 
   savePage (page) {
-    console.log(`Saving page: ${page.url}`)
+    // console.log(`Saving page: ${page.url}`)
     this.props.saveURL(page.url, page.title)
     this.props.addMessage('Saved page: ' + (page.title ?? page.url))
   }

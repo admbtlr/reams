@@ -45,6 +45,8 @@ import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeTo
 import { initBackend } from './backend'
 import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
+import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
+import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
 
 let downloadsFork
 
@@ -69,12 +71,15 @@ export function * backgroundFetch (callback) {
 }
 
 function * startDownloads (backend) {
-  // let the app render and get started
-  yield delay(5000)
+  if (global.isStarting) {
+    // let the app render and get started
+    yield delay(5000)
+  }
   yield call(fetchAllFeeds)
   yield call(fetchAllItems)
   yield call(clearReadItems)
   yield call(pruneItems)
+  yield call(getCategories)
   yield call(decorateItems)
   yield call(executeRemoteActions)
   yield call(inflateFeeds)  
@@ -115,6 +120,11 @@ export function * initSagas () {
   yield takeEvery(UPDATE_CURRENT_INDEX, markLastItemRead)
   yield takeEvery(REMOVE_ITEMS, removeItems)
   yield takeEvery(SAVE_EXTERNAL_URL, saveExternalUrl)
+  
+  yield takeEvery(DELETE_CATEGORY, deleteCategory)
+  yield takeEvery(UPDATE_CATEGORY, updateCategory)
+  yield takeEvery(ADD_FEED_TO_CATEGORY, updateCategory)
+  yield takeEvery(REMOVE_FEED_FROM_CATEGORY, updateCategory)
 
   // reading timer
   yield takeEvery(UPDATE_CURRENT_INDEX, currentItemChanged)

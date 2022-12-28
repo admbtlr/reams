@@ -60,7 +60,6 @@ class Buttons extends React.Component {
   }
 
   render () {
-    console.log('RENDER BUTTONS!')
     if (this.props.isOnboarding) {
       return null
     } else {

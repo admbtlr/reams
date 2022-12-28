@@ -1388,7 +1388,7 @@ export const state = {
     lastUpdated: 0,
     onboardingIndex: 1,
     onboardingLength: 13,
-    feedFilter: null,
+    filter: null,
     isOnline: true,
     itemSort: 0,
     showNumUnread: true,

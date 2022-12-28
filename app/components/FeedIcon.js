@@ -21,10 +21,11 @@ class FeedIcon extends React.Component {
       iconDimensions,
       hasCachedIcon,
       hasRenderedIcon,
-      shouldInvert
+      shouldInvert,
+      isSmall
     } = this.props
-    const width = 32
-    const height = 32
+    const width = isSmall ? 24 : 32
+    const height = isSmall ? 24 : 32
     let dim = dimensions || iconDimensions
     const image = feed ? <Image
       width={width}
@@ -32,7 +33,7 @@ class FeedIcon extends React.Component {
       source={{ uri: getCachedFeedIconPath(feed._id) }}
       style={{
         width,
-        height
+        height,
       }}
     /> : null
     return hasCachedIcon && dim && dim.width > 0 ?

@@ -9,6 +9,7 @@ import { ui } from './ui/ui'
 import { user } from './config/user'
 import { config } from './config/config'
 import { remoteActionQueue } from './config/remote-action-queue'
+import { categories } from './categories/categories'
 
 // export default {
 //   itemsUnread,
@@ -40,6 +41,7 @@ export default function makeRootReducer () {
     ui,
     remoteActionQueue,
     config,
-    user
+    user,
+    categories
   })
 }

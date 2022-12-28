@@ -1,17 +1,17 @@
 import { fontSizeMultiplier } from '../utils'
 import { hslString } from './colors'
 
-export const baseStyles = (color = 'rizzleText') => ({
+export const baseStyles = (color = 'rizzleText', opacity = 1) => ({
   fontFamily: 'IBMPlexMono',
   textAlign: 'left',
-  color: hslString(color)
+  color: hslString(color, '', opacity)
 })
 
 export const textInputStyle = (color) => ({
   ...baseStyles(color),
   // padding: 8,
   fontSize: 20 * fontSizeMultiplier(),
-  borderBottomColor: hslString('rizzleText'),
+  borderBottomColor: hslString('rizzleText', '', 0.5),
   borderBottomWidth: 1
 })
 
@@ -22,6 +22,8 @@ export const textValueStyle = (color) => ({
 
 export const textLabelStyle = (color) => ({
   ...baseStyles(color),
+  textTransform: 'uppercase',
+  fontFamily: 'IBMPlexSans-Light',
   fontSize: 12 * fontSizeMultiplier(),
   marginTop: 3
 })

@@ -14,11 +14,12 @@ import FeedIconContainer from '../containers/FeedIcon'
 import { id, hasNotchOrIsland, fontSizeMultiplier, getStatusBarHeight, isPortrait } from '../utils'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import { SharedElement } from 'react-navigation-shared-element'
 
 /* Props:
 - clampedAnimatedValue
 - displayMode *
-- feedFilter *
+- filter *
 - index
 - isDarkMode *
 - isOnboarding *
@@ -36,7 +37,7 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 */
 
 class TopBar extends React.Component {
-  static whyDidYouRender = true
+  // static whyDidYouRender = true
 
   constructor (props) {
     super(props)
@@ -57,6 +58,7 @@ class TopBar extends React.Component {
     const {
       clampedAnimatedValue,
       displayMode,
+      filter,
       item,
       opacityAnim,
       scrollAnim,
@@ -127,6 +129,7 @@ class TopBar extends React.Component {
             }
           </Animated.View>
           <BackButton
+            isDarkmode={this.props.isDarkMode}
             navigation={this.props.navigation}
             isSaved={displayMode === ItemType.saved}
           />
@@ -176,7 +179,7 @@ class TopBar extends React.Component {
                     style={{
                       ...this.getStyles().feedName,
                       fontSize: 14 * fontSizeMultiplier(),
-                      fontFamily: this.props.feedFilter ?
+                      fontFamily: this.props.filter ?
                         'IBMPlexSansCond-Bold' :
                         'IBMPlexSansCond',
                       color: this.getForegroundColor(),
@@ -184,9 +187,11 @@ class TopBar extends React.Component {
                         'left' : 'center'
                     }}
                   >{displayMode === ItemType.saved ?
-                    'Saved Stories' :
-                    this.props.feedFilter ?
-                      'Filtered Stories' :
+                      'Saved Stories' :
+                      filter?.type ?
+                        (filter.type == 'category' ? 
+                          filter.title :
+                          'Feed') :
                       'Unread Stories'} • { index + 1 } / { numItems }</Text>
                   <Text
                     numberOfLines={2}
@@ -195,7 +200,7 @@ class TopBar extends React.Component {
                       ...this.getStyles().feedName,
                       fontSize: 18 * fontSizeMultiplier(),
                       lineHeight: 22 * fontSizeMultiplier(),
-                      fontFamily: this.props.feedFilter ?
+                      fontFamily: this.props.filter ?
                         'IBMPlexSansCond-Bold' :
                         'IBMPlexSansCond-Bold',
                       // color: this.getBorderBottomColor(item)
@@ -470,7 +475,7 @@ const DisplayModeToggle = ({ displayMode, onDisplayPress, backgroundColor, butto
   )
 }
 
-const BackButton = ({ isSaved, navigation: { navigate } }) => (
+const BackButton = ({ isDarkMode, isSaved, navigation: { navigate } }) => (
   <Animated.View style={{
     position: 'absolute',
     left: 0,
@@ -481,7 +486,7 @@ const BackButton = ({ isSaved, navigation: { navigate } }) => (
   }}>
     <TouchableOpacity
       onPress={() => {
-        navigate(isSaved ? 'Account' : 'Feeds')
+        navigate(isSaved ? 'Account' : 'Feeds', { transition: 'default' })
       }}
       style={{
         paddingBottom: 10,
@@ -490,7 +495,7 @@ const BackButton = ({ isSaved, navigation: { navigate } }) => (
         paddingTop: 10        
       }}
     >
-      { getRizzleButtonIcon('back', isSaved ?
+      { getRizzleButtonIcon('back', isSaved && !isDarkMode ?
           'black' : 'white', 'transparent', true, false) }
     </TouchableOpacity>
   </Animated.View>

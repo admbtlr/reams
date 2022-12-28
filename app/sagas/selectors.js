@@ -75,8 +75,12 @@ export function getConfig (state) {
   return state.config
 }
 
-export function getFeedFilter (state) {
-  return state.config.feedFilter
+export function getFilter (state) {
+  return state.config.filter
+}
+
+export function getCategories (state) {
+  return state.categories.categories
 }
 
 export function getUser (state) {

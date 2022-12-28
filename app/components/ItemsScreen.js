@@ -4,7 +4,8 @@ import {
   StatusBar,
   StyleSheet,
   View,
-  Dimensions
+  Dimensions,
+  Animated
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
@@ -15,12 +16,13 @@ import {
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import { hslString } from '../utils/colors'
+import { SharedElement } from 'react-navigation-shared-element'
 
 export default function ItemsScreen ({ navigation }) {
   const dispatch = useDispatch()
   const displayMode = useSelector(state => state.itemsMeta.display)
   const orientation = useSelector(state => state.config.orientation)
-  const lastActivated = useSelector(state => state.config.lastActivated)
+  // const lastActivated = useSelector(state => state.config.lastActivated)
 
   const didFocus = () => {
     dispatch({
@@ -41,11 +43,13 @@ export default function ItemsScreen ({ navigation }) {
   )
 
   return (
-    <View 
-      key={lastActivated}
+    <Animated.View 
       style={{
         flex: 1,
         backgroundColor: hslString('bodyBG'),
+        // to ensure that borderRadius works on the animation
+        overflow: 'hidden',
+        borderRadius: 0
       }}>
       <StatusBar
         showHideTransition="slide"
@@ -57,7 +61,7 @@ export default function ItemsScreen ({ navigation }) {
         style={styles.ItemCarousel}
         orientation={orientation} />
       <RizzleImageViewerContainer />
-    </View>
+    </Animated.View>
   )
 }
 
