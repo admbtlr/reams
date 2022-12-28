@@ -202,7 +202,7 @@ export const getMargin = () => {
 export const getStatusBarHeight = () => 70 * fontSizeMultiplier() + 
   (hasNotchOrIsland() && isPortrait() ? 44 : 22)
 
-export function id (item) {
+export function id (item?: any) {
   if (item && typeof item === 'string') {
     return hashFnv32a(item, true)
   } else if (item && item.url) {

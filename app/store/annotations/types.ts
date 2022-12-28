@@ -8,7 +8,6 @@ export interface Annotation {
   created_at?: number
 }
 
-
 export interface AnnotationsState {
   readonly annotations: Annotation[]
 }
@@ -32,8 +31,6 @@ interface deleteAnnotationAction {
   type: typeof DELETE_ANNOTATION
   annotationId: string
 }
-
-
 
 export type AnnotationsActionTypes = addAnnotationAction |
   editAnnotationAction |

@@ -1,12 +1,13 @@
 import React, { useRef, useState } from 'react'
 import {Dimensions, Linking} from 'react-native'
-import {WebView} from 'react-native-webview'
+import {WebView, WebViewNavigation} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
 import { hslString } from '../utils/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { ADD_ANNOTATION } from '../store/annotations/types'
 import { id } from '../utils'
+import { RootState } from 'store/reducers'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -28,18 +29,18 @@ window.onload = () => {
 };
 true;`
 
-const stripInlineStyles = (html) => {
+const stripInlineStyles = (html: string) => {
   if (!html) return html
   const pattern = new RegExp(/style=".*?"/, 'g')
   return html.replace(pattern, '')
 }
 
-const stripEmptyTags = (html) => {
+const stripEmptyTags = (html: string) => {
   const pattern = new RegExp(/<[^\/<]+?>\s*?<\/\1>/, 'g')
   return html ? html.replace(pattern, '') : html
 }
 
-const stripUTags = (html) => {
+const stripUTags = (html: string) => {
   const pattern = new RegExp(/<\/?u>/, 'g')
   return html.replace(pattern, '')
 }
@@ -61,7 +62,7 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
   }
   
   // called when HTML was loaded and injected JS executed
-  const onNavigationStateChange = (event) => {
+  const onNavigationStateChange = (event: WebViewNavigation) => {
     // this means we're loading an image
     if (event.url.startsWith('react-js-navigation')) return
     const calculatedHeight = parseInt(event.jsEvaluationValue)
@@ -79,7 +80,7 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
     }
   }
 
-  const onHighlight = (text, occurrence) => {
+  const onHighlight = (text: string, occurrence: number) => {
     const annotation = {
       _id: id(),
       text,
@@ -95,9 +96,10 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
   }
 
   const { banner_image, content_html, content_mercury, feed_color, showCoverImage, showMercuryContent, styles } = item
-  const fontSize = useSelector(state => state.ui.fontSize)
-  const isDarkMode = useSelector(state => state.ui.isDarkMode)
-  const displayMode = useSelector(state => state.itemsMeta.display)
+  const fontSize = useSelector((state: RootState) => state.ui.fontSize)
+  const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
+  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
+  const annotations = useSelector((state: RootState ) => state.annotations.annotations.filter(a => a.item_id === item._id))
 
   const isCoverImagePortrait = () => {
     const {imageDimensions} = item
@@ -217,7 +219,7 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
       } else if (msg.substring(0, 10) === 'highlight:') {
         const selectedText = msg.substring(10)
         const split = selectedText.split(':')
-        const count = split.splice(-1)[0]
+        const count = Number.parseInt(split.splice(-1)[0])
         const text = split.join(':')
         console.log('HIGHLIGHT: ' + text + ' (' + count + ')')
         onHighlight(text, count)
