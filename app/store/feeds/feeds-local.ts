@@ -15,7 +15,8 @@ import {
   ADD_FEED_SUCCESS,
   ADD_FEEDS_SUCCESS,
   REMOVE_FEED,
-  REMOVE_FEED_COVER_IMAGE
+  REMOVE_FEED_COVER_IMAGE,
+  REFRESH_FEED_LIST
 } from './types'
 import { 
   ITEMS_BATCH_FETCHED,
@@ -120,6 +121,7 @@ export function feedsLocal (
         feeds
       }
 
+    case REFRESH_FEED_LIST:
     case SET_FEEDS:
       feeds = state.feeds.map(f => f)
       action.feeds.forEach(newFeed => {

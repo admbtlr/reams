@@ -7,13 +7,15 @@ import {isPortrait} from '../utils'
 export default OrientationListener = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    const unsubscribe = Dimensions.addEventListener('change', () => {
+    Dimensions.addEventListener('change', () => {
       dispatch({
         type: SET_ORIENTATION,
         orientation: isPortrait() ? 'portrait' : 'landscape'       
       })
     })
-    return unsubscribe
+    return () => {
+      Dimensions.removeEventListener('change')
+    }
   })
 
   return null

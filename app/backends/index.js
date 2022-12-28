@@ -240,6 +240,35 @@ export async function getFeedDetails (feed) {
   return await rizzle.getFeedDetails(feed)
 }
 
+export async function getCategories () {
+  switch (backend) {
+    case 'feedbin':
+      return await feedbin.getCategories()
+  }
+}
+
+export async function createCategory (category) {
+  switch (backend) {
+    case 'feedbin':
+      return await feedbin.createCategory(category)
+  }
+}
+
+export async function updateCategory (category) {
+  
+  switch (backend) {
+    case 'feedbin':
+      return await feedbin.updateCategory(category)
+  }
+}
+
+export async function deleteCategory (category) {
+  switch (backend) {
+    case 'feedbin':
+      return await feedbin.deleteCategory(category)
+  }
+}
+
 export function authenticate ({username, password, email}, backend) {
   switch (backend) {
     case 'basic':

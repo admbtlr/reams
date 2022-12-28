@@ -7,7 +7,9 @@ import Share from './components/Share'
 
 if (__DEV__) {
   const whyDidYouRender = require('@welldone-software/why-did-you-render')
-  whyDidYouRender(React)
+  whyDidYouRender(React, {
+    trackAllPureComponents: true,
+  })
 }
 
 // AppRegistry.registerComponent('rizzle', () => Rizzle)

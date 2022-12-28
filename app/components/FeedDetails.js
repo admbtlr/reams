@@ -4,6 +4,8 @@ import {
   ScrollView,
   Switch,
   Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
   View
 } from 'react-native'
 import Svg, {Circle, Polyline, Path, Line} from 'react-native-svg'
@@ -11,10 +13,13 @@ import TextButton from './TextButton'
 import NavButton from './NavButton'
 import SwitchRow from './SwitchRow'
 import { hslString } from '../utils/colors'
-import { hasNotchOrIsland, isIpad, fontSizeMultiplier } from '../utils'
+import { hasNotchOrIsland, isIpad, fontSizeMultiplier, getMargin } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import FeedIconContainer from '../containers/FeedIcon'
+import { useDispatch, useSelector } from 'react-redux'
+import { REMOVE_FEED_FROM_CATEGORY, ADD_FEED_TO_CATEGORY } from '../store/categories/types'
+import { xIcon } from '../utils/icons'
 
 const compactButtons = !hasNotchOrIsland() && !isIpad()
 
@@ -33,6 +38,7 @@ export const FeedStats = ({ feed }) => {
   const margin = screenWidth * 0.03
   const totalReadingTime = createTimeString(feed.readingTime)
   const avgReadingTime = createTimeString(Math.round(feed.readingTime / feed.numRead))
+  
   const bold = {
     fontFamily: 'IBMPlexSans-Bold',
     // color: hslString(feed.color, 'darkmodable')
@@ -61,8 +67,10 @@ export const FeedStats = ({ feed }) => {
 export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, close, filterItems, navigation, setIndex, toggleMute, toggleLike, toggleMercury }) {
   const [isLiked, setLiked] = useState(feed.isLiked)
   const [isMuted, setMuted] = useState(feed.isMuted)
-  const [isFiltered, setFiltered] = useState(feed.isFiltered)
   const [isMercury, setMercury] = useState(feed.isMercury)
+
+  const categories = useSelector(state => state.categories.categories)
+  const dispatch = useDispatch()
 
   const screenWidth = Dimensions.get('window').width
   const margin = screenWidth * 0.03
@@ -122,19 +130,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         y2='17' />
     </Svg>
 
-  const unsubscribeIcon = <Svg
-      viewBox='0 0 32 32'
-      height={ 32 * fontSizeMultiplier() }
-      width={ 32 * fontSizeMultiplier() }
-      fill='none'
-      stroke={hslString('rizzleText')}
-      strokeWidth='3'
-      strokeLinecap='round'
-      strokeLinejoin='round'>
-      <Line x1='18' y1='6' x2='6' y2='18' />
-      <Line x1='6' y1='6' x2='18' y2='18' />
-    </Svg>
-
   const readIcon = <Svg
       viewBox='0 0 32 32'
       height={ 32 * fontSizeMultiplier() }
@@ -154,29 +149,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         fill='none'
       />
     </Svg>
-
-  const filterIcon = <Svg
-    viewBox='0 0 32 32'
-    height={ 32 * fontSizeMultiplier() }
-    width={ 32 * fontSizeMultiplier() }
-    fill='none'
-    stroke={hslString('rizzleText')}
-    strokeWidth='2'
-    strokeLinecap='round'
-    strokeLinejoin='round'
-    style={{
-      top: 3
-    }}>
-    <Line x1='4' y1='21' x2='4' y2='14' />
-    <Line x1='4' y1='10' x2='4' y2='3' />
-    <Line x1='12' y1='21' x2='12' y2='12' />
-    <Line x1='12' y1='8' x2='12' y2='3' />
-    <Line x1='20' y1='21' x2='20' y2='16' />
-    <Line x1='20' y1='12' x2='20' y2='3' />
-    <Line x1='1' y1='14' x2='7' y2='14' />
-    <Line x1='9' y1='8' x2='15' y2='8' />
-    <Line x1='17' y1='16' x2='23' y2='16' />
-  </Svg>
 
   const mercuryIcon = <View style={{
     width: 28 * fontSizeMultiplier(),
@@ -203,42 +175,53 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         // backgroundColor: 'red'
         // alignItems: 'flex-end'
       }}>
-        <NavButton
-          // hasTopBorder={true}
-          onPress={() => {
-            clearReadItems()
-            filterItems(feed._id)
-            setIndex(0)
-            navigation.navigate('Items')
-          }}
-          viewStyle={{ 
-            marginBottom: 0, 
-            backgroundColor: hslString(feed.color, 'desaturated'),
-            color: 'white',
-            paddingHorizontal: screenWidth < 500 ? margin : screenWidth * 0.04,
-            paddingTop: margin * 2,
-            paddingBottom: margin * 2,
-            marginHorizontal: 0 - (screenWidth < 500 ? margin : screenWidth * 0.04),
-            width: screenWidth,
-            marginTop: -1
-         }}
-        >
-          <FeedIconContainer
-            feed={feed}
-            iconDimensions={iconDimensions}
-          />
-
-          <Text 
-            numberOfLines={1}
-            style={{ 
-              ...textInfoStyle(),
-              color: 'white',
-              marginLeft: 6,
-              flex: 1,
-            }}>Read stories from <Text style={{
-              ...textInfoBoldStyle(),
-              color: 'white'}}>{feed.title}</Text></Text>
-        </NavButton>
+        <View style={{
+          paddingTop: getMargin(),
+          paddingBottom: getMargin() - 8,
+        }}>
+          <View style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+          }}>
+          { categories.map((category, index) => (
+              <TouchableOpacity 
+                key={index}
+                onPress={() => {
+                  category.feeds.find(f => f === feed._id) ?
+                    dispatch({
+                      type: REMOVE_FEED_FROM_CATEGORY, 
+                      feedId: feed._id, 
+                      categoryId: category._id
+                    }) :
+                    dispatch({
+                      type: ADD_FEED_TO_CATEGORY, 
+                      feedId: feed._id, 
+                      categoryId: category._id
+                    })
+                }}
+              >
+                <View style={{
+                  backgroundColor: category.feeds.indexOf(feed._id) > -1 ? hslString('rizzleText') : 'rgba(0,0,0,0.1)',
+                  borderRadius: 16,
+                  padding: 4,
+                  height: 32,
+                  marginRight: 8,
+                  marginBottom: 8,
+                  borderColor: hslString('rizzleText'),
+                  // borderWidth: category.feeds.indexOf(feed._id) > -1 ? 1 : 0
+                }}>
+                  <Text style={{ 
+                    ...textInfoStyle(),
+                    color: category.feeds.indexOf(feed._id) > -1 ? hslString('white') : hslString('rizzleText'),
+                    margin: 0,
+                    padding: 0
+                  }}>{ category.name }</Text>
+                </View>
+              </TouchableOpacity>
+            ))
+          }
+          </View>
+        </View>
         <View style={{
             flexDirection: 'column',
             flex: 0,
@@ -253,16 +236,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               toggleMercury(feed._id)
             }}
             value={isMercury} />
-          {/* <SwitchRow
-            label='Only show stories from this feed'
-            icon={filterIcon}
-            onValueChange={() => {
-              clearReadItems()
-              setFiltered(!feed.isFiltered)
-              filterItems(feed.isFiltered ? null : feed._id)
-              setIndex(0)
-            }}
-          value={feed.isFiltered} />*/}
           <SwitchRow
             label='Mute this feed'
             icon={muteIcon}
@@ -302,7 +275,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               marginRight: margin,
               marginBottom: margin
             }}
-            icon={unsubscribeIcon}
+            icon={xIcon()}
             noResize={true}
             onPress={() => {
               close()
@@ -324,70 +297,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               }, 100)
             }}
             text='Discard stories' />
-          {/*}
-          <TextButton
-            isCompact={compactButtons}
-            buttonStyle={{
-              minWidth: '48%',
-              marginRight: margin
-            }}
-            icon={mercuryIcon}
-            isInverted={isMercury}
-            noResize={true}
-            onPress={() => {
-              setMercury(!isMercury)
-              toggleMercury(feed._id)
-            }}
-            text='Show full' />
-          <TextButton
-            isCompact={compactButtons}
-            buttonStyle={{
-              minWidth: '48%',
-              marginBottom: margin
-            }}
-            icon={filterIcon}
-            isInverted={isFiltered}
-            noResize={true}
-            onPress={() => {
-              clearReadItems()
-              setFiltered(!isFiltered)
-              filterItems(isFiltered ? null : feed._id)
-              setIndex(0)
-            }}
-            text='Filter stories' />
-          <TextButton
-            isCompact={compactButtons}
-            buttonStyle={{
-              minWidth: '48%',
-              marginRight: margin,
-              marginBottom: margin
-            }}
-            icon={muteIcon}
-            isInverted={isMuted}
-            noResize={true}
-            onPress={() => {
-              setMuted(!isMuted)
-              setTimeout(() => {
-                toggleMute(feed._id)
-              }, 100)
-            }}
-            text='Mute' />
-          <TextButton
-            isCompact={compactButtons}
-            buttonStyle={{
-              minWidth: '48%'
-            }}
-            icon={likeIcon}
-            isInverted={isLiked}
-            noResize={true}
-            onPress={() => {
-              setLiked(!isLiked)
-              setTimeout(() => {
-                toggleLike(feed._id)
-              }, 100)
-            }}
-            text='Like' />
-          {*/}
         </View>
       </View>
     </View>

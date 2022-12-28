@@ -15,8 +15,7 @@ import { removeCachedCoverImages } from '../utils/item-utils'
 
 export function * markLastItemRead (action) {
   yield call(InteractionManager.runAfterInteractions)
-  const display = yield select(getDisplay)
-  if (display !== 'unread' || typeof(action.lastIndex) === 'undefined') {
+  if (typeof(action.lastIndex) === 'undefined') {
     return
   }
   const lastIndex = action.lastIndex

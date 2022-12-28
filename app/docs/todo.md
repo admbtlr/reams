@@ -1,5 +1,9 @@
+- text to speech
+- feedly
+- newsletters with fastmail
+- categories in saved
+- how come some feeds don't have a feed_local and don't update?
 - remove all messages on init
-- add a go to last read point button
 - test adding feeds and stories simultaneously
   - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)

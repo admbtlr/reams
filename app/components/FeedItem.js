@@ -101,11 +101,18 @@ class FeedItem extends React.Component {
       item,
       setScrollAnim,
     } = this.props
-    if (isVisible) {
-      setScrollAnim(this.scrollAnim)
-      // scrollHandlerAttached(item._id)
-      this.scrollToOffset()
-    }
+    if (true) {
+      const that = this
+      setTimeout(() => {
+        that.setState({shouldRender: true})
+      }, 200)
+    } else {
+      if (isVisible) {
+        setScrollAnim(this.scrollAnim)
+        // scrollHandlerAttached(item._id)
+        this.scrollToOffset()
+      }
+      }
     this.hasMounted = true
   }
 
@@ -209,13 +216,25 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    if (!this.isInflated()) {
-      return <View style={{
-        width: this.screenDimensions.width,
-        height: this.screenDimensions.height }} />
+    __DEV__ && console.log('Rendering item', this.props.index)
+
+    if (!this.isInflated() || !this.state.shouldRender) {
+      return (
+        <View style={{
+          width: this.screenDimensions.width,
+          height: this.screenDimensions.height,
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
+        </View>
+      )
+
     }
 
     const {
+      index,
       isVisible,
       item,
       orientation,

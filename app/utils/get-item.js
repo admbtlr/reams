@@ -1,11 +1,18 @@
 import { store } from '../store'
 
 export const getItems = (state, type) => {
-  const feedFilter = state.config.feedFilter
+  const filter = state.config.filter
+  let filterFeedIds
+  if (filter?.type === 'category') {
+    filterFeedIds = state.categories.categories.find(c => c._id === filter._id).feeds
+  } else if (filter?.type === 'feed') {
+    filterFeedIds = [filter._id]
+  }
   type = type || state.itemsMeta.display
+
   return type === 'unread' ?
-    (feedFilter ?
-      state.itemsUnread.items.filter(item => item.feed_id === feedFilter) :
+    (filterFeedIds ?
+      state.itemsUnread.items.filter(item => filterFeedIds.indexOf(item.feed_id) !== -1) :
       state.itemsUnread.items) :
     state.itemsSaved.items
 }
