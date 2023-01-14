@@ -96,23 +96,10 @@ class FeedItem extends React.Component {
   }
   
   componentDidMount () {
-    const {
-      isVisible,
-      item,
-      setScrollAnim,
-    } = this.props
-    if (true) {
-      const that = this
-      setTimeout(() => {
-        that.setState({shouldRender: true})
-      }, 200)
-    } else {
-      if (isVisible) {
-        setScrollAnim(this.scrollAnim)
-        // scrollHandlerAttached(item._id)
-        this.scrollToOffset()
-      }
-      }
+    const that = this
+    setTimeout(() => {
+      that.setState({shouldRender: true})
+    }, 200)
     this.hasMounted = true
   }
 

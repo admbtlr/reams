@@ -72,7 +72,7 @@ class ItemCarousel extends React.Component {
     // this is an intermediate cache of clampedScrollAnims
     // once we have one for each bufferedItem, we put them into state
     // so that we can pass them to the TopBars and Buttons
-    this.clampedScrollAnims = {}
+    // this.clampedScrollAnims = {}
 
     this.state = {
       panAnim: new Animated.Value(0)
@@ -121,14 +121,14 @@ class ItemCarousel extends React.Component {
       )
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    this.initIndex()
-    if (prevProps.items && this.props.items &&
-      JSON.stringify(prevProps.items.map(item => item._id)) !==
-        JSON.stringify(this.props.items.map(item => item._id))) {
-      this.clampedScrollAnims = {}
-    }
-  }
+  // componentDidUpdate (prevProps, prevState) {
+  //   this.initIndex()
+  //   if (prevProps.items && this.props.items &&
+  //     JSON.stringify(prevProps.items.map(item => item._id)) !==
+  //       JSON.stringify(this.props.items.map(item => item._id))) {
+  //     this.clampedScrollAnims = {}
+  //   }
+  // }
 
   // shouldComponentUpdate (nextProps, nextState) {
   //   // don't update if the item type hasn't changed (unread <> saved)

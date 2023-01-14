@@ -1,3 +1,5 @@
+- wtf is up with saved items? something in the reducer?
+- categories in saved
 - text to speech
 - feedly
 - newsletters with fastmail
