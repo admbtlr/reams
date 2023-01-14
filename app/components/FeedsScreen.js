@@ -102,7 +102,8 @@ class FeedsScreen extends React.Component {
       modalOnOk: (state) => {
         console.log(state)
         state.categoryName && this.props.createCategory(state.categoryName)
-      }
+      },
+      showKeyboard: true
     })
   }
 

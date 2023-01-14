@@ -14,10 +14,18 @@ import {
 } from '../store/ui/types'
 import ItemCarousel from '../components/ItemCarousel.js'
 import { getIndex, getItems } from '../utils/get-item'
+import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
 
 const mapStateToProps = (state, ownProps) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  const items = getItems(state)
+  let items = getItems(state)
+  // temporary!
+  // just keeping this here while there's no UI for saved items
+  // only want to show saved items with 'inbox' category
+  if (state.itemsMeta.display === ItemType.saved) {
+    const inbox = state.categories.categories.find(category => category._id === 'inbox')
+    items = items.filter(item => inbox.itemIds.find(itemId => itemId === item._id) !== undefined)
+  }
   const index = getIndex(state)
   const numItems = state.config.isOnboarding ?
     state.config.onboardingLength :
@@ -68,17 +76,23 @@ const mapDispatchToProps = (dispatch) => {
       })
     },
     setSaved: (item, isSaved) => {
-      if (item) {
-        isSaved ?
-          dispatch({
-            type: SAVE_ITEM,
-            item,
-            savedAt: Date.now()
-          }) :
-          dispatch({
-            type: UNSAVE_ITEM,
-            item
-          })
+      if (!item) return
+      if (isSaved) {
+        dispatch({
+          type: SAVE_ITEM,
+          item,
+          savedAt: Date.now()
+        })
+        dispatch({
+          type: ADD_ITEM_TO_CATEGORY,
+          itemId: item.id,
+          categoryId: 'inbox'
+        })
+        } else {
+        dispatch({
+          type: UNSAVE_ITEM,
+          item
+        })
       }
     },
     share: () => dispatch({

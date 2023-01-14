@@ -8,12 +8,18 @@ export const UPDATE_CATEGORY_REMOTE = 'UPDATE_CATEGORY_REMOTE'
 export const UPDATE_CATEGORIES = 'UPDATE_CATEGORIES'
 export const ADD_FEED_TO_CATEGORY = 'ADD_FEED_TO_CATEGORY'
 export const REMOVE_FEED_FROM_CATEGORY = 'REMOVE_FEED_FROM_CATEGORY'
+export const ADD_ITEM_TO_CATEGORY = 'ADD_ITEM_TO_CATEGORY'
+export const REMOVE_ITEM_FROM_CATEGORY = 'REMOVE_ITEM_FROM_CATEGORY'
 
 export interface Category {
-  id: string
+  id?: string
   _id: string
   name: string
+  isFeeds?: boolean
+  isItems?: boolean
+  isSystem?: boolean
   feeds: string[] // feed ids, which is sketchy but ok
+  itemIds: string[]
 }
 
 interface createCategory {
@@ -21,6 +27,8 @@ interface createCategory {
   _id: string
   id: string
   name: string
+  isFeeds?: boolean
+  isItems?: boolean
 }
 
 export interface deleteCategory {
@@ -49,6 +57,18 @@ interface removeFeedFromCategory {
   type: typeof REMOVE_FEED_FROM_CATEGORY
   categoryId: string
   feedId: string
+}
+
+interface addItemToCategory {
+  type: typeof ADD_ITEM_TO_CATEGORY
+  categoryId: string
+  itemId: string
+}
+
+interface removeItemFromCategory {
+  type: typeof REMOVE_ITEM_FROM_CATEGORY
+  categoryId: string
+  itemId: string
 }
 
 export interface CategoriesState {

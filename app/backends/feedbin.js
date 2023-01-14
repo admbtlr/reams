@@ -148,7 +148,7 @@ export async function getReadItems (oldItems) {
 
 async function fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum) {
   const date = lastUpdated ? new Date(lastUpdated) : null
-  const endpoint = 'entries.json?read=false&starred=false&per_page=10' + (date ? `&since=${date.toISOString()}` : '')
+  const endpoint = 'entries.json?read=false&starred=false&per_page=100' + (date ? `&since=${date.toISOString()}` : '')
   await getPaginatedItems(endpoint, maxNum, callback)
   // const endpoint = 'unread_entries.json'
   // let itemIds = await getRequest(endpoint)

@@ -2,13 +2,14 @@ import { compose, createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import makeRootReducer from './reducers'
 import {backgroundFetch, initSagas} from '../sagas'
-import {createTransform, persistReducer, persistStore} from 'redux-persist'
+import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import { state } from '../__mocks__/state-input'
 import Config from 'react-native-config'
 import log from '../utils/log'
 import { Dimensions } from 'react-native'
+import { migrations } from './migrations'
 
 let store = null
 let persistor = null
@@ -38,7 +39,9 @@ function configureStore (rehydrateCallback) {
     storage: FilesystemStorage,
     timeout: 30000,
     transforms: [orientationTransform],
-    blacklist: ['animatedValues']
+    blacklist: ['animatedValues'],
+    migrate: createMigrate(migrations, { debug: true }),
+    version: 1
   }
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())

@@ -20,64 +20,12 @@ import { useNavigation } from '@react-navigation/native';
 import { fontSizeMultiplier, getInset, getStatusBarHeight } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { Animated, Dimensions, Text } from 'react-native'
+import InitialScreen from './InitialScreen'
+import HighlightsScreen from './HighlightsScreen'
 
 const navigationOptions = {
   gesturesEnabled: false
 }
-
-// const FeedStack = createStackNavigator(
-//   {
-//     Main: { screen: FeedsScreenContainer },
-//     NewFeedsList: { screen: NewFeedsList },
-//     Modal: {
-//       screen: ModalScreen,
-//       navigationOptions: {
-//         gestureResponseDistance: {
-//           vertical: 100
-//         }
-//       }
-//     }
-//   },
-//   {
-//     mode: 'modal',
-//     headerMode: 'none',
-//     transparentCard: true,
-//     cardOverlayEnabled: true
-//   }
-// )
-
-// const MainStack = createStackNavigator()
-//   {
-//     Account: { screen: AccountScreenContainer },
-//     Feeds: { screen: FeedStack },
-//     Items: { screen: ItemsScreenContainer }
-//   },
-//   {
-//     initialRouteName: 'Items',
-//     headerMode: 'none',
-//     navigationOptions
-//   }
-// )
-
-// const AppStack = createStackNavigator(
-//   {
-//     App: { screen: MainStack },
-//     ModalWithGesture: {
-//       screen: ModalScreen,
-//       navigationOptions: {
-//         gestureResponseDistance: {
-//           vertical: 400
-//         }
-//       }
-//     }
-//   },
-//   {
-//     mode: 'modal',
-//     headerMode: 'none',
-//     transparentCard: true,
-//     cardOverlayEnabled: true
-//   }
-// )
 
 const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
@@ -128,7 +76,7 @@ const Main = () => {
   return (
     <MainStack.Navigator
       // headerMode='screen'
-      initialRouteName='Account'
+      initialRouteName='Initial'
       options={{
         gesturesEnabled: false
       }}
@@ -146,6 +94,7 @@ const Main = () => {
           fontSize: 32 * fontSizeMultiplier(),
           lineHeight: 36 * fontSizeMultiplier(),
         },
+        // headerTransparent: true,
         headerBackTitleStyle: {
           color: hslString('rizzleText'),
           fontFamily: 'IBMPlexSans'
@@ -153,12 +102,21 @@ const Main = () => {
       }}
     >
       <MainStack.Screen
+        name='Initial'
+        component={InitialScreen}
+        options={{
+          title: 'Reams',
+          headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
+          // headerBackImage: getRizzleButtonIcon('account'),
+        }} />
+      <MainStack.Screen
         name='Account'
         component={AccountScreenContainer}
         options={{
-          title: 'Your Account',
+          headerBackTitleVisible: false,
+          title: 'Account',
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
-          headerBackImage: getRizzleButtonIcon('account'),
+          // headerBackImage: getRizzleButtonIcon('account'),
         }} />
       <MainStack.Screen
         name='Feeds'
@@ -166,29 +124,10 @@ const Main = () => {
         options={({route}) => {
           const toFeeds = route.params?.toFeeds
           return {
-            title: 'Your Feeds',
+            title: 'Feeds',
             headerBackTitleVisible: false,
             headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
-            // this is necessary to make a smoother animation to the Items screen
-            // FeedsScreen has padding in place to simulate the header
             headerTransparent: true,
-            // cardStyleInterpolator: ({ closing, current, next }) => {
-            //     let anim = Animated.add(current.progress, Animated.multiply(closing, new Animated.Value(5)))
-            //     anim = next ? Animated.add(anim, next.progress) : anim
-            //     return {
-            //       cardStyle: { 
-            //         transform: [
-            //           {
-            //             translateX: anim.interpolate({
-            //               inputRange: [0.2, 1, 2, 3, 5, 6],
-            //               outputRange: [0, 0, 0, 0, windowDim.width, 0],
-            //               extrapolate: 'clamp'
-            //             })
-            //           },
-            //         ],
-            //       }
-            //     }
-            //   }             }
             }
           }
         }
@@ -280,6 +219,19 @@ const Main = () => {
               }
             }
         }} 
+      />
+      <MainStack.Screen
+        name='Highlights'
+        component={HighlightsScreen}
+        options={({route}) => {
+          return {
+            title: 'Highlights',
+            headerBackTitleVisible: false,
+            headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
+            // headerTransparent: true,
+            }
+          }
+        }
       />
     </MainStack.Navigator>
   )

@@ -13,6 +13,7 @@ import { id } from '../utils'
 import { saveExternalItem } from '../backends'
 import { getConfig, getDisplay, getItems, getItem, getSavedItems } from './selectors'
 import { createItemStyles } from '../utils/createItemStyles'
+import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
 
 export function * saveExternalUrl (action) {
   const savedItems = yield select(getSavedItems)
@@ -51,6 +52,11 @@ export function * saveExternalUrl (action) {
     type: SAVE_EXTERNAL_ITEM,
     item,
     savedAt: Date.now()
+  })
+  yield put({
+    type: ADD_ITEM_TO_CATEGORY,
+    itemId: item._id,
+    categoryId: 'inbox'
   })
   try {
     const decoration = yield decorateItem(item)

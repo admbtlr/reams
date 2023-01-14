@@ -1,11 +1,12 @@
 import { ItemType } from '../store/items/types'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   StatusBar,
   StyleSheet,
   View,
   Dimensions,
-  Animated
+  Animated,
+  Button
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
@@ -16,13 +17,17 @@ import {
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import { hslString } from '../utils/colors'
-import { SharedElement } from 'react-navigation-shared-element'
+import HighlightButtons from './HighlightButtons'
+
+export const HighlightModeContext = React.createContext({ activeHighlight: null, setActiveHighlight: (mode) => {} })
 
 export default function ItemsScreen ({ navigation }) {
   const dispatch = useDispatch()
   const displayMode = useSelector(state => state.itemsMeta.display)
   const orientation = useSelector(state => state.config.orientation)
   // const lastActivated = useSelector(state => state.config.lastActivated)
+
+  const [activeHighlight, setActiveHighlight] = useState(null)
 
   const didFocus = () => {
     dispatch({
@@ -56,10 +61,13 @@ export default function ItemsScreen ({ navigation }) {
         barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
         hidden={false} />
       <View style={styles.infoView} />
-      <ItemCarouselContainer
-        navigation={navigation}
-        style={styles.ItemCarousel}
-        orientation={orientation} />
+      <HighlightModeContext.Provider value={{ activeHighlight, setActiveHighlight }}>
+        <ItemCarouselContainer
+          navigation={navigation}
+          style={styles.ItemCarousel}
+          orientation={orientation} />
+        <HighlightButtons />
+      </HighlightModeContext.Provider>
       <RizzleImageViewerContainer />
     </Animated.View>
   )

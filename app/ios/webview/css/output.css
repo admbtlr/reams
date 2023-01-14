@@ -891,6 +891,12 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   .dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
     color: #ddd; }
 
+.highlight {
+  background-color: rgba(200, 200, 100, 0.5); }
+
+.highlighter {
+  background-color: #dcdc32; }
+
 html.onboarding {
   --logo1: hsl(186, 40%, 50%);
   --logo2: hsl(360, 70%, 60%);
