@@ -19,7 +19,7 @@ import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import FeedIconContainer from '../containers/FeedIcon'
 import { useDispatch, useSelector } from 'react-redux'
 import { REMOVE_FEED_FROM_CATEGORY, ADD_FEED_TO_CATEGORY } from '../store/categories/types'
-import { xIcon } from '../utils/icons'
+import { dustbinIcon, xIcon } from '../utils/icons'
 
 const compactButtons = !hasNotchOrIsland() && !isIpad()
 
@@ -105,30 +105,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       />
     </Svg>
 
-  const discardAllIcon = <Svg
-      viewBox='0 0 24 32'
-      height={ 32 * fontSizeMultiplier() }
-      width={ 24 * fontSizeMultiplier() }
-      fill='none'
-      stroke={hslString('rizzleText')}
-      strokeWidth={2}
-      strokeLinecap='round'
-      strokeLinejoin='round'>
-      <Polyline
-        points='3 6 5 6 21 6' />
-      <Path
-        d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2' />
-      <Line
-        x1='10'
-        y1='11'
-        x2='10'
-        y2='17' />
-      <Line
-        x1='14'
-        y1='11'
-        x2='14'
-        y2='17' />
-    </Svg>
+  const discardAllIcon = dustbinIcon()
 
   const readIcon = <Svg
       viewBox='0 0 32 32'

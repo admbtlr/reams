@@ -17,7 +17,8 @@ export function * getCategories () {
     _id: reamsCategories.find(rc => rc.id === c.id)?._id || id(),
     name: c.name,
     feeds: c.feed_ids
-      .map(f => reamsFeeds.find(rf => rf.id === f)).map(rf => rf._id)
+      .map(f => reamsFeeds.find(rf => rf.id === f)).map(rf => rf._id),
+    isFeeds: true // true for now, since we only get categories from rss backends
   })))
   const categoriesNormalised = normaliseCategories(categories)
 

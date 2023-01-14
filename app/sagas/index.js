@@ -47,6 +47,8 @@ import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
 import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
 import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
+import { DELETE_ANNOTATION } from '../store/annotations/types'
+import { deleteAnnotation } from './annotations'
 
 let downloadsFork
 
@@ -125,6 +127,8 @@ export function * initSagas () {
   yield takeEvery(UPDATE_CATEGORY, updateCategory)
   yield takeEvery(ADD_FEED_TO_CATEGORY, updateCategory)
   yield takeEvery(REMOVE_FEED_FROM_CATEGORY, updateCategory)
+
+  yield takeEvery(DELETE_ANNOTATION, deleteAnnotation)
 
   // reading timer
   yield takeEvery(UPDATE_CURRENT_INDEX, currentItemChanged)

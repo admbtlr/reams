@@ -463,11 +463,12 @@ function addTapMessageToLinks () {
   addTapMessageToElements('a', 'link:', 'href')
 }
 
-function addTapMessageToElements (tag, msg, attr) {
+function addTapMessageToElements (tag, msg, attr, fn) {
   var els = document.querySelectorAll(tag)
   Array.prototype.forEach.call(els, function (el, i) {
     el.onclick = function (event) {
-      window.ReactNativeWebView.postMessage(msg + el[attr])
+      window.ReactNativeWebView.postMessage(msg + el.getAttribute(attr))
+      fn && fn(el)
       event.stopPropagation()
       event.preventDefault()
       return false
@@ -497,6 +498,33 @@ function stopAutoplay () {
   [].slice.call(document.getElementsByTagName('video')).forEach(v => v.removeAttribute('autoplay'))
 }
 
+function highlightSelection() {
+  const selections = highlighter.highlightSelection('highlight')
+  const selection = selections[0]
+  const text = selection.getText()
+  const serialized = highlighter.serialize(selection)
+  window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
+}
+
+function deselectHighlight() {
+  document.querySelectorAll('.highlighter').forEach(el => el.classList.remove('highlighter'))
+}
+
+function deleteSelectedHighlight() {
+  document.querySelectorAll('.highlighter').forEach(el => el.classList.remove('highlighter'))
+  document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'))
+}
+
+function addTapMessageToHighlights () {
+  const highlighter = (el) => {
+    const highlightId = el.getAttribute('data-id')
+    document.querySelectorAll(`[data-id="${highlightId}"]`).forEach(el => el.classList.add('highlighter'))
+  }
+  addTapMessageToElements('.highlight', 'edit-highlight:', 'data-id', highlighter)
+}
+
+let highlighter
+
 // what?
 replaceSectionsWithDivs()
 removeDivsInDivs()
@@ -525,15 +553,31 @@ removeDivsWithImg()
 convertDivsToFigures()
 // removeWidows()
 
-window.addEventListener("load", function() {
+function init() {
   markImages()
   addTapMessageToImages()
   // addTapMessageToLinks()
   removeAllBrs()
   stopAutoplay()
-
-  document.addEventListener('selectionchange', () => {
-    window.ReactNativeWebView.postMessage('select:' + document.getSelection());
+  rangy.init()
+  highlighter = rangy.createHighlighter()
+  highlighter.addClassApplier(rangy.createClassApplier("highlight", {
+    ignoreWhiteSpace: true,
+    tagNames: ["span", "a"]
+  }))
+  highlights.forEach(highlight => {
+    highlighter.deserialize(highlight.serialized)
+    // find the highlight and add the _id as an attribute
+    const highlights = document.querySelectorAll('.highlight')
+    for (var i = highlights.length - 1; i >= 0; i--) {
+      const h = highlights[i]
+      if (h.getAttribute('data-id') === null) {
+        h.setAttribute('data-id', highlight._id)
+      }
+    }
   })
-})
+  addTapMessageToHighlights()
+}
+
+window.addEventListener("load", init)
 

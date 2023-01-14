@@ -1,8 +1,11 @@
 import React, { Fragment, ReactElement } from 'react'
 import {
   ColorValue,
+  Dimensions,
+  KeyboardAvoidingView,
   LayoutAnimation,
-  Modal,
+  Platform,
+  ScrollView,
   StyleSheet,
   Switch,
   Text,
@@ -10,6 +13,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import Modal from "react-native-modal"
 import { textInputStyle, textLabelStyle } from '../utils/styles'
 import {hslString} from '../utils/colors'
 import { deepEqual, fontSizeMultiplier, getMargin } from '../utils'
@@ -44,6 +48,7 @@ namespace RizzleModal {
     inputs?: RizzleModal.Input[]
     deleteButton?: boolean
     deleteButtonText?: string
+    showKeyboard?: boolean
   }
 }
 
@@ -53,9 +58,11 @@ interface RizzleModalProps {
 
 interface RizzleModalState {
   toggleHideModal: boolean
-  deletableRows: any[]
   isDeletePending: boolean
   backgroundColor: ColorValue
+  inputState: {
+    deletableRows: any[]
+  }
 }
 
 class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
@@ -74,20 +81,22 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
 
     this.initialState = {
       toggleHideModal: false,
-      deletableRows: [],
       isDeletePending: false,
-      backgroundColor: 'rgba(0, 0, 0, 0)'
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      inputState: {
+        deletableRows: []
+      }
     }
     this.state = this.initialState
   }
 
   onOK () {
     const { modalHide, modalProps } = this.props
-    const { isDeletePending, deletableRows } = this.state
+    const { isDeletePending, inputState: {deletableRows} } = this.state
     if (isDeletePending) {
       modalProps.modalOnDelete()
     } else {
-      modalProps.modalOnOk && modalProps.modalOnOk(this.state)
+      modalProps.modalOnOk && modalProps.modalOnOk(this.state.inputState)
     }
     modalHide()
     this.isOpen = false
@@ -97,7 +106,9 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
   }
 
   onCancel () {
-    this.props.modalHide()
+    const { modalHide, modalProps } = this.props
+    modalHide()
+    modalProps.modalOnCancel && modalProps.modalOnCancel()
     this.isOpen = false
     this.setState(this.initialState)    
   }
@@ -131,7 +142,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
   }
 
   onDeleteRow (row) {
-    const { deletableRows } = this.state
+    const { deletableRows } = this.state.inputState
     const index = deletableRows.indexOf(row)
     if (index !== -1) {
       deletableRows.splice(index, 1)
@@ -141,7 +152,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
         update: { type: 'spring', springDamping: 0.4 }, 
         delete: { duration: 100, type: 'linear', property: 'opacity' } 
       })
-      this.setState({deletableRows})
+      this.setState({inputState: {deletableRows}})
     }
   }
 
@@ -160,14 +171,14 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
   componentDidUpdate (prevProps: any) {
     let {deletableRows} = this.props.modalProps
     deletableRows = deletableRows || []
-    if (deletableRows && !deepEqual(deletableRows, this.state.deletableRows)) {
-      this.setState({deletableRows})
+    if (deletableRows && !deepEqual(deletableRows, this.state.inputState.deletableRows)) {
+      this.setState({ inputState: {deletableRows}})
     }
   }
 
   render () {
     const { hiddenModals, inputText, isInput, isVisible, modalProps } = this.props
-    const { deletableRows } = this.state
+    const { deletableRows } = this.state.inputState
     if (hiddenModals && modalProps?.modalName && hiddenModals.indexOf(modalProps.modalName) !== -1) {
       return null
     }
@@ -187,14 +198,26 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
             >
               <TextInput
                 autoCapitalize='none'
+                autoFocus={!!modalProps.showKeyboard}
+                multiline={input.type === 'textarea'}
+                numberOfLines={input.type === 'textarea' ? 4 : 1}
                 onChangeText={(text) => {
                   inputState[input.name] = text
-                  this.setState(inputState)
+                  this.setState({
+                    inputState: {
+                      ...this.state.inputState,
+                      ...inputState
+                    }})
                 }}
-                value={this.state[input.name] || input.value}
+                value={this.state.inputState[input.name] || input.value}
                 style={{
                   ...textInputStyle(),
-                  padding: 3
+                  borderBottomWidth: input.type === 'textarea' ? 0 : 1,
+                  padding: 3,
+                  height: input.type === 'textarea' ? 100 : 'auto',
+                  textAlignVertical: input.type === 'textarea' ? 'top' : 'center',
+                  backgroundColor: input.type === 'textarea' ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                  fontSize: input.type === 'textarea' ? 16 * fontSizeMultiplier() : 20 * fontSizeMultiplier()
                 }}
               />
               { input.label && (
@@ -210,7 +233,8 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
       deletableRows && deletableRows.length > 0 &&
         <View style={{
           alignItems: 'stretch',
-          paddingBottom: 20
+          paddingBottom: 20,
+          maxHeight: Dimensions.get('window').height / 3
         }}>
           <Text style={{
             ...textLabelStyle(),
@@ -218,7 +242,8 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
             marginBottom: 5,
             alignSelf: 'flex-start'
           }}>FEEDS</Text>
-          { this.state.deletableRows.map((row: RizzleModal.DeletableRow, index: number, rows: RizzleModal.DeletableRow[]) => {
+            <ScrollView>
+          { this.state.inputState.deletableRows.map((row: RizzleModal.DeletableRow, index: number, rows: RizzleModal.DeletableRow[]) => {
             return (
               <View
                 key={index}
@@ -270,6 +295,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
               </View>
             )
           })}
+          </ScrollView>
         </View>
       )
     const deleteButtonView = (
@@ -279,7 +305,6 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
             this.onDelete()
           }}
           style={{ 
-            padding: 10,
             paddingBottom: 20, 
           }}
         >
@@ -324,6 +349,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
 
     return (
       <View 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         pointerEvents='none'
         style={{
           position: "absolute",
@@ -338,6 +364,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
         }}>
         <Modal
           animationType="slide"
+          avoidKeyboard={true}
           style={{ backgroundColor: 'transparent' }}
           visible={isVisible}
           onDismiss={this.onClosed}

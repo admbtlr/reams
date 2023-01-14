@@ -84,7 +84,7 @@ const mapStateToProps = (state) => {
     .map(f => addUnreadCount(f, items))
     .sort(sortFeeds)
   const itemSort = state.config.itemSort
-  const categories = state.categories.categories
+  const categories = state.categories.categories.filter(c => !c.isSystem)
   const backendLabels = {
     feedbin: 'Feedbin',
     feedwrangler: 'Feedwrangler',

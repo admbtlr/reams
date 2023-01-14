@@ -152,16 +152,18 @@ class RizzleButton extends React.Component {
     const {
       children,
       isToggle,
-      style
+      style,
+      text
     } = this.props
     delete newProps.style
 
     return (
       <Animated.View style={{
         ...style,
-        width: style && style.width ?
-          style.width :
-          60,
+        width: text && text.length > 0 ? 'auto' :
+          style && style.width ?
+            style.width :
+            60,
         height: 60,
         paddingTop: 5,
         paddingLeft: 5,

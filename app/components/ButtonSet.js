@@ -13,6 +13,8 @@ import { getMargin, hasNotchOrIsland } from '../utils'
 // isDarkMode, displayMode, isOnboarding
 let areButtonsVisible = true
 
+export const translateDistance = 80
+
 export default function ButtonSet ({
   displayMode,
   isCurrent,
@@ -41,8 +43,6 @@ export default function ButtonSet ({
   const toggleAnimSaved = new Animated.Value(0)
 
   item = liveItem
-
-  const translateDistance = 80
 
   let isItemSaved = item.isSaved
   let isItemMercury = item && 

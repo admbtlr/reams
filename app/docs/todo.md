@@ -1,6 +1,7 @@
 - text to speech
 - feedly
 - newsletters with fastmail
+  - https://jmap.io/crash-course.html#core-concept-result-references
 - categories in saved
 - how come some feeds don't have a feed_local and don't update?
 - remove all messages on init

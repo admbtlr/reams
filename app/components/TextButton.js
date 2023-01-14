@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Animated,
   Dimensions,
   LayoutAnimation,
   Text,
@@ -60,6 +61,7 @@ class TextButton extends React.Component {
       bgColor,
       borderColor,
       fgColor,
+      hasShadow,
       hideBorder,
       isDisabled,
       icon,
@@ -99,6 +101,18 @@ class TextButton extends React.Component {
       ...this.props.buttonStyle,
       paddingTop: 8 * fontSizeMultiplier()
     }
+    if (hasShadow) {
+      buttonStyle = {
+        ...buttonStyle,
+        shadowColor: 'black',
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        shadowOffset: {
+          width: 0,
+          height: 5
+        }
+      }
+    }
     if (screenWidth > 767) {
       if (this.props.buttonStyle && this.props.buttonStyle.width) {
         buttonStyle.width = this.props.buttonStyle.width
@@ -109,11 +123,12 @@ class TextButton extends React.Component {
     }
 
     const textStyle = {
-      fontFamily: 'IBMPlexSans-Bold',
+      fontFamily: 'IBMPlexSans',
       fontSize: (isExpanded ? 24 : 16) * fontSizeMultiplier(),
       lineHeight: (isExpanded ? 24 : 18) * fontSizeMultiplier(),
       textAlign: 'center',
       color: isInverted ? bgColor : fgColor,
+      marginHorizontal: -10,
       opacity: isDisabled ? 0.5 : 1,
       paddingLeft: 20 * fontSizeMultiplier(),
       paddingRight: 20 * fontSizeMultiplier(),
@@ -122,7 +137,7 @@ class TextButton extends React.Component {
     }
     if (isExpandable) {
       return (
-        <View
+        <Animated.View
           style={{
             ...buttonStyle,
             overflow: 'hidden',
@@ -155,7 +170,7 @@ class TextButton extends React.Component {
             >{text}</Text>
           </TouchableOpacity>
           { this.props.renderExpandedView() }
-        </View>
+        </Animated.View>
       )
     } else {
       buttonStyle = {
@@ -184,6 +199,7 @@ class TextButton extends React.Component {
             maxFontSizeMultiplier={1.2}
             style={{
               ...textStyle,
+              marginLeft: icon ? 15 * fontSizeMultiplier() : -10,
               opacity: isDisabled ? 0.6 : 1
             }}
         >{text}</Text>

@@ -8,12 +8,41 @@ import {
   UPDATE_CATEGORIES,
   ADD_FEED_TO_CATEGORY,
   REMOVE_FEED_FROM_CATEGORY,
+  ADD_ITEM_TO_CATEGORY,
+  REMOVE_ITEM_FROM_CATEGORY,
   CategoriesState,
   CategoriesActionTypes
 } from './types'
+import { Feed, REMOVE_FEED } from '../feeds/types'
+import { UNSAVE_ITEM } from '../items/types'
 
 const initialState: CategoriesState = {
-  categories: []
+  categories: [
+    {
+      _id: 'annotated',
+      name: 'annotated',
+      isItems: true,
+      isSystem: true,
+      feeds: [],
+      itemIds: []
+    },
+    {
+      _id: 'inbox',
+      name: 'inbox',
+      isItems: true,
+      isSystem: true,
+      feeds: [],
+      itemIds: []
+    },
+    {
+      _id: 'archive',
+      name: 'archive',
+      isItems: true,
+      isSystem: true,
+      feeds: [],
+      itemIds: []
+    },
+  ]
 }
 
 export function categories (
@@ -21,6 +50,8 @@ export function categories (
   action: CategoriesActionTypes | ConfigActionTypes
 ) {
   let categories: Category[]
+
+  let categoryIndex: number
 
   switch (action.type) {
     case CREATE_CATEGORY:
@@ -31,7 +62,10 @@ export function categories (
             id: action.id,
             _id: action._id || id(),
             name: action.name,
-            feeds: []
+            feeds: [],
+            itemIds: [],
+            isFeeds: action.isFeeds,
+            isItems: action.isItems,
           } as Category
         ]
       }
@@ -45,7 +79,7 @@ export function categories (
       let incoming = action.category
       if (incoming.feeds.length > 0 && typeof incoming.feeds[0] === 'object') {
         // we have a feed object, not just an id
-        incoming.feeds = incoming.feeds.map(f => f._id)
+        incoming.feeds = incoming.feeds.map((f: Feed) => f._id)
       }
       categories = state.categories.map(c => c._id === incoming._id ?
         incoming :
@@ -55,7 +89,7 @@ export function categories (
       }
 
     case UPDATE_CATEGORIES:
-      const newCategories = action.categories.map(c => c)    
+      const newCategories = action.categories.map((c: Category) => c)    
       categories = state.categories.map(c => c)
       newCategories.forEach((newCategory: Category) => {
         const index = categories.findIndex(c => c.id === newCategory.id)
@@ -66,14 +100,16 @@ export function categories (
         }
       })
       // if we have a category with an id that is not in the new categories, remove it
-      categories = categories.filter(c => c.id && c.id != '' ? newCategories.find(nc => nc.id === c.id) : true)
+      categories = categories.filter((c: Category) => c.id && c.id != '' ? 
+        newCategories.find((nc: Category) => nc.id === c.id) : 
+        true)
       return {
         categories: categories
       }
   
     case ADD_FEED_TO_CATEGORY:
       categories = state.categories.map(c => c)
-      const categoryIndex = categories.findIndex(c => c._id === action.categoryId)
+      categoryIndex = categories.findIndex(c => c._id === action.categoryId)
       if (categoryIndex > -1) {
         categories[categoryIndex].feeds.push(action.feedId)
       }
@@ -83,12 +119,52 @@ export function categories (
 
     case REMOVE_FEED_FROM_CATEGORY:
       categories = state.categories.map(c => c)
-      const categoryIndex2 = categories.findIndex(c => c._id === action.categoryId)
-      if (categoryIndex2 > -1) {
-        categories[categoryIndex2].feeds = categories[categoryIndex2].feeds.filter(f => f !== action.feedId)
+      categoryIndex = categories.findIndex(c => c._id === action.categoryId)
+      if (categoryIndex > -1) {
+        categories[categoryIndex].feeds = categories[categoryIndex].feeds.filter(f => f !== action.feedId)
       }
       return {
         categories: categories
+      }
+
+    case ADD_ITEM_TO_CATEGORY:
+      categories = state.categories.map(c => c)
+      categoryIndex = categories.findIndex(c => c._id === action.categoryId)
+      if (categoryIndex > -1) {
+        categories[categoryIndex].itemIds.push(action.itemId)
+      }
+      return {
+        categories: categories
+      }
+
+    case REMOVE_ITEM_FROM_CATEGORY:
+      categories = state.categories.map(c => c)
+      categoryIndex = categories.findIndex(c => c._id === action.categoryId)
+      if (categoryIndex > -1) {
+        categories[categoryIndex].itemIds = categories[categoryIndex].itemIds.filter(f => f !== action.itemId)
+      }
+      return {
+        categories: categories
+      }
+  
+    case REMOVE_FEED:
+      categories = state.categories.map(c => c)
+      categories.forEach(c => {
+        c.feeds = c.feeds.filter(f => f !== action.feed._id)
+      })
+      return {
+        categories
+      }
+
+    case UNSAVE_ITEM:
+      categories = state.categories.map(c => c)
+      categories.forEach(c => {
+        if (c.itemIds) {
+          c.itemIds = c.itemIds.filter(i => i !== action.item._id)
+        }
+      })
+      return {
+        categories
       }
 
     case UNSET_BACKEND:

@@ -31,69 +31,6 @@ class AccountScreen extends React.Component {
     this.setExpandedBackend = this.setExpandedBackend.bind(this)
   }
 
-  redirectToItems (gotoFeeds = false, useTimeout = false) {
-    const { backend, displayMode, isOnboarding } = this.props
-    let args
-    if (isOnboarding) {
-      args = ['Items']
-    } else if (backend) {
-      if (displayMode === ItemType.saved) {
-        args = ['Items']
-      } else if (gotoFeeds) {
-        args = ['Feeds', 'Items', 'Feeds']
-      } else {
-        args = ['Feeds', 'Items']
-      }
-    }
-
-    const setNav = (navigation, args) => {
-      if (navigation.canGoBack()) {
-        navigation.popToTop()
-      }
-      args.forEach(arg => navigation.navigate(arg))
-    }
-
-    if (useTimeout) {
-      setTimeout(() => setNav(this.props.navigation, args), 300)
-    } else {
-      setNav(this.props.navigation, args)
-    }
-  }
-
-  componentDidMount () {
-    const { backend, isOnboarding, navigation } = this.props
-    if (isOnboarding) {
-      this.redirectToItems()
-    } else if (!backend || backend === '') {
-      navigation.setOptions({
-        headerStyle: {
-          backgroundColor: hslString('logo1'),
-          // https://github.com/react-navigation/react-navigation/issues/6899
-          shadowOffset: { height: 0, width: 0 }
-        }
-      })
-    }
-  }
-
-  componentDidUpdate (prevProps) {
-    const { backend, hasFeeds, isOnboarding, navigation } = this.props
-    if (isOnboarding) {
-      // this.redirectToItems()
-    }    
-    if (prevProps.backend === '' && backend !== '') {
-      this.redirectToItems(!hasFeeds, true)
-    }
-    if (backend?.length  > 0) {
-      navigation.setOptions({
-        headerStyle: {
-          backgroundColor: hslString('rizzleBG'),
-          height: getStatusBarHeight(),
-          shadowOffset: { height: 0, width: 0 }
-        }
-      })
-    }
-  }
-
   setExpandedBackend (backend) {
     this.setState({
       expandedBackend: backend
@@ -212,6 +149,7 @@ class AccountScreen extends React.Component {
     // console.log(Config)
 
     return (
+      <View>
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           // onScroll={Animated.event(
@@ -244,35 +182,6 @@ class AccountScreen extends React.Component {
               width: width - getInset() * (isPortrait ? 2 : 4),
               marginHorizontal: getInset() * (isPortrait ? 1 : 2)
             }}>
-              { !!backend &&
-                <View>
-                  <NavButton
-                    hasBottomBorder={true}
-                    hasTopBorder={true}
-                    icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
-                    onPress={() => {
-                      this.props.setDisplayMode('unread')
-                      this.props.navigation.navigate('Feeds')
-                    }}
-                    scrollAnim={this.scrollAnim}
-                    index={0}
-                    text='Your Feeds'
-                    viewStyle={{ paddingLeft: 5 }}
-                  />
-                  <NavButton
-                    hasBottomBorder={true}
-                    icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
-                    onPress={() => {
-                      this.props.setDisplayMode('saved')
-                      this.props.navigation.navigate('Items')
-                    }}
-                    scrollAnim={this.scrollAnim}
-                    index={1}
-                    text='Your Saved Stories'
-                    viewStyle={{ paddingLeft: 5 }}
-                  />
-                </View>
-              }
               { !backend &&
                 <HelpView>
                   <Text style={{ 
@@ -316,6 +225,7 @@ class AccountScreen extends React.Component {
             </View>
           </View>
         </KeyboardAwareScrollView>
+      </View>
     )
   }
 }

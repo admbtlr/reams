@@ -204,10 +204,9 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         stroke={borderColor}
         strokeWidth='2'
         strokeLinecap='round'
-        strokeLinejoin='round'>
-        <Path d='M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3'/>
-        <Circle cx='12' cy='10' r='3'/>
-        <Circle cx='12' cy='12' r='10'/>
+        strokeLinejoin='round'>        
+        <Path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <Circle cx="12" cy="7" r="4" />
       </Svg>
 
     case 'feedbin':
@@ -353,5 +352,20 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Line x1="18" y1="6" x2="6" y2="18" />
         <Line x1="6" y1="6" x2="18" y2="18" />
       </Svg>
-}
+    
+    case 'highlights':
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke={borderColor}
+        strokeWidth='3'
+        strokeLinecap='round'
+        strokeLinejoin='round'>
+        <Path d="M21 4.5H3" strokeWidth={1}/>
+        <Path d="M21 14.5H3 M17 9.5H3"/>
+        <Path d="M17 19.5H3" strokeWidth={1}/>
+      </Svg>
+  }
 }
