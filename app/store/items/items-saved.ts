@@ -66,7 +66,6 @@ export function itemsSaved (
 
     case UPDATE_CURRENT_INDEX:
       if (action.displayMode !== ItemType.saved) return state
-
       return {
         ...state,
         index: action.index
@@ -168,12 +167,11 @@ export function itemsSaved (
     //   }
 
     case SET_LAST_UPDATED:
-      if (action.itemType === ItemType.unread) {
-        return {
-          ...state,
-          lastUpdated: Date.now()
-        }
-      } else return state
+      if (action.itemType !== ItemType.saved) return state
+      return {
+        ...state,
+        lastUpdated: Date.now()
+      }
 
     case ITEMS_BATCH_FETCHED:
       if (action.itemType !== ItemType.saved) return state
