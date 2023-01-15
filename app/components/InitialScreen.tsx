@@ -207,7 +207,7 @@ export default function InitialScreen({navigation}) {
           width: '100%',
           alignItems: 'center',
         }}>
-          <Image 
+          {/* <Image 
             source={require('../assets/images/ream-sepia.png')} 
             style={{
               alignSelf: 'center',
@@ -215,17 +215,22 @@ export default function InitialScreen({navigation}) {
               height: 217,
               marginBottom: getMargin(),
             }}
-          />
+          /> */}
           <Text style={{
-            ...textInfoBoldStyle('rizzleText'),
+            ...textInfoStyle('rizzleText'),
             marginBottom: getMargin() * 0.5,
-          }}>Deeply Superficial</Text>
+          }}>Questions? Feedback?</Text>
           <TouchableOpacity onPress={() => Linking.openURL('mailto:hello@reams.app')}>
             <Text style={{
               ...textInfoStyle('rizzleText'),
               textDecorationLine: 'underline',  
+              marginBottom: getMargin() * 2,
             }}>hello@reams.app</Text>
           </TouchableOpacity>
+          <Text style={{
+            ...textInfoBoldStyle('rizzleText'),
+            // marginBottom: getMargin() * 0.5,
+          }}>Deeply Superficial</Text>
         </View>
       </View>
     </View>

@@ -140,7 +140,7 @@ function * getNextItemToDecorate (pendingDecoration) {
   const feeds = yield select(getFeeds)
   const feedsWithoutDecoration = feeds.filter(feed => {
     // external items handle their own decoration
-    return !items.filter(i => !i.readAt && !i.is_external && i.feed_id === feed._id)
+    return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === feed._id)
       .find(item => typeof item.banner_image !== 'undefined')
   })
   let count = 0
@@ -181,7 +181,7 @@ export function * decorateItem (item) {
       ...items[0],
       feed_color: item.feed_color || items[0].feed_color
     }
-  } else if (!item.is_external) {
+  } else if (!item.isExternal) {
     // this item is not in AS... how is that possible? in any case, bail on it
     return false
   }

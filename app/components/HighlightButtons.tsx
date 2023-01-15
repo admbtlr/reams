@@ -12,13 +12,14 @@ import { Annotation, DELETE_ANNOTATION, EDIT_ANNOTATION } from '../store/annotat
 
 
 const screenWidth = Dimensions.get('window').width
-const translateDistance = 80
+const translateDistance = 90
 const translateAnim = new Animated.Value(1)
 
 export default function HighlightButtons() {
   const { activeHighlight, setActiveHighlight } = React.useContext(HighlightModeContext)
   const dispatch = useDispatch()
   const annotation = useStore().getState().annotations.annotations.find((a: Annotation) => a._id === activeHighlight)
+  const screenDimensions = Dimensions.get('window')
 
   useEffect(() => {
     if (activeHighlight !== null) {
@@ -92,6 +93,10 @@ export default function HighlightButtons() {
           flex: 0,
           flexDirection: 'row',
           paddingHorizontal: getMargin() * .5,
+          width: screenDimensions.width < 500 ?
+            '100%' :
+            500,
+          alignSelf: 'center',
         }}>
         <TextButton 
           buttonStyle={{ 
