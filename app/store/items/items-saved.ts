@@ -187,8 +187,7 @@ export function itemsSaved (
         if (indexToUpdate !== -1) {
           items[indexToUpdate] = {
             ...newItem,
-            savedAt: items[indexToUpdate].savedAt,
-            isSaved: true
+            ...items[indexToUpdate]
           }
         } else {
           items.push(newItem)
@@ -196,7 +195,7 @@ export function itemsSaved (
       })
 
       // order by date
-      items.sort((a, b) => ((b.savedAt || 0) - (a.savedAt || 0) ))
+      items.sort((a, b) => (b.savedAt - a.savedAt ))
       index = items.indexOf(currentItem)
       index = index < 0 ? 0 : index
 
