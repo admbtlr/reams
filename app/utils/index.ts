@@ -7,10 +7,11 @@ import {
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import DeviceInfo from 'react-native-device-info'
+import { Item } from 'store/items/types'
 
-let deviceId
+let deviceId: string
 
-export function deepEqual (a, b, ignoreNull = false) {
+export function deepEqual (a: any, b: any, ignoreNull = false) {
   try {
     if (!(a instanceof Object) || !(b instanceof Object)) {
       // compare by value
@@ -58,12 +59,12 @@ export function deepEqual (a, b, ignoreNull = false) {
 
 }
 
-export function diff (a, b, changes = {}) {
+export function diff (a: Item, b: Item, changes = {}) {
   changes = oneWayDiff (a, b, changes)
   return oneWayDiff(b, a, changes)
 }
 
-function oneWayDiff (a, b, changes) {
+function oneWayDiff (a: Item, b: Item, changes: object) {
   for (var key in a) {
     if (changes[key] !== undefined) continue
     if (key === 'item') {
@@ -94,26 +95,26 @@ export function deviceCanHandleAnimations () {
   return true
 }
 
-export function getCachedCoverImagePath (item) {
+export function getCachedCoverImagePath (item: Item) {
   const id = typeof item === 'object'
     ? item._id
     : item
   return `${RNFS.DocumentDirectoryPath}/${id}.jpg`
 }
 
-export function getCachedFeedIconPath (id) {
+export function getCachedFeedIconPath (id: string) {
   return `${RNFS.DocumentDirectoryPath}/feed-icons/${id}.png`
 }
 
-export function getRenderedFeedIconPath (id) {
+export function getRenderedFeedIconPath (id: string) {
   return `${RNFS.DocumentDirectoryPath}/feed-icons/rendered/${id}.png`
 }
 
-export async function fileExists (path) {
+export async function fileExists (path: string) {
   return RNFS.exists(path)
 }
 
-export function getImageDimensions (path) {
+export function getImageDimensions (path: string) {
   return new Promise((resolve, reject) => {
     Image.getSize(`file://${path}`, (imageWidth, imageHeight) => {
       resolve({
@@ -128,7 +129,7 @@ export function getImageDimensions (path) {
 }
 
 export async function isFirstLaunch () {
-  const setLaunchDate = (date) => {
+  const setLaunchDate = (date: string) => {
     AsyncStorage.setItem('launchDate', date)
   }
 
@@ -163,7 +164,7 @@ export const isIpad = () => {
 
 export const isPortrait = () => Dimensions.get('window').height > Dimensions.get('window').width
 
-let screenWidth, screenHeight
+let screenWidth: number, screenHeight : number
 
 const getDimensions = () => {
   // this is a remnant from before we supported both screen orientations
@@ -223,7 +224,7 @@ export function id (item?: any) {
 }
 
 // https://stackoverflow.com/a/22429679/1788521
-function hashFnv32a(str, asString, seed) {
+function hashFnv32a(str: string, asString: boolean, seed: number | undefined = undefined) {
   /*jshint bitwise:false */
   var i, l,
     hval = (seed === undefined) ? 0x811c9dc5 : seed;

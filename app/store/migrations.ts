@@ -58,5 +58,15 @@ export const migrations = {
         ]
       }
     }
+  },
+  2: (state: RootState) => {
+    // migration to change is_external to isExternal
+    state.itemsSaved.items.forEach((item: Item) => {
+      if (item.is_external) {
+        item.isExternal = item.is_external
+        delete item.is_external
+      }
+    })
+    return state
   }
 }

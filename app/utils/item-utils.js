@@ -107,7 +107,7 @@ export function addMercuryStuffToItem (item, mercury) {
   // mercury.content = sanitizeHtml(mercury.content, {
   //   allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
   // })
-  if (item.is_external) {
+  if (item.isExternal) {
     item = {
       ...item,
       external_url: item.url,

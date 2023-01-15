@@ -45,7 +45,7 @@ export function * saveExternalUrl (action) {
     _id: id(action.url),
     title: action.title ?? 'Loading...',
     content_html: '',
-    is_external: true
+    isExternal: true
   }
   item.styles = createItemStyles(item)
   yield put({
