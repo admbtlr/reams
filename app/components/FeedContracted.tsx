@@ -95,7 +95,7 @@ class FeedContracted extends React.PureComponent {
     } else if (type === 'category') {
       const modalText = [
         {
-          text: 'Edit category',
+          text: 'Edit tag',
           style: ['title']
         }
       ]
@@ -105,7 +105,7 @@ class FeedContracted extends React.PureComponent {
         modalShow: true,
         inputs: [
           {
-            label: 'Name',
+            label: 'Tag',
             name: 'categoryName',
             type: 'text',
             value: title
@@ -117,7 +117,7 @@ class FeedContracted extends React.PureComponent {
           id: feed.feed._id
         })),
         deleteButton: true,
-        deleteButtonText: 'Delete category',
+        deleteButtonText: 'Delete tag',
         modalOnDelete: () => {
           this.props.deleteCategory(this.props.category)
         },

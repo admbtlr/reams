@@ -80,12 +80,8 @@ class FeedsScreen extends React.Component {
   showAddCategory = () => {
     const modalText = [
       {
-        text: 'Create a new category',
+        text: 'Create a new tag',
         style: ['title']
-      },
-      {
-        text: 'Categories are a way to organize your feeds. You can add feeds to multiple categories.',
-        style: ['hint']
       }
     ]
     this.props.showModal({
@@ -94,7 +90,7 @@ class FeedsScreen extends React.Component {
       modalShow: true,
       inputs: [
         {
-          label: 'Category name',
+          label: 'Tag',
           name: 'categoryName',
           type: 'text',
         }
@@ -146,7 +142,7 @@ class FeedsScreen extends React.Component {
         data: allCards
       },
       {
-        title: 'Categories',
+        title: 'Tags',
         data: catCards
       },
       {
@@ -279,7 +275,7 @@ class FeedsScreen extends React.Component {
               }}
             />
           )}
-          { title === 'Categories' && (
+          { title === 'Tags' && (
             <TextButton
               text="Add"
               isCompact={true}

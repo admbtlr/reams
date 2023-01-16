@@ -50,14 +50,14 @@ export const FeedStats = ({ feed }) => {
   return (
     <Text style={{
       ...textInfoStyle('white'),
-      opacity: 0.8
+      opacity: 0.9
       // color: hslString('white'),
       // fontFamily: 'IBMPlexSans-Light',
       // marginBottom: margin,
       // textAlign: 'left'
-    }}>You’ve read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from {feed.title}
+    }}>You’ve read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{feed.title}</Text>
       {feed.numRead > 0 &&
-        <Text> It takes you an average of {avgReadingTime} to read each story
+        <Text>. It takes you an average of {avgReadingTime} to read each story
         </Text>
       }.
       </Text>)
