@@ -4,21 +4,17 @@ import {
   Dimensions,
   SectionList,
   StatusBar,
-  TouchableOpacity,
   Text,
   View
 } from 'react-native'
 import FeedContracted from '../containers/FeedContracted'
 import FeedExpanded from '../containers/FeedExpanded'
 import TextButton from './TextButton'
-import Heading from './Heading'
-import ItemsDirectionRadiosContainer from './ItemsDirectionRadios'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
 import { deepEqual, getInset, getMargin, getStatusBarHeight } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { useStore } from 'react-redux'
 import { textInfoStyle } from '../utils/styles'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -112,22 +108,25 @@ class FeedsScreen extends React.Component {
   componentDidUpdate = () => {
   }
 
-  render = () => {
-    const { categories, feeds, isPortrait, showAddFeeds } = this.props
-    const feedCards = feeds.map((feed) => ({
-      key: feed._id,
-      type: 'feed',
-      feed,
-      title: feed.title
-    }))
+  getSections = (isSaved, categories, feeds) => {
+    const feedCards = feeds ? 
+      feeds.map((feed) => ({
+        key: feed._id,
+        type: 'feed',
+        feed,
+        title: feed.title
+      })) :
+      null
 
-    const catCards = categories.sort((a, b) => a.name < b.name ? -1 : 1).map(cat => ({
-      key: cat._id,
-      type: 'category',
-      title: cat.name,
-      feeds: cat.feeds.map(feedId => feeds.find(feed => feed._id === feedId)),
-      category: cat
-    }))
+    const catCards = categories ?
+      categories.sort((a, b) => a.name < b.name ? -1 : 1).map(cat => ({
+        key: cat._id,
+        type: 'category',
+        title: cat.name,
+        feeds: cat.feeds.map(feedId => feeds.find(feed => feed._id === feedId)),
+        category: cat
+      })) :
+      null
 
     const allCards = feeds?.length > 0 ? [{
       key: '9999999',
@@ -151,6 +150,12 @@ class FeedsScreen extends React.Component {
       }
     ]
 
+    return sections
+  }
+
+  render = () => {
+    const { categories, feeds, isPortrait, isSaved } = this.props
+
     const { close } = this
     const { modal } = this.state
 
@@ -158,6 +163,8 @@ class FeedsScreen extends React.Component {
     this.width = screenWidth - getInset() * (isPortrait ? 2 : 4)
     const margin = getMargin()
     const numCols = screenWidth > 500 ? 2 : 1
+
+    const sections = this.getSections(isSaved, categories, feeds)
 
     return (
       <View

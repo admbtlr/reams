@@ -24,6 +24,7 @@ export interface Item {
   }
   hasCoverImage?: boolean
   coverImageFile?: string
+  banner_image?: string
   decoration_failures?: number
   styles: {
     title: {
