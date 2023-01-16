@@ -187,7 +187,7 @@ class FeedContracted extends React.PureComponent {
         feeds.length > 1 ? 1 :
         0) :
       (feeds.length > 18 ? 3.01 :
-        feeds.length > 8 ? 2.1 :
+        feeds.length > 8 ? 2.01 :
         feeds.length > 1 ? 1.001 :
         0)
 

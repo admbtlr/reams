@@ -35,15 +35,15 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const items = state.itemsUnread.items
 
   let feeds = ownProps.feeds ?? [ ownProps.feed ]
-  feeds = feeds.map((feed: Feed) => {
-    feed = typeof feed === 'string' ?
-      state.feeds.feeds.find(f => f._id === feed) :
-      feed
+  feeds = feeds.map((feedsEntry: Feed | string) => {
+    const feed: Feed = typeof feedsEntry === 'string' ?
+      state.feeds.feeds.find((f: Feed) => f._id === feedsEntry) :
+      feedsEntry
     if (feed === undefined) {
       console.log('FeedContracted: feed not found')
       return null
     }
-    const feedItems = items.filter(i => i.feed_id === feed._id)
+    const feedItems = items.filter((i: Item) => i.feed_id === feed._id)
     const coverImageItem = feedItems.find((item: Item) => item.banner_image)
     return {
       feedId: feed._id,

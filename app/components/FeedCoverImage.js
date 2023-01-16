@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Animated, PushNotificationIOS,
+  Animated
 } from 'react-native'
 import {fileExists, getCachedCoverImagePath} from '../utils/'
 

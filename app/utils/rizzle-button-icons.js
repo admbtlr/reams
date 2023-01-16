@@ -361,8 +361,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         fill='none'
         stroke={borderColor}
         strokeWidth='3'
-        strokeLinecap='round'
-        strokeLinejoin='round'>
+        strokeLinecap='square'
+        strokeLinejoin='square'>
         <Path d="M20 4.5H3" strokeWidth={1}/>
         <Path d="M21 14.5H10" strokeWidth={1}/>
         <Path d="M10 14.5H3" />
