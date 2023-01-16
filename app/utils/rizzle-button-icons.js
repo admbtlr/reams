@@ -267,21 +267,21 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         </G>
       </Svg>
 
-    case 'saved':
-      return <Svg 
-        width={fontScale(32)} 
-        height={fontScale(32)} 
-        viewBox='0 0 32 32'>
-        <G strokeWidth='1'  stroke='none' fill='none' fillRule='evenodd'>
-          <G transform='translate(-1.000000, -3.000000)'>
-            <G transform='translate(1.000000, 3.000000)'>
-              <Path fill={borderColor} opacity={0.8} d='M 2 7 L 2 27 C 2 29 3 30 5 30 L 27 30 C 29 30 30 29 30 27 L 30 7 M 0 6 L 0 2 C 0 2 0 0 2 0 L 30 0 C 32 0 32 2 32 2 V 6 Z' />
-              <Path stroke={backgroundColor} fill={borderColor} d='M 12 26 L 12 12 C 12 10 12 10 14 10 H 18 C 20 10 20 10 20 12 V 26 L 16 22 Z' />
-              <Path stroke={backgroundColor} opacity={0.5} d='M 14 14 H 18 M 14 16 H 18 M 14 18 H 18' />
-            </G>
-          </G>
-        </G>
-      </Svg>
+    // case 'saved':
+    //   return <Svg 
+    //     width={fontScale(32)} 
+    //     height={fontScale(32)} 
+    //     viewBox='0 0 32 32'>
+    //     <G strokeWidth='1'  stroke='none' fill='none' fillRule='evenodd'>
+    //       <G transform='translate(-1.000000, -3.000000)'>
+    //         <G transform='translate(1.000000, 3.000000)'>
+    //           <Path fill={borderColor} opacity={0.8} d='M 2 7 L 2 27 C 2 29 3 30 5 30 L 27 30 C 29 30 30 29 30 27 L 30 7 M 0 6 L 0 2 C 0 2 0 0 2 0 L 30 0 C 32 0 32 2 32 2 V 6 Z' />
+    //           <Path stroke={backgroundColor} fill={borderColor} d='M 12 26 L 12 12 C 12 10 12 10 14 10 H 18 C 20 10 20 10 20 12 V 26 L 16 22 Z' />
+    //           <Path stroke={backgroundColor} opacity={0.5} d='M 14 14 H 18 M 14 16 H 18 M 14 18 H 18' />
+    //         </G>
+    //       </G>
+    //     </G>
+    //   </Svg>
 
     case 'unread':
       return <Svg 
@@ -363,11 +363,30 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeWidth='3'
         strokeLinecap='round'
         strokeLinejoin='round'>
-        <Path d="M21 4.5H3" strokeWidth={1}/>
+        <Path d="M20 4.5H3" strokeWidth={1}/>
         <Path d="M21 14.5H10" strokeWidth={1}/>
         <Path d="M10 14.5H3" />
-        <Path d="M21 9.5H3"/>
-        <Path d="M21 19.5H3" strokeWidth={1}/>
+        <Path d="M19 9.5H7"/>
+        <Path d="M19 9.5H3" strokeWidth={1}/>
+        <Path d="M20 19.5H3" strokeWidth={1}/>
       </Svg>
+
+    case 'saved':
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 32 32'
+        fill='none' 
+        stroke={borderColor}
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      >
+        <Path d="M17 25L19 7" strokeWidth={4}/>
+        <Path d="M23 25L25 7" strokeWidth={4}/>
+        <Path d="M6 25L13 10" strokeWidth={4}/>
+        <Line x1="3" y1="28.5" x2="29" y2="28.5"/>
+        <Line x1="28.5" y1="3" x2="28.5" y2="29"/>
+      </Svg>
+
   }
 }
