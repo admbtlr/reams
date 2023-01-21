@@ -37,6 +37,64 @@ class AccountScreen extends React.Component {
     })
   }
 
+  redirectToItems (gotoFeeds = false, useTimeout = false) {
+    let args = []
+    if (backend) {
+      if (displayMode === ItemType.saved) {
+        args = ['Items']
+      } else if (gotoFeeds) {
+        args = ['Feeds', 'Items', 'Feeds']
+      } else {
+        args = ['Feeds', 'Items']
+      }
+    }
+
+    const setNav = (navigation, args) => {
+      if (navigation.canGoBack()) {
+        navigation.popToTop()
+      }
+      args.forEach(arg => navigation.navigate(arg))
+    }
+
+    if (useTimeout) {
+      setTimeout(() => setNav(navigation, args), 300)
+    } else {
+      setNav(navigation, args)
+    }
+  }
+
+  componentDidMount () {
+    const { backend, isOnboarding, navigation } = this.props
+    if (!backend || backend === '') {
+      navigation.setOptions({
+        headerStyle: {
+          backgroundColor: hslString('logo1'),
+          
+          // https://github.com/react-navigation/react-navigation/issues/6899
+          shadowOffset: { height: 0, width: 0 }
+        },
+        headerTintColor: 'white'
+      })
+    }
+  }
+
+  componentDidUpdate (prevProps) {
+    const { backend, hasFeeds, isOnboarding, navigation } = this.props
+    if (prevProps.backend === '' && backend !== '') {
+      this.redirectToItems(!hasFeeds, true)
+    }
+    if (backend?.length  > 0) {
+      navigation.setOptions({
+        headerStyle: {
+          backgroundColor: hslString('rizzleBG'),
+          height: getStatusBarHeight(),
+          shadowOffset: { height: 0, width: 0 }
+        }
+      })
+    }
+  }
+
+
   render () {
     const { backend, hasFeeds, isPortrait, navigation } = this.props
     const { expandedBackend } = this.state

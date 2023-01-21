@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Animated,
   Dimensions,
@@ -19,8 +19,9 @@ import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
 import { ItemType, SET_DISPLAY_MODE } from '../store/items/types'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import { RootState } from 'store/reducers'
+import { useNavigation } from '@react-navigation/native'
 
-export default function InitialScreen({navigation}) {
+export default function InitialScreen({}) {
   const scrollAnim = new Animated.Value(0)
   const backend = useSelector((state: RootState) => state.config.backend)
   const displayMode = useSelector((state: RootState) => state.config.display)
@@ -28,10 +29,28 @@ export default function InitialScreen({navigation}) {
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
   const hasFeeds = useSelector((state: RootState) => state.feeds.feeds.length > 0)
   const dispatch = useDispatch()
+  const navigation = useNavigation()
 
+  useEffect(() => {
+    redirectToItems(false, true)
+  }, [])
+
+  useEffect(() => {
+    if (!backend || backend === '') {
+      // navigation.setOptions({
+      //   headerStyle: {
+      //     backgroundColor: hslString('logo1'),
+      //     // https://github.com/react-navigation/react-navigation/issues/6899
+      //     shadowOffset: { height: 0, width: 0 }
+      //   }
+      // })
+    } else {
+      redirectToItems()
+    }
+  }, [isOnboarding, backend])
 
   const redirectToItems = (gotoFeeds = false, useTimeout = false) => {
-    let args
+    let args: string[] = []
     if (isOnboarding) {
       args = ['Items']
     } else if (backend) {
@@ -44,7 +63,7 @@ export default function InitialScreen({navigation}) {
       }
     }
 
-    const setNav = (navigation, args) => {
+    const setNav = (navigation, args: string[]) => {
       if (navigation.canGoBack()) {
         navigation.popToTop()
       }
@@ -131,7 +150,8 @@ export default function InitialScreen({navigation}) {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: hslString('rizzleBG')
+          backgroundColor: hslString('rizzleBG'),
+          marginBottom: 0
         }}
         testID='initial-screen'
       >
@@ -144,21 +164,10 @@ export default function InitialScreen({navigation}) {
           width: width - getInset() * (isPortrait ? 2 : 4),
           marginHorizontal: getInset() * (isPortrait ? 1 : 2)
         }}>
-          <NavButton
-            hasBottomBorder={true}
-            hasTopBorder={true}
-            icon={getRizzleButtonIcon('account', hslString('rizzleText'))}
-            onPress={() => {
-              navigation.navigate('Account')
-            }}
-            scrollAnim={scrollAnim}
-            index={0}
-            text='Account'
-            viewStyle={{ paddingLeft: 5 }}
-          />
           { !!backend &&
             <View>
               <NavButton
+                hasTopBorder={true}
                 hasBottomBorder={true}
                 icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
                 onPress={() => {
@@ -201,6 +210,17 @@ export default function InitialScreen({navigation}) {
               />
             </View>
           }
+        <NavButton
+          hasBottomBorder={true}
+          icon={getRizzleButtonIcon('account', hslString('rizzleText'))}
+          onPress={() => {
+            navigation.navigate('Account')
+          }}
+          scrollAnim={scrollAnim}
+          index={0}
+          text='Account'
+          viewStyle={{ paddingLeft: 5 }}
+        />
         <View style={{
           position: 'absolute',
           bottom: getMargin() * 2,

@@ -41,6 +41,10 @@ export interface RootState {
   user: UserState
   categories: CategoriesState
   annotations: AnnotationsState
+  _persist?: {
+    version: number
+    rehydrated: boolean
+  }
 }
 
 export default function makeRootReducer (): Reducer<RootState> {
