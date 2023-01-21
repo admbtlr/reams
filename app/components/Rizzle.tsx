@@ -19,6 +19,7 @@ import * as tf from '@tensorflow/tfjs'
 import '@tensorflow/tfjs-react-native'
 import OrientationListener from './OrientationListener'
 import BackgroundFetch from "react-native-background-fetch";
+import { PersistGate } from 'redux-persist/integration/react'
 
 export interface Props {
   isActionExtension?: boolean
@@ -114,6 +115,8 @@ export default class Rizzle extends Component<Props, State> {
       return null
     }
     
+    const onBeforeLift = () => {}
+
     const App = (
       <NavigationContainer        
         ref={this.navigation}
@@ -122,21 +125,26 @@ export default class Rizzle extends Component<Props, State> {
         }}
       >
         <Provider store={store}>
-          <View style={{
-            flex: 1,
-            backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
-            <StatusBar
-              barStyle='light-content'
-              hidden={false} />
-            <AppStateListenerContainer />
-            <ConnectionListener />
-            <OrientationListener />
-            <Analytics />
-            <AppContainer />
-            <Message />
-            <RizzleModalContainer />
-            <Splash />
-          </View>
+          <PersistGate
+            loading={<View />}
+            onBeforeLift={onBeforeLift}
+            persistor={persistor}>
+            <View style={{
+              flex: 1,
+              backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
+              <StatusBar
+                barStyle='light-content'
+                hidden={false} />
+              <AppStateListenerContainer />
+              <ConnectionListener />
+              <OrientationListener />
+              <Analytics />
+              <AppContainer />
+              <Message />
+              <RizzleModalContainer />
+              <Splash />
+            </View>
+          </PersistGate>
         </Provider>
       </NavigationContainer>
     )
