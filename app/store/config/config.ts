@@ -22,6 +22,7 @@ import {
 } from "../feeds/types"
 import { Dimensions } from "react-native"
 import { DELETE_CATEGORY } from "../categories/types"
+import { id } from "../../utils"
 
 export interface Filter {
   title?: string,
@@ -30,6 +31,7 @@ export interface Filter {
 }
 
 export interface ConfigState {
+  readonly userId: string
   readonly backend: string
   readonly accessToken: string
   readonly isOnboarding: boolean
@@ -49,6 +51,7 @@ export interface ConfigState {
 const {width, height } = Dimensions.get('window')
 
 const initialState = {
+  userId: id(),
   backend: '',
   accessToken: '',
   isOnboarding: true,

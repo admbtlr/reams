@@ -1,3 +1,4 @@
+import { id } from "../utils"
 import { Category } from "./categories/types"
 import { Item } from "./items/types"
 import { RootState } from "./reducers"
@@ -67,6 +68,11 @@ export const migrations = {
         delete item.is_external
       }
     })
+    return state
+  },
+  3: (state: RootState) => {
+    // migration to add unique user id
+    state.config.userId = id()
     return state
   }
 }

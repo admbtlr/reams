@@ -205,9 +205,9 @@ export const getStatusBarHeight = () => 70 * fontSizeMultiplier() +
 
 export function id (item?: any) {
   if (item && typeof item === 'string') {
-    return hashFnv32a(item, true)
+    return hashFnv32a(item)
   } else if (item && item.url) {
-    return hashFnv32a(item.url, true) + '-' +
+    return hashFnv32a(item.url) + '-' +
       Math.round(item.created_at / 1000000) +
       (item.feed_id && typeof item.feed_id === 'string' ?
         '-' + item.feed_id.split('-')[0] :
@@ -224,7 +224,7 @@ export function id (item?: any) {
 }
 
 // https://stackoverflow.com/a/22429679/1788521
-function hashFnv32a(str: string, asString: boolean, seed: number | undefined = undefined) {
+function hashFnv32a(str: string, seed: number | undefined = undefined) {
   /*jshint bitwise:false */
   var i, l,
     hval = (seed === undefined) ? 0x811c9dc5 : seed;
@@ -233,11 +233,8 @@ function hashFnv32a(str: string, asString: boolean, seed: number | undefined = u
     hval ^= str.charCodeAt(i);
     hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
   }
-  if( asString ){
-    // Convert to 8 digit hex string
-    return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
-  }
-  return hval >>> 0;
+  // Convert to 8 digit hex string
+  return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
 }
 
 

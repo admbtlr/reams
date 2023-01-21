@@ -3400,7 +3400,7 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axios@0.21.4, axios@^0.21.1:
+axios@0.21.4:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -10709,6 +10709,11 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
+mixpanel-react-native@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/mixpanel-react-native/-/mixpanel-react-native-2.1.0.tgz#aa2add25e998556f8d4fbcdc00f48820c9f734da"
+  integrity sha512-nzN7kscl1m89Dqj7W+9TGweeEgG1bXO+PJvtfi7dGnMILS8OTurjUIeQyv35WEgwpsej8wFANXvIrxPIdlG1Sw==
+
 "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@^0.5.4, mkdirp@^0.5.5, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.6.tgz#7def03d2432dcae4ba1d611445c48396062255f6"
@@ -12339,14 +12344,6 @@ react-native-encrypted-storage@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/react-native-encrypted-storage/-/react-native-encrypted-storage-4.0.2.tgz#c7d59b1d3ff2f80d572be3e85aaab3fdee16744a"
   integrity sha512-vneDkHGDuTvLQjUBztqb2YI8QoH1zxdJonPGTS+g57lfJZff9fAjoLSSb6NgMBebpXFcK3I3sEresGyL+3AArw==
-
-react-native-forage@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/react-native-forage/-/react-native-forage-0.5.5.tgz#9d8ba1bf6b68182ae3588cc030c2bdb9a6c56c1e"
-  integrity sha512-+mfScEIz6A4PcFbEZmsPzW5r513GH2D4I4ETvLZcO7lc45K9HtVYOUYXXpbOIkuoSf7//sY2zuRemQWYWmwhBA==
-  dependencies:
-    axios "^0.21.1"
-    uuid-js "^0.7.5"
 
 react-native-fs@2.20.0:
   version "2.20.0"
@@ -15149,11 +15146,6 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
-
-uuid-js@^0.7.5:
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/uuid-js/-/uuid-js-0.7.5.tgz#6c886d02a53d2d40dcf25d91a170b4a7b25b94d0"
-  integrity sha512-lJFducSMfVDO3E1wBe/zflgU25JbpX9KfF+g0k6OxIt9xeybdZd27n75vPg+4cLN55UKGjJ46w3K3q3l+8KgkQ==
 
 uuid@^3.0.1, uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"
