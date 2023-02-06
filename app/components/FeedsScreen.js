@@ -15,7 +15,7 @@ import { hslString } from '../utils/colors'
 import { deepEqual, getInset, getMargin, getStatusBarHeight } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { textInfoStyle } from '../utils/styles'
+import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -100,9 +100,9 @@ class FeedsScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.props.feeds.length === 0) {
-      setTimeout(this.showAddFeeds.bind(this), 500)
-    }
+    // if (this.props.feeds.length === 0) {
+    //   setTimeout(this.showAddFeeds.bind(this), 500)
+    // }
   }
 
   componentDidUpdate = () => {
@@ -181,66 +181,67 @@ class FeedsScreen extends React.Component {
           animated={true}
           barStyle="dark-content"
           showHideTransition="slide"/>
-        <AnimatedSectionList
-          sections={sections}
-          key={screenWidth}
-          keyExtractor={card => card.key}
-          initialNumToRender={3}
-          // ListHeaderComponent={<ListHeaderComponent
-          //   backend={this.props.backend}
-          //   clearReadItems={this.props.clearReadItems}
-          //   isPortrait={this.props.isPortrait}
-          //   navigation={navigation}
-          //   numItems={this.props.numItems}
-          //   numFeeds={this.props.feeds.length}
-          //   markAllRead={this.props.markAllRead}
-          //   scrollAnim={this.scrollAnim}
-          //   setIndex={this.props.setIndex}
-          //   showAddFeeds={this.showAddFeeds.bind(this)}
-          //   showModal={this.props.showModal}
-          //   width={this.width}
-          // />}
-          numColumns={numCols}
-          onScroll={Animated.event(
-            [{ nativeEvent: {
-              contentOffset: { y: this.scrollAnim }
-            }}],
-            {
-              useNativeDriver: true
-            }
-          )}
-          scrollEventThrottle={1}
-          stickySectionHeadersEnabled={false}
-          // renderItem={this.renderFeed}
-          renderItem={({section, index}) => {
-            if (index % numCols) { // items are already consumed 
-              return null
-            }
-            // grab all items for the row
-            const rowItems = section.data?.slice(index, index+numCols)
-              .map((item, i, array) => ({ 
-                item, 
-                index: index+i,
-                count: array.length
-              }))
-            // wrap selected items in a "row" View 
+        { feeds.length === 0 ? 
+          (<View style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
 
-            return rowItems ? <View 
-                style={{
-                  flexDirection:"row",
-                  justifyContent:"center"
-                }}
-              >{rowItems.map(this.renderFeed)}</View> :
-              null
-          }}
-          renderSectionHeader={this.renderSectionHeader.bind(this)}
-          scrollEnabled={this.state.scrollEnabled}
-          showsVerticalScrollIndicator={false}
-          onScrollBeginDrag={() => { this.isScrolling = true }}
-          onScrollEndDrag={() => { this.isScrolling = false }}
-          windowSize={6}
-          ListHeaderComponent={<View style={{height: margin}}/>}
-        />
+          }}>
+            <Text style={{
+              ...textInfoStyle(),
+              margin: getMargin(),
+              lineHeight: 24,  
+            }}>Add feeds from your favourite websites. New articles will then automatically show up here.</Text>
+            <TextButton text='Add Feeds' onPress={this.showAddFeeds.bind(this)} />
+          </View>) :
+          <AnimatedSectionList
+            sections={sections}
+            key={screenWidth}
+            keyExtractor={card => card.key}
+            initialNumToRender={3}
+            numColumns={numCols}
+            onScroll={Animated.event(
+              [{ nativeEvent: {
+                contentOffset: { y: this.scrollAnim }
+              }}],
+              {
+                useNativeDriver: true
+              }
+            )}
+            scrollEventThrottle={1}
+            stickySectionHeadersEnabled={false}
+            // renderItem={this.renderFeed}
+            renderItem={({section, index}) => {
+              if (index % numCols) { // items are already consumed 
+                return null
+              }
+              // grab all items for the row
+              const rowItems = section.data?.slice(index, index+numCols)
+                .map((item, i, array) => ({ 
+                  item, 
+                  index: index+i,
+                  count: array.length
+                }))
+              // wrap selected items in a "row" View 
+
+              return rowItems ? <View 
+                  style={{
+                    flexDirection:"row",
+                    justifyContent:"center"
+                  }}
+                >{rowItems.map(this.renderFeed)}</View> :
+                null
+            }}
+            renderSectionHeader={this.renderSectionHeader.bind(this)}
+            scrollEnabled={this.state.scrollEnabled}
+            showsVerticalScrollIndicator={false}
+            onScrollBeginDrag={() => { this.isScrolling = true }}
+            onScrollEndDrag={() => { this.isScrolling = false }}
+            windowSize={6}
+            ListHeaderComponent={<View style={{height: margin}}/>}
+          />
+        }
         { modal !== null && (
             <FeedExpanded {...modal} {...{ close }} />
           )
