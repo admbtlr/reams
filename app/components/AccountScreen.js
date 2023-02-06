@@ -17,6 +17,7 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getInset, getMargin, getStatusBarHeight } from '../utils'
 import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
 import { ItemType } from '../store/items/types'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 
 class AccountScreen extends React.Component {
 
@@ -38,6 +39,7 @@ class AccountScreen extends React.Component {
   }
 
   redirectToItems (gotoFeeds = false, useTimeout = false) {
+    const { backend, displayMode, navigation } = this.props
     let args = []
     if (backend) {
       if (displayMode === ItemType.saved) {
@@ -147,6 +149,7 @@ class AccountScreen extends React.Component {
         marginLeft: -getMargin() * 2, 
         marginRight: -getMargin() * 2, 
         marginTop: 0 - getStatusBarHeight(),
+        marginBottom: getMargin() * 2,
         paddingTop: getStatusBarHeight() + getMargin() * 2,
         minHeight: getStatusBarHeight() + getMargin() + 200,
         flexDirection: 'column',
@@ -179,6 +182,27 @@ class AccountScreen extends React.Component {
       </View>
     )
 
+    const Separator = ({title}) => (
+      <View style={{
+        borderTopColor: hslString('rizzleText', '', 0.3),
+        borderTopWidth: 1,
+        marginVertical: margin,
+        paddingTop: margin / 2,
+        // flex: 1,
+        flexDirection: 'row',
+        // justifyContent: 'space-between',
+      }}>
+        <Text style={{
+          ...textInfoStyle(),
+          fontFamily: 'IBMPlexSans-Bold',
+          fontSize: 22 * fontSizeMultiplier(),
+          padding: 0,
+          marginLeft: 0,
+          flex: 4
+        }}>{title}</Text> 
+      </View>
+    )
+
     const getAttributes = (service) => ({
       borderColor: backend === service && hslString('logo1'),
       buttonStyle: { 
@@ -204,8 +228,8 @@ class AccountScreen extends React.Component {
       testID: `${service}-button`
     })
 
-    // console.log(Config)
-
+    // console.log(Config)  
+  
     return (
       <View>
         <KeyboardAwareScrollView
@@ -245,10 +269,14 @@ class AccountScreen extends React.Component {
                   <Text style={{ 
                     ...textTipStyles('white'),
                     textAlign: 'center',
-                  }}>If you have an account with either Feedbin or Feed Wrangler, enter your login details below. Alternatively, you can just use Reams Basic.</Text>
+                    marginBottom: getMargin() * 2,
+                  }}>You don't need one to use Reams, but if you have an account with one of the RSS servives below, enter your login details.</Text>
+                  <TextButton
+                    onPress={this.props.setBackend('basic')} 
+                    text='I don’t have an account'></TextButton>
                 </HelpView>
               }
-              <TextButton
+              {/* <TextButton
                 text={ 'Reams Basic' }
                 { ...getAttributes('basic') }
                 iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'basic' ? 'white' : 'rizzleText'), hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
@@ -258,7 +286,8 @@ class AccountScreen extends React.Component {
                   marginBottom: getMargin() * 2,
                   marginTop: getMargin() * 2,
                 }}
-              />
+              /> */}
+              <Separator title='RSS' />
               {Config.FLAG_PLUS && <TextButton
                 text={ 'Reams +' }
                 { ...getAttributes('rizzle') }
@@ -277,6 +306,13 @@ class AccountScreen extends React.Component {
               <TextButton
                 text={ 'Feedwrangler' }
                 { ...getAttributes('feedwrangler') }
+                iconCollapsed={feedWranglerLogo}  
+                iconExpanded={feedWranglerLogo}  
+              />
+              <Separator title='Highlights' />
+              <TextButton
+                text={ 'Readwise' }
+                { ...getAttributes('readwise') }
                 iconCollapsed={feedWranglerLogo}  
                 iconExpanded={feedWranglerLogo}  
               />
