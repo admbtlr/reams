@@ -24,7 +24,7 @@ import { useNavigation } from '@react-navigation/native'
 export default function InitialScreen({}) {
   const scrollAnim = new Animated.Value(0)
   const backend = useSelector((state: RootState) => state.config.backend)
-  const displayMode = useSelector((state: RootState) => state.config.display)
+  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
   const hasFeeds = useSelector((state: RootState) => state.feeds.feeds.length > 0)
@@ -58,7 +58,7 @@ export default function InitialScreen({}) {
         args = ['Items']
       } else if (gotoFeeds) {
         args = ['Feeds', 'Items', 'Feeds']
-      } else {
+      } else if (hasFeeds) {
         args = ['Feeds', 'Items']
       }
     }
@@ -194,7 +194,7 @@ export default function InitialScreen({}) {
                 }}
                 scrollAnim={scrollAnim}
                 index={1}
-                text='Saved Stories'
+                text='Library'
                 viewStyle={{ paddingLeft: 5 }}
               />
               <NavButton
