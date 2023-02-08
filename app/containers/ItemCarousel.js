@@ -22,10 +22,10 @@ const mapStateToProps = (state, ownProps) => {
   // temporary!
   // just keeping this here while there's no UI for saved items
   // only want to show saved items with 'inbox' category
-  if (state.itemsMeta.display === ItemType.saved) {
-    const inbox = state.categories.categories.find(category => category._id === 'inbox')
-    items = items.filter(item => inbox.itemIds.find(itemId => itemId === item._id) !== undefined)
-  }
+  // if (state.itemsMeta.display === ItemType.saved) {
+  //   const inbox = state.categories.categories.find(category => category._id === 'inbox')
+  //   items = items.filter(item => inbox.itemIds.find(itemId => itemId === item._id) !== undefined)
+  // }
   const index = getIndex(state)
   const numItems = state.config.isOnboarding ?
     state.config.onboardingLength :
