@@ -341,15 +341,14 @@ const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
           }
         }  
       }
-      if (state.index > 0) {
-  
-        for (let i = 1; i <= 2; i++) {
-          if (state.items[state.index - i]) {
-            index++
-            itemsToKeep.unshift(state.items[state.index - i])
-          }
-        }
-      }
+      // if (state.index > 0) {  
+      //   for (let i = 1; i <= 2; i++) {
+      //     if (state.items[state.index - i]) {
+      //       index++
+      //       itemsToKeep.unshift(state.items[state.index - i])
+      //     }
+      //   }
+      // }
     }
   }
   if (itemsToKeep.length > 0) {

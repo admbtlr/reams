@@ -84,37 +84,34 @@ class AppStateListener extends React.Component {
   }
 
   async checkPageBucket () {
-    SharedGroupPreferences.getItem('page', this.group).then(value => {
+    try {
+      const value = await SharedGroupPreferences.getItem('page', this.group)
       // console.log('CHECKING PAGE BUCKET: ' + value)
       if (value !== null) {
-        SharedGroupPreferences.setItem('page', null, this.group)
+        await SharedGroupPreferences.setItem('page', null, this.group)
         const parsed = JSON.parse(value)
         const pages = typeof parsed === 'object' ?
           parsed :
           [parsed]
         // console.log(`Got ${pages.length} page${pages.length === 1 ? '' : 's'} to save`)
         const that = this
-        pages.forEach(page => {
-          // ugh, need a timeout to allow for rehydration
-          setTimeout(() => {
-            that.savePage.call(that, page)
-          }, 100)
-        })
+        pages.forEach(page => that.savePage(page))
       }
-    }).catch(err => {
+    } catch(err) {
       // '1' just means that there is nothing in the bucket
       if (err !== 1) {
         log('checkPageBucket', err)
       }
-    })
+    }
   }
 
   async checkFeedBucket () {
-    SharedGroupPreferences.getItem('feed', this.group).then(value => {
+    try {
+      const value = SharedGroupPreferences.getItem('feed', this.group)
       if (value !== null) {
         const url = value
         const that = this
-        SharedGroupPreferences.setItem('feed', null, this.group)
+        await SharedGroupPreferences.setItem('feed', null, this.group)
         // console.log(`Got a feed to subscribe to: ${url}`)
         // TODO check that value is a feed url
         // TODO check that feed is not already subscribed!
@@ -163,12 +160,12 @@ class AppStateListener extends React.Component {
             log('checkFeedBucket', err)
           })
       }
-    }).catch(err => {
+    } catch(err) {
       // '1' just means that there is nothing in the bucket
       if (err !== 1) {
         log('checkFeedBucket', err)
       }
-    })
+    }
   }
 
   savePage (page) {
