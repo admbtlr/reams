@@ -98,7 +98,7 @@ class AccountScreen extends React.Component {
 
 
   render () {
-    const { backend, hasFeeds, isPortrait, navigation } = this.props
+    const { backend, hasFeeds, isPortrait, navigation, isReadwise } = this.props
     const { expandedBackend } = this.state
     const width = Dimensions.get('window').width
     const buttonWidth = width > 950 ?
@@ -219,10 +219,11 @@ class AccountScreen extends React.Component {
       fgColor:  backend === service && hslString('logo1'),
       onExpand: () => this.setExpandedBackend(service),
       renderExpandedView: () => <AccountCredentialsForm
-        isActive={backend === service}
+        isActive={service === 'readwise' ? isReadwise : backend === service}
         service={service}
         setBackend={this.props.setBackend}
         unsetBackend={this.props.unsetBackend}
+        setReadwiseToken={this.props.setReadwiseToken}
         user={this.props.user}
       />,
       testID: `${service}-button`

@@ -9,6 +9,7 @@ export enum Direction {
 // config
 export const SET_BACKEND = 'SET_BACKEND'
 export const UNSET_BACKEND = 'UNSET_BACKEND'
+export const SET_READWISE_TOKEN = 'SET_READWISE_TOKEN'
 export const UPDATE_ONBOARDING_INDEX = 'UPDATE_ONBOARDING_INDEX'
 export const TOGGLE_ONBOARDING = 'TOGGLE_ONBOARDING'
 export const ITEMS_ONBOARDING_DONE = 'ITEMS_ONBOARDING_DONE'
@@ -39,6 +40,11 @@ interface setBackendAction {
 
 interface unsetBackendAction {
   type: typeof UNSET_BACKEND
+}
+
+interface setReadwiseTokenAction {
+  type: typeof SET_READWISE_TOKEN
+  token: string
 }
 
 interface updateOnboardingInxeAction {
@@ -116,6 +122,7 @@ interface setStateActiveAction {
 
 export type ConfigActionTypes = setBackendAction |
   unsetBackendAction |
+  setReadwiseTokenAction |
   updateOnboardingInxeAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |

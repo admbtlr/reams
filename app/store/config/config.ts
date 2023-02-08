@@ -3,6 +3,7 @@ import {
   Direction,
   SET_BACKEND,
   UNSET_BACKEND,
+  SET_READWISE_TOKEN,
   UPDATE_ONBOARDING_INDEX,
   TOGGLE_ONBOARDING,
   ITEMS_ONBOARDING_DONE,
@@ -34,6 +35,7 @@ export interface ConfigState {
   readonly userId: string
   readonly backend: string
   readonly accessToken: string
+  readonly readwiseToken: string
   readonly isOnboarding: boolean
   readonly lastUpdated: number
   readonly onboardingIndex: number
@@ -54,6 +56,7 @@ const initialState = {
   userId: id(),
   backend: '',
   accessToken: '',
+  readwiseToken: null,
   isOnboarding: true,
   lastUpdated: 0,
   onboardingIndex: 0,
@@ -88,6 +91,12 @@ export function config (
       return {
         ...state,
         backend: ''
+      }
+
+    case SET_READWISE_TOKEN: 
+      return {
+        ...state,
+        readwiseToken: action.token
       }
 
     case UPDATE_ONBOARDING_INDEX:

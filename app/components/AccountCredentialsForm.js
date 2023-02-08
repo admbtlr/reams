@@ -7,6 +7,7 @@ import EncryptedStorage from 'react-native-encrypted-storage'
 
 import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../backends/rizzle'
+import { init } from '../backends/readwise'
 import { authenticate } from '../backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getMargin } from '../utils'
@@ -58,13 +59,19 @@ class AccountCredentialsForm extends React.Component {
     this.authenticateUser = this.authenticateUser.bind(this)
   }
 
-  async authenticateUser ({username, password, email}, {setSubmitting, setErrors}) {
+  async authenticateUser ({username, password, email, token}, {setSubmitting, setErrors}) {
     const { service, setBackend } = this.props
     if (service === 'rizzle') {
       email = email.trim()
       this.props.setSignInEmail(email)
       await sendEmailLink(email)
       console.log(`email: ${email}`)
+    } else if (service === 'readwise') {
+      this.props.setReadwiseToken(token)
+      setSubmitting(false)
+      this.setState({
+        isAuthenticated: true
+      })
     } else {
       const response = await authenticate({username, password}, service)
       console.log(response)
