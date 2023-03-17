@@ -1,6 +1,6 @@
 import { InteractionManager } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
-import { PRUNE_UNREAD } from '../store/items/types'
+import { PRUNE_UNREAD, SET_SAVED_ITEMS } from '../store/items/types'
 import { deleteItemsAS } from '../storage/async-storage'
 
 import { getItems, getConfig, getSavedItems, getUnreadItems } from './selectors'
@@ -57,4 +57,21 @@ function * doRemoveItems (items) {
     log('deleteItemsAS', err)
   }
   removeCachedCoverImages(items)
+}
+
+// trying to remediate a bug with duplidated saved items
+export function * dedupeSaved () {
+  const savedItems = yield select(getSavedItems)
+  let deduped = []
+  savedItems.forEach((e) => {
+    if (deduped.filter(di => di._id === e._id).length === 0) {
+      deduped.push(e)
+    }
+  })
+  if (deduped.length !== savedItems.length) {
+    yield put({
+      type: SET_SAVED_ITEMS,
+      items: deduped
+    })
+  }
 }
