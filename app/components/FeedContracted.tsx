@@ -186,9 +186,9 @@ class FeedContracted extends React.PureComponent {
         feeds.length > 3 ? 2 :
         feeds.length > 1 ? 1 :
         0) :
-      (feeds.length > 18 ? 3.01 :
-        feeds.length > 8 ? 2.01 :
-        feeds.length > 1 ? 1.001 :
+      (feeds.length > 18 ? 3 :
+        feeds.length > 8 ? 2 :
+        feeds.length > 1 ? 1 :
         0)
 
     return (
@@ -225,7 +225,7 @@ class FeedContracted extends React.PureComponent {
               justifyContent: 'flex-start',
               backgroundColor: type !== 'feed' ? 'black' : hslString(feeds[0].feed.color, 'desaturated'),
               position: 'relative',
-              overflow: 'visible',
+              overflow: 'hidden',
               // borderWidth: type == 'feed' ? 0 : 5,
               // borderColor: hslString('white'),
               ...shadowStyle
@@ -234,8 +234,8 @@ class FeedContracted extends React.PureComponent {
               ref={(c: React.RefObject<View>) => this.imageView = c}
               style={{
                 backgroundColor: 'white',
-                height: '100%',
-                width: '100%',
+                height: '110%',
+                width: '110%',
                 borderRadius: 16,
                 overflow: 'hidden',
                 flex: 1,
@@ -247,8 +247,8 @@ class FeedContracted extends React.PureComponent {
                   key={feed.feedId}
                   style={{
                     backgroundColor: hslString(feed.color, 'desaturated'),
-                    width: feeds.length > 1 ? cardHeight / cardSizeDivisor : cardWidth,
-                    height: feeds.length > 1 ? cardHeight / cardSizeDivisor : cardHeight
+                    width: feeds.length > 1 ? Math.round(cardHeight / cardSizeDivisor) : cardWidth,
+                    height: feeds.length > 1 ? Math.round(cardHeight / cardSizeDivisor) : cardHeight
                   }}>
                   <FeedCoverImage
                     feed={feed}
