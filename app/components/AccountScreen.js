@@ -203,31 +203,40 @@ class AccountScreen extends React.Component {
       </View>
     )
 
-    const getAttributes = (service) => ({
-      borderColor: backend === service && hslString('logo1'),
-      buttonStyle: { 
-        alignSelf: 'center',
-        marginBottom: getMargin() * 2,
-        // width: buttonWidth 
-      },
-      iconBg: true,
-      iconCollapsed:  getRizzleButtonIcon(service, null, hslString(backend === service ? 'logo1' : 'buttonBG')), 
-      iconExpanded:  getRizzleButtonIcon(service, null, hslString(backend === service ? 'logo1' : 'buttonBG')),
-      isExpandable: true,
-      isExpanded: backend === service || expandedBackend === service,
-      isInverted: backend === service,
-      fgColor:  backend === service && hslString('logo1'),
-      onExpand: () => this.setExpandedBackend(service),
-      renderExpandedView: () => <AccountCredentialsForm
-        isActive={service === 'readwise' ? isReadwise : backend === service}
-        service={service}
-        setBackend={this.props.setBackend}
-        unsetBackend={this.props.unsetBackend}
-        setReadwiseToken={this.props.setReadwiseToken}
-        user={this.props.user}
-      />,
-      testID: `${service}-button`
-    })
+    const isBackendActive = (service) => service === 'readwise' 
+      ? isReadwise 
+      : backend === service
+
+    const getAttributes = (service) => {
+      const bgColor = isBackendActive(service) ? hslString('logo1') : hslString('buttonBG')
+      const fgColor = isBackendActive(service) ? 'white' : hslString('rizzleText')
+      return {
+        borderColor: isBackendActive(service) && hslString('logo1'),
+        buttonStyle: { 
+          alignSelf: 'center',
+          marginBottom: getMargin() * 2,
+          // width: buttonWidth 
+        },
+        iconBg: true,
+        iconCollapsed:  getRizzleButtonIcon(service, fgColor, bgColor), 
+        iconExpanded:  getRizzleButtonIcon(service, fgColor, bgColor),
+        isExpandable: true,
+        isExpanded: isBackendActive(service) || expandedBackend === service,
+        isInverted: isBackendActive(service),
+        fgColor:  isBackendActive(service) && hslString('logo1'),
+        onExpand: () => this.setExpandedBackend(service),
+        renderExpandedView: () => <AccountCredentialsForm
+          isActive={service === 'readwise' ? isReadwise : backend === service}
+          service={service}
+          setBackend={this.props.setBackend}
+          unsetBackend={this.props.unsetBackend}
+          setExtraBackend={this.props.setExtraBackend}
+          unsetExtraBackend={this.props.unsetExtraBackend}
+          user={this.props.user}
+        />,
+        testID: `${service}-button`
+      }
+    }
 
     // console.log(Config)  
   
@@ -273,7 +282,7 @@ class AccountScreen extends React.Component {
                     marginBottom: getMargin() * 2,
                   }}>You don't need one to use Reams, but if you have an account with one of the RSS servives below, enter your login details.</Text>
                   <TextButton
-                    onPress={this.props.setBackend('basic')} 
+                    onPress={() => this.props.setBackend('basic')} 
                     text='I don’t have an account'></TextButton>
                 </HelpView>
               }
@@ -314,8 +323,6 @@ class AccountScreen extends React.Component {
               <TextButton
                 text={ 'Readwise' }
                 { ...getAttributes('readwise') }
-                iconCollapsed={feedWranglerLogo}  
-                iconExpanded={feedWranglerLogo}  
               />
             </View>
           </View>

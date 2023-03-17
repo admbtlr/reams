@@ -8,7 +8,7 @@ import EncryptedStorage from 'react-native-encrypted-storage'
 import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../backends/rizzle'
 import { init } from '../backends/readwise'
-import { authenticate } from '../backends'
+import { authenticate, unsetBackend } from '../backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import {
@@ -60,14 +60,14 @@ class AccountCredentialsForm extends React.Component {
   }
 
   async authenticateUser ({username, password, email, token}, {setSubmitting, setErrors}) {
-    const { service, setBackend } = this.props
+    const { service, setBackend, setExtraBackend } = this.props
     if (service === 'rizzle') {
       email = email.trim()
       this.props.setSignInEmail(email)
       await sendEmailLink(email)
       console.log(`email: ${email}`)
     } else if (service === 'readwise') {
-      this.props.setReadwiseToken(token)
+      setExtraBackend('readwise', {token})
       setSubmitting(false)
       this.setState({
         isAuthenticated: true
@@ -103,7 +103,7 @@ class AccountCredentialsForm extends React.Component {
   }
 
   render = () => {
-    const { isActive, isExpanded, service, setBackend, unsetBackend, user } = this.props
+    const { isActive, isExpanded, service, setBackend, setExtraBackend, unsetExtraBackend, user } = this.props
     const serviceDisplay = service === 'basic' ?
       'Rizzle Basic' :
       service[0].toUpperCase() + service.slice(1)
@@ -153,6 +153,8 @@ class AccountCredentialsForm extends React.Component {
       }
     }
 
+    const isServiceExtra = (service) => service === 'readwise'
+
     const SubmitButton = ({ errors, handleSubmit, isSubmitting, isValid }) => {
       const errorsText = (
         <View style={{
@@ -199,7 +201,7 @@ class AccountCredentialsForm extends React.Component {
         enableReinitialize={true}
         initialValues={initialValues}
         isInitialValid={this.state.email || this.state.username || this.state.token ? true : false}
-        onSubmit={service === 'readwise' ? () => {} : this.authenticateUser}
+        onSubmit={this.authenticateUser}
         validationSchema={validationSchemaShape}
       >
         {({
@@ -217,11 +219,11 @@ class AccountCredentialsForm extends React.Component {
           }}>
             { isActive ?
               <View style={{
-                // backgroundColor: hslString('logo1'),
+                backgroundColor: hslString('logo1'),
                 paddingTop: 16 * fontSizeMultiplier(),
                 paddingLeft: 16 * fontSizeMultiplier(),
                 paddingRight: 16 * fontSizeMultiplier(),
-                paddingBottom: 16 * fontSizeMultiplier(),
+                paddingBottom: 32 * fontSizeMultiplier(),
                 marginTop: 16 * fontSizeMultiplier(),
                 flex: 0,
                 flexDirection: 'column',
@@ -236,17 +238,23 @@ class AccountCredentialsForm extends React.Component {
                     { !!isActive && reamsText(true) }
                   </View> :
                   <React.Fragment>
-                    { service !== 'feedwrangler' &&
-                      <Text style={textInfoStyle('white')}>
+                    { !(service === 'feedwrangler' || service === 'readwise') &&
+                      <Text style={{
+                        ...textInfoStyle('white'),
+                        marginTop: -10,
+                        marginBottom: 10
+                      }}>
                         <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
                       </Text>
                     }
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}
                       color={hslString('white')}
-                      onPress={() => setBackend('basic')}
+                      onPress={() => isServiceExtra(service) ?
+                        unsetExtraBackend(service) :
+                        setBackend('basic')}
                       style={{
-                        marginTop: 16
+                        // marginTop: 16
                       }}
                       testID={`${service}-logout-button`}
                     >

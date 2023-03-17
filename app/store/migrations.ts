@@ -76,8 +76,20 @@ export const migrations = {
     return state
   },
   4: (state: RootState) => {
-    // migration to add unique user id
+    // migration to add readwise token
     state.config.readwiseToken = null
     return state
+  },
+  5: (state: RootState) => {
+    // oops
+    state.config.userId = id()
+    return {
+      ...state,
+      config: {
+        ...state.config,
+        userId: id(),
+        readwiseToken: null
+      }
+    }
   }
 }

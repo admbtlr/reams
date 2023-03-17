@@ -2,6 +2,7 @@ import { call, cancel, delay, fork, select, takeEvery } from 'redux-saga/effects
 import { REHYDRATE } from 'redux-persist'
 import { 
   SET_BACKEND, 
+  SET_EXTRA_BACKEND, 
   STATE_ACTIVE,
   STATE_INACTIVE,
   UNSET_BACKEND 
@@ -35,20 +36,20 @@ import {
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
 import { markLastItemRead, clearReadItems, filterItemsForRead } from './mark-read'
-import { pruneItems, removeItems, removeAllItems } from './prune-items'
+import { dedupeSaved, pruneItems, removeItems, removeAllItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
 import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
 import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed } from './feeds'
-import { initBackend } from './backend'
+import { initBackend, initOtherBackends } from './backend'
 import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
 import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
 import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
-import { DELETE_ANNOTATION } from '../store/annotations/types'
-import { deleteAnnotation } from './annotations'
+import { ADD_ANNOTATION, DELETE_ANNOTATION, EDIT_ANNOTATION } from '../store/annotations/types'
+import { addAnnotation, deleteAnnotation, editAnnotation } from './annotations'
 
 let downloadsFork
 
@@ -58,6 +59,17 @@ function * init (action) {
   if (!config.backend || config.backend === '') return
 
   yield initBackend(action)
+
+  if (config.readwiseToken) {
+    yield initOtherBackends({
+      backend: 'readwise',
+      credentials: {
+        token: config.readwiseToken
+      }
+    })
+  }
+
+  yield dedupeSaved()
 
   if (!global.isBackgroundFetch) {
     yield call(inflateItems)
@@ -99,6 +111,7 @@ export function * initSagas () {
   yield takeEvery(SET_BACKEND, init)
   yield takeEvery(UNSET_BACKEND, removeAllItems)
   yield takeEvery(UNSET_BACKEND, killBackend)
+  yield takeEvery(SET_EXTRA_BACKEND, initOtherBackends)
   yield takeEvery(ADD_FEED, subscribeToFeed)
   yield takeEvery(ADD_FEEDS, subscribeToFeeds)
   yield takeEvery(MARK_FEED_READ, markFeedRead)
@@ -128,6 +141,8 @@ export function * initSagas () {
   yield takeEvery(ADD_FEED_TO_CATEGORY, updateCategory)
   yield takeEvery(REMOVE_FEED_FROM_CATEGORY, updateCategory)
 
+  yield takeEvery(ADD_ANNOTATION, addAnnotation)
+  yield takeEvery(EDIT_ANNOTATION, editAnnotation)
   yield takeEvery(DELETE_ANNOTATION, deleteAnnotation)
 
   // reading timer

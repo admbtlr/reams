@@ -1,4 +1,5 @@
 import { Annotation } from "store/annotations/types";
+import { getItem } from "../utils/get-item";
 
 let token: String
 
@@ -24,56 +25,91 @@ function getRequest (endpoint: String) {
 function postRequest (endpoint: String, body: String) {
   return doRequest(getUrl(endpoint), {
     method: 'POST',
-    body: JSON.stringify(body)
+    body
   })
 }
 
-function deleteRequest (endpoint: String, body: String, expectNoContent = false) {
+function patchRequest (endpoint: String, body: String) {
   return doRequest(getUrl(endpoint), {
-    method: 'DELETE',
-    body: JSON.stringify(body)
-  }, expectNoContent)
+    method: 'PATCH',
+    body
+  })
+}
+
+function deleteRequest (endpoint: String) {
+  return doRequest(getUrl(endpoint), {
+    method: 'DELETE'
+  }, true)
 }
 
 async function doRequest (url: String, options: {headers?: {}} = {}, expectNoContent = false) {
-  // const getNextPage = (headers) => {
-  //   const links = headers?.get('Links')?.split(',')
-  //   if (links) {
-  //     const nextPage = links.find(link => link.indexOf('rel="next"') > -1)
-  //     return nextPage?.match(/<(.*)>/)[1]
-  //   } else {
-  //     return null
-  //   }
-  // }
-
   options.headers = options.headers || getBasicAuthHeader()
-  options.headers['Content-Type'] = 'application/json; charset=utf-8'
+  options.headers['Content-Type'] = 'application/json'
   const response = await fetch(url, options)
   if (!response.ok) {
+    const body = await response.text()
+    console.log(body)
     throw Error(response.statusText)
   }
 
-  let json //, nextPage
-  // if (response.headers) {
-  //   nextPage = getNextPage(response.headers)
-  // }
+  let json
   if (!expectNoContent) {
     json = await response.json()
-    // if (nextPage) {
-    //   json.nextPage = nextPage
-    // }
   }
   return expectNoContent || json
 }
 
-export function createHighlight (highlight: Annotation) {
-  // ...
+export async function createHighlight (highlight: Annotation) {
+  const response = await createHighlights([highlight])
+  return response[0]
 }
 
-export function updateHighlight (highlight: Annotation) {
-
+export async function createHighlights (highlights: Annotation[]) {
+  // a function to save a highlight to Readwise
+  const body = {
+    "highlights": highlights.map((h: Annotation) => {
+      const item = getItem(undefined, h.item_id, 'saved')
+      return {
+        "source_type": "Reams",
+        "source_url": h.url,
+        "note": h.note,
+        "text": h.text,
+        "title": item.title,
+        "author": item.author,
+      }
+    })
+  }
+  // const body = '{"highlights": [{"text": "test"}]}'
+  try {
+    const response = await postRequest('highlights', JSON.stringify(body))
+    return response
+  } catch (e) {
+    console.log(e)
+  }
 }
 
-export function deleteHighlight (highlight: Annotation) {
+export async function updateHighlight (highlight: Annotation) {
+  if (!highlight.remote_id) {
+    return createHighlight(highlight)
+  }
+  const body = {
+    "note": highlight.note,
+    "text": highlight.text,
+  }
+  try {
+    const response = await patchRequest(`highlights/${highlight.remote_id}/`, JSON.stringify(body))
+    return response
+  } catch (e) {
+    console.log(e)
+  }
+}
 
+export async function deleteHighlight (highlight: Annotation) {
+  if (!highlight.remote_id) return
+  try {
+    const response = await deleteRequest(`highlights/${highlight.remote_id}/`)
+    return response
+  } catch (e) {
+    console.log(e)
+  }
 }

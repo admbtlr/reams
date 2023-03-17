@@ -11,6 +11,7 @@ import {
   SET_FEEDS,
   UPDATE_FEEDS
 } from '../store/feeds/types'
+import { EDIT_ANNOTATION } from '../store/annotations/types'
 import {
   addSavedItemsFS,
   upsertFeedsFS,
@@ -20,6 +21,7 @@ import {
   setUserDetails
 } from '../storage/firestore'
 import {
+  getAnnotations,
   getConfig,
   getFeeds,
   getItems,
@@ -27,6 +29,7 @@ import {
   getUser
 } from './selectors'
 import { setBackend } from '../backends'
+import { createHighlights, init as initReadwise } from '../backends/readwise'
 import { receiveItems } from './fetch-items'
 import { cacheCoverImage } from './decorate-items'
 
@@ -71,6 +74,30 @@ export function * initBackend (action) {
       backendConfig = { username, password }
     }
     yield call(setBackend, backend, backendConfig)
+  }
+}
+
+export function * initOtherBackends ({ backend, credentials }) {
+  if (backend === 'readwise') {
+    initReadwise(credentials?.token)
+    if (credentials?.token) {
+      const annotations = yield select(getAnnotations)
+      const annotationsToUpload = annotations.filter(a => a.remote_id === undefined)
+      if (annotationsToUpload.length > 0) {
+        const response = yield call(createHighlights, annotationsToUpload)
+        let i = 0
+        for (let highlight of response) {
+          yield put({ 
+            type: EDIT_ANNOTATION, 
+            annotation: { 
+              ...annotationsToUpload[i++], 
+              remote_id: highlight.modified_highlights[0] 
+            },
+            skipRemote: true
+          })
+        }
+      }
+    }
   }
 }
 

@@ -94,3 +94,7 @@ export function getUid (state) {
 export function isOnline (state) {
   return state.config.isOnline
 }
+
+export function getAnnotations (state) {
+  return state.annotations.annotations
+}
