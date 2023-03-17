@@ -107,7 +107,7 @@ class AppStateListener extends React.Component {
 
   async checkFeedBucket () {
     try {
-      const value = SharedGroupPreferences.getItem('feed', this.group)
+      const value = await SharedGroupPreferences.getItem('feed', this.group)
       if (value !== null) {
         const url = value
         const that = this

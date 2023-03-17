@@ -218,14 +218,14 @@ class TopBar extends React.Component {
               </Animated.View>
             </TouchableOpacity>
           </View>
-          <DisplayModeToggle
+          {/* <DisplayModeToggle
             displayMode={displayMode}
             backgroundColor={this.getBackgroundColor(item, false)}
             buttonColor={this.getForegroundColor()}
             onDisplayPress={() => {
               this.onDisplayPress()
             }}
-          />
+          /> */}
       </Animated.View>
     </View>)
   }

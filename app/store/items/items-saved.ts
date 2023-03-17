@@ -24,7 +24,8 @@ import {
   ItemActionTypes,
   ItemsState,
   ItemType,
-  SAVE_EXTERNAL_ITEM_SUCCESS
+  SAVE_EXTERNAL_ITEM_SUCCESS,
+  SET_SAVED_ITEMS
 } from './types'
 import {
   itemMarkRead,
@@ -79,6 +80,12 @@ export function itemsSaved (
 
     case TOGGLE_MERCURY_VIEW:
       return itemToggleMercury(action, state)
+
+    case SET_SAVED_ITEMS:
+      return {
+        ...state,
+        items: action.items
+      }
 
     case SAVE_ITEM:
       items = [ ...state.items ]
@@ -195,7 +202,7 @@ export function itemsSaved (
       })
 
       // order by date
-      items.sort((a, b) => (b.savedAt - a.savedAt ))
+      items.sort((a, b) => ((b.savedAt || b.created_at) - (a.savedAt || a .created_at) ))
       index = items.indexOf(currentItem)
       index = index < 0 ? 0 : index
 
