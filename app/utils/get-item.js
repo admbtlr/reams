@@ -40,6 +40,7 @@ export const getItemId = (state, index) => {
 }
 
 export const getItem = (state, id, type = 'unread') => {
+  if (!state) state = store.getState()
   let items = type === 'unread' ?
     state.itemsUnread.items :
     state.itemsSaved.items

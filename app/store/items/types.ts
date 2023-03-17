@@ -60,6 +60,7 @@ export const CLEAR_READ_ITEMS_SUCCESS = 'CLEAR_READ_ITEMS_SUCCESS'
 export const SET_LAST_UPDATED = 'SET_LAST_UPDATED'
 export const REMOVE_ITEMS = 'REMOVE_ITEMS'
 export const SAVE_ITEM = 'SAVE_ITEM'
+export const SET_SAVED_ITEMS = 'SET_SAVED_ITEMS'
 export const SAVE_EXTERNAL_URL = 'SAVE_EXTERNAL_URL'
 export const SAVE_EXTERNAL_ITEM = 'SAVE_EXTERNAL_ITEM'
 export const SAVE_EXTERNAL_ITEM_SUCCESS = 'SAVE_EXTERNAL_ITEM_SUCCESS'
@@ -116,6 +117,11 @@ interface setLastUpdatedAction {
 
 interface removeItemsAction {
   type: typeof REMOVE_ITEMS
+  items: Item[]
+}
+
+interface setSavedItemsAction {
+  type: typeof SET_SAVED_ITEMS
   items: Item[]
 }
 
@@ -237,6 +243,7 @@ export type ItemActionTypes = setDisplayModeAction |
   clearReadItemsSuccessAction |
   setLastUpdatedAction |
   removeItemsAction |
+  setSavedItemsAction |
   saveItemAction |
   saveExternalItemAction |
   saveExternalItemSuccessAction |

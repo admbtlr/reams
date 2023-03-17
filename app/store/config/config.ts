@@ -3,7 +3,7 @@ import {
   Direction,
   SET_BACKEND,
   UNSET_BACKEND,
-  SET_READWISE_TOKEN,
+  SET_EXTRA_BACKEND,
   UPDATE_ONBOARDING_INDEX,
   TOGGLE_ONBOARDING,
   ITEMS_ONBOARDING_DONE,
@@ -16,6 +16,7 @@ import {
   SET_ORIENTATION,
   STATE_ACTIVE,
   STATE_INACTIVE,
+  UNSET_EXTRA_BACKEND,
 } from "./types"
 import { 
   FeedActionTypes,
@@ -35,7 +36,7 @@ export interface ConfigState {
   readonly userId: string
   readonly backend: string
   readonly accessToken: string
-  readonly readwiseToken: string
+  readonly readwiseToken: string | null
   readonly isOnboarding: boolean
   readonly lastUpdated: number
   readonly onboardingIndex: number
@@ -71,6 +72,8 @@ const initialState = {
   lastActivated: 0
 }
 
+let extras
+
 export function config (
   state = initialState, 
   action: ConfigActionTypes | FeedActionTypes
@@ -88,15 +91,26 @@ export function config (
       }
 
     case UNSET_BACKEND:
+      extras = action.backend === 'readwise' ? 
+        {readwiseToken: null} : 
+        {backend: ''}
       return {
         ...state,
-        backend: ''
+        ...extras
       }
 
-    case SET_READWISE_TOKEN: 
+    case SET_EXTRA_BACKEND: 
+      extras = action.backend === 'readwise' ? {readwiseToken: action.credentials?.token} : {}
       return {
         ...state,
-        readwiseToken: action.token
+        ...extras
+      }
+
+    case UNSET_EXTRA_BACKEND: 
+      extras = action.backend === 'readwise' ? {readwiseToken: null} : {}
+      return {
+        ...state,
+        ...extras
       }
 
     case UPDATE_ONBOARDING_INDEX:
