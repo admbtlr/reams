@@ -10,7 +10,7 @@ import { id } from '../utils'
 import { RootState } from '../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../store/ui/types'
 import { HighlightModeContext } from './ItemsScreen'
-import { SAVE_ITEM } from '../store/items/types'
+import { Item, SAVE_ITEM } from '../store/items/types'
 import { ADD_ITEM_TO_CATEGORY, Category } from '../store/categories/types'
 
 const calculateHeight = `
@@ -49,7 +49,17 @@ const stripUTags = (html: string) => {
   return html.replace(pattern, '')
 }
 
-export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }) => {
+interface ItemBodyProps {
+  bodyColor: string
+  item: Item
+  onTextSelection: (text: string, serialized: string) => void
+  orientation: string
+  showImageViewer: (image: string) => void
+  updateWebViewHeight: (height: number) => void
+  webViewHeight: number
+}
+
+export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
   let webView = useRef(null)
   const dispatch = useDispatch()
   const { activeHighlight, setActiveHighlight } = React.useContext(HighlightModeContext)
@@ -114,16 +124,18 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
       type: ADD_ANNOTATION,
       annotation
     })
-    dispatch({
-      type: SAVE_ITEM,
-      item,
-      savedAt: Date.now()
-    })
-    dispatch({
-      type: ADD_ITEM_TO_CATEGORY,
-      itemId: item._id,
-      categoryId: annotatedCategory?._id
-    })
+    if (item.savedAt === undefined) {
+      dispatch({
+        type: SAVE_ITEM,
+        item,
+        savedAt: Date.now()
+      })
+      dispatch({
+        type: ADD_ITEM_TO_CATEGORY,
+        itemId: item._id,
+        categoryId: annotatedCategory?._id
+      })
+    }
   }
 
   const editHighlight = (annotationId: string) => {
