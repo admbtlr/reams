@@ -170,7 +170,7 @@ class FeedItem extends React.Component {
     if (this.props.renderDate !== prevProps.renderDate) {
       this.initAnimatedValues(true)
     }
-    if (isVisible && !prevProps.isVisible) {
+    if (isVisible) {
       setScrollAnim(this.scrollAnim)
       this.scrollToOffset()
     }
@@ -204,6 +204,9 @@ class FeedItem extends React.Component {
 
   render () {
     __DEV__ && console.log('Rendering item', this.props.index)
+    if (__DEV__ && this.props.index === 0) {
+      console.log('Rendering item', this.props.index)
+    }
 
     if (!this.isInflated() || !this.state.shouldRender) {
       return (
