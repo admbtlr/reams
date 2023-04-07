@@ -48,7 +48,7 @@ class FeedContracted extends React.PureComponent {
   }
 
   onPress = (e: GestureResponderEvent) => {
-    const { clearReadItems, feed, filterItems, setIndex, navigation, type } = this.props
+    const { clearReadItems, feed, feeds, filterItems, setIndex, navigation, type } = this.props
     // this.imageView.measure(this.measured)
     // navigation.push('ModalWithGesture', {
     //   childView: <FeedExpandedContainer
@@ -57,6 +57,12 @@ class FeedContracted extends React.PureComponent {
     //       navigation={navigation}
     //     />
     // })
+
+    // fixes a bug when setting a filter with no feeds or items
+    if (type === 'category' && feeds.length === 0) {
+      return
+    }
+    
     this.opacityAnim.setValue(0.2)
     Animated.timing(this.opacityAnim, {
       toValue: 0,
