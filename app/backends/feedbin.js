@@ -274,14 +274,21 @@ export async function updateCategory ({ id, name, feeds }) {
   // AAAARGH if the tag isn't on feedbin because the taggings have been deleted, we need to create it
   // but then the feedbin id will be different, so we'll need to update our local copy
 
-  const taggingsForTag = taggings.filter(t => t.name === oldTag.name)
-  const oldFeedIds = taggingsForTag.map(t => t.feed_id)
-  const newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.id)).map(f => f.id)
-  const removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.id).includes(ofid))
-  await postRequest('tags.json', {
-    old_name: oldTag.name,
-    new_name: name
-  })
+  let oldFeedIds = []
+  let newFeedIds = feeds.map(f => f.id)
+  let removedFeedIds = []
+  let taggingsForTag = []
+
+  if (oldTag) {
+    taggingsForTag = taggings.filter(t => t.name === oldTag.name)
+    oldFeedIds = taggingsForTag.map(t => t.feed_id)
+    newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.id)).map(f => f.id)
+    removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.id).includes(ofid))
+    await postRequest('tags.json', {
+      old_name: oldTag.name,
+      new_name: name
+    })
+  }
   const promises = []
   newFeedIds.forEach(fid => {
     promises.push(postRequest('taggings.json', {
@@ -299,7 +306,7 @@ export async function updateCategory ({ id, name, feeds }) {
   tags = await getRequest('tags.json')
   const newTag = tags.find(t => t.name === name)
   return {
-    id: newTag.id,
+    id: newTag ? newTag.id : id,
     name,
     feeds
   }
