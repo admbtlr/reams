@@ -26,7 +26,6 @@ target 'Reams' do
   )
     
   # # third party deps
-  pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
 
   use_native_modules!
 
