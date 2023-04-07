@@ -64,8 +64,8 @@ export function categories (
             name: action.name,
             feeds: [],
             itemIds: [],
-            isFeeds: action.isFeeds,
-            isItems: action.isItems,
+            isFeeds: action.isFeeds === undefined ? true : action.isFeeds,
+            isItems: action.isItems === undefined ? true : action.isItems,
           } as Category
         ]
       }
