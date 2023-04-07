@@ -711,7 +711,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Fix for machines using nvm\n# https://stackoverflow.com/a/69210383\n#if [[ -s \"$HOME/.nvm/nvm.sh\" ]]; then\n#. \"$HOME/.nvm/nvm.sh\"\n#elif [[ -x \"$(command -v brew)\" && -s \"$(brew --prefix nvm)/nvm.sh\" ]]; then\n. \"$(brew --prefix nvm)/nvm.sh\"\n#fi\n\nexport NODE_BINARY=node\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport SENTRY_PROPERTIES=sentry.properties\n\n# If you are using RN 0.46+\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode \\\n  ../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "# Fix for machines using nvm\n# https://stackoverflow.com/a/69210383\n#if [[ -s \"$HOME/.nvm/nvm.sh\" ]]; then\n#. \"$HOME/.nvm/nvm.sh\"\n#elif [[ -x \"$(command -v brew)\" && -s \"$(brew --prefix nvm)/nvm.sh\" ]]; then\n#. \"$(brew --prefix nvm)/nvm.sh\"\n#fi\n\nexport NODE_BINARY=node\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport SENTRY_PROPERTIES=sentry.properties\n\n# If you are using RN 0.46+\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode \\\n  ../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		0DCFB8A92B75F86681A47A42 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -777,7 +777,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Fix for machines using nvm\n# https://stackoverflow.com/a/69210383\n#if [[ -s \"$HOME/.nvm/nvm.sh\" ]]; then\n#. \"$HOME/.nvm/nvm.sh\"\n#elif [[ -x \"$(command -v brew)\" && -s \"$(brew --prefix nvm)/nvm.sh\" ]]; then\n. \"$(brew --prefix nvm)/nvm.sh\"\n#fi\n\nexport NODE_BINARY=node\n../bin/react-native-xcode.sh\n";
+			shellScript = "# Fix for machines using nvm\n# https://stackoverflow.com/a/69210383\n#if [[ -s \"$HOME/.nvm/nvm.sh\" ]]; then\n#. \"$HOME/.nvm/nvm.sh\"\n#elif [[ -x \"$(command -v brew)\" && -s \"$(brew --prefix nvm)/nvm.sh\" ]]; then\n#. \"$(brew --prefix nvm)/nvm.sh\"\n#fi\n\nexport NODE_BINARY=node\n../bin/react-native-xcode.sh\n";
 		};
 		8743DA8CEAC606D81A08BF80 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
