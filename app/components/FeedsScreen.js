@@ -21,6 +21,8 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 class FeedsScreen extends React.Component {
 
+  // static whyDidYouRender = true
+
   constructor (props) {
     super(props)
     this.props = props
@@ -165,6 +167,8 @@ class FeedsScreen extends React.Component {
     const numCols = screenWidth > 500 ? 2 : 1
 
     const sections = this.getSections(isSaved, categories, feeds)
+
+    console.log('RENDER FEEDS SCREEN')
 
     return (
       <View
