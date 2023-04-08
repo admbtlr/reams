@@ -1,5 +1,3 @@
-- wtf is up with saved items? something in the reducer?
-  - think it's when saved items are batch fetched, tried to fix it in 361b265
 - categories in saved
 - text to speech
 - feedly
@@ -56,7 +54,8 @@
 - saved folders
 
 # Done
-
+- ~~wtf is up with saved items? something in the reducer?~~
+  - think it's when saved items are batch fetched, tried to fix it in 361b265
 - ~~why do saved external items (sometimes) render twice?~~
 - ~~pages in feedbin~~
 - ~~background fetch~~
