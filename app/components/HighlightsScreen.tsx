@@ -17,7 +17,7 @@ import { hslString } from '../utils/colors'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { RootState } from '../store/reducers'
 import { Annotation, DELETE_ANNOTATION, EDIT_ANNOTATION } from '../store/annotations/types'
-import { fontSizeMultiplier, getMargin } from '../utils'
+import { fontSizeMultiplier, getMargin, getStatusBarHeight } from '../utils'
 import { dustbinIcon, noteIcon } from '../utils/icons'
 import { SHOW_MODAL } from '../store/ui/types'
 import FeedIconContainer from '../containers/FeedIcon'
@@ -55,6 +55,7 @@ export default function HighlightsScreen ({ navigation }) {
       itemWithHighlights.highlights.push(h)
     }
   })
+  const [scrollAnim, setScrollAnim] = useState(new Animated.Value(0))
 
   const modalProps = (annotation: Annotation) => ({
     modalText: [{
@@ -82,6 +83,15 @@ export default function HighlightsScreen ({ navigation }) {
     }
   })
   
+  const shadowStyle = {
+    shadowColor: 'black',
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    shadowOffset: {
+      // width: 5,
+      height: 5
+    }
+  }
   
   const renderHighlightsByItem = (hbi: highlightsByItem, i: number) => (
     <View key={i} style={{
@@ -89,6 +99,7 @@ export default function HighlightsScreen ({ navigation }) {
       margin: getMargin(),
       padding: getMargin(),
       borderRadius: getMargin(),
+      ...shadowStyle
     }}>
       <View style={{
         flexDirection: 'row',
@@ -203,19 +214,53 @@ export default function HighlightsScreen ({ navigation }) {
   )
 
   return (
-    <View 
-      style={{
-        flex: 1,
-        backgroundColor: hslString('rizzleBG'),
-        // to ensure that borderRadius works on the animation
-        overflow: 'hidden',
-        borderRadius: 0,
-        paddingBottom: getMargin() * 2,
-      }}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-        { highlightsByItem.map(renderHighlightsByItem) }
-      </ScrollView>
-    </View>
+    <>
+      <Animated.View style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: getStatusBarHeight(),
+        backgroundColor: hslString('rizzleBG', '', 0.98),
+        zIndex: 100,
+        shadowColor: 'black',
+        shadowRadius: 1,
+        shadowOpacity: scrollAnim.interpolate({
+          inputRange: [0, 20],
+          outputRange: [0, 0.1],
+          extrapolate: 'clamp'
+        }),
+        shadowOffset: {
+          height: 1,
+          width: 0
+        },
+        overflow: 'visible',
+      }} />
+      <View 
+        style={{
+          flex: 1,
+          backgroundColor: hslString('rizzleBG'),
+          // to ensure that borderRadius works on the animation
+          overflow: 'hidden',
+          borderRadius: 0,
+          paddingTop: getStatusBarHeight(),
+          paddingBottom: getMargin() * 2,
+        }}>
+          <Animated.ScrollView 
+            onScroll={Animated.event(
+              [{ nativeEvent: {
+                contentOffset: { y: scrollAnim }
+              }}],
+              {
+                useNativeDriver: true
+              }
+            )}
+            showsVerticalScrollIndicator={false}
+          >
+          { highlightsByItem.map(renderHighlightsByItem) }
+        </Animated.ScrollView>
+      </View>
+    </>
   )
 }
 

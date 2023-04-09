@@ -153,9 +153,9 @@ class FeedContracted extends React.PureComponent {
     const shadowStyle = {
       shadowColor: 'black',
       shadowRadius: 5,
-      shadowOpacity: 0.5,
+      shadowOpacity: 0.3,
       shadowOffset: {
-        width: 5,
+        width: 0,
         height: 5
       }
     }
@@ -209,7 +209,7 @@ class FeedContracted extends React.PureComponent {
             flex: 1,
             height: cardHeight,
             width: cardWidth,
-            marginBottom: margin,
+            marginBottom: margin * 2,
             marginRight: (index % 2 === 0 && screenWidth > 500 && count > 1) ?
               margin :
               0,
