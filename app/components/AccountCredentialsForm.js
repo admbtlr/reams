@@ -7,7 +7,8 @@ import EncryptedStorage from 'react-native-encrypted-storage'
 
 import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../backends/rizzle'
-import { authenticate } from '../backends'
+import { init } from '../backends/readwise'
+import { authenticate, unsetBackend } from '../backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import {
@@ -18,6 +19,7 @@ import {
   textInfoBoldStyle,
   textInfoItalicStyle
 } from '../utils/styles'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -50,19 +52,26 @@ class AccountCredentialsForm extends React.Component {
     this.state = {
       username: '',
       password: '',
+      token: '', // readwise only
       isSubmitting: false
     }
 
     this.authenticateUser = this.authenticateUser.bind(this)
   }
 
-  async authenticateUser ({username, password, email}, {setSubmitting, setErrors}) {
-    const { service, setBackend } = this.props
+  async authenticateUser ({username, password, email, token}, {setSubmitting, setErrors}) {
+    const { service, setBackend, setExtraBackend } = this.props
     if (service === 'rizzle') {
       email = email.trim()
       this.props.setSignInEmail(email)
       await sendEmailLink(email)
       console.log(`email: ${email}`)
+    } else if (service === 'readwise') {
+      setExtraBackend('readwise', {token})
+      setSubmitting(false)
+      this.setState({
+        isAuthenticated: true
+      })
     } else {
       const response = await authenticate({username, password}, service)
       console.log(response)
@@ -94,26 +103,30 @@ class AccountCredentialsForm extends React.Component {
   }
 
   render = () => {
-    const { isActive, isExpanded, service, setBackend, unsetBackend, user } = this.props
+    const { isActive, isExpanded, service, setBackend, setExtraBackend, unsetExtraBackend, user } = this.props
     const serviceDisplay = service === 'basic' ?
       'Rizzle Basic' :
       service[0].toUpperCase() + service.slice(1)
-    const initialValues = this.props.service === 'rizzle' ?
-      {
-        email: this.state.email
-      } :
-      {
-        username: this.state.username,
-        password: this.state.password
-      }
+    const initialValues = service === 'rizzle' ?
+      { email: this.state.email } :
+      service === 'readwise' ?
+        { token: this.state.token } :
+        {
+          username: this.state.username,
+          password: this.state.password
+        }
     const validationSchemaShape = service === 'rizzle' ?
       Yup.object().shape({
         email: Yup.string().trim().email('That doesn’t look like a valid email...').required('Required')
       }) :
-      Yup.object().shape({
-        username: Yup.string().required('Required'),
-        password: Yup.string().required('Required')
-      })
+        service === 'readwise' ?
+          Yup.object().shape({
+            token: Yup.string().required('Required')
+          }) :
+          Yup.object().shape({
+            username: Yup.string().required('Required'),
+            password: Yup.string().required('Required')
+          })
 
     const reamsText = (isWhite) => <Text 
       style={{
@@ -121,11 +134,73 @@ class AccountCredentialsForm extends React.Component {
         marginBottom: getMargin()
       }}><Text style={textInfoBoldStyle(isWhite ? 'white' : 'black')}>Reams Basic</Text> is free, but it doesn’t sync with other devices or apps.</Text>
       
+    const launchBrowser =  async (url) => {
+      try {
+        await InAppBrowser.isAvailable()
+        InAppBrowser.open(url, {
+          // iOS Properties
+          dismissButtonStyle: 'close',
+          preferredBarTintColor: hslString('rizzleBG'),
+          preferredControlTintColor: hslString('rizzleText'),
+          animated: true,
+          modalEnabled: true,
+          // modalPresentationStyle: "popover",
+          // readerMode: true,
+          // enableBarCollapsing: true,
+        })
+      } catch (error) {
+        console.log('openLink', error)
+      }
+    }
+
+    const isServiceExtra = (service) => service === 'readwise'
+
+    const SubmitButton = ({ errors, handleSubmit, isSubmitting, isValid }) => {
+      const errorsText = (
+        <View style={{
+          backgroundColor: hslString('logo2'),
+          padding: 5,
+          marginLeft: -16,
+          marginRight: -16
+        }}>
+          <Text style={{
+            ...textLabelStyle(),
+            color: hslString('white'),
+            textAlign: 'center'
+          }}>{ errors.submit }</Text>
+        </View>
+      )
+      return isSubmitting ?
+        <Text style={{
+          ...textLabelStyle(),
+          marginTop: 6,
+          textAlign: 'center'
+        }}>Submitting...</Text> :
+        <TouchableOpacity
+          accessibilityLabel={`Authenticate with ${service[0].toUpperCase() + service.slice(1)}`}
+          color={hslString('white')}
+          disabled={isSubmitting || !isValid}
+          onPress={handleSubmit}
+          style={{
+            alignSelf: 'center',
+            marginTop: 5,
+            marginBottom: 5
+          }}
+          testID={`${service}-submit-button`}
+        >
+          <Text style={{
+            ...textInfoStyle('logo1'),
+            textDecorationLine: 'underline'
+          }}>Submit</Text>
+        </TouchableOpacity>
+        { errors?.submit && errorsText }
+    }
+    
     return (
       <Formik
         enableReinitialize={true}
         initialValues={initialValues}
-        isInitialValid={this.state.email || this.state.username}
+        isInitialValid={this.state.email || this.state.username || this.state.token ? true : false}
         onSubmit={this.authenticateUser}
         validationSchema={validationSchemaShape}
       >
@@ -144,11 +219,11 @@ class AccountCredentialsForm extends React.Component {
           }}>
             { isActive ?
               <View style={{
-                // backgroundColor: hslString('logo1'),
+                backgroundColor: hslString('logo1'),
                 paddingTop: 16 * fontSizeMultiplier(),
                 paddingLeft: 16 * fontSizeMultiplier(),
                 paddingRight: 16 * fontSizeMultiplier(),
-                paddingBottom: 16 * fontSizeMultiplier(),
+                paddingBottom: 32 * fontSizeMultiplier(),
                 marginTop: 16 * fontSizeMultiplier(),
                 flex: 0,
                 flexDirection: 'column',
@@ -163,17 +238,23 @@ class AccountCredentialsForm extends React.Component {
                     { !!isActive && reamsText(true) }
                   </View> :
                   <React.Fragment>
-                    { service !== 'feedwrangler' &&
-                      <Text style={textInfoStyle('white')}>
+                    { !(service === 'feedwrangler' || service === 'readwise') &&
+                      <Text style={{
+                        ...textInfoStyle('white'),
+                        marginTop: -10,
+                        marginBottom: 10
+                      }}>
                         <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
                       </Text>
                     }
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}
                       color={hslString('white')}
-                      onPress={() => setBackend('basic')}
+                      onPress={() => isServiceExtra(service) ?
+                        unsetExtraBackend(service) :
+                        setBackend('basic')}
                       style={{
-                        marginTop: 16
+                        // marginTop: 16
                       }}
                       testID={`${service}-logout-button`}
                     >
@@ -216,6 +297,46 @@ class AccountCredentialsForm extends React.Component {
                       }}>Use Reams Basic</Text>
                     </TouchableOpacity>
                 </View> :
+                service === 'readwise' ? (
+                  <View style={{
+                    paddingVertical: 16 * fontSizeMultiplier(),
+                    marginHorizontal: 16 * fontSizeMultiplier(),
+                    alignItems: 'center',
+                  }}>
+                    <TouchableOpacity onPress={ () => launchBrowser('https://readwise.io/access_token') }>
+                      <Text style={{
+                          ...textInfoStyle('logo1'),
+                          textDecorationLine: 'underline'
+                        }}>Log in to Readwise</Text>
+                    </TouchableOpacity>
+                    <Text style={{
+                      ...textInfoItalicStyle(),
+                      margin: 16 * fontSizeMultiplier(),
+                      padding: 0
+                    }}>... and then enter the token below:</Text>
+                    <View style={{ 
+                      flex: 1,
+                      width: '100%' 
+                    }}>
+                      <TextInput
+                        onChangeText={handleChange('token')}
+                        style={{
+                          ...textInputStyle(),
+                          width: '100%'
+                        }}
+                        testID={`${service}-token-text-input`}
+                        value={values.token}
+                      />
+                      <Text style={textLabelStyle()}>Token</Text>
+                    </View>
+                    <SubmitButton 
+                      errors={errors} 
+                      handleSubmit={handleSubmit}
+                      isSubmitting={isSubmitting}
+                      isValid={isValid}
+                    />
+                  </View>
+                ): (
                 <View style={{
                   paddingTop: 16,
                   paddingLeft: 16,
@@ -248,46 +369,14 @@ class AccountCredentialsForm extends React.Component {
                     />
                   </View>
                   <Text style={textLabelStyle()}>Password</Text>
-                  { isSubmitting ?
-                    <Text style={{
-                      ...textLabelStyle(),
-                      marginTop: 6,
-                      textAlign: 'center'
-                    }}>Submitting...</Text> :
-                    <TouchableOpacity
-                      accessibilityLabel={`Authenticate with ${service[0].toUpperCase() + service.slice(1)}`}
-                      color={hslString('white')}
-                      disabled={isSubmitting || !isValid}
-                      onPress={handleSubmit}
-                      style={{
-                        alignSelf: 'center',
-                        marginTop: 5,
-                        marginBottom: 5
-                      }}
-                      testID={`${service}-submit-button`}
-                    >
-                      <Text style={{
-                        ...textInfoStyle('logo1'),
-                        textDecorationLine: 'underline'
-                      }}>Submit</Text>
-                    </TouchableOpacity>
-                  }
-                  { errors.submit &&
-                    <View style={{
-                      backgroundColor: hslString('logo2'),
-                      padding: 5,
-                      marginLeft: -16,
-                      marginRight: -16
-                    }}>
-                      <Text style={{
-                        ...textLabelStyle(),
-                        color: hslString('white'),
-                        textAlign: 'center'
-                      }}>{ errors.submit }</Text>
-                    </View>
-                  }
+                  <SubmitButton 
+                    errors={errors} 
+                    handleSubmit={handleSubmit}
+                    isSubmitting={isSubmitting}
+                    isValid={isValid}
+                  />
                 </View>
-              )
+              ))
             }
           </View>
         )}

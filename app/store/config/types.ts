@@ -9,6 +9,8 @@ export enum Direction {
 // config
 export const SET_BACKEND = 'SET_BACKEND'
 export const UNSET_BACKEND = 'UNSET_BACKEND'
+export const SET_EXTRA_BACKEND = 'SET_EXTRA_BACKEND'
+export const UNSET_EXTRA_BACKEND = 'UNSET_EXTRA_BACKEND'
 export const UPDATE_ONBOARDING_INDEX = 'UPDATE_ONBOARDING_INDEX'
 export const TOGGLE_ONBOARDING = 'TOGGLE_ONBOARDING'
 export const ITEMS_ONBOARDING_DONE = 'ITEMS_ONBOARDING_DONE'
@@ -33,12 +35,26 @@ export const SET_SIGN_IN_EMAIL = 'SET_SIGN_IN_EMAIL'
 
 interface setBackendAction {
   type: typeof SET_BACKEND
-  backend: string,
+  backend: string
   credentials: object | null
 }
 
 interface unsetBackendAction {
+  backend: string | null
   type: typeof UNSET_BACKEND
+}
+
+interface setExtraBackend {
+  type: typeof SET_EXTRA_BACKEND
+  backend: string
+  credentials: {
+    token?: string
+  }
+}
+
+interface unsetExtraBackend {
+  type: typeof UNSET_EXTRA_BACKEND
+  backend: string
 }
 
 interface updateOnboardingInxeAction {
@@ -116,6 +132,8 @@ interface setStateActiveAction {
 
 export type ConfigActionTypes = setBackendAction |
   unsetBackendAction |
+  setExtraBackend |
+  unsetExtraBackend |  
   updateOnboardingInxeAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |

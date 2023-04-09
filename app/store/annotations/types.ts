@@ -6,6 +6,7 @@ export interface Annotation {
   item_id?: string
   note?: string
   created_at?: number
+  remote_id?: string
 }
 
 export interface AnnotationsState {

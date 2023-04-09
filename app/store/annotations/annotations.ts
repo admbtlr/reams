@@ -29,7 +29,10 @@ export function annotations (
         ...state,
         annotations: state.annotations.map(annotation => {
           if (annotation._id === action.annotation._id) {
-            return action.annotation
+            return {
+              ...annotation,
+              ...action.annotation
+            }
           }
           return annotation
         })

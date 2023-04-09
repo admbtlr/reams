@@ -114,7 +114,7 @@ const Main = () => {
         component={AccountScreenContainer}
         options={{
           headerBackTitleVisible: false,
-          title: 'Account',
+          title: 'Accounts',
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
           // headerBackImage: getRizzleButtonIcon('account'),
         }} />
