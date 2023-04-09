@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SET_BACKEND, SET_SIGN_IN_EMAIL, UNSET_BACKEND } from '../store/config/types'
+import { SET_BACKEND, SET_EXTRA_BACKEND, SET_SIGN_IN_EMAIL, UNSET_BACKEND } from '../store/config/types'
 import { 
   SHOW_MODAL
 } from '../store/ui/types'
@@ -9,6 +9,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     backend: state.config.backend,
+    isReadwise: !!state.config.readwiseToken,
     displayMode: state.itemsMeta.display,
     isDarkMode: state.ui.isDarkMode,
     isPortrait: state.config.orientation === 'portrait',
@@ -33,9 +34,24 @@ const mapDispatchToProps = (dispatch) => {
         credentials
       })
     },
-    unsetBackend: () => dispatch({
-      type: UNSET_BACKEND
-    }),
+    unsetBackend: () => {
+      dispatch({
+        type: UNSET_BACKEND
+      })
+    },
+    setExtraBackend: (backend, credentials) => {
+      dispatch({
+        type: SET_EXTRA_BACKEND,
+        backend,
+        credentials
+      })
+    },
+    unsetExtraBackend: (backend) => {
+      dispatch({
+        type: SET_EXTRA_BACKEND,
+        backend
+      })
+    },
     setSignInEmail: (email) => dispatch({
       type: SET_SIGN_IN_EMAIL,
       email

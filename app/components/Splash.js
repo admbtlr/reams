@@ -33,6 +33,8 @@ export default function Splash () {
     }
   }
 
+  let isSubscribed = true
+
   useEffect(() => {
     if (hasAnimated) {
       Animated.timing(
@@ -43,8 +45,13 @@ export default function Splash () {
           useNativeDriver: true
         }
       ).start(() => {
-        setFaded(true)
+        if (isSubscribed) {
+          setFaded(true)
+        }
       })
+    }
+    return () => {
+      isSubscribed = false
     }
   }, [isVisible])
 
@@ -57,7 +64,7 @@ export default function Splash () {
         easing: Easing.out(Easing.quad),
         useNativeDriver: true
       }).start(() => {
-        if (!isVisible && !hasFaded) {
+        if (isSubscribed && !isVisible && !hasFaded) {
           Animated.timing(
             scaleAnim,
             {
@@ -70,6 +77,9 @@ export default function Splash () {
           })
         }
       })
+      return () => {
+        isSubscribed = false
+      }
   })
 
   hideWhenReady()

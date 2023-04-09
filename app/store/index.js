@@ -41,7 +41,7 @@ function configureStore (rehydrateCallback) {
     transforms: [orientationTransform],
     blacklist: ['animatedValues'],
     migrate: createMigrate(migrations, { debug: true }),
-    version: 1
+    version: 5
   }
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())

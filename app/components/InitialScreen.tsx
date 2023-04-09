@@ -218,7 +218,7 @@ export default function InitialScreen({}) {
           }}
           scrollAnim={scrollAnim}
           index={0}
-          text='Account'
+          text='Accounts'
           viewStyle={{ paddingLeft: 5 }}
         />
         <View style={{
