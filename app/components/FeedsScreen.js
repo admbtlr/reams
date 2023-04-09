@@ -171,87 +171,109 @@ class FeedsScreen extends React.Component {
     console.log('RENDER FEEDS SCREEN')
 
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: hslString('rizzleBG'),
-          paddingTop: getStatusBarHeight(),
-        }}
-        testID='feeds-screen'
-      >
-        <StatusBar
-          animated={true}
-          barStyle="dark-content"
-          showHideTransition="slide"/>
-        { feeds.length === 0 ? 
-          (<View style={{
+      <>
+        <Animated.View style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: getStatusBarHeight(),
+          backgroundColor: hslString('rizzleBG', '', 0.98),
+          zIndex: 100,
+          shadowColor: 'black',
+          shadowRadius: 1,
+          shadowOpacity: this.scrollAnim.interpolate({
+            inputRange: [0, 20],
+            outputRange: [0, 0.1],
+            extrapolate: 'clamp'
+          }),
+          shadowOffset: {
+            height: 1
+          },
+          overflow: 'visible',
+        }} />
+        <View
+          style={{
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundColor: hslString('rizzleBG'),
+            paddingTop: getStatusBarHeight(),
+          }}
+          testID='feeds-screen'
+        >
+          <StatusBar
+            animated={true}
+            barStyle="dark-content"
+            showHideTransition="slide"/>
+          { feeds.length === 0 ? 
+            (<View style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
 
-          }}>
-            <Text style={{
-              ...textInfoStyle(),
-              margin: getMargin(),
-              lineHeight: 24,  
-            }}>Add feeds from your favourite websites. New articles will then automatically show up here.</Text>
-            <TextButton text='Add Feeds' onPress={this.showAddFeeds.bind(this)} />
-          </View>) :
-          <AnimatedSectionList
-            sections={sections}
-            key={screenWidth}
-            keyExtractor={card => card.key}
-            initialNumToRender={3}
-            numColumns={numCols}
-            onScroll={Animated.event(
-              [{ nativeEvent: {
-                contentOffset: { y: this.scrollAnim }
-              }}],
-              {
-                useNativeDriver: true
-              }
-            )}
-            scrollEventThrottle={1}
-            stickySectionHeadersEnabled={false}
-            // renderItem={this.renderFeed}
-            renderItem={({section, index}) => {
-              if (index % numCols) { // items are already consumed 
-                return null
-              }
-              // grab all items for the row
-              const rowItems = section.data?.slice(index, index+numCols)
-                .map((item, i, array) => ({ 
-                  item, 
-                  index: index+i,
-                  count: array.length
-                }))
-              // wrap selected items in a "row" View 
+            }}>
+              <Text style={{
+                ...textInfoStyle(),
+                margin: getMargin(),
+                lineHeight: 24,  
+              }}>Add feeds from your favourite websites. New articles will then automatically show up here.</Text>
+              <TextButton text='Add Feeds' onPress={this.showAddFeeds.bind(this)} />
+            </View>) :
+            <AnimatedSectionList
+              sections={sections}
+              key={screenWidth}
+              keyExtractor={card => card.key}
+              initialNumToRender={3}
+              numColumns={numCols}
+              onScroll={Animated.event(
+                [{ nativeEvent: {
+                  contentOffset: { y: this.scrollAnim }
+                }}],
+                {
+                  useNativeDriver: true
+                }
+              )}
+              scrollEventThrottle={1}
+              stickySectionHeadersEnabled={false}
+              // renderItem={this.renderFeed}
+              renderItem={({section, index}) => {
+                if (index % numCols) { // items are already consumed 
+                  return null
+                }
+                // grab all items for the row
+                const rowItems = section.data?.slice(index, index+numCols)
+                  .map((item, i, array) => ({ 
+                    item, 
+                    index: index+i,
+                    count: array.length
+                  }))
+                // wrap selected items in a "row" View 
 
-              return rowItems ? <View 
-                  style={{
-                    flexDirection:"row",
-                    justifyContent:"center"
-                  }}
-                >{rowItems.map(this.renderFeed)}</View> :
-                null
-            }}
-            renderSectionHeader={this.renderSectionHeader.bind(this)}
-            scrollEnabled={this.state.scrollEnabled}
-            style={{ overflow: 'visible' }}
-            showsVerticalScrollIndicator={false}
-            onScrollBeginDrag={() => { this.isScrolling = true }}
-            onScrollEndDrag={() => { this.isScrolling = false }}
-            windowSize={6}
-            ListHeaderComponent={<View style={{height: margin}}/>}
-          />
-        }
-        { modal !== null && (
-            <FeedExpanded {...modal} {...{ close }} />
-          )
-        }
-    </View>
+                return rowItems ? <View 
+                    style={{
+                      flexDirection:"row",
+                      justifyContent:"center"
+                    }}
+                  >{rowItems.map(this.renderFeed)}</View> :
+                  null
+              }}
+              renderSectionHeader={this.renderSectionHeader.bind(this)}
+              scrollEnabled={this.state.scrollEnabled}
+              style={{ overflow: 'visible' }}
+              showsVerticalScrollIndicator={false}
+              onScrollBeginDrag={() => { this.isScrolling = true }}
+              onScrollEndDrag={() => { this.isScrolling = false }}
+              windowSize={6}
+              ListHeaderComponent={<View style={{height: margin}}/>}
+            />
+          }
+          { modal !== null && (
+              <FeedExpanded {...modal} {...{ close }} />
+            )
+          }
+        </View>
+      </>
     )
   }
 

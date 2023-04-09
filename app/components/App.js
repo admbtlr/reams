@@ -228,7 +228,7 @@ const Main = () => {
             title: 'Highlights',
             headerBackTitleVisible: false,
             headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
-            // headerTransparent: true,
+            headerTransparent: true,
             }
           }
         }
