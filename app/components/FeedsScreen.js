@@ -177,7 +177,7 @@ class FeedsScreen extends React.Component {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: hslString('rizzleBG'),
-          paddingTop: getStatusBarHeight()
+          paddingTop: getStatusBarHeight(),
         }}
         testID='feeds-screen'
       >
@@ -239,6 +239,7 @@ class FeedsScreen extends React.Component {
             }}
             renderSectionHeader={this.renderSectionHeader.bind(this)}
             scrollEnabled={this.state.scrollEnabled}
+            style={{ overflow: 'visible' }}
             showsVerticalScrollIndicator={false}
             onScrollBeginDrag={() => { this.isScrolling = true }}
             onScrollEndDrag={() => { this.isScrolling = false }}

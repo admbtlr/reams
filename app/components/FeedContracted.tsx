@@ -17,6 +17,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback'
 import { SharedElement } from 'react-navigation-shared-element'
 import { Feed } from '../store/feeds/types'
 import { WrappedFeed } from 'containers/FeedContracted'
+import LinearGradient from 'react-native-linear-gradient'
 
 class FeedContracted extends React.PureComponent {
 
@@ -142,7 +143,7 @@ class FeedContracted extends React.PureComponent {
   }
 
   render = () => {
-    const { count, feeds, index, key, title, type, width } = this.props
+    const { count, feed, feeds, index, key, title, type, width } = this.props
     const textStyles = {
       color: 'white',
       fontFamily: 'IBMPlexMono-Light',
@@ -152,9 +153,9 @@ class FeedContracted extends React.PureComponent {
     const shadowStyle = {
       shadowColor: 'black',
       shadowRadius: 5,
-      shadowOpacity: 0.2,
+      shadowOpacity: 0.5,
       shadowOffset: {
-        width: -5,
+        width: 5,
         height: 5
       }
     }
@@ -214,6 +215,8 @@ class FeedContracted extends React.PureComponent {
               0,
             opacity: this.opacityAnim,
             overflow: 'visible',
+            // backgroundColor: 'black',
+            ...shadowStyle
             // transform: [
             //   {
             //     scaleX: this._scale,
@@ -234,14 +237,14 @@ class FeedContracted extends React.PureComponent {
               overflow: 'hidden',
               // borderWidth: type == 'feed' ? 0 : 5,
               // borderColor: hslString('white'),
-              ...shadowStyle
+              // ...shadowStyle
           }}>
             <View
               ref={(c: React.RefObject<View>) => this.imageView = c}
               style={{
                 backgroundColor: 'white',
-                height: '110%',
-                width: '110%',
+                height: '100%',
+                width: '105%',
                 borderRadius: 16,
                 overflow: 'hidden',
                 flex: 1,
@@ -272,6 +275,8 @@ class FeedContracted extends React.PureComponent {
               width: '100%',
               height: '100%',
               borderRadius: 16,
+              // borderWidth: 5,
+              // borderColor: feed ? hslString(feed.color, 'desaturated') : hslString('white'),
               // paddingTop: margin * .5,
               paddingLeft: margin * 0.5,
               paddingRight: margin * 0.5,
@@ -282,34 +287,44 @@ class FeedContracted extends React.PureComponent {
               justifyContent: 'flex-end',
               alignItems: 'flex-start',
               // justifyContent: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.4)'
+              // backgroundColor: 'rgba(0, 0, 0, 0.3)'
             }}>
-              { type === 'feed' && <FeedLikedMuted feed={feeds[0]} /> }
-              <View style={{
-                paddingLeft: 4,
-                paddingRight: 40,
-                // paddingBottom: 2,
-                flexDirection: 'row'
-              }}>
-                <Text style={{
-                  ...textStyles,
-                  flexWrap: 'wrap',
-                  fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: 24 * fontSizeMultiplier(),
-                  lineHeight: 28 * fontSizeMultiplier()
-                }}>{title}</Text>
-              </View>
-              <View style={{
-                paddingLeft: 4,
-                paddingRight: 4,
-                paddingBottom: 2
-              }}>
-                <Text style={{
-                  ...textStyles,
-                  fontFamily: 'IBMPlexMono-Light',
-                  fontSize: 16 * fontSizeMultiplier()
-                }}>{numUnread} unread</Text>
-              </View>
+              <LinearGradient 
+                colors={['rgba(0, 0, 0, 0.0)', 'rgba(100, 100, 100, 0.5)']}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: 0,
+                  bottom: 0,
+                  right: 0
+                }}  
+              />
+                { type === 'feed' && <FeedLikedMuted feed={feeds[0]} /> }
+                <View style={{
+                  paddingLeft: 4,
+                  paddingRight: 40,
+                  // paddingBottom: 2,
+                  flexDirection: 'row'
+                }}>
+                  <Text style={{
+                    ...textStyles,
+                    flexWrap: 'wrap',
+                    fontFamily: 'IBMPlexSansCond-Bold',
+                    fontSize: 24 * fontSizeMultiplier(),
+                    lineHeight: 28 * fontSizeMultiplier()
+                  }}>{title}</Text>
+                </View>
+                <View style={{
+                  paddingLeft: 4,
+                  paddingRight: 4,
+                  paddingBottom: 2
+                }}>
+                  <Text style={{
+                    ...textStyles,
+                    fontFamily: 'IBMPlexMono',
+                    fontSize: 16 * fontSizeMultiplier()
+                  }}>{numUnread} unread</Text>
+                </View>
             </View>
           </View>
           { type == 'feed' &&
