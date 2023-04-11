@@ -160,7 +160,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             flexDirection: 'row',
             flexWrap: 'wrap',
           }}>
-          { categories.map((category, index) => (
+          { categories.filter(c => !c.isSystem).map((category, index) => (
               <TouchableOpacity 
                 key={index}
                 onPress={() => {
