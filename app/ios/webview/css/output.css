@@ -979,19 +979,15 @@ html.onboarding {
   html.onboarding hr {
     border-top-style: none;
     margin: 2em; }
-  html.onboarding div.content {
+  html.onboarding.onboarding-0 div.content {
     align-self: flex-end;
     width: 66%; }
-    html.onboarding div.content p {
+    html.onboarding.onboarding-0 div.content p {
       text-align: right; }
-  html.onboarding.onboarding-1 div.content {
-    align-self: center; }
-    html.onboarding.onboarding-1 div.content p {
-      text-align: center; }
-  html.onboarding.onboarding-2 div.content {
-    align-self: flex-start;
-    width: 50%; }
-    html.onboarding.onboarding-2 div.content p {
+  html.onboarding div.content {
+    align-self: center;
+    width: 100%; }
+    html.onboarding div.content p {
       text-align: left; }
   html.onboarding p {
     font-family: "IBMPlexSans";

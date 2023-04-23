@@ -174,10 +174,10 @@ class Share extends React.Component {
     // console.log(this.state.rssUrls)
     const margin = 24
     const saveIcon = <View style={{
-      top: -12,
-      left: -12
+      top: -6,
+      left: -6
     }}>
-      {getRizzleButtonIcon('saveButtonIconOff', hslString('rizzleText'), hslString('rizzleBG'))}
+      {getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
     </View>
     return (
       <View style={{
@@ -322,7 +322,7 @@ class Share extends React.Component {
                 'this page' 
               } to read later:</Text>
             <TextButton
-              text="Save this page in Reams"
+              text="Save to library"
               buttonStyle={{ 
                 alignSelf: 'center',
                 paddingLeft: 50,

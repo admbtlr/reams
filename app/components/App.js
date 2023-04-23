@@ -22,6 +22,7 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { Animated, Dimensions, Text } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
+import PSAScreen from './PSAScreen'
 
 const navigationOptions = {
   gesturesEnabled: false
@@ -263,6 +264,19 @@ export default App = () => {
           cardStyle: {
             backgroundColor: 'transparent'
           },
+          ...TransitionPresets.ModalPresentationIOS
+        }}
+        navigationOptions={{
+          gestureResponseDistance: {
+            vertical: 800
+          }
+        }}
+      />
+      <AppStack.Screen
+        name='PSA'
+        component={PSAScreen}
+        options={{
+          cardOverlayEnabled: true,
           ...TransitionPresets.ModalPresentationIOS
         }}
         navigationOptions={{

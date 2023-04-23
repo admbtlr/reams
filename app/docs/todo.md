@@ -1,4 +1,9 @@
 - categories in saved
+- settings screen
+  - dark mode settings
+  - other bg colours?
+  - sorting
+- what's new screen
 - text to speech
 - feedly
 - newsletters with fastmail
