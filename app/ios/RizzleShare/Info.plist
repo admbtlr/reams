@@ -34,7 +34,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>145</string>
+	<string>148</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -46,6 +46,8 @@
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
+			<key>IntentsSupported</key>
+			<array/>
 			<key>NSExtensionActivationRule</key>
 			<string>  SUBQUERY (
          extensionItems,

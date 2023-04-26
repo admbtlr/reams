@@ -148,7 +148,7 @@ class FeedExpanded extends React.Component {
               <Text style={{
                 ...textInfoStyle('white'),
                 marginLeft: 0,
-                fontSize: 16 * fontSizeMultiplier()
+                fontSize: 14 * fontSizeMultiplier()
               }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'} • <FeedStats feed={feed} /></Text>
               
             </View>
