@@ -50,6 +50,7 @@ export const FeedStats = ({ feed }) => {
   return (
     <Text style={{
       ...textInfoStyle('white'),
+      fontSize: 14 * fontSizeMultiplier(),
       opacity: 0.9
       // color: hslString('white'),
       // fontFamily: 'IBMPlexSans-Light',
@@ -180,7 +181,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
                 <View style={{
                   backgroundColor: category.feeds.indexOf(feed._id) > -1 ? hslString('rizzleText') : 'rgba(0,0,0,0.1)',
                   borderRadius: 16,
-                  padding: 4,
+                  paddingVertical: 5,
                   height: 32,
                   marginRight: 8,
                   marginBottom: 8,
