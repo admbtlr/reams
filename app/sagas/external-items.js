@@ -45,13 +45,14 @@ export function * saveExternalUrl (action) {
     _id: id(action.url),
     title: action.title ?? 'Loading...',
     content_html: '',
-    isExternal: true
+    isExternal: true,
+    created_at: Date.now()
   }
   item.styles = createItemStyles(item)
   yield put({
     type: SAVE_EXTERNAL_ITEM,
     item,
-    savedAt: Date.now()
+    savedAt: item.created_at
   })
   yield put({
     type: ADD_ITEM_TO_CATEGORY,
