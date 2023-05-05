@@ -5,6 +5,7 @@ import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath, getMargin} from '../utils/'
 import { hslString } from '../utils/colors'
+import { createItemStyles } from '../utils/createItemStyles'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -244,7 +245,10 @@ class FeedItem extends React.Component {
     const { webViewHeight } = this.state
 
     const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
-    const that = this
+
+    if (styles === undefined || Object.keys(styles).length === 0) {
+      styles = item.styles = createItemStyles(item)
+    }
 
     showCoverImage = showCoverImage && !(styles.isCoverInline && orientation === 'landscape')
 

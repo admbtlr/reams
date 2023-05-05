@@ -1,3 +1,4 @@
+- improve onboarding, including tooltips and highlight animated webp
 - categories in saved
 - text to speech
 - feedly

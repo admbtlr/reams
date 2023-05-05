@@ -4,25 +4,16 @@ import PropTypes from 'prop-types'
 import ItemsScreenOnboarding from './ItemsScreenOnboarding'
 import {
   ActionSheetIOS,
-  Animated,
-  Dimensions,
-  Image,
-  Platform,
-  Text,
-  View
+  Animated
 } from 'react-native'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
-import TextButton from './TextButton'
 import SwipeableViews from './SwipeableViews'
 import TopBars from './TopBars'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import ButtonsContainer from '../containers/Buttons.js'
 import ViewButtonsContainer from '../containers/ViewButtons.js'
-import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { hslString } from '../utils/colors'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
-import { fontSizeMultiplier } from '../utils'
-import BackButton from './BackButton'
 import EmptyCarousel from './EmptyCarousel'
 
 export const BUFFER_LENGTH = 5
@@ -32,7 +23,7 @@ export const BUFFER_LENGTH = 5
 // them with clampedScrollAnims
 let bufferedItems
 
-const getBufferedItems  = (items, index, displayMode, feeds, includeMercury) => {
+const getBufferedItems  = (items, index, displayMode, feeds) => {
   const bufferStart = index === 0 ? index : index - 1
   const bufferEnd = index + BUFFER_LENGTH > items.length - 1 ?
     items.length :

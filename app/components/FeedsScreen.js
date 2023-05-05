@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import {
   Animated,
   Dimensions,
+  Image,
   SectionList,
   StatusBar,
   Text,
@@ -217,7 +218,26 @@ class FeedsScreen extends React.Component {
                 ...textInfoStyle(),
                 margin: getMargin(),
                 lineHeight: 24,  
-              }}>Add feeds from your favourite websites. New articles will then automatically show up here.</Text>
+              }}>Add feeds from your favourite websites with the Reams Share Extension. New articles will then automatically show up here.</Text>
+              <Image 
+                height={328}
+                width={150}
+                source={require('../assets/images/reams-extension.webp')} 
+                style={{
+                  backgroundColor: 'white',
+                  borderColor: 'rgba(0,0,0,0.8)',
+                  borderWidth: 2,
+                  width: 150,
+                  height: 328,
+                  margin: getMargin(),
+                  borderRadius: 25
+                }}
+              />
+              <Text style={{
+                ...textInfoStyle(),
+                margin: getMargin(),
+                lineHeight: 24,  
+              }}>You can also add feeds from an OPML file, or the built-in library:</Text>
               <TextButton text='Add Feeds' onPress={this.showAddFeeds.bind(this)} />
             </View>) :
             <AnimatedSectionList

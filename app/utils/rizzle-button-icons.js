@@ -48,23 +48,43 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
       </Svg>
 
     case 'saveButtonIconOff':
-      return <Svg 
-        width={ fontScale(28) }
-        height={ fontScale(28) }
-        viewBox="0 0 24 24"
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 32 32'
+        fill='none' 
+        stroke={borderColor}
+        strokeLinecap='round'
+        strokeLinejoin='round'
         style={{
           position: 'absolute',
-          left: fontScale(10),
-          top: fontScale(9)
+          left: fontScale(8),
+          top: fontScale(7)
         }}
-        fill="none"
-        stroke={borderColor}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round">
-        <Path d="M 18 23 l -6 -5 l -6 5 V 5 a 2 2 0 0 1 2 -2 h 8 a 2 2 0 0 1 2 2 z" />
-        <Path strokeWidth='1' style={{ opacity: 0.6 }} d='M 10 10 H 14 M 10 12 H 14 M 10 14 H 14' />
+      >
+        <Path d="M6 23L6 6" strokeWidth={3}/>
+        <Path d="M12 23L12 6" strokeWidth={3}/>
+        <Path d="M19 23L18 7" strokeWidth={3}/>
+        <Rect x="24" y="7" width="3" height="17.5" rx="2" ry="2" strokeWidth={1}  strokeOpacity={0.6} transform={"rotate(-10 25 17)"}/>
+        <Path d="M2 28L30 28" strokeWidth={1}/>
       </Svg>
+      // return <Svg 
+      //   width={ fontScale(28) }
+      //   height={ fontScale(28) }
+      //   viewBox="0 0 24 24"
+      //   style={{
+      //     position: 'absolute',
+      //     left: fontScale(10),
+      //     top: fontScale(9)
+      //   }}
+      //   fill="none"
+      //   stroke={borderColor}
+      //   strokeWidth="2"
+      //   strokeLinecap="round"
+      //   strokeLinejoin="round">
+      //   <Path d="M 18 23 l -6 -5 l -6 5 V 5 a 2 2 0 0 1 2 -2 h 8 a 2 2 0 0 1 2 2 z" />
+      //   <Path strokeWidth='1' style={{ opacity: 0.6 }} d='M 10 10 H 14 M 10 12 H 14 M 10 14 H 14' />
+      // </Svg>
     // return <Svg
       //   width={ fontScale(35) }
       //   height={ fontScale(35) }
@@ -84,23 +104,44 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
       // </Svg>
 
     case 'saveButtonIconOn':
-      return <Svg 
-        width={ fontScale(28) }
-        height={ fontScale(28) }
-        viewBox="0 0 24 24"
-        style={{
-          position: 'absolute',
-          left: fontScale(12),
-          top: fontScale(10)
-        }}
-        fill={borderColor}
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 32 32'
+        fill='none' 
         stroke={borderColor}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round">
-        <Path d="M 18 21 A 2 2 0 0 1 16 23 h -8 A 2 2 0 0 1 6 21 V 3 l 6 4 L 18 3 z" />
-        <Path strokeWidth='1' stroke={backgroundColor} style={{ opacity: 0.6 }} d='M 10 12 H 14 M 10 14 H 14 M 10 16 H 14' />
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        style={{
+          transform: [{ rotate: '180deg' }],
+          position: 'absolute',
+          left: fontScale(10),
+          top: fontScale(11)
+        }}
+      >
+        <Path d="M6 23L6 6" strokeWidth={3}/>
+        <Path d="M12 23L12 6" strokeWidth={3}/>
+        <Path d="M19 23L18 7" strokeWidth={3}/>
+        <Rect x="24" y="7" width="2" height="17.5" rx="2" ry="2" fill={borderColor}  transform={"rotate(-10 25 17)"}/>
+        <Path d="M2 28L30 28" strokeWidth={1}/>
       </Svg>
+      // return <Svg 
+      //   width={ fontScale(28) }
+      //   height={ fontScale(28) }
+      //   viewBox="0 0 24 24"
+      //   style={{
+      //     position: 'absolute',
+      //     left: fontScale(12),
+      //     top: fontScale(10)
+      //   }}
+      //   fill={borderColor}
+      //   stroke={borderColor}
+      //   strokeWidth="2"
+      //   strokeLinecap="round"
+      //   strokeLinejoin="round">
+      //   <Path d="M 18 21 A 2 2 0 0 1 16 23 h -8 A 2 2 0 0 1 6 21 V 3 l 6 4 L 18 3 z" />
+      //   <Path strokeWidth='1' stroke={backgroundColor} style={{ opacity: 0.6 }} d='M 10 12 H 14 M 10 14 H 14 M 10 16 H 14' />
+      // </Svg>
     // return <Svg
       //   width={ fontScale(42) }
       //   height={ fontScale(39) }
@@ -375,9 +416,9 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinecap='square'
         strokeLinejoin='square'>
         <Path d="M20 4.5H3" strokeWidth={1}/>
-        <Path d="M21 14.5H10" strokeWidth={1}/>
-        <Path d="M10 14.5H3" />
-        <Path d="M19 9.5H7"/>
+        <Path d="M21 14.5H3" strokeWidth={1}/>
+        <Path d="M10 14.5H3" strokeWidth={5} strokeOpacity={0.3}/>
+        <Path d="M19 9.5H7" strokeWidth={5} strokeOpacity={0.3}/>
         <Path d="M19 9.5H3" strokeWidth={1}/>
         <Path d="M16 19.5H3" strokeWidth={1}/>
       </Svg>
@@ -392,11 +433,28 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinecap='round'
         strokeLinejoin='round'
       >
-        <Path d="M17 25L19 7" strokeWidth={4}/>
-        <Path d="M23 25L25 7" strokeWidth={4}/>
-        <Path d="M6 25L13 10" strokeWidth={4}/>
-        <Line x1="3" y1="28.5" x2="29" y2="28.5"/>
-        {/* <Line x1="28.5" y1="3" x2="28.5" y2="29"/> */}
+        <Path d="M4 25L4 5" strokeWidth={4}/>
+        <Path d="M11 25L11 5" strokeWidth={4}/>
+        <Path d="M18 25L17 6" strokeWidth={4}/>
+        <Path d="M27 25L23 7" strokeWidth={4}/>
+        <Path d="M2 30L30 30" strokeWidth={1}/>
+      </Svg>
+
+    case 'save':
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 32 32'
+        fill='none' 
+        stroke={borderColor}
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      >
+        <Path d="M4 25L4 5" strokeWidth={4}/>
+        <Path d="M11 25L11 5" strokeWidth={4}/>
+        <Path d="M18 25L17 6" strokeWidth={4}/>
+        <Rect x="23" y="6" width="4" height="20" rx="2" ry="2" strokeWidth={1}  transform={"rotate(-10 25 17)"}/>
+        <Path d="M2 30L30 30" strokeWidth={2}/>
       </Svg>
 
   }
