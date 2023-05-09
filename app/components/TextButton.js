@@ -99,7 +99,7 @@ class TextButton extends React.Component {
       maxWidth: 700,
       width: '100%',
       ...this.props.buttonStyle,
-      paddingTop: 8 * fontSizeMultiplier()
+      paddingTop: 9 * fontSizeMultiplier()
     }
     if (hasShadow) {
       buttonStyle = {

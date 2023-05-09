@@ -124,7 +124,7 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
       type: ADD_ANNOTATION,
       annotation
     })
-    if (item.savedAt === undefined) {
+    if (!item.isSaved) {
       dispatch({
         type: SAVE_ITEM,
         item,

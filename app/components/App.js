@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 
 import ItemsScreen from './ItemsScreen'
 import AccountScreenContainer from '../containers/AccountScreen'
-import FeedsScreenContainer from '../containers/FeedsScreen'
+import FeedsScreen from './FeedsScreen'
 import Headring from './Heading'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
@@ -42,7 +42,7 @@ const Feeds = () => (
   >
     <FeedsStack.Screen
       name='Feeds Screen'
-      component={FeedsScreenContainer} 
+      component={FeedsScreen} 
     />
     <FeedsStack.Screen
       name='New Feeds List'
