@@ -17,6 +17,7 @@ import { deepEqual, getInset, getMargin, getStatusBarHeight } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
+import RizzleModal from './RizzleModal'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -293,6 +294,7 @@ class FeedsScreen extends React.Component {
             )
           }
         </View>
+        <RizzleModal />
       </>
     )
   }

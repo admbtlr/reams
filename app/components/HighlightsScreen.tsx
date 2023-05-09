@@ -10,7 +10,8 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  LayoutAnimation
+  LayoutAnimation,
+  Image
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { hslString } from '../utils/colors'
@@ -245,7 +246,34 @@ export default function HighlightsScreen ({ navigation }) {
           borderRadius: 0,
           paddingTop: getStatusBarHeight(),
           paddingBottom: getMargin() * 2,
-        }}>
+        }}
+      >
+        { highlightsByItem.length === 0 ? (
+          <View style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+
+          }}>
+            <Text style={{
+              ...textInfoStyle(),
+              margin: getMargin(),
+              lineHeight: 24,  
+            }}>Highlights and annotations that you add to your stories are displayed here.</Text>
+            <Image 
+              source={require('../assets/images/reams-highlights.webp')} 
+              style={{
+                backgroundColor: 'white',
+                borderColor: 'rgba(0,0,0,0.8)',
+                borderWidth: 2,
+                width: 150,
+                height: 328,
+                margin: getMargin(),
+                borderRadius: 25
+              }}
+            />
+          </View>
+        ) : (
           <Animated.ScrollView 
             onScroll={Animated.event(
               [{ nativeEvent: {
@@ -257,8 +285,9 @@ export default function HighlightsScreen ({ navigation }) {
             )}
             showsVerticalScrollIndicator={false}
           >
-          { highlightsByItem.map(renderHighlightsByItem) }
-        </Animated.ScrollView>
+            { highlightsByItem.map(renderHighlightsByItem) }
+          </Animated.ScrollView>
+        )}
       </View>
     </>
   )
