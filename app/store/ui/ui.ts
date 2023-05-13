@@ -18,7 +18,9 @@ import {
   ADD_MESSAGE,
   REMOVE_MESSAGE,
   UIActionTypes,
-  UIState
+  UIState,
+  SHOW_HELPTIP,
+  HIDE_HELPTIP
 } from './types'
 
 const initialState = {
@@ -34,7 +36,10 @@ const initialState = {
   messageQueue: [],
   isDarkMode: false,
   fontSize: 3,
-  isActive: true
+  isActive: true,
+  isHelpTipVisible: false,
+  helpTipKey: '',
+  displayedHelpTips: []
 }
 
 const MAX_FONT_SIZE = 5
@@ -172,7 +177,27 @@ export function ui (
         ...state,
         messageQueue: state.messageQueue.filter(m => m.messageString !== action.messageString)
       }
-    
+
+    case SHOW_HELPTIP:
+      return {
+        ...state,
+        isHelpTipVisible: true,
+        helpTipKey: action.key
+      }
+
+    case HIDE_HELPTIP:
+      let displayedHelpTips = [
+        ...state.displayedHelpTips || [],
+        state.helpTipKey
+      ]
+      return {
+        ...state,
+        isHelpTipVisible: false,
+        helpTipKey: '',
+        displayedHelpTips
+      }
+
+  
     default:
       return state
   }

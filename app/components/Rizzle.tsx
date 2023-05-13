@@ -20,6 +20,7 @@ import '@tensorflow/tfjs-react-native'
 import OrientationListener from './OrientationListener'
 import BackgroundFetch from "react-native-background-fetch";
 import { PersistGate } from 'redux-persist/integration/react'
+import HelpTipProvider from './HelpTipProvider'
 
 export interface Props {
   isActionExtension?: boolean
@@ -142,6 +143,7 @@ export default class Rizzle extends Component<Props, State> {
               <AppContainer />
               <Message />
               <RizzleModalContainer />
+              <HelpTipProvider />
               <Splash />
             </View>
           </PersistGate>

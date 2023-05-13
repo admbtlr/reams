@@ -12,10 +12,12 @@ import {
   Item
 } from '../store/items/types'
 import { 
+  HIDE_HELPTIP,
+  SHOW_HELPTIP,
   SHOW_MODAL
 } from '../store/ui/types'
 import { CREATE_CATEGORY, Category } from '../store/categories/types'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import {
   Animated,
   Dimensions,
@@ -36,6 +38,7 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoStyle } from '../utils/styles'
 import { RootState } from 'store/reducers'
 import NavButton from './NavButton'
+import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -79,8 +82,27 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
     .sort(sortFeeds)
   const categories = useSelector((state: RootState) => state.categories.categories.filter(c => !c.isSystem))
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
+  const showLongPressTip = true //useSelector((state: RootState) => state.config.showLongPressTip)
 
+  const [hasShownLongPressTip, setHasShownLongPressTip] = useState<boolean>(false)
+
+  const isFocused = useIsFocused()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (isFocused) {
+      dispatch({
+        type: SHOW_HELPTIP,
+        key: 'feedsScreen',
+      })
+    } else {
+      dispatch({
+        type: SHOW_HELPTIP,
+        key: null,
+      })
+    }
+  }, [isFocused])
+
   const markAllRead = (olderThan: number) => dispatch({
     type: MARK_FEED_READ,
     id: null,
