@@ -1412,15 +1412,52 @@ html.onboarding {
     background-color: var(--bg);
     color: white;
     overflow: hidden;
+    // overflow: scroll;
     // display: flex;
     // align-items: center;
     // justify-content: center;
     // padding-top: 200;
   }
 
-  body::after {
+  .bg1 {
+    position: relative;
+    overflow:hidden;
+    // width: 100%;
+    height: 100%;  
+    width: 10000px;
+    background-image: url("../img/ream@2x.png");
+    background-size: 20000px;
+    background-position: 50% 50%;
+    animation: floating 20s infinite alternate;
+  }
+
+
+  .bg1:before {
     content: "";
     z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  @keyframes floating {
+    from { transform: translate(0,  0px); }
+    to   { transform: translate(-500px, 0px); }    
+  }
+
+  &.onboarding-1 .bg1 {
+    background-position: 50% 25%;
+  }
+
+  &.onboarding-2 .bg1 {
+    background-position: 50% 75%;
+  }
+
+  body::before {
+    content: "";
+    z-index: 0;
     position: absolute;
     display: block;
     top: 0;
@@ -1440,11 +1477,25 @@ html.onboarding {
     opacity: 1;
   }
 
-  &.onboarding-1 body::after {
+  .bg1::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    -webkit-backdrop-filter: blur(200px);
+    backdrop-filter: blur(200px);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &.onboarding-1 body::before {
     background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png");
   }
 
-  &.onboarding-2 body::after {
+  &.onboarding-2 body::before {
     background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png");
   }
 
@@ -1459,8 +1510,10 @@ html.onboarding {
 
   .everything {
     padding: 0;
+    height: 100%;
     margin-top: calc(50vh - 1rem);
-    justify-content: space-between;
+    margin-bottom: calc(35vh);
+    justify-content: space-around;
 
     @include se {
       margin-top: calc(40vh - 1rem);

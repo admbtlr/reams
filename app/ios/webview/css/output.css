@@ -917,9 +917,36 @@ html.onboarding {
     background-color: var(--bg);
     color: white;
     overflow: hidden; }
-  html.onboarding body::after {
+  html.onboarding .bg1 {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 10000px;
+    background-image: url("../img/ream@2x.png");
+    background-size: 20000px;
+    background-position: 50% 50%;
+    animation: floating 20s infinite alternate; }
+  html.onboarding .bg1:before {
     content: "";
     z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0; }
+
+@keyframes floating {
+  from {
+    transform: translate(0, 0px); }
+  to {
+    transform: translate(-500px, 0px); } }
+  html.onboarding.onboarding-1 .bg1 {
+    background-position: 50% 25%; }
+  html.onboarding.onboarding-2 .bg1 {
+    background-position: 50% 75%; }
+  html.onboarding body::before {
+    content: "";
+    z-index: 0;
     position: absolute;
     display: block;
     top: 0;
@@ -934,9 +961,21 @@ html.onboarding {
     opacity: 0.5; }
   html.onboarding.dark-background body::after {
     opacity: 1; }
-  html.onboarding.onboarding-1 body::after {
+  html.onboarding .bg1::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    -webkit-backdrop-filter: blur(200px);
+    backdrop-filter: blur(200px);
+    background-color: rgba(255, 255, 255, 0.5); }
+  html.onboarding.onboarding-1 body::before {
     background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png"); }
-  html.onboarding.onboarding-2 body::after {
+  html.onboarding.onboarding-2 body::before {
     background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png"); }
   html.onboarding article, html.onboarding .everything {
     padding: 0 1rem;
@@ -946,8 +985,10 @@ html.onboarding {
     align-items: center; }
   html.onboarding .everything {
     padding: 0;
+    height: 100%;
     margin-top: calc(50vh - 1rem);
-    justify-content: space-between; }
+    margin-bottom: calc(35vh);
+    justify-content: space-around; }
     @media only screen and (min-device-width: 320px) and (max-device-width: 376px) and (-webkit-max-device-pixel-ratio: 2) {
       html.onboarding .everything {
         margin-top: calc(40vh - 1rem); } }
