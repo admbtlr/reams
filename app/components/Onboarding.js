@@ -8,6 +8,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { HIDE_ALL_BUTTONS, HIDE_LOADING_ANIMATION } from '../store/ui/types'
 import { TOGGLE_ONBOARDING } from '../store/config/types'
 
+export const pages = [{
+    heading: 'Reams',
+    subhead: 'Deeply Superficial Reading',
+    body: 'Reams is for people who love to read. It‘s all about the immersive pleasures of text and image.'
+  },
+  {
+    body: 'Reams uses <strong>infernally complex logic</strong>, a <strong>sprinkling of AI</strong> and a <strong>whole lot of attention to typrographic detail</strong> to turn your reading into a stunning, immersive experience.'
+  },
+  {
+    body: 'New articles flow through your <strong>feed</strong>. Want to keep one of them? Save it to your <strong>library</strong>.</p><p>You can also save articles to your library and add sites to your feed from Safari, using the <strong>Reams share extension</strong>.</p>'
+  },
+  {
+    body: 'Let\'s set up the share extension now. You\'ll need '
+  } 
+]
+
 export default function Onboarding ({index, navigation}) {
   const dispatch = useDispatch()
   const isDarkMode = useSelector(state => state.ui.isDarkMode)
@@ -40,22 +56,6 @@ export default function Onboarding ({index, navigation}) {
   //   `<div class="everything"><div class="content"><p>You can subscribe to sites from the built-in library. Or you can use the Reams Share Extension for Safari – which also lets you save <em>any</em> web page to read in Reams.</p>
   //   </div></div>`
   // ]
-
-  const pages = [{
-      heading: 'Reams',
-      subhead: 'Deeply Superficial Reading',
-      body: 'Reams is for people who love to read. It‘s all about the immersive pleasures of text and image.'
-    },
-    {
-      body: 'Every story you read is algorithmically art-directed for you.</p><p>Reams uses <strong>infernally complex logic</strong>, a <strong>sprinkling of AI</strong> and a <strong>whole lot of attention to typrographic detail</strong> to turn your reading into a stunning, immersive experience.'
-    },
-    {
-      body: 'You can save stories to your <strong>library</strong> using the <strong>Reams share extension</strong>, which you can also use to add sites to your <strong>feed</strong> – or you can add sites from the built-in library.'
-    },
-    {
-      body: 'And then suddenly here’s <strong>another page of onboarding</strong>!'
-    } 
-  ]
 
   const makePage = (index) => `
 <div class="everything">
@@ -93,6 +93,8 @@ export default function Onboarding ({index, navigation}) {
       <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
     </head>
     <body class="${bodyFontClass}">
+      <!--div class="bg1"></div>
+      <div class="bg2"></div-->
       <article>
         ${makePage(index)}
       </article>
