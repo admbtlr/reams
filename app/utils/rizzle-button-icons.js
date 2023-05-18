@@ -48,14 +48,18 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
       </Svg>
 
     case 'saveButtonIconOff':
-      return <Svg 
-        width={ fontScale(28) }
-        height={ fontScale(28) }
-        viewBox="0 0 24 24"
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 32 32'
+        fill='none' 
+        stroke={borderColor}
+        strokeLinecap='round'
+        strokeLinejoin='round'
         style={{
           position: 'absolute',
-          left: fontScale(10),
-          top: fontScale(9)
+          left: fontScale(8),
+          top: fontScale(7)
         }}
       >
         <Path d="M7 28L7 6" strokeWidth={3}/>
@@ -63,55 +67,28 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path d="M19 28L17 7" strokeWidth={3}/>
         <Rect x="22.5" y="7" width="3" height="23" rx="2" ry="2" strokeWidth={1}  strokeOpacity={0.6} transform={"rotate(-15 25 17)"}/>
       </Svg>
-    // return <Svg
-      //   width={ fontScale(35) }
-      //   height={ fontScale(35) }
-      //   viewBox='0 0 37 34'
-      //   strokeWidth='2'
-      //   stroke={borderColor}
-      //   fill='none'
-      //   style={{
-      //     left: fontScale(6),
-      //     top: fontScale(6)
-      //   }}>
-      //   <Path d='M19.3058823,10 L23.3013283,2.88768776 C23.5718232,2.40617867 24.1814428,2.2351178 24.6629519,2.50561262 C24.6681837,2.50855168 24.673389,2.51153779 24.6785671,2.51457056 L30.2152447,5.75736369 C30.689889,6.03535949 30.850899,6.64450404 30.5756101,7.12072339 L26.5410884,14.1' />
-      //   <Path d='M19.3058823,26.548712 L15.2922426,33.6568385 C15.0206918,34.1377529 14.4106983,34.3074756 13.9297839,34.0359249 C13.9294556,34.0357395 13.9291274,34.035554 13.9287993,34.0353682 L8.38060649,30.8942713 C7.89999957,30.6221768 7.73096688,30.0119917 8.0030614,29.5313848 C8.00649499,29.52532 8.00999188,29.5192912 8.01355151,29.5132995 L12.2173038,22.4373696' />
-      //   <Path d='M16.8,22.4373696 L3.8,22.4373696 C3.24771525,22.4373696 2.8,21.9896544 2.8,21.4373696 L2.8,15.1 C2.8,14.5477153 3.24771525,14.1 3.8,14.1 L11.8,14.1' />
-      //   <Path d='M26.5066683,22.4373696 L34.8,22.4373696 C35.3522847,22.4373696 35.8,21.9896544 35.8,21.4373696 L35.8,15.1 C35.8,14.5477153 35.3522847,14.1 34.8,14.1 L21.8,14.1' />
-      //   <Path d='M15.4670718,3.31922035 L30.365307,29.1237209 C30.7795206,29.8411598 30.5337079,30.7585454 29.8162689,31.172759 L25.1937311,33.8415825 C24.4762921,34.255796 23.5589065,34.0099833 23.144693,33.2925444 L8.24645763,7.48804388 C7.83224406,6.77060495 8.07805679,5.85321933 8.79549574,5.43900578 L13.4180337,2.77018224 C14.1354727,2.35596868 15.0528583,2.60178142 15.4670718,3.31922035 Z' />
-      // </Svg>
 
     case 'saveButtonIconOn':
-      return <Svg 
-        width={ fontScale(28) }
-        height={ fontScale(28) }
-        viewBox="0 0 24 24"
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 32 32'
+        fill='none' 
+        stroke={borderColor}
+        strokeLinecap='round'
+        strokeLinejoin='round'
         style={{
           position: 'absolute',
-          left: fontScale(12),
-          top: fontScale(10)
+          left: fontScale(10),
+          top: fontScale(11),
+          transform: [{rotate: '180deg'}]
         }}
       >
         <Path d="M7 28L7 6" strokeWidth={3}/>
         <Path d="M12 28L12 6" strokeWidth={3}/>
         <Path d="M19 28L17 7" strokeWidth={3}/>
-        <Rect x="22.5" y="7" width="3" height="23" rx="2" ry="2" fill={borderColor} transform={"rotate(-15 25 17)"}/>
+        <Rect x="22.5" y="7" width="2" height="23" rx="2" ry="2" fill={borderColor} transform={"rotate(-15 25 17)"}/>
       </Svg>
-    // return <Svg
-      //   width={ fontScale(42) }
-      //   height={ fontScale(39) }
-      //   viewBox='0 0 42 39'
-      //   strokeWidth='1'
-      //   stroke={backgroundColor}
-      //   fill={borderColor}
-      //   style={{
-      //     left: fontScale(5),
-      //     top: fontScale(6)
-      //   }}>
-      //     <Path d='M16.9091367,3.78663033 L32.7855762,30.8423987 C33.2269867,31.5946265 32.9650341,32.5564964 32.2004888,32.9907953 L27.2744394,35.7890308 C26.5098941,36.2233297 25.5322738,35.9655974 25.0908634,35.2133697 L9.21442378,8.15760134 C8.77301333,7.40537359 9.0349659,6.44350367 9.79951122,6.00920478 L14.7255607,3.2109692 C15.4901061,2.7766703 16.4677264,3.03440257 16.9091367,3.78663033 Z' id='Path-Copy-2' transform='translate(21.000000, 19.500000) rotate(60.000000) translate(-21.000000, -19.500000) ' />
-      //     <Path d='M16.9091367,3.78663033 L32.7855762,30.8423987 C33.2269867,31.5946265 32.9650341,32.5564964 32.2004888,32.9907953 L27.2744394,35.7890308 C26.5098941,36.2233297 25.5322738,35.9655974 25.0908634,35.2133697 L9.21442378,8.15760134 C8.77301333,7.40537359 9.0349659,6.44350367 9.79951122,6.00920478 L14.7255607,3.2109692 C15.4901061,2.7766703 16.4677264,3.03440257 16.9091367,3.78663033 Z' id='Path' transform='translate(21.000000, 19.500000) rotate(-60.000000) translate(-21.000000, -19.500000) ' />
-      //     <Path d='M16.9091367,3.78663033 L32.7855762,30.8423987 C33.2269867,31.5946265 32.9650341,32.5564964 32.2004888,32.9907953 L27.2744394,35.7890308 C26.5098941,36.2233297 25.5322738,35.9655974 25.0908634,35.2133697 L9.21442378,8.15760134 C8.77301333,7.40537359 9.0349659,6.44350367 9.79951122,6.00920478 L14.7255607,3.2109692 C15.4901061,2.7766703 16.4677264,3.03440257 16.9091367,3.78663033 Z' id='Path-Copy' />
-      // </Svg>
 
     case 'launchBrowserIcon':
       return <Svg
@@ -273,22 +250,6 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path d="M31.3451 11.918H18.7042V23.9856H31.3451V11.918Z" fill={backgroundColor}/>
         <Path d="M29.7184 14.0234C29.0334 15.2914 30.0925 21.2669 30.0925 21.2669C30.1071 21.5827 29.8933 21.8596 29.5824 21.9276C29.5824 21.9276 23.1016 21.9568 20.9543 23.7446" fill={borderColor} />
       </Svg>
-
-    // case 'saved':
-    //   return <Svg 
-    //     width={fontScale(32)} 
-    //     height={fontScale(32)} 
-    //     viewBox='0 0 32 32'>
-    //     <G strokeWidth='1'  stroke='none' fill='none' fillRule='evenodd'>
-    //       <G transform='translate(-1.000000, -3.000000)'>
-    //         <G transform='translate(1.000000, 3.000000)'>
-    //           <Path fill={borderColor} opacity={0.8} d='M 2 7 L 2 27 C 2 29 3 30 5 30 L 27 30 C 29 30 30 29 30 27 L 30 7 M 0 6 L 0 2 C 0 2 0 0 2 0 L 30 0 C 32 0 32 2 32 2 V 6 Z' />
-    //           <Path stroke={backgroundColor} fill={borderColor} d='M 12 26 L 12 12 C 12 10 12 10 14 10 H 18 C 20 10 20 10 20 12 V 26 L 16 22 Z' />
-    //           <Path stroke={backgroundColor} opacity={0.5} d='M 14 14 H 18 M 14 16 H 18 M 14 18 H 18' />
-    //         </G>
-    //       </G>
-    //     </G>
-    //   </Svg>
 
     case 'unread':
       return <Svg 
