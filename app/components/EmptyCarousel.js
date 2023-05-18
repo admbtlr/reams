@@ -14,45 +14,41 @@ const EmptyCarousel = ({ displayMode, navigation }) => {
       }}
       onPress={() => navigation.goBack()}
     />
-    <View style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '66%',
-      marginLeft: '16.67%'
-    }}>
-        <View style={{ 
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'stretch'
-        }}>
-          <Image
-            // resizeMode='contain'
-            source={require('../assets/images/ream-sepia.png')}
-            style={{
-              // flex: 1,
-              height: 217,
-              width: 246
-            }}
-          />
           { displayMode === ItemType.saved ?
-            (<Fragment>
-              <Text style={{
-                ...textInfoBoldStyle(),
-                fontSize: 16 * fontSizeMultiplier(),
-                marginTop: 24 * fontSizeMultiplier(),
-                marginBottom: 24 * fontSizeMultiplier(),
-                marginLeft: 0,
-                marginRight: 0
-              }}>This is the area for your saved stories, but you don’t have any right now.</Text>
+            (<View style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
               <Text style={{
                 ...textInfoStyle(),
-                fontSize: 16 * fontSizeMultiplier(),
-                marginBottom: 24 * fontSizeMultiplier(),
-                marginLeft: 0,
-                marginRight: 0
-              }}>You can save stories from your feed, or direct from Safari using the Rizzle Share Extension.</Text>
-            </Fragment>) :
+                margin: getMargin(),
+                lineHeight: 24,  
+                width: '100%',
+                paddingHorizontal: getMargin() * 2
+              }}>Save stories from your feed with the library button.</Text>
+              <Text style={{
+                ...textInfoStyle(),
+                margin: getMargin(),
+                lineHeight: 24,  
+                width: '100%',
+                paddingHorizontal: getMargin() * 2
+              }}>Save stories from your favourite websites with the Reams Share Extension:</Text>
+              <Image 
+                height={328}
+                width={150}
+                source={require('../assets/images/reams-external-save.webp')} 
+                style={{
+                  backgroundColor: 'white',
+                  borderColor: 'rgba(0,0,0,0.8)',
+                  borderWidth: 2,
+                  width: 150,
+                  height: 328,
+                  margin: getMargin(),
+                  borderRadius: 25
+                }}
+              />
+            </View>) :
             (<Text style={{
               ...textInfoStyle(),
               fontSize: 16 * fontSizeMultiplier(),
@@ -63,8 +59,6 @@ const EmptyCarousel = ({ displayMode, navigation }) => {
               textAlign: 'center'
             }}>You have no unread stories.</Text>)
           }
-        </View>
-    </View>
   </Fragment>
 }
 

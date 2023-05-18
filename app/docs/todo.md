@@ -1,3 +1,4 @@
+- improve onboarding, including tooltips and highlight animated webp
 - categories in saved
 - settings screen
   - dark mode settings
@@ -6,12 +7,12 @@
 - what's new screen
 - text to speech
 - feedly
-- newsletters with fastmail
+- search
+  - replace AS with SQLite / WatermelonDB
+- newsletters with fastmail (or gmail?)
   - https://jmap.io/crash-course.html#core-concept-result-references
 - how come some feeds don't have a feed_local and don't update?
 - remove all messages on init
-- test adding feeds and stories simultaneously
-  - we need a modal queue!
 - handle being offline better (put checks into fetchItems etc.)
 - move message down when not in item screen
 - onboarding in dark mode
