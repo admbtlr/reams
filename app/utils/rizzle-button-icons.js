@@ -57,13 +57,11 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
           left: fontScale(10),
           top: fontScale(9)
         }}
-        fill="none"
-        stroke={borderColor}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round">
-        <Path d="M 18 23 l -6 -5 l -6 5 V 5 a 2 2 0 0 1 2 -2 h 8 a 2 2 0 0 1 2 2 z" />
-        <Path strokeWidth='1' style={{ opacity: 0.6 }} d='M 10 10 H 14 M 10 12 H 14 M 10 14 H 14' />
+      >
+        <Path d="M7 28L7 6" strokeWidth={3}/>
+        <Path d="M12 28L12 6" strokeWidth={3}/>
+        <Path d="M19 28L17 7" strokeWidth={3}/>
+        <Rect x="22.5" y="7" width="3" height="23" rx="2" ry="2" strokeWidth={1}  strokeOpacity={0.6} transform={"rotate(-15 25 17)"}/>
       </Svg>
     // return <Svg
       //   width={ fontScale(35) }
@@ -93,13 +91,11 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
           left: fontScale(12),
           top: fontScale(10)
         }}
-        fill={borderColor}
-        stroke={borderColor}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round">
-        <Path d="M 18 21 A 2 2 0 0 1 16 23 h -8 A 2 2 0 0 1 6 21 V 3 l 6 4 L 18 3 z" />
-        <Path strokeWidth='1' stroke={backgroundColor} style={{ opacity: 0.6 }} d='M 10 12 H 14 M 10 14 H 14 M 10 16 H 14' />
+      >
+        <Path d="M7 28L7 6" strokeWidth={3}/>
+        <Path d="M12 28L12 6" strokeWidth={3}/>
+        <Path d="M19 28L17 7" strokeWidth={3}/>
+        <Rect x="22.5" y="7" width="3" height="23" rx="2" ry="2" fill={borderColor} transform={"rotate(-15 25 17)"}/>
       </Svg>
     // return <Svg
       //   width={ fontScale(42) }
@@ -392,11 +388,26 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinecap='round'
         strokeLinejoin='round'
       >
-        <Path d="M17 25L19 7" strokeWidth={4}/>
-        <Path d="M23 25L25 7" strokeWidth={4}/>
-        <Path d="M6 25L13 10" strokeWidth={4}/>
-        <Line x1="3" y1="28.5" x2="29" y2="28.5"/>
-        {/* <Line x1="28.5" y1="3" x2="28.5" y2="29"/> */}
+        <Path d="M5 30L5 5" strokeWidth={4}/>
+        <Path d="M11 30L11 5" strokeWidth={4}/>
+        <Path d="M18 30L16 6" strokeWidth={4}/>
+        <Path d="M28 30L21 8" strokeWidth={4}/>
+      </Svg>
+
+    case 'save':
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 32 32'
+        fill='none' 
+        stroke={borderColor}
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      >
+        <Path d="M5 30L5 5" strokeWidth={4}/>
+        <Path d="M11 30L11 5" strokeWidth={4}/>
+        <Path d="M18 30L16 6" strokeWidth={4}/>
+        <Rect x="23" y="6" width="4" height="25" rx="2" ry="2" strokeWidth={1}  transform={"rotate(-10 25 17)"}/>
       </Svg>
 
   }
