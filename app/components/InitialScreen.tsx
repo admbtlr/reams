@@ -2,15 +2,12 @@ import React, { useEffect } from 'react'
 import {
   Animated,
   Dimensions,
-  Image,
   Linking,
   StatusBar,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
-import Config from "react-native-config"
-import TextButton from './TextButton'
 import NavButton from './NavButton'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'

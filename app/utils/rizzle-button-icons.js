@@ -332,9 +332,9 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinecap='square'
         strokeLinejoin='square'>
         <Path d="M20 4.5H3" strokeWidth={1}/>
-        <Path d="M21 14.5H10" strokeWidth={1}/>
-        <Path d="M10 14.5H3" />
-        <Path d="M19 9.5H7"/>
+        <Path d="M21 14.5H3" strokeWidth={1}/>
+        <Path d="M10 14.5H3" strokeWidth={5} strokeOpacity={0.3}/>
+        <Path d="M19 9.5H7" strokeWidth={5} strokeOpacity={0.3}/>
         <Path d="M19 9.5H3" strokeWidth={1}/>
         <Path d="M16 19.5H3" strokeWidth={1}/>
       </Svg>

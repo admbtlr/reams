@@ -28,6 +28,11 @@ class RizzleImageViewer extends React.Component {
           color: 'white',
           textAlign: 'center',
         }}>Pinch to zoom, swipe the image down to close.</Text>
+        <Text style={{
+          ...textInfoStyle,
+          color: 'white',
+          textAlign: 'right',
+        }}>Dismiss</Text>
       </View>
     )
     return this.props.isVisible ? (
