@@ -6,7 +6,7 @@ import {
   TransitionPresets 
 } from '@react-navigation/stack'
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import ItemsScreen from './ItemsScreen'
 import AccountScreenContainer from '../containers/AccountScreen'
@@ -22,6 +22,7 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { Animated, Dimensions, Text } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
+import { CLEAR_MESSAGES } from '../store/ui/types'
 
 const navigationOptions = {
   gesturesEnabled: false
@@ -60,19 +61,6 @@ const Feeds = () => (
 )
 
 const Main = () => {
-  const isOnboarding = useSelector(state => state.config.isOnboarding)
-  const windowDim = Dimensions.get('window')
-  const getFeedCardDimensions = () => {
-    const screenWidth = Dimensions.get('window').width
-    const screenHeight = Dimensions.get('window').height
-    const isPortrait = useSelector(state => state.config.orientation === 'portrait')
-    const width = screenWidth - getInset() * (isPortrait ? 2 : 4)
-    const height = screenWidth < 500 || screenHeight < 500 ?
-      width / 2 :
-      width
-    return { width, height }
-  }
-  const feedCardDim = getFeedCardDimensions()
   return (
     <MainStack.Navigator
       // headerMode='screen'
@@ -238,6 +226,12 @@ const Main = () => {
 }
 
 export default App = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch({
+      type: CLEAR_MESSAGES
+    })
+  }, [])
   return (
     <AppStack.Navigator
       initialRouteName='Main'

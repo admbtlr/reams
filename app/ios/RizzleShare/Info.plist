@@ -34,7 +34,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>148</string>
+	<string>149</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -73,6 +73,7 @@
 		<string>IBMPlexSans-Bold.ttf</string>
 		<string>IBMPlexMono-Light.ttf</string>
 		<string>IBMPlexSans-Light.ttf</string>
+		<string>IBMPlexSans-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

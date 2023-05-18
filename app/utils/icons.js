@@ -4,10 +4,10 @@ import { fontSizeMultiplier } from './index'
 import { hslString } from './colors'
 
 
-export const xIcon = (color = hslString('rizzleText'))  => <Svg
+export const xIcon = (color = hslString('rizzleText'), size=32)  => <Svg
   viewBox='0 0 32 32'
-  height={ 32 * fontSizeMultiplier() }
-  width={ 32 * fontSizeMultiplier() }
+  height={ size * fontSizeMultiplier() }
+  width={ size * fontSizeMultiplier() }
   fill='none'
   stroke={color}
   strokeWidth='3'

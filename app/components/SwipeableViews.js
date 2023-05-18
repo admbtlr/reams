@@ -5,7 +5,7 @@ import {
 } from 'react-native'
 import { SharedElement } from 'react-navigation-shared-element'
 import FeedItemContainer from '../containers/FeedItem.js'
-import OnboardingContainer from '../containers/Onboarding.js'
+import Onboarding, { pages } from './Onboarding.js'
 import { hslString } from '../utils/colors'
 
 /*
@@ -89,7 +89,7 @@ class SwipeableViews extends Component {
 
   renderSlide ({_id, index, isVisible, panAnim}) {
     if (this.props.isOnboarding) {
-      return <OnboardingContainer
+      return <Onboarding
         index={index}
         key={index}
         navigation={this.props.navigation}
@@ -123,8 +123,8 @@ class SwipeableViews extends Component {
     // this.panAnimValues = items.map((item, key) => )
 
     if (isOnboarding) {
-      this.children = [0, 1, 2].map(index => (
-        <OnboardingContainer
+      this.children = pages.map((page, index) => (
+        <Onboarding
           key={index}
           index={index}
           navigation={navigation} />

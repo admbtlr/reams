@@ -30,6 +30,11 @@ export interface UIState {
   readonly message: string
   readonly messageQueue: Message[]
   readonly fontSize: number
+  readonly isActive: boolean
+  readonly isHelpTipVisible: boolean
+  readonly helpTipKey: string
+  readonly displayedHelpTips: string[]
+
 }
 
 export const TOGGLE_VIEW_BUTTONS = 'TOGGLE_VIEW_BUTTONS'
@@ -53,6 +58,9 @@ export const ITEMS_SCREEN_FOCUS = 'ITEMS_SCREEN_FOCUS'
 export const SET_MESSAGE = 'SET_MESSAGE'
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const REMOVE_MESSAGE = 'REMOVE_MESSAGE'
+export const CLEAR_MESSAGES = 'CLEAR_MESSAGES'
+export const SHOW_HELPTIP = 'SHOW_HELPTIP'
+export const HIDE_HELPTIP = 'HIDE_HELPTIP'
 
 interface toggleViewButtonsAction {
   type: typeof TOGGLE_VIEW_BUTTONS
@@ -133,6 +141,20 @@ interface removeMessageAction {
   messageString: string
 }
 
+interface clearMessagesAction {
+  type: typeof CLEAR_MESSAGES
+}
+
+interface showHelpTipAction {
+  type: typeof SHOW_HELPTIP
+  key: string
+}
+
+interface hideHelpTipAction {
+  type: typeof HIDE_HELPTIP
+}
+
+
 export type UIActionTypes = toggleViewButtonsAction |
   showViewButtonsAction |
   showItemButtonsAction |
@@ -150,4 +172,7 @@ export type UIActionTypes = toggleViewButtonsAction |
   decreaseFontSizeAction |
   setMessageAction |
   addMessageAction |
-  removeMessageAction
+  removeMessageAction |
+  clearMessagesAction |
+  showHelpTipAction |
+  hideHelpTipAction
