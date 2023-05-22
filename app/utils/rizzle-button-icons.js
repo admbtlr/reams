@@ -349,10 +349,10 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinecap='round'
         strokeLinejoin='round'
       >
-        <Path d="M5 30L5 5" strokeWidth={4}/>
-        <Path d="M11 30L11 5" strokeWidth={4}/>
-        <Path d="M18 30L16 6" strokeWidth={4}/>
-        <Path d="M28 30L21 8" strokeWidth={4}/>
+        <Path d="M5 28L5 5" strokeWidth={4}/>
+        <Path d="M11 28L11 5" strokeWidth={4}/>
+        <Path d="M18 28L16 6" strokeWidth={4}/>
+        <Path d="M28 28L21 8" strokeWidth={4}/>
       </Svg>
 
     case 'save':
@@ -368,7 +368,7 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path d="M5 30L5 5" strokeWidth={4}/>
         <Path d="M11 30L11 5" strokeWidth={4}/>
         <Path d="M18 30L16 6" strokeWidth={4}/>
-        <Rect x="23" y="6" width="4" height="25" rx="2" ry="2" strokeWidth={1}  transform={"rotate(-10 25 17)"}/>
+        <Rect x="23" y="6" width="4" height="20" rx="2" ry="2" strokeWidth={1}  transform={"rotate(-10 25 17)"}/>
       </Svg>
 
   }
