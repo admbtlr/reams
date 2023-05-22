@@ -34,11 +34,9 @@ import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
 import { getInset, getMargin, getStatusBarHeight } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
-import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoStyle } from '../utils/styles'
 import { RootState } from 'store/reducers'
-import NavButton from './NavButton'
-import { useFocusEffect, useIsFocused } from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -437,64 +435,4 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
     </>
   )
 
-}
-
-function ListHeaderComponent ({ showModal, navigation, scrollAnim, showAddFeeds, width }) {
-  // const showMarkOldReadModal = (scope) => {
-  //   showModal({
-  //     modalText: [
-  //       {
-  //         text: 'Remove old items?',
-  //         style: ['title']
-  //       },
-  //       {
-  //         text: 'This will remove all items that are more than one week old',
-  //         style: ['text']
-  //       }
-  //     ],
-  //     modalHideCancel: false,
-  //     modalShow: true,
-  //     modalOnOk: () => {
-  //       scope.props.markAllRead(Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000))
-  //     }
-  //   })
-  // }
-
-  const margin = getMargin()
-  return (
-    <View style={{
-      marginBottom: 40,
-      width
-    }}>
-      <NavButton
-        children={[]}
-        text="Unread stories"
-        hasBottomBorder={true}
-        hasTopBorder={true}
-        icon={ getRizzleButtonIcon('unread', hslString('rizzleText')) }
-        index={0}
-        onPress={() => {
-          navigation.navigate('Items')
-        }}
-        scrollAnim={scrollAnim}
-      />
-      <Animated.View style={{
-        transform: [{
-          translateY: scrollAnim.interpolate({
-            inputRange: [-1, 0, 1],
-            outputRange: [-.5, 0, 0]
-          })
-        }]
-      }}>
-        <TextButton
-          text="Add feeds"
-          buttonStyle={{ 
-            marginTop: 40,
-            marginBottom: 0,
-          }}
-          onPress={showAddFeeds}
-        />
-      </Animated.View>
-    </View>
-  )
 }

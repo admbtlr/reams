@@ -10,14 +10,12 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 import Config from "react-native-config"
 import TextButton from './TextButton'
-import NavButton from './NavButton'
 import AccountCredentialsForm from './AccountCredentialsForm'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getInset, getMargin, getStatusBarHeight } from '../utils'
-import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
+import { textInfoStyle } from '../utils/styles'
 import { ItemType } from '../store/items/types'
-import InAppBrowser from 'react-native-inappbrowser-reborn'
 
 class AccountScreen extends React.Component {
 

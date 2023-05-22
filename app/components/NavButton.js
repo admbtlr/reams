@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native'
 import { hslString } from '../utils/colors'
-import { getInset, getMargin } from '../utils'
+import { fontSizeMultiplier, getInset, getMargin } from '../utils'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
@@ -58,14 +58,18 @@ export default NavButton = ({ children, icon, onPress, text, hasBottomBorder, ha
           paddingBottom: getMargin() / 2,
           ...viewStyle
         }}>
-          { icon }
-          { text ?
-            <Text style={{ 
-              ...textInfoStyle(),
-              flex: 1,
-            }}>{ text }</Text> :
-            children ? children : null
-          }
+          <View style={{ width: 32 * fontSizeMultiplier() }}>
+            { icon }
+          </View>
+          <View style={{ flex: 1 }}>
+            { text ?
+              <Text style={{ 
+                ...textInfoStyle(),
+                // flex: 1,
+              }}>{ text }</Text> :
+              children ? children : null
+            }
+          </View>
           <View style={{ 
             alignSelf: 'flex-end'
           }}>{ getRizzleButtonIcon('forward', viewStyle.color || hslString('rizzleText')) }</View>
