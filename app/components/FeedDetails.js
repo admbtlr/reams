@@ -2,21 +2,17 @@ import React, { useState } from 'react'
 import {
   Dimensions,
   ScrollView,
-  Switch,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from 'react-native'
 import Svg, {Circle, Polyline, Path, Line} from 'react-native-svg'
 import TextButton from './TextButton'
-import NavButton from './NavButton'
 import SwitchRow from './SwitchRow'
 import { hslString } from '../utils/colors'
 import { hasNotchOrIsland, isIpad, fontSizeMultiplier, getMargin } from '../utils'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
-import FeedIconContainer from '../containers/FeedIcon'
 import { useDispatch, useSelector } from 'react-redux'
 import { REMOVE_FEED_FROM_CATEGORY, ADD_FEED_TO_CATEGORY } from '../store/categories/types'
 import { dustbinIcon, xIcon } from '../utils/icons'
@@ -156,11 +152,17 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         <View style={{
           paddingTop: getMargin(),
           paddingBottom: getMargin() - 8,
+          height: 70 * fontSizeMultiplier(),
         }}>
-          <View style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}>
+          <ScrollView 
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          >
+            <View style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+              }}
+            >
           { categories.filter(c => !c.isSystem).map((category, index) => (
               <TouchableOpacity 
                 key={index}
@@ -186,7 +188,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
                   marginRight: 8,
                   marginBottom: 8,
                   borderColor: hslString('rizzleText'),
-                  // borderWidth: category.feeds.indexOf(feed._id) > -1 ? 1 : 0
                 }}>
                   <Text style={{ 
                     ...textInfoStyle(),
@@ -198,7 +199,8 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
               </TouchableOpacity>
             ))
           }
-          </View>
+            </View>
+          </ScrollView>
         </View>
         <View style={{
             flexDirection: 'column',
