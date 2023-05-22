@@ -46,8 +46,6 @@ let feeds
 export function * fetchAllItems (includeSaved = true) {
 
   const isConnectionOK = function* () {
-    // const config = yield select(getConfig)
-    // if (!config.isOnline) return false
     const netInfo = yield call(NetInfo.fetch)
     console.log(netInfo)
     return netInfo.isInternetReachable
@@ -55,6 +53,9 @@ export function * fetchAllItems (includeSaved = true) {
 
   const connected = yield isConnectionOK()
   if (!connected) return
+
+  const backend = yield select(getConfig).backend
+  if (!backend) return
 
   if (!global.isBackgroundFetch) {
     yield put({
