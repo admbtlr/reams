@@ -35,6 +35,7 @@ class FeedItem extends React.Component {
 
     this.wasShowCoverImage = this.props.item.showCoverImage
     this.currentScrollOffset = 0
+    this.hasBegunScroll = false
   }
 
   initAnimatedValues (isMounted) {
@@ -173,11 +174,12 @@ class FeedItem extends React.Component {
     }
     if (isVisible) {
       setScrollAnim(this.scrollAnim)
-      this.scrollToOffset()
+      this.scrollToOffset(true)
     }
   }
 
-  scrollToOffset () {
+  scrollToOffset (isOverridable = false) {
+    if (isOverridable && this.hasBegunScroll) return
     const {item} = this.props
     const {webViewHeight} = this.state
     const scrollView = this.scrollView
@@ -279,14 +281,17 @@ class FeedItem extends React.Component {
       >
         { showCoverImage && !styles.isCoverInline && coverImage }
         <Animated.ScrollView
-          onScroll={this.scrollAnim && Animated.event(
+          onScroll={
+            this.hasBegunScroll = true
+            this.scrollAnim && Animated.event(
               [{ nativeEvent: {
                 contentOffset: { y: this.scrollAnim }
               }}],
               {
                 useNativeDriver: true
               }
-            )}
+            )
+          }
           onMomentumScrollBegin={this.onMomentumScrollBegin}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
@@ -375,6 +380,7 @@ class FeedItem extends React.Component {
 
   onMomentumScrollBegin = (e) => {
     clearTimeout(this.scrollEndTimer)
+    this.hasBegunScroll = true
   }
 
   onMomentumScrollEnd = (scrollOffset) => {
