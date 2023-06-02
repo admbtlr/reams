@@ -58,14 +58,6 @@ const normaliseTitle = (title: string) => title.slice(0, 4).toUpperCase() === 'T
   title.slice(4).toUpperCase() :
   title.toUpperCase()
 
-const backendLabels = {
-  feedbin: 'Feedbin',
-  feedwrangler: 'Feedwrangler',
-  rizzle: 'Rizzle',
-  basic: 'Rizzle Basic'
-}
-
-
 export default function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolean }) {
 
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
@@ -80,9 +72,6 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
     .sort(sortFeeds)
   const categories = useSelector((state: RootState) => state.categories.categories.filter(c => !c.isSystem))
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
-  const showLongPressTip = true //useSelector((state: RootState) => state.config.showLongPressTip)
-
-  const [hasShownLongPressTip, setHasShownLongPressTip] = useState<boolean>(false)
 
   const isFocused = useIsFocused()
   const dispatch = useDispatch()
