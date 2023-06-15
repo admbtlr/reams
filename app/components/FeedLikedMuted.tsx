@@ -1,15 +1,18 @@
 import React from 'react'
 import { View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store/reducers'
 
-export default function FeedLikedMuted ({ feed }) {
+export default function FeedLikedMuted ({ feed_id }: { feed_id: string }) {
+  const feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feed_id))
   return (
     <View style={{
       position: 'absolute',
       top: 10,
       right: 7
     }}>
-    { feed.isLiked &&
+    { feed?.isLiked &&
         <Svg
           height='32'
           width='32'>
@@ -21,7 +24,7 @@ export default function FeedLikedMuted ({ feed }) {
           />
         </Svg>
     }
-    { feed.isMuted &&
+    { feed?.isMuted &&
         <Svg
           height='32'
           width='32'>

@@ -55,6 +55,7 @@ export function deepEqual (a: any, b: any, ignoreNull = false) {
     return true
   } catch (e) {
     console.log(e)
+    return false
   }
 
 }
@@ -95,7 +96,7 @@ export function deviceCanHandleAnimations () {
   return true
 }
 
-export function getCachedCoverImagePath (item: Item) {
+export function getCachedCoverImagePath (item: Item | string) {
   const id = typeof item === 'object'
     ? item._id
     : item

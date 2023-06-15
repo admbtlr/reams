@@ -1,17 +1,5 @@
 import { connect } from 'react-redux'
-import { FEED_HAS_RENDERED_ICON } from '../store/feeds/types'
 import FeedIcon from '../components/FeedIcon.js'
-
-const feedsWithInvertedIcons = [
-  'The Guardian',
-  'Vox -  All',
-  'Brand New',
-  'The Millions',
-  'The New Republic',
-  'Six Colors',
-  'NYT > Top Stories',
-  'Lifehacker'
-]
 
 const mapStateToProps = (state, ownProps) => {
   let feed, feedLocal
@@ -25,19 +13,12 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     feed,
-    hasRenderedIcon: feedLocal && feedLocal.hasRenderedIcon,
     hasCachedIcon: feedLocal && feedLocal.hasCachedIcon,
-    shouldInvert: feed && feedsWithInvertedIcons.indexOf(feed.title) !== -1
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    setRenderedFeedIcon: (id) => dispatch({
-      type: FEED_HAS_RENDERED_ICON,
-      id
-    })
-  }
+  return {}
 }
 
 let FeedIconContainer = connect(

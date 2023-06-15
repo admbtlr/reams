@@ -25,6 +25,10 @@ export interface Item {
   hasCoverImage?: boolean
   coverImageFile?: string
   banner_image?: string
+  imageDimensions?: {
+    width: number
+    height: number
+  }
   decoration_failures?: number
   styles: {
     title: {
