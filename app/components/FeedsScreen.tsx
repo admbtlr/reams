@@ -99,55 +99,14 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
     }
   }, [isFocused])
 
-  const markAllRead = (olderThan: number) => dispatch({
-    type: MARK_FEED_READ,
-    id: null,
-    originalId: null,
-    olderThan: olderThan || Math.floor(Date.now() / 1000)
-  })
-  const setIndex = (index: number) => dispatch({
-    type: UPDATE_CURRENT_INDEX,
-    index,
-    displayMode: ItemType.unread
-  })
   const showModal = (modalProps: {}) => dispatch({
     type: SHOW_MODAL,
     modalProps
-  })
-  const unsubscribe = (id: string) => dispatch({
-    type: REMOVE_FEED,
-    id
-  })
-  const clearReadItems = () => dispatch({
-    type: CLEAR_READ_ITEMS
-  })
-  const clearFilter = () => dispatch({
-    type: SET_FILTER,
-    filter: null
   })
   const createCategory = (name: string) => dispatch({
     type: CREATE_CATEGORY,
     name
   })
-
-
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   // don't render while displaying an expanded feed
-  //   if (this.state.modal !== nextState.modal) {
-  //     return true
-  //   } else if (this.props.backend === nextProps.backend &&
-  //     deepEqual(this.props.feeds, nextProps.feeds) &&
-  //     deepEqual(this.props.categories, nextProps.categories) &&
-  //     this.props.numItems === nextProps.numItems &&
-  //     this.props.isPortrait === nextProps.isPortrait) {
-  //     return false
-  //   }
-  //   return true
-  // }
-
-  const open = (feed: Feed, index: number, position: number) => {
-    setModal({ feed, position })
-  }
 
   const close = () => {
     setModal(null)
