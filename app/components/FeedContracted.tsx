@@ -160,7 +160,12 @@ function FeedContracted ({ _id, count, index, title, navigation, type, width }: 
         {
           text: 'Edit tag',
           style: ['title']
+        },
+        {
+          text: 'Add feeds to this tag by editing each feed individually',
+          style: ['hint']
         }
+  
       ]
       showModal({
         modalText,

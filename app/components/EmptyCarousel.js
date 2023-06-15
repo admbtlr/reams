@@ -4,8 +4,10 @@ import { Dimensions, Image, Text, View } from 'react-native'
 import BackButton from './BackButton'
 import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
 import { fontSizeMultiplier, getMargin, getStatusBarHeight } from '../utils'
+import { useSelector } from 'react-redux'
 
 const EmptyCarousel = ({ displayMode, navigation }) => {
+  const filter = useSelector(state => state.config.filter)
   return <Fragment>
     <BackButton style={{
         position: 'absolute',
@@ -14,12 +16,13 @@ const EmptyCarousel = ({ displayMode, navigation }) => {
       }}
       onPress={() => navigation.goBack()}
     />
+      <View style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
           { displayMode === ItemType.saved ?
-            (<View style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+            (<>
               <Text style={{
                 ...textInfoStyle(),
                 margin: getMargin(),
@@ -48,17 +51,17 @@ const EmptyCarousel = ({ displayMode, navigation }) => {
                   borderRadius: 25
                 }}
               />
-            </View>) :
+            </>) :
             (<Text style={{
               ...textInfoStyle(),
               fontSize: 16 * fontSizeMultiplier(),
-              marginBottom: 24 * fontSizeMultiplier(),
-              marginTop: 24 * fontSizeMultiplier(),
-              marginLeft: 0,
-              marginRight: 0,
+              padding: 48 * fontSizeMultiplier(),
               textAlign: 'center'
-            }}>You have no unread stories.</Text>)
+            }}>You have no unread stories{ !!filter && (
+              <> in <Text style={textInfoBoldStyle()}>{filter.title}</Text></>
+            ) }</Text>)
           }
+      </View>
   </Fragment>
 }
 

@@ -1,4 +1,4 @@
-- improve onboarding, including tooltips and highlight animated webp
+- still got problems with saved external items appearing twice
 - categories in saved
 - settings screen
   - dark mode settings
@@ -8,7 +8,7 @@
 - text to speech
 - feedly
 - search
-  - replace AS with SQLite / WatermelonDB
+   - replace AS with SQLite / WatermelonDB
 - newsletters with fastmail (or gmail?)
   - https://jmap.io/crash-course.html#core-concept-result-references
 - how come some feeds don't have a feed_local and don't update?
@@ -16,7 +16,6 @@
 - handle being offline better (put checks into fetchItems etc.)
 - move message down when not in item screen
 - onboarding in dark mode
-- muting a feed on non-rizzle accounts
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
 
@@ -60,6 +59,8 @@
 - saved folders
 
 # Done
+- ~~muting a feed on non-rizzle accounts~~
+- ~~improve onboarding, including tooltips and highlight animated webp~~
 - ~~wtf is up with saved items? something in the reducer?~~
   - think it's when saved items are batch fetched, tried to fix it in 361b265
 - ~~why do saved external items (sometimes) render twice?~~
