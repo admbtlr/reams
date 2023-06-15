@@ -1,4 +1,6 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'
+import isEqual from 'lodash.isequal'
+import { memoize } from 'proxy-memoize'
 import { SET_FILTER } from '../store/config/types'
 import { 
   Feed,
@@ -12,12 +14,11 @@ import {
   Item
 } from '../store/items/types'
 import { 
-  HIDE_HELPTIP,
   SHOW_HELPTIP,
   SHOW_MODAL
 } from '../store/ui/types'
 import { CREATE_CATEGORY, Category } from '../store/categories/types'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   Animated,
   Dimensions,
@@ -27,12 +28,12 @@ import {
   Text,
   View
 } from 'react-native'
-import FeedContracted from '../containers/FeedContracted'
+import FeedContracted from './FeedContracted'
 import FeedExpanded from '../containers/FeedExpanded'
 import TextButton from './TextButton'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
-import { getInset, getMargin, getStatusBarHeight } from '../utils/'
+import { deepEqual, getInset, getMargin, getStatusBarHeight } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { textInfoStyle } from '../utils/styles'
 import { RootState } from 'store/reducers'
@@ -48,8 +49,8 @@ const sortFeeds = (a: Feed, b: Feed) => (a.isLiked && b.isLiked) || (a.number_un
         b.number_unread === 0 ? -1 :
           (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1)
 
-const addUnreadCount = (feed: Feed, items: Item[]) => {
-  const unreadItems = items.filter(i => i.feed_id === feed._id)
+const addUnreadCount = (feed: Feed, itemFeedIds: string[]) => {
+  const unreadItems = itemFeedIds.filter(i => i === feed._id)
   feed.number_unread = unreadItems.length
   return feed
 }
@@ -58,7 +59,7 @@ const normaliseTitle = (title: string) => title.slice(0, 4).toUpperCase() === 'T
   title.slice(4).toUpperCase() :
   title.toUpperCase()
 
-export default function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolean }) {
+function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolean }) {
 
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
   const [modal, setModal] = useState<{ feed: Feed, position: number } | null>(null)
@@ -66,11 +67,19 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
 
   const scrollAnim = new Animated.Value(0)
 
-  const items: Item[] = useSelector((state: RootState) => state.itemsUnread.items)
-  const feeds: Feed[] = useSelector((state: RootState) => state.feeds.feeds.slice())
-    .map(f => addUnreadCount(f, items))
+  const feedsDeepEqual = (a: Feed[], b: Feed[]) => {
+    return isEqual(a, b)
+  }
+
+  const sortedFeedsSelector = (state: RootState) => state.feeds.feeds.slice()
+    .map(f => addUnreadCount(f, itemFeedIds))
     .sort(sortFeeds)
-  const categories = useSelector((state: RootState) => state.categories.categories.filter(c => !c.isSystem))
+  const itemFeedIdsSelector = (state: RootState) => state.itemsUnread.items.map(i => i.feed_id)
+
+  const itemFeedIds = useSelector(itemFeedIdsSelector, isEqual)
+
+  const feeds: Feed[] = useSelector(sortedFeedsSelector, isEqual)
+  const categories = useSelector((state: RootState) => state.categories.categories.filter(c => !c.isSystem), isEqual)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
 
   const isFocused = useIsFocused()
@@ -182,10 +191,10 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
     })
   }
 
-  const getSections = (isSaved: boolean, categories: Category[], feeds: Feed[]) => {
+  const getSections = (categories: Category[], feeds: Feed[]) => {
     const feedCards = feeds ? 
       feeds.map((feed) => ({
-        key: feed._id,
+        _id: feed._id,
         type: 'feed',
         feed,
         title: feed.title
@@ -193,19 +202,17 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
       []
 
     const catCards = categories ?
-      categories.sort((a, b) => a.name < b.name ? -1 : 1).map(cat => ({
-        key: cat._id,
+      categories.sort((a, b) => a.name < b.name ? -1 : 1).map(category => ({
+        _id: category._id,
         type: 'category',
-        title: cat.name,
-        feeds: cat.feeds.map(feedId => feeds.find(feed => feed._id === feedId)),
-        category: cat
+        title: category.name,
+        category
       })) :
       []
 
     const allCards = feeds?.length > 0 ? [{
-      key: '9999999',
+      _id: '9999999',
       type: 'all',
-      feeds,
       title: 'All Unread Stories'
     }] : []
 
@@ -232,7 +239,7 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
   const margin = getMargin()
   const numCols = screenWidth > 500 ? 2 : 1
 
-  const sections = getSections(isSaved, categories, feeds)
+  const sections = getSections(categories, feeds)
 
   const renderSectionHeader = ({ section: { title } }: { section: { title?: string }}) => {
     if (!title) return null
@@ -285,16 +292,14 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
     // const isSelected = this.state.selectedFeedElement !== null &&
     //   this.state.selectedFeedElement.props.feedId === item._id
     return item && <FeedContracted
-      category={item.category}
+      _id={item._id}
+      key={item._id}
       count={count}
-      key={item.key}
-      feed={item.feed}
-      feeds={item.feeds}
       title={item.title || item.name}
       type={item.type}
       index={index}
       navigation={navigation}
-      {...{ modal, open, width }}
+      {...{ modal, width }}
     />
   }
 
@@ -371,7 +376,7 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
           <AnimatedSectionList
             sections={sections}
             key={screenWidth}
-            keyExtractor={(card: any) => card.key}
+            keyExtractor={(card: any) => card._id}
             initialNumToRender={3}
             numColumns={numCols}
             onScroll={Animated.event(
@@ -425,3 +430,7 @@ export default function FeedsScreen({ navigation, isSaved }: { navigation: any, 
   )
 
 }
+
+FeedsScreen.whyDidYouRender = true
+
+export default React.memo(FeedsScreen, isEqual)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useRef } from 'react'
 import {
   Animated,
   Dimensions,
@@ -15,28 +15,51 @@ import FeedExpandedContainer from '../containers/FeedExpanded'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback'
 import { Feed, REMOVE_FEED_COVER_IMAGE, SET_CACHED_FEED_COVER_IMAGE } from '../store/feeds/types'
-import { WrappedFeed } from 'containers/FeedContracted'
 import LinearGradient from 'react-native-linear-gradient'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { SET_FILTER } from '../store/config/types'
-import { CLEAR_READ_ITEMS, ItemType, UPDATE_CURRENT_INDEX } from '../store/items/types'
+import { CLEAR_READ_ITEMS, Item, ItemType, UPDATE_CURRENT_INDEX } from '../store/items/types'
 import { SHOW_MODAL } from '../store/ui/types'
 import { Category, DELETE_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
+import { RootState } from 'store/reducers'
+import isEqual from 'lodash.isequal'
 
 interface Props {
-  category: Category
+  _id: string | number
   count: number
-  feed: Feed
-  feeds: WrappedFeed[]
   index: number
-  key: string
-  navigation: any
   title: string
+  navigation: any
   type: string
   width: number
 }
 
-export default function FeedContracted ({ category, count, feed, feeds, index, key, navigation, title, type, width }: Props)  {
+function FeedContracted ({ _id, count, index, title, navigation, type, width }: Props)  {
+  let feed: Feed | undefined, 
+    category: Category | undefined, 
+    numUnread: number | undefined, 
+    categoryFeeds: (Feed | undefined)[] = [],
+    cachedIconDimensions: { width: number, height: number } | undefined
+  if (type === 'feed') {
+    feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === _id), isEqual)
+    numUnread = useSelector((state: RootState) => state.itemsUnread.items.filter(i => i.feed_id === _id).filter(i => !i.readAt).length)
+    cachedIconDimensions = useSelector((state: RootState) => state.feedsLocal.feeds.find(fl => fl._id === _id)?.cachedIconDimensions)
+  } else if (type === 'all') {
+    numUnread = useSelector((state: RootState) => state.itemsUnread.items.filter(i => !i.readAt).length)
+    categoryFeeds = useSelector((state: RootState) => state.feeds.feeds.filter(f => !f.isMuted), isEqual)
+  } else {
+    category = useSelector((state: RootState) => state.categories.categories.find(c => c._id === _id), isEqual)
+    const categoryFeedIds: string[] = category ? category.feeds : [] // note that these are feed_ids
+    numUnread = useSelector((state: RootState) => state.itemsUnread.items
+      .filter(i => categoryFeedIds.find(cf => cf === i.feed_id) !== undefined)
+      .filter(i => !i.readAt).length)
+    categoryFeeds = useSelector((state: RootState) => categoryFeedIds.map(cfi => state.feeds.feeds.find(f => f._id === cfi)), isEqual)
+    cachedIconDimensions = useSelector((state: RootState) => state.feedsLocal.feeds.find(fl => fl._id === categoryFeeds[0]?._id)?.cachedIconDimensions)
+  }
+
+  // add cachedIconDimensions to feed
+
+
   const dispatch = useDispatch()
   const filterItems = (_id: string | null, title: string, type: string) => dispatch({
     type: SET_FILTER,
@@ -67,19 +90,17 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
     type: SHOW_MODAL,
     modalProps
   })
-  const updateCategory = (category: Category) => dispatch({
+  const updateCategory = (category: Category) => category && dispatch({
     type: UPDATE_CATEGORY,
     category
   })
-  const deleteCategory = (category: Category) => dispatch({
+  const deleteCategory = (category?: Category) => category && dispatch({
     type: DELETE_CATEGORY,
     category
   })
 
-
-  const opacityAnim: Animated.Value = new Animated.Value(1)
-  let mainView: React.RefObject<View> = React.createRef<View>()
-  let imageView: React.RefObject<View> = React.createRef<View>()
+  const opacityAnim = new Animated.Value(1)
+  let mainViewRef = useRef<View>(null)
 
   const navigateToItems = (x: number, y: number, width: number, height: number) => {
     navigation.navigate('Items', { 
@@ -93,7 +114,7 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
 
   const onPress = (e: GestureResponderEvent) => {
     // fixes a bug when setting a filter with no feeds or items
-    if (type === 'category' && feeds.length === 0) {
+    if (type === 'category' && categoryFeeds.length === 0) {
       return
     }
     
@@ -104,6 +125,7 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
       duration: 200,
       useNativeDriver: true
     }).start(() => {
+      console.log('starting animation')
       Animated.timing(opacityAnim, {
         toValue: 1,
         delay: 500,
@@ -118,7 +140,9 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
       type === 'all' ? null : type
     )
     setIndex(0)
-    mainView.measureInWindow(navigateToItems)
+    if (mainViewRef.current) {
+      mainViewRef.current.measureInWindow(navigateToItems)
+    }
   }
 
   const onLongPress = (e: GestureResponderEvent) => {
@@ -126,7 +150,7 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
     if (type === 'feed') {
       navigation.push('ModalWithGesture', {
         childView: <FeedExpandedContainer
-            feed={feeds[0].feed}
+            feed={feed}
             close={() => navigation.navigate('Main')}
             navigation={navigation}
           />
@@ -150,10 +174,10 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
             value: title
           }
         ],
-        deletableRows: feeds.map((feed: WrappedFeed) => ({
-          bgColor: feed.color ? hslString(feed.color) : hslString('rizzleText'),
-          title: feed.feed.title,
-          id: feed.feed._id
+        deletableRows: categoryFeeds.map((feed?: Feed) => ({
+          bgColor: feed?.color ? hslString(feed.color) : hslString('rizzleText'),
+          title: feed?.title,
+          id: feed?._id
         })),
         deleteButton: true,
         deleteButtonText: 'Delete tag',
@@ -199,27 +223,19 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
     cardWidth / 2 :
     cardWidth
 
-  const numUnread = feeds.reduce((acc: number, feed: WrappedFeed) => {
-    if (!feed) {
-      console.log('feed is null')
-    }
-    return acc + feed.feedItems.length
-  }, 0)
+  const cardSizeDivisor = type === 'feed' ? 1 :
+    screenWidth > 500 ? 
+      (categoryFeeds.length > 15 ? 4 :
+        categoryFeeds.length > 11 ? 3 :
+        categoryFeeds.length > 3 ? 2 :
+        categoryFeeds.length > 1 ? 1 :
+        0) :
+      (categoryFeeds.length > 18 ? 3 :
+        categoryFeeds.length > 8 ? 2 :
+        categoryFeeds.length > 1 ? 1 :
+        0)
 
-  const iconDimensions = feeds.length === 1 ?
-    feeds[0].feedLocal && feeds[0].feedLocal.cachedIconDimensions :
-    null
-
-  const cardSizeDivisor = screenWidth > 500 ? 
-    (feeds.length > 15 ? 4 :
-      feeds.length > 11 ? 3 :
-      feeds.length > 3 ? 2 :
-      feeds.length > 1 ? 1 :
-      0) :
-    (feeds.length > 18 ? 3 :
-      feeds.length > 8 ? 2 :
-      feeds.length > 1 ? 1 :
-      0)
+  const feedsForIcons = type === 'feed' ? [feed] : categoryFeeds
 
   return (
     <TouchableOpacity
@@ -227,7 +243,7 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
       onLongPress={onLongPress}
     >
       <Animated.View
-        ref={(c: React.RefObject<View>) => mainView = c}
+        ref={mainViewRef}
         style={{
           flex: 1,
           height: cardHeight,
@@ -248,12 +264,11 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
             borderRadius: 16,
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
-            backgroundColor: type !== 'feed' ? 'black' : hslString(feeds[0].feed.color, 'desaturated'),
+            backgroundColor: type !== 'feed' ? 'black' : hslString(feed?.color, 'desaturated'),
             position: 'relative',
             overflow: 'hidden',
         }}>
           <View
-            ref={(c: React.RefObject<View>) => { imageView = c}}
             style={{
               backgroundColor: 'white',
               height: '100%',
@@ -264,21 +279,23 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
               flexDirection: 'row',
               flexWrap: 'wrap'
           }}>
-            { feeds.map((feed: WrappedFeed, index: number, feeds: WrappedFeed[]) => (
-              <View 
-                key={feed.feedId}
-                style={{
-                  backgroundColor: hslString(feed.color, 'desaturated'),
-                  width: feeds.length > 1 ? Math.round(cardHeight / cardSizeDivisor) : cardWidth,
-                  height: feeds.length > 1 ? Math.round(cardHeight / cardSizeDivisor) : cardHeight
-                }}>
-                <FeedCoverImage
-                  feed={feed}
-                  width={feeds.length > 1 ? cardHeight / cardSizeDivisor : cardWidth}
-                  height={feeds.length > 1 ? cardHeight / cardSizeDivisor : cardHeight}
-                  setCachedCoverImage={setCachedCoverImage}
-                  removeCoverImage={removeCoverImage} />
-              </View>
+            { feedsForIcons.map((feed: Feed | undefined, index: number, feeds: (Feed | undefined)[]) => (
+              feed && (
+                <View 
+                  key={feed._id}
+                  style={{
+                    backgroundColor: hslString(feed.color, 'desaturated'),
+                    width: feeds.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth,
+                    height: feeds.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight
+                  }}>
+                  <FeedCoverImage
+                    feedId={feed._id}
+                    width={feeds.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth}
+                    height={feeds.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight}
+                    setCachedCoverImage={setCachedCoverImage}
+                    removeCoverImage={removeCoverImage} />
+                </View>
+              )
             )) }
           </View>
           <View style={{
@@ -304,7 +321,7 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
                 right: 0
               }}  
             />
-              { type === 'feed' && <FeedLikedMuted feed={feeds[0]} /> }
+              { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
               <View style={{
                 paddingLeft: 4,
                 paddingRight: 40,
@@ -344,7 +361,7 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
               overflow: 'hidden'
           }}>
             <View style={{
-              backgroundColor: hslString(feeds[0].feed.color),
+              backgroundColor: hslString(feed?.color),
               position: 'absolute',
               bottom: -65,
               right: -65,
@@ -362,8 +379,8 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
               zIndex: 10
             }}>
               <FeedIconContainer
-                feed={feeds[0].feed}
-                iconDimensions={iconDimensions}
+                feed={feed}
+                iconDimensions={cachedIconDimensions}
               />
             </View>
           </View>
@@ -372,3 +389,5 @@ export default function FeedContracted ({ category, count, feed, feeds, index, k
     </TouchableOpacity>
   )
 }
+
+export default React.memo(FeedContracted, isEqual)

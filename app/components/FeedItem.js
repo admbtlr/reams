@@ -269,6 +269,7 @@ class FeedItem extends React.Component {
     const bodyStyle = {
       backgroundColor: bodyColor
     }
+    const that = this
 
     return (
       <View
@@ -282,7 +283,6 @@ class FeedItem extends React.Component {
         { showCoverImage && !styles.isCoverInline && coverImage }
         <Animated.ScrollView
           onScroll={
-            this.hasBegunScroll = true
             this.scrollAnim && Animated.event(
               [{ nativeEvent: {
                 contentOffset: { y: this.scrollAnim }
@@ -294,6 +294,7 @@ class FeedItem extends React.Component {
           }
           onMomentumScrollBegin={this.onMomentumScrollBegin}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
+          onScrollBeginDrag={() => { that.hasBegunScroll = true }}
           onScrollEndDrag={this.onScrollEndDrag}
           pinchGestureEnabled={false}
           ref={(ref) => { this.scrollView = ref }}
@@ -423,7 +424,7 @@ class FeedItem extends React.Component {
           })
           that.hasWebViewResized = true
           that.pendingWebViewHeightId = null
-          that.scrollToOffset()
+          that.scrollToOffset(true)
         }, 500)
       }
     }

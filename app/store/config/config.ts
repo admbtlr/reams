@@ -87,7 +87,8 @@ export function config (
       return {
         ...state,
         backend,
-        ...credentials
+        ...credentials,
+        filter: null
       }
 
     case UNSET_BACKEND:
@@ -96,7 +97,8 @@ export function config (
         {backend: ''}
       return {
         ...state,
-        ...extras
+        ...extras,
+        filter: null
       }
 
     case SET_EXTRA_BACKEND: 

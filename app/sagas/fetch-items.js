@@ -54,8 +54,9 @@ export function * fetchAllItems (includeSaved = true) {
   const connected = yield isConnectionOK()
   if (!connected) return
 
-  const backend = yield select(getConfig).backend
-  if (!backend) return
+  const config = yield select(getConfig)
+  console.log('backend', config.backend)
+  if (!config.backend) return
 
   if (!global.isBackgroundFetch) {
     yield put({
