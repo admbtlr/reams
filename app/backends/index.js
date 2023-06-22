@@ -1,5 +1,6 @@
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import log from '../utils/log'
+import fetchNewsletters from './fastmail'
 
 const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
@@ -67,6 +68,9 @@ export async function getReadItems (oldItems) {
 
 // old items are (fetched items + read items)
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) {
+  // const newsletters = await fetchNewsletters()
+  // console.log('newsletters', newsletters)
+  // debugger
   switch (backend) {
     case 'basic':
     case 'rizzle':

@@ -39,6 +39,7 @@ import {
   getLastUpdated,
 } from './selectors'
 import NetInfo from '@react-native-community/netinfo'
+import fetchNewsletters from '../backends/fastmail'
 
 
 let feeds
@@ -71,6 +72,7 @@ export function * fetchAllItems (includeSaved = true) {
   if (includeSaved) {
     yield fetchItems(ItemType.saved)
   }
+  yield call(fetchNewsletters)
   if (!global.isBackgroundFetch) {
     yield put({
       type: REMOVE_MESSAGE,
