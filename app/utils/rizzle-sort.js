@@ -1,8 +1,10 @@
+import { Direction } from '../store/config/types'
 import { store } from '../store'
 import { consoleLog } from './log'
 
 export default function rizzleSort (items, feeds) {
   feeds = feeds || (store && store.getState().feeds.feeds)
+  const config = store && store.getState().config
   items.forEach(item => {
     if (!feeds.find(feed => feed._id === item.feed_id)) {
       console.log('NO FEED FOR ITEM!?')
@@ -18,8 +20,16 @@ export default function rizzleSort (items, feeds) {
     return feed && feed.isLiked
   })
   const notLiked = items.filter(item => liked.indexOf(item) === -1)
-  liked.sort((a, b) => b.created_at - a.created_at)
-  notLiked.sort((a, b) => b.created_at - a.created_at)
+
+  const sortFunction = config.itemSort === Direction.desc ?
+    (a, b) => a.created_at - b.created_at :
+    (config.itemSort === Direction.asc ?
+      (a, b) => b.created_at - a.created_at :
+      (a, b) => Math.random() - 0.5
+    )
+
+  liked.sort(sortFunction)
+  notLiked.sort(sortFunction)
   return liked.concat(notLiked)
   // return items.map(item => {
   //   const readingRate = feeds.find(f => f._id === item.feed_id).reading_rate

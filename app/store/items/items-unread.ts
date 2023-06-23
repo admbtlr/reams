@@ -1,6 +1,7 @@
 import {
   SET_BACKEND,
   UNSET_BACKEND,
+  SET_ITEM_SORT,
   ConfigActionTypes 
 } from '../config/types'
 import {
@@ -147,6 +148,16 @@ export function itemsUnread (
         ...state,
         items: carouselled.items,
         index: carouselled.index
+        // items,
+        // index
+      }
+
+    case SET_ITEM_SORT:
+      items = rizzleSort([...state.items])
+      return {
+        ...state,
+        items,
+        index: 0
         // items,
         // index
       }

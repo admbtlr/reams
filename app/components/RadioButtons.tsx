@@ -6,16 +6,16 @@ import { textInfoStyle } from '../utils/styles'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 interface RadioButtonProps {
-  data: { value: string }[]
-  onSelect: (value: string) => void
+  data: { 
+    value: number 
+    label: string
+    icon?: string
+  }[]
+  selected: number
+  onSelect: (value: number) => void
 }
 
-export default function RadioButtons({ data, onSelect }: RadioButtonProps) {
-  const [userOption, setUserOption] = useState<string>(null)
-  const selectHandler = (value: string) => {
-    onSelect(value)
-    setUserOption(value)
-  }
+export default function RadioButtons({ data, selected, onSelect }: RadioButtonProps) {
   return (
     <View style={{ 
       flex: 1,
@@ -23,27 +23,29 @@ export default function RadioButtons({ data, onSelect }: RadioButtonProps) {
     }}>
       {data.map((item, index) => {
         return (
-          <View style={{
-            flex: 1,
-            marginRight: index < data.length - 1 ? getMargin() : 0,
-            padding: getMargin() * 0.5,
-            borderColor: item.value === userOption ? hslString('logo1') : hslString('rizzleText'),
-            borderWidth: 1,
-            borderRadius: getMargin() * 0.5,
-            backgroundColor: item.value === userOption ? hslString('logo1') : hslString('white'),
-          }}>
+          <View 
+            key={index}
+            style={{
+              flex: 1,
+              marginRight: index < data.length - 1 ? getMargin() : 0,
+              padding: getMargin() * 0.5,
+              borderColor: item.value === selected ? hslString('logo1') : hslString('rizzleText'),
+              borderWidth: 1,
+              borderRadius: getMargin() * 0.5,
+              backgroundColor: item.value === selected ? hslString('logo1') : hslString('white'),
+            }}>
             <Pressable
               style={{
                 // flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={() => selectHandler(item.value)}>
-              { item.icon && getRizzleButtonIcon(item.icon, item.value === userOption ? hslString('white') : hslString('rizzleText'))}
+              onPress={() => onSelect(item.value)}>
+              { item.icon && getRizzleButtonIcon(item.icon, item.value === selected ? hslString('white') : hslString('rizzleText'))}
               <Text 
                 style={{
                   ...textInfoStyle('rizzleText', 0, true),
-                  color: item.value === userOption ? hslString('white') : hslString('rizzleText')
+                  color: item.value === selected ? hslString('white') : hslString('rizzleText')
                 }}> {item.label}</Text>
             </Pressable>
           </View>

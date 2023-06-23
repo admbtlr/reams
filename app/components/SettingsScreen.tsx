@@ -26,6 +26,7 @@ import { Direction, SET_ITEM_SORT } from '../store/config/types'
 
 export default function SettingsScreen ({ navigation }) {
   const dispatch = useDispatch()
+  const itemSort = useSelector((state: RootState) => state.config.itemSort)
   const sortButtons = [
     { 
       value: Direction.desc,
@@ -64,7 +65,7 @@ export default function SettingsScreen ({ navigation }) {
           flexDirection: 'row',
           padding: getMargin()
         }}>
-          <RadioButtons data={sortButtons} onSelect={(value) => dispatch({
+          <RadioButtons data={sortButtons} selected={itemSort} onSelect={(value) => dispatch({
             type: SET_ITEM_SORT,
             itemSort: value
           }) }/>
