@@ -10,13 +10,6 @@ interface RadioButtonProps {
   onSelect: (value: string) => void
 }
 
-const styles = {
-  selected: {
-  },
-  unselected: {
-  }
-}
-
 export default function RadioButtons({ data, onSelect }: RadioButtonProps) {
   const [userOption, setUserOption] = useState<string>(null)
   const selectHandler = (value: string) => {
@@ -32,11 +25,12 @@ export default function RadioButtons({ data, onSelect }: RadioButtonProps) {
         return (
           <View style={{
             flex: 1,
-            marginRight: index < data.length - 1 ? getMargin() * 0.5 : 0,
+            marginRight: index < data.length - 1 ? getMargin() : 0,
             padding: getMargin() * 0.5,
-            borderColor: item.value === userOption ? hslString('logo1') : hslString('rizzleFG', undefined, 0.3),
+            borderColor: item.value === userOption ? hslString('logo1') : hslString('rizzleText'),
             borderWidth: 1,
-            borderRadius: getMargin() * 0.5
+            borderRadius: getMargin() * 0.5,
+            backgroundColor: item.value === userOption ? hslString('logo1') : hslString('white'),
           }}>
             <Pressable
               style={{
@@ -45,11 +39,11 @@ export default function RadioButtons({ data, onSelect }: RadioButtonProps) {
                 alignItems: 'center',
               }}
               onPress={() => selectHandler(item.value)}>
-              { item.icon && getRizzleButtonIcon(item.icon, item.value === userOption ? hslString('logo1') : hslString('rizzleText'))}
+              { item.icon && getRizzleButtonIcon(item.icon, item.value === userOption ? hslString('white') : hslString('rizzleText'))}
               <Text 
                 style={{
                   ...textInfoStyle('rizzleText', 0, true),
-                  color: item.value === userOption ? hslString('logo1') : hslString('rizzleText')
+                  color: item.value === userOption ? hslString('white') : hslString('rizzleText')
                 }}> {item.label}</Text>
             </Pressable>
           </View>

@@ -65,7 +65,7 @@ const initialState = {
   filter: null,
   isOnline: false,
   orientation: height > width ? 'portrait' : 'landscape',
-  itemSort: Direction.forwards,
+  itemSort: Direction.desc,
   showNumUnread: true,
   isItemsOnboardingDone: true,
   isFeedOnboardingDone: false,

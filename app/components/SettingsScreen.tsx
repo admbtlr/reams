@@ -22,22 +22,23 @@ import { dustbinIcon, noteIcon } from '../utils/icons'
 import { SHOW_MODAL } from '../store/ui/types'
 import FeedIconContainer from '../containers/FeedIcon'
 import RadioButtons from './RadioButtons'
+import { Direction, SET_ITEM_SORT } from '../store/config/types'
 
 export default function SettingsScreen ({ navigation }) {
   const dispatch = useDispatch()
   const sortButtons = [
     { 
-      value: 'desc',
+      value: Direction.desc,
       label: 'Newest first',
       icon: 'arrow-right'
      },
      { 
-      value: 'asc',
+      value: Direction.asc,
       label: 'Oldest first',
       icon: 'arrow-left'
      },
      { 
-      value: 'rnd',
+      value: Direction.rnd,
       label: 'Random',
       icon: 'shuffle'
      },
@@ -57,13 +58,16 @@ export default function SettingsScreen ({ navigation }) {
         }}>Sort articles</Text>
         <View style={{
           backgroundColor: hslString('white'),
-          borderRadius: getMargin() * 0.5,
+          borderRadius: getMargin(),
           marginVertical: getMargin() * 0.25,
           // flex: 1,
           flexDirection: 'row',
           padding: getMargin()
         }}>
-          <RadioButtons data={sortButtons} onSelect={() => null }/>
+          <RadioButtons data={sortButtons} onSelect={(value) => dispatch({
+            type: SET_ITEM_SORT,
+            itemSort: value
+          }) }/>
         </View>
       </View>
     </View>
