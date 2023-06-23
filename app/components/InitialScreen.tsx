@@ -218,6 +218,17 @@ export default function InitialScreen({}) {
           text='Accounts'
           viewStyle={{ paddingLeft: 5 }}
         />
+        <NavButton
+          hasBottomBorder={true}
+          icon={getRizzleButtonIcon('settings', hslString('rizzleText'))}
+          onPress={() => {
+            navigation.navigate('Settings')
+          }}
+          scrollAnim={scrollAnim}
+          index={0}
+          text='Settings'
+          viewStyle={{ paddingLeft: 5 }}
+        />
         <View style={{
           position: 'absolute',
           bottom: getMargin() * 2,
