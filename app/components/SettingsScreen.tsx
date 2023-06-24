@@ -23,6 +23,7 @@ import { SHOW_MODAL } from '../store/ui/types'
 import FeedIconContainer from '../containers/FeedIcon'
 import RadioButtons from './RadioButtons'
 import { Direction, SET_ITEM_SORT } from '../store/config/types'
+import { SORT_ITEMS } from '../store/items/types'
 
 export default function SettingsScreen ({ navigation }) {
   const dispatch = useDispatch()
@@ -44,6 +45,15 @@ export default function SettingsScreen ({ navigation }) {
       icon: 'shuffle'
      },
   ]
+  const sortItems = (itemSort: number) => {
+    dispatch({
+      type: SET_ITEM_SORT,
+      itemSort
+    })
+    dispatch({
+      type: SORT_ITEMS
+    })
+  }
   return (
     <View style={{
       flex: 1,
@@ -65,10 +75,7 @@ export default function SettingsScreen ({ navigation }) {
           flexDirection: 'row',
           padding: getMargin()
         }}>
-          <RadioButtons data={sortButtons} selected={itemSort} onSelect={(value) => dispatch({
-            type: SET_ITEM_SORT,
-            itemSort: value
-          }) }/>
+          <RadioButtons data={sortButtons} selected={itemSort} onSelect={sortItems}/>
         </View>
       </View>
     </View>

@@ -53,7 +53,7 @@ export interface ConfigState {
 
 const {width, height } = Dimensions.get('window')
 
-const initialState = {
+export const initialState = {
   userId: id(),
   backend: '',
   accessToken: '',

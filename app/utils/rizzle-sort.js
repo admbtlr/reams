@@ -22,9 +22,9 @@ export default function rizzleSort (items, feeds) {
   const notLiked = items.filter(item => liked.indexOf(item) === -1)
 
   const sortFunction = config.itemSort === Direction.desc ?
-    (a, b) => a.created_at - b.created_at :
+    (a, b) => b.created_at - a.created_at :
     (config.itemSort === Direction.asc ?
-      (a, b) => b.created_at - a.created_at :
+      (a, b) => a.created_at - b.created_at :
       (a, b) => Math.random() - 0.5
     )
 
