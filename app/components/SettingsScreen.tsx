@@ -58,22 +58,26 @@ export default function SettingsScreen ({ navigation }) {
     <View style={{
       flex: 1,
       backgroundColor: hslString('rizzleBG'),
-      padding: getMargin()
+      padding: getMargin(),
     }}>
       <View style={{
-        flex: 1,
+        backgroundColor: hslString('white'),
+        borderRadius: getMargin(),
+        borderColor: hslString('rizzleText'),
+        borderWidth: 1,
+        marginVertical: getMargin() * 0.25,
+        padding: getMargin(),
+        paddingTop: getMargin() * .5
       }}>
         <Text style={{
-          ...textInfoStyle('rizzleText', 0),
-          padding: 0
+          fontFamily: 'IBMPlexSans',
+          fontSize: 18 * fontSizeMultiplier(),
+          textAlign: 'center',
+          marginBottom: getMargin() * .5
         }}>Sort articles</Text>
         <View style={{
-          backgroundColor: hslString('white'),
-          borderRadius: getMargin(),
-          marginVertical: getMargin() * 0.25,
           // flex: 1,
           flexDirection: 'row',
-          padding: getMargin()
         }}>
           <RadioButtons data={sortButtons} selected={itemSort} onSelect={sortItems}/>
         </View>
