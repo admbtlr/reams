@@ -29,6 +29,7 @@ export default function RadioButtons({ data, selected, onSelect }: RadioButtonPr
               flex: 1,
               marginRight: index < data.length - 1 ? getMargin() : 0,
               padding: getMargin() * 0.5,
+              paddingBottom: getMargin() * 0.25,
               borderColor: item.value === selected ? hslString('logo1') : hslString('rizzleText'),
               borderWidth: 1,
               borderRadius: getMargin() * 0.5,
@@ -45,6 +46,8 @@ export default function RadioButtons({ data, selected, onSelect }: RadioButtonPr
               <Text 
                 style={{
                   ...textInfoStyle('rizzleText', 0, true),
+                  marginTop: getMargin() * 0.25,
+                  paddingBottom: 0,
                   color: item.value === selected ? hslString('white') : hslString('rizzleText')
                 }}> {item.label}</Text>
             </Pressable>
