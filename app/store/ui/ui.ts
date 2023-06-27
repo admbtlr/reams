@@ -7,6 +7,7 @@ import {
   HIDE_MODAL,
   INCREASE_FONT_SIZE,
   SET_DARK_MODE,
+  SET_DARK_MODE_SETTING,
   SHOW_IMAGE_VIEWER,
   SHOW_ITEM_BUTTONS,
   SHOW_MODAL,
@@ -21,7 +22,9 @@ import {
   UIActionTypes,
   UIState,
   SHOW_HELPTIP,
-  HIDE_HELPTIP
+  HIDE_HELPTIP,
+  DarkModeSetting,
+  SET_FONT_SIZE
 } from './types'
 
 const initialState = {
@@ -36,6 +39,7 @@ const initialState = {
   message: '',
   messageQueue: [],
   isDarkMode: false,
+  darkModeSetting: DarkModeSetting.AUTO,
   fontSize: 3,
   isActive: true,
   isHelpTipVisible: false,
@@ -45,6 +49,8 @@ const initialState = {
 
 const MAX_FONT_SIZE = 5
 const MIN_FONT_SIZE = 1
+
+let isDarkMode
 
 export function ui (
   state: UIState = initialState, 
@@ -96,19 +102,32 @@ export function ui (
         showLoadingAnimation: false
       }
 
-      case TOGGLE_DARK_MODE:
-        return {
-          ...state,
-          isDarkMode: !state.isDarkMode
-        }
-  
-      case SET_DARK_MODE:
-        return {
-          ...state,
-          isDarkMode: action.isDarkMode
-        }
-  
-        case SHOW_IMAGE_VIEWER:
+    case TOGGLE_DARK_MODE:
+      return {
+        ...state,
+        isDarkMode: !state.isDarkMode
+      }
+
+    case SET_DARK_MODE:
+      isDarkMode = state.darkModeSetting === DarkModeSetting.AUTO ?
+        action.isDarkMode :
+        state.isDarkMode
+      return {
+        ...state,
+        isDarkMode
+      }
+
+    case SET_DARK_MODE_SETTING:
+      isDarkMode = action.darkModeSetting === DarkModeSetting.AUTO ?
+        state.isDarkMode :
+        action.darkModeSetting === DarkModeSetting.ON
+      return {
+        ...state,
+        darkModeSetting: action.darkModeSetting,
+        isDarkMode
+      }
+
+    case SHOW_IMAGE_VIEWER:
       return {
         ...state,
         imageViewerVisible: true,
@@ -149,7 +168,13 @@ export function ui (
         fontSize
       }
 
-    case SET_MESSAGE:
+    case SET_FONT_SIZE:
+      return {
+        ...state,
+        fontSize: action.fontSize
+      }
+  
+      case SET_MESSAGE:
       return {
         ...state,
         message: action.message

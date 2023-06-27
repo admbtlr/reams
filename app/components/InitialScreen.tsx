@@ -24,6 +24,7 @@ export default function InitialScreen({}) {
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
+  const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const hasFeeds = useSelector((state: RootState) => state.feeds.feeds.length > 0)
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -216,6 +217,17 @@ export default function InitialScreen({}) {
           scrollAnim={scrollAnim}
           index={0}
           text='Accounts'
+          viewStyle={{ paddingLeft: 5 }}
+        />
+        <NavButton
+          hasBottomBorder={true}
+          icon={getRizzleButtonIcon('settings', hslString('rizzleText'))}
+          onPress={() => {
+            navigation.navigate('Settings')
+          }}
+          scrollAnim={scrollAnim}
+          index={0}
+          text='Settings'
           viewStyle={{ paddingLeft: 5 }}
         />
         <View style={{

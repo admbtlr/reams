@@ -2,6 +2,7 @@ import { id } from "../utils"
 import { Category } from "./categories/types"
 import { Item } from "./items/types"
 import { RootState } from "./reducers"
+import { DarkModeSetting } from "./ui/types"
 
 export const migrations = {
   0: (state: RootState) => {
@@ -89,6 +90,16 @@ export const migrations = {
         ...state.config,
         userId: id(),
         readwiseToken: null
+      }
+    }
+  },
+  6: (state: RootState) => {
+    // add darkModeSetting
+    return {
+      ...state,
+      ui: {
+        ...state.ui,
+        darkModeSetting: DarkModeSetting.AUTO
       }
     }
   }

@@ -182,6 +182,123 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Circle cx="12" cy="7" r="4" />
       </Svg>
 
+    case 'settings':
+      return <Svg
+        width='28' 
+        height='28' 
+        viewBox='0 0 24 24' 
+        fill='none' 
+        stroke={borderColor}
+        strokeWidth='2' 
+        strokeLinecap='round' 
+        strokeLinejoin='round'>
+        <Circle cx='12' cy='12' r='3' />
+        <Path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z' />
+      </Svg>
+
+    case 'shuffle':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none" 
+        stroke={borderColor} 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round">
+        <Path d="M16 3h5v5M4 20L20.2 3.8M21 16v5h-5M15 15l5.1 5.1M4 4l5 5"/>
+      </Svg>
+
+    case 'arrow-left':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none" 
+        stroke={borderColor} 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round">
+        <Path d="M19 12H6M12 5l-7 7 7 7"/>
+      </Svg>
+
+    case 'arrow-right':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none" 
+        stroke={borderColor} 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round">
+        <Path d="M5 12h13M12 5l7 7-7 7"/>
+      </Svg>
+
+    case 'sun':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none"
+        stroke={borderColor}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round">
+        <Circle cx="12" cy="12" r="5"/>
+        <Path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
+      </Svg>
+
+    case 'moon':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none"
+        stroke={borderColor}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round">
+      <Path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </Svg>
+
+    case 'dark-mode':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 48 48'
+        fill={borderColor}>
+        <Path d="M14,24A10,10,0,0,0,24,34V14A10,10,0,0,0,14,24Z"/>
+        <Path d="M24,2A22,22,0,1,0,46,24,21.9,21.9,0,0,0,24,2ZM6,24A18.1,18.1,0,0,1,24,6v8a10,10,0,0,1,0,20v8A18.1,18.1,0,0,1,6,24Z"/>
+      </Svg>
+
+    case 'plus':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none"
+        stroke={borderColor}
+        strokeWidth="2"
+        strokeLinecap="round"
+        >
+          <Line x1="12" y1="5" x2="12" y2="19" />
+          <Line x1="5" y1="12" x2="19" y2="12" />
+        </Svg>
+
+    case 'minus':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none"
+        stroke={borderColor}
+        strokeWidth="2"
+        strokeLinecap="round"
+        >
+          <Line x1="5" y1="12" x2="19" y2="12" />
+        </Svg>
+
     case 'feedbin':
       return <Svg
         height={ 26 *  fontSizeMultiplier()}

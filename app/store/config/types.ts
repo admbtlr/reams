@@ -2,8 +2,9 @@ import { deleteCategory } from "store/categories/types"
 import { Filter } from "./config"
 
 export enum Direction {
-  forwards, 
-  backwards
+  desc,
+  asc,
+  rnd
 }
 
 // config

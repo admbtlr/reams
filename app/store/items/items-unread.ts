@@ -1,6 +1,7 @@
 import {
   SET_BACKEND,
   UNSET_BACKEND,
+  SET_ITEM_SORT,
   ConfigActionTypes 
 } from '../config/types'
 import {
@@ -57,20 +58,14 @@ import { BUFFER_LENGTH } from '../../components/ItemCarousel'
 //   items: []
 // }
 
-const initialState:ItemsState = {
+export const initialState:ItemsState = {
   items: [],
   index: 0,
   lastUpdated: 0
 }
 
 // Rehydrated items are just:
-// - _id
-// - id
-// - title
-// - created_at
-// - feed_id
-// - feed_color
-// - hasLoadedMercuryStuff
+ 
 //
 // Inflated items also have:
 // - content_mercury
@@ -142,11 +137,11 @@ export function itemsUnread (
     case SORT_ITEMS:
       items = [...state.items]
       items = rizzleSort(items)
-      carouselled = maintainCarouselItems(state, items)
+      // carouselled = maintainCarouselItems(state, items)
       return {
         ...state,
-        items: carouselled.items,
-        index: carouselled.index
+        items: items,
+        index: 0
         // items,
         // index
       }

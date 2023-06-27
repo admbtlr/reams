@@ -198,7 +198,7 @@ export const getInset = () => {
 
 export const getMargin = () => {
   const width = getSmallestDimension()
-  return width * 0.05
+  return width * 0.05  / (width > 768 ? width / 768 : 1)
 }
 
 export const getStatusBarHeight = () => 70 * fontSizeMultiplier() + 

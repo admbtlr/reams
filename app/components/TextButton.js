@@ -123,9 +123,9 @@ class TextButton extends React.Component {
     }
 
     const textStyle = {
-      fontFamily: 'IBMPlexSans',
-      fontSize: (isExpanded ? 24 : 16) * fontSizeMultiplier(),
-      lineHeight: (isExpanded ? 24 : 18) * fontSizeMultiplier(),
+      fontFamily: isExpanded ? 'IBMPlexSans-Bold' : 'IBMPlexSans',
+      fontSize: (isExpanded ? 18 : 16) * fontSizeMultiplier(),
+      lineHeight: (isExpanded ? 20 : 18) * fontSizeMultiplier(),
       textAlign: 'center',
       color: isInverted ? bgColor : fgColor,
       marginHorizontal: -10,

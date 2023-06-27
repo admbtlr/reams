@@ -23,6 +23,7 @@ import { Animated, Dimensions, Text } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
+import SettingsScreen from './SettingsScreen'
 
 const navigationOptions = {
   gesturesEnabled: false
@@ -103,6 +104,15 @@ const Main = () => {
         options={{
           headerBackTitleVisible: false,
           title: 'Accounts',
+          headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
+          // headerBackImage: getRizzleButtonIcon('account'),
+        }} />
+      <MainStack.Screen
+        name='Settings'
+        component={SettingsScreen}
+        options={{
+          headerBackTitleVisible: false,
+          title: 'Settings',
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
           // headerBackImage: getRizzleButtonIcon('account'),
         }} />
