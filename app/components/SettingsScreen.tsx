@@ -85,7 +85,9 @@ export default function SettingsScreen () {
       borderWidth: 1,
       marginVertical: getMargin() * 0.5,
       padding: getMargin(),
-      paddingTop: getMargin() * .5
+      paddingTop: getMargin() * .5,
+      width: '100%',
+      maxWidth: 700,
     }}>
       <Text style={{
         fontFamily: 'IBMPlexSans',
@@ -110,9 +112,10 @@ export default function SettingsScreen () {
     }
     const { width, height } = Dimensions.get('window')
     const deviceWidth = height > width ? width: height
-  
+    const deviceWidthToggle = deviceWidth > 600 ? 'tablet' : 'phone'
+
     const html = `
-    <html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''}">
+    <html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${deviceWidthToggle}">
     <head>
       <style>
     :root {
@@ -138,19 +141,21 @@ export default function SettingsScreen () {
     const buttonStyle = {
       justifyContent: 'center',
       alignItems: 'center',
-      width: 40,
-      height: 40,
+      width: 40 * fontSizeMultiplier(),
+      height: 40 * fontSizeMultiplier(),
       borderColor: hslString('rizzleText'),
       borderWidth: 1,
-      borderRadius: 20,
+      borderRadius: 20 * fontSizeMultiplier(),
     }
     return (
       <View style={{
         flex: 1,
         overflow: 'hidden',
-        height: 150,
+        height: deviceWidthToggle === 'phone' ? 150 : 200,
         marginTop: getMargin() * 0.5,
         backgroundColor: hslString('white'),
+        justifyContent: 'center',
+        alignItems: 'center',
       }}>
         <WebView 
           originWhitelist={['*']}
@@ -163,9 +168,9 @@ export default function SettingsScreen () {
             width: width * 1.2,
             flex: 0,
             position: 'relative',
-            left: -(width * 0.1) - fontSize * 10,
+            // left: -(width * 0.1) - fontSize * 10,
             // right: -30 - fontSize * 10,
-            top: -30 - fontSize * 10,
+            top: -30 - fontSize * 10 - (deviceWidthToggle === 'phone' ? 0 : 30),
             backgroundColor: hslString('rizzleBG'),
             marginBottom: getMargin()
           }}
@@ -176,7 +181,8 @@ export default function SettingsScreen () {
         <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginTop: getMargin()
+          marginTop: getMargin(),
+          width: '100%',
         }}>
           <Pressable
             onPress={() => fontSize > 1 && setFontSize(fontSize - 1)}
@@ -198,6 +204,7 @@ export default function SettingsScreen () {
       flex: 1,
       backgroundColor: hslString('rizzleBG'),
       padding: getMargin(),
+      alignItems: 'center',
     }}>
       <SettingBlock 
         children={<RadioButtons data={sortButtons} selected={itemSort} onSelect={sortItems}/>}
