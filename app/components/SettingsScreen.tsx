@@ -1,35 +1,27 @@
-import React, { useState } from 'react'
+import React, { ReactElement } from 'react'
 import {
-  StatusBar,
-  StyleSheet,
   View,
   Dimensions,
-  Animated,
-  Button,
   Text,
-  ScrollView,
-  TouchableOpacity,
-  LayoutAnimation,
-  Image
+  Pressable
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { hslString } from '../utils/colors'
-import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { RootState } from '../store/reducers'
-import { Annotation, DELETE_ANNOTATION, EDIT_ANNOTATION } from '../store/annotations/types'
 import { fontSizeMultiplier, getMargin, getStatusBarHeight } from '../utils'
-import { dustbinIcon, noteIcon } from '../utils/icons'
 import { DarkModeSetting, SET_DARK_MODE_SETTING, SHOW_MODAL } from '../store/ui/types'
-import FeedIconContainer from '../containers/FeedIcon'
 import RadioButtons from './RadioButtons'
 import { Direction, SET_ITEM_SORT } from '../store/config/types'
 import { SORT_ITEMS } from '../store/items/types'
+import WebView from 'react-native-webview'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
-export default function SettingsScreen ({ navigation }) {
+export default function SettingsScreen () {
   const dispatch = useDispatch()
   const itemSort = useSelector((state: RootState) => state.config.itemSort)
   const darkModeSetting = useSelector((state: RootState) => state.ui.darkModeSetting)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
+  const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const sortButtons = [
     { 
       value: Direction.desc,
@@ -79,7 +71,13 @@ export default function SettingsScreen ({ navigation }) {
       darkModeSetting 
     })
   }
-  const SettingBlock = ({ children, title }) => (
+  const setFontSize = (fontSize: number) => {
+    dispatch({
+      type: 'SET_FONT_SIZE',
+      fontSize
+    })
+  }
+  const SettingBlock = ({ children, title }: {children: ReactElement, title: string}) => (
     <View style={{
       backgroundColor: hslString('white'),
       borderRadius: getMargin(),
@@ -104,6 +102,96 @@ export default function SettingsScreen ({ navigation }) {
       </View>
     </View>
   )
+  const FontSizeBlock = ({ fontSize, isDarkMode }: {fontSize: number, isDarkMode: boolean}) => {
+    const bodyColor = hslString('rizzleBG')
+    let server = ''
+    if (__DEV__) {
+      server = 'http://localhost:8888/'
+    }
+    const { width, height } = Dimensions.get('window')
+    const deviceWidth = height > width ? width: height
+  
+    const html = `
+    <html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''}">
+    <head>
+      <style>
+    :root {
+    --font-path-prefix: ${ server === '' ? '../' : server };
+    --device-width: ${deviceWidth};
+  }
+    html, body {
+      background-color: ${bodyColor};
+    }
+      </style>
+      <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
+      <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    </head>
+    <body>
+      <article class="itemArticle dropCapIsDrop dropCapSize2 bodyFontSerif3">
+        <p>It is too late. The Evacuation still proceeds, but it’s all theatre. There are no lights inside the cars. No light anywhere. Above him lift girders old as an iron queen, and glass somewhere far above that would let the light of day through. But it’s night. He’s afraid of the way the glass will fall—soon—it will be a spectacle: the fall of a crystal palace. But coming down in total blackout, without one glint of light, only great invisible crashing.</p>
+      </article>
+    </body>
+    <script src="${server}webview/js/feed-item.js"></script>
+    </html>
+    `
+    const buttonStyle = {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 40,
+      height: 40,
+      borderColor: hslString('rizzleText'),
+      borderWidth: 1,
+      borderRadius: 20,
+    }
+    return (
+      <View style={{
+        flex: 1,
+        overflow: 'hidden',
+        height: 150,
+        marginTop: getMargin() * 0.5,
+        backgroundColor: hslString('white'),
+      }}>
+        <WebView 
+          originWhitelist={['*']}
+          scalesPageToFit={false}
+          scrollEnabled={false}
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 300,
+            width: width * 1.2,
+            flex: 0,
+            position: 'relative',
+            left: -(width * 0.1) - fontSize * 10,
+            // right: -30 - fontSize * 10,
+            top: -30 - fontSize * 10,
+            backgroundColor: hslString('rizzleBG'),
+            marginBottom: getMargin()
+          }}
+          source={{
+            html: html,
+            baseUrl: 'web/'}}
+        />   
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: getMargin()
+        }}>
+          <Pressable
+            onPress={() => fontSize > 1 && setFontSize(fontSize - 1)}
+            style={buttonStyle}>
+            {getRizzleButtonIcon('minus', hslString('rizzleText'))}
+          </Pressable>
+          <Pressable
+            onPress={() => fontSize < 5 && setFontSize(fontSize + 1)}
+            style={buttonStyle}>
+            {getRizzleButtonIcon('plus', hslString('rizzleText'))}
+          </Pressable>
+        </View>
+      </View> 
+    )
+  }
 
   return (
     <View style={{
@@ -118,6 +206,10 @@ export default function SettingsScreen ({ navigation }) {
       <SettingBlock 
         children={<RadioButtons data={darkModeButtons} selected={darkModeSetting} onSelect={setDarkMode}/>}
         title='Dark mode'
+      />
+      <SettingBlock 
+        children={<FontSizeBlock fontSize={fontSize} isDarkMode={isDarkMode} />}
+        title='Article font size'
       />
     </View>
   )

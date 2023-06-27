@@ -272,6 +272,33 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path d="M24,2A22,22,0,1,0,46,24,21.9,21.9,0,0,0,24,2ZM6,24A18.1,18.1,0,0,1,24,6v8a10,10,0,0,1,0,20v8A18.1,18.1,0,0,1,6,24Z"/>
       </Svg>
 
+    case 'plus':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none"
+        stroke={borderColor}
+        strokeWidth="2"
+        strokeLinecap="round"
+        >
+          <Line x1="12" y1="5" x2="12" y2="19" />
+          <Line x1="5" y1="12" x2="19" y2="12" />
+        </Svg>
+
+    case 'minus':
+      return <Svg
+        width='28'
+        height='28'
+        viewBox='0 0 24 24'
+        fill="none"
+        stroke={borderColor}
+        strokeWidth="2"
+        strokeLinecap="round"
+        >
+          <Line x1="5" y1="12" x2="19" y2="12" />
+        </Svg>
+
     case 'feedbin':
       return <Svg
         height={ 26 *  fontSizeMultiplier()}

@@ -23,7 +23,8 @@ import {
   UIState,
   SHOW_HELPTIP,
   HIDE_HELPTIP,
-  DarkModeSetting
+  DarkModeSetting,
+  SET_FONT_SIZE
 } from './types'
 
 const initialState = {
@@ -167,7 +168,13 @@ export function ui (
         fontSize
       }
 
-    case SET_MESSAGE:
+    case SET_FONT_SIZE:
+      return {
+        ...state,
+        fontSize: action.fontSize
+      }
+  
+      case SET_MESSAGE:
       return {
         ...state,
         message: action.message

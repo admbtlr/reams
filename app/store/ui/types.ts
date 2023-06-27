@@ -61,6 +61,7 @@ export const SET_DARK_MODE_SETTING = 'SET_DARK_MODE_SETTING'
 export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE'
 export const INCREASE_FONT_SIZE = 'INCREASE_FONT_SIZE'
 export const DECREASE_FONT_SIZE = 'DECREASE_FONT_SIZE'
+export const SET_FONT_SIZE = 'SET_FONT_SIZE'
 export const ITEMS_SCREEN_BLUR = 'ITEMS_SCREEN_BLUR'
 export const ITEMS_SCREEN_FOCUS = 'ITEMS_SCREEN_FOCUS'
 export const SET_MESSAGE = 'SET_MESSAGE'
@@ -139,6 +140,11 @@ interface decreaseFontSizeAction {
   type: typeof DECREASE_FONT_SIZE
 }
 
+interface setFontSizeAction {
+  type: typeof SET_FONT_SIZE
+  fontSize: number
+}
+
 interface setMessageAction {
   type: typeof SET_MESSAGE
   message: string
@@ -184,6 +190,7 @@ export type UIActionTypes = toggleViewButtonsAction |
   setDarkModeSettingAction |
   increaseFontSizeAction |
   decreaseFontSizeAction |
+  setFontSizeAction |
   setMessageAction |
   addMessageAction |
   removeMessageAction |
