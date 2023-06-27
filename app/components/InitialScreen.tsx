@@ -24,6 +24,7 @@ export default function InitialScreen({}) {
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
+  const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const hasFeeds = useSelector((state: RootState) => state.feeds.feeds.length > 0)
   const dispatch = useDispatch()
   const navigation = useNavigation()

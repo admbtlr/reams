@@ -4,7 +4,7 @@ import { Appearance } from 'react-native'
 import { DarkModeSetting, SET_DARK_MODE } from '../store/ui/types'
 import { RootState } from '../store/reducers'
 
-export default function DarkModeListener () {
+export default function DarkModeListener ({children}) {
   const dispatch = useDispatch()
   const darkModeSetting = useSelector((state: RootState) => state.ui.darkModeSetting)
   useEffect(() => {
@@ -17,5 +17,5 @@ export default function DarkModeListener () {
     }
   })
 
-  return null
+  return children
 }

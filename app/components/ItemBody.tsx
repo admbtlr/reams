@@ -222,6 +222,9 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
 --font-path-prefix: ${ server === '' ? '../' : server };
 --device-width: ${deviceWidth};
 }
+html, body {
+  background-color: ${bodyColor};
+}
   </style>
   <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
   <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
@@ -244,6 +247,10 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
   return <WebView
     allowsFullscreenVideo={true}
     allowsLinkPreview={true}
+    containerStyle={{ 
+      backgroundColor: bodyColor,
+      flex: 0,
+    }}
     decelerationRate='normal'
     injectedJavaScript={ injectedJavaScript }
     mixedContentMode='compatibility'
@@ -287,6 +294,8 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
       alignItems: 'center',
       justifyContent: 'center',
       height: webViewHeight,
+      width,
+      flex: 0,
       backgroundColor: bodyColor
     }}
     source={{

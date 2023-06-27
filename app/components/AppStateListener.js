@@ -243,7 +243,9 @@ class AppStateListener extends React.Component {
   }
 
   render () {
-    return <DarkModeListener />
+    return <DarkModeListener>
+      { this.props.children }
+    </DarkModeListener>
   }
 }
 
