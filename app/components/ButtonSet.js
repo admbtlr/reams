@@ -110,7 +110,7 @@ export default function ButtonSet ({
         ...getStyles().base,
         opacity: opacityAnim || 1
       }}>
-      <RizzleButton
+      {/* <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
@@ -128,7 +128,7 @@ export default function ButtonSet ({
           }]
         }}
         onPress={toggleViewButtons}
-      />
+      /> */}
       <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}

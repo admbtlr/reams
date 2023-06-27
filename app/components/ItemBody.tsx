@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {Dimensions, Linking} from 'react-native'
+import {Dimensions, Linking, View} from 'react-native'
 import {WebView, WebViewNavigation} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
@@ -19,6 +19,7 @@ const calculateHeight = `
 `
 
 const injectedJavaScript = `
+window.ReactNativeWebView.postMessage('loaded');
 window.setTimeout(() => {
   if (document.body && document.body.scrollHeight) {
     const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
@@ -64,6 +65,7 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
   const dispatch = useDispatch()
   const { activeHighlight, setActiveHighlight } = React.useContext(HighlightModeContext)
   const annotatedCategory: Category | undefined = useSelector((store: RootState) => store.categories.categories.find(c => c.name === 'annotated'))
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     if (activeHighlight === null) {
@@ -222,6 +224,9 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
 --font-path-prefix: ${ server === '' ? '../' : server };
 --device-width: ${deviceWidth};
 }
+html, body {
+  background-color: ${bodyColor};
+}
   </style>
   <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
   <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
@@ -244,6 +249,11 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
   return <WebView
     allowsFullscreenVideo={true}
     allowsLinkPreview={true}
+    containerStyle={{ 
+      backgroundColor: bodyColor,
+      flex: 0,
+      height: webViewHeight,
+    }}
     decelerationRate='normal'
     injectedJavaScript={ injectedJavaScript }
     mixedContentMode='compatibility'
@@ -275,6 +285,8 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
         onHighlight(split[0], split[1])
       } else if (msg.substring(0, 15) === 'edit-highlight:') {
         editHighlight(msg.substring(15))
+      } else if (msg.substring(0, 6) === 'loaded') {
+        setIsLoaded(true)
       }
     }}
     onNavigationStateChange={onNavigationStateChange}
@@ -287,7 +299,10 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
       alignItems: 'center',
       justifyContent: 'center',
       height: webViewHeight,
-      backgroundColor: bodyColor
+      width,
+      flex: 0,
+      backgroundColor: bodyColor,
+      opacity: isLoaded ? 1 : 0,
     }}
     source={{
       html: html,

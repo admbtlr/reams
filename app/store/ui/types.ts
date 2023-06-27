@@ -17,6 +17,12 @@ interface Message {
   isSelfDestruct?: boolean
 }
 
+export enum DarkModeSetting {
+  AUTO = 2,
+  ON = 1,
+  OFF = 0
+}
+
 export interface UIState {
   readonly viewButtonsVisible: boolean
   readonly itemButtonsVisible: boolean
@@ -26,6 +32,7 @@ export interface UIState {
   readonly imageViewerVisible: boolean
   readonly imageViewerUrl: string
   readonly isDarkMode: boolean
+  readonly darkModeSetting: DarkModeSetting
   readonly hiddenModals: string[]
   readonly message: string
   readonly messageQueue: Message[]
@@ -50,9 +57,11 @@ export const TOGGLE_HIDE_MODAL = 'TOGGLE_HIDE_MODAL'
 export const FETCH_ITEMS = 'FETCH_ITEMS'
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS'
 export const SET_DARK_MODE = 'SET_DARK_MODE'
+export const SET_DARK_MODE_SETTING = 'SET_DARK_MODE_SETTING'
 export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE'
 export const INCREASE_FONT_SIZE = 'INCREASE_FONT_SIZE'
 export const DECREASE_FONT_SIZE = 'DECREASE_FONT_SIZE'
+export const SET_FONT_SIZE = 'SET_FONT_SIZE'
 export const ITEMS_SCREEN_BLUR = 'ITEMS_SCREEN_BLUR'
 export const ITEMS_SCREEN_FOCUS = 'ITEMS_SCREEN_FOCUS'
 export const SET_MESSAGE = 'SET_MESSAGE'
@@ -118,12 +127,22 @@ interface toggleDarkModeAction {
   type: typeof TOGGLE_DARK_MODE
 }
 
+interface setDarkModeSettingAction {
+  type: typeof SET_DARK_MODE_SETTING
+  darkModeSetting: DarkModeSetting
+}
+
 interface increaseFontSizeAction {
   type: typeof INCREASE_FONT_SIZE
 }
 
 interface decreaseFontSizeAction {
   type: typeof DECREASE_FONT_SIZE
+}
+
+interface setFontSizeAction {
+  type: typeof SET_FONT_SIZE
+  fontSize: number
 }
 
 interface setMessageAction {
@@ -168,8 +187,10 @@ export type UIActionTypes = toggleViewButtonsAction |
   fetchDataSuccessAction |
   setDarkModeAction |
   toggleDarkModeAction |
+  setDarkModeSettingAction |
   increaseFontSizeAction |
   decreaseFontSizeAction |
+  setFontSizeAction |
   setMessageAction |
   addMessageAction |
   removeMessageAction |

@@ -34,12 +34,12 @@ export const textButtonStyle = (color) => ({
   textDecorationLine: 'underline'
 })
 
-export const textInfoStyle = (color, margin = 20 * fontSizeMultiplier()) => ({
+export const textInfoStyle = (color, margin = 20 * fontSizeMultiplier(), isSmaller = false) => ({
   ...baseStyles(color),
   fontFamily: 'IBMPlexSans',
   marginLeft: margin,
   marginRight: margin,
-  fontSize: 16 * fontSizeMultiplier()
+  fontSize: (isSmaller ? 12 : 16) * fontSizeMultiplier()
 })
 
 export const textInfoBoldStyle = (color) => ({

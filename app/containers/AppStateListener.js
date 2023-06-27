@@ -63,10 +63,6 @@ const mapDispatchToProps = (dispatch) => {
       type: STATE_ACTIVE,
       time: Date.now()
     }),
-    setDarkMode: (isDarkMode) => dispatch({
-      type: SET_DARK_MODE,
-      isDarkMode
-    }),
     addMessage: (messageString) => dispatch({
       type: ADD_MESSAGE,
       message: {

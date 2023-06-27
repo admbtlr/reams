@@ -136,15 +136,16 @@ export default class Rizzle extends Component<Props, State> {
               <StatusBar
                 barStyle='light-content'
                 hidden={false} />
-              <AppStateListenerContainer />
               <ConnectionListener />
               <OrientationListener />
               <Analytics />
-              <AppContainer />
-              <Message />
-              <RizzleModalContainer />
-              <HelpTipProvider />
-              <Splash />
+              <AppStateListenerContainer>
+                <AppContainer />
+                <Message />
+                <RizzleModalContainer />
+                <HelpTipProvider />
+                <Splash />
+              </AppStateListenerContainer>
             </View>
           </PersistGate>
         </Provider>

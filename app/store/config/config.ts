@@ -53,7 +53,7 @@ export interface ConfigState {
 
 const {width, height } = Dimensions.get('window')
 
-const initialState = {
+export const initialState = {
   userId: id(),
   backend: '',
   accessToken: '',
@@ -65,7 +65,7 @@ const initialState = {
   filter: null,
   isOnline: false,
   orientation: height > width ? 'portrait' : 'landscape',
-  itemSort: Direction.forwards,
+  itemSort: Direction.desc,
   showNumUnread: true,
   isItemsOnboardingDone: true,
   isFeedOnboardingDone: false,
