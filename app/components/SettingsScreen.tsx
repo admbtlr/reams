@@ -93,7 +93,8 @@ export default function SettingsScreen ({ navigation }) {
         fontFamily: 'IBMPlexSans',
         fontSize: 18 * fontSizeMultiplier(),
         textAlign: 'center',
-        marginBottom: getMargin() * .5
+        marginBottom: getMargin() * .5,
+        color: hslString('rizzleText')
       }}>{ title }</Text>
       <View style={{
         // flex: 1,
