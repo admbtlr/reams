@@ -174,10 +174,10 @@ class Share extends React.Component {
     // console.log(this.state.rssUrls)
     const margin = 24
     const saveIcon = <View style={{
-      top: -6,
-      left: -6
+      top: -12,
+      left: -12
     }}>
-      {getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
+      {getRizzleButtonIcon('saveButtonIconOff', hslString('rizzleText'), hslString('rizzleBG'))}
     </View>
     return (
       <View style={{
@@ -231,7 +231,7 @@ class Share extends React.Component {
               }} />
               <Text
                 style={helpText}
-              >You can subscribe to a feed from this website:</Text>
+              >Add a feed from this website:</Text>
               { (!searchingForRss && !retrievingRss &&
                 (!rssUrls || rssUrls.length === 0)) &&
                 <View style={{
@@ -315,7 +315,7 @@ class Share extends React.Component {
 
             </View>
             <Text
-              style={helpText}>Or you can save { title ? 
+              style={helpText}>Or save { title ? 
                 <Text style={{
                   fontFamily: 'IBMPlexSans-Bold'
                 }}>{title}</Text> : 
