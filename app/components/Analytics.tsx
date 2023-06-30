@@ -15,7 +15,7 @@ interface feed {
 let prevFeeds: feed[]
 
 const Analytics: React.FC<AnalyticsProps> = ({}) => {
-  const userId = useSelector((state: RootState) => state.config.userId)
+  const userId = useSelector((state: RootState) => state.user.analyticsId)
   const isRehydrated = useSelector((state: RootState) => state._persist?.rehydrated)
 
   useEffect(() => {

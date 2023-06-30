@@ -270,8 +270,16 @@ class AccountScreen extends React.Component {
               // marginBottom: 64,
               minHeight: height - 55 - 64,
               width: width - getInset() * (isPortrait ? 2 : 4),
-              marginHorizontal: getInset() * (isPortrait ? 1 : 2)
+              marginHorizontal: getInset() * (isPortrait ? 1 : 2),
+              marginTop: getMargin() * 2,
             }}>
+              {Config.FLAG_PLUS && <TextButton
+                text={ 'Reams' }
+                { ...getAttributes('reams') }
+                iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'biuttonBG')) }
+                isExpanded={true}
+              />}
               { !backend &&
                 <HelpView>
                   <Text style={{ 
@@ -296,12 +304,6 @@ class AccountScreen extends React.Component {
                 }}
               /> */}
               <Separator title='RSS' />
-              {Config.FLAG_PLUS && <TextButton
-                text={ 'Reams +' }
-                { ...getAttributes('rizzle') }
-                iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'biuttonBG')) }
-              />}
               { !backend &&
                 <View style={{ marginBottom: getMargin() * 2 }}>
                   <Text style={textInfoStyle(undefined, 0)}>Or, if you already have an account with a supported service, enter your details below:</Text>

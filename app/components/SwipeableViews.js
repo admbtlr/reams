@@ -87,27 +87,18 @@ class SwipeableViews extends Component {
     }
   }
 
-  renderSlide ({_id, index, isVisible, panAnim}) {
-    if (this.props.isOnboarding) {
-      return <Onboarding
-        index={index}
-        key={index}
-        navigation={this.props.navigation}
-      />
-    } else {
-      const feedItemContainer = <FeedItemContainer
-        _id={_id}
-        key={_id}
-        setScrollAnim={this.props.setScrollAnim}
-        onScrollEnd={this.props.onScrollEnd}
-        onTextSelection={this.props.onTextSelection}
-        isVisible={isVisible}
-        panAnim={panAnim}
-        renderDate={Date.now()} // make sure child components get re-rendered
-      />
-      return feedItemContainer
-    }
-  }
+  renderSlide = ({_id, index, isVisible, panAnim}) => (
+    <FeedItemContainer
+      _id={_id}
+      key={_id}
+      setScrollAnim={this.props.setScrollAnim}
+      onScrollEnd={this.props.onScrollEnd}
+      onTextSelection={this.props.onTextSelection}
+      isVisible={isVisible}
+      panAnim={panAnim}
+      renderDate={Date.now()} // make sure child components get re-rendered
+    />
+  )
 
   render () {
     console.log('RENDER SWIPEABLE VIEWS')
@@ -121,12 +112,14 @@ class SwipeableViews extends Component {
     this.screenWidth = Dimensions.get('window').width
     const pageWidth = this.screenWidth
     // this.panAnimValues = items.map((item, key) => )
+    const currentIndex = index
 
     if (isOnboarding) {
       this.children = pages.map((page, index) => (
         <Onboarding
           key={index}
           index={index}
+          isVisible={currentIndex === index}
           navigation={navigation} />
       ))
     } else {

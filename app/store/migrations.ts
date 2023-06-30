@@ -102,5 +102,19 @@ export const migrations = {
         darkModeSetting: DarkModeSetting.AUTO
       }
     }
+  },
+  7: (state: RootState) => {
+    // move userId to user.analyticsId
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        analyticsId: state.config.userId
+      },
+      config: {
+        ...state.config,
+        userId: null
+      }
+    }
   }
 }
