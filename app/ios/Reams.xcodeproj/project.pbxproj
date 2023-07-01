@@ -491,6 +491,7 @@
 				66E383BB1FC2C99F00B536D5 /* Embed App Extensions */,
 				4406A330C80C49ACAFA7A94F /* Upload Debug Symbols to Sentry */,
 				10B94F1AEABAC53AD26FBAD8 /* [CP] Copy Pods Resources */,
+				3E32A4C477E794E43D68F9C8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -699,13 +700,15 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/.xcode.env",
 			);
 			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport SENTRY_PROPERTIES=sentry.properties\n\n# If you are using RN 0.46+\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode \\\n  ../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\nEXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport SENTRY_PROPERTIES=sentry.properties\n\n# If you are using RN 0.46+\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode \n\n /bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 			showEnvVarsInLog = 0;
 		};
 		0DCFB8A92B75F86681A47A42 /* [CP] Check Pods Manifest.lock */ = {
@@ -745,6 +748,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3E32A4C477E794E43D68F9C8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4406A330C80C49ACAFA7A94F /* Upload Debug Symbols to Sentry */ = {
@@ -902,7 +922,7 @@
 					"$(SRCROOT)/../node_modules/react-native-text-size/ios",
 				);
 				INFOPLIST_FILE = rizzle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -960,7 +980,7 @@
 					"$(SRCROOT)/../node_modules/react-native-text-size/ios",
 				);
 				INFOPLIST_FILE = rizzle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -1030,7 +1050,7 @@
 					"$(SRCROOT)/../node_modules/react-native-text-size/ios",
 				);
 				INFOPLIST_FILE = RizzleShare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -1100,7 +1120,7 @@
 					"$(SRCROOT)/../node_modules/react-native-text-size/ios",
 				);
 				INFOPLIST_FILE = RizzleShare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -1185,7 +1205,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/lib/swift",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1193,6 +1213,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1250,13 +1271,14 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/lib/swift",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

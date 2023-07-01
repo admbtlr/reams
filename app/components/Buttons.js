@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   Dimensions,
 } from 'react-native'
@@ -135,23 +134,23 @@ class Buttons extends React.Component {
 
 export default Buttons
 
-Buttons.propTypes = {
-  // from parent
-  bufferStartIndex: PropTypes.number,
-  bufferedItems: PropTypes.array,
-  showViewButtons: PropTypes.func,
-  showShareSheet: PropTypes.func,
-  setSaved: PropTypes.func,
-  launchBrowser: PropTypes.func,
-  toggleMercury: PropTypes.func,
-  // from container
-  index: PropTypes.number,
-  displayMode: PropTypes.string,
-  visible: PropTypes.bool,
-  isDarkMode: PropTypes.bool,
-  isOnboarding: PropTypes.bool,
-  panAnim: PropTypes.object
-}
+// Buttons.propTypes = {
+//   // from parent
+//   bufferStartIndex: PropTypes.number,
+//   bufferedItems: PropTypes.array,
+//   showViewButtons: PropTypes.func,
+//   showShareSheet: PropTypes.func,
+//   setSaved: PropTypes.func,
+//   launchBrowser: PropTypes.func,
+//   toggleMercury: PropTypes.func,
+//   // from container
+//   index: PropTypes.number,
+//   displayMode: PropTypes.string,
+//   visible: PropTypes.bool,
+//   isDarkMode: PropTypes.bool,
+//   isOnboarding: PropTypes.bool,
+//   panAnim: PropTypes.object
+// }
 
 // Naming Convention
 //
