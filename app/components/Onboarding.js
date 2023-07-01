@@ -82,7 +82,9 @@ export default function Onboarding ({index, navigation, isVisible}) {
   const session = useSession()
 
   if (session) {
-    return <Onboarding4 index={index} />
+    endOnboardingAndResetNav()
+    return null
+    // return <Onboarding4 index={index} />
   } else if (index === 0) {
     return <Onboarding1 isVisible={isVisible} />
   } else if (index === 1) {
