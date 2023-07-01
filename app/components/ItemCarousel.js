@@ -1,6 +1,5 @@
 import { ItemType } from '../store/items/types'
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
 import ItemsScreenOnboarding from './ItemsScreenOnboarding'
 import {
   ActionSheetIOS,
@@ -371,18 +370,18 @@ class ItemCarousel extends React.Component {
 
 export default ItemCarousel
 
-ItemCarousel.propTypes = {
-  // from parent
-  navigation: PropTypes.object,
-  styles: PropTypes.object,
-  // from container
-  numItems: PropTypes.number,
-  index: PropTypes.number,
-  items: PropTypes.array,
-  feeds: PropTypes.array,
-  feedsLocal: PropTypes.array,
-  displayMode: PropTypes.string,
-  isItemsOnboardingDone: PropTypes.bool,
-  isOnboarding: PropTypes.bool,
-  toggleViewButtons: PropTypes.func
-}
+// ItemCarousel.propTypes = {
+//   // from parent
+//   navigation: PropTypes.object,
+//   styles: PropTypes.object,
+//   // from container
+//   numItems: PropTypes.number,
+//   index: PropTypes.number,
+//   items: PropTypes.array,
+//   feeds: PropTypes.array,
+//   feedsLocal: PropTypes.array,
+//   displayMode: PropTypes.string,
+//   isItemsOnboardingDone: PropTypes.bool,
+//   isOnboarding: PropTypes.bool,
+//   toggleViewButtons: PropTypes.func
+// }
