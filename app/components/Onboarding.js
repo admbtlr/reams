@@ -9,9 +9,12 @@ import { HIDE_ALL_BUTTONS, HIDE_LOADING_ANIMATION } from '../store/ui/types'
 import { TOGGLE_ONBOARDING, UPDATE_ONBOARDING_INDEX } from '../store/config/types'
 import LinearGradient from 'react-native-linear-gradient'
 import { fontSizeMultiplier, getMargin } from '../utils'
-import { textInputStyle } from '../utils/styles'
+import { textInfoStyle, textInputStyle } from '../utils/styles'
 import { supabase } from '../storage/supabase'
 import { useSession } from './AuthProvider'
+import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication'
+import { G } from 'react-native-svg'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 export const pages = [{
     heading: 'Reams',
@@ -47,45 +50,16 @@ export default function Onboarding ({index, navigation, isVisible}) {
 
   const hideAllButtons = () => dispatch({ type: HIDE_ALL_BUTTONS })
   const hideLoadingAnimation = () => dispatch({ type: HIDE_LOADING_ANIMATION })
-  const endOnboarding = () => dispatch({ type: TOGGLE_ONBOARDING, isOnboarding: false })
 
   hideAllButtons()
   hideLoadingAnimation()
-
-  const endOnboardingAndResetNav = () => {
-    endOnboarding()
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'Account'}]})
-  }
-
-  const openShareSheet = () => {
-    ActionSheetIOS.showShareActionSheetWithOptions({
-      url: 'https://reams.app',
-      message: 'Reams is for people who love to read. It‘s all about the immersive pleasures of text and image.',
-      title: 'Reams'
-    },
-    (error) => {
-      console.error(error)
-    },
-    (success, method) => {
-    }
-  )
-
-  }
 
   let server = ''
   if (__DEV__) {
     server = 'http://localhost:8888/'
   }
 
-  const session = useSession()
-
-  if (session) {
-    endOnboardingAndResetNav()
-    return null
-    // return <Onboarding4 index={index} />
-  } else if (index === 0) {
+  if (index === 0) {
     return <Onboarding1 isVisible={isVisible} />
   } else if (index === 1) {
     return <Onboarding2 index={index} />
@@ -93,6 +67,8 @@ export default function Onboarding ({index, navigation, isVisible}) {
     return <Onboarding3 index={index} />
   } else if (index === 3) {
     return <Onboarding4 index={index} />
+  } else if (index === 4) {
+    return <Onboarding5 index={index} navigation={navigation} />
   } else {
     return null
   }
@@ -122,7 +98,12 @@ const textLargeStyle = {
   textAlign: 'right',
 }
 
-const Onboarding1 = ({ navigation }) => {
+const textLargeBoldStyle = {
+  ...textLargeStyle,
+  fontFamily: 'IBMPlexSans-Bold',
+}
+
+const Onboarding1 = ({ index, navigation }) => {
   const mainAnim = new Animated.Value(0)
 
   useEffect(() => {
@@ -135,25 +116,7 @@ const Onboarding1 = ({ navigation }) => {
   }, [])
 
   return (
-    <View
-      style={{
-        backgroundColor: hslString('rizzleBG'),
-        flex: 1,
-        overflow: 'hidden',
-        width: Dimensions.get('window').width
-      }}
-    >
-      <LinearGradient 
-        colors={[hslString('logo2'), hslString('logo1')]} 
-        end={{x: 0, y: 1}}
-        start={{x: 2, y: 0}}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }} />
+    <OnboardingPage index={index}>
       <View style={{
         flex: 1,
         // alignItems: 'center',
@@ -213,7 +176,7 @@ const Onboarding1 = ({ navigation }) => {
         })
       }}>swipe >>></Animated.Text>
       <Figures anim={mainAnim} />
-    </View>
+    </OnboardingPage>
   )
 }
 
@@ -256,25 +219,7 @@ const Onboarding2 = ({ index }) => {
   }
 
   return (
-    <View
-      style={{
-        backgroundColor: hslString('rizzleBG'),
-        flex: 1,
-        overflow: 'hidden',
-        width: Dimensions.get('window').width
-      }}
-    >
-      <LinearGradient 
-        colors={[hslString('logo2'), hslString('logo1')]} 
-        end={{x: -1, y: 1}}
-        start={{x: 1, y: 0}}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }} />
+    <OnboardingPage index={index}>
       <View style={{
         flex: 1,
         // alignItems: 'center',
@@ -367,7 +312,7 @@ const Onboarding2 = ({ index }) => {
         }),
       }}>swipe >>></Animated.Text>
       <Figures anim={mainAnim} />
-    </View>
+    </OnboardingPage>
   )
 }
 
@@ -375,6 +320,7 @@ const Onboarding3 = ({ index }) => {
   const [email, setEmail] = useState('')
   const isEmailValid = email && email.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
   const [isSending, setIsSending] = useState(false)
+  const session = useSession()
 
   async function sendMagicLink(email) {
     let redirectURL = 'reams://onboarding'
@@ -399,29 +345,39 @@ const Onboarding3 = ({ index }) => {
     }
   }
 
+  async function onAppleButtonPress() {
+    // performs login request
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        // Note: it appears putting FULL_NAME first is important, see issue #293
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+        nonce: 'apple'
+      })
+    
+      // This method must be tested on a real device. On the iOS simulator it always throws an error.
+      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user)
+    
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        const token = appleAuthRequestResponse.identityToken
+        const result = await supabase.auth.signInWithIdToken({
+          provider: 'apple',
+          token,
+          nonce: 'apple',
+        })
+        console.log(result)
+      }  
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <View
-      style={{
-        backgroundColor: hslString('rizzleBG'),
-        flex: 1,
-        overflow: 'hidden',
-        width: Dimensions.get('window').width
-      }}
-    >
-      <LinearGradient 
-        colors={[hslString('logo2'), hslString('logo1')]} 
-        end={{x: 2, y: 1}}
-        start={{x: 0, y: 0}}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }} />
+    <OnboardingPage index={index}>
       <View style={{
         flex: 1,
-        marginTop: 200,
+        marginTop: 100 * fontSizeMultiplier(),
         marginHorizontal: getMargin()
       }}>
         <Text style={{
@@ -429,11 +385,20 @@ const Onboarding3 = ({ index }) => {
           textAlign: 'center',
           marginBottom: 24 * fontSizeMultiplier(),
         }}>Ready to get started?</Text>
-        <Text style={{
-          ...textLargeStyle,
-          textAlign: 'center',
-          marginBottom: 48 * fontSizeMultiplier(),
-        }}>Enter your email, and we’ll send you a magic sign-in link:</Text>
+        {session?.error ? (
+          <Text style={{
+            ...textLargeStyle,
+            textAlign: 'center',
+            marginBottom: 48 * fontSizeMultiplier(),
+            backgroundColor: 'red',
+          }}>Error: {session.error}. Please try again.</Text>
+        ) : (
+          <Text style={{
+            ...textLargeStyle,
+            textAlign: 'center',
+            marginBottom: 48 * fontSizeMultiplier(),
+          }}>Enter your email, and we’ll send you a magic sign-in link:</Text>
+        )}
         <TextInput
           autoCapitalize='none'
           autoCorrect={false}
@@ -449,52 +414,276 @@ const Onboarding3 = ({ index }) => {
         />
         <TextButton
           isDisabled={!isEmailValid}
+          buttonStylea={{
+            opacity: isEmailValid ? 1 : 0.5
+          }}
           onPress={() => {
             sendMagicLink(email)
           }}
           text='Send me a link'
         />
+        <Text style={{
+          ...textLargeStyle,
+          textAlign: 'center',
+          marginTop: 24 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
+        }}>or</Text>
+        <AppleButton
+          buttonStyle={AppleButton.Style.BLACK}
+          buttonType={AppleButton.Type.SIGN_IN}
+          style={{
+            width: '100%',
+            height: 40 * fontSizeMultiplier(),
+            maxWidth: 700,
+            borderRadius: 20 * fontSizeMultiplier(),
+            alignSelf: 'center',
+          }}
+          onPress={() => onAppleButtonPress()}
+        />
       </View>
 
-    </View>
+    </OnboardingPage>
   )
 }
 
 const Onboarding4 = ({ index }) => {
+  const mainAnim = new Animated.Value(0)
+  const onboardingIndex = useSelector(state => state.config.onboardingIndex)
+
+  // so this is weird
+  // if the app has been opened from an emailed link, the onboardingIndex will be 2, 
+  // because that's where it left off with the enter email screen
+  // but if the user is going back and forth between the onboarding screens, it might be 0
+  const isVisible = onboardingIndex === 2 || onboardingIndex === 0
+
+  useEffect(() => {
+    if (isVisible)  {
+      Animated.timing(mainAnim, {
+        toValue: 1,
+        duration: 15000,
+        delay: 0,
+        useNativeDriver: true
+      }).start()
+    }
+  }, [isVisible])
+
   return (
-    <View
-      style={{
-        backgroundColor: hslString('rizzleBG'),
-        flex: 1,
-        overflow: 'hidden',
-        width: Dimensions.get('window').width
-      }}
-    >
-      <LinearGradient 
-        colors={[hslString('logo2'), hslString('logo1')]} 
-        end={{x: 0, y: 1}}
-        start={{x: 2, y: 0}}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }} />
+    <OnboardingPage index={index}>
       <View style={{
         flex: 1,
-        marginTop: 200,
-        marginHorizontal: getMargin()
+        marginHorizontal: getMargin(),
+        justifyContent: 'center',
       }}>
-        <Text style={{
+        <Animated.Text style={{
+          ...textLargeBoldStyle,
+          textAlign: 'left',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.05, 1],
+            outputRange: [0, 1, 1]
+          }),
+        }}>A couple of things you should know before you get started</Animated.Text>
+        <Animated.Text style={{
+          ...textLargeStyle,
+          textAlign: 'left',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.1, 0.18, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>New articles flow through your {getRizzleButtonIcon('rss', 'white')} <Text style={textLargeBoldStyle}>Feed</Text> via RSS. Want to keep one of them? Save it to your {getRizzleButtonIcon('saved', 'white')}&#160;<Text style={textLargeBoldStyle}>Library</Text>.</Animated.Text>
+        <Animated.Text style={{
+          ...textLargeStyle,
+          textAlign: 'left',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.5, 0.58, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>You can also save articles to your library from Safari (or 3rd party apps like the LRB or Substack) with the <Text style={textLargeBoldStyle}>Reams share extension</Text>.</Animated.Text> 
+        <Animated.Text style={{
+          ...textLargeStyle,
+          textAlign: 'left',
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.8, 0.88, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>(The extension also lets you add new sites to your feed btw)</Animated.Text>
+      </View>
+      <Animated.Text style={{
+        fontFamily: 'IBMPlexSans-Italic',
+        fontSize: 14 * fontSizeMultiplier(),
+        color: 'white',
+        position: 'absolute',
+        bottom: 30,
+        alignSelf: 'center',
+        opacity: mainAnim.interpolate({
+          inputRange: [0, 0.95, 1],
+          outputRange: [0, 0, 1]
+        }),
+      }}>swipe >>></Animated.Text>
+    </OnboardingPage>
+  )
+}
+
+const Onboarding5 = ({ index, navigation }) => {
+  const dispatch = useDispatch()
+  const [isFinished, setIsFinished] = useState(false)
+  const [isShareSheetClosed, setIsShareSheetClosed] = useState(false)
+  const endOnboarding = () => dispatch({ type: TOGGLE_ONBOARDING, isOnboarding: false })
+  const anim = new Animated.Value(0)
+
+  const endOnboardingAndResetNav = () => {
+    endOnboarding()
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Initial'}]})
+  }
+
+  const openShareSheet = () => {
+    ActionSheetIOS.showShareActionSheetWithOptions({
+        url: 'https://reams.app',
+        message: 'Reams is for people who love to read. It‘s all about the immersive pleasures of text and image.',
+        title: 'Reams'
+      },
+      (error) => {
+        console.error(error)
+      },
+      (success, method) => {
+        setIsShareSheetClosed(true)
+      }
+    )
+  }
+
+  useEffect(() => {
+    if (!isFinished) return
+    Animated.timing(anim, {
+      toValue: 1,
+      duration: 800,
+      delay: 0,
+      useNativeDriver: true,
+      easing: Easing.linear
+    }).start()
+  }, [isFinished])
+
+  return (
+    <OnboardingPage index={index}>
+      <View style={{
+        flex: 1,
+        marginHorizontal: getMargin(),
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+        <Animated.Text style={{
           ...textLargeStyle,
           textAlign: 'center',
           marginBottom: 24 * fontSizeMultiplier(),
-        }}>Heeeeeeeello</Text>
-        </View>
-    </View>
+          opacity: anim.interpolate({
+            inputRange: [0, 0.25, 0.75, 1],
+            outputRange: [1, 1, 0, 0]
+          }),
+        }}>Let’s set up the share extension now</Animated.Text>
+        <Animated.Text style={{
+          ...textStyle,
+          textAlign: 'center',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: anim.interpolate({
+            inputRange: [0, 0.25, 0.75, 1],
+            outputRange: [1, 1, 0, 0]
+          }),
+        }}>Watch the short video below to see how to enable the extension:</Animated.Text>
+        <Animated.View style={{
+          opacity: anim.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 0, 0]
+          }),
+        }}>
+          <Image 
+            source={require('../assets/images/reams-enable-share.webp')} 
+            style={{
+              backgroundColor: 'white',
+              borderColor: 'rgba(0,0,0,0.8)',
+              borderWidth: 2,
+              width: 150,
+              height: 328,
+              margin: getMargin(),
+              marginBottom: 48 * fontSizeMultiplier(),
+              borderRadius: 18
+            }}
+          />
+        </Animated.View>
+        <Animated.View style={{
+          position: 'absolute',
+          opacity: anim.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1]
+          }),
+        }}>
+          <Text style={{
+            ...textLargeBoldStyle,
+            textAlign: 'center',
+            marginBottom: 24 * fontSizeMultiplier(),
+          }}>That’s it.</Text>
+          <Image 
+            source={require('../assets/images/ream.png')} 
+            style={{
+            }}
+          />
+        </Animated.View>
+        {isFinished ? (
+          <TextButton
+            onPress={endOnboardingAndResetNav}
+            text='Start using Reams!'
+          />
+        ) : (
+          <>
+            <TextButton
+              buttonStyle={{marginBottom: 24 * fontSizeMultiplier()}}              
+              onPress={openShareSheet}
+              text='Open share sheet'
+            />
+            <TextButton
+              buttonStyle={{opacity: isShareSheetClosed ? 1 : 0}}
+              onPress={() => setIsFinished(true)}
+              text='OK, done!'
+            />
+          </>
+        )}
+      </View>
+    </OnboardingPage>
   )
 }
+
+const OnboardingPage = ({ children, index }) => (
+  <View
+    style={{
+      backgroundColor: hslString('rizzleBG'),
+      flex: 1,
+      overflow: 'hidden',
+      width: Dimensions.get('window').width
+    }}
+  >
+    <Gradient index={index} />
+    {children}
+  </View>
+)
+
+
+const Gradient = ({ index }) => (
+  <LinearGradient 
+    colors={[hslString('logo2'), hslString('logo1')]} 
+    end={{x: index % 2 === 0 ? -1 : 0, y: 1}}
+    start={{x: index % 2 === 0 ? 1 : 2, y: 0}}
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    }} />
+
+)
+
 
 const Figures = ({ anim }) => {
   const imageDimensions = {

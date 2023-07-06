@@ -322,7 +322,7 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
                 width: 150,
                 height: 328,
                 margin: getMargin(),
-                borderRadius: 25
+                borderRadius: 18
               }}
             />}
             <Text style={{

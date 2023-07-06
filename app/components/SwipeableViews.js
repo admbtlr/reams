@@ -7,6 +7,7 @@ import { SharedElement } from 'react-navigation-shared-element'
 import FeedItemContainer from '../containers/FeedItem.js'
 import Onboarding, { pages } from './Onboarding.js'
 import { hslString } from '../utils/colors'
+import { SessionContext } from './AuthProvider'
 
 /*
 props = {
@@ -25,7 +26,10 @@ state = {
 // NB `index` in this component is always the virtual index
 
 class SwipeableViews extends Component {
+  
   static whyDidYouRender = true
+  static contextType = SessionContext
+
   constructor (props) {
     super(props)
     this.props = props
@@ -115,10 +119,18 @@ class SwipeableViews extends Component {
     const currentIndex = index
 
     if (isOnboarding) {
+      // crazy that this logic is here
+      // 3 pages before login, 2 after
+      let pages = []
+      if (this.context?.session?.user) {
+        pages = [3,4]
+      } else {
+        pages = [0,1,2]
+      }
       this.children = pages.map((page, index) => (
         <Onboarding
-          key={index}
-          index={index}
+          key={page}
+          index={page}
           isVisible={currentIndex === index}
           navigation={navigation} />
       ))

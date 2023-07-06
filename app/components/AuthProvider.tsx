@@ -5,11 +5,12 @@ import { useDispatch } from "react-redux"
 import { SET_USER_DETAILS } from "../store/config/types"
 import { supabase } from "../storage/supabase"
 
-export const SessionContext = createContext<{
-  session: Session | null;
-}>({
-  session: null,
-})
+interface SessionContext {
+  session?: Session | null,
+  error?: string
+}
+
+export const SessionContext = createContext<SessionContext>({})
 
 export const useSession = () => {
   const context = useContext(SessionContext);
@@ -20,7 +21,7 @@ export const useSession = () => {
 }
 
 export const AuthProvider = (props: any) => {
-  const [session, setSession] = useState<Session | null>(null)
+  const [session, setSession] = useState<SessionContext>({})
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export const AuthProvider = (props: any) => {
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!!session) {
           console.log('Auth event', event)
-          setSession(session)
+          setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
         }
       }
@@ -53,21 +54,29 @@ export const AuthProvider = (props: any) => {
     }
     const getLinkUrl = async () => {
       const initialUrl = await Linking.getInitialURL()
-      if (initialUrl) {
-        console.log('Initial URL is', initialUrl)
-        supabaseLogin(initialUrl)
-      }
+      checkUrlAndDoLogin(initialUrl)
     }
     Linking.addEventListener('url', ({ url }) => {
-      console.log('URL is', url)
-      supabaseLogin(url)
+      checkUrlAndDoLogin(url)
     })
+    const checkUrlAndDoLogin = async (url: string | null) => {
+      console.log('URL is', url)
+      if (url === null) return
+      if (url.indexOf('error') !== -1) {
+        let errorMessage = url?.match(/error_description=([^&]+)/)
+        if (errorMessage !== null) {
+          setSession({error: errorMessage[1].replace(/\+/g, ' ')})
+        }
+        return
+      }
+      supabaseLogin(url)
+    }
     getLinkUrl()
     return () => {
       Linking.removeAllListeners('url')
     } 
   }, [])
 
-  return <SessionContext.Provider value={{session}} {...props} />
+  return <SessionContext.Provider value={session} {...props} />
 
 }
