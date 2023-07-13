@@ -7,11 +7,11 @@ export const baseStyles = (color = 'rizzleText', opacity = 1) => ({
   color: hslString(color, '', opacity)
 })
 
-export const textInputStyle = (color) => ({
+export const textInputStyle = (color = 'rizzleText') => ({
   ...baseStyles(color),
   // padding: 8,
   fontSize: 20 * fontSizeMultiplier(),
-  borderBottomColor: hslString('rizzleText', '', 0.5),
+  borderBottomColor: hslString(color, '', 0.5),
   borderBottomWidth: 1
 })
 

@@ -1,3 +1,4 @@
+import { id } from '../../utils'
 import { 
   SET_BACKEND, 
   SET_SIGN_IN_EMAIL,
@@ -5,16 +6,18 @@ import {
   SET_USER_DETAILS,
   UNSET_BACKEND,
   ConfigActionTypes
-} from './types'
+} from '../config/types'
 
 export interface UserState {
   readonly displayName: string
   readonly email: string
   readonly password: string
   readonly accessToken: string
-  readonly signInEmail: string
   readonly uid: string
   readonly username: string
+  readonly supaUserId: string
+  readonly supaEmail: string | undefined
+  readonly analyticsId: string
 }
 
 const initialState = {
@@ -22,9 +25,12 @@ const initialState = {
   email: '',
   password: '',
   accessToken: '',
-  signInEmail: '',
   uid: '',
-  username: ''
+  username: '',
+  // below here is new
+  supaUserId: '',
+  supaEmail: '',
+  analyticsId: id()
 }
 
 export function user (
@@ -45,7 +51,8 @@ export function user (
       } else {
         return {
           ...state,
-          ...details
+          supaEmail: details.email,
+          supaUserId: details.id
         }
       }
 

@@ -2,10 +2,11 @@ import React, { Component, Ref } from 'react'
 import { Provider } from 'react-redux'
 import {
   InteractionManager,
+  Linking,
   StatusBar,
   View
 } from 'react-native'
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
+import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { configureStore, doBackgroundFetch, persistor } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
@@ -21,6 +22,8 @@ import OrientationListener from './OrientationListener'
 import BackgroundFetch from "react-native-background-fetch";
 import { PersistGate } from 'redux-persist/integration/react'
 import HelpTipProvider from './HelpTipProvider'
+import { supabase } from '../storage/supabase'
+import { AuthProvider } from './AuthProvider'
 
 export interface Props {
   isActionExtension?: boolean
@@ -130,23 +133,25 @@ export default class Rizzle extends Component<Props, State> {
             loading={<View />}
             onBeforeLift={onBeforeLift}
             persistor={persistor}>
-            <View style={{
-              flex: 1,
-              backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
-              <StatusBar
-                barStyle='light-content'
-                hidden={false} />
-              <ConnectionListener />
-              <OrientationListener />
-              <Analytics />
-              <AppStateListenerContainer>
-                <AppContainer />
-                <Message />
-                <RizzleModalContainer />
-                <HelpTipProvider />
-                <Splash />
-              </AppStateListenerContainer>
-            </View>
+            <AuthProvider>
+              <View style={{
+                flex: 1,
+                backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
+                <StatusBar
+                  barStyle='light-content'
+                  hidden={false} />
+                <ConnectionListener />
+                <OrientationListener />
+                <Analytics />
+                <AppStateListenerContainer>
+                  <AppContainer />
+                  <Message />
+                  <RizzleModalContainer />
+                  <HelpTipProvider />
+                  <Splash />
+                </AppStateListenerContainer>
+              </View>
+            </AuthProvider>
           </PersistGate>
         </Provider>
       </NavigationContainer>

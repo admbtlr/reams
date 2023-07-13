@@ -10,7 +10,7 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { hslString } from '../utils/colors'
 import { getMargin, hasNotchOrIsland } from '../utils'
 
-// isDarkMode, displayMode, isOnboarding
+// isDarkMode, displayMode, 
 let areButtonsVisible = true
 
 export const translateDistance = 80

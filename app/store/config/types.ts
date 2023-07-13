@@ -1,5 +1,6 @@
 import { deleteCategory } from "store/categories/types"
 import { Filter } from "./config"
+import { User } from "@supabase/supabase-js"
 
 export enum Direction {
   desc,
@@ -118,7 +119,7 @@ interface setUidAction {
 
 interface setUserDetailsAction {
   type: typeof SET_USER_DETAILS
-  details: object
+  details: User
 }
 
 interface setSignInEmailAction {
