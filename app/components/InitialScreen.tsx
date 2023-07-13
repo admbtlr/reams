@@ -162,52 +162,50 @@ export default function InitialScreen({}) {
           width: width - getInset() * (isPortrait ? 2 : 4),
           marginHorizontal: getInset() * (isPortrait ? 1 : 2)
         }}>
-          { !!backend &&
-            <View>
-              <NavButton
-                hasTopBorder={true}
-                hasBottomBorder={true}
-                icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
-                onPress={() => {
-                  dispatch({
-                    type: SET_DISPLAY_MODE,
-                    displayMode: 'unread'
-                  })
-                  navigation.navigate('Feeds')
-                }}
-                scrollAnim={scrollAnim}
-                index={0}
-                text='Feeds'
-                viewStyle={{ paddingLeft: 5 }}
-              />
-              <NavButton
-                hasBottomBorder={true}
-                icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
-                onPress={() => {
-                  dispatch({
-                    type: SET_DISPLAY_MODE,
-                    displayMode: 'saved'
-                  })
-                  navigation.navigate('Items')
-                }}
-                scrollAnim={scrollAnim}
-                index={1}
-                text='Library'
-                viewStyle={{ paddingLeft: 5 }}
-              />
-              <NavButton
-                hasBottomBorder={true}
-                icon={getRizzleButtonIcon('highlights', hslString('rizzleText'), hslString('rizzleBG'))}
-                onPress={() => {
-                  navigation.navigate('Highlights')
-                }}
-                scrollAnim={scrollAnim}
-                index={1}
-                text='Highlights'
-                viewStyle={{ paddingLeft: 5 }}
-              />
-            </View>
-          }
+          <View>
+            <NavButton
+              hasTopBorder={true}
+              hasBottomBorder={true}
+              icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
+              onPress={() => {
+                dispatch({
+                  type: SET_DISPLAY_MODE,
+                  displayMode: 'unread'
+                })
+                navigation.navigate('Feeds')
+              }}
+              scrollAnim={scrollAnim}
+              index={0}
+              text='Feeds'
+              viewStyle={{ paddingLeft: 5 }}
+            />
+            <NavButton
+              hasBottomBorder={true}
+              icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
+              onPress={() => {
+                dispatch({
+                  type: SET_DISPLAY_MODE,
+                  displayMode: 'saved'
+                })
+                navigation.navigate('Items')
+              }}
+              scrollAnim={scrollAnim}
+              index={1}
+              text='Library'
+              viewStyle={{ paddingLeft: 5 }}
+            />
+            <NavButton
+              hasBottomBorder={true}
+              icon={getRizzleButtonIcon('highlights', hslString('rizzleText'), hslString('rizzleBG'))}
+              onPress={() => {
+                navigation.navigate('Highlights')
+              }}
+              scrollAnim={scrollAnim}
+              index={1}
+              text='Highlights'
+              viewStyle={{ paddingLeft: 5 }}
+            />
+          </View>
         <NavButton
           hasBottomBorder={true}
           icon={getRizzleButtonIcon('account', hslString('rizzleText'))}

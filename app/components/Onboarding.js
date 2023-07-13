@@ -1,12 +1,20 @@
-import React from 'react'
-import {ActionSheetIOS, Animated, Dimensions, Linking, Text, View} from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import {ActionSheetIOS, Animated, Dimensions, Easing, Image, Linking, Pressable, Text, TextInput, View} from 'react-native'
 import {WebView} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { hslString } from '../utils/colors'
 import TextButton from './TextButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { HIDE_ALL_BUTTONS, HIDE_LOADING_ANIMATION } from '../store/ui/types'
-import { TOGGLE_ONBOARDING } from '../store/config/types'
+import { TOGGLE_ONBOARDING, UPDATE_ONBOARDING_INDEX } from '../store/config/types'
+import LinearGradient from 'react-native-linear-gradient'
+import { fontSizeMultiplier, getMargin } from '../utils'
+import { textInfoStyle, textInputStyle } from '../utils/styles'
+import { supabase } from '../storage/supabase'
+import { useSession } from './AuthProvider'
+import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication'
+import { G } from 'react-native-svg'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 export const pages = [{
     heading: 'Reams',
@@ -20,7 +28,10 @@ export const pages = [{
     body: 'New articles flow through your <strong>feed</strong>. Want to keep one of them? Save it to your <strong>library</strong>.</p><p>You can also save articles to your library from Safari with the <strong>Reams share extension</strong>, which also lets you add new sites to your feed.</p>'
   },
   {
-    body: `Let's set up the share extension now. When you press the button below, you\'ll see the share sheet. Scroll to the right and tap <strong>More</strong>:</p>
+    body: 'Enter your email address, and we’ll send you a link to log into Reams.'
+  },
+  {
+    body: `Now let's set up the share extension now. When you press the button below, you\'ll see the share sheet. Scroll to the right and tap <strong>More</strong>:</p>
     <img src="webview/img/enable-share-1.jpg" style="width: 890px;">
     <p>Tap <strong>Edit</strong>:</p>
     <img src="webview/img/enable-share-2.jpg">
@@ -33,160 +44,708 @@ export const pages = [{
   }
 ]
 
-export default function Onboarding ({index, navigation}) {
+export default function Onboarding ({index, navigation, isVisible}) {
   const dispatch = useDispatch()
   const isDarkMode = useSelector(state => state.ui.isDarkMode)
 
   const hideAllButtons = () => dispatch({ type: HIDE_ALL_BUTTONS })
   const hideLoadingAnimation = () => dispatch({ type: HIDE_LOADING_ANIMATION })
-  const endOnboarding = () => dispatch({ type: TOGGLE_ONBOARDING, isOnboarding: false })
 
   hideAllButtons()
   hideLoadingAnimation()
-
-  const endOnboardingAndResetNav = () => {
-    endOnboarding()
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'Account'}]})
-  }
-
-  const openShareSheet = () => {
-    ActionSheetIOS.showShareActionSheetWithOptions({
-      url: 'https://reams.app',
-      message: 'Reams is for people who love to read. It‘s all about the immersive pleasures of text and image.',
-      title: 'Reams'
-    },
-    (error) => {
-      console.error(error)
-    },
-    (success, method) => {
-    }
-  )
-
-  }
 
   let server = ''
   if (__DEV__) {
     server = 'http://localhost:8888/'
   }
 
-  // const bodies = [`<div class="everything"><h1>Reams</h1>
-  //   <p class="subhead">Deeply Superficial RSS</p>
-  //   <div class="content">
-  //   <p>Reams is for people who love to read. It’s all about the immersive pleasures of text and image.</p>
-  //   <p>(<a href="https://aboutfeeds.com/">What’s RSS?</a>)</p></div></div>`,
-  //   `<div class="everything"><div class="content"><p>Each story is algorithmically art-directed for you. If something looks interesting, go ahead and read it. If it looks <em>really</em> interesting, save it for&nbsp;later.</p></div></div>`,
-  //   `<div class="everything"><div class="content"><p>You can subscribe to sites from the built-in library. Or you can use the Reams Share Extension for Safari – which also lets you save <em>any</em> web page to read in Reams.</p>
-  //   </div></div>`
-  // ]
+  if (index === 0) {
+    return <Onboarding1 isVisible={isVisible} />
+  } else if (index === 1) {
+    return <Onboarding2 index={index} />
+  } else if (index === 2) {
+    return <Onboarding3 index={index} />
+  } else if (index === 3) {
+    return <Onboarding4 index={index} />
+  } else if (index === 4) {
+    return <Onboarding5 index={index} navigation={navigation} />
+  } else {
+    return null
+  }
 
-  const makePage = (index) => `
-<div class="everything">
-  ${pages[index].heading ? `<h1>${pages[index].heading}</h1>` : ''}
-  ${pages[index].subhead ? `<p class="subhead">${pages[index].subhead}</p>` : ''}
-  <div class="content">
-    <p>${pages[index].body}</p>
-  </div>
-</div>`
+}
 
-  const swipeArrow = index < (pages.length - 1) ?
-    `<div class="swipe">swipe &gt;&gt;&gt;</div>` :
-    ''
+const textStyle = {
+  fontFamily: 'IBMPlexSans',
+  fontSize: 20 * fontSizeMultiplier(),
+  lineHeight: 28 * fontSizeMultiplier(),
+  color: 'white',
+  marginTop: 26,
+  // textAlign: 'center',
+}
 
-  const headingFont = [
-    'IBMPlexSans-Bold',
-    'IBMPlexSansCondensed-Bold',
-    'PlayfairDisplay-Bold',
-    'IBMPlexSans-Bold',
-    'IBMPlexSansCondensed-Bold',
-  ][index]
-  const bodyFontClass = [
-    'bodyFontSerif1',
-    'bodyFontSerif2',
-    'bodyFontSans1',
-    'bodyFontSerif1',
-    'bodyFontSerif2',
-  ][index]
+const textBoldStyle = {
+  ...textStyle,
+  fontFamily: 'IBMPlexSans-Bold',
+}
 
-  const backgroundColor = [
-    'rizzleBG',
-    'logo2',
-    'logo1',
-    'rizzleBG',
-    'logo2',
-    'logo1'
-  ][index]
+const textLargeStyle = {
+  ...textStyle,
+  fontSize: 24 * fontSizeMultiplier(),
+  lineHeight: 32 * fontSizeMultiplier(),
+  marginTop: 0,
+  // marginTop: 0,
+  textAlign: 'right',
+}
 
-  const html = `<html class="onboarding onboarding-${index} font-size-3 ${isDarkMode ? 'dark-background' : ''}">
-    <head>
-      <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
-      <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
-    </head>
-    <body class="${bodyFontClass}">
-      <!--div class="bg1"></div>
-      <div class="bg2"></div-->
-      <article>
-        ${makePage(index)}
-      </article>
-      ${swipeArrow}
-    </body>
-  </html>`
+const textLargeBoldStyle = {
+  ...textLargeStyle,
+  fontFamily: 'IBMPlexSans-Bold',
+}
 
-  const openLinksExternallyProp = /*__DEV__ ? {} :*/ {
-    onShouldStartLoadWithRequest: (e) => {
-      if (e.navigationType === 'click') {
-        openLink(e.url)
-        return false
-      } else {
-        return true
+const Onboarding1 = ({ index, navigation }) => {
+  const mainAnim = new Animated.Value(0)
+
+  useEffect(() => {
+    Animated.timing(mainAnim, {
+      toValue: 1,
+      duration: 15000,
+      delay: 0,
+      useNativeDriver: true
+    }).start()
+  }, [])
+
+  return (
+    <OnboardingPage index={index}>
+      <View style={{
+        flex: 1,
+        // alignItems: 'center',
+        marginTop: 100,
+        marginHorizontal: getMargin()
+      }}>
+        <Animated.Text style={{
+          fontFamily: 'PTSerif-Bold',
+          fontSize: 64 * fontSizeMultiplier(),
+          color: 'white',
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.08, 0.1, 1],
+            outputRange: [0, 1, 1, 1]
+          }),
+          overflow: 'hidden'
+        }}>Reams</Animated.Text>
+        <Animated.Text style={{
+          fontFamily: 'IBMPlexSansCond',
+          fontSize: 24 * fontSizeMultiplier(),
+          color: 'white',
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.1, 0.2, 1],
+            outputRange: [0, 0, 1, 1]
+          })
+        }}>Deeply Superficial Reading</Animated.Text>
+        <Animated.Text style={{
+          fontFamily: 'IBMPlexSans',
+          fontSize: 20 * fontSizeMultiplier(),
+          lineHeight: 28,
+          color: 'white',
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.22, 0.3, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+          marginTop: getMargin() * 4,
+        }}>Imagine an endless, beautiful magazine, filled with all the articles that you want to read.</Animated.Text>
+        <Animated.Text style={{
+          fontFamily: 'IBMPlexSans',
+          fontSize: 20 * fontSizeMultiplier(),
+          color: 'white',
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.75, 0.85, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+          marginTop: getMargin()
+        }}>Imagine <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>Reams</Text>.</Animated.Text>
+      </View>
+      <Animated.Text style={{
+        fontFamily: 'IBMPlexSans-Italic',
+        fontSize: 16 * fontSizeMultiplier(),
+        color: 'white',
+        position: 'absolute',
+        bottom: 30,
+        alignSelf: 'center',
+        opacity: mainAnim.interpolate({
+          inputRange: [0, 0.1, 0.9, 1],
+          outputRange: [0, 0, 0, 1] 
+        })
+      }}>swipe >>></Animated.Text>
+      <Figures anim={mainAnim} />
+    </OnboardingPage>
+  )
+}
+
+const Onboarding2 = ({ index }) => {
+  const mainAnim = new Animated.Value(0)
+  const loopAnim = new Animated.Value(0)
+  const onboardingIndex = useSelector(state => state.config.onboardingIndex)
+  const [isVisible, setIsVisible] = useState(onboardingIndex === index)
+  useEffect(() => {
+    setIsVisible(onboardingIndex === index)
+  }, [onboardingIndex])
+
+  useEffect(() => {
+    console.log('onboarding2 effect', isVisible)
+    if (isVisible) {
+      Animated.parallel([
+      Animated.timing(mainAnim, {
+        toValue: 1,
+        duration: 15000,
+        delay: 0,
+        useNativeDriver: true
+      }),
+      Animated.loop(Animated.timing(loopAnim, {
+        toValue: 1.2,
+        duration: 10000,
+        delay: 0,
+        easing: Easing.linear,
+        useNativeDriver: true
+      }))
+    ]).start()
+    }
+  }, [isVisible])
+
+  const textLargeAbsoluteStyle = {
+    ...textLargeStyle,
+    fontFamily: 'IBMPlexSans-Bold',
+    fontSize: 25 * fontSizeMultiplier(),
+    color: hslString('logo3'),
+    position: 'absolute',
+    right: 0,
+    // top: 1,
+    // textAlign: 'center',
+  }
+
+  return (
+    <OnboardingPage index={index}>
+      <View style={{
+        flex: 1,
+        // alignItems: 'center',
+        marginTop: 80 * fontSizeMultiplier(),
+        marginHorizontal: getMargin(),
+        overflow: 'hidden'
+      }}>
+        <Animated.Text style={{
+          ...textStyle,
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.03, 0.05, 1],
+            outputRange: [0, 1, 1, 1]
+          }),
+        }}>Reams uses <Text style={textBoldStyle}>infernally complex logic</Text>, a <Text style={textBoldStyle}>sprinkling of AI</Text> and a whole lot of attention to <Text style={textBoldStyle}>typrographic detail</Text> to turn your reading into a stunning, immersive experience.</Animated.Text>
+        <Animated.Text style={{
+          ...textStyle,
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.2, 0.25, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>All you have to do is <Text style={textBoldStyle}>swipe</Text> between the articles, like <Text style={textBoldStyle}>flipping the pages of a magazine</Text>.</Animated.Text>
+        <Animated.View style={{ 
+          // marginTop: 48,
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.4, 0.45, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>
+          <Animated.Text style={{
+            ...textLargeStyle,
+            marginTop: 24
+          }}>And of course you can</Animated.Text>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+          }}>
+            <View style={{ flex: 1 }}>
+            <Animated.Text style={{
+              ...textLargeAbsoluteStyle,
+              opacity: loopAnim.interpolate({
+                inputRange: [0, 0.15, 0.2, 0.35, 0.4, 0.55, 0.6, 0.75, 0.8, 0.95, 1, 1.15, 1.2],
+                outputRange: [1, 1,    0,   0,    0,   0,    0,   0,    0,   0,   0,  0,    1]
+              })}}>read </Animated.Text>
+            <Animated.Text style={{
+              ...textLargeAbsoluteStyle,
+              opacity: loopAnim.interpolate({
+                inputRange: [0, 0.15, 0.2, 0.35, 0.4, 0.55, 0.6, 0.75, 0.8, 0.95, 1, 1.15, 1.2],
+                outputRange: [0, 0,    1,   1,    0,   0,    0,   0,    0,   0,   0,  0,    0]
+              })}}>save</Animated.Text>
+            <Animated.Text style={{
+              ...textLargeAbsoluteStyle,
+              opacity: loopAnim.interpolate({
+                inputRange: [0, 0.15, 0.2, 0.35, 0.4, 0.55, 0.6, 0.75, 0.8, 0.95, 1, 1.15, 1.2],
+                outputRange: [0, 0,    0,   0,    1,   1,    0,   0,    0,   0,   0,  0,    0]
+              })}}>tag</Animated.Text>
+            <Animated.Text style={{
+              ...textLargeAbsoluteStyle,
+              opacity: loopAnim.interpolate({
+                inputRange: [0, 0.15, 0.2, 0.35, 0.4, 0.55, 0.6, 0.75, 0.8, 0.95, 1, 1.15, 1.2],
+                outputRange: [0, 0,    0,   0,    0,   0,    1,   1,    0,   0,   0,  0,    0]
+              })}}>annotate</Animated.Text>
+            <Animated.Text style={{
+              ...textLargeAbsoluteStyle,
+              opacity: loopAnim.interpolate({
+                inputRange: [0, 0.15, 0.2, 0.35, 0.4, 0.55, 0.6, 0.75, 0.8, 0.95, 1, 1.15, 1.2],
+                outputRange: [0, 0,    0,   0,    0,   0,    0,   0,    1,   1,   0,  0,    0]
+              })}}>share</Animated.Text>
+            <Animated.Text style={{
+              ...textLargeAbsoluteStyle,
+              opacity: loopAnim.interpolate({
+                inputRange: [0, 0.15, 0.2, 0.35, 0.4, 0.55, 0.6, 0.75, 0.8, 0.95, 1, 1.15, 1.2],
+                outputRange: [0, 0,    0,   0,    0,   0,    0,   0,    0,   0,   1,  1,    0]
+              })}}>highlight</Animated.Text>
+            </View>
+            <View style={{ flex: 0 }}>
+              <Text style={textLargeStyle}> each article.</Text>
+            </View>            
+          </View>
+        </Animated.View>
+      </View>
+      <Animated.Text style={{
+        fontFamily: 'IBMPlexSans-Italic',
+        fontSize: 14 * fontSizeMultiplier(),
+        color: 'white',
+        position: 'absolute',
+        bottom: 30,
+        alignSelf: 'center',
+        opacity: mainAnim.interpolate({
+          inputRange: [0, 0.8, 0.85, 1],
+          outputRange: [0, 0, 1, 1]
+        }),
+      }}>swipe >>></Animated.Text>
+      <Figures anim={mainAnim} />
+    </OnboardingPage>
+  )
+}
+
+const Onboarding3 = ({ index }) => {
+  const onboardingIndex = useSelector(state => state.config.onboardingIndex)
+  useEffect(() => {
+    if (!!onboardingIndex && onboardingIndex === index) {
+      inputRef.current.focus()
+    }
+  }, [onboardingIndex])
+  const [email, setEmail] = useState('')
+  const isEmailValid = email && email.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
+  const [isSending, setIsSending] = useState(false)
+  const session = useSession()
+  const inputRef = useRef(null)
+
+  async function sendMagicLink(email) {
+    let redirectURL = 'reams://onboarding'
+    if (email) {
+      setIsSending(true)
+      let result
+      try {
+        result = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: redirectURL,
+          },
+        })  
+      } catch (e) {
+        console.log(e)
+      }
+      setIsSending(false);
+
+      if (result.error) {
+        console.log(result.error)
       }
     }
   }
 
+  async function onAppleButtonPress() {
+    // performs login request
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        // Note: it appears putting FULL_NAME first is important, see issue #293
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+        nonce: 'apple'
+      })
+    
+      // This method must be tested on a real device. On the iOS simulator it always throws an error.
+      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user)
+    
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        const token = appleAuthRequestResponse.identityToken
+        const result = await supabase.auth.signInWithIdToken({
+          provider: 'apple',
+          token,
+          nonce: 'apple',
+        })
+        console.log(result)
+      }  
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <OnboardingPage index={index}>
+      <View style={{
+        flex: 1,
+        marginTop: 100 * fontSizeMultiplier(),
+        marginHorizontal: getMargin()
+      }}>
+        <Text style={{
+          ...textLargeStyle,
+          textAlign: 'center',
+          marginBottom: 24 * fontSizeMultiplier(),
+        }}>Ready to get started?</Text>
+        {session?.error ? (
+          <Text style={{
+            ...textLargeStyle,
+            textAlign: 'center',
+            marginBottom: 48 * fontSizeMultiplier(),
+            backgroundColor: 'red',
+          }}>Error: {session.error}. Please try again.</Text>
+        ) : (
+          <Text style={{
+            ...textLargeStyle,
+            textAlign: 'center',
+            marginBottom: 48 * fontSizeMultiplier(),
+          }}>Enter your email, and we’ll send you a magic sign-in link:</Text>
+        )}
+        <TextInput
+          autoCapitalize='none'
+          autoCorrect={false}
+          keyboardType='email-address'
+          onChangeText={setEmail}
+          ref={inputRef}
+          style={{
+            ...textInputStyle('white'),
+            textAlign: 'center',
+            borderBottomWidth: 0,
+            marginBottom: 24 * fontSizeMultiplier(),
+          }}
+        />
+        <TextButton
+          isDisabled={!isEmailValid}
+          buttonStylea={{
+            opacity: isEmailValid ? 1 : 0.5
+          }}
+          onPress={() => {
+            sendMagicLink(email)
+          }}
+          text='Send me a link'
+        />
+        <Text style={{
+          ...textLargeStyle,
+          textAlign: 'center',
+          marginTop: 24 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
+        }}>or</Text>
+        <AppleButton
+          buttonStyle={AppleButton.Style.BLACK}
+          buttonType={AppleButton.Type.SIGN_IN}
+          style={{
+            width: '100%',
+            height: 40 * fontSizeMultiplier(),
+            maxWidth: 700,
+            borderRadius: 20 * fontSizeMultiplier(),
+            alignSelf: 'center',
+          }}
+          onPress={() => onAppleButtonPress()}
+        />
+      </View>
+
+    </OnboardingPage>
+  )
+}
+
+const Onboarding4 = ({ index }) => {
+  const mainAnim = new Animated.Value(0)
+  const onboardingIndex = useSelector(state => state.config.onboardingIndex)
+
+  // so this is weird
+  // if the app has been opened from an emailed link, the onboardingIndex will be 2, 
+  // because that's where it left off with the enter email screen
+  // but if the user is going back and forth between the onboarding screens, it might be 0
+  const [isVisible, setIsVisible] = useState(onboardingIndex === 2 || onboardingIndex === 0)
+  useEffect(() => {
+    setIsVisible(onboardingIndex === 2 || onboardingIndex === 0)
+  }, [onboardingIndex])
+
+  useEffect(() => {
+    if (isVisible)  {
+      Animated.timing(mainAnim, {
+        toValue: 1,
+        duration: 15000,
+        delay: 0,
+        useNativeDriver: true
+      }).start()
+    }
+  }, [isVisible])
+
+  return (
+    <OnboardingPage index={index}>
+      <View style={{
+        flex: 1,
+        marginHorizontal: getMargin(),
+        justifyContent: 'center',
+      }}>
+        <Animated.Text style={{
+          ...textLargeBoldStyle,
+          textAlign: 'left',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.05, 1],
+            outputRange: [0, 1, 1]
+          }),
+        }}>A couple of things you should know before you get started</Animated.Text>
+        <Animated.Text style={{
+          ...textLargeStyle,
+          textAlign: 'left',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.1, 0.18, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>New articles flow through your {getRizzleButtonIcon('rss', 'white')} <Text style={textLargeBoldStyle}>Feed</Text> via RSS. Want to keep one of them? Save it to your {getRizzleButtonIcon('saved', 'white')}&#160;<Text style={textLargeBoldStyle}>Library</Text>.</Animated.Text>
+        <Animated.Text style={{
+          ...textLargeStyle,
+          textAlign: 'left',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.5, 0.58, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>You can also save articles to your library from Safari (or 3rd party apps like the LRB or Substack) with the <Text style={textLargeBoldStyle}>Reams share extension</Text>.</Animated.Text> 
+        <Animated.Text style={{
+          ...textLargeStyle,
+          textAlign: 'left',
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.8, 0.88, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>(The extension also lets you add new sites to your feed btw)</Animated.Text>
+      </View>
+      <Animated.Text style={{
+        fontFamily: 'IBMPlexSans-Italic',
+        fontSize: 14 * fontSizeMultiplier(),
+        color: 'white',
+        position: 'absolute',
+        bottom: 30,
+        alignSelf: 'center',
+        opacity: mainAnim.interpolate({
+          inputRange: [0, 0.95, 1],
+          outputRange: [0, 0, 1]
+        }),
+      }}>swipe >>></Animated.Text>
+    </OnboardingPage>
+  )
+}
+
+const Onboarding5 = ({ index, navigation }) => {
+  const dispatch = useDispatch()
+  const [isFinished, setIsFinished] = useState(false)
+  const [isShareSheetClosed, setIsShareSheetClosed] = useState(false)
+  const endOnboarding = () => dispatch({ type: TOGGLE_ONBOARDING, isOnboarding: false })
+  const anim = new Animated.Value(0)
+
+  const endOnboardingAndResetNav = () => {
+    endOnboarding()
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Initial'}]})
+  }
+
+  const openShareSheet = () => {
+    ActionSheetIOS.showShareActionSheetWithOptions({
+        url: 'https://reams.app',
+        message: 'Reams is for people who love to read. It‘s all about the immersive pleasures of text and image.',
+        title: 'Reams'
+      },
+      (error) => {
+        console.error(error)
+      },
+      (success, method) => {
+        setIsShareSheetClosed(true)
+      }
+    )
+  }
+
+  useEffect(() => {
+    if (!isFinished) return
+    Animated.timing(anim, {
+      toValue: 1,
+      duration: 800,
+      delay: 0,
+      useNativeDriver: true,
+      easing: Easing.linear
+    }).start()
+  }, [isFinished])
+
+  return (
+    <OnboardingPage index={index}>
+      <View style={{
+        flex: 1,
+        marginHorizontal: getMargin(),
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+        <Animated.Text style={{
+          ...textLargeStyle,
+          textAlign: 'center',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: anim.interpolate({
+            inputRange: [0, 0.25, 0.75, 1],
+            outputRange: [1, 1, 0, 0]
+          }),
+        }}>Let’s set up the share extension now</Animated.Text>
+        <Animated.Text style={{
+          ...textStyle,
+          textAlign: 'center',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: anim.interpolate({
+            inputRange: [0, 0.25, 0.75, 1],
+            outputRange: [1, 1, 0, 0]
+          }),
+        }}>Watch the short video below to see how to enable the extension:</Animated.Text>
+        <Animated.View style={{
+          opacity: anim.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 0, 0]
+          }),
+        }}>
+          <Image 
+            source={require('../assets/images/reams-enable-share.webp')} 
+            style={{
+              backgroundColor: 'white',
+              borderColor: 'rgba(0,0,0,0.8)',
+              borderWidth: 2,
+              width: 150,
+              height: 328,
+              margin: getMargin(),
+              marginBottom: 48 * fontSizeMultiplier(),
+              borderRadius: 18
+            }}
+          />
+        </Animated.View>
+        <Animated.View style={{
+          position: 'absolute',
+          opacity: anim.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1]
+          }),
+        }}>
+          <Text style={{
+            ...textLargeBoldStyle,
+            textAlign: 'center',
+            marginBottom: 24 * fontSizeMultiplier(),
+          }}>You’re ready to go. Hit the button below to fall in love with reading online again.</Text>
+          <Image 
+            source={require('../assets/images/ream.png')} 
+            style={{
+              alignSelf: 'center',
+              justifySelf: 'center',
+            }}
+          />
+        </Animated.View>
+        {isFinished ? (
+          <TextButton
+            onPress={endOnboardingAndResetNav}
+            text='Start using Reams!'
+          />
+        ) : (
+          <>
+            <TextButton
+              buttonStyle={{marginBottom: 24 * fontSizeMultiplier()}}              
+              onPress={openShareSheet}
+              text='Open share sheet'
+            />
+            <TextButton
+              buttonStyle={{opacity: isShareSheetClosed ? 1 : 0}}
+              onPress={() => setIsFinished(true)}
+              text='OK, done!'
+            />
+          </>
+        )}
+      </View>
+    </OnboardingPage>
+  )
+}
+
+const OnboardingPage = ({ children, index }) => (
+  <View
+    style={{
+      backgroundColor: hslString('rizzleBG'),
+      flex: 1,
+      overflow: 'hidden',
+      width: Dimensions.get('window').width
+    }}
+  >
+    <Gradient index={index} />
+    {children}
+  </View>
+)
+
+
+const Gradient = ({ index }) => (
+  <LinearGradient 
+    colors={[hslString('logo2'), hslString('logo1')]} 
+    end={{x: index % 2 === 0 ? -1 : 0, y: 1}}
+    start={{x: index % 2 === 0 ? 1 : 2, y: 0}}
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    }} />
+
+)
+
+
+const Figures = ({ anim }) => {
+  const imageDimensions = {
+    width: 1300,
+    height: 409
+  }
+  const screenDimensions = {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height
+  }
+  const height= screenDimensions.height * 0.4
+  const ratio = height / imageDimensions.height
+  const width = imageDimensions.width * ratio
   return (
     <Animated.View
       style={{
-        backgroundColor: hslString(backgroundColor),
+        position: 'absolute',
+        bottom: 10,
+        left: 0,
+        height,
+        width: '100%',
         flex: 1,
-        overflow: 'hidden',
-        width: Dimensions.get('window').width
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        opacity: anim.interpolate({
+          inputRange: [0, 0.1, 0.9, 1],
+          outputRange: [0, 1, 1, 0]
+        }),
+        resizeMode: 'contain',
+        transform: [
+          {translateX: anim.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, -width + screenDimensions.width]
+          })
+          }
+        ]
       }}
-      testID={`onboarding-${index}`}
     >
-      <WebView
-        decelerationRate='normal'
-        onMessage={(event) => {
-        }}
-        {...openLinksExternallyProp}
-        originWhitelist={['*']}
-        scalesPageToFit={false}
-        scrollEnabled={true}
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'transparent'
-        }}
-        source={{
-          html: html,
-          baseUrl: 'web/'}}
-      />
-      { index >= (pages.length - 2) &&
-        <View style={{
-          bottom: 60,
-          right: index === pages.length - 1 ? "5%" : 'auto',
-          position: 'absolute',
-          alignSelf: index === pages.length - 1 ? 'flex-start' : 'center'
-        }}>
-          <TextButton
-            text={index === pages.length - 1 ? "Get started with Reams" : "Open share sheet"}
-            onPress={index === pages.length - 1 ? endOnboardingAndResetNav : openShareSheet}
-            buttonStyle={{
-            }}
-            testID='super-simple-set-up-button'
-          />
-        </View>
-      }
+      <Image
+          source={require('../assets/images/figures.png')}
+          style={{
+            height,
+            width
+          }}
+        />
     </Animated.View>
   )
 }

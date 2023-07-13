@@ -64,22 +64,22 @@ class AccountScreen extends React.Component {
   }
 
   componentDidMount () {
-    const { backend, isOnboarding, navigation } = this.props
-    if (!backend || backend === '') {
-      navigation.setOptions({
-        headerStyle: {
-          backgroundColor: hslString('logo1'),
+    const { backend, navigation } = this.props
+    // if (!backend || backend === '') {
+    //   navigation.setOptions({
+    //     headerStyle: {
+    //       backgroundColor: hslString('logo1'),
           
-          // https://github.com/react-navigation/react-navigation/issues/6899
-          shadowOffset: { height: 0, width: 0 }
-        },
-        headerTintColor: 'white'
-      })
-    }
+    //       // https://github.com/react-navigation/react-navigation/issues/6899
+    //       shadowOffset: { height: 0, width: 0 }
+    //     },
+    //     headerTintColor: 'white'
+    //   })
+    // }
   }
 
   componentDidUpdate (prevProps) {
-    const { backend, hasFeeds, isOnboarding, navigation } = this.props
+    const { backend, hasFeeds, navigation } = this.props
     if (prevProps.backend === '' && backend !== '') {
       this.redirectToItems(!hasFeeds, true)
     }
@@ -270,9 +270,17 @@ class AccountScreen extends React.Component {
               // marginBottom: 64,
               minHeight: height - 55 - 64,
               width: width - getInset() * (isPortrait ? 2 : 4),
-              marginHorizontal: getInset() * (isPortrait ? 1 : 2)
+              marginHorizontal: getInset() * (isPortrait ? 1 : 2),
+              marginTop: getMargin() * 2,
             }}>
-              { !backend &&
+              {Config.FLAG_PLUS && <TextButton
+                text={ 'Reams' }
+                { ...getAttributes('reams') }
+                iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'buttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'biuttonBG')) }
+                isExpanded={true}
+              />}
+              {/* { !backend &&
                 <HelpView>
                   <Text style={{ 
                     ...textTipStyles('white'),
@@ -283,7 +291,7 @@ class AccountScreen extends React.Component {
                     onPress={() => this.props.setBackend('basic')} 
                     text='I don’t have an account'></TextButton>
                 </HelpView>
-              }
+              } */}
               {/* <TextButton
                 text={ 'Reams Basic' }
                 { ...getAttributes('basic') }
@@ -296,17 +304,11 @@ class AccountScreen extends React.Component {
                 }}
               /> */}
               <Separator title='RSS' />
-              {Config.FLAG_PLUS && <TextButton
-                text={ 'Reams +' }
-                { ...getAttributes('rizzle') }
-                iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'rizzle' ? 'white' : 'rizzleText'), hslString(backend === 'rizzle' ? 'logo1' : 'biuttonBG')) }
-              />}
-              { !backend &&
+              {/* { !backend &&
                 <View style={{ marginBottom: getMargin() * 2 }}>
                   <Text style={textInfoStyle(undefined, 0)}>Or, if you already have an account with a supported service, enter your details below:</Text>
                 </View>
-              }
+              } */}
               <TextButton
                 text={ 'Feedbin' }
                 { ...getAttributes('feedbin') }

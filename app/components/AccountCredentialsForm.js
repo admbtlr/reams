@@ -6,7 +6,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis'
 import EncryptedStorage from 'react-native-encrypted-storage'
 
 import RizzleAuth from './RizzleAuth'
-import { sendEmailLink } from '../backends/rizzle'
+import { sendEmailLink } from '../backends/reams'
 import { init } from '../backends/readwise'
 import { authenticate, unsetBackend } from '../backends'
 import { hslString } from '../utils/colors'
@@ -61,7 +61,7 @@ class AccountCredentialsForm extends React.Component {
 
   async authenticateUser ({username, password, email, token}, {setSubmitting, setErrors}) {
     const { service, setBackend, setExtraBackend } = this.props
-    if (service === 'rizzle') {
+    if (service === 'reams') {
       email = email.trim()
       this.props.setSignInEmail(email)
       await sendEmailLink(email)
@@ -107,7 +107,7 @@ class AccountCredentialsForm extends React.Component {
     const serviceDisplay = service === 'basic' ?
       'Rizzle Basic' :
       service[0].toUpperCase() + service.slice(1)
-    const initialValues = service === 'rizzle' ?
+    const initialValues = service === 'reams' ?
       { email: this.state.email } :
       service === 'readwise' ?
         { token: this.state.token } :
@@ -115,7 +115,7 @@ class AccountCredentialsForm extends React.Component {
           username: this.state.username,
           password: this.state.password
         }
-    const validationSchemaShape = service === 'rizzle' ?
+    const validationSchemaShape = service === 'reams' ?
       Yup.object().shape({
         email: Yup.string().trim().email('That doesn’t look like a valid email...').required('Required')
       }) :

@@ -944,7 +944,7 @@ html.onboarding {
     background-position: 50% 25%; }
   html.onboarding.onboarding-2 .bg1 {
     background-position: 50% 75%; }
-  html.onboarding:not(.onboarding-3) body::before {
+  html.onboarding:not(.onboarding-4) body::before {
     content: "";
     z-index: 0;
     position: absolute;

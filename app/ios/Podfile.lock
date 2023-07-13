@@ -1,7 +1,7 @@
 PODS:
   - Bolts/Tasks (1.9.0)
   - boost (1.76.0)
-  - BVLinearGradient (2.6.2):
+  - BVLinearGradient (2.7.3):
     - React-Core
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -422,6 +422,8 @@ PODS:
   - ReactNativeWebPFormat (1.2.0):
     - React-Core
     - SDWebImageWebPCoder
+  - RNAppleAuthentication (2.2.2):
+    - React-Core
   - RNBackgroundFetch (4.1.5):
     - React-Core
   - RNCAsyncStorage (1.17.10):
@@ -547,6 +549,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeWebPFormat (from `../node_modules/react-native-webp-format`)
+  - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
@@ -700,6 +703,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeWebPFormat:
     :path: "../node_modules/react-native-webp-format"
+  RNAppleAuthentication:
+    :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNBackgroundFetch:
     :path: "../node_modules/react-native-background-fetch"
   RNCAsyncStorage:
@@ -738,7 +743,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost: a7c83b31436843459a1961bfd74b96033dc77234
-  BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
+  BVLinearGradient: fbe308a1d19a8133f69e033abc85d8008644f5e3
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   EXApplication: e418d737a036e788510f2c4ad6c10a7d54d18586
@@ -807,6 +812,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 59407514818b2afbb1d7507e4e1ac834d24b0fbd
   ReactCommon: b8487da74723562d7368dab27135fd182f00a91c
   ReactNativeWebPFormat: f5f043cc9ded052e535c3869ec341f91ba5a67c5
+  RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
   RNBackgroundFetch: 0d378f04faa1244f6eb3787f51f7d99520c1fe5e
   RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495

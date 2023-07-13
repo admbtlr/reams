@@ -3,7 +3,7 @@ import log from '../utils/log'
 
 const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
-const rizzle = require('./rizzle')
+const reams = require('./reams')
 
 // const group = 'group.com.adam-butler.rizzle'
 
@@ -13,9 +13,9 @@ let backend
 let backends = {
   feedbin,
   feedwrangler,
-  rizzle,
-  basic: rizzle,
-  plus: rizzle
+  reams,
+  basic: reams,
+  plus: reams
 }
 
 export async function setBackend (bcknd, config = {}) {
@@ -57,7 +57,7 @@ export async function getReadItems (oldItems) {
   let unreadOldItems
   switch (backend) {
     case 'basic':
-    case 'rizzle':
+    case 'reams':
     case 'feedwrangler':
       return []
     case 'feedbin':
@@ -69,8 +69,8 @@ export async function getReadItems (oldItems) {
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      return await rizzle.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
+    case 'reams':
+      return await reams.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
     case 'feedwrangler':
       return await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
     case 'feedbin':
@@ -83,8 +83,8 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) 
 //   // { readItems, newItems }
 //   let items
 
-//   if (backend === 'rizzle') {
-//     items = await rizzle.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
+//   if (backend === 'reams') {
+//     items = await reams.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
 //   } else if (backend === 'feedwrangler') {
 //     items = await feedwrangler.getSavedItems(savedItems, MAX_ITEMS_TO_DOWNLOAD, lastUpdated, cb)
 //   }
@@ -95,7 +95,7 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) 
 export function fetchUnreadIds () {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
+    case 'reams':
       return
     case 'feedwrangler':
       return feedwrangler.fetchUnreadIds()
@@ -105,8 +105,8 @@ export function fetchUnreadIds () {
 export async function markItemRead (item) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      return rizzle.markItemRead(item)
+    case 'reams':
+      return reams.markItemRead(item)
     case 'feedwrangler':
       return feedwrangler.markItemRead(item)
     case 'feedbin':
@@ -117,8 +117,8 @@ export async function markItemRead (item) {
 export async function markItemsRead (items, feedId = null, olderThan = null) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      return rizzle.markItemsRead(items)
+    case 'reams':
+      return reams.markItemsRead(items)
     case 'feedwrangler':
       if (feedId) {
         return feedwrangler.markFeedRead(feedId, olderThan)
@@ -133,8 +133,8 @@ export async function markItemsRead (items, feedId = null, olderThan = null) {
 export async function saveItem (item, folder) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      await rizzle.saveItem(item, folder)
+    case 'reams':
+      await reams.saveItem(item, folder)
       break
     case 'feedbin':
       await feedbin.saveItem(item)
@@ -149,8 +149,8 @@ export async function saveItem (item, folder) {
 export async function unsaveItem (item, folder) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      await rizzle.unsaveItem(item, folder)
+    case 'reams':
+      await reams.unsaveItem(item, folder)
       break
     case 'feedwrangler':
       await feedwrangler.unsaveItem(item)
@@ -165,8 +165,8 @@ export async function unsaveItem (item, folder) {
 export async function saveExternalItem (item, folder) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      return await rizzle.saveExternalItem(item, folder)
+    case 'reams':
+      return await reams.saveExternalItem(item, folder)
       break
     case 'feedbin':
       return await feedbin.saveExternalItem(item)
@@ -176,8 +176,8 @@ export async function saveExternalItem (item, folder) {
 
 // export function markFeedRead (feed, olderThan, items) {
 //   switch (backend) {
-//     case 'rizzle':
-//       return rizzle.markItemsRead(items)
+//     case 'reams':
+//       return reams.markItemsRead(items)
 //     case 'feedwrangler':
 //       return feedwrangler.markFeedRead(feed, olderThan)
 //   }
@@ -186,8 +186,8 @@ export async function saveExternalItem (item, folder) {
 export function fetchFeeds () {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      return rizzle.fetchFeeds()
+    case 'reams':
+      return reams.fetchFeeds()
     case 'feedwrangler':
       return feedwrangler.fetchFeeds()
     case 'feedbin':
@@ -199,8 +199,8 @@ export async function addFeed (feed) {
   let id
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      return rizzle.addFeed(feed)
+    case 'reams':
+      return reams.addFeed(feed)
     case 'feedwrangler':
       id = await feedwrangler.addFeed(feed)
       feed.id = id
@@ -215,16 +215,16 @@ export async function addFeed (feed) {
 export function updateFeed (feed) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      return rizzle.updateFeed(feed)
+    case 'reams':
+      return reams.updateFeed(feed)
   }
 }
 
 export function removeFeed (feed) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
-      return rizzle.removeFeed(feed)
+    case 'reams':
+      return reams.removeFeed(feed)
     case 'feedwrangler':
       return feedwrangler.removeFeed(feed)
     case 'feedbin':
@@ -237,7 +237,7 @@ export async function getFeedDetails (feed) {
     case 'feedwrangler':
       feed = await feedwrangler.getFeedDetails(feed)
   }
-  return await rizzle.getFeedDetails(feed)
+  return await reams.getFeedDetails(feed)
 }
 
 export async function getCategories () {
@@ -272,7 +272,7 @@ export async function deleteCategory (category) {
 export function authenticate ({username, password, email}, backend) {
   switch (backend) {
     case 'basic':
-    case 'rizzle':
+    case 'reams':
       return
     case 'feedbin':
       return feedbin.authenticate(username, password)

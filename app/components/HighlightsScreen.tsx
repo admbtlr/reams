@@ -269,7 +269,7 @@ export default function HighlightsScreen ({ navigation }) {
                 width: 150,
                 height: 328,
                 margin: getMargin(),
-                borderRadius: 25
+                borderRadius: 18
               }}
             />
           </View>

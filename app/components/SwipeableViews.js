@@ -7,6 +7,7 @@ import { SharedElement } from 'react-navigation-shared-element'
 import FeedItemContainer from '../containers/FeedItem.js'
 import Onboarding, { pages } from './Onboarding.js'
 import { hslString } from '../utils/colors'
+import { SessionContext } from './AuthProvider'
 
 /*
 props = {
@@ -25,7 +26,10 @@ state = {
 // NB `index` in this component is always the virtual index
 
 class SwipeableViews extends Component {
+  
   static whyDidYouRender = true
+  static contextType = SessionContext
+
   constructor (props) {
     super(props)
     this.props = props
@@ -68,8 +72,11 @@ class SwipeableViews extends Component {
   }
 
   init() {
-    this.setScrollIndex(this.currentIndex)
-    this.props.setPanAnim(this.panOffset)
+    const that = this
+    // setTimeout(() => {      
+      that.setScrollIndex(that.currentIndex)
+      that.props.setPanAnim(that.panOffset)
+    // }, 1000)
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -87,27 +94,18 @@ class SwipeableViews extends Component {
     }
   }
 
-  renderSlide ({_id, index, isVisible, panAnim}) {
-    if (this.props.isOnboarding) {
-      return <Onboarding
-        index={index}
-        key={index}
-        navigation={this.props.navigation}
-      />
-    } else {
-      const feedItemContainer = <FeedItemContainer
-        _id={_id}
-        key={_id}
-        setScrollAnim={this.props.setScrollAnim}
-        onScrollEnd={this.props.onScrollEnd}
-        onTextSelection={this.props.onTextSelection}
-        isVisible={isVisible}
-        panAnim={panAnim}
-        renderDate={Date.now()} // make sure child components get re-rendered
-      />
-      return feedItemContainer
-    }
-  }
+  renderSlide = ({_id, index, isVisible, panAnim}) => (
+    <FeedItemContainer
+      _id={_id}
+      key={_id}
+      setScrollAnim={this.props.setScrollAnim}
+      onScrollEnd={this.props.onScrollEnd}
+      onTextSelection={this.props.onTextSelection}
+      isVisible={isVisible}
+      panAnim={panAnim}
+      renderDate={Date.now()} // make sure child components get re-rendered
+    />
+  )
 
   render () {
     console.log('RENDER SWIPEABLE VIEWS')
@@ -121,12 +119,22 @@ class SwipeableViews extends Component {
     this.screenWidth = Dimensions.get('window').width
     const pageWidth = this.screenWidth
     // this.panAnimValues = items.map((item, key) => )
+    const currentIndex = this.currentIndex = index
 
     if (isOnboarding) {
+      // crazy that this logic is here
+      // 3 pages before login, 2 after
+      let pages = []
+      if (this.context?.session?.user) {
+        pages = [3,4]
+      } else {
+        pages = [0,1,2]
+      }
       this.children = pages.map((page, index) => (
         <Onboarding
-          key={index}
-          index={index}
+          key={page}
+          index={page}
+          isVisible={currentIndex === index}
           navigation={navigation} />
       ))
     } else {
@@ -149,7 +157,6 @@ class SwipeableViews extends Component {
       })
     }
 
-    this.currentIndex = index
     this.currentOffset = this.currentIndex * pageWidth
 
     // console.log(items.map(i => i.title))
@@ -157,6 +164,8 @@ class SwipeableViews extends Component {
     return (
       <Animated.ScrollView
         bounces={false}
+        contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
+        // contentOffset={{ x: 500, y: 0 }}
         decelerationRate="fast"
         disableIntervalMomentum={true}
         horizontal

@@ -900,9 +900,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 157;
+				CURRENT_PROJECT_VERSION = 158;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = LQ43Q9L9MY;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				HEADER_SEARCH_PATHS = (
@@ -940,6 +941,7 @@
 				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "17c847ba-6126-4981-85a9-120fc34fab45";
 				PROVISIONING_PROFILE_SPECIFIER = "Reams Dev Artsy MBP";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Reams dev iOS";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reams-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -960,8 +962,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 157;
+				CURRENT_PROJECT_VERSION = 158;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = LQ43Q9L9MY;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -998,6 +1001,7 @@
 				PRODUCT_NAME = Reams;
 				PROVISIONING_PROFILE = "7ce17c38-fb6c-4a94-beb5-c82f33426323";
 				PROVISIONING_PROFILE_SPECIFIER = "Reams App Store ArtsyMBP";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Reams App Store iOS";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reams-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1027,7 +1031,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 157;
+				CURRENT_PROJECT_VERSION = 158;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				ENABLE_BITCODE = NO;
@@ -1099,9 +1103,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 157;
+				CURRENT_PROJECT_VERSION = 158;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = LQ43Q9L9MY;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1139,6 +1144,7 @@
 				PRODUCT_NAME = ReamsShare;
 				PROVISIONING_PROFILE = "7e474486-339d-4efe-bbf7-02b53209e00b";
 				PROVISIONING_PROFILE_SPECIFIER = "Reams ShareEx App Store ArtsyMBP";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Reams ShareEx App Store ArtsyMBP";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
