@@ -2,10 +2,10 @@ import React from 'react'
 import Svg, {Circle, G, Path, Polygon, Rect, Line} from 'react-native-svg'
 import { fontSizeMultiplier } from '../utils'
 
-export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isEnabled, applyFontScaling = true) {
+export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isEnabled, applyFontScaling = true, scale = 1) {
   const fontScale = (size) => applyFontScaling ?
-    fontSizeMultiplier() * size :
-    size
+    fontSizeMultiplier() * size * scale:
+    size * scale
 
   switch (iconName) {
     case 'toggleViewButtonsIcon':
@@ -170,8 +170,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'account':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 24 24'
         fill='none'
         stroke={borderColor}
@@ -184,8 +184,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'settings':
       return <Svg
-        width='28' 
-        height='28' 
+        width={ fontScale(28) } 
+        height={ fontScale(28) }
         viewBox='0 0 24 24' 
         fill='none' 
         stroke={borderColor}
@@ -198,8 +198,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'shuffle':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 24 24'
         fill="none" 
         stroke={borderColor} 
@@ -211,8 +211,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'arrow-left':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 24 24'
         fill="none" 
         stroke={borderColor} 
@@ -224,8 +224,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'arrow-right':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 24 24'
         fill="none" 
         stroke={borderColor} 
@@ -237,8 +237,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'sun':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 24 24'
         fill="none"
         stroke={borderColor}
@@ -251,8 +251,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'moon':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 24 24'
         fill="none"
         stroke={borderColor}
@@ -264,8 +264,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'dark-mode':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 48 48'
         fill={borderColor}>
         <Path d="M14,24A10,10,0,0,0,24,34V14A10,10,0,0,0,14,24Z"/>
@@ -274,8 +274,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'plus':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 24 24'
         fill="none"
         stroke={borderColor}
@@ -288,8 +288,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'minus':
       return <Svg
-        width='28'
-        height='28'
+        width={ fontScale(28) }
+        height={ fontScale(28) }
         viewBox='0 0 24 24'
         fill="none"
         stroke={borderColor}
@@ -301,8 +301,8 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
 
     case 'feedbin':
       return <Svg
-        height={ 26 *  fontSizeMultiplier()}
-        width={ 26 *  fontSizeMultiplier()}
+        height={ fontScale(26) }
+        width={ fontScale(26) }
         viewBox='0 0 120 120'
         style={{
           top: 0
