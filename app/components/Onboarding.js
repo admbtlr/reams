@@ -499,25 +499,25 @@ const Onboarding4 = ({ index }) => {
           }),
         }}>A couple of things you should know before you get started</Animated.Text>
         <Animated.Text style={{
-          ...textLargeStyle,
+          ...textStyle,
           textAlign: 'left',
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
             inputRange: [0, 0.1, 0.18, 1],
             outputRange: [0, 0, 1, 1]
           }),
-        }}>New articles flow through your {getRizzleButtonIcon('rss', 'white')} <Text style={textLargeBoldStyle}>Feed</Text> via RSS. Want to keep one of them? Save it to your {getRizzleButtonIcon('saved', 'white')}&#160;<Text style={textLargeBoldStyle}>Library</Text>.</Animated.Text>
+        }}>New articles flow through your {getRizzleButtonIcon('rss', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Feed</Text> via RSS. Want to keep one of them? Save it to your {getRizzleButtonIcon('saved', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Library</Text>.</Animated.Text>
         <Animated.Text style={{
-          ...textLargeStyle,
+          ...textStyle,
           textAlign: 'left',
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
             inputRange: [0, 0.5, 0.58, 1],
             outputRange: [0, 0, 1, 1]
           }),
-        }}>You can also save articles to your library from Safari (or 3rd party apps like the LRB or Substack) with the <Text style={textLargeBoldStyle}>Reams share extension</Text>.</Animated.Text> 
+        }}>You can also save articles to your library from Safari (or 3rd party apps like the LRB or Substack) with the <Text style={textBoldStyle}>Reams share extension</Text>.</Animated.Text> 
         <Animated.Text style={{
-          ...textLargeStyle,
+          ...textStyle,
           textAlign: 'left',
           opacity: mainAnim.interpolate({
             inputRange: [0, 0.8, 0.88, 1],
@@ -664,6 +664,14 @@ const Onboarding5 = ({ index, navigation }) => {
               onPress={() => setIsFinished(true)}
               text='OK, done!'
             />
+            <Pressable 
+              onPress={() => setIsFinished(true)}
+              style={{
+                marginTop: -24 * fontSizeMultiplier(),
+                opacity: isShareSheetClosed ? 0 : 1
+              }}>
+              <Text style={ textInfoStyle() }>Skip</Text>
+            </Pressable>
           </>
         )}
       </View>
