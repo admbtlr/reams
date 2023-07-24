@@ -8,41 +8,51 @@ import {
   ConfigActionTypes
 } from '../config/types'
 
+// export interface UserState {
+//   readonly displayName: string
+//   readonly email: string
+//   readonly password: string
+//   readonly accessToken: string
+//   readonly uid: string
+//   readonly username: string
+//   readonly supaUserId: string
+//   readonly supaEmail: string | undefined
+//   readonly analyticsId: string
+// }
+
+export interface Backend {
+  readonly name: string
+  readonly username?: string
+  readonly accessToken?: string
+  readonly email?: string
+}
+
 export interface UserState {
-  readonly displayName: string
-  readonly email: string
-  readonly password: string
-  readonly accessToken: string
-  readonly uid: string
-  readonly username: string
-  readonly supaUserId: string
-  readonly supaEmail: string | undefined
+  readonly userId?: string
+  readonly email?: string
+  readonly backends: Backend[]
   readonly analyticsId: string
 }
 
+
 const initialState = {
-  displayName: '',
+  userId: '',
   email: '',
-  password: '',
-  accessToken: '',
-  uid: '',
-  username: '',
-  // below here is new
-  supaUserId: '',
-  supaEmail: '',
-  analyticsId: id()
+  analyticsId: id(),
+  backends: []
 }
 
 export function user (
   state = initialState, 
   action: ConfigActionTypes
 ) : UserState {
+  let backends: Backend[]
   switch (action.type) {
-    case SET_UID:
-      return {
-        ...state,
-        uid: action.uid
-      }
+    // case SET_UID:
+    //   return {
+    //     ...state,
+    //     uid: action.uid
+    //   }
 
     case SET_USER_DETAILS:
       const { details } = action
@@ -51,22 +61,36 @@ export function user (
       } else {
         return {
           ...state,
-          supaEmail: details.email,
-          supaUserId: details.id
+          email: details.email,
+          userId: details.id
         }
       }
 
     case SET_BACKEND:
       const {
+        backend,
         credentials
       } = action
+      backends = state.backends.filter((b: Backend) => b.name !== action.backend)
       return {
         ...state,
-        ...credentials
+        backends: [
+          ...backends,
+          {
+            name: backend,
+            username: credentials?.username,
+            accessToken: credentials?.accessToken,
+            email: credentials?.email
+          }
+        ],
       }
 
     case UNSET_BACKEND:
-      return initialState
+      backends = state.backends.filter((b: Backend) => b.name !== action.backend)
+      return {
+        ...state,
+        backends
+      }
 
     case SET_SIGN_IN_EMAIL:
       return {

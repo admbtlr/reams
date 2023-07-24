@@ -116,5 +116,25 @@ export const migrations = {
         userId: null
       }
     }
+  },
+  8: (state: RootState) => {
+    // remove user accounts from config
+    return {
+      ...state,
+      config: {
+        isOnboarding: state.config.isOnboarding,
+        lastUpdated: state.config.lastUpdated,
+        onboardingIndex: state.config.onboardingIndex,
+        onboardingLength: state.config.onboardingLength,
+        filter: state.config.filter,
+        isOnline: state.config.isOnline,
+        orientation: state.config.orientation,
+        itemSort: state.config.itemSort,
+        showNumUnread: state.config.showNumUnread,
+        lastActivated: state.config.lastActivated,
+        isItemsOnboardingDone: state.config.isItemsOnboardingDone,
+        isFeedOnboardingDone: state.config.isFeedOnboardingDone,
+      }
+    }
   }
 }

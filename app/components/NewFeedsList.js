@@ -249,10 +249,11 @@ export default function NewFeedsList (props) {
                 isExpanded={expandedFeedSets.indexOf(feedSet.name) !== -1}
                 isGroup={true}
                 onExpand={() => toggleExpandedFeedSet(feedSet.name)}
-                renderExpandedView={() => <FeedList 
+                expandedView={<FeedList 
                   feeds={feedSet.feeds}
                   toggleFeedSelected={toggleFeedSelected}
-                />} />
+                />}
+              />
             </View>)
           }
         </View>

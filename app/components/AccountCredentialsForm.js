@@ -5,10 +5,9 @@ import { Button, Dimensions, LayoutAnimation, Text, TextInput, TouchableOpacity,
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
 import EncryptedStorage from 'react-native-encrypted-storage'
 
-import RizzleAuth from './RizzleAuth'
 import { sendEmailLink } from '../backends/reams'
 import { init } from '../backends/readwise'
-import { authenticate, unsetBackend } from '../backends'
+import { authenticate } from '../backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import {
@@ -20,6 +19,7 @@ import {
   textInfoItalicStyle
 } from '../utils/styles'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
+import { BackgroundGradient } from './Onboarding'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -60,14 +60,16 @@ class AccountCredentialsForm extends React.Component {
   }
 
   async authenticateUser ({username, password, email, token}, {setSubmitting, setErrors}) {
-    const { service, setBackend, setExtraBackend } = this.props
+    const { service, setBackend, unsetBackend } = this.props
     if (service === 'reams') {
       email = email.trim()
       this.props.setSignInEmail(email)
       await sendEmailLink(email)
       console.log(`email: ${email}`)
     } else if (service === 'readwise') {
-      setExtraBackend('readwise', {token})
+      setBackend('readwise', {
+        accessToken: token
+      })
       setSubmitting(false)
       this.setState({
         isAuthenticated: true
@@ -103,14 +105,14 @@ class AccountCredentialsForm extends React.Component {
   }
 
   render = () => {
-    const { isActive, isExpanded, service, setBackend, setExtraBackend, unsetExtraBackend, user } = this.props
+    const { isActive, isExpanded, service, setBackend, unsetBackend, user } = this.props
     const serviceDisplay = service === 'basic' ?
       'Rizzle Basic' :
       service[0].toUpperCase() + service.slice(1)
     const initialValues = service === 'reams' ?
       { email: this.state.email } :
       service === 'readwise' ?
-        { token: this.state.token } :
+        { accessToken: this.state.token } :
         {
           username: this.state.username,
           password: this.state.password
@@ -219,15 +221,14 @@ class AccountCredentialsForm extends React.Component {
           }}>
             { isActive ?
               <View style={{
-                backgroundColor: hslString('logo1'),
                 paddingTop: 16 * fontSizeMultiplier(),
-                paddingLeft: 16 * fontSizeMultiplier(),
-                paddingRight: 16 * fontSizeMultiplier(),
+                // paddingLeft: 16 * fontSizeMultiplier(),
+                // paddingRight: 16 * fontSizeMultiplier(),
                 paddingBottom: 32 * fontSizeMultiplier(),
                 marginTop: 16 * fontSizeMultiplier(),
                 flex: 0,
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: 'flex-start',
                 justifyContent: 'space-between'
               }}>
                 { service === 'basic' ?
@@ -235,32 +236,35 @@ class AccountCredentialsForm extends React.Component {
                     marginLeft: -24 * fontSizeMultiplier(),
                     marginRight: -24 * fontSizeMultiplier()
                   }}>
-                    { !!isActive && reamsText(true) }
+                    { !!isActive && reamsText() }
                   </View> :
                   <React.Fragment>
                     { !(service === 'feedwrangler' || service === 'readwise') &&
                       <Text style={{
-                        ...textInfoStyle('white'),
+                        ...textInfoBoldStyle('white'),
                         marginTop: -10,
-                        marginBottom: 10
+                        marginBottom: 10,
+                        textAlign: 'left'
                       }}>
-                        <Text style={textInfoBoldStyle('white')}>Username: </Text>{user.username || user.email}
+                        <Text style={textInfoStyle('white')}>Logged in as </Text>{service === 'reams' ? user.email : (user.username || user.email)}
                       </Text>
                     }
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}
                       color={hslString('white')}
-                      onPress={() => isServiceExtra(service) ?
-                        unsetExtraBackend(service) :
-                        setBackend('basic')}
+                      onPress={() => {                        
+                        unsetBackend(service) 
+                      }}
                       style={{
-                        // marginTop: 16
+                        marginTop: 16 * fontSizeMultiplier(),
+                        width: '100%'
                       }}
                       testID={`${service}-logout-button`}
                     >
                       <Text style={{
                         ...textInfoStyle('white'),
-                        textDecorationLine: 'underline'
+                        textDecorationLine: 'underline',
+                        textAlign: 'center'
                       }}>Stop using {serviceDisplay}</Text>
                     </TouchableOpacity>
                   </React.Fragment>

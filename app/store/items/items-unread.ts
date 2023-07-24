@@ -77,7 +77,6 @@ export const initialState:ItemsState = {
 // - imageDimensions
 // - feed_title
 // - showCoverImage
-// - external_url
 // - excerpt
 // - author
 //

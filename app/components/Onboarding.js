@@ -688,13 +688,13 @@ const OnboardingPage = ({ children, index }) => (
       width: Dimensions.get('window').width
     }}
   >
-    <Gradient index={index} />
+    <BackgroundGradient index={index} />
     {children}
   </View>
 )
 
 
-const Gradient = ({ index }) => (
+export const BackgroundGradient = ({ index = 0 }) => (
   <LinearGradient 
     colors={[hslString('logo2'), hslString('logo1')]} 
     end={{x: index % 2 === 0 ? -1 : 0, y: 1}}

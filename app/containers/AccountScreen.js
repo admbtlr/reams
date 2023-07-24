@@ -8,8 +8,8 @@ import AccountScreen from '../components/AccountScreen.js'
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    backend: state.config.backend,
-    isReadwise: !!state.config.readwiseToken,
+    isFeedbin: !!state.user.backends?.find(b => b.name === 'feedbin'),
+    isReadwise: !!state.user.backends?.find(b => b.name === 'readwise'),
     displayMode: state.itemsMeta.display,
     isDarkMode: state.ui.isDarkMode,
     isPortrait: state.config.orientation === 'portrait',
@@ -34,9 +34,10 @@ const mapDispatchToProps = (dispatch) => {
         credentials
       })
     },
-    unsetBackend: () => {
+    unsetBackend: (backend) => {
       dispatch({
-        type: UNSET_BACKEND
+        type: UNSET_BACKEND,
+        backend
       })
     },
     setExtraBackend: (backend, credentials) => {

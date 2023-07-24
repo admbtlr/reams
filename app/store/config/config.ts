@@ -33,7 +33,6 @@ export interface Filter {
 }
 
 export interface ConfigState {
-  readonly userId: string
   readonly backend: string
   readonly accessToken: string
   readonly readwiseToken: string | null
@@ -54,7 +53,6 @@ export interface ConfigState {
 const {width, height } = Dimensions.get('window')
 
 export const initialState = {
-  userId: id(),
   backend: '',
   accessToken: '',
   readwiseToken: null,
@@ -79,41 +77,41 @@ export function config (
   action: ConfigActionTypes | FeedActionTypes
 ) : ConfigState {
   switch (action.type) {
-    case SET_BACKEND:
-      const {
-        backend,
-        credentials
-      } = action
-      return {
-        ...state,
-        backend,
-        ...credentials,
-        filter: null
-      }
+    // case SET_BACKEND:
+    //   const {
+    //     backend,
+    //     credentials
+    //   } = action
+    //   return {
+    //     ...state,
+    //     backend,
+    //     ...credentials,
+    //     filter: null
+    //   }
 
-    case UNSET_BACKEND:
-      extras = action.backend === 'readwise' ? 
-        {readwiseToken: null} : 
-        {backend: ''}
-      return {
-        ...state,
-        ...extras,
-        filter: null
-      }
+    // case UNSET_BACKEND:
+    //   extras = action.backend === 'readwise' ? 
+    //     {readwiseToken: null} : 
+    //     {backend: ''}
+    //   return {
+    //     ...state,
+    //     ...extras,
+    //     filter: null
+    //   }
 
-    case SET_EXTRA_BACKEND: 
-      extras = action.backend === 'readwise' ? {readwiseToken: action.credentials?.token} : {}
-      return {
-        ...state,
-        ...extras
-      }
+    // case SET_EXTRA_BACKEND: 
+    //   extras = action.backend === 'readwise' ? {readwiseToken: action.credentials?.token} : {}
+    //   return {
+    //     ...state,
+    //     ...extras
+    //   }
 
-    case UNSET_EXTRA_BACKEND: 
-      extras = action.backend === 'readwise' ? {readwiseToken: null} : {}
-      return {
-        ...state,
-        ...extras
-      }
+    // case UNSET_EXTRA_BACKEND: 
+    //   extras = action.backend === 'readwise' ? {readwiseToken: null} : {}
+    //   return {
+    //     ...state,
+    //     ...extras
+    //   }
 
     case UPDATE_ONBOARDING_INDEX:
       const isOnboarding = (action.index < state.onboardingLength)
