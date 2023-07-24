@@ -14,7 +14,7 @@ import AccountCredentialsForm from './AccountCredentialsForm'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getInset, getMargin, getStatusBarHeight } from '../utils'
-import { textInfoStyle } from '../utils/styles'
+import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
 import { ItemType } from '../store/items/types'
 
 class AccountScreen extends React.Component {
@@ -96,7 +96,7 @@ class AccountScreen extends React.Component {
 
 
   render () {
-    const { backend, hasFeeds, isPortrait, navigation, isReadwise } = this.props
+    const { backend, hasFeeds, isPortrait, navigation, isFeedbin, isReadwise } = this.props
     const { expandedBackend } = this.state
     const width = Dimensions.get('window').width
     const buttonWidth = width > 950 ?
@@ -128,17 +128,6 @@ class AccountScreen extends React.Component {
       ...textTipStyles(color),
       fontFamily: 'IBMPlexSans-Bold'
     })
-    const feedWranglerLogo = <Image
-      source={require('../img/feedwrangler.png')}
-      width={24 * fontSizeMultiplier()}
-      height={24 * fontSizeMultiplier()}
-      style={{
-        left: -2,
-        top: -2,
-        width: 32 * fontSizeMultiplier(),
-        height: 32 * fontSizeMultiplier()
-      }}
-    />
 
     const HelpView = ({children, title, style }) => (
       <View style={{
@@ -203,11 +192,16 @@ class AccountScreen extends React.Component {
 
     const isBackendActive = (service) => service === 'readwise' 
       ? isReadwise 
-      : backend === service
+      : service === 'feedbin' ?
+        isFeedbin :
+        true
 
+    const that = this
+    let gradientIndex = 0
     const getAttributes = (service) => {
       const bgColor = isBackendActive(service) ? hslString('logo1') : hslString('buttonBG')
       const fgColor = isBackendActive(service) ? 'white' : hslString('rizzleText')
+      const isActive = isBackendActive(service)
       return {
         borderColor: isBackendActive(service) && hslString('logo1'),
         buttonStyle: { 
@@ -221,17 +215,19 @@ class AccountScreen extends React.Component {
         isExpandable: true,
         isExpanded: isBackendActive(service) || expandedBackend === service,
         isInverted: isBackendActive(service),
+        isGradient: isBackendActive(service),
+        gradientIndex: gradientIndex++,
         fgColor:  isBackendActive(service) && hslString('logo1'),
-        onExpand: () => this.setExpandedBackend(service),
-        renderExpandedView: () => <AccountCredentialsForm
-          isActive={service === 'readwise' ? isReadwise : backend === service}
-          service={service}
-          setBackend={this.props.setBackend}
-          unsetBackend={this.props.unsetBackend}
-          setExtraBackend={this.props.setExtraBackend}
-          unsetExtraBackend={this.props.unsetExtraBackend}
-          user={this.props.user}
-        />,
+        onExpand: () => that.setExpandedBackend(service),
+        expandedView: (
+          <AccountCredentialsForm
+            isActive={isActive}
+            service={service}
+            setBackend={that.props.setBackend}
+            unsetBackend={that.props.unsetBackend}
+            user={that.props.user}
+          />
+        ),
         testID: `${service}-button`
       }
     }
@@ -273,11 +269,16 @@ class AccountScreen extends React.Component {
               marginHorizontal: getInset() * (isPortrait ? 1 : 2),
               marginTop: getMargin() * 2,
             }}>
+              <TextButton
+                text={ 'Reams' }
+                { ...getAttributes('reams') }
+              />
+
               {Config.FLAG_PLUS && <TextButton
                 text={ 'Reams' }
                 { ...getAttributes('reams') }
                 iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'biuttonBG')) }
+                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'buttonBG')) }
                 isExpanded={true}
               />}
               {/* { !backend &&
@@ -312,12 +313,6 @@ class AccountScreen extends React.Component {
               <TextButton
                 text={ 'Feedbin' }
                 { ...getAttributes('feedbin') }
-              />
-              <TextButton
-                text={ 'Feedwrangler' }
-                { ...getAttributes('feedwrangler') }
-                iconCollapsed={feedWranglerLogo}  
-                iconExpanded={feedWranglerLogo}  
               />
               <Separator title='Highlights' />
               <TextButton

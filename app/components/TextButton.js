@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import {hslString} from '../utils/colors'
 import { fontSizeMultiplier, getInset } from '../utils'
+import { BackgroundGradient } from './Onboarding'
 
 class TextButton extends React.Component {
   constructor (props) {
@@ -67,6 +68,7 @@ class TextButton extends React.Component {
       icon,
       isActive,
       isExpandable,
+      isGradient,
       isGroup,
       isInverted,
       isCompact,
@@ -88,7 +90,7 @@ class TextButton extends React.Component {
     let buttonStyle = {
       borderColor: borderColor,
       backgroundColor: isInverted ? fgColor : bgColor,
-      borderWidth: 1,
+      borderWidth: isGradient ? 0 : 1,
       borderRadius: height / 2,
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
@@ -144,6 +146,7 @@ class TextButton extends React.Component {
             maxHeight: (isExpanded ? 'auto' : 42 * fontSizeMultiplier()),
             height: (isExpanded ? 'auto' : 42 * fontSizeMultiplier())
           }}>
+          { this.props.isGradient && <BackgroundGradient index={ this.props.gradientIndex || 0 } /> }
           <View style={{
             position: 'absolute',
             top: (isCompact ? 2 : 4),
@@ -169,7 +172,7 @@ class TextButton extends React.Component {
               }}
             >{text}</Text>
           </TouchableOpacity>
-          { this.props.renderExpandedView() }
+          { this.props.expandedView }
         </Animated.View>
       )
     } else {

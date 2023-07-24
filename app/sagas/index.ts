@@ -50,34 +50,35 @@ import { createCategory, deleteCategory, getCategories, updateCategory } from '.
 import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
 import { ADD_ANNOTATION, DELETE_ANNOTATION, EDIT_ANNOTATION } from '../store/annotations/types'
 import { addAnnotation, deleteAnnotation, editAnnotation } from './annotations'
+import { RootState } from 'store/reducers'
+import { UserState } from 'store/user/user'
 
 let downloadsFork
 
-function * init (action) {
+function * init (action: any) {
   if (action.key && action.key !== 'primary') return
-  const config = yield select(getConfig)
-  if (!config.backend || config.backend === '') return
+  const user: UserState = yield select((state: RootState) => state.user)
 
-  yield initBackend(action)
-
-  if (config.readwiseToken) {
+  const readwiseToken = user.backends.find(b => b.name === 'readwise')?.accessToken
+  if (readwiseToken) {
     yield initOtherBackends({
       backend: 'readwise',
       credentials: {
-        token: config.readwiseToken
+        token: readwiseToken
       }
     })
   }
 
-  yield dedupeSaved()
-
-  if (!global.isBackgroundFetch) {
+  const isFeedbin = user.backends.find(b => b.name === 'feedbin')
+  if (isFeedbin) {
+    yield initBackend(action)
+    yield dedupeSaved()
     yield call(inflateItems)
-    downloadsFork = yield fork(startDownloads, config.backend)
+    downloadsFork = yield fork(startDownloads, 'feedbin')
   }
 }
 
-export function * backgroundFetch (callback) {
+export function * backgroundFetch (callback: () => void) {
   yield call(fetchAllItems, false)
   yield call(clearReadItems)
   yield call(pruneItems)
@@ -101,7 +102,7 @@ function * startDownloads (backend) {
 
 function * killBackend () {
   unsetBackend()
-  if (downloadsFork) {
+  if (!!downloadsFork) {
     yield cancel(downloadsFork)
   }
 }
@@ -111,7 +112,6 @@ export function * initSagas () {
   yield takeEvery(SET_BACKEND, init)
   yield takeEvery(UNSET_BACKEND, removeAllItems)
   yield takeEvery(UNSET_BACKEND, killBackend)
-  yield takeEvery(SET_EXTRA_BACKEND, initOtherBackends)
   yield takeEvery(ADD_FEED, subscribeToFeed)
   yield takeEvery(ADD_FEEDS, subscribeToFeeds)
   yield takeEvery(MARK_FEED_READ, markFeedRead)

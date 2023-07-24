@@ -37,6 +37,7 @@ import {
   getIndex,
   getItems,
   getLastUpdated,
+  getUser,
 } from './selectors'
 import NetInfo from '@react-native-community/netinfo'
 
@@ -47,16 +48,16 @@ export function * fetchAllItems (includeSaved = true) {
 
   const isConnectionOK = function* () {
     const netInfo = yield call(NetInfo.fetch)
-    console.log(netInfo)
+    // console.log(netInfo)
     return netInfo.isInternetReachable
   }
 
   const connected = yield isConnectionOK()
   if (!connected) return
 
-  const config = yield select(getConfig)
-  console.log('backend', config.backend)
-  if (!config.backend) return
+  // TODO fix this when the Reams backend works
+  const user = yield select(getUser)
+  if (!user.backends?.find(b => b.name === 'feedbin')) return
 
   if (!global.isBackgroundFetch) {
     yield put({

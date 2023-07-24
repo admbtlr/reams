@@ -28,10 +28,6 @@ export function unsetBackend () {
   backend = undefined
 }
 
-export function isRizzleBasic () {
-  return backend === 'basic'
-}
-
 export async function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
   const response = await fetch(url, {

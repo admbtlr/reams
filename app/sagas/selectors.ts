@@ -1,3 +1,4 @@
+import { RootState } from 'store/reducers'
 import {
   getCurrentItem as getCurrentItemUtils,
   getItems as getItemsUtils,
@@ -83,12 +84,8 @@ export function getCategories (state) {
   return state.categories.categories
 }
 
-export function getUser (state) {
+export function getUser<UserState> (state: RootState) {
   return state.user
-}
-
-export function getUid (state) {
-  return state.user.uid
 }
 
 export function isOnline (state) {

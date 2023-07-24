@@ -20,7 +20,7 @@ import { useNavigation } from '@react-navigation/native'
 
 export default function InitialScreen({}) {
   const scrollAnim = new Animated.Value(0)
-  const backend = useSelector((state: RootState) => state.config.backend)
+  const backend = useSelector((state: RootState) => !!state.user.backends.find(b => b.name === 'feedbin') ? 'feedbin' : 'reams')
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')

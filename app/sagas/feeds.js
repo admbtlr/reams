@@ -17,7 +17,7 @@ import {
   ADD_MESSAGE,
   REMOVE_MESSAGE
 } from '../store/ui/types'
-import { addFeed, fetchFeeds, getFeedDetails, isRizzleBasic, removeFeed, updateFeed } from '../backends'
+import { addFeed, fetchFeeds, getFeedDetails, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../utils'
 import { hexToHsl, rgbToHsl } from '../utils/colors'
 import feeds from '../utils/seedfeeds.js'
@@ -53,7 +53,7 @@ export function * unsubscribeFromFeed (action) {
 
 export function * fetchAllFeeds () {
   const config = yield select(getConfig)
-  if (!config.isOnline || isRizzleBasic()) return []
+  if (!config.isOnline) return []
 
   yield put({
     type: ADD_MESSAGE,

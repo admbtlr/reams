@@ -110,7 +110,6 @@ export function addMercuryStuffToItem (item, mercury) {
   if (item.isExternal) {
     item = {
       ...item,
-      external_url: item.url,
       title: mercury.title,
       content_mercury: mercury.content ? mercury.content : '',
       body: mercury.content ? mercury.content : '',
