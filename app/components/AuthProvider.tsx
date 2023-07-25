@@ -35,7 +35,7 @@ export const AuthProvider = (props: any) => {
       }
     )
     return () => {
-      authListener!.unsubscribe()
+      authListener!.subscription.unsubscribe()
     }
   }, [])
 
