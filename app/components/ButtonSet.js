@@ -37,12 +37,16 @@ export default function ButtonSet ({
     state.itemsSaved.items.find(i => i._id === item._id)) :
     null
   const liveItem = useSelector(selectItem)
+  const feed_color = useSelector(state => state.feeds.feeds.find(f => f._id === liveItem.feed_id).color)
 
   const visibleAnim = new Animated.Value(visibleRef.current ? 0 : 1)
   const toggleAnimMercury = new Animated.Value(0)
   const toggleAnimSaved = new Animated.Value(0)
 
-  item = liveItem
+  item = {
+    ...liveItem,
+    feed_color
+  }
 
   let isItemSaved = item.isSaved
   let isItemMercury = item && 

@@ -242,17 +242,17 @@ export function itemsUnread (
     case UNSET_BACKEND:
       return initialState
 
-    case UPDATE_FEED:
-      const feed = action.feed
-      return {
-        ...state,
-        items: state.items.map(item => item.feed_id === feed._id ?
-          {
-            ...item,
-            feed_color: feed.color
-          } :
-          item)
-      }
+    // case UPDATE_FEED:
+    //   const feed = action.feed
+    //   return {
+    //     ...state,
+    //     items: state.items.map(item => item.feed_id === feed._id ?
+    //       {
+    //         ...item,
+    //         feed_color: feed.color
+    //       } :
+    //       item)
+    //   }
 
     case SAVE_ITEM:
       return {

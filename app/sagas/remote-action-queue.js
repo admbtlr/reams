@@ -12,10 +12,10 @@ import {
   UPDATE_CATEGORY_REMOTE 
 } from '../store/categories/types'
 import { createCategory, deleteCategory, markItemRead, markItemsRead, updateCategory } from '../backends'
-import { deleteItemsAS, updateItemAS } from '../storage/async-storage'
 import { removeCachedCoverImages } from '../utils/item-utils'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
 import log from '../utils/log'
+import { updateItem } from '../storage/sqlite'
 
 const INITIAL_INTERVAL = 2000
 let interval = INITIAL_INTERVAL
@@ -54,7 +54,7 @@ function * executeAction (action) {
             yield call(InteractionManager.runAfterInteractions)
             yield call (markItemRead, action.item)
             yield call(InteractionManager.runAfterInteractions)
-            updateItemAS({
+            updateItem({
               ...action.item,
               readAt: Date.now()
             })

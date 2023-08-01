@@ -40,6 +40,7 @@ import {
   getUser,
 } from './selectors'
 import NetInfo from '@react-native-community/netinfo'
+import { setItems } from '../storage/sqlite'
 
 
 let feeds
@@ -200,7 +201,7 @@ export function * receiveItems (items, type) {
 
   yield call(InteractionManager.runAfterInteractions)
   now = Date.now()
-  yield call(setItemsAS, items)
+  yield call(setItems, items)
   console.log('setItemsAS took ' + (Date.now() - now))
   yield call(InteractionManager.runAfterInteractions)
 
@@ -329,7 +330,7 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
     }
 
     item.feed_id = feed._id
-    item.feed_color = feed.color
+    // item.feed_color = feed.color
     item.feed_title = feed.title
   }
   return { 

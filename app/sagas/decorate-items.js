@@ -21,7 +21,7 @@ import {
   getFeeds,
   getSavedItems
 } from './selectors'
-import { getItemsAS, updateItemAS } from '../storage/async-storage'
+import { getItems as getItemsSQLite, updateItem } from '../storage/sqlite'
 
 
 let pendingDecoration = [] // a local cache
@@ -76,7 +76,7 @@ function * decorationFailed (item) {
     isSaved: item.isSaved
   })
   item = yield select(getItem, item._id)
-  yield call(updateItemAS, item)
+  yield call(updateItem, item)
   pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
 
@@ -109,7 +109,7 @@ function * applyDecoration (decoration, isSaved) {
   let item = items.find(item => item._id === decoration.item._id)
   if (item) {
     try {
-      updateItemAS(item)
+      updateItem(item)
     } catch(err) {
       log('decorateItems', err)
     }
@@ -173,18 +173,18 @@ export function * decorateItem (item) {
   let imageStuff = {}
   // external items come through here before they have any styles
   item.styles = item.styles || {}
-  let items = yield getItemsAS([item])
-  // TODO do something about this...
-  // feed_color is mutable and could have changed while the item was deflated
-  if (items[0]) {
-    item = {
-      ...items[0],
-      feed_color: item.feed_color || items[0].feed_color
-    }
-  } else if (!item.isExternal) {
-    // this item is not in AS... how is that possible? in any case, bail on it
-    return false
-  }
+  let items = yield getItemsSQLite([item])
+  // // TODO do something about this...
+  // // feed_color is mutable and could have changed while the item was deflated
+  // if (items[0]) {
+  //   item = {
+  //     ...items[0],
+  //     feed_color: item.feed_color || items[0].feed_color
+  //   }
+  // } else if (!item.isExternal) {
+  //   // this item is not in AS... how is that possible? in any case, bail on it
+  //   return false
+  // }
   // consoleLog(`Loading Mercury stuff for ${item._id}...`)
   const mercuryStuff = yield call(loadMercuryStuff, item)
   if (!mercuryStuff) {

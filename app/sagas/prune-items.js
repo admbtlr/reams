@@ -1,12 +1,12 @@
 import { InteractionManager } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
 import { PRUNE_UNREAD, SET_SAVED_ITEMS } from '../store/items/types'
-import { deleteItemsAS } from '../storage/async-storage'
 
 import { getItems, getConfig, getSavedItems, getUnreadItems } from './selectors'
 
 import log from '../utils/log'
 import { removeCachedCoverImages } from '../utils/item-utils'
+import { deleteItems } from '../storage/sqlite'
 
 const MAX_UNREAD = 1000
 
@@ -52,9 +52,9 @@ export function * removeAllItems () {
 
 function * doRemoveItems (items) {
   try {
-    yield call(deleteItemsAS, items)
+    yield call(deleteItems, items)
   } catch(err) {
-    log('deleteItemsAS', err)
+    log('deleteItems', err)
   }
   removeCachedCoverImages(items)
 }

@@ -173,13 +173,13 @@ class ItemCarousel extends React.Component {
       feedsLocal.find(f => f._id === feedId).hasCachedIcon
     const feedIconDimensions = (feedId) => feedsLocal.find(f => f._id === feedId) &&
       feedsLocal.find(f => f._id === feedId).cachedIconDimensions
-    // const feedColor = (feedId) => feeds.find(f => f._id === feedId) &&
-    //   feeds.find(f => f._id === feedId).color
+    const feedColor = (feedId) => feeds.find(f => f._id === feedId) &&
+      feeds.find(f => f._id === feedId).color
     return items.map(item => ({
       ...item,
       hasCachedFeedIcon: hasCachedFeedIcon(item.feed_id),
       feedIconDimensions: feedIconDimensions(item.feed_id),
-      // feedColor: feedColor(item.feed_id)
+      feed_color: feedColor(item.feed_id)
     }))
   }
 

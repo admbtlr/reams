@@ -10,7 +10,9 @@ import { isInflated, deflateItem, inflateStyles } from '../utils/item-utils'
 import log from '../utils/log'
 import { getActiveItems, getCategories, getDisplay, getFilter, getIndex, getItems } from './selectors'
 
-import { getItemsAS } from '../storage/async-storage'
+// import { getItemsAS } from '../storage/async-storage'
+
+import { getItems as getItemsSQLite } from '../storage/sqlite'
 
 export function * inflateItems (action) {
   // OK. This is complicated.
@@ -57,17 +59,17 @@ export function * inflateItems (action) {
         itemsToInflate.push(i)
       }
     })
-    yield spawn(getItemsFromAS, itemsToInflate, itemsToDeflate)
+    yield spawn(getItemsFromDB, itemsToInflate, itemsToDeflate)
   } catch (err) {
     if (__DEV___) debugger
     log('inflateItems', err)
   }
 }
 
-function * getItemsFromAS (itemsToInflate, itemsToDeflate) {
+function * getItemsFromDB (itemsToInflate, itemsToDeflate) {
   let inflatedItems = []
   if (itemsToInflate.length > 0) {
-    inflatedItems = yield call(getItemsAS, itemsToInflate)
+    inflatedItems = yield call(getItemsSQLite, itemsToInflate)
 
     // sometimes one of these is null, for reasons that I don't understand
     // so let's try returning the uninflated item and see if that helps
@@ -95,7 +97,7 @@ function * getItemsFromAS (itemsToInflate, itemsToDeflate) {
     // (right now actually just the feed color)
     inflatedItems = inflatedItems.map((inflatedItem, index) => ({
       ...inflatedItem,
-      feed_color: itemsToInflate[index].feed_color || inflatedItem.feed_color
+      // feed_color: itemsToInflate[index].feed_color || inflatedItem.feed_color
     }))
   }
 

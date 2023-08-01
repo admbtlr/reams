@@ -24,6 +24,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import HelpTipProvider from './HelpTipProvider'
 import { supabase } from '../storage/supabase'
 import { AuthProvider } from './AuthProvider'
+import { initSQLite } from '../storage/sqlite'
 
 export interface Props {
   isActionExtension?: boolean
@@ -56,6 +57,8 @@ export default class Rizzle extends Component<Props, State> {
       dsn: 'https://1dad862b663640649e6c46afed28a37f@sentry.io/195309',
       enableAutoSessionTracking: true
     })
+
+    initSQLite()
 
     // this is a stupid hack to stop AppState firing on startup
     // which it does on the device in some circumstances
