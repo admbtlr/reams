@@ -4,14 +4,15 @@ import {WebView, WebViewNavigation} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
 import { hslString } from '../utils/colors'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { ADD_ANNOTATION } from '../store/annotations/types'
-import { id } from '../utils'
+import { deepEqual, id } from '../utils'
 import { RootState } from '../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../store/ui/types'
 import { HighlightModeContext } from './ItemsScreen'
 import { Item, SAVE_ITEM } from '../store/items/types'
 import { ADD_ITEM_TO_CATEGORY, Category } from '../store/categories/types'
+import isEqual from 'lodash.isequal'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -60,11 +61,15 @@ interface ItemBodyProps {
   webViewHeight: number
 }
 
-export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
+const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
   let webView = useRef(null)
   const dispatch = useDispatch()
   const { activeHighlight, setActiveHighlight } = React.useContext(HighlightModeContext)
-  const annotatedCategory: Category | undefined = useSelector((store: RootState) => store.categories.categories.find(c => c.name === 'annotated'))
+  const annotatedCategory: Category | undefined = useSelector((store: RootState) => store.categories.categories.find(c => c.name === 'annotated'), isEqual)
+  const [annotatedCategoryId, setAnnotatedCategoryId] = useState(annotatedCategory?._id)
+  useEffect(() => {
+    setAnnotatedCategoryId(annotatedCategory?._id)
+  }, [annotatedCategory?._id])
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
@@ -149,7 +154,10 @@ export default ItemBody = React.memo(({ bodyColor, item, onTextSelection, orient
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
-  const annotations = useSelector((state: RootState ) => state.annotations.annotations.filter(a => a.item_id === item._id))
+  const annotations = useSelector(
+    (state: RootState ) => state.annotations.annotations.filter(a => a.item_id === item._id), 
+    (a1, a2) => JSON.stringify(a1) === JSON.stringify(a2)
+  )
 
   const isCoverImagePortrait = () => {
     const {imageDimensions} = item
@@ -309,6 +317,13 @@ html, body {
       baseUrl: 'web/'}}
   />
 
-})
+}
+
+export default React.memo(ItemBody, (prevProps, nextProps) => (
+  prevProps === nextProps ||
+  isEqual(prevProps, nextProps)
+)
+
+)
 
 // ItemBody.whyDidYouRender = true

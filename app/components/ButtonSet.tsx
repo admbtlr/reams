@@ -1,19 +1,36 @@
-import { ItemType } from '../store/items/types'
-import React, { useEffect, useRef } from 'react'
+import { Item, ItemType } from '../store/items/types'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   Animated,
   Dimensions,
+  View,
 } from 'react-native'
 import RizzleButton from './RizzleButton'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { hslString } from '../utils/colors'
 import { getMargin, hasNotchOrIsland } from '../utils'
+import { RootState } from '../store/reducers'
+import { Feed } from '../store/feeds/types'
 
 // isDarkMode, displayMode, 
 let areButtonsVisible = true
 
 export const translateDistance = 80
+
+interface ButtonSetProps {
+  displayMode: ItemType,
+  isCurrent: boolean,
+  isDarkMode: boolean,
+  item: Item,
+  launchBrowser: () => void,
+  opacityAnim: Animated.Value,
+  setSaved: (item: Item, isSaved: boolean) => void,
+  showShareSheet: () => void,
+  toggleMercury: (item: Item) => void,
+  toggleViewButtons: () => void,
+  visible: boolean,
+}
 
 export default function ButtonSet ({
   displayMode,
@@ -27,45 +44,47 @@ export default function ButtonSet ({
   toggleMercury,
   toggleViewButtons,
   visible
-}) {
+}: ButtonSetProps) {
   useEffect(() => {
     makeVisible(visible)
   }, [visible])
   const visibleRef = useRef(true)
-  const selectItem = state => item ?
-    (state.itemsUnread.items.find(i => i._id === item._id) ||
-    state.itemsSaved.items.find(i => i._id === item._id)) :
-    null
-  const liveItem = useSelector(selectItem)
-  const feed_color = useSelector(state => state.feeds.feeds.find(f => f._id === liveItem.feed_id).color)
+  // const selectItem = (state: RootState) => item ?
+  //   (state.itemsUnread.items.find(i => i._id === item._id) ||
+  //   state.itemsSaved.items.find(i => i._id === item._id)) :
+  //   null
+  // const selectedItem = useSelector(selectItem)
+  const itemFeed = useSelector((state: RootState) => {
+    if (state.feeds?.feeds && item) {
+      return state.feeds.feeds.find(f => f._id === item.feed_id)
+    }
+  })
+  const [feed, setFeed] = useState<Feed | undefined>()
+  useEffect(() => {
+    setFeed(itemFeed)
+  }, [itemFeed])
+  // const [item, setItem] = useState<Item | null>(null)
+  // useEffect(() => {
+  //   setItem(selectedItem)
+  // }, [selectedItem])
+  let isItemMercury: boolean | undefined
+  useEffect(() => {
+    isItemMercury = item &&
+      (item.showMercuryContent || feed?.isMercury) &&
+      !!item.content_mercury
+  }, [item, feed])
 
   const visibleAnim = new Animated.Value(visibleRef.current ? 0 : 1)
   const toggleAnimMercury = new Animated.Value(0)
-  const toggleAnimSaved = new Animated.Value(0)
-
-  item = {
-    ...liveItem,
-    feed_color
-  }
-
-  let isItemSaved = item.isSaved
-  let isItemMercury = item && 
-    (item.showMercuryContent || item.isFeedMercury) &&
-    item.content_mercury
 
   const strokeColor = isDarkMode ?
     'hsl(0, 0%, 70%)' :
     'black'
-  const isMercuryButtonEnabled = item && item.hasLoadedMercuryStuff
-  const saveStrokeColours = item && item.isSaved ?
-    ['hsl(45, 60%, 51%)', 'hsl(210, 60%, 51%)', 'hsl(15, 60%, 51%)'] :
-    [strokeColor, strokeColor, strokeColor]
-  const saveFillColors = ['white', 'white', 'white']
   let activeColor = displayMode === ItemType.saved ?
       hslString('rizzleText', 'ui') :
-    item ?
-      hslString(item.feed_color, 'darkmodable') :
-    null
+    (item && feed) ?
+      hslString(feed.color, 'darkmodable') :
+      null
   const borderColor = displayMode == ItemType.saved ?
     isDarkMode ? 'hsl(0, 0%, 80%)' : hslString('rizzleText') :
     activeColor
@@ -75,7 +94,7 @@ export default function ButtonSet ({
   const backgroundColorLighter = backgroundColor.replace(/[0-9]*\%\)/, '70%)')
   const borderWidth = 1
 
-  const getMercuryToggleOpacity = (item, isCurrent) => {
+  const getMercuryToggleOpacity = (item: Item, isCurrent: boolean) => {
     if (isCurrent) {
       return toggleAnimMercury
     } else {
@@ -83,7 +102,7 @@ export default function ButtonSet ({
     }
   }
 
-  const makeVisible = (imminentlyVisible) => {
+  const makeVisible = (imminentlyVisible: boolean) => {
     Animated.timing(
       visibleAnim,
       {
@@ -105,7 +124,6 @@ export default function ButtonSet ({
       useNativeDriver: false
     }).start()
   }
-
 
   return (
     <Animated.View
@@ -156,7 +174,7 @@ export default function ButtonSet ({
         borderWidth={borderWidth}
         iconOff={getRizzleButtonIcon('saveButtonIconOff', borderColor, backgroundColor, true, false)}
         iconOn={getRizzleButtonIcon('saveButtonIconOn', borderColor, backgroundColor, true, false)}
-        initialToggleState={isItemSaved}
+        initialToggleState={item?.isSaved}
         isToggle={true}
         style={{
           paddingLeft: 1,
@@ -167,7 +185,7 @@ export default function ButtonSet ({
             }) : 0
           }]
         }}
-        onPress={(isSaved) => setSaved(item, isSaved)}
+        onPress={(isSaved: boolean) => setSaved(item, isSaved)}
       />
       <RizzleButton
         backgroundColor={backgroundColor}
@@ -192,8 +210,8 @@ export default function ButtonSet ({
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
-        iconOff={getRizzleButtonIcon('showMercuryIconOff', borderColor, backgroundColor, isMercuryButtonEnabled, false)}
-        iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, isMercuryButtonEnabled, false)}
+        iconOff={getRizzleButtonIcon('showMercuryIconOff', borderColor, backgroundColor, !!item?.content_mercury, false)}
+        iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, !!item?.content_mercury, false)}
         initialToggleState={isItemMercury}
         isToggle={true}
         style={{
@@ -205,7 +223,7 @@ export default function ButtonSet ({
             }) : 0
           }]
         }}
-        onPress={isMercuryButtonEnabled ? () => toggleMercury(item) : () => false}
+        onPress={!!item?.content_mercury ? () => toggleMercury(item) : () => false}
       />
     </Animated.View>
   )

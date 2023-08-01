@@ -34,17 +34,6 @@ function reset (newScrollAnimValue) {
   clampedScrollListeners.forEach((listener) => {
     listener.onStatusBarReset()
   })
-  // Animated.timing(resetAnim, {
-  //   toValue,
-  //   duration: 200,
-  //   // delay: 200,
-  //   useNativeDriver: true
-  // }).start(() => {
-  //   clampedScrollListeners.forEach((listener) => {
-  //     listener.onStatusBarReset()
-  //   })
-  // })
-  // return toValue
 }
 
 export function panHandler (value, divisor) {
@@ -111,23 +100,6 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
     extrapolate: 'clamp'
   })
 
-  // console.log('Resetting resetAnim to ' + resetValue)
-  // Animated.timing(resetAnim, {
-  //   toValue: resetValue,
-  //   duration: 1000,
-  //   delay: 200,
-  //   useNativeDriver: true
-  // }).start(() => {
-  //   clampedScrollListeners.forEach((listener) => {
-  //     listener.onStatusBarReset()
-  //   })
-  // })
-
-  // clampedAnim.addListener(event => {
-  //   console.log(`ClampedAnim: ${event.value}`)
-  //   console.log(`ScrollAnim: ${scrollAnim.__getValue()}`)
-  // })
-
   return clampedAnim
 }
 
@@ -161,9 +133,9 @@ export function onScrollEnd (scrollOffset) {
   prevScrollOffset = scrollOffset
 }
 
-export function getScrollValueAnimated () {
-  return scrollAnim
-}
+// export function getScrollValueAnimated () {
+//   return scrollAnim
+// }
 
 export function getAnimatedValue () {
   return clampedAnim
@@ -173,9 +145,9 @@ export function getAnimatedValue () {
 //   return clampedAnimNormalised
 // }
 
-export function addScrollListener (listener) {
-  clampedScrollListeners.push(listener)
-}
+// export function addScrollListener (listener) {
+//   clampedScrollListeners.push(listener)
+// }
 
 export function setClampedScrollListener (listener) {
   clampedScrollListeners = [listener]

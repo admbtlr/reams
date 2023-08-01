@@ -59,11 +59,6 @@ class ItemCarousel extends React.Component {
     this.bufferIndex = -1
     this.selectedText = undefined
 
-    // this is an intermediate cache of clampedScrollAnims
-    // once we have one for each bufferedItem, we put them into state
-    // so that we can pass them to the TopBars and Buttons
-    // this.clampedScrollAnims = {}
-
     this.state = {
       panAnim: new Animated.Value(0)
     }
@@ -167,22 +162,6 @@ class ItemCarousel extends React.Component {
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
-  decorateItems (items) {
-    const { feeds, feedsLocal } = this.props
-    const hasCachedFeedIcon = (feedId) => feedsLocal.find(f => f._id === feedId) &&
-      feedsLocal.find(f => f._id === feedId).hasCachedIcon
-    const feedIconDimensions = (feedId) => feedsLocal.find(f => f._id === feedId) &&
-      feedsLocal.find(f => f._id === feedId).cachedIconDimensions
-    const feedColor = (feedId) => feeds.find(f => f._id === feedId) &&
-      feeds.find(f => f._id === feedId).color
-    return items.map(item => ({
-      ...item,
-      hasCachedFeedIcon: hasCachedFeedIcon(item.feed_id),
-      feedIconDimensions: feedIconDimensions(item.feed_id),
-      feed_color: feedColor(item.feed_id)
-    }))
-  }
-
   openFeedModal () {
     const { navigation } = this.props
     const item = this.bufferedItems[this.bufferIndex]
@@ -273,11 +252,17 @@ class ItemCarousel extends React.Component {
 
   setScrollAnimSetterAndListener (scrollAnimSetter, scrollAnimListener) {
     this.scrollAnimSetter = scrollAnimSetter
-    setScrollListener(scrollAnimListener)
+    if (scrollAnimListener) {
+      setScrollListener(scrollAnimListener)
+    }
   }
 
   setBufferIndexChangeListener (bufferIndexChangeListener) {
     this.bufferIndexChangeListener = bufferIndexChangeListener
+  }
+
+  componentDidUpdate (prevProps) {
+    this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
   }
 
   render () {
@@ -299,7 +284,6 @@ class ItemCarousel extends React.Component {
       this.initIndex()
 
       this.bufferedItems = getBufferedItems(items, index, displayMode, feeds)
-      // this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
   
       // do something with setPanAnim on the ToolbarContainer
       return (
@@ -321,12 +305,12 @@ class ItemCarousel extends React.Component {
             numItems > 0 &&
             <ItemsScreenOnboarding /> }
           <TopBars
-            items={this.decorateItems(this.bufferedItems)}
+            items={this.bufferedItems}
             navigation={navigation}
             orientation={orientation}
             numItems={numItems}
             index={index}
-            bufferIndex={this.bufferIndex}
+            initialBufferIndex={this.bufferIndex}
             openFeedModal={this.openFeedModal}
             panAnim={this.state.panAnim}
             setClampedScrollAnimSetterAndListener={this.setClampedScrollAnimSetterAndListener}
