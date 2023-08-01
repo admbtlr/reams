@@ -77,6 +77,8 @@ class Buttons extends React.Component {
         toggleViewButtons,
         visible
       } = this.props
+      console.log('RENDER BUTTONS')
+
       this.screenDimensions = Dimensions.get('window')
       const panAnimDivisor = this.screenDimensions.width
 

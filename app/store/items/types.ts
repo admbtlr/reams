@@ -25,6 +25,7 @@ export interface Item {
     html?: number
     mercury?: number
   }
+  showCoverImage?: boolean
   hasCoverImage?: boolean
   coverImageFile?: string
   banner_image?: string
@@ -39,6 +40,7 @@ export interface Item {
       lineHeight?: number
       fontResized?: boolean
     }
+    isCoverInline?: boolean
   }
 }
 

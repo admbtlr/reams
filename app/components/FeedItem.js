@@ -10,7 +10,6 @@ import { createItemStyles } from '../utils/createItemStyles'
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
 class FeedItem extends React.Component {
-  // static whyDidYouRender = true
   constructor(props) {
     super(props)
     this.props = props
@@ -26,7 +25,6 @@ class FeedItem extends React.Component {
 
     this.initAnimatedValues(false)
 
-    this.removeBlackHeading = this.removeBlackHeading.bind(this)
     this.updateWebViewHeight = this.updateWebViewHeight.bind(this)
     this.addAnimation = this.addAnimation.bind(this)
 
@@ -50,8 +48,9 @@ class FeedItem extends React.Component {
         outputRange
       })
     })
-    if (isMounted && JSON.stringify(this.anims) !== JSON.stringify(anims)) {
+    if (isMounted && this.prevPanAnim !== panAnim) {
       this.anims = anims
+      this.prevPanAnim = panAnim
       // weird little hack to ensure a re-render
       // (when I put the anims into state I got ugly errors)
       this.setState({
@@ -125,11 +124,11 @@ class FeedItem extends React.Component {
         case 'isVisible':
           // isDiff = false
           // this is a bit sneaky...
-          if (nextProps.isVisible) {
-            setTimeout(() => {
-              this.props.setScrollAnim(this.scrollAnim)
-            }, 0)
-          }
+          // if (nextProps.isVisible) {
+          //   setTimeout(() => {
+          //     this.props.setScrollAnim(this.scrollAnim)
+          //   }, 0)
+          // }
           break
 
         case 'fontSize':
@@ -162,16 +161,18 @@ class FeedItem extends React.Component {
 
         case 'panAnim':
           console.log('panAnim changed!')
+          break
       }
     }
+    // if (isDiff) {
+    //   console.log('changes', changes)
+    // }
     return isDiff
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate () {
     const { isVisible, item, setScrollAnim } = this.props
-    if (this.props.renderDate !== prevProps.renderDate) {
-      this.initAnimatedValues(true)
-    }
+    this.initAnimatedValues(true)
     if (isVisible) {
       setScrollAnim(this.scrollAnim)
       this.scrollToOffset(true)
@@ -206,10 +207,7 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    __DEV__ && console.log('Rendering item', this.props.index)
-    if (__DEV__ && this.props.index === 0) {
-      console.log('Rendering item', this.props.index)
-    }
+    // __DEV__ && console.log('Rendering item', this.props.index)
 
     if (!this.isInflated() || !this.state.shouldRender) {
       return (
@@ -430,41 +428,8 @@ class FeedItem extends React.Component {
     }
   }
 
-  removeBlackHeading () {
-    if (this.props.item.styles.title.color === 'black') {
-      this.props.item.styles.title.color = 'white'
-    }
-  }
-
-  // openLinksExternally (e) {
-  //   let el = e.target
-  //   // TODO don't rely on this
-  //   while (el.tagName !== 'ARTICLE') {
-  //     if (el.tagName === 'A') {
-  //       e.stopPropagation()
-  //       e.preventDefault()
-  //       let url = el.getAttribute('href')
-  //       window.open(url, '_system')
-  //       break
-  //     }
-  //     el = el.parentElement
-  //   }
-  // }
-
-  // getOverlayInlineStyles () {
-  //   let baseStyle = 'height: 100vh;'
-  //   let extras = ''
-
-  // calculateElementWidth = (titleEl) => {
-  //   let titleWidth = titleEl.getBoundingClientRect().width
-
-  //   // TODO calculate padding/margin + padding of parent
-  //   titleWidth += 28
-
-  //   return titleWidth
-  // }
-
-
 }
+
+FeedItem.whyDidYouRender = true
 
 export default FeedItem
