@@ -85,10 +85,15 @@ const mapDispatchToProps = (dispatch) => {
       type: REMOVE_FEED,
       feed
     }),
-    toggleMute: (id) => dispatch({
-      type: MUTE_FEED_TOGGLE,
-      id
-    }),
+    toggleMute: (id) => {
+      dispatch({
+        type: MUTE_FEED_TOGGLE,
+        id
+      })
+      dispatch({
+        type: CLEAR_READ_ITEMS
+      })
+    },
     toggleLike: (id) => {
       dispatch({
         type: LIKE_FEED_TOGGLE,

@@ -6,8 +6,10 @@ export enum ItemType {
 export interface Item {
   _id: string
   feed_id: string
-  id?: string
+  id: string
+  author?: string
   created_at: number
+  date_published?: string
   readAt?: number
   readingTime?: number
   isSaved?: boolean
@@ -16,6 +18,7 @@ export interface Item {
   title: string
   content_html?: string
   content_mercury?: string
+  excerpt?: string
   showMercuryContent?: boolean
   hasShownMercury?: boolean
   scrollRatio?: {

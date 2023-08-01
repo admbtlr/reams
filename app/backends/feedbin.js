@@ -325,7 +325,6 @@ const mapFeedbinItemToRizzleItem = (item) => {
     content_html: item.content,
     author: item.author,
     created_at: new Date(item.created_at).getTime(),
-    date_modified: new Date(item.created_at).getTime(),
     date_published: item.published,
     external_url: item.url,
     feed_title: item.feed_name,

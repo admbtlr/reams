@@ -6,12 +6,12 @@ import {
   MARK_ITEMS_READ
 } from '../store/items/types'
 import { getReadItemsFS } from '../storage/firestore'
-import { deleteItemsAS } from '../storage/async-storage'
 
 import { getItems, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems } from './selectors'
 
 import log from '../utils/log'
 import { removeCachedCoverImages } from '../utils/item-utils'
+import { deleteItems } from '../storage/sqlite'
 
 export function * markLastItemRead (action) {
   yield call(InteractionManager.runAfterInteractions)
@@ -58,9 +58,9 @@ export function * clearReadItems () {
 
   yield call(InteractionManager.runAfterInteractions)
   try {
-    yield deleteItemsAS(itemsToClear)
+    yield deleteItems(itemsToClear)
   } catch(err) {
-    log('deleteItemsAS', err)
+    log('deleteItems', err)
   }
 
   yield call(InteractionManager.runAfterInteractions)

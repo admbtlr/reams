@@ -112,7 +112,6 @@ const mapFeedwranglerItemToRizzleItem = (item) => {
     title: item.title,
     content_html: item.body,
     date_published: item.published_at,
-    date_modified: item.updated_at,
     created_at: item.created_at,
     author: item.author,
     feed_title: item.feed_name,

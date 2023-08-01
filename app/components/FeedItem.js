@@ -248,7 +248,7 @@ class FeedItem extends React.Component {
 
     const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
 
-    if (styles === undefined || Object.keys(styles).length === 0) {
+    if (styles === undefined || styles === null || Object.keys(styles).length === 0) {
       styles = item.styles = createItemStyles(item)
     }
 
