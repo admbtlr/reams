@@ -59,7 +59,7 @@ function * init (action: any) {
   if (action.key && action.key !== 'primary') return
   const user: UserState = yield select((state: RootState) => state.user)
 
-  const readwiseToken = user.backends.find(b => b.name === 'readwise')?.accessToken
+  const readwiseToken = user.backends?.find(b => b.name === 'readwise')?.accessToken
   if (readwiseToken) {
     yield initOtherBackends({
       backend: 'readwise',
@@ -69,7 +69,7 @@ function * init (action: any) {
     })
   }
 
-  const isFeedbin = user.backends.find(b => b.name === 'feedbin')
+  const isFeedbin = user.backends?.find(b => b.name === 'feedbin')
   if (isFeedbin) {
     yield initBackend(action)
     yield dedupeSaved()
