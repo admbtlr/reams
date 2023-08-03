@@ -33,9 +33,6 @@ export interface Filter {
 }
 
 export interface ConfigState {
-  readonly backend: string
-  readonly accessToken: string
-  readonly readwiseToken: string | null
   readonly isOnboarding: boolean
   readonly lastUpdated: number
   readonly onboardingIndex: number
@@ -53,9 +50,6 @@ export interface ConfigState {
 const {width, height } = Dimensions.get('window')
 
 export const initialState = {
-  backend: '',
-  accessToken: '',
-  readwiseToken: null,
   isOnboarding: true,
   lastUpdated: 0,
   onboardingIndex: 0,

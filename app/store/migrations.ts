@@ -3,6 +3,7 @@ import { Category } from "./categories/types"
 import { Item } from "./items/types"
 import { RootState } from "./reducers"
 import { DarkModeSetting } from "./ui/types"
+import { Backend } from "./user/user"
 
 export const migrations = {
   0: (state: RootState) => {
@@ -136,5 +137,31 @@ export const migrations = {
         isFeedOnboardingDone: state.config.isFeedOnboardingDone,
       }
     }
-  }
+  },
+  9: (state: RootState) => {
+    // move backends to user
+    let backends: Backend[] = state.user.backends || []
+    if (state.config.backend === 'feedbin' && !!state.user.backends.find((b: Backend) => b.name === 'feedbin')) {
+      backends.push({
+        name: 'feedbin',
+        username: state.user.username
+      })
+    }
+    if (state.config.readwiseToken) {
+      backends.push({
+        name: 'readwise',
+        accessToken: state.config.readwiseToken
+      })
+    }
+    delete state.config.backend
+    delete state.config.readwiseToken
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        backends
+      }
+    }
+  },
 }

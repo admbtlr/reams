@@ -5,8 +5,13 @@ import { RootState } from '../store/reducers'
 import { Category } from '../store/categories/types'
 import { createHighlight, deleteHighlight, updateHighlight } from '../backends/readwise'
 
+function * hasReadwiseBackend () {
+  const isReadwise: boolean =  yield select((state: RootState) => !!state.user.backends.find(b => b.name === 'readwise')) 
+  return isReadwise
+}
+
 export function * addAnnotation ({ annotation }: { annotation: Annotation } ): any {
-  const isReadwise = yield select((state: RootState) => !!state.config.readwiseToken)
+  const isReadwise = yield hasReadwiseBackend()
   if (isReadwise) {
     const readwiseResponse = yield call(createHighlight, annotation)
     const remoteId = readwiseResponse.modified_highlights[0]
@@ -15,7 +20,7 @@ export function * addAnnotation ({ annotation }: { annotation: Annotation } ): a
 }
 
 export function * editAnnotation ({ annotation }: { annotation: Annotation }, skipRemote?: Boolean ): any {
-  const isReadwise = yield select((state: RootState) => !!state.config.readwiseToken)
+  const isReadwise = yield hasReadwiseBackend()
   if (isReadwise && !skipRemote) {
     yield call(updateHighlight, annotation)
   }
@@ -25,7 +30,7 @@ export function * deleteAnnotation ({ annotation }: { annotation: Annotation } )
   const annotations = yield select((state: RootState) => state.annotations.annotations)
   const item: Item = yield select((state: RootState) => state.itemsSaved.items.find((i: Item) => i._id === annotation.item_id))
   const annotationsForItem = annotations.filter((a: Annotation) => a.item_id === item._id)
-  const isReadwise = yield select((state: RootState) => !!state.config.readwiseToken)
+  const isReadwise = yield hasReadwiseBackend()
   if (annotationsForItem.length === 0) {
     yield put({ type: 'REMOVE_ITEM_FROM_CATEGORY', itemId: item._id, categoryId: 'annotated' })
     const categories = yield select((state: RootState) => state.categories.categories)

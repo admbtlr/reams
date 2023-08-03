@@ -117,6 +117,15 @@ class AccountCredentialsForm extends React.Component {
           username: this.state.username,
           password: this.state.password
         }
+    let loggedInUserName
+    switch (service) {
+      case 'feedbin':
+        loggedInUserName = user.backends.find(b => b.name === 'feedbin')?.username
+        break
+      case 'reams':
+        loggedInUserName = user.email
+        break
+    }
     const validationSchemaShape = service === 'reams' ?
       Yup.object().shape({
         email: Yup.string().trim().email('That doesn’t look like a valid email...').required('Required')
@@ -239,14 +248,14 @@ class AccountCredentialsForm extends React.Component {
                     { !!isActive && reamsText() }
                   </View> :
                   <React.Fragment>
-                    { !(service === 'feedwrangler' || service === 'readwise') &&
+                    { loggedInUserName &&
                       <Text style={{
                         ...textInfoBoldStyle('white'),
                         marginTop: -10,
                         marginBottom: 10,
                         textAlign: 'left'
                       }}>
-                        <Text style={textInfoStyle('white')}>Logged in as </Text>{service === 'reams' ? user.email : (user.username || user.email)}
+                        <Text style={textInfoStyle('white')}>Logged in as </Text>{ loggedInUserName }
                       </Text>
                     }
                     <TouchableOpacity
