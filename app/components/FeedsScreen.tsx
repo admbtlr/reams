@@ -67,9 +67,9 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
 
   const scrollAnim = new Animated.Value(0)
 
-  const feedsDeepEqual = (a: Feed[], b: Feed[]) => {
-    return isEqual(a, b)
-  }
+  // const feedsDeepEqual = (a: Feed[], b: Feed[]) => {
+  //   return isEqual(a, b)
+  // }
 
   const sortedFeedsSelector = (state: RootState) => state.feeds.feeds.slice()
     .map(f => addUnreadCount(f, itemFeedIds))
