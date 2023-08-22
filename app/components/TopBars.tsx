@@ -42,6 +42,8 @@ interface rangeMap {
   outputRange: number[]
 }
 
+const initialClampedScrollAnim = new Animated.Value(0)
+
 function TopBars (props: TopBarsProps) {
   const {
     index,
@@ -59,7 +61,7 @@ function TopBars (props: TopBarsProps) {
   const screenWidth = Dimensions.get('window').width
   const panAnimDivisor = screenWidth
 
-  const [clampedScrollAnim, setClampedScrollAnim] = useState<Animated.Value>(new Animated.Value(0))
+  const [clampedScrollAnim, setClampedScrollAnim] = useState<Animated.Value>(initialClampedScrollAnim)
   const [scrollAnim, setScrollAnim] = useState(new Animated.Value(0))
   const [bufferIndex, setBufferIndex] = useState(initialBufferIndex)
   const [clampedAnimatedValue, setClampedAnimatedValue] = useState<Animated.AnimatedDiffClamp<string | number>>()
