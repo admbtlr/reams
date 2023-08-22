@@ -4,7 +4,7 @@ export const getItems = (state, type) => {
   const filter = state.config.filter
   let filterFeedIds
   if (filter?.type === 'category') {
-    filterFeedIds = state.categories.categories.find(c => c._id === filter._id).feeds
+    filterFeedIds = state.categories.categories.find(c => c._id === filter._id)?.feeds
   } else if (filter?.type === 'feed') {
     filterFeedIds = [filter._id]
   }
