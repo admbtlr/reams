@@ -138,6 +138,9 @@ function * getNextItemToDecorate (pendingDecoration) {
   const items = yield select(getItems)
   const index = yield select(getIndex)
   const feeds = yield select(getFeeds)
+  const categories = yield select(state => state.categories.categories)
+  const filter = yield select(state => state.config.filter)
+  const activeFilter = filter?._id ? categories.find(c => c._id === filter._id) : null
   const feedsWithoutDecoration = feeds.filter(feed => {
     // external items handle their own decoration
     return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === feed._id)
@@ -150,7 +153,8 @@ function * getNextItemToDecorate (pendingDecoration) {
       (!item.decoration_failures || item.decoration_failures < 3) &&
       !item.readAt &&
       items.indexOf(item) >= index &&
-      items.indexOf(item) < index + 20
+      items.indexOf(item) < index + 20 &&
+      (!!activeFilter && activeFilter.feeds.includes(item.feed_id))
   })
   if (candidateItems.length) {
     nextItem = candidateItems.find(item => !item.hasLoadedMercuryStuff
