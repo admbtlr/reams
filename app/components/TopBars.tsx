@@ -163,6 +163,7 @@ function TopBars (props: TopBarsProps) {
   //   new Animated.Value(0)
 
   useEffect(() => {
+    console.log('setting clampedAnimatedValue')
     setClampedAnimatedValue(Animated.diffClamp(
       clampedScrollAnim,
       0 - getStatusBarHeight(),

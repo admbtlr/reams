@@ -210,7 +210,7 @@ export default function TopBar({
                 <Text
                   style={{
                     ...getStyles().feedName,
-                    fontSize: 14 * fontSizeMultiplier(),
+                    fontSize: 12 * fontSizeMultiplier(),
                     fontFamily: filter ?
                       'IBMPlexSansCond-Bold' :
                       'IBMPlexSansCond',

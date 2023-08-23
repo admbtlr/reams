@@ -44,10 +44,7 @@ export function * removeItems (action) {
 
 export function * removeAllItems () {
   yield call(InteractionManager.runAfterInteractions)
-  const savedItems = yield select(getSavedItems)
-  const unreadItems = yield select(getUnreadItems)
-  const itemsToClear = savedItems.concat(unreadItems)
-  yield * doRemoveItems(itemsToClear)
+  yield * doRemoveItems()
 }
 
 function * doRemoveItems (items) {
@@ -56,7 +53,9 @@ function * doRemoveItems (items) {
   } catch(err) {
     log('deleteItems', err)
   }
-  removeCachedCoverImages(items)
+  if (items) {
+    removeCachedCoverImages(items)
+  }
 }
 
 // trying to remediate a bug with duplidated saved items

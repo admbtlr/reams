@@ -40,6 +40,7 @@ export function deflateItem (item) {
     feed_title: item.feed_title,
     // feed_color: item.feed_color,
     hasCoverImage: item.hasCoverImage,
+    showCoverImage: item.showCoverImage,
     imageDimensions: item.imageDimensions,
     hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
     id: item.id, // needed to match existing copy in store
@@ -68,7 +69,7 @@ export function inflateStyles (item) {
 }
 
 export function isInflated (item) {
-  return Object.keys(item).indexOf('content_html') !== -1
+  return Object.keys(item).indexOf('content_html') !== -1 && !!item.content_html
 }
 
 export function fixRelativePaths (item) {
@@ -112,7 +113,7 @@ export function addMercuryStuffToItem (item, mercury) {
       ...item,
       title: mercury.title,
       content_mercury: mercury.content ? mercury.content : '',
-      body: mercury.content ? mercury.content : '',
+      // body: mercury.content ? mercury.content : '',
       date_published: mercury.date_published,
       author: mercury.author,
       feed_title: mercury.domain,
@@ -127,9 +128,13 @@ export function addMercuryStuffToItem (item, mercury) {
   // if excerpt == content_html, showMercury
   let decoratedItem = {
     ...item,
+    author: mercury.author,
+    title: mercury.title,
     banner_image: mercury.lead_image_url,
     // body: content,
     content_mercury: mercury.content ? mercury.content : '',
+    content_html: item.content_html ? item.content_html : '',
+    date_published: mercury.date_published,
     excerpt: mercury.excerpt,
     hasLoadedMercuryStuff: true
   }
@@ -149,12 +154,8 @@ export function addMercuryStuffToItem (item, mercury) {
 
   // console.log('Calculating partial ratios...')
 
-  const htmlPartial = decoratedItem.content_html ?
-    stripTags(decoratedItem.content_html) :
-    ''
-  const mercuryPartial = decoratedItem.content_mercury ?
-    stripTags(decoratedItem.content_mercury)
-    : ''
+  const htmlPartial = stripTags(decoratedItem.content_html)
+  const mercuryPartial = stripTags(decoratedItem.content_mercury)
 
   if (mercuryPartial.length / htmlPartial.length > 1.3 &&
     fuzz.partial_ratio(htmlPartial.substring(0, 500), mercuryPartial.substring(0, 500)) > 90) {

@@ -158,15 +158,17 @@ export function updateItems(toUpdate: Item[]) {
 })
 }
 
-export function deleteItems(ids: number[]) {
+export function deleteItems(items: Item[]) {
+  const query = items ?
+    `delete from items where _id in (${items.map(i => i._id).join(",")})` :
+    `delete from items`
   db.transaction((tx) => {
-    tx.executeSql(
-      `delete from items where id in (${ids.join(",")})`
-    )
+    tx.executeSql(query)
   })
 }
 
 export function updateItem(toUpdate: Item) {
+  if (!toUpdate?.id) return
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
     tx.executeSql(
