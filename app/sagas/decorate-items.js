@@ -36,10 +36,10 @@ export function * decorateItems (action) {
 
   yield spawn(function * () {
     while (true) {
-      const nextItem = yield getNextItemToDecorate(pendingDecoration)
+      const nextItem = yield getNextItemToDecorate()
       // console.log('Looking for new item')
       if (nextItem) {
-        // consoleLog(`Got item to decorate: ${nextItem.title}`)
+        consoleLog(`Got item to decorate: ${nextItem.title}`)
         pendingDecoration.push(nextItem)
         yield delay(3000)
         if (!nextItem) continue // somehow item can become undefined here...?
@@ -126,9 +126,12 @@ function * applyDecoration (decoration, isSaved) {
       })
     }
   }
+  if (decoration.item) {
+    pendingDecoration = pendingDecoration.filter(pending => pending._id !== decoration.item._id)
+  }
 }
 
-function * getNextItemToDecorate (pendingDecoration) {
+function * getNextItemToDecorate () {
   let nextItem
   const savedItems = yield select(getSavedItems)
   nextItem = savedItems.find(item => item.title === 'Loading...' &&
@@ -169,6 +172,10 @@ function * getNextItemToDecorate (pendingDecoration) {
         (i.decoration_failures ? i.decoration_failures < 5 : true) &&
         !pendingDecoration.find(pd => pd._id === i._id))
     }
+  }
+  if (!nextItem) {
+    nextItem = savedItems.find(item => !item.hasLoadedMercuryStuff &&
+      !pendingDecoration.find(pd => pd._id === item._id))
   }
   return nextItem
 }

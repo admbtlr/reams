@@ -209,19 +209,20 @@ class FeedItem extends React.Component {
   render () {
     // __DEV__ && console.log('Rendering item', this.props.index)
 
-    if (!this.isInflated() || !this.state.shouldRender) {
-      return (
-        <View style={{
-          width: this.screenDimensions.width,
-          height: this.screenDimensions.height,
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-          <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
-        </View>
-      )
+    const emptyState = (
+      <View style={{
+        width: this.screenDimensions.width,
+        height: this.screenDimensions.height,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
+      </View>
+    )
 
+    if (!this.isInflated() || !this.state.shouldRender) {
+      return emptyState
     }
 
     const {
@@ -247,7 +248,8 @@ class FeedItem extends React.Component {
     const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
 
     if (styles === undefined || styles === null || Object.keys(styles).length === 0) {
-      styles = item.styles = createItemStyles(item)
+      //styles = item.styles = createItemStyles(item)
+      return emptyState
     }
 
     showCoverImage = showCoverImage && !(styles.isCoverInline && orientation === 'landscape')

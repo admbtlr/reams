@@ -6,44 +6,50 @@ import {
   getIndex as getIndexUtils
 } from '../utils/get-item'
 
-export function getItems (state, type) {
+export function getItems (state: RootState, type: string) {
   return getItemsUtils(state, type)
 }
 
-export function getUnreadItems (state) {
+export function getUnreadItems (state: RootState) {
   return getItemsUtils(state, 'unread')
 }
 
-export function getSavedItems (state) {
+export function getSavedItems (state: RootState) {
   return getItemsUtils(state, 'saved')
 }
 
-export function getItem (state, id, type) {
+export function getItem (state: RootState, id: string, type: string) {
   return getItemUtils(state, id, type)
 }
 
-export function getDisplay (state) {
+export function getDisplay (state: RootState) {
   return state.itemsMeta.display
 }
 
-export function getCurrentItem (state, type) {
+export function getCurrentItem (state: RootState, type: string) {
   return getCurrentItemUtils(state, type)
 }
 
 // gets the current item, plus eight on either side
-export function getActiveItems (state) {
+export function getActiveItems (state: RootState) {
   const displayMode = state.itemsMeta.display
   const items = getItemsUtils(state, displayMode)
   const index = getIndexUtils(state, displayMode)
   const buffer = items.length < 8 ? items.length : 8
-  let activeItems = [ items[index] ]
-  for (var i = -buffer; i <= buffer; i++) {
-    if (index + i >= 0 && index + i < items.length) {
-      const activeItem = items[index + i]
-      if (!activeItems.find(ai => ai._id === activeItem._id)) {
-        activeItems.push(activeItem)
-      }
-    }
+  const preBuffer = index < buffer ? index : buffer
+  const postBuffer = index + buffer > items.length ? items.length - index : buffer - 1
+  let activeItems = []
+  // let activeItems = [ items[index] ]
+  // for (var i = -buffer; i <= buffer; i++) {
+  //   if (index + i >= 0 && index + i < items.length) {
+  //     const activeItem = items[index + i]
+  //     if (!activeItems.find(ai => ai._id === activeItem._id)) {
+  //       activeItems.push(activeItem)
+  //     }
+  //   }
+  // }
+  for (let i = index - preBuffer; i <= index + postBuffer; i++) {
+    activeItems.push(items[i])
   }
   return activeItems
 }

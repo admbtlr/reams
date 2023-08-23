@@ -185,7 +185,7 @@ export default function ButtonSet ({
             }) : 0
           }]
         }}
-        onPress={(isSaved: boolean) => setSaved(item, isSaved)}
+        onPress={() => setSaved(item, !!item.isSaved)}
       />
       <RizzleButton
         backgroundColor={backgroundColor}
