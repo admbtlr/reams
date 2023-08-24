@@ -163,7 +163,7 @@ export default function TopBar({
           }
         </Animated.View>
         <BackButton
-          isDarkmode={isDarkMode}
+          isDarkMode={isDarkMode}
           navigation={navigation}
           isSaved={displayMode === ItemType.saved}
         />
@@ -194,7 +194,7 @@ export default function TopBar({
               marginRight: 0,
               opacity: isVisible && typeof scrollAnim !== 'number' ? 
               scrollAnim.interpolate({
-                inputRange: [0, 100, 110],
+                inputRange: [0, 120, 160],
                 outputRange: [1, 1, 0]
               }) : 1,
               transform: [{
@@ -259,7 +259,7 @@ export default function TopBar({
                 marginTop: 10,
                 opacity: typeof scrollAnim !== 'number' && isVisible ? 
                   scrollAnim.interpolate({
-                    inputRange: [0, 100, 110],
+                    inputRange: [0, 100, 140],
                     outputRange: [0, 0, 1]
                   }) : 0,
                 position: 'absolute',
