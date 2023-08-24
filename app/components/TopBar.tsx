@@ -107,7 +107,9 @@ export default function TopBar({
       return 1
     }
   }
-    
+  
+  const feedTitle = feed?.title ? feed.title : (!!item && item.url?.split('/').length > 3) ? item.url.split('/')[2] : ''
+
   return isOnboarding ? null :
   (
     <View>
@@ -190,6 +192,11 @@ export default function TopBar({
               marginTop: 0,
               marginLeft: 0,
               marginRight: 0,
+              opacity: isVisible && typeof scrollAnim !== 'number' ? 
+              scrollAnim.interpolate({
+                inputRange: [0, 100, 110],
+                outputRange: [1, 1, 0]
+              }) : 1,
               transform: [{
                 translateY: titleTransformAnim || 0
               }]
@@ -205,7 +212,7 @@ export default function TopBar({
               }
               <View style={{
                 flexDirection: 'column',
-                marginTop: 0
+                marginTop: 0,
               }}>
                 <Text
                   style={{
@@ -244,11 +251,55 @@ export default function TopBar({
                     textDecorationLine: displayMode === ItemType.saved ? 'none' : 'underline'
                   }}
                 >
-                  {feed?.title ? feed.title : (!!item && item.url?.split('/').length > 3) ? item.url.split('/')[2] : ''}
+                  {feedTitle}
                 </Text>
               </View>
             </Animated.View>
-          </TouchableOpacity>
+            <Animated.View style={{
+                marginTop: 10,
+                opacity: typeof scrollAnim !== 'number' && isVisible ? 
+                  scrollAnim.interpolate({
+                    inputRange: [0, 100, 110],
+                    outputRange: [0, 0, 1]
+                  }) : 0,
+                position: 'absolute',
+                width: '100%',
+              }}>
+                <Text
+                  style={{
+                    ...getStyles().feedName,
+                    fontSize: 12 * fontSizeMultiplier(),
+                    lineHeight: 18 * fontSizeMultiplier(),
+                    fontFamily: filter ?
+                      'IBMPlexSansCond-Bold' :
+                      'IBMPlexSansCond',
+                    color: getForegroundColor(),
+                    textAlign: 'center',
+                    textDecorationLine: 'underline'
+                  }}
+                  >{ feedTitle }</Text>
+                <Text
+                  numberOfLines={2}
+                  ellipsizeMode='tail'
+                  style={{
+                    ...getStyles().feedName,
+                    fontSize: 16 * fontSizeMultiplier(),
+                    lineHeight: 18 * fontSizeMultiplier(),
+                    fontFamily: filter ?
+                      'IBMPlexSansCond-Bold' :
+                      'IBMPlexSansCond-Bold',
+                    // color: this.getBorderBottomColor(item)
+                    color: getForegroundColor(),
+                    // height: 36,
+                    // paddingBottom: 15,
+                    hyphens: 'auto',
+                    textAlign: 'center'
+                  }}
+                >
+                  {item?.title}
+                </Text>
+              </Animated.View>
+            </TouchableOpacity>
         </View>
     </Animated.View>
   </View>)
