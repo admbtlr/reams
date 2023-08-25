@@ -3,6 +3,20 @@ import { Item } from "store/items/types";
 
 let db: SQLite.WebSQLDatabase
 
+const columns = [
+  'id',
+  '_id',
+  'content_html',
+  'author',
+  'date_published',
+  'content_mercury',
+  'excerpt',
+  'showMercuryContent',
+  'hasShownMercury',
+  'scrollRatio',
+  'styles',
+]
+
 async function doTransaction(query: string, params?: any[]) {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -27,8 +41,8 @@ export async function initSQLite() {
   db = SQLite.openDatabase("db.db")
   await doTransaction(`
   create table if not exists items (
-    id INT PRIMARY KEY NOT NULL,
-    _id STRING NOT NULL,
+    id INT NOT NULL,
+    _id STRING PRIMARY KEY NOT NULL,
     content_html TEXT,
     author TEXT,
     date_published STRING,
@@ -83,12 +97,12 @@ export function getItems(toInflate: Item[]) {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
     tx.executeSql(
-      `select * from items where id in (${toInflate.map((item) => item.id).join(",")})`,
+      `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`,
       [],
       (_, { rows }) => {
         let items: Item[] = []
         rows._array.forEach((flate) => {
-          let item = toInflate.find((item) => item.id === flate.id)
+          let item = toInflate.find((item) => item._id === flate._id)
           if (item) {
             item.content_html = flate.content_html
             item.author = flate.author
@@ -130,7 +144,7 @@ export function updateItems(toUpdate: Item[]) {
           hasShownMercury = ?,
           scrollRatio = ?,
           styles = ?
-        where id = ?`,
+        where _id = "?"`,
         [
           item.content_html || null, 
           item.author || null, 
@@ -141,7 +155,7 @@ export function updateItems(toUpdate: Item[]) {
           item.hasShownMercury ? 1 : 0, 
           JSON.stringify(item.scrollRatio), 
           JSON.stringify(item.styles),
-          item.id
+          item._id
         ]
       )
     })
@@ -160,7 +174,7 @@ export function updateItems(toUpdate: Item[]) {
 
 export function deleteItems(items: Item[]) {
   const query = items ?
-    `delete from items where _id in (${items.map(i => i._id).join(",")})` :
+    `delete from items where _id in (${items.map(i => `"${i._id}"`).join(",")})` :
     `delete from items`
   db.transaction((tx) => {
     tx.executeSql(query)
@@ -168,32 +182,25 @@ export function deleteItems(items: Item[]) {
 }
 
 export function updateItem(toUpdate: Item) {
-  if (!toUpdate?.id) return
+  const keys = Object.keys(toUpdate).filter((key) => key !== "_id").
+    filter((key) => columns.indexOf(key) !== -1)
+  const updateString = keys.map((key) => `${key} = ?`).join(",")
+  const values = keys.map((key) => typeof toUpdate[key] === "boolean" ? 
+    (toUpdate[key] ? 
+      1 : 
+      0) :
+    (typeof toUpdate[key] === "object" ?
+      JSON.stringify(toUpdate[key]) :
+      toUpdate[key]))
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
     tx.executeSql(
       `update items set 
-        content_html = ?,
-        author = ?,
-        date_published = ?,
-        content_mercury = ?,
-        excerpt = ?,
-        showMercuryContent = ?,
-        hasShownMercury = ?,
-        scrollRatio = ?,
-        styles = ?
-      where id = ?`,
+        ${updateString}
+      where _id = '?'`,
       [
-        toUpdate.content_html || null, 
-        toUpdate.author || null, 
-        toUpdate.date_published || null, 
-        toUpdate.content_mercury || null, 
-        toUpdate.excerpt || null, 
-        toUpdate.showMercuryContent ? 1 : 0, 
-        toUpdate.hasShownMercury ? 1 : 0, 
-        JSON.stringify(toUpdate.scrollRatio), 
-        JSON.stringify(toUpdate.styles),
-        toUpdate.id
+        ...values,
+        toUpdate._id
       ]
     )
   }),
