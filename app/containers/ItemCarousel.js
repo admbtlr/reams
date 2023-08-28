@@ -85,7 +85,7 @@ const mapDispatchToProps = (dispatch) => {
         })
         dispatch({
           type: ADD_ITEM_TO_CATEGORY,
-          itemId: item.id,
+          itemId: item._id,
           categoryId: 'inbox'
         })
         } else {
