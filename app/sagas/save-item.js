@@ -35,7 +35,7 @@ export function * markItemSaved (action) {
   }
   yield saveItem(item)
   yield put({
-    type: 'ITEMS_SAVE_ITEM_SUCCESS',
+    type: 'SAVE_ITEM_SUCCESS',
     item: item
   })
 }
@@ -44,7 +44,7 @@ export function * markItemUnsaved (action) {
   yield unsaveItem(action.item)
   // TODO remove cached cover image and inflated data in AS
   yield put({
-    type: 'ITEMS_UNSAVE_ITEM_SUCCESS',
+    type: 'UNSAVE_ITEM_SUCCESS',
     item: action.item
   })
   const displayMode = select(getDisplay)
