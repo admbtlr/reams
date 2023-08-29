@@ -182,6 +182,7 @@ export function saveExternalItem (item, folder) {
   if (isRizzlePlus) {
     return upsertSavedItemFS(item)
   }
+  return item
 }
 
 export async function addFeed (feed) {
