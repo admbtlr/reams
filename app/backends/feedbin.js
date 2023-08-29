@@ -190,8 +190,8 @@ export async function saveItem (item, folder) {
   const body = {
     starred_entries: [item.id]
   }
-  let itemId = await postRequest(endpoint, body)
-  return itemId === item.id
+  let itemIds = await postRequest(endpoint, body)
+  return itemIds[0] === item.id
 }
 
 export async function unsaveItem (item, folder) {
@@ -199,15 +199,21 @@ export async function unsaveItem (item, folder) {
   const body = {
     starred_entries: [item.id]
   }
-  let itemId = await deleteRequest(endpoint, body)
-  return itemId === item.id
+  let itemIds = await deleteRequest(endpoint, body)
+  return itemIds[0] === item.id
 }
 
 export async function saveExternalItem(item) {
   let endpoint = 'pages.json'
   let body = { url: item.url }
   const feedbinItem = await postRequest(endpoint, body)
-  return await saveItem(feedbinItem, 'inbox')
+  const success = await saveItem(feedbinItem, 'inbox')
+  if (success) {
+    return {
+      ...item,
+      id: feedbinItem.id
+    }
+  }
 }
 
 export async function fetchFeeds (oldFeeds) {
@@ -326,10 +332,7 @@ const mapFeedbinItemToRizzleItem = (item) => {
     author: item.author,
     created_at: new Date(item.created_at).getTime(),
     date_published: item.published,
-    external_url: item.url,
-    feed_title: item.feed_name,
-    feed_id: item.feed_id
-  }
+    }
   return mappedItem
 }
 

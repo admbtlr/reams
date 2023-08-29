@@ -1,24 +1,14 @@
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import isEqual from 'lodash.isequal'
-import { memoize } from 'proxy-memoize'
-import { SET_FILTER } from '../store/config/types'
 import { 
   Feed,
-  MARK_FEED_READ,
-  REMOVE_FEED
 } from '../store/feeds/types'
-import { 
-  CLEAR_READ_ITEMS,
-  UPDATE_CURRENT_INDEX,
-  ItemType, 
-  Item
-} from '../store/items/types'
 import { 
   SHOW_HELPTIP,
   SHOW_MODAL
 } from '../store/ui/types'
 import { CREATE_CATEGORY, Category } from '../store/categories/types'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Animated,
   Dimensions,
@@ -33,7 +23,7 @@ import FeedExpanded from '../containers/FeedExpanded'
 import TextButton from './TextButton'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
-import { deepEqual, getInset, getMargin, getStatusBarHeight } from '../utils/'
+import { getInset, getMargin, getStatusBarHeight } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { textInfoStyle } from '../utils/styles'
 import { RootState } from 'store/reducers'
@@ -79,7 +69,8 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
   const itemFeedIds = useSelector(itemFeedIdsSelector, isEqual)
 
   const feeds: Feed[] = useSelector(sortedFeedsSelector, isEqual)
-  const categories = useSelector((state: RootState) => state.categories.categories.filter(c => !c.isSystem), isEqual)
+  const categories = useSelector((state: RootState) => state.categories.categories
+    .filter(c => !c.isSystem && (isSaved ? c.isItems : c.isFeeds)), isEqual)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
 
   const isFocused = useIsFocused()

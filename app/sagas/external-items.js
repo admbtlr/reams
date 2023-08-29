@@ -1,4 +1,4 @@
-import { delay, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { 
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
@@ -46,6 +46,7 @@ export function * saveExternalUrl (action) {
     title: action.title ?? 'Loading...',
     content_html: '',
     isExternal: true,
+    isSaved: true,
     created_at: Date.now()
   }
   item.styles = createItemStyles(item)
@@ -81,7 +82,7 @@ export function * saveExternalUrl (action) {
       const items = yield select(getItems, 'saved')
       item = items.find(i => i._id === item._id)
 
-      const backendItem = saveExternalItem(item)
+      const backendItem = yield call(saveExternalItem, item)
 
       // now we need to set the id of the local saved item to the id of the backend saved item
       yield put({
