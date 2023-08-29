@@ -10,7 +10,9 @@ const columns = [
   'author',
   'date_published',
   'content_mercury',
+  'decoration_failures',
   'excerpt',
+  'readAt',
   'showMercuryContent',
   'hasShownMercury',
   'scrollRatio',
@@ -18,12 +20,12 @@ const columns = [
 ]
 
 async function doTransaction(query: string, params?: any[]) {
-  return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
+  return new Promise(async (resolve, reject) => {
+    await db.transaction(async (tx) => {
+      await tx.executeSql(
         query,
         params,
-        (_, { rows }) => {
+        (_, { rows, rowsAffected }) => {
           resolve(rows._array)
           return rows._array
         },
@@ -47,7 +49,9 @@ export async function initSQLite() {
     author TEXT,
     date_published STRING,
     content_mercury TEXT,
+    decoration_failures INT,
     excerpt TEXT,
+    readAt LONG,
     showMercuryContent BOOLEAN CHECK (showMercuryContent IN (0,1)),
     hasShownMercury BOOLEAN,
     scrollRatio TEXT,
@@ -129,49 +133,11 @@ export function getItems(toInflate: Item[]) {
 })
 }
 
-export function updateItems(toUpdate: Item[]) {
-  return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-    toUpdate.forEach((item) => {
-      tx.executeSql(
-        `update items set 
-          content_html = ?,
-          author = ?,
-          date_published = ?,
-          content_mercury = ?,
-          excerpt = ?,
-          showMercuryContent = ?,
-          hasShownMercury = ?,
-          scrollRatio = ?,
-          styles = ?
-        where _id = "?"`,
-        [
-          item.content_html || null, 
-          item.author || null, 
-          item.date_published || null, 
-          item.content_mercury || null, 
-          item.excerpt || null, 
-          item.showMercuryContent ? 1 : 0, 
-          item.hasShownMercury ? 1 : 0, 
-          JSON.stringify(item.scrollRatio), 
-          JSON.stringify(item.styles),
-          item._id
-        ]
-      )
-    })
-  }),
-  (_: any) => {
-    resolve(true)
-    return true
-  },
-  (_: any, error: string) => {
-    console.log(error)
-    reject(error)
-    return false
+export async function updateItems(items: Item[]) {
+  for (const item of items) {
+    await updateItem(item)
   }
-})
 }
-
 export function deleteItems(items: Item[]) {
   const query = items ?
     `delete from items where _id in (${items.map(i => `"${i._id}"`).join(",")})` :
@@ -181,7 +147,7 @@ export function deleteItems(items: Item[]) {
   })
 }
 
-export function updateItem(toUpdate: Item) {
+export async function updateItem(toUpdate: Record<string, any>) {
   const keys = Object.keys(toUpdate).filter((key) => key !== "_id").
     filter((key) => columns.indexOf(key) !== -1)
   const updateString = keys.map((key) => `${key} = ?`).join(",")
@@ -191,26 +157,7 @@ export function updateItem(toUpdate: Item) {
       0) :
     (typeof toUpdate[key] === "object" ?
       JSON.stringify(toUpdate[key]) :
-      toUpdate[key]))
-  return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-    tx.executeSql(
-      `update items set 
-        ${updateString}
-      where _id = '?'`,
-      [
-        ...values,
-        toUpdate._id
-      ]
-    )
-  }),
-  (_: any) => {
-    resolve(true)
-    return true
-  },
-  (_: any, error: string) => {
-    console.log(error)
-    return false
-  }
-})
+      toUpdate[key])).map((value) => value === 'null' ? null : value)
+  const query = `update items set ${updateString} where _id = ?`
+  return doTransaction(query, values.concat(toUpdate._id))
 }
