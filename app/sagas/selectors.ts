@@ -35,9 +35,9 @@ export function getActiveItems (state: RootState) {
   const displayMode = state.itemsMeta.display
   const items = getItemsUtils(state, displayMode)
   const index = getIndexUtils(state, displayMode)
-  const buffer = items.length < 8 ? items.length : 8
+  const buffer = 8
   const preBuffer = index < buffer ? index : buffer
-  const postBuffer = index + buffer > items.length ? items.length - index : buffer - 1
+  const postBuffer = index + buffer
   let activeItems = []
   // let activeItems = [ items[index] ]
   // for (var i = -buffer; i <= buffer; i++) {
@@ -49,6 +49,7 @@ export function getActiveItems (state: RootState) {
   //   }
   // }
   for (let i = index - preBuffer; i <= index + postBuffer; i++) {
+    if (items[i] === undefined) continue
     activeItems.push(items[i])
   }
   return activeItems
