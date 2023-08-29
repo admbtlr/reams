@@ -12,7 +12,7 @@ import { getActiveItems, getCategories, getDisplay, getFilter, getIndex, getItem
 
 // import { getItemsAS } from '../storage/async-storage'
 
-import { getItems as getItemsSQLite } from '../storage/sqlite'
+import { getItems as getItemsSQLite, updateItems as updateItemsSQLite } from '../storage/sqlite'
 
 export function * inflateItems (action) {
   // OK. This is complicated.
@@ -49,7 +49,7 @@ export function * inflateItems (action) {
     // I don't think it's a big deal though
     items.filter(isInflated).forEach(i => {
       if (!activeItems.find(ai => ai._id === i._id)) {
-        itemsToDeflate.push(deflateItem(i))
+        itemsToDeflate.push(i)
       }
     })
 
@@ -59,17 +59,19 @@ export function * inflateItems (action) {
         itemsToInflate.push(i)
       }
     })
-    yield spawn(getItemsFromDB, itemsToInflate, itemsToDeflate)
+    yield spawn(syncItemsWithDB, itemsToInflate, itemsToDeflate)
   } catch (err) {
     if (__DEV___) debugger
     log('inflateItems', err)
   }
 }
 
-function * getItemsFromDB (itemsToInflate, itemsToDeflate) {
-  let inflatedItems = []
+function * syncItemsWithDB (itemsToInflate, itemsToDeflate) {
+  let inflatedItems = [], deflatedItems = []
   if (itemsToInflate.length > 0) {
     inflatedItems = yield call(getItemsSQLite, itemsToInflate)
+    yield call(updateItemsSQLite, itemsToDeflate)
+    deflatedItems = itemsToDeflate.map(deflateItem)
 
     // sometimes one of these is null, for reasons that I don't understand
     // so let's try returning the uninflated item and see if that helps
@@ -106,7 +108,7 @@ function * getItemsFromDB (itemsToInflate, itemsToDeflate) {
     yield put({
       type: FLATE_ITEMS,
       itemsToInflate: inflatedItems,
-      itemsToDeflate
+      itemsToDeflate: deflatedItems
     })
   }
 }

@@ -109,7 +109,7 @@ function * applyDecoration (decoration, isSaved) {
   let item = items.find(item => item._id === decoration.item._id)
   if (item) {
     try {
-      updateItem(item)
+      yield call(updateItem, item)
     } catch(err) {
       log('decorateItems', err)
     }
@@ -157,7 +157,7 @@ function * getNextItemToDecorate () {
       !item.readAt &&
       items.indexOf(item) >= index &&
       items.indexOf(item) < index + 20 &&
-      (!!activeFilter && activeFilter.feeds.includes(item.feed_id))
+      (!activeFilter || activeFilter.feeds.includes(item.feed_id))
   })
   if (candidateItems.length) {
     nextItem = candidateItems.find(item => !item.hasLoadedMercuryStuff
@@ -175,6 +175,7 @@ function * getNextItemToDecorate () {
   }
   if (!nextItem) {
     nextItem = savedItems.find(item => !item.hasLoadedMercuryStuff &&
+      item.decoration_failures < 5 &&
       !pendingDecoration.find(pd => pd._id === item._id))
   }
   return nextItem
