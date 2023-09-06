@@ -24,6 +24,7 @@ import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
 import SettingsScreen from './SettingsScreen'
+import { ItemType } from '../store/items/types'
 
 const navigationOptions = {
   gesturesEnabled: false
@@ -61,7 +62,7 @@ const Feeds = () => (
   </FeedsStack.Navigator>
 )
 
-const Main = () => {
+const Main = ({route}) => {
   return (
     <MainStack.Navigator
       // headerMode='screen'
@@ -122,7 +123,7 @@ const Main = () => {
         options={({route}) => {
           const toFeeds = route.params?.toFeeds
           return {
-            title: 'Feeds',
+            title: route.params?.isSaved ? 'Library' : 'Feeds',
             headerBackTitleVisible: false,
             headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
             headerTransparent: true,

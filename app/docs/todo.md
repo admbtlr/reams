@@ -1,14 +1,12 @@
-- still got problems with saved external items appearing twice
-- categories in saved
 - settings screen
-  - dark mode settings
+  - ~~dark mode settings~~
   - other bg colours?
-  - sorting
+  - ~~sorting~~
 - what's new screen
 - text to speech
 - feedly
 - search
-   - replace AS with SQLite / WatermelonDB
+   - ~~replace AS with SQLite / WatermelonDB~~
 - newsletters with fastmail (or gmail?)
   - https://jmap.io/crash-course.html#core-concept-result-references
 - how come some feeds don't have a feed_local and don't update?
@@ -59,6 +57,8 @@
 - saved folders
 
 # Done
+- ~~still got problems with saved external items appearing twice~~
+- ~~categories in saved~~
 - ~~muting a feed on non-rizzle accounts~~
 - ~~improve onboarding, including tooltips and highlight animated webp~~
 - ~~wtf is up with saved items? something in the reducer?~~

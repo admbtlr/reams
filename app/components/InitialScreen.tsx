@@ -172,7 +172,7 @@ export default function InitialScreen({}) {
                   type: SET_DISPLAY_MODE,
                   displayMode: 'unread'
                 })
-                navigation.navigate('Feeds')
+                navigation.navigate('Feeds', { isSaved: false })
               }}
               scrollAnim={scrollAnim}
               index={0}
@@ -187,7 +187,7 @@ export default function InitialScreen({}) {
                   type: SET_DISPLAY_MODE,
                   displayMode: 'saved'
                 })
-                navigation.navigate('Feeds')
+                navigation.navigate('Feeds', { isSaved: true })
               }}
               scrollAnim={scrollAnim}
               index={1}
