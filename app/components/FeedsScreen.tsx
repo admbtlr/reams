@@ -28,6 +28,8 @@ import { fontSizeMultiplier } from '../utils'
 import { textInfoStyle } from '../utils/styles'
 import { RootState } from 'store/reducers'
 import { useIsFocused } from '@react-navigation/native'
+import { ItemType } from '../store/items/types'
+import { addCategoryProps } from '../utils/modal-props'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -49,7 +51,7 @@ const normaliseTitle = (title: string) => title.slice(0, 4).toUpperCase() === 'T
   title.slice(4).toUpperCase() :
   title.toUpperCase()
 
-function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolean }) {
+function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
 
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
   const [modal, setModal] = useState<{ feed: Feed, position: number } | null>(null)
@@ -61,6 +63,7 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
   //   return isEqual(a, b)
   // }
 
+  const isSaved = useSelector((state: RootState) => state.itemsMeta.display === ItemType.saved)
   const sortedFeedsSelector = (state: RootState) => state.feeds.feeds.slice()
     .map(f => addUnreadCount(f, itemFeedIds))
     .sort(sortFeeds)
@@ -70,7 +73,7 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
 
   const feeds: Feed[] = useSelector(sortedFeedsSelector, isEqual)
   const categories = useSelector((state: RootState) => state.categories.categories
-    .filter(c => !c.isSystem && (isSaved ? c.isItems : c.isFeeds)), isEqual)
+    .filter(c => !c.isSystem), isEqual)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
 
   const isFocused = useIsFocused()
@@ -134,7 +137,6 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
         }
       ],
       modalOnOk: (state: {categoryName: string}) => {
-        console.log(state)
         state.categoryName && createCategory(state.categoryName)
       },
       showKeyboard: true
@@ -152,7 +154,8 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
       []
 
     const catCards = categories ?
-      categories.sort((a, b) => a.name < b.name ? -1 : 1).map(category => ({
+      categories.filter((c: Category) => (isSaved && c.itemIds.length > 0) || (!isSaved && c.feeds.length > 0))
+        .sort((a, b) => a.name < b.name ? -1 : 1).map(category => ({
         _id: category._id,
         type: 'category',
         title: category.name,
@@ -163,10 +166,10 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
     const allCards = feeds?.length > 0 ? [{
       _id: '9999999',
       type: 'all',
-      title: 'All Unread Stories'
+      title: `All ${isSaved ? 'Saved' : 'Unread'} Stories`
     }] : []
 
-    const sections = [
+    let sections = [
       {
         title: '',
         data: allCards
@@ -175,11 +178,13 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
         title: 'Tags',
         data: catCards
       },
-      {
+    ]
+    if (!isSaved) {
+      sections.push({
         title: 'Feeds',
         data: feedCards
-      }
-    ]
+      })
+    }
 
     return sections
   }
@@ -249,6 +254,7 @@ function FeedsScreen({ navigation, isSaved }: { navigation: any, isSaved: boolea
       type={item.type}
       index={index}
       navigation={navigation}
+      isSaved={isSaved}
       {...{ modal, width }}
     />
   }

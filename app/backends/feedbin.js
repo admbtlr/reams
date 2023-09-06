@@ -325,6 +325,7 @@ export async function deleteCategory (category) {
 const mapFeedbinItemToRizzleItem = (item) => {
   let mappedItem = {
     id: item.id,
+    feed_id: item.feed_id,
     url: item.url,
     external_url: item.url,
     title: item.title,

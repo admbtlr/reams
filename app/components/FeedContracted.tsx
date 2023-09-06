@@ -8,13 +8,13 @@ import {
   View
 } from 'react-native'
 import { hslString } from '../utils/colors'
-import FeedCoverImage from './FeedCoverImage'
+import CardCoverImage from './CardCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
 import FeedIconContainer from '../containers/FeedIcon'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback'
-import { Feed, REMOVE_FEED_COVER_IMAGE, SET_CACHED_FEED_COVER_IMAGE } from '../store/feeds/types'
+import { Feed, REMOVE_CACHED_COVER_IMAGE, SET_CACHED_COVER_IMAGE } from '../store/feeds/types'
 import LinearGradient from 'react-native-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_FILTER } from '../store/config/types'
@@ -28,33 +28,49 @@ interface Props {
   _id: string | number
   count: number
   index: number
+  isSaved: boolean
   title: string
   navigation: any
   type: string
   width: number
 }
 
-function FeedContracted ({ _id, count, index, title, navigation, type, width }: Props)  {
+function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, width }: Props)  {
   let feed: Feed | undefined, 
     category: Category | undefined, 
-    numUnread: number | undefined, 
+    numItems: number | undefined, 
     categoryFeeds: (Feed | undefined)[] = [],
+    categoryItems: Item[] = [],
     cachedIconDimensions: { width: number, height: number } | undefined
   if (type === 'feed') {
     feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === _id), isEqual)
-    numUnread = useSelector((state: RootState) => state.itemsUnread.items.filter(i => i.feed_id === _id).filter(i => !i.readAt).length)
+    numItems = useSelector((state: RootState) => state.itemsUnread.items.filter(i => i.feed_id === _id).filter(i => !i.readAt).length)
     cachedIconDimensions = useSelector((state: RootState) => state.feedsLocal.feeds.find(fl => fl._id === _id)?.cachedIconDimensions)
   } else if (type === 'all') {
-    numUnread = useSelector((state: RootState) => state.itemsUnread.items.filter(i => !i.readAt).length)
-    categoryFeeds = useSelector((state: RootState) => state.feeds.feeds.filter(f => !f.isMuted), isEqual)
+    if (isSaved) {
+      categoryItems = useSelector((state: RootState) => state.itemsSaved.items)
+      numItems = categoryItems.length
+    } else {
+      numItems = useSelector((state: RootState) => state.itemsUnread.items.filter(i => !i.readAt).length)
+      categoryFeeds = useSelector((state: RootState) => state.feeds.feeds.filter(f => !f.isMuted), isEqual)  
+    }
   } else {
     category = useSelector((state: RootState) => state.categories.categories.find(c => c._id === _id), isEqual)
-    const categoryFeedIds: string[] = category ? category.feeds : [] // note that these are feed_ids
-    numUnread = useSelector((state: RootState) => state.itemsUnread.items
-      .filter(i => categoryFeedIds.find(cf => cf === i.feed_id) !== undefined)
-      .filter(i => !i.readAt).length)
-    categoryFeeds = useSelector((state: RootState) => categoryFeedIds.map(cfi => state.feeds.feeds.find(f => f._id === cfi)), isEqual)
-    cachedIconDimensions = useSelector((state: RootState) => state.feedsLocal.feeds.find(fl => fl._id === categoryFeeds[0]?._id)?.cachedIconDimensions)
+    if (isSaved) {
+      categoryItems = category ? 
+        category.itemIds
+          .map(itemId => useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)))
+          .filter(i => i !== undefined) : 
+        []
+      numItems = categoryItems.length
+    } else {
+      const categoryFeedIds: string[] = category ? category.feeds : [] // note that these are feed_ids
+      numItems = useSelector((state: RootState) => state.itemsUnread.items
+        .filter(i => categoryFeedIds.find(cf => cf === i.feed_id) !== undefined)
+        .filter(i => !i.readAt).length)
+      categoryFeeds = useSelector((state: RootState) => categoryFeedIds.map(cfi => state.feeds.feeds.find(f => f._id === cfi)), isEqual)
+      cachedIconDimensions = useSelector((state: RootState) => state.feedsLocal.feeds.find(fl => fl._id === categoryFeeds[0]?._id)?.cachedIconDimensions)
+    }
   }
 
   // add cachedIconDimensions to feed
@@ -71,18 +87,18 @@ function FeedContracted ({ _id, count, index, title, navigation, type, width }: 
   const setIndex = (index: number) => dispatch({
     type: UPDATE_CURRENT_INDEX,
     index,
-    displayMode: ItemType.unread
+    displayMode: isSaved ? ItemType.saved : ItemType.unread
   })
-  const setCachedCoverImage = (feedId: string, cachedCoverImageId: string) => {
+  const setCachedCoverImage = (sourceId: string, cachedCoverImageId: string) => {
     return dispatch({
-      type: SET_CACHED_FEED_COVER_IMAGE,
-      id: feedId,
+      type: SET_CACHED_COVER_IMAGE,
+      id: sourceId,
       cachedCoverImageId
     })
   }
-  const removeCoverImage = (feedId: string) => {
+  const removeCachedCoverImage = (feedId: string) => {
     return dispatch({
-      type: REMOVE_FEED_COVER_IMAGE,
+      type: REMOVE_CACHED_COVER_IMAGE,
       id: feedId
     })
   }
@@ -114,7 +130,7 @@ function FeedContracted ({ _id, count, index, title, navigation, type, width }: 
 
   const onPress = (e: GestureResponderEvent) => {
     // fixes a bug when setting a filter with no feeds or items
-    if (type === 'category' && categoryFeeds.length === 0) {
+    if (type === 'category' && categoryFeeds.length === 0 && categoryItems.length === 0) {
       return
     }
     
@@ -156,48 +172,61 @@ function FeedContracted ({ _id, count, index, title, navigation, type, width }: 
           />
       })
     } else if (type === 'category') {
-      const modalText = [
-        {
-          text: 'Edit tag',
-          style: ['title']
-        },
-        {
-          text: 'Add feeds to this tag by editing each feed individually',
-          style: ['hint']
-        }
-  
-      ]
-      showModal({
-        modalText,
-        modalHideCancel: false,
-        modalShow: true,
-        inputs: [
+      if (isSaved) {
+        const modalText = [
           {
-            label: 'Tag',
-            name: 'categoryName',
-            type: 'text',
-            value: title
+            text: 'Edit tag',
+            style: ['title']
           }
-        ],
-        deletableRows: categoryFeeds.map((feed?: Feed) => ({
-          bgColor: feed?.color ? hslString(feed.color) : hslString('rizzleText'),
-          title: feed?.title,
-          id: feed?._id
-        })),
-        deleteButton: true,
-        deleteButtonText: 'Delete tag',
-        modalOnDelete: () => {
-          deleteCategory(category)
-        },
-        modalOnOk: (state: any) => {
-          console.log(state)
-          updateCategory({
-            ...category,
-            name: state.categoryName || category.name,
-            feeds: state.deletableRows.map((dr: Feed) => dr.id)
-          })
-        }
-      })
+        ]
+        showModal({
+          modalText,
+          showModal: true,
+        })
+      } else {
+        const modalText = [
+          {
+            text: 'Edit tag',
+            style: ['title']
+          },
+          {
+            text: 'Add feeds to this tag by editing each feed individually',
+            style: ['hint']
+          }
+    
+        ]
+        showModal({
+          modalText,
+          modalHideCancel: false,
+          modalShow: true,
+          inputs: [
+            {
+              label: 'Tag',
+              name: 'categoryName',
+              type: 'text',
+              value: title
+            }
+          ],
+          deletableRows: categoryFeeds.map((feed?: Feed) => ({
+            bgColor: feed?.color ? hslString(feed.color) : hslString('rizzleText'),
+            title: feed?.title,
+            id: feed?._id
+          })),
+          deleteButton: true,
+          deleteButtonText: 'Delete tag',
+          modalOnDelete: () => {
+            deleteCategory(category)
+          },
+          modalOnOk: (state: any) => {
+            console.log(state)
+            updateCategory({
+              ...category,
+              name: state.categoryName || category.name,
+              feeds: state.deletableRows.map((dr: Feed) => dr.id)
+            })
+          }
+        })
+      }
     }  
   }
 
@@ -228,19 +257,24 @@ function FeedContracted ({ _id, count, index, title, navigation, type, width }: 
     cardWidth / 2 :
     cardWidth
 
-  const cardSizeDivisor = type === 'feed' ? 1 :
+  const numElemsWithCover = isSaved ?
+    categoryItems.filter(i => i.hasCoverImage).length :
+    categoryFeeds.length
+  const cardSizeDivisor = (type === 'feed') ? 1 :
     screenWidth > 500 ? 
-      (categoryFeeds.length > 15 ? 4 :
-        categoryFeeds.length > 11 ? 3 :
-        categoryFeeds.length > 3 ? 2 :
-        categoryFeeds.length > 1 ? 1 :
+      (numElemsWithCover > 15 ? 4 :
+        numElemsWithCover > 11 ? 3 :
+        numElemsWithCover > 3 ? 2 :
+        numElemsWithCover > 1 ? 1 :
         0) :
-      (categoryFeeds.length > 18 ? 3 :
-        categoryFeeds.length > 8 ? 2 :
-        categoryFeeds.length > 1 ? 1 :
+      (numElemsWithCover > 18 ? 3 :
+        numElemsWithCover > 8 ? 2 :
+        numElemsWithCover > 1 ? 1 :
         0)
 
-  const feedsForIcons = type === 'feed' ? [feed] : categoryFeeds
+  const coverImageSources = isSaved ? 
+    categoryItems.filter(i => i.hasCoverImage) : 
+    type === 'feed' ? [feed] : categoryFeeds
 
   return (
     <TouchableOpacity
@@ -284,24 +318,26 @@ function FeedContracted ({ _id, count, index, title, navigation, type, width }: 
               flexDirection: 'row',
               flexWrap: 'wrap'
           }}>
-            { feedsForIcons.map((feed: Feed | undefined, index: number, feeds: (Feed | undefined)[]) => (
-              feed && (
-                <View 
-                  key={feed._id}
-                  style={{
-                    backgroundColor: hslString(feed.color, 'desaturated'),
-                    width: feeds.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth,
-                    height: feeds.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight
-                  }}>
-                  <FeedCoverImage
-                    feedId={feed._id}
-                    width={feeds.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth}
-                    height={feeds.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight}
-                    setCachedCoverImage={setCachedCoverImage}
-                    removeCoverImage={removeCoverImage} />
-                </View>
-              )
-            )) }
+            { coverImageSources && coverImageSources.map((source: Feed | undefined, index: number, sources: (Feed | undefined)[]) => (
+                source && (
+                  <View 
+                    key={source._id}
+                    style={{
+                      backgroundColor: hslString(source.color, 'desaturated'),
+                      width: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth,
+                      height: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight
+                    }}>
+                    <CardCoverImage
+                      feedId={isSaved ? undefined : source._id}
+                      itemId={isSaved ? source._id : undefined }
+                      width={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth}
+                      height={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight}
+                      setCachedCoverImage={setCachedCoverImage}
+                      removeCachedCoverImage={removeCachedCoverImage} />
+                  </View>
+                )
+              )) 
+            }
           </View>
           <View style={{
             width: '100%',
@@ -349,7 +385,7 @@ function FeedContracted ({ _id, count, index, title, navigation, type, width }: 
                   ...textStyles,
                   fontFamily: 'IBMPlexMono',
                   fontSize: 16 * fontSizeMultiplier()
-                }}>{numUnread} unread</Text>
+                }}>{numItems} {isSaved ? `article${numItems > 1 ? 's' : ''}` : 'unread'}</Text>
               </View>
           </View>
         </View>

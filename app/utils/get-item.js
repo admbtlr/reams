@@ -2,9 +2,10 @@ import { store } from '../store'
 
 export const getItems = (state, type) => {
   const filter = state.config.filter
-  let filterFeedIds
+  let filterFeedIds, filterItemIds
   if (filter?.type === 'category') {
     filterFeedIds = state.categories.categories.find(c => c._id === filter._id)?.feeds
+    filterItemIds = state.categories.categories.find(c => c._id === filter._id)?.itemIds
   } else if (filter?.type === 'feed') {
     filterFeedIds = [filter._id]
   }
@@ -14,7 +15,9 @@ export const getItems = (state, type) => {
     (filterFeedIds ?
       state.itemsUnread.items.filter(item => filterFeedIds.indexOf(item.feed_id) !== -1) :
       state.itemsUnread.items) :
-    state.itemsSaved.items
+    (filterItemIds ?
+      state.itemsSaved.items.filter(item => filterItemIds.indexOf(item._id) !== -1) :
+      state.itemsSaved.items)
 }
 
 export const getCurrentItem = (state, type) => {

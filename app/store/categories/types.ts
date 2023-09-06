@@ -1,3 +1,6 @@
+import { removeFeedAction } from "../feeds/types"
+import { unsaveItemAction } from "../items/types"
+
 // config
 export const CREATE_CATEGORY = 'CREATE_CATEGORY'
 export const DELETE_CATEGORY = 'DELETE_CATEGORY'
@@ -15,8 +18,6 @@ export interface Category {
   id?: string
   _id: string
   name: string
-  isFeeds?: boolean
-  isItems?: boolean
   isSystem?: boolean
   feeds: string[] // feed ids, which is sketchy but ok
   itemIds: string[]
@@ -27,8 +28,6 @@ interface createCategory {
   _id: string
   id: string
   name: string
-  isFeeds?: boolean
-  isItems?: boolean
 }
 
 export interface deleteCategory {
@@ -75,4 +74,13 @@ export interface CategoriesState {
   readonly categories: Category[]
 }
 
-export type CategoriesActionTypes = createCategory | deleteCategory | updateCategory | updateCategories | addFeedToCategory | removeFeedFromCategory | unsetBackendAction
+export type CategoriesActionTypes = createCategory | 
+  deleteCategory | 
+  updateCategory | 
+  updateCategories | 
+  addFeedToCategory | 
+  removeFeedFromCategory | 
+  addItemToCategory |
+  removeItemFromCategory |
+  unsaveItemAction |
+  removeFeedAction

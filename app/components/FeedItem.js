@@ -5,7 +5,6 @@ import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath, getMargin} from '../utils/'
 import { hslString } from '../utils/colors'
-import { createItemStyles } from '../utils/createItemStyles'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -226,7 +225,7 @@ class FeedItem extends React.Component {
     }
 
     const {
-      index,
+      displayMode,
       isVisible,
       item,
       orientation,

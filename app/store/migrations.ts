@@ -18,7 +18,6 @@ export const migrations = {
     const inboxCategory: Category = {
       _id: 'inbox',
       name: 'inbox',
-      isItems: true,
       isSystem: true,
       itemIds: [],
       feeds: []
@@ -26,7 +25,6 @@ export const migrations = {
     const archiveCategory: Category = {
       _id: 'archive',
       name: 'archive',
-      isItems: true,
       isSystem: true,
       itemIds: [],
       feeds: []
@@ -34,7 +32,6 @@ export const migrations = {
     const annotatedCategory: Category = {
       _id: 'annotated',
       name: 'annotated',
-      isItems: true,
       isSystem: true,
       itemIds: [],
       feeds: []
@@ -164,4 +161,19 @@ export const migrations = {
       }
     }
   },
+  10: (state: RootState) => {
+    // add itemsIds[] to all categories
+    return {
+      ...state,
+      categories: {
+        ...state.categories,
+        categories: state.categories.categories.map((c: Category) => {
+          return {
+            ...c,
+            itemIds: []
+          }
+        })
+      }
+    }
+  },  
 }

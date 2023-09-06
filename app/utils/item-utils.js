@@ -246,7 +246,7 @@ export function setShowCoverImage (item, currentItem) {
   }
 }
 
-export function removeCoverImageDuplicate (item) {
+export function removeCachedCoverImageDuplicate (item) {
   if (item.showCoverImage && item.styles && item.styles.coverImage?.isInline && item.banner_image) {
     const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
     const imageSrcIsUrl = (path) => path.startsWith('http')

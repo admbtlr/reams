@@ -14,7 +14,7 @@ import {
 } from '../store/ui/types'
 import ItemCarousel from '../components/ItemCarousel.js'
 import { getIndex, getItems } from '../utils/get-item'
-import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
+import { ADD_TO_CATEGORY } from '../store/categories/types'
 
 const mapStateToProps = (state, ownProps) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
@@ -84,7 +84,7 @@ const mapDispatchToProps = (dispatch) => {
           savedAt: Date.now()
         })
         dispatch({
-          type: ADD_ITEM_TO_CATEGORY,
+          type: ADD_TO_CATEGORY,
           itemId: item._id,
           categoryId: 'inbox'
         })

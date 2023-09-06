@@ -8,6 +8,7 @@ export interface Item {
   feed_id: string
   id: string
   author?: string
+  cachedCoverImageId?: string
   created_at: number
   date_published?: string
   readAt?: number
@@ -156,7 +157,7 @@ export interface saveExternalUrlAction {
   url: string
 }
 
-interface unsaveItemAction {
+export interface unsaveItemAction {
   type: typeof UNSAVE_ITEM
   item: Item
 }

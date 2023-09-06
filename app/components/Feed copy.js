@@ -19,7 +19,7 @@ const RNFS = require('react-native-fs')
 import {ContrastSaturationBrightness} from 'gl-react-contrast-saturation-brightness'
 import ColorBlending from 'gl-react-color-blending'
 import { blendColor, hslString } from '../utils/colors'
-import FeedCoverImage from './FeedCoverImage'
+import CardCoverImage from './CardCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import TextButton from './TextButton'
 import XButton from './XButton'
@@ -468,7 +468,7 @@ class Feed extends React.PureComponent {
                 borderRadius: this.state.borderRadiusAnim,
                 overflow: 'hidden'
               }}>
-                <FeedCoverImage
+                <CardCoverImage
                   feedColor={this.props.feedColor}
                   feedId={this.props.feedId}
                   coverImageId={this.props.coverImageId}

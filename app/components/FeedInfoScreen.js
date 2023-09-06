@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native'
 import {Transition} from 'react-navigation-fluid-transitions'
-import FeedCoverImage from './FeedCoverImage'
+import CardCoverImage from './CardCoverImage'
 import FeedUnreadCounter from './FeedUnreadCounter'
 import { hslString } from '../utils/colors'
 import { getMargin } from 'utils'
@@ -45,7 +45,7 @@ class FeedInfoScreen extends React.Component {
           paddingTop: 100
         }}>
           <Transition shared={`feed-cover-${feedId}`}>
-            <FeedCoverImage
+            <CardCoverImage
               feedColor={feedColor}
               coverImagePath={coverImagePath}
               coverImageDimensions={coverImageDimensions}

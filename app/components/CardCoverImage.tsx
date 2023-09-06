@@ -7,29 +7,35 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'store/reducers'
 
 interface Props {
-  feedId: string
-  removeCoverImage: (feedId: string) => void
-  setCachedCoverImage: (feedId: string, imageId: string) => void
+  feedId: string | undefined
+  itemId: string | undefined
+  removeCachedCoverImage: (id: string) => void
+  setCachedCoverImage: (id: string, imageId: string) => void
   width: number
   height: number
 }
 
-export default function FeedCoverImage ({feedId, removeCoverImage, setCachedCoverImage, width, height}: Props) {
+export default function CardCoverImage ({feedId, itemId, removeCachedCoverImage, setCachedCoverImage, width, height}: Props) {
 
-  const feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feedId))
-  const cachedCoverImageId = useSelector((state: RootState) => state.feedsLocal.feeds.find(fl => fl._id === feed?._id)?.cachedCoverImageId)
-  const coverImageItem = useSelector((state: RootState) => state.itemsUnread.items
-    .filter(i => i.feed_id === feedId))
-    .find(i => i.banner_image)
+  const feed = feedId ? useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feedId)) : undefined
+  const item = itemId ? useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)) : undefined
+  const cachedCoverImageId = useSelector((state: RootState) => !!feedId ?
+    state.feedsLocal.feeds.find(fl => fl._id === feed?._id)?.cachedCoverImageId :
+    state.itemsSaved.items.find(i => i._id === itemId)?.cachedCoverImageId)
+
+  const coverImageItem = !!feedId ? useSelector((state: RootState) => state.itemsUnread.items
+      .filter(i => i.feed_id === feedId))
+      .find(i => i.banner_image) :
+      item?.banner_image ? item : undefined
   
   const maybeRemoveOrUpdateCoverImage = async () => {
     const path = getCoverImagePath()
     if (!path) return
     const exists = await fileExists(path)
     if (!exists) {
-      removeCoverImage(feedId)
+      removeCachedCoverImage(feedId || itemId || '')
     } else if (coverImageItem && !cachedCoverImageId) {
-      setCachedCoverImage(feedId, coverImageItem._id)
+      setCachedCoverImage(feedId || itemId || '', coverImageItem?._id)
     }
   }
 
@@ -50,7 +56,7 @@ export default function FeedCoverImage ({feedId, removeCoverImage, setCachedCove
   }
 
   const coverImageDimensions = coverImageItem?.imageDimensions
-  const color = feed?.color
+  const color = feed ? feed.color : 'black'
 
   const coverImagePath = getCoverImagePath()
 

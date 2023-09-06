@@ -18,7 +18,7 @@ import {
   addStylesIfNecessary,
   addMercuryStuffToItem,
   addCoverImageToItem,
-  removeCoverImageDuplicate,
+  removeCachedCoverImageDuplicate,
   setShowCoverImage
 } from '../../utils/item-utils.js'
 
@@ -124,7 +124,7 @@ export function itemDecorationSuccess (
         item = addCoverImageToItem(item, action.imageStuff)
         item.hasCoverImage = !!item.coverImageFile
         item = setShowCoverImage(item, currentItems[0])
-        item = removeCoverImageDuplicate(item)
+        item = removeCachedCoverImageDuplicate(item)
       }
     }
     return item

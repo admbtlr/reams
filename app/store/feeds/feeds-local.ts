@@ -8,14 +8,14 @@ import {
   SET_CACHED_FEED_ICON,
   FEED_HAS_RENDERED_ICON,
   SET_FEEDS,
-  SET_CACHED_FEED_COVER_IMAGE,
+  SET_CACHED_COVER_IMAGE,
   FeedActionTypes,
   FeedLocal,
   FeedsLocalState,
   ADD_FEED_SUCCESS,
   ADD_FEEDS_SUCCESS,
   REMOVE_FEED,
-  REMOVE_FEED_COVER_IMAGE,
+  REMOVE_CACHED_COVER_IMAGE,
   REFRESH_FEED_LIST
 } from './types'
 import { 
@@ -138,7 +138,7 @@ export function feedsLocal (
         feeds
       }
 
-    case SET_CACHED_FEED_COVER_IMAGE:
+    case SET_CACHED_COVER_IMAGE:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.id ?
@@ -149,7 +149,7 @@ export function feedsLocal (
           feed)
       }
 
-    case REMOVE_FEED_COVER_IMAGE:
+    case REMOVE_CACHED_COVER_IMAGE:
       return {
         ...state,
         feeds: state.feeds.map(feed => feed._id === action.id ?

@@ -21,7 +21,6 @@ const initialState: CategoriesState = {
     {
       _id: 'annotated',
       name: 'annotated',
-      isItems: true,
       isSystem: true,
       feeds: [],
       itemIds: []
@@ -29,7 +28,6 @@ const initialState: CategoriesState = {
     {
       _id: 'inbox',
       name: 'inbox',
-      isItems: true,
       isSystem: true,
       feeds: [],
       itemIds: []
@@ -37,7 +35,6 @@ const initialState: CategoriesState = {
     {
       _id: 'archive',
       name: 'archive',
-      isItems: true,
       isSystem: true,
       feeds: [],
       itemIds: []
@@ -63,9 +60,7 @@ export function categories (
             _id: action._id || id(),
             name: action.name,
             feeds: [],
-            itemIds: [],
-            isFeeds: action.isFeeds === undefined ? true : action.isFeeds,
-            isItems: action.isItems === undefined ? true : action.isItems,
+            itemIds: []
           } as Category
         ]
       }
@@ -103,6 +98,13 @@ export function categories (
       categories = categories.filter((c: Category) => c.id && c.id != '' ? 
         newCategories.find((nc: Category) => nc.id === c.id) : 
         true)
+      // ensure all categories have itemIds, because Feedbin doesn't know about them
+      categories = categories.map((c: Category) => {
+        if (!c.itemIds) {
+          c.itemIds = []
+        }
+        return c
+      })
       return {
         categories: categories
       }

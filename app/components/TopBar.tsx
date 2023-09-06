@@ -225,13 +225,13 @@ export default function TopBar({
                     textAlign: feedLocal && feedLocal.hasCachedIcon ?
                       'left' : 'center'
                   }}
-                >{displayMode === ItemType.saved ?
-                    'Saved Stories' :
-                    filter?.type ?
-                      (filter.type == 'category' ? 
-                        filter.title :
-                        'Feed') :
-                    'Unread Stories'} • { index + 1 } / { numItems }</Text>
+                >{filter?.type ?
+                    (filter.type == 'category' ? 
+                      filter.title :
+                      'Feed') :
+                    (displayMode === ItemType.saved ?
+                      'Saved Stories' : 
+                      'Unread Stories')} • { index + 1 } / { numItems }</Text>
                 <Text
                   numberOfLines={2}
                   ellipsizeMode='tail'
@@ -370,7 +370,7 @@ const BackButton = ({ isDarkMode, isSaved , navigation: { navigate } }: BackButt
   }}>
     <TouchableOpacity
       onPress={() => {
-        navigate(isSaved ? 'Initial' : 'Feeds', { transition: 'default' })
+        navigate('Feeds', { transition: 'default' })
       }}
       style={{
         paddingBottom: 10,
