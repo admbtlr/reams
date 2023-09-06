@@ -370,7 +370,7 @@ const BackButton = ({ isDarkMode, isSaved , navigation: { navigate } }: BackButt
   }}>
     <TouchableOpacity
       onPress={() => {
-        navigate('Feeds', { transition: 'default' })
+        navigate('Feeds', { isSaved, transition: 'default' })
       }}
       style={{
         paddingBottom: 10,
