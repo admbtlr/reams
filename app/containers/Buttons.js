@@ -2,6 +2,7 @@ import {
   SHOW_MODAL
 } from '../store/ui/types'
 import { 
+  ItemType,
   SET_DISPLAY_MODE
 } from '../store/items/types'
 

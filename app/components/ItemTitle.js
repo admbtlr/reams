@@ -9,6 +9,7 @@ import {hslString} from '../utils/colors'
 import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
 import * as Sentry from "@sentry/react-native"
+import CategoryToggles from './CategoryToggles'
 
 const entities = require('entities')
 
@@ -422,7 +423,16 @@ class ItemTitle extends React.Component {
   }
 
   render () {
-    let {scrollOffset, styles, showCoverImage, coverImageStyles, isPortrait, isVisible} = this.props
+    let {
+      coverImageStyles, 
+      displayMode,
+      isPortrait, 
+      isVisible,
+      item,
+      scrollOffset, 
+      showCoverImage, 
+      styles, 
+    } = this.props
 
     // this means the item hasn't been inflated from Firebase yet
     if (!styles) return null
@@ -456,6 +466,7 @@ class ItemTitle extends React.Component {
     const {
       opacity,
       titleAnimation,
+      categoriesAnimation,
       excerptAnimation,
       authorAnimation,
       dateAnimation,
@@ -540,7 +551,7 @@ class ItemTitle extends React.Component {
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
       marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
-      marginBottom: isFullBleed && styles.bg ? this.getExcerptLineHeight() : 0,
+      marginBottom: isFullBleed && styles.bg ? /*this.getExcerptLineHeight()*/ getMargin() : 0,
       marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
@@ -727,14 +738,16 @@ class ItemTitle extends React.Component {
         style={{
           ...outerViewStyle,
           justifyContent: showCoverImage ? justifiers[styles.valign] : 'flex-start',
-          alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start'
+          alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start',
+          flex: 1
         }}
       >
         <Animated.View
           style={{
             ...innerViewStyle,
+            flex: 0,
             marginLeft: styles.invertBG ? this.horizontalMargin - invertedTitleStyle.paddingLeft : this.horizontalMargin,
-            justifyContent: this.aligners[styles.textAlign]
+            justifyContent: this.aligners[styles.textAlign],
           }}
           ref={(view) => { this.innerView = view }}
         >
@@ -753,16 +766,27 @@ class ItemTitle extends React.Component {
             </Animated.Text>
           }
         </Animated.View>
+        { this.props.displayMode === ItemType.saved && 
+        <Animated.View style={{
+          ...this.props.addAnimation({}, categoriesAnimation, this.props.isVisible),
+          marginBottom: getMargin(),
+          marginLeft: this.horizontalMargin,
+        }}>
+          <CategoryToggles 
+            isWhite={showCoverImage && !coverImageStyles.isInline}
+            item={item} /> 
+        </Animated.View>
+        }
         { this.props.item.excerpt !== null &&
           this.props.item.excerpt !== undefined &&
           this.props.item.excerpt.length > 0 &&
           !this.props.item.excerpt.includes('ellip') &&
           !this.props.item.excerpt.includes('…') &&
           excerptView }
-          <View>
-            { authorView }
-            { dateView }
-          </View>
+        <View style={{ flex: 0 }}>
+          { authorView }
+          { dateView }
+        </View>
         {(!showCoverImage && this.itemStartsWithImage()) ||
           (showCoverImage &&
             this.props.item.excerpt !== null &&
@@ -909,7 +933,7 @@ class ItemTitle extends React.Component {
     }} />
 
     return (
-      <View>
+      <View style={{ flex: 0 }}>
         <Animated.View style={style}>
           <Animated.Text
             maxFontSizeMultiplier={1.2}
@@ -1098,6 +1122,7 @@ class ItemTitle extends React.Component {
             outputRange: [1, 1, 0, 0]
           })),
         titleAnimation: anims[1],
+        categoriesAnimation: anims[2],
         excerptAnimation: anims[2],
         authorAnimation: anims[3],
         dateAnimation: anims[4], 
@@ -1117,6 +1142,7 @@ class ItemTitle extends React.Component {
           outputRange: [1, 1, 0, 0]
         })),
       titleAnimation: anims[1],
+      categoriesAnimation: anims[2],
       excerptAnimation: anims[2],
       authorAnimation: anims[3],
       dateAnimation: anims[4],

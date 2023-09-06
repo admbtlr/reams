@@ -57,8 +57,8 @@ export const MERCURY_FEED_TOGGLE = 'MERCURY_FEED_TOGGLE'
 export const CACHE_FEED_ICON_ERROR = 'CACHE_FEED_ICON_ERROR'
 export const SET_CACHED_FEED_ICON = 'SET_CACHED_FEED_ICON'
 export const FEED_HAS_RENDERED_ICON = 'FEED_HAS_RENDERED_ICON'
-export const SET_CACHED_FEED_COVER_IMAGE = 'SET_CACHED_FEED_COVER_IMAGE'
-export const REMOVE_FEED_COVER_IMAGE = 'REMOVE_FEED_COVER_IMAGE'
+export const SET_CACHED_COVER_IMAGE = 'SET_CACHED_COVER_IMAGE'
+export const REMOVE_CACHED_COVER_IMAGE = 'REMOVE_CACHED_COVER_IMAGE'
 
 interface addFeedSuccessAction {
   type: typeof ADD_FEED_SUCCESS,
@@ -90,7 +90,7 @@ interface addFeedsAction {
   feeds: Feed[]
 }
 
-interface removeFeedAction {
+export interface removeFeedAction {
   type: typeof REMOVE_FEED
   feed: Feed
 }
@@ -156,14 +156,14 @@ interface feedHasRenderedIconAction {
   id: string
 }
 
-interface setCachedFeedCoverImageAction {
-  type: typeof SET_CACHED_FEED_COVER_IMAGE
+interface setCachedCardCoverImageAction {
+  type: typeof SET_CACHED_COVER_IMAGE
   id: string
   cachedCoverImageId: string
 }
 
-interface removeFeedCoverImageAction {
-  type: typeof REMOVE_FEED_COVER_IMAGE
+interface removeCardCoverImageAction {
+  type: typeof REMOVE_CACHED_COVER_IMAGE
   id: string
 }
 
@@ -185,5 +185,5 @@ export type FeedActionTypes = addFeedSuccessAction |
   cacheFeedIconErrorAction |
   setCachedFeedIconAction |
   feedHasRenderedIconAction |
-  setCachedFeedCoverImageAction |
-  removeFeedCoverImageAction
+  setCachedCardCoverImageAction |
+  removeCardCoverImageAction

@@ -53,7 +53,7 @@ export default function InitialScreen({}) {
       args = ['Items']
     } else if (backend) {
       if (displayMode === ItemType.saved) {
-        args = ['Items']
+        args = ['Feeds', 'Items']
       } else if (gotoFeeds) {
         args = ['Feeds', 'Items', 'Feeds']
       } else if (hasFeeds) {
@@ -187,7 +187,7 @@ export default function InitialScreen({}) {
                   type: SET_DISPLAY_MODE,
                   displayMode: 'saved'
                 })
-                navigation.navigate('Items')
+                navigation.navigate('Feeds')
               }}
               scrollAnim={scrollAnim}
               index={1}

@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native'
 import { blendColor, hslString } from '../utils/colors'
-import FeedCoverImage from './FeedCoverImage'
+import CardCoverImage from './CardCoverImage'
 import FeedIconCorner from './FeedIconCorner'
 import FeedDetails, { FeedStats } from './FeedDetails'
 import XButton from './XButton'
@@ -92,12 +92,12 @@ class FeedExpanded extends React.Component {
               overflow: 'hidden',
               flex: 1
             }}>
-            <FeedCoverImage
+            <CardCoverImage
               feed={feed}
               width={screenWidth}
               height={screenHeight * 0.6}
               setCachedCoverImage={this.props.setCachedCoverImage} 
-              removeCoverImage={this.props.removeCoverImage} />
+              removeCachedCoverImage={this.props.removeCachedCoverImage} />
             <View style={{
               position: 'absolute',
               left: 0,

@@ -184,7 +184,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
     }
 
     const inputView = (
-      modalProps.inputs && modalProps.inputs.length > 0 && 
+      modalProps?.inputs && modalProps.inputs.length > 0 && 
         modalProps.inputs.map((input: RizzleModal.Input, index: number) => {
           let inputState = {}
           inputState[input.name] = ''
@@ -299,7 +299,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
         </View>
       )
     const deleteButtonView = (
-      modalProps.deleteButton &&
+      modalProps?.deleteButton &&
         <TouchableOpacity
           onPress={() => {
             this.onDelete()
@@ -319,7 +319,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
         </TouchableOpacity>
       )
     const hideModalView = (
-      modalProps.modalHideable &&
+      modalProps?.modalHideable &&
         <View style={{
           flexDirection: 'row',
           justifyContent: 'center'
@@ -381,7 +381,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
             }}>
               <View style={{
                 ...this.getStyles().textHolder
-                }}>{this.formatText(modalProps.modalText)}</View>
+                }}>{this.formatText(modalProps?.modalText || '')}</View>
               { this.state.isDeletePending ? (
                 <Text style={{
                   ...this.getStyles().text,
@@ -398,7 +398,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
                 </>
               )}
               <View style={{...this.getStyles().buttonHolder}}>
-                { modalProps.modalHideCancel ||
+                { modalProps?.modalHideCancel ||
                   <TouchableOpacity
                     style={{
                       ...this.getStyles().touchable,

@@ -11,8 +11,8 @@ import {
   FeedLocal,
   MARK_FEED_READ,
   REMOVE_FEED,
-  REMOVE_FEED_COVER_IMAGE,
-  SET_CACHED_FEED_COVER_IMAGE
+  REMOVE_CACHED_COVER_IMAGE,
+  SET_CACHED_COVER_IMAGE
 } from '../store/feeds/types'
 import FeedContracted from '../components/FeedContracted'
 import {getCachedCoverImagePath} from '../utils'
@@ -112,14 +112,14 @@ const mapDispatchToProps = (dispatch: any) => {
     }),
     setCachedCoverImage: (feedId: string, cachedCoverImageId: string) => {
       return dispatch({
-        type: SET_CACHED_FEED_COVER_IMAGE,
+        type: SET_CACHED_COVER_IMAGE,
         id: feedId,
         cachedCoverImageId
       })
     },
-    removeCoverImage: (feedId: string) => {
+    removeCachedCoverImage: (feedId: string) => {
       return dispatch({
-        type: REMOVE_FEED_COVER_IMAGE,
+        type: REMOVE_CACHED_COVER_IMAGE,
         id: feedId
       })
     },

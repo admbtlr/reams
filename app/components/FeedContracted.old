@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native'
 import { hslString, rgbStringToHsl } from '../utils/colors'
-import FeedCoverImage from './FeedCoverImage'
+import CardCoverImage from './CardCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
 import FeedIconContainer from '../containers/FeedIcon'
 import FeedExpandedContainer from '../containers/FeedExpanded'
@@ -259,12 +259,12 @@ class FeedContracted extends React.PureComponent {
                     width: feeds.length > 1 ? Math.round(cardHeight / cardSizeDivisor) : cardWidth,
                     height: feeds.length > 1 ? Math.round(cardHeight / cardSizeDivisor) : cardHeight
                   }}>
-                  <FeedCoverImage
+                  <CardCoverImage
                     feed={feed}
                     width={feeds.length > 1 ? cardHeight / cardSizeDivisor : cardWidth}
                     height={feeds.length > 1 ? cardHeight / cardSizeDivisor : cardHeight}
                     setCachedCoverImage={this.props.setCachedCoverImage}
-                    removeCoverImage={this.props.removeCoverImage} />
+                    removeCachedCoverImage={this.props.removeCachedCoverImage} />
                 </View>
               )) }
             </View>

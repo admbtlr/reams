@@ -16,6 +16,7 @@ import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { REMOVE_FEED_FROM_CATEGORY, ADD_FEED_TO_CATEGORY } from '../store/categories/types'
 import { dustbinIcon, xIcon } from '../utils/icons'
+import CategoryToggles from './CategoryToggles'
 
 const compactButtons = !hasNotchOrIsland() && !isIpad()
 
@@ -151,10 +152,13 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       }}>
         <View style={{
           paddingTop: getMargin(),
-          paddingBottom: getMargin() - 8,
-          height: 70 * fontSizeMultiplier(),
+          // paddingBottom: getMargin() - 8,
+          height: 60 * fontSizeMultiplier(),
+          backgroundColor: 'yellow'
+          
         }}>
-          <ScrollView 
+          <CategoryToggles feed={feed} />
+          {/* <ScrollView 
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           >
@@ -163,46 +167,12 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
                 flexWrap: 'wrap',
               }}
             >
-          { categories.filter(c => !c.isSystem).map((category, index) => (
-              <TouchableOpacity 
-                key={index}
-                onPress={() => {
-                  category.feeds.find(f => f === feed._id) ?
-                    dispatch({
-                      type: REMOVE_FEED_FROM_CATEGORY, 
-                      feedId: feed._id, 
-                      categoryId: category._id
-                    }) :
-                    dispatch({
-                      type: ADD_FEED_TO_CATEGORY, 
-                      feedId: feed._id, 
-                      categoryId: category._id
-                    })
-                }}
-              >
-                <View style={{
-                  backgroundColor: category.feeds.indexOf(feed._id) > -1 ? hslString('rizzleText') : 'rgba(0,0,0,0.1)',
-                  borderRadius: 16,
-                  paddingVertical: 5,
-                  height: 32,
-                  marginRight: 8,
-                  marginBottom: 8,
-                  borderColor: hslString('rizzleText'),
-                }}>
-                  <Text style={{ 
-                    ...textInfoStyle(),
-                    color: category.feeds.indexOf(feed._id) > -1 ? hslString('white') : hslString('rizzleText'),
-                    margin: 0,
-                    padding: 0
-                  }}>{ category.name }</Text>
-                </View>
-              </TouchableOpacity>
-            ))
-          }
+
             </View>
-          </ScrollView>
+          </ScrollView> */}
         </View>
         <View style={{
+            backgroundColor: 'red',
             flexDirection: 'column',
             flex: 0,
             width: '100%'
