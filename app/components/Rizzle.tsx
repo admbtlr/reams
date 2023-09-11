@@ -16,8 +16,8 @@ import RizzleModalContainer from '../containers/RizzleModal'
 import Analytics from './Analytics'
 import Splash from './Splash'
 import Message from './Message'
-import * as tf from '@tensorflow/tfjs'
-import '@tensorflow/tfjs-react-native'
+// import * as tf from '@tensorflow/tfjs'
+// import '@tensorflow/tfjs-react-native'
 import OrientationListener from './OrientationListener'
 import BackgroundFetch from "react-native-background-fetch";
 import { PersistGate } from 'redux-persist/integration/react'
@@ -72,8 +72,8 @@ export default class Rizzle extends Component<Props, State> {
     InteractionManager.setDeadline(100)
     await this.initBackgroundFetch()
     if (!global.isBackgroundFetch) {
-      await tf.ready()
-      console.log('Tensor Flow is ready')    
+      // await tf.ready()
+      // console.log('Tensor Flow is ready')    
     }
   }
 

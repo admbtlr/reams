@@ -12,7 +12,7 @@ import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createIt
 import { deflateItem } from '../utils/item-utils'
 import { getActiveItems, getItem } from './selectors'
 import log from '../utils/log'
-import { faceDetection } from '../utils/face-detection'
+// import { faceDetection } from '../utils/face-detection'
 
 import {
   getIndex,
@@ -206,19 +206,19 @@ export function * decorateItem (item) {
   // consoleLog(`Loading Mercury stuff for ${item._id} done`)
   if (mercuryStuff.lead_image_url) {
     let coverImageFile = yield call (cacheCoverImage, item, mercuryStuff.lead_image_url)
-    if (coverImageFile) {
-      try {
-        const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
-        const faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
-        imageStuff = {
-          coverImageFile,
-          imageDimensions,
-          faceCentreNormalised
-        }
-      } catch (error) {
-        consoleLog(error)
-      }
-    }
+    // if (coverImageFile) {
+    //   try {
+    //     const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
+    //     const faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
+    //     imageStuff = {
+    //       coverImageFile,
+    //       imageDimensions,
+    //       faceCentreNormalised
+    //     }
+    //   } catch (error) {
+    //     consoleLog(error)
+    //   }
+    // }
   }
 
   if (imageStuff.imageDimensions && imageStuff.imageDimensions.width) {
