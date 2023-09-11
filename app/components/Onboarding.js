@@ -417,6 +417,7 @@ const Onboarding3 = ({ index }) => {
           keyboardType='email-address'
           onChangeText={setEmail}
           ref={inputRef}
+          selectionColor='white'
           style={{
             ...textInputStyle('white'),
             textAlign: 'center',

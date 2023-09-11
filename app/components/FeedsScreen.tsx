@@ -29,7 +29,7 @@ import { textInfoStyle } from '../utils/styles'
 import { RootState } from 'store/reducers'
 import { useIsFocused } from '@react-navigation/native'
 import { ItemType } from '../store/items/types'
-import { addCategoryProps } from '../utils/modal-props'
+import { searchItems } from '../storage/sqlite'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -52,6 +52,14 @@ const normaliseTitle = (title: string) => title.slice(0, 4).toUpperCase() === 'T
   title.toUpperCase()
 
 function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
+
+  useEffect(() => {
+    const search = async () => { 
+      const items = await searchItems('fascism') 
+      console.log(items)
+    }
+    search()
+  }, [])
 
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
   const [modal, setModal] = useState<{ feed: Feed, position: number } | null>(null)
