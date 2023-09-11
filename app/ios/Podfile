@@ -5,8 +5,6 @@ require File.join(File.dirname(`node --print "require.resolve('@react-native-com
 platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 
-production = ENV['PRODUCTION'] == '1'
-
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
