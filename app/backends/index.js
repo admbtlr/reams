@@ -24,8 +24,12 @@ export async function setBackend (bcknd, config = {}) {
   // SharedGroupPreferences.setItem('backend', backend, group)
 }
 
-export function unsetBackend () {
-  backend = undefined
+export function unsetBackend (bcknd) {
+  if (bcknd === 'feedbin') {
+    backend = 'reams'
+  } else if (bcknd === 'reams') {
+    backend = undefined
+  }
 }
 
 export async function loadMercuryStuff (item) {

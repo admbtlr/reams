@@ -30,22 +30,28 @@ export default function InitialScreen({}) {
   const navigation = useNavigation()
 
   useEffect(() => {
-    redirectToItems(false, true)
-  }, [])
-
-  useEffect(() => {
-    if (!backend || backend === '') {
-      // navigation.setOptions({
-      //   headerStyle: {
-      //     backgroundColor: hslString('logo1'),
-      //     // https://github.com/react-navigation/react-navigation/issues/6899
-      //     shadowOffset: { height: 0, width: 0 }
-      //   }
-      // })
-    } else {
+    if (isOnboarding) {
       redirectToItems()
     }
-  }, [isOnboarding, backend])
+  }, [isOnboarding])
+
+  // useEffect(() => {
+  //   redirectToItems(false, true)
+  // }, [])
+
+  // useEffect(() => {
+  //   if (!backend || backend === '') {
+  //     // navigation.setOptions({
+  //     //   headerStyle: {
+  //     //     backgroundColor: hslString('logo1'),
+  //     //     // https://github.com/react-navigation/react-navigation/issues/6899
+  //     //     shadowOffset: { height: 0, width: 0 }
+  //     //   }
+  //     // })
+  //   } else {
+  //     redirectToItems()
+  //   }
+  // }, [isOnboarding, backend])
 
   const redirectToItems = (gotoFeeds = false, useTimeout = false) => {
     let args: string[] = []

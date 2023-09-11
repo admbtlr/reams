@@ -8,6 +8,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import DeviceInfo from 'react-native-device-info'
 import { Item } from 'store/items/types'
+import { hslString } from './colors'
 
 let deviceId: string
 
@@ -250,5 +251,7 @@ export function getFeedColor () {
   //   randomIndex = Math.floor(Math.random() * colorNames.length)
   // }
   // return colorNames[randomIndex]
-  return [Math.round(Math.random() * 360), 20, 50]
+  
+  // return [Math.round(Math.random() * 360), 20, 50]
+  return hslString('rizzleFG').replace('hsl(', '').replace(')', '').split(',').map(n => Number.parseInt(n.replace('%', '')))
 }

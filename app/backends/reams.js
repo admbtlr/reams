@@ -15,14 +15,9 @@ import {
   setUid } from '../storage/firestore'
 // import { filterItemsForStale } from '../realm/stale-items'
 
-let isRizzlePlus = false
+let isPlus = false
 
-export function init ({ getFirebase, uid }) {
-  if (uid && getFirebase) {
-    setDb(getFirebase().firestore())
-    setUid(uid)
-    isRizzlePlus = true 
-  }
+export function init () {
 }
 
 export async function sendEmailLink (email) {
@@ -47,13 +42,13 @@ export async function sendEmailLink (email) {
 
 // callback, type, lastUpdated, oldItems, feeds, maxNum
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds, maxNum) {
-  if (type === 'saved' && isRizzlePlus) {
+  if (type === 'saved' && isPlus) {
     let savedItems = await getSavedItemsFS()
     savedItems = savedItems.filter(savedItem => !!!oldItems.find(oldItem => oldItem._id === savedItem._id))
     callback(savedItems)
   } else if (type === 'unread') {
     try {
-      const readItems = isRizzlePlus ? getReadItemsFS() : {}
+      const readItems = isPlus ? getReadItemsFS() : {}
       // let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
       // unreadItemArrays = extractErroredFeeds(unreadItemArrays)
       // let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
@@ -155,57 +150,57 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
 }
 
 export async function markItemRead (item) {
-  if (isRizzlePlus) {
+  if (isPlus) {
     addReadItemFS(item)
   }
 }
 
 export async function markItemsRead (items) {
-  if (isRizzlePlus) {
+  if (isPlus) {
     addReadItemsFS(items)
   }
 }
 
 export const saveItem = (item, folder) => {
-  if (isRizzlePlus) {
+  if (isPlus) {
     return upsertSavedItemFS(item)
   }
 }
 
 export const unsaveItem = (item, folder) => {
-  if (isRizzlePlus) {
+  if (isPlus) {
     return removeSavedItemFS(item)
   }
 }
 
 export function saveExternalItem (item, folder) {
-  if (isRizzlePlus) {
+  if (isPlus) {
     return upsertSavedItemFS(item)
   }
   return item
 }
 
 export async function addFeed (feed) {
-  if (isRizzlePlus) {
+  if (isPlus) {
     await addFeedFS(feed)
   }
   return feed
 }
 
 export async function updateFeed (feed) {
-  if (isRizzlePlus) {
+  if (isPlus) {
     upsertFeedsFS([feed])
   }
 }
 
 export async function removeFeed (feed) {
-  if (isRizzlePlus) {
+  if (isPlus) {
     removeFeedFS(feed)
   }
 }
 
 export async function fetchFeeds () {
-  if (isRizzlePlus) {
+  if (isPlus) {
     return getFeedsFS()
   } else return []
 }

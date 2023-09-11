@@ -1,12 +1,14 @@
-import { call, cancel, delay, fork, select, takeEvery } from 'redux-saga/effects'
+import { call, cancel, delay, fork, put, select, takeEvery } from 'redux-saga/effects'
 import { REHYDRATE } from 'redux-persist'
 import { 
+  STATE_ACTIVE,
+  STATE_INACTIVE, 
+} from '../store/config/types'
+import {
   SET_BACKEND, 
   SET_EXTRA_BACKEND, 
-  STATE_ACTIVE,
-  STATE_INACTIVE,
-  UNSET_BACKEND 
-} from '../store/config/types'
+  UNSET_BACKEND
+} from '../store/user/types'
 import {
   CLEAR_READ_ITEMS,
   ITEM_DECORATION_SUCCESS,
@@ -29,9 +31,11 @@ import {
   SET_FEEDS
 } from '../store/feeds/types'
 import {
+  CLEAR_MESSAGES,
   FETCH_ITEMS,
   ITEMS_SCREEN_BLUR,
-  ITEMS_SCREEN_FOCUS
+  ITEMS_SCREEN_FOCUS,
+  SHOW_MODAL
 } from '../store/ui/types'
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
@@ -43,7 +47,7 @@ import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
 import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed } from './feeds'
-import { initBackend, initOtherBackends } from './backend'
+import { primeAllBackends, primeBackend } from './backend'
 import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
 import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
@@ -53,29 +57,12 @@ import { addAnnotation, deleteAnnotation, editAnnotation } from './annotations'
 import { RootState } from 'store/reducers'
 import { UserState } from 'store/user/user'
 
-let downloadsFork
+let downloadsFork: any
 
 function * init (action: any) {
-  if (action.key && action.key !== 'primary') return
-  const user: UserState = yield select((state: RootState) => state.user)
-
-  const readwiseToken = user.backends?.find(b => b.name === 'readwise')?.accessToken
-  if (readwiseToken) {
-    yield initOtherBackends({
-      backend: 'readwise',
-      credentials: {
-        token: readwiseToken
-      }
-    })
-  }
-
-  const isFeedbin = user.backends?.find(b => b.name === 'feedbin')
-  if (isFeedbin) {
-    yield initBackend(action)
-    yield dedupeSaved()
-    yield call(inflateItems)
-    downloadsFork = yield fork(startDownloads, 'feedbin')
-  }
+  yield primeAllBackends()
+  yield call(inflateItems)
+  downloadsFork = yield fork(startDownloads)
 }
 
 export function * backgroundFetch (callback: () => void) {
@@ -85,32 +72,45 @@ export function * backgroundFetch (callback: () => void) {
   callback()
 }
 
-function * startDownloads (backend) {
+function * startDownloads () {
   if (global.isStarting) {
     // let the app render and get started
     yield delay(5000)
   }
-  yield call(fetchAllFeeds)
-  yield call(fetchAllItems)
-  yield call(clearReadItems)
-  yield call(pruneItems)
-  yield call(getCategories)
-  yield call(decorateItems)
-  yield call(executeRemoteActions)
-  yield call(inflateFeeds)  
+  try {
+    yield call(fetchAllFeeds)
+    yield call(fetchAllItems)
+    yield call(clearReadItems)
+    yield call(pruneItems)
+    yield call(getCategories)
+    yield call(decorateItems)
+    yield call(executeRemoteActions)
+    yield call(inflateFeeds)    
+  } catch (e: any) {
+    console.log(e)
+    yield put({ type: SHOW_MODAL, modalProps: 'Error : ' + (e.message || e)})
+    yield put({ type: CLEAR_MESSAGES })
+  }
 }
 
-function * killBackend () {
-  unsetBackend()
+function * killBackend ({ backend }: { backend: string }) {
+  unsetBackend(backend)
+  yield put({ type: CLEAR_MESSAGES })
   if (!!downloadsFork) {
     yield cancel(downloadsFork)
   }
 }
 
+function * initBackend (action: any) {
+  yield primeBackend(action)
+  if (action.backend === 'feedbin' || action.backend === 'reams') {
+    yield startDownloads()
+  }
+}
+
 export function * initSagas () {
   yield takeEvery(REHYDRATE, init)
-  yield takeEvery(SET_BACKEND, init)
-  yield takeEvery(UNSET_BACKEND, removeAllItems)
+  yield takeEvery(SET_BACKEND, initBackend)
   yield takeEvery(UNSET_BACKEND, killBackend)
   yield takeEvery(ADD_FEED, subscribeToFeed)
   yield takeEvery(ADD_FEEDS, subscribeToFeeds)

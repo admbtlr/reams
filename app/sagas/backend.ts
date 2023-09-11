@@ -1,16 +1,19 @@
 import { call, put, select, spawn, take } from 'redux-saga/effects'
 
-import { SET_BACKEND } from '../store/config/types'
+import { SET_BACKEND } from '../store/user/types'
 import { Annotation, EDIT_ANNOTATION } from '../store/annotations/types'
 import {
   getAnnotations,
   getUser
 } from './selectors'
 import { setBackend } from '../backends'
+import { init as initFeedbin } from '../backends/feedbin'
 import { createHighlights, init as initReadwise } from '../backends/readwise'
-import { UserState } from 'store/user/user'
+import { Backend, UserState } from 'store/user/user'
+import { dedupeSaved } from './prune-items'
+import { inflateItems } from './inflate-items'
 
-export function * initBackend (action) {
+export function * initBackend (action: any) {
   // const config = yield select(getConfig)
   const user: UserState = yield select(getUser)
 
@@ -52,6 +55,64 @@ export function * initBackend (action) {
   }
 }
 
+export function * primeAllBackends () {
+  const backends: Backend[] = yield select((state: any) => state.user.backends)
+  for (let backend of backends) {
+    yield call(primeBackend, backend.name)
+  }
+  if (!backends.find((b: any) => b.name === 'feedbin')) {
+    yield call(setBackend, 'reams', {})
+  }
+}
+
+export function * primeBackend(backend: string | any) {
+  switch (typeof backend === 'string' ? backend : backend.backend) {
+    case 'feedbin':
+      yield primeFeedbin()
+      return
+    case 'readwise':
+      yield primeReadwise()
+      return
+    default:
+      return
+  }
+}
+
+function * primeFeedbin () {
+  console.log('primeFeedbin')
+  const backends: Backend[] = yield select((state: any) => state.user.backends)
+  const credentials = backends.find((b: any) => b.name === 'feedbin')
+  // yield call(initFeedbin, credentials)
+  console.log('calling setBackend', credentials)
+  yield call(setBackend, 'feedbin', credentials)
+  yield dedupeSaved()
+  yield call(inflateItems)
+}
+
+function * primeReadwise () {
+  const credentials: Backend = yield select((state: any) => state.user.backends.find((b: any) => b.name === 'readwise'))
+  if (credentials.accessToken === undefined) return
+  initReadwise(credentials.accessToken)
+  const annotations: Annotation[] = yield select(getAnnotations)
+  const annotationsToUpload = annotations.filter(a => a.remote_id === undefined)
+  if (annotationsToUpload.length > 0) {
+    const response: { modified_highlights: string }[] = yield call(createHighlights, annotationsToUpload)
+    let i = 0
+    for (let highlight of response) {
+      // now add the remote id to each annotation
+      yield put({ 
+        type: EDIT_ANNOTATION, 
+        annotation: { 
+          ...annotationsToUpload[i++], 
+          remote_id: highlight.modified_highlights[0] 
+        },
+        skipRemote: true
+      })
+    }
+  }
+}
+
+
 export function * initOtherBackends ({ backend, credentials }: { backend: string, credentials: { token: string} }) {
   if (backend === 'readwise') {
     initReadwise(credentials?.token)
@@ -59,9 +120,10 @@ export function * initOtherBackends ({ backend, credentials }: { backend: string
       const annotations: Annotation[] = yield select(getAnnotations)
       const annotationsToUpload = annotations.filter(a => a.remote_id === undefined)
       if (annotationsToUpload.length > 0) {
-        const response = yield call(createHighlights, annotationsToUpload)
+        const response: any[] = yield call(createHighlights, annotationsToUpload)
         let i = 0
         for (let highlight of response) {
+          // now add the remote id to each annotation
           yield put({ 
             type: EDIT_ANNOTATION, 
             annotation: { 

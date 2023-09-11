@@ -1,8 +1,8 @@
 import {
   SET_BACKEND,
   UNSET_BACKEND,
-  ConfigActionTypes 
-} from '../config/types'
+  UserActionTypes 
+} from '../user/types'
 import { 
   FLATE_ITEMS,
   FLATE_ITEMS_ERROR,
@@ -51,7 +51,7 @@ const initialState:ItemsState = {
 
 export function itemsSaved (
   state = initialState, 
-  action: ItemActionTypes | ConfigActionTypes
+  action: ItemActionTypes | UserActionTypes
 ) : ItemsState {
   let items: Item[] = []
   let newItems: Item[] = []
@@ -61,9 +61,12 @@ export function itemsSaved (
   let carouselled: { index : number, items : Item[] }
 
   switch (action.type) {
-    case SET_BACKEND:
     case UNSET_BACKEND:
-      return initialState
+      if (action.backend === 'reams') {
+        return initialState
+      } else {
+        return state
+      }
 
     case UPDATE_CURRENT_INDEX:
       if (action.displayMode !== ItemType.saved) return state

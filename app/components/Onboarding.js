@@ -1,19 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {ActionSheetIOS, Animated, Dimensions, Easing, Image, Linking, Pressable, Text, TextInput, View} from 'react-native'
-import {WebView} from 'react-native-webview'
-import { openLink } from '../utils/open-link'
 import { hslString } from '../utils/colors'
 import TextButton from './TextButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { HIDE_ALL_BUTTONS, HIDE_LOADING_ANIMATION } from '../store/ui/types'
-import { TOGGLE_ONBOARDING, UPDATE_ONBOARDING_INDEX } from '../store/config/types'
+import { TOGGLE_ONBOARDING } from '../store/config/types'
 import LinearGradient from 'react-native-linear-gradient'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textInputStyle } from '../utils/styles'
 import { supabase } from '../storage/supabase'
 import { useSession } from './AuthProvider'
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication'
-import { G } from 'react-native-svg'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 export const pages = [{
@@ -48,11 +45,12 @@ export default function Onboarding ({index, navigation, isVisible}) {
   const dispatch = useDispatch()
   const isDarkMode = useSelector(state => state.ui.isDarkMode)
 
-  const hideAllButtons = () => dispatch({ type: HIDE_ALL_BUTTONS })
-  const hideLoadingAnimation = () => dispatch({ type: HIDE_LOADING_ANIMATION })
-
-  hideAllButtons()
-  hideLoadingAnimation()
+  useEffect(() => {
+    const hideAllButtons = () => dispatch({ type: HIDE_ALL_BUTTONS })
+    const hideLoadingAnimation = () => dispatch({ type: HIDE_LOADING_ANIMATION })
+    hideAllButtons()
+    hideLoadingAnimation()
+  })
 
   let server = ''
   if (__DEV__) {
@@ -495,8 +493,17 @@ const Onboarding4 = ({ index }) => {
           textAlign: 'left',
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
-            inputRange: [0, 0.05, 1],
+            inputRange: [0, 0.025, 1],
             outputRange: [0, 1, 1]
+          }),
+        }}>You're in!</Animated.Text>
+        <Animated.Text style={{
+          ...textLargeBoldStyle,
+          textAlign: 'left',
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.025, 0.065, 1],
+            outputRange: [0, 0, 1, 1]
           }),
         }}>A couple of things you should know before you get started</Animated.Text>
         <Animated.Text style={{

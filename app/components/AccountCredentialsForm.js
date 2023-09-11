@@ -20,6 +20,7 @@ import {
 } from '../utils/styles'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { BackgroundGradient } from './Onboarding'
+import { supabase } from '../storage/supabase'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -45,6 +46,7 @@ export const formElementStyles = {
 }
 
 const width = Dimensions.get('window').width
+
 class AccountCredentialsForm extends React.Component {
   constructor (props) {
     super(props)
@@ -261,8 +263,16 @@ class AccountCredentialsForm extends React.Component {
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}
                       color={hslString('white')}
-                      onPress={() => {                        
-                        unsetBackend(service) 
+                      onPress={async () => {
+                        if (service === 'feedbin') {
+                          EncryptedStorage.removeItem("feedbin_password")
+                        }
+                        if (service === 'reams') {
+                          await supabase.auth.signOut()
+                          // reams calls UNSET_BACKEND in the AuthProvider
+                        } else {
+                          unsetBackend(service) 
+                        }
                       }}
                       style={{
                         marginTop: 16 * fontSizeMultiplier(),

@@ -2,7 +2,7 @@ import { AuthChangeEvent, Session } from "@supabase/supabase-js"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { Linking } from "react-native"
 import { useDispatch } from "react-redux"
-import { SET_USER_DETAILS } from "../store/config/types"
+import { SET_USER_DETAILS, UNSET_BACKEND } from "../store/user/types"
 import { supabase } from "../storage/supabase"
 
 interface SessionContext {
@@ -31,6 +31,9 @@ export const AuthProvider = (props: any) => {
           console.log('Auth event', event)
           setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
+        } else {
+          setSession({session: null})
+          dispatch({ type: UNSET_BACKEND, backend: 'reams' })
         }
       }
     )
@@ -42,8 +45,10 @@ export const AuthProvider = (props: any) => {
   useEffect(() => {
     const supabaseLogin = async (url: string) => {
       if (url.match(/access_token=([^&]+)/) !== null && url.match(/refresh_token=([^&]+)/) !== null) {
-        const accessToken = url.match(/access_token=([^&]+)/)[1]
-        const refreshToken = url.match(/refresh_token=([^&]+)/)[1]
+        const accessMatch = url.match(/access_token=([^&]+)/)
+        const refreshMatch = url.match(/refresh_token=([^&]+)/)
+        const accessToken = accessMatch !== null && accessMatch.length > 1 ? accessMatch[1] : ''
+        const refreshToken = refreshMatch !== null && refreshMatch.length > 1 ? refreshMatch[1] : ''
         const session = await supabase.auth
           .setSession({
             access_token: accessToken,
