@@ -46,7 +46,6 @@
 		668CE9EE2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
 		6697466F23057C6400EDCFE7 /* rizzle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697462F23057C6200EDCFE7 /* rizzle.png */; };
 		6697467023057C6400EDCFE7 /* Splash-20190815.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697466E23057C6400EDCFE7 /* Splash-20190815.png */; };
-		669E12CD2860A943007DF853 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 669E12CC2860A943007DF853 /* RNBackgroundFetch+AppDelegate.m */; };
 		66A92E2823D88B12000E6D96 /* wordmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2223D88B12000E6D96 /* wordmark@2x.png */; };
 		66A92E2923D88B12000E6D96 /* wordmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2323D88B12000E6D96 /* wordmark.png */; };
 		66A92E2A23D88B12000E6D96 /* wordmark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A92E2423D88B12000E6D96 /* wordmark@3x.png */; };
@@ -142,7 +141,7 @@
 		11CD500228D549F8B770CE5F /* libRNTextSize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextSize.a; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Reams.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reams.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = rizzle/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.mm; path = rizzle/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = rizzle/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rizzle/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rizzle/main.m; sourceTree = "<group>"; };
@@ -175,7 +174,6 @@
 		668CE9EC2158BE6A00CA3EDF /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
 		6697462F23057C6200EDCFE7 /* rizzle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rizzle.png; path = ../img/splash/rizzle.png; sourceTree = "<group>"; };
 		6697466E23057C6400EDCFE7 /* Splash-20190815.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Splash-20190815.png"; path = "../img/splash/Splash-20190815.png"; sourceTree = "<group>"; };
-		669E12CC2860A943007DF853 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
 		66A92E2223D88B12000E6D96 /* wordmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@2x.png"; path = "../assets/images/wordmark@2x.png"; sourceTree = "<group>"; };
 		66A92E2323D88B12000E6D96 /* wordmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wordmark.png; path = ../assets/images/wordmark.png; sourceTree = "<group>"; };
 		66A92E2423D88B12000E6D96 /* wordmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordmark@3x.png"; path = "../assets/images/wordmark@3x.png"; sourceTree = "<group>"; };
@@ -266,7 +264,6 @@
 		13B07FAE1A68108700A75B9A /* Reams */ = {
 			isa = PBXGroup;
 			children = (
-				669E12CC2860A943007DF853 /* RNBackgroundFetch+AppDelegate.m */,
 				66737812204314A900572989 /* rizzle.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -840,7 +837,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				669E12CD2860A943007DF853 /* RNBackgroundFetch+AppDelegate.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				C9C848B454FF82A5D4620E9B /* ExpoModulesProvider.swift in Sources */,
@@ -923,7 +919,7 @@
 					"$(SRCROOT)/../node_modules/react-native-text-size/ios",
 				);
 				INFOPLIST_FILE = rizzle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -983,7 +979,7 @@
 					"$(SRCROOT)/../node_modules/react-native-text-size/ios",
 				);
 				INFOPLIST_FILE = rizzle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -1054,14 +1050,14 @@
 					"$(SRCROOT)/../node_modules/react-native-text-size/ios",
 				);
 				INFOPLIST_FILE = RizzleShare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift$(inherited)";
 				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1125,14 +1121,14 @@
 					"$(SRCROOT)/../node_modules/react-native-text-size/ios",
 				);
 				INFOPLIST_FILE = RizzleShare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift$(inherited)";
 				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1157,7 +1153,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1230,7 +1226,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;

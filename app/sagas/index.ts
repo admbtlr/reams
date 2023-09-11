@@ -63,13 +63,6 @@ function * init (action: any) {
   downloadsFork = yield fork(startDownloads)
 }
 
-export function * backgroundFetch (callback: () => void) {
-  yield call(fetchAllItems, false)
-  yield call(clearReadItems)
-  yield call(pruneItems)
-  callback()
-}
-
 function * startDownloads () {
   if (global.isStarting) {
     // let the app render and get started
