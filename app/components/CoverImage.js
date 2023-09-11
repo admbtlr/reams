@@ -1,6 +1,6 @@
 import React from 'react'
 import {Animated, Dimensions, Image, View } from 'react-native'
-import { VibrancyView } from '@react-native-community/blur'
+import { VibrancyView } from 'expo/blur'
 import Svg, {Text} from 'react-native-svg'
 import {
   Brightness,
