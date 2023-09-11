@@ -1,4 +1,9 @@
 {
   "name": "rizzle",
-  "displayName": "Rizzle"
+  "displayName": "Reams",
+  "expo": {
+    "name": "Reams",
+    "slug": "reams",
+    "sdkVersion": "47.0.0",
+  }
 }
