@@ -11,14 +11,12 @@ PODS:
     - ExpoModulesCore
   - EXErrorRecovery (4.0.1):
     - ExpoModulesCore
-  - EXFileSystem (14.1.0):
+  - EXFileSystem (15.1.1):
     - ExpoModulesCore
   - EXFont (11.0.1):
     - ExpoModulesCore
-  - EXGL (11.4.0):
-    - EXGL_CPP
+  - EXGL (12.0.1):
     - ExpoModulesCore
-  - EXGL_CPP (11.4.0):
     - React-jsi
   - Expo (47.0.14):
     - ExpoModulesCore
@@ -27,7 +25,7 @@ PODS:
   - ExpoModulesCore (1.1.1):
     - React-Core
     - ReactCommon/turbomodule/core
-  - EXSQLite (10.3.0):
+  - EXSQLite (11.0.0):
     - ExpoModulesCore
   - FBLazyVector (0.70.5)
   - FBReactNativeSpec (0.70.5):
@@ -341,20 +339,24 @@ PODS:
     - React
   - react-native-encrypted-storage (4.0.2):
     - React-Core
-  - react-native-get-random-values (1.9.0):
+  - react-native-get-random-values (1.8.0):
     - React-Core
   - react-native-image-filter-kit (0.8.0):
     - Bolts/Tasks (= 1.9.0)
     - React
   - react-native-image-resizer (1.4.5):
     - React-Core
-  - react-native-netinfo (9.4.1):
+  - react-native-netinfo (9.3.5):
     - React-Core
-  - react-native-safe-area-context (4.7.2):
+  - react-native-safe-area-context (4.4.1):
+    - RCT-Folly
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
+    - ReactCommon/turbomodule/core
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-webview (13.2.2):
+  - react-native-webview (11.23.1):
     - React-Core
   - React-perflogger (0.70.5)
   - React-RCTActionSheet (0.70.5):
@@ -427,9 +429,7 @@ PODS:
     - SDWebImageWebPCoder
   - RNAppleAuthentication (2.2.2):
     - React-Core
-  - RNBackgroundFetch (4.1.5):
-    - React-Core
-  - RNCAsyncStorage (1.17.10):
+  - RNCAsyncStorage (1.17.12):
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
@@ -437,7 +437,7 @@ PODS:
     - React-Core
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (1.10.3):
+  - RNGestureHandler (2.8.0):
     - React-Core
   - RNInAppBrowser (3.7.0):
     - React-Core
@@ -445,23 +445,23 @@ PODS:
     - React-Core
   - RNReactNativeSharedGroupPreferences (1.1.23):
     - React
-  - RNScreens (3.25.0):
+  - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
-  - RNSentry (4.15.2):
+  - RNSentry (4.9.0):
     - React-Core
-    - Sentry/HybridSDK (= 7.31.5)
+    - Sentry/HybridSDK (= 7.31.2)
   - RNSharedElement (0.8.4):
     - React-Core
-  - RNSVG (12.4.4):
+  - RNSVG (13.4.0):
     - React-Core
   - RNTextSize (4.0.0-rc.1):
     - React
-  - SDWebImage/Core (5.18.1)
+  - SDWebImage/Core (5.18.0)
   - SDWebImageWebPCoder (0.13.0):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry/HybridSDK (7.31.5)
+  - Sentry/HybridSDK (7.31.2)
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -476,8 +476,7 @@ DEPENDENCIES:
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
-  - EXGL (from `../node_modules/expo-gl/ios`)
-  - EXGL_CPP (from `../node_modules/expo-gl-cpp/cpp`)
+  - EXGL (from `../node_modules/expo-gl`)
   - Expo (from `../node_modules/expo`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
@@ -550,7 +549,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeWebPFormat (from `../node_modules/react-native-webp-format`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
-  - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -608,9 +606,7 @@ EXTERNAL SOURCES:
   EXFont:
     :path: "../node_modules/expo-font/ios"
   EXGL:
-    :path: "../node_modules/expo-gl/ios"
-  EXGL_CPP:
-    :path: "../node_modules/expo-gl-cpp/cpp"
+    :path: "../node_modules/expo-gl"
   Expo:
     :path: "../node_modules/expo"
   ExpoKeepAwake:
@@ -707,8 +703,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-webp-format"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
-  RNBackgroundFetch:
-    :path: "../node_modules/react-native-background-fetch"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
@@ -747,14 +741,13 @@ SPEC CHECKSUMS:
   EXApplication: 034b1c40a8e9fe1bff76a1e511ee90dff64ad834
   EXConstants: 3c86653c422dd77e40d10cbbabb3025003977415
   EXErrorRecovery: ae43433feb0608a64dc5b1c8363b3e7769a9ea24
-  EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
+  EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
-  EXGL: af303c96595c2879a83d0cdc429ee12639f6d78c
-  EXGL_CPP: 26d0d7639ec8fcf9133c2883926ca7a005625ee6
+  EXGL: 5f24aaf2552f784d5d59e960823faf53d120893c
   Expo: 5f4240506a147162542178989696e56e3dd72924
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
   ExpoModulesCore: 485dff3a59b036a33b6050c0a5aea3cf1037fdd1
-  EXSQLite: 82a4ca937f19d3cbbb6dba9e11d8e963175527c9
+  EXSQLite: 13c91c389b3c6241ddcf5c47eaa43289721193fe
   FBLazyVector: affa4ba1bfdaac110a789192f4d452b053a86624
   FBReactNativeSpec: fe8b5f1429cfe83a8d72dc8ed61dc7704cac8745
   Flipper: 26fc4b7382499f1281eb8cb921e5c3ad6de91fe0
@@ -792,11 +785,11 @@ SPEC CHECKSUMS:
   react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
   react-native-document-picker: 4921045c5c6c78243010f784eae0a3f4b2af7799
   react-native-encrypted-storage: e78d848ce0fb663c2ce306e37921d026809322e6
-  react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
+  react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-image-filter-kit: d79137549eb44f8215b7f2be5e77213f605e2c92
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
-  react-native-netinfo: fefd4e98d75cbdd6e85fc530f7111a8afdf2b0c5
-  react-native-safe-area-context: 7aa8e6d9d0f3100a820efb1a98af68aa747f9284
+  react-native-netinfo: 85b2a435c4d3705c08b0c42ff2d6ef6b9622ea0a
+  react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: b8ec89966713985111a14d6e4bf98d8b54bced0d
   React-perflogger: e68d3795cf5d247a0379735cbac7309adf2fb931
@@ -813,23 +806,22 @@ SPEC CHECKSUMS:
   ReactCommon: c9246996e73bf75a2c6c3ff15f1e16707cdc2da9
   ReactNativeWebPFormat: f5f043cc9ded052e535c3869ec341f91ba5a67c5
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
-  RNBackgroundFetch: 0d378f04faa1244f6eb3787f51f7d99520c1fe5e
-  RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
+  RNCAsyncStorage: 09fc8595e6d6f6d5abf16b23a56b257d9c6b7c5b
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNDeviceInfo: 02ea8b23e2280fa18e00a06d7e62804d74028579
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
   RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
   RNReactNativeSharedGroupPreferences: de0121a4224c267bc7e9fb16c398f3f087c8da81
-  RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
-  RNSentry: 4ea90ea061624364637e8077d965bf2e50478066
+  RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNSentry: 6503a8ec616947dbe98be828307c8f49e7686674
   RNSharedElement: eb7d506733952d58634f34c82ec17e82f557e377
-  RNSVG: ecd661f380a07ba690c9c5929c475a44f432d674
+  RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
-  SDWebImage: ebdbcebc7933a45226d9313bd0118bc052ad458b
+  SDWebImage: 182830bcddc30cde95fbc60dfe4badc3553d94ba
   SDWebImageWebPCoder: af09429398d99d524cae2fe00f6f0f6e491ed102
-  Sentry: 4c9babff9034785067c896fd580b1f7de44da020
+  Sentry: b15765d11769852fe78c9add942f7df60ed5dbf5
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: eca980a5771bf114c41a754098cd85e6e0d90ed7
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

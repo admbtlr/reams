@@ -2,9 +2,10 @@
   "name": "rizzle",
   "displayName": "Reams",
   "expo": {
+    "entryPoint": "./index.js",
     "name": "Reams",
     "slug": "reams",
-    "sdkVersion": "47.0.0",
+    "sdkVersion": "47.0.0"
   },
   "web": {
     "build": {

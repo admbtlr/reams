@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native'
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
-import { initStore, doBackgroundFetch, persistor } from '../store'
+import { initStore, persistor } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
@@ -74,18 +74,12 @@ export default class Rizzle extends Component<Props, State> {
   }
 
   async componentDidMount () {
-    // InteractionManager.setDeadline(100)
-    if (!global.isBackgroundFetch) {
-      // await tf.ready()
-      // console.log('Tensor Flow is ready')    
-    }
+    InteractionManager.setDeadline(100)
+    // await tf.ready()
+    // console.log('Tensor Flow is ready')    
   }
 
   render () {
-    if (global.isBackgroundFetch) {
-      return null
-    }
-    
     const onBeforeLift = () => {}
 
     const App = (
