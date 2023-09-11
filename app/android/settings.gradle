@@ -1,27 +1,20 @@
-rootProject.name = 'Rizzle'
-include ':react-native-google-signin'
-project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
-include ':react-native-text-size'
-project(':react-native-text-size').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-text-size/android')
-include ':react-native-fetch-blob'
-project(':react-native-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fetch-blob/android')
-include ':rn-fetch-blob'
-project(':rn-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/rn-fetch-blob/android')
-include ':react-native-splash-screen'
-project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
-include ':realm'
-project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
-include ':react-native-swiss-knife'
-project(':react-native-swiss-knife').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-swiss-knife/android')
-include ':react-native-svg'
-project(':react-native-svg').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-svg/android')
-include ':react-native-share-extension'
-project(':react-native-share-extension').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-extension/android')
-include ':react-native-measure-text'
-project(':react-native-measure-text').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-measure-text/android')
-include ':react-native-blur'
-project(':react-native-blur').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-blur/android')
-include ':react-native-shared-group-preferences'
-project(':react-native-shared-group-preferences').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-shared-group-preferences/android')
-
+rootProject.name = 'already'
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
+includeBuild('../node_modules/react-native-gradle-plugin')
+
+if (settings.hasProperty("newArchEnabled") && settings.newArchEnabled == "true") {
+    include(":ReactAndroid")
+    project(":ReactAndroid").projectDir = file('../node_modules/react-native/ReactAndroid')
+    include(":ReactAndroid:hermes-engine")
+    project(":ReactAndroid:hermes-engine").projectDir = file('../node_modules/react-native/ReactAndroid/hermes-engine')
+}
+
+apply from: new File(["node", "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle")
+useExpoModules()
+
+include ':react-native-config'
+project(':react-native-config').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-config/android')
+
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(settingsDir, '../node_modules/react-native-fs/android')

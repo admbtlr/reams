@@ -4,6 +4,6 @@
   "expo": {
     "name": "Reams",
     "slug": "reams",
-    "sdkVersion": "47.0.0",
+    "entryPoint": "./index.js"
   }
 }

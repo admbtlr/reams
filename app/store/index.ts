@@ -2,7 +2,7 @@ import { compose, createStore, applyMiddleware } from 'redux'
 import { AsyncThunk, AsyncThunkPayloadCreator, Dispatch, configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 import makeRootReducer, { RootState } from './reducers'
-import {backgroundFetch, initSagas} from '../sagas'
+import {initSagas} from '../sagas'
 import {
   createMigrate, 
   createTransform, 
@@ -90,11 +90,7 @@ function initStore (rehydrateCallback?: () => void) {
   return store
 }
 
-async function doBackgroundFetch(callback) {
-  await sagaMiddleware.run(backgroundFetch, callback)
-}
-
-export { store, initStore, doBackgroundFetch, persistor }
+export { store, initStore, persistor }
 
 // https://stackoverflow.com/a/66382690
 declare module "@reduxjs/toolkit" {

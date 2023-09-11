@@ -7,8 +7,6 @@
 #import <React/RCTConvert.h>
 #import "RNSplashScreen.h"
 
-#import <TSBackgroundFetch/TSBackgroundFetch.h>
-
 #import <React/RCTAppSetupUtils.h>
 
 #if RCT_NEW_ARCH_ENABLED
@@ -38,8 +36,10 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 {
   RCTAppSetupPrepareApp(application);
 
-  RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
+//  RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
 
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions]; 
+  
 #if RCT_NEW_ARCH_ENABLED
   _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
   _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
@@ -49,14 +49,14 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 #endif
 
   NSDictionary *initProps = [self prepareInitialProps];
-  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"rizzle", initProps);
+  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"main", initProps);
 
   // rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   // new but probably wrong for exmp:
-  // UIViewController *rootViewController = [UIViewController new];
-  UIViewController *rootViewController = [self.reactDelegate createRootViewController];
+  UIViewController *rootViewController = [UIViewController new];
+  // UIViewController *rootViewController = [self.reactDelegate createRootViewController];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   self.window.backgroundColor = [UIColor blackColor];
@@ -79,9 +79,6 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   // }
   [super application:application didFinishLaunchingWithOptions:launchOptions];
   
-  // [REQUIRED] Register BackgroundFetch
-  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
-
   return YES;
 }
 

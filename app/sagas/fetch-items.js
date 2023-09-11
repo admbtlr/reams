@@ -56,25 +56,21 @@ export function * fetchAllItems (includeSaved = true) {
   const connected = yield isConnectionOK()
   if (!connected) return
 
-  if (!global.isBackgroundFetch) {
-    yield put({
-      type: ADD_MESSAGE,
-      message: {
-        messageString: 'Loading stories',
-        hasEllipsis: true
-      }
-    })
-  }
+  yield put({
+    type: ADD_MESSAGE,
+    message: {
+      messageString: 'Loading stories',
+      hasEllipsis: true
+    }
+  })
   yield fetchItems(ItemType.unread)
   if (includeSaved) {
     yield fetchItems(ItemType.saved)
   }
-  if (!global.isBackgroundFetch) {
-    yield put({
-      type: REMOVE_MESSAGE,
-      messageString: 'Loading stories'
-    })
-  }
+  yield put({
+    type: REMOVE_MESSAGE,
+    messageString: 'Loading stories'
+  })
 }
 
 export function * fetchUnreadItems (action) {
