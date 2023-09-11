@@ -1,3 +1,4 @@
+import { concat } from "@tensorflow/tfjs";
 import * as SQLite from "expo-sqlite";
 import { Item } from "store/items/types";
 
@@ -42,22 +43,60 @@ async function doTransaction(query: string, params?: any[]) {
 export async function initSQLite() {
   db = SQLite.openDatabase("db.db")
   await doTransaction(`
-  create table if not exists items (
-    id INT NOT NULL,
-    _id STRING PRIMARY KEY NOT NULL,
-    content_html TEXT,
-    author TEXT,
-    date_published STRING,
-    content_mercury TEXT,
-    decoration_failures INT,
-    excerpt TEXT,
-    readAt LONG,
-    showMercuryContent BOOLEAN CHECK (showMercuryContent IN (0,1)),
-    hasShownMercury BOOLEAN,
-    scrollRatio TEXT,
-    styles TEXT
-  );`)
+    create table if not exists items (
+      id INT NOT NULL,
+      _id STRING PRIMARY KEY NOT NULL,
+      content_html TEXT,
+      author TEXT,
+      date_published STRING,
+      content_mercury TEXT,
+      decoration_failures INT,
+      excerpt TEXT,
+      readAt LONG,
+      showMercuryContent BOOLEAN CHECK (showMercuryContent IN (0,1)),
+      hasShownMercury BOOLEAN,
+      scrollRatio TEXT,
+      styles TEXT
+    );`)
+  // await initSearchTable()
   console.log('SQLite initialized, items count: ', await doTransaction('select count(*) from items;'))
+}
+
+// I keep getting Error code 11: database disk image is malformed when I try to query the fts5 table
+async function initSearchTable() {
+  await doTransaction(`
+    create virtual table if not exists items_search using fts5(
+      _id,
+      content_html,
+      author,
+      content_mercury,
+      excerpt,
+      content='items'
+    );`)
+  await doTransaction(`
+    create trigger if not exists items_search_insert after insert on items begin
+      insert into items_search (
+        _id,
+        content_html,
+        author,
+        content_mercury,
+        excerpt
+      ) values (
+        new._id,
+        new.content_html,
+        new.author,
+        new.content_mercury,
+        new.excerpt
+      );
+    end;`)
+  await doTransaction(`
+    INSERT INTO items_search SELECT 
+      _id,
+      content_html,
+      author,
+      content_mercury,
+      excerpt FROM items;
+  `)
 }
 
 export async function setItems(items: Item[]) {
@@ -138,6 +177,7 @@ export async function updateItems(items: Item[]) {
     await updateItem(item)
   }
 }
+
 export function deleteItems(items: Item[]) {
   const query = items ?
     `delete from items where _id in (${items.map(i => `"${i._id}"`).join(",")})` :
@@ -160,4 +200,10 @@ export async function updateItem(toUpdate: Record<string, any>) {
       toUpdate[key])).map((value) => value === 'null' ? null : value)
   const query = `update items set ${updateString} where _id = ?`
   return doTransaction(query, values.concat(toUpdate._id))
+}
+
+export async function searchItems(term: string) {
+  const searchTerm = `%${term}%`
+  const query = `SELECT * FROM items WHERE content_html LIKE ${searchTerm} OR content_mercury LIKE ${searchTerm} OR excerpt LIKE ${searchTerm};`
+  return doTransaction(query)
 }
