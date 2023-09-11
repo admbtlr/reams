@@ -1,8 +1,8 @@
 import { 
   SET_BACKEND,
   UNSET_BACKEND,
-  ConfigActionTypes
-} from '../config/types'
+  UserActionTypes
+} from '../user/types'
 import { 
   CACHE_FEED_ICON_ERROR,
   SET_CACHED_FEED_ICON,
@@ -30,7 +30,7 @@ const initialState: FeedsLocalState = {
 
 export function feedsLocal (
   state = initialState, 
-  action: FeedActionTypes | ConfigActionTypes | ItemActionTypes
+  action: FeedActionTypes | UserActionTypes | ItemActionTypes
 ) {
   let feeds: FeedLocal[]
   let feed: FeedLocal | undefined
@@ -183,9 +183,12 @@ export function feedsLocal (
         }))
       }
 
-    case SET_BACKEND:
     case UNSET_BACKEND:
-      return initialState
+      if (action.backend === 'reams') {
+        return initialState
+      } else {
+        return state
+      }
 
     default:
       return state

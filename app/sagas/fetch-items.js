@@ -56,10 +56,6 @@ export function * fetchAllItems (includeSaved = true) {
   const connected = yield isConnectionOK()
   if (!connected) return
 
-  // TODO fix this when the Reams backend works
-  const user = yield select(getUser)
-  if (!user.backends?.find(b => b.name === 'feedbin')) return
-
   if (!global.isBackgroundFetch) {
     yield put({
       type: ADD_MESSAGE,
@@ -91,6 +87,9 @@ export function * fetchItems (type = ItemType.unread) {
 
   if (type === ItemType.unread) {
     feeds = yield select(getFeeds)
+    if (!feeds || feeds.length === 0) {
+      return
+    }
     feeds = feeds.filter(f => !f.isMuted)
     const feedsLocal = yield select(getFeedsLocal)
     feeds = feeds.map(f => {

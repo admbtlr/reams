@@ -1,6 +1,5 @@
 import { deleteCategory } from "store/categories/types"
 import { Filter } from "./config"
-import { User } from "@supabase/supabase-js"
 
 export enum Direction {
   desc,
@@ -9,10 +8,6 @@ export enum Direction {
 }
 
 // config
-export const SET_BACKEND = 'SET_BACKEND'
-export const UNSET_BACKEND = 'UNSET_BACKEND'
-export const SET_EXTRA_BACKEND = 'SET_EXTRA_BACKEND'
-export const UNSET_EXTRA_BACKEND = 'UNSET_EXTRA_BACKEND'
 export const UPDATE_ONBOARDING_INDEX = 'UPDATE_ONBOARDING_INDEX'
 export const TOGGLE_ONBOARDING = 'TOGGLE_ONBOARDING'
 export const ITEMS_ONBOARDING_DONE = 'ITEMS_ONBOARDING_DONE'
@@ -29,35 +24,6 @@ export const STATE_INACTIVE = 'STATE_INACTIVE'
 // remote action queue
 export const REMOTE_ACTION_COMPLETED = 'REMOTE_ACTION_COMPLETED'
 export const REMOTE_ACTION_ERRORED = 'REMOTE_ACTION_ERRORED'
-
-// user
-export const SET_UID = 'SET_UID'
-export const SET_USER_DETAILS = 'SET_USER_DETAILS'
-export const SET_SIGN_IN_EMAIL = 'SET_SIGN_IN_EMAIL'
-
-interface setBackendAction {
-  type: typeof SET_BACKEND
-  backend: string
-  credentials: object | null
-}
-
-interface unsetBackendAction {
-  backend: string | null
-  type: typeof UNSET_BACKEND
-}
-
-interface setExtraBackend {
-  type: typeof SET_EXTRA_BACKEND
-  backend: string
-  credentials: {
-    token?: string
-  }
-}
-
-interface unsetExtraBackend {
-  type: typeof UNSET_EXTRA_BACKEND
-  backend: string
-}
 
 interface updateOnboardingInxeAction {
   type: typeof UPDATE_ONBOARDING_INDEX
@@ -112,31 +78,12 @@ interface remoteActionErroredAction {
   action: object
 }
 
-interface setUidAction {
-  type: typeof SET_UID
-  uid: string
-}
-
-interface setUserDetailsAction {
-  type: typeof SET_USER_DETAILS
-  details: User
-}
-
-interface setSignInEmailAction {
-  type: typeof SET_SIGN_IN_EMAIL
-  email: string
-}
-
 interface setStateActiveAction {
   type: typeof STATE_ACTIVE
   time: number
 }
 
-export type ConfigActionTypes = setBackendAction |
-  unsetBackendAction |
-  setExtraBackend |
-  unsetExtraBackend |  
-  updateOnboardingInxeAction |
+export type ConfigActionTypes = updateOnboardingInxeAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |
   feedOnboardingDoneAction |
@@ -146,8 +93,5 @@ export type ConfigActionTypes = setBackendAction |
   setItemSortAction |
   setShowNumUnreadAction |
   remoteActionCompletedAction |
-  setUidAction |
-  setUserDetailsAction |
-  setSignInEmailAction |
   setStateActiveAction |
   deleteCategory

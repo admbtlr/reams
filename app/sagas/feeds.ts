@@ -2,6 +2,7 @@ import { call, delay, put, select } from 'redux-saga/effects'
 import { InteractionManager } from 'react-native'
 import { 
   CLEAR_READ_ITEMS,
+  Item,
   MARK_ITEMS_READ,
   REMOVE_ITEMS 
 } from '../store/items/types'
@@ -9,6 +10,7 @@ import {
   ADD_FEED_SUCCESS,
   ADD_FEEDS_SUCCESS,
   CACHE_FEED_ICON_ERROR,
+  Feed,
   REFRESH_FEED_LIST,
   SET_CACHED_FEED_ICON,
   UPDATE_FEED
@@ -23,7 +25,9 @@ import { hexToHsl, rgbToHsl } from '../utils/colors'
 import feeds from '../utils/seedfeeds.js'
 const RNFS = require('react-native-fs')
 
-import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems } from './selectors'
+import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, getUser } from './selectors'
+import { Backend, UserState } from '../store/user/user'
+import { ConfigState } from '../store/config/config'
 
 function * prepareAndAddFeed (feed) {
   const feeds = yield select(getFeeds)
@@ -52,8 +56,15 @@ export function * unsubscribeFromFeed (action) {
 }
 
 export function * fetchAllFeeds () {
-  const config = yield select(getConfig)
+  const config: ConfigState = yield select(getConfig)
   if (!config.isOnline) return []
+
+  // TODO fix when plus can sync feeds
+  const user: UserState = yield select(getUser)
+  const backends = user.backends
+  if (!backends.find(b => b.name === 'feedbin')) {
+    return
+  }
 
   yield put({
     type: ADD_MESSAGE,
@@ -62,8 +73,8 @@ export function * fetchAllFeeds () {
       hasEllipsis: true
     }
   })
-  let oldFeeds = yield select(getFeeds) || []
-  let newFeeds = yield fetchFeeds() || []
+  let oldFeeds: Feed[] = yield select(getFeeds) || []
+  let newFeeds: Feed[] = yield fetchFeeds() || []
   let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => nf.id === of.id || nf.url === of.url))
   if (toRemove) {
     oldFeeds = oldFeeds.filter(of => !toRemove.includes(of))
@@ -78,7 +89,7 @@ export function * fetchAllFeeds () {
   })
 
   if (toRemove && toRemove.length) {
-    const items = yield select(getUnreadItems)
+    const items: Item[] = yield select(getUnreadItems)
     const dirtyFeedIds = toRemove.map(f => f._id)
     const dirtyItems = items.filter(i => dirtyFeedIds.includes(i.feed_id))
     yield put({

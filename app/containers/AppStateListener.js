@@ -21,8 +21,10 @@ import AppStateListener from '../components/AppStateListener'
 const mapStateToProps = (state) => {
   const appState = state.appState || 'inactive'
   const lastUpdated = state.itemsUnread.lastUpdated || 0
+  const isOnboarding = state.config.isOnboarding
   return {
     appState,
+    isOnboarding,
     lastUpdated
   }
 }

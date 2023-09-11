@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { SET_BACKEND, SET_EXTRA_BACKEND, SET_SIGN_IN_EMAIL, UNSET_BACKEND } from '../store/config/types'
+import { SET_EXTRA_BACKEND, SET_SIGN_IN_EMAIL } from '../store/config/types'
+import { SET_BACKEND, UNSET_BACKEND } from '../store/user/types'
 import { 
   SHOW_MODAL
 } from '../store/ui/types'

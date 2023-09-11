@@ -1,4 +1,4 @@
-import { ConfigActionTypes, UNSET_BACKEND } from '../config/types'
+import { UserActionTypes, UNSET_BACKEND } from '../user/types'
 import { id } from '../../utils/'
 import {
   Category,
@@ -44,7 +44,7 @@ const initialState: CategoriesState = {
 
 export function categories (
   state = initialState, 
-  action: CategoriesActionTypes | ConfigActionTypes
+  action: CategoriesActionTypes | UserActionTypes
 ) {
   let categories: Category[]
 
@@ -170,7 +170,12 @@ export function categories (
       }
 
     case UNSET_BACKEND:
-      return initialState
+      if (action.backend === 'reams') {
+        return initialState
+      } else {
+        return state
+      }
+      
     
     default:
       return state

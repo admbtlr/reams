@@ -1,12 +1,14 @@
 import { id } from '../../utils'
 import { 
-  SET_BACKEND, 
-  SET_SIGN_IN_EMAIL,
-  SET_UID,
-  SET_USER_DETAILS,
-  UNSET_BACKEND,
   ConfigActionTypes
 } from '../config/types'
+import {
+  SET_SIGN_IN_EMAIL,
+  SET_USER_DETAILS,
+  SET_BACKEND,
+  UNSET_BACKEND,
+  UserActionTypes,
+} from '../user/types'
 
 // export interface UserState {
 //   readonly displayName: string
@@ -32,6 +34,7 @@ export interface UserState {
   readonly email?: string
   readonly backends: Backend[]
   readonly analyticsId: string
+  readonly signInEmail?: string
 }
 
 
@@ -44,7 +47,7 @@ const initialState = {
 
 export function user (
   state = initialState, 
-  action: ConfigActionTypes
+  action: ConfigActionTypes | UserActionTypes
 ) : UserState {
   let backends: Backend[]
   switch (action.type) {
@@ -86,10 +89,14 @@ export function user (
       }
 
     case UNSET_BACKEND:
-      backends = state.backends.filter((b: Backend) => b.name !== action.backend)
-      return {
-        ...state,
-        backends
+      if (action.backend === 'reams') {
+        return initialState
+      } else {
+        backends = state.backends.filter((b: Backend) => b.name !== action.backend)
+        return {
+          ...state,
+          backends
+        }
       }
 
     case SET_SIGN_IN_EMAIL:

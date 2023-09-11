@@ -1,7 +1,7 @@
 import { 
   UNSET_BACKEND,
-  ConfigActionTypes
-} from '../config/types'
+  UserActionTypes
+} from '../user/types'
 import {
   ADD_FEED_SUCCESS,
   ADD_FEEDS_SUCCESS,
@@ -38,7 +38,7 @@ const initialState:FeedsState = {
 
 export function feeds (
   state = initialState, 
-  action: FeedActionTypes | ConfigActionTypes | ItemActionTypes
+  action: FeedActionTypes | UserActionTypes | ItemActionTypes | UserActionTypes
 ) {
   let feeds
   let feed
@@ -102,7 +102,11 @@ export function feeds (
       }
 
     case UNSET_BACKEND:
-      return initialState
+      if (action.backend === 'reams') {
+        return initialState
+      } else {
+        return state
+      }
 
     case ADD_READING_TIME:
       feeds = [ ...state.feeds ]

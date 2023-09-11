@@ -1,9 +1,12 @@
 import {
-  SET_BACKEND,
-  UNSET_BACKEND,
   SET_ITEM_SORT,
   ConfigActionTypes 
 } from '../config/types'
+import {
+  SET_BACKEND,
+  UNSET_BACKEND,
+  UserActionTypes,
+} from '../user/types'
 import {
   REMOVE_FEED,
   UPDATE_FEED,
@@ -86,7 +89,7 @@ export const initialState:ItemsState = {
 
 export function itemsUnread (
   state = initialState, 
-  action: ItemActionTypes | ConfigActionTypes | FeedActionTypes
+  action: ItemActionTypes | ConfigActionTypes | FeedActionTypes | UserActionTypes
 ) : ItemsState {
   let items: Item[] = []
   let newItems: Item[] = []
@@ -238,21 +241,12 @@ export function itemsUnread (
           map(i => i._id).includes(i._id))
       }
 
-    case SET_BACKEND:
     case UNSET_BACKEND:
-      return initialState
-
-    // case UPDATE_FEED:
-    //   const feed = action.feed
-    //   return {
-    //     ...state,
-    //     items: state.items.map(item => item.feed_id === feed._id ?
-    //       {
-    //         ...item,
-    //         feed_color: feed.color
-    //       } :
-    //       item)
-    //   }
+      if (action.backend === 'reams') {
+        return initialState
+      } else {
+        return state
+      }
 
     case SAVE_ITEM:
       return {
