@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import { parseString } from 'react-native-xml2js'
-const RNFS = require('react-native-fs')
+import * as FileSystem from 'expo-file-system'
 import { 
   ADD_MESSAGE, 
   REMOVE_MESSAGE, 
@@ -74,8 +74,8 @@ export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => 
     try {
       // const filePath = __DEV__ ?
       //   `file://${RNFS.DocumentDirectoryPath}/subscriptions.xmls` :
-      const filePath = res.uri
-      const contents = await RNFS.readFile(filePath)
+      const filePath = res.uri || ''
+      const contents = await FileSystem.readAsStringAsync(filePath)
       const traverse = (o: any, feeds: Array<Feed>) => {
         let iterable = o
         if (!Array.isArray(o)) {

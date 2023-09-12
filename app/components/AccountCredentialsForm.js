@@ -186,7 +186,7 @@ class AccountCredentialsForm extends React.Component {
       return isSubmitting ?
         <Text style={{
           ...textLabelStyle(),
-          marginTop: 6,
+          marginTop: 12,
           textAlign: 'center'
         }}>Submitting...</Text> :
         <TouchableOpacity

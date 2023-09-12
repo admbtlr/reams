@@ -1,6 +1,6 @@
 import { call, delay, put, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
-const RNFS = require('react-native-fs')
+import * as FileSystem from 'expo-file-system'
 import { InteractionManager } from 'react-native'
 import { 
   FLATE_ITEMS,
@@ -257,14 +257,10 @@ export async function cacheCoverImage (item, imageURL) {
   // and it seems like Image adds '.png' to a filename if there's no extension
   const fileName = getCachedCoverImagePath(item)
   // consoleLog(`Loading cover image for ${item._id}...`)
-  if (await RNFS.exists(fileName)) return fileName
+  const fileInfo = await FileSystem.getInfoAsync(fileName)
+  if (fileInfo.exists) return fileName
   try {
-    await RNFS.downloadFile({
-      fromUrl: imageURL,
-      toFile: fileName,
-      begin: () => {},
-      progress: () => {}
-    }).promise
+    await FileSystem.downloadAsync(imageURL, fileName)
     return fileName
   } catch(err) {
     consoleLog(`Loading cover image for ${item._id} failed :(`)

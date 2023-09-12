@@ -1,4 +1,4 @@
-const RNFS = require('react-native-fs')
+import * as FileSystem from 'expo-file-system'
 import {
   Animated,
   Dimensions,
@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import DeviceInfo from 'react-native-device-info'
-import { Item } from 'store/items/types'
+import { Item } from '../store/items/types'
 import { hslString } from './colors'
 
 let deviceId: string
@@ -101,24 +101,25 @@ export function getCachedCoverImagePath (item: Item | string) {
   const id = typeof item === 'object'
     ? item._id
     : item
-  return `${RNFS.DocumentDirectoryPath}/${id}.jpg`
+  return `${FileSystem.documentDirectory}${id}.jpg`
 }
 
 export function getCachedFeedIconPath (id: string) {
-  return `${RNFS.DocumentDirectoryPath}/feed-icons/${id}.png`
+  return `${FileSystem.documentDirectory}feed-icons/${id}.png`
 }
 
 export function getRenderedFeedIconPath (id: string) {
-  return `${RNFS.DocumentDirectoryPath}/feed-icons/rendered/${id}.png`
+  return `${FileSystem.documentDirectory}feed-icons/rendered/${id}.png`
 }
 
 export async function fileExists (path: string) {
-  return RNFS.exists(path)
+  const fileInfo = await FileSystem.getInfoAsync(path)
+  return fileInfo.exists
 }
 
 export function getImageDimensions (path: string) {
   return new Promise((resolve, reject) => {
-    Image.getSize(`file://${path}`, (imageWidth, imageHeight) => {
+    Image.getSize(path, (imageWidth, imageHeight) => {
       resolve({
         width: imageWidth,
         height: imageHeight

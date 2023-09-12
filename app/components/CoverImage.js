@@ -199,7 +199,7 @@ class CoverImage extends React.Component {
 
       const image = (
           <Image
-            source={{uri: `file://${this.props.imagePath}`}}
+            source={{uri: this.props.imagePath}}
             style={{
               resizeMode: 'cover',
               // alignSelf: 'flex-end',
