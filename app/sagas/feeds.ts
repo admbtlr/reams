@@ -23,7 +23,7 @@ import { addFeed, fetchFeeds, getFeedDetails, removeFeed, updateFeed } from '../
 import { id, getFeedColor, getImageDimensions } from '../utils'
 import { hexToHsl, rgbToHsl } from '../utils/colors'
 import feeds from '../utils/seedfeeds.js'
-const RNFS = require('react-native-fs')
+import * as FileSystem from 'expo-file-system'
 
 import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, getUser } from './selectors'
 import { Backend, UserState } from '../store/user/user'
@@ -235,19 +235,18 @@ function downloadFeedFavicon (feed) {
   if (['png', 'jpg', 'jpeg'].indexOf(extension.toLowerCase()) === -1) {
     extension = 'png' // nnnggh
   }
-  const fileName = `${RNFS.DocumentDirectoryPath}/feed-icons/${feed._id}.${extension}`
-  return RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/feed-icons`).then(_ =>
-    RNFS.downloadFile({
-      fromUrl: url,
-      toFile: fileName
-    }).promise.then((result) => {
-      return fileName
+  const fileName = `${FileSystem.documentDirectory}feed-icons/${feed._id}.${extension}`
+
+  return FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}feed-icons`, { intermediates: true })
+    .then(_ =>
+      FileSystem.downloadAsync(url, fileName).then((result) => {
+        return fileName
+      })
+    ).catch((err) => {
+      console.log(`Loading feed favicon for ${feed._id} failed :(`)
+      console.log(err)
+      return false
     })
-  ).catch((err) => {
-    console.log(`Loading feed favicon for ${feed._id} failed :(`)
-    console.log(err)
-    return false
-  })
 }
 
 export function * subscribeToFeeds (action) {

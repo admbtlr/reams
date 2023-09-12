@@ -1,5 +1,5 @@
 const fuzz = require('fuzzball')
-const RNFS = require('react-native-fs')
+import * as FileSystem from 'expo-file-system'
 const sanitizeHtml = require('sanitize-html')
 import {createItemStyles, compressStyles, expandStyles} from './createItemStyles'
 import {getCachedCoverImagePath} from './index'
@@ -266,17 +266,12 @@ export function removeCachedCoverImageDuplicate (item) {
   return item
 }
 
-export function removeCachedCoverImages (items) {
+export async function removeCachedCoverImages (items) {
   if (!items) return
-  items.forEach(item => {
+  items.forEach(async (item) => {
     let path = getCachedCoverImagePath(item)
     if (path) {
-      RNFS.unlink(path)
-        .catch((error) => {
-          // console.log(error)
-        })
+      await FileSystem.deleteAsync(path)
     }
   })
-  // for (let item of items) {
-  // }
 }

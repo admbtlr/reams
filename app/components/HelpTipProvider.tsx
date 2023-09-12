@@ -4,11 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { textInfoStyle } from '../utils/styles'
 import { fontSizeMultiplier, getMargin } from '../utils'
-import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { TouchableOpacity } from 'react-native'
 import { xIcon } from '../utils/icons'
 import { HIDE_HELPTIP } from '../store/ui/types'
-import { hslString } from '../utils/colors'
 
 const helpTips:{ key: string, text: string }[] = [{
   key: 'feedsScreen',

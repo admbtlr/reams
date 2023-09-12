@@ -63,7 +63,7 @@ export default function CardCoverImage ({feedId, itemId, removeCachedCoverImage,
   return (color && !!coverImagePath && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
     <Animated.View style={{ width, height }}>
       <Animated.Image
-        source={{ uri: `file://${coverImagePath}` }}
+        source={{ uri: coverImagePath }}
         style={{
           alignSelf: 'center',
           width,

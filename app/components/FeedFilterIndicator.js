@@ -1,11 +1,10 @@
 import React from 'react'
-import { Animated, LayoutAnimation, Text, View } from 'react-native'
+import { Animated, LayoutAnimation, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textLabelStyle } from '../utils/styles'
 import { hslString } from '../utils/colors'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SET_FILTER } from 'store/config/types'
 
 export default function FeedFilterIndicator ({ scrollAnim }) {
