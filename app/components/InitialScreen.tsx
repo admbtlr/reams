@@ -31,7 +31,7 @@ export default function InitialScreen({}) {
 
   useEffect(() => {
     if (isOnboarding) {
-      redirectToItems()
+      redirectToItems(true, true)
     }
   }, [isOnboarding])
 
@@ -56,7 +56,7 @@ export default function InitialScreen({}) {
   const redirectToItems = (gotoFeeds = false, useTimeout = false) => {
     let args: string[] = []
     if (isOnboarding) {
-      args = ['Items']
+      args = ['Feeds', 'Items']
     } else if (backend) {
       if (displayMode === ItemType.saved) {
         args = ['Feeds', 'Items']
