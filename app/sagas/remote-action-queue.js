@@ -12,9 +12,7 @@ import {
   UPDATE_CATEGORY_REMOTE 
 } from '../store/categories/types'
 import { createCategory, deleteCategory, markItemRead, markItemsRead, updateCategory } from '../backends'
-import { removeCachedCoverImages } from '../utils/item-utils'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
-import log from '../utils/log'
 import { updateItem } from '../storage/sqlite'
 
 const INITIAL_INTERVAL = 2000

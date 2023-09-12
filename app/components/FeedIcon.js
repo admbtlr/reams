@@ -3,7 +3,6 @@ import {
   Image,
   View
 } from 'react-native'
-const RNFS = require('react-native-fs')
 import {getCachedFeedIconPath} from '../utils/'
 
 function FeedIcon ({

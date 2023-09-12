@@ -14,8 +14,7 @@ export async function faceDetection (imageFileName: string, dimensions: dimensio
   let faces
   tfModel = tfModel || await blazeface.load()
   try {
-    const uri = `file:///${imageFileName}`
-    const resized = await resizeImage(uri, dimensions)
+    const resized = await resizeImage(imageFileName, dimensions)
     const imgB64 = await FileSystem.readAsStringAsync(resized, {
       encoding: FileSystem.EncodingType.Base64,
     })

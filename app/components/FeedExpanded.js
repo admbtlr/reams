@@ -4,15 +4,12 @@ import {
   Text,
   View
 } from 'react-native'
-import { blendColor, hslString } from '../utils/colors'
+import { hslString } from '../utils/colors'
 import CardCoverImage from './CardCoverImage'
-import FeedIconCorner from './FeedIconCorner'
 import FeedDetails, { FeedStats } from './FeedDetails'
 import XButton from './XButton'
-import FeedExpandedOnboarding from './FeedExpandedOnboarding'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
-import { ScrollView } from 'react-native-gesture-handler'
 
 class FeedExpanded extends React.Component {
 
