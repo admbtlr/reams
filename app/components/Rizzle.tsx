@@ -25,6 +25,7 @@ import HelpTipProvider from './HelpTipProvider'
 import { supabase } from '../storage/supabase'
 import { AuthProvider } from './AuthProvider'
 import { initSQLite } from '../storage/sqlite'
+import Config from 'react-native-config'
 
 export interface Props {
   isActionExtension?: boolean
@@ -33,7 +34,7 @@ export interface Props {
 export interface State {}
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
-const routingInstrumentation = new Sentry.ReactNavigationV5Instrumentation()
+const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
 let store: object | undefined = {}
 
@@ -54,8 +55,9 @@ export default class Rizzle extends Component<Props, State> {
     store = configureStore()
 
     Sentry.init({
-      dsn: 'https://1dad862b663640649e6c46afed28a37f@sentry.io/195309',
-      enableAutoSessionTracking: true
+      dsn: Config.SENTRY_DSN,
+      enableAutoSessionTracking: true,
+      debug: __DEV__
     })
 
     initSQLite()
