@@ -3,7 +3,6 @@ import {
   Animated,
   Dimensions,
 } from 'react-native'
-import { SharedElement } from 'react-navigation-shared-element'
 import FeedItemContainer from '../containers/FeedItem.js'
 import Onboarding, { pages } from './Onboarding.js'
 import { hslString } from '../utils/colors'

@@ -443,28 +443,26 @@ PODS:
     - React-Core
   - RNInAppBrowser (3.7.0):
     - React-Core
-  - RNReactNativeHapticFeedback (1.14.0):
+  - RNReactNativeHapticFeedback (2.2.0):
     - React-Core
   - RNReactNativeSharedGroupPreferences (1.1.23):
     - React
   - RNScreens (2.18.1):
     - React-Core
-  - RNSentry (3.4.3):
+  - RNSentry (4.15.2):
     - React-Core
-    - Sentry (= 7.11.0)
+    - Sentry/HybridSDK (= 7.31.5)
   - RNSharedElement (0.8.4):
     - React-Core
   - RNSVG (12.4.4):
     - React-Core
   - RNTextSize (4.0.0-rc.1):
     - React
-  - SDWebImage/Core (5.18.0)
+  - SDWebImage/Core (5.18.1)
   - SDWebImageWebPCoder (0.13.0):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry (7.11.0):
-    - Sentry/Core (= 7.11.0)
-  - Sentry/Core (7.11.0)
+  - Sentry/HybridSDK (7.31.5)
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -819,16 +817,16 @@ SPEC CHECKSUMS:
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
-  RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
+  RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
   RNReactNativeSharedGroupPreferences: de0121a4224c267bc7e9fb16c398f3f087c8da81
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
-  RNSentry: 85f6525b5fe8d2ada065858026b338605b3c09da
+  RNSentry: 4ea90ea061624364637e8077d965bf2e50478066
   RNSharedElement: eb7d506733952d58634f34c82ec17e82f557e377
   RNSVG: ecd661f380a07ba690c9c5929c475a44f432d674
   RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
-  SDWebImage: 182830bcddc30cde95fbc60dfe4badc3553d94ba
+  SDWebImage: ebdbcebc7933a45226d9313bd0118bc052ad458b
   SDWebImageWebPCoder: af09429398d99d524cae2fe00f6f0f6e491ed102
-  Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341
+  Sentry: 4c9babff9034785067c896fd580b1f7de44da020
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: eca980a5771bf114c41a754098cd85e6e0d90ed7
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

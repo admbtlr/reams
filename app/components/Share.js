@@ -9,6 +9,7 @@ import {
 import * as Sentry from '@sentry/react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import {decode} from 'html-entities'
+import Config from 'react-native-config'
 
 import TextButton from './TextButton'
 import AnimatedEllipsis from './AnimatedEllipsis'
@@ -34,7 +35,7 @@ class Share extends React.Component {
       retrievingRss: false
     }
     Sentry.init({
-      dsn: 'https://1dad862b663640649e6c46afed28a37f:08138824595d4469b62aaba4c01c71f4@sentry.io/195309'
+      dsn: Config.SENTRY_DSN
     })
 
     this.addFeed = this.addFeed.bind(this)
