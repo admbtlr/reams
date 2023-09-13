@@ -140,7 +140,7 @@
     "@tensorflow-models/blazeface": "0.0.7",
     "@tensorflow/tfjs": "3.18.0",
     "@tensorflow/tfjs-react-native": "0.8.0",
-    "react-native-reanimated": "^1.7.1",
+    "react-native-reanimated": "^1.7.1"
   },
   "jest": {
     "globals": {
