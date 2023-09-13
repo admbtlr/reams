@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import React from 'react'
 import { Button, Dimensions, LayoutAnimation, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import AnimatedEllipsis from 'react-native-animated-ellipsis'
-import EncryptedStorage from 'react-native-encrypted-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { sendEmailLink } from '../backends/reams'
 import { init } from '../backends/readwise'
@@ -85,7 +85,7 @@ class AccountCredentialsForm extends React.Component {
             accessToken: response.token
           })
         } else if (service === 'feedbin') {
-          await EncryptedStorage.setItem("feedbin_password", password)
+          await AsyncStorage.setItem("feedbin_password", password)
           setBackend('feedbin', {
             username
           })

@@ -36,8 +36,8 @@ const MainStack = createStackNavigator()
 const Feeds = () => (
   <FeedsStack.Navigator
     initialRouteName='Feeds Screen'
-    mode='modal'
     screenOptions={{
+      presentation: 'modal',
       headerShown: false
     }}
   >
@@ -245,8 +245,8 @@ export default App = () => {
   return (
     <AppStack.Navigator
       initialRouteName='Main'
-      mode='modal'
       screenOptions={{
+        presentation: 'modal',
         headerShown: false,
         cardStyle: {
               backgroundColor: hslString('rizzleBG')

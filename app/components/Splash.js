@@ -87,7 +87,7 @@ export default function Splash () {
   return hasFaded ? null :
     <Animated.View
       onLayout={() => {
-        SplashScreen.hide()
+        // SplashScreen.hide()
       }}
       style={{
         position: 'absolute',
@@ -112,7 +112,7 @@ export default function Splash () {
       <Image
         onLoadEnd={() => {
           console.log('onLoadEnd!')
-          SplashScreen.hide()
+          // SplashScreen.hide()
         }}
         // resizeMode='contain'
         source={require('../assets/images/ream.png')}

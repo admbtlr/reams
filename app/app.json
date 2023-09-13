@@ -5,5 +5,14 @@
     "name": "Reams",
     "slug": "reams",
     "sdkVersion": "47.0.0",
+  },
+  "web": {
+    "build": {
+      "babel": {
+        "include": [
+          "@invertase/react-native-apple-authentication"
+        ]
+      }
+    }
   }
 }

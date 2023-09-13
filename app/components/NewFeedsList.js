@@ -19,7 +19,7 @@ import { fontSizeMultiplier, getMargin } from '../utils'
 import { hslString } from '../utils/colors'
 import {feeds} from '../utils/feeds/feeds'
 import { textInfoBoldStyle } from '../utils/styles'
-import { rgba } from 'react-native-image-filter-kit'
+// import { rgba } from 'react-native-image-filter-kit'
 // import {culture} from '../utils/feeds/culture'
 
 const textStyles = () => ({

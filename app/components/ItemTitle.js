@@ -8,7 +8,7 @@ import quote from 'headline-quotes'
 import {hslString} from '../utils/colors'
 import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
-import * as Sentry from "@sentry/react-native"
+// import * as Sentry from "@sentry/react-native"
 import CategoryToggles from './CategoryToggles'
 
 const entities = require('entities')
@@ -325,9 +325,9 @@ class ItemTitle extends React.Component {
       // "This value specifies the number of points by which to adjust kern-pair characters"
       // https://developer.apple.com/documentation/uikit/nskernattributename
 
-      if (!optimal?.size) {
-        Sentry.captureMessage(`Optimal is not an object for "${this.displayTitle}": ${JSON.stringify(optimal)}`)
-      }
+      // if (!optimal?.size) {
+      //   Sentry.captureMessage(`Optimal is not an object for "${this.displayTitle}": ${JSON.stringify(optimal)}`)
+      // }
 
       // often out by 1...
       optimal.size--
