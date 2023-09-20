@@ -2,6 +2,7 @@ import {decode, encode} from 'base-64'
 import EncryptedStorage from 'react-native-encrypted-storage'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
+import Config from 'react-native-config'
 
 let credentials = {}
 
@@ -89,8 +90,11 @@ async function doRequest (url, options = {}, expectNoContent = false) {
 
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  const response = await fetch(url, options)
+  const reqUrl = !!Config.CORS_PROXY ? Config.CORS_PROXY + url : url
+  const response = await fetch(reqUrl, options)
   if (!response.ok) {
+    const text = await response.text()
+    console.log(text)
     throw Error(response.statusText)
   }
 
