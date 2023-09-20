@@ -1,33 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { 
   CardStyleInterpolators,
   createStackNavigator, 
   HeaderStyleInterpolators,
   TransitionPresets 
 } from '@react-navigation/stack'
-import { useDispatch, useSelector } from 'react-redux'
-
+import { useDispatch } from 'react-redux'
 import ItemsScreen from './ItemsScreen'
 import AccountScreenContainer from '../containers/AccountScreen'
 import FeedsScreen from './FeedsScreen'
-import Headring from './Heading'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
-
 import { hslString } from '../utils/colors'
-import { useNavigation } from '@react-navigation/native';
-import { fontSizeMultiplier, getInset, getStatusBarHeight } from '../utils'
-import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { Animated, Dimensions, Text } from 'react-native'
+import { fontSizeMultiplier, getStatusBarHeight } from '../utils'
+import { Animated, Dimensions, } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
 import SettingsScreen from './SettingsScreen'
-import { ItemType } from '../store/items/types'
-
-const navigationOptions = {
-  gesturesEnabled: false
-}
 
 const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
