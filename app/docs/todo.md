@@ -1,3 +1,4 @@
+- show errors on email login, also disble button
 - backend for annotations
 - action extension
 - "reams favourites"
