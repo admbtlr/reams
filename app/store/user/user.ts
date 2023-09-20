@@ -1,3 +1,4 @@
+import Config from 'react-native-config'
 import { id } from '../../utils'
 import { 
   ConfigActionTypes
@@ -25,6 +26,7 @@ import {
 export interface Backend {
   readonly name: string
   readonly username?: string
+  readonly password?: string
   readonly accessToken?: string
   readonly email?: string
 }
@@ -37,7 +39,6 @@ export interface UserState {
   readonly signInEmail?: string
 }
 
-
 const initialState = {
   userId: '',
   email: '',
@@ -46,7 +47,7 @@ const initialState = {
 }
 
 export function user (
-  state = initialState, 
+  state = Config.USER_STATE || initialState, 
   action: ConfigActionTypes | UserActionTypes
 ) : UserState {
   let backends: Backend[]
