@@ -16,7 +16,7 @@ import isEqual from 'lodash.isequal'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
-    window.ReactNativeWebView.postMessage(getHeight())
+    window.ReactNativeWebView?.postMessage(getHeight())
 `
 
 const injectedJavaScript = `
@@ -24,13 +24,13 @@ window.ReactNativeWebView.postMessage('loaded');
 window.setTimeout(() => {
   if (document.body && document.body.scrollHeight) {
     const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
-    window.ReactNativeWebView.postMessage('resize:' + height);
+    window.ReactNativeWebView?.postMessage('resize:' + height);
   }  
 }, 500);
 window.onload = () => {
   if (document.body && document.body.scrollHeight) {
     const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
-    window.ReactNativeWebView.postMessage('resize:' + height);
+    window.ReactNativeWebView?.postMessage('resize:' + height);
   }  
 };
 true;`
@@ -102,19 +102,19 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   const highlightSelection = () => {
     if (webView?.current) {
-      webView.current.injectJavaScript(`
-        highlightSelection();
-        true;
-      `)
+      // webView.current.injectJavaScript(`
+      //   highlightSelection();
+      //   true;
+      // `)
     }
   }
 
   const deselectHighlight = () => {
     if (webView?.current) {
-      webView.current.injectJavaScript(`
-        deselectHighlight();
-        true;
-      `)
+      // webView.current.injectJavaScript(`
+      //   deselectHighlight();
+      //   true;
+      // `)
     }
   }
 

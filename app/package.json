@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
-    "@invertase/react-native-apple-authentication": "^2.2.2",
     "@react-native-async-storage/async-storage": "^1.17.5",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/netinfo": "^9.4.1",
@@ -72,6 +71,8 @@
     "react-native-touchable-scale": "^2.0.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.18.9",
+    "react-native-web-linear-gradient": "^1.1.2",
+    "react-native-web-webview": "^1.0.2",
     "react-native-webp-format": "^1.2.0",
     "react-native-webview": "^13.2.2",
     "react-native-xml2js": "^1.0.3",
@@ -130,6 +131,7 @@
     "webpack-dev-server": "3.11.0"
   },
   "unusedDependencies": {
+    "@invertase/react-native-apple-authentication": "^2.2.2",
     "@sentry/cli": "^2.20.0",
     "@sentry/react-native": "^4.5.0",
     "@tensorflow-models/blazeface": "0.0.7",
@@ -140,7 +142,7 @@
     "react-native-image-filter-kit": "^0.8.0",
     "react-native-linear-gradient": "^2.7.3",
     "react-native-reanimated": "^1.7.1",
-    "redux-persist-filesystem-storage": "^4.1.0"
+    "redux-persist-filesystem-storage": "^4.2.0"
   },
   "jest": {
     "globals": {

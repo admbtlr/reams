@@ -10,6 +10,8 @@ module.exports = async function (env, argv) {
     ...ReactWebConfig(envFilePath).definitions,
   };
   config.resolve.alias["react-native-config"] = "react-web-config";
+  config.resolve.alias["react-native-linear-gradient"] = "react-native-web-linear-gradient";
+  config.resolve.alias["react-native-webview"] = "react-native-web-webview";
 
   return config;
 };
