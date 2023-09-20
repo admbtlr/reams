@@ -3,12 +3,13 @@ import createSagaMiddleware from 'redux-saga'
 import makeRootReducer from './reducers'
 import {backgroundFetch, initSagas} from '../sagas'
 import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist'
-// import FilesystemStorage from 'redux-persist-filesystem-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import FilesystemStorage from 'redux-persist-filesystem-storage'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import { state } from '../__mocks__/state-input'
 import Config from 'react-native-config'
 import log from '../utils/log'
-import { Dimensions } from 'react-native'
+import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
 
 let store = null
@@ -34,17 +35,17 @@ function configureStore (rehydrateCallback) {
     return newState
   }, { whitelist: ['config'] })
 
-  // const persistConfig = {
-  //   key: 'primary',
-  //   storage: FilesystemStorage,
-  //   timeout: 30000,
-  //   transforms: [orientationTransform],
-  //   blacklist: ['animatedValues'],
-  //   migrate: createMigrate(migrations, { debug: true }),
-  //   version: 10
-  // }
+  const persistConfig = {
+    key: 'primary',
+    storage: Platform.OS === 'web' ? AsyncStorage : FilesystemStorage,
+    timeout: 30000,
+    transforms: [orientationTransform],
+    blacklist: ['animatedValues'],
+    migrate: createMigrate(migrations, { debug: true }),
+    version: 10
+  }
 
-  // const persistedReducer = persistReducer(persistConfig, makeRootReducer())
+  const persistedReducer = persistReducer(persistConfig, makeRootReducer())
 
   if (Config.USE_STATE) {
     store = createStore(
@@ -57,8 +58,8 @@ function configureStore (rehydrateCallback) {
     )  
   } else {
     store = createStore(
-      // persistedReducer,
-      makeRootReducer(),
+      persistedReducer,
+      // makeRootReducer(),
       {},
       composeEnhancers(
         applyMiddleware(sagaMiddleware),
