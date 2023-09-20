@@ -27,8 +27,8 @@ async function doTransaction(query: string, params?: any[]) {
         query,
         params,
         (_, { rows, rowsAffected }) => {
-          resolve(rows._array)
-          return rows._array
+          resolve(rowsToArray(rows))
+          return rowsToArray(rows)
         },
         (_, error) => {
           console.log(error)
@@ -122,8 +122,8 @@ export async function setItems(items: Item[]) {
           JSON.stringify(item.styles)
         ],
         (_, { rows }) => {
-          resolve(rows._array)
-          return rows._array
+          resolve(rowsToArray(rows))
+          return rowsToArray(rows)
         },
         (_, error) => {
           console.log(error)
@@ -144,7 +144,7 @@ export function getItems(toInflate: Item[]) {
       [],
       (_, { rows }) => {
         let items: Item[] = []
-        rows._array.forEach((flate) => {
+        rowsToArray(rows).forEach((flate) => {
           let item = toInflate.find((item) => item._id === flate._id)
           if (item) {
             item.content_html = flate.content_html
@@ -154,7 +154,7 @@ export function getItems(toInflate: Item[]) {
             item.excerpt = flate.excerpt
             item.showMercuryContent = flate.showMercuryContent
             item.hasShownMercury = flate.hasShownMercury
-            item.scrollRatio = JSON.parse(flate.scrollRatio)
+            item.scrollRatio = flate.scrollRatio !== 'undefined' ? JSON.parse(flate.scrollRatio) : {}
             item.styles = JSON.parse(flate.styles)
             items.push(item)
           }
@@ -206,4 +206,18 @@ export async function searchItems(term: string) {
   const searchTerm = `%${term}%`
   const query = `SELECT * FROM items WHERE content_html LIKE ${searchTerm} OR content_mercury LIKE ${searchTerm} OR excerpt LIKE ${searchTerm};`
   return doTransaction(query)
+}
+
+const rowsToArray = (rows: SQLite.SQLResultSetRowList) => {
+  if (rows.length === 0) {
+    return []
+  }
+  if (rows._array)  {
+    rows = rows._array
+  }
+  let items = []
+  for (let i=0; i<rows.length; i++) {
+    items.push(rows.item(i))
+  }
+  return items
 }
