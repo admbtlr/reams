@@ -8,6 +8,7 @@ import {registerRootComponent} from 'expo'
 import Onboarding from './components/Onboarding'
 import InitialScreen from './components/InitialScreen'
 import Rizzle from './components/Rizzle'
+import './web/fonts/fonts.css'
 
 const HelloWorld = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Hello world!</Text></View>

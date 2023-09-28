@@ -1,3 +1,192 @@
+$colors: (
+  red1: hsl(330, 52%, 51%),
+  red2: hsl(360, 52%, 51%),
+  red3: hsl(15, 52%, 51%),
+  orange1: hsl(30, 52%, 51%),
+  orange2: hsl(45, 52%, 51%),
+  yellow1: hsl(60, 52%, 51%),
+  yellow2: hsl(75, 52%, 51%),
+  green1: hsl(90, 52%, 51%),
+  green2: hsl(120, 52%, 51%),
+  green3: hsl(150, 52%, 51%),
+  cyan: hsl(180, 52%, 51%),
+  blue1: hsl(210, 52%, 51%),
+  blue2: hsl(240, 52%, 51%),
+  purple1: hsl(270, 52%, 51%),
+  purple2: hsl(300, 52%, 51%),
+);
+$darker: (
+  red1: hsl(330, 52%, 31%),
+  red2: hsl(360, 52%, 31%),
+  red3: hsl(15, 52%, 31%),
+  orange1: hsl(30, 52%, 31%),
+  orange2: hsl(45, 52%, 31%),
+  yellow1: hsl(60, 52%, 31%),
+  yellow2: hsl(75, 52%, 31%),
+  green1: hsl(90, 52%, 31%),
+  green2: hsl(120, 52%, 31%),
+  green3: hsl(150, 52%, 31%),
+  cyan: hsl(180, 52%, 31%),
+  blue1: hsl(210, 52%, 31%),
+  blue2: hsl(240, 52%, 31%),
+  purple1: hsl(270, 52%, 31%),
+  purple2: hsl(300, 52%, 31%),
+);
+$lighter: (
+  red1: hsl(330, 52%, 71%),
+  red2: hsl(360, 52%, 71%),
+  red3: hsl(15, 52%, 71%),
+  orange1: hsl(30, 52%, 71%),
+  orange2: hsl(45, 52%, 71%),
+  yellow1: hsl(60, 52%, 71%),
+  yellow2: hsl(75, 52%, 71%),
+  green1: hsl(90, 52%, 71%),
+  green2: hsl(120, 52%, 71%),
+  green3: hsl(150, 52%, 71%),
+  cyan: hsl(180, 52%, 71%),
+  blue1: hsl(210, 52%, 71%),
+  blue2: hsl(240, 52%, 71%),
+  purple1: hsl(270, 52%, 71%),
+  purple2: hsl(300, 52%, 71%),
+);
+$desaturated: (
+  red1: hsl(330, 32%, 51%),
+  red2: hsl(360, 32%, 51%),
+  red3: hsl(15, 32%, 51%),
+  orange1: hsl(30, 32%, 51%),
+  orange2: hsl(45, 32%, 51%),
+  yellow1: hsl(60, 32%, 51%),
+  yellow2: hsl(75, 32%, 51%),
+  green1: hsl(90, 32%, 51%),
+  green2: hsl(120, 32%, 51%),
+  green3: hsl(150, 32%, 51%),
+  cyan: hsl(180, 32%, 51%),
+  blue1: hsl(210, 32%, 51%),
+  blue2: hsl(240, 32%, 51%),
+  purple1: hsl(270, 32%, 51%),
+  purple2: hsl(300, 32%, 51%),
+);
+$desaturatedDarker: (
+  red1: hsl(330, 32%, 31%),
+  red2: hsl(360, 32%, 31%),
+  red3: hsl(15, 32%, 31%),
+  orange1: hsl(30, 32%, 31%),
+  orange2: hsl(45, 32%, 31%),
+  yellow1: hsl(60, 32%, 31%),
+  yellow2: hsl(75, 32%, 31%),
+  green1: hsl(90, 32%, 31%),
+  green2: hsl(120, 32%, 31%),
+  green3: hsl(150, 32%, 31%),
+  cyan: hsl(180, 32%, 31%),
+  blue1: hsl(210, 32%, 31%),
+  blue2: hsl(240, 32%, 31%),
+  purple1: hsl(270, 32%, 31%),
+  purple2: hsl(300, 32%, 31%),
+);
+$colorsOld: (
+  red1: hsl(355, 84%, 45%),
+  red2: hsl(341, 56%, 49%),
+  orange1: hsl(23, 100%, 60%),
+  orange2: hsl(33, 93%, 54%),
+  yellow1: hsl(49, 100%, 50%),
+  yellow2: hsl(65, 80%, 40%),
+  green1: hsl(167, 80%, 55%),
+  blue1: hsl(226, 68%, 57%),
+  blue2: hsl(198, 90%, 44%),
+  purple1: hsl(298, 32%, 56%),
+  purple2: hsl(320, 82%, 66%),
+  brown1: hsl(355, 56%, 63%),
+);
+$darkerOld: (
+  red1: hsl(355, 84%, 25%),
+  red2: hsl(341, 56%, 29%),
+  orange1: hsl(23, 100%, 30%),
+  orange2: hsl(33, 93%, 34%),
+  yellow1: hsl(49, 100%, 20%),
+  yellow2: hsl(65, 80%, 15%),
+  green1: hsl(167, 80%, 25%),
+  blue1: hsl(226, 68%, 27%),
+  blue2: hsl(198, 90%, 24%),
+  purple1: hsl(298, 32%, 26%),
+  purple2: hsl(320, 82%, 26%),
+  brown1: hsl(355, 56%, 21%),
+);
+$lighterOld: (
+  red1: hsl(355, 84%, 65%),
+  red2: hsl(341, 56%, 69%),
+  orange1: hsl(23, 100%, 70%),
+  orange2: hsl(33, 93%, 74%),
+  yellow1: hsl(49, 100%, 60%),
+  yellow2: hsl(65, 80%, 55%),
+  green1: hsl(167, 80%, 65%),
+  blue1: hsl(226, 68%, 67%),
+  blue2: hsl(198, 90%, 64%),
+  purple1: hsl(246, 52%, 56%),
+  purple2: hsl(320, 82%, 66%),
+  brown1: hsl(355, 56%, 61%),
+);
+$desaturatedOld: (
+  red1: hsl(355, 64%, 45%),
+  red2: hsl(341, 36%, 49%),
+  orange1: hsl(23, 80%, 60%),
+  orange2: hsl(33, 73%, 54%),
+  yellow1: hsl(49, 80%, 50%),
+  yellow2: hsl(65, 60%, 40%),
+  green1: hsl(167, 60%, 55%),
+  blue1: hsl(226, 48%, 57%),
+  blue2: hsl(198, 70%, 44%),
+  purple1: hsl(246, 36%, 56%),
+  purple2: hsl(320, 62%, 66%),
+  brown1: hsl(355, 36%, 63%),
+);
+$desaturatedDarkerOld: (
+  red1: hsl(5, 27%, 28%),
+  red2: hsl(341, 16%, 29%),
+  orange1: hsl(23, 40%, 30%),
+  orange2: hsl(33, 33%, 34%),
+  yellow1: hsl(49, 30%, 20%),
+  yellow2: hsl(65, 30%, 30%),
+  green1: hsl(167, 30%, 25%),
+  blue1: hsl(226, 18%, 27%),
+  blue2: hsl(198, 20%, 24%),
+  purple1: hsl(253, 12%, 36%),
+  purple2: hsl(291, 22%, 36%),
+  brown1: hsl(355, 21%, 35%),
+);
+$ui: (
+  black: hsl(0, 0%, 0%),
+  white: hsl(0, 0%, 100%),
+  buttonBG: hsl(0, 0%, 100%),
+  rizzleFG: hsl(263, 14%, 16%),
+  rizzleBG: hsl(46, 23%, 83%),
+  rizzleSaved: hsl(264, 10%, 30%),
+  rizzleBGAlt: hsl(11, 21%, 16%),
+  rizzleHighlight: hsl(42, 91%, 60%),
+  rizzleText: hsl(300, 20%, 20%),
+  rizzleChrome: hsl(0, 0%, 95%),
+  bodyBG: hsl(60, 17%, 96%),
+  bodyBGDark: hsl(0, 0%, 0%),
+  logo1: hsl(186, 50%, 40%),
+  logo2: hsl(360, 70%, 60%),
+  logo3: hsl(260, 30%, 30%),
+);
+$darkMode: (
+  black: hsl(0, 0%, 100%),
+  white: hsl(0, 0%, 0%),
+  buttonBG: hsl(0, 0%, 10%),
+  rizzleFG: hsl(263, 14%, 86%),
+  rizzleBG: hsl(300, 10%, 17%),
+  rizzleSaved: hsl(264, 10%, 30%),
+  rizzleBGAlt: hsl(11, 21%, 16%),
+  rizzleHighlight: hsl(42, 91%, 60%),
+  rizzleText: hsl(46, 20%, 90%),
+  rizzleChrome: hsl(0, 0%, 95%),
+  bodyBG: hsl(240, 0%, 0%),
+  bodyBGDark: hsl(0, 0%, 0%),
+  logo1: hsl(186, 40%, 30%),
+  logo2: hsl(360, 70%, 60%),
+  logo3: hsl(260, 30%, 30%),
+);
 $step: 28px;
 $margin: 3vmin;
 
@@ -1194,4 +1383,361 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   and (-webkit-max-device-pixel-ratio: 2) {
     @content;
   }
+}
+
+
+html.onboarding {
+
+  --logo1: hsl(186, 40%, 50%);
+  --logo2: hsl(360, 70%, 60%);
+  --logo3: hsl(260, 30%, 30%);
+  --bg: hsl(46, 23%, 83%);
+  --text: hsl(300, 20%, 20%);
+
+  &.onboarding-1 {
+    --text: white;
+  }
+
+  &.dark-background {
+    --text: hsl(300, 20%, 90%);
+  }
+
+  // this is now my rem value
+  // it's the body lineheight
+  font-size: calc(7vw);
+  @include ipad {
+    font-size: calc(4vw);
+  }
+
+  body {
+    margin: 0;
+    // font-family: "IBMPlexMono";
+    width: 100vw;
+    background-color: var(--bg);
+    color: white;
+    overflow: hidden;
+    // overflow: scroll;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // padding-top: 200;
+  }
+
+  .bg1 {
+    position: relative;
+    overflow:hidden;
+    // width: 100%;
+    height: 100%;  
+    width: 10000px;
+    background-image: url("../img/ream@2x.png");
+    background-size: 20000px;
+    background-position: 50% 50%;
+    animation: floating 20s infinite alternate;
+  }
+
+
+  .bg1:before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  @keyframes floating {
+    from { transform: translate(0,  0px); }
+    to   { transform: translate(-500px, 0px); }    
+  }
+
+  &.onboarding-1 .bg1 {
+    background-position: 50% 25%;
+  }
+
+  &.onboarding-2 .bg1 {
+    background-position: 50% 75%;
+  }
+
+  &:not(.onboarding-4) body::before {
+    content: "";
+    z-index: 0;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
+    background-repeat: no-repeat;
+    background-position-x: left;
+    background-position-y: calc(100% - 20px);
+    background-size: 100%;
+    opacity: 0.5;
+  }
+
+  // slightly better, but not ideal
+  &.dark-background body::after {
+    opacity: 1;
+  }
+
+  .bg1::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    -webkit-backdrop-filter: blur(200px);
+    backdrop-filter: blur(200px);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &.onboarding-1 body::before {
+    background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png");
+  }
+
+  &.onboarding-2 body::before {
+    background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png");
+  }
+
+  article, .everything {
+    padding: 0 1rem;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // background-color: green;
+  }
+
+  article {
+    height: 100%;
+    justify-content: space-around;
+  }
+
+  .everything {
+    padding: 0;
+    height: 100%;
+    margin-top: calc(50vh - 1rem);
+    margin-bottom: calc(35vh);
+    justify-content: space-around;
+
+    @include se {
+      margin-top: calc(40vh - 1rem);
+    }
+  }
+
+  &.onboarding-1 .everything {
+    margin-top: calc(40vh - 1rem);
+  }
+
+  h1, h2 {
+    color: var(--logo3);
+    font-size: 2rem;
+    font-family: PTSerif-Bold;
+    font-weight: inherit;
+    line-height: 1;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+    // height: calc(50% - 250px);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  &:not(.onboarding-3) {
+    div.everything::before, h2::before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 20vh;
+      top: 25%;
+      transform: translateY(-50%);
+      background-image: url("../img/ream@2x.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  hr {
+    border-top-style: none;
+    margin: 2em;
+  }
+
+  &.onboarding-0 div.content {
+    align-self: flex-end;
+    width: 66%;
+
+    p {
+      text-align: right;
+    }
+  }
+
+  div.content {
+    align-self: center;
+    width: 100%;
+    p {
+      text-align: left;
+    }
+  }
+
+  // &.onboarding-2 div.content {
+  //   align-self: flex-start;
+  //   width: 50%;
+
+  //   p {
+  //     text-align: left;
+  //   }
+  // }
+
+  p {
+    font-family: "IBMPlexSans";
+    color: var(--text);
+    font-size: 0.666rem;
+    line-height: 1rem;
+    margin: 0 0 1rem;
+
+    strong {
+      font-family: "IBMPlexSans-Bold";
+    }
+    em {
+      font-family: "IBMPlexSans-Italic";
+    }
+
+    &.subhead {
+      color: var(--logo3);
+      margin-bottom: 8vh;
+    }
+  }
+
+  a {
+    color: var(--text);
+  }
+
+  .swipe {
+    position: absolute;
+    width: 100%;
+    bottom: 1rem;
+    text-align: center;
+    font-size: 0.5rem;
+    font-family: "IBMPlexSans-Italic";
+    color: var(--text);
+  }
+
+  img {
+    display: block;
+    margin: -1rem auto 1rem;
+    max-width: 100%;
+  }
+
+  &.dark-background {
+    body {
+      background-color: hsl(240, 0%, 0%);
+      color: hsl(0, 0%, 90%);
+      &, a, a:active, a:visited {
+        color: hsl(0, 0%, 90%);
+      }
+    }
+  }
+}
+
+html.onboarding.onboarding-1:not(.dark-background) body {
+  background-color: var(--logo2);
+
+  h1 {
+    color: var(--bg);
+  }
+}
+
+html.onboarding.onboarding-2:not(.dark-background) body {
+  background-color: var(--logo1);
+
+  h2 {
+    color: var(--logo1);
+  }
+  p {
+    color: var(--logo3);
+  }
+}
+
+html {
+  &.font-size-3 {
+    font-size: 28px;
+  }
+}
+
+.coverHolder {
+  .hasCoverImage & {
+    position: relative; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+  }
+}
+
+.itemTitle {
+  margin: 0.5rem;
+  margin-bottom: 0;
+  padding-bottom: 1rem;
+  max-width: 900px;
+
+  .hasCoverImage & {
+    color: white;
+    position: absolute;
+    bottom: 0;
+  }
+
+  @media screen and (min-width: calc(--var(font-size) * 24)) {
+    & {
+      margin: 1rem;
+    }
+  }
+
+  h1, h2, h3, h4, h5 {
+    line-height: 1.1;
+  }
+}
+
+.hasCoverImage .coverImage {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-height: 100%;
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.1) 60%)
+  }
+}
+
+.articleHolder {
+  background-color: hsl(60, 17%, 96%);
+
+  .dark-background & {
+    background-color: hsl(240, 0%, 0%);
+  }
+}
+
+h1, h2, h3, h4 {
+  font-weight: normal;
+}
+
+.itemTitle h4 {
+  font-size: 0.8rem;
 }

@@ -20,13 +20,16 @@ function css (cb) {
   return src(['utils/colors.json', 'webview/*.scss'])
     .pipe(jsonSass())
     .pipe(concat('output.scss'))
+    .pipe(dest('./web/css'))
     .pipe(dest('./ios/webview/css'))
     .pipe(sass())
+    .pipe(dest('./web/css'))
     .pipe(dest('./ios/webview/css'))
 }
 
 function js (cb) {
   return src('webview/*.js')
+    .pipe(dest('./web/js'))
     .pipe(dest('./ios/webview/js'))
 }
 

@@ -12,6 +12,13 @@ module.exports = async function (env, argv) {
   config.resolve.alias["react-native-config"] = "react-web-config";
   config.resolve.alias["react-native-linear-gradient"] = "react-native-web-linear-gradient";
   config.resolve.alias["react-native-webview"] = "react-native-web-webview";
+  config.resolve.alias["redux-persist-filesystem-storage"] = "";
+
+//  config.modules = { rules: [] }
+  // config.module.rules.push({
+  //   test: /\.css$/i,
+  //   use: ["style-loader", "css-loader"],
+  // })
 
   return config;
 };
