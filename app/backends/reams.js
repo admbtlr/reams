@@ -210,7 +210,7 @@ export const markFeedRead = (feed, olderThan, items) => {
 }
 
 export async function getFeedDetails (feed) {
-  const url = `https://api.rizzle.net/api/feed-meta/?url=${feed.url}`
+  const url = `${Config.API_URL}/feed-meta?url=${feed.url}`
   return fetch(url).then(response => {
     return { response, feed }
   }).then(({response, feed}) => {
