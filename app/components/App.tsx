@@ -13,11 +13,12 @@ import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getStatusBarHeight } from '../utils'
-import { Animated, Dimensions, } from 'react-native'
+import { Animated, Dimensions, Platform, } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
 import SettingsScreen from './SettingsScreen'
+import {default as MainWeb} from './web/Main'
 
 const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
@@ -232,6 +233,11 @@ export default App = () => {
       type: CLEAR_MESSAGES
     })
   }, [])
+
+  if (Platform.OS === 'web') {
+    return <MainWeb />
+  }
+
   return (
     <AppStack.Navigator
       initialRouteName='Main'
