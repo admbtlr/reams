@@ -182,6 +182,7 @@ const getSmallestDimension = () => {
 }
 
 export const fontSizeMultiplier: any = () => {
+  if (Platform.OS === 'web') return 1
   getDimensions()
   const smallestDimension = getSmallestDimension()
   // this happens for the schare extension
@@ -199,6 +200,7 @@ export const getInset = () => {
 }
 
 export const getMargin = () => {
+  if (Platform.OS === 'web') return 10
   const width = getSmallestDimension()
   return width * 0.05  / (width > 768 ? width / 768 : 1)
 }

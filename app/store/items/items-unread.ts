@@ -39,7 +39,9 @@ import {
   Item,
   ItemActionTypes,
   ItemsState,
-  ItemType
+  ItemType,
+  INCREMENT_INDEX,
+  DECREMENT_INDEX
 } from './types'
 import {
   itemMarkRead,
@@ -106,6 +108,26 @@ export function itemsUnread (
     case UPDATE_CURRENT_INDEX:
       if (action.displayMode === ItemType.unread) {
         newState.index = action.index
+      }
+      return {
+        ...state,
+        ...newState
+      }
+
+    case INCREMENT_INDEX:
+      if (action.displayMode === ItemType.unread && 
+        state.index < state.items.length - 1) {
+        newState.index = state.index + 1
+      }
+      return {
+        ...state,
+        ...newState
+      }
+
+    case DECREMENT_INDEX:
+      if (action.displayMode === ItemType.unread && 
+        state.index > 0) {
+        newState.index = state.index - 1
       }
       return {
         ...state,
@@ -179,7 +201,7 @@ export function itemsUnread (
       items = [...state.items]
       index = state.index
       currentItem = items[state.index]
-      let unreadItems = state.items.filter(i => i.readAt === undefined && i._id !== currentItem._id)
+      let unreadItems = state.items.filter(i => i.readAt === undefined && i._id !== currentItem._id)      
       carouselled = maintainCarouselItems(state, unreadItems)
       return {
         ...state,
@@ -296,22 +318,6 @@ export function itemsUnread (
 // and sets index appropriately
 // (sucks that reducers need to think about UI implementation, but :shrug:)
 const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
-  // const buffer = 1 // rather than BUFFER_LENGTH 
-  // let currentItem = state.items[state.index]
-  // let index = state.index
-  // const indexStart = state.index === 0 ?
-  //   0 :
-  //   state.index - 1
-  // const indexEnd = state.index + buffer >= state.items.length ?
-  //   state.items.length - 1 :
-  //   state.index + buffer
-  // if (currentItem) {
-  //   const currentItems = state.items.slice(indexStart, indexEnd+1)
-  //   items = items.filter(item => !currentItems.find(ci => ci._id === item._id))
-  //   items = currentItems.concat(items)
-  //   index = currentItems.indexOf(currentItem)
-  // }
-  // return { items, index }
 
   // redo: just keep the current item, place at front of array
   // re-redo: keep the current item plus two more, to give time for new items to get mercury
@@ -321,22 +327,12 @@ const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
   let itemsToKeep: Item[] = []
   if (currentItem) {
     itemsToKeep.push(currentItem)
-    if (!global.isBackgroundFetch) {
-      if (state.items.length > state.index + 2) {
-        for (let i = 1; i <= 2; i++) {
-          if (state.items[state.index + i]) {
-            itemsToKeep.push(state.items[state.index + i])
-          }
-        }  
-      }
-      // if (state.index > 0) {  
-      //   for (let i = 1; i <= 2; i++) {
-      //     if (state.items[state.index - i]) {
-      //       index++
-      //       itemsToKeep.unshift(state.items[state.index - i])
-      //     }
-      //   }
-      // }
+    if (state.items.length > state.index + 2) {
+      for (let i = 1; i <= 2; i++) {
+        if (state.items[state.index + i]) {
+          itemsToKeep.push(state.items[state.index + i])
+        }
+      }  
     }
   }
   if (itemsToKeep.length > 0) {

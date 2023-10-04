@@ -523,6 +523,17 @@ function addTapMessageToHighlights () {
   addTapMessageToElements('.highlight', 'edit-highlight:', 'data-id', highlighter)
 }
 
+function postMessage (msg) {
+  const payload = JSON.stringify(msg)
+  if (window.ReactNativeWebView) {
+    window.ReactNativeWebView.postMessage(payload);
+  } else if (window.parent) {
+    window.parent.postMessage(payload, '*');
+  } else {
+    window.postMessage(payload, '*');
+  }
+}
+
 let highlighter
 
 // what?
@@ -577,6 +588,13 @@ function init() {
     }
   })
   addTapMessageToHighlights()
+
+  let lastScrollPosition = 0
+  window.addEventListener('scrollend', function(e) {
+    let didScrollDown = window.scrollY > lastScrollPosition
+    postMessage(didScrollDown ? 'scroll-down' : 'scroll-up')
+    lastScrollPosition = window.scrollY
+  })
 }
 
 window.addEventListener("load", init)
