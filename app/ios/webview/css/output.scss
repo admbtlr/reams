@@ -197,49 +197,51 @@ $margin: 3vmin;
 html {
   // this is now my rem value
   // it's the body lineheight
-  font-size: calc(var(--device-width) * 0.07px);
+  --font-size: calc(var(--device-width) * 0.07px);
   &.tablet {
-    font-size: calc(var(--device-width) * 0.04px);
+    --font-size: calc(var(--device-width) * 0.04px);
   }
 
 
 
-  transition: font-size 0.2s;
+  // transition: font-size 0.2s;
 
   &.font-size-1 {
-    font-size: calc(var(--device-width) * 0.05px);
+    --font-size: calc(var(--device-width) * 0.05px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.03px);
+      --font-size: calc(var(--device-width) * 0.03px);
     }
   }
 
   &.font-size-2 {
-    font-size: calc(var(--device-width) * 0.06px);
+    --font-size: calc(var(--device-width) * 0.06px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.035px);
+      --font-size: calc(var(--device-width) * 0.035px);
     }
   }
 
   &.font-size-3 {
-    font-size: calc(var(--device-width) * 0.07px);
+    --font-size: calc(var(--device-width) * 0.07px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.04px);
+      --font-size: calc(var(--device-width) * 0.04px);
     }
   }
 
   &.font-size-4 {
-    font-size: calc(var(--device-width) * 0.08px);
+    --font-size: calc(var(--device-width) * 0.08px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.045px);
+      --font-size: calc(var(--device-width) * 0.045px);
     }
   }
 
   &.font-size-5 {
-    font-size: calc(var(--device-width) * 0.09px);
+    --font-size: calc(var(--device-width) * 0.09px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.05px);
+      --font-size: calc(var(--device-width) * 0.05px);
     }
   }
+
+  font-size: var(--font-size);
 }
 
 body {
@@ -1037,26 +1039,26 @@ hr {
 }
 
 .bodyFontSerif2 {
-  font-family: "Iowan Old Style", serif;
+  font-family: "Iowan Old Style", "Cardo", serif;
 
   em, i {
-    font-family: "IowanOldStyle-Italic", sans-serif;
+    font-family: "IowanOldStyle-Italic", "Cardo-Italic", sans-serif;
     font-style: normal;
   }
 
   strong, b {
-    font-family: "IowanOldStyle-Bold", sans-serif;
+    font-family: "IowanOldStyle-Bold", "Cardo-Bold", sans-serif;
     font-weight: normal;
   }
 
   strong em, em strong, b i, i b {
-    font-family: "IowanOldStyle-BoldItalic", sans-serif;
+    font-family: "IowanOldStyle-BoldItalic", "Cardo-Bold", sans-serif;
     font-style: normal;
     font-weight: normal;
   }
 
-  @include firstLineFontFamily("IowanOldStyle-Bold");
-  @include firstShortParaBold("IowanOldStyle-Bold", "IowanOldStyle-BoldItalic")
+  @include firstLineFontFamily("IowanOldStyle-Bold, Cardo-Bold");
+  @include firstShortParaBold("IowanOldStyle-Bold, Cardo-Bold", "IowanOldStyle-BoldItalic, Cardo-Bold")
 }
 
 .bodyFontSans2 {
@@ -1106,26 +1108,84 @@ hr {
   @include firstShortParaBold("IBMPlexSerif-Bold", "IBMPlexSerif-BoldItalic")
 }
 
+// HEADER FONTS
+
 .headerFontSans1 {
   h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold";
+
+    .isWeb & {
+      font-family: "Lato";
+      font-weight: 700;
+    }
+  }
+  .isWeb &.isItalic h1 {
+    font-style: italic;
   }
   h2, h4 {
     font-family: "AvenirNext-Medium";
+
+    .isWeb & {
+      font-family: "Lato";
+      font-weight: 400;
+    }
+  }
+  .isWeb & p {
+    font-family: "Lato";
+    font-weight: 400;
   }
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic";
 
+    .isWeb & {
+      font-family: "Lato";
+      font-weight: 400;
+      font-style: italic;
+    }
+
     em, i {
       font-family: "AvenirNext-Medium";
+
+      .isWeb & {
+        font-family: "Lato";
+        font-weight: 400;
+      }
     }
 
     strong, b {
       font-family: "AvenirNext-BoldItalic";
+
+      .isWeb & {
+        font-family: "Lato";
+        font-weight: 700;
+      }
     }
 
     em strong, strong em, b i, i b {
       font-family: "AvenirNext-Bold";
+
+      .isWeb & {
+        font-family: "Lato";
+        font-weight: 700;
+      }
+    }
+  }
+  &.itemTitle p {
+    font-family: "Lato";
+    font-weight: 300;
+    em, i {
+      font-family: "Lato";
+    }
+
+    strong, b {
+      font-family: "Lato";
+      font-weight: 700;
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "Lato";
+      font-weight: 700,
+
     }
   }
 }
@@ -1133,6 +1193,9 @@ hr {
 .headerFontSans2 {
   h1, h3, h5 {
     font-family: "Poppins-ExtraBold";
+  }
+  .isWeb &.isItalic h1 {
+    font-family: "Poppins-ExtraBoldItalic";
   }
   h2, h4 {
     font-family: "Poppins-Regular";
@@ -1152,11 +1215,28 @@ hr {
       font-family: "Poppins-ExtraBold";
     }
   }
+  &.itemTitle p {
+    font-family: "Poppins";
+    em, i {
+      font-family: "Poppins-Italic";
+    }
+
+    strong, b {
+      font-family: "Poppins-Bold";
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "Poppins-BoldItalic";
+    }
+  }
 }
 
 .headerFontSans3 {
   h1, h3, h5 {
     font-family: "Montserrat-Bold";
+  }
+  .isWeb &.isItalic h1 {
+    font-family: "Montserrat-BoldItalic";
   }
   h2, h4 {
     font-family: "Montserrat-Light";
@@ -1169,6 +1249,20 @@ hr {
     }
 
     strong, b {
+      font-family: "Montserrat-BoldItalic";
+    }
+  }
+  &.itemTitle p {
+    font-family: "Montserrat-Light";
+    em, i {
+      font-family: "Montserrat-LightItalic";
+    }
+
+    strong, b {
+      font-family: "Montserrat-Bold";
+    }
+
+    em strong, strong em, i b, b i {
       font-family: "Montserrat-BoldItalic";
     }
   }
@@ -1214,6 +1308,9 @@ hr {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Black";
   }
+  .isWeb &.isItalic h1 {
+    font-family: "IBMPlexSerif-BoldItalic";
+  }
   h2, h4 {
     font-family: "PlayfairDisplay-Regular";
   }
@@ -1230,6 +1327,20 @@ hr {
 
     em strong, strong em, i b, b i {
       font-family: "PlayfairDisplay-Bold";
+    }
+  }
+  &.itemTitle p {
+    font-family: "IBMPlexSerif";
+    em, i {
+      font-family: "IBMPlexSerif-Italic";
+    }
+
+    strong, b {
+      font-family: "IBMPlexSerif-Bold";
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "IBMPlexSerif-BoldItalic";
     }
   }
 }
@@ -1324,13 +1435,14 @@ hr {
     }
   }
 
-  &.dropCapIsStroke {
+  body:not(.isWeb) &.dropCapIsStroke {
      & > p:not(.short-para):first-of-type,
       & > div:first-of-type > p:not(.short-para):first-of-type,
-      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type  {
       &:first-letter {
         color: transparent;
         -webkit-text-stroke: 2px #444444;
+        // text-stroke: 2px #444444;
       }
     }
   }
@@ -1341,6 +1453,7 @@ hr {
       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
       &:first-letter {
         -webkit-text-stroke-color: var(--feed-color);
+        // text-stroke-color: var(--feed-color);
       }
     }
   }
@@ -1660,4 +1773,139 @@ html.onboarding.onboarding-2:not(.dark-background) body {
   p {
     color: var(--logo3);
   }
+}
+
+html {
+  &.font-size-3 {
+    font-size: 28px;
+  }
+}
+
+.coverHolder {
+  .hasCoverImage & {
+    position: relative; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+  }
+}
+
+.itemTitle {
+  margin: 1rem 4vw;
+  margin-bottom: 0;
+  max-width: 900px;
+  z-index: 2;
+
+  .hasCoverImage & {
+    color: white;
+    position: absolute;
+    bottom: 0;
+
+    &.center {
+      text-align: center;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 1000px;
+    }
+
+    &.top {
+      top: 0;
+      bottom: auto;
+    }
+
+    &.bottom {
+      bottom: 0;
+      top: auto;
+    }
+
+    &.middle {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+  }
+
+  h1, h2, h3, h4, h5 {
+    line-height: 1.1;
+  }
+
+  p {
+    font-size: 0.7rem;
+  }
+
+  .date-published {
+    font-size: 0.6rem;
+    font-family: "IBMPlexMono-Light" !important;
+  }
+
+  &.center {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  &.isUpperCase h1 {
+    text-transform: uppercase;
+  }
+
+
+  &.bg.hasCoverImage h1 {
+    background-color: rgba(255,255,255,0.9);
+    color: black;
+    padding: 0.5rem;
+  }
+
+  .hasCoverImage &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0 -4vw 2rem;
+    width: calc(100vw + 4vw);
+    height: calc(100% + 2rem);
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  &.center::after {
+    margin: 0 calc(50% - 50vw) 2rem;
+  }
+
+}
+
+@media screen and (min-width: 32rem) {
+  .itemTitle {
+    margin: 1rem;
+  }
+}
+
+
+.hasCoverImage .coverImage {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-height: 100%;
+  // z-index: -1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.articleHolder {
+  background-color: hsl(60, 17%, 96%);
+  position: relative;
+  z-index: 2;
+
+  .dark-background & {
+    background-color: hsl(240, 0%, 0%);
+  }
+}
+
+h1, h2, h3, h4 {
+  font-weight: normal;
+}
+
+.itemTitle h4 {
+  font-size: 0.8rem;
 }

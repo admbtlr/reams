@@ -3,7 +3,6 @@
 
 html {
   --font-size: calc(var(--device-width) * 0.07px);
-  transition: font-size 0.2s;
   font-size: var(--font-size); }
   html.tablet {
     --font-size: calc(var(--device-width) * 0.04px); }
@@ -718,27 +717,27 @@ hr {
       color: var(--feed-color); }
 
 .bodyFontSerif2 {
-  font-family: "Iowan Old Style", serif; }
+  font-family: "Iowan Old Style", "Cardo", serif; }
   .bodyFontSerif2 em, .bodyFontSerif2 i {
-    font-family: "IowanOldStyle-Italic", sans-serif;
+    font-family: "IowanOldStyle-Italic", "Cardo-Italic", sans-serif;
     font-style: normal; }
   .bodyFontSerif2 strong, .bodyFontSerif2 b {
-    font-family: "IowanOldStyle-Bold", sans-serif;
+    font-family: "IowanOldStyle-Bold", "Cardo-Bold", sans-serif;
     font-weight: normal; }
   .bodyFontSerif2 strong em, .bodyFontSerif2 em strong, .bodyFontSerif2 b i, .bodyFontSerif2 i b {
-    font-family: "IowanOldStyle-BoldItalic", sans-serif;
+    font-family: "IowanOldStyle-BoldItalic", "Cardo-Bold", sans-serif;
     font-style: normal;
     font-weight: normal; }
   .bodyFontSerif2 .itemArticle > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
   .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
-    font-family: "IowanOldStyle-Bold"; }
+    font-family: "IowanOldStyle-Bold, Cardo-Bold"; }
   .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) {
-    font-family: "IowanOldStyle-Bold";
+    font-family: "IowanOldStyle-Bold, Cardo-Bold";
     color: var(--feed-color);
     font-size: 1.2em; }
     .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) b {
-      font-family: "IowanOldStyle-BoldItalic";
+      font-family: "IowanOldStyle-BoldItalic, Cardo-Bold";
       font-style: normal; }
     .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a {
       color: var(--feed-color); }
@@ -798,21 +797,62 @@ hr {
 
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold"; }
+  .isWeb .headerFontSans1 h1, .isWeb .headerFontSans1 h3, .isWeb .headerFontSans1 h5 {
+    font-family: "Lato";
+    font-weight: 700; }
+
+.isWeb .headerFontSans1.isItalic h1 {
+  font-style: italic; }
 
 .headerFontSans1 h2, .headerFontSans1 h4 {
   font-family: "AvenirNext-Medium"; }
+  .isWeb .headerFontSans1 h2, .isWeb .headerFontSans1 h4 {
+    font-family: "Lato";
+    font-weight: 400; }
+
+.isWeb .headerFontSans1 p {
+  font-family: "Lato";
+  font-weight: 400; }
 
 .headerFontSans1 figcaption, .headerFontSans1 img + small, .headerFontSans1 .caption, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "AvenirNext-MediumItalic"; }
+  .isWeb .headerFontSans1 figcaption, .isWeb .headerFontSans1 img + small, .isWeb .headerFontSans1 .caption, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "Lato";
+    font-weight: 400;
+    font-style: italic; }
   .headerFontSans1 figcaption em, .headerFontSans1 figcaption i, .headerFontSans1 img + small em, .headerFontSans1 img + small i, .headerFontSans1 .caption em, .headerFontSans1 .caption i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
     font-family: "AvenirNext-Medium"; }
+    .isWeb .headerFontSans1 figcaption em, .isWeb .headerFontSans1 figcaption i, .isWeb .headerFontSans1 img + small em, .isWeb .headerFontSans1 img + small i, .isWeb .headerFontSans1 .caption em, .isWeb .headerFontSans1 .caption i, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
+      font-family: "Lato";
+      font-weight: 400; }
   .headerFontSans1 figcaption strong, .headerFontSans1 figcaption b, .headerFontSans1 img + small strong, .headerFontSans1 img + small b, .headerFontSans1 .caption strong, .headerFontSans1 .caption b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
     font-family: "AvenirNext-BoldItalic"; }
+    .isWeb .headerFontSans1 figcaption strong, .isWeb .headerFontSans1 figcaption b, .isWeb .headerFontSans1 img + small strong, .isWeb .headerFontSans1 img + small b, .isWeb .headerFontSans1 .caption strong, .isWeb .headerFontSans1 .caption b, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
+      font-family: "Lato";
+      font-weight: 700; }
   .headerFontSans1 figcaption em strong, .headerFontSans1 figcaption strong em, .headerFontSans1 figcaption b i, .headerFontSans1 figcaption i b, .headerFontSans1 img + small em strong, .headerFontSans1 img + small strong em, .headerFontSans1 img + small b i, .headerFontSans1 img + small i b, .headerFontSans1 .caption em strong, .headerFontSans1 .caption strong em, .headerFontSans1 .caption b i, .headerFontSans1 .caption i b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
     font-family: "AvenirNext-Bold"; }
+    .isWeb .headerFontSans1 figcaption em strong, .isWeb .headerFontSans1 figcaption strong em, .isWeb .headerFontSans1 figcaption b i, .isWeb .headerFontSans1 figcaption i b, .isWeb .headerFontSans1 img + small em strong, .isWeb .headerFontSans1 img + small strong em, .isWeb .headerFontSans1 img + small b i, .isWeb .headerFontSans1 img + small i b, .isWeb .headerFontSans1 .caption em strong, .isWeb .headerFontSans1 .caption strong em, .isWeb .headerFontSans1 .caption b i, .isWeb .headerFontSans1 .caption i b, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
+      font-family: "Lato";
+      font-weight: 700; }
+
+.headerFontSans1.itemTitle p {
+  font-family: "Lato";
+  font-weight: 300; }
+  .headerFontSans1.itemTitle p em, .headerFontSans1.itemTitle p i {
+    font-family: "Lato"; }
+  .headerFontSans1.itemTitle p strong, .headerFontSans1.itemTitle p b {
+    font-family: "Lato";
+    font-weight: 700; }
+  .headerFontSans1.itemTitle p em strong, .headerFontSans1.itemTitle p strong em, .headerFontSans1.itemTitle p i b, .headerFontSans1.itemTitle p b i {
+    font-family: "Lato";
+    font-weight: 700; }
 
 .headerFontSans2 h1, .headerFontSans2 h3, .headerFontSans2 h5 {
   font-family: "Poppins-ExtraBold"; }
+
+.isWeb .headerFontSans2.isItalic h1 {
+  font-family: "Poppins-ExtraBoldItalic"; }
 
 .headerFontSans2 h2, .headerFontSans2 h4 {
   font-family: "Poppins-Regular"; }
@@ -826,8 +866,20 @@ hr {
   .headerFontSans2 figcaption em strong, .headerFontSans2 figcaption strong em, .headerFontSans2 figcaption b i, .headerFontSans2 figcaption i b, .headerFontSans2 img + small em strong, .headerFontSans2 img + small strong em, .headerFontSans2 img + small b i, .headerFontSans2 img + small i b, .headerFontSans2 .caption em strong, .headerFontSans2 .caption strong em, .headerFontSans2 .caption b i, .headerFontSans2 .caption i b, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) i b {
     font-family: "Poppins-ExtraBold"; }
 
+.headerFontSans2.itemTitle p {
+  font-family: "Poppins"; }
+  .headerFontSans2.itemTitle p em, .headerFontSans2.itemTitle p i {
+    font-family: "Poppins-Italic"; }
+  .headerFontSans2.itemTitle p strong, .headerFontSans2.itemTitle p b {
+    font-family: "Poppins-Bold"; }
+  .headerFontSans2.itemTitle p em strong, .headerFontSans2.itemTitle p strong em, .headerFontSans2.itemTitle p i b, .headerFontSans2.itemTitle p b i {
+    font-family: "Poppins-BoldItalic"; }
+
 .headerFontSans3 h1, .headerFontSans3 h3, .headerFontSans3 h5 {
   font-family: "Montserrat-Bold"; }
+
+.isWeb .headerFontSans3.isItalic h1 {
+  font-family: "Montserrat-BoldItalic"; }
 
 .headerFontSans3 h2, .headerFontSans3 h4 {
   font-family: "Montserrat-Light"; }
@@ -839,8 +891,20 @@ hr {
   .headerFontSans3 figcaption strong, .headerFontSans3 figcaption b, .headerFontSans3 img + small strong, .headerFontSans3 img + small b, .headerFontSans3 .caption strong, .headerFontSans3 .caption b, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) b {
     font-family: "Montserrat-BoldItalic"; }
 
+.headerFontSans3.itemTitle p {
+  font-family: "Montserrat-Light"; }
+  .headerFontSans3.itemTitle p em, .headerFontSans3.itemTitle p i {
+    font-family: "Montserrat-LightItalic"; }
+  .headerFontSans3.itemTitle p strong, .headerFontSans3.itemTitle p b {
+    font-family: "Montserrat-Bold"; }
+  .headerFontSans3.itemTitle p em strong, .headerFontSans3.itemTitle p strong em, .headerFontSans3.itemTitle p i b, .headerFontSans3.itemTitle p b i {
+    font-family: "Montserrat-BoldItalic"; }
+
 .headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5 {
   font-family: "PlayfairDisplay-Black"; }
+
+.isWeb .headerFontSerif1.isItalic h1 {
+  font-family: "IBMPlexSerif-BoldItalic"; }
 
 .headerFontSerif1 h2, .headerFontSerif1 h4 {
   font-family: "PlayfairDisplay-Regular"; }
@@ -853,6 +917,15 @@ hr {
     font-family: "IBMPlexSerif-BoldItalic"; }
   .headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 figcaption i b, .headerFontSerif1 figcaption b i, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 img + small i b, .headerFontSerif1 img + small b i, .headerFontSerif1 .caption em strong, .headerFontSerif1 .caption strong em, .headerFontSerif1 .caption i b, .headerFontSerif1 .caption b i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b i {
     font-family: "PlayfairDisplay-Bold"; }
+
+.headerFontSerif1.itemTitle p {
+  font-family: "IBMPlexSerif"; }
+  .headerFontSerif1.itemTitle p em, .headerFontSerif1.itemTitle p i {
+    font-family: "IBMPlexSerif-Italic"; }
+  .headerFontSerif1.itemTitle p strong, .headerFontSerif1.itemTitle p b {
+    font-family: "IBMPlexSerif-Bold"; }
+  .headerFontSerif1.itemTitle p em strong, .headerFontSerif1.itemTitle p strong em, .headerFontSerif1.itemTitle p i b, .headerFontSerif1.itemTitle p b i {
+    font-family: "IBMPlexSerif-BoldItalic"; }
 
 .feedflare, .mc-embed-signup {
   display: none !important; }
@@ -1089,41 +1162,76 @@ html.font-size-3 {
   width: 100vw; }
 
 .itemTitle {
-  margin: 0.5rem;
+  margin: 1rem 4vw;
   margin-bottom: 0;
-  padding-bottom: 1rem;
-  max-width: 900px; }
+  max-width: 900px;
+  z-index: 2; }
   .hasCoverImage .itemTitle {
     color: white;
     position: absolute;
     bottom: 0; }
-  @media screen and (min-width: calc(--var(font-size) * 24)) {
-    .itemTitle {
-      margin: 1rem; } }
+    .hasCoverImage .itemTitle.center {
+      text-align: center;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 1000px; }
+    .hasCoverImage .itemTitle.top {
+      top: 0;
+      bottom: auto; }
+    .hasCoverImage .itemTitle.bottom {
+      bottom: 0;
+      top: auto; }
+    .hasCoverImage .itemTitle.middle {
+      top: 50%;
+      transform: translateY(-50%); }
   .itemTitle h1, .itemTitle h2, .itemTitle h3, .itemTitle h4, .itemTitle h5 {
     line-height: 1.1; }
+  .itemTitle p {
+    font-size: 0.7rem; }
+  .itemTitle .date-published {
+    font-size: 0.6rem;
+    font-family: "IBMPlexMono-Light" !important; }
+  .itemTitle.center {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto; }
+  .itemTitle.isUpperCase h1 {
+    text-transform: uppercase; }
+  .itemTitle.bg.hasCoverImage h1 {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+    padding: 0.5rem; }
+  .hasCoverImage .itemTitle::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0 -4vw 2rem;
+    width: calc(100vw + 4vw);
+    height: calc(100% + 2rem);
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%); }
+  .itemTitle.center::after {
+    margin: 0 calc(50% - 50vw) 2rem; }
+
+@media screen and (min-width: 32rem) {
+  .itemTitle {
+    margin: 1rem; } }
 
 .hasCoverImage .coverImage {
   position: fixed;
   top: 0;
   width: 100%;
   max-height: 100%;
-  z-index: -1;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center; }
-  .hasCoverImage .coverImage::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0.1) 60%); }
 
 .articleHolder {
-  background-color: #f7f7f3; }
+  background-color: #f7f7f3;
+  position: relative;
+  z-index: 2; }
   .dark-background .articleHolder {
     background-color: black; }
 
