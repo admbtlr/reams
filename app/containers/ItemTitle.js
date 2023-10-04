@@ -12,15 +12,18 @@ const mapStateToProps = (state, ownProps) => {
   const styles = ownProps.item &&
       ownProps.item.styles &&
       ownProps.item.styles.title
+  const title = ownProps.title || ownProps.item?.title
   return {
     // isVisible: ownProps.index === index,
     // need to respond to styles changes, because component updates its own font size
     styles: styles,
+    coverImageStyles: ownProps.coverImageStyles || styles?.coverImage,
     // this is just a foul hack to see what's going on
     fontSize: styles && styles.fontSize,
     isDarkMode: state.ui.isDarkMode,
     displayMode: state.itemsMeta.display,
-    isPortrait: isPortrait()
+    isPortrait: isPortrait(),
+    title
   }
 }
 

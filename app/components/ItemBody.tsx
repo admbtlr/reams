@@ -179,15 +179,6 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     styles.dropCapIsBold ? 'dropCapIsBold' : '',
     styles.dropCapIsStroke ? 'dropCapIsStroke' : ''].join(' ')
     
-  // this was on the body tag - is it still necessary?
-  // const visibleClass = isVisible
-  //   ? 'visible'
-  //   : ''
-
-  // and is this still necessary?
-  // const scrollingClass = this.scrollAnim === 0
-  //   ? ''
-  //   : 'scrolling'
   const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
   const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 1 : webViewHeight

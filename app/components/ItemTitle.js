@@ -1,6 +1,6 @@
 import { ItemType } from '../store/items/types'
 import React from 'react'
-import {Animated, Dimensions, Easing, Text, View, WebView} from 'react-native'
+import {Animated, Dimensions, Easing, Platform, Text, View, WebView} from 'react-native'
 import rnTextSize from 'react-native-text-size'
 import moment from 'moment'
 import quote from 'headline-quotes'
@@ -10,6 +10,7 @@ import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
 // import * as Sentry from "@sentry/react-native"
 import CategoryToggles from './CategoryToggles'
+import { DRAWER_WIDTH } from './web/Main'
 
 const entities = require('entities')
 
@@ -124,9 +125,14 @@ class ItemTitle extends React.Component {
     super(props)
     this.props = props
 
-    const window = Dimensions.get('window')
-    this.screenWidth = window.width
-    this.screenHeight = window.height
+    if (props.screenDimensions) {
+      this.screenWidth = props.screenDimensions.width
+      this.screenHeight = props.screenDimensions.height  
+    } else {
+      const window = Dimensions.get('window')
+      this.screenWidth = window.width
+      this.screenHeight = window.height
+    }
   }
 
   getRenderedTitle (title) {
@@ -188,7 +194,7 @@ class ItemTitle extends React.Component {
     }
     return !this.props.showCoverImage ?
       0 :
-      (this.props.coverImageStyles.isInline ?
+      (this.props.item.styles.coverImage.isInline ?
         getMargin() / 2 :
         getMargin()) // allow space for date
   }
@@ -215,6 +221,10 @@ class ItemTitle extends React.Component {
     let i = limit
     while (i > 20) {
       sizes.push(i--)
+    }
+
+    if (typeof rnTextSize === 'undefined') {
+      return 32
     }
 
     return Promise.all(sizes.map((size) => rnTextSize.measure({
@@ -246,7 +256,9 @@ class ItemTitle extends React.Component {
   async componentDidUpdate (prevProps) {
     const {styles} = this.props
 
-    if (prevProps && styles.fontResized && prevProps.isPortrait === this.props.isPortrait) return
+    if (prevProps && styles?.fontResized && prevProps.isPortrait === this.props.isPortrait) return
+
+    if (typeof rnTextSize === 'undefined') return
 
     // first get max font size
     const maxFontSize = await this.getMaxFontSize()
@@ -257,8 +269,10 @@ class ItemTitle extends React.Component {
     while (i > 20) {
       sizes.push(i--)
     }
+  }
 
-    Promise.all(sizes.map((size) => rnTextSize.measure({
+  async measureSizes (sizes) {
+      Promise.all(sizes.map((size) => rnTextSize.measure({
         text: styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle,
         width: this.getInnerWidth(size, styles.isItalic),
         fontSize: size,
@@ -351,7 +365,8 @@ class ItemTitle extends React.Component {
   }
 
   getFontObject (fontType, fontVariant) {
-    const {font, styles, item} = this.props
+    const {styles, item} = this.props
+    const font = item?.styles?.fontClasses.heading
     let fontFamily = font
 
     switch (fontVariant) {
@@ -390,6 +405,7 @@ class ItemTitle extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     if (this.isAnimating) return true
+    if (this.props.item === undefined) return true
     let changes
     let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
     // console.log('Should update? - '
@@ -434,14 +450,12 @@ class ItemTitle extends React.Component {
       styles, 
     } = this.props
 
+    coverImageStyles = coverImageStyles || item?.styles?.coverImage
+
     // this means the item hasn't been inflated from Firebase yet
-    if (!styles) return null
+    if (!styles || !item) return null
 
-    const window = Dimensions.get('window')
-    this.screenWidth = window.width
-    this.screenHeight = window.height
-
-    const isFullBleed = showCoverImage && !coverImageStyles.isInline 
+    const isFullBleed = showCoverImage && !item.styles?.coverImage?.isInline 
 
     // just so we can render something before it's been calculated
     const fontSize = styles.fontSize || 42
@@ -463,6 +477,7 @@ class ItemTitle extends React.Component {
       maxWidth: this.screenWidth
     }
 
+    
     const {
       opacity,
       titleAnimation,
@@ -471,13 +486,7 @@ class ItemTitle extends React.Component {
       authorAnimation,
       dateAnimation,
       barAnimation
-    } = this.getAnimationValues()
-
-    const coverImageColorPalette = coverImageStyles.isCoverImageColorDarker ?
-      'lighter' :
-      (coverImageStyles.isCoverImageColorLighter ?
-        'darker' :
-        '')
+    } = this.props.anims ? this.getAnimationValues() : {}
 
     let color = styles.isMonochrome ?
       ((isFullBleed && !styles.bg) ?
@@ -486,8 +495,8 @@ class ItemTitle extends React.Component {
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
         this.getForegroundColor())
-    // if (coverImageStyles.isInline || coverImageStyles.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
-    if (!showCoverImage || coverImageStyles.isInline) color = this.props.isDarkMode ? textColorDarkMode : textColor
+    // if (item.styles?.coverImage?.isInline || item.styles?.coverImage?.resizeMode === 'contain') color = hslString(this.props.item.feed_color, 'desaturated')
+    if (!showCoverImage || item.styles?.coverImage?.isInline) color = this.props.isDarkMode ? textColorDarkMode : textColor
 
     const invertBGPadding = 6
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
@@ -534,7 +543,7 @@ class ItemTitle extends React.Component {
             ...borderBottom
           }
         ))
-    if (!showCoverImage || coverImageStyles.isInline) border = {}
+    if (!showCoverImage || item.styles?.coverImage?.isInline) border = {}
 
     const innerPadding = this.getInnerVerticalPadding(fontSize)
 
@@ -555,14 +564,14 @@ class ItemTitle extends React.Component {
       marginTop: this.horizontalMargin,
       paddingLeft: horizontalPadding,
       paddingRight: horizontalPadding,
-      paddingBottom: (!showCoverImage || coverImageStyles.isInline) ?
+      paddingBottom: (!showCoverImage || item.styles?.coverImage?.isInline) ?
           this.getExcerptLineHeight() :
         (styles.textAlign === 'center' || styles.borderWidth) ?
           innerPadding :
           styles.bg ? this.horizontalMargin : this.getExcerptLineHeight(),
       paddingTop: this.horizontalMargin,//innerPadding + borderWidth,
       backgroundColor: showCoverImage && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
-      height: 'auto',
+      // height: 'auto',
       overflow: 'visible',
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -570,15 +579,18 @@ class ItemTitle extends React.Component {
       width,
       ...border,
       borderColor: color,
+      backgroundColor: 'red'
     }
-    innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation, isVisible)
-    if (!showCoverImage || !coverImageStyles.isInline) {
-      innerViewStyle.transform.push({
-        translateY: scrollOffset.interpolate({
-          inputRange: [-1, 0, 1],
-          outputRange: [-0.75, 0, 0]
-        })
-      })  
+    if (this.props.anims) {
+      innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation, isVisible)
+      if (!showCoverImage || !item.styles?.coverImage?.isInline) {
+        innerViewStyle.transform.push({
+          translateY: scrollOffset.interpolate({
+            inputRange: [-1, 0, 1],
+            outputRange: [-0.75, 0, 0]
+          })
+        })  
+      }
     }
     const overlayColour = this.getOverlayColor()
     const isIPad = isIpad()
@@ -586,27 +598,27 @@ class ItemTitle extends React.Component {
       width: this.screenWidth,
       height: !isFullBleed ? 'auto' : 
         isPortrait || isIpad() ? this.screenHeight * 1.2 : this.screenHeight * 1.4,
-      paddingTop: showCoverImage && coverImageStyles.isInline ? 
+      paddingTop: showCoverImage && item.styles?.coverImage?.isInline ? 
         0 : 
         showCoverImage ? 
           getTopBarHeight() + this.screenHeight * 0.2 :
           getTopBarHeight(),
       paddingHorizontal: isPortrait ? 0 : 
         isIpad() ? this.horizontalMargin : this.horizontalMargin * 2, // make space for notch
-      paddingBottom: coverImageStyles.isInline || !showCoverImage ? 
+      paddingBottom: coverImageStyles?.isInline || !showCoverImage ? 
         0 : 
         isPortrait || isIpad() ? 100 : 0, // looks weird, but means that landscape iPhone doesn't make space fot the buttons
       marginTop: 0,
-      marginBottom: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
-      top: !showCoverImage || coverImageStyles.isInline ? 0 : -this.screenHeight * 0.2,
+      marginBottom: !showCoverImage || item.styles?.coverImage?.isInline ? 0 : -this.screenHeight * 0.2,
+      top: !showCoverImage || item.styles?.coverImage?.isInline ? 0 : -this.screenHeight * 0.2,
       left: 0,
       flexDirection: 'column',
-      backgroundColor: !showCoverImage || coverImageStyles.isInline ?
-        // hslString(coverImageStyles.color, coverImageColorPalette) :
+      backgroundColor: !showCoverImage || item.styles?.coverImage?.isInline ?
+        // hslString(item.styles?.coverImage?.color, coverImageColorPalette) :
         // 'white' :
         hslString('bodyBG') :
         overlayColour,
-      opacity: coverImageStyles.isInline || !showCoverImage ?
+      opacity: coverImageStyles?.isInline || !showCoverImage ?
         1 :
         opacity
     }
@@ -721,7 +733,7 @@ class ItemTitle extends React.Component {
       })
     }
 
-    const isAuthorDateBelowFold = showCoverImage && !isPortrait && !coverImageStyles.isInline
+    const isAuthorDateBelowFold = showCoverImage && !isPortrait && !item.styles?.coverImage?.isInline
 
     const barView = this.renderBar(barAnimation)
     const excerptView = this.props.excerpt
@@ -730,75 +742,77 @@ class ItemTitle extends React.Component {
     const dateView = this.renderDate(dateAnimation)
     const authorView = this.renderAuthor(authorAnimation)
 
-    return (
-      <Animated.View 
-        onLayout={event => this.onLayout(event.nativeEvent.layout.height +
-          event.nativeEvent.layout.y)}
-        ref={(view) => { this.outerView = view }}
-        style={{
-          ...outerViewStyle,
-          justifyContent: showCoverImage ? justifiers[styles.valign] : 'flex-start',
-          alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start',
-          flex: 1
-        }}
-      >
-        <Animated.View
+      return (
+        <Animated.View 
+          onLayout={event => this.onLayout(event.nativeEvent.layout.height +
+            event.nativeEvent.layout.y)}
+          ref={(view) => { this.outerView = view }}
           style={{
-            ...innerViewStyle,
-            flex: 0,
-            marginLeft: styles.invertBG ? this.horizontalMargin - invertedTitleStyle.paddingLeft : this.horizontalMargin,
-            justifyContent: this.aligners[styles.textAlign],
+            ...outerViewStyle,
+            justifyContent: showCoverImage ? justifiers[styles.valign] : 'flex-start',
+            alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start',
+            flex: 1
           }}
-          ref={(view) => { this.innerView = view }}
         >
-          {typeof(this.renderedTitle) === 'object' && this.renderedTitle}
-          {typeof(this.renderedTitle) === 'string' &&
-            <Animated.Text style={{
-              ...fontStyle,
-              ...shadowStyle,
-              marginBottom: this.props.styles.isUpperCase ? fontSize * -0.3 : 0,
-              // ensure top of apostrophes, quotes and i dots are not cut off
-              paddingTop: typeof fontStyle.padding === 'number' ? 
-                fontStyle.paddingTop + 10 : 10,
-              marginTop: -10
-            }}>
-              <Animated.Text>{this.renderedTitle}</Animated.Text>
-            </Animated.Text>
+          <Animated.View
+            style={{
+              ...innerViewStyle,
+              flex: 1,
+              marginLeft: styles.invertBG ? this.horizontalMargin - invertedTitleStyle.paddingLeft : this.horizontalMargin,
+              justifyContent: this.aligners[styles.textAlign],
+              backgroundColor: 'yellow',
+              // height: 'auto',
+            }}
+            ref={(view) => { this.innerView = view }}
+          >
+            {typeof(this.renderedTitle) === 'object' && this.renderedTitle}
+            {typeof(this.renderedTitle) === 'string' &&
+              <Animated.Text style={{
+                ...fontStyle,
+                ...shadowStyle,
+                marginBottom: this.props.styles.isUpperCase ? fontSize * -0.3 : 0,
+                // ensure top of apostrophes, quotes and i dots are not cut off
+                paddingTop: typeof fontStyle.padding === 'number' ? 
+                  fontStyle.paddingTop + 10 : 10,
+                marginTop: -10
+              }}>
+                <Animated.Text>{this.renderedTitle}</Animated.Text>
+              </Animated.Text>
+            }
+          </Animated.View>
+          { this.props.displayMode === ItemType.saved && 
+          <Animated.View style={{
+            ...this.props.addAnimation({}, categoriesAnimation, this.props.isVisible),
+            marginBottom: getMargin(),
+            marginLeft: this.horizontalMargin,
+          }}>
+            <CategoryToggles 
+              isWhite={showCoverImage && !item.styles?.coverImage?.isInline}
+              item={item} /> 
+          </Animated.View>
           }
-        </Animated.View>
-        { this.props.displayMode === ItemType.saved && 
-        <Animated.View style={{
-          ...this.props.addAnimation({}, categoriesAnimation, this.props.isVisible),
-          marginBottom: getMargin(),
-          marginLeft: this.horizontalMargin,
-        }}>
-          <CategoryToggles 
-            isWhite={showCoverImage && !coverImageStyles.isInline}
-            item={item} /> 
-        </Animated.View>
-        }
-        { this.props.item.excerpt !== null &&
-          this.props.item.excerpt !== undefined &&
-          this.props.item.excerpt.length > 0 &&
-          !this.props.item.excerpt.includes('ellip') &&
-          !this.props.item.excerpt.includes('…') &&
-          excerptView }
-        <View style={{ flex: 0 }}>
-          { authorView }
-          { dateView }
-        </View>
-        {(!showCoverImage && this.itemStartsWithImage()) ||
-          (showCoverImage &&
-            this.props.item.excerpt !== null &&
+          { this.props.item.excerpt !== null &&
             this.props.item.excerpt !== undefined &&
             this.props.item.excerpt.length > 0 &&
-            styles.excerptInvertBG) ||
-          (showCoverImage && coverImageStyles.resizeMode === 'contain') ||
-          (showCoverImage && !this.props.isPortrait) ||
-          barView
-        }
-      </Animated.View>
-    )
+            !this.props.item.excerpt.includes('ellip') &&
+            !this.props.item.excerpt.includes('…') &&
+            excerptView }
+          <View style={{ flex: 0 }}>
+            { authorView }
+            { dateView }
+          </View>
+          {(!showCoverImage && this.itemStartsWithImage()) ||
+            (showCoverImage &&
+              this.props.item.excerpt !== null &&
+              this.props.item.excerpt !== undefined &&
+              this.props.item.excerpt.length > 0 &&
+              styles.excerptInvertBG) ||
+            (showCoverImage && item.styles?.coverImage?.resizeMode === 'contain') ||
+            (showCoverImage && !this.props.isPortrait) ||
+            barView
+          }
+        </Animated.View>
+      )  
   }
 
   shouldSplitIntoWords () {
@@ -806,7 +820,7 @@ class ItemTitle extends React.Component {
   }
 
   renderBar (anim) {
-    let style = this.props.addAnimation({}, anim, this.props.isVisible)
+    let style = this.props.anims ? this.props.addAnimation({}, anim, this.props.isVisible) : {}
     return <Animated.View style={style}>
       <View style={{
         marginLeft: this.horizontalMargin,
@@ -833,7 +847,7 @@ class ItemTitle extends React.Component {
   getExcerptColor () {
     const { coverImageStyles, showCoverImage, item, styles } = this.props
     let excerptColor
-    if (!showCoverImage || coverImageStyles.isInline || coverImageStyles.isContain) {
+    if (!showCoverImage || item.styles?.coverImage?.isInline || item.styles?.coverImage?.isContain) {
       excerptColor = this.props.isDarkMode ? textColorDarkMode : textColor
     // } else if (styles.invertBG) {
     //   excerptColor = 'black'
@@ -853,7 +867,7 @@ class ItemTitle extends React.Component {
     let excerptColor = this.getExcerptColor()
 
     let excerptBg = {}
-    if (showCoverImage && !coverImageStyles.isInline) {
+    if (showCoverImage && !item.styles?.coverImage?.isInline) {
       excerptBg = (styles.excerptInvertBG || styles.bg) ? {
         backgroundColor: styles.bg ?
           'rgba(255,255,255,0.95)' :
@@ -864,7 +878,7 @@ class ItemTitle extends React.Component {
         paddingBottom: getMargin() / 2,
         marginBottom: this.getExcerptLineHeight()
       } : {}
-      excerptColor = styles.excerptInvertBG || coverImageStyles.isContain ?
+      excerptColor = styles.excerptInvertBG || item.styles?.coverImage?.isContain ?
         'white' :
         this.getExcerptColor()
       excerptShadowStyle = styles.excerptInvertBG ? {
@@ -891,7 +905,7 @@ class ItemTitle extends React.Component {
 
     let style = {
       ...innerViewStyle,
-      paddingTop: !coverImageStyles.isInline &&
+      paddingTop: !item.styles?.coverImage?.isInline &&
         (styles.borderWidth || styles.bg) ?
           excerptLineHeight / 2 :
           0,
@@ -915,7 +929,7 @@ class ItemTitle extends React.Component {
     }
     style = this.props.addAnimation(style, anim, this.props.isVisible)
 
-    if (!coverImageStyles.isInline) {
+    if (!item.styles?.coverImage?.isInline) {
       style.transform.push({
         translateY: scrollOffset.interpolate({
           inputRange: [-1, 0, 1],
@@ -949,8 +963,8 @@ class ItemTitle extends React.Component {
               // textShadowColor: 'rgba(0,0,0,0.4)',
               // textShadowRadius: 20,
               color: excerptColor,
-              fontFamily: this.getFontFamily(coverImageStyles.isInline ||
-                coverImageStyles.resizeMode === 'contain' ||
+              fontFamily: this.getFontFamily(item.styles?.coverImage?.isInline ||
+                item.styles?.coverImage?.resizeMode === 'contain' ||
                 excerptBg.backgroundColor ||
                 !showCoverImage ?
                 'regular' :
@@ -962,7 +976,7 @@ class ItemTitle extends React.Component {
         </Animated.View>
         { showCoverImage &&
           !styles.excerptInvertBG &&
-          coverImageStyles.resizeMode === 'contain' &&
+          item.styles?.coverImage?.resizeMode === 'contain' &&
           barView }
       </View>)
   }
@@ -970,7 +984,7 @@ class ItemTitle extends React.Component {
   renderAuthor (anim) {
     const { coverImageStyles, date, item, scrollOffset, showCoverImage, styles } = this.props
     let authorStyle = {
-      color: showCoverImage && !coverImageStyles.isInline ?
+      color: showCoverImage && !item.styles?.coverImage?.isInline ?
           'white' :
         this.props.isDarkMode ?
           textColorDarkMode :
@@ -986,14 +1000,16 @@ class ItemTitle extends React.Component {
       padding: 0,
       width: this.screenWidth
     }
-    authorStyle = this.props.addAnimation(authorStyle, anim, this.props.isVisible)
-    if (!coverImageStyles.isInline) {
-      authorStyle.transform.push({
-        translateY: scrollOffset.interpolate({
-          inputRange: [-1, 0, 1],
-          outputRange: [-0.25, 0, 0]
-        })
-      })  
+    if (this.props.anims) {
+      authorStyle = this.props.addAnimation(authorStyle, anim, this.props.isVisible)
+      if (!item.styles?.coverImage?.isInline) {
+        authorStyle.transform.push({
+          translateY: scrollOffset.interpolate({
+            inputRange: [-1, 0, 1],
+            outputRange: [-0.25, 0, 0]
+          })
+        })  
+      }
     }
     if (item.author) {
       return (
@@ -1008,10 +1024,10 @@ class ItemTitle extends React.Component {
   }
 
   renderDate (anim) {
-    const { coverImageStyles, date, scrollOffset, showCoverImage, styles } = this.props
+    const { item, date, scrollOffset, showCoverImage, styles } = this.props
     let dateStyle = {
       color: showCoverImage &&
-        !coverImageStyles.isInline ? 'white' : '#666', // TODO: what about isDarkMode?
+        !item.styles?.coverImage?.isInline ? 'white' : '#666', // TODO: what about isDarkMode?
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.8,
       fontFamily: 'IBMPlexMono-Light',
@@ -1025,12 +1041,12 @@ class ItemTitle extends React.Component {
       // ...shadowStyle
     }
 
-    // if (showCoverImage && !coverImageStyles.isInline) {
+    // if (showCoverImage && !item.styles?.coverImage?.isInline) {
     //   dateStyle.position = 'absolute'
     //   dateStyle.top = this.screenHeight * (hasNotchOrIsland() ? 0.11 : 0.08) // heuristic
     // }
 
-    // if (showCoverImage && !coverImageStyles.isInline && styles.valign !== 'middle') {
+    // if (showCoverImage && !item.styles?.coverImage?.isInline && styles.valign !== 'middle') {
     //   dateStyle.transform = [
     //     {translateY: 150},
     //     {translateX: (this.screenWidth / 2) - 20},
@@ -1038,14 +1054,16 @@ class ItemTitle extends React.Component {
     //   ]
     //   dateStyle.top = this.screenHeight * (styles.valign !== 'top' ? 0.15 : 0.5) // heuristic
     // }
-    dateStyle = this.props.addAnimation(dateStyle, anim, this.props.isVisible)
-    if (!coverImageStyles.isInline) {
-      dateStyle.transform.push({
-        translateY: scrollOffset.interpolate({
-          inputRange: [-1, 0, 1],
-          outputRange: [-0.25, 0, 0]
-        })
-      })  
+    if (this.props.anims) {
+      dateStyle = this.props.addAnimation(dateStyle, anim, this.props.isVisible)
+      if (!coverImageStyles?.isInline) {
+        dateStyle.transform.push({
+          translateY: scrollOffset.interpolate({
+            inputRange: [-1, 0, 1],
+            outputRange: [-0.25, 0, 0]
+          })
+        })  
+      }
     }
 
     // TODO this is feedwrangler... fix it
@@ -1078,17 +1096,17 @@ class ItemTitle extends React.Component {
     if (!showCoverImage ||
       // styles.invertBG ||
       // styles.bg ||
-      // (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isMultiply) ||
-      // (coverImageStyles.resizeMode === 'contain' && coverImageStyles.isScreen))
-      coverImageStyles.resizeMode === 'contain') {
+      // (item.styles?.coverImage?.resizeMode === 'contain' && item.styles?.coverImage?.isMultiply) ||
+      // (item.styles?.coverImage?.resizeMode === 'contain' && item.styles?.coverImage?.isScreen))
+      item.styles?.coverImage?.resizeMode === 'contain') {
       return 'transparent'
-    } else if (coverImageStyles.resizeMode === 'contain' && !coverImageStyles.isMultiply) {
+    } else if (item.styles?.coverImage?.resizeMode === 'contain' && !item.styles?.coverImage?.isMultiply) {
       return 'rgba(255,255,255,0.2)'
     } else if (!styles.isMonochrome) {
       return 'rgba(240, 240, 240, 0.6)'
-    } else if (coverImageStyles.isBW ||
-      coverImageStyles.isMultiply ||
-      coverImageStyles.isScreen) {
+    } else if (item.styles?.coverImage?.isBW ||
+      item.styles?.coverImage?.isMultiply ||
+      item.styles?.coverImage?.isScreen) {
       return 'rgba(0,0,0,0.4)'
     } else {
       return 'rgba(0,0,0,0.6)'
@@ -1112,7 +1130,7 @@ class ItemTitle extends React.Component {
 
   getAnimationValues () {
     const { anims, scrollOffset, showCoverImage, coverImageStyles } = this.props
-    if (!showCoverImage || coverImageStyles.isInline) {
+    if (!showCoverImage || item.styles?.coverImage?.isInline) {
       return {
         opacity: Animated.add(scrollOffset.interpolate({
             inputRange: [-50, 0, 500],
