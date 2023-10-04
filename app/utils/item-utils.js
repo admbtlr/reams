@@ -5,6 +5,7 @@ import {createItemStyles, compressStyles, expandStyles} from './createItemStyles
 import {getCachedCoverImagePath} from './index'
 import log from './log'
 import LZString from 'lz-string'
+import { Platform } from 'react-native'
 
 export function addStylesIfNecessary (item, index, items) {
   if (item.styles && !item.styles.temporary) {
@@ -30,11 +31,13 @@ export function deflateItem (item) {
   // const compressed = LZString.compressToUTF16(JSON.stringify(compressStyles(item.styles)))
   const deflated = {
     _id: item._id,
+    author: item.author,
     banner_image: item.banner_image, // needed by the feed component
     content_length: item.content_length || (item.content_html
       ? item.content_html.length
       : 0),
     created_at: item.created_at,
+    date_published: item.date_published,
     decoration_failures: item.decoration_failures,
     feed_id: item.feed_id,
     feed_title: item.feed_title,
@@ -128,13 +131,13 @@ export function addMercuryStuffToItem (item, mercury) {
   // if excerpt == content_html, showMercury
   let decoratedItem = {
     ...item,
-    author: mercury.author,
+    author: mercury.author || item.author,
     title: mercury.title,
     banner_image: mercury.lead_image_url,
     // body: content,
     content_mercury: mercury.content ? mercury.content : '',
     content_html: item.content_html ? item.content_html : '',
-    date_published: mercury.date_published,
+    date_published: mercury.date_published || item.date_published,
     excerpt: mercury.excerpt,
     hasLoadedMercuryStuff: true
   }
@@ -268,10 +271,13 @@ export function removeCachedCoverImageDuplicate (item) {
 
 export async function removeCachedCoverImages (items) {
   if (!items) return
+
+  if (Platform.OS === 'web') return
+
   items.forEach(async (item) => {
     let path = getCachedCoverImagePath(item)
     if (path) {
       await FileSystem.deleteAsync(path)
     }
-  })
+  })  
 }

@@ -25,7 +25,9 @@ import {
   ItemsState,
   ItemType,
   SAVE_EXTERNAL_ITEM_SUCCESS,
-  SET_SAVED_ITEMS
+  SET_SAVED_ITEMS,
+  INCREMENT_INDEX,
+  DECREMENT_INDEX
 } from './types'
 import {
   itemMarkRead,
@@ -61,18 +63,33 @@ export function itemsSaved (
   let carouselled: { index : number, items : Item[] }
 
   switch (action.type) {
-    case UNSET_BACKEND:
-      if (action.backend === 'reams') {
-        return initialState
-      } else {
-        return state
-      }
-
     case UPDATE_CURRENT_INDEX:
       if (action.displayMode !== ItemType.saved) return state
       return {
         ...state,
         index: action.index
+      }
+
+    case INCREMENT_INDEX:
+      index = state.index
+      if (action.displayMode === ItemType.unread && 
+        state.index < state.items.length - 1) {
+        index++
+      }
+      return {
+        ...state,
+        index
+      }
+
+    case DECREMENT_INDEX:
+      index = state.index
+      if (action.displayMode === ItemType.unread && 
+        state.index > 0) {
+        index--
+      }
+      return {
+        ...state,
+        index
       }
 
     case MARK_ITEM_READ:

@@ -36,6 +36,17 @@ export interface Item {
   }
   decoration_failures?: number
   styles: {
+    coverImage: {
+      align: string
+      color: string
+      isBW: boolean
+      isCoverImageColorDarker: boolean
+      isInline: boolean
+      isMultiply: boolean
+      isScreen: boolean
+      resizeMode: "cover" | "containe"
+      showCoverImage: boolean
+    }
     title: {
       fontSize?: number
       lineHeight?: number
@@ -63,6 +74,8 @@ export interface ItemsState {
 
 export const SET_DISPLAY_MODE = 'SET_DISPLAY_MODE'
 export const UPDATE_CURRENT_INDEX = 'UPDATE_CURRENT_INDEX'
+export const INCREMENT_INDEX = 'INCREMENT_INDEX'
+export const DECREMENT_INDEX = 'DECREMENT_INDEX'
 export const ITEMS_BATCH_FETCHED = 'ITEMS_BATCH_FETCHED'
 export const PRUNE_UNREAD = 'PRUNE_UNREAD'
 export const CLEAR_READ_ITEMS = 'CLEAR_READ_ITEMS'
@@ -101,6 +114,16 @@ interface updateCurrentIndexAction {
   type: typeof UPDATE_CURRENT_INDEX
   displayMode: ItemType
   index: number
+}
+
+interface incrementIndexAction {
+  type: typeof INCREMENT_INDEX
+  displayMode: ItemType
+}
+
+interface decrementIndexAction {
+  type: typeof DECREMENT_INDEX
+  displayMode: ItemType
 }
 
 interface itemsBatchFetchedAction {
@@ -248,6 +271,8 @@ export interface sortItems {
 
 export type ItemActionTypes = setDisplayModeAction |
   updateCurrentIndexAction |
+  incrementIndexAction |
+  decrementIndexAction |
   itemsBatchFetchedAction |
   pruneUnreadAction |
   clearReadItemsSuccessAction |
