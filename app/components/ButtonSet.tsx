@@ -1,7 +1,8 @@
-import { Item, ItemType } from '../store/items/types'
+import { Item, ItemType, SAVE_ITEM, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '../store/items/types'
 import React, { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
+  ActionSheetIOS,
   Animated,
   Dimensions,
   View,
@@ -12,6 +13,8 @@ import { hslString } from '../utils/colors'
 import { getMargin, hasNotchOrIsland } from '../utils'
 import { RootState } from '../store/reducers'
 import { Feed } from '../store/feeds/types'
+import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 
 // isDarkMode, displayMode, 
 let areButtonsVisible = true
@@ -19,62 +22,95 @@ let areButtonsVisible = true
 export const translateDistance = 80
 
 interface ButtonSetProps {
-  displayMode: ItemType,
   isCurrent: boolean,
-  isDarkMode: boolean,
-  isLibrary: boolean,
   item: Item,
-  launchBrowser: () => void,
   opacityAnim: Animated.Value,
-  setSaved: (item: Item, isSaved: boolean) => void,
-  showShareSheet: () => void,
-  toggleMercury: (item: Item) => void,
-  toggleViewButtons: () => void,
-  visible: boolean,
 }
 
 export default function ButtonSet ({
-  displayMode,
   isCurrent,
-  isDarkMode,
-  isLibrary,
   item,
-  launchBrowser,
   opacityAnim,
-  setSaved,
-  showShareSheet,
-  toggleMercury,
-  toggleViewButtons,
-  visible
 }: ButtonSetProps) {
+  const visible = useSelector((state: RootState) => state.ui.itemButtonsVisible)
   useEffect(() => {
     makeVisible(visible)
   }, [visible])
   const visibleRef = useRef(true)
-  // const selectItem = (state: RootState) => item ?
-  //   (state.itemsUnread.items.find(i => i._id === item._id) ||
-  //   state.itemsSaved.items.find(i => i._id === item._id)) :
-  //   null
-  // const selectedItem = useSelector(selectItem)
   const itemFeed = useSelector((state: RootState) => {
     if (state.feeds?.feeds && item) {
       return state.feeds.feeds.find(f => f._id === item.feed_id)
     }
   })
+  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
+  const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const [feed, setFeed] = useState<Feed | undefined>()
   useEffect(() => {
     setFeed(itemFeed)
   }, [itemFeed])
-  // const [item, setItem] = useState<Item | null>(null)
-  // useEffect(() => {
-  //   setItem(selectedItem)
-  // }, [selectedItem])
   let isItemMercury: boolean | undefined
   useEffect(() => {
     isItemMercury = item &&
       (item.showMercuryContent || feed?.isMercury) &&
       !!item.content_mercury
   }, [item, feed])
+
+  const dispatch = useDispatch()
+  const setSaved = (item: Item, isSaved: boolean) => {
+    if (isSaved) {
+      dispatch({
+        type: SAVE_ITEM,
+        item,
+        savedAt: Date.now()
+      })
+      dispatch({
+        type: ADD_ITEM_TO_CATEGORY,
+        itemId: item._id,
+        categoryId: 'inbox'
+      })
+    } else {
+      dispatch({
+        type: UNSAVE_ITEM,
+        item
+      })
+    }
+  }
+  const showShareSheet = () => {
+    ActionSheetIOS.showShareActionSheetWithOptions({
+      url: item.url,
+      message: '',//this.selectedText, // TODO
+    },
+    (error) => {
+      console.error(error)
+    },
+    (success, method) => {
+    })
+  }
+  const toggleMercury = () => dispatch({
+    type: TOGGLE_MERCURY_VIEW,
+    item
+  })
+  const launchBrowser = async () => {
+    if (!item?.url) return
+    try {
+      await InAppBrowser.isAvailable()
+      InAppBrowser.open(item.url, {
+        // iOS Properties
+        dismissButtonStyle: 'close',
+        preferredBarTintColor: hslString('rizzleBG'),
+        preferredControlTintColor: hslString('rizzleText'),
+        animated: true,
+        modalEnabled: true,
+        // modalPresentationStyle: "popover",
+        // readerMode: true,
+        enableBarCollapsing: true,
+      })
+    } catch (error) {
+      console.log('openLink', error)
+    }
+  }
+  
+
 
   const visibleAnim = new Animated.Value(visibleRef.current ? 0 : 1)
   const toggleAnimMercury = new Animated.Value(0)
