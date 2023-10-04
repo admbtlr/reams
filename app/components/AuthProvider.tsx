@@ -33,7 +33,7 @@ export const AuthProvider = (props: any) => {
           dispatch({ type: SET_USER_DETAILS, details: session.user })
         } else {
           setSession({session: null})
-          dispatch({ type: UNSET_BACKEND, backend: 'reams' })
+          // dispatch({ type: UNSET_BACKEND, backend: 'reams' })
         }
       }
     )
@@ -78,7 +78,7 @@ export const AuthProvider = (props: any) => {
     }
     getLinkUrl()
     return () => {
-      Linking.removeAllListeners('url')
+      if (Linking !== undefined) Linking.removeAllListeners('url')
     } 
   }, [])
 
