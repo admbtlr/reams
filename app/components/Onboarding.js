@@ -5,12 +5,12 @@ import TextButton from './TextButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { HIDE_ALL_BUTTONS, HIDE_LOADING_ANIMATION } from '../store/ui/types'
 import { TOGGLE_ONBOARDING } from '../store/config/types'
-// import LinearGradient from 'react-native-linear-gradient'
+import LinearGradient from 'react-native-linear-gradient'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textInputStyle } from '../utils/styles'
 import { supabase } from '../storage/supabase'
 import { useSession } from './AuthProvider'
-import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication'
+// import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 export const pages = [{
@@ -439,7 +439,7 @@ const Onboarding3 = ({ index }) => {
           marginTop: 24 * fontSizeMultiplier(),
           marginBottom: 24 * fontSizeMultiplier(),
         }}>or</Text>
-        <AppleButton
+        {/* <AppleButton
           buttonStyle={AppleButton.Style.BLACK}
           buttonType={AppleButton.Type.SIGN_IN}
           style={{
@@ -450,7 +450,7 @@ const Onboarding3 = ({ index }) => {
             alignSelf: 'center',
           }}
           onPress={() => onAppleButtonPress()}
-        />
+        /> */}
       </View>
 
     </OnboardingPage>
@@ -702,23 +702,23 @@ const OnboardingPage = ({ children, index }) => (
 )
 
 
-// export const BackgroundGradient = ({ index = 0 }) => (
-//   <LinearGradient 
-//     colors={Math.floor(index / 2) % 2 == 0 ? 
-//       [hslString('logo2'), hslString('logo1')] :
-//       [hslString('logo1'), hslString('logo2')]
-//     } 
-//     end={{x: index % 2 === 0 ? -1 : 0, y: 1}}
-//     start={{x: index % 2 === 0 ? 1 : 2, y: 0}}
-//     style={{
-//       position: 'absolute',
-//       top: 0,
-//       left: 0,
-//       right: 0,
-//       bottom: 0,
-//     }} />
+export const BackgroundGradient = ({ index = 0 }) => (
+  <LinearGradient 
+    colors={Math.floor(index / 2) % 2 == 0 ? 
+      [hslString('logo2'), hslString('logo1')] :
+      [hslString('logo1'), hslString('logo2')]
+    } 
+    end={{x: index % 2 === 0 ? -1 : 0, y: 1}}
+    start={{x: index % 2 === 0 ? 1 : 2, y: 0}}
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    }} />
 
-// )
+)
 
 
 const Figures = ({ anim }) => {

@@ -4,7 +4,6 @@ import makeRootReducer from './reducers'
 import {backgroundFetch, initSagas} from '../sagas'
 import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import FilesystemStorage from 'redux-persist-filesystem-storage'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import { state } from '../__mocks__/state-input'
 import Config from 'react-native-config'
@@ -35,9 +34,16 @@ function configureStore (rehydrateCallback) {
     return newState
   }, { whitelist: ['config'] })
 
+  let storage
+  if (Platform.OS === 'web') {
+    storage = AsyncStorage
+  } else {
+    // storage = require('redux-persist-filesystem-storage').FilesystemStorage
+  }
+
   const persistConfig = {
     key: 'primary',
-    storage: Platform.OS === 'web' ? AsyncStorage : FilesystemStorage,
+    storage,
     timeout: 30000,
     transforms: [orientationTransform],
     blacklist: ['animatedValues'],
