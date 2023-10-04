@@ -43,8 +43,13 @@ export const authenticate = (username, password) => {
 }
 
 function getUrl (endpoint) {
-  if (endpoint.startsWith('http')) return endpoint
-  return 'https://api.feedbin.com/v2/' + endpoint
+  let feedbinUrl
+  if (endpoint.startsWith('http')) {
+    feedbinUrl = endpoint
+  } else {
+    feedbinUrl = 'https://api.feedbin.com/v2/' + endpoint
+  }
+  return !!Config.CORS_PROXY ? Config.CORS_PROXY + feedbinUrl : feedbinUrl
 }
 
 function getFetchConfig () {
@@ -91,8 +96,7 @@ async function doRequest (url, options = {}, expectNoContent = false) {
 
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  const reqUrl = !!Config.CORS_PROXY ? Config.CORS_PROXY + url : url
-  const response = await fetch(reqUrl, options)
+  const response = await fetch(url, options)
   if (!response.ok) {
     const text = await response.text()
     console.log(text)
@@ -187,7 +191,7 @@ export async function markItemsRead (items) {
   const body = {
     unread_entries: items.map(i => i.id)
   }
-  let itemIds = await deleteRequest(endpoint, body)
+  let itemIds = await deleteRequest(endpoint, body, true)
 }
 
 export async function saveItem (item, folder) {
@@ -204,7 +208,7 @@ export async function unsaveItem (item, folder) {
   const body = {
     starred_entries: [item.id]
   }
-  let itemIds = await deleteRequest(endpoint, body)
+  let itemIds = await deleteRequest(endpoint, body, true)
   return itemIds[0] === item.id
 }
 
@@ -227,6 +231,7 @@ export async function fetchFeeds (oldFeeds) {
     const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.id) : []
     feeds = feeds.filter(f => !oldFeedIds.includes(f.feed_id))
   }
+  if (typeof feeds !== 'object') return []
   feeds = feeds
     .map(feed => ({
       _id: id(),
@@ -324,7 +329,7 @@ export async function updateCategory ({ id, name, feeds }) {
 }
                
 export async function deleteCategory (category) {
-  await deleteRequest('tags.json', { "name": category.name })
+  await deleteRequest('tags.json', { "name": category.name }, true)
 }
 
 const mapFeedbinItemToRizzleItem = (item) => {
