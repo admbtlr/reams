@@ -1,5 +1,5 @@
 import { call, delay, put, select } from 'redux-saga/effects'
-import { InteractionManager } from 'react-native'
+import { InteractionManager, Platform } from 'react-native'
 import { 
   CLEAR_READ_ITEMS,
   Item,
@@ -161,7 +161,9 @@ export function * inflateFeeds () {
     })
     updateFeed(inflatedFeed)
   }
-  yield cacheFeedFavicons()
+  if (Platform.OS !== 'web') {
+    yield cacheFeedFavicons()
+  }
 }
 
 function convertColorIfNecessary (feed) {

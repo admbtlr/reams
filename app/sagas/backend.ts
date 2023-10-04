@@ -49,7 +49,7 @@ export function * initBackend (action: any) {
     if (backend === 'feedbin') {
       const user: UserState = yield select(getUser)
       const feedbin = user.backends.find(b => b.name === 'feedbin')
-      backendConfig = { username: feedbin?.username }
+      backendConfig = { username: feedbin?.username, password: feedbin?.password }
     }
     yield call(setBackend, backend, backendConfig)
   }

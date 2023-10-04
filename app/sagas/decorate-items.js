@@ -1,7 +1,7 @@
 import { call, delay, put, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 import * as FileSystem from 'expo-file-system'
-import { InteractionManager } from 'react-native'
+import { InteractionManager, Platform } from 'react-native'
 import { 
   FLATE_ITEMS,
   ITEM_DECORATION_FAILURE,
@@ -186,18 +186,7 @@ export function * decorateItem (item) {
   // external items come through here before they have any styles
   item.styles = item.styles || {}
   let items = yield getItemsSQLite([item])
-  // // TODO do something about this...
-  // // feed_color is mutable and could have changed while the item was deflated
-  // if (items[0]) {
-  //   item = {
-  //     ...items[0],
-  //     feed_color: item.feed_color || items[0].feed_color
-  //   }
-  // } else if (!item.isExternal) {
-  //   // this item is not in AS... how is that possible? in any case, bail on it
-  //   return false
-  // }
-  // consoleLog(`Loading Mercury stuff for ${item._id}...`)
+  item = items.length ? items[0] : item
   const mercuryStuff = yield call(loadMercuryStuff, item)
   if (!mercuryStuff) {
     return false
@@ -205,27 +194,35 @@ export function * decorateItem (item) {
 
   // consoleLog(`Loading Mercury stuff for ${item._id} done`)
   if (mercuryStuff.lead_image_url) {
-    let coverImageFile = yield call (cacheCoverImage, item, mercuryStuff.lead_image_url)
-    if (coverImageFile) {
-      try {
-        const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
-        const faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
-        imageStuff = {
-          coverImageFile,
-          imageDimensions,
-          faceCentreNormalised
+    if (Platform.OS !== 'web') {
+      let coverImageFile = yield call (cacheCoverImage, item, mercuryStuff.lead_image_url)
+      if (coverImageFile) {
+        try {
+          const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
+          const faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
+          imageStuff = {
+            coverImageFile,
+            imageDimensions,
+            faceCentreNormalised
+          }
+        } catch (error) {
+          consoleLog(error)
         }
-      } catch (error) {
-        consoleLog(error)
+      }
+      if (imageStuff.faceCentreNormalised) {
+        const { x, y } = imageStuff.faceCentreNormalised
+        const hAlign = x < 0.333 ? 'left' :
+          x < 0.666 ? 'center' : 'right'
+        const vAlign = y < 0.5 ? 'bottom' : 'top'
+        setCoverAlign(hAlign, item.styles)
+        setTitleVAlign(vAlign, item.styles)
       }
     }
-  }
 
-  if (imageStuff.imageDimensions && imageStuff.imageDimensions.width) {
     if (!!item.title &&
       ((
-        Math.random() > 0.5 &&
-        imageStuff.imageDimensions.height < imageStuff.imageDimensions.width / 1.8
+        Math.random() > 0.5 /*&&
+        imageStuff.imageDimensions?.height < imageStuff.imageDimensions?.width / 1.8*/
       ) || mercuryStuff.excerpt && mercuryStuff.excerpt.length > 120)) {
       if (item.styles) {
         item.styles = setCoverInline(item.styles)
@@ -234,14 +231,6 @@ export function * decorateItem (item) {
     }
   }
 
-  if (imageStuff.faceCentreNormalised) {
-    const { x, y } = imageStuff.faceCentreNormalised
-    const hAlign = x < 0.333 ? 'left' :
-      x < 0.666 ? 'center' : 'right'
-    const vAlign = y < 0.5 ? 'bottom' : 'top'
-    setCoverAlign(hAlign, item.styles)
-    setTitleVAlign(vAlign, item.styles)
-  }
 
   return {
     item,

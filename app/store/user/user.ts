@@ -47,7 +47,7 @@ const initialState = {
 }
 
 export function user (
-  state = Config.USER_STATE || initialState, 
+  state: UserState = (!!Config.USER_STATE ? JSON.parse(Config.USER_STATE) : initialState), 
   action: ConfigActionTypes | UserActionTypes
 ) : UserState {
   let backends: Backend[]
