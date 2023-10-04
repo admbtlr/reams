@@ -199,25 +199,25 @@ class ItemCarousel extends React.Component {
     )
   }
 
-  async launchBrowser () {
-    const item = this.bufferedItems[this.bufferIndex]
-    try {
-      await InAppBrowser.isAvailable()
-      InAppBrowser.open(item.url, {
-        // iOS Properties
-        dismissButtonStyle: 'close',
-        preferredBarTintColor: hslString('rizzleBG'),
-        preferredControlTintColor: hslString('rizzleText'),
-        animated: true,
-        modalEnabled: true,
-        // modalPresentationStyle: "popover",
-        // readerMode: true,
-        enableBarCollapsing: true,
-      })
-    } catch (error) {
-      console.log('openLink', error)
-    }
-  }
+  // async launchBrowser () {
+  //   const item = this.bufferedItems[this.bufferIndex]
+  //   try {
+  //     await InAppBrowser.isAvailable()
+  //     InAppBrowser.open(item.url, {
+  //       // iOS Properties
+  //       dismissButtonStyle: 'close',
+  //       preferredBarTintColor: hslString('rizzleBG'),
+  //       preferredControlTintColor: hslString('rizzleText'),
+  //       animated: true,
+  //       modalEnabled: true,
+  //       // modalPresentationStyle: "popover",
+  //       // readerMode: true,
+  //       enableBarCollapsing: true,
+  //     })
+  //   } catch (error) {
+  //     console.log('openLink', error)
+  //   }
+  // }
 
   setPanAnim (panAnim) {
     this.setState({ panAnim })
@@ -322,10 +322,10 @@ class ItemCarousel extends React.Component {
             bufferedItems={this.bufferedItems}
             panAnim={this.state.panAnim}
             showViewButtons={this.showViewButtons}
-            showShareSheet={this.showShareSheet}
-            setSaved={this.props.setSaved}
-            toggleViewButtons={this.props.toggleViewButtons}
-            launchBrowser={this.launchBrowser}
+            // showShareSheet={this.showShareSheet}
+            // setSaved={this.props.setSaved}
+            // toggleViewButtons={this.props.toggleViewButtons}
+            // launchBrowser={this.launchBrowser}
             toggleMercury={this.props.toggleMercury}
           />
           <ViewButtonsContainer />

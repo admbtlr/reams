@@ -200,7 +200,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   const screenWidth = Dimensions.get('window').width
   const width = screenWidth - getInset() * (isPortrait ? 2 : 4)
   const margin = getMargin()
-  const numCols = screenWidth > 500 ? 2 : 1
+  const numCols = Math.floor(screenWidth / 300) // 250 + 50 margin
 
   const sections = getSections(categories, feeds)
 
@@ -370,7 +370,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
               return rowItems ? <View 
                   style={{
                     flexDirection:"row",
-                    justifyContent:"center"
+                    justifyContent:"flex-start"
                   }}
                 >{rowItems.map(renderFeed)}</View> :
                 null

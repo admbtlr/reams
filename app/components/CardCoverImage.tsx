@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-  Animated
+  Animated, Image, Platform
 } from 'react-native'
 import {fileExists, getCachedCoverImagePath} from '../utils'
 import { useSelector } from 'react-redux'
@@ -19,16 +19,29 @@ export default function CardCoverImage ({feedId, itemId, removeCachedCoverImage,
 
   const feed = feedId ? useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feedId)) : undefined
   const item = itemId ? useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)) : undefined
-  const cachedCoverImageId = useSelector((state: RootState) => !!feedId ?
-    state.feedsLocal.feeds.find(fl => fl._id === feed?._id)?.cachedCoverImageId :
-    state.itemsSaved.items.find(i => i._id === itemId)?.cachedCoverImageId)
+  const feeds = useSelector((state: RootState) => state.feeds.feeds)
+  const feedsLocal = useSelector((state: RootState) => state.feedsLocal)
+  const unreadItems = useSelector((state: RootState) => state.itemsUnread.items)
+  const savedItems = useSelector((state: RootState) => state.itemsSaved.items)
+  const cachedCoverImageId = !!feedId ?
+    feedsLocal.feeds.find(fl => fl._id === feed?._id)?.cachedCoverImageId :
+    savedItems.find(i => i._id === itemId)?.cachedCoverImageId
+  const coverImageItem = !!feedId ? 
+    unreadItems.filter(i => i.feed_id === feedId).find(i => i.banner_image) :
+    item?.banner_image ? 
+      item : 
+      undefined
+  const [imageDimensions, setImageDimensions] = useState({width: 0, height: 0}) // only used on web
+  if (Platform.OS === 'web' && coverImageItem?.banner_image) {
+    Image.getSize(coverImageItem.banner_image, (width, height) => {
+      if (width !== imageDimensions.width || height !== imageDimensions.height) {
+        setImageDimensions({width, height})
+      }
+    })
+  }   
 
-  const coverImageItem = !!feedId ? useSelector((state: RootState) => state.itemsUnread.items
-      .filter(i => i.feed_id === feedId))
-      .find(i => i.banner_image) :
-      item?.banner_image ? item : undefined
-  
   const maybeRemoveOrUpdateCoverImage = async () => {
+    if (Platform.OS === 'web') return
     const path = getCoverImagePath()
     if (!path) return
     const exists = await fileExists(path)
@@ -49,13 +62,17 @@ export default function CardCoverImage ({feedId, itemId, removeCachedCoverImage,
   // }
 
   const getCoverImagePath = () => {
-    const imageId = cachedCoverImageId || coverImageItem?._id
-    return imageId ?
-      getCachedCoverImagePath(imageId) :
-      null
+    if (Platform.OS === 'web') {
+      return coverImageItem?.banner_image
+    } else {
+      const imageId = cachedCoverImageId || coverImageItem?._id
+      return imageId ?
+        getCachedCoverImagePath(imageId) :
+        null  
+    }
   }
 
-  const coverImageDimensions = coverImageItem?.imageDimensions
+  const coverImageDimensions = Platform.OS === 'web' ? imageDimensions : coverImageItem?.imageDimensions
   const color = feed ? feed.color : 'black'
 
   const coverImagePath = getCoverImagePath()

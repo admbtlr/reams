@@ -220,9 +220,9 @@ class FeedItem extends React.Component {
       </View>
     )
 
-    if (!this.isInflated() || !this.state.shouldRender) {
-      return emptyState
-    }
+    // if (!this.isInflated() || !this.state.shouldRender) {
+    //   return emptyState
+    // }
 
     const {
       displayMode,
@@ -260,7 +260,6 @@ class FeedItem extends React.Component {
         imagePath={!!hasCoverImage && getCachedCoverImagePath(item)}
         imageDimensions={!!hasCoverImage && imageDimensions}
         faceCentreNormalised={faceCentreNormalised}
-        feedTitle={item.feed_title}
         orientation={orientation}
       /> :
       null

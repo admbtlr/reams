@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Image,
+  Platform,
   View
 } from 'react-native'
 import {getCachedFeedIconPath} from '../utils/'
@@ -10,21 +11,22 @@ function FeedIcon ({
   dimensions,
   iconDimensions,
   hasCachedIcon,
-  isSmall
+  isSmall,
+  isSmaller
 }) {
-  const width = isSmall ? 24 : 32
-  const height = isSmall ? 24 : 32
+  const width = isSmaller ? 18 : isSmall ? 24 : 32
+  const height = isSmaller ? 18 : isSmall ? 24 : 32
   let dim = dimensions || iconDimensions
   const image = feed ? <Image
     width={width}
     height={height}
-    source={{ uri: getCachedFeedIconPath(feed._id) }}
+    source={{ uri: Platform.OS === 'web' ? feed.favicon?.url : getCachedFeedIconPath(feed._id) }}
     style={{
       width,
       height,
     }}
   /> : null
-  return hasCachedIcon && dim && dim.width > 0 ?
+  return (Platform.OS === 'web' && feed?.favicon?.url) || (hasCachedIcon && dim && dim.width > 0) ?
     <View style={{
       backgroundColor: feed ? feed.color : 'white',
       // margin: 10,

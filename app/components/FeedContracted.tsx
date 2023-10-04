@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   GestureResponderEvent,
+  Platform,
   Text,
   TouchableOpacity,
   View
@@ -49,7 +50,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
   } else if (type === 'all') {
     if (isSaved) {
       categoryItems = useSelector((state: RootState) => state.itemsSaved.items)
-      numItems = categoryItems.length
+      numItems = useSelector((state: RootState) => state.itemsSaved.items.length)
     } else {
       numItems = useSelector((state: RootState) => state.itemsUnread.items.filter(i => !i.readAt).length)
       categoryFeeds = useSelector((state: RootState) => state.feeds.feeds.filter(f => !f.isMuted), isEqual)  
@@ -221,7 +222,9 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
             console.log(state)
             updateCategory({
               ...category,
-              name: state.categoryName || category.name,
+              _id: category?._id || '',
+              itemIds: category?.itemIds || [],
+              name: state.categoryName || category?.name,
               feeds: state.deletableRows.map((dr: Feed) => dr.id)
             })
           }
@@ -250,7 +253,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
   const margin = getMargin()
   const cardWidth = width < 500 ?
     width :
-    (width - margin) / 2
+    200
   const screenHeight = dim.height
 
   const cardHeight = screenWidth < 500 || screenHeight < 500 ?
@@ -276,6 +279,12 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
     categoryItems.filter(i => i.hasCoverImage) : 
     type === 'feed' ? [feed] : categoryFeeds
 
+  const marginRight = Platform.OS === 'web' ?
+    50 :
+    ((index % 2 === 0 && screenWidth > 500 && count > 1) ?
+      margin :
+      0)
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -288,11 +297,10 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
           height: cardHeight,
           width: cardWidth,
           marginBottom: margin * 2,
-          marginRight: (index % 2 === 0 && screenWidth > 500 && count > 1) ?
-            margin :
-            0,
+          marginRight,
           opacity: opacityAnim,
           overflow: 'visible',
+          borderRadius: 16,
           ...shadowStyle
         }}
       >
@@ -372,8 +380,8 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                   ...textStyles,
                   flexWrap: 'wrap',
                   fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: 24 * fontSizeMultiplier(),
-                  lineHeight: 28 * fontSizeMultiplier()
+                  fontSize: (Platform.OS === 'web' ? 20 : 24) * fontSizeMultiplier(),
+                  lineHeight: (Platform.OS === 'web' ? 24 : 28) * fontSizeMultiplier()
                 }}>{title}</Text>
               </View>
               <View style={{
@@ -384,7 +392,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                 <Text style={{
                   ...textStyles,
                   fontFamily: 'IBMPlexMono',
-                  fontSize: 16 * fontSizeMultiplier()
+                  fontSize: (Platform.OS === 'web' ? 14 : 16) * fontSizeMultiplier()
                 }}>{numItems} {isSaved ? `article${numItems > 1 ? 's' : ''}` : 'unread'}</Text>
               </View>
           </View>
