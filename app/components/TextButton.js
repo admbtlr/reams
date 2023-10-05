@@ -95,9 +95,9 @@ class TextButton extends React.Component {
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
       justifyContent: 'flex-start',
-      flex: 0,
+      // flex: 1,
       height,
-      maxHeight: 42 * fontSizeMultiplier(),
+      // maxHeight: 42 * fontSizeMultiplier(),
       maxWidth: 700,
       width: '100%',
       ...this.props.buttonStyle,
@@ -143,7 +143,7 @@ class TextButton extends React.Component {
           style={{
             ...buttonStyle,
             overflow: 'hidden',
-            maxHeight: (isExpanded ? 'auto' : 42 * fontSizeMultiplier()),
+            // maxHeight: (isExpanded ? 'auto' : 42 * fontSizeMultiplier()),
             height: (isExpanded ? 'auto' : 42 * fontSizeMultiplier())
           }}>
           { this.props.isGradient && <BackgroundGradient index={ this.props.gradientIndex || 0 } /> }
