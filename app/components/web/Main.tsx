@@ -29,10 +29,19 @@ import ItemsList from './ItemsList'
 import { createStackNavigator } from '@react-navigation/stack'
 import ItemView from './ItemView'
 import ItemsScreen from './ItemsScreen'
+import Onboarding from './Onboarding'
+import { useSession } from '../AuthProvider'
+import NewFeedsList from '../NewFeedsList'
+import ModalScreen from '../ModalScreen'
 export const DRAWER_WIDTH = 300
 
 export default function Main() {
+  const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
+  const session = useSession()
   const dimensions: ScaledSize = useWindowDimensions()
+
+  if (isOnboarding && !session.session) return <Onboarding />
+
   const Drawer = createDrawerNavigator()
   const drawerAnim = new Animated.Value(DRAWER_WIDTH)
   // const drawerWidth
@@ -145,6 +154,36 @@ const Feeds = ({navigation}) => {
       <FeedsStack.Screen
         name='Items'
         component={ItemsScreen}
+      />
+      <FeedsStack.Screen
+        name='New Feeds List'
+        component={NewFeedsList}
+      />
+      <FeedsStack.Screen
+        name='ModalWithGesture'
+        component={ModalScreen}
+        options={{
+          transparentCard: true,
+          cardOverlayEnabled: true,
+          cardStyle: {
+            backgroundColor: 'transparent'
+          },
+          // ...TransitionPresets.ModalPresentationIOS
+        }}
+        navigationOptions={{
+          gestureResponseDistance: {
+            vertical: 800
+          }
+        }}
+      />
+      <FeedsStack.Screen
+        name='Modal'
+        component={ModalScreen}
+        navigationOptions={{
+          gestureResponseDistance: {
+            vertical: 300
+          }
+        }}
       />
     </FeedsStack.Navigator>
   )
