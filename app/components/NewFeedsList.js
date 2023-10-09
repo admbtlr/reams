@@ -4,6 +4,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  Platform,
   ScrollView,
   StatusBar,
   Text,
@@ -154,7 +155,7 @@ export default function NewFeedsList (props) {
         fill-rule="nonzero" />
     </Svg>
 
-  const screenWidth = Dimensions.get('window').width
+  const screenWidth = Platform.OS === 'web' ? '600' : Dimensions.get('window').width
   const collapsedHeaderHeight = getMargin() + 32 * fontSizeMultiplier() // allow space for the TextButton
 
 
