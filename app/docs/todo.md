@@ -1,3 +1,6 @@
+- backend for annotations
+- action extension
+- "reams favourites"
 - settings screen
   - ~~dark mode settings~~
   - other bg colours?
@@ -10,7 +13,6 @@
 - newsletters with fastmail (or gmail?)
   - https://jmap.io/crash-course.html#core-concept-result-references
 - how come some feeds don't have a feed_local and don't update?
-- remove all messages on init
 - handle being offline better (put checks into fetchItems etc.)
 - move message down when not in item screen
 - onboarding in dark mode
@@ -57,6 +59,7 @@
 - saved folders
 
 # Done
+- ~~remove all messages on init~~
 - ~~still got problems with saved external items appearing twice~~
 - ~~categories in saved~~
 - ~~muting a feed on non-rizzle accounts~~

@@ -20,26 +20,6 @@ let isPlus = false
 export function init () {
 }
 
-export async function sendEmailLink (email) {
-  const url = 'https://app.rizzle.net/sign-in'
-  const actionCodeSettings = {
-    // Your redirect URL
-    url,
-    handleCodeInApp: true,
-    iOS: {
-      bundleId: 'com.adam-butler.rizzle',
-    }
-  }
-
-  // send email...
-  try {
-    auth().sendSignInLinkToEmail(email, actionCodeSettings)
-  } catch (e) {
-    console.log(e)
-  }
-
-}
-
 // callback, type, lastUpdated, oldItems, feeds, maxNum
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds, maxNum) {
   if (type === 'saved' && isPlus) {
