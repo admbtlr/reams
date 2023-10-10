@@ -1,25 +1,20 @@
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import React from 'react'
-import { Button, Dimensions, LayoutAnimation, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import AnimatedEllipsis from 'react-native-animated-ellipsis'
+import { Dimensions, LayoutAnimation, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import EncryptedStorage from 'react-native-encrypted-storage'
-
-import { sendEmailLink } from '../backends/reams'
-import { init } from '../backends/readwise'
 import { authenticate } from '../backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import {
   textInputStyle,
   textLabelStyle,
-  textButtonStyle,
   textInfoStyle,
   textInfoBoldStyle,
   textInfoItalicStyle
 } from '../utils/styles'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
-import { BackgroundGradient } from './Onboarding'
 import { supabase } from '../storage/supabase'
 
 const services = {
@@ -63,12 +58,7 @@ class AccountCredentialsForm extends React.Component {
 
   async authenticateUser ({username, password, email, token}, {setSubmitting, setErrors}) {
     const { service, setBackend, unsetBackend } = this.props
-    if (service === 'reams') {
-      email = email.trim()
-      this.props.setSignInEmail(email)
-      await sendEmailLink(email)
-      console.log(`email: ${email}`)
-    } else if (service === 'readwise') {
+    if (service === 'readwise') {
       setBackend('readwise', {
         accessToken: token
       })
