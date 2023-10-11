@@ -203,7 +203,7 @@ export async function updateItem(toUpdate: Record<string, any>) {
 }
 
 export async function searchItems(term: string) {
-  const searchTerm = `%${term}%`
+  const searchTerm = `"%${term}%"`
   const query = `SELECT * FROM items WHERE content_html LIKE ${searchTerm} OR content_mercury LIKE ${searchTerm} OR excerpt LIKE ${searchTerm};`
   return doTransaction(query)
 }
