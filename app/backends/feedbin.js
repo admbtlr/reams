@@ -96,7 +96,8 @@ async function doRequest (url, options = {}, expectNoContent = false) {
 
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  const response = await fetch(url, options)
+  const reqUrl = !!Config.CORS_PROXY ? Config.CORS_PROXY + encodeURIComponent(url) : url
+  const response = await fetch(reqUrl, options)
   if (!response.ok) {
     const text = await response.text()
     console.log(text)
