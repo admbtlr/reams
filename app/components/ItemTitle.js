@@ -755,7 +755,7 @@ class ItemTitle extends React.Component {
           <Animated.View
             style={{
               ...innerViewStyle,
-              flex: 1,
+              flex: styles.bg ? 0 : 1,
               marginLeft: styles.invertBG ? this.horizontalMargin - invertedTitleStyle.paddingLeft : this.horizontalMargin,
               justifyContent: this.aligners[styles.textAlign],
               // height: 'auto',
