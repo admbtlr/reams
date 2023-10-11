@@ -10,7 +10,6 @@ import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
 import * as Sentry from "@sentry/react-native"
 import CategoryToggles from './CategoryToggles'
-import { DRAWER_WIDTH } from './web/Main'
 
 const entities = require('entities')
 
