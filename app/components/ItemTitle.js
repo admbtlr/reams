@@ -731,7 +731,7 @@ class ItemTitle extends React.Component {
       })
     }
 
-    const isAuthorDateBelowFold = showCoverImage && !isPortrait && !item.styles?.coverImage?.isInline
+    const isAuthorDateBelowFold = showCoverImage && !isPortrait && styles?.coverImage?.isInline
 
     const barView = this.renderBar(barAnimation)
     const excerptView = this.props.excerpt
@@ -749,13 +749,13 @@ class ItemTitle extends React.Component {
             ...outerViewStyle,
             justifyContent: showCoverImage ? justifiers[styles.valign] : 'flex-start',
             alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start',
-            flex: 1
+            flex: showCoverImage && !styles?.coverImage?.isInline ? 0 : 1
           }}
         >
           <Animated.View
             style={{
               ...innerViewStyle,
-              flex: styles.bg ? 0 : 1,
+              flex: showCoverImage && !styles?.coverImage?.isInline ? 0 : 1,
               marginLeft: styles.invertBG ? this.horizontalMargin - invertedTitleStyle.paddingLeft : this.horizontalMargin,
               justifyContent: this.aligners[styles.textAlign],
               // height: 'auto',
