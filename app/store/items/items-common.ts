@@ -133,7 +133,7 @@ export function itemDecorationSuccess (
   if (!action.item) {
     throw "action.item is not defined in itemDecorationSuccess"
   }
-  const items: Item[] = state.items.map(testAndDecorate).map(addStylesIfNecessary)
+  const items: Item[] = state.items.map(testAndDecorate)
   return {
     ...state,
     items
