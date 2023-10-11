@@ -577,8 +577,7 @@ class ItemTitle extends React.Component {
       alignItems: 'flex-start',
       width,
       ...border,
-      borderColor: color,
-      backgroundColor: 'red'
+      borderColor: color
     }
     if (this.props.anims) {
       innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation, isVisible)
@@ -759,7 +758,6 @@ class ItemTitle extends React.Component {
               flex: 1,
               marginLeft: styles.invertBG ? this.horizontalMargin - invertedTitleStyle.paddingLeft : this.horizontalMargin,
               justifyContent: this.aligners[styles.textAlign],
-              backgroundColor: 'yellow',
               // height: 'auto',
             }}
             ref={(view) => { this.innerView = view }}
@@ -861,7 +859,7 @@ class ItemTitle extends React.Component {
   // barView gets passed in here because we need to include it in the excerptView
   // when using an coverImage with contain, for the flex layout
   renderExcerpt (innerViewStyle, fontStyle, shadowStyle, barView, anim) {
-    const { coverImageStyles, excerpt, scrollOffset, showCoverImage, styles } = this.props
+    const { excerpt, item, scrollOffset, showCoverImage, styles } = this.props
     let excerptShadowStyle
     let excerptColor = this.getExcerptColor()
 
@@ -1023,7 +1021,7 @@ class ItemTitle extends React.Component {
   }
 
   renderDate (anim) {
-    const { item, date, scrollOffset, showCoverImage, styles } = this.props
+    const { item, coverImageStyles, date, scrollOffset, showCoverImage, styles } = this.props
     let dateStyle = {
       color: showCoverImage &&
         !item.styles?.coverImage?.isInline ? 'white' : '#666', // TODO: what about isDarkMode?
@@ -1128,7 +1126,7 @@ class ItemTitle extends React.Component {
   }
 
   getAnimationValues () {
-    const { anims, scrollOffset, showCoverImage, coverImageStyles } = this.props
+    const { anims, item, scrollOffset, showCoverImage } = this.props
     if (!showCoverImage || item.styles?.coverImage?.isInline) {
       return {
         opacity: Animated.add(scrollOffset.interpolate({
