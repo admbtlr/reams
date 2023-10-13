@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import DeviceInfo from 'react-native-device-info'
 import { Item } from '../store/items/types'
 import { hslString } from './colors'
+import murmurhash3_32_gc from './murmurHash3'
 
 let deviceId: string
 
@@ -209,14 +210,8 @@ export const getStatusBarHeight = () => 70 * fontSizeMultiplier() +
   (hasNotchOrIsland() && isPortrait() ? 44 : 22)
 
 export function id (item?: any) {
-  if (item && typeof item === 'string') {
-    return hashFnv32a(item)
-  } else if (item && item.url) {
-    return hashFnv32a(item.url) + '-' +
-      Math.round(item.created_at / 1000000) +
-      (item.feed_id && typeof item.feed_id === 'string' ?
-        '-' + item.feed_id.split('-')[0] :
-        '')
+  if (item && typeof item === 'string' || item?.url) {
+    return murmurhash3_32_gc(item.url || item, 351249)
   } else {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
