@@ -1,8 +1,10 @@
+import { id } from "utils"
+
 export const mergeItems = (oldItems, newItems, currentItem) => {
   let items = mergeDedupe(oldItems, newItems).map(item => {
     return {
       ...item,
-      _id: item._id ? item._id : id()
+      _id: item._id ? item._id : id(item)
     }
   })
 
@@ -38,14 +40,4 @@ function extractReadItems (items) {
   const unread = items.filter(item => !item.readAt)
   const read = items.filter(item => !!item.readAt)
   return { read, unread }
-}
-
-export function id () {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
 }
