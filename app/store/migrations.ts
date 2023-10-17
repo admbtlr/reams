@@ -176,4 +176,28 @@ export const migrations = {
       }
     }
   },  
+  11: (state: RootState) => {
+    // rename hasLoadedMercuryStuff to isDecorated
+    return {
+      ...state,
+      itemsUnread: {
+        ...state.itemsUnread,
+        items: state.itemsUnread.items.map((i: Item) => {
+          return {
+            ...i,
+            isDecorated: i.hasLoadedMercuryStuff
+          }
+        })
+      },
+      itemsSaved: {
+        ...state.itemsSaved,
+        items: state.itemsSaved.items.map((i: Item) => {
+          return {
+            ...i,
+            isDecorated: i.hasLoadedMercuryStuff
+          }
+        })
+      }
+    }
+  },  
 }

@@ -8,8 +8,8 @@ import {
   View
 } from 'react-native'
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
-import { configureStore, doBackgroundFetch, persistor } from '../store'
-// import * as Sentry from '@sentry/react-native'
+import { initStore, doBackgroundFetch, persistor } from '../store'
+import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
 import ConnectionListener from './ConnectionListener'
@@ -52,7 +52,7 @@ export default class Rizzle extends Component<Props, State> {
     store = undefined
 
     // is there any special reason why the store was only configured after an anonymous login?
-    store = configureStore()
+    store = initStore()
 
     // Sentry.init({
     //   dsn: Config.SENTRY_DSN,

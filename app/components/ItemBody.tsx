@@ -150,7 +150,8 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     setActiveHighlight(annotationId)
   }
 
-  const { banner_image, content_html, content_mercury, feed_color, showCoverImage, showMercuryContent, styles } = item
+  const { banner_image, content_html, content_mercury, feed_color, showCoverImage, showMercuryContent } = item
+  const styles = { ...item.styles }
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)

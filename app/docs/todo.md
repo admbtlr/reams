@@ -1,3 +1,9 @@
+- show errors on email login, also disable button
+- ensure that decorateItem updates both store and IndexDB, get rid of whole flate concept
+- backend for annotations
+- backend for saved categories
+- action extension
+- "reams favourites"
 - settings screen
   - ~~dark mode settings~~
   - other bg colours?
