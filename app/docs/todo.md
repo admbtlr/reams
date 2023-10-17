@@ -1,5 +1,7 @@
-- show errors on email login, also disble button
+- show errors on email login, also disable button
+- ensure that decorateItem updates both store and IndexDB, get rid of whole flate concept
 - backend for annotations
+- backend for saved categories
 - action extension
 - "reams favourites"
 - settings screen

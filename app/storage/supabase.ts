@@ -23,7 +23,22 @@ export const addReadItem = async (item: Item) => {}
 
 export const addReadItems = async (items: Item[]) => {}
 
-export const upsertSavedItem = async (item: Item) => {}
+export const addSavedItem = async (item: Item) => {
+  const { data, error } = await supabase
+    .from('Item')
+    .upsert({ id: item._id, url: item.url }, { onConflict: 'id,url' })
+    .select()
+  if (error) {
+    throw error
+  }
+  const savedId = data[0].id
+  const { error: savedItemError } = await supabase
+    .from('SavedItem')
+    .insert({ item_id: savedId })
+  if (savedItemError) {
+    throw savedItemError
+  }
+}
 
 export const upsertSavedItems = async (items: Item[]) => {}
 

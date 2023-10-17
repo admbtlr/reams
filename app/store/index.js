@@ -1,10 +1,10 @@
 import { compose, createStore, applyMiddleware } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 import makeRootReducer from './reducers'
 import {backgroundFetch, initSagas} from '../sagas'
 import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
-import {composeWithDevTools} from 'redux-devtools-extension'
 import { state } from '../__mocks__/state-input'
 import Config from 'react-native-config'
 import log from '../utils/log'
@@ -15,11 +15,7 @@ let store = null
 let persistor = null
 let sagaMiddleware = null
 
-function configureStore (rehydrateCallback) {
-  const composeEnhancers = composeWithDevTools({
-    realtime: window.__DEV__
-  })
-
+function initStore (rehydrateCallback) {
   sagaMiddleware = createSagaMiddleware({
     onError: (error, { sagaStack}) => {
       log('sagas', error, sagaStack)
@@ -47,23 +43,20 @@ function configureStore (rehydrateCallback) {
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
 
   if (Config.USE_STATE) {
-    store = createStore(
-      makeRootReducer(),
+    store = configureStore({
+      reducer: makeRootReducer(),
       state,
-      composeEnhancers(
-        applyMiddleware(sagaMiddleware),
-        // Reactotron.createEnhancer()
-      )
-    )  
+      middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware({ thunk: false }).prepend(sagaMiddleware);
+      }
+    })  
   } else {
-    store = createStore(
-      persistedReducer,
-      {},
-      composeEnhancers(
-        applyMiddleware(sagaMiddleware),
-        // Reactotron.createEnhancer()
-      )
-    )
+    store = configureStore({
+      reducer: persistedReducer,
+      middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware({ thunk: false }).prepend(sagaMiddleware);
+      }
+    })
     persistor = persistStore(store, null, rehydrateCallback || onCompletion)
   }
 
@@ -86,4 +79,4 @@ async function doBackgroundFetch(callback) {
   await sagaMiddleware.run(backgroundFetch, callback)
 }
 
-export { store, configureStore, doBackgroundFetch, persistor }
+export { store, initStore, doBackgroundFetch, persistor }

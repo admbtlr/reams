@@ -61,7 +61,7 @@ let downloadsFork: any
 
 function * init (action: any) {
   yield primeAllBackends()
-  yield call(inflateItems)
+  // yield call(inflateItems)
   downloadsFork = yield fork(startDownloads)
 }
 
@@ -125,9 +125,9 @@ export function * initSagas () {
   yield takeEvery(SAVE_ITEM, markItemSaved)
   yield takeEvery(UNSAVE_ITEM, markItemUnsaved)
   yield takeEvery(ITEM_DECORATION_SUCCESS, maybeUpsertSavedItem)
-  yield takeEvery(UNSAVE_ITEM, inflateItems)
-  yield takeEvery(SET_DISPLAY_MODE, inflateItems)
-  yield takeEvery(UPDATE_CURRENT_INDEX, inflateItems)
+  // yield takeEvery(UNSAVE_ITEM, inflateItems)
+  // yield takeEvery(SET_DISPLAY_MODE, inflateItems)
+  // yield takeEvery(UPDATE_CURRENT_INDEX, inflateItems)
   yield takeEvery(FETCH_ITEMS, fetchAllItems)
   yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)

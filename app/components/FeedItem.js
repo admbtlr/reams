@@ -5,6 +5,7 @@ import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath, getMargin} from '../utils/'
 import { hslString } from '../utils/colors'
+import { inflateItem } from '../storage/sqlite'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -19,7 +20,8 @@ class FeedItem extends React.Component {
     this.scrollAnim = new Animated.Value(0)
 
     this.state = {
-      webViewHeight: INITIAL_WEBVIEW_HEIGHT
+      webViewHeight: INITIAL_WEBVIEW_HEIGHT,
+      inflatedItem: null,
     }
 
     this.initAnimatedValues(false)
@@ -95,8 +97,15 @@ class FeedItem extends React.Component {
     }
   }
   
-  componentDidMount () {
+  async componentDidMount () {
     const that = this
+    const inflatedItem = await inflateItem(this.props.item)
+    this.setState({
+      inflatedItem: {
+        ...this.props.item,
+        ...inflatedItem  
+      }
+    })
     setTimeout(() => {
       that.setState({shouldRender: true})
     }, 200)
@@ -199,15 +208,8 @@ class FeedItem extends React.Component {
     }, 2000)
   }
 
-  isInflated () {
-    const inflated = typeof this.props.item.content_html !== 'undefined'
-      && typeof this.props.item.styles !== 'undefined'
-    return inflated
-  }
-
   render () {
     // __DEV__ && console.log('Rendering item', this.props.index)
-
     const emptyState = (
       <View style={{
         width: this.screenDimensions.width,
@@ -220,9 +222,12 @@ class FeedItem extends React.Component {
       </View>
     )
 
-    // if (!this.isInflated() || !this.state.shouldRender) {
-    //   return emptyState
-    // }
+    const { 
+      inflatedItem,
+      webViewHeight 
+    } = this.state
+
+    if (!inflatedItem) return emptyState
 
     const {
       displayMode,
@@ -231,6 +236,7 @@ class FeedItem extends React.Component {
       orientation,
       showMercuryContent 
     } = this.props
+
     let {
       title,
       faceCentreNormalised,
@@ -240,9 +246,7 @@ class FeedItem extends React.Component {
       styles,
       created_at,
       savedAt
-    } = this.props.item
-
-    const { webViewHeight } = this.state
+    } = inflatedItem
 
     const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
 
@@ -257,7 +261,7 @@ class FeedItem extends React.Component {
       <CoverImage
         styles={styles.coverImage}
         scrollAnim={this.scrollAnim}
-        imagePath={!!hasCoverImage && getCachedCoverImagePath(item)}
+        imagePath={!!hasCoverImage && getCachedCoverImagePath(inflatedItem)}
         imageDimensions={!!hasCoverImage && imageDimensions}
         faceCentreNormalised={faceCentreNormalised}
         orientation={orientation}
@@ -307,10 +311,10 @@ class FeedItem extends React.Component {
           <ItemTitleContainer
             anims={this.anims}
             addAnimation={this.addAnimation}
-            item={item}
+            item={inflatedItem}
             isVisible={isVisible}
             title={title}
-            excerpt={item.excerpt}
+            excerpt={inflatedItem.excerpt}
             date={savedAt || created_at}
             scrollOffset={this.scrollAnim}
             font={styles.fontClasses.heading}
@@ -338,7 +342,7 @@ class FeedItem extends React.Component {
             </View>
             <ItemBody 
               bodyColor={bodyColor}
-              item={item}
+              item={inflatedItem}
               onTextSelection={this.props.onTextSelection}
               orientation={orientation}
               showImageViewer={this.props.showImageViewer}
@@ -383,11 +387,12 @@ class FeedItem extends React.Component {
   }
 
   onMomentumScrollEnd = (scrollOffset) => {
+    const {inflatedItem} = this.state
     scrollOffset = typeof scrollOffset === 'number' ?
       scrollOffset :
       scrollOffset.nativeEvent.contentOffset.y
     this.currentScrollOffset = scrollOffset
-    this.props.setScrollOffset(this.props.item, scrollOffset, this.state.webViewHeight)
+    this.props.setScrollOffset(inflatedItem, scrollOffset, this.state.webViewHeight)
     this.props.onScrollEnd(scrollOffset)
   }
 
