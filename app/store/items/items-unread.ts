@@ -59,9 +59,7 @@ import rizzleSort from '../../utils/rizzle-sort'
 
 import { BUFFER_LENGTH } from '../../components/ItemCarousel'
 
-// export const initialState = {
-//   items: []
-// }
+export const selectItemsUnread = (state: ItemsState) => state.items
 
 export const initialState:ItemsState = {
   items: [],
@@ -147,7 +145,7 @@ export function itemsUnread (
         }
       })
 
-      items = rizzleSort(items)
+      items = rizzleSort(items, action.feeds, action.sortDirection)
       carouselled = maintainCarouselItems(state, items)
 
       return {
@@ -220,10 +218,10 @@ export function itemsUnread (
       } else return state
 
     case ADD_READING_TIME:
-      newState = { ...state }
-      let item = newState.items?.find(item => item._id === action.item._id)
+      let item = state.items?.find(item => item._id === action.item._id)
       if (!item) return state
 
+      item = { ...item }
       if (item.readingTime) {
         item.readingTime += action.readingTime
       } else {

@@ -47,11 +47,11 @@ export function * markItemUnsaved (action) {
     type: 'UNSAVE_ITEM_SUCCESS',
     item: action.item
   })
-  const displayMode = select(getDisplay)
-  if (displayMode === ItemType.saved) {
-    const index = yield select(getIndex)
-    yield call(inflateItems, { displayMode, index })
-  }
+  // const displayMode = select(getDisplay)
+  // if (displayMode === ItemType.saved) {
+  //   const index = yield select(getIndex)
+  //   yield call(inflateItems, { displayMode, index })
+  // }
 }
 
 

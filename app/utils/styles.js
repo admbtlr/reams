@@ -3,7 +3,7 @@ import { hslString } from './colors'
 
 export const baseStyles = (color = 'rizzleText', opacity = 1) => ({
   fontFamily: 'IBMPlexMono',
-  textAlign: 'left',
+  align: 'left',
   color: hslString(color, '', opacity)
 })
 

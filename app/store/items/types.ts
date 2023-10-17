@@ -1,59 +1,86 @@
+import { Direction } from "../config/types"
+import { Feed } from "../feeds/types"
+
 export enum ItemType {
   unread = 'unread',
   saved = 'saved'
 }
 
+interface ItemStyles {
+  coverImage: {
+    align: string
+    color: string
+    isBW: boolean
+    isCoverImageColorDarker: boolean
+    isInline: boolean
+    isMultiply: boolean
+    isScreen: boolean
+    resizeMode: "cover" | "containe"
+    showCoverImage: boolean
+  }
+  title: {
+    fontSize?: number
+    lineHeight?: number
+    fontResized?: boolean
+  }
+  isCoverInline?: boolean
+}
+
 export interface Item {
   _id: string
+  banner_image: string | undefined
+  content_length: number | undefined
+  created_at: Date
+  decoration_failures: number | undefined
   feed_id: string
-  id: string
-  author?: string
-  cachedCoverImageId?: string
-  created_at: number
-  date_published?: string
-  readAt?: number
-  readingTime?: number
-  isSaved?: boolean
-  savedAt?: number
-  url?: string
-  title: string
-  content_html?: string
-  content_mercury?: string
-  excerpt?: string
-  showMercuryContent?: boolean
-  hasShownMercury?: boolean
-  scrollRatio?: {
-    html?: number
-    mercury?: number
-  }
-  showCoverImage?: boolean
-  hasCoverImage?: boolean
-  coverImageFile?: string
-  banner_image?: string
+  feed_title: string
+  hasCoverImage: boolean | undefined
   imageDimensions?: {
     width: number
     height: number
   }
-  decoration_failures?: number
-  styles: {
-    coverImage: {
-      align: string
-      color: string
-      isBW: boolean
-      isCoverImageColorDarker: boolean
-      isInline: boolean
-      isMultiply: boolean
-      isScreen: boolean
-      resizeMode: "cover" | "containe"
-      showCoverImage: boolean
-    }
-    title: {
-      fontSize?: number
-      lineHeight?: number
-      fontResized?: boolean
-    }
-    isCoverInline?: boolean
+  isDecorated: boolean | undefined
+  isSaved: boolean | undefined
+  id: string | number | undefined
+  readAt: number | undefined
+  savedAt: Date | undefined
+  scrollRatio?: {
+    html?: number
+    mercury?: number
   }
+  showMercuryContent?: boolean
+  title: string
+  url: string
+}
+
+export interface ItemInflated {
+  _id: string
+  author?: string
+  banner_image?: string
+  cachedCoverImageId?: string
+  content_html?: string
+  content_mercury?: string
+  coverImageFile?: string
+  created_at: number
+  date_published?: string
+  decoration_failures?: number
+  excerpt?: string
+  feed_id: string
+  hasCoverImage?: boolean
+  hasShownMercury?: boolean
+  imageDimensions?: {
+    width: number
+    height: number
+  }
+  showCoverImage?: boolean
+  id: string
+  isSaved?: boolean
+  readAt?: number
+  readingTime?: number
+  savedAt?: number
+  styles: ItemStyles
+  title: string
+  url?: string
 }
 
 interface MercuryStuff {
@@ -130,6 +157,8 @@ interface itemsBatchFetchedAction {
   type: typeof ITEMS_BATCH_FETCHED
   itemType: ItemType
   items: Item[]
+  feeds?: Feed[]
+  sortDirection?: Direction
 }
 
 interface pruneUnreadAction {

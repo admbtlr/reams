@@ -160,9 +160,8 @@ export function feedsLocal (
           feed)
       }
   
-      case MARK_ITEM_READ:
+    case MARK_ITEM_READ:
       const item = action.item
-      const feedWithDirtyImage = state.feeds.find(f => f.cachedCoverImageId === item._id)
       return {
         ...state,
         feeds: state.feeds.map(feed => ({

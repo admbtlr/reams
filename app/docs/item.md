@@ -29,7 +29,7 @@ feed_color
 banner_image
 content_mercury
 excerpt
-hasLoadedMercuryStuff
+isDecorated
 decoration_failures
 hasCoverImage
 imageDimensions
@@ -61,7 +61,7 @@ const deflated = {
     feed_color: item.feed_color,
     hasCoverImage: item.hasCoverImage,
     imageDimensions: item.imageDimensions,
-    hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
+    isDecorated: item.isDecorated,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
     // styles: item.styles,

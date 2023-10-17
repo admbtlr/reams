@@ -8,7 +8,7 @@ import {
   SHOW_MODAL
 } from '../store/ui/types'
 import { CREATE_CATEGORY, Category } from '../store/categories/types'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   Animated,
   Dimensions,
@@ -30,10 +30,30 @@ import { RootState } from 'store/reducers'
 import { useIsFocused } from '@react-navigation/native'
 import { ItemType } from '../store/items/types'
 import { searchItems } from '../storage/sqlite'
+import { memoize } from 'proxy-memoize'
+import { state } from '../__mocks__/state-input'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
-const sortFeeds = (a: Feed, b: Feed) => (a.isLiked && b.isLiked) || (a.number_unread === 0 && b.number_unread === 0) ?
+interface FeedSkeleton {
+  _id: string,
+  title: string,
+  number_unread?: number,
+  isLiked?: boolean
+}
+
+const selectFeedSkeletons = (state: RootState) => {
+  const itemFeedIds = state.itemsUnread.items.map(i => i.feed_id)
+  return state.feeds.feeds
+    .map(f => ({
+      _id: f._id,
+      title: f.title
+    }))
+    .map(f => addUnreadCount(f, itemFeedIds))
+    .sort(sortFeeds)
+}
+
+const sortFeeds = (a: FeedSkeleton, b: FeedSkeleton) => (a.isLiked && b.isLiked) || (a.number_unread === 0 && b.number_unread === 0) ?
   (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1) :
   a.isLiked ? -1 :
     b.isLiked ? 1 :
@@ -41,7 +61,7 @@ const sortFeeds = (a: Feed, b: Feed) => (a.isLiked && b.isLiked) || (a.number_un
         b.number_unread === 0 ? -1 :
           (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1)
 
-const addUnreadCount = (feed: Feed, itemFeedIds: string[]) => {
+const addUnreadCount = (feed: FeedSkeleton, itemFeedIds: string[]) => {
   const unreadItems = itemFeedIds.filter(i => i === feed._id)
   feed.number_unread = unreadItems.length
   return feed
@@ -67,19 +87,10 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
 
   const scrollAnim = new Animated.Value(0)
 
-  // const feedsDeepEqual = (a: Feed[], b: Feed[]) => {
-  //   return isEqual(a, b)
-  // }
+  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
+  const isSaved = displayMode === ItemType.saved
 
-  const isSaved = useSelector((state: RootState) => state.itemsMeta.display === ItemType.saved)
-  const sortedFeedsSelector = (state: RootState) => state.feeds.feeds.slice()
-    .map(f => addUnreadCount(f, itemFeedIds))
-    .sort(sortFeeds)
-  const itemFeedIdsSelector = (state: RootState) => state.itemsUnread.items.map(i => i.feed_id)
-
-  const itemFeedIds = useSelector(itemFeedIdsSelector, isEqual)
-
-  const feeds: Feed[] = useSelector(sortedFeedsSelector, isEqual)
+  const feedSkeletons: FeedSkeleton[] = useSelector(useCallback(memoize(selectFeedSkeletons), []), isEqual)
   const categories = useSelector((state: RootState) => state.categories.categories
     .filter(c => !c.isSystem), isEqual)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
@@ -88,7 +99,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (isFocused && feeds.length > 0) {
+    if (isFocused && feedSkeletons.length > 0) {
       dispatch({
         type: SHOW_HELPTIP,
         key: 'feedsScreen',
@@ -151,12 +162,11 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     })
   }
 
-  const getSections = (categories: Category[], feeds: Feed[]) => {
-    const feedCards = feeds ? 
-      feeds.map((feed) => ({
+  const getSections = (categories: Category[], feedSkeletons: FeedSkeleton[]) => {
+    const feedCards = feedSkeletons ? 
+      feedSkeletons.map((feed) => ({
         _id: feed._id,
         type: 'feed',
-        feed,
         title: feed.title
       })) :
       []
@@ -171,7 +181,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
       })) :
       []
 
-    const allCards = feeds?.length > 0 ? [{
+    const allCards = feedSkeletons?.length > 0 ? [{
       _id: '9999999',
       type: 'all',
       title: `All ${isSaved ? 'Saved' : 'Unread'} Stories`
@@ -202,7 +212,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   const margin = getMargin()
   const numCols = Math.floor(screenWidth / 300) // 250 + 50 margin
 
-  const sections = getSections(categories, feeds)
+  const sections = getSections(categories, feedSkeletons)
 
   const renderSectionHeader = ({ section: { title } }: { section: { title?: string }}) => {
     if (!title) return null
@@ -306,7 +316,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
           animated={true}
           barStyle="dark-content"
           showHideTransition="slide"/>
-        { feeds.length === 0 ? 
+        { feedSkeletons.length === 0 ? 
           (<View style={{
             flex: 1,
             alignItems: 'center',

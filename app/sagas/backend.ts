@@ -86,7 +86,7 @@ function * primeFeedbin () {
   console.log('calling setBackend', credentials)
   yield call(setBackend, 'feedbin', credentials)
   yield dedupeSaved()
-  yield call(inflateItems)
+  // yield call(inflateItems)
 }
 
 function * primeReadwise () {

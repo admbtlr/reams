@@ -2,16 +2,13 @@ import { ItemType } from '../store/items/types'
 import React, { Fragment } from 'react'
 import ItemsScreenOnboarding from './ItemsScreenOnboarding'
 import {
-  ActionSheetIOS,
   Animated
 } from 'react-native'
-import InAppBrowser from 'react-native-inappbrowser-reborn'
 import SwipeableViews from './SwipeableViews'
 import TopBars from './TopBars'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import ButtonsContainer from '../containers/Buttons.js'
 import ViewButtonsContainer from '../containers/ViewButtons.js'
-import { hslString } from '../utils/colors'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
 import EmptyCarousel from './EmptyCarousel'
 
@@ -30,7 +27,7 @@ const getBufferedItems  = (items, index, displayMode, feeds) => {
   const buffered = items.slice(bufferStart, bufferEnd)
   const mapItem = item => ({
     _id: item._id,
-    hasLoadedMercuryStuff: item.hasLoadedMercuryStuff
+    isDecorated: item.isDecorated
   })
   if (!bufferedItems || JSON.stringify(buffered.map(mapItem)) !==
     JSON.stringify(bufferedItems.map(mapItem))) {
@@ -88,7 +85,7 @@ class ItemCarousel extends React.Component {
     .stringify(getBufferedItems(items, index, displayMode, feeds)
       .map(item => includeMercury ? {
         _id: item._id,
-        hasLoadedMercuryStuff: item.hasLoadedMercuryStuff
+        isDecorated: item.isDecorated
       } : item._id))
   }
 

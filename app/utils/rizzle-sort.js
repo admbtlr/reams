@@ -2,9 +2,9 @@ import { Direction } from '../store/config/types'
 import { store } from '../store'
 import { consoleLog } from './log'
 
-export default function rizzleSort (items, feeds) {
+export default function rizzleSort (items, feeds, sortDirection) {
   feeds = feeds || (store && store.getState().feeds.feeds)
-  const config = store && store.getState().config
+  sortDirection = sortDirection === undefined ? (store && store.getState().config.itemSort) : sortDirection
   items.forEach(item => {
     if (!feeds.find(feed => feed._id === item.feed_id)) {
       console.log('NO FEED FOR ITEM!?')
@@ -21,9 +21,9 @@ export default function rizzleSort (items, feeds) {
   })
   const notLiked = items.filter(item => liked.indexOf(item) === -1)
 
-  const sortFunction = config.itemSort === Direction.desc ?
+  const sortFunction = sortDirection === Direction.desc ?
     (a, b) => b.created_at - a.created_at :
-    (config.itemSort === Direction.asc ?
+    (sortDirection === Direction.asc ?
       (a, b) => a.created_at - b.created_at :
       (a, b) => Math.random() - 0.5
     )

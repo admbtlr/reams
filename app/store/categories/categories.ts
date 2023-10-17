@@ -15,6 +15,7 @@ import {
 } from './types'
 import { Feed, REMOVE_FEED } from '../feeds/types'
 import { UNSAVE_ITEM } from '../items/types'
+import { clone } from '@tensorflow/tfjs'
 
 const initialState: CategoriesState = {
   categories: [
@@ -40,6 +41,14 @@ const initialState: CategoriesState = {
       itemIds: []
     },
   ]
+}
+
+const cloneCategories = (categories: Category[]) => {
+  return categories.map((c: Category) => ({
+    ...c,
+    feeds: [...c.feeds],
+    itemIds: [...c.itemIds]
+  }))
 }
 
 export function categories (
@@ -85,7 +94,7 @@ export function categories (
 
     case UPDATE_CATEGORIES:
       const newCategories = action.categories.map((c: Category) => c)    
-      categories = state.categories.map(c => c)
+      categories = cloneCategories(state.categories)
       newCategories.forEach((newCategory: Category) => {
         const index = categories.findIndex(c => c.id === newCategory.id)
         if (index === -1) {
@@ -110,7 +119,7 @@ export function categories (
       }
   
     case ADD_FEED_TO_CATEGORY:
-      categories = state.categories.map(c => c)
+      categories = cloneCategories(state.categories)
       categoryIndex = categories.findIndex(c => c._id === action.categoryId)
       if (categoryIndex > -1) {
         categories[categoryIndex].feeds.push(action.feedId)
@@ -120,7 +129,7 @@ export function categories (
       }
 
     case REMOVE_FEED_FROM_CATEGORY:
-      categories = state.categories.map(c => c)
+      categories = cloneCategories(state.categories)
       categoryIndex = categories.findIndex(c => c._id === action.categoryId)
       if (categoryIndex > -1) {
         categories[categoryIndex].feeds = categories[categoryIndex].feeds.filter(f => f !== action.feedId)
@@ -130,7 +139,7 @@ export function categories (
       }
 
     case ADD_ITEM_TO_CATEGORY:
-      categories = state.categories.map(c => c)
+      categories = cloneCategories(state.categories)
       categoryIndex = categories.findIndex(c => c._id === action.categoryId)
       if (categoryIndex > -1) {
         categories[categoryIndex].itemIds.push(action.itemId)
@@ -140,7 +149,7 @@ export function categories (
       }
 
     case REMOVE_ITEM_FROM_CATEGORY:
-      categories = state.categories.map(c => c)
+      categories = cloneCategories(state.categories)
       categoryIndex = categories.findIndex(c => c._id === action.categoryId)
       if (categoryIndex > -1) {
         categories[categoryIndex].itemIds = categories[categoryIndex].itemIds.filter(f => f !== action.itemId)
@@ -150,7 +159,7 @@ export function categories (
       }
   
     case REMOVE_FEED:
-      categories = state.categories.map(c => c)
+      categories = cloneCategories(state.categories)
       categories.forEach(c => {
         c.feeds = c.feeds.filter(f => f !== action.feed._id)
       })
@@ -159,7 +168,7 @@ export function categories (
       }
 
     case UNSAVE_ITEM:
-      categories = state.categories.map(c => c)
+      categories = cloneCategories(state.categories)
       categories.forEach(c => {
         if (c.itemIds) {
           c.itemIds = c.itemIds.filter(i => i !== action.item._id)

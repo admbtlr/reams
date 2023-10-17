@@ -95,8 +95,8 @@ function * applyDecoration (decoration, isSaved) {
     isSaved,
     displayMode
   })
-  const items = yield select(getItems)
-  decoratedCount = items.filter((item) => item.hasLoadedMercuryStuff).length
+  const items = [ ...yield select(getItems) ]
+  decoratedCount = items.filter((item) => item.isDecorated).length
   // consoleLog(`DECORATED ${decoratedCount} OUT OF ${items.length}`)
 
   yield call(InteractionManager.runAfterInteractions)
@@ -115,16 +115,16 @@ function * applyDecoration (decoration, isSaved) {
     }
 
     // and finally, deflate the item so that redux-persist doesn't explode
-    yield call(InteractionManager.runAfterInteractions)
-    const activeItems = yield select(getActiveItems)
-    if (!activeItems.find(ai => ai._id === item._id)) {
-      item = deflateItem(item)
-      yield put({
-        type: FLATE_ITEMS,
-        itemsToInflate: [],
-        itemsToDeflate: [item]
-      })
-    }
+    // yield call(InteractionManager.runAfterInteractions)
+    // const activeItems = [ ...yield select(getActiveItems) ]
+    // if (!activeItems.find(ai => ai._id === item._id)) {
+    //   item = deflateItem(item)
+    //   yield put({
+    //     type: FLATE_ITEMS,
+    //     itemsToInflate: [],
+    //     itemsToDeflate: [item]
+    //   })
+    // }
   }
   if (decoration.item) {
     pendingDecoration = pendingDecoration.filter(pending => pending._id !== decoration.item._id)
@@ -152,7 +152,7 @@ function * getNextItemToDecorate () {
   let count = 0
   let feed
   const candidateItems = items.filter(item => {
-    return !item.hasLoadedMercuryStuff &&
+    return !item.isDecorated &&
       (!item.decoration_failures || item.decoration_failures < 3) &&
       !item.readAt &&
       items.indexOf(item) >= index &&
@@ -160,7 +160,7 @@ function * getNextItemToDecorate () {
       (!activeFilter || activeFilter.feeds.includes(item.feed_id))
   })
   if (candidateItems.length) {
-    nextItem = candidateItems.find(item => !item.hasLoadedMercuryStuff
+    nextItem = candidateItems.find(item => !item.isDecorated
       && !pendingDecoration.find(pd => pd._id === item._id))
   }
   if (!nextItem) {
@@ -168,23 +168,24 @@ function * getNextItemToDecorate () {
       feed = feedsWithoutDecoration[count++]
       nextItem = items.find(i => !i.readAt &&
         i.feed_id === feed._id &&
-        !i.hasLoadedMercuryStuff &&
+        !i.isDecorated &&
         (i.decoration_failures ? i.decoration_failures < 5 : true) &&
         !pendingDecoration.find(pd => pd._id === i._id))
     }
   }
   if (!nextItem) {
-    nextItem = savedItems.find(item => !item.hasLoadedMercuryStuff &&
+    nextItem = savedItems.find(item => !item.isDecorated &&
       item.decoration_failures < 5 &&
       !pendingDecoration.find(pd => pd._id === item._id))
   }
   return nextItem
 }
 
-export function * decorateItem (item) {
+export function * decorateItem (i) {
+  let item = { ...i }
   let imageStuff = {}
   // external items come through here before they have any styles
-  item.styles = item.styles || {}
+  item.styles = item.styles ? { ...item.styles } : {}
   let items = yield getItemsSQLite([item])
   item = items.length ? items[0] : item
   const mercuryStuff = yield call(loadMercuryStuff, item)

@@ -171,25 +171,27 @@ function * receiveAndProcessItems (items, type, isFirstBatch, i) {
   yield receiveItems(items, type)
   if (isFirstBatch) {
     // this is a little hacky, just getting ready to view some items
-    yield call(InteractionManager.runAfterInteractions)
-    yield inflateItems({ index })
+    // yield call(InteractionManager.runAfterInteractions)
+    // yield inflateItems({ index })
   }
 }
 
 export function * receiveItems (items, type) {
   console.log('Received ' + items.length + ' new items')
-  let feeds
+  let feeds, updatedFeeds
   let now = Date.now()
+  const config = yield select(getConfig)
+  const sortDirection = config.itemSort
   if (type === ItemType.unread) {
     feeds = yield select(getFeeds)
     const updated = yield createFeedsWhereNeededAndAddInfo(items, feeds)
-    feeds = updated.feeds
+    updatedFeeds = updated.feeds
     items = updated.items
     console.log('createFeedsWhereNeededAndAddInfo took ' + (Date.now() - now))
     now = Date.now()
     yield put({
       type: UPDATE_FEEDS,
-      feeds,
+      feeds: updatedFeeds,
       skipFetchItems: true
     })
   }
@@ -209,11 +211,16 @@ export function * receiveItems (items, type) {
   console.log('deflating items took ' + (Date.now() - now))
 
   now = Date.now()
+  // this is a mess of extra args because from redux 4 I can't access one reducer from another
+  // so now I have to pass the feeds and sortDirection in the action
+  // so that rizzleSort can use them :/
   yield put({
     type: ITEMS_BATCH_FETCHED,
     items,
     itemType: type,
-    feeds
+    feeds,
+    sortDirection,
+    updatedFeeds
   })
   console.log(`ITEMS_BATCH_FETCHED (${type}) ${(Date.now() - now)}`)
 }
@@ -258,18 +265,6 @@ function * cleanUpItems (items, type) {
     .map(addDateFetched)
     .map(setSavedIfNecessary)
     .map(setId)
-}
-
-function incrementFeedUnreadCounts (items, feeds) {
-  feeds.forEach(feed => {
-    const numUnreadInBatch = items.filter(item => item.feed_id === feed._id).length
-    if (feed.number_unread) {
-      feed.number_unread += numUnreadInBatch
-    } else {
-      feed.number_unread = numUnreadInBatch
-    }
-  })
-  return feeds
 }
 
 // function addFeedInfoToItems(items, feeds, moreFeeds) {

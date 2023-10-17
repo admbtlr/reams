@@ -26,7 +26,8 @@ export const itemMarkRead = (
   action: markItemReadAction, 
   state: ItemsState
 ) => {
-  const items = state.items.map(item => {
+  const items = state.items.map((i: Item) => {
+    let item = { ...i }
     if (item._id === action.item._id) {
       item.readAt = Date.now()
     }
@@ -62,15 +63,23 @@ export function itemSetScrollOffset (
   action: setScrollOffsetAction, 
   state: ItemsState
 ) {
-  let items = state.items.map(item => {
-    if (item._id === action.item._id) {
+  let items = state.items.map((i: Item) => {
+    let item = { 
+      ...i,
       // need to gracefully migrate to new format
-      item.scrollRatio = item.scrollRatio && typeof item.scrollRatio === 'object' ?
-        item.scrollRatio :
+      scrollRatio: i.scrollRatio ?
+        typeof i.scrollRatio === 'object' ?
+          { ...i.scrollRatio } :
+          {
+            html: 0,
+            mercury: 0
+          } :
         {
           html: 0,
           mercury: 0
         }
+    }
+    if (item._id === action.item._id) {
       item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html'] = action.scrollRatio
     }
     return item
@@ -108,7 +117,8 @@ export function itemDecorationSuccess (
     state.items[state.index + 2 < state.items.length ? state.index + 2 : state.index],
     state.items[state.index + 3 < state.items.length ? state.index + 3 : state.index],
   ]
-  const testAndDecorate = (item: Item) => {
+  const testAndDecorate = (i: Item) => {
+    let item = { ...i }
     if (item._id === action.item._id) {
       // note that I'm using action.item as the base
       // there's a small chance that this might be stale,
@@ -144,7 +154,8 @@ export function itemDecorationFailure (
   action: itemDecorationFailureAction, 
   state: ItemsState
 ) {
-  const items = state.items.map(item => {
+  const items = state.items.map((i: Item) => {
+    const item = { ...i }
     if (item._id === action.item._id) {
       item.decoration_failures = item.decoration_failures || 0
       item.decoration_failures++

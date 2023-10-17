@@ -172,6 +172,11 @@ export function getItems(toInflate: Item[]) {
 })
 }
 
+export async function inflateItem (item: Item) {
+  const items: Item[] = await getItems([item])
+  return items[0]
+}
+
 export async function updateItems(items: Item[]) {
   for (const item of items) {
     await updateItem(item)

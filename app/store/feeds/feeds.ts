@@ -36,6 +36,8 @@ const initialState:FeedsState = {
   lastUpdated: 0
 }
 
+export const selectFeeds = (state: FeedsState) => state.feeds
+
 export function feeds (
   state = initialState, 
   action: FeedActionTypes | UserActionTypes | ItemActionTypes | UserActionTypes
@@ -116,6 +118,7 @@ export function feeds (
       // even though they have no feed
       if (!feed) return state
 
+      feed = { ...feed }
       feed.reading_time = feed.reading_time || 0
       feed.reading_time += action.readingTime
 

@@ -45,7 +45,7 @@ export function deflateItem (item) {
     hasCoverImage: item.hasCoverImage,
     showCoverImage: item.showCoverImage,
     imageDimensions: item.imageDimensions,
-    hasLoadedMercuryStuff: item.hasLoadedMercuryStuff,
+    isDecorated: item.isDecorated,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
     // styles: item.styles,
@@ -122,7 +122,7 @@ export function addMercuryStuffToItem (item, mercury) {
       feed_title: mercury.domain,
       banner_image: mercury.lead_image_url,
       excerpt: mercury.excerpt,
-      hasLoadedMercuryStuff: true,
+      isDecorated: true,
       showMercuryContent: true
     }
     return fixRelativePaths(item)
@@ -139,7 +139,7 @@ export function addMercuryStuffToItem (item, mercury) {
     content_html: item.content_html ? item.content_html : '',
     date_published: mercury.date_published || item.date_published,
     excerpt: mercury.excerpt,
-    hasLoadedMercuryStuff: true
+    isDecorated: true
   }
 
   if (decoratedItem.content_html.length === 0 &&
