@@ -4,6 +4,7 @@ import { Linking } from "react-native"
 import { useDispatch } from "react-redux"
 import { SET_USER_DETAILS, UNSET_BACKEND } from "../store/user/types"
 import { supabase } from "../storage/supabase"
+import { fetchAnnotations } from "../store/annotations/annotations"
 
 interface SessionContext {
   session?: Session | null,
@@ -31,6 +32,7 @@ export const AuthProvider = (props: any) => {
           console.log('Auth event', event)
           setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
+          dispatch(fetchAnnotations())
         } else {
           setSession({session: null})
           // dispatch({ type: UNSET_BACKEND, backend: 'reams' })

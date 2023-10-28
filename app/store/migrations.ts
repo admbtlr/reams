@@ -1,3 +1,4 @@
+import { state } from "../__mocks__/state-input"
 import { id } from "../utils"
 import { Category } from "./categories/types"
 import { Item } from "./items/types"
@@ -199,5 +200,5 @@ export const migrations = {
         })
       }
     }
-  },  
+  }
 }

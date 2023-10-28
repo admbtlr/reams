@@ -3,7 +3,7 @@ const { dest, parallel, src, watch } = require('gulp')
 var webserver = require('gulp-webserver')
 var concat = require('gulp-concat')
 var gls = require('gulp-live-server');
-var sass = require('gulp-sass');
+var sass = require('gulp-sass')(require('sass'));
 var jsonSass = require('gulp-json-sass');
 
 // gulp.task('sass', function () {

@@ -272,10 +272,10 @@ body {
     color: gray;
     position: relative;
     text-align: left; }
-  .itemArticle *:not(figcaption) > not(figcaption).caption:not(figcaption) {
+  .itemArticle *:not(figcaption) > *:not(figcaption).caption:not(figcaption) {
     display: block;
     margin: -0.666rem -4vw 1.666rem; }
-    .itemArticle *:not(figcaption) > not(figcaption).caption:not(figcaption) + .caption:not(figcaption) {
+    .itemArticle *:not(figcaption) > *:not(figcaption).caption:not(figcaption) + .caption:not(figcaption) {
       margin-top: -1.666rem; }
   @media (min-width: 600px) {
     .itemArticle figcaption, .itemArticle blockquote, .itemArticle .caption, .itemArticle img + small {

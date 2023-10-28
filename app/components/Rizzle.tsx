@@ -13,7 +13,6 @@ import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
 import ConnectionListener from './ConnectionListener'
-import RizzleModalContainer from '../containers/RizzleModal'
 import Analytics from './Analytics'
 import Splash from './Splash'
 import Message from './Message'
@@ -26,6 +25,8 @@ import { supabase } from '../storage/supabase'
 import { AuthProvider } from './AuthProvider'
 import { initSQLite } from '../storage/sqlite'
 import Config from 'react-native-config'
+import RizzleModal from './RizzleModal'
+import { ModalProvider } from './ModalProvider'
 
 export interface Props {
   isActionExtension?: boolean
@@ -110,9 +111,11 @@ export default class Rizzle extends Component<Props, State> {
                 {/* <OrientationListener />
                 <Analytics /> */}
                 <AppStateListenerContainer>
-                  <AppContainer />
-                  <Message />
-                  <RizzleModalContainer />
+                  <ModalProvider>
+                    <AppContainer />
+                    <Message />
+                    <RizzleModal />
+                  </ModalProvider>
                   <HelpTipProvider />
                   <Splash />
                 </AppStateListenerContainer>

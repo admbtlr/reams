@@ -1,21 +1,33 @@
 import { compose, createStore, applyMiddleware } from 'redux'
-import { configureStore } from '@reduxjs/toolkit'
+import { AsyncThunk, AsyncThunkPayloadCreator, Dispatch, configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
-import makeRootReducer from './reducers'
+import makeRootReducer, { RootState } from './reducers'
 import {backgroundFetch, initSagas} from '../sagas'
-import {createMigrate, createTransform, persistReducer, persistStore} from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import {
+  createMigrate, 
+  createTransform, 
+  persistReducer, 
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
 import { state } from '../__mocks__/state-input'
 import Config from 'react-native-config'
 import log from '../utils/log'
 import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
+import { ConfigState } from './config/config'
 
 let store = null
 let persistor = null
 let sagaMiddleware = null
 
-function initStore (rehydrateCallback) {
+function initStore (rehydrateCallback?: () => void) {
   sagaMiddleware = createSagaMiddleware({
     onError: (error, { sagaStack}) => {
       log('sagas', error, sagaStack)
@@ -24,7 +36,7 @@ function initStore (rehydrateCallback) {
 
   const {width, height } = Dimensions.get('window')
 
-  const orientationTransform = createTransform(null, (state, key) => {
+  const orientationTransform = createTransform(null, (state: ConfigState, key) => {
     const newState = {...state}
     newState.orientation = height > width ? 'portrait' : 'landscape'
     return newState
@@ -44,30 +56,33 @@ function initStore (rehydrateCallback) {
     transforms: [orientationTransform],
     blacklist: ['animatedValues'],
     migrate: createMigrate(migrations, { debug: true }),
-    version: 10
+    version: 11
   }
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
+  const middlewareConf = {
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }
 
   if (Config.USE_STATE) {
     store = configureStore({
       reducer: makeRootReducer(),
       state,
       middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware({ thunk: false }).prepend(sagaMiddleware);
+        return getDefaultMiddleware(middlewareConf).prepend(sagaMiddleware);
       }
     })  
   } else {
     store = configureStore({
       reducer: persistedReducer,
       middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware({ thunk: false }).prepend(sagaMiddleware);
+        return getDefaultMiddleware(middlewareConf).prepend(sagaMiddleware);
       }
     })
     persistor = persistStore(store, null, rehydrateCallback || onCompletion)
   }
-
-
 
   const onCompletion = () => {
     console.log('Store persisted')
@@ -87,3 +102,30 @@ async function doBackgroundFetch(callback) {
 }
 
 export { store, initStore, doBackgroundFetch, persistor }
+
+// https://stackoverflow.com/a/66382690
+declare module "@reduxjs/toolkit" {
+  type AsyncThunkConfig = {
+    state?: unknown;
+    dispatch?: Dispatch;
+    extra?: unknown;
+    rejectValue?: unknown;
+    serializedErrorType?: unknown;
+  };
+
+  function createAsyncThunk<
+    Returned,
+    ThunkArg = void,
+    ThunkApiConfig extends AsyncThunkConfig = {
+      state: RootState; // this line makes a difference
+    }
+  >(
+    typePrefix: string,
+    payloadCreator: AsyncThunkPayloadCreator<
+      Returned,
+      ThunkArg,
+      ThunkApiConfig
+    >,
+    options?: any
+  ): AsyncThunk<Returned, ThunkArg, ThunkApiConfig>;
+}

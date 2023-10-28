@@ -1,7 +1,7 @@
 import { call, put, select, spawn, take } from 'redux-saga/effects'
 
 import { SET_BACKEND } from '../store/user/types'
-import { Annotation, EDIT_ANNOTATION } from '../store/annotations/types'
+import { Annotation } from '../store/annotations/types'
 import {
   getAnnotations,
   getUser
@@ -101,8 +101,8 @@ function * primeReadwise () {
     for (let highlight of response) {
       // now add the remote id to each annotation
       yield put({ 
-        type: EDIT_ANNOTATION, 
-        annotation: { 
+        type: 'annotations/updateAnnotation', 
+        payload: { 
           ...annotationsToUpload[i++], 
           remote_id: highlight.modified_highlights[0] 
         },
@@ -125,8 +125,8 @@ export function * initOtherBackends ({ backend, credentials }: { backend: string
         for (let highlight of response) {
           // now add the remote id to each annotation
           yield put({ 
-            type: EDIT_ANNOTATION, 
-            annotation: { 
+            type: 'annotations/updateAnnotation', 
+            payload: { 
               ...annotationsToUpload[i++], 
               remote_id: highlight.modified_highlights[0] 
             },

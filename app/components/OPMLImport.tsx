@@ -10,9 +10,9 @@ import { parseString } from 'react-native-xml2js'
 import * as FileSystem from 'expo-file-system'
 import { 
   ADD_MESSAGE, 
-  REMOVE_MESSAGE, 
-  SHOW_MODAL 
+  REMOVE_MESSAGE
 } from '../store/ui/types'
+import { useModal } from './ModalProvider'
 
 const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
@@ -47,6 +47,7 @@ interface Feed {
 
 export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => {} }) {
   const dispatch = useDispatch()
+  const { openModal } = useModal()
   let feeds: Array<Feed> = []
   let res: {
     uri?: string,
@@ -115,24 +116,21 @@ export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => 
         type: REMOVE_MESSAGE,
         messageString: 'Adding feeds'
       })
-      dispatch({
-        type: SHOW_MODAL,
-        modalProps: {
-          isError: true,
-          modalText: [
-            {
-              text: 'Error Reading File',
-              style: ['title']
-            },
-            {
-              text: 'There was an error reading the OPML file. Are you sure you chose the right one?',
-              style: ['text']
-            }
-          ],
-          modalHideCancel: true,
-          modalShow: true,
-          modalOnOk: () => {}
-        }
+      openModal({
+        isError: true,
+        modalText: [
+          {
+            text: 'Error Reading File',
+            style: ['title']
+          },
+          {
+            text: 'There was an error reading the OPML file. Are you sure you chose the right one?',
+            style: ['text']
+          }
+        ],
+        modalHideCancel: true,
+        modalShow: true,
+        modalOnOk: () => {}
       })
     }
   }

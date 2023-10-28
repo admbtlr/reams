@@ -13,7 +13,7 @@ import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getStatusBarHeight } from '../utils'
-import { Animated, Dimensions, Platform, } from 'react-native'
+import { Animated, Dimensions } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
@@ -28,8 +28,8 @@ const Feeds = () => (
   <FeedsStack.Navigator
     initialRouteName='Feeds Screen'
     screenOptions={{
-      presentation: 'modal',
-      headerShown: false
+      headerShown: false,
+      presentation: 'modal'
     }}
   >
     <FeedsStack.Screen
@@ -242,12 +242,11 @@ export default App = () => {
     <AppStack.Navigator
       initialRouteName='Main'
       screenOptions={{
-        presentation: 'modal',
-        headerShown: false,
         cardStyle: {
-              backgroundColor: hslString('rizzleBG')
-            },
-
+          backgroundColor: hslString('rizzleBG')
+        },
+        headerShown: false,
+        presentation: 'modal'
       }}
     >
       <AppStack.Screen

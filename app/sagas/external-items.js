@@ -5,9 +5,6 @@ import {
   SAVE_EXTERNAL_ITEM,
   SAVE_EXTERNAL_ITEM_SUCCESS
 } from '../store/items/types'
-import { 
-  SHOW_MODAL
-} from '../store/ui/types'
 import { decorateItem } from './decorate-items'
 import { id } from '../utils'
 import { saveExternalItem } from '../backends'
@@ -17,29 +14,6 @@ import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
 
 export function * saveExternalUrl (action) {
   const savedItems = yield select(getSavedItems)
-  if (savedItems.find(si => si.url === action.url)) {
-    yield delay(1000)
-    yield put ({
-      type: SHOW_MODAL,
-      modalProps: {
-        isError: true,
-        modalText: [
-          {
-            text: 'Error Saving Story',
-            style: ['title']
-          },
-          {
-            text: 'You’ve already saved this story. Saving it again is liable to make everything explode, so let’s just not do it, OK?',
-            style: ['text']
-          }
-        ],
-        modalHideCancel: true,
-        modalShow: true,
-        modalOnOk: () => {}
-      }
-    })
-    return
-  }
   let item = {
     url: action.url,
     _id: id(action.url),

@@ -1,12 +1,9 @@
 import './wdyr'
 import 'react-native-gesture-handler'
+import 'react-native-get-random-values'
 
-import React from 'react'
-import { AppRegistry } from 'react-native'
 import {registerRootComponent} from 'expo'
 import Rizzle from './components/Rizzle'
-
-// import Share from './components/Share'
 
 // if (__DEV__) {
 //   const ReactRedux = require("react-redux/lib");

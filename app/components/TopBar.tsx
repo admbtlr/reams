@@ -32,7 +32,6 @@ import { Feed, FeedLocal } from '../store/feeds/types'
 - opacityAnim
 - openFeedModal
 - setDisplayMode *
-- showModal *
 - titleTransformAnim
 
 (* = container)
