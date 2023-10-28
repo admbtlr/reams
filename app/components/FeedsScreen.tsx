@@ -4,8 +4,7 @@ import {
   Feed,
 } from '../store/feeds/types'
 import { 
-  SHOW_HELPTIP,
-  SHOW_MODAL
+  SHOW_HELPTIP
 } from '../store/ui/types'
 import { CREATE_CATEGORY, Category } from '../store/categories/types'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -32,6 +31,7 @@ import { ItemType } from '../store/items/types'
 import { searchItems } from '../storage/sqlite'
 import { memoize } from 'proxy-memoize'
 import { state } from '../__mocks__/state-input'
+import { useModal } from './ModalProvider'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -112,10 +112,8 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     }
   }, [isFocused])
 
-  const showModal = (modalProps: {}) => dispatch({
-    type: SHOW_MODAL,
-    modalProps
-  })
+  const { openModal } = useModal()
+
   const createCategory = (name: string) => dispatch({
     type: CREATE_CATEGORY,
     name
@@ -144,7 +142,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
         style: ['title']
       }
     ]
-    showModal({
+    openModal({
       modalText,
       modalHideCancel: false,
       modalShow: true,

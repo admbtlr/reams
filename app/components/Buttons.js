@@ -3,9 +3,9 @@ import {
   Dimensions,
 } from 'react-native'
 import ButtonSet from './ButtonSet'
+import { ModalContext } from './ModalProvider'
 
 class Buttons extends React.Component {
-
   constructor (props) {
     super(props)
     this.props = props

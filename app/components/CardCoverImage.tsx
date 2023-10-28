@@ -5,27 +5,26 @@ import {
 import {fileExists, getCachedCoverImagePath} from '../utils'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/reducers'
+import { useDispatch } from 'react-redux'
+import { REMOVE_CACHED_COVER_IMAGE, SET_CACHED_COVER_IMAGE } from '../store/feeds/types'
 
 interface Props {
   feedId: string | undefined
   itemId: string | undefined
-  removeCachedCoverImage: (id: string) => void
-  setCachedCoverImage: (id: string, imageId: string) => void
   width: number
   height: number
 }
 
-export default function CardCoverImage ({feedId, itemId, removeCachedCoverImage, setCachedCoverImage, width, height}: Props) {
-
+export default function CardCoverImage ({feedId, itemId, width, height}: Props) {
+  const dispatch = useDispatch()
   const feed = feedId ? useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feedId)) : undefined
   const item = itemId ? useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)) : undefined
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
   const feedsLocal = useSelector((state: RootState) => state.feedsLocal)
   const unreadItems = useSelector((state: RootState) => state.itemsUnread.items)
   const savedItems = useSelector((state: RootState) => state.itemsSaved.items)
-  const cachedCoverImageId = !!feedId ?
-    feedsLocal.feeds.find(fl => fl._id === feed?._id)?.cachedCoverImageId :
-    savedItems.find(i => i._id === itemId)?.cachedCoverImageId
+  const cachedCoverImageId = !!feedId &&
+    feedsLocal.feeds.find(fl => fl._id === feed?._id)?.cachedCoverImageId    
   const coverImageItem = !!feedId ? 
     unreadItems.filter(i => i.feed_id === feedId).find(i => i.banner_image) :
     item?.banner_image ? 
@@ -40,6 +39,20 @@ export default function CardCoverImage ({feedId, itemId, removeCachedCoverImage,
     })
   }   
 
+  const setCachedCoverImage = (sourceId: string, cachedCoverImageId: string) => {
+    return dispatch({
+      type: SET_CACHED_COVER_IMAGE,
+      id: sourceId,
+      cachedCoverImageId
+    })
+  }
+  const removeCachedCoverImage = (feedId: string) => {
+    return dispatch({
+      type: REMOVE_CACHED_COVER_IMAGE,
+      id: feedId
+    })
+  }
+
   const maybeRemoveOrUpdateCoverImage = async () => {
     if (Platform.OS === 'web') return
     const path = getCoverImagePath()
@@ -53,6 +66,7 @@ export default function CardCoverImage ({feedId, itemId, removeCachedCoverImage,
   }
 
   useEffect(() => {
+    if (!feedId) return // don't need to try and cache cover image for saved items
     maybeRemoveOrUpdateCoverImage()
   }, [coverImageItem, cachedCoverImageId])
 

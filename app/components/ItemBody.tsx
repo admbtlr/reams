@@ -5,14 +5,14 @@ import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
 import { hslString } from '../utils/colors'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { ADD_ANNOTATION } from '../store/annotations/types'
-import { deepEqual, id } from '../utils'
+import { deepEqual, id, pgTimestamp } from '../utils'
 import { RootState } from '../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../store/ui/types'
 import { HighlightModeContext } from './ItemsScreen'
 import { Item, SAVE_ITEM } from '../store/items/types'
 import { ADD_ITEM_TO_CATEGORY, Category } from '../store/categories/types'
 import isEqual from 'lodash.isequal'
+import { createAnnotation } from '../store/annotations/annotations'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -120,17 +120,14 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   const onHighlight = (text: string, serialized: string) => {
     const annotation = {
-      _id: id(),
+      _id: id() as string,
       text,
       serialized,
       item_id: item._id,
       url: item.url,
-      created_at: Date.now()
+      created_at: pgTimestamp(),
     }
-    dispatch({
-      type: ADD_ANNOTATION,
-      annotation
-    })
+    dispatch(createAnnotation(annotation))
     if (!item.isSaved) {
       dispatch({
         type: SAVE_ITEM,

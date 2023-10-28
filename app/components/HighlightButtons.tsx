@@ -5,9 +5,13 @@ import RizzleButton from './RizzleButton'
 import TextButton from './TextButton'
 import { HighlightModeContext } from './ItemsScreen'
 import { useDispatch, useStore } from 'react-redux'
-import { SHOW_ITEM_BUTTONS, SHOW_MODAL } from '../store/ui/types'
+import { SHOW_ITEM_BUTTONS } from '../store/ui/types'
 import { dustbinIcon, noteIcon, okIcon, xIcon } from '../utils/icons'
-import { Annotation, DELETE_ANNOTATION, EDIT_ANNOTATION } from '../store/annotations/types'
+import { Annotation } from '../store/annotations/types'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store/reducers'
+import { selectAnnotations } from '../store/annotations/annotations'
+import { useModal } from './ModalProvider'
 // import { translateDistance } from './ButtonSet'
 
 
@@ -18,8 +22,9 @@ const translateAnim = new Animated.Value(1)
 export default function HighlightButtons() {
   const { activeHighlight, setActiveHighlight } = React.useContext(HighlightModeContext)
   const dispatch = useDispatch()
-  const annotation = useStore().getState().annotations.annotations.find((a: Annotation) => a._id === activeHighlight)
+  const annotation = useSelector(selectAnnotations)?.find((a: Annotation) => a._id === activeHighlight)
   const screenDimensions = Dimensions.get('window')
+  const { openModal } = useModal()
 
   useEffect(() => {
     if (activeHighlight !== null) {
@@ -56,10 +61,10 @@ export default function HighlightButtons() {
         value: annotation ? annotation.note : '',
       }
     ],
-    modalOnOk: ({note}) => {
+    modalOnOk: ({note}: {note: string}) => {
       dispatch({
-        type: EDIT_ANNOTATION,
-        annotation: {
+        type: 'annotations/updateAnnotation',
+        payload: {
           ...annotation,
           note
         }
@@ -112,8 +117,8 @@ export default function HighlightButtons() {
           icon={dustbinIcon()}
           onPress={() => {
             dispatch({ 
-              type: DELETE_ANNOTATION,
-              annotation
+              type: 'annotations/deleteAnnotation',
+              payload: annotation
             })
             setActiveHighlight(null)
             dispatch({ type: SHOW_ITEM_BUTTONS })
@@ -132,10 +137,7 @@ export default function HighlightButtons() {
           hasShadow={true}
           icon={noteIcon()}
           onPress={() => {
-            dispatch({
-              type: SHOW_MODAL,
-              modalProps,           
-            })
+            openModal(modalProps)
           }}
           text='Note' />
         <TextButton 

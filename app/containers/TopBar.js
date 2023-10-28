@@ -1,9 +1,6 @@
 import { 
   SET_DISPLAY_MODE
 } from '../store/items/types'
-import { 
-  SHOW_MODAL
-} from '../store/ui/types'
 import { connect } from 'react-redux'
 import TopBar from '../components/TopBar.js'
 import { getItems, getIndex } from '../utils/get-item'
@@ -27,10 +24,6 @@ const mapDispatchToProps = (dispatch) => {
     setDisplayMode: (displayMode) => dispatch({
       type: SET_DISPLAY_MODE,
       displayMode
-    }),
-    showModal: (modalProps) => dispatch({
-      type: SHOW_MODAL,
-      modalProps
     }),
   }
 }

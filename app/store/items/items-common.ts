@@ -49,7 +49,10 @@ export function itemsMarkRead (
   const items = state.items.map(item => {
     const readItem = action.items.find(ai => ai._id === item._id)
     if (readItem) {
-      item.readAt = readItem.readAt || Date.now()
+      item = {
+        ...item,
+        readAt: readItem.readAt || Date.now()
+      }
     }
     return item
   })
@@ -94,11 +97,16 @@ export function itemToggleMercury (
   action: toggleMercuryViewAction, 
   state: ItemsState
 ) {
+  // TODO this is an inflated item, and shouldn't be here
+  // the state should be written to sqlite instead
   let items = [ ...state.items ]
   let item = items.find((item) => item._id === action.item._id)
   if (item && item.content_mercury) {
-    item.showMercuryContent = !item.showMercuryContent
-    item.hasShownMercury = true
+    item = {
+      ...item,
+      showMercuryContent: !item.showMercuryContent,
+      hasShownMercury: true
+    }
   }
   return {
     ...state,

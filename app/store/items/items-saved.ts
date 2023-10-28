@@ -44,12 +44,15 @@ import {
   addStylesIfNecessary,
   nullValuesToEmptyStrings
 } from '../../utils/item-utils.js'
+import { RootState } from '../reducers'
 
 const initialState:ItemsState = {
   items: [],
   index: 0,
   lastUpdated: 0
 }
+
+export const selectItemsSaved = (state: RootState) => state.itemsSaved.items
 
 export function itemsSaved (
   state = initialState, 

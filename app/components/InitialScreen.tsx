@@ -115,13 +115,12 @@ export default function InitialScreen({}) {
   //   }
   // }
 
-  const width = Dimensions.get('window').width
+  const { height, width } = Dimensions.get('window')
   const buttonWidth = width > 950 ?
     600 :
     '100%'
 
   const margin = getMargin()
-  const height = Dimensions.get('window').height
   const textStyles = (color) => ({
     ...textInfoStyle(color),
     marginTop: margin,
@@ -133,7 +132,7 @@ export default function InitialScreen({}) {
   const italicStyles = {
     fontFamily: 'IBMPlexSans-Italic'
   }
-  const textTipStyles = (color) => ({
+  const textTipStyles = (color: string) => ({
     ...textStyles(color),
     fontSize: 18 * fontSizeMultiplier(),
     lineHeight: 26 * fontSizeMultiplier(),
@@ -141,7 +140,7 @@ export default function InitialScreen({}) {
     marginBottom: 0,
     color
   })
-  const textTipStylesBold = (color) => ({
+  const textTipStylesBold = (color: string) => ({
     ...textTipStyles(color),
     fontFamily: 'IBMPlexSans-Bold'
   })
