@@ -10,8 +10,7 @@ import { connect } from 'react-redux'
 import { ADD_FEED } from '../store/feeds/types'
 import { 
   ADD_MESSAGE,
-  FETCH_ITEMS,
-  SHOW_MODAL
+  FETCH_ITEMS
 } from '../store/ui/types'
 import { 
   SET_DISPLAY_MODE
@@ -22,10 +21,12 @@ const mapStateToProps = (state) => {
   const appState = state.appState || 'inactive'
   const lastUpdated = state.itemsUnread.lastUpdated || 0
   const isOnboarding = state.config.isOnboarding
+  const savedItems = state.itemsSaved.items
   return {
     appState,
     isOnboarding,
-    lastUpdated
+    lastUpdated,
+    savedItems
   }
 }
 
@@ -50,13 +51,6 @@ const mapDispatchToProps = (dispatch) => {
       type: ADD_FEED,
       feed
     }),
-    showModal: (modalProps) => {
-      console.log("SHOW MODAL!")
-      dispatch({
-        type: SHOW_MODAL,
-        modalProps
-      })
-    },
     appWentInactive: () => dispatch({
       type: STATE_INACTIVE,
       time: Date.now()

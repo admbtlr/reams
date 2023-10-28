@@ -35,7 +35,6 @@ import {
   FETCH_ITEMS,
   ITEMS_SCREEN_BLUR,
   ITEMS_SCREEN_FOCUS,
-  SHOW_MODAL
 } from '../store/ui/types'
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
@@ -52,8 +51,7 @@ import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
 import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
 import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
-import { ADD_ANNOTATION, DELETE_ANNOTATION, EDIT_ANNOTATION } from '../store/annotations/types'
-import { addAnnotation, deleteAnnotation, editAnnotation } from './annotations'
+import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotations'
 import { RootState } from 'store/reducers'
 import { UserState } from 'store/user/user'
 
@@ -88,7 +86,6 @@ function * startDownloads () {
     yield call(inflateFeeds)    
   } catch (e: any) {
     console.log(e)
-    yield put({ type: SHOW_MODAL, modalProps: 'Error : ' + (e.message || e)})
     yield put({ type: CLEAR_MESSAGES })
   }
 }
@@ -141,9 +138,9 @@ export function * initSagas () {
   yield takeEvery(ADD_FEED_TO_CATEGORY, updateCategory)
   yield takeEvery(REMOVE_FEED_FROM_CATEGORY, updateCategory)
 
-  yield takeEvery(ADD_ANNOTATION, addAnnotation)
-  yield takeEvery(EDIT_ANNOTATION, editAnnotation)
-  yield takeEvery(DELETE_ANNOTATION, deleteAnnotation)
+  yield takeEvery('annotations/createAnnotation', createAnnotation)
+  yield takeEvery('annotations/updateAnnotiation', updateAnnotation)
+  yield takeEvery('annotations/deleteAnnotiation', deleteAnnotation)
 
   // reading timer
   yield takeEvery(UPDATE_CURRENT_INDEX, currentItemChanged)

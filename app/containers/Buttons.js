@@ -1,6 +1,3 @@
-import {
-  SHOW_MODAL
-} from '../store/ui/types'
 import { 
   ItemType,
   SET_DISPLAY_MODE
@@ -38,10 +35,6 @@ const mapDispatchToProps = (dispatch) => {
       type: SET_DISPLAY_MODE,
       displayMode
     }),
-    showModal: (modalProps) => dispatch({
-      type: SHOW_MODAL,
-      modalProps
-    })
   }
 }
 

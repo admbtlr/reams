@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { ADD_FEED_TO_CATEGORY, ADD_ITEM_TO_CATEGORY, CREATE_CATEGORY, Category as CategoryType, REMOVE_FEED_FROM_CATEGORY, REMOVE_ITEM_FROM_CATEGORY } from '../store/categories/types'
 import { Feed } from '../store/feeds/types'
-import { SHOW_MODAL } from '../store/ui/types'
+import { useModal } from './ModalProvider'
 
 interface CategoryTogglesProps {
   feed?: Feed
@@ -150,6 +150,7 @@ function Category ({ name, isActive, isWhite, isAdd }: CategoryProps) {
 }
 
 const AddCategory = ({ isWhite }: { isWhite: boolean }) => {
+  const { openModal } = useModal()
   const dispatch = useDispatch()
   const createCategory = (name: string) => {
     dispatch({
@@ -157,10 +158,6 @@ const AddCategory = ({ isWhite }: { isWhite: boolean }) => {
       name
     })
   }
-  const showModal = (modalProps: {}) => dispatch({
-    type: SHOW_MODAL,
-    modalProps
-  })
   const showAddCategory = () => {
     const modalText = [
       {
@@ -168,15 +165,15 @@ const AddCategory = ({ isWhite }: { isWhite: boolean }) => {
         style: ['title']
       }
     ]
-    showModal({
+    openModal({
       modalText,
       modalHideCancel: false,
-      modalShow: true,
       inputs: [
         {
           label: 'Tag',
           name: 'categoryName',
           type: 'text',
+          value: '',
         }
       ],
       modalOnOk: (state: {categoryName: string}) => {

@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import DeviceInfo from 'react-native-device-info'
 import { Item } from '../store/items/types'
 import { hslString } from './colors'
+import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
 import murmurhash3_32_gc from './murmurHash3'
 
 let deviceId: string
@@ -67,7 +68,7 @@ export function diff (a: Item, b: Item, changes = {}) {
   return oneWayDiff(b, a, changes)
 }
 
-function oneWayDiff (a: Item, b: Item, changes: object) {
+function oneWayDiff (a: Item, b: Item, changes: { [key: string]: any}) {
   for (var key in a) {
     if (changes[key] !== undefined) continue
     if (key === 'item') {
@@ -211,32 +212,11 @@ export const getStatusBarHeight = () => 70 * fontSizeMultiplier() +
 
 export function id (item?: any) {
   if (item && typeof item === 'string' || item?.url) {
-    return murmurhash3_32_gc(item.url || item, 351249)
+    return uuidv5(item.url || item, uuidv5.URL)
   } else {
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-      s4() + '-' + s4() + s4() + s4();
+    return uuidv4()
   }
 }
-
-// https://stackoverflow.com/a/22429679/1788521
-function hashFnv32a(str: string, seed: number | undefined = undefined) {
-  /*jshint bitwise:false */
-  var i, l,
-    hval = (seed === undefined) ? 0x811c9dc5 : seed;
-
-  for (i = 0, l = str.length; i < l; i++) {
-    hval ^= str.charCodeAt(i);
-    hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
-  }
-  // Convert to 8 digit hex string
-  return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
-}
-
 
 export function getFeedColor () {
   // const { desaturated } = require('./colors.json')
@@ -252,4 +232,8 @@ export function getFeedColor () {
   
   // return [Math.round(Math.random() * 360), 20, 50]
   return hslString('rizzleFG').replace('hsl(', '').replace(')', '').split(',').map(n => Number.parseInt(n.replace('%', '')))
+}
+
+export function pgTimestamp (date: Date = new Date(Date.now())) {
+  return date.toISOString().replace('T',' ').replace('Z','').replace(/\.\d{3}/,'')
 }

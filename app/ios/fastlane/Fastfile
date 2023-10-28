@@ -30,8 +30,8 @@ platform :ios do
       xcargs: "UseModernBuildSystem=0",
       export_options: {
         provisioningProfiles: {
-          "com.adam-butler.rizzle" => "Reams App Store iOS",
-          "com.adam-butler.rizzle.share" => "Reams ShareEx App Store ArtsyMBP"
+          "com.adam-butler.rizzle" => "Reams App Store",
+          "com.adam-butler.rizzle.share" => "Reams Share App Store"
         }
       }
     )
@@ -54,8 +54,8 @@ platform :ios do
       xcargs: "UseModernBuildSystem=0",
       export_options: {
         provisioningProfiles: {
-          "com.adam-butler.rizzle" => "Reams App Store iOS",
-          "com.adam-butler.rizzle.share" => "Reams ShareEx App Store ArtsyMBP"
+          "com.adam-butler.rizzle" => "Reams App Store",
+          "com.adam-butler.rizzle.share" => "Reams Share App Store"
         }
       }
     )

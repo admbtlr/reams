@@ -1,38 +1,34 @@
 export interface Annotation {
-  _id?: string
+  _id: string
   text: string
   serialized: string
-  url?: string
+  url?: string | null
   item_id?: string
   note?: string
-  created_at?: number
+  created_at?: string
   remote_id?: string
 }
 
 export interface AnnotationsState {
   readonly annotations: Annotation[]
+  updatedAt?: number
 }
 
-export const ADD_ANNOTATION = 'ADD_ANNOTATION'
-export const EDIT_ANNOTATION = 'EDIT_ANNOTATION'
-export const DELETE_ANNOTATION = 'DELETE_ANNOTATION'
-
-
-interface addAnnotationAction {
-  type: typeof ADD_ANNOTATION
+interface createAnnotationAction {
+  type: 'createAnnotation'
   annotation: Annotation
 }
 
-interface editAnnotationAction {
-  type: typeof EDIT_ANNOTATION
-  annotation: Annotation
+interface updateAnnotationAction {
+  type: 'updateAnnotation'
+  payload: Annotation
 }
 
 interface deleteAnnotationAction {
-  type: typeof DELETE_ANNOTATION
+  type: 'deleteAnnotation'
   annotation: Annotation
 }
 
-export type AnnotationsActionTypes = addAnnotationAction |
-  editAnnotationAction |
+export type AnnotationsActionTypes = createAnnotationAction |
+  updateAnnotationAction |
   deleteAnnotationAction

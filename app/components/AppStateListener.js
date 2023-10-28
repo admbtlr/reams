@@ -6,11 +6,12 @@ import Clipboard from "@react-native-community/clipboard"
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { parseString } from 'react-native-xml2js'
 
-import { isIgnoredUrl, addIgnoredUrl } from '../storage/async-storage'
 import log from '../utils/log'
 import DarkModeListener from './DarkModeListener'
+import { ModalContext } from './ModalProvider'
 
 class AppStateListener extends React.Component {
+  static contextType = ModalContext
 
   group = 'group.com.adam-butler.rizzle'
 
@@ -74,8 +75,8 @@ class AppStateListener extends React.Component {
       // this is due to links getting into clipboard during the email auth process
       if (contents.substring(0, 4) === 'http' &&
         contents.indexOf('rizzle.net') === -1) {
-        const isIgnored = await isIgnoredUrl(contents)
-        if (!isIgnored) {
+        const alreadySaved = this.props.savedItems.find(item => item.url === contents)
+        if (!alreadySaved) {
           this.showSavePageModal.call(this, contents, true)
         }
       } else if (contents.substring(0, 6) === '<opml>') {
@@ -97,7 +98,14 @@ class AppStateListener extends React.Component {
           [parsed]
         // console.log(`Got ${pages.length} page${pages.length === 1 ? '' : 's'} to save`)
         const that = this
-        pages.forEach(page => that.savePage(page))
+        const savedItems = this.props.savedItems
+        pages.forEach(page => {
+          if (savedItems.find(item => item.url === page.url)) {
+            that.showAlreadySavedModal(page.url)
+          } else {
+            that.savePage(page)
+          }
+        })
       }
     } catch(err) {
       // '1' just means that there is nothing in the bucket
@@ -105,6 +113,34 @@ class AppStateListener extends React.Component {
         log('checkPageBucket', err)
       }
     }
+  }
+
+  showAlreadySavedModal (page) {
+    const { openModal } = this.context
+    openModal({
+      isError: true,
+      modalText: [
+        {
+          text: 'Error Saving Story',
+          style: ['title']
+        },
+        {
+          text: 'You’ve already saved this story:', 
+          style: ['text']
+        },
+        {
+          text: page.title ?? page.url, 
+          style: ['text']
+        },
+        {
+          text: 'Saving it again is liable to make everything explode, so let’s just not do it, OK?', 
+          style: ['text']
+        }
+      ],
+      modalHideCancel: true,
+      modalShow: true,
+      modalOnOk: () => {}
+    })
   }
 
   async checkFeedBucket () {
@@ -183,6 +219,7 @@ class AppStateListener extends React.Component {
   }
 
   showSavePageModal (url, isClipboard = false) {
+    const { openModal } = this.context
     let displayUrl = url
     if (displayUrl.length > 64) {
       displayUrl = displayUrl.slice(0, 64) + '…'
@@ -205,9 +242,9 @@ class AppStateListener extends React.Component {
     }
     const onOk = () => {
       this.savePage({ url })
-  }
+    }
     // onOk = onOk.bind(this)
-    this.props.showModal({
+    openModal({
       modalText,
       modalHideCancel: false,
       modalShow: true,
@@ -216,7 +253,8 @@ class AppStateListener extends React.Component {
   }
 
   showSaveFeedModal (url, title, description, scope) {
-    scope.props.showModal({
+    const { openModal } = this.context
+    openModal({
       modalText: [
         {
           text: 'Add this feed?',

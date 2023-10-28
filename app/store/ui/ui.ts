@@ -4,16 +4,13 @@ import {
   HIDE_ALL_BUTTONS,
   HIDE_IMAGE_VIEWER,
   HIDE_LOADING_ANIMATION,
-  HIDE_MODAL,
   INCREASE_FONT_SIZE,
   SET_DARK_MODE,
   SET_DARK_MODE_SETTING,
   SHOW_IMAGE_VIEWER,
   SHOW_ITEM_BUTTONS,
-  SHOW_MODAL,
   SHOW_VIEW_BUTTONS,
   TOGGLE_DARK_MODE,
-  TOGGLE_HIDE_MODAL,
   TOGGLE_VIEW_BUTTONS,
   SET_MESSAGE,
   ADD_MESSAGE,
@@ -82,19 +79,6 @@ export function ui (
         itemButtonsVisible: false
       }
 
-    case SHOW_MODAL:
-      return {
-        ...state,
-        modalVisible: true,
-        modalProps: action.modalProps
-      }
-
-    case HIDE_MODAL:
-      return {
-        ...state,
-        modalVisible: false
-      }
-
     case HIDE_LOADING_ANIMATION:
     case FETCH_DATA_SUCCESS:
       return {
@@ -139,17 +123,6 @@ export function ui (
         ...state,
         imageViewerVisible: false,
         imageViewerUrl: ''
-      }
-
-    case TOGGLE_HIDE_MODAL:
-      let hiddenModals = state.hiddenModals || []
-      hiddenModals = [
-        ...hiddenModals,
-        action.modalName
-      ]
-      return {
-        ...state,
-        hiddenModals
       }
 
     case INCREASE_FONT_SIZE:

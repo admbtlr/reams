@@ -10,12 +10,12 @@ import { user, UserState } from './user/user'
 import { config, ConfigState } from './config/config'
 import { remoteActionQueue, RemoteActionQueueState } from './config/remote-action-queue'
 import { categories } from './categories/categories'
-import { annotations } from './annotations/annotations'
+import annotations  from './annotations/annotations'
 import { ItemsState } from './items/types'
 import { FeedsLocalState, FeedsState } from './feeds/types'
 import { UIState } from './ui/types'
 import { CategoriesState } from './categories/types'
-import { AnnotationsState } from './annotations/types'
+import { Annotation, AnnotationsState } from './annotations/types'
 
 // export default {
 //   itemsUnread,

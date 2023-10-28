@@ -20,10 +20,10 @@ import LinearGradient from 'react-native-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_FILTER } from '../store/config/types'
 import { CLEAR_READ_ITEMS, Item, ItemType, UPDATE_CURRENT_INDEX } from '../store/items/types'
-import { SHOW_MODAL } from '../store/ui/types'
 import { Category, DELETE_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
 import { RootState } from 'store/reducers'
 import isEqual from 'lodash.isequal'
+import { useModal } from './ModalProvider'
 
 interface Props {
   _id: string | number
@@ -41,7 +41,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
     category: Category | undefined, 
     numItems: number | undefined, 
     categoryFeeds: (Feed | undefined)[] = [],
-    categoryItems: Item[] = [],
+    categoryItems: (Item | undefined)[] = [],
     cachedIconDimensions: { width: number, height: number } | undefined
   if (type === 'feed') {
     feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === _id), isEqual)
@@ -74,11 +74,10 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
     }
   }
 
-  // add cachedIconDimensions to feed
-
+  const { openModal } = useModal()
 
   const dispatch = useDispatch()
-  const filterItems = (_id: string | null, title: string, type: string) => dispatch({
+  const filterItems = (_id: string | null, title: string | null, type: string | null) => dispatch({
     type: SET_FILTER,
     filter: { _id, title, type }
   })
@@ -89,23 +88,6 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
     type: UPDATE_CURRENT_INDEX,
     index,
     displayMode: isSaved ? ItemType.saved : ItemType.unread
-  })
-  const setCachedCoverImage = (sourceId: string, cachedCoverImageId: string) => {
-    return dispatch({
-      type: SET_CACHED_COVER_IMAGE,
-      id: sourceId,
-      cachedCoverImageId
-    })
-  }
-  const removeCachedCoverImage = (feedId: string) => {
-    return dispatch({
-      type: REMOVE_CACHED_COVER_IMAGE,
-      id: feedId
-    })
-  }
-  const showModal = (modalProps: any) => dispatch({
-    type: SHOW_MODAL,
-    modalProps
   })
   const updateCategory = (category: Category) => category && dispatch({
     type: UPDATE_CATEGORY,
@@ -151,11 +133,17 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
       }).start()
     })
     clearReadItems()
-    const thing = type === 'feed' ? feed : category
-    filterItems(type === 'all' ? null : thing._id,
-      type === 'all' ? null : thing.title || thing.name,
-      type === 'all' ? null : type
-    )
+    switch (type) {
+      case 'all':
+        filterItems(null, null, null)
+        break
+      case 'feed':
+        filterItems(feed?._id || null, feed?.title || '', type)
+        break
+      case 'category':
+        filterItems(category?._id || null, category?.name || '', type)
+        break
+    }
     setIndex(0)
     if (mainViewRef.current) {
       mainViewRef.current.measureInWindow(navigateToItems)
@@ -180,7 +168,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
             style: ['title']
           }
         ]
-        showModal({
+        openModal({
           modalText,
           showModal: true,
         })
@@ -196,7 +184,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
           }
     
         ]
-        showModal({
+        openModal({
           modalText,
           modalHideCancel: false,
           modalShow: true,
@@ -261,7 +249,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
     cardWidth
 
   const numElemsWithCover = isSaved ?
-    categoryItems.filter(i => i.hasCoverImage).length :
+    categoryItems.filter(i => i?.hasCoverImage).length :
     categoryFeeds.length
   const cardSizeDivisor = (type === 'feed') ? 1 :
     screenWidth > 500 ? 
@@ -276,7 +264,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
         0)
 
   const coverImageSources = isSaved ? 
-    categoryItems.filter(i => i.hasCoverImage) : 
+    categoryItems.filter(i => i?.hasCoverImage) : 
     type === 'feed' ? [feed] : categoryFeeds
 
   const marginRight = Platform.OS === 'web' ?
@@ -326,12 +314,12 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
               flexDirection: 'row',
               flexWrap: 'wrap'
           }}>
-            { coverImageSources && coverImageSources.map((source: Feed | undefined, index: number, sources: (Feed | undefined)[]) => (
+            { coverImageSources && coverImageSources.map((source: Feed | Item | undefined, index: number, sources: (Feed | Item | undefined)[]) => (
                 source && (
                   <View 
                     key={source._id}
                     style={{
-                      backgroundColor: hslString(source.color, 'desaturated'),
+                      backgroundColor: hslString(source.color || 'black', 'desaturated'),
                       width: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth,
                       height: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight
                     }}>
@@ -340,8 +328,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                       itemId={isSaved ? source._id : undefined }
                       width={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth}
                       height={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight}
-                      setCachedCoverImage={setCachedCoverImage}
-                      removeCachedCoverImage={removeCachedCoverImage} />
+                    />
                   </View>
                 )
               )) 

@@ -17,11 +17,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hslString } from '../utils/colors'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { RootState } from '../store/reducers'
-import { Annotation, DELETE_ANNOTATION, EDIT_ANNOTATION } from '../store/annotations/types'
+import { Annotation } from '../store/annotations/types'
 import { fontSizeMultiplier, getMargin, getStatusBarHeight } from '../utils'
 import { dustbinIcon, noteIcon } from '../utils/icons'
-import { SHOW_MODAL } from '../store/ui/types'
 import FeedIconContainer from '../containers/FeedIcon'
+import { createSelector } from '@reduxjs/toolkit'
+import { selectItemsSaved } from '../store/items/items-saved'
+import { deleteAnnotation, selectAnnotations, updateAnnotation } from '../store/annotations/annotations'
+import { useModal } from './ModalProvider'
 
 interface highlightsByItem {
   item_id: string,
@@ -29,17 +32,18 @@ interface highlightsByItem {
   highlights: Annotation[]
 }
 
-export const HighlightModeContext = React.createContext({ activeHighlight: null, setActiveHighlight: (mode) => {} })
+export const HighlightModeContext = React.createContext({ activeHighlight: null, setActiveHighlight: () => {} })
 
 
-export default function HighlightsScreen ({ navigation }) {
+export default function HighlightsScreen () {
   const dispatch = useDispatch()
-  const highlights = useSelector((state: RootState) => state.annotations.annotations)
-  const annotatedItems = useSelector((state: RootState) => {
-    return state.itemsSaved.items.filter((i: Item) => {
-      return highlights.find((h: Annotation) => h.item_id === i._id) !== undefined
+  const highlights = useSelector(selectAnnotations)
+  const selectAnnotatedItems = createSelector([selectItemsSaved, selectAnnotations], (items, annotations) => {
+    return items.filter((i: Item) => {
+      return annotations.find((h: Annotation) => h.item_id === i._id) !== undefined
     })
   })
+  const annotatedItems = useSelector(selectAnnotatedItems)
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
   let highlightsByItem: highlightsByItem[] = []
   highlights.forEach(h => {
@@ -57,6 +61,7 @@ export default function HighlightsScreen ({ navigation }) {
     }
   })
   const [scrollAnim, setScrollAnim] = useState(new Animated.Value(0))
+  const { openModal } = useModal()
 
   const modalProps = (annotation: Annotation) => ({
     modalText: [{
@@ -73,14 +78,11 @@ export default function HighlightsScreen ({ navigation }) {
         value: annotation ? annotation.note : '',
       }
     ],
-    modalOnOk: ({note}) => {
-      dispatch({
-        type: EDIT_ANNOTATION,
-        annotation: {
-          ...annotation,
-          note
-        }
-      })
+    modalOnOk: ({note}: {note: string}) => {
+      dispatch(updateAnnotation({
+        ...annotation,
+        note
+      }))
     }
   })
   
@@ -89,7 +91,7 @@ export default function HighlightsScreen ({ navigation }) {
     shadowRadius: 5,
     shadowOpacity: 0.3,
     shadowOffset: {
-      // width: 5,
+      width: 0,
       height: 5
     }
   }
@@ -99,6 +101,7 @@ export default function HighlightsScreen ({ navigation }) {
       backgroundColor: hslString('white'),
       margin: getMargin(),
       padding: getMargin(),
+      paddingBottom: getMargin() * 0.5,
       borderRadius: getMargin(),
       ...shadowStyle
     }}>
@@ -186,10 +189,7 @@ export default function HighlightsScreen ({ navigation }) {
         marginTop: getMargin() * 0.5,
       }}>
         <TouchableOpacity 
-          onPress={() => dispatch({
-            type: SHOW_MODAL,
-            modalProps: modalProps(h),           
-          })}
+          onPress={() => openModal(modalProps(h))}
           style={{
             marginRight: getMargin()
           }}
@@ -203,10 +203,7 @@ export default function HighlightsScreen ({ navigation }) {
             update: { type: 'spring', springDamping: 0.4 }, 
             delete: { duration: 100, type: 'linear', property: 'opacity' } 
           })
-          dispatch({
-            type: DELETE_ANNOTATION,
-            annotation: h
-          })
+          dispatch(deleteAnnotation(h))
         }}>
           {dustbinIcon(hslString('rizzleText'), 32, 1)}
         </TouchableOpacity>

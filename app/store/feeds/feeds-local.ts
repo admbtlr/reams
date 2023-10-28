@@ -87,38 +87,48 @@ export function feedsLocal (
       }
 
     case CACHE_FEED_ICON_ERROR:
-      feeds = state.feeds.map(f => f)
-      feed = feeds.find(f => f._id === action.id)
+      feed = state.feeds.find(f => f._id === action.id)
       if (feed) {
         const errors = feed.numCachingErrors || 0
-        feed.numCachingErrors = errors + 1
-        feed.lastCachingError = Date.now()
+        feed = {
+          ...feed,
+          numCachingErrors: errors + 1,
+          lastCachingError: Date.now()
+        }
       } else {
-        feeds.push({
+        feed = {
           _id: action.id,
           numCachingErrors: 1,
           lastCachingError: Date.now()
-        })
+        }
       }
       return {
         ...state,
-        feeds
+        feeds: [
+          ...state.feeds,
+          feed
+        ]
       }
 
     case FEED_HAS_RENDERED_ICON:
-      feeds = state.feeds.map(f => f)
-      feed = feeds.find(f => f._id === action.id)
+      feed = state.feeds.find(f => f._id === action.id)
       if (feed) {
-        feed.hasRenderedIcon = true
+        feed = {
+          ...feed,
+          hasRenderedIcon: true
+        }
       } else {
-        feeds.push({
+        feed = {
           _id: action.id,
           hasRenderedIcon: true
-        })
+        }
       }
       return {
         ...state,
-        feeds
+        feeds: [
+          ...state.feeds,
+          feed
+        ]
       }
 
     case REFRESH_FEED_LIST:

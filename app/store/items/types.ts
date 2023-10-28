@@ -30,7 +30,7 @@ export interface Item {
   _id: string
   banner_image: string | undefined
   content_length: number | undefined
-  created_at: Date
+  created_at: number
   decoration_failures: number | undefined
   feed_id: string
   feed_title: string
@@ -43,7 +43,7 @@ export interface Item {
   isSaved: boolean | undefined
   id: string | number | undefined
   readAt: number | undefined
-  savedAt: Date | undefined
+  savedAt: number | undefined
   scrollRatio?: {
     html?: number
     mercury?: number

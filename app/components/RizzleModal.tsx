@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement } from 'react'
+import React, { Fragment, ReactElement, useEffect, useState } from 'react'
 import {
   ColorValue,
   Dimensions,
@@ -19,31 +19,38 @@ import {hslString} from '../utils/colors'
 import { deepEqual, fontSizeMultiplier, getMargin } from '../utils'
 import { xIcon } from '../utils/icons'
 import FeedIconContainer from '../containers/FeedIcon'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store/reducers'
+import { useModal } from './ModalProvider'
 
 namespace RizzleModal {
   export interface Input {
-    label: string
+    label?: string
     name: string
     type: string
-    value: string
+    value?: string
   }
   export interface DeletableRow {
-    title: string
-    id: string
+    title?: string
+    id?: string
     iconView?: ReactElement
     bgColor?: string
   }
 
   export interface ModalProps {
-    modalHide: () => void
-    modalProps: any
-    toggleHide: (modalName: string) => void
+    modalProps?: any // is this necessary?
     modalOnOk?: (state: any) => void
     modalOnCancel?: () => void
     modalOnClosed?: () => void
     modalOnDelete?: () => void
+    modalHideCancel?: boolean
     modalHideable?: boolean
     modalName?: string
+    modalText?: string | {
+      text: string,
+      style: string[]
+    }[]
     deletableRows?: RizzleModal.DeletableRow[]
     inputs?: RizzleModal.Input[]
     deleteButton?: boolean
@@ -52,97 +59,96 @@ namespace RizzleModal {
   }
 }
 
-interface RizzleModalProps {
-  modalProps: RizzleModal.ModalProps
-}
+const RizzleModal  = () => {
+  const dispatch = useDispatch()
 
-interface RizzleModalState {
-  toggleHideModal: boolean
-  isDeletePending: boolean
-  backgroundColor: ColorValue
-  inputState: {
-    deletableRows: any[]
+  const { isVisible, closeModal, modalProps } = useModal()
+  
+  const hiddenModals: string[] = useSelector((state: RootState) => state.ui.hiddenModals)
+
+  // props: any
+  // state: any
+  // initialState: RizzleModalState
+  let isOpen: boolean | undefined = false
+
+  // const [toggleHideModal, setToggleHideModal] = useState(false)
+  const [isDeletePending, setIsDeletePending] = useState(false)
+  const [backgroundColor, setBackgroundColor] = useState('rgba(0, 0, 0, 0)')
+  const [inputState, setInputState] = useState<{
+    deletableRows: RizzleModal.DeletableRow[]
+  }>({
+    deletableRows: []
+  })
+
+  //   this.initialState = {
+  //     toggleHideModal: false,
+  //     isDeletePending: false,
+  //     backgroundColor: 'rgba(0, 0, 0, 0)',
+  //     inputState: {
+  //       deletableRows: []
+  //     }
+  //   }
+  //   this.state = this.initialState
+  // }
+
+  const resetState = () => {
+    // setToggleHideModal(false)
+    setIsDeletePending(false)
+    setBackgroundColor('rgba(0, 0, 0, 0)')
+    setInputState({
+      deletableRows: []
+    })
   }
-}
 
-class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
-
-  props: any
-  state: any
-  initialState: RizzleModalState
-  isOpen?: boolean
-
-  constructor (props: any) {
-    super(props)
-    this.props = props
-    this.onOK = this.onOK.bind(this)
-    this.onCancel = this.onCancel.bind(this)
-    this.onClosed = this.onClosed.bind(this)
-
-    this.initialState = {
-      toggleHideModal: false,
-      isDeletePending: false,
-      backgroundColor: 'rgba(0, 0, 0, 0)',
-      inputState: {
-        deletableRows: []
-      }
-    }
-    this.state = this.initialState
-  }
-
-  onOK () {
-    const { modalHide, modalProps } = this.props
-    const { isDeletePending, inputState: {deletableRows} } = this.state
+  const onOK = () => {
     if (isDeletePending) {
-      modalProps.modalOnDelete()
+      modalProps?.modalOnDelete && modalProps.modalOnDelete()
     } else {
-      modalProps.modalOnOk && modalProps.modalOnOk(this.state.inputState)
+      modalProps?.modalOnOk && modalProps.modalOnOk(inputState)
     }
-    modalHide()
-    this.isOpen = false
-    modalProps.modalHideable && modalProps.modalName &&
-      this.props.toggleHide(modalProps.modalName)
-    this.setState(this.initialState)    
+    closeModal()
+    isOpen = false
+    // modalProps.hideModalable && modalProps.modalName &&
+    //   toggleHide(modalProps.modalName)
+    resetState
   }
 
-  onCancel () {
-    const { modalHide, modalProps } = this.props
-    modalHide()
-    modalProps.modalOnCancel && modalProps.modalOnCancel()
-    this.isOpen = false
-    this.setState(this.initialState)    
+  const onCancel = () => {
+    closeModal()
+    modalProps?.modalOnCancel && modalProps.modalOnCancel()
+    isOpen = false
+    resetState()
   }
 
-  onClosed () {
-    if (this.isOpen) {
-      this.props.modalHide()
-      this.isOpen = false
+  const onClosed = () => {
+    if (isOpen) {
+      closeModal()
+      isOpen = false
     }
   }
 
-  formatText (text: string | { 
-      style: [] 
+  const formatText = (text: string | { 
+      style: string[] 
       text: string 
-    }[]) {
+    }[]) => {
     if (typeof text === 'undefined') return text
     if (typeof text === 'string') {
-      const styles = this.getStyles().text
       return (<Text>{text}</Text>)
     } else {
       return text.map((el, i) => {
         let style = el.style ? el.style.reduce((accum, tag) => {
           return {
             ...accum,
-            ...this.getStyles()[tag]
+            ...styles[tag]
           }
-        }, this.getStyles().text) : null
+        }, styles.text) : null
         return (<Text style={style} key={i}>{el.text}</Text>)
       })
     }
   }
 
-  onDeleteRow (row) {
-    const { deletableRows } = this.state.inputState
+  const onDeleteRow = (row: RizzleModal.DeletableRow) => {
+    const deletableRows = inputState?.deletableRows || [] 
     const index = deletableRows.indexOf(row)
     if (index !== -1) {
       deletableRows.splice(index, 1)
@@ -152,85 +158,78 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
         update: { type: 'spring', springDamping: 0.4 }, 
         delete: { duration: 100, type: 'linear', property: 'opacity' } 
       })
-      this.setState({inputState: {deletableRows}})
+      setInputState({deletableRows})
     }
   }
 
-  onDelete () {
+  const onDelete = () => {
     LayoutAnimation.configureNext({ 
       duration: 500, 
       create: { type: 'linear', property: 'opacity' }, 
       update: { type: 'spring', springDamping: 0.4 }, 
       delete: { duration: 100, type: 'linear', property: 'opacity' } 
     })
-    this.setState({
-      isDeletePending: true
-    })
+    setIsDeletePending(true)
   }
 
-  componentDidUpdate (prevProps: any) {
-    let {deletableRows} = this.props.modalProps
-    deletableRows = deletableRows || []
-    if (deletableRows && !deepEqual(deletableRows, this.state.inputState.deletableRows)) {
-      this.setState({ inputState: {deletableRows}})
+  useEffect(() => {
+    let deletableRows = modalProps?.deletableRows || []
+    if (deletableRows && !deepEqual(deletableRows, inputState.deletableRows)) {
+      setInputState({deletableRows})
     }
+  }, modalProps?.deletableRows)
+
+  if (hiddenModals && modalProps?.modalName && hiddenModals.indexOf(modalProps.modalName) !== -1) {
+    return null
   }
 
-  render () {
-    const { hiddenModals, inputText, isInput, isVisible, modalProps } = this.props
-    const { deletableRows } = this.state.inputState
-    if (hiddenModals && modalProps?.modalName && hiddenModals.indexOf(modalProps.modalName) !== -1) {
-      return null
-    }
-
-    const inputView = (
-      modalProps?.inputs && modalProps.inputs.length > 0 && 
-        modalProps.inputs.map((input: RizzleModal.Input, index: number) => {
-          let inputState = {}
-          inputState[input.name] = ''
-          return (
-            <View 
-              key={index}
-              style={{
-                padding: 20,
-                paddingTop: 0
+  const inputView = (
+    modalProps?.inputs && modalProps.inputs.length > 0 && 
+      modalProps.inputs.map((input: RizzleModal.Input, index: number) => {
+        let currentInputState = {}
+        currentInputState[input.name] = ''
+        return (
+          <View 
+            key={index}
+            style={{
+              padding: 20,
+              paddingTop: 0
+            }}
+          >
+            <TextInput
+              autoCapitalize='none'
+              autoFocus={!!modalProps.showKeyboard}
+              multiline={input.type === 'textarea'}
+              numberOfLines={input.type === 'textarea' ? 4 : 1}
+              onChangeText={(text) => {
+                currentInputState[input.name] = text
+                setInputState({
+                  ...inputState,
+                  ...currentInputState
+                })
               }}
-            >
-              <TextInput
-                autoCapitalize='none'
-                autoFocus={!!modalProps.showKeyboard}
-                multiline={input.type === 'textarea'}
-                numberOfLines={input.type === 'textarea' ? 4 : 1}
-                onChangeText={(text) => {
-                  inputState[input.name] = text
-                  this.setState({
-                    inputState: {
-                      ...this.state.inputState,
-                      ...inputState
-                    }})
-                }}
-                value={this.state.inputState[input.name] || input.value}
-                style={{
-                  ...textInputStyle(),
-                  borderBottomWidth: input.type === 'textarea' ? 0 : 1,
-                  padding: 3,
-                  height: input.type === 'textarea' ? 100 : 'auto',
-                  textAlignVertical: input.type === 'textarea' ? 'top' : 'center',
-                  backgroundColor: input.type === 'textarea' ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-                  fontSize: input.type === 'textarea' ? 16 * fontSizeMultiplier() : 20 * fontSizeMultiplier()
-                }}
-              />
-              { input.label && (
-                <Text style={{
-                  ...textLabelStyle()
-                }}>{ input.label }</Text>
-              )}
-            </View>
-          )}
-        )
+              value={inputState[input.name] || input.value}
+              style={{
+                ...textInputStyle(),
+                borderBottomWidth: input.type === 'textarea' ? 0 : 1,
+                padding: 3,
+                height: input.type === 'textarea' ? 100 : 'auto',
+                textAlignVertical: input.type === 'textarea' ? 'top' : 'center',
+                backgroundColor: input.type === 'textarea' ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                fontSize: input.type === 'textarea' ? 16 * fontSizeMultiplier() : 20 * fontSizeMultiplier()
+              }}
+            />
+            { input.label && (
+              <Text style={{
+                ...textLabelStyle()
+              }}>{ input.label }</Text>
+            )}
+          </View>
+        )}
       )
+    )
     const deletableRowsView = (
-      deletableRows && deletableRows.length > 0 &&
+      modalProps?.deletableRows && modalProps.deletableRows.length > 0 &&
         <View style={{
           alignItems: 'stretch',
           paddingBottom: 20,
@@ -243,7 +242,7 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
             alignSelf: 'flex-start'
           }}>FEEDS</Text>
             <ScrollView>
-          { this.state.inputState.deletableRows.map((row: RizzleModal.DeletableRow, index: number, rows: RizzleModal.DeletableRow[]) => {
+          { inputState.deletableRows.map((row: RizzleModal.DeletableRow, index: number, rows: RizzleModal.DeletableRow[]) => {
             return (
               <View
                 key={index}
@@ -274,14 +273,14 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
                     ellipsizeMode='tail'
                     numberOfLines={1}
                     style={{
-                      ...this.getStyles().text,
+                      ...styles.text,
                       color: 'white',
                       fontFamily: 'IBM Plex Sans',
                     }}>{row.title}</Text>
                 </View>
                 <TouchableOpacity
                   onPress={() => {
-                    this.onDeleteRow(row)
+                    onDeleteRow(row)
                   }}
                   style={{
                     flex: 0,
@@ -302,14 +301,14 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
       modalProps?.deleteButton &&
         <TouchableOpacity
           onPress={() => {
-            this.onDelete()
+            onDelete()
           }}
           style={{ 
             paddingBottom: 20, 
           }}
         >
           <Text style={{
-            ...this.getStyles().text,
+            ...styles.text,
             textDecorationStyle: 'solid',
             textDecorationLine: 'underline',
             color: hslString('logo2'),
@@ -330,17 +329,15 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
               true: hslString('rizzleText')
             }}
             onValueChange={ value => {
-              this.setState({
-                toggleHideModal: value
-              })
+              setToggleHideModal(value)
             }}
-            value={this.state.toggleHideModal}
+            value={toggleHideModal}
             style={{
               marginRight: 10,
               marginTop: -4.9,
               marginBottom: 20
             }}/>
-          { this.formatText([{
+          { formatText([{
             text: 'Don’t show this again',
             style: ['em', 'smaller']
           }]) }
@@ -360,31 +357,37 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: isVisible ? 'rgba(0,0,0,0.7)' : 'transparent',
+          // backgroundColor: isVisible ? 'rgba(0,0,0,0.7)' : 'transparent',
         }}>
         <Modal
-          animationType="slide"
+          animationIn='slideInUp'
+          animationOut='slideOutDown'
           avoidKeyboard={true}
+          hasBackdrop={true}
+          backdropColor='rgba(0,0,0,0.7)'
           style={{ backgroundColor: 'transparent' }}
-          visible={isVisible}
-          onDismiss={this.onClosed}
-          transparent={true}
+          isVisible={isVisible}
+          onDismiss={onClosed}
+          useNativeDriver={true}
+          useNativeDriverForBackdrop={true}
+        >
+          <View 
+            pointerEvents='box-none'
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",              
+            }}
           >
-          <View style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",              
-            pointerEvents: 'box-none'
-          }}>
             <View style={{
-              ...this.getStyles().inner
+              ...styles.inner
             }}>
               <View style={{
-                ...this.getStyles().textHolder
-                }}>{this.formatText(modalProps?.modalText || '')}</View>
-              { this.state.isDeletePending ? (
+                ...styles.textHolder
+                }}>{formatText(modalProps?.modalText || '')}</View>
+              { isDeletePending ? (
                 <Text style={{
-                  ...this.getStyles().text,
+                  ...styles.text,
                   marginHorizontal: 20,
                   marginBottom: 20,
                   alignSelf: 'flex-start'
@@ -394,32 +397,32 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
                   <View>{ inputView }</View>
                   <View>{ deletableRowsView }</View>
                   <View>{ deleteButtonView }</View>
-                  <View>{ hideModalView }</View>
+                  {/* <View>{ hideModalView }</View> */}
                 </>
               )}
-              <View style={{...this.getStyles().buttonHolder}}>
+              <View style={{...styles.buttonHolder}}>
                 { modalProps?.modalHideCancel ||
                   <TouchableOpacity
                     style={{
-                      ...this.getStyles().touchable,
+                      ...styles.touchable,
                       borderRightWidth: 1
                     }}
-                    onPress={this.onCancel}>
+                    onPress={onCancel}>
                     <Text
                       style={{
-                        ...this.getStyles().text,
-                        ...this.getStyles().buttonText
+                        ...styles.text,
+                        ...styles.buttonText
                       }}>Cancel</Text>
                   </TouchableOpacity>
                 }
                 <TouchableOpacity
-                  style={{...this.getStyles().touchable}}
-                  onPress={this.onOK}>
+                  style={{...styles.touchable}}
+                  onPress={onOK}>
                   <Text
                     style={{
-                      ...this.getStyles().text,
-                      ...this.getStyles().buttonText,
-                      ...this.getStyles().strong
+                      ...styles.text,
+                      ...styles.buttonText,
+                      ...styles.strong
                     }}>OK</Text>
                 </TouchableOpacity>
               </View>
@@ -428,89 +431,83 @@ class RizzleModal extends React.Component<RizzleModalProps, RizzleModalState> {
         </Modal>
       </View>
     )
-  }
-
-  getStyles () {
-    return {
-      base: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-      },
-      inner: {
-        backgroundColor: hslString('rizzleBG'),
-        borderRadius: 20,
-        width: 300,
-        shadowColor: 'black',
-        shadowRadius: 10,
-        shadowOpacity: 0.1
-      },
-      error: {
-        backgroundColor: hslString('logo2'),
-        color: hslString('rizzleBG')
-      },
-      buttonHolder: {
-        flexDirection: 'row',
-        height: 40,
-        borderTopWidth: 1,
-        borderColor: hslString('rizzleText', '', 0.2)
-      },
-      textHolder: {
-        margin: 20,
-        marginTop: 15,
-        marginBottom: 40,
-      },
-      text: {
-        color: hslString('rizzleText'),
-        fontFamily: 'IBMPlexMono',
-        fontSize: 16,
-        textAlign: 'center'
-      },
-      title: {
-        // color: hslString('rizzleHighlight'),
-        marginBottom: 10,
-        fontFamily: 'IBMPlexMono-Bold'
-      },
-      em: {
-        fontFamily: 'IBMPlexMono-Italic'
-      },
-      strong: {
-        fontFamily: 'IBMPlexMono-Bold'
-      },
-      strong_em: {
-        fontFamily: 'IBMPlexMono-BoldItalic'
-      },
-      smaller: {
-        fontSize: 14
-      },
-      hint: {
-        backgroundColor: 'rgba(255,255,255,0.2)',
-        marginBottom: -20,
-        marginLeft: -20,
-        marginRight: -20,
-        marginTop: 20,
-        padding: 15,
-        fontSize: 14,
-        textAlign: 'left'
-      },
-      yellow: {
-        color: hslString('rizzleHighlight')
-      },
-      touchable: {
-        flex: 1,
-        borderColor: 'rgba(0,0,0,0.3)'
-      },
-      buttonText: {
-        margin: 5,
-        marginTop: 7,
-        textAlign: 'center'
-      }
-    }
-  }
 }
 
 const styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  inner: {
+    backgroundColor: hslString('rizzleBG'),
+    borderRadius: 20,
+    width: 300,
+    shadowColor: 'black',
+    shadowRadius: 10,
+    shadowOpacity: 0.1
+  },
+  error: {
+    backgroundColor: hslString('logo2'),
+    color: hslString('rizzleBG')
+  },
+  buttonHolder: {
+    flexDirection: 'row',
+    height: 40,
+    borderTopWidth: 1,
+    borderColor: hslString('rizzleText', '', 0.2)
+  },
+  textHolder: {
+    margin: 20,
+    marginTop: 15,
+    marginBottom: 40,
+  },
+  text: {
+    color: hslString('rizzleText'),
+    fontFamily: 'IBMPlexMono',
+    fontSize: 16,
+    textAlign: 'center'
+  },
+  title: {
+    // color: hslString('rizzleHighlight'),
+    marginBottom: 10,
+    fontFamily: 'IBMPlexMono-Bold'
+  },
+  em: {
+    fontFamily: 'IBMPlexMono-Italic'
+  },
+  strong: {
+    fontFamily: 'IBMPlexMono-Bold'
+  },
+  strong_em: {
+    fontFamily: 'IBMPlexMono-BoldItalic'
+  },
+  smaller: {
+    fontSize: 14
+  },
+  hint: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginBottom: -20,
+    marginLeft: -20,
+    marginRight: -20,
+    marginTop: 20,
+    padding: 15,
+    fontSize: 14,
+    textAlign: 'left'
+  },
+  yellow: {
+    color: hslString('rizzleHighlight')
+  },
+  touchable: {
+    flex: 1,
+    borderColor: 'rgba(0,0,0,0.3)'
+  },
+  buttonText: {
+    margin: 5,
+    marginTop: 7,
+    textAlign: 'center'
+  }
 })
 
 export default RizzleModal

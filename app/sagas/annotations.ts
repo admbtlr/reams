@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 import { Item, UNSAVE_ITEM } from '../store/items/types'
-import { Annotation, EDIT_ANNOTATION } from '../store/annotations/types'
+import { Annotation } from '../store/annotations/types'
 import { RootState } from '../store/reducers'
 import { Category } from '../store/categories/types'
 import { createHighlight, deleteHighlight, updateHighlight } from '../backends/readwise'
@@ -10,16 +10,16 @@ function * hasReadwiseBackend () {
   return isReadwise
 }
 
-export function * addAnnotation ({ annotation }: { annotation: Annotation } ): any {
+export function * createAnnotation ({ payload }: { payload: Annotation } ): any {
   const isReadwise = yield hasReadwiseBackend()
   if (isReadwise) {
-    const readwiseResponse = yield call(createHighlight, annotation)
+    const readwiseResponse = yield call(createHighlight, payload)
     const remoteId = readwiseResponse.modified_highlights[0]
-    yield put({ type: EDIT_ANNOTATION, annotation: { ...annotation, remote_id: remoteId }, skipRemote: true })
+    yield put({ type: 'annotations/updateAnnotation', annotation: { ...payload, remote_id: remoteId }, skipRemote: true })
   }
 }
 
-export function * editAnnotation ({ annotation }: { annotation: Annotation }, skipRemote?: Boolean ): any {
+export function * updateAnnotation ({ annotation }: { annotation: Annotation }, skipRemote?: Boolean ): any {
   const isReadwise = yield hasReadwiseBackend()
   if (isReadwise && !skipRemote) {
     yield call(updateHighlight, annotation)
@@ -27,7 +27,7 @@ export function * editAnnotation ({ annotation }: { annotation: Annotation }, sk
 }
 
 export function * deleteAnnotation ({ annotation }: { annotation: Annotation } ): any {
-  const annotations = yield select((state: RootState) => state.annotations.annotations)
+  const annotations = yield select((state: RootState) => state.annotations)
   const item: Item = yield select((state: RootState) => state.itemsSaved.items.find((i: Item) => i._id === annotation.item_id))
   const annotationsForItem = annotations.filter((a: Annotation) => a.item_id === item._id)
   const isReadwise = yield hasReadwiseBackend()
