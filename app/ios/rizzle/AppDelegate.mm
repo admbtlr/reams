@@ -7,8 +7,6 @@
 #import <React/RCTConvert.h>
 #import "RNSplashScreen.h"
 
-#import <TSBackgroundFetch/TSBackgroundFetch.h>
-
 #import <React/RCTAppSetupUtils.h>
 
 #if RCT_NEW_ARCH_ENABLED
@@ -81,9 +79,6 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   // }
   [super application:application didFinishLaunchingWithOptions:launchOptions];
   
-  // [REQUIRED] Register BackgroundFetch
-  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
-
   return YES;
 }
 
