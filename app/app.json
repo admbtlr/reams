@@ -1,9 +1,9 @@
 {
-  "name": "reams",
-  "displayName": "Reams",
+  "name": "already",
+  "displayName": "Already",
   "expo": {
-    "name": "Reams",
-    "slug": "reams",
+    "name": "Already",
+    "slug": "already",
     "sdkVersion": "47.0.0",
   }
 }

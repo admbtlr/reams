@@ -11,13 +11,13 @@ PODS:
     - ExpoModulesCore
   - EXErrorRecovery (4.0.1):
     - ExpoModulesCore
-  - EXFileSystem (14.1.0):
+  - EXFileSystem (15.1.1):
     - ExpoModulesCore
   - EXFont (11.0.1):
     - ExpoModulesCore
-  - EXGL (11.4.0):
-    - EXGL_CPP
+  - EXGL (12.0.1):
     - ExpoModulesCore
+    - React-jsi
   - EXGL_CPP (11.4.0):
     - React-jsi
   - Expo (47.0.14):
@@ -461,9 +461,7 @@ PODS:
   - SDWebImageWebPCoder (0.13.0):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry (7.11.0):
-    - Sentry/Core (= 7.11.0)
-  - Sentry/Core (7.11.0)
+  - Sentry/HybridSDK (7.31.5)
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -478,7 +476,7 @@ DEPENDENCIES:
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
-  - EXGL (from `../node_modules/expo-gl/ios`)
+  - EXGL (from `../node_modules/expo-gl`)
   - EXGL_CPP (from `../node_modules/expo-gl-cpp/cpp`)
   - Expo (from `../node_modules/expo`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
@@ -610,7 +608,7 @@ EXTERNAL SOURCES:
   EXFont:
     :path: "../node_modules/expo-font/ios"
   EXGL:
-    :path: "../node_modules/expo-gl/ios"
+    :path: "../node_modules/expo-gl"
   EXGL_CPP:
     :path: "../node_modules/expo-gl-cpp/cpp"
   Expo:
@@ -749,9 +747,9 @@ SPEC CHECKSUMS:
   EXApplication: 034b1c40a8e9fe1bff76a1e511ee90dff64ad834
   EXConstants: 3c86653c422dd77e40d10cbbabb3025003977415
   EXErrorRecovery: ae43433feb0608a64dc5b1c8363b3e7769a9ea24
-  EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
+  EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
-  EXGL: af303c96595c2879a83d0cdc429ee12639f6d78c
+  EXGL: 5f24aaf2552f784d5d59e960823faf53d120893c
   EXGL_CPP: 26d0d7639ec8fcf9133c2883926ca7a005625ee6
   Expo: 5f4240506a147162542178989696e56e3dd72924
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
@@ -831,7 +829,7 @@ SPEC CHECKSUMS:
   RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
   SDWebImage: 182830bcddc30cde95fbc60dfe4badc3553d94ba
   SDWebImageWebPCoder: af09429398d99d524cae2fe00f6f0f6e491ed102
-  Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341
+  Sentry: 4c9babff9034785067c896fd580b1f7de44da020
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: eca980a5771bf114c41a754098cd85e6e0d90ed7
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

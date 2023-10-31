@@ -1,5 +1,5 @@
 {
-  "name": "rizzle",
+  "name": "already",
   "version": "0.3.1",
   "private": true,
   "scripts": {
@@ -31,9 +31,8 @@
     "deprecated-react-native-prop-types": "^4.1.0",
     "entities": "^4.4.0",
     "expo": "^47.0.0",
-    "expo-file-system": "~15.4.4",
-    "expo-gl": "~13.0.1",
-    "expo-gl-cpp": "~11.4.0",
+    "expo-file-system": "~15.1.1",
+    "expo-gl": "~12.0.1",
     "expo-sqlite": "~10.3.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "formik": "^2.2.9",
@@ -53,7 +52,6 @@
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
     "react-native-animated-ellipsis": "git+ssh://git@github.com/admbtlr/react-native-animated-ellipsis",
-    "react-native-background-fetch": "^4.1.0",
     "react-native-blob-util": "^0.16.0",
     "react-native-config": "^1.4.3",
     "react-native-deep-linking": "^2.2.0",

@@ -7974,13 +7974,6 @@ expo-file-system@~15.1.0, expo-file-system@~15.1.1:
   dependencies:
     uuid "^3.4.0"
 
-expo-file-system@~15.4.4:
-  version "15.4.4"
-  resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-15.4.4.tgz#b29e0507b57ee0cc7173cf8844aaf992e411f518"
-  integrity sha512-F0xS88D85F7qVQ61r0qBnzh6VW/s6iIl+VaQEEi2nAIOQHw1JIEj4yCXPLTtbyn5VmArbe2dSL3KYz1V+BLkKA==
-  dependencies:
-    uuid "^3.4.0"
-
 expo-font@~11.0.1:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-11.0.1.tgz#0758ce4e505995d0193a33e3c4325b35bf1fb7f7"
@@ -7988,15 +7981,10 @@ expo-font@~11.0.1:
   dependencies:
     fontfaceobserver "^2.1.0"
 
-expo-gl-cpp@~11.4.0:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/expo-gl-cpp/-/expo-gl-cpp-11.4.0.tgz#62b4b5c61ef065e94aa790a872aad2eee2ae11ea"
-  integrity sha512-vt9QYKX/4TxMaNnbv9ww5KILwyCmg91gqwA/6xuo4MqWxGkZoxy+b8lqsQthuPdn+FHgF0BNcvFW9nbN+JeSRg==
-
-expo-gl@~13.0.1:
-  version "13.0.1"
-  resolved "https://registry.yarnpkg.com/expo-gl/-/expo-gl-13.0.1.tgz#6d26acba832a3c5bc0aed511afa07a4ecf49ec71"
-  integrity sha512-ESmDgUvyv7tDLhcjyOetXP8G/pgvuOAkSjumSBqej9XLXC+yhv0no25HdCJEu9H635hwcaow0ICkKwSsgxBzGg==
+expo-gl@~12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/expo-gl/-/expo-gl-12.0.1.tgz#2099d164b395cb33a4b22eac89a9a94b1eac38da"
+  integrity sha512-2lLvlh8Iw+HignariuGcDTEpglgBsIxUwE+yHqwwSPIBCbYHR3zKfg2E4kUnUw/yaGIl/tTKoWKArq1WLRQ4gg==
   dependencies:
     invariant "^2.2.4"
 
@@ -14977,11 +14965,6 @@ react-native-animatable@1.3.3:
   dependencies:
     babel-preset-stage-2 "^6.24.1"
     prop-types "^15.5.10"
-
-react-native-background-fetch@^4.1.0:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/react-native-background-fetch/-/react-native-background-fetch-4.1.5.tgz#1ada72e5ea4e77539338a633f5eca5f8fd6a7a65"
-  integrity sha512-fi1fE59lw2pMkhy8O2svpo21AkaUnkuP8/8Ru2FrzJ+oJ9Qe8uh9Lh96caN75Bax06sLmR4WkhP0cRHcUp/wpQ==
 
 react-native-blob-util@^0.16.0:
   version "0.16.3"

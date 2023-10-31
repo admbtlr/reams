@@ -7,7 +7,7 @@ import {
   View
 } from 'react-native'
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
-import { initStore, doBackgroundFetch, persistor } from '../store'
+import { initStore, persistor } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
@@ -15,10 +15,9 @@ import ConnectionListener from './ConnectionListener'
 import Analytics from './Analytics'
 import Splash from './Splash'
 import Message from './Message'
-import * as tf from '@tensorflow/tfjs'
+// import * as tf from '@tensorflow/tfjs'
 import '@tensorflow/tfjs-react-native'
 import OrientationListener from './OrientationListener'
-import BackgroundFetch from "react-native-background-fetch";
 import { PersistGate } from 'redux-persist/integration/react'
 import HelpTipProvider from './HelpTipProvider'
 import { supabase } from '../storage/supabase'
@@ -73,58 +72,11 @@ export default class Rizzle extends Component<Props, State> {
 
   async componentDidMount () {
     InteractionManager.setDeadline(100)
-    await this.initBackgroundFetch()
-    if (!global.isBackgroundFetch) {
-      await tf.ready()
-      console.log('Tensor Flow is ready')    
-    }
-  }
-
-  async initBackgroundFetch () {
-    let currentTaskId: string | undefined
-
-    const onEvent = async (taskId: string) => {
-      global.isBackgroundFetch = true
-      currentTaskId = taskId
-      console.log('Background Fetch event', taskId)
-      console.log('Calling configure store')
-      Sentry.captureMessage('Background fetch: store is ' + store === undefined ? 'undefined' : 'defined')
-      // if the app isn't currently running
-      if (store === undefined) {
-        Sentry.captureMessage('Background fetch: configuring store')
-        store = await initStore(() => doBackgroundFetch(backgroundFetchFinished))
-      } else {
-        await doBackgroundFetch(backgroundFetchFinished)
-      }
-    }
-
-    const backgroundFetchFinished = () => {
-      console.log('Persisting store')
-      persistor.persist()
-      console.log('Background Fetch finished', currentTaskId)
-      BackgroundFetch.finish(currentTaskId)
-      currentTaskId = undefined
-      global.isBackgroundFetch = false
-    }
-
-    const onTimeout = async (taskId: string) => {
-      console.warn('Background Fetch timeout', taskId)
-      Sentry.captureMessage('Background Fetch timeout')
-      BackgroundFetch.finish(taskId)
-      currentTaskId = undefined
-      global.isBackgroundFetch = false
-    }
-
-    let status = await BackgroundFetch.configure({minimumFetchInterval: 15}, onEvent, onTimeout)
-    Sentry.captureMessage('[BackgroundFetch] configure status: ' + status)
-    console.log('[BackgroundFetch] configure status: ', status)
+    // await tf.ready()
+    // console.log('Tensor Flow is ready')    
   }
 
   render () {
-    if (global.isBackgroundFetch) {
-      return null
-    }
-    
     const onBeforeLift = () => {}
 
     const App = (
