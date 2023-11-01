@@ -445,7 +445,7 @@ PODS:
     - React-Core
   - RNReactNativeSharedGroupPreferences (1.1.23):
     - React
-  - RNScreens (3.18.2):
+  - RNScreens (3.22.1):
     - React-Core
     - React-RCTImage
   - RNSentry (4.9.0):
@@ -814,7 +814,7 @@ SPEC CHECKSUMS:
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
   RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
   RNReactNativeSharedGroupPreferences: de0121a4224c267bc7e9fb16c398f3f087c8da81
-  RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
   RNSentry: 6503a8ec616947dbe98be828307c8f49e7686674
   RNSharedElement: eb7d506733952d58634f34c82ec17e82f557e377
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
