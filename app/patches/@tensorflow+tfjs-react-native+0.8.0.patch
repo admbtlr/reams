@@ -10,3 +10,24 @@ index bbb60b6..04e26b0 100644
  import { GLView } from 'expo-gl';
  import { fromTexture, renderToGLView, detectGLCapabilities } from './camera';
  const DEFAULT_AUTORENDER = true;
+diff --git a/node_modules/@tensorflow/tfjs-react-native/dist/platform_react_native.js b/node_modules/@tensorflow/tfjs-react-native/dist/platform_react_native.js
+index dc164f2..8161076 100644
+--- a/node_modules/@tensorflow/tfjs-react-native/dist/platform_react_native.js
++++ b/node_modules/@tensorflow/tfjs-react-native/dist/platform_react_native.js
+@@ -138,6 +138,16 @@ export class PlatformReactNative {
+         }
+         return Date.now();
+     }
++
++    setTimeoutCustom() {
++        throw new Error('react native does not support setTimeoutCustom');
++    }
++
++    isTypedArray(a) {
++        return a instanceof Float32Array || a instanceof Int32Array ||
++        a instanceof Uint8Array || a instanceof Uint8ClampedArray;
++    }
++
+ }
+ function setupGlobals() {
+     global.Buffer = Buffer;
