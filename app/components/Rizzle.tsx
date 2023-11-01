@@ -15,7 +15,7 @@ import ConnectionListener from './ConnectionListener'
 import Analytics from './Analytics'
 import Splash from './Splash'
 import Message from './Message'
-// import * as tf from '@tensorflow/tfjs'
+import * as tf from '@tensorflow/tfjs'
 import '@tensorflow/tfjs-react-native'
 import OrientationListener from './OrientationListener'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -72,8 +72,8 @@ export default class Rizzle extends Component<Props, State> {
 
   async componentDidMount () {
     InteractionManager.setDeadline(100)
-    // await tf.ready()
-    // console.log('Tensor Flow is ready')    
+    await tf.ready()
+    console.log('Tensor Flow is ready')    
   }
 
   render () {
