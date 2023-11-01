@@ -333,7 +333,7 @@ const Onboarding3 = ({ index }) => {
   const inputRef = useRef(null)
 
   async function sendMagicLink(email) {
-    let redirectURL = 'reams://onboarding'
+    let redirectURL = 'already://onboarding'
     if (email) {
       setIsSending(true)
       let result
