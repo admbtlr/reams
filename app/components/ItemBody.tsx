@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {Dimensions, Linking, View} from 'react-native'
+import {Dimensions, Linking, Platform, View} from 'react-native'
 import {WebView, WebViewNavigation} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
@@ -181,7 +181,9 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 1 : webViewHeight
   let server = ''
-  if (__DEV__) {
+  if (Platform.OS === 'android') {
+    server = 'file:///android_asset/'
+  } else if (__DEV__) {
     server = 'http://localhost:8888/'
   }
 
@@ -246,6 +248,9 @@ html, body {
   return <WebView
     allowsFullscreenVideo={true}
     allowsLinkPreview={true}
+    allowFileAccessFromFileURLs
+    allowUniversalAccessFromFileURLs
+    allowFileAccess
     containerStyle={{ 
       backgroundColor: bodyColor,
       flex: 0,
@@ -303,7 +308,11 @@ html, body {
     }}
     source={{
       html: html,
-      baseUrl: 'web/'}}
+      baseUrl: Platform.OS === 'android' ?
+        '' :
+        'web/'
+    }}
+    webviewDebuggingEnabled={true}
   />
 
 }

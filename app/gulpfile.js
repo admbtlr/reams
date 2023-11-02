@@ -25,12 +25,14 @@ function css (cb) {
     .pipe(sass())
     .pipe(dest('./web/css'))
     .pipe(dest('./ios/webview/css'))
+    .pipe(dest('./android/app/src/main/assets/webview/css'))
 }
 
 function js (cb) {
   return src('webview/*.js')
     .pipe(dest('./web/js'))
     .pipe(dest('./ios/webview/js'))
+    .pipe(dest('./android/app/src/main/assets/webview/js'))
 }
 
 function serve (cb) {
