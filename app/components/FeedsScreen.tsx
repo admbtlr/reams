@@ -206,7 +206,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   }
 
   const screenWidth = Dimensions.get('window').width
-  const width = screenWidth - getInset() * (isPortrait ? 2 : 4)
+  const width = Math.round(screenWidth - getInset() * (isPortrait ? 2 : 4))
   const margin = getMargin()
   const numCols = Math.floor(screenWidth / 300) // 250 + 50 margin
 
