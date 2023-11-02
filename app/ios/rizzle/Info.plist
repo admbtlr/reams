@@ -38,6 +38,12 @@
 				<string>reams</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>already</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>176</string>
@@ -69,19 +75,19 @@
 		<string>IBMPlexMono-Italic.ttf</string>
 		<string>IBMPlexMono-Light.ttf</string>
 		<string>IBMPlexMono-LightItalic.ttf</string>
-		<string>IBMPlexMono-Regular.ttf</string>
+		<string>IBMPlexMono.ttf</string>
 		<string>IBMPlexSans-Bold.ttf</string>
 		<string>IBMPlexSans-BoldItalic.ttf</string>
 		<string>IBMPlexSans-Italic.ttf</string>
 		<string>IBMPlexSans-Light.ttf</string>
 		<string>IBMPlexSans-LightItalic.ttf</string>
-		<string>IBMPlexSans-Regular.ttf</string>
+		<string>IBMPlexSans.ttf</string>
 		<string>IBMPlexSerif-Bold.ttf</string>
 		<string>IBMPlexSerif-BoldItalic.ttf</string>
 		<string>IBMPlexSerif-Italic.ttf</string>
 		<string>IBMPlexSerif-Light.ttf</string>
 		<string>IBMPlexSerif-LightItalic.ttf</string>
-		<string>IBMPlexSerif-Regular.ttf</string>
+		<string>IBMPlexSerif.ttf</string>
 		<string>PlayfairDisplay-Black.ttf</string>
 		<string>PlayfairDisplay-BlackItalic.ttf</string>
 		<string>PlayfairDisplay-Italic.ttf</string>
@@ -89,12 +95,12 @@
 		<string>LibreBaskerville-Bold.ttf</string>
 		<string>LibreBaskerville-Italic.ttf</string>
 		<string>LibreBaskerville-Regular.ttf</string>
-		<string>IBMPlexSansCondensed-Bold.ttf</string>
-		<string>IBMPlexSansCondensed-BoldItalic.ttf</string>
-		<string>IBMPlexSansCondensed-ExtraLight.ttf</string>
-		<string>IBMPlexSansCondensed-ExtraLightItalic.ttf</string>
-		<string>IBMPlexSansCondensed-Light.ttf</string>
-		<string>IBMPlexSansCondensed-Regular.ttf</string>
+		<string>IBMPlexSansCond-Bold.ttf</string>
+		<string>IBMPlexSansCond-BoldItalic.ttf</string>
+		<string>IBMPlexSansCond-ExtraLight.ttf</string>
+		<string>IBMPlexSansCond-ExtraLightItalic.ttf</string>
+		<string>IBMPlexSansCond-Light.ttf</string>
+		<string>IBMPlexSansCond.ttf</string>
 		<string>IBMPlexSerif-Thin.ttf</string>
 		<string>IBMPlexSerif-ThinItalic.ttf</string>
 		<string>PlayfairDisplaySC-Bold.ttf</string>

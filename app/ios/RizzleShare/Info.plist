@@ -69,11 +69,11 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>PTSerif-Bold.ttf</string>
-		<string>IBMPlexMono-Regular.ttf</string>
+		<string>IBMPlexMono.ttf</string>
 		<string>IBMPlexSans-Bold.ttf</string>
 		<string>IBMPlexMono-Light.ttf</string>
 		<string>IBMPlexSans-Light.ttf</string>
-		<string>IBMPlexSans-Regular.ttf</string>
+		<string>IBMPlexSans.ttf</string>
 	</array>
 </dict>
 </plist>
