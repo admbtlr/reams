@@ -3,8 +3,10 @@ import {
   Animated,
   Dimensions,
   LayoutAnimation,
+  Platform,
   Text,
   TouchableOpacity,
+  UIManager,
   View
 } from 'react-native'
 import {hslString} from '../utils/colors'
@@ -23,14 +25,14 @@ class TextButton extends React.Component {
     this.expand = this.expand.bind(this)
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    if (this.props.isExpanded !== this.state.isExpanded &&
-      this.state.isExpanded === prevState.isExpanded) {
-      this.setState({
-        isExpanded: this.props.isExpanded
-      })
-    }
-  }
+  // componentDidUpdate (prevProps, prevState) {
+  //   if (this.props.isExpanded !== this.state.isExpanded &&
+  //     this.state.isExpanded === prevState.isExpanded) {
+  //     this.setState({
+  //       isExpanded: this.props.isExpanded
+  //     })
+  //   }
+  // }
 
   expand () {
     const { isGroup, text } = this.props
@@ -39,16 +41,13 @@ class TextButton extends React.Component {
       this.props.onExpand && this.props.onExpand()
     } else {
       const isExpanded = !this.state.isExpanded
-      LayoutAnimation.configureNext({
-        ...LayoutAnimation.Presets.spring,
-        duration: 400,
-        update: { type: 'spring', springDamping: 0.8 }
-      })
-      // LayoutAnimation.configureNext({
-      //   duration: 300,
-      //   type: LayoutAnimation.Types.spring,
-      //   springDamping: 0.6
-      // })
+      if (Platform.OS !== 'android') {
+        LayoutAnimation.configureNext({
+          ...LayoutAnimation.Presets.spring,
+          duration: 400,
+          update: { type: 'spring', springDamping: 0.8 }
+        })
+      }
       this.setState({
         ...this.state,
         isExpanded
@@ -95,13 +94,16 @@ class TextButton extends React.Component {
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
       justifyContent: 'flex-start',
-      flex: 0,
+      // flex: -1,
       height,
       maxHeight: 42 * fontSizeMultiplier(),
       maxWidth: 700,
       width: '100%',
       ...this.props.buttonStyle,
       paddingTop: 9 * fontSizeMultiplier()
+    }
+    if (Platform.OS === 'ios') {
+      buttonStyle.maxHeight = 42 * fontSizeMultiplier()
     }
     if (hasShadow) {
       buttonStyle = {
@@ -138,12 +140,17 @@ class TextButton extends React.Component {
       marginTop: (isCompact ? -1 : 0)
     }
     if (isExpandable) {
+      if (Platform.OS === 'ios') {
+        buttonStyle.maxHeight = (isExpanded ? 'auto' : 42 * fontSizeMultiplier())
+      } else {
+        buttonStyle.maxHeight = undefined
+      }
       return (
         <Animated.View
           style={{
             ...buttonStyle,
             overflow: 'hidden',
-            maxHeight: (isExpanded ? 'auto' : 42 * fontSizeMultiplier()),
+            // maxHeight: (isExpanded ? 'auto' : 42 * fontSizeMultiplier()),
             height: (isExpanded ? 'auto' : 42 * fontSizeMultiplier())
           }}>
           { this.props.isGradient && <BackgroundGradient index={ this.props.gradientIndex || 0 } /> }

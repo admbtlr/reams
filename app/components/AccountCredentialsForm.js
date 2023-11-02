@@ -218,7 +218,8 @@ class AccountCredentialsForm extends React.Component {
           values
         }) => (
           <View style={{
-            flex: 0
+            flex: 0,
+            height: 'auto',
           }}>
             { isActive ?
               <View style={{
@@ -229,6 +230,7 @@ class AccountCredentialsForm extends React.Component {
                 marginTop: 16 * fontSizeMultiplier(),
                 flex: 0,
                 flexDirection: 'column',
+                height: 'auto',
                 alignItems: 'flex-start',
                 justifyContent: 'space-between'
               }}>
