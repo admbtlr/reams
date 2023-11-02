@@ -22,7 +22,7 @@
       "sha1": "7a32242a8838de9d6b9fe6eef2d3e49efed8eb41"
     },
     {
-      "path": "assets/fonts/IBMPlexMono-Regular.ttf",
+      "path": "assets/fonts/IBMPlexMono.ttf",
       "sha1": "5d14e8f609e29e6b2f94be0aabeaeb1de908406c"
     },
     {
@@ -46,24 +46,28 @@
       "sha1": "7d1f942b6e22aaab4479e70c92e249ce367aa3a5"
     },
     {
-      "path": "assets/fonts/IBMPlexSans-Regular.ttf",
+      "path": "assets/fonts/IBMPlexSans.ttf",
       "sha1": "07361b5a1392baad8051fd98f2c284e3e069be86"
     },
     {
-      "path": "assets/fonts/IBMPlexSansCondensed-Bold.ttf",
+      "path": "assets/fonts/IBMPlexSansCond-Bold.ttf",
       "sha1": "908569d84ea19a5254d63f718631d24f42976a53"
     },
     {
-      "path": "assets/fonts/IBMPlexSansCondensed-BoldItalic.ttf",
+      "path": "assets/fonts/IBMPlexSansCond-BoldItalic.ttf",
       "sha1": "2997acfe2d97429c828fa374e515cd67ce13abcc"
     },
     {
-      "path": "assets/fonts/IBMPlexSansCondensed-ExtraLight.ttf",
+      "path": "assets/fonts/IBMPlexSansCond-ExtraLight.ttf",
       "sha1": "32a93aaf6edd61b958c27cdc09b23e6d8f434958"
     },
     {
-      "path": "assets/fonts/IBMPlexSansCondensed-ExtraLightItalic.ttf",
+      "path": "assets/fonts/IBMPlexSansCond-ExtraLightItalic.ttf",
       "sha1": "f4390b737dc23e110c1374645a70e0cc83e556ed"
+    },
+    {
+      "path": "assets/fonts/IBMPlexSansCond.ttf",
+      "sha1": "4220641863b8d9bdab8aa2117d5a8fffe02c1e71"
     },
     {
       "path": "assets/fonts/IBMPlexSerif-Bold.ttf",
@@ -86,16 +90,16 @@
       "sha1": "ae4ab056f5cff8d78554ffea0a840c9b22500c65"
     },
     {
-      "path": "assets/fonts/IBMPlexSerif-Regular.ttf",
-      "sha1": "9abee250724c4a82aef5e0acbb58549145249227"
-    },
-    {
       "path": "assets/fonts/IBMPlexSerif-Thin.ttf",
       "sha1": "3961ebc822510feb0c38405d467627436dd48251"
     },
     {
       "path": "assets/fonts/IBMPlexSerif-ThinItalic.ttf",
       "sha1": "f72a953c1642ae85962134fd9847e11e8b5e8ef9"
+    },
+    {
+      "path": "assets/fonts/IBMPlexSerif.ttf",
+      "sha1": "9abee250724c4a82aef5e0acbb58549145249227"
     },
     {
       "path": "assets/fonts/LibreBaskerville-Bold.ttf",

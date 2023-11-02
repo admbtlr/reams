@@ -245,7 +245,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
   const screenHeight = dim.height
 
   const cardHeight = screenWidth < 500 || screenHeight < 500 ?
-    cardWidth / 2 :
+    Math.round(cardWidth / 2) :
     cardWidth
 
   const numElemsWithCover = isSaved ?
@@ -281,7 +281,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
       <Animated.View
         ref={mainViewRef}
         style={{
-          flex: 1,
+          flex: 0,
           height: cardHeight,
           width: cardWidth,
           marginBottom: margin * 2,
