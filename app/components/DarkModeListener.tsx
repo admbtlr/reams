@@ -7,9 +7,11 @@ import { RootState } from '../store/reducers'
 export default function DarkModeListener ({children}) {
   const dispatch = useDispatch()
   const darkModeSetting = useSelector((state: RootState) => state.ui.darkModeSetting)
+  const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   useEffect(() => {
     const colorScheme = Appearance.getColorScheme()
-    if (darkModeSetting === DarkModeSetting.AUTO) {
+    const isNew = colorScheme === 'dark' && !isDarkMode || colorScheme === 'light' && isDarkMode
+    if (darkModeSetting === DarkModeSetting.AUTO && isNew) {
       dispatch({ 
         type: SET_DARK_MODE,
         isDarkMode: colorScheme === 'dark' 
