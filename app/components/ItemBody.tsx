@@ -245,12 +245,15 @@ html, body {
 <script src="${server}webview/js/feed-item.js"></script>
 </html>`
 
+  // see https://github.com/facebook/react-native/issues/32547#issuecomment-962009710 for androidLayerType
+
   return <WebView
     allowsFullscreenVideo={true}
     allowsLinkPreview={true}
     allowFileAccessFromFileURLs
     allowUniversalAccessFromFileURLs
     allowFileAccess
+    androidLayerType='hardware'
     containerStyle={{ 
       backgroundColor: bodyColor,
       flex: 0,
