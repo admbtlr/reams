@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "66ACB1161FD9705E002BC66F"
-               BuildableName = "ReamsShare.appex"
+               BuildableName = "Already Share.appex"
                BlueprintName = "Already Share"
                ReferencedContainer = "container:Reams.xcodeproj">
             </BuildableReference>
@@ -30,7 +30,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Reams.app"
+               BuildableName = "Already.app"
                BlueprintName = "Already"
                ReferencedContainer = "container:Reams.xcodeproj">
             </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Reams.app"
+            BuildableName = "Already.app"
             BlueprintName = "Already"
             ReferencedContainer = "container:Reams.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Reams.app"
+            BuildableName = "Already.app"
             BlueprintName = "Already"
             ReferencedContainer = "container:Reams.xcodeproj">
          </BuildableReference>
