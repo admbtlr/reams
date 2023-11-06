@@ -1,0 +1,58 @@
+diff --git a/node_modules/@tensorflow/tfjs/dist/tf.node.js b/node_modules/@tensorflow/tfjs/dist/tf.node.js
+index f5b3578..0cd0908 100644
+--- a/node_modules/@tensorflow/tfjs/dist/tf.node.js
++++ b/node_modules/@tensorflow/tfjs/dist/tf.node.js
+@@ -3758,7 +3758,7 @@ function assertDtype(expectedDtype, actualDType, argName, functionName) {
+     }
+ }
+ function convertToTensor(x, argName, functionName, parseAsDtype = 'numeric') {
+-    if (x instanceof Tensor) {
++    if (x instanceof Tensor || x.constructor.name === 'Tensor') {
+         assertDtype(parseAsDtype, x.dtype, argName, functionName);
+         return x;
+     }
+@@ -17148,7 +17148,7 @@ function grads(f) {
+ function valueAndGrad(f) {
+     assert(isFunction(f), () => 'The f passed in valueAndGrad(f) must be a function');
+     return (x, dy) => {
+-        assert(x instanceof Tensor, () => 'The x passed in valueAndGrad(f)(x) must be a tensor');
++        assert(x instanceof Tensor || x.constructor.name === 'Tensor', () => 'The x passed in valueAndGrad(f)(x) must be a tensor');
+         assert(dy == null || dy instanceof Tensor, () => 'The dy passed in valueAndGrad(f)(x, dy) must be a tensor');
+         const { grads, value } = ENGINE.gradients(() => f(x), [x], dy);
+         checkGrads(grads);
+@@ -18190,7 +18190,7 @@ function meshgrid(x, y, { indexing = 'xy' } = {}) {
+     if (x === undefined) {
+         return [];
+     }
+-    let $x = convertToTensor(x, 'x', 'meshgrid', x instanceof Tensor ? x.dtype : 'float32');
++    let $x = convertToTensor(x, 'x', 'meshgrid', x instanceof Tensor || x.constructor.name === 'Tensor' ? x.dtype : 'float32');
+     if (y === undefined) {
+         return [$x];
+     }
+@@ -22598,7 +22598,7 @@ function dropout_(x, rate, noiseShape, seed) {
+         `scaled, but got a ${$x.dtype} tensor instead.`);
+     assert(rate >= 0 && rate < 1, () => `rate must be a float in the range [0, 1), but got ${rate}.`);
+     if (rate === 0) {
+-        return x instanceof Tensor ? $x.clone() : $x;
++        return x instanceof Tensor || x.constructor.name === 'Tensor' ? $x.clone() : $x;
+     }
+     const $noiseShape = getNoiseShape($x, noiseShape);
+     const keepProb = 1 - rate;
+@@ -29927,7 +29927,7 @@ getGlobalTensorClass().prototype.clipByValue = function (min, max) {
+  */
+ getGlobalTensorClass().prototype.concat = function (x, axis) {
+     this.throwIfDisposed();
+-    if (x instanceof Tensor) {
++    if (x instanceof Tensor || x.constructor.name === 'Tensor') {
+         x = [x];
+     }
+     return concat([this, ...x], axis);
+@@ -31849,7 +31849,7 @@ getGlobalTensorClass().prototype.squeeze = function (axis) {
+  */
+ getGlobalTensorClass().prototype.stack = function (x, axis) {
+     this.throwIfDisposed();
+-    const tensorsToBeStacked = x instanceof Tensor ? [this, x] : [this, ...x];
++    const tensorsToBeStacked = x instanceof Tensor || x.constructor.name === 'Tensor' ? [this, x] : [this, ...x];
+     return stack(tensorsToBeStacked, axis);
+ };
+ 
