@@ -13,7 +13,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		14E191C4F5364833B0807883 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B26201DAB06487C9C51EBFE /* Montserrat-Light.ttf */; };
-		15D206CB7D5ACF9D6CE6CCE1 /* libPods-Reams.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0BFDA3399018D787A471275 /* libPods-Reams.a */; };
+		151BCF0710944A7400E44A47 /* libPods-Already-Already Share.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC6C17CC554D2C358E04A7F /* libPods-Already-Already Share.a */; };
 		165F6C9F0D804EC790DC575E /* LibreBaskerville-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 823005F4E98141A58D61C4FD /* LibreBaskerville-Regular.ttf */; };
 		17E475145E6F4DB1A5140583 /* PlayfairDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30A12608F8894744820DBBB1 /* PlayfairDisplay-Regular.ttf */; };
 		1F3AFD1477774196851518C5 /* IBMPlexMono-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FBC8104B4E442A5B9FB054E /* IBMPlexMono-Light.ttf */; };
@@ -24,9 +24,9 @@
 		3879B63A958B4889A3DC58BD /* PlayfairDisplay-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A2059FC4694405B58CB023 /* PlayfairDisplay-Black.ttf */; };
 		3AEE388B45774C609A91ED85 /* IBMPlexSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CE22BA4C5E9485ABF1718A0 /* IBMPlexSerif-Bold.ttf */; };
 		3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */; };
+		42F80EF2CC751225DB3903BF /* libPods-Already.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46D56C7DC7EF8686F482B402 /* libPods-Already.a */; };
 		45852DA026DE45819C2E6132 /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */; };
 		4DA1B3EEF1E74D8D885D44DF /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64AD0B7FA26449D4ABC8E4CB /* Montserrat-LightItalic.ttf */; };
-		4EA4F61391EE942F590D656F /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473E836D85367DBAA9F9A40 /* ExpoModulesProvider.swift */; };
 		50797229E0BE442B98C3A263 /* IBMPlexSerif-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF76841FECC148EBB9E7A18C /* IBMPlexSerif-Thin.ttf */; };
 		5FF246E7404C4B1E893221EF /* IBMPlexSansCond-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F15F6A3A215A44BFA389AA06 /* IBMPlexSansCond-ExtraLight.ttf */; };
 		6034DA6C49924802AEE91A48 /* IBMPlexSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06F5F314CAEB4FF99200CCB4 /* IBMPlexSerif-Italic.ttf */; };
@@ -80,13 +80,13 @@
 		AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A52A25ECE9284C6BB3598823 /* IBMPlexMono-LightItalic.ttf */; };
 		BEE8067138D948F88BB81DFA /* IBMPlexSansCond-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD3A2A9B12004B5495F86308 /* IBMPlexSansCond-BoldItalic.ttf */; };
 		C102E7B205024F1D94EE06FC /* IBMPlexSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */; };
-		C9C848B454FF82A5D4620E9B /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE61E96E7E0189C4F9FEEF4 /* ExpoModulesProvider.swift */; };
-		CA0D45C52FF3FEE9734B1F8E /* libPods-Reams-ReamsShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E63FB6D75750E65527D5D80B /* libPods-Reams-ReamsShare.a */; };
+		C379162D444F5EC5E639F768 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10DBCB8B11FBC36671A6A22 /* ExpoModulesProvider.swift */; };
 		CA950E66A737450B801A5604 /* LibreBaskerville-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6510B8E2ED0459A9D932B12 /* LibreBaskerville-Italic.ttf */; };
 		CCC549379A404E4784782CCA /* PTSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */; };
 		EA14D3AC6EF74834BD9F374B /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97E5394F826B4A158A48E0BA /* Poppins-ExtraBold.ttf */; };
 		ED0C08A8085C4B4BA57149A6 /* IBMPlexSansCond-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85B493DBBCA44DE5918CB569 /* IBMPlexSansCond-Bold.ttf */; };
 		F2E6111401F945D1A0E5D590 /* PlayfairDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */; };
+		F4D2B406BBC79A4468490519 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECF48120C5AB95B63E5B4A4 /* ExpoModulesProvider.swift */; };
 		FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */; };
 		FF0226A698404963886B7CB1 /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47ADD74982BD43CD980B27AA /* PlayfairDisplay-Bold.ttf */; };
 /* End PBXBuildFile section */
@@ -148,6 +148,7 @@
 		1C30A8E345C045BEB9F37E52 /* libRNSKBucket.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSKBucket.a; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D1D034C72594500896EBF90 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Regular.ttf"; path = "../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
+		2D69266F0F981167436167CA /* Pods-Already-Already Share.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Already-Already Share.debug.xcconfig"; path = "Target Support Files/Pods-Already-Already Share/Pods-Already-Already Share.debug.xcconfig"; sourceTree = "<group>"; };
 		30A12608F8894744820DBBB1 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Regular.ttf"; path = "../assets/fonts/PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Bold.ttf"; path = "../assets/fonts/IBMPlexMono-Bold.ttf"; sourceTree = "<group>"; };
 		3E3494F4F2894804ADE2C868 /* LibreBaskerville-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LibreBaskerville-Bold.ttf"; path = "../assets/fonts/LibreBaskerville-Bold.ttf"; sourceTree = "<group>"; };
@@ -156,9 +157,11 @@
 		43E02F89082E4739AB0CC9AB /* IBMPlexSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Light.ttf"; path = "../assets/fonts/IBMPlexSans-Light.ttf"; sourceTree = "<group>"; };
 		43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSerif-Regular.ttf"; path = "../assets/fonts/PTSerif-Regular.ttf"; sourceTree = "<group>"; };
 		46A6699A3AC4431BA53E862E /* Eczar-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Eczar-ExtraBold.ttf"; path = "../assets/fonts/Eczar-ExtraBold.ttf"; sourceTree = "<group>"; };
+		46D56C7DC7EF8686F482B402 /* libPods-Already.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Already.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47ADD74982BD43CD980B27AA /* PlayfairDisplay-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Bold.ttf"; path = "../assets/fonts/PlayfairDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		4974C6777A63466CB6FD84D9 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		499AB3DC82924245886CE016 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		4EE93999BF0668E1222ACCD3 /* Pods-Already.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Already.release.xcconfig"; path = "Target Support Files/Pods-Already/Pods-Already.release.xcconfig"; sourceTree = "<group>"; };
 		5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Italic.ttf"; path = "../assets/fonts/IBMPlexMono-Italic.ttf"; sourceTree = "<group>"; };
 		5E76F266FA4347AE92C8E288 /* IBMPlexSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
 		64AD0B7FA26449D4ABC8E4CB /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -203,6 +206,7 @@
 		90D8A9F93BFD42328D7509E8 /* libOnePassword.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libOnePassword.a; sourceTree = "<group>"; };
 		930C4464DBC241C1BCBEFEC2 /* IBMPlexSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		93A23E9A78CEA8E7B1331B20 /* Pods-Reams-ReamsShare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams-ReamsShare.release.xcconfig"; path = "Target Support Files/Pods-Reams-ReamsShare/Pods-Reams-ReamsShare.release.xcconfig"; sourceTree = "<group>"; };
+		94577B94199DB09409720D5B /* Pods-Already-Already Share.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Already-Already Share.release.xcconfig"; path = "Target Support Files/Pods-Already-Already Share/Pods-Already-Already Share.release.xcconfig"; sourceTree = "<group>"; };
 		96B21CFF52F64D6083190F1E /* PlayfairDisplay-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-BoldItalic.ttf"; path = "../assets/fonts/PlayfairDisplay-BoldItalic.ttf"; sourceTree = "<group>"; };
 		97E5394F826B4A158A48E0BA /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
 		985E587BCD25407C9639A056 /* Arvo-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-BoldItalic.ttf"; path = "../assets/fonts/Arvo-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -215,9 +219,11 @@
 		AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexMono-BoldItalic.ttf"; sourceTree = "<group>"; };
 		B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSerif-Italic.ttf"; path = "../assets/fonts/PTSerif-Italic.ttf"; sourceTree = "<group>"; };
 		BAC2FB0C9E904B1DA4378E1F /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		BBC6C17CC554D2C358E04A7F /* libPods-Already-Already Share.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Already-Already Share.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB05ED32A76456BBF8C0713 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		BDE46CA9895347E7B471BC74 /* PTSerif-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSerif-Bold.ttf"; path = "../assets/fonts/PTSerif-Bold.ttf"; sourceTree = "<group>"; };
 		C01A0A8A4FB045CBA6E34DF9 /* PlayfairDisplay-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-BlackItalic.ttf"; path = "../assets/fonts/PlayfairDisplay-BlackItalic.ttf"; sourceTree = "<group>"; };
+		C10DBCB8B11FBC36671A6A22 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Already-Already Share/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		C1327B1D4C21489FBBCC6D7A /* Arvo-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Italic.ttf"; path = "../assets/fonts/Arvo-Italic.ttf"; sourceTree = "<group>"; };
 		C5AFA546AE564F3CA9C80D67 /* Eczar-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Eczar-Regular.ttf"; path = "../assets/fonts/Eczar-Regular.ttf"; sourceTree = "<group>"; };
 		C6510B8E2ED0459A9D932B12 /* LibreBaskerville-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LibreBaskerville-Italic.ttf"; path = "../assets/fonts/LibreBaskerville-Italic.ttf"; sourceTree = "<group>"; };
@@ -227,15 +233,13 @@
 		DEAE4CD40F9748418924D42E /* libRNReactNativeSharedGroupPreferences.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeSharedGroupPreferences.a; sourceTree = "<group>"; };
 		E30329B12BD74B64ADFE7CB7 /* IBMPlexSerif-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Light.ttf"; path = "../assets/fonts/IBMPlexSerif-Light.ttf"; sourceTree = "<group>"; };
 		E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
-		E473E836D85367DBAA9F9A40 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Reams-ReamsShare/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		E63FB6D75750E65527D5D80B /* libPods-Reams-ReamsShare.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams-ReamsShare.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6A944200C054FE7A5F26C7D /* PlayfairDisplaySC-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplaySC-BoldItalic.ttf"; path = "../assets/fonts/PlayfairDisplaySC-BoldItalic.ttf"; sourceTree = "<group>"; };
-		EBE61E96E7E0189C4F9FEEF4 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Reams/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		E79717727A6B066D03BDE798 /* Pods-Already.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Already.debug.xcconfig"; path = "Target Support Files/Pods-Already/Pods-Already.debug.xcconfig"; sourceTree = "<group>"; };
 		EC9A56BAAF28D82C36045A36 /* Pods-Reams-ReamsShare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams-ReamsShare.debug.xcconfig"; path = "Target Support Files/Pods-Reams-ReamsShare/Pods-Reams-ReamsShare.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EECF48120C5AB95B63E5B4A4 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Already/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		EF48A00DF3FF432DA8BAB77F /* IBMPlexSerif-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-LightItalic.ttf"; sourceTree = "<group>"; };
 		EF696CF914ED4646AE79580C /* libRNMeasureText.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMeasureText.a; sourceTree = "<group>"; };
-		F0BFDA3399018D787A471275 /* libPods-Reams.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F15F6A3A215A44BFA389AA06 /* IBMPlexSansCond-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCond-ExtraLight.ttf"; path = "../assets/fonts/IBMPlexSansCond-ExtraLight.ttf"; sourceTree = "<group>"; };
 		F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Bold.ttf"; path = "../assets/fonts/IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
 		FE500C58F03B4E759CEEF985 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
@@ -249,7 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */,
-				15D206CB7D5ACF9D6CE6CCE1 /* libPods-Reams.a in Frameworks */,
+				42F80EF2CC751225DB3903BF /* libPods-Already.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,13 +261,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA0D45C52FF3FEE9734B1F8E /* libPods-Reams-ReamsShare.a in Frameworks */,
+				151BCF0710944A7400E44A47 /* libPods-Already-Already Share.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13773C14A7E6E03A2B56C38A /* Already Share */ = {
+			isa = PBXGroup;
+			children = (
+				C10DBCB8B11FBC36671A6A22 /* ExpoModulesProvider.swift */,
+			);
+			name = "Already Share";
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* Reams */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,27 +372,27 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				F0BFDA3399018D787A471275 /* libPods-Reams.a */,
-				E63FB6D75750E65527D5D80B /* libPods-Reams-ReamsShare.a */,
+				46D56C7DC7EF8686F482B402 /* libPods-Already.a */,
+				BBC6C17CC554D2C358E04A7F /* libPods-Already-Already Share.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3B3B5E2781CFCDB62AE488F1 /* Already */ = {
+			isa = PBXGroup;
+			children = (
+				EECF48120C5AB95B63E5B4A4 /* ExpoModulesProvider.swift */,
+			);
+			name = Already;
 			sourceTree = "<group>";
 		};
 		3B3D5E2793399258C8ABEDC2 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				970AF269D10CFFB6BBE3E00C /* Reams */,
-				4A3ED49959544C0BD54C1D6B /* ReamsShare */,
+				3B3B5E2781CFCDB62AE488F1 /* Already */,
+				13773C14A7E6E03A2B56C38A /* Already Share */,
 			);
 			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
-		4A3ED49959544C0BD54C1D6B /* ReamsShare */ = {
-			isa = PBXGroup;
-			children = (
-				E473E836D85367DBAA9F9A40 /* ExpoModulesProvider.swift */,
-			);
-			name = ReamsShare;
 			sourceTree = "<group>";
 		};
 		6687CA3C1F9FA05E0011FBE3 /* Recovered References */ = {
@@ -461,14 +473,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		970AF269D10CFFB6BBE3E00C /* Reams */ = {
-			isa = PBXGroup;
-			children = (
-				EBE61E96E7E0189C4F9FEEF4 /* ExpoModulesProvider.swift */,
-			);
-			name = Reams;
-			sourceTree = "<group>";
-		};
 		AA0FE21719FC6FD686C85175 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -476,6 +480,10 @@
 				776DC523910EF3DB974D0816 /* Pods-Reams.release.xcconfig */,
 				EC9A56BAAF28D82C36045A36 /* Pods-Reams-ReamsShare.debug.xcconfig */,
 				93A23E9A78CEA8E7B1331B20 /* Pods-Reams-ReamsShare.release.xcconfig */,
+				E79717727A6B066D03BDE798 /* Pods-Already.debug.xcconfig */,
+				4EE93999BF0668E1222ACCD3 /* Pods-Already.release.xcconfig */,
+				2D69266F0F981167436167CA /* Pods-Already-Already Share.debug.xcconfig */,
+				94577B94199DB09409720D5B /* Pods-Already-Already Share.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -729,7 +737,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Reams-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Already-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -742,15 +750,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Already/Pods-Already-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Already/Pods-Already-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Already/Pods-Already-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3E32A4C477E794E43D68F9C8 /* [CP] Embed Pods Frameworks */ = {
@@ -759,15 +767,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Already/Pods-Already-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Already/Pods-Already-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Already/Pods-Already-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4406A330C80C49ACAFA7A94F /* Upload Debug Symbols to Sentry */ = {
@@ -812,7 +820,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Reams-ReamsShare-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Already-Already Share-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -825,15 +833,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams-ReamsShare/Pods-Reams-ReamsShare-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Already-Already Share/Pods-Already-Already Share-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams-ReamsShare/Pods-Reams-ReamsShare-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Already-Already Share/Pods-Already-Already Share-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams-ReamsShare/Pods-Reams-ReamsShare-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Already-Already Share/Pods-Already-Already Share-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -845,7 +853,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				C9C848B454FF82A5D4620E9B /* ExpoModulesProvider.swift in Sources */,
+				F4D2B406BBC79A4468490519 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,7 +862,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66ACB1271FD97094002BC66F /* RizzleShare.m in Sources */,
-				4EA4F61391EE942F590D656F /* ExpoModulesProvider.swift in Sources */,
+				C379162D444F5EC5E639F768 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -891,7 +899,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 43DB1880C4C4A4B6654010E1 /* Pods-Reams.debug.xcconfig */;
+			baseConfigurationReference = E79717727A6B066D03BDE798 /* Pods-Already.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -956,7 +964,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 776DC523910EF3DB974D0816 /* Pods-Reams.release.xcconfig */;
+			baseConfigurationReference = 4EE93999BF0668E1222ACCD3 /* Pods-Already.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1017,7 +1025,7 @@
 		};
 		66ACB1241FD9705E002BC66F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC9A56BAAF28D82C36045A36 /* Pods-Reams-ReamsShare.debug.xcconfig */;
+			baseConfigurationReference = 2D69266F0F981167436167CA /* Pods-Already-Already Share.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1087,7 +1095,7 @@
 		};
 		66ACB1251FD9705E002BC66F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A23E9A78CEA8E7B1331B20 /* Pods-Reams-ReamsShare.release.xcconfig */;
+			baseConfigurationReference = 94577B94199DB09409720D5B /* Pods-Already-Already Share.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1191,7 +1199,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1265,7 +1273,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

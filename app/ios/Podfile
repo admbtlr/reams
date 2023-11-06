@@ -4,12 +4,15 @@ require File.join(File.dirname(`node --print "require.resolve('@react-native-com
 
 platform :ios, '13.0'
 
+# https://github.com/expo/expo/issues/16887#issuecomment-1097870147
+$ExpoUseSources = ["expo-gl-cpp"]
+
 install! 'cocoapods', :deterministic_uuids => false
 
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
-target 'Reams' do
+target 'Already' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
@@ -31,16 +34,14 @@ target 'Reams' do
 
   # # third party deps
 
-  use_native_modules!
-
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  # use_flipper!()
+  # use_flipper!({'Flipper' => '0.125.0'})
 
   # https://github.com/alinz/react-native-share-extension/issues/182
-  target 'ReamsShare' do
+  target 'Already Share' do
     use_native_modules!
     inherit! :complete
   end
@@ -69,6 +70,17 @@ post_install do |installer|
   
   __apply_Xcode_12_5_M1_post_install_workaround(installer)
   
+  # This is necessary for Xcode 14, because it signs resource bundles by default
+  # when building for devices.
+  installer.target_installation_results.pod_target_installation_results
+    .each do |pod_name, target_installation_result|
+    target_installation_result.resource_bundle_targets.each do |resource_bundle_target|
+      resource_bundle_target.build_configurations.each do |config|
+        config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+      end
+    end
+  end
+
   begin
     expo_patch_react_imports!(installer)
     rescue => e
@@ -100,15 +112,15 @@ post_install do |installer|
 
     # Workaround `Cycle inside FBReactNativeSpec` error for react-native 0.64
     # Reference: https://github.com/software-mansion/react-native-screens/issues/842#issuecomment-812543933
-    installer.pods_project.targets.each do |target|
-      if (target.name&.eql?('FBReactNativeSpec'))
-        target.build_phases.each do |build_phase|
-          if (build_phase.respond_to?(:name) && build_phase.name.eql?('[CP-User] Generate Specs'))
-            target.build_phases.move(build_phase, 0)
-          end
-        end
-      end
-    end
+    # installer.pods_project.targets.each do |target|
+    #   if (target.name&.eql?('FBReactNativeSpec'))
+    #     target.build_phases.each do |build_phase|
+    #       if (build_phase.respond_to?(:name) && build_phase.name.eql?('[CP-User] Generate Specs'))
+    #         target.build_phases.move(build_phase, 0)
+    #       end
+    #     end
+    #   end
+    # end
 
     __apply_Xcode_14_3_RC_post_install_workaround(installer)
 
