@@ -115,11 +115,11 @@ export default function Splash () {
           // SplashScreen.hide()
         }}
         // resizeMode='contain'
-        source={require('../assets/images/ream.png')}
+        source={require('../assets/images/already.png')}
         style={{
           // flex: 1,
-          height: 217,
-          width: 246
+          height: 256,
+          width: 256
         }}
       />
       <Animated.View style={{
