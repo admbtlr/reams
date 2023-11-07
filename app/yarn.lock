@@ -6673,6 +6673,11 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+cycle@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/cycle/-/cycle-1.0.3.tgz#21e80b2be8580f98b468f379430662b046c34ad2"
+  integrity sha512-TVF6svNzeQCOpjCqsy0/CSy8VgObG3wXusJ73xW2GbG5rGx7lC8zxDSURicsXI2UsGdi2L0QNRCi745/wUDvsA==
+
 cyclist@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.2.tgz#673b5f233bf34d8e602b949429f8171d9121bea3"
@@ -6736,6 +6741,11 @@ dayjs@^1.8.15:
   version "1.11.6"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.6.tgz#2e79a226314ec3ec904e3ee1dd5a4f5e5b1c7afb"
   integrity sha512-zZbY5giJAinCG+7AGaw0wIhNZ6J8AhWuSXKvuc1KAyMiRsvGQWqh4L+MomvhdAYjN+lqvVCMq1I41e3YHvXkyQ==
+
+dayjs@^1.8.29:
+  version "1.11.10"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.10.tgz#68acea85317a6e164457d6d6947564029a6a16a0"
+  integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==
 
 debug@2.6.9, debug@^2.1.1, debug@^2.1.3, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
@@ -8058,17 +8068,11 @@ expo-font@~11.0.1:
   dependencies:
     fontfaceobserver "^2.1.0"
 
-expo-gl-cpp@~11.4.0:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/expo-gl-cpp/-/expo-gl-cpp-11.4.0.tgz#62b4b5c61ef065e94aa790a872aad2eee2ae11ea"
-  integrity sha512-vt9QYKX/4TxMaNnbv9ww5KILwyCmg91gqwA/6xuo4MqWxGkZoxy+b8lqsQthuPdn+FHgF0BNcvFW9nbN+JeSRg==
-
-expo-gl@~11.4.0:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/expo-gl/-/expo-gl-11.4.0.tgz#0aa6b05908f1a8405f804f3e1a360a215569b9f2"
-  integrity sha512-Q0/4git7mNanxPe4/DMC6dk9F1Xu2ACTmacWdoLjS3NByUzFt25vFtrbf9R3FCgWcBlA9ncfVp1CsYgA4+61Dg==
+expo-gl@~12.2.0:
+  version "12.2.0"
+  resolved "https://registry.yarnpkg.com/expo-gl/-/expo-gl-12.2.0.tgz#abd41ce2dcf53b4da984d57482c9aaa2d14ca73c"
+  integrity sha512-RnHv5KW6u6noe9JCcPTCwMStVBoY48Abes/BJeel8YVMwd4acaM3lS4OFvCa7SyrH3rbtbkJJDkifChyBiiGPQ==
   dependencies:
-    expo-gl-cpp "~11.4.0"
     invariant "^2.2.4"
 
 expo-keep-awake@~11.0.1:
@@ -15182,6 +15186,11 @@ react-native-encrypted-storage@^4.0.2:
   resolved "https://registry.yarnpkg.com/react-native-encrypted-storage/-/react-native-encrypted-storage-4.0.2.tgz#c7d59b1d3ff2f80d572be3e85aaab3fdee16744a"
   integrity sha512-vneDkHGDuTvLQjUBztqb2YI8QoH1zxdJonPGTS+g57lfJZff9fAjoLSSb6NgMBebpXFcK3I3sEresGyL+3AArw==
 
+react-native-flipper@^0.212.0:
+  version "0.212.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.212.0.tgz#b3fdd47676ecd09a25edd77a1466acace6276762"
+  integrity sha512-bDRfIgE3v/jjEEdnvGP0T6maDD+bXhDAQ/SZUYTKd/CQ6YIU1c0EF+e0urU62LNMv6XEFQKz226McdddyVhYZA==
+
 react-native-fs@2.20.0:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.20.0.tgz#05a9362b473bfc0910772c0acbb73a78dbc810f6"
@@ -15647,6 +15656,14 @@ redent@^1.0.0:
   dependencies:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
+
+redux-flipper@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/redux-flipper/-/redux-flipper-2.0.2.tgz#5deca22ef81e71253912fdf8a403f272db9ed27f"
+  integrity sha512-X6OD3+Ok8g0SunzrwS5OtbE735eBDxLz3uuK4fdJSwbAzskqOS3SWc+rKuOpqmLkt8pN+Szp7Nof9Etm75B1Rg==
+  dependencies:
+    cycle "^1.0.3"
+    dayjs "^1.8.29"
 
 redux-mock-store@^1.5.4:
   version "1.5.4"
