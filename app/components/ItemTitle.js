@@ -269,15 +269,20 @@ class ItemTitle extends React.Component {
     while (i > 20) {
       sizes.push(i--)
     }
+
+    if (Platform.OS !== 'web') {
+      await this.measureSizes(sizes, maxFontSize)
+    }
   }
 
-  async measureSizes (sizes) {
-      Promise.all(sizes.map((size) => rnTextSize.measure({
-        text: styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle,
-        width: this.getInnerWidth(size, styles.isItalic),
-        fontSize: size,
-        fontFamily: this.getFontFamily(),
-        usePreciseWidth: true
+  async measureSizes (sizes, maxFontSize) {
+    const {styles} = this.props
+    Promise.all(sizes.map((size) => rnTextSize.measure({
+      text: styles.isUpperCase ? this.displayTitle.toLocaleUpperCase() : this.displayTitle,
+      width: this.getInnerWidth(size, styles.isItalic),
+      fontSize: size,
+      fontFamily: this.getFontFamily(),
+      usePreciseWidth: true
     }))).then((values) => {
       values = values.map((v, i) => {
         const size = maxFontSize - i
