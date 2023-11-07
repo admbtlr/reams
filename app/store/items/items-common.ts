@@ -125,37 +125,56 @@ export function itemDecorationSuccess (
     state.items[state.index + 2 < state.items.length ? state.index + 2 : state.index],
     state.items[state.index + 3 < state.items.length ? state.index + 3 : state.index],
   ]
-  const testAndDecorate = (i: Item) => {
-    let item = { ...i }
-    if (item._id === action.item._id) {
-      // note that I'm using action.item as the base
-      // there's a small chance that this might be stale,
-      // if e.g. it's been read since it was initially plucked in the decorate-item saga
-      const decorated = addMercuryStuffToItem(action.item, action.mercuryStuff)
-      item = {
-        ...item,
-        ...decorated
+  const items = state.items.map((i: Item) => {
+    if (i._id === action.item._id) {
+      return {
+        ...i,
+        coverImageFile: action.imageStuff?.coverImageFile,
+        coverImageUrl: action.mercuryStuff?.lead_image_url,
+        hasCoverImage: !!action.imageStuff?.coverImageFile,
+        imageDimensions: action.imageStuff?.imageDimensions,
+        isDecorated: true
       }
-
-      // don't want to add a cover image to a currently visible item
-      if (!(isCurrentDisplayMode && !!currentItems.find(ci => item._id === ci._id))) {
-        item = addCoverImageToItem(item, action.imageStuff)
-        item.hasCoverImage = !!item.coverImageFile
-        item = setShowCoverImage(item, currentItems[0])
-        item = removeCachedCoverImageDuplicate(item)
-      }
+    } else {
+      return i
     }
-    return item
-  }
-
-  if (!action.item) {
-    throw "action.item is not defined in itemDecorationSuccess"
-  }
-  const items: Item[] = state.items.map(testAndDecorate)
+  })
   return {
     ...state,
     items
   }
+
+  // const testAndDecorate = (i: Item) => {
+  //   let item = { ...i }
+  //   if (item._id === action.item._id) {
+  //     // note that I'm using action.item as the base
+  //     // there's a small chance that this might be stale,
+  //     // if e.g. it's been read since it was initially plucked in the decorate-item saga
+  //     const decorated = addMercuryStuffToItem(action.item, action.mercuryStuff)
+  //     item = {
+  //       ...item,
+  //       ...decorated
+  //     }
+
+  //     // don't want to add a cover image to a currently visible item
+  //     if (!(isCurrentDisplayMode && !!currentItems.find(ci => item._id === ci._id))) {
+  //       item = addCoverImageToItem(item, action.imageStuff)
+  //       item.hasCoverImage = !!item.coverImageFile
+  //       item = setShowCoverImage(item, currentItems[0])
+  //       item = removeCachedCoverImageDuplicate(item)
+  //     }
+  //   }
+  //   return item
+  // }
+
+  // if (!action.item) {
+  //   throw "action.item is not defined in itemDecorationSuccess"
+  // }
+  // const items: Item[] = state.items.map(testAndDecorate)
+  // return {
+  //   ...state,
+  //   items
+  // }
 }
 
 export function itemDecorationFailure (

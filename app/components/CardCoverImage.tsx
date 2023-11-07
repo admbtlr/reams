@@ -26,13 +26,13 @@ export default function CardCoverImage ({feedId, itemId, width, height}: Props) 
   const cachedCoverImageId = !!feedId &&
     feedsLocal.feeds.find(fl => fl._id === feed?._id)?.cachedCoverImageId    
   const coverImageItem = !!feedId ? 
-    unreadItems.filter(i => i.feed_id === feedId).find(i => i.banner_image) :
-    item?.banner_image ? 
+    unreadItems.filter(i => i.feed_id === feedId).find(i => i.coverImageUrl) :
+    item?.coverImageUrl ? 
       item : 
       undefined
   const [imageDimensions, setImageDimensions] = useState({width: 0, height: 0}) // only used on web
-  if (Platform.OS === 'web' && coverImageItem?.banner_image) {
-    Image.getSize(coverImageItem.banner_image, (width, height) => {
+  if (Platform.OS === 'web' && coverImageItem?.coverImageUrl) {
+    Image.getSize(coverImageItem.coverImageUrl, (width, height) => {
       if (width !== imageDimensions.width || height !== imageDimensions.height) {
         setImageDimensions({width, height})
       }
@@ -77,7 +77,7 @@ export default function CardCoverImage ({feedId, itemId, width, height}: Props) 
 
   const getCoverImagePath = () => {
     if (Platform.OS === 'web') {
-      return coverImageItem?.banner_image
+      return coverImageItem?.coverImageUrl
     } else {
       const imageId = cachedCoverImageId || coverImageItem?._id
       return imageId ?

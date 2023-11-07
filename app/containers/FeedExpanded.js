@@ -30,7 +30,7 @@ const mapStateToProps = (state, ownProps) => {
   const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
   const feedItems = items.filter(i => i.feed_id === feedId)
   const numFeedItems = feedItems.length
-  const coverImageItem = feedItems.find(item => item.banner_image)
+  const coverImageItem = feedItems.find(item => item.coverImageUrl)
   const coverImageId = coverImageItem ?
     coverImageItem._id :
     null

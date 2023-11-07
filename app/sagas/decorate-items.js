@@ -20,6 +20,7 @@ import {
   getSavedItems
 } from './selectors'
 import { getItems as getItemsSQLite, updateItem } from '../storage/sqlite'
+import { persistDecoration } from './update-item'
 
 
 let pendingDecoration = [] // a local cache
@@ -87,6 +88,7 @@ function consoleLog(txt) {
 function * applyDecoration (decoration, isSaved) {
   yield call(InteractionManager.runAfterInteractions)
   const displayMode = yield select(getDisplay)
+  yield call(persistDecoration, {...decoration})
   yield put({
     type: ITEM_DECORATION_SUCCESS,
     ...decoration,
@@ -133,7 +135,7 @@ function * getNextItemToDecorate () {
   const feedsWithoutDecoration = feeds.filter(feed => {
     // external items handle their own decoration
     return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === feed._id)
-      .find(item => typeof item.banner_image !== 'undefined')
+      .find(item => typeof item.coverImageUrl !== 'undefined')
   })
   let count = 0
   let feed
@@ -210,7 +212,7 @@ export function * decorateItem (i) {
       ((
         Math.random() > 0.5 /*&&
         imageStuff.imageDimensions?.height < imageStuff.imageDimensions?.width / 1.8*/
-      ) || mercuryStuff.excerpt && mercuryStuff.excerpt.length > 120)) {
+      ) || mercuryStuff.excerpt && mercuryStuff.excerpt.length > 180)) {
       if (item.styles) {
         item.styles = setCoverInline(item.styles)
       }
