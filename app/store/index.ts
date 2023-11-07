@@ -57,6 +57,7 @@ function initStore (rehydrateCallback?: () => void) {
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
+    immutableCheck: false
   }
 
   if (Config.USE_STATE) {
@@ -71,7 +72,9 @@ function initStore (rehydrateCallback?: () => void) {
     store = configureStore({
       reducer: persistedReducer,
       middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware(middlewareConf).prepend(sagaMiddleware);
+        const middleware = getDefaultMiddleware(middlewareConf).prepend(sagaMiddleware);
+        if (__DEV__) middleware.push(require('redux-flipper').default())
+        return middleware
       }
     })
     persistor = persistStore(store, null, rehydrateCallback || onCompletion)
