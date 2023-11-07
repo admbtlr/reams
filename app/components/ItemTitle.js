@@ -213,7 +213,7 @@ class ItemTitle extends React.Component {
     let { styles } = this.props
     const that = this
     const width = this.screenWidth * this.getWidthPercentage() / 100
-    const limit = Math.round(width / 10)
+    const limit = Math.round(width / 8)
     let maxSize
     const longestWord = this.getLongestWord()
     let sizes = []
@@ -252,11 +252,12 @@ class ItemTitle extends React.Component {
 
   }
 
+  // this is where we calculate the optimal font size
   async componentDidUpdate (prevProps) {
     const {styles} = this.props
 
     if (prevProps && styles?.fontResized && prevProps.isPortrait === this.props.isPortrait) return
-
+    if (this.state && this.state.optimalFontSize) return
     if (typeof rnTextSize === 'undefined') return
 
     // first get max font size
@@ -296,7 +297,7 @@ class ItemTitle extends React.Component {
       // console.log(values)
       const maxHeight = this.screenHeight / (
         this.screenWidth / this.screenHeight < 0.5 ?
-          1.5 : // iphone X etc.
+          1.8 : // iphone X etc.
           2 // iphone 8, SE etc.
       )
       const sensibleSize = 42 * fontSizeMultiplier()
@@ -353,6 +354,7 @@ class ItemTitle extends React.Component {
       // console.log(`OPTIMAL FONT SIZE (${this.displayTitle}): ${optimal}`)
       this.props.updateFontSize(this.props.item, optimal.size)
       this.titleHeight = optimal.height
+      this.setState({ optimalFontSize: optimal.size })
     })
   }
 
@@ -410,6 +412,9 @@ class ItemTitle extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {
     if (this.isAnimating) return true
     if (this.props.item === undefined) return true
+    if (nextState?.optimalFontSize !== this.state?.optimalFontSize) {
+      return true
+    }
     let changes
     let isDiff = !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState)
     // console.log('Should update? - '
@@ -462,7 +467,8 @@ class ItemTitle extends React.Component {
     const isFullBleed = showCoverImage && !item.styles?.coverImage?.isInline 
 
     // just so we can render something before it's been calculated
-    const fontSize = styles.fontSize || 42
+    const fontSize = this.state?.optimalFontSize || styles.fontSize || 42
+    console.log(`RENDERING TITLE (${this.displayTitle}): ${fontSize}`)
     let lineHeight = Math.floor(fontSize * styles.lineHeightAsMultiplier)
     if (lineHeight < fontSize) lineHeight = fontSize
 

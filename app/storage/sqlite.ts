@@ -204,7 +204,7 @@ export async function updateItem(toUpdate: Record<string, any>) {
       JSON.stringify(toUpdate[key]) :
       toUpdate[key])).map((value) => value === 'null' ? null : value)
   const query = `update items set ${updateString} where _id = ?`
-  return doTransaction(query, values.concat(toUpdate._id))
+  return await doTransaction(query, values.concat(toUpdate._id))
 }
 
 export async function searchItems(term: string) {

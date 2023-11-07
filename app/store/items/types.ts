@@ -121,15 +121,12 @@ export const MARK_ITEMS_READ = 'MARK_ITEMS_READ'
 export const RECEIVED_REMOTE_READ_ITEMS = 'RECEIVED_REMOTE_READ_ITEMS'
 export const SHARE_ITEM = 'SHARE_ITEM'
 export const TOGGLE_MERCURY_VIEW = 'TOGGLE_MERCURY_VIEW'
-export const FLATE_ITEMS = 'FLATE_ITEMS'
-export const FLATE_ITEMS_ERROR = 'FLATE_ITEMS_ERROR'
 export const ITEM_DECORATION_SUCCESS = 'ITEM_DECORATION_SUCCESS'
 export const ITEM_DECORATION_FAILURE = 'ITEM_DECORATION_FAILURE'
 export const ITEM_DECORATION_PROGRESS = 'ITEM_DECORATION_PROGRESS'
 export const ADD_READING_TIME = 'ADD_READING_TIME'
 export const SET_SCROLL_OFFSET = 'SET_SCROLL_OFFSET'
 export const SET_TITLE_FONT_SIZE = 'SET_TITLE_FONT_SIZE'
-export const SET_TITLE_FONT_RESIZED = 'SET_TITLE_FONT_RESIZED'
 export const SORT_ITEMS = 'SORT_ITEMS'
 
 interface setDisplayModeAction {
@@ -237,17 +234,6 @@ export interface markItemsReadAction {
 export interface toggleMercuryViewAction {
   type: typeof TOGGLE_MERCURY_VIEW
   item: Item
-}
-
-export interface flateItemsAction {
-  type: typeof FLATE_ITEMS
-  itemsToInflate: Item[]
-  itemsToDeflate: Item[]
-}
-
-export interface flateItemsErrorAction {
-  type: typeof FLATE_ITEMS_ERROR
-  items: Item[]
 }
 
 export interface itemDecorationSuccessAction {

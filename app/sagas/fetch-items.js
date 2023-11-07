@@ -19,9 +19,7 @@ import {
   fetchItems as fetchItemsBackends,
   getReadItems as getReadItemsBackends
 } from '../backends'
-import { setItemsAS } from '../storage/async-storage'
 import { getFeedColor, id } from '../utils'
-import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,
   fixRelativePaths,
   addStylesIfNecessary,
@@ -165,11 +163,6 @@ function * receiveAndProcessItems (items, type, isFirstBatch, i) {
   const index = yield select(getIndex, type)
   yield call(InteractionManager.runAfterInteractions)
   yield receiveItems(items, type)
-  if (isFirstBatch) {
-    // this is a little hacky, just getting ready to view some items
-    // yield call(InteractionManager.runAfterInteractions)
-    // yield inflateItems({ index })
-  }
 }
 
 export function * receiveItems (items, type) {

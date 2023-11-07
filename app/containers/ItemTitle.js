@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { 
-  SET_TITLE_FONT_RESIZED,
   SET_TITLE_FONT_SIZE
 } from '../store/items/types'
 import ItemTitle from '../components/ItemTitle.js'
@@ -32,10 +31,6 @@ const mapDispatchToProps = (dispatch) => {
     updateFontSize: (item, fontSize) => dispatch({
       type: SET_TITLE_FONT_SIZE,
       fontSize,
-      item
-    }),
-    setFontResized: (item) => dispatch({
-      type: SET_TITLE_FONT_RESIZED,
       item
     })
   }
