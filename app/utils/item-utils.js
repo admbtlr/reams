@@ -60,7 +60,7 @@ export function deflateItem (item) {
 
 export function inflateStyles (item) {
   if (!item) {
-    log('inflateItem', 'Item is null?')
+    log('inflateStyles', 'Item is null?')
   }
   const styles = item.styles
   if (typeof styles === 'object') return item

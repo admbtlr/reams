@@ -4,8 +4,6 @@ import {
   UserActionTypes 
 } from '../user/types'
 import { 
-  FLATE_ITEMS,
-  FLATE_ITEMS_ERROR,
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
   ITEMS_BATCH_FETCHED, 
@@ -35,8 +33,6 @@ import {
   itemToggleMercury,
   itemDecorationSuccess,
   itemDecorationFailure,
-  itemsFlate,
-  itemsFlateError,
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
 } from './items-common'
@@ -234,12 +230,6 @@ export function itemsSaved (
         items,
         index
       }
-
-    case FLATE_ITEMS:
-      return itemsFlate(action, state)
-
-    case FLATE_ITEMS_ERROR:
-      return itemsFlateError(action, state)
 
     case ITEM_DECORATION_SUCCESS:
       if (!action.isSaved) return state

@@ -3,13 +3,11 @@ import { loadMercuryStuff } from '../backends'
 import * as FileSystem from 'expo-file-system'
 import { InteractionManager, Platform } from 'react-native'
 import { 
-  FLATE_ITEMS,
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS
 } from '../store/items/types'
 import { getCachedCoverImagePath, getImageDimensions } from '../utils'
 import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createItemStyles'
-import { deflateItem } from '../utils/item-utils'
 import { getActiveItems, getItem } from './selectors'
 import log from '../utils/log'
 import { faceDetection } from '../utils/face-detection'
@@ -113,18 +111,6 @@ function * applyDecoration (decoration, isSaved) {
     } catch(err) {
       log('decorateItems', err)
     }
-
-    // and finally, deflate the item so that redux-persist doesn't explode
-    // yield call(InteractionManager.runAfterInteractions)
-    // const activeItems = [ ...yield select(getActiveItems) ]
-    // if (!activeItems.find(ai => ai._id === item._id)) {
-    //   item = deflateItem(item)
-    //   yield put({
-    //     type: FLATE_ITEMS,
-    //     itemsToInflate: [],
-    //     itemsToDeflate: [item]
-    //   })
-    // }
   }
   if (decoration.item) {
     pendingDecoration = pendingDecoration.filter(pending => pending._id !== decoration.item._id)
