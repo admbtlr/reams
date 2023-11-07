@@ -32,7 +32,7 @@ export function deflateItem (item) {
   const deflated = {
     _id: item._id,
     author: item.author,
-    banner_image: item.banner_image, // needed by the feed component
+    coverImageUrl: item.coverImageUrl, // needed by the feed component
     content_length: item.content_length || (item.content_html
       ? item.content_html.length
       : 0),
@@ -120,7 +120,7 @@ export function addMercuryStuffToItem (item, mercury) {
       date_published: mercury.date_published,
       author: mercury.author,
       feed_title: mercury.domain,
-      banner_image: mercury.lead_image_url,
+      coverImageUrl: mercury.lead_image_url,
       excerpt: mercury.excerpt,
       isDecorated: true,
       showMercuryContent: true
@@ -133,7 +133,7 @@ export function addMercuryStuffToItem (item, mercury) {
     ...item,
     author: mercury.author || item.author,
     title: mercury.title,
-    banner_image: mercury.lead_image_url,
+    coverImageUrl: mercury.lead_image_url,
     // body: content,
     content_mercury: mercury.content ? mercury.content : '',
     content_html: item.content_html ? item.content_html : '',
@@ -250,7 +250,7 @@ export function setShowCoverImage (item, currentItem) {
 }
 
 export function removeCachedCoverImageDuplicate (item) {
-  if (item.showCoverImage && item.styles && item.styles.coverImage?.isInline && item.banner_image) {
+  if (item.showCoverImage && item.styles && item.styles.coverImage?.isInline && item.coverImageUrl) {
     const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
     const imageSrcIsUrl = (path) => path.startsWith('http')
     let visibleContentKey = item.showMercuryContent ?
@@ -259,10 +259,10 @@ export function removeCachedCoverImageDuplicate (item) {
     const firstImg = /<img.*?src="(.*?)".*?>/.exec(item[visibleContentKey]) &&
       /<img.*?src="(.*?)".*?>/.exec(item[visibleContentKey])[1]
     if (firstImg &&
-      item.banner_image &&
+      item.coverImageUrl &&
       item.styles.coverImage?.isInline &&
       imageSrcIsUrl(firstImg) &&
-      fuzz.ratio(getImageFileName(firstImg), getImageFileName(item.banner_image)) > 70) {
+      fuzz.ratio(getImageFileName(firstImg), getImageFileName(item.coverImageUrl)) > 70) {
       item[visibleContentKey] = item[visibleContentKey].replace(/<img.*?>/, '')
     }
   }

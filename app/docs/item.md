@@ -8,7 +8,7 @@ date_modified
 date_published
 feed_title
 feed_id
-banner_image
+coverImageUrl
 content_mercury
 excerpt
 
@@ -26,7 +26,7 @@ date_published
 feed_id
 feed_title
 feed_color
-banner_image
+coverImageUrl
 content_mercury
 excerpt
 isDecorated
@@ -50,7 +50,7 @@ styles
 
 const deflated = {
     _id: item._id,
-    banner_image: item.banner_image, // needed by the feed component
+    coverImageUrl: item.coverImageUrl, // needed by the feed component
     content_length: item.content_length || (item.content_html
       ? item.content_html.length
       : 0),

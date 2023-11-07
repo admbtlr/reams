@@ -44,7 +44,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
       return null
     }
     const feedItems = items.filter((i: Item) => i.feed_id === feed._id)
-    const coverImageItem = feedItems.find((item: Item) => item.banner_image)
+    const coverImageItem = feedItems.find((item: Item) => item.coverImageUrl)
     return {
       feedId: feed._id,
       feed: state.feeds.feeds.find((f: Feed) => f._id === feed._id),

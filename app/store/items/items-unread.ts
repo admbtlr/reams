@@ -72,7 +72,7 @@ export const initialState:ItemsState = {
 // - hasCoverImage
 // - styles
 // - content_html
-// - banner_image
+// - coverImageUrl
 // - imageDimensions
 // - feed_title
 // - showCoverImage

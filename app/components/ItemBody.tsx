@@ -147,7 +147,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     setActiveHighlight(annotationId)
   }
 
-  const { banner_image, content_html, content_mercury, feed_color, showCoverImage, showMercuryContent } = item
+  const { coverImageUrl, content_html, content_mercury, feed_color, showCoverImage, showMercuryContent } = item
   const styles = { ...item.styles }
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
@@ -204,7 +204,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   // hide the image in the body to avoid repetition
   let data = ''
   if (styles.coverImage.isInline) {
-    data = banner_image
+    data = coverImageUrl
   }
 
   const feedColor = feed_color ?

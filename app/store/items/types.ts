@@ -28,8 +28,9 @@ interface ItemStyles {
 
 export interface Item {
   _id: string
-  banner_image: string | undefined
+  coverImageUrl: string | undefined
   content_length: number | undefined
+  coverImageFile: string | undefined
   created_at: number
   decoration_failures: number | undefined
   feed_id: string
@@ -56,7 +57,7 @@ export interface Item {
 export interface ItemInflated {
   _id: string
   author?: string
-  banner_image?: string
+  coverImageUrl?: string
   cachedCoverImageId?: string
   content_html?: string
   content_mercury?: string
@@ -83,9 +84,35 @@ export interface ItemInflated {
   url?: string
 }
 
-interface MercuryStuff {
+export interface MercuryStuff {
   error?: string
   message?: string
+  author?: string
+  content?: string
+  date_published?: string
+  dek?: string
+  direction?: string
+  domain?: string
+  excerpt?: string
+  lead_image_url?: string
+  next_page_url?: string
+  rendered_pages?: number
+  title?: string
+  total_pages?: number
+  url?: string
+  word_count?: number
+}
+
+export interface ImageStuff {
+  coverImageFile?: string
+  imageDimensions?: {
+    width: number
+    height: number
+  }
+  faceCentreNormalised?: {
+    x: number
+    y: number
+  }
 }
 
 interface BackendItem {
@@ -240,7 +267,7 @@ export interface itemDecorationSuccessAction {
   type: typeof ITEM_DECORATION_SUCCESS
   item: Item
   mercuryStuff: MercuryStuff
-  imageStuff: object
+  imageStuff: ImageStuff
   isSaved: boolean,
   displayMode: string
 }

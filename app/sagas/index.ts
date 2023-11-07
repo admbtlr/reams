@@ -53,7 +53,7 @@ import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FRO
 import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotations'
 import { RootState } from 'store/reducers'
 import { UserState } from 'store/user/user'
-import { setItemTitleFontSize } from './item-title-font'
+import { setItemTitleFontSize } from './update-item'
 
 let downloadsFork: any
 
