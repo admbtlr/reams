@@ -1,5 +1,3 @@
-- move all Date.now() to Date.now() / 1000
-  - or use timestamps everywhere?
 - saved external items are not getting decorated
 - mercury button doesn't work
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
@@ -67,6 +65,7 @@
 - saved folders
 
 # Done
+- ~~move all Date.now() to Date.now() / 1000~~
 - ~~backend for annotations~~
 - ~~remove all messages on init~~
 - ~~still got problems with saved external items appearing twice~~

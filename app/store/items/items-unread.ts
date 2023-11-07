@@ -18,8 +18,6 @@ import {
 import {
   ADD_READING_TIME,
   CLEAR_READ_ITEMS_SUCCESS,
-  FLATE_ITEMS,
-  FLATE_ITEMS_ERROR,
   ITEMS_BATCH_FETCHED,
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
@@ -50,8 +48,6 @@ import {
   itemToggleMercury,
   itemDecorationSuccess,
   itemDecorationFailure,
-  itemsFlate,
-  itemsFlateError,
   updateCurrentItemTitleFontSize,
   updateCurrentItemTitleFontResized
 } from './items-common'
@@ -231,12 +227,6 @@ export function itemsUnread (
         ...state,
         ...newState
       }
-
-    case FLATE_ITEMS:
-      return itemsFlate(action, state)
-
-    case FLATE_ITEMS_ERROR:
-      return itemsFlateError(action, state)
 
     case MARK_ITEM_READ:
       return itemMarkRead(action, state)

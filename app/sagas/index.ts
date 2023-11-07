@@ -16,7 +16,7 @@ import {
   REMOVE_ITEMS,
   SAVE_EXTERNAL_URL,
   SAVE_ITEM,
-  SET_DISPLAY_MODE,
+  SET_TITLE_FONT_SIZE,
   UNSAVE_ITEM,
   UPDATE_CURRENT_INDEX 
 } from '../store/items/types'
@@ -42,7 +42,6 @@ import { markLastItemRead, clearReadItems, filterItemsForRead } from './mark-rea
 import { dedupeSaved, pruneItems, removeItems, removeAllItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
-import { inflateItems } from './inflate-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
 import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed } from './feeds'
@@ -54,12 +53,12 @@ import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FRO
 import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotations'
 import { RootState } from 'store/reducers'
 import { UserState } from 'store/user/user'
+import { setItemTitleFontSize } from './item-title-font'
 
 let downloadsFork: any
 
 function * init (action: any) {
   yield primeAllBackends()
-  // yield call(inflateItems)
   downloadsFork = yield fork(startDownloads)
 }
 
@@ -115,9 +114,7 @@ export function * initSagas () {
   yield takeEvery(SAVE_ITEM, markItemSaved)
   yield takeEvery(UNSAVE_ITEM, markItemUnsaved)
   yield takeEvery(ITEM_DECORATION_SUCCESS, maybeUpsertSavedItem)
-  // yield takeEvery(UNSAVE_ITEM, inflateItems)
-  // yield takeEvery(SET_DISPLAY_MODE, inflateItems)
-  // yield takeEvery(UPDATE_CURRENT_INDEX, inflateItems)
+  yield takeEvery(SET_TITLE_FONT_SIZE, setItemTitleFontSize)
   yield takeEvery(FETCH_ITEMS, fetchAllItems)
   yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)

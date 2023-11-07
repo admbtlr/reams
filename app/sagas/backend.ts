@@ -7,11 +7,9 @@ import {
   getUser
 } from './selectors'
 import { setBackend } from '../backends'
-import { init as initFeedbin } from '../backends/feedbin'
 import { createHighlights, init as initReadwise } from '../backends/readwise'
 import { Backend, UserState } from 'store/user/user'
 import { dedupeSaved } from './prune-items'
-import { inflateItems } from './inflate-items'
 
 export function * initBackend (action: any) {
   // const config = yield select(getConfig)
@@ -82,11 +80,9 @@ function * primeFeedbin () {
   console.log('primeFeedbin')
   const backends: Backend[] = yield select((state: any) => state.user.backends)
   const credentials = backends.find((b: any) => b.name === 'feedbin')
-  // yield call(initFeedbin, credentials)
   console.log('calling setBackend', credentials)
   yield call(setBackend, 'feedbin', credentials)
   yield dedupeSaved()
-  // yield call(inflateItems)
 }
 
 function * primeReadwise () {
