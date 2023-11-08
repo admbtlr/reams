@@ -3,6 +3,8 @@
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
 - show errors on email login, also disable button
 - backend for saved categories
+- backend for saved items
+- backend for feeds
 - action extension
 - "reams favourites"
 - settings screen

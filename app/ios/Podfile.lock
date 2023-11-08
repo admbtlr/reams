@@ -348,7 +348,7 @@ PODS:
     - React-Core
   - react-native-document-picker (3.5.4):
     - React
-  - react-native-flipper (0.212.0):
+  - react-native-flipper (0.164.0):
     - React-Core
   - react-native-get-random-values (1.8.0):
     - React-Core
@@ -782,7 +782,7 @@ SPEC CHECKSUMS:
   react-native-blob-util: 4ec16cc21bfc8de8f0ddfd2c81ada00f8c34b646
   react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
   react-native-document-picker: 4921045c5c6c78243010f784eae0a3f4b2af7799
-  react-native-flipper: 9c1957af24b76493ba74f46d000a5c1d485e7731
+  react-native-flipper: c33a4995958ef12a2b2f8290d63bed7adeed7634
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 48c5f79a84fbc3ba1d28a8b0d04adeda72885fa8
