@@ -1,0 +1,26 @@
+diff --git a/node_modules/@tensorflow/tfjs-converter/dist/tf-converter.js b/node_modules/@tensorflow/tfjs-converter/dist/tf-converter.js
+index ca9ca86..ed95623 100755
+--- a/node_modules/@tensorflow/tfjs-converter/dist/tf-converter.js
++++ b/node_modules/@tensorflow/tfjs-converter/dist/tf-converter.js
+@@ -11794,7 +11794,7 @@
+     }
+     function convertToTensor(x, argName, functionName, parseAsDtype) {
+         if (parseAsDtype === void 0) { parseAsDtype = 'numeric'; }
+-        if (x instanceof Tensor) {
++        if (x instanceof Tensor || x.constructor.name === 'Tensor') {
+             assertDtype(parseAsDtype, x.dtype, argName, functionName);
+             return x;
+         }
+diff --git a/node_modules/@tensorflow/tfjs-converter/dist/tf-converter.node.js b/node_modules/@tensorflow/tfjs-converter/dist/tf-converter.node.js
+index 9e7d0e2..24890f1 100755
+--- a/node_modules/@tensorflow/tfjs-converter/dist/tf-converter.node.js
++++ b/node_modules/@tensorflow/tfjs-converter/dist/tf-converter.node.js
+@@ -11794,7 +11794,7 @@ function assertDtype(expectedDtype, actualDType, argName, functionName) {
+ }
+ function convertToTensor(x, argName, functionName, parseAsDtype) {
+     if (parseAsDtype === void 0) { parseAsDtype = 'numeric'; }
+-    if (x instanceof Tensor) {
++    if (x instanceof Tensor || x.constructor.name === 'Tensor') {
+         assertDtype(parseAsDtype, x.dtype, argName, functionName);
+         return x;
+     }
