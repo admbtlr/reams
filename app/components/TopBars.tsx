@@ -129,39 +129,6 @@ function TopBars (props: TopBarsProps) {
       panAnim.interpolate(titleTransformRanges[i]) :
       0)
 
-  // need to make a kind of sawtooth so that each panAnimDivisor will reach STATUS_BAR_HEIGHT
-  // I think....
-  // let inputRange: [number] | [] = []
-  // let outputRange: [number] | [] = []
-  // const hasScrollOffset = (item: Item) => (
-  //   item.scrollRatio && (item.scrollRatio.html || item.scrollRatio.mercury)
-  // )
-
-  // for (var i = 0; i < items.length; i++) {
-  //   const tooth = panAnimDivisor * i
-  //   const value = hasScrollOffset(items[i]) ? 0 : getStatusBarHeight()
-  //   inputRange = inputRange.concat([tooth])
-  //   outputRange = outputRange.concat([value])
-  // }
-
-  // const panTransformTopBarAnim = index > 0 ?
-  //   panAnim.interpolate({
-  //     inputRange: [panAnimDivisor * index - 1, panAnimDivisor * index, panAnimDivisor * index + 1],
-  //     outputRange: [
-  //       STATUS_BAR_HEIGHT,
-  //       0,
-  //       STATUS_BAR_HEIGHT
-  //     ]
-  //   }) :
-  //   panAnim.interpolate({
-  //     inputRange: [0, panAnimDivisor, panAnimDivisor + 1, panAnimDivisor * 2],
-  //     outputRange: [0, STATUS_BAR_HEIGHT]
-  //   })
-
-  // const panTransformTopBarAnim = outputRange.length > 2 ?
-  //   panAnim.interpolate({ inputRange, outputRange }) :
-  //   new Animated.Value(0)
-
   useEffect(() => {
     console.log('setting clampedAnimatedValue')
     setClampedAnimatedValue(Animated.diffClamp(

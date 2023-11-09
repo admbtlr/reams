@@ -113,7 +113,6 @@ export default function TopBar({
       inputRange: [0, 100, 140],
       outputRange: [0, 0, 1]
     }) : 0
-  console.log('TopBar: ', item.title, isVisible, titleOpacity)
   
 
   return isOnboarding ? null :
