@@ -164,7 +164,9 @@ class AccountCredentialsForm extends React.Component {
           backgroundColor: hslString('logo2'),
           padding: 5,
           marginLeft: -16,
-          marginRight: -16
+          marginRight: -16,
+          marginBottom: -16,
+          marginTop: 16,
         }}>
           <Text style={{
             ...textLabelStyle(),
@@ -177,26 +179,29 @@ class AccountCredentialsForm extends React.Component {
         <Text style={{
           ...textLabelStyle(),
           marginTop: 12,
+          marginBottom: 4,
           textAlign: 'center'
         }}>Submitting...</Text> :
-        <TouchableOpacity
-          accessibilityLabel={`Authenticate with ${service[0].toUpperCase() + service.slice(1)}`}
-          color={hslString('white')}
-          disabled={isSubmitting || !isValid}
-          onPress={handleSubmit}
-          style={{
-            alignSelf: 'center',
-            marginTop: 5,
-            marginBottom: 5
-          }}
-          testID={`${service}-submit-button`}
-        >
-          <Text style={{
-            ...textInfoStyle('logo1'),
-            textDecorationLine: 'underline'
-          }}>Submit</Text>
-        </TouchableOpacity>
-        { errors?.submit && errorsText }
+        (<>
+          <TouchableOpacity
+            accessibilityLabel={`Authenticate with ${service[0].toUpperCase() + service.slice(1)}`}
+            color={hslString('white')}
+            disabled={isSubmitting || !isValid}
+            onPress={handleSubmit}
+            style={{
+              alignSelf: 'center',
+              marginTop: 5,
+              marginBottom: 5
+            }}
+            testID={`${service}-submit-button`}
+          >
+            <Text style={{
+              ...textInfoStyle('logo1'),
+              textDecorationLine: 'underline'
+            }}>Submit</Text>
+          </TouchableOpacity>
+          { errors?.submit && errorsText }
+        </>)
     }
     
     return (
