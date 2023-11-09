@@ -55,7 +55,7 @@
 		66ABE8CD2796B3E2004E15B2 /* ream@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66ABE8C82796B3E2004E15B2 /* ream@2x.png */; };
 		66ABE8CE2796B3E2004E15B2 /* ream@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66ABE8C82796B3E2004E15B2 /* ream@2x.png */; };
 		66ACB11E1FD9705E002BC66F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66ACB11C1FD9705E002BC66F /* MainInterface.storyboard */; };
-		66ACB1221FD9705E002BC66F /* Already Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* Already Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		66ACB1221FD9705E002BC66F /* Reams Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66ACB1171FD9705E002BC66F /* Reams Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		66ACB1271FD97094002BC66F /* RizzleShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ACB1261FD97094002BC66F /* RizzleShare.m */; };
 		66BE7B63233E3C3C00183A41 /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */; };
 		66BE7B64233E3C3C00183A41 /* IBMPlexMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */; };
@@ -122,7 +122,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				66ACB1221FD9705E002BC66F /* Already Share.appex in Embed App Extensions */,
+				66ACB1221FD9705E002BC66F /* Reams Share.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,7 +141,7 @@
 		0F6EEEC401334B5AAECD02EF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		0FAAA0FC83CC84CA6FE5CA7E /* libPods-Already.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Already.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CD500228D549F8B770CE5F /* libRNTextSize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextSize.a; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Already.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Already.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Reams.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reams.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = rizzle/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = rizzle/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 		66ABE8C62796B3E2004E15B2 /* ream.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ream.png; path = ../assets/images/ream.png; sourceTree = "<group>"; };
 		66ABE8C72796B3E2004E15B2 /* ream@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ream@3x.png"; path = "../assets/images/ream@3x.png"; sourceTree = "<group>"; };
 		66ABE8C82796B3E2004E15B2 /* ream@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ream@2x.png"; path = "../assets/images/ream@2x.png"; sourceTree = "<group>"; };
-		66ACB1171FD9705E002BC66F /* Already Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Already Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		66ACB1171FD9705E002BC66F /* Reams Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Reams Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66ACB11D1FD9705E002BC66F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		66ACB11F1FD9705E002BC66F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66ACB1261FD97094002BC66F /* RizzleShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RizzleShare.m; sourceTree = "<group>"; };
@@ -463,8 +463,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Already.app */,
-				66ACB1171FD9705E002BC66F /* Already Share.appex */,
+				13B07F961A680F5B00A75B9A /* Reams.app */,
+				66ACB1171FD9705E002BC66F /* Reams Share.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -483,9 +483,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* Already */ = {
+		13B07F861A680F5B00A75B9A /* Reams */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Already" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Reams" */;
 			buildPhases = (
 				2601488F422E1EC36103F4A9 /* [CP] Check Pods Manifest.lock */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
@@ -502,14 +502,14 @@
 			dependencies = (
 				66ACB1211FD9705E002BC66F /* PBXTargetDependency */,
 			);
-			name = Already;
+			name = Reams;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* Already.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Reams.app */;
 			productType = "com.apple.product-type.application";
 		};
-		66ACB1161FD9705E002BC66F /* Already Share */ = {
+		66ACB1161FD9705E002BC66F /* Reams Share */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "Already Share" */;
+			buildConfigurationList = 66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "Reams Share" */;
 			buildPhases = (
 				4E6748DC8EA48656D0A3F8DF /* [CP] Check Pods Manifest.lock */,
 				66ACB1131FD9705E002BC66F /* Sources */,
@@ -522,9 +522,9 @@
 			);
 			dependencies = (
 			);
-			name = "Already Share";
+			name = "Reams Share";
 			productName = RizzleShare;
-			productReference = 66ACB1171FD9705E002BC66F /* Already Share.appex */;
+			productReference = 66ACB1171FD9705E002BC66F /* Reams Share.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -583,8 +583,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Already */,
-				66ACB1161FD9705E002BC66F /* Already Share */,
+				13B07F861A680F5B00A75B9A /* Reams */,
+				66ACB1161FD9705E002BC66F /* Reams Share */,
 			);
 		};
 /* End PBXProject section */
@@ -863,7 +863,7 @@
 /* Begin PBXTargetDependency section */
 		66ACB1211FD9705E002BC66F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 66ACB1161FD9705E002BC66F /* Already Share */;
+			target = 66ACB1161FD9705E002BC66F /* Reams Share */;
 			targetProxy = 66ACB1201FD9705E002BC66F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1301,7 +1301,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Already" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Reams" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1310,7 +1310,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "Already Share" */ = {
+		66ACB1231FD9705E002BC66F /* Build configuration list for PBXNativeTarget "Reams Share" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				66ACB1241FD9705E002BC66F /* Debug */,
