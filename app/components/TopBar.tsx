@@ -108,6 +108,14 @@ export default function TopBar({
   
   const feedTitle = feed?.title ? feed.title : (!!item && item.url?.split('/').length > 3) ? item.url.split('/')[2] : ''
 
+  const titleOpacity = typeof scrollAnim !== 'number' && isVisible ? 
+    scrollAnim.interpolate({
+      inputRange: [0, 100, 140],
+      outputRange: [0, 0, 1]
+    }) : 0
+  console.log('TopBar: ', item.title, isVisible, titleOpacity)
+  
+
   return isOnboarding ? null :
   (
     <View>
@@ -254,12 +262,15 @@ export default function TopBar({
               </View>
             </Animated.View>
             <Animated.View style={{
-                marginTop: 10,
-                opacity: typeof scrollAnim !== 'number' && isVisible ? 
-                  scrollAnim.interpolate({
-                    inputRange: [0, 100, 140],
-                    outputRange: [0, 0, 1]
-                  }) : 0,
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 64 * fontSizeMultiplier(),
+                marginTop: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                opacity: titleOpacity,
                 position: 'absolute',
                 width: '100%',
               }}>
@@ -267,11 +278,12 @@ export default function TopBar({
                   style={{
                     ...getStyles().feedName,
                     fontSize: 12 * fontSizeMultiplier(),
-                    lineHeight: 18 * fontSizeMultiplier(),
+                    // lineHeight: 20 * fontSizeMultiplier(),
                     fontFamily: filter ?
                       'IBMPlexSansCond-Bold' :
                       'IBMPlexSansCond',
                     color: getForegroundColor(),
+                    opacity: titleOpacity === 0 ? 0 : 1,
                     textAlign: 'center',
                     textDecorationLine: 'underline'
                   }}
@@ -281,13 +293,14 @@ export default function TopBar({
                   ellipsizeMode='tail'
                   style={{
                     ...getStyles().feedName,
-                    fontSize: 16 * fontSizeMultiplier(),
-                    lineHeight: 18 * fontSizeMultiplier(),
+                    fontSize: 18  * fontSizeMultiplier(),
+                    lineHeight: 22 * fontSizeMultiplier(),
                     fontFamily: filter ?
                       'IBMPlexSansCond-Bold' :
                       'IBMPlexSansCond-Bold',
                     // color: this.getBorderBottomColor(item)
                     color: getForegroundColor(),
+                    opacity: titleOpacity === 0 ? 0 : 1,
                     // height: 36,
                     // paddingBottom: 15,
                     hyphens: 'auto',
