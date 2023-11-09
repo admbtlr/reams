@@ -97,17 +97,14 @@ export function itemToggleMercury (
   action: toggleMercuryViewAction, 
   state: ItemsState
 ) {
-  // TODO this is an inflated item, and shouldn't be here
-  // the state should be written to sqlite instead
-  let items = [ ...state.items ]
-  let item = items.find((item) => item._id === action.item._id)
-  if (item && item.content_mercury) {
-    item = {
-      ...item,
-      showMercuryContent: !item.showMercuryContent,
-      hasShownMercury: true
+  let items = state.items.map((i: Item) => {
+    let item = { ...i }
+    if (item._id === action.item._id) {
+      item.showMercuryContent = !item.showMercuryContent
+      item.hasShownMercury = true
     }
-  }
+    return item
+  })
   return {
     ...state,
     items

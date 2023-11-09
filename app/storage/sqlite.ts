@@ -14,7 +14,6 @@ const columns = [
   'decoration_failures',
   'excerpt',
   'readAt',
-  'hasShownMercury',
   'scrollRatio',
   'styles',
 ]
@@ -52,7 +51,6 @@ export async function initSQLite() {
       decoration_failures INT,
       excerpt TEXT,
       readAt LONG,
-      hasShownMercury BOOLEAN,
       scrollRatio TEXT,
       styles TEXT
     );`)
@@ -104,8 +102,8 @@ export async function setItems(items: ItemInflated[]) {
     items.forEach((item) => {
       tx.executeSql(
         `insert or replace into items (
-          id, _id, content_html, author, date_published, content_mercury, excerpt, hasShownMercury, scrollRatio, styles
-        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+          id, _id, content_html, author, date_published, content_mercury, excerpt, scrollRatio, styles
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
         [ 
           item.id || null, 
           item._id, 
@@ -114,7 +112,6 @@ export async function setItems(items: ItemInflated[]) {
           item.date_published || null, 
           item.content_mercury || null, 
           item.excerpt || null, 
-          item.hasShownMercury ? 1 : 0, 
           JSON.stringify(item.scrollRatio), 
           JSON.stringify(item.styles)
         ],
@@ -133,14 +130,15 @@ export async function setItems(items: ItemInflated[]) {
 })
 }
 
-export function getItems(toInflate: Item[]): Promise<ItemInflated[]> {
+export function getItems(items: Item[]): Promise<ItemInflated[]> {
+  const toInflate: Item[] = JSON.parse(JSON.stringify(items))
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
     tx.executeSql(
       `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`,
       [],
       (_, { rows }) => {
-        let items: ItemInflated[] = []
+        let inflatedItems: ItemInflated[] = []
         rows._array.forEach((flate) => {
           let item = toInflate.find((item) => item._id === flate._id) as ItemInflated
           if (item) {
@@ -149,14 +147,13 @@ export function getItems(toInflate: Item[]): Promise<ItemInflated[]> {
             item.date_published = flate.date_published
             item.content_mercury = flate.content_mercury
             item.excerpt = flate.excerpt
-            item.hasShownMercury = flate.hasShownMercury
-            item.scrollRatio = flate.scrollRatio !== 'undefined' ? JSON.parse(flate.scrollRatio) : {}
+            item.scrollRatio = JSON.parse(flate.scrollRatio)
             item.styles = JSON.parse(flate.styles)
-            items.push(item as ItemInflated)
+            inflatedItems.push(item as ItemInflated)
           }
         })
-        resolve(items)
-        return items as ItemInflated[]
+        resolve(inflatedItems)
+        return inflatedItems
       },
       (_, error) => {
         console.log(error)

@@ -1,4 +1,4 @@
-import { Item, ItemType, SAVE_ITEM, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '../store/items/types'
+import { Item, ItemInflated, ItemType, SAVE_ITEM, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '../store/items/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -15,6 +15,7 @@ import { RootState } from '../store/reducers'
 import { Feed } from '../store/feeds/types'
 import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
+import { getItems, inflateItem } from '../storage/sqlite'
 
 // isDarkMode, displayMode, 
 let areButtonsVisible = true
@@ -32,6 +33,10 @@ export default function ButtonSet ({
   item,
   opacityAnim,
 }: ButtonSetProps) {
+  const [itemInflated, setItemInflated] = useState<ItemInflated | undefined>(undefined)
+  useEffect(() => {
+    inflateItem(item).then(setItemInflated)
+  })
   const visible = useSelector((state: RootState) => state.ui.itemButtonsVisible)
   useEffect(() => {
     makeVisible(visible)
@@ -50,10 +55,10 @@ export default function ButtonSet ({
   }, [itemFeed])
   let isItemMercury: boolean | undefined
   useEffect(() => {
-    isItemMercury = item &&
+    isItemMercury = itemInflated &&
       (item.showMercuryContent || feed?.isMercury) &&
-      !!item.content_mercury
-  }, [item, feed])
+      !!itemInflated?.content_mercury
+  }, [item, itemInflated, feed])
 
   const dispatch = useDispatch()
   const setSaved = (item: Item, isSaved: boolean) => {
@@ -86,10 +91,12 @@ export default function ButtonSet ({
     (success, method) => {
     })
   }
-  const toggleMercury = () => dispatch({
-    type: TOGGLE_MERCURY_VIEW,
-    item
-  })
+  const toggleMercury = () => {
+    dispatch({
+      type: TOGGLE_MERCURY_VIEW,
+      item
+    })
+  }
   const launchBrowser = async () => {
     if (!item?.url) return
     try {
@@ -248,8 +255,8 @@ export default function ButtonSet ({
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
-        iconOff={getRizzleButtonIcon('showMercuryIconOff', borderColor, backgroundColor, !!item?.content_mercury, false)}
-        iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, !!item?.content_mercury, false)}
+        iconOff={getRizzleButtonIcon('showMercuryIconOff', borderColor, backgroundColor, !!itemInflated?.content_mercury, false)}
+        iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, !!itemInflated?.content_mercury, false)}
         initialToggleState={isItemMercury}
         isToggle={true}
         style={{
@@ -261,7 +268,10 @@ export default function ButtonSet ({
             }) : 0
           }]
         }}
-        onPress={!!item?.content_mercury ? () => toggleMercury(item) : () => false}
+        onPress={!!itemInflated?.content_mercury ? 
+          () => toggleMercury() : 
+          () => false
+        }
       />
     </Animated.View>
   )

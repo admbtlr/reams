@@ -19,9 +19,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     item: {
       ...item,
-      feed_color
+      feed_color,
+      showMercuryContent,
     },
-    showMercuryContent,
     isDarkMode: state.ui.isDarkMode,
     orientation: state.config.orientation,
     fontSize: state.ui.fontSize,

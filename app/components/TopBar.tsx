@@ -288,8 +288,8 @@ export default function TopBar({
                   ellipsizeMode='tail'
                   style={{
                     ...getStyles().feedName,
-                    fontSize: 16 * fontSizeMultiplier(),
-                    lineHeight: 18 * fontSizeMultiplier(),
+                    fontSize: 16  * fontSizeMultiplier(),
+                    lineHeight: 20 * fontSizeMultiplier(),
                     fontFamily: filter ?
                       'IBMPlexSansCond-Bold' :
                       'IBMPlexSansCond-Bold',
