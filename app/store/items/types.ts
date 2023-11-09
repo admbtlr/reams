@@ -36,6 +36,7 @@ export interface Item {
   feed_id: string
   feed_title: string
   hasCoverImage: boolean | undefined
+  hasShownMercury: boolean | undefined
   imageDimensions?: {
     width: number
     height: number
@@ -62,7 +63,6 @@ export interface ItemInflated extends Item {
   content_mercury?: string
   date_published?: string
   excerpt?: string
-  hasShownMercury?: boolean
   readingTime?: number
   styles: ItemStyles
 }

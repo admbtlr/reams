@@ -342,7 +342,10 @@ class FeedItem extends React.Component {
             </View>
             <ItemBody 
               bodyColor={bodyColor}
-              item={inflatedItem}
+              item={{
+                ...inflatedItem,
+                ...item
+              }}
               onTextSelection={this.props.onTextSelection}
               orientation={orientation}
               showImageViewer={this.props.showImageViewer}
