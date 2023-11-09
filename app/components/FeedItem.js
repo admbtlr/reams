@@ -422,7 +422,6 @@ class FeedItem extends React.Component {
       if (!this.pendingWebViewHeightId) {
         this.pendingWebViewHeightId = setTimeout(() => {
           that.setState({
-            ...that.state,
             webViewHeight: that.pendingWebViewHeight
           })
           that.hasWebViewResized = true
