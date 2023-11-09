@@ -327,15 +327,17 @@ const Onboarding3 = ({ index }) => {
     }
   }, [onboardingIndex])
   const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState(null)
+  const [message, setMessage] = useState(null)
   const isEmailValid = email && email.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
-  const [isSending, setIsSending] = useState(false)
   const session = useSession()
   const inputRef = useRef(null)
 
   async function sendMagicLink(email) {
     let redirectURL = 'already://onboarding'
     if (email) {
-      setIsSending(true)
+      setIsSubmitting(true)
       let result
       try {
         result = await supabase.auth.signInWithOtp({
@@ -343,11 +345,13 @@ const Onboarding3 = ({ index }) => {
           options: {
             emailRedirectTo: redirectURL,
           },
-        })  
+        })
+        setMessage('Check your email for the magic link')  
       } catch (e) {
         console.log(e)
+      } finally {
+        setIsSubmitting(false);
       }
-      setIsSending(false);
 
       if (result.error) {
         console.log(result.error)
@@ -382,6 +386,8 @@ const Onboarding3 = ({ index }) => {
       console.log(error)
     }
   }
+
+  const inlineMessage = message || (isSubmitting ? 'Sending...' : null)
 
   return (
     <OnboardingPage index={index}>
@@ -423,16 +429,23 @@ const Onboarding3 = ({ index }) => {
             marginBottom: 24 * fontSizeMultiplier(),
           }}
         />
-        <TextButton
-          isDisabled={!isEmailValid}
-          buttonStylea={{
-            opacity: isEmailValid ? 1 : 0.5
-          }}
-          onPress={() => {
-            sendMagicLink(email)
-          }}
-          text='Send me a link'
-        />
+        {!!inlineMessage ?
+          <Text style={{
+            ...textLargeStyle,
+            textAlign: 'center',
+          }}>{inlineMessage}</Text> :
+          (<TextButton
+            isDisabled={!isEmailValid || isSubmitting}
+            buttonStylea={{
+              opacity: isEmailValid ? 1 : 0.5
+            }}
+            onPress={() => {
+              setIsSubmitting(true)
+              sendMagicLink(email)
+            }}
+            text='Send me a link'
+          />)
+        }
         <Text style={{
           ...textLargeStyle,
           textAlign: 'center',
@@ -506,15 +519,19 @@ const Onboarding4 = ({ index }) => {
             outputRange: [0, 0, 1, 1]
           }),
         }}>A couple of things you should know before you get started</Animated.Text>
-        <Animated.Text style={{
-          ...textStyle,
-          textAlign: 'left',
+        { /* Using a View here because android can't do opacity on the icons */}
+        <Animated.View style={{
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
             inputRange: [0, 0.1, 0.18, 1],
             outputRange: [0, 0, 1, 1]
           }),
-        }}>New articles flow through your {getRizzleButtonIcon('rss', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Feed</Text> via RSS. Want to keep one of them? Save it to your {getRizzleButtonIcon('saved', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Library</Text>.</Animated.Text>
+        }}>
+          <Animated.Text style={{
+            ...textStyle,
+            textAlign: 'left',
+          }}>New articles flow through your {getRizzleButtonIcon('rss', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Feed</Text> via RSS. Want to keep one of them? Save it to your {getRizzleButtonIcon('saved', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Library</Text>.</Animated.Text>
+        </Animated.View>
         <Animated.Text style={{
           ...textStyle,
           textAlign: 'left',

@@ -1,5 +1,4 @@
 - saved external items are not getting decorated
-- mercury button doesn't work
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
 - backend for saved categories
 - backend for saved items
@@ -65,6 +64,7 @@
 - saved folders
 
 # Done
+- ~~mercury button doesn't work~~
 - ~~show errors on email login, also disable button~~
 - ~~ensure that decorateItem updates both store and IndexDB, get rid of whole flate concept~~
 - ~~move all Date.now() to Date.now() / 1000~~
