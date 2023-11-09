@@ -13,7 +13,7 @@ import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getStatusBarHeight } from '../utils'
-import { Animated, Dimensions } from 'react-native'
+import { Animated, Dimensions, Platform } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
@@ -61,10 +61,11 @@ const Main = ({route}) => {
       }}
       screenOptions={{
         headerStyle: {
-          backgroundColor: hslString('rizzleBG'),
+          backgroundColor: hslString('rizzleBG', Platform.OS === 'android' ? 'darker': ''),
           height: getStatusBarHeight(),
           // https://github.com/react-navigation/react-navigation/issues/6899
-          shadowOffset: { height: 0, width: 0 }
+          shadowColor: 'transparent',
+          elevation: 0,
         },
         headerTintColor: hslString('rizzleText'),
         headerTitleStyle: {
