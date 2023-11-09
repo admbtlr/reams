@@ -62,10 +62,11 @@ const Main = ({route}) => {
       }}
       screenOptions={{
         headerStyle: {
-          backgroundColor: hslString('rizzleBG'),
+          backgroundColor: hslString('rizzleBG', Platform.OS === 'android' ? 'darker': ''),
           height: getStatusBarHeight(),
           // https://github.com/react-navigation/react-navigation/issues/6899
-          shadowOffset: { height: 0, width: 0 }
+          shadowColor: 'transparent',
+          elevation: 0,
         },
         headerTintColor: hslString('rizzleText'),
         headerTitleStyle: {
