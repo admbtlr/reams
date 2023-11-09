@@ -2,12 +2,13 @@ import { InteractionManager, Platform } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
 import { 
   CLEAR_READ_ITEMS_SUCCESS,
+  ItemType,
   MARK_ITEM_READ,
   MARK_ITEMS_READ
 } from '../store/items/types'
 import { getReadItemsFS } from '../storage/firestore'
 
-import { getItems, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems } from './selectors'
+import { getItems, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems, getIndex } from './selectors'
 
 import log from '../utils/log'
 import { removeCachedCoverImages } from '../utils/item-utils'
@@ -50,12 +51,14 @@ export function * clearReadItems () {
   const displayMode = yield select(getDisplay)
   const readItems = items.filter(item => !!item.readAt)
   const currentItem = yield select(getCurrentItem, displayMode)
+  const index = yield select(getIndex, displayMode)
   let itemsToClear = readItems
     .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
     .filter(item => currentItem && (item._id !== currentItem._id))
-  if (currentItem) {
-    itemsToClear = itemsToClear.filter(item => item._id !== currentItem._id)
-  }
+  // this is an unfortunate parallel of the logic in the items reducer (maintainCarouselItems)
+  const carouselled = items
+    .slice(index - 1 < 0 ? 0 : index - 1, index + 1 > items.length ? items.length : index + 1)
+  itemsToClear = itemsToClear.filter(item => carouselled.find(i => i._id === item._id) === undefined)
 
   yield call(InteractionManager.runAfterInteractions)
   try {

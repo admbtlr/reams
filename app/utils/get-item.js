@@ -1,3 +1,4 @@
+import { ItemType } from '../store/items/types'
 import { store } from '../store'
 
 export const getItems = (state, type) => {
@@ -11,7 +12,7 @@ export const getItems = (state, type) => {
   }
   type = type || state.itemsMeta.display
 
-  return type === 'unread' ?
+  return type === ItemType.unread ?
     (filterFeedIds ?
       state.itemsUnread.items.filter(item => filterFeedIds.indexOf(item.feed_id) !== -1) :
       state.itemsUnread.items) :
@@ -26,7 +27,7 @@ export const getCurrentItem = (state, type) => {
 
 export const getIndex = (state, type) => {
   type = type || state.itemsMeta.display
-  const index = type === 'unread' ?
+  const index = type === ItemType.unread ?
     state.itemsUnread.index :
     state.itemsSaved.index
   return index && index >= 0 ? index : 0
@@ -44,12 +45,12 @@ export const getItemId = (state, index) => {
 
 export const getItem = (state, id, type = 'unread') => {
   if (!state) state = store.getState()
-  let items = type === 'unread' ?
+  let items = type === ItemType.unread ?
     state.itemsUnread.items :
     state.itemsSaved.items
   let item = items.find(item => item._id === id)
   if (!item) {
-    items = type === 'unread' ?
+    items = type === ItemType.unread ?
       state.itemsSaved.items : 
       state.itemsUnread.items
   }

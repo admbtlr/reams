@@ -155,7 +155,7 @@ class ItemCarousel extends React.Component {
     this.bufferIndex = bufferIndex
     this.selectedText = undefined
     this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
-    console.log('setIndex', this.index, this.bufferIndex)
+    // console.log('setIndex', this.index, this.bufferIndex)
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 

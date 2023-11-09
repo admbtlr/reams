@@ -469,7 +469,6 @@ class ItemTitle extends React.Component {
 
     // just so we can render something before it's been calculated
     const fontSize = this.state?.optimalFontSize || styles.fontSize || 42
-    console.log(`RENDERING TITLE (${this.displayTitle}): ${fontSize}`)
     let lineHeight = Math.floor(fontSize * styles.lineHeightAsMultiplier)
     if (lineHeight < fontSize) lineHeight = fontSize
 

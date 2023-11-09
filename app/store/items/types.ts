@@ -28,9 +28,9 @@ interface ItemStyles {
 
 export interface Item {
   _id: string
-  coverImageUrl: string | undefined
   content_length: number | undefined
   coverImageFile: string | undefined
+  coverImageUrl: string | undefined
   created_at: number
   decoration_failures: number | undefined
   feed_id: string
@@ -49,39 +49,22 @@ export interface Item {
     html?: number
     mercury?: number
   }
+  showCoverImage?: boolean
   showMercuryContent?: boolean
   title: string
   url: string
 }
 
-export interface ItemInflated {
+export interface ItemInflated extends Item {
   _id: string
   author?: string
-  coverImageUrl?: string
-  cachedCoverImageId?: string
   content_html?: string
   content_mercury?: string
-  coverImageFile?: string
-  created_at: number
   date_published?: string
-  decoration_failures?: number
   excerpt?: string
-  feed_id: string
-  hasCoverImage?: boolean
   hasShownMercury?: boolean
-  imageDimensions?: {
-    width: number
-    height: number
-  }
-  showCoverImage?: boolean
-  id: string
-  isSaved?: boolean
-  readAt?: number
   readingTime?: number
-  savedAt?: number
   styles: ItemStyles
-  title: string
-  url?: string
 }
 
 export interface MercuryStuff {

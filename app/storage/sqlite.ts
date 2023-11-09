@@ -1,6 +1,6 @@
 import { concat } from "@tensorflow/tfjs";
 import * as SQLite from "expo-sqlite";
-import { Item } from "store/items/types";
+import { Item, ItemInflated } from "store/items/types";
 
 let db: SQLite.WebSQLDatabase
 
@@ -14,7 +14,6 @@ const columns = [
   'decoration_failures',
   'excerpt',
   'readAt',
-  'showMercuryContent',
   'hasShownMercury',
   'scrollRatio',
   'styles',
@@ -53,7 +52,6 @@ export async function initSQLite() {
       decoration_failures INT,
       excerpt TEXT,
       readAt LONG,
-      showMercuryContent BOOLEAN CHECK (showMercuryContent IN (0,1)),
       hasShownMercury BOOLEAN,
       scrollRatio TEXT,
       styles TEXT
@@ -99,24 +97,23 @@ async function initSearchTable() {
   `)
 }
 
-export async function setItems(items: Item[]) {
+export async function setItems(items: ItemInflated[]) {
 
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
     items.forEach((item) => {
       tx.executeSql(
         `insert or replace into items (
-          id, _id, content_html, author, date_published, content_mercury, excerpt, showMercuryContent, hasShownMercury, scrollRatio, styles
-        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+          id, _id, content_html, author, date_published, content_mercury, excerpt, hasShownMercury, scrollRatio, styles
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
         [ 
-          item.id, 
+          item.id || null, 
           item._id, 
           item.content_html || null, 
           item.author || null, 
           item.date_published || null, 
           item.content_mercury || null, 
           item.excerpt || null, 
-          item.showMercuryContent ? 1 : 0, 
           item.hasShownMercury ? 1 : 0, 
           JSON.stringify(item.scrollRatio), 
           JSON.stringify(item.styles)
@@ -136,31 +133,30 @@ export async function setItems(items: Item[]) {
 })
 }
 
-export function getItems(toInflate: Item[]): Promise<Item[]> {
+export function getItems(toInflate: Item[]): Promise<ItemInflated[]> {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
     tx.executeSql(
       `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`,
       [],
       (_, { rows }) => {
-        let items: Item[] = []
-        rowsToArray(rows).forEach((flate) => {
-          let item = toInflate.find((item) => item._id === flate._id)
+        let items: ItemInflated[] = []
+        rows._array.forEach((flate) => {
+          let item = toInflate.find((item) => item._id === flate._id) as ItemInflated
           if (item) {
             item.content_html = flate.content_html
             item.author = flate.author
             item.date_published = flate.date_published
             item.content_mercury = flate.content_mercury
             item.excerpt = flate.excerpt
-            item.showMercuryContent = flate.showMercuryContent
             item.hasShownMercury = flate.hasShownMercury
             item.scrollRatio = flate.scrollRatio !== 'undefined' ? JSON.parse(flate.scrollRatio) : {}
             item.styles = JSON.parse(flate.styles)
-            items.push(item)
+            items.push(item as ItemInflated)
           }
         })
         resolve(items)
-        return items
+        return items as ItemInflated[]
       },
       (_, error) => {
         console.log(error)
@@ -172,8 +168,8 @@ export function getItems(toInflate: Item[]): Promise<Item[]> {
 })
 }
 
-export async function inflateItem (item: Item) {
-  const items: Item[] = await getItems([item])
+export async function inflateItem (item: Item): Promise<ItemInflated> {
+  const items: ItemInflated[] = await getItems([item])
   return items[0]
 }
 

@@ -77,7 +77,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   useEffect(() => {
     const search = async () => { 
       const items = await searchItems('fascism') 
-      console.log(items)
+      // console.log(items)
     }
     if (Platform.OS !== 'web') {
       search() 

@@ -108,6 +108,13 @@ export default function TopBar({
   
   const feedTitle = feed?.title ? feed.title : (!!item && item.url?.split('/').length > 3) ? item.url.split('/')[2] : ''
 
+  const titleOpacity = typeof scrollAnim !== 'number' && isVisible ? 
+    scrollAnim.interpolate({
+      inputRange: [0, 100, 140],
+      outputRange: [0, 0, 1]
+    }) : 0
+  
+
   return isOnboarding ? null :
   (
     <View>

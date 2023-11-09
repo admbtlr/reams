@@ -192,17 +192,18 @@ export function itemsUnread (
       }
 
     case CLEAR_READ_ITEMS_SUCCESS:
-      items = [...state.items]
-      index = state.index
-      currentItem = items[state.index]
-      let unreadItems = state.items.filter(i => i.readAt === undefined && i._id !== currentItem._id)      
-      carouselled = maintainCarouselItems(state, unreadItems)
+      // items = [...state.items]
+      // index = state.index
+      currentItem = state.items[state.index]
+      items = state.items.filter(i => i.readAt === undefined && i._id !== currentItem._id)      
+      let index = items.findIndex(i => i._id === currentItem._id)
+      // carouselled = maintainCarouselItems(state, unreadItems)
       return {
         ...state,
-        items: carouselled.items,
-        index: carouselled.index
-        // items,
-        // index
+        // items: carouselled.items,
+        // index: carouselled.index
+        items,
+        index
       }
 
     case SET_LAST_UPDATED:
