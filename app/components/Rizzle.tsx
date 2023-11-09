@@ -26,6 +26,7 @@ import { initSQLite } from '../storage/sqlite'
 import Config from 'react-native-config'
 import RizzleModal from './RizzleModal'
 import { ModalProvider } from './ModalProvider'
+import { hslString } from '../utils/colors'
 
 export interface Props {
   isActionExtension?: boolean
@@ -84,6 +85,11 @@ export default class Rizzle extends Component<Props, State> {
         ref={this.navigation}
         onReady={() => {
           routingInstrumentation.registerNavigationContainer(this.navigation);
+        }}
+        theme={{
+          colors: {
+            background: hslString('rizzleBG'),
+          }
         }}
       >
         <Provider store={store}>
