@@ -890,7 +890,30 @@ hr {
   }
 
   @include firstLineFontFamily("AvenirNext-Bold");
-  @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic")
+  @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic");
+
+  .android & {
+    font-family: "NunitoSans-Regular", serif;
+
+    em, i {
+      font-family: "NunitoSans-Italic", sans-serif;
+      font-style: normal;
+    }
+  
+    strong, b {
+      font-family: "NunitoSans-Bold", sans-serif;
+      font-weight: normal;
+    }
+  
+    strong em, em strong, b i, i b {
+      font-family: "NunitoSans-BoldItalic", sans-serif;
+      font-style: normal;
+      font-weight: normal;
+    }
+  
+    @include firstLineFontFamily("NunitoSans-Bold");
+    @include firstShortParaBold("NunitoSans-Bold", "NunitoSans-BoldItalic")  
+  }
 }
 
 .bodyFontSerif3 {

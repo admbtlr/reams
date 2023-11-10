@@ -215,7 +215,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const deviceWidth = height > width ? width: height
   const deviceWidthToggle = deviceWidth > 600 ? 'tablet' : 'phone'
 
-  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle}">
+  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle} ${Platform.OS}">
 <head>
   <style>
 :root {
