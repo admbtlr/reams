@@ -728,6 +728,37 @@ hr {
 .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a {
   color: var(--feed-color);
 }
+.android .bodyFontSans2 {
+  font-family: "NunitoSans-Regular", serif;
+}
+.android .bodyFontSans2 em, .android .bodyFontSans2 i {
+  font-family: "NunitoSans-Italic", sans-serif;
+  font-style: normal;
+}
+.android .bodyFontSans2 strong, .android .bodyFontSans2 b {
+  font-family: "NunitoSans-Bold", sans-serif;
+  font-weight: normal;
+}
+.android .bodyFontSans2 strong em, .android .bodyFontSans2 em strong, .android .bodyFontSans2 b i, .android .bodyFontSans2 i b {
+  font-family: "NunitoSans-BoldItalic", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.android .bodyFontSans2 .itemArticle > p:not(.short-para):first-of-type:first-line, .android .bodyFontSans2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .android .bodyFontSans2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "NunitoSans-Bold";
+}
+.android .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "NunitoSans-Bold";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.android .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) em, .android .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) i, .android .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .android .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "NunitoSans-BoldItalic";
+  font-style: normal;
+}
+.android .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
 
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif", serif;
