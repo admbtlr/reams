@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "66ACB1161FD9705E002BC66F"
-               BuildableName = "Reams Share.appex"
-               BlueprintName = "Reams Share"
-               ReferencedContainer = "container:Reams.xcodeproj">
+               BuildableName = "Already Share.appex"
+               BlueprintName = "Already Share"
+               ReferencedContainer = "container:Already.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Reams.app"
-               BlueprintName = "Reams"
-               ReferencedContainer = "container:Reams.xcodeproj">
+               BuildableName = "Already.app"
+               BlueprintName = "Already"
+               ReferencedContainer = "container:Already.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Reams.app"
-            BlueprintName = "Reams"
-            ReferencedContainer = "container:Reams.xcodeproj">
+            BuildableName = "Already.app"
+            BlueprintName = "Already"
+            ReferencedContainer = "container:Already.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Reams.app"
-            BlueprintName = "Reams"
-            ReferencedContainer = "container:Reams.xcodeproj">
+            BuildableName = "Already.app"
+            BlueprintName = "Already"
+            ReferencedContainer = "container:Already.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
