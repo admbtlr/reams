@@ -121,7 +121,7 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
     acc[key].push(val)
     return acc
   }, [])
-  const promises = Object.values(chunked).map(feeds => fetch('https://api.rizzle.net/api/feeds', {
+  const promises = Object.values(chunked).map(feeds => fetch(API_URL + '/feeds', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
