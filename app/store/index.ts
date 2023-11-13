@@ -61,10 +61,8 @@ function initStore (rehydrateCallback?: () => void) {
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
   const middlewareConf = {
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-    immutableCheck: false
+    serializableCheck: false,
+    // immutableCheck: false
   }
 
   if (USE_STATE) {
