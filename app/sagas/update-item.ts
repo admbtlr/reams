@@ -1,7 +1,7 @@
-import { call } from 'redux-saga/effects'
-import { ImageStuff, Item, ItemInflated, MercuryStuff } from '../store/items/types';
+import { call, put } from 'redux-saga/effects'
+import { ImageStuff, Item, ItemInflated, MercuryStuff, UPDATE_ITEM } from '../store/items/types';
 import { inflateItem, updateItem } from '../storage/sqlite';
-import { addCoverImageToItem, addMercuryStuffToItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils';
+import { addCoverImageToItem, addMercuryStuffToItem, deflateItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils';
 
 export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize: number}) {
   const fullItem: ItemInflated = yield call(inflateItem, item)
@@ -30,4 +30,8 @@ export function * persistDecoration ({imageStuff, item, mercuryStuff}: {imageStu
   item = setShowCoverImage(item)
   item = removeCachedCoverImageDuplicate(item)
   yield call(updateItem, item)
+  yield put({ 
+    type: UPDATE_ITEM,
+    item: deflateItem(item)
+  })
 }

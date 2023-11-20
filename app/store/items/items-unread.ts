@@ -39,7 +39,8 @@ import {
   ItemsState,
   ItemType,
   INCREMENT_INDEX,
-  DECREMENT_INDEX
+  DECREMENT_INDEX,
+  UPDATE_ITEM
 } from './types'
 import {
   itemMarkRead,
@@ -127,6 +128,17 @@ export function itemsUnread (
         ...state,
         ...newState
       }
+
+    case UPDATE_ITEM:
+      return {
+        ...state,
+        items: state.items.map(item => {
+          if (item._id === action.item._id) {
+            return action.item
+          }
+          return item
+        })
+      } 
 
     case ITEMS_BATCH_FETCHED:
       if (action.itemType !== ItemType.unread) return state
