@@ -1,5 +1,5 @@
-import { call } from 'redux-saga/effects'
-import { ImageStuff, Item, ItemInflated, MercuryStuff } from '../store/items/types';
+import { call, put } from 'redux-saga/effects'
+import { ImageStuff, Item, ItemInflated, MercuryStuff, UPDATE_ITEM } from '../store/items/types';
 import { 
   getItems as getItemsSQLite, 
   updateItem as updateItemSQLite
@@ -8,7 +8,7 @@ import {
   getItems as getItemsIDB, 
   updateItem as updateItemIDB
 } from '../storage/idb-storage'
-import { addCoverImageToItem, addMercuryStuffToItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils';
+import { addCoverImageToItem, addMercuryStuffToItem, deflateItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils';
 import { Platform } from 'react-native';
 
 export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize: number}) {
@@ -48,4 +48,8 @@ export function * persistDecoration ({imageStuff, item, mercuryStuff}: {imageStu
   } else {
     yield call(updateItemSQLite, item)
   }
+  yield put({ 
+    type: UPDATE_ITEM,
+    item: deflateItem(item)
+  })
 }

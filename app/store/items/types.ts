@@ -126,6 +126,7 @@ export const SAVE_EXTERNAL_ITEM = 'SAVE_EXTERNAL_ITEM'
 export const SAVE_EXTERNAL_ITEM_SUCCESS = 'SAVE_EXTERNAL_ITEM_SUCCESS'
 export const UNSAVE_ITEM = 'UNSAVE_ITEM'
 export const UNSAVE_ITEMS = 'UNSAVE_ITEMS'
+export const UPDATE_ITEM = 'UPDATE_ITEM'
 export const MARK_ITEM_READ = 'MARK_ITEM_READ'
 export const MARK_ITEMS_READ = 'MARK_ITEMS_READ'
 export const RECEIVED_REMOTE_READ_ITEMS = 'RECEIVED_REMOTE_READ_ITEMS'
@@ -158,6 +159,11 @@ interface incrementIndexAction {
 interface decrementIndexAction {
   type: typeof DECREMENT_INDEX
   displayMode: ItemType
+}
+
+interface updateItemAction {
+  type: typeof UPDATE_ITEM
+  item: Item
 }
 
 interface itemsBatchFetchedAction {
@@ -298,6 +304,7 @@ export type ItemActionTypes = setDisplayModeAction |
   updateCurrentIndexAction |
   incrementIndexAction |
   decrementIndexAction |
+  updateItemAction |
   itemsBatchFetchedAction |
   pruneUnreadAction |
   clearReadItemsSuccessAction |

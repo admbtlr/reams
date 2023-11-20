@@ -18,6 +18,7 @@ import {
   UNSAVE_ITEM,
   UNSAVE_ITEMS,
   UPDATE_CURRENT_INDEX,
+  UPDATE_ITEM,
   Item,
   ItemActionTypes,
   ItemsState,
@@ -90,6 +91,17 @@ export function itemsSaved (
         ...state,
         index
       }
+
+    case UPDATE_ITEM:
+      return {
+        ...state,
+        items: state.items.map(item => {
+          if (item._id === action.item._id) {
+            return action.item
+          }
+          return item
+        })
+      } 
 
     case MARK_ITEM_READ:
       return itemMarkRead(action, state)
