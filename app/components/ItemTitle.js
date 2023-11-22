@@ -789,7 +789,14 @@ class ItemTitle extends React.Component {
           </Animated.View>
           { this.props.displayMode === ItemType.saved && 
           <Animated.View style={{
-            ...this.props.addAnimation({}, categoriesAnimation, this.props.isVisible),
+            ...this.props.addAnimation({
+              transform: [{
+                translateY: scrollOffset.interpolate({
+                  inputRange: [-1, 0, 1],
+                  outputRange: [-0.6, 0, 0]
+                })
+              }]
+            }, categoriesAnimation, this.props.isVisible),
             marginBottom: getMargin(),
             marginLeft: this.horizontalMargin,
           }}>
@@ -912,6 +919,7 @@ class ItemTitle extends React.Component {
 
     let style = {
       ...innerViewStyle,
+      transform: [], // this is to erase the transform from the innerViewStyle
       paddingTop: !item.styles?.coverImage?.isInline &&
         (styles.borderWidth || styles.bg) ?
           excerptLineHeight / 2 :
