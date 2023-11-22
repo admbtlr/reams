@@ -195,9 +195,20 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     styles.isCoverInline = false
   }
 
-  let body = showMercuryContent ? content_mercury : content_html
-  body = body || ''
-  body = stripInlineStyles(body)
+  const getBody = () => {
+    if (showMercuryContent) {
+      return content_mercury
+    }
+    if (!!content_html) {
+      return content_html
+    }
+    if (!!content_mercury) {
+      return content_mercury
+    }
+    return ''
+  }
+
+  let body = stripInlineStyles(getBody())
   body = stripEmptyTags(body)
   body = stripUTags(body)
 
