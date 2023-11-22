@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { getItems, getIndex } from '../utils/get-item'
 import { Feed, FeedLocal } from '../store/feeds/types'
+import { inflateItem } from '../storage/sqlite'
 
 /* Props:
 - clampedAnimatedValue
@@ -44,7 +45,7 @@ import { Feed, FeedLocal } from '../store/feeds/types'
   key: string,
   navigation: any,
   opacityAnim:  number | Animated.AnimatedInterpolation<string | number>,
-  openFeedModal: () => void,
+  openFeedModal: (feedId: string) => void,
   scrollAnim:  number | Animated.AnimatedInterpolation<string | number>,
   titleTransformAnim:  number | Animated.AnimatedInterpolation<string | number>,
 }
@@ -63,6 +64,7 @@ export default function TopBar({
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const items = useSelector((state: RootState) => getItems(state))
   const [numItems, setNumItems] = useState(items.length)
+  const [isBackgroundTransparent, setIsBackgroundTransparent] = useState(false)
   useEffect(() => {
     setNumItems(items.length)
   }, [items.length])
@@ -72,6 +74,15 @@ export default function TopBar({
   const feed: Feed | undefined = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item.feed_id))
   const feedLocal: FeedLocal | undefined = useSelector((state: RootState) => state.feedsLocal.feeds.find(f => f._id === item.feed_id))
   const webviewHeight = useSelector((state: RootState) => getItems(state).find(i => i._id === item._id)?.webviewHeight || 0)
+
+  useEffect(() => {
+    const checkStyles = async () => {
+      const inflatedItem = await inflateItem(item)
+      const isCoverInline = inflatedItem?.styles?.isCoverInline || false
+      setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
+    }
+    checkStyles()
+  }, [item])
 
   const getBackgroundColor = () => {
     let feedColor = feed ? feed.color : null
@@ -87,16 +98,15 @@ export default function TopBar({
   }  
 
   const getForegroundColor = () => {
-    return displayMode == ItemType.saved ?
+    return displayMode == ItemType.saved && !isBackgroundTransparent ?
       (isDarkMode ?
         'hsl(0, 0%, 80%)' :
         hslString('rizzleText')) :
         'white'
   }
     
-  const getBackgroundOpacityAnim = (item: Item, scrollAnim: Animated.Value, displayMode: ItemType, allowTransparent = true) => {
-    if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent
-      && displayMode != ItemType.saved) {
+  const getBackgroundOpacityAnim = () => {
+    if (isBackgroundTransparent) {
       return scrollAnim.interpolate({
         inputRange: [0, getStatusBarHeight(), getStatusBarHeight() + 50],
         outputRange: [0, 0, 1]
@@ -114,6 +124,9 @@ export default function TopBar({
       outputRange: [0, 0, 1]
     }) : 0
   
+  const getCurrentContent = (): string => item.showMercuryContent ? 'mercury' : 'html'
+
+  const hasScrollRatio = item && item.scrollRatio && item.scrollRatio[getCurrentContent()] > 0
 
   return isOnboarding ? null :
   (
@@ -150,7 +163,7 @@ export default function TopBar({
           top: 0,
           bottom: 0,
           backgroundColor: getBackgroundColor(),
-          opacity: getBackgroundOpacityAnim(item, scrollAnim, displayMode)
+          opacity: getBackgroundOpacityAnim()
         }}>
           { displayMode === ItemType.saved &&
             <LinearGradient
@@ -171,6 +184,7 @@ export default function TopBar({
           isDarkMode={isDarkMode}
           navigation={navigation}
           isSaved={displayMode === ItemType.saved}
+          color={getForegroundColor()}
         />
         <View style={{
           top: hasNotchOrIsland() && isPortrait() ? 44 : 22,
@@ -306,6 +320,26 @@ export default function TopBar({
               </Animated.View>
             </TouchableOpacity>
         </View>
+        {/* <View style={{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: 50
+        }}>
+          { hasScrollRatio &&
+            <TouchableOpacity 
+              style={{
+                flex: 1,
+                alignItems: 'flex-end',
+                justifyContent: 'flex-end',
+                marginBottom: 12 * fontSizeMultiplier(),
+                paddingRight: 5 * fontSizeMultiplier(),
+              }}
+            >
+              {getRizzleButtonIcon('bookmark', getForegroundColor(), 'transparent', true, false)}
+            </TouchableOpacity>
+          }
+        </View> */}
     </Animated.View>
   </View>)
 }
@@ -359,12 +393,13 @@ const getStyles= () => {
 }
 
 interface BackButtonProps {
+  color: string,
   isDarkMode: boolean, 
   isSaved: boolean, 
   navigation: any 
 }
 
-const BackButton = ({ isDarkMode, isSaved , navigation: { navigate } }: BackButtonProps) => (
+const BackButton = ({ color, isDarkMode, isSaved , navigation: { navigate } }: BackButtonProps) => (
   <Animated.View style={{
     position: 'absolute',
     left: 0,
@@ -384,8 +419,7 @@ const BackButton = ({ isDarkMode, isSaved , navigation: { navigate } }: BackButt
         paddingTop: 10        
       }}
     >
-      { getRizzleButtonIcon('back', isSaved && !isDarkMode ?
-          'black' : 'white', 'transparent', true, false) }
+      { getRizzleButtonIcon('back', color, 'transparent', true, false) }
     </TouchableOpacity>
   </Animated.View>
 )
