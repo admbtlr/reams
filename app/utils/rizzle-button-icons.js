@@ -487,6 +487,19 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path d="M18 30L16 6" strokeWidth={4}/>
         <Rect x="23" y="6" width="4" height="20" rx="2" ry="2" strokeWidth={1}  transform={"rotate(-10 25 17)"}/>
       </Svg>
+    
+    case 'bookmark':
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox='0 0 24 24'
+        fill='none' 
+        stroke={borderColor}
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      >
+        <Path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" strokeWidth={2}/>
+      </Svg>
 
   }
 }
