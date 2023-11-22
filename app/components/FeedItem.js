@@ -64,6 +64,7 @@ class FeedItem extends React.Component {
 
   addAnimation (style, anim, isVisible) {
     const width = getMargin()
+    const transform = style.transform || []
     if (isVisible) {
       return {
         ...style,
@@ -72,12 +73,15 @@ class FeedItem extends React.Component {
           inputRange: [0, 1, 1.05, 1.1, 2],
           outputRange: [1, 1, 1, 1, 1]
         }),
-        transform: [{
-          translateX: anim.interpolate({
-            inputRange: [0, 1.01, 1.1, 2],
-            outputRange: [-width, -width, -width, -width]
-          })
-        }]
+        transform: [
+          ...transform,
+          {
+            translateX: anim.interpolate({
+              inputRange: [0, 1.01, 1.1, 2],
+              outputRange: [-width, -width, -width, -width]
+            })
+          }
+        ]
       }
     } else {
       return {
@@ -87,12 +91,15 @@ class FeedItem extends React.Component {
           inputRange: [0, 1, 1.05, 1.1, 2],
           outputRange: [1, 1, 1, 0, 0]
         }),
-        transform: [{
-          translateX: anim.interpolate({
-            inputRange: [0, 1.01, 1.1, 2],
-            outputRange: [-width, -width, width * 4, width * 4]
-          })
-        }]
+        transform: [
+          ...transform,
+          {
+            translateX: anim.interpolate({
+              inputRange: [0, 1.01, 1.1, 2],
+              outputRange: [-width, -width, width * 4, width * 4]
+            })
+          }
+        ]
       }  
     }
   }
