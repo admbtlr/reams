@@ -180,12 +180,19 @@ export function itemsSaved (
       } else {
         index = items.indexOf(currentItem)
       }
-
       return {
         ...state,
         items,
         index
       }
+
+    case UNSET_BACKEND:
+      if (action.backend === 'reams') {
+        return initialState
+      } else {
+        return state
+      }
+
 
     // case 'ITEMS_UNSAVE_ITEM_SUCCESS':
     //   currentItem = state.items[state.index]
