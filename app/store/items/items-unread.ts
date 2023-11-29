@@ -12,7 +12,6 @@ import {
   UPDATE_FEED,
   MUTE_FEED_TOGGLE,
   LIKE_FEED_TOGGLE,
-  UNLIKE_FEED,
   FeedActionTypes 
 } from '../feeds/types'
 import {
@@ -164,18 +163,6 @@ export function itemsUnread (
         // index
       }
 
-    case SORT_ITEMS:
-      items = [...state.items]
-      items = rizzleSort(items)
-      // carouselled = maintainCarouselItems(state, items)
-      return {
-        ...state,
-        items: items,
-        index: 0
-        // items,
-        // index
-      }
-
     case PRUNE_UNREAD:
       items = [...state.items]
       index = state.index
@@ -200,7 +187,7 @@ export function itemsUnread (
       // if there are any items from this feed, we must be toggling mute ON
       return {
         ...state,
-        items: items.filter(item => item.feed_id !== action.id)
+        items: items.filter(item => item.feed_id !== action.feed._id)
       }
 
     case CLEAR_READ_ITEMS_SUCCESS:

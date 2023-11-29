@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native'
 import Svg, {Path} from 'react-native-svg'
-import { ADD_FEEDS } from '../store/feeds/types'
+import { ADD_FEED, ADD_FEEDS } from '../store/feeds/types'
 import OPMLImport from './OPMLImport'
 import TextButton from './TextButton'
 import XButton from './XButton'
@@ -20,6 +20,8 @@ import { hslString } from '../utils/colors'
 import {feeds} from '../utils/feeds/feeds'
 import { textInfoBoldStyle } from '../utils/styles'
 import { rgba } from 'react-native-image-filter-kit'
+import { useModal } from './ModalProvider'
+import { findFeeds } from '../backends/reams'
 // import {culture} from '../utils/feeds/culture'
 
 const textStyles = () => ({
@@ -94,6 +96,7 @@ export default function NewFeedsList (props) {
   const [expandedFeedSets, setExpandedFeedSets] = useState([])
   const [headerHeight, setHeaderHeight] = useState(100)
   const dispatch = useDispatch()
+  const { openModal } = useModal()
   // let headerExpanded = 
 
   const toggleFeedSelected = (feed, isSelected) => {
@@ -124,6 +127,45 @@ export default function NewFeedsList (props) {
     })
     props.close()
   }
+
+  const showAddFeedModal = () => {
+    const modalText = [{
+      text: 'Add or search for a feed',
+      style: ['title']
+    }]
+    openModal({
+      modalText,
+      modalHideCancel: false,
+      modalShow: true,
+      inputs: [
+        {
+          label: 'Feed or site URL',
+          name: 'feedUrl',
+          type: 'text',
+        }
+      ],
+      modalOnOk: async (state) => {
+        if (state.feedUrl) {
+          const url = state.feedUrl.indexOf('http') === 0 ? state.feedUrl : 'https://' + state.feedUrl
+          try {
+            const feeds = await findFeeds(url)
+            console.log(feeds)
+            if (feeds.length > 0) {
+              dispatch({
+                type: ADD_FEED,
+                feed: feeds[0]
+              })
+            }
+          } catch(err) {
+            console.log(err)
+          }
+        }
+        console.log('modalOnOk')
+      },
+      showKeyboard: true
+    })
+  }
+
 
   // useEffect(() => {
   //   if (selectedFeeds.length > 0) {
@@ -203,11 +245,22 @@ export default function NewFeedsList (props) {
             ...textStyles(),
             ...boldStyles,
             marginBottom: 32 * fontSizeMultiplier()
-          }}>There are three ways to add new feeds to Reams:</Text>
+          }}>There are four ways to add new feeds to Already:</Text>
           <Text style={{
             ...textStyles(),
             marginBottom: 32 * fontSizeMultiplier()
-          }}>1. Use the Reams Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Reams icon.</Text>
+          }}>1. Use the Already Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Already icon.</Text>
+          <TouchableOpacity
+            onPress={showAddFeedModal}
+          >
+            <Text style={{
+                ...textStyles(),
+                marginBottom: 32 * fontSizeMultiplier()
+              }}
+            >2. <Text style={{ 
+              textDecorationLine: 'underline' 
+              }}>Enter a feed URL or the URL of a site where you want to search for a feed</Text></Text>
+          </TouchableOpacity>
           <View style={{
             flexDirection: 'row',
             flexWrap: 'wrap'
@@ -328,7 +381,7 @@ export default function NewFeedsList (props) {
                 outputRange: [1, 0]
               }),
               textAlign: 'center',        
-            }}>Find New Feeds to Read in Reams</Animated.Text>
+            }}>Add Feeds</Animated.Text>
           </Animated.View>
         </Animated.View>
       </View>

@@ -11,11 +11,13 @@ import { config, ConfigState } from './config/config'
 import { remoteActionQueue, RemoteActionQueueState } from './config/remote-action-queue'
 import { categories } from './categories/categories'
 import annotations  from './annotations/annotations'
-import { ItemsState } from './items/types'
+import { ItemsState, SORT_ITEMS } from './items/types'
 import { FeedsLocalState, FeedsState } from './feeds/types'
 import { UIState } from './ui/types'
 import { CategoriesState } from './categories/types'
 import { Annotation, AnnotationsState } from './annotations/types'
+import rizzleSort from '../utils/rizzle-sort'
+import reduceReducers from 'reduce-reducers'
 
 // export default {
 //   itemsUnread,
@@ -48,7 +50,7 @@ export interface RootState {
 }
 
 export default function makeRootReducer (): Reducer<RootState> {
-  return combineReducers({
+  const combinedReducers =  combineReducers({
     // firebase: persistReducer(
     //   {
     //     key: 'firebaseState',
@@ -69,4 +71,25 @@ export default function makeRootReducer (): Reducer<RootState> {
     categories,
     annotations
   })
+  
+  const crossSliceReducer = (state: RootState, action: any) => {
+    switch (action.type) {
+      default:
+        return state
+      case SORT_ITEMS:
+        let items = [...state.itemsUnread.items]
+        items = rizzleSort(items, state.feeds.feeds, state.config.itemSort)
+        // carouselled = maintainCarouselItems(state, items)
+        return {
+          ...state,
+          itemsUnread: {
+            ...state.itemsUnread,
+            items,
+            index: 0
+          }
+        }
+    }
+  }
+
+  return reduceReducers(combinedReducers, crossSliceReducer)
 }

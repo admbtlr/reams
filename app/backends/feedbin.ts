@@ -3,8 +3,17 @@ import EncryptedStorage from 'react-native-encrypted-storage'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
 import Config from 'react-native-config'
+import { Feed } from '../store/feeds/types'
 
 let credentials = {}
+
+interface FeedbinFeed {
+  feed_id: string,
+  id: string,
+  title: string,
+  feed_url: string,
+  site_url: string
+}
 
 export async function init ({ username, password }) {
   if (!password) {
@@ -220,16 +229,21 @@ export async function saveExternalItem(item) {
   }
 }
 
-export async function fetchFeeds (oldFeeds) {
+export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
   let feeds = await getRequest('subscriptions.json')
   if (oldFeeds) {
-    const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.id) : []
+    const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.feedbinId) : []
     feeds = feeds.filter(f => !oldFeedIds.includes(f.feed_id))
   }
+
+  // this is the pseudo-feed that Feedbin uses for saved items
+  feeds = feeds.filter(f => f.site_url !== 'http://pages.feedbinusercontent.com')
+  if (feeds.length === 0) return []
+
   feeds = feeds
-    .map(feed => ({
-      _id: id(),
-      id: feed.feed_id,
+    .map((feed: FeedbinFeed) => ({
+      _id: id(feed.feed_url),
+      feedbinId: feed.feed_id,
       subscription_id: feed.id,
       title: feed.title,
       url: feed.feed_url,
@@ -239,8 +253,8 @@ export async function fetchFeeds (oldFeeds) {
   return feeds
 }
 
-// returns the id
-export async function addFeed (feed) {
+// returns the feedbinId
+export async function addFeed (feed: {url: string}): Promise<string> {
   const f = await postRequest('subscriptions.json', {
     feed_url: feed.url
   })
@@ -254,7 +268,7 @@ export async function removeFeed (feed) {
 export const markFeedRead = (feed, olderThan, items) => {
 }
 
-export async function getFeedDetails (feed) {
+export async function getFeedMeta (feed) {
 }
 
 export async function getCategories () {
@@ -292,8 +306,8 @@ export async function updateCategory ({ id, name, feeds }) {
   if (oldTag) {
     taggingsForTag = taggings.filter(t => t.name === oldTag.name)
     oldFeedIds = taggingsForTag.map(t => t.feed_id)
-    newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.id)).map(f => f.id)
-    removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.id).includes(ofid))
+    newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.feedbinId)).map(f => f.feedbinId)
+    removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.feedbinId).includes(ofid))
     await postRequest('tags.json', {
       old_name: oldTag.name,
       new_name: name

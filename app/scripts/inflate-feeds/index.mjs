@@ -34,7 +34,7 @@ const downloadFavicons = async (feeds) => {
   for (let feed of feeds) {
     if (feed.favicon && feed.favicon.url) {
       console.log(`Getting favicon for ${feed.title}`)
-      const fileName = feed.id
+      const fileName = feed._id
       const extension = feed.favicon.url.indexOf('.ico') !== -1 ?
         'ico' : 'png'
       let path = `/tmp/favicons/${fileName}.${extension}`

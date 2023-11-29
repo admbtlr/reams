@@ -10,7 +10,6 @@ import DeviceInfo from 'react-native-device-info'
 import { Item } from '../store/items/types'
 import { hslString } from './colors'
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
-import murmurhash3_32_gc from './murmurHash3'
 
 let deviceId: string
 

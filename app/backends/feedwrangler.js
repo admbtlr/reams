@@ -244,7 +244,7 @@ export const unsaveItem = (item) => {
     })
 }
 
-export const getFeedDetails = (feed) => {
+export const getFeedMeta = (feed) => {
   let feedExtras
   const id = typeof feed === 'object' ? feed.id : feed
   if (feeds && (feedExtras = feeds.find(f => f.feed_id === feed.id))) {
@@ -272,7 +272,7 @@ export const getFeedDetails = (feed) => {
       }
     })
     .catch(e => {
-      log('Error at getFeedDetails: ' + e)
+      log('Error at getFeedMeta: ' + e)
     })
 }
 

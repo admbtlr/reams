@@ -1,5 +1,7 @@
 import { ITEMS_BATCH_FETCHED, ItemType } from '../../store/items/types'
 import { itemsUnread, initialState } from '../../store/items/items-unread'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const newItems = [
   {

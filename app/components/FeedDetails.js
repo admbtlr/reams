@@ -183,7 +183,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             icon={mercuryIcon}
             onValueChange={() => {
               setMercury(!isMercury)
-              toggleMercury(feed._id)
+              toggleMercury(feed)
             }}
             value={isMercury} />
           <SwitchRow
@@ -192,7 +192,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             onValueChange={() => {
               setMuted(!isMuted)
               setTimeout(() => {
-                toggleMute(feed._id)
+                toggleMute(feed)
               }, 100)
             }}
             value={isMuted} />
@@ -202,7 +202,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             onValueChange={() => {
               setLiked(!isLiked)
               setTimeout(() => {
-                toggleLike(feed._id)
+                toggleLike(feed)
               }, 100)
             }}
             help='Stories will always appear at the front of your unread list'
@@ -243,7 +243,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             noResize={true}
             onPress={() => {
               setTimeout(() => {
-                markAllRead(feed._id, feed.id)
+                markAllRead(feed)
               }, 100)
             }}
             text='Discard stories' />

@@ -43,7 +43,7 @@ import {
 } from '../../utils/item-utils.js'
 import { RootState } from '../reducers'
 
-const initialState:ItemsState = {
+export const initialState:ItemsState = {
   items: [],
   index: 0,
   lastUpdated: 0
@@ -60,7 +60,6 @@ export function itemsSaved (
   let savedItem: Item
   let index: number
   let currentItem: Item
-  let carouselled: { index : number, items : Item[] }
 
   switch (action.type) {
     case UPDATE_CURRENT_INDEX:
