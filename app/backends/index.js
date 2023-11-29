@@ -64,15 +64,10 @@ export async function getReadItems (oldItems) {
 
 // old items are (fetched items + read items)
 export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) {
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      return await reams.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
-    case 'feedwrangler':
-      return await feedwrangler.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
-    case 'feedbin':
-      return await feedbin.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
+  if (backend === 'feedbin') {
+    return await feedbin.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
   }
+  return await reams.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
 }
 
 // export async function fetchSavedItems (savedItems, currentItem, feeds, lastUpdated, cb) {
@@ -100,31 +95,17 @@ export function fetchUnreadIds () {
 }
 
 export async function markItemRead (item) {
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      return reams.markItemRead(item)
-    case 'feedwrangler':
-      return feedwrangler.markItemRead(item)
-    case 'feedbin':
-      return feedbin.markItemRead(item)
+  if (backend === 'feedbin') {
+    feedbin.markItemRead(item)
   }
+  return reams.markItemsRead([item])
 }
 
 export async function markItemsRead (items, feedId = null, olderThan = null) {
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      return reams.markItemsRead(items)
-    case 'feedwrangler':
-      if (feedId) {
-        return feedwrangler.markFeedRead(feedId, olderThan)
-      } else {
-        return feedwrangler.markItemsRead(items)
-      }
-    case 'feedbin':
-      return feedbin.markItemsRead(items)
+  if (backend === 'feedbin') {
+    feedbin.markItemsRead(items)
   }
+  return reams.markItemsRead(items)
 }
 
 export async function saveItem (item, folder) {
@@ -180,33 +161,24 @@ export async function saveExternalItem (item, folder) {
 //   }
 // }
 
-export function fetchFeeds () {
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      return reams.fetchFeeds()
-    case 'feedwrangler':
-      return feedwrangler.fetchFeeds()
-    case 'feedbin':
-      return feedbin.fetchFeeds()
+export async function fetchFeeds () {
+  let feedsFeedbin = []
+  if (backend === 'feedbin') {
+    feedsFeedbin = await feedbin.fetchFeeds()
   }
+  const feedsAlready = await reams.fetchFeeds()
+  const feedsToAddToAlready = feedsFeedbin.filter(fb => !feedsAlready.find(fa => fa.feedbin_id === fb.id))
+  
+  await reams.addFeeds(feedsToAddToAlready)
+
+  return feedsAlready.concat(feedsToAddToAlready)
 }
 
 export async function addFeed (feed) {
-  let id
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      return reams.addFeed(feed)
-    case 'feedwrangler':
-      id = await feedwrangler.addFeed(feed)
-      feed.id = id
-      return feed
-    case 'feedbin':
-      id = await feedbin.addFeed(feed)
-      feed.id = id
-      return feed
+  if (backend === 'feedbin') {
+    feed.feedbinId = await feedbin.addFeed(feed)
   }
+  return reams.addFeed(feed)
 }
 
 export function updateFeed (feed) {
@@ -218,23 +190,14 @@ export function updateFeed (feed) {
 }
 
 export function removeFeed (feed) {
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      return reams.removeFeed(feed)
-    case 'feedwrangler':
-      return feedwrangler.removeFeed(feed)
-    case 'feedbin':
-      return feedbin.removeFeed(feed)
+  if (backend === 'feedbin') {
+    feedbin.removeFeed(feed)
   }
+  return reams.removeFeed(feed)
 }
 
-export async function getFeedDetails (feed) {
-  switch (backend) {
-    case 'feedwrangler':
-      feed = await feedwrangler.getFeedDetails(feed)
-  }
-  return await reams.getFeedDetails(feed)
+export async function getFeedMeta (feed) {
+  return await reams.getFeedMeta(feed)
 }
 
 export async function getCategories () {

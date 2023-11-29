@@ -56,7 +56,6 @@ function TopBars (props: TopBarsProps) {
     setScrollAnimSetterAndListener,
     setBufferIndexChangeListener
   }  = props 
-  // console.log('RENDERING TOPBARS')
   if (!items) return null
   const screenWidth = Dimensions.get('window').width
   const panAnimDivisor = screenWidth
@@ -130,7 +129,6 @@ function TopBars (props: TopBarsProps) {
       0)
 
   useEffect(() => {
-    console.log('setting clampedAnimatedValue')
     setClampedAnimatedValue(Animated.diffClamp(
       clampedScrollAnim,
       0 - getStatusBarHeight(),

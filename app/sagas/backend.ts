@@ -58,9 +58,6 @@ export function * primeAllBackends () {
   for (let backend of backends) {
     yield call(primeBackend, backend.name)
   }
-  if (!backends.find((b: any) => b.name === 'feedbin')) {
-    yield call(setBackend, 'reams', {})
-  }
 }
 
 export function * primeBackend(backend: string | any) {

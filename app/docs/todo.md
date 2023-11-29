@@ -1,17 +1,16 @@
-- saved external items are not getting decorated
+- backend for feeds
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
 - backend for saved categories
 - backend for saved items
-- backend for feeds
 - action extension
 - "reams favourites"
+- add a feed manually
 - settings screen
   - ~~dark mode settings~~
   - other bg colours?
   - ~~sorting~~
 - what's new screen
 - text to speech
-- feedly
 - search
    - ~~replace AS with SQLite / WatermelonDB~~
 - newsletters with fastmail (or gmail?)
@@ -22,6 +21,7 @@
 - onboarding in dark mode
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
+- feedly
 
 # Someday / Maybe
 - use more built-in fonts?
@@ -58,11 +58,11 @@
 - Use https://github.com/DylanVann/react-native-fast-image to show cached images
 - scroll effects
 - make buttons use reanimate
-- add a feed manually
 - newsletters
 - saved folders
 
 # Done
+- ~~saved external items are not getting decorated~~
 - ~~mercury button doesn't work~~
 - ~~show errors on email login, also disable button~~
 - ~~ensure that decorateItem updates both store and IndexDB, get rid of whole flate concept~~

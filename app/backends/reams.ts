@@ -13,7 +13,17 @@ import {
   removeFeedFS,
   setDb,
   setUid } from '../storage/firestore'
-// import { filterItemsForStale } from '../realm/stale-items'
+import { 
+  addFeed as addFeedSupabase,
+  addFeeds as addFeedsSupabase,
+  addReadItems as addReadItemsSupabase,
+  getFeeds as getFeedsSupabase,
+  getFeedBySiteUrl,
+  removeUserFeed as removeUserFeedSupabase
+} from '../storage/supabase'
+import { Feed } from '../store/feeds/types'
+import { convertColorIfNecessary } from '../sagas/feeds'
+import { Item } from '../store/items/types'
 
 let isPlus = false
 
@@ -55,9 +65,9 @@ function extractErroredFeeds (unreadItemsArrays) {
   return unreadItemsArrays.filter(uia => uia.length)
 }
 
-const fetchUnreadItems = (feeds, lastUpdated) => {
+const fetchUnreadItems = (feeds: { url : string, isNew?: boolean }[], lastUpdated: number) => {
   const promises = feeds.filter(feed => !!feed).map(feed => {
-    const url = `https://api.rizzle.net/api/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
+    const url = `${Config.API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
     // const url = `http://localhost:8080/feed/?url=${feed.url}`
     return fetch(url).then(response => {
       return { response, feed }
@@ -71,7 +81,7 @@ const fetchUnreadItems = (feeds, lastUpdated) => {
         return response.json().then(json => {
           return { json, feed }
         })
-    }).then(({json, feed}) => json.map(mapRizzleServerItemToRizzleItem).map(item => {
+    }).then(({json, feed}) => json.map(mapRizzleServerItemToRizzleItem).map((item: Item) => {
       return {
         ...item,
         feed_title: feed.title,
@@ -101,7 +111,7 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
     acc[key].push(val)
     return acc
   }, [])
-  const promises = Object.values(chunked).map(feeds => fetch(API_URL + '/feeds', {
+  const promises = Object.values(chunked).map(feeds => fetch(Config.API_URL + '/feeds', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -135,10 +145,8 @@ export async function markItemRead (item) {
   }
 }
 
-export async function markItemsRead (items) {
-  if (isPlus) {
-    addReadItemsFS(items)
-  }
+export async function markItemsRead (items: Item[]) {
+  addReadItemsSupabase(items)
 }
 
 export const saveItem = (item, folder) => {
@@ -160,38 +168,51 @@ export function saveExternalItem (item, folder) {
   return item
 }
 
-export async function addFeed (feed) {
-  if (isPlus) {
-    await addFeedFS(feed)
-  }
+export async function addFeed (feedToAdd: {url: string, id?: number}, userId?: string): Promise<Feed> {
+  const feed = await addFeedSupabase(feedToAdd, userId)
   return feed
 }
 
-export async function updateFeed (feed) {
+export async function addFeeds (feeds: Feed[]) {
+  return await addFeedsSupabase(feeds)
+}
+
+// actually this should never happen
+export async function updateFeed (feed: Feed) {
   if (isPlus) {
     upsertFeedsFS([feed])
   }
 }
 
-export async function removeFeed (feed) {
-  if (isPlus) {
-    removeFeedFS(feed)
-  }
+export async function removeFeed (feed: Feed) {
+  await removeUserFeedSupabase(feed)
 }
 
 export async function fetchFeeds () {
-  if (isPlus) {
-    return getFeedsFS()
-  } else return []
+  return await getFeedsSupabase()
 }
 
 export const markFeedRead = (feed, olderThan, items) => {
   return
 }
 
-export async function getFeedDetails (feed) {
-  const url = `${Config.API_URL}/feed-meta?url=${feed.url}`
-  return fetch(url).then(response => {
+interface FeedMeta {
+  title: string
+  description: string
+  favicon: {
+    url: string
+    size: string // e.g. "120x120"
+  }
+  image: string // url
+  rootUrl: string // url
+  color: string // hex || rgb()
+  didError: boolean
+}
+
+export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta> {
+  console.log('getFeedMeta')
+  const apiUrl = `${Config.API_URL}/feed-meta?url=${feed.url}`
+  return fetch(apiUrl).then(response => {
     return { response, feed }
   }).then(({response, feed}) => {
     if (!response.ok) {
@@ -202,15 +223,53 @@ export async function getFeedDetails (feed) {
     }
     return response.json()
   }).then(json => {
+    console.log(json)
     return {
       ...json,
-      ...feed,
-      color: json.color || feed.color
+      url: feed.url,
+      color: convertColorIfNecessary(json.color)
     }
   }).catch(({feed, message}) => {
-    return {feed, message}
+    throw new Error(`Error getting feed meta for ${feed.url}: ${message}`)
   })
+}
 
+export async function findFeeds (url: string): Promise<{ url: string, title: string }[]> {
+  try {
+    const feedMeta = await getFeedMeta({ url })
+    if (feedMeta && feedMeta.title) {
+      return [{url, title: feedMeta.title}]
+    }
+  } catch (e: any) {
+    // throw new Error(`Error finding feeds for ${url}: ${e.message}`)
+  }
+  try {
+    const apiUrl = `${Config.API_URL}/find-feeds?url=${url}&extended=1`
+    const response = await fetch(apiUrl)
+    if (!response.ok) {
+      throw {
+        url,
+        message: response.statusText
+      }
+    }
+    const json = await response.json()
+    if (json.length > 0 && json[0]?.url) {
+      return json.map(feed => ({
+        ...feed,
+        color: convertColorIfNecessary(feed.color)
+      }))
+    }
+  } catch(e: any) {
+    throw new Error(`Error finding feeds for ${url}: ${e.message}`)
+  }
+  try {
+    const feed = await getFeedBySiteUrl(url)
+    if (feed !== undefined && feed !== null) {
+      return [{url, title: feed.title}]
+    }
+  } catch (e: any) {
+    throw new Error(`Error finding feeds for ${url}: ${e.message}`)
+  }
 }
 
 const mapRizzleServerItemToRizzleItem = (item) => {

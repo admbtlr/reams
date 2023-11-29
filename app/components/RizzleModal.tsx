@@ -100,17 +100,20 @@ const RizzleModal  = () => {
     })
   }
 
-  const onOK = () => {
+  const onOK = async () => {
+    let shouldClose: boolean | undefined | void = true
     if (isDeletePending) {
       modalProps?.modalOnDelete && modalProps.modalOnDelete()
     } else {
-      modalProps?.modalOnOk && modalProps.modalOnOk(inputState)
+      shouldClose = modalProps?.modalOnOk && await modalProps.modalOnOk(inputState)
     }
-    closeModal()
-    isOpen = false
-    // modalProps.hideModalable && modalProps.modalName &&
-    //   toggleHide(modalProps.modalName)
-    resetState
+    if (typeof shouldClose !== 'boolean' || shouldClose) {
+      closeModal()
+      isOpen = false
+      // modalProps.hideModalable && modalProps.modalName &&
+      //   toggleHide(modalProps.modalName)
+      resetState  
+    }
   }
 
   const onCancel = () => {

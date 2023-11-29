@@ -49,13 +49,13 @@ function initStore (rehydrateCallback?: () => void) {
     transforms: [orientationTransform],
     blacklist: ['animatedValues'],
     migrate: createMigrate(migrations, { debug: true }),
-    version: 11
+    version: 22
   }
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer())
   const middlewareConf = {
     serializableCheck: false,
-    // immutableCheck: false
+    immutableCheck: false
   }
 
   if (Config.USE_STATE) {

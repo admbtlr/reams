@@ -32,6 +32,7 @@ export const AuthProvider = (props: any) => {
           console.log('Auth event', event)
           setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
+          // initial fetches can go here
           dispatch(fetchAnnotations())
         } else {
           setSession({session: null})

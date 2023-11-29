@@ -433,37 +433,40 @@ const Onboarding3 = ({ index }) => {
           <Text style={{
             ...textLargeStyle,
             textAlign: 'center',
+            marginTop: 48 * fontSizeMultiplier(),
           }}>{inlineMessage}</Text> :
-          (<TextButton
-            isDisabled={!isEmailValid || isSubmitting}
-            buttonStylea={{
-              opacity: isEmailValid ? 1 : 0.5
-            }}
-            onPress={() => {
-              setIsSubmitting(true)
-              sendMagicLink(email)
-            }}
-            text='Send me a link'
-          />)
-        }
-        <Text style={{
-          ...textLargeStyle,
-          textAlign: 'center',
-          marginTop: 24 * fontSizeMultiplier(),
-          marginBottom: 24 * fontSizeMultiplier(),
-        }}>or</Text>
-        <AppleButton
-          buttonStyle={AppleButton.Style.BLACK}
-          buttonType={AppleButton.Type.SIGN_IN}
-          style={{
-            width: '100%',
-            height: 40 * fontSizeMultiplier(),
-            maxWidth: 700,
-            borderRadius: 20 * fontSizeMultiplier(),
-            alignSelf: 'center',
-          }}
-          onPress={() => onAppleButtonPress()}
-        />
+          (
+          <>
+            <TextButton
+              isDisabled={!isEmailValid || isSubmitting}
+              buttonStylea={{
+                opacity: isEmailValid ? 1 : 0.5
+              }}
+              onPress={() => {
+                setIsSubmitting(true)
+                sendMagicLink(email)
+              }}
+              text='Send me a link'
+            />
+            <Text style={{
+              ...textLargeStyle,
+              textAlign: 'center',
+              marginTop: 24 * fontSizeMultiplier(),
+              marginBottom: 24 * fontSizeMultiplier(),
+            }}>or</Text>
+            <AppleButton
+              buttonStyle={AppleButton.Style.BLACK}
+              buttonType={AppleButton.Type.SIGN_IN}
+              style={{
+                width: '100%',
+                height: 40 * fontSizeMultiplier(),
+                maxWidth: 700,
+                borderRadius: 20 * fontSizeMultiplier(),
+                alignSelf: 'center',
+              }}
+              onPress={() => onAppleButtonPress()}
+            />
+          </>)}
       </View>
 
     </OnboardingPage>

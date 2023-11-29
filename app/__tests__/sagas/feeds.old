@@ -148,7 +148,7 @@ describe('inflateFeeds', () => {
   // but that shouldn't be a problem...?
   // it('should get feed descriptions', async () => {
   //   sinon.replace(InteractionManager, 'runAfterInteractions', sinon.fake.resolves(true))
-  //   sinon.replace(backends, 'getFeedDetails', sinon.fake.resolves({
+  //   sinon.replace(backends, 'getFeedMeta', sinon.fake.resolves({
   //     description: 'We are literally here'
   //   }))
   //   let dispatched = []

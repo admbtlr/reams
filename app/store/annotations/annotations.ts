@@ -3,8 +3,8 @@ import {
 } from "./types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../reducers";
-import { supabase } from "../../storage/supabase";
-import { pgTimestamp } from "../../utils";
+import { supabase } from "../../storage/supabase"
+import { pgTimestamp } from "../../utils"
 
 export const createAnnotation = createAsyncThunk(
   'annotations/createAnnotation',

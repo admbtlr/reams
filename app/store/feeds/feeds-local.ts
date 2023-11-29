@@ -6,17 +6,14 @@ import {
 import { 
   CACHE_FEED_ICON_ERROR,
   SET_CACHED_FEED_ICON,
-  FEED_HAS_RENDERED_ICON,
   SET_FEEDS,
   SET_CACHED_COVER_IMAGE,
   FeedActionTypes,
   FeedLocal,
   FeedsLocalState,
-  ADD_FEED_SUCCESS,
-  ADD_FEEDS_SUCCESS,
   REMOVE_FEED,
   REMOVE_CACHED_COVER_IMAGE,
-  REFRESH_FEED_LIST
+  ADD_FEEDS_TO_STORE,
 } from './types'
 import { 
   ITEMS_BATCH_FETCHED,
@@ -36,19 +33,7 @@ export function feedsLocal (
   let feed: FeedLocal | undefined
 
   switch (action.type) {
-    case ADD_FEED_SUCCESS:
-      feeds = state.feeds.filter(f => f._id !== action.feed._id)
-      return {
-        ...state,
-        feeds: [
-          ...feeds,
-          {
-            _id: action.feed._id,
-            isNew: true
-          }
-        ]
-      }
-    case ADD_FEEDS_SUCCESS:
+    case ADD_FEEDS_TO_STORE:
       feeds = action.feeds.filter(f => !state.feeds
         .find(feed => feed._id === f._id)).map(f => ({
           _id: f._id,
@@ -110,28 +95,6 @@ export function feedsLocal (
         ]
       }
 
-    case FEED_HAS_RENDERED_ICON:
-      feed = state.feeds.find(f => f._id === action.id)
-      if (feed) {
-        feed = {
-          ...feed,
-          hasRenderedIcon: true
-        }
-      } else {
-        feed = {
-          _id: action.id,
-          hasRenderedIcon: true
-        }
-      }
-      return {
-        ...state,
-        feeds: [
-          ...state.feeds,
-          feed
-        ]
-      }
-
-    case REFRESH_FEED_LIST:
     case SET_FEEDS:
       feeds = state.feeds.map(f => f)
       action.feeds.forEach(newFeed => {
