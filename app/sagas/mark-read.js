@@ -30,7 +30,8 @@ export function * markLastItemRead (action) {
       _id: item._id,
       feed_id: item.feed_id,
       title: item.title,
-      id: item.id
+      id: item.id,
+      url: item.url
     }
   })
 }

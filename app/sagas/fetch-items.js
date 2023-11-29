@@ -44,7 +44,7 @@ import { setItems as setItemsIDB} from '../storage/idb-storage'
 
 let feeds
 
-export function * fetchAllItems (includeSaved = true) {
+export function * fetchAllItems (param = true) {
 
   const isConnectionOK = function* () {
     const netInfo = yield call(NetInfo.fetch)
@@ -58,17 +58,18 @@ export function * fetchAllItems (includeSaved = true) {
   yield put({
     type: ADD_MESSAGE,
     message: {
-      messageString: 'Loading stories',
+      messageString: 'Loading articles',
       hasEllipsis: true
     }
   })
   yield fetchItems(ItemType.unread)
+  let includeSaved = typeof param === 'object'? !!param.includeSaved : param
   if (includeSaved) {
     yield fetchItems(ItemType.saved)
   }
   yield put({
     type: REMOVE_MESSAGE,
-    messageString: 'Loading stories'
+    messageString: 'Loading articles'
   })
 }
 
@@ -105,7 +106,7 @@ export function * fetchItems (type = ItemType.unread) {
 
   if (type === ItemType.unread) {
     const readItems = yield call(getReadItemsBackends, oldItems)
-    if (readItems.length > 0) {
+    if (readItems?.length > 0) {
       yield put({
         type: MARK_ITEMS_READ,
         items: readItems
@@ -174,7 +175,7 @@ export function * receiveItems (items, type) {
   const sortDirection = config.itemSort
   if (type === ItemType.unread) {
     feeds = yield select(getFeeds)
-    const updated = yield createFeedsWhereNeededAndAddInfo(items, feeds)
+    const updated = yield createFeedsWhereNeededAndAddInfo(items, [...feeds])
     updatedFeeds = updated.feeds
     items = updated.items
     console.log('createFeedsWhereNeededAndAddInfo took ' + (Date.now() - now))
@@ -261,20 +262,6 @@ function * cleanUpItems (items, type) {
     .map(setId)
 }
 
-// function addFeedInfoToItems(items, feeds, moreFeeds) {
-//   let allFeeds = []
-//   if (feeds) allFeeds = feeds
-//   if (moreFeeds) allFeeds = concat(allFeeds, moreFeeds)
-//   return items.map(item => {
-//     const feed = feeds.find(feed => feed.id === item.feed_id || feed._id === item.feed_id)
-//     return {
-//       ...item,
-//       feed_id: feed._id,
-//       feed_color: feed ? feed.color : null
-//     }
-//   })
-// }
-
 function * createFeedsWhereNeededAndAddInfo (items, feeds) {
   let feed
   let item
@@ -283,11 +270,11 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
     // give the loop a chance to stop in case the fork has been cancelled
     yield delay(1)
     item = items[i]
-    // note that we have to look at feed.id AND feed._id
+    // note that we have to look at feed.feedbinId AND feed._id
     // this is for feeds that have been migrated from an external provider
-    // to rizzle, whereby feed.id is the exernal provider's id, and
+    // to rizzle, whereby feed.feedbinId is the exernal provider's id, and
     // feed._id is rizzle's id
-    feed = feeds.find(feed => feed.id === item.feed_id ||
+    feed = feeds.find(feed => feed.feedbinId === item.feed_id ||
       feed._id === item.feed_id ||
       feed.title === item.feed_title)
     if (!feed) {
@@ -295,12 +282,6 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
         _id: id()
       }
       newOrUpdatedFeeds.push(feed)
-    }
-    if (feed.id === undefined) {
-      feed.id = item.feed_id
-      if (!newOrUpdatedFeeds.find(f => f._id === feed._id)) {
-        newOrUpdatedFeeds.push(feed)
-      }
     }
     if (!feed.title && item.feed_title) {
       if (__DEV__) debugger

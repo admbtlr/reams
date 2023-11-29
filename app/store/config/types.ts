@@ -20,6 +20,7 @@ export const SET_ITEM_SORT = 'SET_ITEM_SORT'
 export const SET_SHOW_NUM_UNREAD = 'SET_SHOW_NUM_UNREAD'
 export const STATE_ACTIVE = 'STATE_ACTIVE'
 export const STATE_INACTIVE = 'STATE_INACTIVE'
+export const SET_MIGRATION_VERSION = 'SET_MIGRATION_VERSION'
 
 // remote action queue
 export const REMOTE_ACTION_COMPLETED = 'REMOTE_ACTION_COMPLETED'
@@ -83,6 +84,11 @@ interface setStateActiveAction {
   time: number
 }
 
+interface updateMigrationVersionAction {
+  type: typeof SET_MIGRATION_VERSION
+  version: number
+}
+
 export type ConfigActionTypes = updateOnboardingInxeAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |
@@ -94,4 +100,5 @@ export type ConfigActionTypes = updateOnboardingInxeAction |
   setShowNumUnreadAction |
   remoteActionCompletedAction |
   setStateActiveAction |
-  deleteCategory
+  deleteCategory |
+  updateMigrationVersionAction

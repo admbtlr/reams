@@ -12,7 +12,7 @@ import {
   SET_SHOW_NUM_UNREAD,
   SET_ORIENTATION,
   STATE_ACTIVE,
-  STATE_INACTIVE,
+  SET_MIGRATION_VERSION
 } from "./types"
 import {
   UNSET_BACKEND,
@@ -45,6 +45,7 @@ export interface ConfigState {
   readonly isItemsOnboardingDone: boolean
   readonly isFeedOnboardingDone: boolean
   readonly lastActivated: number
+  readonly migrationVersion?: number
 }
 
 const {width, height } = Dimensions.get('window')
@@ -158,6 +159,13 @@ export function config (
       }
     }
     
+    case SET_MIGRATION_VERSION: {
+      return {
+        ...state,
+        migrationVersion: action.version
+      }
+    }
+
     default:
       return state
   }

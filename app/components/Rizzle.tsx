@@ -10,7 +10,7 @@ import {
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { initStore, persistor } from '../store'
 import * as Sentry from '@sentry/react-native'
-import AppContainer from '../containers/App'
+// import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
 import ConnectionListener from './ConnectionListener'
 import Analytics from './Analytics'
@@ -27,6 +27,8 @@ import { initSQLite } from '../storage/sqlite'
 import RizzleModal from './RizzleModal'
 import { ModalProvider } from './ModalProvider'
 import { hslString } from '../utils/colors'
+import App from './App'
+import MigrationsProvider from './MigrationProvider'
 
 export interface Props {
   isActionExtension?: boolean
@@ -80,9 +82,7 @@ export default class Rizzle extends Component<Props, State> {
   }
 
   render () {
-    const onBeforeLift = () => {}
-
-    const App = (
+    return (
       <NavigationContainer        
         ref={this.navigation}
         onReady={() => {
@@ -109,21 +109,22 @@ export default class Rizzle extends Component<Props, State> {
                 <ConnectionListener />
                 {/* <OrientationListener />
                 <Analytics /> */}
-                <AppStateListenerContainer>
-                  <ModalProvider>
-                    <AppContainer />
-                    <Message />
-                    <RizzleModal />
-                  </ModalProvider>
-                  <HelpTipProvider />
-                  <Splash />
-                </AppStateListenerContainer>
+                <MigrationsProvider>
+                  <AppStateListenerContainer>
+                    <ModalProvider>
+                      <App />
+                      <Message />
+                      <RizzleModal />
+                    </ModalProvider>
+                    <HelpTipProvider />
+                  </AppStateListenerContainer>
+                </MigrationsProvider>
+                <Splash />
               </View>
             </AuthProvider>
           {/* </PersistGate> */}
         </Provider>
       </NavigationContainer>
     )
-    return App
   }
 }

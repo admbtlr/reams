@@ -433,6 +433,7 @@ const Onboarding3 = ({ index }) => {
           <Text style={{
             ...textLargeStyle,
             textAlign: 'center',
+            marginTop: 48 * fontSizeMultiplier(),
           }}>{inlineMessage}</Text> :
           (<TextButton
             isDisabled={!isEmailValid || isSubmitting}
@@ -446,13 +447,13 @@ const Onboarding3 = ({ index }) => {
             text='Send me a link'
           />)
         }
-        <Text style={{
+        {/* <Text style={{
           ...textLargeStyle,
           textAlign: 'center',
           marginTop: 24 * fontSizeMultiplier(),
           marginBottom: 24 * fontSizeMultiplier(),
         }}>or</Text>
-        {/* <AppleButton
+        <AppleButton
           buttonStyle={AppleButton.Style.BLACK}
           buttonType={AppleButton.Type.SIGN_IN}
           style={{

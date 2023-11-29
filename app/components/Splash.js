@@ -138,7 +138,7 @@ export default function Splash () {
             fontSize: 40 * fontSizeMultiplier(),
             textAlign: 'center'
           }}
-        >Reams</Text>
+        >Already</Text>
       </Animated.View>
     </Animated.View>
 }

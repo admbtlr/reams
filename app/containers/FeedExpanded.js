@@ -72,10 +72,9 @@ const mapDispatchToProps = (dispatch) => {
       index,
       displayMode: ItemType.unread
     }),
-    markAllRead: (id, originalId, olderThan) => dispatch({
+    markAllRead: (feed, olderThan) => dispatch({
       type: MARK_FEED_READ,
-      id,
-      originalId,
+      feed,
       olderThan: olderThan || Date.now()
     }),
     clearReadItems: () => dispatch({
@@ -85,27 +84,27 @@ const mapDispatchToProps = (dispatch) => {
       type: REMOVE_FEED,
       feed
     }),
-    toggleMute: (id) => {
+    toggleMute: (feed) => {
       dispatch({
         type: MUTE_FEED_TOGGLE,
-        id
+        feed
       })
       dispatch({
         type: CLEAR_READ_ITEMS
       })
     },
-    toggleLike: (id) => {
+    toggleLike: (feed) => {
       dispatch({
         type: LIKE_FEED_TOGGLE,
-        id
+        feed
       })
       dispatch({
         type: SORT_ITEMS
       })
     },
-    toggleMercury: (id) => dispatch({
+    toggleMercury: (feed) => dispatch({
       type: MERCURY_FEED_TOGGLE,
-      id
+      feed
     }),
     setCachedCoverImage: (feedId, cachedCoverImageId) => {
       return dispatch({

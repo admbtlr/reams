@@ -227,7 +227,7 @@ const Main = ({route}) => {
   )
 }
 
-export default App = () => {
+const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch({
@@ -274,3 +274,5 @@ export default App = () => {
     </AppStack.Navigator>
   )
 }
+
+export default App

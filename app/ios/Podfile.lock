@@ -26,8 +26,6 @@ PODS:
   - ExpoModulesCore (1.1.1):
     - React-Core
     - ReactCommon/turbomodule/core
-  - ExpoSpeech (11.5.0):
-    - ExpoModulesCore
   - EXSQLite (11.0.0):
     - ExpoModulesCore
   - FBLazyVector (0.70.5)
@@ -485,7 +483,6 @@ DEPENDENCIES:
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
-  - ExpoSpeech (from `../node_modules/expo-speech/ios`)
   - EXSQLite (from `../node_modules/expo-sqlite/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -619,8 +616,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-linear-gradient/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
-  ExpoSpeech:
-    :path: "../node_modules/expo-speech/ios"
   EXSQLite:
     :path: "../node_modules/expo-sqlite/ios"
   FBLazyVector:
@@ -751,7 +746,6 @@ SPEC CHECKSUMS:
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
   ExpoLinearGradient: 5d18293f89c063036121281175c4653d6a7c34a2
   ExpoModulesCore: 485dff3a59b036a33b6050c0a5aea3cf1037fdd1
-  ExpoSpeech: 8a73bb7e6e84a5b5b8dbaabd5b4f287bec39bf3b
   EXSQLite: 13c91c389b3c6241ddcf5c47eaa43289721193fe
   FBLazyVector: affa4ba1bfdaac110a789192f4d452b053a86624
   FBReactNativeSpec: fe8b5f1429cfe83a8d72dc8ed61dc7704cac8745

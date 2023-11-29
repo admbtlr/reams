@@ -22,13 +22,11 @@ import {
 } from '../store/items/types'
 import {
   ADD_FEED,
-  ADD_FEED_SUCCESS,
   ADD_FEEDS,
-  ADD_FEEDS_SUCCESS,
   MARK_FEED_READ,
   REMOVE_FEED,
+  REMOVE_FEEDS,
   UPDATE_FEEDS,
-  SET_FEEDS
 } from '../store/feeds/types'
 import {
   CLEAR_MESSAGES,
@@ -44,7 +42,7 @@ import { appActive, appInactive, currentItemChanged, screenActive, screenInactiv
 import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
 import { markItemSaved, markItemUnsaved } from './save-item'
 import { executeRemoteActions } from './remote-action-queue'
-import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed } from './feeds'
+import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed, unsubscribeFromFeeds } from './feeds'
 import { primeAllBackends, primeBackend } from './backend'
 import { unsetBackend } from '../backends'
 import { getConfig } from './selectors'
@@ -75,7 +73,7 @@ function * startDownloads () {
     yield call(getCategories)
     yield call(decorateItems)
     yield call(executeRemoteActions)
-    yield call(inflateFeeds)    
+    // yield call(inflateFeeds)    
   } catch (e: any) {
     console.log(e)
     yield put({ type: CLEAR_MESSAGES })
@@ -101,16 +99,14 @@ export function * initSagas () {
   yield takeEvery(REHYDRATE, init)
   yield takeEvery(SET_BACKEND, initBackend)
   yield takeEvery(UNSET_BACKEND, killBackend)
+  
   yield takeEvery(ADD_FEED, subscribeToFeed)
   yield takeEvery(ADD_FEEDS, subscribeToFeeds)
   yield takeEvery(MARK_FEED_READ, markFeedRead)
-  yield takeEvery(ADD_FEED_SUCCESS, inflateFeeds)
-  yield takeEvery(ADD_FEED_SUCCESS, fetchUnreadItems)
-  yield takeEvery(ADD_FEEDS_SUCCESS, inflateFeeds)
-  yield takeEvery(ADD_FEEDS_SUCCESS, fetchUnreadItems)
   yield takeEvery(UPDATE_FEEDS, fetchUnreadItems)
-  yield takeEvery(SET_FEEDS, fetchUnreadItems)
   yield takeEvery(REMOVE_FEED, unsubscribeFromFeed)
+  yield takeEvery(REMOVE_FEEDS, unsubscribeFromFeeds)
+
   yield takeEvery(SAVE_ITEM, markItemSaved)
   yield takeEvery(UNSAVE_ITEM, markItemUnsaved)
   yield takeEvery(ITEM_DECORATION_SUCCESS, maybeUpsertSavedItem)

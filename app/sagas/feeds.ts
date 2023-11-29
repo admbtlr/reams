@@ -7,19 +7,23 @@ import {
   REMOVE_ITEMS 
 } from '../store/items/types'
 import {
-  ADD_FEED_SUCCESS,
-  ADD_FEEDS_SUCCESS,
+  ADD_FEEDS,
+  ADD_FEEDS_TO_STORE,
   CACHE_FEED_ICON_ERROR,
   Feed,
-  REFRESH_FEED_LIST,
+  FeedLocal,
+  REMOVE_FEED,
+  REMOVE_FEEDS,
   SET_CACHED_FEED_ICON,
+  SET_FEEDS,
   UPDATE_FEED
 } from '../store/feeds/types'
 import {
   ADD_MESSAGE,
+  FETCH_ITEMS,
   REMOVE_MESSAGE
 } from '../store/ui/types'
-import { addFeed, fetchFeeds, getFeedDetails, removeFeed, updateFeed } from '../backends'
+import { addFeed as addFeedBackend, fetchFeeds, getFeedMeta, removeFeed, updateFeed } from '../backends'
 import { id, getFeedColor, getImageDimensions } from '../utils'
 import { hexToHsl, rgbToHsl } from '../utils/colors'
 import feeds from '../utils/seedfeeds.js'
@@ -29,28 +33,56 @@ import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems,
 import { Backend, UserState } from '../store/user/user'
 import { ConfigState } from '../store/config/config'
 
-function * prepareAndAddFeed (feed) {
-  const feeds = yield select(getFeeds)
-  if (feeds.find(f => (f.url && f.url === feed.url) ||
-    (f._id && f._id === feed._id))) return
-  feed._id = feed._id || id()
-  feed.color = feed.color || getFeedColor()
-  feed = yield addFeed(feed)
-  return feed
+interface FeedSkeleton {
+  url: string, _id?: string, color?: number[] 
 }
 
-export function * subscribeToFeed (action) {
-  const feed = yield prepareAndAddFeed(action.feed)
+function * prepareAndAddFeed (feed: FeedSkeleton) {
+  const currentFeeds: Feed[] = yield select(getFeeds)
+  if (currentFeeds.find(f => (f.url && f.url === feed.url) ||
+    (f._id && f._id === feed._id))) return
+  const fullFeed: Feed = yield addFeedBackend(feed)
+  return fullFeed
+}
+
+export function * subscribeToFeed (action: { feed: FeedSkeleton}) {
+  const feed: Feed = yield prepareAndAddFeed(action.feed)
   if (feed) {
     console.log(`Added feed: ${feed.title}`)
     yield put ({
-      type: ADD_FEED_SUCCESS,
-      feed
+      type: ADD_FEEDS_TO_STORE,
+      feeds: [feed]
+    })
+    yield put({
+      type: FETCH_ITEMS,
+      includeSaved: false
     })
   }
 }
 
-export function * unsubscribeFromFeed (action) {
+export function * subscribeToFeeds (action: {feeds: FeedSkeleton[]}) {
+  let feeds = []
+  for (var i = 0; i < action.feeds.length; i++) {
+    let f: Feed = yield prepareAndAddFeed(action.feeds[i])
+    if (f) feeds.push(f)
+  }
+  yield put({
+    type: ADD_FEEDS_TO_STORE,
+    feeds
+  })
+  yield put({
+    type: FETCH_ITEMS,
+    includeSaved: false
+  })
+}
+
+export function * unsubscribeFromFeeds (action: {feeds: FeedSkeleton[]}) {
+  for (var i = 0; i < action.feeds.length; i++) {
+    yield removeFeed(action.feeds[i])
+  }
+}
+
+export function * unsubscribeFromFeed (action: {feed: FeedSkeleton}) {
   // no need to wait until this has completed...
   removeFeed(action.feed)
 }
@@ -59,13 +91,6 @@ export function * fetchAllFeeds () {
   const config: ConfigState = yield select(getConfig)
   if (!config.isOnline) return []
 
-  // TODO fix when plus can sync feeds
-  const user: UserState = yield select(getUser)
-  const backends = user.backends
-  if (!backends.find(b => b.name === 'feedbin')) {
-    return
-  }
-
   yield put({
     type: ADD_MESSAGE,
     message: {
@@ -73,22 +98,30 @@ export function * fetchAllFeeds () {
       hasEllipsis: true
     }
   })
-  let oldFeeds: Feed[] = yield select(getFeeds) || []
-  let newFeeds: Feed[] = yield fetchFeeds() || []
-  let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => nf.id === of.id || nf.url === of.url))
+  let oldFeeds: Feed[] = yield select(getFeeds)
+  oldFeeds = oldFeeds || []
+  let newFeeds: Feed[] = yield call(fetchFeeds)
+  newFeeds = newFeeds || []
+  let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => nf.feedbinId === of.feedbinId || nf.url === of.url))
   if (toRemove) {
     oldFeeds = oldFeeds.filter(of => !toRemove.includes(of))
   }
   newFeeds = newFeeds.filter(f => !oldFeeds
-      .find(feed => feed.url === f.url || feed.id === f.id || feed._id === f._id))
+      .find(feed => feed.url === f.url || feed.feedbinId === f.feedbinId || feed._id === f._id))
   const feeds = oldFeeds.concat(newFeeds)
 
-  yield put({
-    type: REFRESH_FEED_LIST,
-    feeds
-  })
+  if (newFeeds.length) {
+    yield put({
+      type: ADD_FEEDS_TO_STORE,
+      feeds: newFeeds
+    })
+  }
 
-  if (toRemove && toRemove.length) {
+  if (toRemove.length) {
+    yield put({
+      type: REMOVE_FEEDS,
+      feeds: toRemove
+    })
     const items: Item[] = yield select(getUnreadItems)
     const dirtyFeedIds = toRemove.map(f => f._id)
     const dirtyItems = items.filter(i => dirtyFeedIds.includes(i.feed_id))
@@ -97,20 +130,22 @@ export function * fetchAllFeeds () {
       items: dirtyItems
     })
   }
+
   yield put({
     type: REMOVE_MESSAGE,
     messageString: 'Getting feeds'
   })
 }
 
-export function * markFeedRead (action) {
+export function * markFeedRead (action: { feed: Feed, olderThan?: number }) {
   try {
     const olderThan = action.olderThan || (Date.now() / 1000)
+    // @ts-ignore
     const items = yield select(getUnreadItems)
     // if no feedId specified, then we mean ALL items
-    const itemsToMarkRead = items.filter(item => (!action.id ||
-      item.feed_id === action.id) &&
-      item.created_at < olderThan).map(item => ({
+    const itemsToMarkRead = items.filter((item: Item) => (!action.feed._id ||
+      item.feed_id === action.feed._id) &&
+      item.created_at < olderThan).map((item: Item) => ({
         _id: item._id,
         feed_id: item.feed_id,
         title: item.title
@@ -118,7 +153,7 @@ export function * markFeedRead (action) {
     yield call(InteractionManager.runAfterInteractions)
     yield put({
       type: MARK_ITEMS_READ,
-      items: itemsToMarkRead.map(i => ({
+      items: itemsToMarkRead.map((i: Item) => ({
         _id: i._id,
         id: i.id,
         feed_id: i.feed_id
@@ -134,14 +169,17 @@ export function * markFeedRead (action) {
 }
 
 export function * inflateFeeds () {
+  // @ts-ignore
   const feeds = yield select(getFeeds)
   for (let feed of feeds) {
-    let inflatedFeed
+    let inflatedFeed: Feed
+    // @ts-ignore
     yield delay((typeof __TEST__ === 'undefined') ? 500 : 10)
     if (feed.inflatedDate && Date.now() - feed.inflatedDate < 1000 * 60 * 60 * 24 * 7) {
-      inflatedFeed = feed
+      inflatedFeed = { ...feed }
     } else if (!feed.favicon) {
-      let details = yield call(getFeedDetails, feed)
+      // @ts-ignore
+      let details = yield call(getFeedMeta, feed)
       inflatedFeed = {
         ...feed,
         ...details,
@@ -153,7 +191,7 @@ export function * inflateFeeds () {
         inflatedDate: Date.now()
       }
     }
-    inflatedFeed = convertColorIfNecessary(inflatedFeed)
+    inflatedFeed.color = inflatedFeed.color ? convertColorIfNecessary(inflatedFeed.color) : [0, 0, 0]
     yield call(InteractionManager.runAfterInteractions)
     yield put({
       type: UPDATE_FEED,
@@ -166,36 +204,36 @@ export function * inflateFeeds () {
   }
 }
 
-function convertColorIfNecessary (feed) {
-  let color
-  if (feed.color && feed.color.indexOf('#') === 0 && feed.color.length === 7) {
-    color = hexToHsl(feed.color.substring(1))
-  } else if (feed.color && feed.color.indexOf('rgb') === 0) {
-    let rgb = feed.color.substring(4, feed.color.length - 1).split(',')
-      .map(l => l.trim())
-    color = rgbToHsl(Number.parseInt(rgb[0], 10), Number.parseInt(rgb[1], 10), Number.parseInt(rgb[2], 10))
-  } else if (typeof feed.color === 'object' && feed.color.length === 3) {
-    color = [ ...feed.color ]
+export function convertColorIfNecessary (color: string | number[]) {
+  if (color && typeof color === 'string') {
+    if (color.indexOf('#') === 0 && color.length === 7) {
+      color = hexToHsl(color.substring(1))
+    } else if (color && color.indexOf('rgb') === 0) {
+      let rgb = color.substring(4, color.length - 1).split(',')
+        .map(l => l.trim())
+      color = rgbToHsl(Number.parseInt(rgb[0], 10), Number.parseInt(rgb[1], 10), Number.parseInt(rgb[2], 10))
+    }
+  } else if (typeof color === 'object' && color.length === 3) {
+    color = [ ...color ]
   } else {
-    color = [Math.round(Math.random() * 360), 50, 30]
+    color = [0, 0, 0]
   }
-  if (color[1] > 90) {
-    color[1] = Math.round(30 + (color[1] - 30) / 2)
-  }
-  if (color[2] > 70) {
-    color[2] = Math.round(30 + (color[2] - 30) / 2)
-  }
-  return {
-    ...feed,
-    color: color || feed.color
-  }
+  // if (color[1] > 90) {
+  //   color[1] = Math.round(30 + (color[1] - 30) / 2)
+  // }
+  // if (color[2] > 70) {
+  //   color[2] = Math.round(30 + (color[2] - 30) / 2)
+  // }
+  return color
 }
 
 function * cacheFeedFavicons () {
-  const feeds = yield select(getFeeds)
-  const feedsLocal = yield select(getFeedsLocal)
+  // @ts-ignore
+  const feeds: Feed[] = yield select(getFeeds)
+  // @ts-ignore
+  const feedsLocal: FeedLocal[] = yield select(getFeedsLocal)
   for (let feed of feeds) {
-    const feedLocal = feedsLocal.find(fl => fl._id === feed._id)
+    const feedLocal = feedsLocal.find((fl: FeedLocal) => fl._id === feed._id)
     const shouldCacheIcon = feedLocal ?
       !feedLocal.hasCachedIcon &&
         (feedLocal.numCachingErrors || 0) < 10 &&
@@ -203,7 +241,9 @@ function * cacheFeedFavicons () {
       true
     if (feed.favicon && shouldCacheIcon) {
       try {
+        // @ts-ignore
         const fileName = yield call(downloadFeedFavicon, feed)
+        // @ts-ignore
         const dimensions = yield call(getImageDimensions, fileName)
         yield call(InteractionManager.runAfterInteractions)
         yield put({
@@ -223,18 +263,19 @@ function * cacheFeedFavicons () {
   }
 }
 
-function downloadFeedFavicon (feed) {
-  const host = feed.link.split('?')[0]
-  const path = feed.favicon.path
-  let url = feed.favicon.url ||
+function downloadFeedFavicon (feed: Feed) {
+  const host = feed.rootUrl.split('?')[0]
+  const path = feed.favicon?.path
+  let url = feed.favicon?.url ||
     (path.startsWith('//') ?
       `https:${path}` :
       (host.endsWith('/')
-        ? host + feed.favicon.path.substring(1)
-        : host + feed.favicon.path))
+        ? host + feed.favicon?.path.substring(1)
+        : host + feed.favicon?.path))
   console.log(url)
-  let extension = /.*\.([a-zA-Z]*)/.exec(url)[1]
-  if (['png', 'jpg', 'jpeg'].indexOf(extension.toLowerCase()) === -1) {
+  const regEx = /.*\.([a-zA-Z]*)/.exec(url)
+  let extension = regEx && regEx.length > 1 ? regEx[1] : ''
+  if (extension && ['png', 'jpg', 'jpeg'].indexOf(extension.toLowerCase()) === -1) {
     extension = 'png' // nnnggh
   }
   const fileName = `${FileSystem.documentDirectory}feed-icons/${feed._id}.${extension}`
@@ -249,16 +290,4 @@ function downloadFeedFavicon (feed) {
       console.log(err)
       return false
     })
-}
-
-export function * subscribeToFeeds (action) {
-  let feeds = []
-  for (var i = 0; i < action.feeds.length; i++) {
-    let f = yield prepareAndAddFeed(action.feeds[i])
-    if (f) feeds.push(f)
-  }
-  yield put({
-    type: ADD_FEEDS_SUCCESS,
-    feeds
-  })
 }

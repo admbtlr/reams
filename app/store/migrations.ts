@@ -1,6 +1,8 @@
 import { state } from "../__mocks__/state-input"
+import { addFeed } from "../backends/reams"
 import { id } from "../utils"
 import { Category } from "./categories/types"
+import { Feed, FeedLocal } from "./feeds/types"
 import { Item } from "./items/types"
 import { RootState } from "./reducers"
 import { DarkModeSetting } from "./ui/types"
@@ -200,5 +202,87 @@ export const migrations = {
         })
       }
     }
+  },
+  12: async (state: RootState) => {
+    // update feed ids to be based on url
+    const oldFeeds = state.feeds.feeds
+    const oldFeedIds = oldFeeds.map((f: Feed) => ({
+      _id: f._id,
+      url: f.url
+    }))
+    const feeds = state.feeds.feeds.map((f: Feed) => {
+      return {
+        ...f,
+        _id: id(f.url)
+      }
+    })
+    console.log('remapping items')
+    const items = state.itemsUnread.items.map((i: Item) => {
+      const oldFeedId = oldFeedIds.find((ofi) => ofi._id === i.feed_id)
+      if (!oldFeedId) {
+        throw new Error('No old feed id')
+      }
+      const newFeedId = feeds.find((f: Feed) => f.url === oldFeedId.url)
+      if (!newFeedId) {
+        throw new Error('No new feed id')
+      }
+      return {
+        ...i,
+        feed_id: newFeedId._id
+      }
+    })
+    console.log('remapping feedslocal')
+    const feedsLocal = state.feedsLocal.feeds.map((f: FeedLocal) => {
+      const oldFeedId = oldFeedIds.find((ofi) => ofi._id === f._id)
+      if (!oldFeedId) {
+        throw new Error('No old feed id')
+      }
+      const newFeedId = feeds.find((f: Feed) => f.url === oldFeedId.url)
+      if (!newFeedId) {
+        throw new Error('No new feed id')
+      }
+      return {
+        ...f,
+        _id: newFeedId._id
+      }
+    })
+    console.log('remapping categories')
+    const categories = state.categories.categories.map((c: Category) => {
+      const categoryOldFeedIds = c.feeds.map(f_id => oldFeedIds.find((ofi) => ofi._id === f_id))
+      const newFeedIds = categoryOldFeedIds.map((cofid) => feeds.find((f: Feed) => f.url === cofid?.url))
+      return {
+        ...c,
+        feeds: newFeedIds
+      }
+    })
+    return {
+      ...state,
+      feeds: {
+        ...state.feeds,
+        feeds
+      },
+      feedsLocal: {
+        ...state.feedsLocal,
+        feeds: feedsLocal
+      },
+      itemsUnread: {
+        ...state.itemsUnread,
+        items
+      },
+      categories: {
+        ...state.categories,
+        categories
+      }
+    }
+  },
+  13: async (state: RootState) => {
+    // update feed.id to feed.feedbinId
+    const feeds = state.feeds.feeds.map((f: Feed) => {
+      return {
+        ...f,
+        id: undefined,
+        feedbinId: f.id
+      }
+    })
   }
 }

@@ -3,9 +3,7 @@ import {
   UserActionTypes
 } from '../user/types'
 import {
-  ADD_FEED_SUCCESS,
-  ADD_FEEDS_SUCCESS,
-  REFRESH_FEED_LIST,
+  ADD_FEEDS_TO_STORE,
   SET_FEEDS,
   ADD_FEED,
   REMOVE_FEED,
@@ -18,7 +16,8 @@ import {
   MERCURY_FEED_TOGGLE,
   Feed,
   FeedActionTypes,
-  FeedsState
+  FeedsState,
+  ADD_FEEDS
 } from './types'
 import { 
   ADD_READING_TIME,
@@ -47,18 +46,9 @@ export function feeds (
   let newState, dirtyFeed, dirtyFeedIndex
 
   switch (action.type) {
-    case ADD_FEED_SUCCESS:
-      let cleanedFeeds = state.feeds.filter(feed => !!feed)
-      return {
-        ...state,
-        feeds: [
-          ...cleanedFeeds,
-          action.feed
-        ]
-      }
-    case ADD_FEEDS_SUCCESS:
+    case ADD_FEEDS_TO_STORE:
       let newFeeds = action.feeds.filter((f:Feed) => !state.feeds
-          .find(feed => feed.url === f.url || feed._id === f._id))
+        .find(feed => feed.url === f.url || feed._id === f._id))
       return {
         ...state,
         feeds: [
@@ -66,14 +56,13 @@ export function feeds (
           ...newFeeds
         ]
       }
-    case REFRESH_FEED_LIST:
     case SET_FEEDS:
       return {
         ...state,
         feeds: action.feeds
       }
     case ADD_FEED:
-      console.log(action)
+    case ADD_FEEDS:
       return state
 
     case REMOVE_FEED:
@@ -177,7 +166,7 @@ export function feeds (
     case LIKE_FEED_TOGGLE:
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.id ?
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
           {
             ...feed,
             isLiked: !!!feed.isLiked
@@ -188,7 +177,7 @@ export function feeds (
     case UNLIKE_FEED:
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.id ?
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
           {
             ...feed,
             isLiked: false
@@ -199,7 +188,7 @@ export function feeds (
     case MUTE_FEED_TOGGLE:
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.id ?
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
           {
             ...feed,
             isMuted: !!!feed.isMuted
@@ -221,7 +210,7 @@ export function feeds (
     case MERCURY_FEED_TOGGLE:
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.id ?
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
           {
             ...feed,
             isMercury: !!!feed.isMercury
