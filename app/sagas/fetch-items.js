@@ -219,7 +219,7 @@ function * cleanUpItems (items, type) {
   const fixCreatedAt = (item) => ({
     ...item,
     created_at: typeof item.created_at === 'number'
-      ? (item.created_at > Date.parse('Jan 01 2000') ?
+      ? (item.created_at > Date.parse('2000-01-01') ?
           item.created_at :
           item.created_at * 1000)
       : Date.parse(item.created_at),
