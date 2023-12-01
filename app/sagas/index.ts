@@ -1,6 +1,7 @@
 import { call, cancel, delay, fork, put, select, takeEvery } from 'redux-saga/effects'
 import { REHYDRATE } from 'redux-persist'
 import { 
+  START_DOWNLOADS,
   STATE_ACTIVE,
   STATE_INACTIVE, 
 } from '../store/config/types'
@@ -100,6 +101,8 @@ export function * initSagas () {
   yield takeEvery(SET_BACKEND, initBackend)
   yield takeEvery(UNSET_BACKEND, killBackend)
   
+  yield takeEvery(START_DOWNLOADS, startDownloads)
+
   yield takeEvery(ADD_FEED, subscribeToFeed)
   yield takeEvery(ADD_FEEDS, subscribeToFeeds)
   yield takeEvery(MARK_FEED_READ, markFeedRead)
