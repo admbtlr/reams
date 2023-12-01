@@ -24,7 +24,24 @@ const getUserId = async () => {
 
 export const getSavedItems = async () => {}
 
-export const getReadItems = async () => {}
+export const getReadItems = async () => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { data, error } = await supabase
+    .from('User_ReadItem')
+    .select('Item(*)')
+    .eq('user_id', userId)
+  if (error) {
+    throw error
+  }
+  return data === null ? [] : data.map(d => d.Item === null ? null : ({
+    _id: d.Item._id,
+    url: d.Item.url,
+    title: d.Item.title
+  })) as Item[]
+}
 
 export const addReadItems = async (items: Item[]) => {
   const itemssToUpsert = items.map(item => ({
