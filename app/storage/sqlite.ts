@@ -152,6 +152,9 @@ export function getItems(items: Item[]): Promise<ItemInflated[]> {
             inflatedItems.push(item as ItemInflated)
           }
         })
+        if (inflatedItems.length !== items.length) {
+          throw new Error('Items missing from database')
+        }
         resolve(inflatedItems)
         return inflatedItems
       },
