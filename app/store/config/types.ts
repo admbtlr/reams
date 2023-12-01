@@ -22,6 +22,9 @@ export const STATE_ACTIVE = 'STATE_ACTIVE'
 export const STATE_INACTIVE = 'STATE_INACTIVE'
 export const SET_MIGRATION_VERSION = 'SET_MIGRATION_VERSION'
 
+// this is just used to kick off sagas
+export const START_DOWNLOADS = 'START_DOWNLOADS'
+
 // remote action queue
 export const REMOTE_ACTION_COMPLETED = 'REMOTE_ACTION_COMPLETED'
 export const REMOTE_ACTION_ERRORED = 'REMOTE_ACTION_ERRORED'
