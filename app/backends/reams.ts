@@ -19,6 +19,7 @@ import {
   addReadItems as addReadItemsSupabase,
   getFeeds as getFeedsSupabase,
   getFeedBySiteUrl,
+  getReadItems as getReadItemsSupabase,
   removeUserFeed as removeUserFeedSupabase
 } from '../storage/supabase'
 import { Feed } from '../store/feeds/types'
@@ -31,24 +32,30 @@ export function init () {
 }
 
 // callback, type, lastUpdated, oldItems, feeds, maxNum
-export async function fetchItems (callback, type, lastUpdated, oldItems, feeds, maxNum) {
+export async function fetchItems (
+  callback: (items: Item[]) => void, 
+  type: string, 
+  lastUpdated: number, 
+  oldItems: Item[], 
+  feeds: Feed[], 
+  maxNum: number) {
   if (type === 'saved' && isPlus) {
     let savedItems = await getSavedItemsFS()
     savedItems = savedItems.filter(savedItem => !!!oldItems.find(oldItem => oldItem._id === savedItem._id))
     callback(savedItems)
   } else if (type === 'unread') {
     try {
-      const readItems = isPlus ? getReadItemsFS() : {}
+      const readItems = await getReadItemsSupabase()
       // let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
       // unreadItemArrays = extractErroredFeeds(unreadItemArrays)
       // let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
-      let newItems = await fetchUnreadItemsBatched(feeds, lastUpdated)
+      let newItems: Item[] = await fetchUnreadItemsBatched(feeds, lastUpdated)
       newItems = newItems.map(item => ({
         ...item,
-        _id: id(item)
+        _id: id(item.url)
       }))
-      newItems = newItems.filter(newItem => !!!oldItems.find(oldItem => oldItem._id === newItem._id))
-      newItems = newItems.filter(newItem => !readItems.hasOwnProperty(newItem._id))
+      newItems = newItems.filter((newItem) => !!!oldItems.find(oldItem => oldItem._id === newItem._id))
+      newItems = newItems.filter(newItem => !readItems.find(readItem => newItem._id === readItem._id))
       callback(newItems)
     } catch (error) {
       console.log(error)
@@ -189,7 +196,15 @@ export async function removeFeed (feed: Feed) {
 }
 
 export async function fetchFeeds () {
-  return await getFeedsSupabase()
+  const feeds = await getFeedsSupabase()
+  return feeds && feeds.map(feed => ({
+    ...feed,
+    color: convertColorIfNecessary(feed.color),
+    favicon: {
+      url: feed.favicon_url,
+      size: feed.favicon_size
+    }
+  }))
 }
 
 export const markFeedRead = (feed, olderThan, items) => {
