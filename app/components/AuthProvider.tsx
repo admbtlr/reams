@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux"
 import { SET_USER_DETAILS, UNSET_BACKEND } from "../store/user/types"
 import { supabase } from "../storage/supabase"
 import { fetchAnnotations } from "../store/annotations/annotations"
+import { START_DOWNLOADS } from "../store/config/types"
 
 interface SessionContext {
   session?: Session | null,
@@ -33,6 +34,7 @@ export const AuthProvider = (props: any) => {
           setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
           // initial fetches can go here
+          dispatch({ type: START_DOWNLOADS })
           dispatch(fetchAnnotations())
         } else {
           setSession({session: null})
