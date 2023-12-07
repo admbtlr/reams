@@ -42,6 +42,7 @@ export interface Item {
     height: number
   }
   isDecorated: boolean | undefined
+  isExternal: boolean | undefined
   isSaved: boolean | undefined
   id: string | number | undefined
   readAt: number | undefined
@@ -116,7 +117,6 @@ export const DECREMENT_INDEX = 'DECREMENT_INDEX'
 export const ITEMS_BATCH_FETCHED = 'ITEMS_BATCH_FETCHED'
 export const PRUNE_UNREAD = 'PRUNE_UNREAD'
 export const CLEAR_READ_ITEMS = 'CLEAR_READ_ITEMS'
-export const CLEAR_READ_ITEMS_SUCCESS = 'CLEAR_READ_ITEMS_SUCCESS'
 export const SET_LAST_UPDATED = 'SET_LAST_UPDATED'
 export const REMOVE_ITEMS = 'REMOVE_ITEMS'
 export const SAVE_ITEM = 'SAVE_ITEM'
@@ -179,10 +179,6 @@ interface pruneUnreadAction {
   maxItems: number
   itemSort: any
   prunedItems: Item[]
-}
-
-interface clearReadItemsSuccessAction {
-  type: typeof CLEAR_READ_ITEMS_SUCCESS
 }
 
 interface setLastUpdatedAction {
@@ -307,7 +303,6 @@ export type ItemActionTypes = setDisplayModeAction |
   updateItemAction |
   itemsBatchFetchedAction |
   pruneUnreadAction |
-  clearReadItemsSuccessAction |
   setLastUpdatedAction |
   removeItemsAction |
   setSavedItemsAction |
@@ -320,8 +315,6 @@ export type ItemActionTypes = setDisplayModeAction |
   markItemReadAction |
   markItemsReadAction |
   toggleMercuryViewAction |
-  flateItemsAction |
-  flateItemsErrorAction |
   itemDecorationSuccessAction |
   itemDecorationFailureAction |
   itemDecorationProgressAction |
