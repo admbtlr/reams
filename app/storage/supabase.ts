@@ -65,7 +65,7 @@ export const addReadItems = async (items: Item[]) => {
   }
   const { error: readItemError } = await supabase
     .from('User_ReadItem')
-    .insert(items.map(item => ({ item_id: item._id, user_id: userId })))
+    .upsert(items.map(item => ({ item_id: item._id, user_id: userId })), { onConflict: 'item_id,user_id' })
   if (readItemError) {
     throw readItemError
   }
@@ -98,8 +98,8 @@ export const getFeed = async (url: string): Promise<FeedDB | null> => {
   if (error) {
     throw error
   }
-  console.log(url)
-  console.log('getFeed', data)
+  // console.log(url)
+  // console.log('getFeed', data)
   return data === null ? null : data[0] as FeedDB
 }
 
@@ -110,7 +110,7 @@ export const getFeeds = async (): Promise<FeedDB[] | null> => {
   if (error) {
     throw error
   }
-  console.log('getFeed', data)
+  // console.log('getFeed', data)
   return data === null ? null : data.map(d => ({
     ...d.Feed,
     color: d.Feed?.color?.match(/\[[0-9]*,[0-9]*,[0-9]*\]/) ? JSON.parse(d.Feed.color) : [0, 0, 0]
