@@ -1,10 +1,9 @@
 import { InteractionManager, Platform } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
 import { 
-  CLEAR_READ_ITEMS_SUCCESS,
-  ItemType,
   MARK_ITEM_READ,
-  MARK_ITEMS_READ
+  MARK_ITEMS_READ,
+  REMOVE_ITEMS
 } from '../store/items/types'
 import { getReadItemsFS } from '../storage/firestore'
 
@@ -54,13 +53,20 @@ export function * clearReadItems () {
   const currentItem = yield select(getCurrentItem, displayMode)
   const index = yield select(getIndex, displayMode)
   let itemsToClear = readItems
-    .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
+    // .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
     .filter(item => currentItem && (item._id !== currentItem._id))
-  // this is an unfortunate parallel of the logic in the items reducer (maintainCarouselItems)
-  const carouselled = items
-    .slice(index - 1 < 0 ? 0 : index - 1, index + 1 > items.length ? items.length : index + 1)
-  itemsToClear = itemsToClear.filter(item => carouselled.find(i => i._id === item._id) === undefined)
 
+  // need to redo this logic in the right order
+  // 0. remove the current item from the list to remove (done above)
+  // 1. remove from store
+  // 2. remove from sqlite
+  // 3. remove from filesystem
+
+  yield call(InteractionManager.runAfterInteractions)
+  yield put({
+    type: REMOVE_ITEMS,
+    items: itemsToClear
+  })
   yield call(InteractionManager.runAfterInteractions)
   try {
     if (Platform.OS === 'web') {
@@ -71,12 +77,11 @@ export function * clearReadItems () {
   } catch(err) {
     log('deleteItems', err)
   }
-
-  yield call(InteractionManager.runAfterInteractions)
-  yield put({
-    type: CLEAR_READ_ITEMS_SUCCESS
-  })
-  removeCachedCoverImages(itemsToClear)
+  try {
+    yield call(removeCachedCoverImages, itemsToClear)
+  } catch(err) {
+    log('removeCachedCoverImages', err)
+  }
 }
 
 // called when the Firestore read items cache has been initialised

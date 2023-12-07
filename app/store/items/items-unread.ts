@@ -16,7 +16,6 @@ import {
 } from '../feeds/types'
 import {
   ADD_READING_TIME,
-  CLEAR_READ_ITEMS_SUCCESS,
   ITEMS_BATCH_FETCHED,
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
@@ -190,21 +189,6 @@ export function itemsUnread (
         items: items.filter(item => item.feed_id !== action.feed._id)
       }
 
-    case CLEAR_READ_ITEMS_SUCCESS:
-      items = [...state.items]
-      // index = state.index
-      currentItem = state.items[state.index]
-      items = items.filter(i => i.readAt === undefined || i._id === currentItem._id)      
-      index = items.findIndex(i => i._id === currentItem._id)
-      // carouselled = maintainCarouselItems(state, unreadItems)
-      return {
-        ...state,
-        // items: carouselled.items,
-        // index: carouselled.index
-        items,
-        index
-      }
-
     case SET_LAST_UPDATED:
       if (action.itemType === ItemType.unread) {
         return {
@@ -244,11 +228,10 @@ export function itemsUnread (
       }
 
     case REMOVE_ITEMS:
-      const itemIds = action.items.map(f => f._id)
+      // const itemIds = action.items.map(f => f._id)
       return {
         ...state,
-        items: state.items.filter(i => !items.
-          map(i => i._id).includes(i._id))
+        items: state.items.filter(i => action.items.find((ai: Item) => ai._id === i._id) === undefined)
       }
 
     case UNSET_BACKEND:
