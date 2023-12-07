@@ -42,7 +42,7 @@ export async function initSQLite() {
   db = SQLite.openDatabase("db.db")
   await doTransaction(`
     create table if not exists items (
-      id INT NOT NULL,
+      id INT,
       _id STRING PRIMARY KEY NOT NULL,
       content_html TEXT,
       author TEXT,
