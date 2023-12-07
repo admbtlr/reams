@@ -11,6 +11,7 @@ import { saveExternalItem } from '../backends'
 import { getConfig, getDisplay, getItems, getItem, getSavedItems } from './selectors'
 import { createItemStyles } from '../utils/createItemStyles'
 import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
+import { setItems } from '../storage/sqlite'
 
 export function * saveExternalUrl (action) {
   const savedItems = yield select(getSavedItems)
@@ -24,6 +25,11 @@ export function * saveExternalUrl (action) {
     created_at: Date.now()
   }
   item.styles = createItemStyles(item)
+  try {
+    yield call(setItems, [item])
+  } catch (err) {
+    console.log(err)
+  }
   yield put({
     type: SAVE_EXTERNAL_ITEM,
     item,
@@ -36,34 +42,13 @@ export function * saveExternalUrl (action) {
   })
   try {
     const decoration = yield decorateItem(item)
-    if (decoration.mercuryStuff.error) {
-      yield call(InteractionManager.runAfterInteractions)
-      yield put({
-        type: ITEM_DECORATION_FAILURE,
-        ...decoration,
-        isSaved: true
-      })
-    } else {
-      const displayMode = yield select(getDisplay)
-      yield put({
-        type: ITEM_DECORATION_SUCCESS,
-        ...decoration,
-        isSaved: true,
-        displayMode
-      })
+    const backendItem = yield call(saveExternalItem, decoration.item)
 
-      // got to go back and find it cos of dodgy reducer side effects
-      const items = yield select(getItems, 'saved')
-      item = items.find(i => i._id === item._id)
-
-      const backendItem = yield call(saveExternalItem, item)
-
-      // now we need to set the id of the local saved item to the id of the backend saved item
-      yield put({
-        type: SAVE_EXTERNAL_ITEM_SUCCESS,
-        item: backendItem
-      })
-    }
+    // now we need to set the id of the local saved item to the id of the backend saved item
+    yield put({
+      type: SAVE_EXTERNAL_ITEM_SUCCESS,
+      item: backendItem
+    })
   } catch (err) {
     console.log(err)
   }
