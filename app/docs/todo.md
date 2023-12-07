@@ -1,10 +1,12 @@
-- backend for feeds
+- look into ItemTitle problems with too long words and too long titles
+- "inflate feeds" - download feed icons instead
+- finish the add a feed manually feature
+- why do items disappear from sqlite?
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
 - backend for saved categories
 - backend for saved items
 - action extension
 - "reams favourites"
-- add a feed manually
 - settings screen
   - ~~dark mode settings~~
   - other bg colours?
@@ -63,6 +65,8 @@
 - saved folders
 
 # Done
+- ~~use read items when fetching new  items in already~~
+- ~~backend for feeds~~
 - ~~saved external items are not getting decorated~~
 - ~~mercury button doesn't work~~
 - ~~show errors on email login, also disable button~~

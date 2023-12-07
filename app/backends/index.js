@@ -141,13 +141,10 @@ export async function unsaveItem (item, folder) {
 }
 
 export async function saveExternalItem (item, folder) {
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      return await reams.saveExternalItem(item, folder)
-      break
-    case 'feedbin':
-      return await feedbin.saveExternalItem(item)
+  if (backend === 'feedbin') {
+    return await feedbin.saveExternalItem(item)
+  } else {
+    return await reams.saveExternalItem(item, folder)
   }
 }
 

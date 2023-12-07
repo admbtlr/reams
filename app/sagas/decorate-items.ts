@@ -49,22 +49,7 @@ export function * decorateItems (action) {
         pendingDecoration.push(nextItem)
         yield delay(3000)
         if (!nextItem) continue // somehow item can become undefined here...?
-        // consoleLog(`About to retrieve decoration for ${nextItem.title}`)
-        try {
-          const decoration = yield decorateItem(nextItem)
-          if (decoration) {
-            // consoleLog(`Got decoration for ${nextItem.title}`)
-            if (decoration.mercuryStuff.error) {
-              yield decorationFailed(nextItem)
-            } else {
-              yield applyDecoration(decoration, nextItem.isSaved)
-            }
-          } else {
-            yield decorationFailed(nextItem)
-          }
-        } catch (error) {
-          yield decorationFailed(nextItem)
-        }
+        yield decorateItem(nextItem)
       } else {
         yield delay(3000)
       }
@@ -72,7 +57,22 @@ export function * decorateItems (action) {
   })
 }
 
-function * decorationFailed (item) {
+export function * decorateItem (item: Item) {
+  console.log(`Inside decorateItem "${item.title}"`)
+  try {    
+    const decoration: Decoration = yield assembleDecoration(item)
+    if (decoration && decoration.mercuryStuff && !decoration.mercuryStuff.error) {
+      yield applyDecoration(decoration)
+      console.log(`Decorated item "${item.title}"`)
+    } else {
+      yield decorationFailed(item)
+    }
+  } catch (error) {
+    yield decorationFailed(item)
+  }
+}
+
+function * decorationFailed (item: Item) {
   if (!item) return
   consoleLog(`Error decorating item "${item.title}", trying again next time around`)
   yield call(InteractionManager.runAfterInteractions)
@@ -81,7 +81,7 @@ function * decorationFailed (item) {
     item,
     isSaved: item.isSaved
   })
-  item = yield select(getItem, item._id)
+  item = yield select(getItem, item._id, item.isSaved ? ItemType.saved : ItemType.unread)
   if (Platform.OS === 'web') {
     yield call(updateItemIDB, item)
   } else {
@@ -90,13 +90,29 @@ function * decorationFailed (item) {
   pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
 
-function consoleLog(txt) {
+function consoleLog(txt: string) {
   if (showLogs) {
     console.log(txt)
   }
 }
 
-function * applyDecoration (decoration, isSaved) {
+export function * assembleDecoration (i: Item): Generator<any, Decoration | boolean, any> {
+  let items: ItemInflated[] = yield call(getItemsSQLite, [i])
+  let itemInflated = items[0]
+  let item: WholeItem = { ...i , ...itemInflated}
+  const mercuryStuff: MercuryStuff = yield call(loadMercuryStuff, item)
+  if (!mercuryStuff) {
+    return false
+  }
+  const imageStuff: ImageStuff = yield call(prepareCoverImage, item, mercuryStuff)
+  return {
+    item,
+    mercuryStuff,
+    imageStuff
+  }
+}
+
+function * applyDecoration (decoration: Decoration, isSaved: boolean = false) {
   yield call(InteractionManager.runAfterInteractions)
   const displayMode = yield select(getDisplay)
   yield call(persistDecoration, {...decoration})
