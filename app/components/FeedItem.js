@@ -104,21 +104,6 @@ class FeedItem extends React.Component {
     }
   }
   
-  async componentDidMount () {
-    const that = this
-    const inflatedItem = await inflateItem(this.props.item)
-    this.setState({
-      inflatedItem: {
-        ...this.props.item,
-        ...inflatedItem  
-      }
-    })
-    setTimeout(() => {
-      that.setState({shouldRender: true})
-    }, 200)
-    this.hasMounted = true
-  }
-
   shouldComponentUpdate (nextProps, nextState) {
     if (this.isAnimating) return true
     const { item } = this.props
@@ -185,13 +170,41 @@ class FeedItem extends React.Component {
     return isDiff
   }
 
-  componentDidUpdate () {
+  componentDidMount () {
+    this.inflateItemAndSetState(this.props.item)
+    this.hasMounted = true
+  }
+
+  componentDidUpdate (prevProps) {
     const { isVisible, item, setScrollAnim } = this.props
+    console.log('componentDidUpdate', item.title)
+    console.log('isExternal', item.isExternal)
+    console.log('isDecorated', item.isDecorated)
+    console.log('prevProps.isDecorated', prevProps.item.isDecorated)
     this.initAnimatedValues(true)
+    if (item.isExternal && item.isDecorated && !prevProps.item.isDecorated) {
+      console.log('item.isExternal && item.isDecorated && !prevProps.item.isDecorated')
+      this.inflateItemAndSetState(item)
+    }
     if (isVisible) {
       setScrollAnim(this.scrollAnim)
       this.scrollToOffset(true)
     }
+  }
+
+  async inflateItemAndSetState (item) {
+    const inflatedItem = await inflateItem(item)
+    const that = this
+    this.setState({
+      inflatedItem: {
+        ...item,
+        ...inflatedItem  
+      }
+    })
+    // not sure I actually need this - if it turns out I do, maybe an explanatory comment would be nice?
+    // setTimeout(() => {
+    //   that.setState({shouldRender: true})
+    // }, 200)
   }
 
   scrollToOffset (isOverridable = false) {

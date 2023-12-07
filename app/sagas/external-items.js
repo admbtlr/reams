@@ -41,8 +41,8 @@ export function * saveExternalUrl (action) {
     categoryId: 'inbox'
   })
   try {
-    const decoration = yield decorateItem(item)
-    const backendItem = yield call(saveExternalItem, decoration.item)
+    yield decorateItem(item)
+    const backendItem = yield call(saveExternalItem, item)
 
     // now we need to set the id of the local saved item to the id of the backend saved item
     yield put({

@@ -46,6 +46,7 @@ export function deflateItem (item) {
     showCoverImage: item.showCoverImage,
     imageDimensions: item.imageDimensions,
     isDecorated: item.isDecorated,
+    isExternal: item.isExternal,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
     // styles: item.styles,

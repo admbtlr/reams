@@ -59,7 +59,7 @@ export function * decorateItems (action) {
         pendingDecoration.push(nextItem)
         yield delay(3000)
         if (!nextItem) continue // somehow item can become undefined here...?
-        decorateItem(nextItem)
+        yield decorateItem(nextItem)
       } else {
         yield delay(3000)
       }
@@ -68,15 +68,12 @@ export function * decorateItems (action) {
 }
 
 export function * decorateItem (item: Item) {
-  try {
+  console.log(`Inside decorateItem "${item.title}"`)
+  try {    
     const decoration: Decoration = yield assembleDecoration(item)
-    if (decoration) {
-      // consoleLog(`Got decoration for ${item.title}`)
-      if (decoration.mercuryStuff.error) {
-        yield decorationFailed(item)
-      } else {
-        yield applyDecoration(decoration)
-      }
+    if (decoration && decoration.mercuryStuff && !decoration.mercuryStuff.error) {
+      yield applyDecoration(decoration)
+      console.log(`Decorated item "${item.title}"`)
     } else {
       yield decorationFailed(item)
     }
@@ -94,18 +91,18 @@ function * decorationFailed (item: Item) {
     item,
     isSaved: item.isSaved
   })
-  item = yield select(getItem, item._id)
+  item = yield select(getItem, item._id, item.isSaved ? ItemType.saved : ItemType.unread)
   yield call(updateItem, item)
   pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
 
-function consoleLog(txt) {
+function consoleLog(txt: string) {
   if (showLogs) {
     console.log(txt)
   }
 }
 
-export function * assembleDecoration (i: Item) {
+export function * assembleDecoration (i: Item): Generator<any, Decoration | boolean, any> {
   let items: ItemInflated[] = yield call(getItemsSQLite, [i])
   let itemInflated = items[0]
   let item: WholeItem = { ...i , ...itemInflated}
