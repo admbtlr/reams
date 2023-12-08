@@ -29,7 +29,8 @@ target 'Already' do
   use_react_native!(
     :path => config[:reactNativePath],
     :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes',
-    :flipper_configuration => FlipperConfiguration.enabled,
+    # https://github.com/facebook/flipper/issues/4278#issuecomment-1302015516
+    :flipper_configuration => FlipperConfiguration.enabled(["Debug", "Release"], { 'Flipper' => '0.182.0' }),
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
