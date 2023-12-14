@@ -72,9 +72,7 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
   } | null>(null)
   useEffect(() => {
     if (ref.current) {
-      console.log('measuring', item._id)
       ref.current.measureLayout(scrollRef.current, (x: number, y: number, width: number, height: number) => {
-        console.log('measured', x, y, width, height)
         setMeasure({ x, y, width, height })
       }, () => console.log('error'))
     }
