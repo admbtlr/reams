@@ -235,7 +235,11 @@ class AccountScreen extends React.Component {
     // console.log(Config)  
   
     return (
-      <View>
+      <View style={{
+        flex: 1,
+        backgroundColor: hslString('rizzleBG'),
+        paddingTop: getStatusBarHeight(),
+      }}>
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           // onScroll={Animated.event(
@@ -256,6 +260,8 @@ class AccountScreen extends React.Component {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
+              alignSelf: 'center',
+              maxWidth: 600,
             }}
             testID='account-screen'
           >
