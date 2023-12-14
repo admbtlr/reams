@@ -1,6 +1,6 @@
 import {decode, encode} from 'base-64'
 // import EncryptedStorage from 'react-native-encrypted-storage'
-import { AsyncStorage } from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
 import Config from 'react-native-config'
@@ -15,7 +15,7 @@ export async function init ({ username, password }) {
 }
 
 export const authenticate = (username, password) => {
-  let url = 'https://api.feedbin.com/v2/authentication.json'
+  let url = getUrl('https://api.feedbin.com/v2/authentication.json')
   const encoded = encode(`${username}:${password}`)
   return fetch(url, {
     headers: {
@@ -49,7 +49,7 @@ function getUrl (endpoint) {
   } else {
     feedbinUrl = 'https://api.feedbin.com/v2/' + endpoint
   }
-  return !!Config.CORS_PROXY ? Config.CORS_PROXY + feedbinUrl : feedbinUrl
+  return !!Config.CORS_PROXY_URL ? `${Config.CORS_PROXY_URL}?url=${feedbinUrl}` : feedbinUrl
 }
 
 function getFetchConfig () {
