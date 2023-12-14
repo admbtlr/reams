@@ -14,6 +14,7 @@ interface Props {
 export default function Onboarding(props: Props) {
   const [email, setEmail] = useState<string>('')
   const [isSending, setIsSending] = useState(false)
+  const [isTextInputFocused, setIsTextInputFocused] = useState(false)
   const isEmailValid = email && email.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
   const session = useSession()
   console.log(session)
@@ -59,6 +60,7 @@ export default function Onboarding(props: Props) {
         alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'center',
+        flex: -1
       }}>
         <Text style={{
           fontFamily: 'PTSerif',
@@ -79,11 +81,14 @@ export default function Onboarding(props: Props) {
           }}
         />
         <TextInput 
+          autoFocus={true}
           onChangeText={setEmail}
+          onFocus={() => setIsTextInputFocused(true)}
           placeholder="Email address"
           placeholderTextColor='rgba(255,255,255,0.2)'
           style={{
             ...textInfoStyle('white'),
+            borderWidth: 0,
             borderBottomColor: 'white',
             borderBottomWidth: 1,
             textAlign: 'center',
@@ -96,6 +101,7 @@ export default function Onboarding(props: Props) {
             opacity: isEmailValid ? 1 : 0.5,
             width: 200,
           }}
+          showMaxHeight={true}
           onPress={() => {
             sendMagicLink(email)
           }}

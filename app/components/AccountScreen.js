@@ -261,7 +261,7 @@ class AccountScreen extends React.Component {
               alignItems: 'center',
               justifyContent: 'center',
               alignSelf: 'center',
-              maxWidth: 600,
+              maxWidth: 600
             }}
             testID='account-screen'
           >
@@ -271,6 +271,7 @@ class AccountScreen extends React.Component {
             <View style={{
               // marginBottom: 64,
               minHeight: height - 55 - 64,
+              maxWidth: 600,
               width: width - getInset() * (isPortrait ? 2 : 4),
               marginHorizontal: getInset() * (isPortrait ? 1 : 2),
               marginTop: getMargin() * 2,

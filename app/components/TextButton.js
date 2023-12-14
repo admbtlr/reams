@@ -75,6 +75,7 @@ class TextButton extends React.Component {
       noResize,
       onExpand,
       onPress,
+      showMaxHeight,
       testID,
       text
     } = this.props
@@ -97,7 +98,7 @@ class TextButton extends React.Component {
       justifyContent: 'flex-start',
       // flex: 1,
       height,
-      // maxHeight: 42 * fontSizeMultiplier(),
+      maxHeight: showMaxHeight ? height : 'auto',
       maxWidth: 700,
       width: '100%',
       ...this.props.buttonStyle,
