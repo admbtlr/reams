@@ -21,7 +21,14 @@ import {
   getFeeds,
   getSavedItems
 } from './selectors'
-import { getItems as getItemsSQLite, updateItem } from '../storage/sqlite'
+import { 
+  getItems as getItemsSQLite, 
+  updateItem as updateItemSQLite
+} from '../storage/sqlite'
+import { 
+  getItems as getItemsIDB, 
+  updateItem as updateItemIDB
+} from '../storage/idb-storage'
 
 
 let pendingDecoration = [] // a local cache
@@ -76,7 +83,11 @@ function * decorationFailed (item) {
     isSaved: item.isSaved
   })
   item = yield select(getItem, item._id)
-  yield call(updateItem, item)
+  if (Platform.OS === 'web') {
+    yield call(updateItemIDB, item)
+  } else {
+    yield call(updateItemSQLite, item)
+  }
   pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
 
@@ -109,7 +120,11 @@ function * applyDecoration (decoration, isSaved) {
   let item = items.find(item => item._id === decoration.item._id)
   if (item) {
     try {
-      yield call(updateItem, item)
+      if (Platform.OS === 'web') {
+        yield call(updateItemIDB, item)
+      } else {
+        yield call(updateItemSQLite, item)
+      }
     } catch(err) {
       log('decorateItems', err)
     }
@@ -185,7 +200,9 @@ export function * decorateItem (item) {
   let imageStuff = {}
   // external items come through here before they have any styles
   item.styles = item.styles || {}
-  let items = yield getItemsSQLite([item])
+  let items = Platform.OS === 'web' ?
+    yield call(getItemsIDB, [item]) :
+    yield call (getItemsSQLite, [item])
   item = items.length ? items[0] : item
   const mercuryStuff = yield call(loadMercuryStuff, item)
   if (!mercuryStuff) {

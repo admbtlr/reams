@@ -136,7 +136,7 @@ export async function setItems(items: Item[]) {
 })
 }
 
-export function getItems(toInflate: Item[]) {
+export function getItems(toInflate: Item[]): Promise<Item[]> {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
     tx.executeSql(

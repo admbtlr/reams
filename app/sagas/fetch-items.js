@@ -1,6 +1,6 @@
 import { call, cancelled, delay, fork, put, select, take } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
-import { InteractionManager } from 'react-native'
+import { InteractionManager, Platform } from 'react-native'
 
 import {
   ITEMS_BATCH_FETCHED,
@@ -19,7 +19,6 @@ import {
   fetchItems as fetchItemsBackends,
   getReadItems as getReadItemsBackends
 } from '../backends'
-import { setItemsAS } from '../storage/async-storage'
 import { getFeedColor, id } from '../utils'
 import { inflateItems } from './inflate-items'
 import { nullValuesToEmptyStrings,
@@ -40,7 +39,8 @@ import {
   getUser,
 } from './selectors'
 import NetInfo from '@react-native-community/netinfo'
-import { setItems } from '../storage/sqlite'
+import { setItems as setItemsSQLite} from '../storage/sqlite'
+import { setItems as setItemsIDB} from '../storage/idb-storage'
 
 
 let feeds
@@ -200,8 +200,12 @@ export function * receiveItems (items, type) {
 
   yield call(InteractionManager.runAfterInteractions)
   now = Date.now()
-  yield call(setItems, items)
-  console.log('setItemsAS took ' + (Date.now() - now))
+  if (Platform.OS === 'web') {
+    yield call(setItemsIDB, items)
+  } else {
+    yield call(setItemsSQLite, items)
+  }
+  console.log('setItemsIDB took ' + (Date.now() - now))
   yield call(InteractionManager.runAfterInteractions)
 
   now = Date.now()

@@ -1,11 +1,12 @@
 import React, { KeyboardEvent, useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import ItemsList from './ItemsList'
 import ItemView from './ItemView'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/reducers'
 import { DECREMENT_INDEX, INCREMENT_INDEX, Item, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_INDEX } from '../../store/items/types'
 import { getItems as getItemsSQLite } from "../../storage/sqlite"
+import { getItems as getItemsIDB } from "../../storage/idb-storage"
 
 let previousItem: Item
 
@@ -20,7 +21,9 @@ export default function ItemsScreen ({}) {
   const [currentItemInflated, setCurrentItemInflated] = useState()
   useEffect(() => {
     const inflateAndSet = async (currentItem: Item) => {
-      const inflatedItems: Item[] = await getItemsSQLite([currentItem])
+      const inflatedItems: Item[] = Platform.OS === 'web' ?
+        await getItemsIDB([currentItem]) :
+        await getItemsSQLite([currentItem])
       if (inflatedItems.length) {
         setCurrentItemInflated(inflatedItems[0])
       }

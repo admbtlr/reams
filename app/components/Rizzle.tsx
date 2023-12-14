@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import {
   InteractionManager,
   Linking,
+  Platform,
   StatusBar,
   View
 } from 'react-native'
@@ -59,7 +60,9 @@ export default class Rizzle extends Component<Props, State> {
     //   debug: __DEV__
     // })
 
-    initSQLite()
+    if (Platform.OS !== 'web') {
+      initSQLite()
+    }
 
     // this is a stupid hack to stop AppState firing on startup
     // which it does on the device in some circumstances

@@ -1,5 +1,5 @@
 import { ItemType } from '../store/items/types'
-import { InteractionManager } from 'react-native'
+import { InteractionManager, Platform } from 'react-native'
 import { call, put, select, spawn } from 'redux-saga/effects'
 
 import { 
@@ -10,9 +10,14 @@ import { isInflated, deflateItem, inflateStyles } from '../utils/item-utils'
 import log from '../utils/log'
 import { getActiveItems, getCategories, getDisplay, getFilter, getIndex, getItems } from './selectors'
 
-// import { getItemsAS } from '../storage/async-storage'
-
-import { getItems as getItemsSQLite, updateItems as updateItemsSQLite } from '../storage/sqlite'
+import { 
+  getItems as getItemsSQLite, 
+  updateItems as updateItemsSQLite 
+} from '../storage/sqlite'
+import { 
+  getItems as getItemsIDB, 
+  updateItems as updateItemsIDB 
+} from '../storage/idb-storage'
 
 export function * inflateItems (action) {
   // OK. This is complicated.
@@ -69,8 +74,13 @@ export function * inflateItems (action) {
 function * syncItemsWithDB (itemsToInflate, itemsToDeflate) {
   let inflatedItems = [], deflatedItems = []
   if (itemsToInflate.length > 0) {
-    inflatedItems = yield call(getItemsSQLite, itemsToInflate)
-    yield call(updateItemsSQLite, itemsToDeflate)
+    if (Platform.OS === 'web') {
+      inflatedItems = yield call(getItemsIDB, itemsToInflate)
+      yield call(updateItemsIDB, itemsToDeflate)
+    } else {
+      inflatedItems = yield call(getItemsSQLite, itemsToInflate)
+      yield call(updateItemsSQLite, itemsToDeflate)
+    }
     deflatedItems = itemsToDeflate.map(deflateItem)
 
     // sometimes one of these is null, for reasons that I don't understand
