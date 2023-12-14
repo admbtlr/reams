@@ -9,12 +9,6 @@ import FeedIcon from '../FeedIcon'
 import FeedIconContainer from '../../containers/FeedIcon'
 import ItemTitle from '../../containers/ItemTitle'
 import { Item, ItemType, MARK_ITEM_READ, SET_DISPLAY_MODE } from '../../store/items/types'
-import { Feed } from '../../store/feeds/types'
-import { LightSpeedInLeft } from 'react-native-reanimated'
-import CoverImage from 'components/CoverImage'
-import { getItems as getItemsSQLite } from '../../storage/sqlite'
-import { BlurView } from 'expo-blur'
-import WebView from 'react-native-webview'
 import {
   textInfoStyle,
 } from '../../utils/styles'
