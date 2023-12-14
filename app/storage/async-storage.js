@@ -5,7 +5,7 @@ import log from '../utils/log'
 
 // }
 
-export async function getItemsAS (keys) {
+export async function getItems (keys) {
   if (typeof keys[0] === 'object') {
     keys = keys.map(item => item._id)
   }
@@ -14,26 +14,26 @@ export async function getItemsAS (keys) {
     const mapped = keyVals.map(keyVal => JSON.parse(keyVal[1]))
     return mapped
   } catch (err) {
-    log('getItemsAS', err)
+    log('getItemsIDB', err)
   }
 }
 
-export async function setItemAS (item) {
+export async function setItem (item) {
 
 }
 
-export async function updateItemAS (item) {
+export async function updateItem (item) {
   return await AsyncStorage.mergeItem(item._id, JSON.stringify(item))
 }
 
-export async function updateItemsAS (items) {
+export async function updateItems (items) {
   for (item in items) {
     await updateItemAS(item)
   }
   return true
 }
 
-export async function setItemsAS (items) {
+export async function setItems (items) {
   const keyVals = items.map(item => [
     item._id,
     JSON.stringify(item)
@@ -41,15 +41,15 @@ export async function setItemsAS (items) {
   try {
     return AsyncStorage.multiSet(keyVals)
   } catch (err) {
-    log('setItemsAS' + err)
+    log('setItemsIDB' + err)
   }
 }
 
-export async function deleteItemAS (key) {
+export async function deleteItem (key) {
 
 }
 
-export async function deleteItemsAS (items) {
+export async function deleteItems (items) {
   const keys = items.map(item => item._id)
   try {
     return AsyncStorage.multiRemove(keys)
@@ -58,7 +58,7 @@ export async function deleteItemsAS (items) {
   }
 }
 
-export async function clearItemsAS (keys) {
+export async function clearItems (keys) {
   return AsyncStorage.clear()
 }
 

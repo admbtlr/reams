@@ -14,10 +14,9 @@ import {
 } from '../store/items/types'
 import { getCachedCoverImagePath, getImageDimensions } from '../utils'
 import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createItemStyles'
-import { getActiveItems, getItem } from './selectors'
+import { getItem } from './selectors'
 import log from '../utils/log'
 import { faceDetection } from '../utils/face-detection'
-
 import {
   getIndex,
   getItems,
