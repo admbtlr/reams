@@ -82,8 +82,8 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
   useEffect(() => {
     if (item._id === currentItem?._id) {
       console.log('scrolling to', measure.y)
+      scrollRef.current.scrollTo({ y: measure?.y, animated: true })
     }
-    scrollRef.current.scrollTo({ y: measure?.y, animated: true })
   }, [currentItem])
   return (
     <TouchableOpacity
