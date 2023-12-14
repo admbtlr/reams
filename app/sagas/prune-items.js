@@ -1,4 +1,4 @@
-import { InteractionManager } from 'react-native'
+import { InteractionManager, Platform } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
 import { PRUNE_UNREAD, SET_SAVED_ITEMS } from '../store/items/types'
 
@@ -6,7 +6,8 @@ import { getItems, getConfig, getSavedItems, getUnreadItems } from './selectors'
 
 import log from '../utils/log'
 import { removeCachedCoverImages } from '../utils/item-utils'
-import { deleteItems } from '../storage/sqlite'
+import { deleteItems as deleteItemsSQLite } from '../storage/sqlite'
+import { deleteItems as deleteItemsIDB } from '../storage/idb-storage'
 
 const MAX_UNREAD = 1000
 
@@ -49,7 +50,11 @@ export function * removeAllItems () {
 
 function * doRemoveItems (items) {
   try {
-    yield call(deleteItems, items)
+    if (Platform.OS === 'web') {
+      yield call(deleteItemsIDB, items)
+    } else {
+      yield call(deleteItemsSQLite, items)
+    }
   } catch(err) {
     log('deleteItems', err)
   }

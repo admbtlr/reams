@@ -1,4 +1,4 @@
-import { InteractionManager } from 'react-native'
+import { InteractionManager, Platform } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
 import { 
   MARK_ITEM_READ,
@@ -12,6 +12,7 @@ import { getItems, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnrea
 import log from '../utils/log'
 import { removeCachedCoverImages } from '../utils/item-utils'
 import { deleteItems as deleteItemsSQLite } from '../storage/sqlite'
+import { deleteItems as deleteItemsIDB } from '../storage/idb-storage'
 
 export function * markLastItemRead (action) {
   yield call(InteractionManager.runAfterInteractions)
@@ -68,7 +69,11 @@ export function * clearReadItems () {
   })
   yield call(InteractionManager.runAfterInteractions)
   try {
-    yield deleteItemsSQLite(itemsToClear)
+    if (Platform.OS === 'web') {
+      yield call(deleteItemsIDB, itemsToClear)
+    } else {
+      yield call(deleteItemsSQLite, itemsToClear)
+    }
   } catch(err) {
     log('deleteItems', err)
   }

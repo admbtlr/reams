@@ -1,4 +1,4 @@
-import { InteractionManager } from 'react-native'
+import { InteractionManager, Platform } from 'react-native'
 import { call, delay, put, select, spawn } from 'redux-saga/effects'
 import { REMOTE_ACTION_COMPLETED, REMOTE_ACTION_ERRORED } from '../store/config/types'
 import { 
@@ -13,7 +13,8 @@ import {
 } from '../store/categories/types'
 import { createCategory, deleteCategory, markItemRead, markItemsRead, updateCategory } from '../backends'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
-import { updateItem } from '../storage/sqlite'
+import { updateItem as updateItemSQLite } from '../storage/sqlite'
+import { updateItem as updateItemIDB } from '../storage/idb-storage'
 
 const INITIAL_INTERVAL = 2000
 let interval = INITIAL_INTERVAL
@@ -52,10 +53,15 @@ function * executeAction (action) {
             yield call(InteractionManager.runAfterInteractions)
             yield call (markItemRead, action.item)
             yield call(InteractionManager.runAfterInteractions)
-            updateItem({
+            const readItem = {
               ...action.item,
               readAt: Date.now()
-            })
+            }
+            if (Platform.OS === 'web') {
+              yield call(updateItemIDB, readItem)
+            } else {
+              yield call(updateItemSQLite, readItem)
+            }
           }
           yield call(InteractionManager.runAfterInteractions)
           yield put({

@@ -6598,6 +6598,13 @@ css-declaration-sorter@^4.0.1:
     postcss "^7.0.1"
     timsort "^0.3.0"
 
+css-in-js-utils@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/css-in-js-utils/-/css-in-js-utils-3.1.0.tgz#640ae6a33646d401fc720c54fc61c42cd76ae2bb"
+  integrity sha512-fJAcud6B3rRu+KHYk+Bwf+WFL2MDCJJ1XG9x137tJQ0xYxor7XziQtuGFbWNdqrvF4Tk26O3H73nfVqXt/fW1A==
+  dependencies:
+    hyphenate-style-name "^1.0.3"
+
 css-loader@~3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-3.6.0.tgz#2e4b2c7e6e2d27f8c8f28f61bffcd2e6c91ef645"
@@ -9974,6 +9981,11 @@ icss-utils@^4.0.0, icss-utils@^4.1.1:
   integrity sha512-4aFq7wvWyMHKgxsH8QQtGpvbASCf+eM3wPRLI6R+MgAnTCZ6STYsRvttLvRWK0Nfif5piF394St3HeJDaljGPA==
   dependencies:
     postcss "^7.0.14"
+
+idb@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/idb/-/idb-8.0.0.tgz#33d7ed894ed36e23bcb542fb701ad579bfaad41f"
+  integrity sha512-l//qvlAKGmQO31Qn7xdzagVPPaHTxXx199MhrAFuVBTPqydcPYBWjkrbv4Y0ktB+GmWOiwHl237UUOrLmQxLvw==
 
 ieee754@^1.1.13, ieee754@^1.1.4:
   version "1.2.1"
@@ -15755,12 +15767,24 @@ redux-mock-store@^1.5.4:
   dependencies:
     lodash.isplainobject "^4.0.6"
 
-redux-persist-filesystem-storage@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/redux-persist-filesystem-storage/-/redux-persist-filesystem-storage-4.1.0.tgz#bfe62aa2287d980e43a7987de04fa443d0c62337"
-  integrity sha512-ufwl883C68aoOzOBc4so5cx0ka4atcXp5VW4S0o/MyykxwgKB976NuNYp723zx/3aAAk3llFMfdbDnhcroju2Q==
+redux-persist-expo-filesystem@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/redux-persist-expo-filesystem/-/redux-persist-expo-filesystem-2.0.1.tgz#9728f2efbb499d08020ba9efe7ae99be527677a5"
+  integrity sha512-CZS9mMAF8ZQuCN5/Gif3lzrftu77MtRWY9mVvPKziFmDTAL58CDjv0jkuvdKI4mp6kcAIGe4yYq+MbTFa2jJEA==
+
+redux-persist-filesystem-storage@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/redux-persist-filesystem-storage/-/redux-persist-filesystem-storage-4.2.0.tgz#8e55e338b8acf70a88499c77869c7cbe4679bf2f"
+  integrity sha512-H3INMw64atSRF5aukTtk9BLKuhTT+DZ2vIy3+dog5pfXtUJTF5u/N7HcEd2TECAncffrYeeAnMGVCqKxW8zecA==
   dependencies:
     react-native-blob-util "^0.16.0"
+
+redux-persist-indexeddb-storage@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/redux-persist-indexeddb-storage/-/redux-persist-indexeddb-storage-1.0.4.tgz#ded532bcbf7f8a50d0c6dfa99874846dc4e99457"
+  integrity sha512-g8TyLzlq+La17Arm4tsYZrdokhy0JL6JkC8pl7yyuOidJ2J2hj1XU5+NfgUfYWk25K5YziQdnHb9hVLfKXRFVw==
+  dependencies:
+    localforage "^1.7.3"
 
 redux-persist@^5.4.0:
   version "5.10.0"
