@@ -13,6 +13,7 @@ import { HIDE_ALL_BUTTONS, SHOW_ITEM_BUTTONS } from "../../store/ui/types"
 const TOP_BAR_HEIGHT = 60
 
 export default function ItemView ({item}: {item: Item | undefined}) {
+  if (!item?.styles?.fontClasses) return null
   const dispatch = useDispatch()
   let dimensions: ScaledSize = useWindowDimensions()
   const [coverImageSize, setCoverImageSize] = useState({width: 0, height: 0})
@@ -45,20 +46,20 @@ export default function ItemView ({item}: {item: Item | undefined}) {
   //   null
 
   const feedColor = feed?.color ?
-    hslString(feed.color, 'darkmodable') :
+    hslString(feed.color) :
     hslString('logo1')
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
 
   // hide the image in the body to avoid repetition
   let data = ''
-  if (item?.styles.coverImage.isInline) {
+  if (item?.styles?.coverImage?.isInline) {
     data = item.banner_image || ''
   }
   
   let articleClasses = ''
 
-  if (item?.styles) {
+  if (item?.styles && item?.styles.fontClasses) {
     articleClasses = [
       ...Object.values(item?.styles.fontClasses),
       'itemArticle',
