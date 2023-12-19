@@ -53,13 +53,17 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
-app/.sass-cache/
-app/.vscode/
-app/ios/rizzle.app.dSYM.zip
-app/ios/fastlane/report.xml
-app/ios/rizzle-tvOS/Info.plist
-app/ios/rizzle-tvOSTests/Info.plist
-app/ios/rizzleTests/Info.plist
-app/ios/Reams.app.dSYM.zip
+.sass-cache/
+.vscode/
+ios/rizzle.app.dSYM.zip
+ios/fastlane/report.xml
+ios/rizzle-tvOS/Info.plist
+ios/rizzle-tvOSTests/Info.plist
+ios/rizzleTests/Info.plist
+ios/Reams.app.dSYM.zip
+ios/Pods/
+
+.expo/
+vendor/ 
 
 .vercel

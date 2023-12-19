@@ -1,0 +1,198 @@
+import { 
+  SET_BACKEND,
+  UNSET_BACKEND,
+  UserActionTypes
+} from '../user/types'
+import { 
+  CACHE_FEED_ICON_ERROR,
+  SET_CACHED_FEED_ICON,
+  FEED_HAS_RENDERED_ICON,
+  SET_FEEDS,
+  SET_CACHED_COVER_IMAGE,
+  FeedActionTypes,
+  FeedLocal,
+  FeedsLocalState,
+  ADD_FEED_SUCCESS,
+  ADD_FEEDS_SUCCESS,
+  REMOVE_FEED,
+  REMOVE_CACHED_COVER_IMAGE,
+  REFRESH_FEED_LIST
+} from './types'
+import { 
+  ITEMS_BATCH_FETCHED,
+  MARK_ITEM_READ,
+  ItemActionTypes
+} from '../items/types'
+
+const initialState: FeedsLocalState = {
+  feeds: []
+}
+
+export function feedsLocal (
+  state = initialState, 
+  action: FeedActionTypes | UserActionTypes | ItemActionTypes
+) {
+  let feeds: FeedLocal[]
+  let feed: FeedLocal | undefined
+
+  switch (action.type) {
+    case ADD_FEED_SUCCESS:
+      feeds = state.feeds.filter(f => f._id !== action.feed._id)
+      return {
+        ...state,
+        feeds: [
+          ...feeds,
+          {
+            _id: action.feed._id,
+            isNew: true
+          }
+        ]
+      }
+    case ADD_FEEDS_SUCCESS:
+      feeds = action.feeds.filter(f => !state.feeds
+        .find(feed => feed._id === f._id)).map(f => ({
+          _id: f._id,
+          isNew: true
+        }))
+      return {
+        ...state,
+        feeds: [
+          ...state.feeds,
+          ...feeds
+        ]
+      }
+
+    case REMOVE_FEED:
+      return {
+        ...state,
+        feeds: state.feeds.filter(feed => feed._id !== action.feed._id)
+      }
+  
+    case SET_CACHED_FEED_ICON:
+      feeds = state.feeds.map(f => f)
+      feed = feeds.find(f => f._id === action.id)
+      if (feed) {
+        feed.hasCachedIcon = true
+        feed.cachedIconDimensions = action.dimensions
+      } else {
+        feeds.push({
+          _id: action.id,
+          hasCachedIcon: true,
+          cachedIconDimensions: action.dimensions
+        })
+      }
+      return {
+        ...state,
+        feeds
+      }
+
+    case CACHE_FEED_ICON_ERROR:
+      feeds = state.feeds.map(f => f)
+      feed = feeds.find(f => f._id === action.id)
+      if (feed) {
+        const errors = feed.numCachingErrors || 0
+        feed.numCachingErrors = errors + 1
+        feed.lastCachingError = Date.now()
+      } else {
+        feeds.push({
+          _id: action.id,
+          numCachingErrors: 1,
+          lastCachingError: Date.now()
+        })
+      }
+      return {
+        ...state,
+        feeds
+      }
+
+    case FEED_HAS_RENDERED_ICON:
+      feeds = state.feeds.map(f => f)
+      feed = feeds.find(f => f._id === action.id)
+      if (feed) {
+        feed.hasRenderedIcon = true
+      } else {
+        feeds.push({
+          _id: action.id,
+          hasRenderedIcon: true
+        })
+      }
+      return {
+        ...state,
+        feeds
+      }
+
+    case REFRESH_FEED_LIST:
+    case SET_FEEDS:
+      feeds = state.feeds.map(f => f)
+      action.feeds.forEach(newFeed => {
+        feed = feeds.find(f => f._id === newFeed._id)
+        if (!feed) {
+          feeds.push({
+            _id: newFeed._id,
+            isNew: true
+          })
+         }
+      })
+      return {
+        ...state,
+        feeds
+      }
+
+    case SET_CACHED_COVER_IMAGE:
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.id ?
+          {
+            ...feed,
+            cachedCoverImageId: action.cachedCoverImageId
+          } :
+          feed)
+      }
+
+    case REMOVE_CACHED_COVER_IMAGE:
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.id ?
+          {
+            ...feed,
+            cachedCoverImageId: null
+          } :
+          feed)
+      }
+  
+      case MARK_ITEM_READ:
+      const item = action.item
+      const feedWithDirtyImage = state.feeds.find(f => f.cachedCoverImageId === item._id)
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => ({
+          ...feed,
+          cachedCoverImageId: feed.cachedCoverImageId === item._id ?
+            null :
+            feed.cachedCoverImageId
+        }))
+      }
+
+    case ITEMS_BATCH_FETCHED:
+      // not really sure whether I should be using this, but I guess it makes sense...
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => ({
+          ...feed,
+          isNew: false
+        }))
+      }
+
+    case UNSET_BACKEND:
+      if (action.backend === 'reams') {
+        return initialState
+      } else {
+        return state
+      }
+
+    default:
+      return state
+
+  }
+}
+

@@ -1,0 +1,40 @@
+diff --git a/node_modules/@react-navigation/stack/src/views/Stack/Card.tsx b/node_modules/@react-navigation/stack/src/views/Stack/Card.tsx
+index 1d8a68c..bb895af 100755
+--- a/node_modules/@react-navigation/stack/src/views/Stack/Card.tsx
++++ b/node_modules/@react-navigation/stack/src/views/Stack/Card.tsx
+@@ -188,6 +188,8 @@ export default class Card extends React.Component<Props> {
+ 
+     this.lastToValue = toValue;
+ 
++    this.isClosing.setValue(closing ? TRUE : FALSE);
++
+     const spec = closing ? transitionSpec.close : transitionSpec.open;
+ 
+     const animation =
+@@ -352,13 +354,14 @@ export default class Card extends React.Component<Props> {
+       insetTop: number,
+       insetRight: number,
+       insetBottom: number,
+-      insetLeft: number
++      insetLeft: number,
++      isClosing: Animated.AnimatedInterpolation
+     ) =>
+       styleInterpolator({
+         index,
+         current: { progress: current },
+         next: next && { progress: next },
+-        closing: this.isClosing,
++        closing: isClosing,
+         swiping: this.isSwiping,
+         inverted: this.inverted,
+         layouts: {
+@@ -480,7 +483,8 @@ export default class Card extends React.Component<Props> {
+       insets.top,
+       insets.right,
+       insets.bottom,
+-      insets.left
++      insets.left,
++      this.isClosing
+     );
+ 
+     const animationContext = this.getCardAnimationContext(
