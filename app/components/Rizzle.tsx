@@ -73,7 +73,7 @@ export default class Rizzle extends Component<Props, State> {
   }
 
   async componentDidMount () {
-    InteractionManager.setDeadline(100)
+    // InteractionManager.setDeadline(100)
     // await tf.ready()
     // console.log('Tensor Flow is ready')    
   }
