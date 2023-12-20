@@ -1,91 +1,121 @@
 * {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 html {
   --font-size: calc(var(--device-width) * 0.07px);
-  font-size: var(--font-size); }
-  html.tablet {
-    --font-size: calc(var(--device-width) * 0.04px); }
-  html.font-size-1 {
-    --font-size: calc(var(--device-width) * 0.05px); }
-    html.font-size-1.tablet {
-      --font-size: calc(var(--device-width) * 0.03px); }
-  html.font-size-2 {
-    --font-size: calc(var(--device-width) * 0.06px); }
-    html.font-size-2.tablet {
-      --font-size: calc(var(--device-width) * 0.035px); }
-  html.font-size-3 {
-    --font-size: calc(var(--device-width) * 0.07px); }
-    html.font-size-3.tablet {
-      --font-size: calc(var(--device-width) * 0.04px); }
-  html.font-size-4 {
-    --font-size: calc(var(--device-width) * 0.08px); }
-    html.font-size-4.tablet {
-      --font-size: calc(var(--device-width) * 0.045px); }
-  html.font-size-5 {
-    --font-size: calc(var(--device-width) * 0.09px); }
-    html.font-size-5.tablet {
-      --font-size: calc(var(--device-width) * 0.05px); }
+  font-size: var(--font-size);
+}
+html.tablet {
+  --font-size: calc(var(--device-width) * 0.04px);
+}
+html.font-size-1 {
+  --font-size: calc(var(--device-width) * 0.05px);
+}
+html.font-size-1.tablet {
+  --font-size: calc(var(--device-width) * 0.03px);
+}
+html.font-size-2 {
+  --font-size: calc(var(--device-width) * 0.06px);
+}
+html.font-size-2.tablet {
+  --font-size: calc(var(--device-width) * 0.035px);
+}
+html.font-size-3 {
+  --font-size: calc(var(--device-width) * 0.07px);
+}
+html.font-size-3.tablet {
+  --font-size: calc(var(--device-width) * 0.04px);
+}
+html.font-size-4 {
+  --font-size: calc(var(--device-width) * 0.08px);
+}
+html.font-size-4.tablet {
+  --font-size: calc(var(--device-width) * 0.045px);
+}
+html.font-size-5 {
+  --font-size: calc(var(--device-width) * 0.09px);
+}
+html.font-size-5.tablet {
+  --font-size: calc(var(--device-width) * 0.05px);
+}
 
 body {
   margin: 0;
   padding: 0;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   width: 100vw;
-  background-color: #f7f7f3;
-  transition: background-color, color 0.2s; }
-  body, body a, body a:active, body a:visited {
-    color: #333333; }
-  .dark-background body {
-    background-color: black; }
-    .dark-background body, .dark-background body a, .dark-background body a:active, .dark-background body a:visited {
-      color: #cccccc; }
+  background-color: hsl(60, 17%, 96%);
+  transition: background-color, color 0.2s;
+}
+body, body a, body a:active, body a:visited {
+  color: hsl(0, 0%, 20%);
+}
+.dark-background body {
+  background-color: hsl(240, 0%, 0%);
+}
+.dark-background body, .dark-background body a, .dark-background body a:active, .dark-background body a:visited {
+  color: hsl(0, 0%, 80%);
+}
 
 .item {
-  height: 100vh; }
+  height: 100vh;
+}
 
 .itemArticle {
   padding: 0;
-  margin: 0; }
+  margin: 0;
+}
 
 .cover, .body {
   position: relative;
   margin: 0;
   /*padding: $step * .5;*/
   width: 100%;
-  max-width: 100%; }
+  max-width: 100%;
+}
 
 .itemArticle {
-  font-size: calc(1rem / 1.6);
+  font-size: 0.625rem;
   line-height: 1rem;
-  margin: 0; }
-  .itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle h4, .itemArticle h5 {
-    padding: 0;
-    line-height: 1em;
-    -webkit-hyphens: none;
-    hyphens: none; }
-  .itemArticle h1, .itemArticle h2, .itemArticle h3 {
-    color: var(--feed-color); }
-    .itemArticle h1 a, .itemArticle h2 a, .itemArticle h3 a {
-      color: var(--feed-color) !important; }
-  .itemArticle h1, .itemArticle h2 {
-    font-size: 1.2rem;
-    line-height: 1.5rem;
-    margin: 3rem 0 .5rem; }
-  .itemArticle h2 {
-    font-size: 1rem; }
-  .itemArticle h2, .itemArticle h4 {
-    font-weight: normal; }
-  .itemArticle h3, .itemArticle h4 {
-    font-size: 1rem;
-    line-height: 1.33rem;
-    margin: 2rem 0 0.2rem; }
-  .itemArticle h4 {
-    font-size: 0.75rem; }
-  .itemArticle h5, .itemArticle h6 {
-    font-size: calc(1rem / 1.7);
-    line-height: 1rem;
-    margin: 1rem 0 0; }
+  margin: 0;
+}
+.itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle h4, .itemArticle h5 {
+  padding: 0;
+  line-height: 1em;
+  -webkit-hyphens: none;
+  hyphens: none;
+}
+.itemArticle h1, .itemArticle h2, .itemArticle h3 {
+  color: var(--feed-color);
+}
+.itemArticle h1 a, .itemArticle h2 a, .itemArticle h3 a {
+  color: var(--feed-color) !important;
+}
+.itemArticle h1, .itemArticle h2 {
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  margin: 3rem 0 0.5rem;
+}
+.itemArticle h2 {
+  font-size: 1rem;
+}
+.itemArticle h2, .itemArticle h4 {
+  font-weight: normal;
+}
+.itemArticle h3, .itemArticle h4 {
+  font-size: 1rem;
+  line-height: 1.33rem;
+  margin: 2rem 0 0.2rem;
+}
+.itemArticle h4 {
+  font-size: 0.75rem;
+}
+.itemArticle h5, .itemArticle h6 {
+  font-size: 0.5882352941rem;
+  line-height: 1rem;
+  margin: 1rem 0 0;
+}
 
 .itemArticle {
   position: relative;
@@ -98,266 +128,284 @@ body {
   -webkit-hyphens: auto;
   hyphens: auto;
   -webkit-text-size-adjust: none;
-  /* gambling that it's a video */ }
-  .itemArticle p, .itemArticle center {
-    margin: 0;
-    margin-bottom: .666rem; }
-  .itemArticle sup {
-    line-height: 0; }
-  .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe:not(.instagram-media), .itemArticle pre {
-    position: relative !important;
-    max-width: 100vw;
-    height: auto;
-    margin: .666rem 0;
-    border: 0; }
-  .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle pre {
-    height: auto !important; }
+  /* gambling that it's a video */
+}
+.itemArticle p, .itemArticle center {
+  margin: 0;
+  margin-bottom: 0.666rem;
+}
+.itemArticle sup {
+  line-height: 0;
+}
+.itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe:not(.instagram-media), .itemArticle pre {
+  position: relative !important;
+  max-width: 100vw;
+  height: auto;
+  margin: 0.666rem 0;
+  border: 0;
+}
+.itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle pre {
+  height: auto !important;
+}
+.itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
+  width: 100vw;
+  max-width: 100vw;
+  width: 100vw !important;
+  left: -4vw;
+  overflow: scroll;
+}
+@media (min-width: 600px) {
   .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
-    width: 100vw;
-    max-width: 100vw;
-    width: 100vw !important;
-    left: -4vw;
-    overflow: scroll; }
-    @media (min-width: 600px) {
-      .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
-        left: calc(50% - 50vw); } }
-  @media (min-width: 600px) {
-    .itemArticle .twitter-tweet iframe {
-      left: auto;
-      width: 100% important;
-      max-width: 100%; } }
-  .itemArticle pre {
-    background-color: white;
-    border-bottom: 1px solid #ededed; }
-  .itemArticle img:not(.img-portrait):not(.img-small) {
-    width: 100vw !important; }
-  .itemArticle img.img-portrait, .itemArticle img.img-small {
-    margin: 0.5rem 0.5rem 1rem;
-    max-width: calc(100vw - 1rem) !important;
-    width: auto !important; }
-    .itemArticle img.img-portrait.img-small, .itemArticle img.img-small.img-small {
-      float: left;
-      clear: left;
-      margin: 0.25rem 1rem 1rem 0;
-      left: 0; }
-  .itemArticle figure img.img-portrait, .itemArticle figure img.img-small {
-    width: calc(100% - 1rem);
-    margin-bottom: 0; }
-  @media (min-width: 600px) {
-    .itemArticle img.img-small {
-      left: 0;
-      float: left;
-      margin-top: 0;
-      margin-left: 0; } }
-  .itemArticle figure img, .itemArticle figure iframe {
-    margin: 0;
+    left: calc(50% - 50vw);
+  }
+}
+@media (min-width: 600px) {
+  .itemArticle .twitter-tweet iframe {
+    left: auto;
+    width: 100% important;
+    max-width: 100%;
+  }
+}
+.itemArticle pre {
+  background-color: white;
+  border-bottom: 1px solid hsl(0, 0%, 93%);
+}
+.itemArticle img:not(.img-portrait):not(.img-small) {
+  width: 100vw !important;
+}
+.itemArticle img.img-portrait, .itemArticle img.img-small {
+  margin: 0.5rem 0.5rem 1rem;
+  max-width: calc(100vw - 1rem) !important;
+  width: auto !important;
+}
+.itemArticle img.img-portrait.img-small, .itemArticle img.img-small.img-small {
+  float: left;
+  clear: left;
+  margin: 0.25rem 1rem 1rem 0;
+  left: 0;
+}
+.itemArticle figure img.img-portrait, .itemArticle figure img.img-small {
+  width: calc(100% - 1rem);
+  margin-bottom: 0;
+}
+@media (min-width: 600px) {
+  .itemArticle img.img-small {
     left: 0;
-    border-bottom: 0; }
-  @media (min-width: 600px) {
-    .itemArticle figure.figure-small {
-      width: calc(50% - 0.25rem) !important;
-      float: left;
-      margin-right: 0.5rem;
-      left: 0; }
-      .itemArticle figure.figure-small figcaption {
-        margin: 0;
-        padding: .25rem .5rem; }
-      .itemArticle figure.figure-small img {
-        width: 100% !important;
-        margin-left: 0;
-        margin-top: 0;
-        float: none; }
-    .itemArticle p + figure.figure-small {
-      margin-top: 0;
-      margin-bottom: 0.5rem; } }
-  .itemArticle > figure:first-child,
-  .itemArticle > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > figure:first-child,
-  .itemArticle > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small) {
-    position: relative;
-    top: -2rem;
+    float: left;
     margin-top: 0;
-    margin-bottom: 0rem; }
-  .itemArticle > iframe:first-child,
-  .itemArticle > p:first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > p:first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child,
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child {
-    margin-top: 0; }
-  .itemArticle > img.img-portrait:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small),
-  .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small) {
-    top: -1.5rem; }
-  .itemArticle > *:empty + figure:first-child,
-  .itemArticle > *:empty + img:first-child,
-  .itemArticle > *:empty:first-child + *:first-of-type + figure:first-child,
-  .itemArticle > *:empty:first-child + *:first-of-type + img:first-child,
-  .itemArticle > *:first-child > *:empty + figure:first-child,
-  .itemArticle > *:first-child > *:empty + img:first-child,
-  .itemArticle > *:first-child > *:first-child > *:empty + figure:first-child,
-  .itemArticle > *:first-child > *:first-child > *:empty + img:first-child,
-  .itemArticle > *:first-child > *:first-child > *:first-child > *:empty + figure:first-child,
-  .itemArticle > *:first-child > *:first-child > *:first-child > *:empty + img:first-child {
-    position: relative;
-    top: -2rem;
+    margin-left: 0;
+  }
+}
+.itemArticle figure img, .itemArticle figure iframe {
+  margin: 0;
+  left: 0;
+  border-bottom: 0;
+}
+@media (min-width: 600px) {
+  .itemArticle figure.figure-small {
+    width: calc(50% - 0.25rem) !important;
+    float: left;
+    margin-right: 0.5rem;
+    left: 0;
+  }
+  .itemArticle figure.figure-small figcaption {
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+  }
+  .itemArticle figure.figure-small img {
+    width: 100% !important;
+    margin-left: 0;
     margin-top: 0;
-    margin-bottom: 0; }
-  .itemArticle *:not(.twitter-tweet) > iframe:not(.instagram-media), .itemArticle iframe video {
-    height: 55vw !important; }
+    float: none;
+  }
+  .itemArticle p + figure.figure-small {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+.itemArticle > figure:first-child, .itemArticle > img:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > figure:first-child, .itemArticle > *:not(figure):first-child > img:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > figure:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > figure:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img:first-child:not(.img-small) {
+  position: relative;
+  top: -2rem;
+  margin-top: 0;
+  margin-bottom: 0rem;
+}
+.itemArticle > iframe:first-child, .itemArticle > p:first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > p:first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > iframe:first-child, .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > p:first-child > iframe:first-child {
+  margin-top: 0;
+}
+.itemArticle > img.img-portrait:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small), .itemArticle > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > img.img-portrait:first-child:not(.img-small) {
+  top: -1.5rem;
+}
+.itemArticle > *:empty + figure:first-child, .itemArticle > *:empty + img:first-child, .itemArticle > *:empty:first-child + *:first-of-type + figure:first-child, .itemArticle > *:empty:first-child + *:first-of-type + img:first-child, .itemArticle > *:first-child > *:empty + figure:first-child, .itemArticle > *:first-child > *:empty + img:first-child, .itemArticle > *:first-child > *:first-child > *:empty + figure:first-child, .itemArticle > *:first-child > *:first-child > *:empty + img:first-child, .itemArticle > *:first-child > *:first-child > *:first-child > *:empty + figure:first-child, .itemArticle > *:first-child > *:first-child > *:first-child > *:empty + img:first-child {
+  position: relative;
+  top: -2rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.itemArticle *:not(.twitter-tweet) > iframe:not(.instagram-media), .itemArticle iframe video {
+  height: 55vw !important;
+}
+.itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
+  margin: 0 0 1rem;
+  font-size: 0.55rem;
+  line-height: 1rem;
+  background-color: white;
+  left: -0.5rem;
+  width: 100vw;
+  padding: 1rem 0.5rem;
+  display: block;
+  position: relative;
+  -webkit-hyphens: none;
+  hyphens: none;
+}
+.itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type, .itemArticle aside > p:last-of-type {
+  margin-bottom: 0;
+}
+@media (min-width: 600px) {
   .itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
-    margin: 0 0 1rem;
-    font-size: 0.55rem;
-    line-height: 1rem;
-    background-color: white;
-    left: -0.5rem;
-    width: 100vw;
-    padding: 1rem 0.5rem;
-    display: block;
-    position: relative;
-    -webkit-hyphens: none;
-    hyphens: none; }
-    .itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type, .itemArticle aside > p:last-of-type {
-      margin-bottom: 0; }
-    @media (min-width: 600px) {
-      .itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
-        width: 100%; } }
-    .itemArticle blockquote.is-quote p:first-child, .itemArticle .pullquote.is-quote p:first-child, .itemArticle aside.is-quote p:first-child {
-      text-indent: -0.45em; }
-  .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
-    color: white;
-    background-color: transparent;
-    border: none;
-    font-size: 1rem;
-    line-height: 1.33rem;
-    font-style: normal;
-    padding: 1rem 1.5rem 1rem 1rem;
-    margin: 1rem 0;
-    text-align: left; }
-  .itemArticle figure cite {
-    display: none; }
+    width: 100%;
+  }
+}
+.itemArticle blockquote.is-quote p:first-child, .itemArticle .pullquote.is-quote p:first-child, .itemArticle aside.is-quote p:first-child {
+  text-indent: -0.45em;
+}
+.itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  line-height: 1.33rem;
+  font-style: normal;
+  padding: 1rem 1.5rem 1rem 1rem;
+  margin: 1rem 0;
+  text-align: left;
+}
+.itemArticle figure cite {
+  display: none;
+}
+.itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {
+  position: relative;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.5rem;
+  font-weight: 300;
+  line-height: 0.67rem;
+  color: hsl(0, 0%, 50%);
+  position: relative;
+  text-align: left;
+}
+.itemArticle *:not(figcaption) > *:not(figcaption).caption:not(figcaption) {
+  display: block;
+  margin: -0.666rem -4vw 1.666rem;
+}
+.itemArticle *:not(figcaption) > *:not(figcaption).caption:not(figcaption) + .caption:not(figcaption) {
+  margin-top: -1.666rem;
+}
+@media (min-width: 600px) {
+  .itemArticle figcaption, .itemArticle blockquote, .itemArticle .caption, .itemArticle img + small {
+    margin: 0 -4vw;
+    padding: 1rem 4vw;
+    left: 0;
+  }
   .itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {
-    position: relative;
-    padding: .25rem .5rem;
-    font-size: 0.5rem;
-    font-weight: 300;
-    line-height: 0.67rem;
-    color: gray;
-    position: relative;
-    text-align: left; }
-  .itemArticle *:not(figcaption) > *:not(figcaption).caption:not(figcaption) {
-    display: block;
-    margin: -0.666rem -4vw 1.666rem; }
-    .itemArticle *:not(figcaption) > *:not(figcaption).caption:not(figcaption) + .caption:not(figcaption) {
-      margin-top: -1.666rem; }
-  @media (min-width: 600px) {
-    .itemArticle figcaption, .itemArticle blockquote, .itemArticle .caption, .itemArticle img + small {
-      margin: 0 -4vw;
-      padding: 1rem 4vw;
-      left: 0; }
-    .itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {
-      padding: 0.25rem calc(50vw - 50%) 0.5rem;
-      margin: 0 4vw;
-      text-align: center; } }
-  .itemArticle img + small {
-    display: block;
-    margin: -2.25rem -4vw 1rem; }
-  @media (min-width: 600px) {
-    .itemArticle blockquote:not(.pullquote) {
-      margin-bottom: 1rem;
-      left: calc(50% - 50vw);
-      margin: 0 0 1rem;
-      padding: 1rem calc(50vw - 50%);
-      width: 100vw; } }
-  .itemArticle a.unused, .itemArticle a.unused:active, .itemArticle a.unused:visited {
-    color: inherit !important;
-    /*text-decoration: none;*/
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 19px, rgba(199, 199, 0, 0.3) 19px, rgba(199, 199, 0, 0.3) 24px);
-    /*display: inline-block;*/
-    /*padding-bottom: 0;*/
-    /*line-height: .5;*/ }
-    .itemArticle a.unused img, .itemArticle a.unused:active img, .itemArticle a.unused:visited img {
-      /* hide link gradient */
-      margin-bottom: -6px; }
-  .itemArticle figure {
-    padding: 0;
-    margin: 1rem 0;
-    text-align: center; }
-  .itemArticle iframe {
-    max-width: 100%; }
-  .itemArticle twitter-widget {
-    margin: 4vw auto !important; }
-  .itemArticle .twitter-tweet {
-    display: block !important; }
-  .itemArticle pre {
-    font-size: 14px;
-    line-height: 1.4;
-    overflow: scroll;
-    color: #333333;
-    padding: 14px; }
-  .itemArticle ul, .itemArticle ol {
-    list-style-type: none;
-    padding-left: 0; }
-  .itemArticle li {
-    padding: 0 0 .5rem; }
-    .itemArticle li:before {
-      width: 0.4rem;
-      content: "";
-      float: left;
-      height: .15rem;
-      margin-right: .2rem;
-      margin-bottom: .1rem;
-      margin-top: .4rem; }
-  .itemArticle ul li:before, .itemArticle ol li:before {
-    background-color: var(--feed-color); }
-  .itemArticle header {
-    font-weight: 500; }
-  .itemArticle figure input {
-    display: none; }
-  .dark-background .itemArticle img:not(.img-portrait):not(.img-small), .dark-background .itemArticle video, .dark-background .itemArticle iframe, .dark-background .itemArticle pre {
-    border-bottom: 1px solid #121212; }
-  .dark-background .itemArticle blockquote {
-    border-top: 1px solid rgba(0, 0, 0, 0.1); }
-  .dark-background .itemArticle blockquote, .dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
-    border-bottom: 3px solid rgba(0, 0, 0, 0.1); }
-  .dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
-    color: #cccccc; }
-  .dark-background .itemArticle blockquote:not(.pullquote) {
-    background-color: #1b1b1d;
-    color: #e6e6e6 !important; }
-  .dark-background .itemArticle pre {
-    background-color: #1b1b1d;
-    color: #cccccc; }
+    padding: 0.25rem calc(50vw - 50%) 0.5rem;
+    margin: 0 4vw;
+    text-align: center;
+  }
+}
+.itemArticle img + small {
+  display: block;
+  margin: -2.25rem -4vw 1rem;
+}
+@media (min-width: 600px) {
+  .itemArticle blockquote:not(.pullquote) {
+    margin-bottom: 1rem;
+    left: calc(50% - 50vw);
+    margin: 0 0 1rem;
+    padding: 1rem calc(50vw - 50%);
+    width: 100vw;
+  }
+}
+.itemArticle a.unused, .itemArticle a.unused:active, .itemArticle a.unused:visited {
+  color: inherit !important;
+  /*text-decoration: none;*/
+  background-image: linear-gradient(to bottom, hsla(0, 0%, 0%, 0) 19px, hsla(60, 100%, 39%, 0.3) 19px, hsla(60, 100%, 39%, 0.3) 24px);
+  /*display: inline-block;*/
+  /*padding-bottom: 0;*/
+  /*line-height: .5;*/
+}
+.itemArticle a.unused img, .itemArticle a.unused:active img, .itemArticle a.unused:visited img {
+  /* hide link gradient */
+  margin-bottom: -6px;
+}
+.itemArticle figure {
+  padding: 0;
+  margin: 1rem 0;
+  text-align: center;
+}
+.itemArticle iframe {
+  max-width: 100%;
+}
+.itemArticle twitter-widget {
+  margin: 4vw auto !important;
+}
+.itemArticle .twitter-tweet {
+  display: block !important;
+}
+.itemArticle pre {
+  font-size: 14px;
+  line-height: 1.4;
+  overflow: scroll;
+  color: hsl(0, 0%, 20%);
+  padding: 14px;
+}
+.itemArticle ul, .itemArticle ol {
+  list-style-type: none;
+  padding-left: 0;
+}
+.itemArticle li {
+  padding: 0 0 0.5rem;
+}
+.itemArticle li:before {
+  width: 0.4rem;
+  content: "";
+  float: left;
+  height: 0.15rem;
+  margin-right: 0.2rem;
+  margin-bottom: 0.1rem;
+  margin-top: 0.4rem;
+}
+.itemArticle ul li:before, .itemArticle ol li:before {
+  background-color: var(--feed-color);
+}
+.itemArticle header {
+  font-weight: 500;
+}
+.itemArticle figure input {
+  display: none;
+}
+.dark-background .itemArticle img:not(.img-portrait):not(.img-small), .dark-background .itemArticle video, .dark-background .itemArticle iframe, .dark-background .itemArticle pre {
+  border-bottom: 1px solid hsl(0, 0%, 7%);
+}
+.dark-background .itemArticle blockquote {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.dark-background .itemArticle blockquote, .dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
+  border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+}
+.dark-background .itemArticle figcaption, .dark-background .itemArticle img + small {
+  color: hsl(0, 0%, 80%);
+}
+.dark-background .itemArticle blockquote:not(.pullquote) {
+  background-color: hsl(241, 4%, 11%);
+  color: hsl(0, 0%, 90%) !important;
+}
+.dark-background .itemArticle pre {
+  background-color: hsl(241, 4%, 11%);
+  color: hsl(0, 0%, 80%);
+}
 
 article {
-  margin-bottom: 168px; }
+  margin-bottom: 168px;
+}
 
 hr {
   margin-bottom: 1.5rem;
@@ -365,611 +413,564 @@ hr {
   width: 66px;
   height: 16px;
   background-color: var(--feed-color);
-  border: 0; }
+  border: 0;
+}
 
-.itemArticle > p:not(.short-para):first-of-type:first-letter,
-.itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle > p:not(.short-para):first-of-type:first-letter, .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 4rem;
-  line-height: .6;
+  line-height: 0.6;
   display: block;
   margin-right: 0.1rem;
-  text-decoration: none; }
-
-.itemArticle > p:not(.short-para):first-of-type.firstPara,
-.itemArticle > div:first-of-type > p:not(.short-para):first-of-type.firstPara,
-.itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type.firstPara {
+  text-decoration: none;
+}
+.itemArticle > p:not(.short-para):first-of-type.firstPara, .itemArticle > div:first-of-type > p:not(.short-para):first-of-type.firstPara, .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type.firstPara {
   border-top: 0;
-  padding-top: 0; }
-
-.itemArticle > p:not(.short-para):first-of-type > em:first-letter,
-.itemArticle > div:first-of-type > p:not(.short-para):first-of-type > em:first-letter,
-.itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type > em:first-letter {
-  font-size: inherit; }
-
-.itemArticle.dropCapIsDrop > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapIsDrop > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapIsDrop > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  padding-top: 0;
+}
+.itemArticle > p:not(.short-para):first-of-type > em:first-letter, .itemArticle > div:first-of-type > p:not(.short-para):first-of-type > em:first-letter, .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type > em:first-letter {
+  font-size: inherit;
+}
+.itemArticle.dropCapIsDrop > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsDrop > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsDrop > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0;
-  float: left; }
-
-.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 1.825rem; }
-
-.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.46rem; }
-
-.itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 2.05rem; }
-
-.itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.35rem; }
-
-.itemArticle.dropCapSize2.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 1.95rem; }
-
-.itemArticle.dropCapSize2.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.33rem; }
-
-.itemArticle.dropCapSize2.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 1.95rem; }
-
-.itemArticle.dropCapSize2.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.35rem; }
-
-.itemArticle.dropCapSize2.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 1.95rem; }
-
-.itemArticle.dropCapSize2.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.4rem; }
-
-.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 3.05rem; }
-
-.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.6rem; }
-
-.itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 3.37rem; }
-
-.itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.43rem; }
-
-.itemArticle.dropCapSize3.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 3.36rem; }
-
-.itemArticle.dropCapSize3.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.36rem; }
-
-.itemArticle.dropCapSize3.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 3.38rem; }
-
-.itemArticle.dropCapSize3.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.37rem; }
-
-.itemArticle.dropCapSize3.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 3.35rem; }
-
-.itemArticle.dropCapSize3.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.54rem; }
-
-.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 4.3rem; }
-
-.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.75rem; }
-
-.itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 4.78rem; }
-
-.itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.41rem; }
-
-.itemArticle.dropCapSize4.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 4.73rem; }
-
-.itemArticle.dropCapSize4.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.4rem; }
-
-.itemArticle.dropCapSize4.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 4.73rem; }
-
-.itemArticle.dropCapSize4.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.41rem; }
-
-.itemArticle.dropCapSize4.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 4.65rem; }
-
-.itemArticle.dropCapSize4.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.64rem; }
-
-.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 5.6rem; }
-
-.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.9rem; }
-
-.itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 6.18rem; }
-
-.itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.51rem; }
-
-.itemArticle.dropCapSize5.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 6.13rem; }
-
-.itemArticle.dropCapSize5.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.42rem; }
-
-.itemArticle.dropCapSize5.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 6.13rem; }
-
-.itemArticle.dropCapSize5.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.44rem; }
-
-.itemArticle.dropCapSize5.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 6.1rem; }
-
-.itemArticle.dropCapSize5.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.77rem; }
-
-.itemArticle.dropCapSize6.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 6.75rem; }
-
-.itemArticle.dropCapSize6.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 1.03rem; }
-
-.itemArticle.dropCapSize6.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 7.62rem; }
-
-.itemArticle.dropCapSize6.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.55rem; }
-
-.itemArticle.dropCapSize6.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 7.58rem; }
-
-.itemArticle.dropCapSize6.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.56rem; }
-
-.itemArticle.dropCapSize6.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 7.5rem; }
-
-.itemArticle.dropCapSize6.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.475rem; }
-
-.itemArticle.dropCapSize6.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 7.45rem; }
-
-.itemArticle.dropCapSize6.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize6.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.92rem; }
-
-.itemArticle.dropCapSize7 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize7 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize7 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-size: 7.1rem; }
-
-.itemArticle.dropCapSize7 > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize7 > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapSize7 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  margin-top: 0.6rem; }
-
-.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  font-weight: 700; }
+  float: left;
+}
+.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 1.825rem;
+}
+.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.46rem;
+}
+.itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 2.05rem;
+}
+.itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.35rem;
+}
+.itemArticle.dropCapSize2.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 1.95rem;
+}
+.itemArticle.dropCapSize2.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.33rem;
+}
+.itemArticle.dropCapSize2.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 1.95rem;
+}
+.itemArticle.dropCapSize2.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.35rem;
+}
+.itemArticle.dropCapSize2.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 1.95rem;
+}
+.itemArticle.dropCapSize2.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.4rem;
+}
+.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.05rem;
+}
+.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.6rem;
+}
+.itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.37rem;
+}
+.itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.43rem;
+}
+.itemArticle.dropCapSize3.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.36rem;
+}
+.itemArticle.dropCapSize3.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.36rem;
+}
+.itemArticle.dropCapSize3.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.38rem;
+}
+.itemArticle.dropCapSize3.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.37rem;
+}
+.itemArticle.dropCapSize3.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 3.35rem;
+}
+.itemArticle.dropCapSize3.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.54rem;
+}
+.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 4.3rem;
+}
+.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.75rem;
+}
+.itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 4.78rem;
+}
+.itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.41rem;
+}
+.itemArticle.dropCapSize4.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 4.73rem;
+}
+.itemArticle.dropCapSize4.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.4rem;
+}
+.itemArticle.dropCapSize4.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 4.73rem;
+}
+.itemArticle.dropCapSize4.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.41rem;
+}
+.itemArticle.dropCapSize4.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 4.65rem;
+}
+.itemArticle.dropCapSize4.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.64rem;
+}
+.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 5.6rem;
+}
+.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.9rem;
+}
+.itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 6.18rem;
+}
+.itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.51rem;
+}
+.itemArticle.dropCapSize5.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 6.13rem;
+}
+.itemArticle.dropCapSize5.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.42rem;
+}
+.itemArticle.dropCapSize5.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 6.13rem;
+}
+.itemArticle.dropCapSize5.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.44rem;
+}
+.itemArticle.dropCapSize5.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 6.1rem;
+}
+.itemArticle.dropCapSize5.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.77rem;
+}
+.itemArticle.dropCapSize6.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 6.75rem;
+}
+.itemArticle.dropCapSize6.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 1.03rem;
+}
+.itemArticle.dropCapSize6.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 7.62rem;
+}
+.itemArticle.dropCapSize6.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.55rem;
+}
+.itemArticle.dropCapSize6.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 7.58rem;
+}
+.itemArticle.dropCapSize6.bodyFontSerif3 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif3 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.56rem;
+}
+.itemArticle.dropCapSize6.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 7.5rem;
+}
+.itemArticle.dropCapSize6.bodyFontSans1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSans1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.475rem;
+}
+.itemArticle.dropCapSize6.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 7.45rem;
+}
+.itemArticle.dropCapSize6.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.92rem;
+}
+.itemArticle.dropCapSize7 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize7 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize7 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-size: 7.1rem;
+}
+.itemArticle.dropCapSize7 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize7 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize7 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  margin-top: 0.6rem;
+}
+.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  font-weight: 700;
+}
 
 .single-char-para {
   text-align: center;
-  margin: 2rem; }
+  margin: 2rem;
+}
 
 .bodyFontSerif1 {
   font-family: "LibreBaskerville-Regular", serif;
-  font-size: calc(1rem / 1.8); }
-  .bodyFontSerif1 em, .bodyFontSerif1 i {
-    font-family: "LibreBaskerville-Italic";
-    font-style: normal; }
-  .bodyFontSerif1 strong, .bodyFontSerif1 b {
-    font-family: "LibreBaskerville-Bold";
-    font-weight: normal; }
-  .bodyFontSerif1 strong em, .bodyFontSerif1 em strong, .bodyFontSerif1 b i, .bodyFontSerif1 i b {
-    font-family: "LibreBaskerville-Italic", sans-serif;
-    font-style: normal;
-    font-weight: normal; }
-  .bodyFontSerif1 .itemArticle > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSerif1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSerif1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
-    font-family: "LibreBaskerville-Bold"; }
-  .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) {
-    font-family: "LibreBaskerville-Bold";
-    color: var(--feed-color);
-    font-size: 1.2em; }
-    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) b {
-      font-family: "LibreBaskerville-Italic";
-      font-style: normal; }
-    .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a {
-      color: var(--feed-color); }
+  font-size: 0.5555555556rem;
+}
+.bodyFontSerif1 em, .bodyFontSerif1 i {
+  font-family: "LibreBaskerville-Italic";
+  font-style: normal;
+}
+.bodyFontSerif1 strong, .bodyFontSerif1 b {
+  font-family: "LibreBaskerville-Bold";
+  font-weight: normal;
+}
+.bodyFontSerif1 strong em, .bodyFontSerif1 em strong, .bodyFontSerif1 b i, .bodyFontSerif1 i b {
+  font-family: "LibreBaskerville-Italic", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.bodyFontSerif1 .itemArticle > p:not(.short-para):first-of-type:first-line, .bodyFontSerif1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .bodyFontSerif1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "LibreBaskerville-Bold";
+}
+.bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "LibreBaskerville-Bold";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "LibreBaskerville-Italic";
+  font-style: normal;
+}
+.bodyFontSerif1 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
-  font-size: calc(1rem / 1.6); }
-  .bodyFontSans1 em, .bodyFontSans1 i {
-    font-family: "IBMPlexSans-Italic", sans-serif;
-    font-style: normal; }
-  .bodyFontSans1 strong, .bodyFontSans1 b {
-    font-family: "IBMPlexSans-Bold", sans-serif;
-    font-weight: normal; }
-  .bodyFontSans1 strong em, .bodyFontSans1 em strong, .bodyFontSans1 b i, .bodyFontSans1 i b {
-    font-family: "IBMPlexSans-BoldItalic", sans-serif;
-    font-style: normal;
-    font-weight: normal; }
-  .bodyFontSans1 .itemArticle > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSans1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSans1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
-    font-family: "IBMPlexSans-Bold"; }
-  .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) {
-    font-family: "IBMPlexSans-Bold";
-    color: var(--feed-color);
-    font-size: 1.2em; }
-    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) b {
-      font-family: "IBMPlexSans-BoldItalic";
-      font-style: normal; }
-    .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a {
-      color: var(--feed-color); }
+  font-size: 0.625rem;
+}
+.bodyFontSans1 em, .bodyFontSans1 i {
+  font-family: "IBMPlexSans-Italic", sans-serif;
+  font-style: normal;
+}
+.bodyFontSans1 strong, .bodyFontSans1 b {
+  font-family: "IBMPlexSans-Bold", sans-serif;
+  font-weight: normal;
+}
+.bodyFontSans1 strong em, .bodyFontSans1 em strong, .bodyFontSans1 b i, .bodyFontSans1 i b {
+  font-family: "IBMPlexSans-BoldItalic", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.bodyFontSans1 .itemArticle > p:not(.short-para):first-of-type:first-line, .bodyFontSans1 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .bodyFontSans1 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "IBMPlexSans-Bold";
+}
+.bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "IBMPlexSans-Bold";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "IBMPlexSans-BoldItalic";
+  font-style: normal;
+}
+.bodyFontSans1 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
 
 .bodyFontSerif2 {
-  font-family: "Iowan Old Style", "Cardo", serif; }
-  .bodyFontSerif2 em, .bodyFontSerif2 i {
-    font-family: "IowanOldStyle-Italic", "Cardo-Italic", sans-serif;
-    font-style: normal; }
-  .bodyFontSerif2 strong, .bodyFontSerif2 b {
-    font-family: "IowanOldStyle-Bold", "Cardo-Bold", sans-serif;
-    font-weight: normal; }
-  .bodyFontSerif2 strong em, .bodyFontSerif2 em strong, .bodyFontSerif2 b i, .bodyFontSerif2 i b {
-    font-family: "IowanOldStyle-BoldItalic", "Cardo-Bold", sans-serif;
-    font-style: normal;
-    font-weight: normal; }
-  .bodyFontSerif2 .itemArticle > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
-    font-family: "IowanOldStyle-Bold, Cardo-Bold"; }
-  .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) {
-    font-family: "IowanOldStyle-Bold, Cardo-Bold";
-    color: var(--feed-color);
-    font-size: 1.2em; }
-    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) b {
-      font-family: "IowanOldStyle-BoldItalic, Cardo-Bold";
-      font-style: normal; }
-    .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a {
-      color: var(--feed-color); }
+  font-family: "Iowan Old Style", "Cardo", serif;
+}
+.bodyFontSerif2 em, .bodyFontSerif2 i {
+  font-family: "IowanOldStyle-Italic", "Cardo-Italic", sans-serif;
+  font-style: normal;
+}
+.bodyFontSerif2 strong, .bodyFontSerif2 b {
+  font-family: "IowanOldStyle-Bold", "Cardo-Bold", sans-serif;
+  font-weight: normal;
+}
+.bodyFontSerif2 strong em, .bodyFontSerif2 em strong, .bodyFontSerif2 b i, .bodyFontSerif2 i b {
+  font-family: "IowanOldStyle-BoldItalic", "Cardo-Bold", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.bodyFontSerif2 .itemArticle > p:not(.short-para):first-of-type:first-line, .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "IowanOldStyle-Bold, Cardo-Bold";
+}
+.bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "IowanOldStyle-Bold, Cardo-Bold";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "IowanOldStyle-BoldItalic, Cardo-Bold";
+  font-style: normal;
+}
+.bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
 
 .bodyFontSans2 {
-  font-family: "AvenirNext-Regular", serif; }
-  .bodyFontSans2 em, .bodyFontSans2 i {
-    font-family: "AvenirNext-Italic", sans-serif;
-    font-style: normal; }
-  .bodyFontSans2 strong, .bodyFontSans2 b {
-    font-family: "AvenirNext-Bold", sans-serif;
-    font-weight: normal; }
-  .bodyFontSans2 strong em, .bodyFontSans2 em strong, .bodyFontSans2 b i, .bodyFontSans2 i b {
-    font-family: "AvenirNext-BoldItalic", sans-serif;
-    font-style: normal;
-    font-weight: normal; }
-  .bodyFontSans2 .itemArticle > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSans2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSans2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
-    font-family: "AvenirNext-Bold"; }
-  .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) {
-    font-family: "AvenirNext-Bold";
-    color: var(--feed-color);
-    font-size: 1.2em; }
-    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) b {
-      font-family: "AvenirNext-BoldItalic";
-      font-style: normal; }
-    .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a {
-      color: var(--feed-color); }
+  font-family: "AvenirNext-Regular", serif;
+}
+.bodyFontSans2 em, .bodyFontSans2 i {
+  font-family: "AvenirNext-Italic", sans-serif;
+  font-style: normal;
+}
+.bodyFontSans2 strong, .bodyFontSans2 b {
+  font-family: "AvenirNext-Bold", sans-serif;
+  font-weight: normal;
+}
+.bodyFontSans2 strong em, .bodyFontSans2 em strong, .bodyFontSans2 b i, .bodyFontSans2 i b {
+  font-family: "AvenirNext-BoldItalic", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.bodyFontSans2 .itemArticle > p:not(.short-para):first-of-type:first-line, .bodyFontSans2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .bodyFontSans2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "AvenirNext-Bold";
+}
+.bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "AvenirNext-Bold";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "AvenirNext-BoldItalic";
+  font-style: normal;
+}
+.bodyFontSans2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
 
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif", serif;
-  font-size: calc(1rem / 1.7); }
-  .bodyFontSerif3 em, .bodyFontSerif3 i {
-    font-family: "IBMPlexSerif-Italic", sans-serif;
-    font-style: normal; }
-  .bodyFontSerif3 strong, .bodyFontSerif3 b {
-    font-family: "IBMPlexSerif-Bold", sans-serif;
-    font-weight: normal; }
-  .bodyFontSerif3 strong em, .bodyFontSerif3 em strong, .bodyFontSerif3 b i, .bodyFontSerif3 i b {
-    font-family: "IBMPlexSerif-BoldItalic", sans-serif;
-    font-style: normal;
-    font-weight: normal; }
-  .bodyFontSerif3 .itemArticle > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSerif3 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line,
-  .bodyFontSerif3 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
-    font-family: "IBMPlexSerif-Bold"; }
-  .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) {
-    font-family: "IBMPlexSerif-Bold";
-    color: var(--feed-color);
-    font-size: 1.2em; }
-    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) b {
-      font-family: "IBMPlexSerif-BoldItalic";
-      font-style: normal; }
-    .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a {
-      color: var(--feed-color); }
+  font-size: 0.5882352941rem;
+}
+.bodyFontSerif3 em, .bodyFontSerif3 i {
+  font-family: "IBMPlexSerif-Italic", sans-serif;
+  font-style: normal;
+}
+.bodyFontSerif3 strong, .bodyFontSerif3 b {
+  font-family: "IBMPlexSerif-Bold", sans-serif;
+  font-weight: normal;
+}
+.bodyFontSerif3 strong em, .bodyFontSerif3 em strong, .bodyFontSerif3 b i, .bodyFontSerif3 i b {
+  font-family: "IBMPlexSerif-BoldItalic", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.bodyFontSerif3 .itemArticle > p:not(.short-para):first-of-type:first-line, .bodyFontSerif3 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .bodyFontSerif3 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "IBMPlexSerif-Bold";
+}
+.bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "IBMPlexSerif-Bold";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "IBMPlexSerif-BoldItalic";
+  font-style: normal;
+}
+.bodyFontSerif3 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
 
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
-  font-family: "AvenirNextCondensed-Bold"; }
-  .isWeb .headerFontSans1 h1, .isWeb .headerFontSans1 h3, .isWeb .headerFontSans1 h5 {
-    font-family: "Lato";
-    font-weight: 700; }
-
+  font-family: "AvenirNextCondensed-Bold";
+}
+.isWeb .headerFontSans1 h1, .isWeb .headerFontSans1 h3, .isWeb .headerFontSans1 h5 {
+  font-family: "Lato";
+  font-weight: 700;
+}
 .isWeb .headerFontSans1.isItalic h1 {
-  font-style: italic; }
-
+  font-style: italic;
+}
 .headerFontSans1 h2, .headerFontSans1 h4 {
-  font-family: "AvenirNext-Medium"; }
-  .isWeb .headerFontSans1 h2, .isWeb .headerFontSans1 h4 {
-    font-family: "Lato";
-    font-weight: 400; }
-
+  font-family: "AvenirNext-Medium";
+}
+.isWeb .headerFontSans1 h2, .isWeb .headerFontSans1 h4 {
+  font-family: "Lato";
+  font-weight: 400;
+}
 .isWeb .headerFontSans1 p {
   font-family: "Lato";
-  font-weight: 400; }
-
+  font-weight: 400;
+}
 .headerFontSans1 figcaption, .headerFontSans1 img + small, .headerFontSans1 .caption, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
-  font-family: "AvenirNext-MediumItalic"; }
-  .isWeb .headerFontSans1 figcaption, .isWeb .headerFontSans1 img + small, .isWeb .headerFontSans1 .caption, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "Lato";
-    font-weight: 400;
-    font-style: italic; }
-  .headerFontSans1 figcaption em, .headerFontSans1 figcaption i, .headerFontSans1 img + small em, .headerFontSans1 img + small i, .headerFontSans1 .caption em, .headerFontSans1 .caption i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
-    font-family: "AvenirNext-Medium"; }
-    .isWeb .headerFontSans1 figcaption em, .isWeb .headerFontSans1 figcaption i, .isWeb .headerFontSans1 img + small em, .isWeb .headerFontSans1 img + small i, .isWeb .headerFontSans1 .caption em, .isWeb .headerFontSans1 .caption i, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
-      font-family: "Lato";
-      font-weight: 400; }
-  .headerFontSans1 figcaption strong, .headerFontSans1 figcaption b, .headerFontSans1 img + small strong, .headerFontSans1 img + small b, .headerFontSans1 .caption strong, .headerFontSans1 .caption b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
-    font-family: "AvenirNext-BoldItalic"; }
-    .isWeb .headerFontSans1 figcaption strong, .isWeb .headerFontSans1 figcaption b, .isWeb .headerFontSans1 img + small strong, .isWeb .headerFontSans1 img + small b, .isWeb .headerFontSans1 .caption strong, .isWeb .headerFontSans1 .caption b, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
-      font-family: "Lato";
-      font-weight: 700; }
-  .headerFontSans1 figcaption em strong, .headerFontSans1 figcaption strong em, .headerFontSans1 figcaption b i, .headerFontSans1 figcaption i b, .headerFontSans1 img + small em strong, .headerFontSans1 img + small strong em, .headerFontSans1 img + small b i, .headerFontSans1 img + small i b, .headerFontSans1 .caption em strong, .headerFontSans1 .caption strong em, .headerFontSans1 .caption b i, .headerFontSans1 .caption i b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
-    font-family: "AvenirNext-Bold"; }
-    .isWeb .headerFontSans1 figcaption em strong, .isWeb .headerFontSans1 figcaption strong em, .isWeb .headerFontSans1 figcaption b i, .isWeb .headerFontSans1 figcaption i b, .isWeb .headerFontSans1 img + small em strong, .isWeb .headerFontSans1 img + small strong em, .isWeb .headerFontSans1 img + small b i, .isWeb .headerFontSans1 img + small i b, .isWeb .headerFontSans1 .caption em strong, .isWeb .headerFontSans1 .caption strong em, .isWeb .headerFontSans1 .caption b i, .isWeb .headerFontSans1 .caption i b, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
-      font-family: "Lato";
-      font-weight: 700; }
-
+  font-family: "AvenirNext-MediumItalic";
+}
+.isWeb .headerFontSans1 figcaption, .isWeb .headerFontSans1 img + small, .isWeb .headerFontSans1 .caption, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
+  font-family: "Lato";
+  font-weight: 400;
+  font-style: italic;
+}
+.headerFontSans1 figcaption em, .headerFontSans1 figcaption i, .headerFontSans1 img + small em, .headerFontSans1 img + small i, .headerFontSans1 .caption em, .headerFontSans1 .caption i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
+  font-family: "AvenirNext-Medium";
+}
+.isWeb .headerFontSans1 figcaption em, .isWeb .headerFontSans1 figcaption i, .isWeb .headerFontSans1 img + small em, .isWeb .headerFontSans1 img + small i, .isWeb .headerFontSans1 .caption em, .isWeb .headerFontSans1 .caption i, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
+  font-family: "Lato";
+  font-weight: 400;
+}
+.headerFontSans1 figcaption strong, .headerFontSans1 figcaption b, .headerFontSans1 img + small strong, .headerFontSans1 img + small b, .headerFontSans1 .caption strong, .headerFontSans1 .caption b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
+  font-family: "AvenirNext-BoldItalic";
+}
+.isWeb .headerFontSans1 figcaption strong, .isWeb .headerFontSans1 figcaption b, .isWeb .headerFontSans1 img + small strong, .isWeb .headerFontSans1 img + small b, .isWeb .headerFontSans1 .caption strong, .isWeb .headerFontSans1 .caption b, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
+  font-family: "Lato";
+  font-weight: 700;
+}
+.headerFontSans1 figcaption em strong, .headerFontSans1 figcaption strong em, .headerFontSans1 figcaption b i, .headerFontSans1 figcaption i b, .headerFontSans1 img + small em strong, .headerFontSans1 img + small strong em, .headerFontSans1 img + small b i, .headerFontSans1 img + small i b, .headerFontSans1 .caption em strong, .headerFontSans1 .caption strong em, .headerFontSans1 .caption b i, .headerFontSans1 .caption i b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
+  font-family: "AvenirNext-Bold";
+}
+.isWeb .headerFontSans1 figcaption em strong, .isWeb .headerFontSans1 figcaption strong em, .isWeb .headerFontSans1 figcaption b i, .isWeb .headerFontSans1 figcaption i b, .isWeb .headerFontSans1 img + small em strong, .isWeb .headerFontSans1 img + small strong em, .isWeb .headerFontSans1 img + small b i, .isWeb .headerFontSans1 img + small i b, .isWeb .headerFontSans1 .caption em strong, .isWeb .headerFontSans1 .caption strong em, .isWeb .headerFontSans1 .caption b i, .isWeb .headerFontSans1 .caption i b, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
+  font-family: "Lato";
+  font-weight: 700;
+}
 .headerFontSans1.itemTitle p {
   font-family: "Lato";
-  font-weight: 300; }
-  .headerFontSans1.itemTitle p em, .headerFontSans1.itemTitle p i {
-    font-family: "Lato"; }
-  .headerFontSans1.itemTitle p strong, .headerFontSans1.itemTitle p b {
-    font-family: "Lato";
-    font-weight: 700; }
-  .headerFontSans1.itemTitle p em strong, .headerFontSans1.itemTitle p strong em, .headerFontSans1.itemTitle p i b, .headerFontSans1.itemTitle p b i {
-    font-family: "Lato";
-    font-weight: 700; }
+  font-weight: 300;
+}
+.headerFontSans1.itemTitle p em, .headerFontSans1.itemTitle p i {
+  font-family: "Lato";
+}
+.headerFontSans1.itemTitle p strong, .headerFontSans1.itemTitle p b {
+  font-family: "Lato";
+  font-weight: 700;
+}
+.headerFontSans1.itemTitle p em strong, .headerFontSans1.itemTitle p strong em, .headerFontSans1.itemTitle p i b, .headerFontSans1.itemTitle p b i {
+  font-family: "Lato";
+  font-weight: 700;
+}
 
 .headerFontSans2 h1, .headerFontSans2 h3, .headerFontSans2 h5 {
-  font-family: "Poppins-ExtraBold"; }
-
+  font-family: "Poppins-ExtraBold";
+}
 .isWeb .headerFontSans2.isItalic h1 {
-  font-family: "Poppins-ExtraBoldItalic"; }
-
+  font-family: "Poppins-ExtraBoldItalic";
+}
 .headerFontSans2 h2, .headerFontSans2 h4 {
-  font-family: "Poppins-Regular"; }
-
+  font-family: "Poppins-Regular";
+}
 .headerFontSans2 figcaption, .headerFontSans2 img + small, .headerFontSans2 .caption, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) {
-  font-family: "Poppins-Italic"; }
-  .headerFontSans2 figcaption em, .headerFontSans2 figcaption i, .headerFontSans2 img + small em, .headerFontSans2 img + small i, .headerFontSans2 .caption em, .headerFontSans2 .caption i, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) i {
-    font-family: "Poppins-Regular"; }
-  .headerFontSans2 figcaption strong, .headerFontSans2 figcaption b, .headerFontSans2 img + small strong, .headerFontSans2 img + small b, .headerFontSans2 .caption strong, .headerFontSans2 .caption b, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) b {
-    font-family: "Poppins-ExtraBoldItalic"; }
-  .headerFontSans2 figcaption em strong, .headerFontSans2 figcaption strong em, .headerFontSans2 figcaption b i, .headerFontSans2 figcaption i b, .headerFontSans2 img + small em strong, .headerFontSans2 img + small strong em, .headerFontSans2 img + small b i, .headerFontSans2 img + small i b, .headerFontSans2 .caption em strong, .headerFontSans2 .caption strong em, .headerFontSans2 .caption b i, .headerFontSans2 .caption i b, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) i b {
-    font-family: "Poppins-ExtraBold"; }
-
+  font-family: "Poppins-Italic";
+}
+.headerFontSans2 figcaption em, .headerFontSans2 figcaption i, .headerFontSans2 img + small em, .headerFontSans2 img + small i, .headerFontSans2 .caption em, .headerFontSans2 .caption i, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) i {
+  font-family: "Poppins-Regular";
+}
+.headerFontSans2 figcaption strong, .headerFontSans2 figcaption b, .headerFontSans2 img + small strong, .headerFontSans2 img + small b, .headerFontSans2 .caption strong, .headerFontSans2 .caption b, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) b {
+  font-family: "Poppins-ExtraBoldItalic";
+}
+.headerFontSans2 figcaption em strong, .headerFontSans2 figcaption strong em, .headerFontSans2 figcaption b i, .headerFontSans2 figcaption i b, .headerFontSans2 img + small em strong, .headerFontSans2 img + small strong em, .headerFontSans2 img + small b i, .headerFontSans2 img + small i b, .headerFontSans2 .caption em strong, .headerFontSans2 .caption strong em, .headerFontSans2 .caption b i, .headerFontSans2 .caption i b, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) i b {
+  font-family: "Poppins-ExtraBold";
+}
 .headerFontSans2.itemTitle p {
-  font-family: "Poppins"; }
-  .headerFontSans2.itemTitle p em, .headerFontSans2.itemTitle p i {
-    font-family: "Poppins-Italic"; }
-  .headerFontSans2.itemTitle p strong, .headerFontSans2.itemTitle p b {
-    font-family: "Poppins-Bold"; }
-  .headerFontSans2.itemTitle p em strong, .headerFontSans2.itemTitle p strong em, .headerFontSans2.itemTitle p i b, .headerFontSans2.itemTitle p b i {
-    font-family: "Poppins-BoldItalic"; }
+  font-family: "Poppins";
+}
+.headerFontSans2.itemTitle p em, .headerFontSans2.itemTitle p i {
+  font-family: "Poppins-Italic";
+}
+.headerFontSans2.itemTitle p strong, .headerFontSans2.itemTitle p b {
+  font-family: "Poppins-Bold";
+}
+.headerFontSans2.itemTitle p em strong, .headerFontSans2.itemTitle p strong em, .headerFontSans2.itemTitle p i b, .headerFontSans2.itemTitle p b i {
+  font-family: "Poppins-BoldItalic";
+}
 
 .headerFontSans3 h1, .headerFontSans3 h3, .headerFontSans3 h5 {
-  font-family: "Montserrat-Bold"; }
-
+  font-family: "Montserrat-Bold";
+}
 .isWeb .headerFontSans3.isItalic h1 {
-  font-family: "Montserrat-BoldItalic"; }
-
+  font-family: "Montserrat-BoldItalic";
+}
 .headerFontSans3 h2, .headerFontSans3 h4 {
-  font-family: "Montserrat-Light"; }
-
+  font-family: "Montserrat-Light";
+}
 .headerFontSans3 figcaption, .headerFontSans3 img + small, .headerFontSans3 .caption, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) {
-  font-family: "Montserrat-LightItalic"; }
-  .headerFontSans3 figcaption em, .headerFontSans3 figcaption i, .headerFontSans3 img + small em, .headerFontSans3 img + small i, .headerFontSans3 .caption em, .headerFontSans3 .caption i, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) i {
-    font-family: "Montserrat-Light"; }
-  .headerFontSans3 figcaption strong, .headerFontSans3 figcaption b, .headerFontSans3 img + small strong, .headerFontSans3 img + small b, .headerFontSans3 .caption strong, .headerFontSans3 .caption b, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) b {
-    font-family: "Montserrat-BoldItalic"; }
-
+  font-family: "Montserrat-LightItalic";
+}
+.headerFontSans3 figcaption em, .headerFontSans3 figcaption i, .headerFontSans3 img + small em, .headerFontSans3 img + small i, .headerFontSans3 .caption em, .headerFontSans3 .caption i, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) i {
+  font-family: "Montserrat-Light";
+}
+.headerFontSans3 figcaption strong, .headerFontSans3 figcaption b, .headerFontSans3 img + small strong, .headerFontSans3 img + small b, .headerFontSans3 .caption strong, .headerFontSans3 .caption b, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) b {
+  font-family: "Montserrat-BoldItalic";
+}
 .headerFontSans3.itemTitle p {
-  font-family: "Montserrat-Light"; }
-  .headerFontSans3.itemTitle p em, .headerFontSans3.itemTitle p i {
-    font-family: "Montserrat-LightItalic"; }
-  .headerFontSans3.itemTitle p strong, .headerFontSans3.itemTitle p b {
-    font-family: "Montserrat-Bold"; }
-  .headerFontSans3.itemTitle p em strong, .headerFontSans3.itemTitle p strong em, .headerFontSans3.itemTitle p i b, .headerFontSans3.itemTitle p b i {
-    font-family: "Montserrat-BoldItalic"; }
+  font-family: "Montserrat-Light";
+}
+.headerFontSans3.itemTitle p em, .headerFontSans3.itemTitle p i {
+  font-family: "Montserrat-LightItalic";
+}
+.headerFontSans3.itemTitle p strong, .headerFontSans3.itemTitle p b {
+  font-family: "Montserrat-Bold";
+}
+.headerFontSans3.itemTitle p em strong, .headerFontSans3.itemTitle p strong em, .headerFontSans3.itemTitle p i b, .headerFontSans3.itemTitle p b i {
+  font-family: "Montserrat-BoldItalic";
+}
 
 .headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5 {
-  font-family: "PlayfairDisplay-Black"; }
-
+  font-family: "PlayfairDisplay-Black";
+}
 .isWeb .headerFontSerif1.isItalic h1 {
-  font-family: "IBMPlexSerif-BoldItalic"; }
-
+  font-family: "IBMPlexSerif-BoldItalic";
+}
 .headerFontSerif1 h2, .headerFontSerif1 h4 {
-  font-family: "PlayfairDisplay-Regular"; }
-
+  font-family: "PlayfairDisplay-Regular";
+}
 .headerFontSerif1 figcaption, .headerFontSerif1 img + small, .headerFontSerif1 .caption, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) {
-  font-family: "IBMPlexSerif-Italic"; }
-  .headerFontSerif1 figcaption em, .headerFontSerif1 figcaption i, .headerFontSerif1 img + small em, .headerFontSerif1 img + small i, .headerFontSerif1 .caption em, .headerFontSerif1 .caption i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i {
-    font-family: "IBMPlexSerif"; }
-  .headerFontSerif1 figcaption strong, .headerFontSerif1 figcaption b, .headerFontSerif1 img + small strong, .headerFontSerif1 img + small b, .headerFontSerif1 .caption strong, .headerFontSerif1 .caption b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b {
-    font-family: "IBMPlexSerif-BoldItalic"; }
-  .headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 figcaption i b, .headerFontSerif1 figcaption b i, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 img + small i b, .headerFontSerif1 img + small b i, .headerFontSerif1 .caption em strong, .headerFontSerif1 .caption strong em, .headerFontSerif1 .caption i b, .headerFontSerif1 .caption b i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b i {
-    font-family: "PlayfairDisplay-Bold"; }
-
+  font-family: "IBMPlexSerif-Italic";
+}
+.headerFontSerif1 figcaption em, .headerFontSerif1 figcaption i, .headerFontSerif1 img + small em, .headerFontSerif1 img + small i, .headerFontSerif1 .caption em, .headerFontSerif1 .caption i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i {
+  font-family: "IBMPlexSerif";
+}
+.headerFontSerif1 figcaption strong, .headerFontSerif1 figcaption b, .headerFontSerif1 img + small strong, .headerFontSerif1 img + small b, .headerFontSerif1 .caption strong, .headerFontSerif1 .caption b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b {
+  font-family: "IBMPlexSerif-BoldItalic";
+}
+.headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 figcaption i b, .headerFontSerif1 figcaption b i, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 img + small i b, .headerFontSerif1 img + small b i, .headerFontSerif1 .caption em strong, .headerFontSerif1 .caption strong em, .headerFontSerif1 .caption i b, .headerFontSerif1 .caption b i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b i {
+  font-family: "PlayfairDisplay-Bold";
+}
 .headerFontSerif1.itemTitle p {
-  font-family: "IBMPlexSerif"; }
-  .headerFontSerif1.itemTitle p em, .headerFontSerif1.itemTitle p i {
-    font-family: "IBMPlexSerif-Italic"; }
-  .headerFontSerif1.itemTitle p strong, .headerFontSerif1.itemTitle p b {
-    font-family: "IBMPlexSerif-Bold"; }
-  .headerFontSerif1.itemTitle p em strong, .headerFontSerif1.itemTitle p strong em, .headerFontSerif1.itemTitle p i b, .headerFontSerif1.itemTitle p b i {
-    font-family: "IBMPlexSerif-BoldItalic"; }
+  font-family: "IBMPlexSerif";
+}
+.headerFontSerif1.itemTitle p em, .headerFontSerif1.itemTitle p i {
+  font-family: "IBMPlexSerif-Italic";
+}
+.headerFontSerif1.itemTitle p strong, .headerFontSerif1.itemTitle p b {
+  font-family: "IBMPlexSerif-Bold";
+}
+.headerFontSerif1.itemTitle p em strong, .headerFontSerif1.itemTitle p strong em, .headerFontSerif1.itemTitle p i b, .headerFontSerif1.itemTitle p b i {
+  font-family: "IBMPlexSerif-BoldItalic";
+}
 
 .feedflare, .mc-embed-signup {
-  display: none !important; }
+  display: none !important;
+}
 
 .itemArticle a, .itemArticle a:active, .itemArticle a:visited {
   text-decoration: none;
-  border-bottom: 2px solid var(--feed-color); }
-
+  border-bottom: 2px solid var(--feed-color);
+}
 .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
-  color: var(--feed-color); }
-  .itemArticle blockquote.short-blockquote a, .itemArticle .pullquote a, .itemArticle aside a {
-    color: var(--feed-color) !important; }
-
+  color: var(--feed-color);
+}
+.itemArticle blockquote.short-blockquote a, .itemArticle .pullquote a, .itemArticle aside a {
+  color: var(--feed-color) !important;
+}
 .itemArticle *:not(:first-of-type) div:before,
 .itemArticle * div:not(:first-of-type):before,
 .itemArticle div:not(:first-of-type):before {
-  background-color: var(--feed-color); }
-
-.itemArticle:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
-.itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  color: var(--feed-color); }
-
-body:not(.isWeb) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter,
-body:not(.isWeb) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-body:not(.isWeb) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  background-color: var(--feed-color);
+}
+.itemArticle:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  color: var(--feed-color);
+}
+body:not(.isWeb) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, body:not(.isWeb) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, body:not(.isWeb) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
-  -webkit-text-stroke: 2px #444444; }
-
-.itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter,
-.itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
-  -webkit-text-stroke-color: var(--feed-color); }
+  -webkit-text-stroke: 2px #444444;
+}
+.itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+  -webkit-text-stroke-color: var(--feed-color);
+}
 
 body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
-  color: #000; }
-  .dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
-    color: #ddd; }
+  color: #000;
+}
+.dark-background body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
+  color: #ddd;
+}
 
 .highlight {
-  background-color: rgba(200, 200, 100, 0.5); }
+  background-color: rgba(200, 200, 100, 0.5);
+}
 
 .highlighter {
-  background-color: #dcdc32; }
+  background-color: rgb(220, 220, 50);
+}
 
 html.onboarding {
   --logo1: hsl(186, 40%, 50%);
@@ -977,248 +978,310 @@ html.onboarding {
   --logo3: hsl(260, 30%, 30%);
   --bg: hsl(46, 23%, 83%);
   --text: hsl(300, 20%, 20%);
-  font-size: calc(7vw); }
-  html.onboarding.onboarding-1 {
-    --text: white; }
-  html.onboarding.dark-background {
-    --text: hsl(300, 20%, 90%); }
-  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-max-device-pixel-ratio: 2) {
-    html.onboarding {
-      font-size: calc(4vw); } }
-  html.onboarding body {
-    margin: 0;
-    width: 100vw;
-    background-color: var(--bg);
-    color: white;
-    overflow: hidden; }
-  html.onboarding .bg1 {
-    position: relative;
-    overflow: hidden;
-    height: 100%;
-    width: 10000px;
-    background-image: url("../img/ream@2x.png");
-    background-size: 20000px;
-    background-position: 50% 50%;
-    animation: floating 20s infinite alternate; }
-  html.onboarding .bg1:before {
-    content: "";
-    z-index: -1;
-    position: absolute;
-    display: block;
-    top: 0;
-    left: 0;
-    bottom: 0; }
-
+  font-size: 7vw;
+}
+html.onboarding.onboarding-1 {
+  --text: white;
+}
+html.onboarding.dark-background {
+  --text: hsl(300, 20%, 90%);
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-max-device-pixel-ratio: 2) {
+  html.onboarding {
+    font-size: 4vw;
+  }
+}
+html.onboarding body {
+  margin: 0;
+  width: 100vw;
+  background-color: var(--bg);
+  color: white;
+  overflow: hidden;
+}
+html.onboarding .bg1 {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  width: 10000px;
+  background-image: url("../img/ream@2x.png");
+  background-size: 20000px;
+  background-position: 50% 50%;
+  animation: floating 20s infinite alternate;
+}
+html.onboarding .bg1:before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
 @keyframes floating {
   from {
-    transform: translate(0, 0px); }
+    transform: translate(0, 0px);
+  }
   to {
-    transform: translate(-500px, 0px); } }
-  html.onboarding.onboarding-1 .bg1 {
-    background-position: 50% 25%; }
-  html.onboarding.onboarding-2 .bg1 {
-    background-position: 50% 75%; }
-  html.onboarding:not(.onboarding-4) body::before {
-    content: "";
-    z-index: 0;
-    position: absolute;
-    display: block;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
-    background-repeat: no-repeat;
-    background-position-x: left;
-    background-position-y: calc(100% - 20px);
-    background-size: 100%;
-    opacity: 0.5; }
-  html.onboarding.dark-background body::after {
-    opacity: 1; }
-  html.onboarding .bg1::after {
-    content: "";
-    z-index: -1;
-    position: absolute;
-    display: block;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    -webkit-backdrop-filter: blur(200px);
-    backdrop-filter: blur(200px);
-    background-color: rgba(255, 255, 255, 0.5); }
-  html.onboarding.onboarding-1 body::before {
-    background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png"); }
-  html.onboarding.onboarding-2 body::before {
-    background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png"); }
-  html.onboarding article, html.onboarding .everything {
-    padding: 0 1rem;
-    margin-bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center; }
-  html.onboarding article {
-    height: 100%;
-    justify-content: space-around; }
+    transform: translate(-500px, 0px);
+  }
+}
+html.onboarding.onboarding-1 .bg1 {
+  background-position: 50% 25%;
+}
+html.onboarding.onboarding-2 .bg1 {
+  background-position: 50% 75%;
+}
+html.onboarding:not(.onboarding-4) body::before {
+  content: "";
+  z-index: 0;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
+  background-repeat: no-repeat;
+  background-position-x: left;
+  background-position-y: calc(100% - 20px);
+  background-size: 100%;
+  opacity: 0.5;
+}
+html.onboarding.dark-background body::after {
+  opacity: 1;
+}
+html.onboarding .bg1::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  -webkit-backdrop-filter: blur(200px);
+  backdrop-filter: blur(200px);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+html.onboarding.onboarding-1 body::before {
+  background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png");
+}
+html.onboarding.onboarding-2 body::before {
+  background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png");
+}
+html.onboarding article, html.onboarding .everything {
+  padding: 0 1rem;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html.onboarding article {
+  height: 100%;
+  justify-content: space-around;
+}
+html.onboarding .everything {
+  padding: 0;
+  height: 100%;
+  margin-top: calc(50vh - 1rem);
+  margin-bottom: 35vh;
+  justify-content: space-around;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 376px) and (-webkit-max-device-pixel-ratio: 2) {
   html.onboarding .everything {
-    padding: 0;
-    height: 100%;
-    margin-top: calc(50vh - 1rem);
-    margin-bottom: calc(35vh);
-    justify-content: space-around; }
-    @media only screen and (min-device-width: 320px) and (max-device-width: 376px) and (-webkit-max-device-pixel-ratio: 2) {
-      html.onboarding .everything {
-        margin-top: calc(40vh - 1rem); } }
-  html.onboarding.onboarding-1 .everything {
-    margin-top: calc(40vh - 1rem); }
-  html.onboarding h1, html.onboarding h2 {
-    color: var(--logo3);
-    font-size: 2rem;
-    font-family: PTSerif-Bold;
-    font-weight: inherit;
-    line-height: 1;
-    margin-top: 0;
-    margin-bottom: 0;
-    text-align: center; }
-  html.onboarding h2 {
-    font-size: 1.5rem; }
-  html.onboarding:not(.onboarding-3) div.everything::before, html.onboarding:not(.onboarding-3) h2::before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 20vh;
-    top: 25%;
-    transform: translateY(-50%);
-    background-image: url("../img/ream@2x.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center; }
-  html.onboarding hr {
-    border-top-style: none;
-    margin: 2em; }
-  html.onboarding.onboarding-0 div.content {
-    align-self: flex-end;
-    width: 66%; }
-    html.onboarding.onboarding-0 div.content p {
-      text-align: right; }
-  html.onboarding div.content {
-    align-self: center;
-    width: 100%; }
-    html.onboarding div.content p {
-      text-align: left; }
-  html.onboarding p {
-    font-family: "IBMPlexSans";
-    color: var(--text);
-    font-size: 0.666rem;
-    line-height: 1rem;
-    margin: 0 0 1rem; }
-    html.onboarding p strong {
-      font-family: "IBMPlexSans-Bold"; }
-    html.onboarding p em {
-      font-family: "IBMPlexSans-Italic"; }
-    html.onboarding p.subhead {
-      color: var(--logo3);
-      margin-bottom: 8vh; }
-  html.onboarding a {
-    color: var(--text); }
-  html.onboarding .swipe {
-    position: absolute;
-    width: 100%;
-    bottom: 1rem;
-    text-align: center;
-    font-size: 0.5rem;
-    font-family: "IBMPlexSans-Italic";
-    color: var(--text); }
-  html.onboarding img {
-    display: block;
-    margin: -1rem auto 1rem;
-    max-width: 100%; }
-  html.onboarding.dark-background body {
-    background-color: black;
-    color: #e6e6e6; }
-    html.onboarding.dark-background body, html.onboarding.dark-background body a, html.onboarding.dark-background body a:active, html.onboarding.dark-background body a:visited {
-      color: #e6e6e6; }
+    margin-top: calc(40vh - 1rem);
+  }
+}
+html.onboarding.onboarding-1 .everything {
+  margin-top: calc(40vh - 1rem);
+}
+html.onboarding h1, html.onboarding h2 {
+  color: var(--logo3);
+  font-size: 2rem;
+  font-family: PTSerif-Bold;
+  font-weight: inherit;
+  line-height: 1;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: center;
+}
+html.onboarding h2 {
+  font-size: 1.5rem;
+}
+html.onboarding:not(.onboarding-3) div.everything::before, html.onboarding:not(.onboarding-3) h2::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 20vh;
+  top: 25%;
+  transform: translateY(-50%);
+  background-image: url("../img/ream@2x.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+html.onboarding hr {
+  border-top-style: none;
+  margin: 2em;
+}
+html.onboarding.onboarding-0 div.content {
+  align-self: flex-end;
+  width: 66%;
+}
+html.onboarding.onboarding-0 div.content p {
+  text-align: right;
+}
+html.onboarding div.content {
+  align-self: center;
+  width: 100%;
+}
+html.onboarding div.content p {
+  text-align: left;
+}
+html.onboarding p {
+  font-family: "IBMPlexSans";
+  color: var(--text);
+  font-size: 0.666rem;
+  line-height: 1rem;
+  margin: 0 0 1rem;
+}
+html.onboarding p strong {
+  font-family: "IBMPlexSans-Bold";
+}
+html.onboarding p em {
+  font-family: "IBMPlexSans-Italic";
+}
+html.onboarding p.subhead {
+  color: var(--logo3);
+  margin-bottom: 8vh;
+}
+html.onboarding a {
+  color: var(--text);
+}
+html.onboarding .swipe {
+  position: absolute;
+  width: 100%;
+  bottom: 1rem;
+  text-align: center;
+  font-size: 0.5rem;
+  font-family: "IBMPlexSans-Italic";
+  color: var(--text);
+}
+html.onboarding img {
+  display: block;
+  margin: -1rem auto 1rem;
+  max-width: 100%;
+}
+html.onboarding.dark-background body {
+  background-color: hsl(240, 0%, 0%);
+  color: hsl(0, 0%, 90%);
+}
+html.onboarding.dark-background body, html.onboarding.dark-background body a, html.onboarding.dark-background body a:active, html.onboarding.dark-background body a:visited {
+  color: hsl(0, 0%, 90%);
+}
 
 html.onboarding.onboarding-1:not(.dark-background) body {
-  background-color: var(--logo2); }
-  html.onboarding.onboarding-1:not(.dark-background) body h1 {
-    color: var(--bg); }
+  background-color: var(--logo2);
+}
+html.onboarding.onboarding-1:not(.dark-background) body h1 {
+  color: var(--bg);
+}
 
 html.onboarding.onboarding-2:not(.dark-background) body {
-  background-color: var(--logo1); }
-  html.onboarding.onboarding-2:not(.dark-background) body h2 {
-    color: var(--logo1); }
-  html.onboarding.onboarding-2:not(.dark-background) body p {
-    color: var(--logo3); }
+  background-color: var(--logo1);
+}
+html.onboarding.onboarding-2:not(.dark-background) body h2 {
+  color: var(--logo1);
+}
+html.onboarding.onboarding-2:not(.dark-background) body p {
+  color: var(--logo3);
+}
 
 html.font-size-3 {
-  font-size: 28px; }
+  font-size: 28px;
+}
 
 .hasCoverImage .coverHolder {
   position: relative;
   top: 0;
   left: 0;
-  width: 100vw; }
+  width: 100vw;
+}
 
 .itemTitle {
   margin: 1rem 4vw;
   margin-bottom: 0;
   max-width: 900px;
-  z-index: 2; }
-  .hasCoverImage .itemTitle {
-    color: white;
-    position: absolute;
-    bottom: 0; }
-    .hasCoverImage .itemTitle.center {
-      text-align: center;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      max-width: 1000px; }
-    .hasCoverImage .itemTitle.top {
-      top: 0;
-      bottom: auto; }
-    .hasCoverImage .itemTitle.bottom {
-      bottom: 0;
-      top: auto; }
-    .hasCoverImage .itemTitle.middle {
-      top: 50%;
-      transform: translateY(-50%); }
-  .itemTitle h1, .itemTitle h2, .itemTitle h3, .itemTitle h4, .itemTitle h5 {
-    line-height: 1.1; }
-  .itemTitle p {
-    font-size: 0.7rem; }
-  .itemTitle .date-published {
-    font-size: 0.6rem;
-    font-family: "IBMPlexMono-Light" !important; }
-  .itemTitle.center {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto; }
-  .itemTitle.isUpperCase h1 {
-    text-transform: uppercase; }
-  .itemTitle.bg.hasCoverImage h1 {
-    background-color: rgba(255, 255, 255, 0.9);
-    color: black;
-    padding: 0.5rem; }
-  .hasCoverImage .itemTitle::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0 -4vw 2rem;
-    width: calc(100vw + 4vw);
-    height: calc(100% + 2rem);
-    z-index: -1;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%); }
-  .itemTitle.center::after {
-    margin: 0 calc(50% - 50vw) 2rem; }
+  z-index: 2;
+}
+.hasCoverImage .itemTitle {
+  color: white;
+  position: absolute;
+  bottom: 0;
+}
+.hasCoverImage .itemTitle.center {
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 1000px;
+}
+.hasCoverImage .itemTitle.top {
+  top: 0;
+  bottom: auto;
+}
+.hasCoverImage .itemTitle.bottom {
+  bottom: 0;
+  top: auto;
+}
+.hasCoverImage .itemTitle.middle {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.itemTitle h1, .itemTitle h2, .itemTitle h3, .itemTitle h4, .itemTitle h5 {
+  line-height: 1.1;
+}
+.itemTitle p {
+  font-size: 0.7rem;
+}
+.itemTitle .date-published {
+  font-size: 0.6rem;
+  font-family: "IBMPlexMono-Light" !important;
+}
+.itemTitle.center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.itemTitle.isUpperCase h1 {
+  text-transform: uppercase;
+}
+.itemTitle.bg.hasCoverImage h1 {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  padding: 0.5rem;
+}
+.hasCoverImage .itemTitle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0 -4vw 2rem;
+  width: 104vw;
+  height: calc(100% + 2rem);
+  z-index: -1;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
+}
+.itemTitle.center::after {
+  margin: 0 calc(50% - 50vw) 2rem;
+}
 
 @media screen and (min-width: 32rem) {
   .itemTitle {
-    margin: 1rem; } }
-
+    margin: 1rem;
+  }
+}
 .hasCoverImage .coverImage {
   position: fixed;
   top: 0;
@@ -1226,17 +1289,22 @@ html.font-size-3 {
   max-height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center; }
+  background-position: center;
+}
 
 .articleHolder {
-  background-color: #f7f7f3;
+  background-color: hsl(60, 17%, 96%);
   position: relative;
-  z-index: 2; }
-  .dark-background .articleHolder {
-    background-color: black; }
+  z-index: 2;
+}
+.dark-background .articleHolder {
+  background-color: hsl(240, 0%, 0%);
+}
 
 h1, h2, h3, h4 {
-  font-weight: normal; }
+  font-weight: normal;
+}
 
 .itemTitle h4 {
-  font-size: 0.8rem; }
+  font-size: 0.8rem;
+}
