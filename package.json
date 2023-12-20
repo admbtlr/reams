@@ -51,7 +51,6 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-animated-ellipsis": "git+ssh://git@github.com/admbtlr/react-native-animated-ellipsis",
     "react-native-blob-util": "^0.16.0",
     "react-native-config": "^1.4.3",
     "react-native-deep-linking": "^2.2.0",
