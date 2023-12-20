@@ -1,10 +1,20 @@
 import { call } from 'redux-saga/effects'
 import { ImageStuff, Item, ItemInflated, MercuryStuff } from '../store/items/types';
-import { inflateItem, updateItem } from '../storage/sqlite';
+import { 
+  getItems as getItemsSQLite, 
+  updateItem as updateItemSQLite
+} from '../storage/sqlite'
+import { 
+  getItems as getItemsIDB, 
+  updateItem as updateItemIDB
+} from '../storage/idb-storage'
 import { addCoverImageToItem, addMercuryStuffToItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils';
+import { Platform } from 'react-native';
 
 export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize: number}) {
-  const fullItem: ItemInflated = yield call(inflateItem, item)
+  const fullItem: ItemInflated = Platform.OS === 'web' ?
+    yield call(getItemsIDB, [item]) :
+    yield call(getItemsSQLite, [item])
   const updated = {
     ...fullItem,
     styles: {
@@ -16,7 +26,11 @@ export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize:
       }
     }
   }
-  yield call(updateItem, updated)
+  if (Platform.OS === 'web') {
+    yield call(updateItemIDB, updated as Item)
+  } else {
+    yield call(updateItemSQLite, updated)
+  }
 }
 
 export function * persistDecoration ({imageStuff, item, mercuryStuff}: {imageStuff: ImageStuff, item: Item, mercuryStuff: MercuryStuff}) {
@@ -29,5 +43,9 @@ export function * persistDecoration ({imageStuff, item, mercuryStuff}: {imageStu
   item.hasCoverImage = !!item.coverImageFile
   item = setShowCoverImage(item)
   item = removeCachedCoverImageDuplicate(item)
-  yield call(updateItem, item)
+  if (Platform.OS === 'web') {
+    yield call(updateItemIDB, item)
+  } else {
+    yield call(updateItemSQLite, item)
+  }
 }
