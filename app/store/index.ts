@@ -17,11 +17,11 @@ import {
   REGISTER,
 } from 'redux-persist'
 import { state } from '../__mocks__/state-input'
-import Config from 'react-native-config'
 import log from '../utils/log'
 import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
 import { ConfigState } from './config/config'
+import { USE_STATE } from '../.env.web'
 
 let store = null
 let persistor = null
@@ -66,7 +66,7 @@ function initStore (rehydrateCallback?: () => void) {
     },
   }
 
-  if (Config.USE_STATE) {
+  if (USE_STATE) {
     store = configureStore({
       reducer: makeRootReducer(),
       state,

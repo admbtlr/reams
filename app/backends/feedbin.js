@@ -3,7 +3,7 @@ import {decode, encode} from 'base-64'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
-import Config from 'react-native-config'
+import { CORS_PROXY_URL } from '../.env.web'
 
 let credentials = {}
 
@@ -49,7 +49,7 @@ function getUrl (endpoint) {
   } else {
     feedbinUrl = 'https://api.feedbin.com/v2/' + endpoint
   }
-  return !!Config.CORS_PROXY_URL ? `${Config.CORS_PROXY_URL}?url=${feedbinUrl}` : feedbinUrl
+  return !!CORS_PROXY_URL ? `${CORS_PROXY_URL}${feedbinUrl}` : feedbinUrl
 }
 
 function getFetchConfig () {
@@ -96,7 +96,7 @@ async function doRequest (url, options = {}, expectNoContent = false) {
 
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  const reqUrl = !!Config.CORS_PROXY ? Config.CORS_PROXY + encodeURIComponent(url) : url
+  const reqUrl = !!CORS_PROXY_URL ? CORS_PROXY_URL + encodeURIComponent(url) : url
   const response = await fetch(reqUrl, options)
   if (!response.ok) {
     const text = await response.text()

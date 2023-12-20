@@ -8,7 +8,6 @@ import {
   View
 } from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
-import Config from "react-native-config"
 import TextButton from './TextButton'
 import AccountCredentialsForm from './AccountCredentialsForm'
 import { hslString } from '../utils/colors'
@@ -281,13 +280,13 @@ class AccountScreen extends React.Component {
                 { ...getAttributes('reams') }
               />
 
-              {Config.FLAG_PLUS && <TextButton
+              {/*Config.FLAG_PLUS && <TextButton
                 text={ 'Reams' }
                 { ...getAttributes('reams') }
                 iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'buttonBG')) }
                 iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'buttonBG')) }
                 isExpanded={true}
-              />}
+          />*/}
               {/* { !backend &&
                 <HelpView>
                   <Text style={{ 

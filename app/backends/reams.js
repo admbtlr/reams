@@ -1,4 +1,4 @@
-import Config from 'react-native-config'
+import { API_URL }  from '../.env.web'
 import {id} from '../utils'
 import {
   addReadItemFS,
@@ -210,7 +210,7 @@ export const markFeedRead = (feed, olderThan, items) => {
 }
 
 export async function getFeedDetails (feed) {
-  const url = `${Config.API_URL}/feed-meta?url=${feed.url}`
+  const url = `${API_URL}/feed-meta?url=${feed.url}`
   return fetch(url).then(response => {
     return { response, feed }
   }).then(({response, feed}) => {

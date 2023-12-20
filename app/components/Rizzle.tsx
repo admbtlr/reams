@@ -24,7 +24,6 @@ import HelpTipProvider from './HelpTipProvider'
 import { supabase } from '../storage/supabase'
 import { AuthProvider } from './AuthProvider'
 import { initSQLite } from '../storage/sqlite'
-import Config from 'react-native-config'
 import RizzleModal from './RizzleModal'
 import { ModalProvider } from './ModalProvider'
 
