@@ -13,6 +13,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  Platform,
   SectionList,
   StatusBar,
   Text,
@@ -78,7 +79,9 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
       const items = await searchItems('fascism') 
       console.log(items)
     }
-    search()
+    if (Platform.OS !== 'web') {
+      search() 
+    } 
   }, [])
 
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
