@@ -25,7 +25,14 @@ import {
   getFeeds,
   getSavedItems
 } from './selectors'
-import { getItems as getItemsSQLite, updateItem } from '../storage/sqlite'
+import { 
+  getItems as getItemsSQLite, 
+  updateItem as updateItemSQLite
+} from '../storage/sqlite'
+import { 
+  getItems as getItemsIDB, 
+  updateItem as updateItemIDB
+} from '../storage/idb-storage'
 import { Feed } from '../store/feeds/types'
 import { Category } from '../store/categories/types'
 import { RootState } from '../store/reducers'
@@ -45,7 +52,7 @@ interface Decoration {
 
 interface WholeItem extends Item, ItemInflated {}
 
-export function * decorateItems (action) {
+export function * decorateItems () {
   let items
   let item
   let count = 0
@@ -92,7 +99,11 @@ function * decorationFailed (item: Item) {
     isSaved: item.isSaved
   })
   item = yield select(getItem, item._id, item.isSaved ? ItemType.saved : ItemType.unread)
-  yield call(updateItem, item)
+  if (Platform.OS === 'web') {
+    yield call(updateItemIDB, item)
+  } else {
+    yield call(updateItemSQLite, item)
+  }
   pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
 
@@ -103,7 +114,9 @@ function consoleLog(txt: string) {
 }
 
 export function * assembleDecoration (i: Item): Generator<any, Decoration | boolean, any> {
-  let items: ItemInflated[] = yield call(getItemsSQLite, [i])
+  let items: ItemInflated[] = Platform.OS === 'web' ?
+    yield call(getItemsIDB, [i]) :
+    yield call(getItemsSQLite, [i])
   let itemInflated = items[0]
   let item: WholeItem = { ...i , ...itemInflated}
   const mercuryStuff: MercuryStuff = yield call(loadMercuryStuff, item)
@@ -134,8 +147,12 @@ function * applyDecoration (decoration: Decoration) {
   let item = items.find(item => item._id === decoration.item._id)
   if (item) {
     try {
-      yield call(updateItem, item)
-    } catch(err) {
+      if (Platform.OS === 'web') {
+        yield call(updateItemIDB, item)
+      } else {
+        yield call(updateItemSQLite, item)
+      }
+        } catch(err) {
       log('decorateItems', err)
     }
   }
@@ -156,7 +173,11 @@ function * persistDecoration (decoration: Decoration) {
   wholeItem = setShowCoverImage(wholeItem)
   wholeItem = removeCachedCoverImageDuplicate(wholeItem)
   wholeItem.styles = adjustStylesToCoverImage(decoration)
-  yield call(updateItem, wholeItem)
+  if (Platform.OS === 'web') {
+    yield call(updateItemIDB, wholeItem)
+  } else {
+    yield call(updateItemSQLite, wholeItem)
+  }
   yield put({ 
     type: UPDATE_ITEM,
     item: deflateItem(wholeItem)
@@ -170,14 +191,17 @@ function * prepareCoverImage (item: Item, mercuryStuff: MercuryStuff): Generator
     if (coverImageFile) {
       try {
         const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
-        const faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
+        let faceCentreNormalised
+        if (Platform.OS !== 'web') {
+          faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
+        }
         imageStuff = {
           coverImageFile,
           imageDimensions,
           faceCentreNormalised
         }
-      } catch (error) {
-        consoleLog(error)
+      } catch (error: any) {
+        consoleLog(error.message)
       }
     }
   }
@@ -209,7 +233,7 @@ function adjustStylesToCoverImage (decoration: Decoration): {} {
   return styles
 }
 
-export async function cacheCoverImage (item, imageURL) {
+export async function cacheCoverImage (item: Item, imageURL: string) {
   const splitted = imageURL.split('.')
   // const extension = splitted[splitted.length - 1].split('?')[0].split('%')[0]
   // making a big assumption on the .jpg extension here...
@@ -221,7 +245,7 @@ export async function cacheCoverImage (item, imageURL) {
   try {
     await FileSystem.downloadAsync(imageURL, fileName)
     return fileName
-  } catch(err) {
+  } catch(err: any) {
     consoleLog(`Loading cover image for ${item._id} failed :(`)
     consoleLog(err)
     return false
@@ -273,6 +297,7 @@ function * getNextItemToDecorate () {
   }
   if (!nextItem) {
     nextItem = savedItems.find(item => !item.isDecorated &&
+      item.decoration_failures &&
       item.decoration_failures < 5 &&
       !pendingDecoration.find(pd => pd._id === item._id))
   }
