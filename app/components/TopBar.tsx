@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import {
   Animated,
   Dimensions,
+  Platform,
   Text,
   TouchableOpacity,
   View
@@ -18,7 +19,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { getItems, getIndex } from '../utils/get-item'
 import { Feed, FeedLocal } from '../store/feeds/types'
-import { inflateItem } from '../storage/sqlite'
+import { getItem as getItemSQLite } from "../storage/sqlite"
+import { getItem as getItemIDB } from "../storage/idb-storage"
 
 /* Props:
 - clampedAnimatedValue
@@ -77,7 +79,9 @@ export default function TopBar({
 
   useEffect(() => {
     const checkStyles = async () => {
-      const inflatedItem = await inflateItem(item)
+      const inflatedItem = Platform.OS === 'web' ?
+        await getItemIDB(item) :
+        await getItemSQLite(item)
       const isCoverInline = inflatedItem?.styles?.isCoverInline || false
       setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
     }

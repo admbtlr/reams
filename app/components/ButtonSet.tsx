@@ -5,6 +5,7 @@ import {
   ActionSheetIOS,
   Animated,
   Dimensions,
+  Platform,
   View,
 } from 'react-native'
 import RizzleButton from './RizzleButton'
@@ -15,7 +16,8 @@ import { RootState } from '../store/reducers'
 import { Feed } from '../store/feeds/types'
 import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
-import { getItems, inflateItem } from '../storage/sqlite'
+import { getItem as getItemSQLite } from "../storage/sqlite"
+import { getItem as getItemIDB } from "../storage/idb-storage"
 
 // isDarkMode, displayMode, 
 let areButtonsVisible = true
@@ -35,8 +37,10 @@ export default function ButtonSet ({
 }: ButtonSetProps) {
   const [itemInflated, setItemInflated] = useState<ItemInflated | undefined>(undefined)
   useEffect(() => {
-    inflateItem(item).then(setItemInflated)
-  })
+    Platform.OS === 'web' ?
+      getItemIDB(item).then(setItemInflated) :
+      getItemSQLite(item).then(setItemInflated)
+  }, [item])
   const visible = useSelector((state: RootState) => state.ui.itemButtonsVisible)
   useEffect(() => {
     makeVisible(visible)

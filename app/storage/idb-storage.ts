@@ -1,7 +1,7 @@
 import log from '../utils/log'
 import { openDB } from 'idb'
 
-import { Item } from '../store/items/types'
+import { Item, ItemInflated } from '../store/items/types'
 // export async function getItemAS (key) {
 
 // }
@@ -15,7 +15,7 @@ async function openStore () {
   return store
 }
 
-export async function getItems (keys: (string | {_id: string})[]) {
+export async function getItems (keys: (string | {_id: string})[]): Promise<ItemInflated[] | undefined> {
   if (typeof keys[0] === 'object') {
     keys = keys.map(item => item._id)
   }
@@ -27,6 +27,11 @@ export async function getItems (keys: (string | {_id: string})[]) {
   } catch (err) {
     log('getItemsIDB', err)
   }
+}
+
+export async function getItem (item: Item): Promise<ItemInflated | undefined> {
+  const items = await getItems([item])
+  return items === undefined ? items : items[0]
 }
 
 export async function setItem (item) {
