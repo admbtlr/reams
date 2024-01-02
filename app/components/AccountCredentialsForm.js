@@ -21,6 +21,7 @@ import {
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { BackgroundGradient } from './Onboarding'
 import { supabase } from '../storage/supabase'
+import PasswordStorage from '../utils/PasswordStorage'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -85,7 +86,7 @@ class AccountCredentialsForm extends React.Component {
             accessToken: response.token
           })
         } else if (service === 'feedbin') {
-          await AsyncStorage.setItem("feedbin_password", password)
+          await PasswordStorage.setItem("feedbin_password", password)
           setBackend('feedbin', {
             username
           })
@@ -270,7 +271,7 @@ class AccountCredentialsForm extends React.Component {
                       color={hslString('white')}
                       onPress={async () => {
                         if (service === 'feedbin') {
-                          EncryptedStorage.removeItem("feedbin_password")
+                          PasswordStorage.removeItem("feedbin_password")
                         }
                         if (service === 'reams') {
                           await supabase.auth.signOut()

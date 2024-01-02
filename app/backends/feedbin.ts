@@ -1,10 +1,11 @@
 import {decode, encode} from 'base-64'
 // import EncryptedStorage from 'react-native-encrypted-storage'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+// import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
 import { CORS_PROXY_URL } from '../.env.web'
 import { Feed } from '../store/feeds/types'
+import PasswordStorage from '../utils/PasswordStorage'
 
 let credentials = {}
 
@@ -18,7 +19,7 @@ interface FeedbinFeed {
 
 export async function init ({ username, password }) {
   if (!password) {
-    password = await AsyncStorage.getItem("feedbin_password")    
+    password = await PasswordStorage.getItem("feedbin_password")    
   }
   credentials = { username, password }
 }

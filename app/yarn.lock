@@ -15236,6 +15236,11 @@ react-native-document-picker@^3.5.2:
   resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-3.5.4.tgz#4b9f261ea0d52e91d571670caaf55923ceb80f5f"
   integrity sha512-ZKGAa8ztQ7zA1eE95OCiNsI/Q6fiq1Q3es8MyOEakBkWcX9avWNYaJUrbv/8v80Vo4RzcNxsO3wT6a2hgfpz7A==
 
+react-native-encrypted-storage@^4.0.2:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-encrypted-storage/-/react-native-encrypted-storage-4.0.3.tgz#2a4d65459870511e8f4ccd22f02433dab7fa5e91"
+  integrity sha512-0pJA4Aj2S1PIJEbU7pN/Qvf7JIJx3hFywx+i+bLHtgK0/6Zryf1V2xVsWcrD50dfiu3jY1eN2gesQ5osGxE7jA==
+
 react-native-flipper@^0.182.0:
   version "0.182.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.182.0.tgz#7a2a5569715a9e571019e84ee2de4f72f4c5a4db"
