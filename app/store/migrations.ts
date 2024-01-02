@@ -284,5 +284,15 @@ export const migrations = {
         feedbinId: f.id
       }
     })
+  },
+  13: async (state: RootState) => {
+    // update feed.feedbinId to feed.feedbin_id
+    const feeds = state.feeds.feeds.map((f: Feed) => {
+      return {
+        ...f,
+        feedbin_id: f.feedbinId,
+        feedbinId: undefined
+      }
+    })
   }
 }

@@ -239,7 +239,7 @@ export async function saveExternalItem(item) {
 export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
   let feeds = await getRequest('subscriptions.json')
   if (oldFeeds) {
-    const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.feedbinId) : []
+    const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.feedbin_id) : []
     feeds = feeds.filter(f => !oldFeedIds.includes(f.feed_id))
   }
   if (typeof feeds !== 'object') return []
@@ -251,7 +251,7 @@ export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
   feeds = feeds
     .map((feed: FeedbinFeed) => ({
       _id: id(feed.feed_url),
-      feedbinId: feed.feed_id,
+      feedbin_id: feed.feed_id,
       subscription_id: feed.id,
       title: feed.title,
       url: feed.feed_url,
@@ -261,7 +261,7 @@ export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
   return feeds
 }
 
-// returns the feedbinId
+// returns the feedbin_id
 export async function addFeed (feed: {url: string}): Promise<string> {
   const f = await postRequest('subscriptions.json', {
     feed_url: feed.url
@@ -314,8 +314,8 @@ export async function updateCategory ({ id, name, feeds }) {
   if (oldTag) {
     taggingsForTag = taggings.filter(t => t.name === oldTag.name)
     oldFeedIds = taggingsForTag.map(t => t.feed_id)
-    newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.feedbinId)).map(f => f.feedbinId)
-    removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.feedbinId).includes(ofid))
+    newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.feedbin_id)).map(f => f.feedbin_id)
+    removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.feedbin_id).includes(ofid))
     await postRequest('tags.json', {
       old_name: oldTag.name,
       new_name: name

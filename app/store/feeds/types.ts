@@ -1,6 +1,6 @@
 export interface Feed {
   _id: string
-  feedbinId?: number
+  feedbin_id?: number
   title: string
   description?: string
   url: string

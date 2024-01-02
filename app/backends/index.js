@@ -164,7 +164,7 @@ export async function fetchFeeds () {
     feedsFeedbin = await feedbin.fetchFeeds()
   }
   const feedsAlready = await reams.fetchFeeds()
-  const feedsToAddToAlready = feedsFeedbin.filter(fb => !feedsAlready.find(fa => fa.feedbin_id === fb.id))
+  const feedsToAddToAlready = feedsFeedbin.filter(fb => !feedsAlready.find(fa => fa.feedbin_id === fb.feedbin_id))
   
   await reams.addFeeds(feedsToAddToAlready)
 
@@ -173,7 +173,7 @@ export async function fetchFeeds () {
 
 export async function addFeed (feed) {
   if (backend === 'feedbin') {
-    feed.feedbinId = await feedbin.addFeed(feed)
+    feed.feedbin_id = await feedbin.addFeed(feed)
   }
   return reams.addFeed(feed)
 }

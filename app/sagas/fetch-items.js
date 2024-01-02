@@ -270,11 +270,11 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
     // give the loop a chance to stop in case the fork has been cancelled
     yield delay(1)
     item = items[i]
-    // note that we have to look at feed.feedbinId AND feed._id
+    // note that we have to look at feed.feedbin_id AND feed._id
     // this is for feeds that have been migrated from an external provider
-    // to rizzle, whereby feed.feedbinId is the exernal provider's id, and
+    // to rizzle, whereby feed.feedbin_id is the exernal provider's id, and
     // feed._id is rizzle's id
-    feed = feeds.find(feed => feed.feedbinId === item.feed_id ||
+    feed = feeds.find(feed => feed.feedbin_id === item.feed_id ||
       feed._id === item.feed_id ||
       feed.title === item.feed_title)
     if (!feed) {
