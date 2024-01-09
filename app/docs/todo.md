@@ -1,3 +1,5 @@
+- properly add fonts to web
+  - https://medium.com/@lvs.sangeeth/how-to-integrate-custom-fonts-in-react-native-for-web-f1ecde43909f
 - look into ItemTitle problems with too long words and too long titles
 - "inflate feeds" - download feed icons instead
 - finish the add a feed manually feature
