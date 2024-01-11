@@ -34,7 +34,6 @@
     "expo-blur": "~12.0.1",
     "expo-file-system": "~15.4.4",
     "expo-gl": "~12.2.0",
-    "expo-gl-cpp": "~11.4.0",
     "expo-sqlite": "~11.0.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "formik": "^2.2.9",
