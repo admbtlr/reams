@@ -1,0 +1,10 @@
+diff --git a/node_modules/expo-file-system/android/src/main/AndroidManifest.xml b/node_modules/expo-file-system/android/src/main/AndroidManifest.xml
+index 051a4f6..2b6e0be 100644
+--- a/node_modules/expo-file-system/android/src/main/AndroidManifest.xml
++++ b/node_modules/expo-file-system/android/src/main/AndroidManifest.xml
+@@ -1,4 +1,4 @@
+-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="expo.modules.filesystem">
+     <uses-permission android:name="android.permission.INTERNET"/>
+     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
