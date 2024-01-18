@@ -1,9 +1,7 @@
 import {decode, encode} from 'base-64'
-// import EncryptedStorage from 'react-native-encrypted-storage'
-// import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
-import { CORS_PROXY_URL } from '../.env.web'
+import Config from 'react-native-config'
 import { Feed } from '../store/feeds/types'
 import PasswordStorage from '../utils/PasswordStorage'
 
@@ -59,7 +57,7 @@ function getUrl (endpoint) {
   } else {
     feedbinUrl = 'https://api.feedbin.com/v2/' + endpoint
   }
-  return !!CORS_PROXY_URL ? `${CORS_PROXY_URL}${feedbinUrl}` : feedbinUrl
+  return !!Config.CORS_PROXY ? `${Config.CORS_PROXY}?url=${feedbinUrl}` : feedbinUrl
 }
 
 function getFetchConfig () {
@@ -106,7 +104,7 @@ async function doRequest (url, options = {}, expectNoContent = false) {
 
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  const reqUrl = !!CORS_PROXY_URL ? CORS_PROXY_URL + encodeURIComponent(url) : url
+  const reqUrl = !!Config.CORS_PROXY ? Config.CORS_PROXY + '?url=' + encodeURIComponent(url) : url
   const response = await fetch(reqUrl, options)
   if (!response.ok) {
     const text = await response.text()
@@ -239,10 +237,9 @@ export async function saveExternalItem(item) {
 export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
   let feeds = await getRequest('subscriptions.json')
   if (oldFeeds) {
-    const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.feedbin_id) : []
+    const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.feedbinId) : []
     feeds = feeds.filter(f => !oldFeedIds.includes(f.feed_id))
   }
-  if (typeof feeds !== 'object') return []
 
   // this is the pseudo-feed that Feedbin uses for saved items
   feeds = feeds.filter(f => f.site_url !== 'http://pages.feedbinusercontent.com')
@@ -251,7 +248,7 @@ export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
   feeds = feeds
     .map((feed: FeedbinFeed) => ({
       _id: id(feed.feed_url),
-      feedbin_id: feed.feed_id,
+      feedbinId: feed.feed_id,
       subscription_id: feed.id,
       title: feed.title,
       url: feed.feed_url,
@@ -261,7 +258,7 @@ export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
   return feeds
 }
 
-// returns the feedbin_id
+// returns the feedbinId
 export async function addFeed (feed: {url: string}): Promise<string> {
   const f = await postRequest('subscriptions.json', {
     feed_url: feed.url
@@ -306,16 +303,16 @@ export async function updateCategory ({ id, name, feeds }) {
   // AAAARGH if the tag isn't on feedbin because the taggings have been deleted, we need to create it
   // but then the feedbin id will be different, so we'll need to update our local copy
 
-  let oldFeedIds = []
+  let oldFeedIds: number[] = []
   let newFeedIds = feeds.map(f => f.id)
-  let removedFeedIds = []
+  let removedFeedIds: number[] = []
   let taggingsForTag = []
 
   if (oldTag) {
     taggingsForTag = taggings.filter(t => t.name === oldTag.name)
     oldFeedIds = taggingsForTag.map(t => t.feed_id)
-    newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.feedbin_id)).map(f => f.feedbin_id)
-    removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.feedbin_id).includes(ofid))
+    newFeedIds = feeds.filter(f => !oldFeedIds.includes(f.feedbinId)).map(f => f.feedbinId)
+    removedFeedIds = oldFeedIds.filter(ofid => !feeds.map(f => f.feedbinId).includes(ofid))
     await postRequest('tags.json', {
       old_name: oldTag.name,
       new_name: name

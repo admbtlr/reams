@@ -3,13 +3,13 @@ import { createClient } from '@supabase/supabase-js'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Item } from '../store/items/types'
 import { Database } from './supabase.types'
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../.env.web'
+import Config from 'react-native-config'
 import { Feed } from '../store/feeds/types'
 import { getFeedMeta } from '../backends/reams'
 import { id as createId} from '../utils'
 
-const supabaseUrl = SUPABASE_URL
-const supabaseAnonKey = SUPABASE_ANON_KEY
+const supabaseUrl = Config.SUPABASE_URL
+const supabaseAnonKey = Config.SUPABASE_ANON_KEY
 
 export const supabase = createClient<Database>(supabaseUrl || '', supabaseAnonKey || '', {
   auth: {

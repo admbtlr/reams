@@ -227,7 +227,7 @@ export function addCoverImageToItem (item, imageStuff) {
   }
 }
 
-export function setShowCoverImage (item, currentItem) {
+export function setShowCoverImage (item) {
   const getLongestContentLength = (item) => {
     const hasMercury = item.content_mercury && typeof item.content_mercury === 'string'
     const hasHtml = item.content_html && typeof item.content_mercury === 'string'

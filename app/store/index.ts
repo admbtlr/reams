@@ -2,6 +2,7 @@ import { compose, createStore, applyMiddleware } from 'redux'
 import { AsyncThunk, AsyncThunkPayloadCreator, Dispatch, configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 import makeRootReducer, { RootState } from './reducers'
+import FilesystemStorage from 'redux-persist-filesystem-storage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {initSagas} from '../sagas'
 import {
@@ -21,7 +22,7 @@ import log from '../utils/log'
 import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
 import { ConfigState } from './config/config'
-import { USE_STATE } from '../.env.web'
+import Config from 'react-native-config'
 
 let store = null
 let persistor = null
@@ -46,7 +47,7 @@ function initStore (rehydrateCallback?: () => void) {
   if (Platform.OS === 'web') {
     storage = AsyncStorage
   } else {
-    // storage = require('redux-persist-filesystem-storage').FilesystemStorage
+    storage = FilesystemStorage
   }
 
   const persistConfig = {
@@ -65,7 +66,7 @@ function initStore (rehydrateCallback?: () => void) {
     immutableCheck: false
   }
 
-  if (USE_STATE) {
+  if (Config.USE_STATE) {
     store = configureStore({
       reducer: makeRootReducer(),
       state,

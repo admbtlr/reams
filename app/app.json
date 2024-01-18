@@ -5,7 +5,10 @@
     "entryPoint": "./index.js",
     "name": "Reams",
     "slug": "reams",
-    "sdkVersion": "47.0.0"
+    "sdkVersion": "47.0.0",
+    "plugins": [
+      "sentry-expo"
+    ]
   },
   "web": {
     "build": {

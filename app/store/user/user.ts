@@ -9,6 +9,7 @@ import {
   UNSET_BACKEND,
   UserActionTypes,
 } from '../user/types'
+import Config from 'react-native-config'
 
 // export interface UserState {
 //   readonly displayName: string
@@ -46,7 +47,7 @@ const initialState = {
 }
 
 export function user (
-  state: UserState = initialState, 
+  state: UserState = (!!Config.USER_STATE ? JSON.parse(Config.USER_STATE) : initialState), 
   action: ConfigActionTypes | UserActionTypes
 ) : UserState {
   let backends: Backend[]

@@ -1,4 +1,4 @@
-import { API_URL, CORS_PROXY_URL }  from '../.env.web'
+import Config from 'react-native-config'
 import {id} from '../utils'
 import {
   addReadItemFS,
@@ -94,7 +94,7 @@ function extractErroredFeeds (unreadItemsArrays) {
 
 const fetchUnreadItems = (feeds: { url : string, isNew?: boolean }[], lastUpdated: number) => {
   const promises = feeds.filter(feed => !!feed).map(feed => {
-    const url = `${API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
+    const url = `${Config.API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
     // const url = `http://localhost:8080/feed/?url=${feed.url}`
     return fetch(url).then(response => {
       return { response, feed }
@@ -138,7 +138,7 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
     acc[key].push(val)
     return acc
   }, [])
-  const promises = Object.values(chunked).map(feeds => fetch(CORS_PROXY_URL + API_URL + '/feeds', {
+  const promises = Object.values(chunked).map(feeds => fetch(Config.CORS_PROXY + '?url=' + Config.API_URL + '/feeds', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -246,7 +246,7 @@ interface FeedMeta {
 
 export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta> {
   console.log('getFeedMeta')
-  const apiUrl = `${API_URL}/feed-meta?url=${feed.url}`
+  const apiUrl = `${Config.API_URL}/feed-meta?url=${feed.url}`
   return fetch(apiUrl).then(response => {
     return { response, feed }
   }).then(({response, feed}) => {
@@ -279,7 +279,7 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
     // throw new Error(`Error finding feeds for ${url}: ${e.message}`)
   }
   try {
-    const apiUrl = `${API_URL}/find-feeds?url=${url}&extended=1`
+    const apiUrl = `${Config.API_URL}/find-feeds?url=${url}&extended=1`
     const response = await fetch(apiUrl)
     if (!response.ok) {
       throw {

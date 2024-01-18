@@ -64,23 +64,12 @@ class ItemCarousel extends React.Component {
     this.updateCarouselIndex = this.updateCarouselIndex.bind(this)
     this.openFeedModal = this.openFeedModal.bind(this)
     this.onTextSelection = this.onTextSelection.bind(this)
-    this.launchBrowser = this.launchBrowser.bind(this)
-    this.showShareSheet = this.showShareSheet.bind(this)
     this.setPanAnim = this.setPanAnim.bind(this)
     this.setScrollAnim = this.setScrollAnim.bind(this)
     this.setClampedScrollAnimSetterAndListener = this.setClampedScrollAnimSetterAndListener.bind(this)
     this.setScrollAnimSetterAndListener = this.setScrollAnimSetterAndListener.bind(this)
     this.setBufferIndexChangeListener = this.setBufferIndexChangeListener.bind(this)
   }
-
-  // static getDerivedStateFromProps (props, state) {
-  //   if ()
-  //   return {
-  //     index: props.index,
-  //     bufferedItems: getBufferedItems(props.items, props.index),
-  //     bufferIndex: props.index === 0 ? 0 : 1
-  //   }
-  // }
 
   _stringifyBufferedItems (items, index, displayMode, feeds, includeMercury = false) {
     return JSON
@@ -179,42 +168,6 @@ class ItemCarousel extends React.Component {
   showViewButtons (areVisible) {
     const item = this.props.items[this.bufferIndex]
   }
-
-  showShareSheet (isVisible) {
-    const item = this.bufferedItems[this.bufferIndex]
-    if (this.props.isOnboarding || !item) return
-    ActionSheetIOS.showShareActionSheetWithOptions({
-        url: item.url,
-        message: this.selectedText,
-        title: item.title
-      },
-      (error) => {
-        console.error(error)
-      },
-      (success, method) => {
-      }
-    )
-  }
-
-  // async launchBrowser () {
-  //   const item = this.bufferedItems[this.bufferIndex]
-  //   try {
-  //     await InAppBrowser.isAvailable()
-  //     InAppBrowser.open(item.url, {
-  //       // iOS Properties
-  //       dismissButtonStyle: 'close',
-  //       preferredBarTintColor: hslString('rizzleBG'),
-  //       preferredControlTintColor: hslString('rizzleText'),
-  //       animated: true,
-  //       modalEnabled: true,
-  //       // modalPresentationStyle: "popover",
-  //       // readerMode: true,
-  //       enableBarCollapsing: true,
-  //     })
-  //   } catch (error) {
-  //     console.log('openLink', error)
-  //   }
-  // }
 
   setPanAnim (panAnim) {
     this.setState({ panAnim })

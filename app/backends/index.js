@@ -1,6 +1,6 @@
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import log from '../utils/log'
-import { API_URL } from '../.env.web'
+import Config from 'react-native-config'
 
 const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
@@ -45,7 +45,7 @@ export async function loadMercuryStuff (item) {
 }
 
 export function getMercuryUrl (item) {
-  let url = API_URL + '/mercury?url=' +
+  let url = Config.API_URL + '/mercury?url=' +
     encodeURIComponent(item.url)
   return url
 }
@@ -164,7 +164,7 @@ export async function fetchFeeds () {
     feedsFeedbin = await feedbin.fetchFeeds()
   }
   const feedsAlready = await reams.fetchFeeds()
-  const feedsToAddToAlready = feedsFeedbin.filter(fb => !feedsAlready.find(fa => fa.feedbin_id === fb.feedbin_id))
+  const feedsToAddToAlready = feedsFeedbin.filter(fb => !feedsAlready.find(fa => fa.feedbinId === fb.id))
   
   await reams.addFeeds(feedsToAddToAlready)
 
@@ -173,7 +173,7 @@ export async function fetchFeeds () {
 
 export async function addFeed (feed) {
   if (backend === 'feedbin') {
-    feed.feedbin_id = await feedbin.addFeed(feed)
+    feed.feedbinId = await feedbin.addFeed(feed)
   }
   return reams.addFeed(feed)
 }

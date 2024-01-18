@@ -10,7 +10,7 @@ import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textInputStyle } from '../utils/styles'
 import { supabase } from '../storage/supabase'
 import { useSession } from './AuthProvider'
-// import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication'
+import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication' 
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 export const pages = [{
@@ -447,7 +447,7 @@ const Onboarding3 = ({ index }) => {
             text='Send me a link'
           />)
         }
-        {/* <Text style={{
+        <Text style={{
           ...textLargeStyle,
           textAlign: 'center',
           marginTop: 24 * fontSizeMultiplier(),
@@ -464,7 +464,7 @@ const Onboarding3 = ({ index }) => {
             alignSelf: 'center',
           }}
           onPress={() => onAppleButtonPress()}
-        /> */}
+        />
       </View>
 
     </OnboardingPage>
@@ -714,7 +714,7 @@ const OnboardingPage = ({ children, index }) => (
       width: Dimensions.get('window').width
     }}
   >
-    {/* <BackgroundGradient index={index} /> */}
+    <BackgroundGradient index={index} />
     {children}
   </View>
 )

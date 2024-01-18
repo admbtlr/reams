@@ -38,7 +38,7 @@ export const AuthProvider = (props: any) => {
           dispatch(fetchAnnotations())
         } else {
           setSession({session: null})
-          // dispatch({ type: UNSET_BACKEND, backend: 'reams' })
+          dispatch({ type: UNSET_BACKEND, backend: 'reams' })
         }
       }
     )

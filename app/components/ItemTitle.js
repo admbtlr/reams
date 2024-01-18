@@ -8,9 +8,8 @@ import quote from 'headline-quotes'
 import {hslString} from '../utils/colors'
 import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
-// import * as Sentry from "@sentry/react-native"
+import * as Sentry from "sentry-expo"
 import CategoryToggles from './CategoryToggles'
-import { DRAWER_WIDTH } from './web/Main'
 
 const entities = require('entities')
 
@@ -345,9 +344,9 @@ class ItemTitle extends React.Component {
       // "This value specifies the number of points by which to adjust kern-pair characters"
       // https://developer.apple.com/documentation/uikit/nskernattributename
 
-      // if (!optimal?.size) {
-      //   Sentry.captureMessage(`Optimal is not an object for "${this.displayTitle}": ${JSON.stringify(optimal)}`)
-      // }
+      if (!optimal?.size) {
+        Sentry.captureMessage(`Optimal is not an object for "${this.displayTitle}": ${JSON.stringify(optimal)}`)
+      }
 
       // often out by 1...
       optimal.size--
@@ -588,8 +587,7 @@ class ItemTitle extends React.Component {
       alignItems: 'flex-start',
       width,
       ...border,
-      borderColor: color,
-      backgroundColor: 'red'
+      borderColor: color
     }
     if (this.props.anims) {
       innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation, isVisible)
@@ -743,7 +741,7 @@ class ItemTitle extends React.Component {
       })
     }
 
-    const isAuthorDateBelowFold = showCoverImage && !isPortrait && !item.styles?.coverImage?.isInline
+    const isAuthorDateBelowFold = showCoverImage && !isPortrait && styles?.coverImage?.isInline
 
     const barView = this.renderBar(barAnimation)
     const excerptView = this.props.excerpt
@@ -761,16 +759,15 @@ class ItemTitle extends React.Component {
             ...outerViewStyle,
             justifyContent: showCoverImage ? justifiers[styles.valign] : 'flex-start',
             alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start',
-            flex: 1
+            flex: showCoverImage && !styles?.coverImage?.isInline ? 0 : 1
           }}
         >
           <Animated.View
             style={{
               ...innerViewStyle,
-              flex: 1,
+              flex: showCoverImage && !styles?.coverImage?.isInline ? 0 : 1,
               marginLeft: styles.invertBG ? this.horizontalMargin - invertedTitleStyle.paddingLeft : this.horizontalMargin,
               justifyContent: this.aligners[styles.textAlign],
-              backgroundColor: 'yellow',
               // height: 'auto',
             }}
             ref={(view) => { this.innerView = view }}
@@ -879,7 +876,7 @@ class ItemTitle extends React.Component {
   // barView gets passed in here because we need to include it in the excerptView
   // when using an coverImage with contain, for the flex layout
   renderExcerpt (innerViewStyle, fontStyle, shadowStyle, barView, anim) {
-    const { coverImageStyles, excerpt, scrollOffset, showCoverImage, styles } = this.props
+    const { excerpt, item, scrollOffset, showCoverImage, styles } = this.props
     let excerptShadowStyle
     let excerptColor = this.getExcerptColor()
 
@@ -1042,7 +1039,7 @@ class ItemTitle extends React.Component {
   }
 
   renderDate (anim) {
-    const { item, date, scrollOffset, showCoverImage, styles } = this.props
+    const { item, coverImageStyles, date, scrollOffset, showCoverImage, styles } = this.props
     let dateStyle = {
       color: showCoverImage &&
         !item.styles?.coverImage?.isInline ? 'white' : '#666', // TODO: what about isDarkMode?
@@ -1147,7 +1144,7 @@ class ItemTitle extends React.Component {
   }
 
   getAnimationValues () {
-    const { anims, scrollOffset, showCoverImage, coverImageStyles } = this.props
+    const { anims, item, scrollOffset, showCoverImage } = this.props
     if (!showCoverImage || item.styles?.coverImage?.isInline) {
       return {
         opacity: Animated.add(scrollOffset.interpolate({

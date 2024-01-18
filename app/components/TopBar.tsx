@@ -278,7 +278,21 @@ export default function TopBar({
                 </Text>
               </View>
             </Animated.View>
-            <Animated.View style={{
+            <Animated.View style={
+              Platform.OS === 'web' ? {
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 64 * fontSizeMultiplier(),
+                marginTop: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                opacity: titleOpacity,
+                position: 'absolute',
+                width: '100%',
+              } :
+              {
                 marginTop: 10,
                 opacity: typeof scrollAnim !== 'number' && isVisible ? 
                   scrollAnim.interpolate({
@@ -287,16 +301,18 @@ export default function TopBar({
                   }) : 0,
                 position: 'absolute',
                 width: '100%',
-              }}>
+              }
+            }>
                 <Text
                   style={{
                     ...getStyles().feedName,
                     fontSize: 12 * fontSizeMultiplier(),
-                    lineHeight: 18 * fontSizeMultiplier(),
+                    lineHeight: Platform.OS === 'web' ? 18 * fontSizeMultiplier() : undefined,
                     fontFamily: filter ?
                       'IBMPlexSansCond-Bold' :
                       'IBMPlexSansCond',
                     color: getForegroundColor(),
+                    opacity: Platform.OS !== 'web' && titleOpacity === 0 ? 0 : 1,
                     textAlign: 'center',
                     textDecorationLine: 'underline'
                   }}
@@ -313,6 +329,7 @@ export default function TopBar({
                       'IBMPlexSansCond-Bold',
                     // color: this.getBorderBottomColor(item)
                     color: getForegroundColor(),
+                    opacity: Platform.OS !== 'web' && titleOpacity === 0 ? 0 : 1,
                     // height: 36,
                     // paddingBottom: 15,
                     hyphens: 'auto',

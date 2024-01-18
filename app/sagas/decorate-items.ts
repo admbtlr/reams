@@ -16,7 +16,7 @@ import { getCachedCoverImagePath, getImageDimensions } from '../utils'
 import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createItemStyles'
 import { getActiveItems, getItem } from './selectors'
 import log from '../utils/log'
-// import { faceDetection } from '../utils/face-detection'
+import { faceDetection } from '../utils/face-detection'
 
 import {
   getIndex,
@@ -99,11 +99,12 @@ function * decorationFailed (item: Item) {
     isSaved: item.isSaved
   })
   item = yield select(getItem, item._id, item.isSaved ? ItemType.saved : ItemType.unread)
-  if (Platform.OS === 'web') {
-    yield call(updateItemIDB, item)
-  } else {
-    yield call(updateItemSQLite, item)
-  }
+  // I don't think this is necessary anymore
+  // if (Platform.OS === 'web') {
+  //   yield call(updateItemIDB, item)
+  // } else {
+  //   yield call(updateItemSQLite, item)
+  // }
   pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
 }
 
@@ -144,18 +145,19 @@ function * applyDecoration (decoration: Decoration) {
   })
   const items: Item[] = [ ...yield select(getItems, isSaved ? ItemType.saved : ItemType.unread) ]
 
-  let item = items.find(item => item._id === decoration.item._id)
-  if (item) {
-    try {
-      if (Platform.OS === 'web') {
-        yield call(updateItemIDB, item)
-      } else {
-        yield call(updateItemSQLite, item)
-      }
-    } catch(err) {
-      log('decorateItems', err)
-    }
-  }
+  // this appears to have been replace by the call to persistDecoration above
+  // let item = items.find(item => item._id === decoration.item._id)
+  // if (item) {
+  //   try {
+  //     if (Platform.OS === 'web') {
+  //       yield call(updateItemIDB, item)
+  //     } else {
+  //       yield call(updateItemSQLite, item)
+  //     }
+  //   } catch(err) {
+  //     log('decorateItems', err)
+  //   }
+  // }
   if (decoration.item) {
     pendingDecoration = pendingDecoration.filter(pending => pending._id !== decoration.item._id)
   }
@@ -191,11 +193,14 @@ function * prepareCoverImage (item: Item, mercuryStuff: MercuryStuff): Generator
     if (coverImageFile) {
       try {
         const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
-        // const faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
+        let faceCentreNormalised
+        if (Platform.OS !== 'web') {
+          faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
+        }
         imageStuff = {
           coverImageFile,
           imageDimensions,
-          // faceCentreNormalised
+          faceCentreNormalised
         }
       } catch (error: any) {
         consoleLog(error)

@@ -13,7 +13,7 @@ import AccountCredentialsForm from './AccountCredentialsForm'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { fontSizeMultiplier, getInset, getMargin, getStatusBarHeight } from '../utils'
-import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
+import { textInfoStyle } from '../utils/styles'
 import { ItemType } from '../store/items/types'
 
 class AccountScreen extends React.Component {
@@ -279,43 +279,7 @@ class AccountScreen extends React.Component {
                 text={ 'Reams' }
                 { ...getAttributes('reams') }
               />
-
-              {/*Config.FLAG_PLUS && <TextButton
-                text={ 'Reams' }
-                { ...getAttributes('reams') }
-                iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'reams' ? 'white' : 'rizzleText'), hslString(backend === 'reams' ? 'logo1' : 'buttonBG')) }
-                isExpanded={true}
-          />*/}
-              {/* { !backend &&
-                <HelpView>
-                  <Text style={{ 
-                    ...textTipStyles('white'),
-                    textAlign: 'center',
-                    marginBottom: getMargin() * 2,
-                  }}>You don't need one to use Reams, but if you have an account with one of the RSS servives below, enter your login details.</Text>
-                  <TextButton
-                    onPress={() => this.props.setBackend('basic')} 
-                    text='I don’t have an account'></TextButton>
-                </HelpView>
-              } */}
-              {/* <TextButton
-                text={ 'Reams Basic' }
-                { ...getAttributes('basic') }
-                iconCollapsed={ getRizzleButtonIcon('reams', hslString(backend === 'basic' ? 'white' : 'rizzleText'), hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
-                iconExpanded={ getRizzleButtonIcon('reams', hslString(backend === 'basic' ? 'white' : 'rizzleText'), hslString(backend === 'basic' ? 'logo1' : 'buttonBG')) }
-                buttonStyle={{ 
-                  alignSelf: 'center',
-                  marginBottom: getMargin() * 2,
-                  marginTop: getMargin() * 2,
-                }}
-              /> */}
               <Separator title='RSS' />
-              {/* { !backend &&
-                <View style={{ marginBottom: getMargin() * 2 }}>
-                  <Text style={textInfoStyle(undefined, 0)}>Or, if you already have an account with a supported service, enter your details below:</Text>
-                </View>
-              } */}
               <TextButton
                 text={ 'Feedbin' }
                 { ...getAttributes('feedbin') }

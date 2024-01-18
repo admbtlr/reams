@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import * as Sentry from '@sentry/react-native'
+import * as Sentry from 'sentry-expo'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import {decode} from 'html-entities'
-import { SENTRY_DSN } from '../.env.web'
+import Config from 'react-native-config'
 
 import TextButton from './TextButton'
 import AnimatedEllipsis from './AnimatedEllipsis'
@@ -35,7 +35,7 @@ class Share extends React.Component {
       retrievingRss: false
     }
     Sentry.init({
-      dsn: SENTRY_DSN
+      dsn: Config.SENTRY_DSN
     })
 
     this.addFeed = this.addFeed.bind(this)

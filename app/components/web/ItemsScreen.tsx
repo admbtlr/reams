@@ -21,10 +21,10 @@ export default function ItemsScreen ({}) {
   const [currentItemInflated, setCurrentItemInflated] = useState()
   useEffect(() => {
     const inflateAndSet = async (currentItem: Item) => {
-      const inflatedItems: Item[] = Platform.OS === 'web' ?
+      const inflatedItems: Item[] | undefined = Platform.OS === 'web' ?
         await getItemsIDB([currentItem]) :
         await getItemsSQLite([currentItem])
-      if (inflatedItems.length) {
+      if (inflatedItems !== undefined && inflatedItems.length) {
         setCurrentItemInflated(inflatedItems[0])
       }
     }

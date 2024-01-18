@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   LayoutAnimation,
+  Platform,
   Text,
   TouchableOpacity,
   View
@@ -24,11 +25,13 @@ class TextButton extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.props.isExpanded !== this.state.isExpanded &&
-      this.state.isExpanded === prevState.isExpanded) {
-      this.setState({
-        isExpanded: this.props.isExpanded
-      })
+    if (Platform.OS === 'web') {
+      if (this.props.isExpanded !== this.state.isExpanded &&
+        this.state.isExpanded === prevState.isExpanded) {
+        this.setState({
+          isExpanded: this.props.isExpanded
+        })
+      }
     }
   }
 
@@ -39,16 +42,13 @@ class TextButton extends React.Component {
       this.props.onExpand && this.props.onExpand()
     } else {
       const isExpanded = !this.state.isExpanded
-      LayoutAnimation.configureNext({
-        ...LayoutAnimation.Presets.spring,
-        duration: 400,
-        update: { type: 'spring', springDamping: 0.8 }
-      })
-      // LayoutAnimation.configureNext({
-      //   duration: 300,
-      //   type: LayoutAnimation.Types.spring,
-      //   springDamping: 0.6
-      // })
+      if (Platform.OS !== 'android') {
+        LayoutAnimation.configureNext({
+          ...LayoutAnimation.Presets.spring,
+          duration: 400,
+          update: { type: 'spring', springDamping: 0.8 }
+        })
+      }
       this.setState({
         ...this.state,
         isExpanded
@@ -104,6 +104,9 @@ class TextButton extends React.Component {
       ...this.props.buttonStyle,
       paddingTop: 9 * fontSizeMultiplier()
     }
+    if (Platform.OS === 'ios') {
+      buttonStyle.maxHeight = 42 * fontSizeMultiplier()
+    }
     if (hasShadow) {
       buttonStyle = {
         ...buttonStyle,
@@ -139,6 +142,11 @@ class TextButton extends React.Component {
       marginTop: (isCompact ? -1 : 0)
     }
     if (isExpandable) {
+      if (Platform.OS === 'ios') {
+        buttonStyle.maxHeight = (isExpanded ? 'auto' : 42 * fontSizeMultiplier())
+      } else {
+        buttonStyle.maxHeight = undefined
+      }
       return (
         <Animated.View
           style={{

@@ -1,25 +1,19 @@
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import React from 'react'
-import { Button, Dimensions, LayoutAnimation, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import AnimatedEllipsis from 'react-native-animated-ellipsis'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import { Dimensions, LayoutAnimation, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { sendEmailLink } from '../backends/reams'
-import { init } from '../backends/readwise'
 import { authenticate } from '../backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import {
   textInputStyle,
   textLabelStyle,
-  textButtonStyle,
   textInfoStyle,
   textInfoBoldStyle,
   textInfoItalicStyle
 } from '../utils/styles'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
-import { BackgroundGradient } from './Onboarding'
 import { supabase } from '../storage/supabase'
 import PasswordStorage from '../utils/PasswordStorage'
 
@@ -234,16 +228,16 @@ class AccountCredentialsForm extends React.Component {
           values
         }) => (
           <View style={{
-            flex: 0
+            flex: 0,
+            height: Platform.OS === 'web' ? undefined : 'auto',
           }}>
             { isActive ?
               <View style={{
                 paddingTop: 16 * fontSizeMultiplier(),
-                // paddingLeft: 16 * fontSizeMultiplier(),
-                // paddingRight: 16 * fontSizeMultiplier(),
                 paddingBottom: 32 * fontSizeMultiplier(),
                 marginTop: 16 * fontSizeMultiplier(),
                 flex: 0,
+                height: Platform.OS === 'web' ? undefined : 'auto',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 justifyContent: 'space-between'

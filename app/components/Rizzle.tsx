@@ -9,21 +9,22 @@ import {
 } from 'react-native'
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { initStore, persistor } from '../store'
-import * as Sentry from '@sentry/react-native'
+import * as Sentry from 'sentry-expo'
 // import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
 import ConnectionListener from './ConnectionListener'
 import Analytics from './Analytics'
 import Splash from './Splash'
 import Message from './Message'
-// import * as tf from '@tensorflow/tfjs'
-// import '@tensorflow/tfjs-react-native'
+import * as tf from '@tensorflow/tfjs'
+import '@tensorflow/tfjs-react-native'
 import OrientationListener from './OrientationListener'
 import { PersistGate } from 'redux-persist/integration/react'
 import HelpTipProvider from './HelpTipProvider'
 import { supabase } from '../storage/supabase'
 import { AuthProvider } from './AuthProvider'
 import { initSQLite } from '../storage/sqlite'
+import Config from 'react-native-config'
 import RizzleModal from './RizzleModal'
 import { ModalProvider } from './ModalProvider'
 import { hslString } from '../utils/colors'
@@ -37,7 +38,7 @@ export interface Props {
 export interface State {}
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
-// const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
+// const routingInstrumentation = Platform.OS !== 'web' ? new Sentry.ReactNavigationInstrumentation() : null
 
 let store: object | undefined = {}
 
@@ -57,14 +58,13 @@ export default class Rizzle extends Component<Props, State> {
     // is there any special reason why the store was only configured after an anonymous login?
     store = initStore()
 
-    // Sentry.init({
-    //   dsn: Config.SENTRY_DSN,
-    //   enableAutoSessionTracking: true,
-    //   debug: __DEV__
-    // })
-
     if (Platform.OS !== 'web') {
       initSQLite()
+      Sentry.init({
+        dsn: Config.SENTRY_DSN,
+        enableAutoSessionTracking: true,
+        debug: __DEV__
+      })
     }
 
     // this is a stupid hack to stop AppState firing on startup
@@ -76,17 +76,36 @@ export default class Rizzle extends Component<Props, State> {
   }
 
   async componentDidMount () {
-    // InteractionManager.setDeadline(100)
-    // await tf.ready()
-    // console.log('Tensor Flow is ready')    
+    if (Platform.OS !== 'web') {
+      InteractionManager.setDeadline(100)
+      await tf.ready()
+      console.log('Tensor Flow is ready')    
+    }
   }
 
   render () {
+    const PersistGateWrapper = ({children}: {children: any}) => {
+      if (Platform.OS === 'web') {
+        return children
+      } else {
+        return (
+          <PersistGate
+            loading={<View />}
+            onBeforeLift={() => {}}
+            persistor={persistor}>            
+            {children}
+          </PersistGate>
+        )
+      }
+    }
+
     return (
       <NavigationContainer        
         ref={this.navigation}
         onReady={() => {
-          // routingInstrumentation.registerNavigationContainer(this.navigation);
+          if (Platform.OS !== 'web') {
+            // routingInstrumentation?.registerNavigationContainer(this.navigation);
+           }
         }}
         theme={{
           colors: {
@@ -95,10 +114,7 @@ export default class Rizzle extends Component<Props, State> {
         }}
       >
         <Provider store={store}>
-          {/* <PersistGate
-            loading={<View />}
-            onBeforeLift={onBeforeLift}
-            persistor={persistor}> */}
+          <PersistGateWrapper>
             <AuthProvider>
               <View style={{
                 flex: 1,
@@ -107,8 +123,8 @@ export default class Rizzle extends Component<Props, State> {
                   barStyle='light-content'
                   hidden={false} />
                 <ConnectionListener />
-                {/* <OrientationListener />
-                <Analytics /> */}
+                { Platform.OS === 'web' || <OrientationListener /> }
+                { Platform.OS === 'web' || <Analytics /> } 
                 <MigrationsProvider>
                   <AppStateListenerContainer>
                     <ModalProvider>
@@ -122,7 +138,7 @@ export default class Rizzle extends Component<Props, State> {
                 <Splash />
               </View>
             </AuthProvider>
-          {/* </PersistGate> */}
+          </PersistGateWrapper>
         </Provider>
       </NavigationContainer>
     )
