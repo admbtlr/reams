@@ -4,6 +4,19 @@
   "expo": {
     "name": "Reams",
     "slug": "reams",
-    "entryPoint": "./index.js"
+    "entryPoint": "./index.js",
+    "sdkVersion": "47.0.0",
+    "plugins": [
+      "sentry-expo"
+    ]
+  },
+  "web": {
+    "build": {
+      "babel": {
+        "include": [
+          "@invertase/react-native-apple-authentication"
+        ]
+      }
+    }
   }
 }

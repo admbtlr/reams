@@ -83,7 +83,7 @@ export const AuthProvider = (props: any) => {
     }
     getLinkUrl()
     return () => {
-      Linking.removeAllListeners('url')
+      if (Linking !== undefined) Linking.removeAllListeners('url')
     } 
   }, [])
 

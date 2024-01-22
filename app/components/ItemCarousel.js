@@ -71,15 +71,6 @@ class ItemCarousel extends React.Component {
     this.setBufferIndexChangeListener = this.setBufferIndexChangeListener.bind(this)
   }
 
-  // static getDerivedStateFromProps (props, state) {
-  //   if ()
-  //   return {
-  //     index: props.index,
-  //     bufferedItems: getBufferedItems(props.items, props.index),
-  //     bufferIndex: props.index === 0 ? 0 : 1
-  //   }
-  // }
-
   _stringifyBufferedItems (items, index, displayMode, feeds, includeMercury = false) {
     return JSON
     .stringify(getBufferedItems(items, index, displayMode, feeds)

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import * as Sentry from '@sentry/react-native'
+import * as Sentry from 'sentry-expo'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import {decode} from 'html-entities'
 import Config from 'react-native-config'

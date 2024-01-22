@@ -1,27 +1,21 @@
-import { compose, createStore, applyMiddleware } from 'redux'
 import { AsyncThunk, AsyncThunkPayloadCreator, Dispatch, configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 import makeRootReducer, { RootState } from './reducers'
+import FilesystemStorage from 'redux-persist-filesystem-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {initSagas} from '../sagas'
 import {
   createMigrate, 
   createTransform, 
   persistReducer, 
   persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
 } from 'redux-persist'
-import FilesystemStorage from 'redux-persist-filesystem-storage'
 import { state } from '../__mocks__/state-input'
-import Config from 'react-native-config'
 import log from '../utils/log'
-import { Dimensions } from 'react-native'
+import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
 import { ConfigState } from './config/config'
+import Config from 'react-native-config'
 
 let store = null
 let persistor = null
@@ -42,9 +36,16 @@ function initStore (rehydrateCallback?: () => void) {
     return newState
   }, { whitelist: ['config'] })
 
+  let storage
+  if (Platform.OS === 'web') {
+    storage = AsyncStorage
+  } else {
+    storage = FilesystemStorage
+  }
+
   const persistConfig = {
     key: 'primary',
-    storage: FilesystemStorage,
+    storage,
     timeout: 30000,
     transforms: [orientationTransform],
     blacklist: ['animatedValues'],

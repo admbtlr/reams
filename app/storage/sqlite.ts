@@ -25,8 +25,8 @@ async function doTransaction(query: string, params?: any[]) {
         query,
         params,
         (_, { rows, rowsAffected }) => {
-          resolve(rows._array)
-          return rows._array
+          resolve(rowsToArray(rows))
+          return rowsToArray(rows)
         },
         (_, error) => {
           console.log(error)
@@ -116,8 +116,8 @@ export async function setItems(items: ItemInflated[]) {
           JSON.stringify(item.styles)
         ],
         (_, { rows }) => {
-          resolve(rows._array)
-          return rows._array
+          resolve(rowsToArray(rows))
+          return rowsToArray(rows)
         },
         (_, error) => {
           console.log(error)
@@ -168,6 +168,11 @@ export function getItems(items: Item[]): Promise<ItemInflated[]> {
 })
 }
 
+export async function getItem (item: Item): Promise<ItemInflated> {
+  const items: ItemInflated[] = await getItems([item])
+  return items[0]
+}
+
 export async function inflateItem (item: Item): Promise<ItemInflated> {
   const items: ItemInflated[] = await getItems([item])
   return items[0]
@@ -207,4 +212,18 @@ export async function searchItems(term: string) {
   const searchTerm = `"%${term}%"`
   const query = `SELECT * FROM items WHERE content_html LIKE ${searchTerm} OR content_mercury LIKE ${searchTerm} OR excerpt LIKE ${searchTerm};`
   return doTransaction(query)
+}
+
+const rowsToArray = (rows: SQLite.SQLResultSetRowList) => {
+  if (rows.length === 0) {
+    return []
+  }
+  // if (rows._array)  {
+  //   rows = rows._array
+  // }
+  let items = []
+  for (let i=0; i<rows.length; i++) {
+    items.push(rows.item(i))
+  }
+  return items
 }

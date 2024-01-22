@@ -3,40 +3,41 @@
 }
 
 html {
-  font-size: calc(var(--device-width) * 0.07px);
+  --font-size: calc(var(--device-width) * 0.07px);
+  font-size: var(--font-size);
 }
 html.tablet {
-  font-size: calc(var(--device-width) * 0.04px);
+  --font-size: calc(var(--device-width) * 0.04px);
 }
 html.font-size-1 {
-  font-size: calc(var(--device-width) * 0.05px);
+  --font-size: calc(var(--device-width) * 0.05px);
 }
 html.font-size-1.tablet {
-  font-size: calc(var(--device-width) * 0.03px);
+  --font-size: calc(var(--device-width) * 0.03px);
 }
 html.font-size-2 {
-  font-size: calc(var(--device-width) * 0.06px);
+  --font-size: calc(var(--device-width) * 0.06px);
 }
 html.font-size-2.tablet {
-  font-size: calc(var(--device-width) * 0.035px);
+  --font-size: calc(var(--device-width) * 0.035px);
 }
 html.font-size-3 {
-  font-size: calc(var(--device-width) * 0.07px);
+  --font-size: calc(var(--device-width) * 0.07px);
 }
 html.font-size-3.tablet {
-  font-size: calc(var(--device-width) * 0.04px);
+  --font-size: calc(var(--device-width) * 0.04px);
 }
 html.font-size-4 {
-  font-size: calc(var(--device-width) * 0.08px);
+  --font-size: calc(var(--device-width) * 0.08px);
 }
 html.font-size-4.tablet {
-  font-size: calc(var(--device-width) * 0.045px);
+  --font-size: calc(var(--device-width) * 0.045px);
 }
 html.font-size-5 {
-  font-size: calc(var(--device-width) * 0.09px);
+  --font-size: calc(var(--device-width) * 0.09px);
 }
 html.font-size-5.tablet {
-  font-size: calc(var(--device-width) * 0.05px);
+  --font-size: calc(var(--device-width) * 0.05px);
 }
 
 body {
@@ -979,7 +980,7 @@ hr {
 .itemArticle:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: var(--feed-color);
 }
-.itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+body:not(.isWeb) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, body:not(.isWeb) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, body:not(.isWeb) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
   -webkit-text-stroke: 2px #444444;
 }

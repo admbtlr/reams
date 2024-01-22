@@ -1,7 +1,6 @@
 import React from 'react'
-import {Animated, Dimensions, Image, View } from 'react-native'
-import { VibrancyView } from '@react-native-community/blur'
-import Svg, {Text} from 'react-native-svg'
+import {Animated, Dimensions, Image, Platform, View } from 'react-native'
+import { BlurView } from 'expo-blur'
 import {
   Brightness,
   Contrast,
@@ -12,7 +11,6 @@ import {
 
 import { getStatusBarHeight } from '../utils'
 import { hslString } from '../utils/colors'
-import log from '../utils/log'
 
 class CoverImage extends React.Component {
   constructor (props) {
@@ -216,43 +214,50 @@ class CoverImage extends React.Component {
             opacity: 1
           }}
         >
-          <VibrancyView
+          <BlurView
             style={absolute}
-            blurType='light'
-            blurAmount={this.getImageSizeRatio() < 0.3 ? 10 : 2}
+            tint='light'
+            intensity={50}
           />
         </Animated.View>
       )
-      const adjusted = <Brightness
-        amount={brightness}
-        image={
-          <Saturate
-            amount={saturation}
-            image={
-              <Contrast
-                amount={contrast}
-                image={image} />
-            }
-          />
-        }
-      />
-      const blended = isMultiply ?
-        <MultiplyBlendColor
-          dstImage={adjusted}
-          srcColor={this.getColor()}
-        /> :
-        isScreen ?
-          <ScreenBlendColor
+
+      let finalImage
+
+      if (Platform.OS === 'web') {
+        finalImage = image
+      } else {
+        const adjusted = <Brightness
+          amount={brightness}
+          image={
+            <Saturate
+              amount={saturation}
+              image={
+                <Contrast
+                  amount={contrast}
+                  image={image} />
+              }
+            />
+          }
+        />
+        finalImage = isMultiply ?
+          <MultiplyBlendColor
             dstImage={adjusted}
             srcColor={this.getColor()}
           /> :
-          adjusted
+          isScreen ?
+            <ScreenBlendColor
+              dstImage={adjusted}
+              srcColor={this.getColor()}
+            /> :
+            adjusted
+      }
 
       return (
         <Animated.View
           style={style}
         >
-          { blended }
+          { image }
           { !isInline && this.getImageSizeRatio() < .5 && blur }
         </Animated.View>
       )

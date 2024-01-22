@@ -568,7 +568,7 @@ body {
     text-align: left;
   }
 
-  *:not(figcaption) > not(figcaption).caption:not(figcaption) {
+  *:not(figcaption) > *:not(figcaption).caption:not(figcaption) {
     display: block;
     margin: -0.666rem -4vw 1.666rem;
 
@@ -1081,7 +1081,30 @@ hr {
   }
 
   @include firstLineFontFamily("AvenirNext-Bold");
-  @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic")
+  @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic");
+
+  .android & {
+    font-family: "NunitoSans-Regular", serif;
+
+    em, i {
+      font-family: "NunitoSans-Italic", sans-serif;
+      font-style: normal;
+    }
+  
+    strong, b {
+      font-family: "NunitoSans-Bold", sans-serif;
+      font-weight: normal;
+    }
+  
+    strong em, em strong, b i, i b {
+      font-family: "NunitoSans-BoldItalic", sans-serif;
+      font-style: normal;
+      font-weight: normal;
+    }
+  
+    @include firstLineFontFamily("NunitoSans-Bold");
+    @include firstShortParaBold("NunitoSans-Bold", "NunitoSans-BoldItalic")  
+  }
 }
 
 .bodyFontSerif3 {
@@ -1438,11 +1461,10 @@ hr {
   body:not(.isWeb) &.dropCapIsStroke {
      & > p:not(.short-para):first-of-type,
       & > div:first-of-type > p:not(.short-para):first-of-type,
-      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type  {
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
       &:first-letter {
         color: transparent;
         -webkit-text-stroke: 2px #444444;
-        // text-stroke: 2px #444444;
       }
     }
   }
@@ -1453,7 +1475,6 @@ hr {
       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
       &:first-letter {
         -webkit-text-stroke-color: var(--feed-color);
-        // text-stroke-color: var(--feed-color);
       }
     }
   }
