@@ -8,9 +8,9 @@ $margin: 3vmin;
 html {
   // this is now my rem value
   // it's the body lineheight
-  font-size: calc(var(--device-width) * 0.07px);
+  --font-size: calc(var(--device-width) * 0.07px);
   &.tablet {
-    font-size: calc(var(--device-width) * 0.04px);
+    --font-size: calc(var(--device-width) * 0.04px);
   }
 
 
@@ -18,39 +18,41 @@ html {
   // transition: font-size 0.2s;
 
   &.font-size-1 {
-    font-size: calc(var(--device-width) * 0.05px);
+    --font-size: calc(var(--device-width) * 0.05px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.03px);
+      --font-size: calc(var(--device-width) * 0.03px);
     }
   }
 
   &.font-size-2 {
-    font-size: calc(var(--device-width) * 0.06px);
+    --font-size: calc(var(--device-width) * 0.06px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.035px);
+      --font-size: calc(var(--device-width) * 0.035px);
     }
   }
 
   &.font-size-3 {
-    font-size: calc(var(--device-width) * 0.07px);
+    --font-size: calc(var(--device-width) * 0.07px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.04px);
+      --font-size: calc(var(--device-width) * 0.04px);
     }
   }
 
   &.font-size-4 {
-    font-size: calc(var(--device-width) * 0.08px);
+    --font-size: calc(var(--device-width) * 0.08px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.045px);
+      --font-size: calc(var(--device-width) * 0.045px);
     }
   }
 
   &.font-size-5 {
-    font-size: calc(var(--device-width) * 0.09px);
+    --font-size: calc(var(--device-width) * 0.09px);
     &.tablet {
-      font-size: calc(var(--device-width) * 0.05px);
+      --font-size: calc(var(--device-width) * 0.05px);
     }
   }
+
+  font-size: var(--font-size);
 }
 
 body {
@@ -1267,7 +1269,7 @@ hr {
     }
   }
 
-  &.dropCapIsStroke {
+  body:not(.isWeb) &.dropCapIsStroke {
      & > p:not(.short-para):first-of-type,
       & > div:first-of-type > p:not(.short-para):first-of-type,
       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {

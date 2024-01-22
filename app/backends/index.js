@@ -164,7 +164,7 @@ export async function fetchFeeds () {
     feedsFeedbin = await feedbin.fetchFeeds()
   }
   const feedsAlready = await reams.fetchFeeds()
-  const feedsToAddToAlready = feedsFeedbin.filter(fb => !feedsAlready.find(fa => fa.feedbin_id === fb.id))
+  const feedsToAddToAlready = feedsFeedbin.filter(fb => !feedsAlready.find(fa => fa.feedbinId === fb.id))
   
   await reams.addFeeds(feedsToAddToAlready)
 

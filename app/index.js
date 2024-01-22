@@ -2,7 +2,6 @@ import './wdyr'
 import 'react-native-gesture-handler'
 import 'react-native-get-random-values'
 
-import { AppRegistry } from 'react-native'
 import {registerRootComponent} from 'expo'
 import Rizzle from './components/Rizzle'
 

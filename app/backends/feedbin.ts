@@ -1,9 +1,9 @@
 import {decode, encode} from 'base-64'
-import EncryptedStorage from 'react-native-encrypted-storage'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
 import Config from 'react-native-config'
 import { Feed } from '../store/feeds/types'
+import PasswordStorage from '../utils/password-storage'
 
 let credentials = {}
 
@@ -17,13 +17,13 @@ interface FeedbinFeed {
 
 export async function init ({ username, password }) {
   if (!password) {
-    password = await EncryptedStorage.getItem("feedbin_password")    
+    password = await PasswordStorage.getItem("feedbin_password")    
   }
   credentials = { username, password }
 }
 
 export const authenticate = (username, password) => {
-  let url = 'https://api.feedbin.com/v2/authentication.json'
+  let url = getUrl('https://api.feedbin.com/v2/authentication.json')
   const encoded = encode(`${username}:${password}`)
   return fetch(url, {
     headers: {
@@ -51,8 +51,13 @@ export const authenticate = (username, password) => {
 }
 
 function getUrl (endpoint) {
-  if (endpoint.startsWith('http')) return endpoint
-  return 'https://api.feedbin.com/v2/' + endpoint
+  let feedbinUrl
+  if (endpoint.startsWith('http')) {
+    feedbinUrl = endpoint
+  } else {
+    feedbinUrl = 'https://api.feedbin.com/v2/' + endpoint
+  }
+  return !!Config.CORS_PROXY ? `${Config.CORS_PROXY}?url=${feedbinUrl}` : feedbinUrl
 }
 
 function getFetchConfig () {
@@ -99,7 +104,7 @@ async function doRequest (url, options = {}, expectNoContent = false) {
 
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  const reqUrl = !!Config.CORS_PROXY ? Config.CORS_PROXY + encodeURIComponent(url) : url
+  const reqUrl = !!Config.CORS_PROXY ? Config.CORS_PROXY + '?url=' + encodeURIComponent(url) : url
   const response = await fetch(reqUrl, options)
   if (!response.ok) {
     const text = await response.text()
@@ -195,7 +200,7 @@ export async function markItemsRead (items) {
   const body = {
     unread_entries: items.map(i => i.id)
   }
-  let itemIds = await deleteRequest(endpoint, body)
+  let itemIds = await deleteRequest(endpoint, body, true)
 }
 
 export async function saveItem (item, folder) {
@@ -212,7 +217,7 @@ export async function unsaveItem (item, folder) {
   const body = {
     starred_entries: [item.id]
   }
-  let itemIds = await deleteRequest(endpoint, body)
+  let itemIds = await deleteRequest(endpoint, body, true)
   return itemIds[0] === item.id
 }
 
@@ -298,9 +303,9 @@ export async function updateCategory ({ id, name, feeds }) {
   // AAAARGH if the tag isn't on feedbin because the taggings have been deleted, we need to create it
   // but then the feedbin id will be different, so we'll need to update our local copy
 
-  let oldFeedIds = []
+  let oldFeedIds: number[] = []
   let newFeedIds = feeds.map(f => f.id)
-  let removedFeedIds = []
+  let removedFeedIds: number[] = []
   let taggingsForTag = []
 
   if (oldTag) {
@@ -337,7 +342,7 @@ export async function updateCategory ({ id, name, feeds }) {
 }
                
 export async function deleteCategory (category) {
-  await deleteRequest('tags.json', { "name": category.name })
+  await deleteRequest('tags.json', { "name": category.name }, true)
 }
 
 const mapFeedbinItemToRizzleItem = (item) => {
@@ -354,4 +359,3 @@ const mapFeedbinItemToRizzleItem = (item) => {
     }
   return mappedItem
 }
-

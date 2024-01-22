@@ -1,9 +1,9 @@
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import React from 'react'
-import { Dimensions, LayoutAnimation, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import EncryptedStorage from 'react-native-encrypted-storage'
+import { Dimensions, LayoutAnimation, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { sendEmailLink } from '../backends/reams'
+import PasswordStorage from '../utils/password-storage'
 import { authenticate } from '../backends'
 import { hslString } from '../utils/colors'
 import { fontSizeMultiplier, getMargin } from '../utils'
@@ -58,7 +58,12 @@ class AccountCredentialsForm extends React.Component {
 
   async authenticateUser ({username, password, email, token}, {setSubmitting, setErrors}) {
     const { service, setBackend, unsetBackend } = this.props
-    if (service === 'readwise') {
+    if (service === 'reams') {
+      email = email.trim()
+      this.props.setSignInEmail(email)
+      await sendEmailLink(email)
+      console.log(`email: ${email}`)
+    } else if (service === 'readwise') {
       setBackend('readwise', {
         accessToken: token
       })
@@ -75,7 +80,7 @@ class AccountCredentialsForm extends React.Component {
             accessToken: response.token
           })
         } else if (service === 'feedbin') {
-          await EncryptedStorage.setItem("feedbin_password", password)
+          await PasswordStorage.setItem("feedbin_password", password)
           setBackend('feedbin', {
             username
           })
@@ -224,18 +229,16 @@ class AccountCredentialsForm extends React.Component {
         }) => (
           <View style={{
             flex: 0,
-            height: 'auto',
+            height: Platform.OS === 'web' ? undefined : 'auto',
           }}>
             { isActive ?
               <View style={{
                 paddingTop: 16 * fontSizeMultiplier(),
-                // paddingLeft: 16 * fontSizeMultiplier(),
-                // paddingRight: 16 * fontSizeMultiplier(),
                 paddingBottom: 32 * fontSizeMultiplier(),
                 marginTop: 16 * fontSizeMultiplier(),
                 flex: 0,
                 flexDirection: 'column',
-                height: 'auto',
+                height: Platform.OS === 'web' ? undefined : 'auto',
                 alignItems: 'flex-start',
                 justifyContent: 'space-between'
               }}>
@@ -262,7 +265,7 @@ class AccountCredentialsForm extends React.Component {
                       color={hslString('white')}
                       onPress={async () => {
                         if (service === 'feedbin') {
-                          EncryptedStorage.removeItem("feedbin_password")
+                          PasswordStorage.removeItem("feedbin_password")
                         }
                         if (service === 'reams') {
                           await supabase.auth.signOut()

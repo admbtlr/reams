@@ -5,6 +5,7 @@ import {
   Dimensions,
   Easing,
   Image,
+  Platform,
   Text
 } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
@@ -87,7 +88,7 @@ export default function Splash () {
   return hasFaded ? null :
     <Animated.View
       onLayout={() => {
-        SplashScreen.hide()
+        if (Platform.OS !== 'web') SplashScreen.hide()
       }}
       style={{
         position: 'absolute',
@@ -111,8 +112,7 @@ export default function Splash () {
     >
       <Image
         onLoadEnd={() => {
-          console.log('onLoadEnd!')
-          SplashScreen.hide()
+          if (Platform.OS !== 'web') SplashScreen.hide()
         }}
         // resizeMode='contain'
         source={require('../assets/images/already.png')}

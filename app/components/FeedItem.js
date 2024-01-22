@@ -5,7 +5,8 @@ import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath, getMargin} from '../utils/'
 import { hslString } from '../utils/colors'
-import { inflateItem } from '../storage/sqlite'
+import { getItem as getItemSQLite } from "../storage/sqlite"
+import { getItem as getItemIDB } from "../storage/idb-storage"
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -193,7 +194,9 @@ class FeedItem extends React.Component {
   }
 
   async inflateItemAndSetState (item) {
-    const inflatedItem = await inflateItem(item)
+    const inflatedItem = Platform.OS === 'web' ?
+      await getItemIDB(item) :
+      await getItemSQLite(item)
     const that = this
     this.setState({
       inflatedItem: {

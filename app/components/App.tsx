@@ -18,6 +18,7 @@ import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
 import SettingsScreen from './SettingsScreen'
+import {default as MainWeb} from './web/Main'
 
 const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
@@ -234,6 +235,10 @@ const App = () => {
     })
   }, [])
 
+  if (Platform.OS === 'web') {
+    return <MainWeb />
+  }
+  
   return (
     <AppStack.Navigator
       initialRouteName='Main'

@@ -8,7 +8,7 @@ import quote from 'headline-quotes'
 import {hslString} from '../utils/colors'
 import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
-import * as Sentry from "@sentry/react-native"
+import * as Sentry from "sentry-expo"
 import CategoryToggles from './CategoryToggles'
 
 const entities = require('entities')

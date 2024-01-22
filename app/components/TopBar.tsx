@@ -3,13 +3,14 @@ import React, { Fragment, useEffect, useState } from 'react'
 import {
   Animated,
   Dimensions,
+  Platform,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
 import { CommonActions } from '@react-navigation/native'
 import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
-import LinearGradient from 'react-native-linear-gradient'
+// import LinearGradient from 'react-native-linear-gradient'
 import FeedIconContainer from '../containers/FeedIcon'
 import { id, hasNotchOrIsland, fontSizeMultiplier, getStatusBarHeight, isPortrait } from '../utils'
 import { hslString } from '../utils/colors'
@@ -18,7 +19,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { getItems, getIndex } from '../utils/get-item'
 import { Feed, FeedLocal } from '../store/feeds/types'
-import { inflateItem } from '../storage/sqlite'
+import { getItem as getItemSQLite } from "../storage/sqlite"
+import { getItem as getItemIDB } from "../storage/idb-storage"
 
 /* Props:
 - clampedAnimatedValue
@@ -77,7 +79,9 @@ export default function TopBar({
 
   useEffect(() => {
     const checkStyles = async () => {
-      const inflatedItem = await inflateItem(item)
+      const inflatedItem = Platform.OS === 'web' ?
+        await getItemIDB(item) :
+        await getItemSQLite(item)
       const isCoverInline = inflatedItem?.styles?.isCoverInline || false
       setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
     }
@@ -274,7 +278,8 @@ export default function TopBar({
                 </Text>
               </View>
             </Animated.View>
-            <Animated.View style={{
+            <Animated.View style={
+              Platform.OS === 'web' ? {
                 flex: 1,
                 flexDirection: 'column',
                 justifyContent: 'center',
@@ -286,17 +291,28 @@ export default function TopBar({
                 opacity: titleOpacity,
                 position: 'absolute',
                 width: '100%',
-              }}>
+              } :
+              {
+                marginTop: 10,
+                opacity: typeof scrollAnim !== 'number' && isVisible ? 
+                  scrollAnim.interpolate({
+                    inputRange: [0, 100, 140],
+                    outputRange: [0, 0, 1]
+                  }) : 0,
+                position: 'absolute',
+                width: '100%',
+              }
+            }>
                 <Text
                   style={{
                     ...getStyles().feedName,
                     fontSize: 12 * fontSizeMultiplier(),
-                    // lineHeight: 20 * fontSizeMultiplier(),
+                    lineHeight: Platform.OS === 'web' ? 18 * fontSizeMultiplier() : undefined,
                     fontFamily: filter ?
                       'IBMPlexSansCond-Bold' :
                       'IBMPlexSansCond',
                     color: getForegroundColor(),
-                    opacity: titleOpacity === 0 ? 0 : 1,
+                    opacity: Platform.OS !== 'web' && titleOpacity === 0 ? 0 : 1,
                     textAlign: 'center',
                     textDecorationLine: 'underline'
                   }}
@@ -313,7 +329,7 @@ export default function TopBar({
                       'IBMPlexSansCond-Bold',
                     // color: this.getBorderBottomColor(item)
                     color: getForegroundColor(),
-                    opacity: titleOpacity === 0 ? 0 : 1,
+                    opacity: Platform.OS !== 'web' && titleOpacity === 0 ? 0 : 1,
                     // height: 36,
                     // paddingBottom: 15,
                     hyphens: 'auto',
@@ -431,4 +447,3 @@ const BackButton = ({ color, isDarkMode, isSaved , navigation: { navigate } }: B
 
 export const getTopBarHeight = () => getStatusBarHeight()// +
   // (hasNotchOrIsland() ? 44 : 22)
-

@@ -6,7 +6,6 @@ import {
   Platform,
   Text,
   TouchableOpacity,
-  UIManager,
   View
 } from 'react-native'
 import {hslString} from '../utils/colors'
@@ -25,14 +24,16 @@ class TextButton extends React.Component {
     this.expand = this.expand.bind(this)
   }
 
-  // componentDidUpdate (prevProps, prevState) {
-  //   if (this.props.isExpanded !== this.state.isExpanded &&
-  //     this.state.isExpanded === prevState.isExpanded) {
-  //     this.setState({
-  //       isExpanded: this.props.isExpanded
-  //     })
-  //   }
-  // }
+  componentDidUpdate (prevProps, prevState) {
+    if (Platform.OS === 'web') {
+      if (this.props.isExpanded !== this.state.isExpanded &&
+        this.state.isExpanded === prevState.isExpanded) {
+        this.setState({
+          isExpanded: this.props.isExpanded
+        })
+      }
+    }
+  }
 
   expand () {
     const { isGroup, text } = this.props
@@ -74,6 +75,7 @@ class TextButton extends React.Component {
       noResize,
       onExpand,
       onPress,
+      showMaxHeight,
       testID,
       text
     } = this.props
@@ -94,9 +96,9 @@ class TextButton extends React.Component {
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
       justifyContent: 'flex-start',
-      // flex: -1,
+      // flex: 1,
       height,
-      maxHeight: 42 * fontSizeMultiplier(),
+      maxHeight: showMaxHeight ? height : 'auto',
       maxWidth: 700,
       width: '100%',
       ...this.props.buttonStyle,

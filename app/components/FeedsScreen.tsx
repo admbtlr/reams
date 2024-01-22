@@ -73,13 +73,13 @@ const normaliseTitle = (title: string) => title.slice(0, 4).toUpperCase() === 'T
 
 function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
 
-  useEffect(() => {
-    const search = async () => { 
-      const items = await searchItems('fascism') 
-      // console.log(items)
-    }
-    search()
-  }, [])
+  // useEffect(() => {
+  //   const search = async () => { 
+  //     const items = await searchItems('fascism') 
+  //     console.log(items)
+  //   }
+  //   search()
+  // }, [])
 
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
   const [modal, setModal] = useState<{ feed: Feed, position: number } | null>(null)

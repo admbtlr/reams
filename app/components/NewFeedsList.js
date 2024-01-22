@@ -4,7 +4,7 @@ import {
   Animated,
   Dimensions,
   Image,
-  ScrollView,
+  Platform,
   StatusBar,
   Text,
   TouchableOpacity,
@@ -22,7 +22,6 @@ import { textInfoBoldStyle } from '../utils/styles'
 import { rgba } from 'react-native-image-filter-kit'
 import { useModal } from './ModalProvider'
 import { findFeeds } from '../backends/reams'
-// import {culture} from '../utils/feeds/culture'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
@@ -196,7 +195,7 @@ export default function NewFeedsList (props) {
         fill-rule="nonzero" />
     </Svg>
 
-  const screenWidth = Dimensions.get('window').width
+  const screenWidth = Platform.OS === 'web' ? 600 : Dimensions.get('window').width
   const collapsedHeaderHeight = getMargin() + 32 * fontSizeMultiplier() // allow space for the TextButton
 
 

@@ -5,7 +5,7 @@ import TextButton from './TextButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { HIDE_ALL_BUTTONS, HIDE_LOADING_ANIMATION } from '../store/ui/types'
 import { TOGGLE_ONBOARDING } from '../store/config/types'
-import LinearGradient from 'react-native-linear-gradient'
+import { LinearGradient } from 'expo-linear-gradient'
 import { fontSizeMultiplier, getMargin } from '../utils'
 import { textInfoStyle, textInputStyle } from '../utils/styles'
 import { supabase } from '../storage/supabase'
@@ -435,40 +435,37 @@ const Onboarding3 = ({ index }) => {
             textAlign: 'center',
             marginTop: 48 * fontSizeMultiplier(),
           }}>{inlineMessage}</Text> :
-          (
-          <>
-            <TextButton
-              isDisabled={!isEmailValid || isSubmitting}
-              buttonStylea={{
-                opacity: isEmailValid ? 1 : 0.5
-              }}
-              onPress={() => {
-                setIsSubmitting(true)
-                sendMagicLink(email)
-              }}
-              text='Send me a link'
-            />
-            <Text style={{
-              ...textLargeStyle,
-              textAlign: 'center',
-              marginTop: 24 * fontSizeMultiplier(),
-              marginBottom: 24 * fontSizeMultiplier(),
-            }}>or</Text>
-            <AppleButton
-              buttonStyle={AppleButton.Style.BLACK}
-              buttonType={AppleButton.Type.SIGN_IN}
-              style={{
-                width: '100%',
-                height: 40 * fontSizeMultiplier(),
-                maxWidth: 700,
-                borderRadius: 20 * fontSizeMultiplier(),
-                alignSelf: 'center',
-              }}
-              onPress={() => onAppleButtonPress()}
-            />
-          </>)}
+          (<TextButton
+            isDisabled={!isEmailValid || isSubmitting}
+            buttonStylea={{
+              opacity: isEmailValid ? 1 : 0.5
+            }}
+            onPress={() => {
+              setIsSubmitting(true)
+              sendMagicLink(email)
+            }}
+            text='Send me a link'
+          />)
+        }
+        <Text style={{
+          ...textLargeStyle,
+          textAlign: 'center',
+          marginTop: 24 * fontSizeMultiplier(),
+          marginBottom: 24 * fontSizeMultiplier(),
+        }}>or</Text>
+        <AppleButton
+          buttonStyle={AppleButton.Style.BLACK}
+          buttonType={AppleButton.Type.SIGN_IN}
+          style={{
+            width: '100%',
+            height: 40 * fontSizeMultiplier(),
+            maxWidth: 700,
+            borderRadius: 20 * fontSizeMultiplier(),
+            alignSelf: 'center',
+          }}
+          onPress={() => onAppleButtonPress()}
+        />
       </View>
-
     </OnboardingPage>
   )
 }

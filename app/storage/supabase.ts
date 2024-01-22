@@ -7,12 +7,9 @@ import { Database } from './supabase.types'
 import { Feed } from '../store/feeds/types'
 import { getFeedMeta } from '../backends/reams'
 import { id as createId} from '../utils'
-import { user } from '../store/user/user'
 
 const supabaseUrl = Config.SUPABASE_URL
 const supabaseAnonKey = Config.SUPABASE_ANON_KEY
-
-console.log('CONFIG', Config)
 
 export const supabase = createClient<Database>(supabaseUrl || '', supabaseAnonKey || '', {
   auth: {

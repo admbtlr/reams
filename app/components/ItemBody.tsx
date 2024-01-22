@@ -16,21 +16,21 @@ import { createAnnotation } from '../store/annotations/annotations'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
-    window.ReactNativeWebView.postMessage(getHeight())
+    window.ReactNativeWebView?.postMessage(getHeight())
 `
 
 const injectedJavaScript = `
-window.ReactNativeWebView.postMessage('loaded');
+window.ReactNativeWebView?.postMessage('loaded');
 window.setTimeout(() => {
   if (document.body && document.body.scrollHeight) {
     const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
-    window.ReactNativeWebView.postMessage('resize:' + height);
+    window.ReactNativeWebView?.postMessage('resize:' + height);
   }  
 }, 500);
 window.onload = () => {
   if (document.body && document.body.scrollHeight) {
     const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
-    window.ReactNativeWebView.postMessage('resize:' + height);
+    window.ReactNativeWebView?.postMessage('resize:' + height);
   }  
 };
 true;`
@@ -101,7 +101,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const highlightSelection = () => {
-    if (webView?.current) {
+    if (Platform.OS !== 'web' && webView?.current) {
       webView.current.injectJavaScript(`
         highlightSelection();
         true;
@@ -110,7 +110,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const deselectHighlight = () => {
-    if (webView?.current) {
+    if (Platform.OS !== 'web' && webView?.current) {
       webView.current.injectJavaScript(`
         deselectHighlight();
         true;

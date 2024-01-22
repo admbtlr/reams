@@ -1,3 +1,5 @@
+- properly add fonts to web
+  - https://medium.com/@lvs.sangeeth/how-to-integrate-custom-fonts-in-react-native-for-web-f1ecde43909f
 - look into ItemTitle problems with too long words and too long titles
 - "inflate feeds" - download feed icons instead
 - finish the add a feed manually feature
@@ -18,6 +20,7 @@
 - newsletters with fastmail (or gmail?)
   - https://jmap.io/crash-course.html#core-concept-result-references
 - how come some feeds don't have a feed_local and don't update?
+- remove all messages on init
 - handle being offline better (put checks into fetchItems etc.)
 - move message down when not in item screen
 - onboarding in dark mode
