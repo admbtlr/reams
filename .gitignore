@@ -72,8 +72,8 @@ ios/Reams.app.dSYM.zip
 *.jsbundle
 
 # Ruby / CocoaPods
-/ios/Pods/
-/vendor/bundle/
+ios/Pods/
+vendor/bundle/
 
 .expo/
 
