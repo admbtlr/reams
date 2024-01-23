@@ -37,7 +37,7 @@
     "expo-gl": "~12.2.0",
     "expo-linear-gradient": "^11.0.0",
     "expo-sqlite": "~11.0.0",
-    "expo-updates": "~0.15.6",
+    "expo-updates": "~0.24.8",
     "extract-text-webpack-plugin": "^2.1.0",
     "formik": "^2.2.9",
     "fuzzball": "^2.1.2",
