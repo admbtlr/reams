@@ -21,6 +21,7 @@ import { getItems, getIndex } from '../utils/get-item'
 import { Feed, FeedLocal } from '../store/feeds/types'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
+import { Saturate } from 'react-native-image-filter-kit'
 
 /* Props:
 - clampedAnimatedValue
@@ -230,6 +231,7 @@ export default function TopBar({
                     id={item.feed_id}
                     dimensions={feedLocal?.cachedIconDimensions}
                     bgColor={getBackgroundColor()}
+                    isBW={displayMode === ItemType.saved}
                   />
                 </View>
               }

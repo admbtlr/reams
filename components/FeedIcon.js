@@ -6,12 +6,14 @@ import {
   View
 } from 'react-native'
 import {fileExists, getCachedFeedIconPath} from '../utils/'
+import { Sepia } from 'react-native-image-filter-kit'
 
 function FeedIcon ({
   feed,
   dimensions,
   iconDimensions,
   hasCachedIcon,
+  isBW,
   isSmall,
   isSmaller
 }) {
@@ -42,7 +44,7 @@ function FeedIcon ({
   const width = isSmaller ? 18 : isSmall ? 24 : 32
   const height = isSmaller ? 18 : isSmall ? 24 : 32
   let dim = dimensions || iconDimensions
-  const image = feed ? <Image
+  let image = feed ? <Image
     width={width}
     height={height}
     // source={{ uri: Platform.OS === 'web' ? feed.favicon?.url : getCachedFeedIconPath(feed._id) }}
@@ -52,6 +54,11 @@ function FeedIcon ({
       height,
     }}
   /> : null
+  if (isBW) {
+    image = <Sepia
+      amount={1}
+      image={image} />
+  }
   return feed?.favicon?.url || (isCached && dim && dim.width > 0) ?
     <View style={{
       backgroundColor: feed ? feed.color : 'white',
