@@ -53,12 +53,17 @@ import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotati
 import { RootState } from 'store/reducers'
 import { UserState } from 'store/user/user'
 import { setItemTitleFontSize } from './update-item'
+import { Platform } from 'react-native'
 
 let downloadsFork: any
 
 function * init (action: any) {
   yield primeAllBackends()
-  downloadsFork = yield fork(startDownloads)
+
+  // see comment below about START_DOWNLOADS
+  if (Platform.OS === 'web') {
+    downloadsFork = yield fork(startDownloads)
+  }
 }
 
 function * startDownloads () {
@@ -97,10 +102,16 @@ function * initBackend (action: any) {
 }
 
 export function * initSagas () {
+  let rehydrated = false
+  let authenticated = false
+
   yield takeEvery(REHYDRATE, init)
   yield takeEvery(SET_BACKEND, initBackend)
   yield takeEvery(UNSET_BACKEND, killBackend)
   
+  // called by the AuthProvider
+  // on non-web, the AuthProvider is behind the PersistGate, so it will be called after rehydration
+  // on web, it's all up for grabs - I should investigate why I can't use PersistGate on web
   yield takeEvery(START_DOWNLOADS, startDownloads)
 
   yield takeEvery(ADD_FEED, subscribeToFeed)
