@@ -1,0 +1,19 @@
+diff --git a/node_modules/react-native-reanimated/Common/cpp/ReanimatedRuntime/ReanimatedHermesRuntime.h b/node_modules/react-native-reanimated/Common/cpp/ReanimatedRuntime/ReanimatedHermesRuntime.h
+index 4657038..3b9b7cb 100644
+--- a/node_modules/react-native-reanimated/Common/cpp/ReanimatedRuntime/ReanimatedHermesRuntime.h
++++ b/node_modules/react-native-reanimated/Common/cpp/ReanimatedRuntime/ReanimatedHermesRuntime.h
+@@ -27,12 +27,14 @@
+ #include <hermes/hermes.h>
+ #endif
+ 
++#if HERMES_ENABLE_DEBUGGER
+ #if REACT_NATIVE_MINOR_VERSION >= 73
+ #include <hermes/inspector-modern/chrome/Registration.h>
+ #else
+ #include <hermes/inspector/RuntimeAdapter.h>
+ #include <hermes/inspector/chrome/Registration.h>
+ #endif
++#endif // HERMES_ENABLE_DEBUGGER
+ 
+ namespace reanimated {
+ 
