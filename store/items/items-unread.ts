@@ -3,7 +3,6 @@ import {
   ConfigActionTypes 
 } from '../config/types'
 import {
-  SET_BACKEND,
   UNSET_BACKEND,
   UserActionTypes,
 } from '../user/types'

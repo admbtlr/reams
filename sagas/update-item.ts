@@ -34,23 +34,23 @@ export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize:
   }
 }
 
-export function * persistDecoration ({imageStuff, item, mercuryStuff}: {imageStuff: ImageStuff, item: Item, mercuryStuff: MercuryStuff}) {
-  const decorated = addMercuryStuffToItem(item, mercuryStuff)
-  item = {
-    ...item,
-    ...decorated
-  }
-  item = addCoverImageToItem(item, imageStuff)
-  item.hasCoverImage = !!item.coverImageFile
-  item = setShowCoverImage(item)
-  item = removeCachedCoverImageDuplicate(item)
-  if (Platform.OS === 'web') {
-    yield call(updateItemIDB, item)
-  } else {
-    yield call(updateItemSQLite, item)
-  }
-  yield put({ 
-    type: UPDATE_ITEM,
-    item: deflateItem(item)
-  })
-}
+// export function * persistDecoration ({imageStuff, item, mercuryStuff}: {imageStuff: ImageStuff, item: Item, mercuryStuff: MercuryStuff}) {
+//   const decorated = addMercuryStuffToItem(item, mercuryStuff)
+//   item = {
+//     ...item,
+//     ...decorated
+//   }
+//   item = addCoverImageToItem(item, imageStuff)
+//   item.hasCoverImage = !!item.coverImageFile
+//   item = setShowCoverImage(item)
+//   item = removeCachedCoverImageDuplicate(item)
+//   if (Platform.OS === 'web') {
+//     yield call(updateItemIDB, item)
+//   } else {
+//     yield call(updateItemSQLite, item)
+//   }
+//   yield put({ 
+//     type: UPDATE_ITEM,
+//     item: deflateItem(item)
+//   })
+// }

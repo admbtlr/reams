@@ -1,5 +1,4 @@
 import {
-  SET_BACKEND,
   UNSET_BACKEND,
   UserActionTypes 
 } from '../user/types'
