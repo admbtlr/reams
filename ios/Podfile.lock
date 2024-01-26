@@ -24,7 +24,7 @@ PODS:
     - ReactCommon/turbomodule/core
   - ExpoKeepAwake (11.0.1):
     - ExpoModulesCore
-  - ExpoLinearGradient (11.4.0):
+  - ExpoLinearGradient (12.7.1):
     - ExpoModulesCore
   - ExpoModulesCore (1.1.1):
     - React-Core
@@ -373,7 +373,7 @@ PODS:
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-webview (11.23.1):
+  - react-native-webview (13.6.4):
     - React-Core
   - React-perflogger (0.70.5)
   - React-RCTActionSheet (0.70.5):
@@ -801,7 +801,7 @@ SPEC CHECKSUMS:
   Expo: 5f4240506a147162542178989696e56e3dd72924
   ExpoGL: 5cc4c55cb83a9620c08ba6d797cb0ec812038e62
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
-  ExpoLinearGradient: 1a3af07c6dab3c612967a294836df9ae717431df
+  ExpoLinearGradient: d10226652f849e675528883aa45afd2358c2f92f
   ExpoModulesCore: 485dff3a59b036a33b6050c0a5aea3cf1037fdd1
   EXSQLite: 13c91c389b3c6241ddcf5c47eaa43289721193fe
   FBLazyVector: affa4ba1bfdaac110a789192f4d452b053a86624
@@ -849,7 +849,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: fefd4e98d75cbdd6e85fc530f7111a8afdf2b0c5
   react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-webview: d33e2db8925d090871ffeb232dfa50cb3a727581
+  react-native-webview: 4499e4e44aaf38c79f07da3c421a3b5c9055cb4f
   React-perflogger: e68d3795cf5d247a0379735cbac7309adf2fb931
   React-RCTActionSheet: 05452c3b281edb27850253db13ecd4c5a65bc247
   React-RCTAnimation: 578eebac706428e68466118e84aeacf3a282b4da
