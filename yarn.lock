@@ -8341,10 +8341,10 @@ expo-keep-awake@~11.0.1:
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-11.0.1.tgz#ee354465892a94040ffe09901b85b469e7d54fb3"
   integrity sha512-44ZjgLE4lnce2d40Pv8xsjMVc6R5GvgHOwZfkLYtGmgYG9TYrEJeEj5UfSeweXPL3pBFhXKfFU8xpGYMaHdP0A==
 
-expo-linear-gradient@^11.0.0:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-11.4.0.tgz#20ecad4d11e66e35b31600e5389ec9c4067f7312"
-  integrity sha512-qtIfsLs7NOpfxYrFSJL5uLtNHIkBHQFuQ3f7++XpoJTSm4eQVFxjjkCGWiLIrkpVjKzmgp3DLuIVsadsGX21lA==
+expo-linear-gradient@^12.7.1:
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-12.7.1.tgz#bd4f29826bcf8009efce1cad7752baa1bb892896"
+  integrity sha512-2obkeC1hyOlljCpTbO3xS4WkEEYA9UtgDO486H+8wYYl1qf6C05d+LgWEVMD7B7CKI3xG/g5chPr9T0BLMSY4w==
 
 expo-manifests@~0.13.0:
   version "0.13.2"
@@ -15752,10 +15752,10 @@ react-native-webp-format@^1.2.0:
   resolved "https://registry.yarnpkg.com/react-native-webp-format/-/react-native-webp-format-1.2.0.tgz#6c7cbed4cdc8247711c7d7f656d0d4f739836c82"
   integrity sha512-tUL/AbM6QwUsxsGutJ1bN4RW8JdD2w5Mpj+An4DvYKkm0bKHbODj7U7gI1+8X68GqJWOy+Ps2cbVmgNpSDfRPQ==
 
-react-native-webview@11.23.1:
-  version "11.23.1"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.23.1.tgz#6a4bf2620e491dd4fecf4e6dc079005117fae12c"
-  integrity sha512-bmqsdg4RYOUYD37R9XTrQALm7eD62KbLNPRfgvpLGd1SjaurvAjjsLrLN4mt6yOtKOMKeZvlcAl3x6De6cCQsA==
+react-native-webview@13.6.4:
+  version "13.6.4"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.6.4.tgz#6ef66db9dd78b2a2ae1b4fe79e1e3597aa29186e"
+  integrity sha512-AdgmaMBHPcyERTvng9eSGgHX6AleyUlSusWAxngSOSdiYGgHW81T6C5A8j/ImJAF9oZg0bQDxp43Hu56tzENZQ==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
