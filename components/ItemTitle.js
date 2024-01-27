@@ -200,8 +200,10 @@ class ItemTitle extends React.Component {
 
   getInnerWidth (fontSize, isItalic) {
     return this.screenWidth * this.getWidthPercentage() / 100 -
-      this.getInnerHorizontalPadding(fontSize) * 2 -
-      this.getInnerHorizontalMargin(fontSize) * 2 -
+      getMargin() * 2 -
+      (this.props.styles.bg ? getMargin() : 0) -
+      // this.getInnerHorizontalPadding(fontSize) * 2 -
+      // this.getInnerHorizontalMargin(fontSize) * 2 -
       (isItalic ? fontSize * 0.1 : 0)
   }
 
@@ -244,8 +246,9 @@ class ItemTitle extends React.Component {
         }
       }
       return null
-    }).then(maxSize => (maxSize > limit) ? limit : maxSize)
-      .catch(e => {
+    }).then(maxSize => {
+      return (maxSize > limit) ? limit : maxSize
+    }).catch(e => {
         debugger
         console.log(e)
       })
@@ -517,7 +520,7 @@ class ItemTitle extends React.Component {
 
     // https://github.com/facebook/react-native/issues/7687
     // (9 is a heuristic value)
-    const extraPadding = fontSize / 9
+    const extraPadding = Math.round(fontSize / 9)
     paddingTop += extraPadding
     const marginTop = 0 - extraPadding
 
@@ -721,7 +724,7 @@ class ItemTitle extends React.Component {
                   ...fontStyle,
                   ...(wordStyles && wordStyles[index]),
                   ...invertedTitleStyle,
-                  height: lineHeight + paddingTop + paddingBottom
+                  height: lineHeight + paddingTop + paddingBottom,
                 }}
               >{word} </Text>
           </View>)
@@ -734,7 +737,8 @@ class ItemTitle extends React.Component {
                 ...fontStyle,
                 ...(wordStyles && wordStyles[index]),
                 ...shadowStyle,
-                height: lineHeight * 1.3
+                // not sure why I set this extra height, gonna try removing it 24/01/2024
+                // height: lineHeight * 1.3
               }}
             >{word} </Animated.Text>)
         }
