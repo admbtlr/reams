@@ -278,7 +278,11 @@ export async function removeCachedCoverImages (items) {
   items.forEach(async (item) => {
     let path = getCachedCoverImagePath(item)
     if (path) {
-      await FileSystem.deleteAsync(path)
+      try {
+        await FileSystem.deleteAsync(path)
+      } catch (err) {
+        console.log(err)
+      }
     }
   })  
 }
