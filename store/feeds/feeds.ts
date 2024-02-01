@@ -115,27 +115,29 @@ export function feeds (
       feed.number_read++
       feed.number_unread && feed.number_unread--
 
-      const getContentLength = (item: Item) => {
-        if (item.hasShownMercury) {
-          return item.content_mercury ? item.content_mercury.length : 0
-        } else if (item.content_html) {
-          return item.content_html.length
-        } else {
-          return 1
+      // const getContentLength = (item: Item) => {
+      //   if (item.hasShownMercury) {
+      //     return item.content_mercury ? item.content_mercury.length : 0
+      //   } else if (item.content_html) {
+      //     return item.content_html.length
+      //   } else {
+      //     return 1
+      //   }
+      // }
+
+      if (action.item.content_length !== undefined) {
+        const readingRate = action.readingTime / action.item.content_length
+        feed.reading_rate = (feed.reading_rate && !Number.isNaN(feed.reading_rate)) ?
+          feed.reading_rate :
+          0
+        feed.reading_rate = (feed.reading_rate * (feed.number_read - 1) + readingRate) / feed.number_read
+        feed.reading_rate = Number.parseFloat(feed.reading_rate.toFixed(4))
+
+        if (feed.reading_rate === null || Number.isNaN(feed.reading_rate)) {
+          debugger
         }
       }
-
-      const readingRate = action.readingTime / getContentLength(action.item)
-      feed.reading_rate = (feed.reading_rate && feed.reading_rate !== NaN) ?
-        feed.reading_rate :
-        0
-      feed.reading_rate = (feed.reading_rate * (feed.number_read - 1) + readingRate) / feed.number_read
-      feed.reading_rate = Number.parseFloat(feed.reading_rate.toFixed(4))
-
-      if (feed.reading_rate === null || feed.reading_rate === NaN) {
-        debugger
-      }
-
+      
       return {
         ...state,
         feeds
@@ -199,7 +201,7 @@ export function feeds (
     case UNMUTE_FEED:
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.id ?
+        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
           {
             ...feed,
             isMuted: false

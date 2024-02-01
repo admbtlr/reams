@@ -91,5 +91,6 @@ export default function makeRootReducer (): Reducer<RootState> {
     }
   }
 
+  // @ts-ignore
   return reduceReducers(combinedReducers, crossSliceReducer)
 }

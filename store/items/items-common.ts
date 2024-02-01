@@ -6,7 +6,7 @@ import {
   markItemReadAction,
   markItemsReadAction,
   setScrollOffsetAction,
-  setTitleFontResizedAction,
+  // setTitleFontResizedAction,
   setTitleFontSizeAction,
   toggleMercuryViewAction
 } from './types'
@@ -141,11 +141,11 @@ export function itemDecorationFailure (
     if (item._id === action.item._id) {
       item.decoration_failures = item.decoration_failures || 0
       item.decoration_failures++
-      if (item.decoration_failures > 4 && !item.content_html) {
-        item.content_html = '<p>This story could not be loaded 😞</p><p>'
-          + item.url + '</p>' +
-          (action.mercuryStuff?.message ? ('<p>' + action.mercuryStuff.message + '</p>') : '')
-      }
+      // if (item.decoration_failures > 4 && !item.content_html) {
+      //   item.content_html = '<p>This story could not be loaded 😞</p><p>'
+      //     + item.url + '</p>' +
+      //     (action.mercuryStuff?.message ? ('<p>' + action.mercuryStuff.message + '</p>') : '')
+      // }
     }
     return item
   })
@@ -162,12 +162,12 @@ export function updateCurrentItemTitleFontSize (
   let stateChanged = false
   const newItems = state.items.map(item => {
     if (item._id === action.item._id) {
-      if (item.styles && item.styles.title.fontSize !== action.fontSize) {
-        item.styles.title.fontSize = action.fontSize
-        item.styles.title.lineHeight = action.fontSize
-        item.styles.title.fontResized = true
-        stateChanged = true
-      }
+      // if (item.styles && item.styles.title.fontSize !== action.fontSize) {
+      //   item.styles.title.fontSize = action.fontSize
+      //   item.styles.title.lineHeight = action.fontSize
+      //   item.styles.title.fontResized = true
+      //   stateChanged = true
+      // }
     }
     return item
   })
@@ -179,21 +179,21 @@ export function updateCurrentItemTitleFontSize (
     state
 }
 
-export function updateCurrentItemTitleFontResized (
-  action: setTitleFontResizedAction, 
-  state: ItemsState
-) {
-  const newItems = state.items.map(item => {
-    if (item._id === action.item._id) {
-      item.styles.title.fontResized = true
-    }
-    return item
-  })
-  return {
-    ...state,
-    items: newItems
-  }
-}
+// export function updateCurrentItemTitleFontResized (
+//   action: setTitleFontResizedAction, 
+//   state: ItemsState
+// ) {
+//   const newItems = state.items.map(item => {
+//     if (item._id === action.item._id) {
+//       item.styles.title.fontResized = true
+//     }
+//     return item
+//   })
+//   return {
+//     ...state,
+//     items: newItems
+//   }
+// }
 
 // export function itemsFlate (
 //   action: flateItemsAction, 

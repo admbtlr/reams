@@ -17,7 +17,7 @@ async function openStore () {
 
 export async function getItems (keys: (string | {_id: string})[]): Promise<ItemInflated[] | undefined> {
   if (typeof keys[0] === 'object') {
-    keys = keys.map(item => item._id)
+    keys = keys.map(item => typeof item === 'object' ? item._id : item)
   }
   try {
     const db = await openStore()
@@ -34,7 +34,7 @@ export async function getItem (item: Item): Promise<ItemInflated | undefined> {
   return items === undefined ? items : items[0]
 }
     
-export async function setItem (item) {
+export async function setItem (item: Item) {
 
 }
 
@@ -80,7 +80,7 @@ export async function deleteItems (items: Item[]) {
   }
 }
 
-export async function clearItems (keys) {
+export async function clearItems (keys: string[]) {
   const db = await openStore()
   await db.clear('items')
 }

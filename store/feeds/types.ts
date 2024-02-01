@@ -159,9 +159,7 @@ interface removeCardCoverImageAction {
   id: string
 }
 
-export type FeedActionTypes = addFeedSuccessAction |
-  addFeedsSuccessAction |
-  addFeedsToStoreAction |
+export type FeedActionTypes = addFeedsToStoreAction |
   addFeedAction |
   addFeedsAction |
   removeFeedAction |

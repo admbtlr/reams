@@ -264,14 +264,15 @@ function * cacheFeedFavicons () {
 }
 
 function downloadFeedFavicon (feed: Feed) {
+  if (feed.favicon === undefined) return Promise.resolve(false)
   const host = feed.rootUrl.split('?')[0]
-  const path = feed.favicon?.path
-  let url = feed.favicon?.url ||
-    (path.startsWith('//') ?
-      `https:${path}` :
-      (host.endsWith('/')
-        ? host + feed.favicon?.path.substring(1)
-        : host + feed.favicon?.path))
+  // const path = feed.favicon?.path
+  let url = feed.favicon?.url //||
+    // (path.startsWith('//') ?
+    //   `https:${path}` :
+    //   (host.endsWith('/')
+    //     ? host + feed.favicon?.path.substring(1)
+    //     : host + feed.favicon?.path))
   console.log(url)
   const regEx = /.*\.([a-zA-Z]*)/.exec(url)
   let extension = regEx && regEx.length > 1 ? regEx[1] : ''

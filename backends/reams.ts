@@ -31,25 +31,25 @@ let isPlus = false
 export function init () {
 }
 
-export async function sendEmailLink (email) {
-  const url = 'https://app.rizzle.net/sign-in'
-  const actionCodeSettings = {
-    // Your redirect URL
-    url,
-    handleCodeInApp: true,
-    iOS: {
-      bundleId: 'com.adam-butler.rizzle',
-    }
-  }
+// export async function sendEmailLink (email: string) {
+//   const url = 'https://app.rizzle.net/sign-in'
+//   const actionCodeSettings = {
+//     // Your redirect URL
+//     url,
+//     handleCodeInApp: true,
+//     iOS: {
+//       bundleId: 'com.adam-butler.rizzle',
+//     }
+//   }
 
-  // send email...
-  try {
-    auth().sendSignInLinkToEmail(email, actionCodeSettings)
-  } catch (e) {
-    console.log(e)
-  }
+//   // send email...
+//   try {
+//     auth().sendSignInLinkToEmail(email, actionCodeSettings)
+//   } catch (e) {
+//     console.log(e)
+//   }
 
-}
+// }
 
 // callback, type, lastUpdated, oldItems, feeds, maxNum
 export async function fetchItems (
@@ -70,7 +70,7 @@ export async function fetchItems (
       // unreadItemArrays = extractErroredFeeds(unreadItemArrays)
       // let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
       let newItems: Item[] = await fetchUnreadItemsBatched(feeds, lastUpdated)
-      newItems = newItems.map(item => ({
+      newItems = newItems.map((item: Item) => ({
         ...item,
         _id: id(item.url)
       }))
@@ -84,53 +84,53 @@ export async function fetchItems (
   return true
 }
 
-function extractErroredFeeds (unreadItemsArrays) {
-  let errored = unreadItemsArrays.filter(uia => uia.message)
-  errored.forEach(({feed, message}) => {
-    console.log(`${feed.title} has errored: ${message}`)
-  })
-  return unreadItemsArrays.filter(uia => uia.length)
-}
+// function extractErroredFeeds (unreadItemsArrays) {
+//   let errored = unreadItemsArrays.filter(uia => uia.message)
+//   errored.forEach(({feed, message}) => {
+//     console.log(`${feed.title} has errored: ${message}`)
+//   })
+//   return unreadItemsArrays.filter(uia => uia.length)
+// }
 
-const fetchUnreadItems = (feeds: { url : string, isNew?: boolean }[], lastUpdated: number) => {
-  const promises = feeds.filter(feed => !!feed).map(feed => {
-    const url = `${Config.API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
-    // const url = `http://localhost:8080/feed/?url=${feed.url}`
-    return fetch(url).then(response => {
-      return { response, feed }
-    }).then(({response, feed}) => {
-        if (!response.ok) {
-          throw {
-            feed,
-            message: response.statusText
-          }
-        }
-        return response.json().then(json => {
-          return { json, feed }
-        })
-    }).then(({json, feed}) => json.map(mapRizzleServerItemToRizzleItem).map((item: Item) => {
-      return {
-        ...item,
-        feed_title: feed.title,
-        feed_id: feed._id,
-        feed_color: feed.color
-      }
-    })).catch(({feed, message}) => {
-      return {feed, message}
-    })
-  })
-  return Promise.all(promises)
-}
+// const fetchUnreadItems = (feeds: { url : string, isNew?: boolean }[], lastUpdated: number) => {
+//   const promises = feeds.filter(feed => !!feed).map(feed => {
+//     const url = `${Config.API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
+//     // const url = `http://localhost:8080/feed/?url=${feed.url}`
+//     return fetch(url).then(response => {
+//       return { response, feed }
+//     }).then(({response, feed}) => {
+//         if (!response.ok) {
+//           throw {
+//             feed,
+//             message: response.statusText
+//           }
+//         }
+//         return response.json().then(json => {
+//           return { json, feed }
+//         })
+//     }).then(({json, feed}) => json.map(mapRizzleServerItemToRizzleItem).map((item: Item) => {
+//       return {
+//         ...item,
+//         feed_title: feed.title,
+//         feed_id: feed._id,
+//         feed_color: feed.color
+//       }
+//     })).catch(({feed, message}) => {
+//       return {feed, message}
+//     })
+//   })
+//   return Promise.all(promises)
+// }
 
-const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
+const fetchUnreadItemsBatched = (feeds: Feed[], lastUpdated: number) => {
   let bodyFeeds = feeds.map(feed => ({
     url: feed.url,
     _id: feed._id,
-    lastUpdated: feed.isNew ? 0 : lastUpdated
+    lastUpdated//: feed.isNew ? 0 : lastUpdated
   }))
   // chunk into 10 at a time and do a Promise.all
   // to avoid body size restriction on server
-  let chunked = bodyFeeds.reduce((acc, val, index) => {
+  let chunked = bodyFeeds.reduce((acc: any[], val, index) => {
     const key = Math.floor(index / 10)
     if (!acc[key]) {
       acc[key] = []
@@ -150,14 +150,14 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
   return Promise.all(promises)
     .then(chunkedItems => {
       return chunkedItems.reduce((items, chunk) => items.concat(chunk), [])
-        .filter(item => item.feed_id !== undefined) // just ignore errors
+        .filter((item: Item) => item.feed_id !== undefined) // just ignore errors
         .map(mapRizzleServerItemToRizzleItem)
-        .map(item => {
+        .map((item: Item) => {
           const feed = feeds.find(feed => feed._id === item.feed_id)
           return {
             ...item,
-            feed_title: feed.title,
-            feed_color: feed.color
+            feed_title: feed?.title,
+            feed_color: feed?.color
           }
         })
     })
@@ -166,34 +166,34 @@ const fetchUnreadItemsBatched = (feeds, lastUpdated) => {
     })
 }
 
-export async function markItemRead (item) {
-  if (isPlus) {
-    addReadItemFS(item)
-  }
-}
+// export async function markItemRead (item: Item) {
+//   if (isPlus) {
+//     addReadItemFS(item)
+//   }
+// }
 
 export async function markItemsRead (items: Item[]) {
   addReadItemsSupabase(items)
 }
 
-export const saveItem = (item, folder) => {
-  if (isPlus) {
-    return upsertSavedItemFS(item)
-  }
-}
+// export const saveItem = (item: Item) => {
+//   if (isPlus) {
+//     return upsertSavedItemFS(item)
+//   }
+// }
 
-export const unsaveItem = (item, folder) => {
-  if (isPlus) {
-    return removeSavedItemFS(item)
-  }
-}
+// export const unsaveItem = (item, folder) => {
+//   if (isPlus) {
+//     return removeSavedItemFS(item)
+//   }
+// }
 
-export function saveExternalItem (item, folder) {
-  if (isPlus) {
-    return upsertSavedItemFS(item)
-  }
-  return item
-}
+// export function saveExternalItem (item, folder) {
+//   if (isPlus) {
+//     return upsertSavedItemFS(item)
+//   }
+//   return item
+// }
 
 export async function addFeed (feedToAdd: {url: string, id?: number}, userId?: string): Promise<Feed> {
   const feed = await addFeedSupabase(feedToAdd, userId)
@@ -205,11 +205,11 @@ export async function addFeeds (feeds: Feed[]) {
 }
 
 // actually this should never happen
-export async function updateFeed (feed: Feed) {
-  if (isPlus) {
-    upsertFeedsFS([feed])
-  }
-}
+// export async function updateFeed (feed: Feed) {
+//   if (isPlus) {
+//     upsertFeedsFS([feed])
+//   }
+// }
 
 export async function removeFeed (feed: Feed) {
   await removeUserFeedSupabase(feed)
@@ -227,9 +227,9 @@ export async function fetchFeeds () {
   }))
 }
 
-export const markFeedRead = (feed, olderThan, items) => {
-  return
-}
+// export const markFeedRead = (feed, olderThan, items) => {
+//   return
+// }
 
 interface FeedMeta {
   title: string
@@ -269,7 +269,7 @@ export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta> {
   })
 }
 
-export async function findFeeds (url: string): Promise<{ url: string, title: string }[]> {
+export async function findFeeds (url: string): Promise<{ url: string, title: string }[] | undefined> {
   try {
     const feedMeta = await getFeedMeta({ url })
     if (feedMeta && feedMeta.title) {
@@ -289,9 +289,9 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
     }
     const json = await response.json()
     if (json.length > 0 && json[0]?.url) {
-      return json.map(feed => ({
+      return json.map((feed: Feed) => ({
         ...feed,
-        color: convertColorIfNecessary(feed.color)
+        color: feed.color ? convertColorIfNecessary(feed.color) : undefined
       }))
     }
   } catch(e: any) {
@@ -307,7 +307,7 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
   }
 }
 
-const mapRizzleServerItemToRizzleItem = (item) => {
+const mapRizzleServerItemToRizzleItem = (item: any) => {
   let mappedItem = {
     id: item.guid,
     url: item.link,

@@ -17,6 +17,7 @@ export const createAnnotation = createAsyncThunk(
       const { data } = await supabase.auth.getSession()
       const { error } = await supabase.from('Annotation').insert({
         ...annotation,
+        created_at: pgTimestamp(),
         updated_at: pgTimestamp(),
         user_id: data?.session?.user?.id
       })

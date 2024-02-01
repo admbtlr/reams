@@ -287,10 +287,10 @@ export interface setTitleFontSizeAction {
   fontSize: number
 }
 
-export interface setTitleFontResizedAction {
-  type: typeof SET_TITLE_FONT_RESIZED
-  item: Item
-}
+// export interface setTitleFontResizedAction {
+//   type: typeof SET_TITLE_FONT_RESIZED
+//   item: Item
+// }
 
 export interface sortItems {
   type: typeof SORT_ITEMS
@@ -321,5 +321,5 @@ export type ItemActionTypes = setDisplayModeAction |
   addReadingTimeAction |
   setScrollOffsetAction |
   setTitleFontSizeAction |
-  setTitleFontResizedAction |
+  // setTitleFontResizedAction |
   sortItems

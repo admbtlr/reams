@@ -160,12 +160,9 @@ export type UIActionTypes = toggleViewButtonsAction |
   showViewButtonsAction |
   showItemButtonsAction |
   hideAllButtonsAction |
-  showModalAction |
-  hideModalAction |
   hideLoadingAnimationAction |
   showImageViewerAction |
   hideImageViewerAction |
-  toggleHideModalAction |
   fetchDataSuccessAction |
   setDarkModeAction |
   toggleDarkModeAction |

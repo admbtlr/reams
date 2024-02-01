@@ -13,36 +13,40 @@ function getBasicAuthHeader () {
   }
 }
 
-function getUrl (endpoint: String) {
+function getUrl (endpoint: string) {
   if (endpoint.startsWith('http')) return endpoint
   return 'https://readwise.io/api/v2/' + endpoint
 }
 
-function getRequest (endpoint: String) {
+function getRequest (endpoint: string) {
   return doRequest(getUrl(endpoint))
 }
 
-function postRequest (endpoint: String, body: String) {
+function postRequest (endpoint: string, body: string) {
   return doRequest(getUrl(endpoint), {
     method: 'POST',
     body
   })
 }
 
-function patchRequest (endpoint: String, body: String) {
+function patchRequest (endpoint: string, body: string) {
   return doRequest(getUrl(endpoint), {
     method: 'PATCH',
     body
   })
 }
 
-function deleteRequest (endpoint: String) {
+function deleteRequest (endpoint: string) {
   return doRequest(getUrl(endpoint), {
     method: 'DELETE'
   }, true)
 }
 
-async function doRequest (url: String, options: {headers?: {}} = {}, expectNoContent = false) {
+async function doRequest (url: string, options: {
+  headers?: { [key: string]: string },
+  method?: string,
+  body?: string
+} = {}, expectNoContent = false) {
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json'
   const response = await fetch(url, options)

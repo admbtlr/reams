@@ -1,6 +1,6 @@
 - properly add fonts to web
   - https://medium.com/@lvs.sangeeth/how-to-integrate-custom-fonts-in-react-native-for-web-f1ecde43909f
-- look into ItemTitle problems with too long words and too long titles
+- look into ItemTitle problems with ~~too long words~~ and too long titles
 - if currentitem is decorated and has a coverimage, the top bar goes transparent, but the image isn's shown
 - "inflate feeds" - download feed icons instead
 - finish the add a feed manually feature

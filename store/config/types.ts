@@ -29,7 +29,7 @@ export const START_DOWNLOADS = 'START_DOWNLOADS'
 export const REMOTE_ACTION_COMPLETED = 'REMOTE_ACTION_COMPLETED'
 export const REMOTE_ACTION_ERRORED = 'REMOTE_ACTION_ERRORED'
 
-interface updateOnboardingInxeAction {
+interface updateOnboardingIndexAction {
   type: typeof UPDATE_ONBOARDING_INDEX
   index: number
 }
@@ -92,7 +92,7 @@ interface updateMigrationVersionAction {
   version: number
 }
 
-export type ConfigActionTypes = updateOnboardingInxeAction |
+export type ConfigActionTypes = updateOnboardingIndexAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |
   feedOnboardingDoneAction |

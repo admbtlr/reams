@@ -24,7 +24,6 @@ import {
   REMOVE_ITEMS,
   SAVE_ITEM,
   SET_SCROLL_OFFSET,
-  SET_TITLE_FONT_RESIZED,
   SET_TITLE_FONT_SIZE,
   SET_LAST_UPDATED,
   SORT_ITEMS,
@@ -47,7 +46,7 @@ import {
   itemDecorationSuccess,
   itemDecorationFailure,
   updateCurrentItemTitleFontSize,
-  updateCurrentItemTitleFontResized
+  // updateCurrentItemTitleFontResized
 } from './items-common'
 import rizzleSort from '../../utils/rizzle-sort'
 
@@ -61,29 +60,9 @@ export const initialState:ItemsState = {
   lastUpdated: 0
 }
 
-// Rehydrated items are just:
- 
-//
-// Inflated items also have:
-// - content_mercury
-// - url
-// - hasCoverImage
-// - styles
-// - content_html
-// - coverImageUrl
-// - imageDimensions
-// - feed_title
-// - showCoverImage
-// - excerpt
-// - author
-//
-// The Mercury stuff will be held in AsyncStorage to save $$$
-// - content_mercury
-
-
 export function itemsUnread (
   state = initialState, 
-  action: ItemActionTypes | ConfigActionTypes | FeedActionTypes | UserActionTypes
+  action: any //ItemActionTypes | ConfigActionTypes | FeedActionTypes | UserActionTypes
 ) : ItemsState {
   let items: Item[] = []
   let newItems: Item[] = []
@@ -169,7 +148,7 @@ export function itemsUnread (
       }
 
       currentItem = items[state.index]
-      items = items.filter(item => action.prunedItems.find(pi => pi._id === item._id) === undefined)
+      items = items.filter(item => action.prunedItems.find((pi: Item) => pi._id === item._id) === undefined)
       if (currentItem && items.indexOf(currentItem) === -1) {
         items.unshift(currentItem)
         index = 0
@@ -196,20 +175,21 @@ export function itemsUnread (
         }
       } else return state
 
-    case ADD_READING_TIME:
-      let item = state.items?.find(item => item._id === action.item._id)
-      if (!item) return state
+    // TODO: this needs to go into the database
+    // case ADD_READING_TIME:
+    //   let item = state.items?.find(item => item._id === action.item._id)
+    //   if (!item) return state
 
-      item = { ...item }
-      if (item.readingTime) {
-        item.readingTime += action.readingTime
-      } else {
-        item.readingTime = action.readingTime
-      }
-      return {
-        ...state,
-        ...newState
-      }
+    //   item = { ...item }
+    //   if (item.readingTime) {
+    //     item.readingTime += action.readingTime
+    //   } else {
+    //     item.readingTime = action.readingTime
+    //   }
+    //   return {
+    //     ...state,
+    //     ...newState
+    //   }
 
     case MARK_ITEM_READ:
       return itemMarkRead(action, state)
@@ -274,9 +254,6 @@ export function itemsUnread (
 
     case SET_TITLE_FONT_SIZE:
       return updateCurrentItemTitleFontSize(action, state)
-
-    case SET_TITLE_FONT_RESIZED:
-      return updateCurrentItemTitleFontResized(action, state)
 
     default:
       return state

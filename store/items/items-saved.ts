@@ -11,7 +11,7 @@ import {
   SAVE_EXTERNAL_ITEM,
   SET_SCROLL_OFFSET,
   SET_LAST_UPDATED,
-  SET_TITLE_FONT_RESIZED,
+  // SET_TITLE_FONT_RESIZED,
   SET_TITLE_FONT_SIZE,
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
@@ -34,7 +34,7 @@ import {
   itemDecorationSuccess,
   itemDecorationFailure,
   updateCurrentItemTitleFontSize,
-  updateCurrentItemTitleFontResized
+  // updateCurrentItemTitleFontResized
 } from './items-common'
 import {
   addStylesIfNecessary,
@@ -52,7 +52,7 @@ export const selectItemsSaved = (state: RootState) => state.itemsSaved.items
 
 export function itemsSaved (
   state = initialState, 
-  action: ItemActionTypes | UserActionTypes
+  action: any //ItemActionTypes | UserActionTypes
 ) : ItemsState {
   let items: Item[] = []
   let newItems: Item[] = []
@@ -170,7 +170,7 @@ export function itemsSaved (
       currentItem = state.items[state.index]
       items = state.items
         .filter((item) => {
-          return action.items.find(ai => ai._id === item._id) === undefined
+          return action.items.find((ai: Item) => ai._id === item._id) === undefined
         })
         .map(item => item)
       if (items.indexOf(currentItem) === -1) {
@@ -220,7 +220,7 @@ export function itemsSaved (
       if (action.itemType !== ItemType.saved) return state
       items = [...state.items]
       currentItem = items[state.index]
-      newItems = action.items.map(item => ({
+      newItems = action.items.map((item: Item) => ({
         ...item,
         savedAt: item.savedAt || item.created_at || 0,
         isSaved: true
@@ -259,9 +259,9 @@ export function itemsSaved (
     case SET_TITLE_FONT_SIZE:
       return updateCurrentItemTitleFontSize(action, state)
 
-    case SET_TITLE_FONT_RESIZED:
-      if (action.item.title === 'Loading...') return state
-      return updateCurrentItemTitleFontResized(action, state)
+    // case SET_TITLE_FONT_RESIZED:
+    //   if (action.item.title === 'Loading...') return state
+    //   return updateCurrentItemTitleFontResized(action, state)
 
     default:
       return state

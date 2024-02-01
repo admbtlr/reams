@@ -65,8 +65,11 @@ export const migrations = {
   2: (state: RootState) => {
     // migration to change is_external to isExternal
     state.itemsSaved.items.forEach((item: Item) => {
+      // @ts-ignore
       if (item.is_external) {
+        // @ts-ignore
         item.isExternal = item.is_external
+        // @ts-ignore
         delete item.is_external
       }
     })
@@ -74,16 +77,19 @@ export const migrations = {
   },
   3: (state: RootState) => {
     // migration to add unique user id
+    // @ts-ignore
     state.config.userId = id()
     return state
   },
   4: (state: RootState) => {
     // migration to add readwise token
+    // @ts-ignore
     state.config.readwiseToken = null
     return state
   },
   5: (state: RootState) => {
     // oops
+    // @ts-ignore
     state.config.userId = id()
     return {
       ...state,
@@ -110,6 +116,7 @@ export const migrations = {
       ...state,
       user: {
         ...state.user,
+        // @ts-ignore
         analyticsId: state.config.userId
       },
       config: {
@@ -141,19 +148,25 @@ export const migrations = {
   9: (state: RootState) => {
     // move backends to user
     let backends: Backend[] = state.user.backends || []
+    // @ts-ignore
     if (state.config.backend === 'feedbin' && !!state.user.backends.find((b: Backend) => b.name === 'feedbin')) {
       backends.push({
         name: 'feedbin',
+        // @ts-ignore
         username: state.user.username
       })
     }
+    // @ts-ignore
     if (state.config.readwiseToken) {
       backends.push({
         name: 'readwise',
+        // @ts-ignore
         accessToken: state.config.readwiseToken
       })
     }
+    // @ts-ignore
     delete state.config.backend
+    // @ts-ignore
     delete state.config.readwiseToken
 
     return {
@@ -188,6 +201,7 @@ export const migrations = {
         items: state.itemsUnread.items.map((i: Item) => {
           return {
             ...i,
+            // @ts-ignore
             isDecorated: i.hasLoadedMercuryStuff
           }
         })
@@ -197,6 +211,7 @@ export const migrations = {
         items: state.itemsSaved.items.map((i: Item) => {
           return {
             ...i,
+            // @ts-ignore
             isDecorated: i.hasLoadedMercuryStuff
           }
         })
@@ -281,6 +296,7 @@ export const migrations = {
       return {
         ...f,
         id: undefined,
+        // @ts-ignore
         feedbinId: f.id
       }
     })

@@ -42,7 +42,8 @@ export interface UserState {
 const initialState = {
   userId: '',
   email: '',
-  analyticsId: id(),
+  // this ternary is because id isn't a function in the test environment
+  analyticsId: typeof id === 'function' ? id() : '',
   backends: []
 }
 

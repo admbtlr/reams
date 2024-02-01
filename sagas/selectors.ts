@@ -5,6 +5,7 @@ import {
   getItem as getItemUtils,
   getIndex as getIndexUtils
 } from '../utils/get-item'
+import { ItemType } from '../store/items/types'
 
 export function getItems (state: RootState, type: string) {
   return getItemsUtils(state, type)
@@ -55,19 +56,19 @@ export function getActiveItems (state: RootState) {
   return activeItems
 }
 
-export function getIndex (state, type) {
+export function getIndex (state: RootState, type: ItemType) {
   return getIndexUtils(state, type)
 }
 
-export function getFeeds (state) {
+export function getFeeds (state: RootState) {
   return state.feeds.feeds
 }
 
-export function getFeedsLocal (state) {
+export function getFeedsLocal (state: RootState) {
   return state.feedsLocal.feeds
 }
 
-export function getLastUpdated (state, type) {
+export function getLastUpdated (state: RootState, type: ItemType) {
   if (type === 'unread') {
     return state.itemsUnread.lastUpdated || 0
   } else {
@@ -75,19 +76,19 @@ export function getLastUpdated (state, type) {
   }
 }
 
-export function getRemoteActions (state) {
+export function getRemoteActions (state: RootState) {
   return state.remoteActionQueue.actions
 }
 
-export function getConfig (state) {
+export function getConfig (state: RootState) {
   return state.config
 }
 
-export function getFilter (state) {
+export function getFilter (state: RootState) {
   return state.config.filter
 }
 
-export function getCategories (state) {
+export function getCategories (state: RootState) {
   return state.categories.categories
 }
 
@@ -95,10 +96,10 @@ export function getUser<UserState> (state: RootState) {
   return state.user
 }
 
-export function isOnline (state) {
+export function isOnline (state: RootState) {
   return state.config.isOnline
 }
 
-export function getAnnotations (state) {
+export function getAnnotations (state: RootState) {
   return state.annotations.annotations
 }
