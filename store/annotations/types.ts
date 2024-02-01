@@ -3,8 +3,8 @@ export interface Annotation {
   text: string
   serialized: string
   url?: string | null
-  item_id?: string
-  note?: string
+  item_id?: string | null
+  note?: string | null
   created_at?: string
   remote_id?: string
 }

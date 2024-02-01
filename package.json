@@ -112,7 +112,8 @@
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/react-native": "^7.2.0",
-    "@types/jest": "^29.2.4",
+    "@types/base-64": "^1.0.2",
+    "@types/jest": "^29.5.11",
     "@types/react": "~18.0.24",
     "@types/react-native": "~0.70.6",
     "@types/react-test-renderer": "^18.0.0",
@@ -145,23 +146,9 @@
     "redux-flipper": "^2.0.2",
     "redux-mock-store": "^1.5.4",
     "sinon": "^7.3.2",
+    "ts-jest": "^29.1.2",
     "typesafe-actions": "^5.1.0",
     "typescript": "^4.9.4"
-  },
-  "jest": {
-    "globals": {
-      "__TEST__": true
-    },
-    "preset": "jest-expo",
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|@sentry|@tensorflow|gl-react-native|redux-persist-filesystem-storage|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
-    ],
-    "setupFiles": [
-      "./jest.setup.js"
-    ]
   },
   "detox": {
     "configurations": {

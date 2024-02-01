@@ -83,6 +83,7 @@ export function categories (
       let incoming = action.category
       if (incoming.feeds.length > 0 && typeof incoming.feeds[0] === 'object') {
         // we have a feed object, not just an id
+        //@ts-ignore
         incoming.feeds = incoming.feeds.map((f: Feed) => f._id)
       }
       categories = state.categories.map(c => c._id === incoming._id ?

@@ -19,7 +19,7 @@ import Config from 'react-native-config'
 
 let store = null
 let persistor = null
-let sagaMiddleware = null
+let sagaMiddleware: any = null
 
 function initStore (rehydrateCallback?: () => void) {
   sagaMiddleware = createSagaMiddleware({
@@ -30,6 +30,7 @@ function initStore (rehydrateCallback?: () => void) {
 
   const {width, height } = Dimensions.get('window')
 
+  // @ts-ignore
   const orientationTransform = createTransform(null, (state: ConfigState, key) => {
     const newState = {...state}
     newState.orientation = height > width ? 'portrait' : 'landscape'
@@ -49,6 +50,7 @@ function initStore (rehydrateCallback?: () => void) {
     timeout: 30000,
     transforms: [orientationTransform],
     blacklist: ['animatedValues'],
+    // @ts-ignore
     migrate: createMigrate(migrations, { debug: true }),
     version: 22
   }
@@ -62,6 +64,7 @@ function initStore (rehydrateCallback?: () => void) {
   if (Config.USE_STATE) {
     store = configureStore({
       reducer: makeRootReducer(),
+      // @ts-ignore
       state,
       middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware(middlewareConf).prepend(sagaMiddleware);
@@ -76,6 +79,7 @@ function initStore (rehydrateCallback?: () => void) {
         return middleware
       }
     })
+    // @ts-ignore
     persistor = persistStore(store, null, rehydrateCallback || onCompletion)
   }
 
@@ -85,7 +89,9 @@ function initStore (rehydrateCallback?: () => void) {
 
   sagaMiddleware.run(initSagas)
 
+  // @ts-ignore
   if (window.__DEV__) {
+    // @ts-ignore
     window.getState = store.getState
   }
 

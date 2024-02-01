@@ -115,7 +115,8 @@ export function config (
       }
 
     case DELETE_CATEGORY:
-      if (state.filter !== null && state.filter._id === action._id) {
+      //@ts-ignore
+      if (state.filter !== null && state.filter._id === action.category._id) {
         return {
           ...state,
           filter: null

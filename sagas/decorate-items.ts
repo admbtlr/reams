@@ -142,6 +142,7 @@ function * applyDecoration (decoration: Decoration) {
     isSaved,
     displayMode
   })
+  //@ts-ignore
   const items: Item[] = [ ...yield select(getItems, isSaved ? ItemType.saved : ItemType.unread) ]
 
   // this appears to have been replace by the call to persistDecoration above
@@ -193,6 +194,7 @@ function * prepareCoverImage (item: Item, mercuryStuff: MercuryStuff): Generator
       try {
         const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
         let faceCentreNormalised
+        //@ts-ignore
         if (Platform.OS !== 'web') {
           faceCentreNormalised = yield call(faceDetection, coverImageFile, imageDimensions)
         }
@@ -248,7 +250,7 @@ export async function cacheCoverImage (item: Item, imageURL: string) {
     return fileName
   } catch(err) {
     consoleLog(`Loading cover image for ${item._id} failed :(`)
-    consoleLog(err)
+    consoleLog(err as string)
     return false
   }
 }

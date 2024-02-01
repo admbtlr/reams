@@ -9,7 +9,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import DeviceInfo from 'react-native-device-info'
 import { Item } from '../store/items/types'
 import { hslString } from './colors'
-import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
+// import uuid from 'uuid'
+
+const uuid = require('uuid')
 
 let deviceId: string
 
@@ -67,7 +69,7 @@ export function diff (a: Item, b: Item, changes = {}) {
   return oneWayDiff(b, a, changes)
 }
 
-function oneWayDiff (a: Item, b: Item, changes: { [key: string]: any}) {
+function oneWayDiff (a: any, b: any, changes: { [key: string]: any}) {
   for (var key in a) {
     if (changes[key] !== undefined) continue
     if (key === 'item') {
@@ -211,9 +213,9 @@ export const getStatusBarHeight = () => 70 * fontSizeMultiplier() +
 
 export function id (item?: any) {
   if (item && typeof item === 'string' || item?.url) {
-    return uuidv5(item.url || item, uuidv5.URL)
+    return uuid.v5(item.url || item, uuid.v5.URL)
   } else {
-    return uuidv4()
+    return uuid.v4()
   }
 }
 
@@ -230,7 +232,7 @@ export function getFeedColor () {
   // return colorNames[randomIndex]
   
   // return [Math.round(Math.random() * 360), 20, 50]
-  return hslString('rizzleFG').replace('hsl(', '').replace(')', '').split(',').map(n => Number.parseInt(n.replace('%', '')))
+  return hslString('rizzleFG').replace('hsl(', '').replace(')', '').split(',').map((n: String) => Number.parseInt(n.replace('%', '')))
 }
 
 export function pgTimestamp (date: Date = new Date(Date.now())) {

@@ -32,13 +32,12 @@ interface createCategory {
 
 export interface deleteCategory {
   type: typeof DELETE_CATEGORY | typeof DELETE_CATEGORY_REMOTE
-  _id: string
+  category: Category
 }
 
 interface updateCategory {
   type: typeof UPDATE_CATEGORY | typeof UPDATE_CATEGORY_REMOTE
-  _id: string
-  name: string
+  category: Category
 }
 
 interface updateCategories {

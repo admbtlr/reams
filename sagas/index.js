@@ -50,14 +50,12 @@ import { getConfig } from './selectors'
 import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
 import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
 import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotations'
-import { RootState } from 'store/reducers'
-import { UserState } from 'store/user/user'
 import { setItemTitleFontSize } from './update-item'
 import { Platform } from 'react-native'
 
-let downloadsFork: any
+let downloadsFork
 
-function * init (action: any) {
+function * init (action) {
   yield primeAllBackends()
 
   // see comment below about START_DOWNLOADS
@@ -80,13 +78,13 @@ function * startDownloads () {
     yield call(decorateItems)
     yield call(executeRemoteActions)
     // yield call(inflateFeeds)    
-  } catch (e: any) {
+  } catch (e) {
     console.log(e)
     yield put({ type: CLEAR_MESSAGES })
   }
 }
 
-function * killBackend ({ backend }: { backend: string }) {
+function * killBackend ({ backend }) {
   unsetBackend(backend)
   yield put({ type: CLEAR_MESSAGES })
   if (!!downloadsFork) {
@@ -94,7 +92,7 @@ function * killBackend ({ backend }: { backend: string }) {
   }
 }
 
-function * initBackend (action: any) {
+function * initBackend (action) {
   yield primeBackend(action)
   if (action.backend === 'feedbin' || action.backend === 'reams') {
     yield startDownloads()

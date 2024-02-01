@@ -76,10 +76,10 @@ function * executeAction (action) {
         yield execute(markItemsRead, action)
         break
       case CREATE_CATEGORY_REMOTE:
-        yield execute(createCategory, action)
+        yield execute(createCategory, action.category)
         break  
       case DELETE_CATEGORY_REMOTE:
-        yield execute(deleteCategory, action)
+        yield execute(deleteCategory, action.category)
         break  
       case UPDATE_CATEGORY_REMOTE:
         const newCat = yield execute(updateCategory, action)
