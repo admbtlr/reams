@@ -178,10 +178,6 @@ class FeedItem extends React.Component {
 
   componentDidUpdate (prevProps) {
     const { isVisible, item, setScrollAnim } = this.props
-    console.log('componentDidUpdate', item.title)
-    console.log('isExternal', item.isExternal)
-    console.log('isDecorated', item.isDecorated)
-    console.log('prevProps.isDecorated', prevProps.item.isDecorated)
     this.initAnimatedValues(true)
     if (item.isExternal && item.isDecorated && !prevProps.item.isDecorated) {
       console.log('item.isExternal && item.isDecorated && !prevProps.item.isDecorated')
