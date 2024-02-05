@@ -50,7 +50,7 @@ export interface ConfigState {
 
 const {width, height } = Dimensions.get('window')
 
-export const initialState = {
+export const initialState: ConfigState = {
   isOnboarding: true,
   lastUpdated: 0,
   onboardingIndex: 0,
