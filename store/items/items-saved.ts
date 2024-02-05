@@ -70,8 +70,8 @@ export function itemsSaved (
 
     case INCREMENT_INDEX:
       index = state.index
-      if (action.displayMode === ItemType.unread && 
-        state.index < state.items.length - 1) {
+      if (action.displayMode === ItemType.saved && 
+        state.index < state.items.length) {
         index++
       }
       return {
@@ -81,7 +81,7 @@ export function itemsSaved (
 
     case DECREMENT_INDEX:
       index = state.index
-      if (action.displayMode === ItemType.unread && 
+      if (action.displayMode === ItemType.saved && 
         state.index > 0) {
         index--
       }
@@ -130,8 +130,6 @@ export function itemsSaved (
     case SAVE_EXTERNAL_ITEM:
       items = [ ...state.items ]
       savedItem = nullValuesToEmptyStrings(action.item)
-      savedItem = addStylesIfNecessary(savedItem)
-      savedItem.isSaved = true
       savedItem.savedAt = action.savedAt
       items.unshift(savedItem)
       return {

@@ -220,7 +220,7 @@ export function * receiveItems (items, type) {
   console.log(`ITEMS_BATCH_FETCHED (${type}) ${(Date.now() - now)}`)
 }
 
-function * cleanUpItems (items, type) {
+export function * cleanUpItems (items, type) {
   const fixCreatedAt = (item) => ({
     ...item,
     created_at: typeof item.created_at === 'number'

@@ -238,7 +238,8 @@ export function itemsUnread (
         items: state.items.map(item => item._id === action.item._id ?
           {
             ...item,
-            isSaved: false
+            isSaved: false,
+            savedAt: undefined
           } :
           item)
       }

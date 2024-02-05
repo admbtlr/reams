@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Appearance } from 'react-native'
 import { DarkModeSetting, SET_DARK_MODE } from '../store/ui/types'
 import { RootState } from '../store/reducers'
 
-export default function DarkModeListener ({children}) {
+export default function DarkModeListener ({children}: {children: React.ReactNode}) {
   const dispatch = useDispatch()
   const darkModeSetting = useSelector((state: RootState) => state.ui.darkModeSetting)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)

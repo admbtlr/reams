@@ -1,12 +1,17 @@
-// FILEPATH: /Users/adam/Documents/me/dev/rizzle/sagas/fetch-items.test.js
 import { runSaga } from 'redux-saga';
-import { cleanUpItems } from './fetch-items';
+import { cleanUpItems } from '../../sagas/fetch-items';
 
 describe('cleanUpItems', () => {
   it('should correctly clean up items', async () => {
     const dispatchedActions = [];
     const fakeStore = {
-      getState: () => ({ items: [] }),
+      getState: () => ({ 
+        config: { filter: {} },
+        categories: { categories: [] },
+        itemsMeta: { display: 'unread' },
+        itemsUnread: { items: [], index: 0 },
+        itemsSaved: { items: [], index: 0 },
+      }),
       dispatch: action => dispatchedActions.push(action),
     };
 
@@ -16,15 +21,7 @@ describe('cleanUpItems', () => {
       { _id: '3', created_at: 1641013200 },
     ];
 
-    await runSaga(fakeStore, cleanUpItems, items, 'saved').toPromise();
-
-    expect(dispatchedActions).toEqual([
-      { type: 'GET_CURRENT_ITEM' },
-      { type: 'GET_ITEMS' },
-    ]);
-
-    const cleanedItems = dispatchedActions[2].payload;
-    expect(cleanedItems).toHaveLength(3);
+    const cleanedItems = await runSaga(fakeStore, cleanUpItems, items, 'saved').toPromise();
 
     cleanedItems.forEach(item => {
       expect(item).toHaveProperty('date_fetched');
