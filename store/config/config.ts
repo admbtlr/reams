@@ -51,18 +51,19 @@ export interface ConfigState {
 const {width, height } = Dimensions.get('window')
 
 export const initialState: ConfigState = {
-  isOnboarding: true,
-  lastUpdated: 0,
-  onboardingIndex: 0,
-  onboardingLength: 13,
   filter: null,
-  isOnline: false,
-  orientation: height > width ? 'portrait' : 'landscape',
-  itemSort: Direction.desc,
-  showNumUnread: true,
   isItemsOnboardingDone: true,
   isFeedOnboardingDone: false,
-  lastActivated: 0
+  isOnboarding: true,
+  isOnline: false,
+  itemSort: Direction.desc,
+  lastActivated: 0,
+  lastUpdated: 0,
+  migrationVersion: 2,
+  onboardingIndex: 0,
+  onboardingLength: 13,
+  orientation: height > width ? 'portrait' : 'landscape',
+  showNumUnread: true,
 }
 
 let extras
