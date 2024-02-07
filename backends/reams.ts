@@ -57,7 +57,7 @@ export async function fetchItems (
   type: string, 
   lastUpdated: number, 
   oldItems: Item[], 
-  feeds: Feed[], 
+  feeds: FeedWithIsNew[], 
   maxNum: number) {
   if (type === 'saved' && isPlus) {
     let savedItems = await getSavedItemsFS()
@@ -122,11 +122,15 @@ export async function fetchItems (
 //   return Promise.all(promises)
 // }
 
-const fetchUnreadItemsBatched = (feeds: Feed[], lastUpdated: number) => {
+interface FeedWithIsNew extends Feed {
+  isNew?: boolean
+}
+
+const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) => {
   let bodyFeeds = feeds.map(feed => ({
     url: feed.url,
     _id: feed._id,
-    lastUpdated//: feed.isNew ? 0 : lastUpdated
+    lastUpdated: feed.isNew ? 0 : lastUpdated
   }))
   // chunk into 10 at a time and do a Promise.all
   // to avoid body size restriction on server
