@@ -32,7 +32,7 @@ export default function rizzleSort (items, feeds, sortDirection) {
   notLiked.sort(sortFunction)
   return liked.concat(notLiked)
   // return items.map(item => {
-  //   const readingRate = feeds.find(f => f._id === item.feed_id).reading_rate
+  //   const readingRate = feeds.find(f => f._id === item.feed_id).readingRate
   //   const sorter = 1 / ((now - item.created_at) / 10000)
   //   return {
   //     ...item,
@@ -42,15 +42,15 @@ export default function rizzleSort (items, feeds, sortDirection) {
 
 // another possible algorithm here would be
 // sort the items by date
-// then sort each by day by feed reading_rate
+// then sort each by day by feed readingRate
   // const sorted = items.sort((a, b) => {
   //   const aDate = new Date(a.created_at)
   //   const bDate = new Date(b.created_at)
   //   if (aDate.getFullYear() === bDate.getFullYear() &&
   //     aDate.getMonth() === bDate.getMonth() &&
   //     aDate.getDate() === bDate.getDate()) {
-  //     return (feeds.find(f => f._id === b.feed_id).reading_rate || 10) -
-  //       (feeds.find(f => f._id === a.feed_id).reading_rate || 10)
+  //     return (feeds.find(f => f._id === b.feed_id).readingRate || 10) -
+  //       (feeds.find(f => f._id === a.feed_id).readingRate || 10)
   //   } else {
   //     return b.created_at - a.created_at
   //   }
@@ -70,7 +70,7 @@ export default function rizzleSort (items, feeds, sortDirection) {
   // keys.sort((a, b) => {
   //   aFeed = feeds.find(f => f._id === a)
   //   bFeed = feeds.find(f => f._id === b)
-  //   return bFeed.reading_rate - aFeed.reading_rate
+  //   return bFeed.readingRate - aFeed.readingRate
   // })
   // keys.forEach(k => {
   //   sorted = sorted.concat(itemsByFeed[k])

@@ -53,9 +53,9 @@ function getItemFromFirestore (_id) {
 
 export async function incrementUnreadCountFS (increment) {
   const unreadDoc = await getUserDb().get()
-  const numUnread = unreadDoc.get('number_unread')
+  const numUnread = unreadDoc.get('unreadCount')
   unreadDoc.ref.update({
-    'number_unread': numUnread + increment
+    'unreadCount': numUnread + increment
   })
 }
 

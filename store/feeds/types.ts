@@ -10,12 +10,12 @@ export interface Feed {
     size: string
   }
   rootUrl: string
-  reading_time?: number
-  number_read?: number
-  number_unread?: number
-  reading_rate?: number
-  number_shared?: number
-  number_saved?: number
+  readingTime?: number
+  readCount?: number
+  unreadCount?: number
+  readingRate?: number
+  sharedCount?: number
+  savedCount?: number
   isLiked?: boolean
   isMuted?: boolean
   isMercury?: boolean

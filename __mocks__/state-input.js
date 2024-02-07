@@ -1333,7 +1333,7 @@ export const state = {
         description: "What comes next? Input is a new voice in tech news.",
         _id: "f1dbc84d-e499-4f1a-ef5d-c62e5218e181",
         color: [0, 65, 50],
-        number_unread: 50,
+        unreadCount: 50,
         id: "f1dbc84d-e499-4f1a-ef5d-c62e5218e181",
         favicon: {
           url: "https://cdn2.bustle.com/input/2021/icon-17641d8f7a.png",

@@ -44,9 +44,9 @@ const mapStateToProps = (state, ownProps) => {
       feed: {
         ...feed,
         numUnread: feedItems.length,
-        numRead: feed.number_read || 0,
-        readingTime: feed.reading_time || 0,
-        readingRate: feed.reading_rate || 0,
+        numRead: feed.readCount || 0,
+        readingTime: feed.readingTime || 0,
+        readingRate: feed.readingRate || 0,
         coverImageId,
         coverImageDimensions,
         cachedCoverImageId: feedLocal && feedLocal.cachedCoverImageId,

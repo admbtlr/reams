@@ -20,7 +20,7 @@ import {
   ADD_FEEDS
 } from './types'
 import { 
-  ADD_READING_TIME,
+  ADD_readingTime,
   MARK_ITEM_READ,
   MARK_ITEMS_READ,
   PRUNE_UNREAD,
@@ -99,21 +99,20 @@ export function feeds (
         return state
       }
 
-    case ADD_READING_TIME:
-      feeds = [ ...state.feeds ]
-      feed = feeds.find(feed => feed._id === action.item.feed_id)
+    case ADD_readingTime:
+      feed = state.feeds.find(feed => feed._id === action.item.feed_id)
 
       // fix a bug where saved items can try and record reading time
       // even though they have no feed
       if (!feed) return state
 
       feed = { ...feed }
-      feed.reading_time = feed.reading_time || 0
-      feed.reading_time += action.readingTime
+      feed.readingTime = feed.readingTime || 0
+      feed.readingTime += action.readingTime
 
-      feed.number_read = feed.number_read || 0
-      feed.number_read++
-      feed.number_unread && feed.number_unread--
+      feed.readCount = feed.readCount || 0
+      feed.readCount++
+      feed.unreadCount && feed.unreadCount--
 
       // const getContentLength = (item: Item) => {
       //   if (item.hasShownMercury) {
@@ -127,20 +126,23 @@ export function feeds (
 
       if (action.item.content_length !== undefined) {
         const readingRate = action.readingTime / action.item.content_length
-        feed.reading_rate = (feed.reading_rate && !Number.isNaN(feed.reading_rate)) ?
-          feed.reading_rate :
+        feed.readingRate = (feed.readingRate && !Number.isNaN(feed.readingRate)) ?
+          feed.readingRate :
           0
-        feed.reading_rate = (feed.reading_rate * (feed.number_read - 1) + readingRate) / feed.number_read
-        feed.reading_rate = Number.parseFloat(feed.reading_rate.toFixed(4))
+        feed.readingRate = (feed.readingRate * (feed.readCount - 1) + readingRate) / feed.readCount
+        feed.readingRate = Number.parseFloat(feed.readingRate.toFixed(4))
 
-        if (feed.reading_rate === null || Number.isNaN(feed.reading_rate)) {
+        if (feed.readingRate === null || Number.isNaN(feed.readingRate)) {
           debugger
         }
       }
       
       return {
         ...state,
-        feeds
+        feeds: [
+          ...state.feeds.filter(f => f._id !== action.item.feed_id),
+          feed
+        ]
       }
 
     case SHARE_ITEM:
@@ -149,7 +151,7 @@ export function feeds (
         feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
           {
             ...feed,
-            number_shared: feed.number_shared ? feed.number_shared + 1 : 1
+            sharedCount: feed.sharedCount ? feed.sharedCount + 1 : 1
           } :
           feed)
       }
@@ -160,7 +162,7 @@ export function feeds (
         feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
           {
             ...feed,
-            number_saved: feed.number_saved ? feed.number_saved + 1 : 1
+            savedCount: feed.savedCount ? feed.savedCount + 1 : 1
           } :
           feed)
       }
@@ -232,7 +234,8 @@ export function feeds (
         feeds: state.feeds.map(feed => feed._id === action.item.feed_id ?
           {
             ...feed,
-            number_unread: feed.number_unread ? feed.number_unread - 1 : 0
+            unreadCount: feed.unreadCount ? feed.unreadCount - 1 : 0,
+            readCount: feed.readCount ? feed.readCount + 1 : 1
           } :
           feed)
       }
@@ -257,7 +260,8 @@ function updateUnreadCounts (itemsToClear: Item[], state: FeedsState) {
     feeds: state.feeds.map(feed => feedsWithCleared[feed._id] ?
       {
         ...feed,
-        number_unread: (feed.number_unread || 0) - feedsWithCleared[feed._id]
+        unreadCount: (feed.unreadCount || 0) - feedsWithCleared[feed._id],
+        readCount: (feed.readCount || 0) + feedsWithCleared[feed._id]
       } :
       feed)
   }

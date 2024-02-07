@@ -38,7 +38,7 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 interface FeedSkeleton {
   _id: string,
   title: string,
-  number_unread?: number,
+  unreadCount?: number,
   isLiked?: boolean
 }
 
@@ -53,17 +53,17 @@ const selectFeedSkeletons = (state: RootState) => {
     .sort(sortFeeds)
 }
 
-const sortFeeds = (a: FeedSkeleton, b: FeedSkeleton) => (a.isLiked && b.isLiked) || (a.number_unread === 0 && b.number_unread === 0) ?
+const sortFeeds = (a: FeedSkeleton, b: FeedSkeleton) => (a.isLiked && b.isLiked) || (a.unreadCount === 0 && b.unreadCount === 0) ?
   (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1) :
   a.isLiked ? -1 :
     b.isLiked ? 1 :
-      a.number_unread === 0 ? 1 :
-        b.number_unread === 0 ? -1 :
+      a.unreadCount === 0 ? 1 :
+        b.unreadCount === 0 ? -1 :
           (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1)
 
 const addUnreadCount = (feed: FeedSkeleton, itemFeedIds: string[]) => {
   const unreadItems = itemFeedIds.filter(i => i === feed._id)
-  feed.number_unread = unreadItems.length
+  feed.unreadCount = unreadItems.length
   return feed
 }
 
