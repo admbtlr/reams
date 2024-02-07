@@ -79,16 +79,16 @@ export function * fetchUnreadItems (action) {
 }
 
 export function * fetchItems (type = ItemType.unread) {
-  let feeds
+  let feedsWithIsNew
 
   if (type === ItemType.unread) {
-    feeds = yield select(getFeeds)
-    if (!feeds || feeds.length === 0) {
+    feedsWithIsNew = yield select(getFeeds)
+    if (!feedsWithIsNew || feedsWithIsNew.length === 0) {
       return
     }
-    feeds = feeds.filter(f => !f.isMuted)
+    feedsWithIsNew = feedsWithIsNew.filter(f => !f.isMuted)
     const feedsLocal = yield select(getFeedsLocal)
-    feeds = feeds.map(f => {
+    feedsWithIsNew = feedsWithIsNew.map(f => {
       const feedLocal = feedsLocal.find(fl => fl._id === f._id)
       return feedLocal && feedLocal.isNew ? {
         ...f,
@@ -114,7 +114,7 @@ export function * fetchItems (type = ItemType.unread) {
     }
   }
   
-  const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feeds)
+  const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feedsWithIsNew)
 
   let isFirstBatch = true
   let didError = false
@@ -139,6 +139,10 @@ export function * fetchItems (type = ItemType.unread) {
         type: SET_LAST_UPDATED,
         itemType: type,
         lastUpdated: Date.now()
+      })
+      yield put({
+        type: UPDATE_FEEDS,
+        feeds: feeds.map(f => ({...f, isNew: false})),
       })
     }
     itemsChannel.close()
