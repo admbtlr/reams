@@ -135,7 +135,7 @@ export const TOGGLE_MERCURY_VIEW = 'TOGGLE_MERCURY_VIEW'
 export const ITEM_DECORATION_SUCCESS = 'ITEM_DECORATION_SUCCESS'
 export const ITEM_DECORATION_FAILURE = 'ITEM_DECORATION_FAILURE'
 export const ITEM_DECORATION_PROGRESS = 'ITEM_DECORATION_PROGRESS'
-export const ADD_READING_TIME = 'ADD_READING_TIME'
+export const ADD_readingTime = 'ADD_readingTime'
 export const SET_SCROLL_OFFSET = 'SET_SCROLL_OFFSET'
 export const SET_TITLE_FONT_SIZE = 'SET_TITLE_FONT_SIZE'
 export const SORT_ITEMS = 'SORT_ITEMS'
@@ -270,7 +270,7 @@ interface itemDecorationProgressAction {
 }
 
 interface addReadingTimeAction {
-  type: typeof ADD_READING_TIME
+  type: typeof ADD_readingTime
   item: Item
   readingTime: number
 }

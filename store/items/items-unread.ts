@@ -14,7 +14,7 @@ import {
   FeedActionTypes 
 } from '../feeds/types'
 import {
-  ADD_READING_TIME,
+  ADD_readingTime,
   ITEMS_BATCH_FETCHED,
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
@@ -176,7 +176,7 @@ export function itemsUnread (
       } else return state
 
     // TODO: this needs to go into the database
-    // case ADD_READING_TIME:
+    // case ADD_readingTime:
     //   let item = state.items?.find(item => item._id === action.item._id)
     //   if (!item) return state
 

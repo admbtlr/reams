@@ -1,7 +1,7 @@
 import { InteractionManager } from 'react-native'
 import { call, put, select } from 'redux-saga/effects'
 
-import { ADD_READING_TIME } from '../store/items/types'
+import { ADD_readingTime } from '../store/items/types'
 import { getCurrentItem, getDisplay } from './selectors'
 
 import log from '../utils/log'
@@ -59,7 +59,7 @@ function * logReadingTime (item) {
   const readingTime = Math.round((now - startTime + accumulatedTime) / 1000)
   yield call(InteractionManager.runAfterInteractions)
   yield put ({
-    type: ADD_READING_TIME,
+    type: ADD_readingTime,
     item: item,
     readingTime
   })

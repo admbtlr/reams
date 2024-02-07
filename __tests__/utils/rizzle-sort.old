@@ -78,15 +78,15 @@ const items = [
 const feeds = [
   {
     _id: 1,
-    reading_rate: 1
+    readingRate: 1
   },
   {
     _id: 2,
-    reading_rate: 2
+    readingRate: 2
   },
   {
     _id: 3,
-    reading_rate: 3
+    readingRate: 3
   },
   {
     _id: 4

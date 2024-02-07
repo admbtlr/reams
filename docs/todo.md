@@ -124,7 +124,7 @@
 - ~~upgrade to react native 62~~
 - ~~upgrade to RN 0.62~~
 - ~~can I stop the current item from having the animation when I swipe right again?~~
-- ~~deal with feed.number_unread problems~~
+- ~~deal with feed.unreadCount problems~~
 - ~~edit new feeds list, Politics section~~
   - add https://www.project-syndicate.org/about
 - ~~use https://github.com/cruip/open-react-template for website~~
