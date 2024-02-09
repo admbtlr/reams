@@ -142,7 +142,7 @@ export function * fetchItems (type = ItemType.unread) {
       })
       yield put({
         type: UPDATE_FEEDS,
-        feeds: feeds.map(f => ({...f, isNew: false})),
+        feeds: feedsWithIsNew.filter(f => f.isNew).map(f => ({...f, isNew: false})),
       })
     }
     itemsChannel.close()
