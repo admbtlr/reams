@@ -23,6 +23,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { useModal } from './ModalProvider'
+import AnimatedEllipsis from './AnimatedEllipsis'
 
 namespace RizzleModal {
   export interface Input {
@@ -56,6 +57,8 @@ namespace RizzleModal {
     deleteButton?: boolean
     deleteButtonText?: string
     showKeyboard?: boolean
+    hideButtonsOnOk?: boolean
+    hiddenButtonsText?: string
   }
 }
 
@@ -79,6 +82,7 @@ const RizzleModal  = () => {
   }>({
     deletableRows: []
   })
+  const [isHideButtons, setIsHideButtons] = useState(false)
 
   //   this.initialState = {
   //     toggleHideModal: false,
@@ -102,6 +106,9 @@ const RizzleModal  = () => {
 
   const onOK = async () => {
     let shouldClose: boolean | undefined | void = true
+    if (modalProps?.hideButtonsOnOk) {
+      setIsHideButtons(true)
+    }
     if (isDeletePending) {
       modalProps?.modalOnDelete && modalProps.modalOnDelete()
     } else {
@@ -127,6 +134,7 @@ const RizzleModal  = () => {
     if (isOpen) {
       closeModal()
       isOpen = false
+      setIsHideButtons(false)
     }
   }
 
@@ -403,32 +411,56 @@ const RizzleModal  = () => {
                   {/* <View>{ hideModalView }</View> */}
                 </>
               )}
-              <View style={{...styles.buttonHolder}}>
-                { modalProps?.modalHideCancel ||
-                  <TouchableOpacity
-                    style={{
-                      ...styles.touchable,
-                      borderRightWidth: 1
-                    }}
-                    onPress={onCancel}>
-                    <Text
-                      style={{
-                        ...styles.text,
-                        ...styles.buttonText
-                      }}>Cancel</Text>
-                  </TouchableOpacity>
-                }
-                <TouchableOpacity
-                  style={{...styles.touchable}}
-                  onPress={onOK}>
-                  <Text
-                    style={{
-                      ...styles.text,
-                      ...styles.buttonText,
-                      ...styles.strong
-                    }}>OK</Text>
-                </TouchableOpacity>
-              </View>
+              { isHideButtons ? (
+                  <View style={{
+                    ...styles.buttonHolder,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    { modalProps?.hiddenButtonsText && (
+                      <View style={{
+                        flexDirection: 'row',
+                      }}>
+                        <Text
+                          style={{
+                            ...styles.text
+                          }}>{modalProps?.hiddenButtonsText}</Text>
+                        <AnimatedEllipsis style={{
+                          marginTop: 3
+                        }}/>
+                      </View>
+                    )}
+                  </View>
+                ) :
+                (
+                  <View style={{...styles.buttonHolder}}>
+                    { modalProps?.modalHideCancel ||
+                      <TouchableOpacity
+                        style={{
+                          ...styles.touchable,
+                          borderRightWidth: 1
+                        }}
+                        onPress={onCancel}>
+                        <Text
+                          style={{
+                            ...styles.text,
+                            ...styles.buttonText
+                          }}>Cancel</Text>
+                      </TouchableOpacity>
+                    }
+                    <TouchableOpacity
+                      style={{...styles.touchable}}
+                      onPress={onOK}>
+                      <Text
+                        style={{
+                          ...styles.text,
+                          ...styles.buttonText,
+                          ...styles.strong
+                        }}>OK</Text>
+                    </TouchableOpacity>
+                  </View>
+                )
+              }
             </View>
           </View>
         </Modal>

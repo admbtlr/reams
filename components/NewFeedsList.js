@@ -143,6 +143,8 @@ export default function NewFeedsList (props) {
           type: 'text',
         }
       ],
+      hideButtonsOnOk: true,
+      hiddenButtonsText: 'Searching for feeds',
       modalOnOk: async (state) => {
         if (state.feedUrl) {
           const url = state.feedUrl.indexOf('http') === 0 ? state.feedUrl : 'https://' + state.feedUrl
