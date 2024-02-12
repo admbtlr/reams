@@ -169,8 +169,13 @@ export function getItems(items: Item[]): Promise<ItemInflated[]> {
 }
 
 export async function getItem (item: Item): Promise<ItemInflated> {
-  const items: ItemInflated[] = await getItems([item])
-  return items[0]
+  try {
+    const items: ItemInflated[] = await getItems([item])
+    return items[0]
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }
 
 export async function inflateItem (item: Item): Promise<ItemInflated> {
