@@ -242,7 +242,12 @@ export function * cleanUpItems (items, type) {
 
   // actually this is sketchy because the items in the store might be deflated
   // OTOH, maybe this is OK, because any _visible_ items will probably be inflated
-  const existingItems = (yield select(getItems))?.filter(ei => items.find(i => i._id === ei._id))
+  //
+  // WAIT, shouldn't I actually remove all existing items from the new items? 20240212
+  // - maybe this is the cause of all the items in the store with null styles?
+  const existingItems = (yield select(getItems, type))?.filter(ei => items.find(i => i._id === ei._id))
+  // let's try that
+  items = items.filter(i => !existingItems.find(ei => ei._id === i._id))
 
   const setSavedIfNecessary = item => type === ItemType.saved ?
     {
@@ -258,7 +263,7 @@ export function * cleanUpItems (items, type) {
   return items
     .map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
-    .map((item) => existingItems && existingItems.find(ei => ei._id === item._id) ? item : addStylesIfNecessary(item))
+    .map(addStylesIfNecessary) //(item) => existingItems && existingItems.find(ei => ei._id === item._id) ? item : addStylesIfNecessary(item))
     .map(sanitizeContent)
     .map(fixCreatedAt)
     .map(addDateFetched)
