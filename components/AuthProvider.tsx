@@ -64,7 +64,9 @@ export const AuthProvider = (props: any) => {
     }
     const getLinkUrl = async () => {
       const initialUrl = await Linking.getInitialURL()
-      checkUrlAndDoLogin(initialUrl)
+      if (initialUrl !== null) {
+        checkUrlAndDoLogin(initialUrl)
+      }
     }
     Linking.addEventListener('url', ({ url }) => {
       checkUrlAndDoLogin(url)
