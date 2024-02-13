@@ -190,9 +190,12 @@ function markImages () {
   Array.prototype.forEach.call(imgs, function (el, i) {
     if (el.naturalHeight > el.naturalWidth) {
       el.classList.add('img-portrait')
-    }
-    if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
-      el.classList.add('img-small')
+
+      // added 20240213 because only portrait images should be small
+      // this might be a mistake
+      if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
+        el.classList.add('img-small')
+      }
     }
   })
   const figures = document.querySelectorAll('figure')
