@@ -140,10 +140,14 @@ export function * fetchItems (type = ItemType.unread) {
         itemType: type,
         lastUpdated: Date.now()
       })
-      yield put({
-        type: UPDATE_FEEDS,
-        feeds: feedsWithIsNew.filter(f => f.isNew).map(f => ({...f, isNew: false})),
-      })
+      const updatedFeeds = feedsWithIsNew.filter(f => f.isNew).map(f => ({...f, isNew: false}))
+      if (updatedFeeds.length > 0) {
+        yield put({
+          type: UPDATE_FEEDS,
+          feeds: updatedFeeds,
+          skipFetchItems: true
+        })
+      }
     }
     itemsChannel.close()
   }
