@@ -249,9 +249,10 @@ body, body a, body a:active, body a:visited {
   font-size: 0.55rem;
   line-height: 1rem;
   background-color: white;
+  color: white;
   left: -0.5rem;
   width: 100vw;
-  padding: 1rem 0.5rem;
+  padding: 1rem 0 !important;
   display: block;
   position: relative;
   -webkit-hyphens: none;
@@ -267,6 +268,17 @@ body, body a, body a:active, body a:visited {
 }
 .itemArticle blockquote.is-quote p:first-child, .itemArticle .pullquote.is-quote p:first-child, .itemArticle aside.is-quote p:first-child {
   text-indent: -0.45em;
+}
+.itemArticle blockquote::after, .itemArticle .pullquote::after, .itemArticle aside::after {
+  content: "";
+  display: block;
+  background-color: var(--feed-color);
+  width: 100vh;
+  height: 100%;
+  margin-left: calc(50% - 50vh);
+  position: absolute;
+  z-index: -1;
+  top: 0;
 }
 .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
   color: white;
@@ -963,13 +975,13 @@ hr {
 }
 
 .itemArticle a, .itemArticle a:active, .itemArticle a:visited {
-  text-decoration: none;
-  border-bottom: 2px solid var(--feed-color);
+  text-decoration-color: var(--feed-color);
+  -webkit-text-decoration-color: var(--feed-color);
 }
-.itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
+.itemArticle blockquote.short-blockquote {
   color: var(--feed-color);
 }
-.itemArticle blockquote.short-blockquote a, .itemArticle .pullquote a, .itemArticle aside a {
+.itemArticle blockquote.short-blockquote a {
   color: var(--feed-color) !important;
 }
 .itemArticle *:not(:first-of-type) div:before,

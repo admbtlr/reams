@@ -518,9 +518,10 @@ body {
     font-size: 0.55rem;
     line-height: 1rem;
     background-color: white;
+    color: white;
     left: -0.5rem;
     width: 100vw;
-    padding: 1rem 0.5rem;
+    padding: 1rem 0 !important;
     display: block;
     position: relative;
     -webkit-hyphens: none;
@@ -538,6 +539,18 @@ body {
 
     &.is-quote p:first-child {
       text-indent: -0.45em;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      background-color: var(--feed-color);
+      width: 100vh;
+      height: 100%;
+      margin-left: calc(50% - 50vh);
+      position: absolute;
+      z-index: -1;
+      top: 0;
     }
   }
 
@@ -1429,11 +1442,12 @@ hr {
 .itemArticle {
   a, a:active, a:visited {
     // color: $value;
-    text-decoration: none;
-    border-bottom: 2px solid var(--feed-color);
+    text-decoration-color: var(--feed-color);
+    -webkit-text-decoration-color: var(--feed-color);
+    // border-bottom: 2px solid var(--feed-color);
   }
 
-  blockquote.short-blockquote, .pullquote, aside {
+  blockquote.short-blockquote { //, .pullquote, aside {
     color: var(--feed-color);
     a {
       color: var(--feed-color) !important;
