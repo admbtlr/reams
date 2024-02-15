@@ -822,10 +822,6 @@ hr {
   font-family: "Lato";
   font-weight: 400;
 }
-.isWeb .headerFontSans1 p {
-  font-family: "Lato";
-  font-weight: 400;
-}
 .headerFontSans1 figcaption, .headerFontSans1 img + small, .headerFontSans1 .caption, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "AvenirNext-MediumItalic";
 }
