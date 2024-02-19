@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Animated,
+  Platform,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View
@@ -49,7 +50,9 @@ class RizzleButton extends React.Component {
       this.toggleState = !this.toggleState
       this.doToggleAnimation()
     }
-    ReactNativeHapticFeedback.trigger("impactLight", {})
+    if (Platform.OS !== 'web') {
+      ReactNativeHapticFeedback.trigger("impactLight", {})
+    }
     this.props.onPress && this.props.onPress(this.toggleState)
   }
 
