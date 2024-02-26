@@ -32,7 +32,7 @@ export default function ItemView ({item}: {item: Item | undefined}) {
     }
   }
   const coverImageHeight = coverImageSize.height > 0 ? Math.round(dimensions.width * (coverImageSize.height / coverImageSize.width)) : 0
-  console.log('coverImageHeight', coverImageHeight)
+  // console.log('coverImageHeight', coverImageHeight)
   useEffect(() => {
     dispatch({type: SHOW_ITEM_BUTTONS})
   }, [item])

@@ -5,7 +5,14 @@ const webpack = require('webpack');
 
 const envFilePath = path.resolve(__dirname, '.env');
 
-console.log('envFilePath', envFilePath);
+const ttfLoaderConfiguration = {
+  test: /\.ttf$/,
+  use: [
+    {
+      loader: 'url-loader',
+    },
+  ],
+}
 
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
@@ -26,6 +33,8 @@ module.exports = async function (env, argv) {
       __REACT_WEB_CONFIG__: JSON.stringify(dotenv.config({ path: envFilePath }).parsed),
     }),
   );
+
+  config.module.rules.push(ttfLoaderConfiguration);
 
   return config;
 };
