@@ -71,7 +71,7 @@ function * startDownloads () {
   }
   try {
     yield call(fetchAllFeeds)
-    yield call(fetchAllItems)
+    yield call(fetchAllItems, true)
     yield call(clearReadItems)
     yield call(pruneItems)
     yield call(getCategories)
@@ -123,7 +123,7 @@ export function * initSagas () {
   yield takeEvery(UNSAVE_ITEM, markItemUnsaved)
   yield takeEvery(ITEM_DECORATION_SUCCESS, maybeUpsertSavedItem)
   yield takeEvery(SET_TITLE_FONT_SIZE, setItemTitleFontSize)
-  yield takeEvery(FETCH_ITEMS, fetchAllItems)
+  yield takeEvery(FETCH_ITEMS, fetchAllItems, true)
   yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)
   yield takeEvery(RECEIVED_REMOTE_READ_ITEMS, filterItemsForRead)

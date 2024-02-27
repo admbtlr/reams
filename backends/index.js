@@ -33,6 +33,10 @@ export function unsetBackend (bcknd) {
   }
 }
 
+export function isFetchPaginated () {
+  return backend === 'feedbin'
+}
+
 export async function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
   const response = await fetch(url)
@@ -96,48 +100,32 @@ export function fetchUnreadIds () {
 
 export async function markItemRead (item) {
   if (backend === 'feedbin') {
-    feedbin.markItemRead(item)
+    await feedbin.markItemRead(item)
   }
-  return reams.markItemsRead([item])
+  return await reams.markItemsRead([item])
 }
 
 export async function markItemsRead (items, feedId = null, olderThan = null) {
   if (backend === 'feedbin') {
-    feedbin.markItemsRead(items)
+    await feedbin.markItemsRead(items)
   }
-  return reams.markItemsRead(items)
+  return await reams.markItemsRead(items)
 }
 
-export async function saveItem (item, folder) {
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      await reams.saveItem(item, folder)
-      break
-    case 'feedbin':
-      await feedbin.saveItem(item)
-      break
-    case 'feedwrangler':
-      await feedwrangler.saveItem(item)
-      break
+export async function saveItem (item) {
+  if (backend === 'feedbin') {
+    return await feedbin.saveItem(item)
+  } else {
+    return await reams.saveItem(item)
   }
-  return item
 }
 
 export async function unsaveItem (item, folder) {
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-      await reams.unsaveItem(item, folder)
-      break
-    case 'feedwrangler':
-      await feedwrangler.unsaveItem(item)
-      break
-    case 'feedbin':
-      await feedbin.unsaveItem(item)
-      break
-    }
-  return item
+  if (backend === 'feedbin') {
+    await feedbin.unsaveItem(item)
+  } else {
+    return await reams.unsaveItem(item)
+  }
 }
 
 export async function saveExternalItem (item, folder) {

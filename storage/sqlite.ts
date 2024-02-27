@@ -98,35 +98,40 @@ async function initSearchTable() {
 export async function setItems(items: ItemInflated[]) {
 
   return new Promise((resolve, reject) => {
+    const createdRows: any[] = []
+    const errors: SQLite.SQLError[] = []
     db.transaction((tx) => {
-    items.forEach((item) => {
-      tx.executeSql(
-        `insert or replace into items (
-          id, _id, content_html, author, date_published, content_mercury, excerpt, scrollRatio, styles
-        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-        [ 
-          item.id || null, 
-          item._id, 
-          item.content_html || null, 
-          item.author || null, 
-          item.date_published || null, 
-          item.content_mercury || null, 
-          item.excerpt || null, 
-          JSON.stringify(item.scrollRatio), 
-          JSON.stringify(item.styles)
-        ],
-        (_, { rows }) => {
-          resolve(rowsToArray(rows))
-          return rowsToArray(rows)
-        },
-        (_, error) => {
-          console.log(error)
-          reject(error)
-          return false
-        }
-        )
+      items.forEach((item) => {
+        tx.executeSql(
+          `insert or replace into items (
+            id, _id, content_html, author, date_published, content_mercury, excerpt, scrollRatio, styles
+          ) values (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+          [ 
+            item.id || null, 
+            item._id, 
+            item.content_html || null, 
+            item.author || null, 
+            item.date_published || null, 
+            item.content_mercury || null, 
+            item.excerpt || null, 
+            JSON.stringify(item.scrollRatio), 
+            JSON.stringify(item.styles)
+          ],
+          (_, { rows }) => {
+            createdRows.push(rowsToArray(rows))
+          },
+          (_, error) => {
+            errors.push(error)
+            return false
+          }
+          )
+      })
     })
-  })
+    if (errors.length > 0) {
+      reject(errors)
+    } else {
+      resolve(createdRows)
+    }
 })
 }
 
@@ -179,17 +184,28 @@ export async function getItem (item: Item): Promise<ItemInflated> {
 }
 
 export async function inflateItem (item: Item): Promise<ItemInflated> {
-  const items: ItemInflated[] = await getItems([item])
-  return items[0]
+  try {
+    const items: ItemInflated[] = await getItems([item])
+    return items[0]
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }
 
 export async function updateItems(items: Item[]) {
-  for (const item of items) {
-    await updateItem(item)
+  try {
+    for (const item of items) {
+      await updateItem(item)
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
   }
 }
 
 export function deleteItems(items: Item[]) {
+
   const query = items ?
     `delete from items where _id in (${items.map(i => `"${i._id}"`).join(",")})` :
     `delete from items`

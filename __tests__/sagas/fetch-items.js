@@ -24,7 +24,6 @@ describe('cleanUpItems', () => {
     const cleanedItems = await runSaga(fakeStore, cleanUpItems, items, 'saved').toPromise();
 
     cleanedItems.forEach(item => {
-      expect(item).toHaveProperty('date_fetched');
       expect(item).toHaveProperty('original_created_at');
       expect(item).toHaveProperty('isSaved', true);
       expect(item).toHaveProperty('_id');

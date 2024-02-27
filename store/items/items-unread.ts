@@ -266,10 +266,7 @@ export function itemsUnread (
 // and sets index appropriately
 // (sucks that reducers need to think about UI implementation, but :shrug:)
 const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
-
-  // redo: just keep the current item, place at front of array
-  // re-redo: keep the current item plus two more, to give time for new items to get mercury
-  // re-re-redo: keep the current item minus two more, to avoid items jumping around and disappearing
+  // keep the current item minus two more, to avoid items jumping around and disappearing
   let index = 0
   let currentItem = state.items[state.index]
   let itemsToKeep: Item[] = []

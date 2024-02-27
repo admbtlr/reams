@@ -258,10 +258,10 @@ export async function cacheCoverImage (item: Item, imageURL: string) {
 function * getNextItemToDecorate () {
   let nextItem
   const savedItems: Item[] = yield select(getSavedItems)
-  nextItem = savedItems.find(item => item.title === 'Loading...' &&
+  nextItem = savedItems.find(item => !item.isDecorated &&
     (!item.decoration_failures || item.decoration_failures < 5) &&
-    !item.isExternal) // external items handle their own decoration
-  if (nextItem) return nextItem
+    !pendingDecoration.find(pd => pd._id === item._id))
+if (nextItem) return nextItem
 
   const items: Item[] = yield select(getItems, ItemType.unread)
   const index: number = yield select(getIndex, ItemType.unread)
