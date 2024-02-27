@@ -249,10 +249,9 @@ body, body a, body a:active, body a:visited {
   font-size: 0.55rem;
   line-height: 1rem;
   background-color: white;
-  color: white;
   left: -0.5rem;
   width: 100vw;
-  padding: 1rem 0.5rem !important;
+  padding: 1rem 0.5rem;
   display: block;
   position: relative;
   -webkit-hyphens: none;
@@ -269,7 +268,10 @@ body, body a, body a:active, body a:visited {
 .itemArticle blockquote.is-quote p:first-child, .itemArticle .pullquote.is-quote p:first-child, .itemArticle aside.is-quote p:first-child {
   text-indent: -0.45em;
 }
-.itemArticle blockquote::after, .itemArticle .pullquote::after, .itemArticle aside::after {
+.itemArticle .pullquote, .itemArticle aside {
+  color: white;
+}
+.itemArticle .pullquote::after, .itemArticle aside::after {
   content: "";
   display: block;
   background-color: var(--feed-color);

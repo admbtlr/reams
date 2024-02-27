@@ -329,10 +329,9 @@ body {
     font-size: 0.55rem;
     line-height: 1rem;
     background-color: white;
-    color: white;
     left: -0.5rem;
     width: 100vw;
-    padding: 1rem .5rem !important;
+    padding: 1rem .5rem;
     display: block;
     position: relative;
     -webkit-hyphens: none;
@@ -351,7 +350,10 @@ body {
     &.is-quote p:first-child {
       text-indent: -0.45em;
     }
+  }
 
+  .pullquote, aside {
+    color: white;
     &::after {
       content: "";
       display: block;
