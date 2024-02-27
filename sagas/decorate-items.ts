@@ -173,8 +173,8 @@ function * persistDecoration (decoration: Decoration) {
   wholeItem = addCoverImageToItem(wholeItem, imageStuff)
   wholeItem.hasCoverImage = !!wholeItem.coverImageFile
   wholeItem = setShowCoverImage(wholeItem)
-  wholeItem = removeCachedCoverImageDuplicate(wholeItem)
   wholeItem.styles = adjustStylesToCoverImage(decoration)
+  wholeItem = removeCachedCoverImageDuplicate(wholeItem)
   if (Platform.OS === 'web') {
     yield call(updateItemIDB, wholeItem)
   } else {
