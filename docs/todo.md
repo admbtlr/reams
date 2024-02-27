@@ -1,10 +1,7 @@
-- properly add fonts to web
-  - https://medium.com/@lvs.sangeeth/how-to-integrate-custom-fonts-in-react-native-for-web-f1ecde43909f
 - look into ItemTitle problems with ~~too long words~~ and too long titles
 - if currentitem is decorated and has a coverimage, the top bar goes transparent, but the image isn's shown
 - "inflate feeds" - download feed icons instead
 - finish the add a feed manually feature
-- why do items disappear from sqlite?
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
 - backend for saved categories
 - backend for saved items
@@ -68,6 +65,9 @@
 - saved folders
 
 # Done
+- ~~properly add fonts to web~~
+  - https://medium.com/@lvs.sangeeth/how-to-integrate-custom-fonts-in-react-native-for-web-f1ecde43909f
+- ~~why do items disappear from sqlite?~~
 - ~~use read items when fetching new  items in already~~
 - ~~backend for feeds~~
 - ~~saved external items are not getting decorated~~

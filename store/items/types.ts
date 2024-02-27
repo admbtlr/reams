@@ -32,20 +32,20 @@ export interface Item {
   coverImageFile: string | undefined
   coverImageUrl: string | undefined
   created_at: number
-  decoration_failures: number | undefined
+  decoration_failures?: number | undefined
   feed_id: string
   feed_title: string
-  hasCoverImage: boolean | undefined
-  hasShownMercury: boolean | undefined
+  hasCoverImage?: boolean | undefined
+  hasShownMercury?: boolean | undefined
   imageDimensions?: {
     width: number
     height: number
   }
-  isDecorated: boolean | undefined
-  isExternal: boolean | undefined
+  isDecorated?: boolean | undefined
+  isExternal?: boolean | undefined
   isSaved: boolean | undefined
-  id: string | number | undefined
-  readAt: number | undefined
+  id?: string | number | undefined
+  readAt?: number | undefined
   savedAt: number | undefined
   scrollRatio?: {
     html?: number

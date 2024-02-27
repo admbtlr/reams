@@ -20,11 +20,15 @@ import {
   getFeeds as getFeedsSupabase,
   getFeedBySiteUrl,
   getReadItems as getReadItemsSupabase,
-  removeUserFeed as removeUserFeedSupabase
+  removeUserFeed as removeUserFeedSupabase,
+  addSavedItem as addSavedItemSupabase,
+  removeSavedItem as removeSavedItemSupabase,
+  getSavedItems as getSavedItemsSupabase
 } from '../storage/supabase'
 import { Feed } from '../store/feeds/types'
 import { convertColorIfNecessary } from '../sagas/feeds'
 import { Item } from '../store/items/types'
+import { createItemStyles } from '../utils/createItemStyles'
 
 let isPlus = false
 
@@ -59,10 +63,22 @@ export async function fetchItems (
   oldItems: Item[], 
   feeds: FeedWithIsNew[], 
   maxNum: number) {
-  if (type === 'saved' && isPlus) {
-    let savedItems = await getSavedItemsFS()
-    savedItems = savedItems.filter(savedItem => !!!oldItems.find(oldItem => oldItem._id === savedItem._id))
-    callback(savedItems)
+  if (type === 'saved') {
+    // TODO need to account for saved items in the remote action queue that haven't been processed yet
+    let saved = await getSavedItemsSupabase(oldItems)
+    const savedItems: Item[] = saved.map(i => ({
+      ...i,
+      styles: createItemStyles(i),
+      title: i.title || '',
+      content_html: '',
+      content_length: 0,
+      coverImageFile: '',
+      coverImageUrl: '',
+      created_at: i.savedAt || Date.now(),
+      feed_id: '',
+      feed_title: '',
+    }))
+    callback(savedItems as Item[])
   } else if (type === 'unread') {
     try {
       const readItems = await getReadItemsSupabase()
@@ -180,17 +196,24 @@ export async function markItemsRead (items: Item[]) {
   addReadItemsSupabase(items)
 }
 
-// export const saveItem = (item: Item) => {
-//   if (isPlus) {
-//     return upsertSavedItemFS(item)
-//   }
-// }
+export const saveItem = async (item: Item) => {
+  try {
+    await addSavedItemSupabase(item)
+  } catch (e) {
+    console.log('Error adding feed to supabase', e)
+    throw e
+  }
+}
 
-// export const unsaveItem = (item, folder) => {
-//   if (isPlus) {
-//     return removeSavedItemFS(item)
-//   }
-// }
+export const unsaveItem = async (item: Item) => {
+  try {
+    await removeSavedItemSupabase(item)
+  } catch (e) {
+    console.log('Error adding feed to supabase', e)
+    throw e
+  }
+}
+
 
 // export function saveExternalItem (item, folder) {
 //   if (isPlus) {
@@ -199,9 +222,15 @@ export async function markItemsRead (items: Item[]) {
 //   return item
 // }
 
-export async function addFeed (feedToAdd: {url: string, id?: number}, userId?: string): Promise<Feed> {
-  const feed = await addFeedSupabase(feedToAdd, userId)
-  return feed
+export async function addFeed (feedToAdd: {url: string, id?: number}, userId?: string): Promise<Feed | undefined> {
+  let feed
+  try {
+    feed = await addFeedSupabase(feedToAdd, userId)
+  } catch (e) {
+    console.log('Error adding feed to supabase', e)
+  } finally {
+    return feed
+  }
 }
 
 export async function addFeeds (feeds: Feed[]) {

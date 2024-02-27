@@ -7,6 +7,7 @@ import { Database } from './supabase.types'
 import { Feed } from '../store/feeds/types'
 import { getFeedMeta } from '../backends/reams'
 import { id as createId} from '../utils'
+import { createItemStyles } from '../utils/createItemStyles'
 
 const supabaseUrl = Config.SUPABASE_URL
 const supabaseAnonKey = Config.SUPABASE_ANON_KEY
@@ -22,7 +23,56 @@ const getUserId = async () => {
   return data?.session?.user?.id
 }
 
-export const getSavedItems = async () => {}
+export const getSavedItems = async (currentItems: {
+  _id: string
+  url: string
+  title: string
+  savedAt: number | undefined
+  isSaved: boolean | undefined
+}[]) => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { data: allSavedIds, error } = await supabase
+    .from('User_SavedItem')
+    .select('item_id, saved_at')
+    .eq('user_id', userId)
+  if (error) {
+    throw error
+  }
+  const newIds = (allSavedIds?.map(d => d.item_id) || []).filter(id => !currentItems.find(i => i._id === id))
+  if (newIds.length === 0) {
+    return currentItems
+  }
+
+  const { data: newItems, error: newItemsError } = await supabase
+    .from('Item')
+    .select()
+    .in('_id', newIds)
+  if (newItemsError) {
+    throw newItemsError
+  }
+  const completeNewItems = newItems.map(i => ({ 
+    _id: i._id,
+    url: i.url, 
+    title: i.title,
+    savedAt: Math.round(new Date((allSavedIds
+        ?.find(asi => asi?.item_id === i._id)
+        ?.saved_at || 0))
+      .valueOf() / 1000),
+    isSaved: true
+  }))
+
+  // add all the current items whose ids were returned from the database
+  // this keeps all the fields on the existing items, but removes any that were remotely deleted
+  const undeletedCurrentItems = currentItems.filter(i => allSavedIds.find(d => d.item_id === i._id) !== undefined)
+  const savedItems = [
+    ...completeNewItems,
+    ...undeletedCurrentItems
+  ]
+  return savedItems.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0))
+}
 
 export const getReadItems = async () => {
   const userId = await getUserId()
@@ -78,10 +128,54 @@ export const addSavedItem = async (item: Item) => {
   }
   const savedId = data[0]._id
   const { error: savedItemError } = await supabase
-    .from('SavedItem')
-    .insert({ item_id: savedId })
+    .from('User_SavedItem')
+    .insert({ 
+      item_id: savedId,
+      saved_at: new Date().toISOString(),
+      user_id: await getUserId()
+    })
   if (savedItemError) {
     throw savedItemError
+  }
+}
+
+export const removeSavedItem = async (item: Item) => {
+  // let error
+  // let data
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { error: userSavedItemError } = await supabase
+    .from('User_SavedItem')
+    .delete()
+    .eq('item_id', item._id)
+    .eq('user_id', userId) 
+  if (userSavedItemError) {
+    throw userSavedItemError
+  }
+  const { data: uriData, error: uriError } = await supabase
+    .from('User_ReadItem')
+    .select()
+    .eq('item_id', item._id)
+  const { data: usiData, error: usiError } = await supabase
+    .from('User_SavedItem')
+    .select()
+    .eq('item_id', item._id)
+  if (usiError) {
+    throw usiError
+  }
+  if (uriError) {
+    throw uriError
+  }
+  if (usiData?.length === 0 && uriData?.length === 0) {
+    const { error: itemError } = await supabase
+      .from('Item')
+      .delete()
+      .eq('_id', item._id)
+    if (itemError) {
+      throw itemError
+    }
   }
 }
 
