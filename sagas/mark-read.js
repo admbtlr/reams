@@ -67,21 +67,24 @@ export function * clearReadItems () {
     type: REMOVE_ITEMS,
     items: itemsToClear
   })
-  yield call(InteractionManager.runAfterInteractions)
-  try {
-    if (Platform.OS === 'web') {
-      yield call(deleteItemsIDB, itemsToClear)
-    } else {
-      yield call(deleteItemsSQLite, itemsToClear)
-    }
-  } catch(err) {
-    log('deleteItems', err)
-  }
-  try {
-    yield call(removeCachedCoverImages, itemsToClear)
-  } catch(err) {
-    log('removeCachedCoverImages', err)
-  }
+  // everything below here is done by a saga that listens for REMOVE_ITEMS
+  // implemetation in sagas/prune-items.js
+  // yield call(InteractionManager.runAfterInteractions)
+  // itemsToClear = itemsToClear.filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
+  // try {
+  //   if (Platform.OS === 'web') {
+  //     yield call(deleteItemsIDB, itemsToClear)
+  //   } else {
+  //     yield call(deleteItemsSQLite, itemsToClear)
+  //   }
+  // } catch(err) {
+  //   log('deleteItems', err)
+  // }
+  // try {
+  //   yield call(removeCachedCoverImages, itemsToClear)
+  // } catch(err) {
+  //   log('removeCachedCoverImages', err)
+  // }
 }
 
 // called when the Firestore read items cache has been initialised
