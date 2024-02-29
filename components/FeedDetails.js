@@ -14,7 +14,6 @@ import { hasNotchOrIsland, isIpad, fontSizeMultiplier, getMargin } from '../util
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { REMOVE_FEED_FROM_CATEGORY, ADD_FEED_TO_CATEGORY } from '../store/categories/types'
 import { dustbinIcon, xIcon } from '../utils/icons'
 import CategoryToggles from './CategoryToggles'
 
