@@ -24,6 +24,7 @@ import { Category, DELETE_CATEGORY, UPDATE_CATEGORY } from '../store/categories/
 import { RootState } from 'store/reducers'
 import isEqual from 'lodash.isequal'
 import { useModal } from './ModalProvider'
+import { BlurView } from 'expo-blur'
 
 interface Props {
   _id: string | number
@@ -334,6 +335,19 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
               )) 
             }
           </View>
+
+            <BlurView
+              intensity={10}
+              // tint={'dark'}
+              style={{
+                position: 'absolute',
+                top: '70%',
+                left: 0,
+                bottom: 0,
+                right: 0,
+                borderRadius: 16
+              }}
+            />
           <View style={{
             width: '100%',
             height: '100%',
@@ -348,13 +362,19 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
             alignItems: 'flex-start',
           }}>
             <LinearGradient 
-              colors={['rgba(0, 0, 0, 0.0)', 'rgba(100, 100, 100, 0.5)']}
+              colors={
+                feed?.color ?
+                  [`hsla(${feed.color[0]}, ${feed.color[1]}%, ${feed.color[2]}%, 0.0)`, `hsla(${feed.color[0]}, ${feed.color[1]}%, ${feed.color[2]}%, 1.0)`] :
+                  ['rgba(0, 0, 0, 0.0)', 'rgba(0, 0, 0, 1)']
+              }
+              locations={[0, 0.4]}
               style={{
                 position: 'absolute',
                 top: '50%',
                 left: 0,
                 bottom: 0,
-                right: 0
+                right: 0,
+                opacity: 0.8,
               }}  
             />
               { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
@@ -367,8 +387,8 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                   ...textStyles,
                   flexWrap: 'wrap',
                   fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: (Platform.OS === 'web' ? 20 : 24) * fontSizeMultiplier(),
-                  lineHeight: (Platform.OS === 'web' ? 24 : 28) * fontSizeMultiplier()
+                  fontSize: (Platform.OS === 'web' ? 16 : 20) * fontSizeMultiplier(),
+                  lineHeight: (Platform.OS === 'web' ? 18 : 24) * fontSizeMultiplier()
                 }}>{title}</Text>
               </View>
               <View style={{
@@ -378,8 +398,8 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
               }}>
                 <Text style={{
                   ...textStyles,
-                  fontFamily: 'IBMPlexMono',
-                  fontSize: (Platform.OS === 'web' ? 14 : 16) * fontSizeMultiplier()
+                  fontFamily: 'IBMPlexMono-Bold',
+                  fontSize: (Platform.OS === 'web' ? 10 : 12) * fontSizeMultiplier()
                 }}>{numItems} {isSaved ? `article${numItems > 1 ? 's' : ''}` : 'unread'}</Text>
               </View>
           </View>
@@ -396,8 +416,8 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
               backgroundColor: 'transparent',
               overflow: 'hidden'
           }}>
-            <View style={{
-              backgroundColor: hslString(feed?.color),
+            {/* <View style={{
+              backgroundColor: 'transparent', //hslString(feed?.color),
               position: 'absolute',
               bottom: -65,
               right: -65,
@@ -410,10 +430,21 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
             }} />
             <View style={{
               position: 'absolute',
-              bottom: 10,
-              right: 5,
+              bottom: margin / 2,
+              right: margin / 2,
+              zIndex: 10
+            }}> */}
+            <View style={{
+              position: 'absolute',
+              bottom: margin,
+              right: margin/2,
               zIndex: 10
             }}>
+              {/* <FeedIconContainer
+                feed={feed}
+                iconDimensions={cachedIconDimensions}
+              /> */
+            }
               <FeedIconContainer
                 feed={feed}
                 iconDimensions={cachedIconDimensions}
