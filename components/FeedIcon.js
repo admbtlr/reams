@@ -61,7 +61,7 @@ function FeedIcon ({
   }
   return feed?.favicon?.url || (isCached && dim && dim.width > 0) ?
     <View style={{
-      backgroundColor: feed ? feed.color : 'white',
+      backgroundColor: 'transparent',//feed ? feed.color : 'white',
       // margin: 10,
       width,
       height,
