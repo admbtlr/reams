@@ -374,7 +374,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                 left: 0,
                 bottom: 0,
                 right: 0,
-                opacity: 0.8,
+                opacity: feed?.color ? 0.9 : 0.6,
               }}  
             />
               { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
