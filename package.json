@@ -6,7 +6,8 @@
     "start": "npx concurrently --kill-others 'node node_modules/react-native/local-cli/cli.js start --reset-cache' 'gulp'",
     "test": "jest",
     "watch": "jest --watch",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "deploy:web": "expo export:web; vercel build; vercel deploy --prebuilt"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",

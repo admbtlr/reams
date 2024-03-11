@@ -20,7 +20,9 @@ export default function Onboarding(props: Props) {
   console.log(session)
 
   async function sendMagicLink(email: string) {
-    let redirectURL = 'http://localhost:19006'
+    let redirectURL = __DEV__ ? 
+      'http://localhost:19006' : 
+      'https://web.reams.app/'
     if (email) {
       setIsSending(true)
       let result
