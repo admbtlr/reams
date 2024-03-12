@@ -223,14 +223,14 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
   }
 
   const textStyles = {
-    color: 'white',
+    color: hslString('rizzleText'),
     fontFamily: 'IBMPlexMono-Light',
   }
 
   const shadowStyle = {
     shadowColor: 'black',
     shadowRadius: 5,
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.1,
     shadowOffset: {
       width: 0,
       height: 5
@@ -240,14 +240,16 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
   const dim = Dimensions.get('window')
   const screenWidth = dim.width
   const margin = getMargin()
-  const cardWidth = width < 500 ?
-    width :
-    200
+  // const cardWidth = width < 500 ?
+  //   width :
+  //   200
+  const cardWidth = 200 * fontSizeMultiplier()
   const screenHeight = dim.height
 
-  const cardHeight = screenWidth < 500 || screenHeight < 500 ?
-    Math.round(cardWidth / 2) :
-    cardWidth
+  // const cardHeight = screenWidth < 500 || screenHeight < 500 ?
+  //   Math.round(cardWidth / 2) :
+  //   cardWidth
+  const cardHeight = 200 * fontSizeMultiplier()
 
   const numElemsWithCover = isSaved ?
     categoryItems.filter(i => i?.hasCoverImage).length :
@@ -283,175 +285,119 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
         ref={mainViewRef}
         style={{
           flex: 0,
-          height: cardHeight,
+          // height: cardHeight,
           width: cardWidth,
-          marginBottom: margin * 2,
-          marginRight,
+          marginBottom: margin,
+          // marginRight,
           opacity: opacityAnim,
-          overflow: 'visible',
-          borderRadius: 16,
-          ...shadowStyle
+          // overflow: 'hidden',
+          borderRadius: 8,
         }}
       >
         <View
           style={{
             height: cardHeight,
             width: cardWidth,
-            borderRadius: 16,
+            borderRadius: 8,
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
             backgroundColor: type !== 'feed' ? 'black' : hslString(feed?.color, 'desaturated'),
             position: 'relative',
-            overflow: 'hidden',
+            overflow: 'visible',
+            ...shadowStyle
         }}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              height: '100%',
-              width: '105%',
-              borderRadius: 16,
-              overflow: 'hidden',
-              flex: 1,
-              flexDirection: 'row',
-              flexWrap: 'wrap'
-          }}>
-            { coverImageSources && coverImageSources.map((source: Feed | Item | undefined, index: number, sources: (Feed | Item | undefined)[]) => (
-                source && (
-                  <View 
-                    key={source._id}
-                    style={{
-                      backgroundColor: hslString(source.color || 'black', 'desaturated'),
-                      width: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth,
-                      height: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight
-                    }}>
-                    <CardCoverImage
-                      feedId={isSaved ? undefined : source._id}
-                      itemId={isSaved ? source._id : undefined }
-                      width={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth}
-                      height={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight}
-                    />
-                  </View>
-                )
-              )) 
-            }
-          </View>
-
-            <BlurView
-              intensity={10}
-              // tint={'dark'}
-              style={{
-                position: 'absolute',
-                top: '70%',
-                left: 0,
-                bottom: 0,
-                right: 0,
-                borderRadius: 16
-              }}
-            />
           <View style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: 16,
-            paddingLeft: margin * 0.5,
-            paddingRight: margin * 0.5,
-            paddingBottom: margin * 0.5,
-            position: 'absolute',
+            width: cardWidth,
+            borderRadius: 8,
             flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-start',
+            overflow: 'hidden',
           }}>
-            <LinearGradient 
-              colors={
-                feed?.color ?
-                  [`hsla(${feed.color[0]}, ${feed.color[1]}%, ${feed.color[2]}%, 0.0)`, `hsla(${feed.color[0]}, ${feed.color[1]}%, ${feed.color[2]}%, 1.0)`] :
-                  ['rgba(0, 0, 0, 0.0)', 'rgba(0, 0, 0, 1)']
-              }
-              locations={[0, 0.4]}
+            <View
               style={{
-                position: 'absolute',
-                top: '50%',
-                left: 0,
-                bottom: 0,
-                right: 0,
-                opacity: feed?.color ? 0.9 : 0.6,
-              }}  
-            />
-              { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
-              <View style={{
-                paddingLeft: 4,
-                paddingRight: 40,
-                flexDirection: 'row'
-              }}>
-                <Text style={{
-                  ...textStyles,
-                  flexWrap: 'wrap',
-                  fontFamily: 'IBMPlexSansCond-Bold',
-                  fontSize: (Platform.OS === 'web' ? 16 : 20) * fontSizeMultiplier(),
-                  lineHeight: (Platform.OS === 'web' ? 18 : 24) * fontSizeMultiplier()
-                }}>{title}</Text>
-              </View>
-              <View style={{
-                paddingLeft: 4,
-                paddingRight: 4,
-                paddingBottom: 2
-              }}>
-                <Text style={{
-                  ...textStyles,
-                  fontFamily: 'IBMPlexMono-Bold',
-                  fontSize: (Platform.OS === 'web' ? 10 : 12) * fontSizeMultiplier()
-                }}>{numItems} {isSaved ? `article${numItems > 1 ? 's' : ''}` : 'unread'}</Text>
-              </View>
-          </View>
-        </View>
-        { type == 'feed' &&
-          <View
-            style={{
-              height: cardHeight,
-              width: cardWidth,
-              borderRadius: 16,
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              backgroundColor: 'transparent',
-              overflow: 'hidden'
-          }}>
-            {/* <View style={{
-              backgroundColor: 'transparent', //hslString(feed?.color),
-              position: 'absolute',
-              bottom: -65,
-              right: -65,
-              zIndex: 5,
-              width: 130,
-              height: 130,
-              transform: [{
-                rotateZ: '45deg'
-              }]
-            }} />
-            <View style={{
-              position: 'absolute',
-              bottom: margin / 2,
-              right: margin / 2,
-              zIndex: 10
-            }}> */}
-            <View style={{
-              position: 'absolute',
-              bottom: margin,
-              right: margin/2,
-              zIndex: 10
+                backgroundColor: 'white',
+                height: '100%',
+                width: '105%',
+                borderRadius: 8,
+                overflow: 'hidden',
+                flex: 1,
+                flexDirection: 'row',
+                flexWrap: 'wrap'
             }}>
-              {/* <FeedIconContainer
-                feed={feed}
-                iconDimensions={cachedIconDimensions}
-              /> */
-            }
-              <FeedIconContainer
-                feed={feed}
-                iconDimensions={cachedIconDimensions}
-              />
+              { coverImageSources && coverImageSources.map((source: Feed | Item | undefined, index: number, sources: (Feed | Item | undefined)[]) => (
+                  source && (
+                    <View 
+                      key={source._id}
+                      style={{
+                        backgroundColor: hslString(source.color || 'black', 'desaturated'),
+                        width: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth,
+                        height: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight
+                      }}>
+                      <CardCoverImage
+                        feedId={isSaved ? undefined : source._id}
+                        itemId={isSaved ? source._id : undefined }
+                        width={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth}
+                        height={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight}
+                      />
+                    </View>
+                  )
+                )) 
+              }
             </View>
+
           </View>
-        }
+          { type == 'feed' &&
+            <View
+              style={{
+                height: cardHeight,
+                width: cardWidth,
+                borderRadius: 8,
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                backgroundColor: 'transparent',
+                overflow: 'hidden'
+            }}>
+              <View style={{
+                position: 'absolute',
+                bottom: margin,
+                right: margin/2,
+                zIndex: 10
+              }}>
+                <FeedIconContainer
+                  feed={feed}
+                  iconDimensions={cachedIconDimensions}
+                />
+              </View>
+            </View>
+          }
+          </View>
+          { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
+          <View style={{
+            paddingLeft: 4,
+            paddingRight: 40,
+            paddingTop: 8,
+            flexDirection: 'row'
+          }}>
+            <Text style={{
+              ...textStyles,
+              flexWrap: 'wrap',
+              fontFamily: 'IBMPlexSans-Bold',
+              fontSize: (Platform.OS === 'web' ? 16 : 18) * fontSizeMultiplier(),
+              lineHeight: (Platform.OS === 'web' ? 18 : 20) * fontSizeMultiplier()
+            }}>{title}</Text>
+          </View>
+          <View style={{
+            paddingLeft: 4,
+            paddingRight: 4,
+            paddingBottom: 4
+          }}>
+            <Text style={{
+              ...textStyles,
+              fontFamily: 'IBMPlexSans',
+              fontSize: (Platform.OS === 'web' ? 12 : 14) * fontSizeMultiplier(),
+              opacity: 0.5
+            }}>{numItems} {isSaved ? `article${numItems > 1 ? 's' : ''}` : 'unread'}</Text>
+          </View>
       </Animated.View>
     </TouchableOpacity>
   )

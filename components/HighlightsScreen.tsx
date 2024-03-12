@@ -87,7 +87,7 @@ export default function HighlightsScreen () {
   })
   
   const shadowStyle = {
-    shadowColor: 'black',
+    shadowColor: 'rgba(0, 0, 0, 0.3)',
     shadowRadius: 5,
     shadowOpacity: 0.3,
     shadowOffset: {
@@ -100,6 +100,7 @@ export default function HighlightsScreen () {
     <View key={i} style={{
       backgroundColor: hslString('white'),
       margin: getMargin(),
+      maxWidth: 500,
       padding: getMargin(),
       paddingBottom: getMargin() * 0.5,
       borderRadius: getMargin(),
@@ -151,9 +152,11 @@ export default function HighlightsScreen () {
       key={i}
       style={{
         marginBottom: i === array.length - 1 ? 0 : getMargin(),
-        paddingBottom: i === array.length - 1 ? 0 : getMargin() * 0.5,
-        borderBottomColor: hslString('rizzleText', '', 0.2),
+        marginTop: i === 0 ? 0 : getMargin(),
+        paddingBottom: i === array.length - 1 ? 0 : getMargin(),
+        borderBottomColor: hslString('rizzleText', '', 0.1),
         borderBottomWidth: i === array.length - 1 ? 0 : 1,
+        maxWidth: '100%',
       }}>
       <View style={{
         borderLeftColor: hslString('rizzleHighlight'),
@@ -165,8 +168,8 @@ export default function HighlightsScreen () {
           marginLeft: 0,
           marginRight: 0,
           fontFamily: 'IBMPlexSerif',
-          borderLeftWidth: 2,
-          borderLeftColor: hslString('rizzleHighlight'),
+          // borderLeftWidth: 2,
+          // borderLeftColor: hslString('rizzleHighlight'),
         }}>{h.text}</Text>
       </View>
       { h.note && (

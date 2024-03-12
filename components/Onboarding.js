@@ -429,7 +429,7 @@ const Onboarding3 = ({ index }) => {
             marginBottom: 24 * fontSizeMultiplier(),
           }}
         />
-        {!!inlineMessage ?
+        {!!inlineMessage && !session.error ?
           <Text style={{
             ...textLargeStyle,
             textAlign: 'center',
@@ -447,24 +447,28 @@ const Onboarding3 = ({ index }) => {
             text='Send me a link'
           />)
         }
-        <Text style={{
-          ...textLargeStyle,
-          textAlign: 'center',
-          marginTop: 24 * fontSizeMultiplier(),
-          marginBottom: 24 * fontSizeMultiplier(),
-        }}>or</Text>
-        <AppleButton
-          buttonStyle={AppleButton.Style.BLACK}
-          buttonType={AppleButton.Type.SIGN_IN}
-          style={{
-            width: '100%',
-            height: 40 * fontSizeMultiplier(),
-            maxWidth: 700,
-            borderRadius: 20 * fontSizeMultiplier(),
-            alignSelf: 'center',
-          }}
-          onPress={() => onAppleButtonPress()}
-        />
+        {!!inlineMessage && !session.error ? null : (
+          <>
+            <Text style={{
+              ...textLargeStyle,
+              textAlign: 'center',
+              marginTop: 24 * fontSizeMultiplier(),
+              marginBottom: 24 * fontSizeMultiplier(),
+            }}>or</Text>
+            <AppleButton
+              buttonStyle={AppleButton.Style.BLACK}
+              buttonType={AppleButton.Type.SIGN_IN}
+              style={{
+                width: '100%',
+                height: 40 * fontSizeMultiplier(),
+                maxWidth: 700,
+                borderRadius: 20 * fontSizeMultiplier(),
+                alignSelf: 'center',
+              }}
+              onPress={() => onAppleButtonPress()}
+            />
+          </>
+        )}
       </View>
     </OnboardingPage>
   )
