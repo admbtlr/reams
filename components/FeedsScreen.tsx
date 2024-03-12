@@ -12,6 +12,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  ScrollView,
   SectionList,
   StatusBar,
   Text,
@@ -170,7 +171,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
       []
 
     const catCards = categories ?
-      categories.filter((c: Category) => (isSaved && c.itemIds.length > 0) || (!isSaved && c.feeds.length > 0))
+      categories.filter((c: Category) => (isSaved && c.itemIds?.length > 0) || (!isSaved && c.feedIds?.length > 0))
         .sort((a, b) => a.name < b.name ? -1 : 1).map(category => ({
         _id: category._id,
         type: 'category',
@@ -216,11 +217,15 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     if (!title) return null
     const margin = getMargin()
     return (
-      <View style={{ width }}>
+      <View style={{ 
+        maxWidth: 1000,
+        width: '100%'
+      }}>
         <View style={{
-          borderTopColor: hslString('rizzleText', '', 0.3),
+          borderTopColor: hslString('rizzleText', '', 0.2),
           borderTopWidth: 1,
-          marginVertical: margin,
+          marginTop: margin * 2,
+          marginHorizontal: margin,
           paddingTop: margin / 2,
           flex: 1,
           flexDirection: 'row',
@@ -231,6 +236,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
             fontFamily: 'IBMPlexSans-Bold',
             fontSize: 22 * fontSizeMultiplier(),
             padding: 0,
+            // marginTop: margin,
             marginLeft: 0,
             flex: 4
           }}>{title}</Text> 
@@ -262,17 +268,47 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   const renderFeed = ({item, index, count}: {item: any, index: number, count: number}) => {
     // const isSelected = this.state.selectedFeedElement !== null &&
     //   this.state.selectedFeedElement.props.feedId === item._id
-    return item && <FeedContracted
-      _id={item._id}
-      key={item._id}
-      count={count}
-      title={item.title || item.name}
-      type={item.type}
-      index={index}
-      navigation={navigation}
-      isSaved={isSaved}
-      {...{ modal, width }}
-    />
+    return item && <View style={{ 
+      marginLeft: index === 0 ? margin : 0,
+      marginRight: margin
+    }}>
+      <FeedContracted
+        _id={item._id}
+        key={item._id}
+        count={count}
+        title={item.title || item.name}
+        type={item.type}
+        index={index}
+        navigation={navigation}
+        isSaved={isSaved}
+        {...{ modal, width }}
+      />
+    </View>
+  }
+
+  const renderSection = ({ section }: { section: { data: any[] }}) => {
+    const count = section.data.length
+    return (
+      <View style={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        marginTop: margin
+        // width: '100%',
+        // maxWidth: 1000,
+        // paddingHorizontal: getMargin(),
+      }}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={{
+            width: '100%',
+            maxWidth: 1000,
+          }}>
+            { section.data.map((item, index) => renderFeed({ item, index, count })) }
+          </ScrollView>
+      </View>
+    )
   }
 
   console.log('RENDER FEEDS SCREEN')
@@ -345,53 +381,33 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
             }}>You can also add feeds from an OPML file, or the built-in library:</Text>
             <TextButton text='Add Feeds' onPress={showAddFeeds} />
           </View>) :
-          <AnimatedSectionList
-            sections={sections}
-            key={screenWidth}
-            keyExtractor={(card: any) => card._id}
-            initialNumToRender={3}
-            numColumns={numCols}
-            onScroll={Animated.event(
-              [{ nativeEvent: {
-                contentOffset: { y: scrollAnim }
-              }}],
-              {
-                useNativeDriver: true
-              }
-            )}
-            scrollEventThrottle={1}
-            stickySectionHeadersEnabled={false}
-            // renderItem={this.renderFeed}
-            renderItem={({section, index}) => {
-              if (index % numCols) { // items are already consumed 
-                return null
-              }
-              // grab all items for the row
-              const rowItems = section.data?.slice(index, index+numCols)
-                .map((item, i, array) => ({ 
-                  item, 
-                  index: index+i,
-                  count: array.length
-                }))
-              // wrap selected items in a "row" View 
-
-              return rowItems ? <View 
-                  style={{
-                    flexDirection:"row",
-                    justifyContent:"flex-start"
-                  }}
-                >{rowItems.map(renderFeed)}</View> :
-                null
+          <ScrollView
+            style={{
+              flex: 1,
+              width: '100%'
             }}
-            renderSectionHeader={renderSectionHeader}
-            scrollEnabled={scrollEnabled}
-            style={{ overflow: 'visible' }}
-            showsVerticalScrollIndicator={false}
-            onScrollBeginDrag={() => { isScrolling = true }}
-            onScrollEndDrag={() => { isScrolling = false }}
-            windowSize={6}
-            ListHeaderComponent={<View style={{height: margin}}/>}
-          />
+            // onScroll={Animated.event(
+            //   [{ nativeEvent: {
+            //     contentOffset: { y: scrollAnim }
+            //   }}],
+            //   {
+            //     useNativeDriver: true
+            //   }
+            // )}
+            // scrollEventThrottle={1}
+          >
+            { sections.map((section, index) => {
+              if (section.data.length === 0) return null
+              return (
+                <View key={index} style={{ width: '100%' }}>
+                  { renderSectionHeader({ section }) }
+                  { renderSection({ section }) }
+                </View>
+              )
+            })
+            }
+          </ScrollView>
+
         }
         { modal !== null && (
             <FeedExpanded {...modal} {...{ close }} />
