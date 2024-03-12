@@ -169,11 +169,11 @@ export function updateFeed (feed) {
   }
 }
 
-export function removeFeed (feed) {
+export async function removeFeed (feed) {
   if (backend === 'feedbin') {
-    feedbin.removeFeed(feed)
+    await feedbin.removeFeed(feed)
   }
-  return reams.removeFeed(feed)
+  return await reams.removeFeed(feed)
 }
 
 export async function getFeedMeta (feed) {
@@ -181,32 +181,32 @@ export async function getFeedMeta (feed) {
 }
 
 export async function getCategories () {
-  switch (backend) {
-    case 'feedbin':
-      return await feedbin.getCategories()
-  }
+  // let's just say that categories are not supported when using feedbin as a backend
+  // if (backend === 'feedbin') {
+  //   await feedbin.getCategories()
+  // }
+  return await reams.getCategories()
 }
 
-export async function createCategory (category) {
-  switch (backend) {
-    case 'feedbin':
-      return await feedbin.createCategory(category)
-  }
+export async function addCategory (category) {
+  // if (backend === 'feedbin') {
+  //   await feedbin.addCategory(category)
+  // }
+  return await reams.addCategory(category)
 }
 
 export async function updateCategory (category) {
-  
-  switch (backend) {
-    case 'feedbin':
-      return await feedbin.updateCategory(category)
-  }
+  // if (backend === 'feedbin') {
+  //   await feedbin.updateCategory(category)
+  // }
+  return await reams.updateCategory(category)
 }
 
 export async function deleteCategory (category) {
-  switch (backend) {
-    case 'feedbin':
-      return await feedbin.deleteCategory(category)
-  }
+  // if (backend === 'feedbin') {
+  //   await feedbin.deleteCategory(category)
+  // }
+  return await reams.deleteCategory(category)
 }
 
 export function authenticate ({username, password, email}, backend) {

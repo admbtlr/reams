@@ -7,6 +7,7 @@ import {
   SHOW_HELPTIP
 } from '../store/ui/types'
 import { CREATE_CATEGORY, Category } from '../store/categories/types'
+import { createCategory as createCategoryAction } from '../store/categories/categoriesSlice'
 import React, { useCallback, useEffect, useState } from 'react'
 import {
   Animated,
@@ -23,7 +24,7 @@ import FeedExpanded from '../containers/FeedExpanded'
 import TextButton from './TextButton'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
-import { getInset, getMargin, getStatusBarHeight } from '../utils/'
+import { getInset, getMargin, getStatusBarHeight, id } from '../utils/'
 import { fontSizeMultiplier } from '../utils'
 import { textInfoStyle } from '../utils/styles'
 import { RootState } from 'store/reducers'
@@ -115,10 +116,16 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
 
   const { openModal } = useModal()
 
-  const createCategory = (name: string) => dispatch({
-    type: CREATE_CATEGORY,
-    name
-  })
+  const createCategory = (name: string) => {
+    const category: Category = {
+      _id: id() as string,
+      name,
+      isSystem: false,
+      feedIds: [],
+      itemIds: []
+    }
+    return dispatch(createCategoryAction(category))
+  }
 
   const close = () => {
     setModal(null)

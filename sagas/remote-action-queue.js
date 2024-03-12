@@ -11,7 +11,7 @@ import {
   UPDATE_CATEGORY, 
   UPDATE_CATEGORY_REMOTE 
 } from '../store/categories/types'
-import { createCategory, deleteCategory, markItemRead, markItemsRead, updateCategory } from '../backends'
+import { addCategory, deleteCategory, markItemRead, markItemsRead, updateCategory } from '../backends'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
 import { updateItem as updateItemSQLite } from '../storage/sqlite'
 import { updateItem as updateItemIDB } from '../storage/idb-storage'
@@ -76,7 +76,7 @@ function * executeAction (action) {
         yield execute(markItemsRead, action)
         break
       case CREATE_CATEGORY_REMOTE:
-        yield execute(createCategory, action.category)
+        yield execute(addCategory, action.category)
         break  
       case DELETE_CATEGORY_REMOTE:
         yield execute(deleteCategory, action.category)

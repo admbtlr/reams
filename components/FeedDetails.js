@@ -151,9 +151,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
       }}>
         <View style={{
           paddingTop: getMargin(),
-          // paddingBottom: getMargin() - 8,
-          height: 60 * fontSizeMultiplier(),
-          backgroundColor: 'yellow'
+          height: 60 * fontSizeMultiplier()
           
         }}>
           <CategoryToggles feed={feed} />
@@ -171,7 +169,6 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
           </ScrollView> */}
         </View>
         <View style={{
-            backgroundColor: 'red',
             flexDirection: 'column',
             flex: 0,
             width: '100%'

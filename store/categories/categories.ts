@@ -68,7 +68,7 @@ export function categories (
             id: action.id,
             _id: action._id || id(),
             name: action.name,
-            feeds: [],
+            feedIds: [],
             itemIds: []
           } as Category
         ]
@@ -81,10 +81,10 @@ export function categories (
 
     case UPDATE_CATEGORY:
       let incoming = action.category
-      if (incoming.feeds.length > 0 && typeof incoming.feeds[0] === 'object') {
+      if (incoming.feedIds.length > 0 && typeof incoming.feedIds[0] === 'object') {
         // we have a feed object, not just an id
         //@ts-ignore
-        incoming.feeds = incoming.feeds.map((f: Feed) => f._id)
+        incoming.feeds = incoming.feedIds.map((f: Feed) => f._id)
       }
       categories = state.categories.map(c => c._id === incoming._id ?
         incoming :
