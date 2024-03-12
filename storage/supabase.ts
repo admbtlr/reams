@@ -74,7 +74,7 @@ export const getSavedItems = async (currentItems: {
   return savedItems.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0))
 }
 
-export const getReadItems = async () => {
+export const getReadItems = async (newerThan = 0) => {
   const userId = await getUserId()
   if (!userId) {
     throw new Error('No user id')
@@ -83,6 +83,7 @@ export const getReadItems = async () => {
     .from('User_ReadItem')
     .select('Item(*)')
     .eq('user_id', userId)
+    .gte('created_at', pgTimestamp(new Date(newerThan)))
   if (error) {
     throw error
   }
