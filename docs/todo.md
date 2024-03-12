@@ -3,8 +3,6 @@
 - "inflate feeds" - download feed icons instead
 - finish the add a feed manually feature
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
-- backend for saved categories
-- backend for saved items
 - action extension
 - "reams favourites"
 - settings screen
@@ -65,6 +63,8 @@
 - saved folders
 
 # Done
+- ~~backend for saved categories~~
+- ~~backend for saved items~~
 - ~~properly add fonts to web~~
   - https://medium.com/@lvs.sangeeth/how-to-integrate-custom-fonts-in-react-native-for-web-f1ecde43909f
 - ~~why do items disappear from sqlite?~~

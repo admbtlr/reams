@@ -37,41 +37,62 @@ interface Props {
   width: number
 }
 
+interface ThinItem {
+  _id: string
+  color?: number[]
+  feed_id?: string
+  hasCoverImage?: boolean
+  readAt: number | undefined
+}
+
 function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, width }: Props)  {
+  const feeds = useSelector((state: RootState) => state.feeds.feeds)
+  const feedsLocal = useSelector((state: RootState) => state.feedsLocal.feeds)
+  const unreadThinItems = useSelector((state: RootState) => state.itemsUnread.items.map(i => ({
+    _id: i._id,
+    feed_id: i.feed_id,
+    hasCoverImage: i.hasCoverImage,
+    readAt: i.readAt
+  })))
+  const category = useSelector((state: RootState) => state.categories.categories.find(c => c._id === _id), isEqual)
+  const savedThinItems = useSelector((state: RootState) => state.itemsSaved.items.map(i => ({
+    _id: i._id,
+    hasCoverImage: i.hasCoverImage,
+    readAt: i.readAt
+  })))
   let feed: Feed | undefined, 
-    category: Category | undefined, 
     numItems: number | undefined, 
     categoryFeeds: (Feed | undefined)[] = [],
-    categoryItems: (Item | undefined)[] = [],
+    categoryItems: (ThinItem | undefined)[] = [],
     cachedIconDimensions: { width: number, height: number } | undefined
   if (type === 'feed') {
-    feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === _id), isEqual)
-    numItems = useSelector((state: RootState) => state.itemsUnread.items.filter(i => i.feed_id === _id).filter(i => !i.readAt).length)
-    cachedIconDimensions = useSelector((state: RootState) => state.feedsLocal.feeds.find(fl => fl._id === _id)?.cachedIconDimensions)
+    feed = feeds.find(f => f._id === _id)
+    numItems = unreadThinItems.filter(i => i.feed_id === _id).filter(i => !i.readAt).length
+    cachedIconDimensions = feedsLocal.find(fl => fl._id === _id)?.cachedIconDimensions
   } else if (type === 'all') {
     if (isSaved) {
-      categoryItems = useSelector((state: RootState) => state.itemsSaved.items)
-      numItems = useSelector((state: RootState) => state.itemsSaved.items.length)
+      categoryItems = savedThinItems
+      numItems = savedThinItems.length
     } else {
-      numItems = useSelector((state: RootState) => state.itemsUnread.items.filter(i => !i.readAt).length)
-      categoryFeeds = useSelector((state: RootState) => state.feeds.feeds.filter(f => !f.isMuted), isEqual)  
+      numItems = unreadThinItems.length
+      categoryFeeds = feeds.filter(f => !f.isMuted)
     }
   } else {
-    category = useSelector((state: RootState) => state.categories.categories.find(c => c._id === _id), isEqual)
+    category
     if (isSaved) {
       categoryItems = category ? 
         category.itemIds
-          .map(itemId => useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)))
+          .map(itemId => savedThinItems.find(i => i._id === itemId))
           .filter(i => i !== undefined) : 
         []
       numItems = categoryItems.length
     } else {
-      const categoryFeedIds: string[] = category ? category.feeds : [] // note that these are feed_ids
-      numItems = useSelector((state: RootState) => state.itemsUnread.items
+      const categoryFeedIds: string[] = category ? category.feedIds : [] // note that these are feed_ids
+      numItems = unreadThinItems
         .filter(i => categoryFeedIds.find(cf => cf === i.feed_id) !== undefined)
-        .filter(i => !i.readAt).length)
-      categoryFeeds = useSelector((state: RootState) => categoryFeedIds.map(cfi => state.feeds.feeds.find(f => f._id === cfi)), isEqual)
-      cachedIconDimensions = useSelector((state: RootState) => state.feedsLocal.feeds.find(fl => fl._id === categoryFeeds[0]?._id)?.cachedIconDimensions)
+        .filter(i => !i.readAt).length
+      categoryFeeds = categoryFeedIds.map(cfi => feeds.find(f => f._id === cfi))
+      cachedIconDimensions = feedsLocal.find(fl => fl._id === categoryFeeds[0]?._id)?.cachedIconDimensions
     }
   }
 
@@ -214,7 +235,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
               _id: category?._id || '',
               itemIds: category?.itemIds || [],
               name: state.categoryName || category?.name,
-              feeds: state.deletableRows.map((dr: Feed) => dr.id)
+              feedIds: state.deletableRows.map((dr: Feed) => dr._id)
             })
           }
         })
@@ -323,7 +344,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                 flexDirection: 'row',
                 flexWrap: 'wrap'
             }}>
-              { coverImageSources && coverImageSources.map((source: Feed | Item | undefined, index: number, sources: (Feed | Item | undefined)[]) => (
+              { coverImageSources && coverImageSources.map((source: Feed | Item | ThinItem | undefined, index: number, sources: (Feed | Item | ThinItem | undefined)[]) => (
                   source && (
                     <View 
                       key={source._id}

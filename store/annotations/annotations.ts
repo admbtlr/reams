@@ -3,8 +3,12 @@ import {
 } from "./types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../reducers";
-import { supabase } from "../../storage/supabase"
-import { pgTimestamp } from "../../utils"
+import { 
+  addAnnotation as addAnnotationSupabase,
+  updateAnnotation as updateAnnotationSupabase,
+  deleteAnnotation as deleteAnnotationSupabase,
+  fetchAnnotations as fetchAnnotationsSupabase
+} from "../../storage/supabase"
 
 export const createAnnotation = createAsyncThunk(
   'annotations/createAnnotation',
@@ -14,15 +18,7 @@ export const createAnnotation = createAsyncThunk(
       // TODO add to remote action queue
       return annotation
     } else {
-      const { data } = await supabase.auth.getSession()
-      const { error } = await supabase.from('Annotation').insert({
-        ...annotation,
-        created_at: pgTimestamp(),
-        updated_at: pgTimestamp(),
-        user_id: data?.session?.user?.id
-      })
-      if (error) throw error
-      return annotation
+      return await addAnnotationSupabase(annotation)
     }
   }
 )
@@ -35,14 +31,7 @@ export const updateAnnotation = createAsyncThunk(
       // TODO add to remote action queue
       return annotation
     } else {
-      const { data } = await supabase.auth.getSession()
-      const { error } = await supabase.from('Annotation').update({
-        ...annotation,
-        updated_at: pgTimestamp(),
-        user_id: data?.session?.user?.id
-      }).eq('_id', annotation._id)
-      if (error) throw error
-      return annotation
+      return await updateAnnotationSupabase(annotation)
     }
   }
 )
@@ -55,11 +44,7 @@ export const deleteAnnotation = createAsyncThunk(
       // TODO add to remote action queue
       return annotation
     } else {
-      const { error } = await supabase.from('Annotation')
-        .delete()
-        .eq('_id', annotation._id)
-      if (error) throw error
-      return annotation
+      return await deleteAnnotationSupabase(annotation)
     }
   }
 )
@@ -69,10 +54,7 @@ export const fetchAnnotations = createAsyncThunk(
   async (_, { getState }): Promise<Annotation[]> => {
     console.log('fetchAnnotations')
     const { annotations } = getState() as RootState
-    const lastUpdated = pgTimestamp(new Date(annotations.updatedAt || 0))
-    const { data, error } = await supabase.from('Annotation').select('*').gte('updated_at', lastUpdated)
-    if (error) throw error
-    return data
+    return await fetchAnnotationsSupabase(annotations.updatedAt)
   }
 )
 
@@ -98,6 +80,7 @@ const annotationsSlice = createSlice({
       state.annotations.splice(i, 1)
     })
     builder.addCase(fetchAnnotations.fulfilled, (state, action) => {
+      // TODO this doesn't account for remotely deleted annotations
       action.payload.forEach((a: Annotation) => {
         let i = state.annotations.findIndex((s: Annotation) => s._id === a._id)
         if (i > -1) {

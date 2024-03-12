@@ -23,12 +23,17 @@ import {
   removeUserFeed as removeUserFeedSupabase,
   addSavedItem as addSavedItemSupabase,
   removeSavedItem as removeSavedItemSupabase,
-  getSavedItems as getSavedItemsSupabase
+  getSavedItems as getSavedItemsSupabase,
+  getCategories as getCategoriesSupabase,
+  addCategory as addCategorySupabase,
+  updateCategory as updateCategorySupabase
 } from '../storage/supabase'
 import { Feed } from '../store/feeds/types'
 import { convertColorIfNecessary } from '../sagas/feeds'
 import { Item } from '../store/items/types'
 import { createItemStyles } from '../utils/createItemStyles'
+import { Category } from '../store/categories/types'
+import log from '../utils/log'
 
 let isPlus = false
 
@@ -50,7 +55,7 @@ export function init () {
 //   try {
 //     auth().sendSignInLinkToEmail(email, actionCodeSettings)
 //   } catch (e) {
-//     console.log(e)
+//     log(e)
 //   }
 
 // }
@@ -100,7 +105,7 @@ export async function fetchItems (
       newItems = newItems.filter(newItem => !readItems.find(readItem => newItem._id === readItem._id))
       callback(newItems)
     } catch (error) {
-      console.log(error)
+      log(error)
     }
   }
   return true
@@ -109,7 +114,7 @@ export async function fetchItems (
 // function extractErroredFeeds (unreadItemsArrays) {
 //   let errored = unreadItemsArrays.filter(uia => uia.message)
 //   errored.forEach(({feed, message}) => {
-//     console.log(`${feed.title} has errored: ${message}`)
+//     log(`${feed.title} has errored: ${message}`)
 //   })
 //   return unreadItemsArrays.filter(uia => uia.length)
 // }
@@ -188,7 +193,7 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
         })
     })
     .catch(err => {
-      console.log(err)
+      log(err)
     })
 }
 
@@ -199,14 +204,19 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
 // }
 
 export async function markItemsRead (items: Item[]) {
-  addReadItemsSupabase(items)
+  try {
+    addReadItemsSupabase(items)
+  } catch (e) {
+    log('Error marking items read in supabase', e)
+    throw e
+  }
 }
 
 export const saveItem = async (item: Item) => {
   try {
     await addSavedItemSupabase(item)
   } catch (e) {
-    console.log('Error adding feed to supabase', e)
+    log('Error saving item in supabase', e)
     throw e
   }
 }
@@ -215,25 +225,27 @@ export const unsaveItem = async (item: Item) => {
   try {
     await removeSavedItemSupabase(item)
   } catch (e) {
-    console.log('Error adding feed to supabase', e)
+    log('Error unsaving an item in supabase', e)
     throw e
   }
 }
 
 
-// export function saveExternalItem (item, folder) {
-//   if (isPlus) {
-//     return upsertSavedItemFS(item)
-//   }
-//   return item
-// }
+export async function saveExternalItem (item: Item) {
+  try {
+    await addSavedItemSupabase(item)
+  } catch (e) {
+    log('Error saving item in supabase', e)
+    throw e
+  }
+}
 
 export async function addFeed (feedToAdd: {url: string, id?: number}, userId?: string): Promise<Feed | undefined> {
   let feed
   try {
     feed = await addFeedSupabase(feedToAdd, userId)
   } catch (e) {
-    console.log('Error adding feed to supabase', e)
+    log('Error adding feed to supabase', e)
   } finally {
     return feed
   }
@@ -284,7 +296,7 @@ interface FeedMeta {
 }
 
 export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta> {
-  console.log('getFeedMeta')
+  log('getFeedMeta')
   const apiUrl = `${Config.API_URL}/feed-meta?url=${feed.url}`
   return fetch(apiUrl).then(response => {
     return { response, feed }
@@ -297,7 +309,7 @@ export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta> {
     }
     return response.json()
   }).then(json => {
-    console.log(json)
+    log(json)
     return {
       ...json,
       url: feed.url,
@@ -343,6 +355,33 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
     }
   } catch (e: any) {
     throw new Error(`Error finding feeds for ${url}: ${e.message}`)
+  }
+}
+
+export async function getCategories () {
+  try {
+    return await getCategoriesSupabase()
+  } catch (e) {
+    log('Error getting categories from supabase', e)
+    throw e
+  }
+}
+
+export async function addCategory (category: Category) {
+  try {
+    return await addCategorySupabase(category)
+  } catch (e) {
+    log('Error creating category in supabase', e)
+    throw e
+  }
+}
+
+export async function updateCategory (category: Category) {
+  try {
+    return await updateCategorySupabase(category)
+  } catch (e) {
+    log('Error updating category in supabase', e)
+    throw e
   }
 }
 

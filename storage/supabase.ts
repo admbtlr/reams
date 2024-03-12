@@ -6,8 +6,10 @@ import { Item } from '../store/items/types'
 import { Database } from './supabase.types'
 import { Feed } from '../store/feeds/types'
 import { getFeedMeta } from '../backends/reams'
-import { id as createId} from '../utils'
+import { id as createId, pgTimestamp} from '../utils'
 import { createItemStyles } from '../utils/createItemStyles'
+import { Category } from '../store/categories/types'
+import { Annotation } from '../store/annotations/types'
 
 const supabaseUrl = Config.SUPABASE_URL
 const supabaseAnonKey = Config.SUPABASE_ANON_KEY
@@ -122,7 +124,7 @@ export const addReadItems = async (items: Item[]) => {
 export const addSavedItem = async (item: Item) => {
   const { data, error } = await supabase
     .from('Item')
-    .upsert({ _id: item._id, url: item.url }, { onConflict: '_id,url' })
+    .upsert({ _id: item._id, url: item.url, title: item.title }, { onConflict: '_id,url' })
     .select()
   if (error) {
     throw error
@@ -192,7 +194,10 @@ export const getFeed = async (url: string): Promise<FeedDB | null> => {
   }
   // console.log(url)
   // console.log('getFeed', data)
-  return data === null ? null : data[0] as FeedDB
+  return data === null ? null : {
+    ...data[0],
+    color: data[0]?.color?.match(/\[[0-9]*,[0-9]*,[0-9]*\]/) ? JSON.parse(data[0].color) : [0, 0, 0]
+  } as FeedDB
 }
 
 export const getFeeds = async (): Promise<FeedDB[] | null> => {
@@ -221,7 +226,6 @@ export const getFeedBySiteUrl = async (siteUrl: string): Promise<FeedDB | null> 
   // console.log('getFeed', data)
   return data === null ? null : data[0] as FeedDB
 }
-
 
 interface FeedDB {
   _id: string
@@ -305,7 +309,7 @@ export const addFeed = async (feed: { url: string, id?: number }, userId?: strin
     url: feedDB.url,
     title: feedDB.title,
     description: feedDB.description,
-    color: feedDB.color,
+    color: feedDB.color.replace(/[\[\]]/g, '').split(',').map(c => parseInt(c)),
     favicon: {
       url: feedDB.favicon_url,
       size: feedDB.favicon_size
@@ -327,4 +331,243 @@ export const removeUserFeed = async (feed: Feed) => {
   if (response.error) {
     throw response.error
   }
+}
+
+export const getCategories = async (): Promise<Category[]> => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const {data, error} = await supabase
+    .from('Category')
+    .select('*')
+    .eq('user_id', userId)
+  if (error) {
+    throw error
+  }
+  const categories = data === null ? [] : data as Category[]
+  for (const category of categories) {
+    category.feedIds = await getFeedIdsForCategory(category)
+    category.itemIds = await getItemIdsForCategory(category)
+  }
+  return categories
+}
+
+export const addCategory = async (category: Category) => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { error } = await supabase
+    .from('Category')
+    .insert({ 
+      _id: category._id,
+      name: category.name,
+      user_id: userId
+    })
+  if (error) {
+    throw error
+  }
+  return category
+}
+
+export const removeCategory = async (category: Category) => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { error } = await supabase
+    .from('Category')
+    .delete()
+    .eq('_id', category._id)
+    .eq('user_id', userId)
+  if (error) {
+    throw error
+  }
+}
+
+export const updateCategory = async (category: Category) => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { error } = await supabase
+    .from('Category')
+    .upsert({ 
+      _id: category._id,
+      name: category.name,
+      user_id: userId
+    })
+  if (error) {
+    throw error
+  }
+  await setFeedIdsForCategory(category)
+  await setItemIdsForCategory(category)
+  return category
+}
+
+export const addFeedToCategory = async (feed: Feed, category: Category) => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { error } = await supabase
+    .from('Category_Feed')
+    .insert({ 
+      category_id: category._id,
+      feed_id: feed._id
+    })
+  if (error) {
+    throw error
+  }
+}
+
+export const removeFeedFromCategory = async (feed: Feed, category: Category) => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { error } = await supabase
+    .from('Category_Feed')
+    .delete()
+    .eq('category_id', category)
+    .eq('feed_id', feed)
+  if (error) {
+    throw error
+  }
+}
+
+export const addItemToCategory = async (item: Item, category: Category) => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { error } = await supabase
+    .from('Category_Item')
+    .insert({ 
+      category_id: category._id,
+      item_id: item._id
+    })
+  if (error) {
+    throw error
+  }
+}
+
+export const removeItemFromCategory = async (item: Item, category: Category) => {
+  const userId = await getUserId()
+  if (!userId) {
+    throw new Error('No user id')
+  }
+  const { error } = await supabase
+    .from('Category_Item')
+    .delete()
+    .eq('category_id', category)
+    .eq('item_id', item)
+  if (error) {
+    throw error
+  }
+}
+
+export const getItemIdsForCategory = async (category: Category) => {
+  const { data, error } = await supabase
+    .from('Category_Item')
+    .select('item_id')
+    .eq('category_id', category._id)
+  if (error) {
+    throw error
+  }
+  return data === null ? [] : data.map(d => d.item_id) as string[]
+}
+
+export const setItemIdsForCategory = async (category: Category) => {
+  const { error } = await supabase
+    .from('Category_Item')
+    .delete()
+    .eq('category_id', category._id)
+  if (error) {
+    throw error
+  }
+  if (category.itemIds) {
+    const { error: insertError } = await supabase
+      .from('Category_Item')
+      .insert(category.itemIds.map(item_id => ({ category_id: category._id, item_id })))
+    if (insertError) {
+      throw insertError
+    }
+  }
+  return category
+}
+
+export const setFeedIdsForCategory = async (category: Category) => {
+  const { error } = await supabase
+    .from('Category_Feed')
+    .delete()
+    .eq('category_id', category._id)
+  if (error) {
+    throw error
+  }
+  if (category.feedIds) {
+    const { error: insertError } = await supabase
+      .from('Category_Feed')
+      .insert(category.feedIds.map(feed_id => ({ category_id: category._id, feed_id })))
+    if (insertError) {
+      throw insertError
+    }
+  }
+  return category
+}
+
+export const getFeedIdsForCategory = async (category: Category) => {
+  const { data, error } = await supabase
+    .from('Category_Feed')
+    .select('feed_id')
+    .eq('category_id', category._id)
+  if (error) {
+    throw error
+  }
+  return data === null ? [] : data.map(d => d.feed_id) as string[]
+}
+
+export const addAnnotation = async (annotation: Annotation) => {
+  const { data } = await supabase.auth.getSession()
+  const { error } = await supabase.from('Annotation').insert({
+    ...annotation,
+    created_at: pgTimestamp(),
+    updated_at: pgTimestamp(),
+    user_id: data?.session?.user?.id
+  })
+  if (error) {
+    throw error
+  }
+  return annotation
+}
+
+export const updateAnnotation = async (annotation: Annotation) => {
+  const { data } = await supabase.auth.getSession()
+  const { error } = await supabase.from('Annotation').update({
+    ...annotation,
+    updated_at: pgTimestamp(),
+    user_id: data?.session?.user?.id
+  }).eq('_id', annotation._id)
+  if (error) {
+    throw error
+  }
+  return annotation
+}
+
+export const deleteAnnotation = async (annotation: Annotation) => {
+  const { error } = await supabase.from('Annotation')
+    .delete()
+    .eq('_id', annotation._id)
+  if (error) {
+    throw error
+  }
+  return annotation
+}
+
+export const fetchAnnotations = async (newerThan: number = 0) => {
+  const lastUpdated = pgTimestamp(new Date(newerThan))
+  const { data, error } = await supabase.from('Annotation').select('*').gte('updated_at', lastUpdated)
+  if (error) throw error
+  return data
 }

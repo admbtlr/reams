@@ -74,7 +74,7 @@ function * startDownloads () {
     yield call(fetchAllItems, true)
     yield call(clearReadItems)
     yield call(pruneItems)
-    yield call(getCategories)
+    // yield call(getCategories)
     yield call(decorateItems)
     yield call(executeRemoteActions)
     // yield call(inflateFeeds)    

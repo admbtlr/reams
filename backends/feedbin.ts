@@ -335,7 +335,7 @@ export async function getCategories () {
   }))
 }
 
-export async function createCategory () {
+export async function addCategory () {
   // weirdly, this isn't a thing on Feedbin
 }
 

@@ -19,7 +19,7 @@ export interface Category {
   _id: string
   name: string
   isSystem?: boolean
-  feeds: string[] // feed ids, which is sketchy but ok
+  feedIds: string[] // feed ids, which is sketchy but ok
   itemIds: string[]
 }
 

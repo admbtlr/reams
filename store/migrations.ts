@@ -300,5 +300,29 @@ export const migrations = {
         feedbinId: f.id
       }
     })
+    return {
+      ...state,
+      feeds: {
+        ...state.feeds,
+        feeds
+      }
+    }
+  },
+  14: async (state: RootState) => {
+    // feeds to feedIds on category
+    const categories = state.categories.categories.map((c: Category) => {
+      return {
+        ...c,
+        feedIds: c.feeds,
+        feeds: undefined
+      }
+    })
+    return {
+      ...state,
+      categories: {
+        ...state.categories,
+        categories
+      }
+    }
   }
 }
