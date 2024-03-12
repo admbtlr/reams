@@ -55,15 +55,10 @@ export function getMercuryUrl (item) {
 }
 
 export async function getReadItems (oldItems) {
-  let unreadOldItems
-  switch (backend) {
-    case 'basic':
-    case 'reams':
-    case 'feedwrangler':
-      return []
-    case 'feedbin':
-      return await feedbin.getReadItems(oldItems)
+  if (backend === 'feedbin') {
+    return await feedbin.getReadItems(oldItems)
   }
+  return await reams.getReadItems(oldItems)
 }
 
 // old items are (fetched items + read items)

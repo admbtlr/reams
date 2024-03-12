@@ -55,6 +55,12 @@ export function init () {
 
 // }
 
+export async function getReadItems (oldItems: Item[]) {
+  const oldestItem = oldItems.map(i => i.created_at).sort()[0]
+  const readItems = await getReadItemsSupabase(oldestItem)
+  return readItems
+}
+
 // callback, type, lastUpdated, oldItems, feeds, maxNum
 export async function fetchItems (
   callback: (items: Item[]) => void, 
