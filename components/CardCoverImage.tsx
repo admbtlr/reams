@@ -18,7 +18,10 @@ interface Props {
 export default function CardCoverImage ({feedId, itemId, width, height}: Props) {
   const dispatch = useDispatch()
   const feed = feedId ? useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feedId)) : undefined
-  const item = itemId ? useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)) : undefined
+  const item = itemId ? 
+    useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)) ||
+    useSelector((state: RootState) => state.itemsUnread.items.find(i => i._id === itemId)) : 
+    undefined
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
   const feedsLocal = useSelector((state: RootState) => state.feedsLocal)
   const unreadItems = useSelector((state: RootState) => state.itemsUnread.items)
