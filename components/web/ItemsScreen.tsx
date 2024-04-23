@@ -4,9 +4,10 @@ import ItemsList from './ItemsList'
 import ItemView from './ItemView'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/reducers'
-import { DECREMENT_INDEX, INCREMENT_INDEX, Item, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_INDEX } from '../../store/items/types'
+import { DECREMENT_INDEX, INCREMENT_INDEX, Item, ItemInflated, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_INDEX } from '../../store/items/types'
 import { getItems as getItemsSQLite } from "../../storage/sqlite"
 import { getItems as getItemsIDB } from "../../storage/idb-storage"
+import log from '../../utils/log'
 
 let previousItem: Item
 
@@ -18,14 +19,19 @@ export default function ItemsScreen ({}) {
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
   const index = useSelector((state: RootState) => state[itemsStateKey].index)
   const dispatch = useDispatch()
-  const [currentItemInflated, setCurrentItemInflated] = useState()
+
+  const [currentItemInflated, setCurrentItemInflated] = useState<ItemInflated | undefined>();
   useEffect(() => {
     const inflateAndSet = async (currentItem: Item) => {
-      const inflatedItems: Item[] | undefined = Platform.OS === 'web' ?
-        await getItemsIDB([currentItem]) :
-        await getItemsSQLite([currentItem])
-      if (inflatedItems !== undefined && inflatedItems.length) {
-        setCurrentItemInflated(inflatedItems[0])
+      try {
+        const inflatedItems: Item[] | undefined = Platform.OS === 'web' ?
+          await getItemsIDB([currentItem]) :
+          await getItemsSQLite([currentItem])
+        if (inflatedItems !== undefined && inflatedItems.length) {
+          setCurrentItemInflated(inflatedItems[0])
+        }
+      } catch (e) {
+        log('error inflating item', e)
       }
     }
     const currentItem = items && items[index]

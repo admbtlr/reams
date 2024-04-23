@@ -8,7 +8,7 @@ export default function rizzleSort (items, feeds, sortDirection) {
   items.forEach(item => {
     if (!feeds.find(feed => feed._id === item.feed_id)) {
       console.log('NO FEED FOR ITEM!?')
-      console.log(item)
+      // console.log(item)
     }
   })
   const liked = items.filter(item => {

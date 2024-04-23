@@ -1,6 +1,7 @@
 import { concat } from "@tensorflow/tfjs";
 import * as SQLite from "expo-sqlite";
 import { Item, ItemInflated } from "store/items/types";
+import log from "../utils/log";
 
 let db: SQLite.WebSQLDatabase
 
@@ -20,27 +21,33 @@ const columns = [
 
 async function doTransaction(query: string, params?: any[]) {
   return new Promise(async (resolve, reject) => {
-    await db.transaction(async (tx) => {
-      await tx.executeSql(
-        query,
-        params,
-        (_, { rows, rowsAffected }) => {
-          resolve(rowsToArray(rows))
-          return rowsToArray(rows)
-        },
-        (_, error) => {
-          console.log(error)
-          reject(error)
-          return false
-        }
-      )
-    })
+    try {
+      await db.transaction(async (tx) => {
+        await tx.executeSql(
+          query,
+          params,
+          (_, { rows, rowsAffected }) => {
+            resolve(rowsToArray(rows))
+            return rowsToArray(rows)
+          },
+          (_, error) => {
+            console.log(error)
+            reject(error)
+            return false
+          }
+        )
+      })  
+    } catch (error) {
+      log(error)
+      reject(error)
+    }
   })
 }
 
 export async function initSQLite() {
   db = SQLite.openDatabase("db.db")
-  await doTransaction(`
+  try {
+    await doTransaction(`
     create table if not exists items (
       id INT,
       _id STRING PRIMARY KEY NOT NULL,
@@ -54,8 +61,12 @@ export async function initSQLite() {
       scrollRatio TEXT,
       styles TEXT
     );`)
-  // await initSearchTable()
-  console.log('SQLite initialized, items count: ', await doTransaction('select count(*) from items;'))
+    // await initSearchTable()
+    console.log('SQLite initialized, items count: ', await doTransaction('select count(*) from items;'))
+  } catch (error) {
+    log('initSQLite', error)
+    throw error
+  }
 }
 
 // I keep getting Error code 11: database disk image is malformed when I try to query the fts5 table
@@ -158,6 +169,7 @@ export function getItems(items: Item[]): Promise<ItemInflated[]> {
           }
         })
         if (inflatedItems.length !== items.length) {
+          log(new Error('Items missing from database'))
           throw new Error('Items missing from database')
         }
         resolve(inflatedItems)
@@ -226,7 +238,12 @@ export async function updateItem(toUpdate: Record<string, any>) {
       JSON.stringify(toUpdate[key]) :
       toUpdate[key])).map((value) => value === 'null' ? null : value)
   const query = `update items set ${updateString} where _id = ?`
-  return await doTransaction(query, values.concat(toUpdate._id))
+  try {
+    return await doTransaction(query, values.concat(toUpdate._id))
+  } catch (error) {
+    log('updateItem', error)
+    throw error
+  }
 }
 
 export async function searchItems(term: string) {

@@ -68,6 +68,10 @@ export function getFeedsLocal (state: RootState) {
   return state.feedsLocal.feeds
 }
 
+export function getNewsletters (state: RootState) {
+  return state.newsletters.newsletters
+}
+
 export function getLastUpdated (state: RootState, type: ItemType) {
   if (type === 'unread') {
     return state.itemsUnread.lastUpdated || 0

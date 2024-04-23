@@ -8,7 +8,7 @@ import quote from 'headline-quotes'
 import {hslString} from '../utils/colors'
 import {deepEqual, diff, fontSizeMultiplier, getMargin, isIpad} from '../utils'
 import {getTopBarHeight} from './TopBar'
-import * as Sentry from "sentry-expo"
+import * as Sentry from '@sentry/react-native'
 import CategoryToggles from './CategoryToggles'
 
 const entities = require('entities')
@@ -263,9 +263,15 @@ class ItemTitle extends React.Component {
     if (this.state && this.state.optimalFontSize) return
     if (typeof rnTextSize === 'undefined') return
 
-    // first get max font size
-    const maxFontSize = await this.getMaxFontSize()
-    // console.log(`MAX FONT SIZE (${this.displayTitle}): ${maxFontSize}`)
+    let maxFontSize = 32
+
+    try {
+      // first get max font size
+      maxFontSize = await this.getMaxFontSize()
+      // console.log(`MAX FONT SIZE (${this.displayTitle}): ${maxFontSize}`)
+    } catch (e) {
+      log(e)
+    }
 
     let sizes = []
     let i = maxFontSize
@@ -274,7 +280,11 @@ class ItemTitle extends React.Component {
     }
 
     if (Platform.OS !== 'web') {
-      await this.measureSizes(sizes, maxFontSize)
+      try {
+        await this.measureSizes(sizes, maxFontSize)
+      } catch (e) {
+        log(e)
+      }
     }
   }
 

@@ -22,6 +22,8 @@ import { Feed, FeedLocal } from '../store/feeds/types'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
 import { Saturate } from 'react-native-image-filter-kit'
+import { Newsletter } from '../store/newsletters/types'
+import log from '../utils/log'
 
 /* Props:
 - clampedAnimatedValue
@@ -74,17 +76,26 @@ export default function TopBar({
   const filter = useSelector((state: RootState) => state.config.filter || null)
   const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
-  const feed: Feed | undefined = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item.feed_id))
+  let feed: Feed | Newsletter | undefined
+  if (item.isNewsletter) {
+    feed = useSelector((state: RootState) => state.newsletters.newsletters.find(n => n._id === item.feed_id))
+  } else {
+    feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item.feed_id))
+  }
   const feedLocal: FeedLocal | undefined = useSelector((state: RootState) => state.feedsLocal.feeds.find(f => f._id === item.feed_id))
   const webviewHeight = useSelector((state: RootState) => getItems(state).find(i => i._id === item._id)?.webviewHeight || 0)
 
   useEffect(() => {
     const checkStyles = async () => {
-      const inflatedItem = Platform.OS === 'web' ?
-        await getItemIDB(item) :
-        await getItemSQLite(item)
-      const isCoverInline = inflatedItem?.styles?.isCoverInline || false
-      setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
+      try {
+        const inflatedItem = Platform.OS === 'web' ?
+          await getItemIDB(item) :
+          await getItemSQLite(item)
+        const isCoverInline = inflatedItem?.styles?.isCoverInline || false
+        setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
+      } catch (e) {
+        log('TopBar checkStyles', e)
+      }
     }
     checkStyles()
   }, [item])
@@ -94,6 +105,10 @@ export default function TopBar({
     // if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
     //   feedColor = 'transparent'
     // }
+    if (feedColor && typeof(feedColor) !== 'string' && feedColor[2] > 70) {
+      feedColor[2] = 50
+    }
+
     const bgColor = displayMode == ItemType.saved ?
       hslString('rizzleBG') :
       (feedColor ?
@@ -192,10 +207,11 @@ export default function TopBar({
           color={getForegroundColor()}
         />
         <View style={{
+          // backgroundColor: 'yellow',
           top: hasNotchOrIsland() && isPortrait() ? 44 : 22,
           flex: 1,
-          marginLeft: 80 * fontSizeMultiplier(),
-          marginRight: 80 * fontSizeMultiplier()
+          marginLeft: 60 * fontSizeMultiplier(),
+          marginRight: 60 * fontSizeMultiplier()
         }}>
           <TouchableOpacity
             key={`inner-{id()}`}
@@ -295,7 +311,7 @@ export default function TopBar({
                 width: '100%',
               } :
               {
-                marginTop: 10,
+                marginTop: 6,
                 opacity: typeof scrollAnim !== 'number' && isVisible ? 
                   scrollAnim.interpolate({
                     inputRange: [0, 100, 140],

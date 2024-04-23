@@ -1,9 +1,10 @@
 import fs from 'fs'
 import rp from 'request-promise'
 import {feeds} from '../../utils/feeds/index.mjs'
+import Config from 'react-native-config'
 
 const getMeta = async (feedUrl) => {
-  const metaUrl = 'http://localhost:3000/api/feed-meta?url=' + feedUrl
+  const metaUrl = Config.API_URL + '/feed-meta?url=' + feedUrl
   try {
     const meta = await rp({
       uri: metaUrl,

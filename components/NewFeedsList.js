@@ -22,6 +22,7 @@ import { textInfoBoldStyle } from '../utils/styles'
 import { rgba } from 'react-native-image-filter-kit'
 import { useModal } from './ModalProvider'
 import { findFeeds } from '../backends/reams'
+import { ADD_MESSAGE } from '../store/ui/types'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
@@ -156,6 +157,22 @@ export default function NewFeedsList (props) {
                 type: ADD_FEED,
                 feed: feeds[0]
               })
+              dispatch({
+                type: ADD_MESSAGE,
+                message: {
+                  messageString: `Added feed ${feeds[0].title}`,
+                  isSelfDestruct: true
+                }
+              })
+            } else {
+              dispatch({
+                type: ADD_MESSAGE,
+                message: {
+                  messageString: `Couldn't find a feed`,
+                  isSelfDestruct: true
+                }
+              })
+
             }
           } catch(err) {
             console.log(err)

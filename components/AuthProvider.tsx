@@ -1,12 +1,20 @@
 import { AuthChangeEvent, Session } from "@supabase/supabase-js"
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { Linking } from "react-native"
-import { useDispatch } from "react-redux"
+import { Linking, Platform } from "react-native"
+import { useDispatch, useSelector } from "react-redux"
 import { SET_USER_DETAILS, UNSET_BACKEND } from "../store/user/types"
 import { supabase } from "../storage/supabase"
 import { fetchAnnotations } from "../store/annotations/annotations"
 import { START_DOWNLOADS } from "../store/config/types"
 import { fetchCategories } from "../store/categories/categoriesSlice"
+import fetchNewsletterItems from "../backends/fastmail"
+import { ITEMS_BATCH_FETCHED, Item, ItemType } from "../store/items/types"
+import { RootState } from "../store/reducers"
+import { createNewsletter, fetchNewsletters, updateQueryState } from "../store/newsletters/newsletters"
+import { id, sleep } from "../utils"
+import { cleanUpItems } from "../sagas/fetch-items"
+import { createItemStyles } from "../utils/createItemStyles"
+import { persistor } from "../store"
 
 interface SessionContext {
   session?: Session | null,
@@ -25,7 +33,12 @@ export const useSession = () => {
 
 export const AuthProvider = (props: any) => {
   const [session, setSession] = useState<SessionContext>({})
+  const [newsletterItems, setNewsletterItems] = useState<Item[]>([])
   const dispatch = useDispatch()
+  const newsletters = useSelector((state: RootState) => state.newsletters.newsletters)
+  const lastQueryState = useSelector((state: RootState) => state.newsletters.queryState)
+  const feeds = useSelector((state: RootState) => state.feeds.feeds)
+  const sortDirection = useSelector((state: RootState) => state.config.itemSort)
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -35,12 +48,16 @@ export const AuthProvider = (props: any) => {
           setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
           // initial fetches can go here
+          // await sleep(5000)
+          await dispatch(fetchAnnotations())
+          await dispatch(fetchCategories())
+          await dispatch(fetchNewsletters())
           dispatch({ type: START_DOWNLOADS })
-          dispatch(fetchAnnotations())
-          dispatch(fetchCategories())
         } else {
           setSession({session: null})
           dispatch({ type: UNSET_BACKEND, backend: 'reams' })
+          // @ts-ignore
+          await persistor.purge()
         }
       }
     )
@@ -48,6 +65,30 @@ export const AuthProvider = (props: any) => {
       authListener!.subscription.unsubscribe()
     }
   }, [])
+
+  // useEffect(() => {
+  //   if (newsletterItems.length === 0) return
+  //   // this might be dodgy
+  //   if (feeds.length === 0 && newsletters.length === 0) return
+
+  //   const saveNewsletterItems = async (items: Item[]) => {
+  //     if (Platform.OS === 'web') {
+  //       await setItemsIDB(items)
+  //     } else {
+  //       await setItemsSQLite(items)
+  //     }        
+  //     dispatch({
+  //       type: ITEMS_BATCH_FETCHED,
+  //       itemType: ItemType.unread,
+  //       items,
+  //       feeds: feeds.concat(newsletters),
+  //       sortDirection
+  //     })
+  //     setNewsletterItems([])
+  //   }
+  
+  //   saveNewsletterItems(newsletterItems)
+  // }, [newsletterItems, feeds])
 
   useEffect(() => {
     const supabaseLogin = async (url: string) => {

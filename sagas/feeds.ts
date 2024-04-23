@@ -218,12 +218,9 @@ export function convertColorIfNecessary (color: string | number[]) {
   } else {
     color = [0, 0, 0]
   }
-  // if (color[1] > 90) {
-  //   color[1] = Math.round(30 + (color[1] - 30) / 2)
-  // }
-  // if (color[2] > 70) {
-  //   color[2] = Math.round(30 + (color[2] - 30) / 2)
-  // }
+  if (typeof color !== 'string' && color[2] > 60) {
+    color[2] = 60
+  }
   return color
 }
 

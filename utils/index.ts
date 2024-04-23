@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import DeviceInfo from 'react-native-device-info'
 import { Item } from '../store/items/types'
 import { hslString } from './colors'
+import log from './log'
 // import uuid from 'uuid'
 
 const uuid = require('uuid')
@@ -86,6 +87,8 @@ function oneWayDiff (a: any, b: any, changes: { [key: string]: any}) {
   return changes
 }
 
+export const sleep = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay))
+
 export function deviceCanHandleAnimations () {
   if (deviceId === undefined) {
     deviceId = DeviceInfo.getDeviceId()
@@ -116,8 +119,13 @@ export function getRenderedFeedIconPath (id: string) {
 }
 
 export async function fileExists (path: string) {
-  const fileInfo = await FileSystem.getInfoAsync(path)
-  return fileInfo.exists
+  try {
+    const fileInfo = await FileSystem.getInfoAsync(path)
+    return fileInfo.exists  
+  } catch (error) {
+    log('fileExists', error)
+    throw error
+  }
 }
 
 export function getImageDimensions (path: string) {

@@ -1,19 +1,29 @@
 import { Platform } from 'react-native'
-import * as Sentry from 'sentry-expo'
+import * as Sentry from '@sentry/react-native'
 
 export default function log (functionName, err, info) {
-  const output = (typeof err === 'object' && err.name) ? `${err.name}: ${err.message}` : err
+  let output, error
+  if (typeof functionName === 'object') {
+    error = functionName
+    output = `${e.name}: ${e.message}`
+  } else {
+    output = (typeof err === 'object' && err.name) ? `${err.name}: ${err.message}` : err
+    error = err
+  }
   // debugger
-  console.log(`Error at ${functionName}: ${output}`)
+  console.error(output)
   if (info) {
-    console.log(info)
+    console.error(info)
+  }
+  if (error && error.stack) {
+    console.error(error.stack)
   }
   if (Platform.OS === 'web') {
-    Sentry.Browser.captureMessage(`Error at ${functionName}: ${output}`)
-    Sentry.Browser.captureException(err)
+    Sentry.Browser.captureMessage(output)
+    if (error) Sentry.Browser.captureException(error)
   } else {
-    Sentry.Native.captureMessage(`Error at ${functionName}: ${output}`)
-    Sentry.Native.captureException(err)
+    Sentry.captureMessage(output)
+    if (error) Sentry.captureException(error)
   }
 }
 

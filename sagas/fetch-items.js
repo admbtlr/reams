@@ -7,7 +7,8 @@ import {
   MARK_ITEMS_READ,
   SET_LAST_UPDATED,
   ItemType,
-  SET_SAVED_ITEMS
+  SET_SAVED_ITEMS,
+  MARK_ITEMS_READ_SKIP_BACKEND
 } from '../store/items/types'
 import {
   UPDATE_FEEDS
@@ -37,6 +38,7 @@ import {
   getIndex,
   getItems,
   getLastUpdated,
+  getNewsletters,
   getUser,
 } from './selectors'
 import NetInfo from '@react-native-community/netinfo'
@@ -81,7 +83,7 @@ export function * fetchUnreadItems (action) {
 function * addIsNewToFeeds () {
   let feeds = yield select(getFeeds)
   if (!feeds || feeds.length === 0) {
-    return
+    return []
   }
   feeds = feeds.filter(f => !f.isMuted)
   const feedsLocal = yield select(getFeedsLocal)
@@ -100,7 +102,7 @@ function * getReadItemsFromBackendAndMarkRead () {
   const readItems = yield call(getReadItemsBackends, oldItems)
   if (readItems?.length > 0) {
     yield put({
-      type: MARK_ITEMS_READ,
+      type: MARK_ITEMS_READ_SKIP_BACKEND,
       items: readItems
     })  
   }
@@ -186,6 +188,7 @@ function fetchItemsChannel (type, lastUpdated, oldItems, feeds) {
 function * receiveItems (items, type) {
   console.log('Received ' + items.length + ' new items')
   const feeds = yield select(getFeeds)
+  const newsletters = yield select(getNewsletters)
   const config = yield select(getConfig)
   const sortDirection = config.itemSort
   if (type === ItemType.unread) {
@@ -216,7 +219,7 @@ function * receiveItems (items, type) {
       type: ITEMS_BATCH_FETCHED,
       items: items.map(deflateItem),
       itemType: type,
-      feeds,
+      feeds: feeds.concat(newsletters),
       sortDirection,
       updatedFeeds
     })

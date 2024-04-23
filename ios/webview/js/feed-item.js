@@ -497,6 +497,46 @@ function removeSrcSets () {
   }
 }
 
+// substack makes divs with loads of no-space unicode characters
+
+const substack = {
+  is: () => {
+    return document.querySelector('table.email-body-container') !== null
+  },
+  removeEmptyDivs: () => {
+    const divs = document.querySelectorAll('div')
+    for (var i = divs.length - 1; i >= 0; i--) {
+      if (divs[i].innerText.replace(/[\s\u034F\u00AD\u0022]*/g, '').length === 0) {
+        divs[i].remove()
+      }
+    }
+  },
+  fixFigures: () => {
+    const figures = document.querySelectorAll('figure')
+    for (var i = figures.length - 1; i >= 0; i--) {
+      const img = figures[i].querySelector('img')
+      figures[i].appendChild(img)
+    }
+  },
+  removeEmptyTds: () => {
+    const tds = document.querySelectorAll('td')
+    for (var i = tds.length - 1; i >= 0; i--) {
+      if (tds[i].innerText.replace(/[\s\u034F\u00AD\u0022]*/g, '').length === 0 && tds[i].childElementCount === 0) {
+        tds[i].remove()
+      }
+    }
+  }
+}
+
+function remove1x1Images() {
+  const images = document.querySelectorAll('img')
+  for (var i = images.length - 1; i >= 0; i--) {
+    if (images[i].naturalHeight === 1 && images[i].naturalWidth === 1) {
+      images[i].remove()
+    }
+  }
+}
+
 function stopAutoplay () {
   [].slice.call(document.getElementsByTagName('video')).forEach(v => v.removeAttribute('autoplay'))
 }
@@ -598,6 +638,17 @@ function init() {
     postMessage(didScrollDown ? 'scroll-down' : 'scroll-up')
     lastScrollPosition = window.scrollY
   })
+
+  if (substack.is()) {
+    substack.fixFigures()  
+  }
+
+  if (document.querySelector('html').classList.contains('newsletter')) {
+    substack.removeEmptyDivs()
+    substack.removeEmptyTds()
+  }
+
+  remove1x1Images()
 }
 
 window.addEventListener("load", init)

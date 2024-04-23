@@ -40,12 +40,12 @@ export function * removeItems (action) {
   const savedItems = yield select(getSavedItems)
   const itemsToClear = items
     .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
-  yield * doRemoveItems(itemsToClear)
+  yield doRemoveItems(itemsToClear)
 }
 
 export function * removeAllItems () {
   yield call(InteractionManager.runAfterInteractions)
-  yield * doRemoveItems()
+  yield doRemoveItems()
 }
 
 function * doRemoveItems (items) {

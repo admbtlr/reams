@@ -282,9 +282,9 @@ body {
   // overflow: hidden;
 }
 
-.itemArticle {
-  font-size: calc(1rem / 1.6);
-  line-height: 1rem;
+.itemArticle, .itemArticle table {
+  font-size: calc(1rem / 1.6) !important;
+  line-height: 1rem !important;
   margin: 0;
   h1, h2, h3, h4, h5 {
     padding: 0;
@@ -333,6 +333,14 @@ body {
     line-height: 1rem;
     margin: 1rem 0 0;
   }
+}
+
+.itemArticle.bodyFontSerif1, .itemArticle.bodyFontSerif1 table {
+  font-size: calc(1rem / 1.8) !important;
+}
+
+.itemArticle.bodyFontSerif3, .itemArticle.bodyFontSerif3 table {
+  font-size: calc(1rem / 1.7) !important;
 }
 
 .itemArticle {
@@ -525,6 +533,12 @@ body {
     position: relative;
     -webkit-hyphens: none;
     hyphens: none;
+
+    blockquote, .pullquote, aside {
+      margin: 0;
+      padding: 0;
+      left: 0;
+    }
 
     & > p:last-of-type {
       margin-bottom: 0;
@@ -738,6 +752,11 @@ body {
   }
   figure input {
     display: none;
+  }
+
+  // for newsletters
+  table, th, td {
+    max-width: 92vw !important;
   }
 
   .dark-background & {
@@ -1527,6 +1546,50 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   }
 }
 
+// newsletter stuff
+.newsletter {
+  table {
+    padding: 0;
+    -webkit-border-horizontal-spacing: 0;
+    width: 92vw;
+    max-width: 92vw;
+    padding: 0 4vw;
+    margin-left: calc(50% - 50vw);
+  }
+
+  // this is a kludge: the device width is supposed to approximate 24rems
+  // but the rem actually changes according to the font size
+  @media only screen and (min-device-width: 400px) {
+    table, td {
+      max-width: calc(24rem - 4vw) !important;
+      width: calc(24rem - 4vw) !important;
+      margin-left: calc(50% - 12rem - 2vw)
+    }
+  }
+}
+
+// substack stuff
+
+.itemArticle table.email-body-container {
+  // width: 90vw !important; 
+
+  // td {
+  //   padding: 0;
+  // }
+
+  td.content {
+    & > div:first-of-type {
+      table:first-of-type {
+        display: none;
+      }
+    }
+  }
+
+  .subscribe-widget, .powered-by-substack {
+    display: none;
+  }
+}
+
 
 html.onboarding {
 
@@ -1808,137 +1871,138 @@ html.onboarding.onboarding-2:not(.dark-background) body {
   }
 }
 
-html {
+.web {
   &.font-size-3 {
     font-size: 28px;
   }
-}
 
-.coverHolder {
-  .hasCoverImage & {
-    position: relative; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-  }
-}
-
-.itemTitle {
-  margin: 1rem 4vw;
-  margin-bottom: 0;
-  max-width: 900px;
-  z-index: 2;
-
-  .hasCoverImage & {
-    color: white;
-    position: absolute;
-    bottom: 0;
-
-    &.center {
-      text-align: center;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      max-width: 1000px;
+  .coverHolder {
+    .hasCoverImage & {
+      position: relative; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
     }
-
-    &.top {
-      top: 0;
-      bottom: auto;
-    }
-
-    &.bottom {
-      bottom: 0;
-      top: auto;
-    }
-
-    &.middle {
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    
-  }
-
-  h1, h2, h3, h4, h5 {
-    line-height: 1.1;
-  }
-
-  p {
-    font-size: 0.7rem;
-  }
-
-  .date-published {
-    font-size: 0.6rem;
-    font-family: "IBMPlexMono-Light" !important;
-  }
-
-  &.center {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
   }
   
-  &.isUpperCase h1 {
-    text-transform: uppercase;
-  }
-
-
-  &.bg.hasCoverImage h1 {
-    background-color: rgba(255,255,255,0.9);
-    color: black;
-    padding: 0.5rem;
-  }
-
-  .hasCoverImage &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0 -4vw 2rem;
-    width: calc(100vw + 4vw);
-    height: calc(100% + 2rem);
-    z-index: -1;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
-  }
-
-  &.center::after {
-    margin: 0 calc(50% - 50vw) 2rem;
-  }
-
-}
-
-@media screen and (min-width: 32rem) {
   .itemTitle {
-    margin: 1rem;
+    margin: 1rem 4vw;
+    margin-bottom: 0;
+    max-width: 900px;
+    z-index: 2;
+  
+    .hasCoverImage & {
+      color: white;
+      position: absolute;
+      bottom: 0;
+  
+      &.center {
+        text-align: center;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 1000px;
+      }
+  
+      &.top {
+        top: 0;
+        bottom: auto;
+      }
+  
+      &.bottom {
+        bottom: 0;
+        top: auto;
+      }
+  
+      &.middle {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      
+    }
+  
+    h1, h2, h3, h4, h5 {
+      line-height: 1.1;
+    }
+  
+    p {
+      font-size: 0.7rem;
+    }
+  
+    .date-published {
+      font-size: 0.6rem;
+      font-family: "IBMPlexMono-Light" !important;
+    }
+  
+    &.center {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    &.isUpperCase h1 {
+      text-transform: uppercase;
+    }
+  
+  
+    &.bg.hasCoverImage h1 {
+      background-color: rgba(255,255,255,0.9);
+      color: black;
+      padding: 0.5rem;
+    }
+  
+    .hasCoverImage &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0 -4vw 2rem;
+      width: calc(100vw + 4vw);
+      height: calc(100% + 2rem);
+      z-index: -1;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
+    }
+  
+    &.center::after {
+      margin: 0 calc(50% - 50vw) 2rem;
+    }
+  
+  }
+  
+  @media screen and (min-width: 32rem) {
+    .itemTitle {
+      margin: 1rem;
+    }
+  }
+  
+  
+  .hasCoverImage .coverImage {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-height: 100%;
+    // z-index: -1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .articleHolder {
+    background-color: hsl(60, 17%, 96%);
+    position: relative;
+    z-index: 2;
+  
+    .dark-background & {
+      background-color: hsl(240, 0%, 0%);
+    }
+  }
+  
+  h1, h2, h3, h4 {
+    font-weight: normal;
+  }
+  
+  .itemTitle h4 {
+    font-size: 0.8rem;
   }
 }
 
-
-.hasCoverImage .coverImage {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  max-height: 100%;
-  // z-index: -1;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
-.articleHolder {
-  background-color: hsl(60, 17%, 96%);
-  position: relative;
-  z-index: 2;
-
-  .dark-background & {
-    background-color: hsl(240, 0%, 0%);
-  }
-}
-
-h1, h2, h3, h4 {
-  font-weight: normal;
-}
-
-.itemTitle h4 {
-  font-size: 0.8rem;
-}

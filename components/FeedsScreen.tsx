@@ -55,6 +55,17 @@ const selectFeedSkeletons = (state: RootState) => {
     .sort(sortFeeds)
 }
 
+const selectNewsletterSkeletons = (state: RootState) => {
+  const itemFeedIds = state.itemsUnread.items.map(i => i.feed_id)
+  return state.newsletters.newsletters
+    .map(n => ({
+      _id: n._id,
+      title: n.title
+    }))
+    .map(n => addUnreadCount(n, itemFeedIds))
+    .sort(sortFeeds)
+}
+
 const sortFeeds = (a: FeedSkeleton, b: FeedSkeleton) => (a.isLiked && b.isLiked) || (a.unreadCount === 0 && b.unreadCount === 0) ?
   (normaliseTitle(a.title) < normaliseTitle(b.title) ? -1 : 1) :
   a.isLiked ? -1 :
@@ -92,27 +103,15 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isSaved = displayMode === ItemType.saved
 
-  const feedSkeletons: FeedSkeleton[] = useSelector(useCallback(memoize(selectFeedSkeletons), []), isEqual)
+  const feedSkeletons: FeedSkeleton[] = useSelector(selectFeedSkeletons, isEqual)
+  const newsletterSkeletons: FeedSkeleton[] = useSelector(selectNewsletterSkeletons, isEqual)
+
   const categories = useSelector((state: RootState) => state.categories.categories
     .filter(c => !c.isSystem), isEqual)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
 
   const isFocused = useIsFocused()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (isFocused && feedSkeletons.length > 0) {
-      dispatch({
-        type: SHOW_HELPTIP,
-        key: 'feedsScreen',
-      })
-    } else {
-      dispatch({
-        type: SHOW_HELPTIP,
-        key: null,
-      })
-    }
-  }, [isFocused])
 
   const { openModal } = useModal()
 
@@ -177,6 +176,14 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
       })) :
       []
 
+    const newsletterCards = newsletterSkeletons ?
+      newsletterSkeletons.map((newsletter) => ({
+        _id: newsletter._id,
+        type: 'newsletter',
+        title: newsletter.title
+      })) :
+      []
+
     const catCards = categories ?
       categories.filter((c: Category) => (isSaved && c.itemIds?.length > 0) || (!isSaved && c.feedIds?.length > 0))
         .sort((a, b) => a.name < b.name ? -1 : 1).map(category => ({
@@ -187,7 +194,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
       })) :
       []
 
-    const allCards = feedSkeletons?.length > 0 ? [{
+    const allCards = feedSkeletons?.length > 0 || newsletterSkeletons?.length > 0 ? [{
       _id: '9999999',
       type: 'all',
       title: `All ${isSaved ? 'Saved' : 'Unread'} Stories`
@@ -207,6 +214,10 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
       sections.push({
         title: 'Feeds',
         data: feedCards
+      })
+      sections.push({
+        title: 'Newsletters',
+        data: newsletterCards
       })
     }
 
@@ -231,7 +242,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
         <View style={{
           borderTopColor: hslString('rizzleText', '', 0.2),
           borderTopWidth: 1,
-          marginTop: margin * 2,
+          marginTop: margin,
           marginHorizontal: margin,
           paddingTop: margin / 2,
           flex: 1,
@@ -275,19 +286,21 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   const renderFeed = ({item, index, count}: {item: any, index: number, count: number}) => {
     // const isSelected = this.state.selectedFeedElement !== null &&
     //   this.state.selectedFeedElement.props.feedId === item._id
-    return item && <View style={{ 
-      marginLeft: index === 0 ? margin : 0,
-      marginRight: margin
-    }}>
+    // console.log('RENDER FEED', item._id, item.title)
+    return item && <View 
+      key={item._id}
+      style={{ 
+        marginLeft: index === 0 ? margin : 0,
+        marginRight: margin
+      }}>
       <FeedContracted
         _id={item._id}
-        key={item._id}
         count={count}
         title={item.title || item.name}
         type={item.type}
         index={index}
         navigation={navigation}
-        isSaved={isSaved}
+        isSaved={isSaved}        
         {...{ modal, width }}
       />
     </View>
@@ -357,7 +370,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
           animated={true}
           barStyle="dark-content"
           showHideTransition="slide"/>
-        { feedSkeletons.length === 0 ? 
+        { feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ? 
           (<View style={{
             flex: 1,
             alignItems: 'center',

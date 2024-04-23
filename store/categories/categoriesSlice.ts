@@ -9,6 +9,7 @@ import {
   deleteCategory as deleteCategoryBackend,
   getCategories as fetchCategoriesBackend
 } from "../../backends"
+import { UNSET_BACKEND } from "../user/types";
 
 export const createCategory = createAsyncThunk(
   'categories/createCategory',
@@ -114,6 +115,9 @@ const categoriesSlice = createSlice({
         }
       })
       // state.updatedAt = Date.now()
+    })
+    builder.addCase(UNSET_BACKEND, (state, action) => {
+      state = initialState
     })
   }
 })

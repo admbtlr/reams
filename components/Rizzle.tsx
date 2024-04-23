@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { initStore, persistor } from '../store'
-import * as Sentry from 'sentry-expo'
+import * as Sentry from '@sentry/react-native'
 // import AppContainer from '../containers/App'
 import AppStateListenerContainer from '../containers/AppStateListener'
 import ConnectionListener from './ConnectionListener'
@@ -30,6 +30,7 @@ import { ModalProvider } from './ModalProvider'
 import { hslString } from '../utils/colors'
 import App from './App'
 import MigrationsProvider from './MigrationProvider'
+import log from '../utils/log'
 
 export interface Props {
   isActionExtension?: boolean
@@ -62,7 +63,6 @@ export default class Rizzle extends Component<Props, State> {
       initSQLite()
       Sentry.init({
         dsn: Config.SENTRY_DSN,
-        enableAutoSessionTracking: true,
         debug: __DEV__
       })
     }
@@ -78,8 +78,12 @@ export default class Rizzle extends Component<Props, State> {
   async componentDidMount () {
     if (Platform.OS !== 'web') {
       InteractionManager.setDeadline(100)
-      await tf.ready()
-      console.log('Tensor Flow is ready')    
+      try {
+        await tf.ready()
+        console.log('Tensor Flow is ready')      
+      } catch (error: any) {
+        log('Error loading Tensor Flow', error)
+      }
     }
   }
 

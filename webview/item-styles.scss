@@ -93,9 +93,9 @@ body {
   // overflow: hidden;
 }
 
-.itemArticle {
-  font-size: calc(1rem / 1.6);
-  line-height: 1rem;
+.itemArticle, .itemArticle table {
+  font-size: calc(1rem / 1.6) !important;
+  line-height: 1rem !important;
   margin: 0;
   h1, h2, h3, h4, h5 {
     padding: 0;
@@ -144,6 +144,14 @@ body {
     line-height: 1rem;
     margin: 1rem 0 0;
   }
+}
+
+.itemArticle.bodyFontSerif1, .itemArticle.bodyFontSerif1 table {
+  font-size: calc(1rem / 1.8) !important;
+}
+
+.itemArticle.bodyFontSerif3, .itemArticle.bodyFontSerif3 table {
+  font-size: calc(1rem / 1.7) !important;
 }
 
 .itemArticle {
@@ -336,6 +344,12 @@ body {
     position: relative;
     -webkit-hyphens: none;
     hyphens: none;
+
+    blockquote, .pullquote, aside {
+      margin: 0;
+      padding: 0;
+      left: 0;
+    }
 
     & > p:last-of-type {
       margin-bottom: 0;
@@ -549,6 +563,11 @@ body {
   }
   figure input {
     display: none;
+  }
+
+  // for newsletters
+  table, th, td {
+    max-width: 92vw !important;
   }
 
   .dark-background & {
@@ -1335,5 +1354,49 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   and (max-device-width : 376px)
   and (-webkit-max-device-pixel-ratio: 2) {
     @content;
+  }
+}
+
+// newsletter stuff
+.newsletter {
+  table {
+    padding: 0;
+    -webkit-border-horizontal-spacing: 0;
+    width: 92vw;
+    max-width: 92vw;
+    padding: 0 4vw;
+    margin-left: calc(50% - 50vw);
+  }
+
+  // this is a kludge: the device width is supposed to approximate 24rems
+  // but the rem actually changes according to the font size
+  @media only screen and (min-device-width: 400px) {
+    table, td {
+      max-width: calc(24rem - 4vw) !important;
+      width: calc(24rem - 4vw) !important;
+      margin-left: calc(50% - 12rem - 2vw)
+    }
+  }
+}
+
+// substack stuff
+
+.itemArticle table.email-body-container {
+  // width: 90vw !important; 
+
+  // td {
+  //   padding: 0;
+  // }
+
+  td.content {
+    & > div:first-of-type {
+      table:first-of-type {
+        display: none;
+      }
+    }
+  }
+
+  .subscribe-widget, .powered-by-substack {
+    display: none;
   }
 }

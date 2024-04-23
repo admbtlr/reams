@@ -18,6 +18,7 @@ import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
+import { Newsletter } from '../store/newsletters/types'
 
 // isDarkMode, displayMode, 
 let areButtonsVisible = true
@@ -47,13 +48,18 @@ export default function ButtonSet ({
   }, [visible])
   const visibleRef = useRef(true)
   const itemFeed = useSelector((state: RootState) => {
-    if (state.feeds?.feeds && item) {
-      return state.feeds.feeds.find(f => f._id === item.feed_id)
+    let feed: Feed | Newsletter | undefined
+    if (state.feeds?.feeds && state.newsletters?.newsletters && item) {
+      feed = state.feeds.feeds.find(f => f._id === item.feed_id)
+      if (!feed) {
+        feed = state.newsletters.newsletters.find(n => n._id === item.feed_id)
+      }
+      return feed
     }
   })
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
-  const [feed, setFeed] = useState<Feed | undefined>()
+  const [feed, setFeed] = useState<Feed | Newsletter | undefined>()
   useEffect(() => {
     setFeed(itemFeed)
   }, [itemFeed])

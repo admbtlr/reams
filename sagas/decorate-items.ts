@@ -37,6 +37,8 @@ import { Category } from '../store/categories/types'
 import { RootState } from '../store/reducers'
 import { Filter } from '../store/config/config'
 import { addCoverImageToItem, addMercuryStuffToItem, deflateItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils'
+import log from '../utils/log'
+import { downloadContent } from '../backends/fastmail'
 
 let pendingDecoration: Item[] = [] // a local cache
 let toDispatch = []
@@ -61,7 +63,7 @@ export function * decorateItems () {
       const nextItem: Item = yield getNextItemToDecorate()
       // console.log('Looking for new item')
       if (nextItem) {
-        consoleLog(`Got item to decorate: ${nextItem.title}`)
+        // consoleLog(`Got item to decorate: ${nextItem.title}`)
         pendingDecoration.push(nextItem)
         yield delay(3000)
         if (!nextItem) continue // somehow item can become undefined here...?
@@ -74,7 +76,7 @@ export function * decorateItems () {
 }
 
 export function * decorateItem (item: Item) {
-  console.log(`Inside decorateItem "${item.title}"`)
+  // console.log(`Inside decorateItem "${item.title}"`)
   try {    
     const decoration: Decoration = yield assembleDecoration(item)
     if (decoration && decoration.mercuryStuff && !decoration.mercuryStuff.error) {
@@ -119,6 +121,23 @@ export function * assembleDecoration (i: Item): Generator<any, Decoration | bool
     yield call(getItemsSQLite, [i])
   let itemInflated = items[0]
   let item: WholeItem = { ...i , ...itemInflated}
+  if (item.blobId) {
+    const { content_html, url } = yield call(downloadContent, item)
+    item = { 
+      ...item, 
+      content_html, 
+      url 
+    }
+    if (Platform.OS === 'web') {
+      yield call(updateItemIDB, item)
+    } else {
+      yield call(updateItemSQLite, item)
+    }
+    yield put({ 
+      type: UPDATE_ITEM,
+      item: deflateItem(item)
+    })
+  }
   const mercuryStuff: MercuryStuff = yield call(loadMercuryStuff, item)
   if (!mercuryStuff) {
     return false
@@ -243,26 +262,30 @@ export async function cacheCoverImage (item: Item, imageURL: string) {
   // and it seems like Image adds '.png' to a filename if there's no extension
   const fileName = getCachedCoverImagePath(item)
   // consoleLog(`Loading cover image for ${item._id}...`)
-  const fileInfo = await FileSystem.getInfoAsync(fileName)
-  if (fileInfo.exists) return fileName
+
   try {
+    const fileInfo = await FileSystem.getInfoAsync(fileName)
+    if (fileInfo.exists) return fileName
     await FileSystem.downloadAsync(imageURL, fileName)
     return fileName
   } catch(err) {
     consoleLog(`Loading cover image for ${item._id} failed :(`)
-    consoleLog(err as string)
+    log('cacheCoverImage', err)
     return false
   }
 }
 
 function * getNextItemToDecorate () {
   let nextItem
+  const displayMode: string = yield select(getDisplay)
   const savedItems: Item[] = yield select(getSavedItems)
-  nextItem = savedItems.find(item => !item.isDecorated &&
-    (!item.decoration_failures || item.decoration_failures < 5) &&
-    !pendingDecoration.find(pd => pd._id === item._id))
-if (nextItem) return nextItem
 
+  if (displayMode === ItemType.saved) {
+    nextItem = savedItems.find(item => !item.isDecorated &&
+      (!item.decoration_failures || item.decoration_failures < 5) &&
+      !pendingDecoration.find(pd => pd._id === item._id))
+    if (nextItem) return nextItem
+  }
   const items: Item[] = yield select(getItems, ItemType.unread)
   const index: number = yield select(getIndex, ItemType.unread)
   const feeds: Feed[] = yield select(getFeeds)

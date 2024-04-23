@@ -25,6 +25,7 @@ import { RootState } from 'store/reducers'
 import isEqual from 'lodash.isequal'
 import { useModal } from './ModalProvider'
 import { BlurView } from 'expo-blur'
+import { createSelector } from '@reduxjs/toolkit'
 
 interface Props {
   _id: string | number
@@ -47,19 +48,22 @@ interface ThinItem {
 
 function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, width }: Props)  {
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
+  const newsletters = useSelector((state: RootState) => state.newsletters.newsletters)
   const feedsLocal = useSelector((state: RootState) => state.feedsLocal.feeds)
-  const unreadThinItems = useSelector((state: RootState) => state.itemsUnread.items.map(i => ({
+  const unreadThinItemsSelector = createSelector([(state: RootState) => state.itemsUnread.items], items => items.map(i => ({
     _id: i._id,
     feed_id: i.feed_id,
     hasCoverImage: i.hasCoverImage,
     readAt: i.readAt
   })))
-  const category = useSelector((state: RootState) => state.categories.categories.find(c => c._id === _id), isEqual)
-  const savedThinItems = useSelector((state: RootState) => state.itemsSaved.items.map(i => ({
+  const unreadThinItems = useSelector(unreadThinItemsSelector)
+  const savedThinItemsSelector = createSelector([(state: RootState) => state.itemsSaved.items], items => items.map(i => ({
     _id: i._id,
     hasCoverImage: i.hasCoverImage,
     readAt: i.readAt
   })))
+  const savedThinItems = useSelector(savedThinItemsSelector)
+  const category = useSelector((state: RootState) => state.categories.categories.find(c => c._id === _id), isEqual)
   let feed: Feed | undefined, 
     numItems: number | undefined, 
     categoryFeeds: (Feed | undefined)[] = [],
@@ -70,8 +74,13 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
     numItems = unreadThinItems.filter(i => i.feed_id === _id).filter(i => !i.readAt).length
     cachedIconDimensions = feedsLocal.find(fl => fl._id === _id)?.cachedIconDimensions
     categoryItems = unreadThinItems.filter(i => i.feed_id === _id)
+  } else if (type === 'newsletter') {
+    feed = newsletters.find(n => n._id === _id) as Feed
+    numItems = unreadThinItems.filter(i => i.feed_id === _id).filter(i => !i.readAt).length
+    cachedIconDimensions = feedsLocal.find(fl => fl._id === _id)?.cachedIconDimensions
+    categoryItems = unreadThinItems.filter(i => i.feed_id === _id)
   } else if (type === 'all') {
-    if (isSaved) {
+    if (isSaved) { 
       categoryItems = savedThinItems
       numItems = savedThinItems.length
     } else {
@@ -149,12 +158,6 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
       useNativeDriver: true
     }).start(() => {
       console.log('starting animation')
-      Animated.timing(opacityAnim, {
-        toValue: 1,
-        delay: 500,
-        duration: 200,
-        useNativeDriver: true
-      }).start()
     })
     clearReadItems()
     switch (type) {
@@ -167,14 +170,23 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
       case 'category':
         filterItems(category?._id || null, category?.name || '', type)
         break
+      case 'newsletter':
+        filterItems(feed?._id || null, feed?.title || '', type)
+        break
     }
     setIndex(0)
-    if (mainViewRef.current) {
+    Animated.timing(opacityAnim, {
+      toValue: 1,
+      // delay: 100,
+      duration: 500,
+      useNativeDriver: false
+    }).start()
+  if (mainViewRef.current) {
       mainViewRef.current.measureInWindow(navigateToItems)
     }
   }
 
-  const onLongPress = (e: GestureResponderEvent) => {
+  const showDetails = (e: GestureResponderEvent) => {
     ReactNativeHapticFeedback.trigger("impactLight", {})
     if (type === 'feed') {
       navigation.push('ModalWithGesture', {
@@ -294,166 +306,197 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
       0)
 
   const getInitials = (title: string) => {
-    const words = title.split(' ')
+    let words = title.split(' ')
       .filter(w => !['the', 'of', 'and'].includes(w.toLowerCase()))
-    return words.map(w => w.substring(0, 1).toUpperCase()).join('')
+    return words.map(w => w.substring(0, 1).toUpperCase()).join('').split(/[^A-Z]/)[0]
   }
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      onLongPress={onLongPress}
-    >
-      <Animated.View
-        ref={mainViewRef}
-        style={{
-          flex: 0,
-          // height: cardHeight,
-          width: cardWidth,
-          marginBottom: margin,
-          // marginRight,
-          opacity: opacityAnim,
-          // overflow: 'hidden',
-          borderRadius: 8,
-        }}
+    <View>
+      <TouchableOpacity
+        onPress={onPress}
       >
-        <View
+        <Animated.View
+          ref={mainViewRef}
           style={{
-            height: cardHeight,
+            flex: 0,
+            // height: cardHeight,
             width: cardWidth,
+            marginBottom: margin,
+            // marginRight,
+            opacity: opacityAnim,
+            // overflow: 'hidden',
             borderRadius: 8,
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
-            backgroundColor: type !== 'feed' ? 'black' : hslString(feed?.color, 'desaturated'),
-            position: 'relative',
-            overflow: 'visible',
-            ...shadowStyle
-        }}>
-
-          { (coverImageSources && coverImageSources.length > 0) && 
-            <View style={{
+          }}
+        >
+          <View
+            style={{
+              height: cardHeight,
               width: cardWidth,
               borderRadius: 8,
-              flex: 1,
-              overflow: 'hidden',
-            }}>
-              <View
-                style={{
-                  backgroundColor: 'white',
-                  height: '100%',
-                  width: '105%',
-                  borderRadius: 8,
-                  overflow: 'hidden',
-                  flex: 1,
-                  flexDirection: 'row',
-                  flexWrap: 'wrap'
-              }}>
-                { coverImageSources.map((source: Feed | Item | ThinItem | undefined, index: number, sources: (Feed | Item | ThinItem | undefined)[]) => (
-                    source && (
-                      <View 
-                        key={source._id}
-                        style={{
-                          backgroundColor: hslString(source.color || 'black', 'desaturated'),
-                          width: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth,
-                          height: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight
-                        }}>
-                        <CardCoverImage
-                          feedId={undefined} //isSaved || type === 'all' ? undefined : source._id}
-                          itemId={source._id} //isSaved || type === 'all' ? source._id : undefined }
-                          width={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth}
-                          height={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight}
-                        />
-                      </View>
-                    )
-                  )) 
-                }
-              </View>
-            </View>
-          }
-          { type == 'feed' &&
-            <View
-              style={{
-                height: cardHeight,
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              backgroundColor: !['feed', 'newsletter'].includes(type) ? 'black' : hslString(feed?.color, 'desaturated'),
+              position: 'relative',
+              overflow: 'visible',
+              ...shadowStyle
+          }}>
+
+            { (coverImageSources && coverImageSources.length > 0) && 
+              <View style={{
                 width: cardWidth,
                 borderRadius: 8,
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                overflow: 'hidden',
                 flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-                backgroundColor: 'transparent'
-            }}>
-              <View style={{
-                position: 'absolute',
-                bottom: margin/2,
-                left: margin/2,
-                zIndex: 10
+                overflow: 'hidden',
               }}>
-                <FeedIconContainer
-                  feed={feed}
-                  iconDimensions={cachedIconDimensions}
-                />
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    height: '100%',
+                    width: '105%',
+                    borderRadius: 8,
+                    overflow: 'hidden',
+                    flex: 1,
+                    flexDirection: 'row',
+                    flexWrap: 'wrap'
+                }}>
+                  { coverImageSources.map((source: Feed | Item | ThinItem | undefined, index: number, sources: (Feed | Item | ThinItem | undefined)[]) => (
+                      source && (
+                        <View 
+                          key={source._id}
+                          style={{
+                            backgroundColor: hslString(source.color || 'black', 'desaturated'),
+                            width: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth,
+                            height: sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight
+                          }}>
+                          <CardCoverImage
+                            feedId={undefined} //isSaved || type === 'all' ? undefined : source._id}
+                            itemId={source._id} //isSaved || type === 'all' ? source._id : undefined }
+                            width={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardWidth}
+                            height={sources.length > 1 ? Math.ceil(cardHeight / cardSizeDivisor) : cardHeight}
+                          />
+                        </View>
+                      )
+                    )) 
+                  }
+                </View>
               </View>
-              { (coverImageSources === undefined || coverImageSources.length == 0) && 
-                <Text style={{
-                  ...textStyles,
-                  fontFamily: 'IBMPlexSans',
-                  fontSize: 100 * fontSizeMultiplier(),
-                  color: 'white',
-                  opacity: 0.1,
-                  // position: 'absolute',
-                  // bottom: margin,
-                  // left: margin,
-                  alignSelf: 'center',
-                  textAlign: 'center',
+            }
+            { ['feed', 'newsletter'].includes(type) &&
+              <View
+                style={{
+                  height: cardHeight,
+                  width: cardWidth,
+                  borderRadius: 8,
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  overflow: 'hidden',
                   flex: 1,
-                }}>{getInitials(feed.title)}</Text>
-              }
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  backgroundColor: 'transparent'
+              }}>
+                <View style={{
+                  position: 'absolute',
+                  bottom: margin/2,
+                  left: margin/2,
+                  zIndex: 10
+                }}>
+                  <FeedIconContainer
+                    feed={feed}
+                    iconDimensions={cachedIconDimensions}
+                  />
+                </View>
+                { (coverImageSources === undefined || coverImageSources.length == 0) && 
+                  <Text style={{
+                    ...textStyles,
+                    fontFamily: 'IBMPlexSans',
+                    fontSize: 100 * fontSizeMultiplier(),
+                    color: 'rgb(120, 120, 120)',
+                    opacity: 0.2,
+                    // position: 'absolute',
+                    // bottom: margin,
+                    // left: margin,
+                    alignSelf: 'center',
+                    textAlign: 'center',
+                    flex: 1,
+                  }}>{getInitials(feed?.title || 'what the fuck')}</Text>
+                }
+              </View>
+            }
+            <View style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              zIndex: 20,
+              borderRadius: 8,
+              backgroundColor: 'rgba(0,0,0,0.1)'
+            }} />
+          </View>
+            { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
+            <View style={{
+              paddingLeft: 4,
+              paddingRight: 40,
+              paddingTop: 8,
+              flexDirection: 'row'
+            }}>
+              <Text style={{
+                ...textStyles,
+                flexWrap: 'wrap',
+                fontFamily: 'IBMPlexSans-Bold',
+                fontSize: (Platform.OS === 'web' ? 16 : 18) * fontSizeMultiplier(),
+                lineHeight: (Platform.OS === 'web' ? 18 : 20) * fontSizeMultiplier()
+              }}>{title}</Text>
             </View>
-          }
-          <View style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            zIndex: 20,
-            borderRadius: 8,
-            backgroundColor: 'rgba(0,0,0,0.1)'
-          }} />
-        </View>
-          { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
-          <View style={{
-            paddingLeft: 4,
-            paddingRight: 40,
-            paddingTop: 8,
-            flexDirection: 'row'
-          }}>
+            <View style={{
+              paddingLeft: 4,
+              paddingRight: 4,
+              paddingBottom: 4
+            }}>
+              <Text style={{
+                ...textStyles,
+                fontFamily: 'IBMPlexSans',
+                fontSize: (Platform.OS === 'web' ? 12 : 14) * fontSizeMultiplier(),
+                opacity: 0.5
+              }}>{numItems} {isSaved ? `article${numItems > 1 ? 's' : ''}` : 'unread'}</Text>
+            </View>
+        </Animated.View>
+      </TouchableOpacity>
+      { type !== 'all' && 
+        <View style={{
+          position: 'absolute',
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          top: cardWidth - margin / 2 - 32 * fontSizeMultiplier(), 
+          right: margin / 2,
+          width: 32 * fontSizeMultiplier(),
+          height: 32 * fontSizeMultiplier(),
+          borderRadius: 16 * fontSizeMultiplier(),
+          zIndex: 100,
+        }}>
+          <TouchableOpacity 
+            onPress={showDetails}
+            style={{
+              width: 32 * fontSizeMultiplier(),
+              height: 32 * fontSizeMultiplier(),
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Text style={{
-              ...textStyles,
-              flexWrap: 'wrap',
+              color: 'white',
+              fontSize: 20,
               fontFamily: 'IBMPlexSans-Bold',
-              fontSize: (Platform.OS === 'web' ? 16 : 18) * fontSizeMultiplier(),
-              lineHeight: (Platform.OS === 'web' ? 18 : 20) * fontSizeMultiplier()
-            }}>{title}</Text>
-          </View>
-          <View style={{
-            paddingLeft: 4,
-            paddingRight: 4,
-            paddingBottom: 4
-          }}>
-            <Text style={{
-              ...textStyles,
-              fontFamily: 'IBMPlexSans',
-              fontSize: (Platform.OS === 'web' ? 12 : 14) * fontSizeMultiplier(),
-              opacity: 0.5
-            }}>{numItems} {isSaved ? `article${numItems > 1 ? 's' : ''}` : 'unread'}</Text>
-          </View>
-      </Animated.View>
-    </TouchableOpacity>
+              marginTop: -10
+            }}>...</Text>
+          </TouchableOpacity>
+        </View>
+      }
+    </View>
+
   )
 }
 

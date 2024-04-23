@@ -50,7 +50,10 @@ class AccountCredentialsForm extends React.Component {
       username: '',
       password: '',
       token: '', // readwise only
-      isSubmitting: false
+      isSubmitting: false,
+      supabaseUser: undefined,
+      showPasswordField: false,
+      newPassword: ''
     }
 
     this.authenticateUser = this.authenticateUser.bind(this)
@@ -98,6 +101,17 @@ class AccountCredentialsForm extends React.Component {
           isAuthenticated: false
         })
       }
+    }
+  }
+
+  componentDidMount  = async () => {
+    await this.componentDidUpdate()
+  }
+
+  componentDidUpdate = async () => {
+    const supabaseUser = await supabase.auth.getUser()
+    if (supabaseUser) {
+      this.setState({supabaseUser: supabaseUser.data.user})
     }
   }
 
@@ -259,6 +273,62 @@ class AccountCredentialsForm extends React.Component {
                       }}>
                         <Text style={textInfoStyle('white')}>Logged in as </Text>{ loggedInUserName }
                       </Text>
+                    }
+                    { this.state.showPasswordField ? 
+                      <>
+                        <TextInput 
+                          autoFocus={true}
+                          onChangeText={(text) => this.setState({
+                            newPassword: text
+                          })}
+                          style={{
+                            ...textInfoStyle('white'),
+                            width: '100%',
+                            height: 24 * fontSizeMultiplier(),
+                            borderBottomColor: 'white',
+                            borderBottomWidth: 1
+                          }}
+                        />
+                        <TouchableOpacity
+                          color={hslString('white')}
+                          onPress={async () => {
+                            const { data, error } = await supabase.auth.updateUser({
+                              password: this.state.newPassword
+                            })
+                            console.log(data)
+                            if (error) {
+                              console.error(error)
+                            }
+                          }}
+                          style={{
+                            marginTop: 16 * fontSizeMultiplier(),
+                            width: '100%'
+                          }}
+                        >
+                          <Text style={{
+                            ...textInfoStyle('white'),
+                            textAlign: 'right',
+                            textDecorationLine: 'underline',
+                          }}>Set password</Text>
+                        </TouchableOpacity>
+                      </> :
+                      <TouchableOpacity
+                        color={hslString('white')}
+                        onPress={async () => {
+                          this.setState({
+                            showPasswordField: true
+                          })
+                        }}
+                        style={{
+                          marginTop: 16 * fontSizeMultiplier(),
+                          width: '100%'
+                        }}
+                      >
+                        <Text style={{
+                          ...textInfoStyle('white'),
+                          textDecorationLine: 'underline',
+                        }}>{user.password ? 'Edit' : 'Add a'} password</Text>
+                      </TouchableOpacity>
                     }
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}

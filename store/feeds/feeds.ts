@@ -27,7 +27,8 @@ import {
   SAVE_ITEM,
   SHARE_ITEM,
   ItemActionTypes,
-  Item
+  Item,
+  MARK_ITEMS_READ_SKIP_BACKEND
 } from '../items/types'
 
 const initialState:FeedsState = {
@@ -223,6 +224,7 @@ export function feeds (
       }
 
     case MARK_ITEMS_READ:
+    case MARK_ITEMS_READ_SKIP_BACKEND:
       return updateUnreadCounts(action.items, state)
 
     case PRUNE_UNREAD:

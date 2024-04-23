@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import * as Sentry from 'sentry-expo'
+import * as Sentry from '@sentry/react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import {decode} from 'html-entities'
 import Config from 'react-native-config'
@@ -127,7 +127,11 @@ class Share extends React.Component {
 
   async addFeed (url) {
     // console.log(this.state.rssUrl)
-    await SharedGroupPreferences.setItem('feed', url, this.group)
+    try {
+      await SharedGroupPreferences.setItem('feed', url, this.group)
+    } catch(error) {
+      log('addFeed', error)
+    }
     this.onClose()
   }
 
@@ -147,7 +151,11 @@ class Share extends React.Component {
       }
     }
     pages.push(page)
-    await SharedGroupPreferences.setItem('page', JSON.stringify(pages), this.group)
+    try {
+      await SharedGroupPreferences.setItem('page', JSON.stringify(pages), this.group)
+    } catch(error) {
+      log('savePage', error)
+    }
     this.onClose()
   }
 

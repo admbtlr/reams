@@ -168,6 +168,7 @@ class SwipeableViews extends Component {
         decelerationRate="fast"
         disableIntervalMomentum={true}
         horizontal
+        keyboardShouldPersistTaps='handled'
         onLayout={this.init}
         onMomentumScrollEnd={this.onMomentumScrollEnd}
         onScroll={Animated.event(
