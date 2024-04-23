@@ -36,7 +36,8 @@ import {
   ItemType,
   INCREMENT_INDEX,
   DECREMENT_INDEX,
-  UPDATE_ITEM
+  UPDATE_ITEM,
+  MARK_ITEMS_READ_SKIP_BACKEND
 } from './types'
 import {
   itemMarkRead,
@@ -195,6 +196,7 @@ export function itemsUnread (
       return itemMarkRead(action, state)
 
     case MARK_ITEMS_READ:
+    case MARK_ITEMS_READ_SKIP_BACKEND:
       return itemsMarkRead(action, state)
 
     case SET_SCROLL_OFFSET:

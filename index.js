@@ -3,6 +3,7 @@ import 'react-native-gesture-handler'
 import 'react-native-get-random-values'
 
 import {registerRootComponent} from 'expo'
+import { LogBox } from 'react-native'
 import Rizzle from './components/Rizzle'
 
 // if (__DEV__) {
@@ -17,5 +18,7 @@ import Rizzle from './components/Rizzle'
 
 // AppRegistry.registerComponent('rizzle', () => Rizzle)
 // AppRegistry.registerComponent('RizzleShare', () => Share)
+
+LogBox.ignoreLogs(['new NativeEventEmitter()'])
 
 registerRootComponent(Rizzle)

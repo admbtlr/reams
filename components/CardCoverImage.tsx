@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'store/reducers'
 import { useDispatch } from 'react-redux'
 import { REMOVE_CACHED_COVER_IMAGE, SET_CACHED_COVER_IMAGE } from '../store/feeds/types'
+import log from '../utils/log'
 
 interface Props {
   feedId: string | undefined
@@ -18,10 +19,9 @@ interface Props {
 export default function CardCoverImage ({feedId, itemId, width, height}: Props) {
   const dispatch = useDispatch()
   const feed = feedId ? useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feedId)) : undefined
-  const item = itemId ? 
-    useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)) ||
-    useSelector((state: RootState) => state.itemsUnread.items.find(i => i._id === itemId)) : 
-    undefined
+  const itemSaved = itemId ? useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)) : undefined
+  const itemUnread = itemId ? useSelector((state: RootState) => state.itemsUnread.items.find(i => i._id === itemId)) : undefined
+  const item = itemSaved || itemUnread
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
   const feedsLocal = useSelector((state: RootState) => state.feedsLocal)
   const unreadItems = useSelector((state: RootState) => state.itemsUnread.items)
@@ -60,11 +60,15 @@ export default function CardCoverImage ({feedId, itemId, width, height}: Props) 
     if (Platform.OS === 'web') return
     const path = getCoverImagePath()
     if (!path) return
-    const exists = await fileExists(path)
-    if (!exists) {
-      removeCachedCoverImage(feedId || itemId || '')
-    } else if (coverImageItem && !cachedCoverImageId) {
-      setCachedCoverImage(feedId || itemId || '', coverImageItem?._id)
+    try {
+      const exists = await fileExists(path)
+      if (!exists) {
+        removeCachedCoverImage(feedId || itemId || '')
+      } else if (coverImageItem && !cachedCoverImageId) {
+        setCachedCoverImage(feedId || itemId || '', coverImageItem?._id)
+      }  
+    } catch (e) {
+      log('maybeRemoveOrUpdateCoverImage', e)
     }
   }
 

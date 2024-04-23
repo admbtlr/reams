@@ -10,11 +10,11 @@
   // transformer: {
   //   getTransformOptions: async () => ({
   //     transform: {
-  //       experimentalImportSupport: false,
-  //       inlineRequires: true,
+  //       // experimentalImportSupport: false,
+  //       inlineRequires: false,
   //     },
-  //   }),
-  // },
+  //   })
+  // }
   const defaultConfig = await getDefaultConfig();
   const { assetExts } = defaultConfig.resolver;
 

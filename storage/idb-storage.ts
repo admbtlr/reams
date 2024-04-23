@@ -7,12 +7,17 @@ import { Item, ItemInflated } from '../store/items/types'
 // }
 
 async function openStore () {
-  const store = await openDB('items', 1, {
-    upgrade(db) {
-      db.createObjectStore('items')
-    }
-  })
-  return store
+  try {
+    const store = await openDB('items', 1, {
+      upgrade(db) {
+        db.createObjectStore('items')
+      }
+    })  
+    return store
+  } catch (err) {
+    log('openStore', err)
+    throw err
+  }
 }
 
 export async function getItems (keys: (string | {_id: string})[]): Promise<ItemInflated[] | undefined> {
@@ -30,7 +35,12 @@ export async function getItems (keys: (string | {_id: string})[]): Promise<ItemI
 }
 
 export async function getItem (item: Item): Promise<ItemInflated | undefined> {
-  const items = await getItems([item])
+  let items
+  try {
+    items = await getItems([item])
+  } catch (err) {
+    log('getItemIDB', err)
+  }
   return items === undefined ? items : items[0]
 }
     
@@ -49,7 +59,12 @@ export async function updateItem (item: Item) {
 
 export async function updateItems (items: Item[]) {
   for (var item of items) {
-    await updateItem(item)
+    try {
+      await updateItem(item)
+    } catch (err) {
+      log('updateItems' + err)
+      return false
+    }
   }
   return true
 }
@@ -76,11 +91,19 @@ export async function deleteItem (key: string) {
 
 export async function deleteItems (items: Item[]) {
   for (var item in items) {
-    await deleteItem(item)
+    try {
+      await deleteItem(item)
+    } catch (err) {
+      log('deleteItems' + err)
+    }
   }
 }
 
 export async function clearItems (keys: string[]) {
-  const db = await openStore()
-  await db.clear('items')
+  try {
+    const db = await openStore()
+    await db.clear('items')
+  } catch (err) {
+    log('clearItems' + err)
+  }
 }

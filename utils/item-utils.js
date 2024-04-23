@@ -2,7 +2,7 @@ const fuzz = require('fuzzball')
 import * as FileSystem from 'expo-file-system'
 const sanitizeHtml = require('sanitize-html')
 import {createItemStyles, compressStyles, expandStyles} from './createItemStyles'
-import {getCachedCoverImagePath} from './index'
+import {fileExists, getCachedCoverImagePath} from './index'
 import log from './log'
 import LZString from 'lz-string'
 import { Platform } from 'react-native'
@@ -34,7 +34,7 @@ export function deflateItem (item) {
     author: item.author,
     coverImageUrl: item.coverImageUrl, // needed by the feed component
     content_length: item.content_length || (item.content_html
-      ? item.content_html.length
+      ? stripTags(item.content_html).length
       : 0),
     created_at: item.created_at,
     date_published: item.date_published,
@@ -47,6 +47,7 @@ export function deflateItem (item) {
     imageDimensions: item.imageDimensions,
     isDecorated: item.isDecorated,
     isExternal: item.isExternal,
+    isNewsletter: item.isNewsletter,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
     // styles: item.styles,
@@ -94,8 +95,9 @@ export function fixRelativePaths (item) {
 
 export function sanitizeContent (item) {
   const settings = {
-    allowedTags: false,
-    allowedAttributes: false
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'script', 'video' ]),
+    allowedAttributes: false,
+    allowVulnerableTags: true
   }
   if (item.content_html) item.content_html = sanitizeHtml(item.content_html, settings)
   if (item.content_mercury) item.content_mercury = sanitizeHtml(item.content_mercury, settings)
@@ -116,7 +118,7 @@ export function addMercuryStuffToItem (item, mercury) {
     item = {
       ...item,
       title: mercury.title,
-      content_mercury: mercury.content ? mercury.content : '',
+      content_mercury: mercury.content,
       // body: mercury.content ? mercury.content : '',
       date_published: mercury.date_published,
       author: mercury.author,
@@ -275,14 +277,17 @@ export async function removeCachedCoverImages (items) {
 
   if (Platform.OS === 'web') return
 
-  items.forEach(async (item) => {
+  for (let item of items) {
     let path = getCachedCoverImagePath(item)
     if (path) {
       try {
-        await FileSystem.deleteAsync(path)
+        const exists = await fileExists(path)
+        if (exists) {
+          await FileSystem.deleteAsync(path)
+        }
       } catch (err) {
-        console.log(err)
+        log('removeCachedCoverImages', err)
       }
     }
-  })  
+  }
 }

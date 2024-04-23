@@ -1,5 +1,6 @@
 import { Annotation } from "store/annotations/types";
 import { getItem } from "../utils/get-item";
+import log from "../utils/log";
 
 let token: String
 
@@ -49,7 +50,13 @@ async function doRequest (url: string, options: {
 } = {}, expectNoContent = false) {
   options.headers = options.headers || getBasicAuthHeader()
   options.headers['Content-Type'] = 'application/json'
-  const response = await fetch(url, options)
+  let response
+  try {
+    response = await fetch(url, options)
+  } catch (e) {
+    log(e)
+    throw e
+  }
   if (!response.ok) {
     const body = await response.text()
     console.log(body)
@@ -58,14 +65,23 @@ async function doRequest (url: string, options: {
 
   let json
   if (!expectNoContent) {
-    json = await response.json()
+    try {
+      json = await response.json()
+    } catch (e) {
+      log(e)
+    }
   }
   return expectNoContent || json
 }
 
 export async function createHighlight (highlight: Annotation) {
-  const response = await createHighlights([highlight])
-  return response[0]
+  try {
+    const response = await createHighlights([highlight])
+    return response[0]  
+  } catch (e) {
+    log(e)
+    return
+  }
 }
 
 export async function createHighlights (highlights: Annotation[]) {
@@ -104,7 +120,7 @@ export async function updateHighlight (highlight: Annotation) {
     const response = await patchRequest(`highlights/${highlight.remote_id}/`, JSON.stringify(body))
     return response
   } catch (e) {
-    console.log(e)
+    log(e)
   }
 }
 
@@ -114,6 +130,6 @@ export async function deleteHighlight (highlight: Annotation) {
     const response = await deleteRequest(`highlights/${highlight.remote_id}/`)
     return response
   } catch (e) {
-    console.log(e)
+    log(e)
   }
 }

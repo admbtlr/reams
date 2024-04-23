@@ -7,7 +7,7 @@
     "entryPoint": "./index.js",
     "sdkVersion": "47.0.0",
     "plugins": [
-      "sentry-expo"
+      "@sentry/react-native/expo"
     ]
   },
   "web": {

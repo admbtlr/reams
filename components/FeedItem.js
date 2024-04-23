@@ -179,8 +179,9 @@ class FeedItem extends React.Component {
   componentDidUpdate (prevProps) {
     const { isVisible, item, setScrollAnim } = this.props
     this.initAnimatedValues(true)
-    if (item.isExternal && item.isDecorated && !prevProps.item.isDecorated) {
-      console.log('item.isExternal && item.isDecorated && !prevProps.item.isDecorated')
+    if ((item.isNewsletter || item.isExternal) && 
+      (item.isDecorated && !prevProps.item.isDecorated)) {
+      console.log('(item.isNewsletter || item.isExternal) && item.isDecorated && !prevProps.item.isDecorated')
       this.inflateItemAndSetState(item)
     }
     if (isVisible) {
@@ -190,16 +191,20 @@ class FeedItem extends React.Component {
   }
 
   async inflateItemAndSetState (item) {
-    const inflatedItem = Platform.OS === 'web' ?
+    try {
+      const inflatedItem = Platform.OS === 'web' ?
       await getItemIDB(item) :
       await getItemSQLite(item)
-    const that = this
-    this.setState({
-      inflatedItem: {
-        ...item,
-        ...inflatedItem  
-      }
-    })
+      const that = this
+      this.setState({
+        inflatedItem: {
+          ...item,
+          ...inflatedItem  
+        }
+      })
+    } catch (err) {
+      log('inflateItemAndSetState', err)
+    }
     // not sure I actually need this - if it turns out I do, maybe an explanatory comment would be nice?
     // setTimeout(() => {
     //   that.setState({shouldRender: true})

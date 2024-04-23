@@ -29,7 +29,7 @@ function FeedIcon ({
   }, [])
 
   React.useEffect(() => {
-    if (!isCached && feed) {
+    if (!isCached && feed && feed.favicon?.url) {
       FileSystem.
         downloadAsync(feed.favicon.url, getCachedFeedIconPath(feed._id)).
         then(() => setIsCached(true)).

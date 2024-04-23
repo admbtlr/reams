@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import {
-  AppState
+  AppState,
+  Platform
 } from 'react-native'
 import Clipboard from "@react-native-community/clipboard"
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
@@ -63,6 +64,7 @@ class AppStateListener extends React.Component {
   }
 
   async checkClipboard () {
+    if (Platform.OS === 'web') return
     // console.log('Checking clipboard')
     try {
       const hasUrl = await Clipboard.hasURL()
@@ -87,6 +89,7 @@ class AppStateListener extends React.Component {
   }
 
   async checkPageBucket () {
+    if (Platform.OS === 'web') return
     try {
       const value = await SharedGroupPreferences.getItem('page', this.group)
       // console.log('CHECKING PAGE BUCKET: ' + value)
@@ -144,6 +147,7 @@ class AppStateListener extends React.Component {
   }
 
   async checkFeedBucket () {
+    if (Platform.OS === 'web') return
     try {
       const value = await SharedGroupPreferences.getItem('feed', this.group)
       if (value !== null) {

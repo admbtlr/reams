@@ -9,6 +9,7 @@ import {
   deleteAnnotation as deleteAnnotationSupabase,
   fetchAnnotations as fetchAnnotationsSupabase
 } from "../../storage/supabase"
+import { UNSET_BACKEND } from "../user/types";
 
 export const createAnnotation = createAsyncThunk(
   'annotations/createAnnotation',
@@ -90,6 +91,9 @@ const annotationsSlice = createSlice({
         }
       })
       state.updatedAt = Date.now()
+    })
+    builder.addCase(UNSET_BACKEND, (state) => {
+      state = initialState
     })
   }
 })

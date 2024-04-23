@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {ActionSheetIOS, Animated, Dimensions, Easing, Image, Linking, Pressable, Text, TextInput, View} from 'react-native'
+import {ActionSheetIOS, Animated, Dimensions, Easing, Image, Keyboard, Linking, Pressable, Text, TextInput, View} from 'react-native'
 import { hslString } from '../utils/colors'
 import TextButton from './TextButton'
 import { useDispatch, useSelector } from 'react-redux'
@@ -383,19 +383,52 @@ const Onboarding3 = ({ index }) => {
         console.log(result)
       }  
     } catch (error) {
-      console.log(error)
+      log('onAppleButtonPress', error)
     }
   }
 
   const inlineMessage = message || (isSubmitting ? 'Sending...' : null)
 
-  return (
-    <OnboardingPage index={index}>
+  const orSeparator = (
+    <View 
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 24 * fontSizeMultiplier(),
+        marginBottom: 24 * fontSizeMultiplier(),
+      }}
+    >
       <View style={{
         flex: 1,
-        marginTop: 100 * fontSizeMultiplier(),
-        marginHorizontal: getMargin()
-      }}>
+        height: 1,
+        backgroundColor: 'white',
+      }}/>
+      <Text style={{
+        color: 'white',
+        fontSize: 16 * fontSizeMultiplier(),
+        fontFamily: 'IBMPlexSerif-Italic',
+        textAlign: 'center',
+        marginHorizontal: 12 * fontSizeMultiplier(),
+        marginBottom: 4,
+        padding: 0
+      }}>or</Text>
+      <View style={{
+        flex: 1,
+        height: 1,
+        backgroundColor: 'white',
+      }}/>
+    </View>)
+
+
+  return (
+    <OnboardingPage index={index}>
+      <View 
+        style={{
+          flex: 1,
+          marginTop: 100 * fontSizeMultiplier(),
+          marginHorizontal: getMargin()
+        }}>
         <Text style={{
           ...textLargeStyle,
           textAlign: 'center',
@@ -441,6 +474,7 @@ const Onboarding3 = ({ index }) => {
               opacity: isEmailValid ? 1 : 0.5
             }}
             onPress={() => {
+              Keyboard.dismiss()
               setIsSubmitting(true)
               sendMagicLink(email)
             }}
@@ -449,12 +483,7 @@ const Onboarding3 = ({ index }) => {
         }
         {!!inlineMessage && !session.error ? null : (
           <>
-            <Text style={{
-              ...textLargeStyle,
-              textAlign: 'center',
-              marginTop: 24 * fontSizeMultiplier(),
-              marginBottom: 24 * fontSizeMultiplier(),
-            }}>or</Text>
+            {orSeparator}
             <AppleButton
               buttonStyle={AppleButton.Style.BLACK}
               buttonType={AppleButton.Type.SIGN_IN}
@@ -467,6 +496,13 @@ const Onboarding3 = ({ index }) => {
               }}
               onPress={() => onAppleButtonPress()}
             />
+            {orSeparator}
+            <TextButton
+              onPress={() => supabase.auth.signInWithPassword({
+                email: 'a@btlr.eu',
+                password: 'Asdfasdf'
+              })}
+              text='Log in with password' />
           </>
         )}
       </View>

@@ -28,9 +28,13 @@ export default function Splash () {
   })
 
   const hideWhenReady = async () => {
-    const isFirst = await isFirstLaunch()
-    if (!isFirst || hasRehydrated) {
-      setVisible(false)
+    try {
+      const isFirst = await isFirstLaunch()
+      if (!isFirst || hasRehydrated) {
+        setVisible(false)
+      }  
+    } catch (e) {
+      log('hideWhenReady', e)
     }
   }
 

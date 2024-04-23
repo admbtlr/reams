@@ -26,7 +26,10 @@ import {
   getSavedItems as getSavedItemsSupabase,
   getCategories as getCategoriesSupabase,
   addCategory as addCategorySupabase,
-  updateCategory as updateCategorySupabase
+  updateCategory as updateCategorySupabase,
+  addNewsletter as addNewsletterSupabase,
+  removeUserNewsletter as removeNewsletterSupabase,
+  getNewsletters as getNewslettersSupabase,
 } from '../storage/supabase'
 import { Feed } from '../store/feeds/types'
 import { convertColorIfNecessary } from '../sagas/feeds'
@@ -34,6 +37,7 @@ import { Item } from '../store/items/types'
 import { createItemStyles } from '../utils/createItemStyles'
 import { Category } from '../store/categories/types'
 import log from '../utils/log'
+import { Newsletter } from '../store/newsletters/types'
 
 let isPlus = false
 
@@ -169,7 +173,7 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
     acc[key].push(val)
     return acc
   }, [])
-  const promises = Object.values(chunked).map(feeds => fetch(Config.CORS_PROXY + '?url=' + Config.API_URL + '/feeds', {
+  const promises = Object.values(chunked).map(feeds => fetch(Config.API_URL + '/feeds', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -296,28 +300,25 @@ interface FeedMeta {
 }
 
 export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta> {
-  log('getFeedMeta')
+  // log('getFeedMeta')
   const apiUrl = `${Config.API_URL}/feed-meta?url=${feed.url}`
-  return fetch(apiUrl).then(response => {
-    return { response, feed }
-  }).then(({response, feed}) => {
+  try {
+    const response = await fetch(apiUrl)
     if (!response.ok) {
       throw {
         feed,
         message: response.statusText
       }
     }
-    return response.json()
-  }).then(json => {
-    log(json)
+    const json = await response.json()
     return {
       ...json,
       url: feed.url,
-      color: convertColorIfNecessary(json.color)
+      color: json?.color?.length > 0 && convertColorIfNecessary(json.color)
     }
-  }).catch(({feed, message}) => {
-    throw new Error(`Error getting feed meta for ${feed.url}: ${message}`)
-  })
+  } catch(e) {
+    log(e)
+  }
 }
 
 export async function findFeeds (url: string): Promise<{ url: string, title: string }[] | undefined> {
@@ -327,6 +328,7 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
       return [{url, title: feedMeta.title}]
     }
   } catch (e: any) {
+    log(e)
     // throw new Error(`Error finding feeds for ${url}: ${e.message}`)
   }
   try {
@@ -346,6 +348,7 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
       }))
     }
   } catch(e: any) {
+    log(e)
     throw new Error(`Error finding feeds for ${url}: ${e.message}`)
   }
   try {
@@ -381,6 +384,44 @@ export async function updateCategory (category: Category) {
     return await updateCategorySupabase(category)
   } catch (e) {
     log('Error updating category in supabase', e)
+    throw e
+  }
+}
+
+export async function addNewsletter (newsletter: Newsletter) {
+  try {
+    return await addNewsletterSupabase(newsletter)
+  } catch (e: any) {
+    log('Error adding newsletter to supabase', e)
+    throw e
+  }
+}
+
+export async function removeNewsletter (newsletter: Newsletter) {
+  try {
+    return await removeNewsletterSupabase(newsletter)
+  } catch (e) {
+    log('Error removing newsletter from supabase', e)
+    throw e
+  }
+}
+
+export async function getNewsletters (): Promise<Newsletter[]> {
+  try {
+    const dbNl = await getNewslettersSupabase()
+    return dbNl?.map((nl: any) => ({
+      _id: nl._id,
+      url: nl.url,
+      title: nl.title,
+      description: nl.description,
+      color: convertColorIfNecessary(nl.color),
+      favicon: {
+        url: nl.favicon_url,
+        size: nl.favicon_size
+      }
+    }) as Newsletter) || []
+  } catch (e) {
+    log('Error getting newsletters from supabase', e)
     throw e
   }
 }

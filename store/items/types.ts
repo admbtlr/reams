@@ -15,7 +15,7 @@ interface ItemStyles {
     isInline: boolean
     isMultiply: boolean
     isScreen: boolean
-    resizeMode: "cover" | "containe"
+    resizeMode: "cover" | "contain"
     showCoverImage: boolean
   }
   title: {
@@ -28,6 +28,7 @@ interface ItemStyles {
 
 export interface Item {
   _id: string
+  blobId: string | undefined // fastmail newsletters
   content_length: number | undefined
   coverImageFile: string | undefined
   coverImageUrl: string | undefined
@@ -43,7 +44,8 @@ export interface Item {
   }
   isDecorated?: boolean | undefined
   isExternal?: boolean | undefined
-  isSaved: boolean | undefined
+  isNewsletter?: boolean | undefined
+  isSaved?: boolean | undefined
   id?: string | number | undefined
   readAt?: number | undefined
   savedAt: number | undefined
@@ -74,17 +76,10 @@ export interface MercuryStuff {
   author?: string
   content?: string
   date_published?: string
-  dek?: string
-  direction?: string
   domain?: string
   excerpt?: string
   lead_image_url?: string
-  next_page_url?: string
-  rendered_pages?: number
   title?: string
-  total_pages?: number
-  url?: string
-  word_count?: number
 }
 
 export interface ImageStuff {
@@ -129,6 +124,7 @@ export const UNSAVE_ITEMS = 'UNSAVE_ITEMS'
 export const UPDATE_ITEM = 'UPDATE_ITEM'
 export const MARK_ITEM_READ = 'MARK_ITEM_READ'
 export const MARK_ITEMS_READ = 'MARK_ITEMS_READ'
+export const MARK_ITEMS_READ_SKIP_BACKEND = 'MARK_ITEMS_READ_SKIP_BACKEND'
 export const RECEIVED_REMOTE_READ_ITEMS = 'RECEIVED_REMOTE_READ_ITEMS'
 export const SHARE_ITEM = 'SHARE_ITEM'
 export const TOGGLE_MERCURY_VIEW = 'TOGGLE_MERCURY_VIEW'
@@ -243,6 +239,11 @@ export interface markItemsReadAction {
   items: Item[]
 }
 
+export interface markItemsReadSkipBackendAction {
+  type: typeof MARK_ITEMS_READ_SKIP_BACKEND
+  items: Item[]
+}
+
 export interface toggleMercuryViewAction {
   type: typeof TOGGLE_MERCURY_VIEW
   item: Item
@@ -314,6 +315,7 @@ export type ItemActionTypes = setDisplayModeAction |
   shareItemAction |
   markItemReadAction |
   markItemsReadAction |
+  markItemsReadSkipBackendAction |
   toggleMercuryViewAction |
   itemDecorationSuccessAction |
   itemDecorationFailureAction |

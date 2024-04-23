@@ -446,7 +446,7 @@ PODS:
     - SDWebImageWebPCoder
   - RNAppleAuthentication (2.2.2):
     - React-Core
-  - RNCAsyncStorage (1.17.12):
+  - RNCAsyncStorage (1.23.1):
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
@@ -494,6 +494,11 @@ PODS:
   - RNScreens (3.29.0):
     - React-Core
     - React-RCTImage
+  - RNSentry (5.20.0):
+    - hermes-engine
+    - React-Core
+    - React-hermes
+    - Sentry/HybridSDK (= 8.21.0)
   - RNSharedElement (0.8.4):
     - React-Core
   - RNSVG (13.4.0):
@@ -504,6 +509,9 @@ PODS:
   - SDWebImageWebPCoder (0.13.0):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
+  - Sentry/HybridSDK (8.21.0):
+    - SentryPrivate (= 8.21.0)
+  - SentryPrivate (8.21.0)
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -606,6 +614,7 @@ DEPENDENCIES:
   - RNReactNativeSharedGroupPreferences (from `../node_modules/react-native-shared-group-preferences`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSharedElement (from `../node_modules/react-native-shared-element`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNTextSize (from `../node_modules/react-native-text-size/ios`)
@@ -631,6 +640,8 @@ SPEC REPOS:
     - OpenSSL-Universal
     - SDWebImage
     - SDWebImageWebPCoder
+    - Sentry
+    - SentryPrivate
     - SocketRocket
     - YogaKit
 
@@ -777,6 +788,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSharedElement:
     :path: "../node_modules/react-native-shared-element"
   RNSVG:
@@ -864,7 +877,7 @@ SPEC CHECKSUMS:
   ReactCommon: c9246996e73bf75a2c6c3ff15f1e16707cdc2da9
   ReactNativeWebPFormat: f5f043cc9ded052e535c3869ec341f91ba5a67c5
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
-  RNCAsyncStorage: 09fc8595e6d6f6d5abf16b23a56b257d9c6b7c5b
+  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNDeviceInfo: 02ea8b23e2280fa18e00a06d7e62804d74028579
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
@@ -874,11 +887,14 @@ SPEC CHECKSUMS:
   RNReactNativeSharedGroupPreferences: de0121a4224c267bc7e9fb16c398f3f087c8da81
   RNReanimated: c5a0074efffd21f4af324e86b19468758fe39fa2
   RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
+  RNSentry: fc301e0833c09497aadc678831004681cc869961
   RNSharedElement: eb7d506733952d58634f34c82ec17e82f557e377
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
   SDWebImage: 182830bcddc30cde95fbc60dfe4badc3553d94ba
   SDWebImageWebPCoder: af09429398d99d524cae2fe00f6f0f6e491ed102
+  Sentry: ebc12276bd17613a114ab359074096b6b3725203
+  SentryPrivate: d651efb234cf385ec9a1cdd3eff94b5e78a0e0fe
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: eca980a5771bf114c41a754098cd85e6e0d90ed7
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

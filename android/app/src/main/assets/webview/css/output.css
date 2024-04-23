@@ -75,46 +75,54 @@ body, body a, body a:active, body a:visited {
   max-width: 100%;
 }
 
-.itemArticle {
-  font-size: 0.625rem;
-  line-height: 1rem;
+.itemArticle, .itemArticle table {
+  font-size: 0.625rem !important;
+  line-height: 1rem !important;
   margin: 0;
 }
-.itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle h4, .itemArticle h5 {
+.itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle h4, .itemArticle h5, .itemArticle table h1, .itemArticle table h2, .itemArticle table h3, .itemArticle table h4, .itemArticle table h5 {
   padding: 0;
   line-height: 1em;
   -webkit-hyphens: none;
   hyphens: none;
 }
-.itemArticle h1, .itemArticle h2, .itemArticle h3 {
+.itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle table h1, .itemArticle table h2, .itemArticle table h3 {
   color: var(--feed-color);
 }
-.itemArticle h1 a, .itemArticle h2 a, .itemArticle h3 a {
+.itemArticle h1 a, .itemArticle h2 a, .itemArticle h3 a, .itemArticle table h1 a, .itemArticle table h2 a, .itemArticle table h3 a {
   color: var(--feed-color) !important;
 }
-.itemArticle h1, .itemArticle h2 {
+.itemArticle h1, .itemArticle h2, .itemArticle table h1, .itemArticle table h2 {
   font-size: 1.2rem;
   line-height: 1.5rem;
   margin: 3rem 0 0.5rem;
 }
-.itemArticle h2 {
+.itemArticle h2, .itemArticle table h2 {
   font-size: 1rem;
 }
-.itemArticle h2, .itemArticle h4 {
+.itemArticle h2, .itemArticle h4, .itemArticle table h2, .itemArticle table h4 {
   font-weight: normal;
 }
-.itemArticle h3, .itemArticle h4 {
+.itemArticle h3, .itemArticle h4, .itemArticle table h3, .itemArticle table h4 {
   font-size: 1rem;
   line-height: 1.33rem;
   margin: 2rem 0 0.2rem;
 }
-.itemArticle h4 {
+.itemArticle h4, .itemArticle table h4 {
   font-size: 0.75rem;
 }
-.itemArticle h5, .itemArticle h6 {
+.itemArticle h5, .itemArticle h6, .itemArticle table h5, .itemArticle table h6 {
   font-size: 0.5882352941rem;
   line-height: 1rem;
   margin: 1rem 0 0;
+}
+
+.itemArticle.bodyFontSerif1, .itemArticle.bodyFontSerif1 table {
+  font-size: 0.5555555556rem !important;
+}
+
+.itemArticle.bodyFontSerif3, .itemArticle.bodyFontSerif3 table {
+  font-size: 0.5882352941rem !important;
 }
 
 .itemArticle {
@@ -257,6 +265,11 @@ body, body a, body a:active, body a:visited {
   -webkit-hyphens: none;
   hyphens: none;
 }
+.itemArticle blockquote blockquote, .itemArticle blockquote .pullquote, .itemArticle blockquote aside, .itemArticle .pullquote blockquote, .itemArticle .pullquote .pullquote, .itemArticle .pullquote aside, .itemArticle aside blockquote, .itemArticle aside .pullquote, .itemArticle aside aside {
+  margin: 0;
+  padding: 0;
+  left: 0;
+}
 .itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type, .itemArticle aside > p:last-of-type {
   margin-bottom: 0;
 }
@@ -395,6 +408,9 @@ body, body a, body a:active, body a:visited {
 }
 .itemArticle figure input {
   display: none;
+}
+.itemArticle table, .itemArticle th, .itemArticle td {
+  max-width: 92vw !important;
 }
 .dark-background .itemArticle img:not(.img-portrait):not(.img-small), .dark-background .itemArticle video, .dark-background .itemArticle iframe, .dark-background .itemArticle pre {
   border-bottom: 1px solid hsl(0, 0%, 7%);
@@ -1013,6 +1029,29 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   background-color: rgb(220, 220, 50);
 }
 
+.newsletter table {
+  padding: 0;
+  -webkit-border-horizontal-spacing: 0;
+  width: 92vw;
+  max-width: 92vw;
+  padding: 0 4vw;
+  margin-left: calc(50% - 50vw);
+}
+@media only screen and (min-device-width: 400px) {
+  .newsletter table, .newsletter td {
+    max-width: calc(24rem - 4vw) !important;
+    width: calc(24rem - 4vw) !important;
+    margin-left: calc(50% - 12rem - 2vw);
+  }
+}
+
+.itemArticle table.email-body-container td.content > div:first-of-type table:first-of-type {
+  display: none;
+}
+.itemArticle table.email-body-container .subscribe-widget, .itemArticle table.email-body-container .powered-by-substack {
+  display: none;
+}
+
 html.onboarding {
   --logo1: hsl(186, 40%, 50%);
   --logo2: hsl(360, 70%, 60%);
@@ -1239,71 +1278,69 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   color: var(--logo3);
 }
 
-html.font-size-3 {
+.web.font-size-3 {
   font-size: 28px;
 }
-
-.hasCoverImage .coverHolder {
+.hasCoverImage .web .coverHolder {
   position: relative;
   top: 0;
   left: 0;
   width: 100vw;
 }
-
-.itemTitle {
+.web .itemTitle {
   margin: 1rem 4vw;
   margin-bottom: 0;
   max-width: 900px;
   z-index: 2;
 }
-.hasCoverImage .itemTitle {
+.hasCoverImage .web .itemTitle {
   color: white;
   position: absolute;
   bottom: 0;
 }
-.hasCoverImage .itemTitle.center {
+.hasCoverImage .web .itemTitle.center {
   text-align: center;
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
   max-width: 1000px;
 }
-.hasCoverImage .itemTitle.top {
+.hasCoverImage .web .itemTitle.top {
   top: 0;
   bottom: auto;
 }
-.hasCoverImage .itemTitle.bottom {
+.hasCoverImage .web .itemTitle.bottom {
   bottom: 0;
   top: auto;
 }
-.hasCoverImage .itemTitle.middle {
+.hasCoverImage .web .itemTitle.middle {
   top: 50%;
   transform: translateY(-50%);
 }
-.itemTitle h1, .itemTitle h2, .itemTitle h3, .itemTitle h4, .itemTitle h5 {
+.web .itemTitle h1, .web .itemTitle h2, .web .itemTitle h3, .web .itemTitle h4, .web .itemTitle h5 {
   line-height: 1.1;
 }
-.itemTitle p {
+.web .itemTitle p {
   font-size: 0.7rem;
 }
-.itemTitle .date-published {
+.web .itemTitle .date-published {
   font-size: 0.6rem;
   font-family: "IBMPlexMono-Light" !important;
 }
-.itemTitle.center {
+.web .itemTitle.center {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
-.itemTitle.isUpperCase h1 {
+.web .itemTitle.isUpperCase h1 {
   text-transform: uppercase;
 }
-.itemTitle.bg.hasCoverImage h1 {
+.web .itemTitle.bg.hasCoverImage h1 {
   background-color: rgba(255, 255, 255, 0.9);
   color: black;
   padding: 0.5rem;
 }
-.hasCoverImage .itemTitle::after {
+.hasCoverImage .web .itemTitle::after {
   content: "";
   position: absolute;
   top: 0;
@@ -1314,16 +1351,15 @@ html.font-size-3 {
   z-index: -1;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
 }
-.itemTitle.center::after {
+.web .itemTitle.center::after {
   margin: 0 calc(50% - 50vw) 2rem;
 }
-
 @media screen and (min-width: 32rem) {
-  .itemTitle {
+  .web .itemTitle {
     margin: 1rem;
   }
 }
-.hasCoverImage .coverImage {
+.web .hasCoverImage .coverImage {
   position: fixed;
   top: 0;
   width: 100%;
@@ -1332,20 +1368,17 @@ html.font-size-3 {
   background-size: cover;
   background-position: center;
 }
-
-.articleHolder {
+.web .articleHolder {
   background-color: hsl(60, 17%, 96%);
   position: relative;
   z-index: 2;
 }
-.dark-background .articleHolder {
+.dark-background .web .articleHolder {
   background-color: hsl(240, 0%, 0%);
 }
-
-h1, h2, h3, h4 {
+.web h1, .web h2, .web h3, .web h4 {
   font-weight: normal;
 }
-
-.itemTitle h4 {
+.web .itemTitle h4 {
   font-size: 0.8rem;
 }

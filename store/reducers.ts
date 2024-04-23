@@ -12,6 +12,7 @@ import { remoteActionQueue, RemoteActionQueueState } from './config/remote-actio
 // import { categories } from './categories/categories'
 import categories from './categories/categoriesSlice'
 import annotations  from './annotations/annotations'
+import newsletters from './newsletters/newsletters'
 import { ItemsState, SORT_ITEMS } from './items/types'
 import { FeedsLocalState, FeedsState } from './feeds/types'
 import { UIState } from './ui/types'
@@ -19,6 +20,7 @@ import { CategoriesState } from './categories/types'
 import { Annotation, AnnotationsState } from './annotations/types'
 import rizzleSort from '../utils/rizzle-sort'
 import reduceReducers from 'reduce-reducers'
+import { Newsletter, NewslettersState } from './newsletters/types'
 
 // export default {
 //   itemsUnread,
@@ -44,6 +46,7 @@ export interface RootState {
   user: UserState
   categories: CategoriesState
   annotations: AnnotationsState
+  newsletters: NewslettersState
   _persist?: {
     version: number
     rehydrated: boolean
@@ -70,7 +73,8 @@ export default function makeRootReducer (): Reducer<RootState> {
     config,
     user,
     categories,
-    annotations
+    annotations,
+    newsletters
   })
   
   const crossSliceReducer = (state: RootState, action: any) => {
@@ -79,8 +83,9 @@ export default function makeRootReducer (): Reducer<RootState> {
         return state
       case SORT_ITEMS:
         let items = [...state.itemsUnread.items]
-        items = rizzleSort(items, state.feeds.feeds, state.config.itemSort)
-        // carouselled = maintainCarouselItems(state, items)
+        let feeds = state.feeds.feeds as Newsletter[]
+        items = rizzleSort(items, feeds.concat(state.newsletters.newsletters), state.config.itemSort)
+        //carouselled = maintainCarouselItems(state, items)
         return {
           ...state,
           itemsUnread: {

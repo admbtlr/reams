@@ -1,5 +1,9 @@
+- maybe update image viewer
+  - https://github.com/andresribeiro/react-native-reanimated-image-viewer
+- FeedItem, TopBar and ButtonSet all get items from SQLite simultaneously
+- rizzleSort is currently being called by ITEMS_BATCH_FETCHED and the cross slice reducer
 - look into ItemTitle problems with ~~too long words~~ and too long titles
-- if currentitem is decorated and has a coverimage, the top bar goes transparent, but the image isn's shown
+- if currentitem is decorated and has a coverimage, the top bar goes transparent, but the image isn't shown
 - "inflate feeds" - download feed icons instead
 - finish the add a feed manually feature
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
@@ -63,6 +67,9 @@
 - saved folders
 
 # Done
+- ~~the layout of scrolled-down topbars~~
+- ~~cover images for newsletters~~
+  - content_html.split(/img.*?src="/).map(s => s.split('"')[0]).filter(i => i.indexOf('substack-post-media') !== -1)
 - ~~backend for saved categories~~
 - ~~backend for saved items~~
 - ~~properly add fonts to web~~

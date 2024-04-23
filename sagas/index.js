@@ -60,12 +60,12 @@ function * init (action) {
 
   // see comment below about START_DOWNLOADS
   if (Platform.OS === 'web') {
-    downloadsFork = yield fork(startDownloads)
+    //downloadsFork = yield fork(startDownloads, true)
   }
 }
 
-function * startDownloads () {
-  if (global.isStarting) {
+function * startDownloads (shouldSleep = false) {
+  if (shouldSleep) {
     // let the app render and get started
     yield delay(5000)
   }
@@ -74,10 +74,8 @@ function * startDownloads () {
     yield call(fetchAllItems, true)
     yield call(clearReadItems)
     yield call(pruneItems)
-    // yield call(getCategories)
     yield call(decorateItems)
     yield call(executeRemoteActions)
-    // yield call(inflateFeeds)    
   } catch (e) {
     console.log(e)
     yield put({ type: CLEAR_MESSAGES })

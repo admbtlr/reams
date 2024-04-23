@@ -1,6 +1,5 @@
-export interface Feed {
+export interface Source {
   _id: string
-  feedbinId?: number
   title: string
   description?: string
   url: string
@@ -9,7 +8,6 @@ export interface Feed {
     url: string
     size: string
   }
-  rootUrl: string
   readingTime?: number
   readCount?: number
   unreadCount?: number
@@ -21,7 +19,7 @@ export interface Feed {
   isMercury?: boolean
 }
 
-export interface FeedLocal {
+export interface SourceLocal {
   _id: string
   hasCachedIcon?: boolean
   cachedIconDimensions?: {
@@ -32,6 +30,16 @@ export interface FeedLocal {
   lastCachingError?: number
   cachedCoverImageId?: string
   isNew?: boolean
+}
+
+
+export interface Feed extends Source {
+  feedbinId?: number
+  rootUrl: string
+  // isNewsletter?: boolean
+}
+
+export interface FeedLocal extends SourceLocal {
 }
 
 export interface FeedsState {

@@ -12,14 +12,15 @@
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
     "@invertase/react-native-apple-authentication": "^2.2.2",
-    "@react-native-async-storage/async-storage": "~1.17.3",
+    "@react-native-async-storage/async-storage": "~1.23.1",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/netinfo": "9.4.1",
     "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",
     "@reduxjs/toolkit": "^1.9.7",
-    "@supabase/supabase-js": "^2.38.0",
+    "@sentry/react-native": "^5.20.0",
+    "@supabase/supabase-js": "^2.42.4",
     "@tensorflow-models/blazeface": "0.1.0",
     "@tensorflow/tfjs": "4.16.0",
     "@tensorflow/tfjs-react-native": "1.0.0",
@@ -55,7 +56,7 @@
     "opmltojs": "^0.4.12",
     "path": "^0.12.7",
     "prop-types": "^15.6.0",
-    "proxy-memoize": "^2.0.4",
+    "proxy-memoize": "^2.0.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -102,7 +103,6 @@
     "redux-saga": "^1.1.0",
     "sanitize-html": "^1.20.0",
     "sass": "^1.69.4",
-    "sentry-expo": "~6.0.0",
     "split-on-first": "^1.0.0",
     "uuid": "^9.0.1",
     "yup": "^0.26.7"
@@ -152,6 +152,9 @@
     "ts-jest": "^29.1.2",
     "typesafe-actions": "^5.1.0",
     "typescript": "^4.9.4"
+  },
+  "resolutions": {
+    "promise": "^8.0.3"
   },
   "detox": {
     "configurations": {

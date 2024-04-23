@@ -39,18 +39,25 @@ export function isFetchPaginated () {
 
 export async function loadMercuryStuff (item) {
   const url = getMercuryUrl(item)
-  const response = await fetch(url)
-  if (response.ok) {
-    return response.json()
-  } else {
-    log(`${response.url}: ${response.status} ${response.statusText}`)
-    return
+  try {
+    const response = await fetch(url)
+    if (response.ok) {
+      return response.json()
+    } else {
+      log(`${response.url}: ${response.status} ${response.statusText}`)
+      return
+    }  
+  } catch (e) {
+    log('loadMercuryStuff', e)
   }
 }
 
 export function getMercuryUrl (item) {
   let url = Config.API_URL + '/mercury?url=' +
     encodeURIComponent(item.url)
+  if (item.isNewsletter) {
+    url += '&skipContent=true'
+  }
   return url
 }
 
@@ -158,14 +165,14 @@ export async function addFeed (feed) {
   if (backend === 'feedbin') {
     feed.feedbinId = await feedbin.addFeed(feed)
   }
-  return reams.addFeed(feed)
+  return await reams.addFeed(feed)
 }
 
-export function updateFeed (feed) {
+export async function updateFeed (feed) {
   switch (backend) {
     case 'basic':
     case 'reams':
-      return reams.updateFeed(feed)
+      return await reams.updateFeed(feed)
   }
 }
 
@@ -207,6 +214,22 @@ export async function deleteCategory (category) {
   //   await feedbin.deleteCategory(category)
   // }
   return await reams.deleteCategory(category)
+}
+
+export async function getNewsletters () {
+  return await reams.getNewsletters()
+}
+
+export async function addNewsletter (newsletter) {
+  return await reams.addNewsletter(newsletter)
+}
+
+export async function updateNewsletter (newsletter) {
+  return await reams.updateNewsletter(newsletter)
+}
+
+export async function deleteNewsletter (newsletter) {
+  return await reams.deleteNewsletter(newsletter)
 }
 
 export function authenticate ({username, password, email}, backend) {

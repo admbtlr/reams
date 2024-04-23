@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {Dimensions, Linking, Platform, View} from 'react-native'
+import {ActivityIndicator, Dimensions, Linking, Platform, View} from 'react-native'
 import {WebView, WebViewNavigation} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
@@ -226,7 +226,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const deviceWidth = height > width ? width: height
   const deviceWidthToggle = deviceWidth > 600 ? 'tablet' : 'phone'
 
-  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle} ${Platform.OS}">
+  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle} ${Platform.OS} ${item.isNewsletter ? 'newsletter' : ''}">
 <head>
   <style>
 :root {
@@ -255,6 +255,20 @@ html, body {
 <script src="${server}webview/js/rangy-highlighter.js"></script>
 <script src="${server}webview/js/feed-item.js"></script>
 </html>`
+
+  if (body === '') {
+    return (
+      <View style={{
+        width,
+        height,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
+      </View>
+    )
+  }
 
   // see https://github.com/facebook/react-native/issues/32547#issuecomment-962009710 for androidLayerType
 
