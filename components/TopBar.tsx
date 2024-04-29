@@ -348,9 +348,6 @@ export default function TopBar({
                     // color: this.getBorderBottomColor(item)
                     color: getForegroundColor(),
                     opacity: Platform.OS !== 'web' && titleOpacity === 0 ? 0 : 1,
-                    // height: 36,
-                    // paddingBottom: 15,
-                    hyphens: 'auto',
                     textAlign: 'center'
                   }}
                 >

@@ -17,6 +17,10 @@ const ttfLoaderConfiguration = {
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
 
+  config.entry = {
+    app: path.join(__dirname, "index.web.js"),
+  },
+
   config.resolve.alias["react-native-config"] = "react-web-config";
   config.resolve.alias["react-native-webview"] = "react-native-web-webview";
   config.resolve.alias["redux-persist-filesystem-storage"] = "";

@@ -3,7 +3,7 @@ import {
   AppState,
   Platform
 } from 'react-native'
-import Clipboard from "@react-native-community/clipboard"
+import Clipboard from "@react-native-clipboard/clipboard"
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { parseString } from 'react-native-xml2js'
 

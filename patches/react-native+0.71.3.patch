@@ -1,0 +1,39 @@
+diff --git a/node_modules/react-native/ReactCommon/react/nativemodule/core/ReactCommon/TurboModuleBinding.cpp b/node_modules/react-native/ReactCommon/react/nativemodule/core/ReactCommon/TurboModuleBinding.cpp
+index 03c65ef..b41b29d 100644
+--- a/node_modules/react-native/ReactCommon/react/nativemodule/core/ReactCommon/TurboModuleBinding.cpp
++++ b/node_modules/react-native/ReactCommon/react/nativemodule/core/ReactCommon/TurboModuleBinding.cpp
+@@ -10,7 +10,7 @@
+ #include <stdexcept>
+ #include <string>
+ 
+-#include <ReactCommon/LongLivedObject.h>
++#include <react/bridging/LongLivedObject.h>
+ #include <cxxreact/SystraceSection.h>
+ 
+ using namespace facebook;
+diff --git a/node_modules/react-native/ReactCommon/react/nativemodule/core/ReactCommon/TurboModuleBinding.h b/node_modules/react-native/ReactCommon/react/nativemodule/core/ReactCommon/TurboModuleBinding.h
+index 1791d4e..ed4184a 100644
+--- a/node_modules/react-native/ReactCommon/react/nativemodule/core/ReactCommon/TurboModuleBinding.h
++++ b/node_modules/react-native/ReactCommon/react/nativemodule/core/ReactCommon/TurboModuleBinding.h
+@@ -9,7 +9,7 @@
+ 
+ #include <string>
+ 
+-#include <ReactCommon/LongLivedObject.h>
++#include <react/bridging/LongLivedObject.h>
+ #include <ReactCommon/TurboModule.h>
+ #include <jsi/jsi.h>
+ 
+diff --git a/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios/RCTTurboModule.mm b/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios/RCTTurboModule.mm
+index 1ee5908..8aab28f 100644
+--- a/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios/RCTTurboModule.mm
++++ b/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios/RCTTurboModule.mm
+@@ -22,7 +22,7 @@
+ #import <React/RCTModuleMethod.h>
+ #import <React/RCTUtils.h>
+ #import <ReactCommon/CallInvoker.h>
+-#import <ReactCommon/LongLivedObject.h>
++#import <react/bridging/LongLivedObject.h>
+ #import <ReactCommon/TurboModule.h>
+ #import <ReactCommon/TurboModulePerfLogger.h>
+ #import <ReactCommon/TurboModuleUtils.h>
