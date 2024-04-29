@@ -1,0 +1,380 @@
+diff --git a/node_modules/@tensorflow/tfjs-react-native/dist/camera/camera_stream.js b/node_modules/@tensorflow/tfjs-react-native/dist/camera/camera_stream.js
+index bbb60b6..7d7b2cb 100644
+--- a/node_modules/@tensorflow/tfjs-react-native/dist/camera/camera_stream.js
++++ b/node_modules/@tensorflow/tfjs-react-native/dist/camera/camera_stream.js
+@@ -15,13 +15,13 @@
+  * =============================================================================
+  */
+ import * as React from 'react';
+-import { StyleSheet, PixelRatio, Platform, } from 'react-native';
+-import { Camera } from 'expo-camera';
+-import { GLView } from 'expo-gl';
+-import { fromTexture, renderToGLView, detectGLCapabilities } from './camera';
+-const DEFAULT_AUTORENDER = true;
+-const DEFAULT_RESIZE_DEPTH = 3;
+-const DEFAULT_USE_CUSTOM_SHADERS_TO_RESIZE = false;
++// import { StyleSheet, PixelRatio, Platform, } from 'react-native';
++// import { Camera } from 'expo-camera';
++// import { GLView } from 'expo-gl';
++// import { fromTexture, renderToGLView, detectGLCapabilities } from './camera';
++// const DEFAULT_AUTORENDER = true;
++// const DEFAULT_RESIZE_DEPTH = 3;
++// const DEFAULT_USE_CUSTOM_SHADERS_TO_RESIZE = false;
+ /**
+  * A higher-order-component (HOC) that augments the [Expo.Camera](https://docs.expo.io/versions/latest/sdk/camera/)
+  * component with the ability to yield tensors representing the camera stream.
+@@ -139,182 +139,183 @@ CameraComponent) {
+     return class CameraWithTensorStream extends React.Component {
+         constructor(props) {
+             super(props);
+-            this.onCameraLayout = this.onCameraLayout.bind(this);
+-            this.onGLContextCreate = this.onGLContextCreate.bind(this);
+-            this.state = {
+-                cameraLayout: null,
+-            };
+-        }
+-        componentWillUnmount() {
+-            cancelAnimationFrame(this.rafID);
+-            if (this.glContext) {
+-                GLView.destroyContextAsync(this.glContext);
+-            }
+-            this.camera = null;
+-            this.glView = null;
+-            this.glContext = null;
+-        }
+-        /*
+-         * Measure the camera component when it is laid out so that we can overlay
+-         * the GLView.
+-         */
+-        onCameraLayout(event) {
+-            const { x, y, width, height } = event.nativeEvent.layout;
+-            this.setState({
+-                cameraLayout: { x, y, width, height },
+-            });
+-        }
+-        /**
+-         * Creates a WebGL texture that is updated by the underlying platform to
+-         * contain the contents of the camera.
+-         */
+-        async createCameraTexture() {
+-            if (this.glView != null && this.camera != null) {
+-                //@ts-ignore
+-                return this.glView.createCameraTextureAsync(this.camera);
+-            }
+-            else {
+-                throw new Error('Expo GL context or camera not available');
+-            }
+-        }
+-        /**
+-         * Callback for GL context creation. We do mose of the work of setting
+-         * up the component here.
+-         * @param gl
+-         */
+-        async onGLContextCreate(gl) {
+-            this.glContext = gl;
+-            const cameraTexture = await this.createCameraTexture();
+-            await detectGLCapabilities(gl);
+-            // Optionally set up a render loop that just displays the camera texture
+-            // to the GLView.
+-            const autorender = this.props.autorender != null
+-                ? this.props.autorender
+-                : DEFAULT_AUTORENDER;
+-            const updatePreview = this.previewUpdateFunc(gl, cameraTexture);
+-            if (autorender) {
+-                const renderLoop = () => {
+-                    updatePreview();
+-                    gl.endFrameEXP();
+-                    this.rafID = requestAnimationFrame(renderLoop);
+-                };
+-                renderLoop();
+-            }
+-            const { resizeDepth } = this.props;
+-            // cameraTextureHeight and cameraTextureWidth props can be omitted when
+-            // useCustomShadersToResize is set to false. Setting a default value to
+-            // them here.
+-            const cameraTextureHeight = this.props.cameraTextureHeight != null
+-                ? this.props.cameraTextureHeight
+-                : 0;
+-            const cameraTextureWidth = this.props.cameraTextureWidth != null
+-                ? this.props.cameraTextureWidth
+-                : 0;
+-            const useCustomShadersToResize = this.props.useCustomShadersToResize != null
+-                ? this.props.useCustomShadersToResize
+-                : DEFAULT_USE_CUSTOM_SHADERS_TO_RESIZE;
+-            //
+-            //  Set up a generator function that yields tensors representing the
+-            // camera on demand.
+-            //
+-            const cameraStreamView = this;
+-            function* nextFrameGenerator() {
+-                const RGBA_DEPTH = 4;
+-                const textureDims = {
+-                    height: cameraTextureHeight,
+-                    width: cameraTextureWidth,
+-                    depth: RGBA_DEPTH,
+-                };
+-                while (cameraStreamView.glContext != null) {
+-                    const targetDims = {
+-                        height: cameraStreamView.props.resizeHeight,
+-                        width: cameraStreamView.props.resizeWidth,
+-                        depth: resizeDepth || DEFAULT_RESIZE_DEPTH,
+-                    };
+-                    const imageTensor = fromTexture(gl, cameraTexture, textureDims, targetDims, useCustomShadersToResize, { rotation: cameraStreamView.props.rotation });
+-                    yield imageTensor;
+-                }
+-            }
+-            const nextFrameIterator = nextFrameGenerator();
+-            // Pass the utility functions to the caller provided callback
+-            this.props.onReady(nextFrameIterator, updatePreview, gl, cameraTexture);
+-        }
+-        /**
+-         * Helper function that can be used to update the GLView framebuffer.
+-         *
+-         * @param gl the open gl texture to render to
+-         * @param cameraTexture the texture to draw.
+-         */
+-        previewUpdateFunc(gl, cameraTexture) {
+-            const renderFunc = () => {
+-                const { cameraLayout } = this.state;
+-                const { rotation } = this.props;
+-                const width = PixelRatio.getPixelSizeForLayoutSize(cameraLayout.width);
+-                const height = PixelRatio.getPixelSizeForLayoutSize(cameraLayout.height);
+-                const isFrontCamera = this.camera.props.type === Camera.Constants.Type.front;
+-                const flipHorizontal = Platform.OS === 'ios' && isFrontCamera ? false : true;
+-                renderToGLView(gl, cameraTexture, { width, height }, flipHorizontal, rotation);
+-            };
+-            return renderFunc.bind(this);
++            // this.onCameraLayout = this.onCameraLayout.bind(this);
++            // this.onGLContextCreate = this.onGLContextCreate.bind(this);
++            // this.state = {
++            //     cameraLayout: null,
++            // };
+         }
++        // componentWillUnmount() {
++        //     cancelAnimationFrame(this.rafID);
++        //     if (this.glContext) {
++        //         GLView.destroyContextAsync(this.glContext);
++        //     }
++        //     this.camera = null;
++        //     this.glView = null;
++        //     this.glContext = null;
++        // }
++        // /*
++        //  * Measure the camera component when it is laid out so that we can overlay
++        //  * the GLView.
++        //  */
++        // onCameraLayout(event) {
++        //     const { x, y, width, height } = event.nativeEvent.layout;
++        //     this.setState({
++        //         cameraLayout: { x, y, width, height },
++        //     });
++        // }
++        // /**
++        //  * Creates a WebGL texture that is updated by the underlying platform to
++        //  * contain the contents of the camera.
++        //  */
++        // async createCameraTexture() {
++        //     if (this.glView != null && this.camera != null) {
++        //         //@ts-ignore
++        //         return this.glView.createCameraTextureAsync(this.camera);
++        //     }
++        //     else {
++        //         throw new Error('Expo GL context or camera not available');
++        //     }
++        // }
++        // /**
++        //  * Callback for GL context creation. We do mose of the work of setting
++        //  * up the component here.
++        //  * @param gl
++        //  */
++        // async onGLContextCreate(gl) {
++        //     this.glContext = gl;
++        //     const cameraTexture = await this.createCameraTexture();
++        //     await detectGLCapabilities(gl);
++        //     // Optionally set up a render loop that just displays the camera texture
++        //     // to the GLView.
++        //     const autorender = this.props.autorender != null
++        //         ? this.props.autorender
++        //         : DEFAULT_AUTORENDER;
++        //     const updatePreview = this.previewUpdateFunc(gl, cameraTexture);
++        //     if (autorender) {
++        //         const renderLoop = () => {
++        //             updatePreview();
++        //             gl.endFrameEXP();
++        //             this.rafID = requestAnimationFrame(renderLoop);
++        //         };
++        //         renderLoop();
++        //     }
++        //     const { resizeDepth } = this.props;
++        //     // cameraTextureHeight and cameraTextureWidth props can be omitted when
++        //     // useCustomShadersToResize is set to false. Setting a default value to
++        //     // them here.
++        //     const cameraTextureHeight = this.props.cameraTextureHeight != null
++        //         ? this.props.cameraTextureHeight
++        //         : 0;
++        //     const cameraTextureWidth = this.props.cameraTextureWidth != null
++        //         ? this.props.cameraTextureWidth
++        //         : 0;
++        //     const useCustomShadersToResize = this.props.useCustomShadersToResize != null
++        //         ? this.props.useCustomShadersToResize
++        //         : DEFAULT_USE_CUSTOM_SHADERS_TO_RESIZE;
++        //     //
++        //     //  Set up a generator function that yields tensors representing the
++        //     // camera on demand.
++        //     //
++        //     const cameraStreamView = this;
++        //     function* nextFrameGenerator() {
++        //         const RGBA_DEPTH = 4;
++        //         const textureDims = {
++        //             height: cameraTextureHeight,
++        //             width: cameraTextureWidth,
++        //             depth: RGBA_DEPTH,
++        //         };
++        //         while (cameraStreamView.glContext != null) {
++        //             const targetDims = {
++        //                 height: cameraStreamView.props.resizeHeight,
++        //                 width: cameraStreamView.props.resizeWidth,
++        //                 depth: resizeDepth || DEFAULT_RESIZE_DEPTH,
++        //             };
++        //             const imageTensor = fromTexture(gl, cameraTexture, textureDims, targetDims, useCustomShadersToResize, { rotation: cameraStreamView.props.rotation });
++        //             yield imageTensor;
++        //         }
++        //     }
++        //     const nextFrameIterator = nextFrameGenerator();
++        //     // Pass the utility functions to the caller provided callback
++        //     this.props.onReady(nextFrameIterator, updatePreview, gl, cameraTexture);
++        // }
++        // /**
++        //  * Helper function that can be used to update the GLView framebuffer.
++        //  *
++        //  * @param gl the open gl texture to render to
++        //  * @param cameraTexture the texture to draw.
++        //  */
++        // previewUpdateFunc(gl, cameraTexture) {
++        //     const renderFunc = () => {
++        //         const { cameraLayout } = this.state;
++        //         const { rotation } = this.props;
++        //         const width = PixelRatio.getPixelSizeForLayoutSize(cameraLayout.width);
++        //         const height = PixelRatio.getPixelSizeForLayoutSize(cameraLayout.height);
++        //         const isFrontCamera = this.camera.props.type === Camera.Constants.Type.front;
++        //         const flipHorizontal = Platform.OS === 'ios' && isFrontCamera ? false : true;
++        //         renderToGLView(gl, cameraTexture, { width, height }, flipHorizontal, rotation);
++        //     };
++        //     return renderFunc.bind(this);
++        // }
+         /**
+          * Render the component
+          */
+         render() {
+-            const { cameraLayout } = this.state;
+-            // Before passing props into the original wrapped component we want to
+-            // remove the props that we augment the component with.
+-            // Use this object to use typescript to check that we are removing
+-            // all the tensorCamera properties.
+-            const tensorCameraPropMap = {
+-                useCustomShadersToResize: null,
+-                cameraTextureWidth: null,
+-                cameraTextureHeight: null,
+-                resizeWidth: null,
+-                resizeHeight: null,
+-                resizeDepth: null,
+-                autorender: null,
+-                onReady: null,
+-                rotation: 0,
+-            };
+-            const tensorCameraPropKeys = Object.keys(tensorCameraPropMap);
+-            const cameraProps = {};
+-            const allProps = Object.keys(this.props);
+-            for (let i = 0; i < allProps.length; i++) {
+-                const key = allProps[i];
+-                if (!tensorCameraPropKeys.includes(key)) {
+-                    cameraProps[key] = this.props[key];
+-                }
+-            }
+-            // Set up an on layout handler
+-            const onlayout = this.props.onLayout
+-                ? (e) => {
+-                    this.props.onLayout(e);
+-                    this.onCameraLayout(e);
+-                }
+-                : this.onCameraLayout;
+-            cameraProps.onLayout = onlayout;
+-            const cameraComp = (
+-            //@ts-ignore see https://github.com/microsoft/TypeScript/issues/30650
+-            <CameraComponent key='camera-with-tensor-camera-view' {...cameraProps} ref={(ref) => (this.camera = ref)}/>);
+-            // Create the glView if the camera has mounted.
+-            let glViewComponent = null;
+-            if (cameraLayout != null) {
+-                const styles = StyleSheet.create({
+-                    glView: {
+-                        position: 'absolute',
+-                        left: cameraLayout.x,
+-                        top: cameraLayout.y,
+-                        width: cameraLayout.width,
+-                        height: cameraLayout.height,
+-                        zIndex: this.props.style.zIndex
+-                            ? parseInt(this.props.style.zIndex, 10) + 10
+-                            : 10,
+-                    },
+-                });
+-                glViewComponent = (<GLView key='camera-with-tensor-gl-view' style={styles.glView} onContextCreate={this.onGLContextCreate} ref={(ref) => (this.glView = ref)}/>);
+-            }
+-            return [cameraComp, glViewComponent];
++            return null
++            // const { cameraLayout } = this.state;
++            // // Before passing props into the original wrapped component we want to
++            // // remove the props that we augment the component with.
++            // // Use this object to use typescript to check that we are removing
++            // // all the tensorCamera properties.
++            // const tensorCameraPropMap = {
++            //     useCustomShadersToResize: null,
++            //     cameraTextureWidth: null,
++            //     cameraTextureHeight: null,
++            //     resizeWidth: null,
++            //     resizeHeight: null,
++            //     resizeDepth: null,
++            //     autorender: null,
++            //     onReady: null,
++            //     rotation: 0,
++            // };
++            // const tensorCameraPropKeys = Object.keys(tensorCameraPropMap);
++            // const cameraProps = {};
++            // const allProps = Object.keys(this.props);
++            // for (let i = 0; i < allProps.length; i++) {
++            //     const key = allProps[i];
++            //     if (!tensorCameraPropKeys.includes(key)) {
++            //         cameraProps[key] = this.props[key];
++            //     }
++            // }
++            // // Set up an on layout handler
++            // const onlayout = this.props.onLayout
++            //     ? (e) => {
++            //         this.props.onLayout(e);
++            //         this.onCameraLayout(e);
++            //     }
++            //     : this.onCameraLayout;
++            // cameraProps.onLayout = onlayout;
++            // const cameraComp = (
++            // //@ts-ignore see https://github.com/microsoft/TypeScript/issues/30650
++            // <CameraComponent key='camera-with-tensor-camera-view' {...cameraProps} ref={(ref) => (this.camera = ref)}/>);
++            // // Create the glView if the camera has mounted.
++            // let glViewComponent = null;
++            // if (cameraLayout != null) {
++            //     const styles = StyleSheet.create({
++            //         glView: {
++            //             position: 'absolute',
++            //             left: cameraLayout.x,
++            //             top: cameraLayout.y,
++            //             width: cameraLayout.width,
++            //             height: cameraLayout.height,
++            //             zIndex: this.props.style.zIndex
++            //                 ? parseInt(this.props.style.zIndex, 10) + 10
++            //                 : 10,
++            //         },
++            //     });
++            //     glViewComponent = (<GLView key='camera-with-tensor-gl-view' style={styles.glView} onContextCreate={this.onGLContextCreate} ref={(ref) => (this.glView = ref)}/>);
++            // }
++            // return [cameraComp, glViewComponent];
+         }
+     };
+ }

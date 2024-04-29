@@ -227,7 +227,7 @@ const Main = ({route}) => {
   )
 }
 
-const App = () => {
+const App = (): JSX.Element => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch({

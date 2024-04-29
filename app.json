@@ -1,13 +1,11 @@
 {
-  "name": "reams",
+  "name": "Reams",
   "displayName": "Reams",
   "expo": {
     "name": "Reams",
     "slug": "reams",
-    "entryPoint": "./index.js",
-    "sdkVersion": "47.0.0",
+    "sdkVersion": "48.0.0",
     "plugins": [
-      "@sentry/react-native/expo"
     ]
   },
   "web": {

@@ -1,5 +1,7 @@
 - maybe update image viewer
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer
+- TopBar with too many lines
+  - e.g. NYT briefings
 - FeedItem, TopBar and ButtonSet all get items from SQLite simultaneously
 - rizzleSort is currently being called by ITEMS_BATCH_FETCHED and the cross slice reducer
 - look into ItemTitle problems with ~~too long words~~ and too long titles
