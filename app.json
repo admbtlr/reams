@@ -4,9 +4,10 @@
   "expo": {
     "name": "Reams",
     "slug": "reams",
-    "sdkVersion": "48.0.0",
     "plugins": [
-    ]
+      "expo-dev-launcher"
+    ],
+    "jsEngine": "hermes"
   },
   "web": {
     "build": {

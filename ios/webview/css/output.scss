@@ -1559,7 +1559,7 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
 
   // this is a kludge: the device width is supposed to approximate 24rems
   // but the rem actually changes according to the font size
-  @media only screen and (min-device-width: 400px) {
+  @media only screen and (min-device-width: 600px) {
     table, td {
       max-width: calc(24rem - 4vw) !important;
       width: calc(24rem - 4vw) !important;

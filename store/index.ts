@@ -75,7 +75,6 @@ function initStore (rehydrateCallback?: () => void) {
       reducer: persistedReducer,
       middleware: (getDefaultMiddleware) => {
         const middleware = getDefaultMiddleware(middlewareConf).prepend(sagaMiddleware);
-        if (__DEV__) middleware.push(require('redux-flipper').default())
         return middleware
       }
     })
