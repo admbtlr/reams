@@ -21,7 +21,6 @@ prepare_react_native_project!
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
  
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -45,9 +44,8 @@ target 'Reams' do
 
   use_react_native!(
     :path => config[:reactNativePath],
-    :hermes_enabled => flags[:hermes_enabled],
+    :hermes_enabled => true, #flags[:hermes_enabled],
     # https://github.com/facebook/flipper/issues/4278#issuecomment-1302015516
-    :flipper_configuration => flipper_config,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
@@ -76,7 +74,7 @@ def __apply_Xcode_14_3_RC_post_install_workaround(installer)
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       current_target = config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
-      minimum_target = 13.0
+      minimum_target = 16.0
       if current_target.to_f < minimum_target.to_f
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = minimum_target
       end
@@ -87,7 +85,13 @@ end
 # Add this, taken from: https://github.com/facebook/react-native/issues/25792#issuecomment-517295859
 # https://github.com/alinz/react-native-share-extension/issues/182
 post_install do |installer|
-  react_native_post_install(installer)
+  config = use_native_modules!
+  # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
+  react_native_post_install(
+    installer,
+    config[:reactNativePath],
+    :mac_catalyst_enabled => false
+  )
   
   __apply_Xcode_12_5_M1_post_install_workaround(installer)
   

@@ -1037,7 +1037,7 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   padding: 0 4vw;
   margin-left: calc(50% - 50vw);
 }
-@media only screen and (min-device-width: 400px) {
+@media only screen and (min-device-width: 600px) {
   .newsletter table, .newsletter td {
     max-width: calc(24rem - 4vw) !important;
     width: calc(24rem - 4vw) !important;
