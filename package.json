@@ -2,9 +2,9 @@
   "name": "rizzle",
   "version": "0.3.1",
   "private": true,
-  "main": "Reams",
+  "main": "index.js",
   "scripts": {
-    "start": "npx concurrently --kill-others 'node node_modules/react-native/local-cli/cli.js start --reset-cache' 'gulp'",
+    "start": "npx concurrently --kill-others 'node_modules/expo/bin/cli start' 'gulp'",
     "test": "jest",
     "postinstall": "patch-package",
     "deploy:web": "expo export:web; vercel build; vercel deploy --prebuilt"
