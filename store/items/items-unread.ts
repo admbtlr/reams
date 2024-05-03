@@ -210,9 +210,18 @@ export function itemsUnread (
 
     case REMOVE_ITEMS:
       // const itemIds = action.items.map(f => f._id)
+      let currentItem: Item | undefined
+      if (state.index && state.index > 0) {
+        currentItem = state.items[state.index]
+      }
+      const items = state.items.filter(i => action.items.find((ai: Item) => ai._id === i._id) === undefined)
+      const index = currentItem === undefined ?
+        0 :
+        items.findIndex(i => i._id === currentItem._id) 
       return {
         ...state,
-        items: state.items.filter(i => action.items.find((ai: Item) => ai._id === i._id) === undefined)
+        items,
+        index: index > 0 ? index : 0
       }
 
     case UNSET_BACKEND:
