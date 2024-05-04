@@ -7,7 +7,7 @@ export const getItems = (state, type) => {
   if (filter?.type === 'category') {
     filterFeedIds = state.categories.categories.find(c => c._id === filter._id)?.feeds
     filterItemIds = state.categories.categories.find(c => c._id === filter._id)?.itemIds
-  } else if (filter?.type === 'feed') {
+  } else if (filter?.type === 'feed' || filter?.type === 'newsletter') {
     filterFeedIds = [filter._id]
   }
   type = type || state.itemsMeta.display
