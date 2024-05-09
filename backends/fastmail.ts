@@ -151,7 +151,7 @@ export default async function fetchNewsletterItems(lastQueryState?: string): Pro
   response = await mailboxQuery(apiUrl, lastQueryState)
   // console.log(JSON.stringify(response["methodResponses"][1].slice(1, -1)))
   if (response["methodResponses"][0][0] === 'error') {
-    const type = response["methodResponses"][0][0]?.type || 'Unkown error'
+    const type = response["methodResponses"][0][1]?.type || 'Unknown error'
     throw new Error(type)
   }
   let emails = response["methodResponses"][1][1].list

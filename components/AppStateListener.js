@@ -99,7 +99,6 @@ class AppStateListener extends React.Component {
         const pages = typeof parsed === 'object' ?
           parsed :
           [parsed]
-        // console.log(`Got ${pages.length} page${pages.length === 1 ? '' : 's'} to save`)
         const that = this
         const savedItems = this.props.savedItems
         pages.forEach(page => {

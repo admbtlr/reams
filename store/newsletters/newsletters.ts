@@ -90,9 +90,13 @@ export const fetchNewsletters = createAsyncThunk(
       items = response.items
       queryState = response.queryState
     } catch (e: any) {
-      if (e.title === 'Too many changes') {
+      if (e.message === 'tooManyChanges') {
         // reset the query state so that we try again with a straight query next time
         dispatch(updateQueryState(undefined))
+        dispatch({
+          type: REMOVE_MESSAGE,
+          messageString: 'Fetching newsletters'
+        })
       }
       throw e
     }
@@ -161,7 +165,9 @@ const newslettersSlice = createSlice({
   name: 'newsletters',
   initialState,
   reducers: {
-    updateQueryState: (state, action: PayloadAction<string | undefined>) => { state.queryState = action.payload }
+    updateQueryState: (state, action: PayloadAction<string | undefined>) => { 
+      state.queryState = action.payload 
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(createNewsletter.fulfilled, (state, action) => {
