@@ -214,8 +214,8 @@ export function itemsUnread (
       if (state.index && state.index > 0) {
         currentItem = state.items[state.index]
       }
-      const items = state.items.filter(i => action.items.find((ai: Item) => ai._id === i._id) === undefined)
-      const index = currentItem === undefined ?
+      items = state.items.filter(i => action.items.find((ai: Item) => ai._id === i._id) === undefined)
+      index = currentItem === undefined ?
         0 :
         items.findIndex(i => i._id === currentItem._id) 
       return {
