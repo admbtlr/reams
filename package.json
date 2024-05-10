@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "npx concurrently --kill-others 'node_modules/expo/bin/cli start' 'gulp'",
+    "start": "npx concurrently --kill-others 'node_modules/expo/bin/cli start --dev-client' 'gulp'",
     "test": "jest",
     "postinstall": "patch-package",
     "deploy:web": "expo export:web; vercel build; vercel deploy --prebuilt"
@@ -89,7 +89,7 @@
     "react-native-svg": "13.9.0",
     "react-native-text-size": "^4.0.0-rc.1",
     "react-native-touchable-scale": "^2.0.0",
-    "react-native-url-polyfill": "^2.0.0",
+    "react-native-url-polyfill": "^1.2.0",
     "react-native-web": "~0.19.6",
     "react-native-web-linear-gradient": "^1.1.2",
     "react-native-web-webview": "^1.0.2",
