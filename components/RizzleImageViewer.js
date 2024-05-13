@@ -2,7 +2,7 @@ import React from 'react'
 import { Dimensions, Modal, Text, View } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { textInfoStyle } from '../utils/styles'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier } from '../utils/dimensions'
 import XButton from './XButton'
 
 class RizzleImageViewer extends React.Component {

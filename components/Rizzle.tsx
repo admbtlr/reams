@@ -130,14 +130,14 @@ export default class Rizzle extends Component<Props, State> {
                 { Platform.OS === 'web' || <OrientationListener /> }
                 { Platform.OS === 'web' || <Analytics /> } 
                 <MigrationsProvider>
-                  <AppStateListenerContainer>
-                    <ModalProvider>
+                  <ModalProvider>
+                    <AppStateListenerContainer>
                       <App />
                       <Message />
                       <RizzleModal />
-                    </ModalProvider>
-                    <HelpTipProvider />
-                  </AppStateListenerContainer>
+                    </AppStateListenerContainer>
+                  </ModalProvider>
+                  <HelpTipProvider />
                 </MigrationsProvider>
                 <Splash />
               </View>

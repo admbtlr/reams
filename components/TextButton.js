@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+
 import {hslString} from '../utils/colors'
-import { fontSizeMultiplier, getInset } from '../utils'
-import { BackgroundGradient } from './Onboarding'
+import { fontSizeMultiplier, getInset } from '../utils/dimensions'
+import { BackgroundGradient } from './BackgroundGradient'
 
 class TextButton extends React.Component {
   constructor (props) {

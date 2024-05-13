@@ -1,5 +1,5 @@
 import {Animated} from 'react-native'
-import { getStatusBarHeight } from 'utils'
+import { getStatusBarHeight } from './dimensions'
 
 export default class ScrollManager {
 

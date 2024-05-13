@@ -9,7 +9,7 @@ import { useSession } from './AuthProvider'
 import { hslString } from '../utils/colors'
 import { Image } from 'react-native'
 import { Text } from 'react-native'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier } from '../utils/dimensions'
 // import { migrate } from '../store/migrations'
 
 const CURRENT_VERSION = 2

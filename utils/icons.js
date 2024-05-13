@@ -1,6 +1,6 @@
 import React from 'react'
 import Svg, { Line, Path, Polygon, Polyline } from 'react-native-svg'
-import { fontSizeMultiplier } from './index'
+import { fontSizeMultiplier } from './dimensions'
 import { hslString } from './colors'
 
 

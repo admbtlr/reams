@@ -16,7 +16,9 @@ import {
 import Modal from "react-native-modal"
 import { textInputStyle, textLabelStyle } from '../utils/styles'
 import {hslString} from '../utils/colors'
-import { deepEqual, fontSizeMultiplier, getMargin } from '../utils'
+import { deepEqual } from '../utils'
+import { getMargin } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
 import { xIcon } from '../utils/icons'
 import FeedIconContainer from '../containers/FeedIcon'
 import { useDispatch } from 'react-redux'

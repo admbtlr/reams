@@ -12,7 +12,8 @@ import {
 } from '../store/ui/types'
 
 import TopBarContainer from '../containers/TopBar'
-import { getStatusBarHeight, hasNotchOrIsland } from '../utils'
+import { getStatusBarHeight } from '../utils/dimensions'
+import { hasNotchOrIsland } from '../utils/dimensions'
 import { Item } from '../store/items/types'
 import TopBar from './TopBar'
 import isEqual from 'lodash.isequal'

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Animated,
   NativeModules,
@@ -10,39 +10,41 @@ import * as Sentry from '@sentry/react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import {decode} from 'html-entities'
 import Config from 'react-native-config'
+import {ShareMenuReactView} from 'react-native-share-menu'
+import CheckBox from '@react-native-community/checkbox'
 
-import TextButton from './TextButton'
 import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
-import {hslString} from '../utils/colors'
 import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
 import log from '../utils/log'
 
+const { ui, darkMode } = require('../utils/colors.json')
 
-class Share extends React.Component {
+const hslString = (label) => {
+  return ui[label]
+}
 
-  group = 'group.com.adam-butler.rizzle'
+const Share  = () => {
 
-  constructor(props, context) {
-    super(props, context)
-    console.log('Constructor!')
-    this.state = {
-      isOpen: true,
-      type: '',
-      value: '',
-      rssUrls: [],
-      searchingForRss: false,
-      retrievingRss: false
-    }
+  const group = 'group.com.adam-butler.rizzle'
+
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenApp, setIsOpenApp] = useState(true)
+  const [type, setType] = useState('')
+  const [url, setUrl] = useState('')
+  const [domain, setDomain] = useState('')
+  const [rssUrls, setRssUrls] = useState([])
+  const [searchingForRss, setSearchingForRss] = useState(false)
+  const [retrievingRss, setRetrievingRss] = useState(false)
+  const [title, setTitle] = useState('')
+
+  useEffect(() => {
     Sentry.init({
       dsn: Config.SENTRY_DSN
-    })
+    })  
+  }, [])
 
-    this.addFeed = this.addFeed.bind(this)
-    this.savePage = this.savePage.bind(this)
-  }
-
-  dedupeFeeds (feeds) {
+  const dedupeFeeds = (feeds) => {
     var hashTable = {};
 
     return feeds.filter(function (el) {
@@ -56,30 +58,28 @@ class Share extends React.Component {
     })
   }
 
-  async searchForRSS (url) {
+  const searchForRSS = async (url) => {
     fetch(`https://api.rizzle.net/api/find-feeds?url=${url}`)
       .then(res => res.json())
-      .then(rssUrls => {
-        const feeds = this.state.rssUrls.concat(rssUrls)
-        const deduped = this.dedupeFeeds(feeds)
-        this.setState({ 
-          rssUrls: deduped 
-        })
+      .then(newRssUrls => {
+        const feeds = rssUrls.concat(newRssUrls)
+        const deduped = dedupeFeeds(feeds)
+        setRssUrls(deduped)
       })
+      .catch(e => console.log(e))
     fetch(`https://api.rizzle.net/api/find-feeds?url=${url}&extended=1`)
       .then(res => res.json())
-      .then(rssUrls => {
-        const deduped = this.dedupeFeeds(this.state.rssUrls.concat(rssUrls))
-        this.setState({ 
-          rssUrls: deduped,
-          searchingForRss: false,
-          retrievingRss: false
-        })
+      .then(newRssUrls => {
+        const deduped = dedupeFeeds(rssUrls.concat(newRssUrls))
+        console.log(deduped)
+        setRssUrls(deduped)
+        setSearchingForRss(false)
+        setRetrievingRss(false)
       })
       .catch(e => console.log(e))
   }
 
-  async getPageTitle(url) {
+  const getPageTitle = async (url) => {
     fetch(url)
       .then(res => {
         return res.text()
@@ -87,63 +87,76 @@ class Share extends React.Component {
       .then(text => {
         const found = text.match(/\<title.*?\>(.*?)\<\/title/)
         if (found && found.length > 1) {
-          this.setState({
-            title: decode(found[1])
-          })  
+          setTitle(decode(found[1]))
         }
       })
   }
 
-  async componentDidMount() {
-    try {
-      const sharedData = await NativeModules.RizzleShare.data()
-      let { type, data } = sharedData
-      console.log(`Data: ${data}`)
-      console.log(`Type: ${type}`)
-      data = /(http[a-zA-Z0-9:\/\.\-_?&=]*)/.exec(data)[1]
-      console.log(`Data after regex: ${data}`)
-      this.setState({
-        isOpen: true,
-        type,
-        data,
-        searchingForRss: true
-      })
-      this.getPageTitle(data)
-      this.searchForRSS(data)
-    } catch(e) {
-      console.log('errrr', e)
+  useEffect(() => {
+    const getSharedData = async () => {
+      try {
+        const data = await ShareMenuReactView.data()
+        console.log(data)
+        const url = data.data[0].data
+        console.log(url)
+        const domain = /http[s]*:\/\/([a-zA-Z0-9\.]*)/.exec(url)[1]
+        console.log(domain)
+        setUrl(url)
+        setDomain(domain)
+        setSearchingForRss(true)
+        getPageTitle(url)
+        searchForRSS(url)
+        // const sharedData = await NativeModules.RizzleShare.data()
+        // let { type, data } = sharedData
+        // console.log(`Data: ${data}`)
+        // console.log(`Type: ${type}`)
+        // data = /(http[a-zA-Z0-9:\/\.\-_?&=]*)/.exec(data)[1]
+        // console.log(`Data after regex: ${data}`)
+        // this.setState({
+        //   isOpen: true,
+        //   type,
+        //   data,
+        //   searchingForRss: true
+        // })
+
+        // this.getPageTitle(data)
+        // this.searchForRSS(data)
+      } catch(e) {
+        console.log('errrr', e)
+      }
+    }
+    getSharedData()
+  }, [])
+
+  const onClose = () => {
+    if (isOpenApp) {
+      ShareMenuReactView.openApp()  
+    } else {
+      ShareMenuReactView.dismissExtension()
     }
   }
 
-  componentDidUpdate () {
-    console.log('COMPONENT DID UPDATE!')
-  }
+  const closing = () => setIsOpen(false)
 
-  onClose = () => {
-    NativeModules.RizzleShare.close()
-  }
-
-  closing = () => this.setState({ isOpen: false })
-
-  async addFeed (url) {
+  const addFeed = async (feed) => {
     // console.log(this.state.rssUrl)
     try {
-      await SharedGroupPreferences.setItem('feed', url, this.group)
+      await SharedGroupPreferences.setItem('feed', feed.url, group)
     } catch(error) {
       log('addFeed', error)
     }
-    this.onClose()
+    onClose()
   }
 
-  async savePage () {
+  const savePage = async () => {
     const page = {
-      url: this.state.data,
-      title: this.state.title
+      url,
+      title
     }
-    console.log(this.group)
+    console.log(page)
     let pages = []
     try {
-      const raw = await SharedGroupPreferences.getItem('page', this.group)
+      const raw = await SharedGroupPreferences.getItem('page', group)
       pages = raw ? JSON.parse(raw) : []
     } catch(error) {
       if (error !== 1) {
@@ -152,185 +165,160 @@ class Share extends React.Component {
     }
     pages.push(page)
     try {
-      await SharedGroupPreferences.setItem('page', JSON.stringify(pages), this.group)
+      await SharedGroupPreferences.setItem('page', JSON.stringify(pages), group)
     } catch(error) {
       log('savePage', error)
     }
-    this.onClose()
+    onClose()
   }
 
-  render() {
-    const textStyle = {
-      color: hslString('rizzleText'),
-      fontFamily: 'IBMPlexMono',
-      fontSize: 18,
-      textAlign: 'center'
-    }
-    const helpText = {
-      color: hslString('rizzleText'),
-      fontFamily: 'IBMPlexSans-Light',
-      fontSize: 18,
-      textAlign: 'left',
-      marginBottom: 16
-    }
-    const {
-      searchingForRss,
-      retrievingRss,
-      isOpen,
-      rssUrls,
-      title
-    } = this.state
-    // console.log(this.state.rssUrls)
-    const margin = 24
-    const saveIcon = <View style={{
-      top: -12,
-      left: -12
+  const textStyle = {
+    color: hslString('rizzleText'),
+    fontFamily: 'IBMPlexMono',
+    fontSize: 18,
+    textAlign: 'center'
+  }
+  const helpText = {
+    color: hslString('rizzleText'),
+    fontFamily: 'IBMPlexSans-Light',
+    fontSize: 18,
+    textAlign: 'left',
+    marginBottom: 16
+  }
+  
+  const margin = 24
+
+  const saveIcon = <View style={{
+    top: -12,
+    left: -12
+  }}>
+    {getRizzleButtonIcon('saveButtonIconOff', hslString('rizzleText'), hslString('rizzleBG'))}
+  </View>
+
+  return (
+    <View style={{
+      backgroundColor: hslString('rizzleBG'),
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    flex: 1
     }}>
-      {getRizzleButtonIcon('saveButtonIconOff', hslString('rizzleText'), hslString('rizzleBG'))}
-    </View>
-    return (
-      <View style={{
-        backgroundColor: hslString('rizzleBG'),
-        alignItems: 'center',
-        justifyContent:'center',
-      flex: 1
-      }}>
+        <View style={{
+          padding: margin,
+          paddingTop: margin * 2,
+          paddingBottom: margin * 4,
+          minWidth: '100%',
+          flex: 0
+        }}>
           <View style={{
-            // backgroundColor: hslString('rizzleBG'),
-            // width: 350,
-            // height: 300,
-            padding: margin,
-            paddingTop: margin * 2,
-            paddingBottom: margin * 4,
-            // borderRadius: 14
-            minWidth: '100%',
-            // height: 'auto'
+            flex: 0,
+            justifyContent: 'space-between'
+          }}>
+            <XButton
+              onPress={() => {
+                setIsOpen(false)
+                console.log('Closing')
+                onClose()
+              }}
+              style={{
+                position: 'absolute',
+                right: 0,
+                top: -16,
+                zIndex: 10
+              }}
+            />
+            <Text style={{
+              fontFamily: 'PTSerif-Bold',
+              fontSize: 32,
+              lineHeight: 36,
+              marginBottom: 6,
+              paddingTop: 18,
+              textAlign: 'center',
+              color: hslString('rizzleText')
+            }}>Reams</Text>
+            <View style={{
+              height: 1,
+              backgroundColor: hslString('rizzleText'),
+              opacity: 0.2,
+              marginBottom: margin
+            }} />
+          </View>
+        <View style={{ flex: 0, marginVertical: margin }}>              
+            <Text
+              style={helpText}
+            >{getRizzleButtonIcon('rss', hslString('rizzleText'))} Add 
+              <Text style={{ 
+                fontFamily: 'IBMPlexSans-Bold',
+                opacity: 0.8
+              }}> {domain.length === 0 ? 'this site' : domain} </Text>
+               to your feed</Text>
+            { (!searchingForRss && !retrievingRss &&
+              (!rssUrls || rssUrls.length === 0)) &&
+              <View style={{
+                flex: 0
+              }}>
+                <Text
+                  style={{
+                    ...helpText,
+                    alignSelf: 'center'
+                  }}>Not available</Text>
+              </View>
+            }
+            { !!rssUrls && rssUrls.length > 0 &&
+              <TextButton label='Add to Feed' onPress={() => addFeed(rssUrls[0])} />
+            }
+            { (searchingForRss || retrievingRss) &&
+              <View style={{
+                flex: 0
+              }}>
+                <Animated.Text
+                  style={{
+                    ...helpText,
+                    alignSelf: 'center'
+                  }}>{searchingForRss
+                    ? 'Searching for feeds' :
+                    'Getting feed details'}<AnimatedEllipsis style={{ 
+                      color: hslString('rizzleText'),
+                      fontSize: 16
+                    }} />
+                </Animated.Text>
+              </View>
+            }
+          </View>
+          <View style={{ 
+            flex: 0, 
+            flexDirection: 'row',
+            alignItems: 'center'
           }}>
             <View style={{
-              flex: 1,
-              justifyContent: 'space-between'
-            }}>
-              <XButton
-                onPress={() => {
-                  this.setState({ isOpen: false })
-                  console.log('Closing')
-                  this.onClose()
-                }}
-                style={{
-                  position: 'absolute',
-                  right: 0,
-                  top: -16,
-                  zIndex: 10
-                }}
-              />
-              <Text style={{
-                fontFamily: 'PTSerif-Bold',
-                fontSize: 32,
-                lineHeight: 36,
-                marginBottom: 6,
-                paddingTop: 18,
-                textAlign: 'center',
-                color: hslString('rizzleText')
-              }}>Reams</Text>
-              <View style={{
-                height: 1,
-                backgroundColor: hslString('rizzleText'),
-                opacity: 0.2,
-                marginBottom: margin
-              }} />
-              <Text
-                style={helpText}
-              >Add a feed from this website:</Text>
-              { (!searchingForRss && !retrievingRss &&
-                (!rssUrls || rssUrls.length === 0)) &&
-                <View style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  padding: margin
-                }}>
-                  <Text
-                    style={{
-                      ...textStyle,
-                      fontFamily: 'IBMPlexSans-Bold'
-                    }}>No feeds found 😢</Text>
-                  <Text style={{
-                    ...textStyle,
-                    fontFamily: 'IBMPlexSans-Light'
-                  }}>Sorry, we can’t find any feeds on this website.</Text>
-                </View>
-              }
-              { !!rssUrls && rssUrls.length > 0 &&
-                <View style={{
-                  flex: 1,
-                  justifyContent: 'space-between'
-                }}>
-                  <View style={{
-                    flex: 1,
-                    textAlign: 'left',
-                    paddingTop: margin
-                    // justifyContent: 'center'
-                  }}>
-                    { rssUrls.map((feed, index) => (
-                      <TouchableOpacity
-                        key={index}
-                        style={{
-                          paddingHorizontal: 0,
-                          paddingVertical: margin,
-                          borderTopWidth: index === 0 ? 1 : 0,
-                          borderTopColor: 'rgba(0,0,0,0.1)',
-                          borderBottomWidth: 1,
-                          borderBottomColor: 'rgba(0,0,0,0.1)'
-                        }}
-                        onPress={() => { this.addFeed(feed.url) }}>
-                        <Text style={{
-                          ...textStyle,
-                          textAlign: 'left',
-                          fontFamily: 'IBMPlexSans-Bold',
-                          fontSize: 20
-                        }}>{ feed.title }</Text>
-                        <Text style={{
-                          ...textStyle,
-                          textAlign: 'left',
-                          fontFamily: 'IBMPlexSans-Light',
-                          fontSize: 16
-                        }}>{ feed.description }</Text>
-                      </TouchableOpacity>))
-                    }
-                  </View>
-                </View>
-              }
-              { (searchingForRss || retrievingRss) &&
-                <View style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  padding: margin
-                }}>
-                  <Animated.Text
-                    style={{
-                      ...textStyle,
-                      color: hslString('rizzleText'),
-                      paddingLeft: 24,
-                      paddingRight: 24
-                    }}>{searchingForRss
-                      ? 'Searching for feeds' :
-                      'Getting feed details'}<AnimatedEllipsis style={{ 
-                        color: hslString('rizzleText'),
-                        fontSize: 16
-                      }} />
-                  </Animated.Text>
-                  <Text> </Text>
-                </View>
-              }
-
-            </View>
+              height: 1,
+              marginRight: margin,
+              backgroundColor: hslString('rizzleText'),
+              opacity: 0.2,
+              flex: 1
+            }} />
+            <Text style={{
+              ...helpText,
+              fontFamily: 'IBMPlexSerif-Italic',
+              marginBottom: 0
+            }}>or</Text>
+            <View style={{
+              height: 1,
+              marginLeft: margin,
+              backgroundColor: hslString('rizzleText'),
+              opacity: 0.2,
+              flex: 1
+            }} />
+          </View>
+          <View style={{ flex: 0, paddingVertical: margin }}>
             <Text
-              style={helpText}>Or save { title ? 
+              style={helpText}>{getRizzleButtonIcon('saved', hslString('rizzleText'))} Save { title ? 
                 <Text style={{
-                  fontFamily: 'IBMPlexSans-Bold'
+                  fontFamily: 'IBMPlexSans-Bold',
+                  opacity: 0.8 
                 }}>{title}</Text> : 
                 'this page' 
-              } to read later:</Text>
-            <TextButton
+              } to your library</Text>
+            {/* <TextButton
               text="Save to library"
               buttonStyle={{ 
                 alignSelf: 'center',
@@ -341,13 +329,55 @@ class Share extends React.Component {
               }}
               icon={saveIcon}
               onPress={this.savePage}
-            />
+            /> */}
+            <TextButton onPress={savePage} label='Save to Library' />
           </View>
-      </View>
+        </View>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start'
+        }}>
+          <CheckBox
+            disabled={false}
+            value={isOpenApp}
+            onCheckColor={hslString('rizzleText')}
+            onFillColor='white'
+            onTintColor={hslString('rizzleText')}
+            onValueChange={(newValue) => setIsOpenApp(newValue)}
+          />
+          <Text style={{
+            ...helpText,
+            marginLeft: 10,
+            marginTop: 2
+          }}>Open in Reams</Text>
+        </View>
+    </View>
 
-    );
-  }
+  );
 }
+const TextButton = ({onPress, label, isDisabled}) => (
+  <TouchableOpacity 
+    disabled={isDisabled}
+    onPress={onPress}
+  >
+    <View style={{
+      backgroundColor: 'white',
+      padding: 6,
+      paddingHorizontal: 12,
+      // height: 36,
+      borderRadius: 16,
+      borderColor: hslString('rizzleText'),
+      borderWidth: 1,
+      alignItems: 'center'
+    }}>
+      <Text style={{
+        fontFamily: 'IBMPlexSans',
+        fontSize: 16
+      }}>{label}</Text>
+    </View>
+  </TouchableOpacity>
+)
 
 export default Share
 

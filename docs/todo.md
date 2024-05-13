@@ -2,6 +2,7 @@
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer
 - TopBar with too many lines
   - e.g. NYT briefings
+- sentry auth token in android/sentry.properties
 - FeedItem, TopBar and ButtonSet all get items from SQLite simultaneously
 - rizzleSort is currently being called by ITEMS_BATCH_FETCHED and the cross slice reducer
 - look into ItemTitle problems with ~~too long words~~ and too long titles
@@ -19,8 +20,6 @@
 - text to speech
 - search
    - ~~replace AS with SQLite / WatermelonDB~~
-- newsletters with fastmail (or gmail?)
-  - https://jmap.io/crash-course.html#core-concept-result-references
 - how come some feeds don't have a feed_local and don't update?
 - remove all messages on init
 - handle being offline better (put checks into fetchItems etc.)
@@ -69,6 +68,8 @@
 - saved folders
 
 # Done
+- ~~make share extension use https://github.com/Expensify/react-native-share-menu~~
+- ~~newsletters with fastmail (or gmail?)~~
 - ~~the layout of scrolled-down topbars~~
 - ~~cover images for newsletters~~
   - content_html.split(/img.*?src="/).map(s => s.split('"')[0]).filter(i => i.indexOf('substack-post-media') !== -1)

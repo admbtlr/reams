@@ -4,7 +4,7 @@ import {
   View
 } from 'react-native'
 import Svg, {Path} from 'react-native-svg'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier } from '../utils/dimensions'
 
 class XButton extends React.Component {
   props: any

@@ -1,4 +1,4 @@
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier } from './dimensions'
 import { hslString } from './colors'
 
 export const baseStyles = (color = 'rizzleText', opacity = 1) => ({

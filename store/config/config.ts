@@ -24,7 +24,6 @@ import {
 } from "../feeds/types"
 import { Dimensions } from "react-native"
 import { DELETE_CATEGORY } from "../categories/types"
-import { id } from "../../utils"
 
 export interface Filter {
   title?: string,

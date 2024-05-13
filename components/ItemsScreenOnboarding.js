@@ -11,7 +11,9 @@ import { ITEMS_ONBOARDING_DONE } from '../store/config/types'
 import { SHOW_ITEM_BUTTONS } from '../store/ui/types'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
-import { hasNotchOrIsland, fontSizeMultiplier, getMargin } from '../utils'
+import { getMargin } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
+import { hasNotchOrIsland } from '../utils/dimensions'
 
 const screenWidth = Dimensions.get('window').width
 

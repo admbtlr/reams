@@ -3,7 +3,9 @@ import React, { Fragment } from 'react'
 import { Dimensions, Image, Text, View } from 'react-native'
 import BackButton from './BackButton'
 import { textInfoBoldStyle, textInfoStyle } from '../utils/styles'
-import { fontSizeMultiplier, getMargin, getStatusBarHeight } from '../utils'
+import { getStatusBarHeight } from '../utils/dimensions'
+import { getMargin } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
 import { useSelector } from 'react-redux'
 
 const EmptyCarousel = ({ displayMode, navigation }) => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Image, Text, TextInput, View } from "react-native"
-import { BackgroundGradient } from "../Onboarding"
+import { BackgroundGradient } from '../BackgroundGradient'
 import { textInfoBoldStyle, textInfoStyle } from '../../utils/styles'
 import TextButton from "../TextButton"
 import { supabase } from "../../storage/supabase"

@@ -8,7 +8,8 @@ import { hslString } from '../utils/colors'
 import CardCoverImage from './CardCoverImage'
 import FeedDetails, { FeedStats } from './FeedDetails'
 import XButton from './XButton'
-import { fontSizeMultiplier, getMargin } from '../utils'
+import { getMargin } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
 class FeedExpanded extends React.Component {

@@ -5,13 +5,14 @@ import TextButton from './TextButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { HIDE_ALL_BUTTONS, HIDE_LOADING_ANIMATION } from '../store/ui/types'
 import { TOGGLE_ONBOARDING } from '../store/config/types'
-import { LinearGradient } from 'expo-linear-gradient'
-import { fontSizeMultiplier, getMargin } from '../utils'
+import { getMargin } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
 import { textInfoStyle, textInputStyle } from '../utils/styles'
 import { supabase } from '../storage/supabase'
 import { useSession } from './AuthProvider'
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import { BackgroundGradient } from './BackgroundGradient'
 
 export const pages = [{
     heading: 'Reams',
@@ -756,25 +757,6 @@ const OnboardingPage = ({ children, index }) => (
     <BackgroundGradient index={index} />
     {children}
   </View>
-)
-
-
-export const BackgroundGradient = ({ index = 0 }) => (
-  <LinearGradient 
-    colors={Math.floor(index / 2) % 2 == 0 ? 
-      [hslString('logo2'), hslString('logo1')] :
-      [hslString('logo1'), hslString('logo2')]
-    } 
-    end={{x: index % 2 === 0 ? -1 : 0, y: 1}}
-    start={{x: index % 2 === 0 ? 1 : 2, y: 0}}
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-    }} />
-
 )
 
 

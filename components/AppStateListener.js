@@ -123,15 +123,15 @@ class AppStateListener extends React.Component {
       isError: true,
       modalText: [
         {
-          text: 'Error Saving Story',
+          text: 'Error Saving Article',
           style: ['title']
         },
         {
-          text: 'You’ve already saved this story:', 
+          text: 'You’ve already saved this article:', 
           style: ['text']
         },
         {
-          text: page.title ?? page.url, 
+          text: page.title || page.url || 'Unknown Article', 
           style: ['text']
         },
         {

@@ -17,7 +17,7 @@ const initialProps: ModalProviderProps = {
 
 const ModalContext = createContext<ModalProviderProps>(initialProps)
 
-const ModalProvider = ({ children }: { children: ReactNode[] }) => {
+const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [modalProps, setModalProps] = useState<RizzleModal.ModalProps | null>(null)
   const [hiddenModals, setHiddenModals] = useState<string[]>([])

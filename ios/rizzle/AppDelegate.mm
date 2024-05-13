@@ -4,6 +4,7 @@
 #import <React/RCTLinkingManager.h>
 #import <React/RCTConvert.h>
 #import "RNSplashScreen.h"
+#import <RNShareMenu/ShareMenuManager.h>
 
 @implementation AppDelegate
 
@@ -46,7 +47,9 @@
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  return [RCTLinkingManager application:application openURL:url options:options];
+  return [ShareMenuManager application:application openURL:url options:options];
+//  return [RCTLinkingManager application:application openURL:url options:options];
 }
+
 
 @end

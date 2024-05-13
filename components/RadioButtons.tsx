@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, Pressable } from 'react-native'
-import { getMargin } from '../utils'
+import { getMargin } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { textInfoStyle } from '../utils/styles'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'

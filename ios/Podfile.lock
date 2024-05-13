@@ -1,4 +1,5 @@
 PODS:
+  - BEMCheckBox (1.4.1)
   - Bolts/Tasks (1.9.0)
   - boost (1.76.0)
   - DoubleConversion (1.1.6)
@@ -573,6 +574,9 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.18.2):
     - React-Core
+  - RNCCheckbox (0.5.17):
+    - BEMCheckBox (~> 1.4)
+    - React-Core
   - RNCClipboard (1.14.1):
     - React-Core
   - RNDeviceInfo (10.9.0):
@@ -626,6 +630,8 @@ PODS:
     - Sentry/HybridSDK (= 8.21.0)
   - RNSharedElement (0.8.8):
     - React-Core
+  - RNShareMenu (6.0.0):
+    - React
   - RNSVG (13.9.0):
     - React-Core
   - RNTextSize (4.0.0-rc.1):
@@ -715,6 +721,7 @@ DEPENDENCIES:
   - ReactNativeWebPFormat (from `../node_modules/react-native-webp-format`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFS (from `../node_modules/react-native-fs`)
@@ -726,12 +733,14 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSharedElement (from `../node_modules/react-native-shared-element`)
+  - RNShareMenu (from `../node_modules/react-native-share-menu`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNTextSize (from `../node_modules/react-native-text-size/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
+    - BEMCheckBox
     - Bolts
     - fmt
     - libevent
@@ -888,6 +897,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCCheckbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
   RNDeviceInfo:
@@ -910,6 +921,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@sentry/react-native"
   RNSharedElement:
     :path: "../node_modules/react-native-shared-element"
+  RNShareMenu:
+    :path: "../node_modules/react-native-share-menu"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNTextSize:
@@ -918,6 +931,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -995,6 +1009,7 @@ SPEC CHECKSUMS:
   ReactNativeWebPFormat: f5f043cc9ded052e535c3869ec341f91ba5a67c5
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
   RNCAsyncStorage: ddc4ee162bfd41b0d2c68bf2d95acd81dd7f1f93
+  RNCCheckbox: a3ca9978cb0846b981d28da4e9914bd437403d77
   RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
   RNDeviceInfo: 02ea8b23e2280fa18e00a06d7e62804d74028579
   RNFS: 3ab21fa6c56d65566d1fb26c2228e2b6132e5e32
@@ -1006,6 +1021,7 @@ SPEC CHECKSUMS:
   RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
   RNSentry: 5381e9284aec59a546e4a7d40e33ad0839b99c1e
   RNSharedElement: 504fa28a235b12505b6daedbb452a9ec96809bd0
+  RNShareMenu: cb9dac548c8bf147d06f0bf07296ad51ea9f5fc3
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
   SDWebImage: 40b0b4053e36c660a764958bff99eed16610acbb
@@ -1015,6 +1031,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: d0003f849d2b5224c072cef6568b540d8bb15cd3
 
-PODFILE CHECKSUM: 32895c2360053b18895c3c42dcd902b340e739ed
+PODFILE CHECKSUM: d10afde084bd3ba2e8e8a6d5c0887fd28275e660
 
 COCOAPODS: 1.15.2

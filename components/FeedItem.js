@@ -3,7 +3,8 @@ import {ActivityIndicator, Animated, Dimensions, Easing, Linking, View} from 're
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
-import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath, getMargin} from '../utils/'
+import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
+import { getMargin } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"

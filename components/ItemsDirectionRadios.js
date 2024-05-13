@@ -9,7 +9,8 @@ import {
 import { Direction, SET_ITEM_SORT, SET_SHOW_NUM_UNREAD } from '../store/config/types'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
-import { fontSizeMultiplier, getMargin } from '../utils'
+import { getMargin } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
 
 class ItemsDirectionRadios extends React.Component {
   constructor (props) {
