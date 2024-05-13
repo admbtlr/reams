@@ -11,7 +11,8 @@ import {
 import SplashScreen from 'react-native-splash-screen'
 
 import { hslString } from '../utils/colors'
-import { isFirstLaunch, fontSizeMultiplier } from '../utils'
+import { isFirstLaunch } from '../utils'
+import { fontSizeMultiplier } from '../utils/dimensions'
 
 export default function Splash () {
   const { height, width } = Dimensions.get('window')

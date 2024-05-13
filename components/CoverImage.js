@@ -9,7 +9,7 @@ import {
   ScreenBlendColor
 } from 'react-native-image-filter-kit'
 
-import { getStatusBarHeight } from '../utils'
+import { getStatusBarHeight } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 
 class CoverImage extends React.Component {

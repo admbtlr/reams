@@ -9,7 +9,9 @@ import {
 } from 'react-native'
 import AnimatedEllipsis from './AnimatedEllipsis'
 import { hslString } from '../utils/colors'
-import { hasNotchOrIsland, fontSizeMultiplier, getMargin } from '../utils'
+import { getMargin } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
+import { hasNotchOrIsland } from '../utils/dimensions'
 import {
   textInfoStyle,
   textInfoBoldStyle

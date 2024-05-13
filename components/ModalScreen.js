@@ -4,7 +4,7 @@ import {
   Text,
   View
 } from 'react-native'
-import { hasNotchOrIsland } from '../utils'
+import { hasNotchOrIsland } from '../utils/dimensions'
 
 export default function ModalScreen ({ child, navigation, route }) {
   return (

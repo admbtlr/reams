@@ -1,0 +1,13 @@
+diff --git a/node_modules/expo-dev-menu/ios/DevMenuRCTBridge.mm b/node_modules/expo-dev-menu/ios/DevMenuRCTBridge.mm
+index a29af6c..1fd6951 100644
+--- a/node_modules/expo-dev-menu/ios/DevMenuRCTBridge.mm
++++ b/node_modules/expo-dev-menu/ios/DevMenuRCTBridge.mm
+@@ -19,7 +19,7 @@
+ #else
+ #import <EXDevMenu-Swift.h>
+ #endif
+-#import <RCTCxxBridge+Private.h>
++#import <EXDevMenu/RCTCxxBridge+Private.h>
+ 
+ #import <React/RCTPerformanceLogger.h>
+ #import <React/RCTDevSettings.h>

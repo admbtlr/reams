@@ -6,7 +6,9 @@ import {
   View
 } from 'react-native'
 import { hslString } from '../utils/colors'
-import { fontSizeMultiplier, getInset, getMargin } from '../utils'
+import { getMargin } from '../utils/dimensions'
+import { getInset } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 

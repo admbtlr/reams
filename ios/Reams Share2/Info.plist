@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>HostAppBundleIdentifier</key>
+	<string>com.adam-butler.rizzle</string>
+	<key>HostAppURLScheme</key>
+	<string>reams://</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>NSExtensionActivationRule</key>
+			<dict>
+				<key>NSExtensionActivationSupportsText</key>
+				<true/>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+				<integer>1</integer>
+			</dict>
+		</dict>
+		<key>NSExtensionMainStoryboard</key>
+		<string>MainInterface</string>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.share-services</string>
+	</dict>
+	<key>ReactShareViewBackgroundColor</key>
+	<dict>
+		<key>Alpha</key>
+		<integer>1</integer>
+		<key>Blue</key>
+		<integer>1</integer>
+		<key>Green</key>
+		<integer>1</integer>
+		<key>Red</key>
+		<integer>1</integer>
+		<key>Transparent</key>
+		<false/>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PTSerif-Bold.ttf</string>
+		<string>IBMPlexSans-Bold.ttf</string>
+		<string>IBMPlexSans-Light.ttf</string>
+		<string>IBMPlexSerif-Italic.ttf</string>
+	</array>
+</dict>
+</plist>

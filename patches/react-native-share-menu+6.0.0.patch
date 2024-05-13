@@ -1,0 +1,43 @@
+diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
+index f42bce6..8632ef6 100644
+--- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
++++ b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
+@@ -12,8 +12,9 @@ import RNShareMenu
+ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactShareViewDelegate {
+   func sourceURL(for bridge: RCTBridge!) -> URL! {
+ #if DEBUG
++    // Fix for this issue [#209](https://github.com/meedan/react-native-share-menu/issues/209#issuecomment-1366862532) in the `react-native-share-menu` repo.
+     return RCTBundleURLProvider.sharedSettings()?
+-      .jsBundleURL(forBundleRoot: "index.share", fallbackResource: nil)
++      .jsBundleURL(forBundleRoot: "index.share")
+ #else
+     return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+ #endif
+@@ -25,7 +26,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
+     let bridge: RCTBridge! = RCTBridge(delegate: self, launchOptions: nil)
+     let rootView = RCTRootView(
+       bridge: bridge,
+-      moduleName: "ShareMenuModuleComponent",
++      moduleName: "RizzleShare",
+       initialProperties: nil
+     )
+ 
+diff --git a/node_modules/react-native-share-menu/ios/ShareMenuManager.m b/node_modules/react-native-share-menu/ios/ShareMenuManager.m
+index 308ec99..3c92827 100644
+--- a/node_modules/react-native-share-menu/ios/ShareMenuManager.m
++++ b/node_modules/react-native-share-menu/ios/ShareMenuManager.m
+@@ -6,7 +6,14 @@
+ //
+ 
+ #import "ShareMenuManager.h"
++
++// `use_frameworks!` moves this file to a different location
++// See: https://github.com/meedan/react-native-share-menu/issues/217#issuecomment-1301608521
++#if __has_include(<RNShareMenu/RNShareMenu-Swift.h>)
++#import <RNShareMenu/RNShareMenu-Swift.h>
++#else
+ #import "RNShareMenu-Swift.h"
++#endif
+ 
+ #import <React/RCTLinkingManager.h>
+ 

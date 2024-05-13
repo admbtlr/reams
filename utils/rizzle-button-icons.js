@@ -1,6 +1,6 @@
 import React from 'react'
 import Svg, {Circle, G, Path, Polygon, Rect, Line} from 'react-native-svg'
-import { fontSizeMultiplier } from '../utils'
+import { fontSizeMultiplier } from './dimensions'
 
 export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isEnabled, applyFontScaling = true, scale = 1) {
   const fontScale = (size) => applyFontScaling ?

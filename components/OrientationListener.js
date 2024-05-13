@@ -2,7 +2,7 @@ import {useEffect} from 'react'
 import { Dimensions } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { SET_ORIENTATION } from '../store/config/types'
-import {isPortrait} from '../utils'
+import { isPortrait } from '../utils/dimensions'
 
 export default OrientationListener = () => {
   const dispatch = useDispatch()

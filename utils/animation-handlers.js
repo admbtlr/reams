@@ -1,5 +1,5 @@
 import {Animated} from 'react-native'
-import { getStatusBarHeight } from '../utils'
+import { getStatusBarHeight } from './dimensions'
 
 let clampedScrollListeners = []
 let scrollListeners = []

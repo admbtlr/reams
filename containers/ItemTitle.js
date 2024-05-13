@@ -3,7 +3,7 @@ import {
   SET_TITLE_FONT_SIZE
 } from '../store/items/types'
 import ItemTitle from '../components/ItemTitle.js'
-import { isPortrait } from '../utils'
+import { isPortrait } from '../utils/dimensions'
 
 const mapStateToProps = (state, ownProps) => {
   // const index = getIndex(state)

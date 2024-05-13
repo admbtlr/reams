@@ -60,10 +60,22 @@ target 'Reams' do
   # use_flipper!({'Flipper' => '0.125.0'})
 
   # https://github.com/alinz/react-native-share-extension/issues/182
-  target 'Reams Share' do
-    use_native_modules!
-    inherit! :complete
-  end
+  # target 'Reams Share2' do
+  #   use_native_modules!
+  #   inherit! :complete
+  #   pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
+  # end
+
+end
+
+target 'Reams Share2' do
+  config = use_native_modules!
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => true
+  )
+  
+  pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
 end
 
 # Force pods to match minimum iOS version for React Native

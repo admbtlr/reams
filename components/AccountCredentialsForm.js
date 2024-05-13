@@ -6,7 +6,8 @@ import { sendEmailLink } from '../backends/reams'
 import PasswordStorage from '../utils/password-storage'
 import { authenticate } from '../backends'
 import { hslString } from '../utils/colors'
-import { fontSizeMultiplier, getMargin } from '../utils'
+import { getMargin } from '../utils/dimensions'
+import { fontSizeMultiplier } from '../utils/dimensions'
 import {
   textInputStyle,
   textLabelStyle,
