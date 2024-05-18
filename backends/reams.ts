@@ -66,6 +66,7 @@ export function init () {
 
 export async function getReadItems (oldItems: Item[]) {
   const oldestItem = oldItems.map(i => i.created_at).sort()[0]
+  console.log('Calling getReadItemsSupabase, oldestItem: ' + JSON.stringify(oldestItem))
   const readItems = await getReadItemsSupabase(oldestItem)
   return readItems
 }
@@ -96,7 +97,7 @@ export async function fetchItems (
     callback(savedItems as Item[])
   } else if (type === 'unread') {
     try {
-      const readItems = await getReadItemsSupabase()
+      const readItems = await getReadItemsSupabase(lastUpdated)
       // let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
       // unreadItemArrays = extractErroredFeeds(unreadItemArrays)
       // let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
