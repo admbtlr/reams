@@ -1,5 +1,5 @@
 import React from 'react'
-import {ActivityIndicator, Animated, Dimensions, Easing, Linking, View} from 'react-native'
+import {ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, View} from 'react-native'
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
@@ -8,6 +8,7 @@ import { getMargin } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
+import log from '../utils/log'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -340,7 +341,7 @@ class FeedItem extends React.Component {
             isVisible={isVisible}
             title={title}
             excerpt={inflatedItem.excerpt}
-            date={savedAt || created_at}
+            date={savedAt ? savedAt * 1000 : created_at}
             scrollOffset={this.scrollAnim}
             font={styles.fontClasses.heading}
             bodyFont={styles.fontClasses.body}

@@ -1,4 +1,3 @@
-import 'react-native-url-polyfill/auto'
 import { createClient } from '@supabase/supabase-js'
 import Config from 'react-native-config'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -35,15 +34,21 @@ export const getUserId = async () => {
   }
 }
 
-// not using this yet, but there are random errors with the supabase client
-export const doQuery = async (fn: () => any, retries = 3): Promise<{ data: {}, error: {}}> => {
+// there are random errors with the supabase client
+export const doQuery = async (fn: () => any, retries = 3, timeout = 2000): Promise<{ data: {}, error: {}}> => {
   try {
-    const { data, error } = await fn()
+    console.log('Inside doQuery, running fn')
+    const { data, error } = await Promise.race([
+      fn(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), timeout))
+    ])
+    console.log('Inside doQuery, fn completed. Data: ' + JSON.stringify(data).substring(0, 50))
     if (error) {
       throw error
     }
     return { data, error }
   } catch (error) {
+    console.log('Inside doQuery, error: ' + JSON.stringify(error))
     if (retries > 0) {
       log('doQuery, retrying', error)
       return await doQuery(fn, retries - 1)

@@ -44,7 +44,6 @@ export const AuthProvider = (props: any) => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!!session) {
-          console.log('Auth event', event)
           setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
           // initial fetches can go here

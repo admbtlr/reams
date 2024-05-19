@@ -49,12 +49,14 @@ export function * removeAllItems () {
 }
 
 function * doRemoveItems (items) {
+  console.log('Inside doRemoveItems')
   try {
     if (Platform.OS === 'web') {
       yield call(deleteItemsIDB, items)
     } else {
       yield call(deleteItemsSQLite, items)
     }
+  console.log('doRemoveItems completed')
   } catch(err) {
     log('deleteItems', err)
   }

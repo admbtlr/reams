@@ -116,6 +116,7 @@ export function * fetchItems (type = ItemType.unread) {
   const feedsWithIsNew = type === ItemType.unread ? yield call(addIsNewToFeeds) : null
   const oldItems = yield select(getItems, type)
   if (type === ItemType.unread) {
+    console.log('Calling getReadItemsFromBackendAndMarkRead')
     yield getReadItemsFromBackendAndMarkRead()
   }
   
@@ -127,7 +128,7 @@ export function * fetchItems (type = ItemType.unread) {
     let didError = false
     try {
       while (true) {
-        let items = yield take(itemsChannel)
+        const items = yield take(itemsChannel)
         if (items.length > 0) {
           yield receiveItems(items, type)
           isFirstBatch = false

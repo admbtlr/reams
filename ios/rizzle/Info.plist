@@ -8,6 +8,8 @@
 	</array>
 	<key>BundleEntryFilename</key>
 	<string>index.js</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

@@ -58,13 +58,17 @@ export const deleteAnnotation = async (annotation: Annotation) => {
 }
 
 export const fetchAnnotations = async (newerThan: number = 0) => {
+  console.log('Inside fetchAnnotationSupabase')
   const lastUpdated = pgTimestamp(new Date(newerThan))
   try {
     const fn = async () => supabase.from('Annotation').select('*').gte('updated_at', lastUpdated)
+    console.log('Calling doQuery')
     const { data, error } = await doQuery(fn)
     if (error) throw error
+    console.log('fetchAnnotationSupabase returned some data: ' + data)
     return data  
   } catch (error) {
+    console.log('fetchAnnotationSupabase errored: ' + error)
     log('fetchAnnotations', error)
     return
   }
