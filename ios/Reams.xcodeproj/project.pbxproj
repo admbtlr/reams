@@ -59,6 +59,7 @@
 		66F761A72BEA56A8006FF940 /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F761A62BEA56A8006FF940 /* ReactShareViewController.swift */; };
 		6808D92C526845F5BCD20577 /* PTSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */; };
 		6A8DE78646F64F04BB09D7B9 /* IBMPlexSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */; };
+		73189D0988F9CB40A9A2DFCA /* libPods-Reams.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 727484D7DCB55641A7AF5E27 /* libPods-Reams.a */; };
 		74F3470AA8294D438D93B4C9 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AFB220B18334EF1B5381A18 /* Poppins-Regular.ttf */; };
 		79DC44BDD1334F7B80DD977D /* IBMPlexSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 930C4464DBC241C1BCBEFEC2 /* IBMPlexSans-BoldItalic.ttf */; };
 		85171AA6C41749D98A737233 /* IBMPlexSerif-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E30329B12BD74B64ADFE7CB7 /* IBMPlexSerif-Light.ttf */; };
@@ -71,8 +72,8 @@
 		9959FEFBA8B64C37A69ED763 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2A58A1A800A4EFC8940698A /* Poppins-Italic.ttf */; };
 		999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A4E7B3216F441182F2D8AC /* libz.tbd */; };
 		9B29B4BC3A004A7489FE2344 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */; };
-		AA38C0AE2192801CD18FBE65 /* libPods-Reams Share2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2350358C14715EE640C33CAB /* libPods-Reams Share2.a */; };
 		AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A52A25ECE9284C6BB3598823 /* IBMPlexMono-LightItalic.ttf */; };
+		BA2D030AEA05B55D1CFDF173 /* libPods-Reams Share2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A76E5DE680371FD00B28E6A /* libPods-Reams Share2.a */; };
 		BEE8067138D948F88BB81DFA /* IBMPlexSansCond-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD3A2A9B12004B5495F86308 /* IBMPlexSansCond-BoldItalic.ttf */; };
 		C102E7B205024F1D94EE06FC /* IBMPlexSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */; };
 		CA950E66A737450B801A5604 /* LibreBaskerville-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6510B8E2ED0459A9D932B12 /* LibreBaskerville-Italic.ttf */; };
@@ -80,7 +81,6 @@
 		EA14D3AC6EF74834BD9F374B /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97E5394F826B4A158A48E0BA /* Poppins-ExtraBold.ttf */; };
 		ED0C08A8085C4B4BA57149A6 /* IBMPlexSansCond-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85B493DBBCA44DE5918CB569 /* IBMPlexSansCond-Bold.ttf */; };
 		F2E6111401F945D1A0E5D590 /* PlayfairDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */; };
-		F4B8F6EA9540F22C31D67620 /* libPods-Reams.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF672C0BB9E3C6E1F1F5E3E /* libPods-Reams.a */; };
 		FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */; };
 		FF0226A698404963886B7CB1 /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47ADD74982BD43CD980B27AA /* PlayfairDisplay-Bold.ttf */; };
 /* End PBXBuildFile section */
@@ -126,9 +126,11 @@
 /* Begin PBXFileReference section */
 		010B669A51A04C69A27F7271 /* PlayfairDisplaySC-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplaySC-Bold.ttf"; path = "../assets/fonts/PlayfairDisplaySC-Bold.ttf"; sourceTree = "<group>"; };
 		021E5CBE69A94E3590CA1E3B /* IBMPlexSerif-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Regular.ttf"; path = "../assets/fonts/IBMPlexSerif-Regular.ttf"; sourceTree = "<group>"; };
+		02C88B075D0F4DF0435D252A /* Pods-Reams Share2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams Share2.debug.xcconfig"; path = "Target Support Files/Pods-Reams Share2/Pods-Reams Share2.debug.xcconfig"; sourceTree = "<group>"; };
 		06F5F314CAEB4FF99200CCB4 /* IBMPlexSerif-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Italic.ttf"; path = "../assets/fonts/IBMPlexSerif-Italic.ttf"; sourceTree = "<group>"; };
 		073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Italic.ttf"; path = "../assets/fonts/PlayfairDisplay-Italic.ttf"; sourceTree = "<group>"; };
 		08245B2253D44286A4B4DD40 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
+		0A0CEF2103C17E5A68A3A0E4 /* Pods-Reams.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.debug.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.debug.xcconfig"; sourceTree = "<group>"; };
 		0B26201DAB06487C9C51EBFE /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		0EFC7C78A6AC4E7F85713A83 /* IBMPlexSansCond-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCond-ExtraLightItalic.ttf"; path = "../assets/fonts/IBMPlexSansCond-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		0F6EEEC401334B5AAECD02EF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
@@ -140,10 +142,11 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rizzle/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rizzle/main.m; sourceTree = "<group>"; };
 		1C30A8E345C045BEB9F37E52 /* libRNSKBucket.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSKBucket.a; sourceTree = "<group>"; };
-		2350358C14715EE640C33CAB /* libPods-Reams Share2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams Share2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D1D034C72594500896EBF90 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Regular.ttf"; path = "../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
 		30A12608F8894744820DBBB1 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Regular.ttf"; path = "../assets/fonts/PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		31B9BF52AC622CD439E24F0A /* Pods-Reams.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.release.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.release.xcconfig"; sourceTree = "<group>"; };
+		3A76E5DE680371FD00B28E6A /* libPods-Reams Share2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams Share2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Bold.ttf"; path = "../assets/fonts/IBMPlexMono-Bold.ttf"; sourceTree = "<group>"; };
 		3E3494F4F2894804ADE2C868 /* LibreBaskerville-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LibreBaskerville-Bold.ttf"; path = "../assets/fonts/LibreBaskerville-Bold.ttf"; sourceTree = "<group>"; };
 		3F9C2F335D3D4AB3AD066690 /* IBMPlexSansCond.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = IBMPlexSansCond.ttf; path = ../assets/fonts/IBMPlexSansCond.ttf; sourceTree = "<group>"; };
@@ -153,9 +156,7 @@
 		47ADD74982BD43CD980B27AA /* PlayfairDisplay-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Bold.ttf"; path = "../assets/fonts/PlayfairDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		4974C6777A63466CB6FD84D9 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		499AB3DC82924245886CE016 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		4FA48EB072642390B4B2F61F /* Pods-Reams-Reams Share2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams-Reams Share2.debug.xcconfig"; path = "Target Support Files/Pods-Reams-Reams Share2/Pods-Reams-Reams Share2.debug.xcconfig"; sourceTree = "<group>"; };
 		5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Italic.ttf"; path = "../assets/fonts/IBMPlexMono-Italic.ttf"; sourceTree = "<group>"; };
-		5BF672C0BB9E3C6E1F1F5E3E /* libPods-Reams.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E76F266FA4347AE92C8E288 /* IBMPlexSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
 		64AD0B7FA26449D4ABC8E4CB /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		65A4E7B3216F441182F2D8AC /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -193,10 +194,7 @@
 		66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSerif-BoldItalic.ttf"; path = "../assets/fonts/PTSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
 		66F761A62BEA56A8006FF940 /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
 		6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		6C265F9DC0E8596E33F73BBD /* Pods-Reams-Reams Share.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams-Reams Share.release.xcconfig"; path = "Target Support Files/Pods-Reams-Reams Share/Pods-Reams-Reams Share.release.xcconfig"; sourceTree = "<group>"; };
-		6C5F9DC6F30C43B94D90C7BF /* Pods-Reams-Reams Share2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams-Reams Share2.release.xcconfig"; path = "Target Support Files/Pods-Reams-Reams Share2/Pods-Reams-Reams Share2.release.xcconfig"; sourceTree = "<group>"; };
-		74916C9A4E1A885FA451C823 /* Pods-Reams.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.debug.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.debug.xcconfig"; sourceTree = "<group>"; };
-		76365C4FE7A078C55507D76C /* Pods-Reams-Reams Share.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams-Reams Share.debug.xcconfig"; path = "Target Support Files/Pods-Reams-Reams Share/Pods-Reams-Reams Share.debug.xcconfig"; sourceTree = "<group>"; };
+		727484D7DCB55641A7AF5E27 /* libPods-Reams.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78D2BA048E8A4D53940A372C /* Arvo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Regular.ttf"; path = "../assets/fonts/Arvo-Regular.ttf"; sourceTree = "<group>"; };
 		790F17FBE061470490FC8FB8 /* BioRhyme-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BioRhyme-Regular.ttf"; path = "../assets/fonts/BioRhyme-Regular.ttf"; sourceTree = "<group>"; };
 		7AABBDC5CB6242DCA1F20FA4 /* IBMPlexSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Regular.ttf"; path = "../assets/fonts/IBMPlexSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -227,10 +225,8 @@
 		C5AFA546AE564F3CA9C80D67 /* Eczar-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Eczar-Regular.ttf"; path = "../assets/fonts/Eczar-Regular.ttf"; sourceTree = "<group>"; };
 		C6510B8E2ED0459A9D932B12 /* LibreBaskerville-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LibreBaskerville-Italic.ttf"; path = "../assets/fonts/LibreBaskerville-Italic.ttf"; sourceTree = "<group>"; };
 		CA3384B6A3F64B1ABBC51D2F /* IBMPlexSerif-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-ThinItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-ThinItalic.ttf"; sourceTree = "<group>"; };
+		CCDE09513D2D55D9E600EC43 /* Pods-Reams Share2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams Share2.release.xcconfig"; path = "Target Support Files/Pods-Reams Share2/Pods-Reams Share2.release.xcconfig"; sourceTree = "<group>"; };
 		CD3A2A9B12004B5495F86308 /* IBMPlexSansCond-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCond-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSansCond-BoldItalic.ttf"; sourceTree = "<group>"; };
-		D34627E708801E9443743B73 /* Pods-Reams Share2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams Share2.debug.xcconfig"; path = "Target Support Files/Pods-Reams Share2/Pods-Reams Share2.debug.xcconfig"; sourceTree = "<group>"; };
-		D755DF6A9B09782F53DF451C /* Pods-Reams.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.release.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.release.xcconfig"; sourceTree = "<group>"; };
-		D7D486149130B92287F02619 /* libPods-Reams-Reams Share.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams-Reams Share.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Italic.ttf"; path = "../assets/fonts/IBMPlexSans-Italic.ttf"; sourceTree = "<group>"; };
 		DEAE4CD40F9748418924D42E /* libRNReactNativeSharedGroupPreferences.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeSharedGroupPreferences.a; sourceTree = "<group>"; };
 		E30329B12BD74B64ADFE7CB7 /* IBMPlexSerif-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Light.ttf"; path = "../assets/fonts/IBMPlexSerif-Light.ttf"; sourceTree = "<group>"; };
@@ -241,7 +237,6 @@
 		EF696CF914ED4646AE79580C /* libRNMeasureText.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMeasureText.a; sourceTree = "<group>"; };
 		F15F6A3A215A44BFA389AA06 /* IBMPlexSansCond-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCond-ExtraLight.ttf"; path = "../assets/fonts/IBMPlexSansCond-ExtraLight.ttf"; sourceTree = "<group>"; };
 		F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Bold.ttf"; path = "../assets/fonts/IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
-		FC01E6A631FE5C4AD1BA27C4 /* Pods-Reams Share2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams Share2.release.xcconfig"; path = "Target Support Files/Pods-Reams Share2/Pods-Reams Share2.release.xcconfig"; sourceTree = "<group>"; };
 		FE500C58F03B4E759CEEF985 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
 		FF76841FECC148EBB9E7A18C /* IBMPlexSerif-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Thin.ttf"; path = "../assets/fonts/IBMPlexSerif-Thin.ttf"; sourceTree = "<group>"; };
 		FFB182B64E4047B7BF666E29 /* Arvo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Bold.ttf"; path = "../assets/fonts/Arvo-Bold.ttf"; sourceTree = "<group>"; };
@@ -253,7 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */,
-				F4B8F6EA9540F22C31D67620 /* libPods-Reams.a in Frameworks */,
+				73189D0988F9CB40A9A2DFCA /* libPods-Reams.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +256,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA38C0AE2192801CD18FBE65 /* libPods-Reams Share2.a in Frameworks */,
+				BA2D030AEA05B55D1CFDF173 /* libPods-Reams Share2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,9 +359,8 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				5BF672C0BB9E3C6E1F1F5E3E /* libPods-Reams.a */,
-				D7D486149130B92287F02619 /* libPods-Reams-Reams Share.a */,
-				2350358C14715EE640C33CAB /* libPods-Reams Share2.a */,
+				727484D7DCB55641A7AF5E27 /* libPods-Reams.a */,
+				3A76E5DE680371FD00B28E6A /* libPods-Reams Share2.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -482,14 +476,10 @@
 		AA0FE21719FC6FD686C85175 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				74916C9A4E1A885FA451C823 /* Pods-Reams.debug.xcconfig */,
-				D755DF6A9B09782F53DF451C /* Pods-Reams.release.xcconfig */,
-				76365C4FE7A078C55507D76C /* Pods-Reams-Reams Share.debug.xcconfig */,
-				6C265F9DC0E8596E33F73BBD /* Pods-Reams-Reams Share.release.xcconfig */,
-				4FA48EB072642390B4B2F61F /* Pods-Reams-Reams Share2.debug.xcconfig */,
-				6C5F9DC6F30C43B94D90C7BF /* Pods-Reams-Reams Share2.release.xcconfig */,
-				D34627E708801E9443743B73 /* Pods-Reams Share2.debug.xcconfig */,
-				FC01E6A631FE5C4AD1BA27C4 /* Pods-Reams Share2.release.xcconfig */,
+				0A0CEF2103C17E5A68A3A0E4 /* Pods-Reams.debug.xcconfig */,
+				31B9BF52AC622CD439E24F0A /* Pods-Reams.release.xcconfig */,
+				02C88B075D0F4DF0435D252A /* Pods-Reams Share2.debug.xcconfig */,
+				CCDE09513D2D55D9E600EC43 /* Pods-Reams Share2.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -501,7 +491,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Reams" */;
 			buildPhases = (
-				B96D2824DE8AD77CE2BFCCB8 /* [CP] Check Pods Manifest.lock */,
+				593A4D07A2DD9B093DBB4849 /* [CP] Check Pods Manifest.lock */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				96A1B6994F7C32C618118E35 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -509,8 +499,8 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				66E383BB1FC2C99F00B536D5 /* Embed App Extensions */,
 				4406A330C80C49ACAFA7A94F /* Upload Debug Symbols to Sentry */,
-				97AF4A313BB1AD2DBA9779F1 /* [CP] Embed Pods Frameworks */,
-				B15D7AC1F6BB67C6DBCBFC40 /* [CP] Copy Pods Resources */,
+				C35AA6B160A9224EB2D64035 /* [CP] Embed Pods Frameworks */,
+				A1FE53F895D118550B0985D7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -526,13 +516,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6655FBFE2BEA4BA300E8A4EF /* Build configuration list for PBXNativeTarget "Reams Share2" */;
 			buildPhases = (
-				9EBABC1A69B23DB096E6DA9A /* [CP] Check Pods Manifest.lock */,
+				9EBD50EFD1F17BC669386E3F /* [CP] Check Pods Manifest.lock */,
 				3CFECB89B1614765C4CE4143 /* [Expo] Configure project */,
 				6655FBEF2BEA4BA300E8A4EF /* Sources */,
 				6655FBF02BEA4BA300E8A4EF /* Frameworks */,
 				6655FBF12BEA4BA300E8A4EF /* Resources */,
 				66F761A82BEA5771006FF940 /* Bundle React Native code and images */,
-				667B36D560C9C8ABBFFC5E11 /* [CP] Copy Pods Resources */,
+				E299CC1195605282C2C57B51 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -702,6 +692,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -714,7 +705,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\nEXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport SENTRY_PROPERTIES=sentry.properties\n\n# If you are using RN 0.46+\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode \n\n /bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios relative | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
 			showEnvVarsInLog = 0;
 		};
 		3CFECB89B1614765C4CE4143 /* [Expo] Configure project */ = {
@@ -750,21 +741,26 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n\n../node_modules/@sentry/cli/bin/sentry-cli debug-files upload \"$DWARF_DSYM_FOLDER_PATH\"\n";
 		};
-		667B36D560C9C8ABBFFC5E11 /* [CP] Copy Pods Resources */ = {
+		593A4D07A2DD9B093DBB4849 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams Share2/Pods-Reams Share2-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams Share2/Pods-Reams Share2-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Reams-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams Share2/Pods-Reams Share2-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		66F761A82BEA5771006FF940 /* Bundle React Native code and images */ = {
@@ -804,24 +800,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Reams/expo-configure-project.sh\"\n";
 		};
-		97AF4A313BB1AD2DBA9779F1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9EBABC1A69B23DB096E6DA9A /* [CP] Check Pods Manifest.lock */ = {
+		9EBD50EFD1F17BC669386E3F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -843,7 +822,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B15D7AC1F6BB67C6DBCBFC40 /* [CP] Copy Pods Resources */ = {
+		A1FE53F895D118550B0985D7 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -860,26 +839,38 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B96D2824DE8AD77CE2BFCCB8 /* [CP] Check Pods Manifest.lock */ = {
+		C35AA6B160A9224EB2D64035 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Reams-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E299CC1195605282C2C57B51 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reams Share2/Pods-Reams Share2-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reams Share2/Pods-Reams Share2-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams Share2/Pods-Reams Share2-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -945,7 +936,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74916C9A4E1A885FA451C823 /* Pods-Reams.debug.xcconfig */;
+			baseConfigurationReference = 0A0CEF2103C17E5A68A3A0E4 /* Pods-Reams.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1010,7 +1001,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D755DF6A9B09782F53DF451C /* Pods-Reams.release.xcconfig */;
+			baseConfigurationReference = 31B9BF52AC622CD439E24F0A /* Pods-Reams.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1069,7 +1060,7 @@
 		};
 		6655FBFF2BEA4BA300E8A4EF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D34627E708801E9443743B73 /* Pods-Reams Share2.debug.xcconfig */;
+			baseConfigurationReference = 02C88B075D0F4DF0435D252A /* Pods-Reams Share2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1122,7 +1113,7 @@
 		};
 		6655FC002BEA4BA300E8A4EF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC01E6A631FE5C4AD1BA27C4 /* Pods-Reams Share2.release.xcconfig */;
+			baseConfigurationReference = CCDE09513D2D55D9E600EC43 /* Pods-Reams Share2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1173,7 +1164,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1241,6 +1232,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				USE_HERMES = true;
 			};
 			name = Debug;
 		};
@@ -1250,7 +1242,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1313,6 +1305,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

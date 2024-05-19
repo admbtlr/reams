@@ -1,3 +1,4 @@
+- fetch articles never completes when adding saved article via extension
 - maybe update image viewer
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer
 - TopBar with too many lines

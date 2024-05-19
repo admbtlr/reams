@@ -60,12 +60,14 @@ export const getReadItems = async (newerThan = 0) => {
   if (!userId) {
     throw new Error('No user id')
   }
+  console.log('Calling supabase, newerThan = ' + newerThan)
   const fn = async () => await supabase
     .from('User_ReadItem')
     .select('Item(*)')
     .eq('user_id', userId)
     .gte('created_at', pgTimestamp(new Date(newerThan)))
   const { data, error } = await doQuery(fn)
+  console.log('Got some data, length: ' + data.length)
   if (error) {
     throw error
   }

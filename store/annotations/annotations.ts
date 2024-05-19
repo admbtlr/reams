@@ -55,7 +55,7 @@ export const fetchAnnotations = createAsyncThunk(
   async (_, { getState }): Promise<Annotation[]> => {
     console.log('fetchAnnotations')
     const { annotations } = getState() as RootState
-    return await fetchAnnotationsSupabase(annotations.updatedAt)
+    return await fetchAnnotationsSupabase(annotations.updatedAt) || []
   }
 )
 

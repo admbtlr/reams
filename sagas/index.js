@@ -70,9 +70,13 @@ function * startDownloads (shouldSleep = false) {
     yield delay(5000)
   }
   try {
+    console.log('fetchAllFeeds')
     yield call(fetchAllFeeds)
+    console.log('fetchAllItems')
     yield call(fetchAllItems, true)
+    console.log('clearReadItems')
     yield call(clearReadItems)
+    console.log('pruneItems')
     yield call(pruneItems)
     yield call(decorateItems)
     yield call(executeRemoteActions)

@@ -1,9 +1,8 @@
-import { concat } from "@tensorflow/tfjs";
-import * as SQLite from "expo-sqlite";
+import * as SQLite from "expo-sqlite/next";
 import { Item, ItemInflated } from "store/items/types";
 import log from "../utils/log";
 
-let db: SQLite.WebSQLDatabase
+let db: SQLite.SQLiteDatabase
 
 const columns = [
   'id',
@@ -19,35 +18,35 @@ const columns = [
   'styles',
 ]
 
-async function doTransaction(query: string, params?: any[]) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await db.transaction(async (tx) => {
-        await tx.executeSql(
-          query,
-          params,
-          (_, { rows, rowsAffected }) => {
-            resolve(rowsToArray(rows))
-            return rowsToArray(rows)
-          },
-          (_, error) => {
-            console.log(error)
-            reject(error)
-            return false
-          }
-        )
-      })  
-    } catch (error) {
-      log(error)
-      reject(error)
-    }
-  })
-}
+// async function doTransaction(query: string, params?: any[]) {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       await db.transaction(async (tx) => {
+//         await tx.executeSql(
+//           query,
+//           params,
+//           (_, { rows, rowsAffected }) => {
+//             resolve(rowsToArray(rows))
+//             return rowsToArray(rows)
+//           },
+//           (_, error) => {
+            // console.log(error)
+//             reject(error)
+//             return false
+//           }
+//         )
+//       })  
+//     } catch (error) {
+//       log(error)
+//       reject(error)
+//     }
+//   })
+// }
 
 export async function initSQLite() {
-  db = SQLite.openDatabase("db.db")
+  db = await SQLite.openDatabaseAsync("db.db")
   try {
-    await doTransaction(`
+    await db.runAsync(`
     create table if not exists items (
       id INT,
       _id STRING PRIMARY KEY NOT NULL,
@@ -62,7 +61,7 @@ export async function initSQLite() {
       styles TEXT
     );`)
     // await initSearchTable()
-    console.log('SQLite initialized, items count: ', await doTransaction('select count(*) from items;'))
+    console.log('SQLite initialized, items count: ', await db.getFirstAsync('select count(*) from items;'))
   } catch (error) {
     log('initSQLite', error)
     throw error
@@ -71,7 +70,8 @@ export async function initSQLite() {
 
 // I keep getting Error code 11: database disk image is malformed when I try to query the fts5 table
 async function initSearchTable() {
-  await doTransaction(`
+  try {
+    await db.runAsync(`
     create virtual table if not exists items_search using fts5(
       _id,
       content_html,
@@ -80,109 +80,92 @@ async function initSearchTable() {
       excerpt,
       content='items'
     );`)
-  await doTransaction(`
-    create trigger if not exists items_search_insert after insert on items begin
-      insert into items_search (
+    await db.runAsync(`
+      create trigger if not exists items_search_insert after insert on items begin
+        insert into items_search (
+          _id,
+          content_html,
+          author,
+          content_mercury,
+          excerpt
+        ) values (
+          new._id,
+          new.content_html,
+          new.author,
+          new.content_mercury,
+          new.excerpt
+        );
+      end;`)
+    await db.runAsync(`
+      INSERT INTO items_search SELECT 
         _id,
         content_html,
         author,
         content_mercury,
-        excerpt
-      ) values (
-        new._id,
-        new.content_html,
-        new.author,
-        new.content_mercury,
-        new.excerpt
-      );
-    end;`)
-  await doTransaction(`
-    INSERT INTO items_search SELECT 
-      _id,
-      content_html,
-      author,
-      content_mercury,
-      excerpt FROM items;
-  `)
+        excerpt FROM items;
+    `)
+  } catch (e) {
+    log(e)
+  }
 }
 
 export async function setItems(items: ItemInflated[]) {
-
-  return new Promise((resolve, reject) => {
-    const createdRows: any[] = []
-    const errors: SQLite.SQLError[] = []
-    db.transaction((tx) => {
-      items.forEach((item) => {
-        tx.executeSql(
-          `insert or replace into items (
-            id, _id, content_html, author, date_published, content_mercury, excerpt, scrollRatio, styles
-          ) values (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-          [ 
-            item.id || null, 
-            item._id, 
-            item.content_html || null, 
-            item.author || null, 
-            item.date_published || null, 
-            item.content_mercury || null, 
-            item.excerpt || null, 
-            JSON.stringify(item.scrollRatio), 
-            JSON.stringify(item.styles)
-          ],
-          (_, { rows }) => {
-            createdRows.push(rowsToArray(rows))
-          },
-          (_, error) => {
-            errors.push(error)
-            return false
-          }
-          )
-      })
-    })
-    if (errors.length > 0) {
-      reject(errors)
-    } else {
-      resolve(createdRows)
+  // console.log('setItems')
+  for (const item of items) {
+    try {
+      await db.runAsync(`insert or replace into items (
+          id, _id, content_html, author, date_published, content_mercury, excerpt, scrollRatio, styles
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+        [ 
+          item.id || null, 
+          item._id, 
+          item.content_html || null, 
+          item.author || null, 
+          item.date_published || null, 
+          item.content_mercury || null, 
+          item.excerpt || null, 
+          JSON.stringify(item.scrollRatio), 
+          JSON.stringify(item.styles)
+        ]
+      )
+    } catch (e) {
+      log('setItems', e)
+      throw e
     }
-})
+    // console.log('setItems done')
+  }
 }
 
-export function getItems(items: Item[]): Promise<ItemInflated[]> {
+export async function getItems(items: Item[]): Promise<ItemInflated[]> {
+  // console.log('getItems')
   const toInflate: Item[] = JSON.parse(JSON.stringify(items))
-  return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-    tx.executeSql(
-      `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`,
-      [],
-      (_, { rows }) => {
-        let inflatedItems: ItemInflated[] = []
-        rows._array.forEach((flate) => {
-          let item = toInflate.find((item) => item._id === flate._id) as ItemInflated
-          if (item) {
-            item.content_html = flate.content_html
-            item.author = flate.author
-            item.date_published = flate.date_published
-            item.content_mercury = flate.content_mercury
-            item.excerpt = flate.excerpt
-            item.scrollRatio = JSON.parse(flate.scrollRatio)
-            item.styles = JSON.parse(flate.styles)
-            inflatedItems.push(item as ItemInflated)
-          }
-        })
-        if (inflatedItems.length !== items.length) {
-          log(new Error('Items missing from database'))
-          throw new Error('Items missing from database')
-        }
-        resolve(inflatedItems)
-        return inflatedItems
-      },
-      (_, error) => {
-        console.log(error)
-        reject(error)
-        return false
+  const query = `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`
+  const rows = await db.getAllAsync(query)
+  try {
+    let inflatedItems: ItemInflated[] = []
+    rows.forEach((flate) => {
+      let item = toInflate.find((item) => item._id === flate._id) as ItemInflated
+      if (item) {
+        item.content_html = flate.content_html
+        item.author = flate.author
+        item.date_published = flate.date_published
+        item.content_mercury = flate.content_mercury
+        item.excerpt = flate.excerpt
+        item.scrollRatio = JSON.parse(flate.scrollRatio)
+        item.styles = JSON.parse(flate.styles)
+        inflatedItems.push(item as ItemInflated)
       }
-    )
-  })
-})
+    })
+    if (inflatedItems.length !== items.length) {
+      log(new Error('Items missing from database'))
+      throw new Error('Items missing from database')
+    }
+    console.log('getItems done')
+    return inflatedItems
+  } catch (e) {
+    log(e)
+    throw e
+  }
 }
 
 export async function getItem (item: Item): Promise<ItemInflated> {
@@ -197,7 +180,7 @@ export async function getItem (item: Item): Promise<ItemInflated> {
 
 export async function inflateItem (item: Item): Promise<ItemInflated> {
   try {
-    const items: ItemInflated[] = await getItems([item])
+    const items = await getItems([item])
     return items[0]
   } catch (error) {
     console.log(error)
@@ -206,24 +189,27 @@ export async function inflateItem (item: Item): Promise<ItemInflated> {
 }
 
 export async function updateItems(items: Item[]) {
+  // console.log('updateItems')
   try {
     for (const item of items) {
+      // console.log('updateItem ' + item._id)
       await updateItem(item)
+      // console.log('updateItem done ' + item._id)
     }
   } catch (error) {
     console.log(error)
     throw error
   }
+  // console.log('updateItems done')
 }
 
-export function deleteItems(items: Item[]) {
-
+export async function deleteItems(items: Item[]) {
+  console.log('deleteItems')
   const query = items ?
     `delete from items where _id in (${items.map(i => `"${i._id}"`).join(",")})` :
     `delete from items`
-  db.transaction((tx) => {
-    tx.executeSql(query)
-  })
+  await db.runAsync(query)
+  console.log('deleteItems done')
 }
 
 export async function updateItem(toUpdate: Record<string, any>) {
@@ -239,7 +225,7 @@ export async function updateItem(toUpdate: Record<string, any>) {
       toUpdate[key])).map((value) => value === 'null' ? null : value)
   const query = `update items set ${updateString} where _id = ?`
   try {
-    return await doTransaction(query, values.concat(toUpdate._id))
+    return await db.runAsync(query, values.concat(toUpdate._id))
   } catch (error) {
     log('updateItem', error)
     throw error
@@ -249,19 +235,5 @@ export async function updateItem(toUpdate: Record<string, any>) {
 export async function searchItems(term: string) {
   const searchTerm = `"%${term}%"`
   const query = `SELECT * FROM items WHERE content_html LIKE ${searchTerm} OR content_mercury LIKE ${searchTerm} OR excerpt LIKE ${searchTerm};`
-  return doTransaction(query)
-}
-
-const rowsToArray = (rows: SQLite.SQLResultSetRowList) => {
-  if (rows.length === 0) {
-    return []
-  }
-  // if (rows._array)  {
-  //   rows = rows._array
-  // }
-  let items = []
-  for (let i=0; i<rows.length; i++) {
-    items.push(rows.item(i))
-  }
-  return items
+  return await db.getAllAsync(query)
 }
