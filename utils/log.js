@@ -5,7 +5,7 @@ export default function log (functionName, err, info) {
   let output, error
   if (typeof functionName === 'object') {
     error = functionName
-    output = `${e.name}: ${e.message}`
+    output = `${error.name}: ${error.message}`
   } else {
     output = (typeof err === 'object' && err.name) ? `${err.name}: ${err.message}` : err
     error = err
