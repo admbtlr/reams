@@ -44,6 +44,8 @@ export interface Item {
   }
   isDecorated?: boolean | undefined
   isExternal?: boolean | undefined
+  isHtmlCleaned?: boolean | undefined
+  isMercuryCleaned?: boolean | undefined
   isNewsletter?: boolean | undefined
   isSaved?: boolean | undefined
   id?: string | number | undefined
@@ -135,6 +137,7 @@ export const ADD_readingTime = 'ADD_readingTime'
 export const SET_SCROLL_OFFSET = 'SET_SCROLL_OFFSET'
 export const SET_TITLE_FONT_SIZE = 'SET_TITLE_FONT_SIZE'
 export const SORT_ITEMS = 'SORT_ITEMS'
+export const ITEM_BODY_CLEANED = 'ITEM_BODY_CLEANED'
 
 interface setDisplayModeAction {
   type: typeof SET_DISPLAY_MODE
@@ -297,6 +300,11 @@ export interface sortItems {
   type: typeof SORT_ITEMS
 }
 
+export interface itemBodyCleanedAction {
+  type: typeof ITEM_BODY_CLEANED
+  item: Item
+}
+
 export type ItemActionTypes = setDisplayModeAction |
   updateCurrentIndexAction |
   incrementIndexAction |
@@ -324,4 +332,5 @@ export type ItemActionTypes = setDisplayModeAction |
   setScrollOffsetAction |
   setTitleFontSizeAction |
   // setTitleFontResizedAction |
-  sortItems
+  sortItems |
+  itemBodyCleanedAction
