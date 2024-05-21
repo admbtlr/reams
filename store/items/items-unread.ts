@@ -37,7 +37,8 @@ import {
   INCREMENT_INDEX,
   DECREMENT_INDEX,
   UPDATE_ITEM,
-  MARK_ITEMS_READ_SKIP_BACKEND
+  MARK_ITEMS_READ_SKIP_BACKEND,
+  ITEM_BODY_CLEANED
 } from './types'
 import {
   itemMarkRead,
@@ -47,6 +48,7 @@ import {
   itemDecorationSuccess,
   itemDecorationFailure,
   updateCurrentItemTitleFontSize,
+  itemBodyCleaned,
   // updateCurrentItemTitleFontResized
 } from './items-common'
 import rizzleSort from '../../utils/rizzle-sort'
@@ -210,7 +212,6 @@ export function itemsUnread (
 
     case REMOVE_ITEMS:
       // const itemIds = action.items.map(f => f._id)
-      let currentItem: Item | undefined
       if (state.index && state.index > 0) {
         currentItem = state.items[state.index]
       }
@@ -266,6 +267,9 @@ export function itemsUnread (
 
     case SET_TITLE_FONT_SIZE:
       return updateCurrentItemTitleFontSize(action, state)
+
+    case ITEM_BODY_CLEANED:
+      return itemBodyCleaned(action, state)
 
     default:
       return state

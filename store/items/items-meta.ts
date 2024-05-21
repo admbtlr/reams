@@ -1,3 +1,4 @@
+import { RootState } from '../reducers'
 import {
   SET_DISPLAY_MODE,
   ITEM_DECORATION_PROGRESS,
@@ -39,3 +40,4 @@ export function itemsMeta (
   }
 }
 
+export const selectDisplayMode = (state: RootState) => state.itemsMeta.display

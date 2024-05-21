@@ -9,10 +9,13 @@ import { deepEqual, id, pgTimestamp } from '../utils'
 import { RootState } from '../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../store/ui/types'
 import { HighlightModeContext } from './ItemsScreen'
-import { Item, SAVE_ITEM } from '../store/items/types'
+import { ITEM_BODY_CLEANED, Item, ItemInflated, SAVE_ITEM } from '../store/items/types'
 import { ADD_ITEM_TO_CATEGORY, Category } from '../store/categories/types'
 import isEqual from 'lodash.isequal'
 import { createAnnotation } from '../store/annotations/annotations'
+import { updateItem as updateItemIDB } from '../storage/idb-storage'
+import { updateItem as updateItemSQLite } from '../storage/sqlite'
+import log from '../utils/log'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -53,7 +56,7 @@ const stripUTags = (html: string) => {
 
 interface ItemBodyProps {
   bodyColor: string
-  item: Item
+  item: ItemInflated
   onTextSelection: (text: string, serialized: string) => void
   orientation: string
   showImageViewer: (image: string) => void
@@ -147,7 +150,38 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     setActiveHighlight(annotationId)
   }
 
-  const { coverImageUrl, content_html, content_mercury, feed_color, showCoverImage, showMercuryContent } = item
+  const onBodyCleaned = async (cleanedBody: string) => {
+    let cleanedItem = { ...item }
+    if (item.showMercuryContent) {
+      cleanedItem.content_mercury =  cleanedBody
+    } else {
+      cleanedItem.content_html = cleanedBody
+    }
+    try {
+      if (Platform.OS === 'web') {
+        await updateItemIDB(item)
+      } else {
+        await updateItemSQLite(item)
+      }
+      dispatch({
+        type: ITEM_BODY_CLEANED,
+        item: cleanedItem
+      })
+    } catch (error) {
+      log(error)
+    }
+  }
+
+  const { 
+    coverImageUrl, 
+    content_html, 
+    content_mercury, 
+    feed_color, 
+    isHtmlCleaned,
+    isMercuryCleaned,
+    showCoverImage, 
+    showMercuryContent 
+  } = item
   const styles = { ...item.styles }
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
@@ -175,7 +209,9 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     `dropCapSize${styles.dropCapSize}`,
     styles.dropCapIsDrop ? 'dropCapIsDrop' : '',
     styles.dropCapIsBold ? 'dropCapIsBold' : '',
-    styles.dropCapIsStroke ? 'dropCapIsStroke' : ''].join(' ')
+    styles.dropCapIsStroke ? 'dropCapIsStroke' : '',
+    (showMercuryContent && isMercuryCleaned) || isHtmlCleaned ? 'cleaned' : ''
+  ].join(' ')
     
   const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
@@ -297,7 +333,14 @@ html, body {
       }
     }}
     onMessage={(event) => {
-      const msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
+      const rawMsg = event.nativeEvent.data
+      let msg = ''
+      try {
+        msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
+      } catch (error) {
+        // log(error)
+        // this just means that this is an unencoded, cleaned body
+      }
       if (msg.substring(0, 6) === 'image:') {
         showImageViewer(msg.substring(6))
       } else if (msg.substring(0, 5) === 'link:') {
@@ -317,6 +360,8 @@ html, body {
         editHighlight(msg.substring(15))
       } else if (msg.substring(0, 6) === 'loaded') {
         setIsLoaded(true)
+      } else if (rawMsg && rawMsg !== '') {
+        onBodyCleaned(rawMsg)
       }
     }}
     onNavigationStateChange={onNavigationStateChange}

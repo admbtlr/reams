@@ -579,35 +579,42 @@ function postMessage (msg) {
 
 let highlighter
 
-// what?
-replaceSectionsWithDivs()
-removeDivsInDivs()
-removeArticles()
-removeEmptyParagraphs()
-removeEmptyDivs()
-removeDivsWithOrphanFigures()
-markShortParagraphs()
-markSingleCharParagraphs()
-markShortBlockquotes()
-markContentHoldingDivs()
-// capitaliseFirstWords()
-removeSourceTags()
-removeFiguresWithoutImages()
-markPullQuotes()
-markQuoteBlockquotes()
-removeAllBrs()
-remove1pxImages()
-removeNYTImageText()
-removeNodes('time')
-removeSoloSurroundingDivs()
-createFigCaptions()
-removeSrcSets()
-removeEmptyDivs()
-removeDivsWithImg()
-convertDivsToFigures()
 // removeWidows()
 
+function cleanSource() {
+  replaceSectionsWithDivs()
+  removeDivsInDivs()
+  removeArticles()
+  removeEmptyParagraphs()
+  removeEmptyDivs()
+  removeDivsWithOrphanFigures()
+  markShortParagraphs()
+  markSingleCharParagraphs()
+  markShortBlockquotes()
+  markContentHoldingDivs()
+  // capitaliseFirstWords()
+  removeSourceTags()
+  removeFiguresWithoutImages()
+  markPullQuotes()
+  markQuoteBlockquotes()
+  removeAllBrs()
+  remove1pxImages()
+  removeNYTImageText()
+  removeNodes('time')
+  removeSoloSurroundingDivs()
+  createFigCaptions()
+  removeSrcSets()
+  removeEmptyDivs()
+  removeDivsWithImg()
+  convertDivsToFigures()  
+}
+
 function init() {
+  if (!document.querySelector('html').classList.contains('cleaned')) {
+    cleanSource()
+    const src = document.querySelector('article').innerHTML
+    window.ReactNativeWebView.postMessage(src)
+  }
   markImages()
   addTapMessageToImages()
   // addTapMessageToLinks()

@@ -1,5 +1,7 @@
+import { RootState } from '../reducers'
 import {
   Item,
+  ItemType,
   ItemsState,
   itemDecorationFailureAction,
   itemDecorationSuccessAction,
@@ -155,6 +157,27 @@ export function itemDecorationFailure (
   }
 }
 
+export function itemBodyCleaned (
+  action: setTitleFontSizeAction, 
+  state: ItemsState
+) {
+  const items = state.items.map((i: Item) => {
+    const item = { ...i }
+    if (item._id === action.item._id) {
+      if (item.showMercuryContent) {
+        item.isMercuryCleaned = true
+      } else {
+        item.isHtmlCleaned = true
+      }
+    }
+    return item
+  })
+  return {
+    ...state,
+    items
+  }
+}
+
 export function updateCurrentItemTitleFontSize (
   action: setTitleFontSizeAction, 
   state: ItemsState
@@ -179,62 +202,8 @@ export function updateCurrentItemTitleFontSize (
     state
 }
 
-// export function updateCurrentItemTitleFontResized (
-//   action: setTitleFontResizedAction, 
-//   state: ItemsState
-// ) {
-//   const newItems = state.items.map(item => {
-//     if (item._id === action.item._id) {
-//       item.styles.title.fontResized = true
-//     }
-//     return item
-//   })
-//   return {
-//     ...state,
-//     items: newItems
-//   }
-// }
-
-// export function itemsFlate (
-//   action: flateItemsAction, 
-//   state: ItemsState
-// ) {
-//   // the items in the action are already inflated/deflated
-//   const flatedItems = action.itemsToInflate
-//     .concat(action.itemsToDeflate)
-//   let items = [...state.items]
-//   flatedItems.forEach(fi => {
-//     // some of the items might have been deleted in Firebase
-//     // which means that they will come back as undefined
-//     // I think we can just ignore them
-//     // TODO check whether this is really the case!
-//     if (fi) {
-//       const index = items.findIndex(item => item._id === fi._id)
-//       // don't deflate an item that is currently in view
-//       if (!(Math.abs(index - state.index) <= 1
-//         && typeof fi.content_html === 'undefined')) {
-//         items[index] = fi
-//       }
-//     }
-//   })
-//   return {
-//     ...state,
-//     items
-//   }
-// }
-
-// export function itemsFlateError (
-//   action: flateItemsErrorAction, 
-//   state: ItemsState
-// ) {
-//   // something's gone wrong, so just remove them
-//   const erroredItems = action.items
-//   const items = [...state.items].filter(i => (
-//     erroredItems.find(ei => ei._id === i._id) === undefined
-//   ))
-//   return {
-//     ...state,
-//     items
-//   }
-// }
-
+export const selectCurrentIndex = (state: RootState) => {
+  const displayMode = state.itemsMeta.display
+  return displayMode === ItemType.unread ? state.itemsUnread.index :
+    state.itemsSaved.index
+}
