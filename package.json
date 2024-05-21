@@ -91,6 +91,7 @@
     "react-native-svg": "14.1.0",
     "react-native-text-size": "^4.0.0-rc.1",
     "react-native-touchable-scale": "^2.0.0",
+    "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.6",
     "react-native-web-linear-gradient": "^1.1.2",
     "react-native-web-webview": "^1.0.2",
