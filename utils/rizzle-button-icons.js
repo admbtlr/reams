@@ -62,10 +62,10 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
           top: fontScale(7)
         }}
       >
-        <Path d="M7 28L7 6" strokeWidth={3}/>
+        <Path d="M7 28L7 7" strokeWidth={3}/>
         <Path d="M12 28L12 6" strokeWidth={3}/>
-        <Path d="M19 28L17 7" strokeWidth={3}/>
-        <Rect x="22.5" y="7" width="3" height="23" rx="2" ry="2" strokeWidth={1}  strokeOpacity={0.6} transform={"rotate(-15 25 17)"}/>
+        <Path d="M19 28L17 8" strokeWidth={3}/>
+        <Rect x="22.5" y="8" width="3" height="21" rx="2" ry="2" strokeWidth={1}  strokeOpacity={0.6} transform={"rotate(-15 25 17)"}/>
       </Svg>
 
     case 'saveButtonIconOn':
@@ -84,10 +84,10 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
           transform: [{rotate: '180deg'}]
         }}
       >
-        <Path d="M7 28L7 6" strokeWidth={3}/>
+        <Path d="M7 28L7 7" strokeWidth={3}/>
         <Path d="M12 28L12 6" strokeWidth={3}/>
-        <Path d="M19 28L17 7" strokeWidth={3}/>
-        <Rect x="22.5" y="7" width="2" height="23" rx="2" ry="2" fill={borderColor} transform={"rotate(-15 25 17)"}/>
+        <Path d="M19 28L17 8" strokeWidth={3}/>
+        <Rect x="22.5" y="8" width="2" height="21" rx="2" ry="2" fill={borderColor} transform={"rotate(-15 25 17)"}/>
       </Svg>
 
     case 'launchBrowserIcon':
@@ -466,10 +466,10 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         strokeLinecap='round'
         strokeLinejoin='round'
       >
-        <Path d="M5 28L5 5" strokeWidth={4}/>
+        <Path d="M5 28L5 6" strokeWidth={4}/>
         <Path d="M11 28L11 5" strokeWidth={4}/>
-        <Path d="M18 28L16 6" strokeWidth={4}/>
-        <Path d="M28 28L21 8" strokeWidth={4}/>
+        <Path d="M18 28L16 8" strokeWidth={4}/>
+        <Path d="M28 28L21 9" strokeWidth={4}/>
       </Svg>
 
     case 'save':
