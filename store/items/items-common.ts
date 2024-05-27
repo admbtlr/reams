@@ -7,6 +7,7 @@ import {
   itemDecorationSuccessAction,
   markItemReadAction,
   markItemsReadAction,
+  resetDecorationFailuresAction,
   setScrollOffsetAction,
   // setTitleFontResizedAction,
   setTitleFontSizeAction,
@@ -169,6 +170,23 @@ export function itemBodyCleaned (
       } else {
         item.isHtmlCleaned = true
       }
+    }
+    return item
+  })
+  return {
+    ...state,
+    items
+  }
+}
+
+export function resetDecorationFailures (
+  action: resetDecorationFailuresAction, 
+  state: ItemsState
+) {
+  const items = state.items.map((i: Item) => {
+    const item = { ...i }
+    if (item._id === action.itemId) {
+      item.decoration_failures = 0
     }
     return item
   })

@@ -138,6 +138,7 @@ export const SET_SCROLL_OFFSET = 'SET_SCROLL_OFFSET'
 export const SET_TITLE_FONT_SIZE = 'SET_TITLE_FONT_SIZE'
 export const SORT_ITEMS = 'SORT_ITEMS'
 export const ITEM_BODY_CLEANED = 'ITEM_BODY_CLEANED'
+export const RESET_DECORATION_FALIURES = 'RESET_DECORATION_FALIURES'
 
 interface setDisplayModeAction {
   type: typeof SET_DISPLAY_MODE
@@ -305,6 +306,11 @@ export interface itemBodyCleanedAction {
   item: Item
 }
 
+export interface resetDecorationFailuresAction {
+  type: typeof ITEM_BODY_CLEANED
+  itemId: string
+}
+
 export type ItemActionTypes = setDisplayModeAction |
   updateCurrentIndexAction |
   incrementIndexAction |
@@ -333,4 +339,5 @@ export type ItemActionTypes = setDisplayModeAction |
   setTitleFontSizeAction |
   // setTitleFontResizedAction |
   sortItems |
-  itemBodyCleanedAction
+  itemBodyCleanedAction |
+  resetDecorationFailuresAction

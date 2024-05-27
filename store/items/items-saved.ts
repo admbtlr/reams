@@ -26,7 +26,8 @@ import {
   SET_SAVED_ITEMS,
   INCREMENT_INDEX,
   DECREMENT_INDEX,
-  ITEM_BODY_CLEANED
+  ITEM_BODY_CLEANED,
+  RESET_DECORATION_FALIURES
 } from './types'
 import {
   itemMarkRead,
@@ -36,6 +37,7 @@ import {
   itemDecorationFailure,
   updateCurrentItemTitleFontSize,
   itemBodyCleaned,
+  resetDecorationFailures,
   // updateCurrentItemTitleFontResized
 } from './items-common'
 import {
@@ -262,7 +264,9 @@ export function itemsSaved (
     case ITEM_BODY_CLEANED:
       return itemBodyCleaned(action, state)
   
-  
+    case RESET_DECORATION_FALIURES:
+      return resetDecorationFailures(action, state)
+
     // case SET_TITLE_FONT_RESIZED:
     //   if (action.item.title === 'Loading...') return state
     //   return updateCurrentItemTitleFontResized(action, state)

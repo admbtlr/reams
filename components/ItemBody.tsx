@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {ActivityIndicator, Dimensions, Linking, Platform, View} from 'react-native'
+import {ActivityIndicator, Dimensions, Linking, Platform, Text, TouchableOpacity, View} from 'react-native'
 import {WebView, WebViewNavigation} from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
@@ -9,13 +9,16 @@ import { deepEqual, id, pgTimestamp } from '../utils'
 import { RootState } from '../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../store/ui/types'
 import { HighlightModeContext } from './ItemsScreen'
-import { ITEM_BODY_CLEANED, Item, ItemInflated, SAVE_ITEM } from '../store/items/types'
+import { ITEM_BODY_CLEANED, Item, ItemInflated, RESET_DECORATION_FALIURES, SAVE_ITEM } from '../store/items/types'
 import { ADD_ITEM_TO_CATEGORY, Category } from '../store/categories/types'
 import isEqual from 'lodash.isequal'
 import { createAnnotation } from '../store/annotations/annotations'
 import { updateItem as updateItemIDB } from '../storage/idb-storage'
 import { updateItem as updateItemSQLite } from '../storage/sqlite'
 import log from '../utils/log'
+import { textInfoBoldStyle, textInfoItalicStyle } from '../utils/styles'
+import TextButton from './TextButton'
+import { getMargin } from '../utils/dimensions'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -294,15 +297,10 @@ html, body {
 
   if (body === '') {
     return (
-      <View style={{
-        width,
-        height,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
-      </View>
+      <EmptyState 
+        item={item} 
+        bodyColor={bodyColor}
+      />
     )
   }
 
@@ -396,5 +394,68 @@ export default React.memo(ItemBody, (prevProps, nextProps) => (
 )
 
 )
+
+const EmptyState = ({item, bodyColor}: {item: ItemInflated, bodyColor: string}) => {
+  const [yPos, setYPos] = useState<number | null>(null)
+  const [view, setView] = useState<View | null>(null)
+  const [isLayedOut, setIsLayedOut] = useState(false)
+  const [viewHeight, setViewHeight] = useState(0)
+  const dispatch = useDispatch()
+
+  const { width, height } = Dimensions.get('screen')
+
+  useEffect(() => {
+    if (isLayedOut && view) {
+      view.measure((x: number, y: number, w: number, h: number, pageX: number, pageY: number) => {
+        if (pageY < height - 100) {
+          setViewHeight(height - pageY)
+        } else {
+          setViewHeight(200)
+        }
+      })
+    }
+  }, [isLayedOut, view])
+  return (
+    <View 
+      onLayout={event => {
+        setIsLayedOut(true)
+      }}
+      ref={view => setView(view)}
+      style={{
+        width,
+        height: viewHeight,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: bodyColor,
+        opacity: 1
+      }}
+    > 
+    { (item.decoration_failures && item.decoration_failures === 5) ?
+      (
+        <View style={{
+          alignItems: 'center',
+          flex: 1,
+          justifyContent: 'center'
+        }}>
+          <Text style={{
+            ...textInfoBoldStyle(),
+            marginBottom: getMargin(),
+            textAlign: 'center'
+          }}>Oh no! Something went wrong downloading this article.</Text>
+          <TextButton
+            onPress={() => dispatch({
+              type: RESET_DECORATION_FALIURES,
+              itemId: item._id
+            })}
+            text='Try again'
+          />
+        </View>    
+      ) :
+      (<ActivityIndicator size="large" color={hslString('rizzleFG')}/>)
+    }
+    </View>
+  )
+}
 
 // ItemBody.whyDidYouRender = true
