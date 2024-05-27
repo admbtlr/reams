@@ -274,7 +274,7 @@ class FeedItem extends React.Component {
       savedAt
     } = inflatedItem
 
-    const bodyColor = this.props.isDarkMode ? 'black' : hslString('rizzleBg')
+    const bodyColor = this.props.isDarkMode ? 'black' : hslString('bodyBG')
 
     if (styles === undefined || styles === null || Object.keys(styles).length === 0) {
       //styles = item.styles = createItemStyles(item)

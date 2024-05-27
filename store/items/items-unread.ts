@@ -38,7 +38,8 @@ import {
   DECREMENT_INDEX,
   UPDATE_ITEM,
   MARK_ITEMS_READ_SKIP_BACKEND,
-  ITEM_BODY_CLEANED
+  ITEM_BODY_CLEANED,
+  RESET_DECORATION_FALIURES
 } from './types'
 import {
   itemMarkRead,
@@ -49,6 +50,7 @@ import {
   itemDecorationFailure,
   updateCurrentItemTitleFontSize,
   itemBodyCleaned,
+  resetDecorationFailures,
   // updateCurrentItemTitleFontResized
 } from './items-common'
 import rizzleSort from '../../utils/rizzle-sort'
@@ -270,6 +272,9 @@ export function itemsUnread (
 
     case ITEM_BODY_CLEANED:
       return itemBodyCleaned(action, state)
+
+    case RESET_DECORATION_FALIURES:
+      return resetDecorationFailures(action, state)
 
     default:
       return state
