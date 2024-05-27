@@ -188,7 +188,7 @@ function markSingleCharParagraphs () {
 function markImages () {
   const imgs = document.querySelectorAll('img')
   Array.prototype.forEach.call(imgs, function (el, i) {
-    if (el.naturalHeight > el.naturalWidth) {
+    if (el.naturalHeight >= el.naturalWidth) {
       el.classList.add('img-portrait')
 
       // added 20240213 because only portrait images should be small
