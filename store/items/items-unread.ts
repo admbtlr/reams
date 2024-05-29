@@ -77,7 +77,7 @@ export function itemsUnread (
     lastUpdated? : number
     items? : Item[]
   } = {}
-  let currentItem: Item
+  let currentItem: Item | undefined
   let carouselled: { index : number, items : Item[] }
 
   switch (action.type) {
@@ -124,6 +124,7 @@ export function itemsUnread (
     case ITEMS_BATCH_FETCHED:
       if (action.itemType !== ItemType.unread) return state
       items = [...state.items]
+      currentItem = items[state.index] ? { ...items[state.index] } : undefined
       newItems = action.items
       newItems.forEach(newItem => {
         let indexToUpdate = items.findIndex(item => item.id === newItem.id || (item._id === newItem._id && item.title === newItem.title))
@@ -135,12 +136,17 @@ export function itemsUnread (
       })
 
       items = rizzleSort(items, action.feeds, action.sortDirection)
-      carouselled = maintainCarouselItems(state, items)
+      // carouselled = maintainCarouselItems(state, items)
+      if (currentItem !== undefined && items.map(i => i._id).indexOf(currentItem._id)) {
+        items = items.filter(i => i._id !== currentItem._id)
+        items.unshift(currentItem)
+      }
+      index = 0
 
       return {
         ...state,
-        items: carouselled.items,
-        index: carouselled.index
+        items,
+        index
         // items,
         // index
       }
