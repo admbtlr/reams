@@ -262,7 +262,7 @@ class ItemTitle extends React.Component {
   async componentDidUpdate (prevProps) {
     const {styles} = this.props
 
-    if (prevProps && styles?.fontResized && prevProps.isPortrait === this.props.isPortrait) return
+    if (styles?.fontResized && (prevProps === undefined || prevProps.isPortrait === this.props.isPortrait)) return
     if (this.state && this.state.optimalFontSize) return
     if (typeof rnTextSize === 'undefined') return
 

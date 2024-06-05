@@ -16,6 +16,9 @@ export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize:
     yield call(getItemsIDB, [item]) :
     yield call(getItemsSQLite, [item])
   const fullItem = items[0]
+  if (fullItem.styles.title.fontSize === fontSize) {
+    return
+  }
   const updated = {
     ...fullItem,
     styles: {
