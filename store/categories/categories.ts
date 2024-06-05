@@ -15,7 +15,6 @@ import {
 } from './types'
 import { Feed, REMOVE_FEED } from '../feeds/types'
 import { UNSAVE_ITEM } from '../items/types'
-import { clone } from '@tensorflow/tfjs'
 
 const initialState: CategoriesState = {
   categories: [
