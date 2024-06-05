@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { SET_USER_DETAILS, UNSET_BACKEND } from "../store/user/types"
 import { supabase } from "../storage/supabase"
 import { fetchAnnotations } from "../store/annotations/annotations"
-import { START_DOWNLOADS } from "../store/config/types"
+import { START_DOWNLOADS, startDownloads } from "../store/config/types"
 import { fetchCategories } from "../store/categories/categoriesSlice"
 import fetchNewsletterItems from "../backends/fastmail"
 import { ITEMS_BATCH_FETCHED, Item, ItemType } from "../store/items/types"
@@ -46,12 +46,7 @@ export const AuthProvider = (props: any) => {
         if (!!session) {
           setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
-          // initial fetches can go here
-          // await sleep(5000)
-          await dispatch(fetchAnnotations())
-          await dispatch(fetchCategories())
-          await dispatch(fetchNewsletters())
-          dispatch({ type: START_DOWNLOADS })
+          dispatch(startDownloads())
         } else {
           setSession({session: null})
           dispatch({ type: UNSET_BACKEND, backend: 'reams' })
