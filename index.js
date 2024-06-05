@@ -1,6 +1,7 @@
 import './wdyr'
 import 'react-native-gesture-handler'
 import 'react-native-get-random-values'
+import { setupURLPolyfill } from "react-native-url-polyfill"
 
 import {registerRootComponent} from 'expo'
 import { LogBox } from 'react-native'
@@ -20,5 +21,5 @@ import Rizzle from './components/Rizzle'
 // AppRegistry.registerComponent('RizzleShare', () => Share)
 
 LogBox.ignoreLogs(['new NativeEventEmitter()'])
-
+setupURLPolyfill()
 registerRootComponent(Rizzle)
