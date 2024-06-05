@@ -8,7 +8,7 @@ interface NewsletterDB extends SourceDB {}
 export const addNewsletter = async (newsletter: { 
   url: string, 
   title?: string, 
-  _id?: number 
+  _id?: string 
 }, userId?: string): Promise<Newsletter> => {
   // is the newsletter already in the database?
   let newsletterDB = await getNewsletter(newsletter.url)

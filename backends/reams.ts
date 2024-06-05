@@ -300,7 +300,7 @@ interface FeedMeta {
   didError: boolean
 }
 
-export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta> {
+export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta | undefined> {
   // log('getFeedMeta')
   const apiUrl = `${Config.API_URL}/feed-meta?url=${feed.url}`
   try {
