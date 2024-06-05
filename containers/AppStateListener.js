@@ -4,7 +4,8 @@ import {
 } from '../store/items/types'
 import { 
   STATE_ACTIVE,
-  STATE_INACTIVE
+  STATE_INACTIVE,
+  startDownloads
 } from '../store/config/types'
 import { connect } from 'react-redux'
 import { ADD_FEED } from '../store/feeds/types'
@@ -32,9 +33,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: () => dispatch({
-      type: FETCH_ITEMS
-    }),
+    fetchData: () => dispatch(startDownloads()),
     updateCurrentAppState: (state) => dispatch(updateCurrentAppState(state)),
     saveURL: (url, title) => {
       dispatch({

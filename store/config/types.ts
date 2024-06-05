@@ -1,5 +1,6 @@
 import { deleteCategory } from "store/categories/types"
 import { Filter } from "./config"
+import { createAction } from "@reduxjs/toolkit"
 
 export enum Direction {
   desc,
@@ -105,3 +106,5 @@ export type ConfigActionTypes = updateOnboardingIndexAction |
   setStateActiveAction |
   deleteCategory |
   updateMigrationVersionAction
+
+export const startDownloads = createAction(START_DOWNLOADS)

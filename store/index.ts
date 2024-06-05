@@ -16,6 +16,7 @@ import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
 import { ConfigState } from './config/config'
 import Config from 'react-native-config'
+import { downloadsListenerMiddleware } from './listenerMiddleware'
 
 let store = null
 let persistor = null
@@ -67,14 +68,18 @@ function initStore (rehydrateCallback?: () => void) {
       // @ts-ignore
       state,
       middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware(middlewareConf).prepend(sagaMiddleware);
+        return getDefaultMiddleware(middlewareConf)
+          .prepend(sagaMiddleware)
+          .prepend(downloadsListenerMiddleware.middleware)
       }
     })  
   } else {
     store = configureStore({
       reducer: persistedReducer,
       middleware: (getDefaultMiddleware) => {
-        const middleware = getDefaultMiddleware(middlewareConf).prepend(sagaMiddleware);
+        const middleware = getDefaultMiddleware(middlewareConf)
+          .prepend(sagaMiddleware)
+          .prepend(downloadsListenerMiddleware.middleware)
         return middleware
       }
     })
