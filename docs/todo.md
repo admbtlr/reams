@@ -1,3 +1,4 @@
+- open articles directly from annotations page
 - fetch articles never completes when adding saved article via extension
 - maybe update image viewer
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer
@@ -69,6 +70,7 @@
 - saved folders
 
 # Done
+- ~~nyt and substack author image should have class img-small~~
 - ~~make share extension use https://github.com/Expensify/react-native-share-menu~~
 - ~~newsletters with fastmail (or gmail?)~~
 - ~~the layout of scrolled-down topbars~~
