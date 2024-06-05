@@ -7,7 +7,7 @@ export const getSavedItems = async (currentItems: {
   url: string
   title: string
   savedAt: number | undefined
-  isSaved: boolean | undefined
+  isSaved?: boolean | undefined
 }[]) => {
   const userId = await getUserId()
   if (!userId) {
@@ -17,10 +17,11 @@ export const getSavedItems = async (currentItems: {
     .from('User_SavedItem')
     .select('item_id, saved_at')
     .eq('user_id', userId)
-  const { data: allSavedIds, error } = await await doQuery(fn)
+  const { data, error }  = await doQuery(fn)
   if (error) {
     throw error
   }
+  const allSavedIds = data.allSavedIds as { item_id: string, saved_at: string}[]
   const newIds = (allSavedIds?.map(d => d.item_id) || []).filter(id => !currentItems.find(i => i._id === id))
   if (newIds.length === 0) {
     return currentItems
@@ -38,6 +39,7 @@ export const getSavedItems = async (currentItems: {
     _id: i._id,
     url: i.url, 
     title: i.title,
+    feed_id: i.feed_id,
     savedAt: Math.round(new Date((allSavedIds
         ?.find(asi => asi?.item_id === i._id)
         ?.saved_at || 0))
@@ -108,7 +110,7 @@ export const addReadItems = async (items: Item[]) => {
 export const addSavedItem = async (item: Item) => {
   const fn = async () => await supabase
     .from('Item')
-    .upsert({ _id: item._id, url: item.url, title: item.title }, { onConflict: '_id,url' })
+    .upsert({ _id: item._id, url: item.url, title: item.title, feed_id: item.feed_id }, { onConflict: '_id,url' })
     .select()
   const { data, error } = await doQuery(fn)
   if (error) {
