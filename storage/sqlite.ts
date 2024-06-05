@@ -225,7 +225,7 @@ export async function updateItem(toUpdate: Record<string, any>) {
       toUpdate[key])).map((value) => value === 'null' ? null : value)
   const query = `update items set ${updateString} where _id = ?`
   try {
-    return await db.runAsync(query, values.concat(toUpdate._id))
+    await db.runAsync(query, values.concat(toUpdate._id))
   } catch (error) {
     log('updateItem', error)
     throw error
