@@ -826,24 +826,24 @@ hr {
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold";
 }
-.isWeb .headerFontSans1 h1, .isWeb .headerFontSans1 h3, .isWeb .headerFontSans1 h5 {
+web .headerFontSans1 h1, web .headerFontSans1 h3, web .headerFontSans1 h5 {
   font-family: "Lato";
   font-weight: 700;
 }
-.isWeb .headerFontSans1.isItalic h1 {
+web .headerFontSans1.isItalic h1 {
   font-style: italic;
 }
 .headerFontSans1 h2, .headerFontSans1 h4 {
   font-family: "AvenirNext-Medium";
 }
-.isWeb .headerFontSans1 h2, .isWeb .headerFontSans1 h4 {
+web .headerFontSans1 h2, web .headerFontSans1 h4 {
   font-family: "Lato";
   font-weight: 400;
 }
 .headerFontSans1 figcaption, .headerFontSans1 img + small, .headerFontSans1 .caption, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "AvenirNext-MediumItalic";
 }
-.isWeb .headerFontSans1 figcaption, .isWeb .headerFontSans1 img + small, .isWeb .headerFontSans1 .caption, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
+web .headerFontSans1 figcaption, web .headerFontSans1 img + small, web .headerFontSans1 .caption, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "Lato";
   font-weight: 400;
   font-style: italic;
@@ -851,21 +851,21 @@ hr {
 .headerFontSans1 figcaption em, .headerFontSans1 figcaption i, .headerFontSans1 img + small em, .headerFontSans1 img + small i, .headerFontSans1 .caption em, .headerFontSans1 .caption i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
   font-family: "AvenirNext-Medium";
 }
-.isWeb .headerFontSans1 figcaption em, .isWeb .headerFontSans1 figcaption i, .isWeb .headerFontSans1 img + small em, .isWeb .headerFontSans1 img + small i, .isWeb .headerFontSans1 .caption em, .isWeb .headerFontSans1 .caption i, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
+web .headerFontSans1 figcaption em, web .headerFontSans1 figcaption i, web .headerFontSans1 img + small em, web .headerFontSans1 img + small i, web .headerFontSans1 .caption em, web .headerFontSans1 .caption i, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
   font-family: "Lato";
   font-weight: 400;
 }
 .headerFontSans1 figcaption strong, .headerFontSans1 figcaption b, .headerFontSans1 img + small strong, .headerFontSans1 img + small b, .headerFontSans1 .caption strong, .headerFontSans1 .caption b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
   font-family: "AvenirNext-BoldItalic";
 }
-.isWeb .headerFontSans1 figcaption strong, .isWeb .headerFontSans1 figcaption b, .isWeb .headerFontSans1 img + small strong, .isWeb .headerFontSans1 img + small b, .isWeb .headerFontSans1 .caption strong, .isWeb .headerFontSans1 .caption b, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
+web .headerFontSans1 figcaption strong, web .headerFontSans1 figcaption b, web .headerFontSans1 img + small strong, web .headerFontSans1 img + small b, web .headerFontSans1 .caption strong, web .headerFontSans1 .caption b, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
   font-family: "Lato";
   font-weight: 700;
 }
 .headerFontSans1 figcaption em strong, .headerFontSans1 figcaption strong em, .headerFontSans1 figcaption b i, .headerFontSans1 figcaption i b, .headerFontSans1 img + small em strong, .headerFontSans1 img + small strong em, .headerFontSans1 img + small b i, .headerFontSans1 img + small i b, .headerFontSans1 .caption em strong, .headerFontSans1 .caption strong em, .headerFontSans1 .caption b i, .headerFontSans1 .caption i b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
   font-family: "AvenirNext-Bold";
 }
-.isWeb .headerFontSans1 figcaption em strong, .isWeb .headerFontSans1 figcaption strong em, .isWeb .headerFontSans1 figcaption b i, .isWeb .headerFontSans1 figcaption i b, .isWeb .headerFontSans1 img + small em strong, .isWeb .headerFontSans1 img + small strong em, .isWeb .headerFontSans1 img + small b i, .isWeb .headerFontSans1 img + small i b, .isWeb .headerFontSans1 .caption em strong, .isWeb .headerFontSans1 .caption strong em, .isWeb .headerFontSans1 .caption b i, .isWeb .headerFontSans1 .caption i b, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .isWeb .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
+web .headerFontSans1 figcaption em strong, web .headerFontSans1 figcaption strong em, web .headerFontSans1 figcaption b i, web .headerFontSans1 figcaption i b, web .headerFontSans1 img + small em strong, web .headerFontSans1 img + small strong em, web .headerFontSans1 img + small b i, web .headerFontSans1 img + small i b, web .headerFontSans1 .caption em strong, web .headerFontSans1 .caption strong em, web .headerFontSans1 .caption b i, web .headerFontSans1 .caption i b, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
   font-family: "Lato";
   font-weight: 700;
 }
@@ -888,7 +888,7 @@ hr {
 .headerFontSans2 h1, .headerFontSans2 h3, .headerFontSans2 h5 {
   font-family: "Poppins-ExtraBold";
 }
-.isWeb .headerFontSans2.isItalic h1 {
+web .headerFontSans2.isItalic h1 {
   font-family: "Poppins-ExtraBoldItalic";
 }
 .headerFontSans2 h2, .headerFontSans2 h4 {
@@ -922,7 +922,7 @@ hr {
 .headerFontSans3 h1, .headerFontSans3 h3, .headerFontSans3 h5 {
   font-family: "Montserrat-Bold";
 }
-.isWeb .headerFontSans3.isItalic h1 {
+web .headerFontSans3.isItalic h1 {
   font-family: "Montserrat-BoldItalic";
 }
 .headerFontSans3 h2, .headerFontSans3 h4 {
@@ -953,7 +953,7 @@ hr {
 .headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5 {
   font-family: "PlayfairDisplay-Black";
 }
-.isWeb .headerFontSerif1.isItalic h1 {
+web .headerFontSerif1.isItalic h1 {
   font-family: "IBMPlexSerif-BoldItalic";
 }
 .headerFontSerif1 h2, .headerFontSerif1 h4 {
@@ -1006,7 +1006,7 @@ hr {
 .itemArticle:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: var(--feed-color);
 }
-body:not(.isWeb) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, body:not(.isWeb) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, body:not(.isWeb) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+html:not(web) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, html:not(web) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, html:not(web) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
   -webkit-text-stroke: 2px #444444;
 }
@@ -1381,4 +1381,12 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
 }
 .web .itemTitle h4 {
   font-size: 0.8rem;
+}
+.web .itemArticle figure:not(.specificity-breaker), .web .itemArticle img:not(.specificity-breaker), .web .itemArticle video:not(.specificity-breaker), .web .itemArticle iframe:not(.specificity-breaker), .web .itemArticle pre:not(.specificity-breaker) {
+  width: 100% !important;
+  left: 0 !important;
+}
+.web .itemArticle figcaption {
+  padding: 0;
+  margin: 0;
 }

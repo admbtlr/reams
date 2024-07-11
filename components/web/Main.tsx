@@ -21,7 +21,6 @@ import AccountScreenContainer from '../../containers/AccountScreen'
 import SettingsScreen from '../SettingsScreen'
 import ItemsList from './ItemsList'
 import { createStackNavigator } from '@react-navigation/stack'
-import ItemView from './ItemView'
 import ItemsScreen from './ItemsScreen'
 import Onboarding from './Onboarding'
 import { useSession } from '../AuthProvider'
@@ -56,7 +55,6 @@ export default function Main() {
           drawerType: 'permanent',
           headerShown: false,
         }}>
-        {/* <Drawer.Screen name="ItemView" component={ItemView} /> */}
         <Drawer.Screen name="Feeds" component={Feeds} />
         <Drawer.Screen name="Library" component={Feeds} />
         <Drawer.Screen name="Highlights" component={HighlightsScreen} />

@@ -15,14 +15,13 @@ import log from '../utils/log'
 import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
 import { ConfigState } from './config/config'
-import Config from 'react-native-config'
 import { downloadsListenerMiddleware } from './listenerMiddleware'
 
 let store = null
 let persistor = null
 let sagaMiddleware: any = null
 
-function initStore (rehydrateCallback?: () => void) {
+function initStore () {
   sagaMiddleware = createSagaMiddleware({
     onError: (error, { sagaStack}) => {
       log('sagas', error, sagaStack)
@@ -62,7 +61,7 @@ function initStore (rehydrateCallback?: () => void) {
     immutableCheck: false
   }
 
-  if (Config.USE_STATE) {
+  if (process.env.USE_STATE) {
     store = configureStore({
       reducer: makeRootReducer(),
       // @ts-ignore
@@ -84,11 +83,7 @@ function initStore (rehydrateCallback?: () => void) {
       }
     })
     // @ts-ignore
-    persistor = persistStore(store, null, rehydrateCallback || onCompletion)
-  }
-
-  const onCompletion = () => {
-    console.log('Store persisted')
+    persistor = persistStore(store)
   }
 
   sagaMiddleware.run(initSagas)

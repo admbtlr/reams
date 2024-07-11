@@ -11,12 +11,12 @@ import log from '../utils/log'
 import DarkModeListener from './DarkModeListener'
 import { ModalContext } from './ModalProvider'
 
+export const MINIMUM_UPDATE_INTERVAL = 600000 // 10 minutes
+
 class AppStateListener extends React.Component {
   static contextType = ModalContext
 
   group = 'group.com.adam-butler.rizzle'
-
-  MINIMUM_UPDATE_INTERVAL = 600000 // 10 minutes
 
   constructor (props) {
     super(props)
@@ -52,7 +52,7 @@ class AppStateListener extends React.Component {
 
       if (!this.props.isOnboarding) {
         await this.checkBuckets()
-        if (!global.isStarting && (Date.now() - this.props.lastUpdated > this.MINIMUM_UPDATE_INTERVAL)) {
+        if (!global.isStarting && (Date.now() - this.props.lastUpdated > MINIMUM_UPDATE_INTERVAL)) {
           this.props.fetchData()
         }
       }

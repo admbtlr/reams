@@ -131,5 +131,18 @@
   .itemTitle h4 {
     font-size: 0.8rem;
   }
+
+  .itemArticle {
+    figure, img, video, iframe, pre {
+      &:not(.specificity-breaker) {
+        width: 100% !important;
+        left: 0 !important;
+      }
+    }
+    figcaption {
+      padding: 0;
+      margin: 0;
+    }
+  }
 }
 

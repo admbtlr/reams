@@ -1,7 +1,6 @@
 import {decode, encode} from 'base-64'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
-import Config from 'react-native-config'
 import { Feed } from '../store/feeds/types'
 import PasswordStorage from '../utils/password-storage'
 import { Item } from '../store/items/types'
@@ -38,7 +37,7 @@ export async function init ({ username, password }: { username: string, password
   credentials = { username, password }
 }
 
-export const authenticate = (username: string, password: string) => {
+export const authenticate = async (username: string, password: string) => {
   let url = getUrl('https://api.feedbin.com/v2/authentication.json')
   const encoded = encode(`${username}:${password}`)
   return fetch(url, {
@@ -73,7 +72,7 @@ function getUrl (endpoint: string) {
   } else {
     feedbinUrl = 'https://api.feedbin.com/v2/' + endpoint
   }
-  return !!Config.CORS_PROXY ? `${Config.CORS_PROXY}?url=${feedbinUrl}` : feedbinUrl
+  return !!process.env.CORS_PROXY ? `${process.env.CORS_PROXY}?url=${feedbinUrl}` : feedbinUrl
 }
 
 function getFetchConfig () {
@@ -126,7 +125,7 @@ async function doRequest (url: string, options: {
   options.headers = options.headers || getBasicAuthHeader()
   //@ts-ignore
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  const reqUrl = !!Config.CORS_PROXY ? Config.CORS_PROXY + '?url=' + encodeURIComponent(url) : url
+  const reqUrl = !!process.env.CORS_PROXY ? process.env.CORS_PROXY + '?url=' + encodeURIComponent(url) : url
   const response = await fetch(reqUrl, options)
   if (!response.ok) {
     const text = await response.text()

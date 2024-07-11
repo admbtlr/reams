@@ -982,18 +982,18 @@ hr {
   h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold";
 
-    .isWeb & {
+    web & {
       font-family: "Lato";
       font-weight: 700;
     }
   }
-  .isWeb &.isItalic h1 {
+  web &.isItalic h1 {
     font-style: italic;
   }
   h2, h4 {
     font-family: "AvenirNext-Medium";
 
-    .isWeb & {
+    web & {
       font-family: "Lato";
       font-weight: 400;
     }
@@ -1001,7 +1001,7 @@ hr {
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic";
 
-    .isWeb & {
+    web & {
       font-family: "Lato";
       font-weight: 400;
       font-style: italic;
@@ -1010,7 +1010,7 @@ hr {
     em, i {
       font-family: "AvenirNext-Medium";
 
-      .isWeb & {
+      web & {
         font-family: "Lato";
         font-weight: 400;
       }
@@ -1019,7 +1019,7 @@ hr {
     strong, b {
       font-family: "AvenirNext-BoldItalic";
 
-      .isWeb & {
+      web & {
         font-family: "Lato";
         font-weight: 700;
       }
@@ -1028,7 +1028,7 @@ hr {
     em strong, strong em, b i, i b {
       font-family: "AvenirNext-Bold";
 
-      .isWeb & {
+      web & {
         font-family: "Lato";
         font-weight: 700;
       }
@@ -1058,7 +1058,7 @@ hr {
   h1, h3, h5 {
     font-family: "Poppins-ExtraBold";
   }
-  .isWeb &.isItalic h1 {
+  web &.isItalic h1 {
     font-family: "Poppins-ExtraBoldItalic";
   }
   h2, h4 {
@@ -1099,7 +1099,7 @@ hr {
   h1, h3, h5 {
     font-family: "Montserrat-Bold";
   }
-  .isWeb &.isItalic h1 {
+  web &.isItalic h1 {
     font-family: "Montserrat-BoldItalic";
   }
   h2, h4 {
@@ -1172,7 +1172,7 @@ hr {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Black";
   }
-  .isWeb &.isItalic h1 {
+  web &.isItalic h1 {
     font-family: "IBMPlexSerif-BoldItalic";
   }
   h2, h4 {
@@ -1300,7 +1300,7 @@ hr {
     }
   }
 
-  body:not(.isWeb) &.dropCapIsStroke {
+  html:not(web) &.dropCapIsStroke {
      & > p:not(.short-para):first-of-type,
       & > div:first-of-type > p:not(.short-para):first-of-type,
       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {

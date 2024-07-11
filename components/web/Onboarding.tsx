@@ -21,7 +21,7 @@ export default function Onboarding(props: Props) {
 
   async function sendMagicLink(email: string) {
     let redirectURL = __DEV__ ? 
-      'http://localhost:19006' : 
+      'http://localhost:8081' : 
       'https://web.reams.app/'
     if (email) {
       setIsSending(true)
@@ -109,6 +109,19 @@ export default function Onboarding(props: Props) {
           }}
           text='Send me a link'
         />
+        {__DEV__ && (
+          <TextButton
+            buttonStyle={{
+              marginTop: 20,
+              width: 200,
+            }}
+            showMaxHeight={true}
+            onPress={() => supabase.auth.signInWithPassword({
+              email: 'a@btlr.eu',
+              password: 'Asdfasdf'
+            })}
+            text='Log in with password' />
+        )}
 
       </View>
     </View>

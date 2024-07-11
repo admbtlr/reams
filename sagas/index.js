@@ -46,12 +46,13 @@ import { executeRemoteActions } from './remote-action-queue'
 import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed, unsubscribeFromFeeds } from './feeds'
 import { primeAllBackends, primeBackend } from './backend'
 import { unsetBackend } from '../backends'
-import { getConfig } from './selectors'
+import { getConfig, getLastUpdated } from './selectors'
 import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
 import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
 import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotations'
 import { setItemTitleFontSize } from './update-item'
 import { Platform } from 'react-native'
+import { MINIMUM_UPDATE_INTERVAL } from '@/components/AppStateListener'
 
 let downloadsFork
 
@@ -69,21 +70,24 @@ function * startDownloads (shouldSleep = false) {
     // let the app render and get started
     yield delay(5000)
   }
-  try {
-    console.log('fetchAllFeeds')
-    yield call(fetchAllFeeds)
-    console.log('fetchAllItems')
-    yield call(fetchAllItems, true)
-    console.log('clearReadItems')
-    yield call(clearReadItems)
-    console.log('pruneItems')
-    yield call(pruneItems)
-    yield call(decorateItems)
-    yield call(executeRemoteActions)
-  } catch (e) {
-    console.log(e)
-    yield put({ type: CLEAR_MESSAGES })
-  }
+  const lastUpdated = yield select(getLastUpdated)
+    try {
+      if (Date.now() - lastUpdated > MINIMUM_UPDATE_INTERVAL) {
+        console.log('fetchAllFeeds')
+        yield call(fetchAllFeeds)
+        console.log('fetchAllItems')
+        yield call(fetchAllItems, true)
+      }
+      console.log('clearReadItems')
+      yield call(clearReadItems)
+      console.log('pruneItems')
+      yield call(pruneItems)
+      yield call(decorateItems)
+      yield call(executeRemoteActions)
+    } catch (e) {
+      console.log(e)
+      yield put({ type: CLEAR_MESSAGES })
+    }  
 }
 
 function * killBackend ({ backend }) {

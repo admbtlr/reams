@@ -56,6 +56,8 @@ let feeds
 let savedItems = []
 
 export function * fetchAllItems (includeSaved = true) {
+  const lastUpdated = yield select(getLastUpdated)
+  if (Date.now() - lastUpdated < 100000) return 
   const netInfo = yield call(NetInfo.fetch)
   if (!netInfo.isInternetReachable) return
   yield put({
