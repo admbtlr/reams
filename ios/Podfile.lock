@@ -90,6 +90,8 @@ PODS:
   - ExpoGL (13.6.0):
     - ExpoModulesCore
     - ReactCommon/turbomodule/core
+  - ExpoHead (3.5.15):
+    - ExpoModulesCore
   - ExpoKeepAwake (12.8.2):
     - ExpoModulesCore
   - ExpoLinearGradient (12.7.2):
@@ -106,6 +108,11 @@ PODS:
     - sqlite3 (~> 3.42.0)
     - sqlite3/fts (~> 3.42.0)
     - sqlite3/fts5 (~> 3.42.0)
+  - EXSplashScreen (0.27.4):
+    - ExpoModulesCore
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
   - EXUpdatesInterface (0.15.3)
   - FBLazyVector (0.73.6)
   - FBReactNativeSpec (0.73.6):
@@ -1286,10 +1293,12 @@ DEPENDENCIES:
   - ExpoDevice (from `../node_modules/expo-device/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoGL (from `../node_modules/expo-gl`)
+  - ExpoHead (from `../node_modules/expo-router/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSQLite (from `../node_modules/expo-sqlite/ios`)
+  - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -1419,6 +1428,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-file-system/ios"
   ExpoGL:
     :path: "../node_modules/expo-gl"
+  ExpoHead:
+    :path: "../node_modules/expo-router/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoLinearGradient:
@@ -1427,6 +1438,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core"
   ExpoSQLite:
     :path: "../node_modules/expo-sqlite/ios"
+  EXSplashScreen:
+    :path: "../node_modules/expo-splash-screen/ios"
   EXUpdatesInterface:
     :path: "../node_modules/expo-updates-interface/ios"
   FBLazyVector:
@@ -1602,10 +1615,12 @@ SPEC CHECKSUMS:
   ExpoDevice: 97307196d8cab694e245752b8a7afacc35c14e03
   ExpoFileSystem: 74cc0fae916f9f044248433971dcfc8c3befd057
   ExpoGL: 085542f97b13f2428ac2edb077c9a90f4566944d
+  ExpoHead: 8eb4deb289c2fdd8bb624f996cd31414cd07f38a
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
   ExpoLinearGradient: 4ad1449a2408e0435ac959076562b3921f2e32a1
   ExpoModulesCore: 4a8928a228569301ac4fc4a1e846713e05754d05
   ExpoSQLite: 2c0f6267f9d7f41be9f40d59efc4ced3bfbec93b
+  EXSplashScreen: 4fefcdc8bebb82f3e8265420d73227397057e4b6
   EXUpdatesInterface: 3e444e2093e25b7ca0999a7d8c16e8392dee70c3
   FBLazyVector: f64d1e2ea739b4d8f7e4740cde18089cd97fe864
   FBReactNativeSpec: 9f2b8b243131565335437dba74923a8d3015e780

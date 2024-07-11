@@ -24,11 +24,14 @@ export default function ItemsScreen ({}) {
   useEffect(() => {
     const inflateAndSet = async (currentItem: Item) => {
       try {
-        const inflatedItems: Item[] | undefined = Platform.OS === 'web' ?
+        const inflatedItems: ItemInflated[] | undefined = Platform.OS === 'web' ?
           await getItemsIDB([currentItem]) :
           await getItemsSQLite([currentItem])
         if (inflatedItems !== undefined && inflatedItems.length) {
-          setCurrentItemInflated(inflatedItems[0])
+          setCurrentItemInflated({
+            ...currentItem,
+            ...inflatedItems[0]
+          })
         }
       } catch (e) {
         log('error inflating item', e)

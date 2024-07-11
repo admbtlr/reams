@@ -1,19 +1,12 @@
 import { AuthChangeEvent, Session } from "@supabase/supabase-js"
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { Linking, Platform } from "react-native"
+import { Linking } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import { SET_USER_DETAILS, UNSET_BACKEND } from "../store/user/types"
 import { supabase } from "../storage/supabase"
-import { fetchAnnotations } from "../store/annotations/annotations"
-import { START_DOWNLOADS, startDownloads } from "../store/config/types"
-import { fetchCategories } from "../store/categories/categoriesSlice"
-import fetchNewsletterItems from "../backends/fastmail"
-import { ITEMS_BATCH_FETCHED, Item, ItemType } from "../store/items/types"
+import { startDownloads } from "../store/config/types"
+import { Item } from "../store/items/types"
 import { RootState } from "../store/reducers"
-import { createNewsletter, fetchNewsletters, updateQueryState } from "../store/newsletters/newsletters"
-import { id, sleep } from "../utils"
-import { cleanUpItems } from "../sagas/fetch-items"
-import { createItemStyles } from "../utils/createItemStyles"
 import { persistor } from "../store"
 
 interface SessionContext {
@@ -33,17 +26,17 @@ export const useSession = () => {
 
 export const AuthProvider = (props: any) => {
   const [session, setSession] = useState<SessionContext>({})
-  const [newsletterItems, setNewsletterItems] = useState<Item[]>([])
   const dispatch = useDispatch()
-  const newsletters = useSelector((state: RootState) => state.newsletters.newsletters)
-  const lastQueryState = useSelector((state: RootState) => state.newsletters.queryState)
-  const feeds = useSelector((state: RootState) => state.feeds.feeds)
-  const sortDirection = useSelector((state: RootState) => state.config.itemSort)
+  let lastSessionChange = 0
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!!session) {
+          if (Date.now() - lastSessionChange < 10000) {
+            return
+          }
+          lastSessionChange = Date.now()
           setSession({session})
           dispatch({ type: SET_USER_DETAILS, details: session.user })
           dispatch(startDownloads())
@@ -59,30 +52,6 @@ export const AuthProvider = (props: any) => {
       authListener!.subscription.unsubscribe()
     }
   }, [])
-
-  // useEffect(() => {
-  //   if (newsletterItems.length === 0) return
-  //   // this might be dodgy
-  //   if (feeds.length === 0 && newsletters.length === 0) return
-
-  //   const saveNewsletterItems = async (items: Item[]) => {
-  //     if (Platform.OS === 'web') {
-  //       await setItemsIDB(items)
-  //     } else {
-  //       await setItemsSQLite(items)
-  //     }        
-  //     dispatch({
-  //       type: ITEMS_BATCH_FETCHED,
-  //       itemType: ItemType.unread,
-  //       items,
-  //       feeds: feeds.concat(newsletters),
-  //       sortDirection
-  //     })
-  //     setNewsletterItems([])
-  //   }
-  
-  //   saveNewsletterItems(newsletterItems)
-  // }, [newsletterItems, feeds])
 
   useEffect(() => {
     const supabaseLogin = async (url: string) => {

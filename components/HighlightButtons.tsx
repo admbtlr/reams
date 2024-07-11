@@ -9,7 +9,7 @@ import { SHOW_ITEM_BUTTONS } from '../store/ui/types'
 import { dustbinIcon, noteIcon, okIcon, xIcon } from '../utils/icons'
 import { Annotation } from '../store/annotations/types'
 import { useSelector } from 'react-redux'
-import { selectAnnotations } from '../store/annotations/annotations'
+import { deleteAnnotation, selectAnnotations, updateAnnotation } from '../store/annotations/annotations'
 import { useModal } from './ModalProvider'
 // import { translateDistance } from './ButtonSet'
 
@@ -61,16 +61,16 @@ export default function HighlightButtons() {
       }
     ],
     modalOnOk: ({note}: {note: string}) => {
-      dispatch({
-        type: 'annotations/updateAnnotation',
-        payload: {
-          ...annotation,
-          note
-        }
-      })
+      if (annotation !== undefined) {
+        dispatch({
+          type: updateAnnotation({
+            ...annotation,
+            note
+          }),  
+        })
       setActiveHighlight(null)
       dispatch({ type: SHOW_ITEM_BUTTONS })
-    },
+    }},
     modalOnCancel: () => {
       setActiveHighlight(null)
       dispatch({ type: SHOW_ITEM_BUTTONS })
@@ -115,12 +115,13 @@ export default function HighlightButtons() {
           hasShadow={true}
           icon={dustbinIcon()}
           onPress={() => {
-            dispatch({ 
-              type: 'annotations/deleteAnnotation',
-              payload: annotation
-            })
-            setActiveHighlight(null)
-            dispatch({ type: SHOW_ITEM_BUTTONS })
+            if (annotation !== undefined) {
+              dispatch({ 
+                type: deleteAnnotation(annotation)
+              })
+              setActiveHighlight(null)
+              dispatch({ type: SHOW_ITEM_BUTTONS })
+            }
           }}
           text='Delete' />
         <TextButton 

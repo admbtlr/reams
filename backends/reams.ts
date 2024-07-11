@@ -1,18 +1,4 @@
-import Config from 'react-native-config'
 import {id} from '../utils'
-import {
-  addReadItemFS,
-  addReadItemsFS,
-  upsertSavedItemFS,
-  getReadItemsFS,
-  getSavedItemsFS,
-  removeSavedItemFS,
-  addFeedFS,
-  getFeedsFS,
-  upsertFeedsFS,
-  removeFeedFS,
-  setDb,
-  setUid } from '../storage/firestore'
 import { 
   addFeed as addFeedSupabase,
   addFeeds as addFeedsSupabase,
@@ -40,6 +26,9 @@ import log from '../utils/log'
 import { Newsletter } from '../store/newsletters/types'
 
 let isPlus = false
+
+const CORS_PROXY = 'https://api.alreadyapp.com/api/cors-proxy' //process.env.CORS_PROXY
+const API_URL = process.env.API_URL
 
 export function init () {
 }
@@ -79,6 +68,7 @@ export async function fetchItems (
   oldItems: Item[], 
   feeds: FeedWithIsNew[], 
   maxNum: number) {
+  lastUpdated = lastUpdated || oldItems.map(item => item.created_at).sort()[0]
   if (type === 'saved') {
     // TODO need to account for saved items in the remote action queue that haven't been processed yet
     let saved = await getSavedItemsSupabase(oldItems)
@@ -101,13 +91,16 @@ export async function fetchItems (
       // let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
       // unreadItemArrays = extractErroredFeeds(unreadItemArrays)
       // let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
+      console.log('fetching new items')
       let newItems: Item[] = await fetchUnreadItemsBatched(feeds, lastUpdated)
+      console.log('got items' + newItems.length)
       newItems = newItems.map((item: Item) => ({
         ...item,
         _id: id(item.url)
       }))
       newItems = newItems.filter((newItem) => !!!oldItems.find(oldItem => oldItem._id === newItem._id))
       newItems = newItems.filter(newItem => !readItems.find(readItem => newItem._id === readItem._id))
+      console.log('new items after clearing read items', newItems)
       callback(newItems)
     } catch (error) {
       log(error)
@@ -126,7 +119,7 @@ export async function fetchItems (
 
 // const fetchUnreadItems = (feeds: { url : string, isNew?: boolean }[], lastUpdated: number) => {
 //   const promises = feeds.filter(feed => !!feed).map(feed => {
-//     const url = `${Config.API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
+//     const url = `${API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
 //     // const url = `http://localhost:8080/feed/?url=${feed.url}`
 //     return fetch(url).then(response => {
 //       return { response, feed }
@@ -159,6 +152,11 @@ interface FeedWithIsNew extends Feed {
 }
 
 const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) => {
+  interface bodyFeed {
+    url: string
+    _id: string
+    lastUpdated: number
+  }
   let bodyFeeds = feeds.map(feed => ({
     url: feed.url,
     _id: feed._id,
@@ -166,6 +164,7 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
   }))
   // chunk into 10 at a time and do a Promise.all
   // to avoid body size restriction on server
+  console.log(`getting items for ${bodyFeeds.length} feeds`)
   let chunked = bodyFeeds.reduce((acc: any[], val, index) => {
     const key = Math.floor(index / 10)
     if (!acc[key]) {
@@ -174,19 +173,37 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
     acc[key].push(val)
     return acc
   }, [])
-  const promises = Object.values(chunked).map(feeds => fetch(Config.API_URL + '/feeds', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ feeds })
+  console.log(`chunked into ${chunked.length}`)
+  const promises = Object.values(chunked).map(async(feeds: bodyFeed[]) => {
+    try {
+      console.log('fetching a chunk')
+      const apiUrl = API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
+      const proxy = CORS_PROXY //`${apiUrl}/cors-proxy/`
+      const feedsUrl = `${apiUrl}/feeds`
+      const url = `${proxy}?url=${encodeURIComponent(feedsUrl)}`
+      console.log(url)
+      console.log(JSON.stringify({ feeds }))
+      const body = '{"feeds":[{"url":"https://www.noemamag.com/feed/","_id":"db81639e-6e40-5968-a8d7-4cd4ac39b465","lastUpdated":0},{"url":"https://www.daringfireball.net/feeds/main","_id":"b52be924-9fda-5a65-8c86-d2bce5560f5c","lastUpdated":0},{"url":"https://www.lrb.co.uk/feeds/rss","_id":"57eaa70c-ce4b-588b-a484-77bae50d5d7e","lastUpdated":0},{"url":"https://crookedtimber.org/feed/","_id":"3ce7b581-945f-5199-b69f-eb643e42322a","lastUpdated":0},{"url":"https://pluralistic.net/feed/","_id":"4b27f7aa-7d4a-5b87-b5c8-3845d40ec9aa","lastUpdated":0},{"url":"https://interconnected.org/home/feed","_id":"23ccb407-ec54-54fd-9a8f-8c65e17cf0e8","lastUpdated":0}]}'
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ feeds })
+      })
+      console.log('got a chunk')
+      const json = await res.json()
+      return json
+    } catch(err) { 
+      log(err) 
+    }
   })
-    .then(res => res.json()))
   return Promise.all(promises)
     .then(chunkedItems => {
-      return chunkedItems.reduce((items, chunk) => items.concat(chunk), [])
+      console.log('got all chunks')
+      const items = chunkedItems.reduce((items, chunk) => items.concat(chunk), [])
         .filter((item: Item) => item.feed_id !== undefined) // just ignore errors
+      return items
         .map(mapRizzleServerItemToRizzleItem)
         .map((item: Item) => {
           const feed = feeds.find(feed => feed._id === item.feed_id)
@@ -302,7 +319,7 @@ interface FeedMeta {
 
 export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta | undefined> {
   // log('getFeedMeta')
-  const apiUrl = `${Config.API_URL}/feed-meta?url=${feed.url}`
+  const apiUrl = `${API_URL}/feed-meta?url=${feed.url}`
   try {
     const response = await fetch(apiUrl)
     if (!response.ok) {
@@ -333,7 +350,7 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
     // throw new Error(`Error finding feeds for ${url}: ${e.message}`)
   }
   try {
-    const apiUrl = `${Config.API_URL}/find-feeds?url=${url}&extended=1`
+    const apiUrl = `${API_URL}/find-feeds?url=${url}&extended=1`
     const response = await fetch(apiUrl)
     if (!response.ok) {
       throw {

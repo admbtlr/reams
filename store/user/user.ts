@@ -1,4 +1,3 @@
-import Config from 'react-native-config'
 import { id } from '../../utils'
 import { 
   ConfigActionTypes
@@ -48,7 +47,7 @@ const initialState = {
 }
 
 export function user (
-  state: UserState = (!!Config.USER_STATE ? JSON.parse(Config.USER_STATE) : initialState), 
+  state: UserState = (!!process.env.USER_STATE ? JSON.parse(process.env.USER_STATE) : initialState), 
   action: ConfigActionTypes | UserActionTypes
 ) : UserState {
   let backends: Backend[]

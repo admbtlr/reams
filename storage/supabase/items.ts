@@ -21,7 +21,7 @@ export const getSavedItems = async (currentItems: {
   if (error) {
     throw error
   }
-  const allSavedIds = data.allSavedIds as { item_id: string, saved_at: string}[]
+  const allSavedIds = data as { item_id: string, saved_at: string}[]
   const newIds = (allSavedIds?.map(d => d.item_id) || []).filter(id => !currentItems.find(i => i._id === id))
   if (newIds.length === 0) {
     return currentItems

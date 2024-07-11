@@ -1,23 +1,27 @@
-import Config from "react-native-config"
 import { Item, ItemInflated } from '../store/items/types'
 import log from '../utils/log'
-import { InteractionManager } from 'react-native'
 
 // bail if we don't have our ENV set:
-// if (!Config.JMAP_TOKEN) {
+// if (!process.env.JMAP_TOKEN) {
 //   console.log("Please set your JMAP_USERNAME and JMAP_TOKEN")
 //   console.log("JMAP_TOKEN=token node hello-world.js")
 
 //   process.exit(1)
 // }
 
-const authUrl = Config.CORS_PROXY + '?url=https://api.fastmail.com/.well-known/jmap' //`https://${hostname}/.well-known/jmap`
+const CORS_PROXY = 'https://api.alreadyapp.com/api/cors-proxy' //process.env.CORS_PROXY
+const JMAP_TOKEN = process.env.JMAP_TOKEN
+const API_URL = process.env.API_URL
+
+const authUrl = CORS_PROXY + '?url=' + 
+  encodeURIComponent('https://api.fastmail.com/.well-known/jmap')
 const headers = {
-  // "Content-Type": "application/json; charset=utf-8",
-  'Authorization': `Bearer ${Config.JMAP_TOKEN}`,
+  "Content-Type": "application/json; charset=utf-8",
+  'x-authorization': 'Bearer ' + JMAP_TOKEN,
+  'Authorization': 'Bearer ' + JMAP_TOKEN
 }
 
-const reamsMailboxId = Config.REAMS_MAILBOX_ID
+const reamsMailboxId = process.env.REAMS_MAILBOX_ID
 let session: any = undefined
 
 const getSession = async () => {
@@ -27,9 +31,7 @@ const getSession = async () => {
   try {
     const response = await fetch(authUrl, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${Config.JMAP_TOKEN}`,
-      }
+      headers
     })
     session = await response.json()
     return session
@@ -95,7 +97,7 @@ const mailboxQuery = async (apiUrl: string, queryState?: string) => {
     },
     "a"
   ]`
-    const body = `{
+  const body = `{
     "using": ["urn:ietf:params:jmap:core", "urn:ietf:params:jmap:mail"],
     "methodCalls": [
       ${queryState ? emailQueryChanges : emailQuery},
@@ -115,10 +117,13 @@ const mailboxQuery = async (apiUrl: string, queryState?: string) => {
     ]
   }`
   try {
-    const response = await fetch(apiUrl, {
+    const response = await fetch(`${CORS_PROXY}?url=${encodeURIComponent('https://api.fastmail.com/jmap/api/')}&t=${Date.now()}`, {
       method: "POST",
-      headers,
-      body 
+      headers: {
+        ...headers,
+        "Content-Type": "application/json"
+      },
+      body
     })
     const data = await response.json()
     return data
@@ -128,9 +133,9 @@ const mailboxQuery = async (apiUrl: string, queryState?: string) => {
 }
 
 export const getBlob = async (item: Item, apiUrl: string, accountId: string) => {
-  const url = `https://www.fastmailusercontent.com/jmap/download/${accountId}/${item.blobId}/${item.title}`
+  const url = encodeURIComponent(`https://www.fastmailusercontent.com/jmap/download/${accountId}/${item.blobId}/${item.title}`)
   try {
-    const response = await fetch(Config.CORS_PROXY + '?url=' + url, { headers })
+    const response = await fetch(CORS_PROXY + '?url=' + url, { headers })
     const body = await response.text()
     return body
   } catch (e) {
@@ -146,15 +151,18 @@ export default async function fetchNewsletterItems(lastQueryState?: string): Pro
   let response
   const session = await getSession()
   // console.log(JSON.stringify(session))
-  const apiUrl = Config.CORS_PROXY + '?url=' + session.apiUrl
+  const apiUrl = CORS_PROXY + '?url=' + session.apiUrl
   const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
   response = await mailboxQuery(apiUrl, lastQueryState)
   // console.log(JSON.stringify(response["methodResponses"][1].slice(1, -1)))
+  console.log('GOT RESPONSE')
   if (response["methodResponses"][0][0] === 'error') {
     const type = response["methodResponses"][0][1]?.type || 'Unknown error'
+    console.log('RESPONSE WAS ERROR')
     throw new Error(type)
   }
   let emails = response["methodResponses"][1][1].list
+  console.log('GOT EMAILS ' + emails.length)
   const queryState = response["methodResponses"][0][1].queryState || response["methodResponses"][0][1].newQueryState
   return {
     items: emails.map(mapFastmailItemToRizzleItem),
@@ -171,7 +179,8 @@ export const downloadContent = async (item: ItemInflated) => {
   const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
   const blobId = item.blobId
   const title = 'whatever'
-  const endpoint = `${Config.API_URL}/fastmail-content/?accountId=${accountId}&blobId=${blobId}&title=${title}`
+  const contentUrl = encodeURIComponent(`${API_URL}/fastmail-content/?accountId=${accountId}&blobId=${blobId}&title=${title}`)
+  const endpoint = `${CORS_PROXY}?url=${contentUrl}`
   const response = await fetch(endpoint)
   const { body, url } = await response.json()
   return {
@@ -188,7 +197,7 @@ export const downloadContent = async (item: ItemInflated) => {
   //   },
   //   allowVulnerableTags: true
   // }
-  // const apiUrl = Config.CORS_PROXY + '?url=' + session.apiUrl
+  // const apiUrl = CORS_PROXY + '?url=' + session.apiUrl
   // const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
   // try {
   //   console.log("Getting blob for ", item.title)

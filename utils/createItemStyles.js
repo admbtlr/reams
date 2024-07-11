@@ -343,10 +343,6 @@ const getFontClasses = function () {
   return {heading, body}
 }
 
-const isMultiply = function () {
-  return Math.random() > 0.5
-}
-
 const hasBorder = function () {
   return Math.random() > 0.7
 }

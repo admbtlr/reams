@@ -1,16 +1,86 @@
 import log from '../utils/log'
-import { openDB } from 'idb'
+import { DBSchema, openDB } from 'idb'
 
 import { Item, ItemInflated } from '../store/items/types'
 // export async function getItemAS (key) {
 
 // }
 
+interface Row {
+  id: string | number | undefined;
+  _id: string;
+  content_html: string | undefined;
+  author: string | undefined;
+  date_published: string | undefined;
+  content_mercury: string | undefined;
+  decoration_failures: number | undefined;
+  excerpt: string | undefined;
+  readAt: number | undefined;
+  scrollRatio: string | undefined;
+  styles: string;
+}
+
+interface ItemsDB extends DBSchema {
+  items: {
+    value: Row;
+    key: string;
+  }
+}
+
+function rowToItem (row: Row) {
+  return {
+    id: row.id,
+    _id: row._id,
+    content_html: row.content_html,
+    author: row.author,
+    date_published: row.date_published,
+    content_mercury: row.content_mercury,
+    decoration_failures: row.decoration_failures,
+    excerpt: row.excerpt,
+    readAt: row.readAt,
+    scrollRatio: row.scrollRatio && JSON.parse(row.scrollRatio),
+    styles: JSON.parse(row.styles)
+  }
+}
+
+function itemToRow (item: ItemInflated) {
+  const row = {
+    id: item.id,
+    _id: item._id,
+    content_html: item.content_html,
+    author: item.author,
+    date_published: item.date_published,
+    content_mercury: item.content_mercury,
+    decoration_failures: item.decoration_failures,
+    excerpt: item.excerpt,
+    readAt: item.readAt,
+    scrollRatio: JSON.stringify(item.scrollRatio),
+    styles: JSON.stringify(item.styles)
+  }
+  Object.keys(row).forEach((key: string) => {
+    if (row[key] === undefined) {
+      delete row[key]
+    }
+  })
+  return row
+}
+
 async function openStore () {
   try {
-    const store = await openDB('items', 1, {
+    const store = await openDB<ItemsDB>('items', 1, {
       upgrade(db) {
-        db.createObjectStore('items')
+        db.createObjectStore('items', {
+          keyPath: '_id'
+        })
+      },
+      blocked () {
+        console.log('blocked')
+      },
+      blocking () {
+        console.log('blocking')
+      },
+      terminated () {
+        console.log('terminated')
       }
     })  
     return store
@@ -26,9 +96,9 @@ export async function getItems (keys: (string | {_id: string})[]): Promise<ItemI
   }
   try {
     const db = await openStore()
-    const keyVals = await Promise.all(keys.map(key => db.get('items', key)))
-    const mapped = keyVals.map(keyVal => JSON.parse(keyVal))
-    return mapped
+    const rows = await Promise.all(keys.map(key => db.get('items', key as string)))
+    const items = rows.map((row) => row !== undefined ? rowToItem(row) : undefined)
+    return items.filter(item => item !== undefined) as ItemInflated[]
   } catch (err) {
     log('getItemsIDB', err)
   }
@@ -48,16 +118,16 @@ export async function setItem (item: Item) {
 
 }
 
-export async function updateItem (item: Item) {
+export async function updateItem (item: ItemInflated) {
   try {
     const db = await openStore()
-    await db.put('items', JSON.stringify(item), item._id)
+    await db.put('items', itemToRow(item))
   } catch (err) {
     log('updateItem' + err)
   }
 }
 
-export async function updateItems (items: Item[]) {
+export async function updateItems (items: ItemInflated[]) {
   for (var item of items) {
     try {
       await updateItem(item)
@@ -69,11 +139,12 @@ export async function updateItems (items: Item[]) {
   return true
 }
 
-export async function setItems (items: Item[]) {
+export async function setItems (items: ItemInflated[]) {
   try {
     const db = await openStore()
     for (var item of items) {
-      await db.add('items', JSON.stringify(item), item._id)
+      console.log('Inserting item ' + item.title + ' using key ' + item._id)
+      await db.put('items', itemToRow(item))
     }
   } catch (err) {
     log('setItems' + err)

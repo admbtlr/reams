@@ -482,7 +482,7 @@ const Onboarding3 = ({ index }) => {
             text='Send me a link'
           />)
         }
-        {!!inlineMessage && !session.error ? null : (
+        {!!inlineMessage && !session.error && !__DEV__ ? null : (
           <>
             {orSeparator}
             <AppleButton
@@ -708,8 +708,7 @@ const Onboarding5 = ({ index, navigation }) => {
           <Image 
             source={require('../assets/images/ream.png')} 
             style={{
-              alignSelf: 'center',
-              justifySelf: 'center',
+              alignSelf: 'center'
             }}
           />
         </Animated.View>

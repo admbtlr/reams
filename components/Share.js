@@ -9,7 +9,6 @@ import {
 import * as Sentry from '@sentry/react-native'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import {decode} from 'html-entities'
-import Config from 'react-native-config'
 import {ShareMenuReactView} from 'react-native-share-menu'
 import CheckBox from '@react-native-community/checkbox'
 
@@ -23,6 +22,8 @@ const { ui, darkMode } = require('../utils/colors.json')
 const hslString = (label) => {
   return ui[label]
 }
+
+const SENTRY_DSN = process.env.SENTRY_DSN
 
 const Share  = () => {
 
@@ -40,7 +41,7 @@ const Share  = () => {
 
   useEffect(() => {
     Sentry.init({
-      dsn: Config.SENTRY_DSN
+      dsn: SENTRY_DSN
     })  
   }, [])
 

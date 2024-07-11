@@ -10,12 +10,14 @@
     "jsEngine": "hermes"
   },
   "web": {
-    "build": {
-      "babel": {
-        "include": [
-          "@invertase/react-native-apple-authentication"
-        ]
-      }
-    }
+    "output": "single",
+    "bundler": "metro"
+    // "build": {
+    //   "babel": {
+    //     "include": [
+    //       "@invertase/react-native-apple-authentication"
+    //     ]
+    //   }
+    // }
   }
 }

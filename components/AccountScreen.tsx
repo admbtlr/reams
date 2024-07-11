@@ -9,17 +9,16 @@ import {
   View
 } from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
-import Config from "react-native-config"
 import TextButton from './TextButton'
 import AccountCredentialsForm from './AccountCredentialsForm'
-import { hslString } from '../utils/colors'
-import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { getStatusBarHeight } from '../utils/dimensions'
-import { getMargin } from '../utils/dimensions'
-import { getInset } from '../utils/dimensions'
-import { fontSizeMultiplier } from '../utils/dimensions'
-import { textInfoStyle } from '../utils/styles'
-import { ItemType } from '../store/items/types'
+import { hslString } from '@/utils/colors'
+import { getRizzleButtonIcon } from '@/utils/rizzle-button-icons'
+import { getStatusBarHeight } from '@/utils/dimensions'
+import { getMargin } from '@/utils/dimensions'
+import { getInset } from '@/utils/dimensions'
+import { fontSizeMultiplier } from '@/utils/dimensions'
+import { textInfoStyle } from '@/utils/styles'
+import { ItemType } from '@/store/items/types'
 
 class AccountScreen extends React.Component {
 
@@ -235,8 +234,6 @@ class AccountScreen extends React.Component {
         testID: `${service}-button`
       }
     }
-
-    // console.log(Config)  
   
     return (
       <View style={

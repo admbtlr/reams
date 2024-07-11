@@ -73,10 +73,10 @@ export function getNewsletters (state: RootState) {
 }
 
 export function getLastUpdated (state: RootState, type: ItemType) {
-  if (type === 'unread') {
-    return state.itemsUnread.lastUpdated || 0
-  } else {
+  if (type === 'saved') {
     return state.itemsSaved.lastUpdated || 0
+  } else {
+    return state.itemsUnread.lastUpdated || 0
   }
 }
 

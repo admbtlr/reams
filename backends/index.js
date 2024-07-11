@@ -1,6 +1,5 @@
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import log from '../utils/log'
-import Config from 'react-native-config'
 
 const feedbin = require('./feedbin')
 const feedwrangler = require('./feedwrangler')
@@ -9,6 +8,8 @@ const reams = require('./reams')
 // const group = 'group.com.adam-butler.rizzle'
 
 const MAX_ITEMS_TO_DOWNLOAD = 1000
+
+const API_URL = process.env.API_URL
 
 let backend
 let backends = {
@@ -53,7 +54,7 @@ export async function loadMercuryStuff (item) {
 }
 
 export function getMercuryUrl (item) {
-  let url = Config.API_URL + '/mercury?url=' +
+  let url = API_URL + '/mercury?url=' +
     encodeURIComponent(item.url)
   if (item.isNewsletter) {
     url += '&skipContent=true'
@@ -232,7 +233,7 @@ export async function deleteNewsletter (newsletter) {
   return await reams.deleteNewsletter(newsletter)
 }
 
-export function authenticate ({username, password, email}, backend) {
+export async function authenticate ({username, password, email}, backend) {
   switch (backend) {
     case 'basic':
     case 'reams':

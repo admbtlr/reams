@@ -10,8 +10,8 @@ export * from './categories'
 export * from './annotations'
 export * from './newsletters'
 
-const supabaseUrl = Config.SUPABASE_URL
-const supabaseAnonKey = Config.SUPABASE_ANON_KEY
+const supabaseUrl = process.env.SUPABASE_URL
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY
 
 export const supabase = createClient<Database>(supabaseUrl || '', supabaseAnonKey || '', {
   auth: {

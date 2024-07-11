@@ -86,7 +86,7 @@ export default function ItemView ({item}: {item: Item | undefined}) {
   const body = item?.showMercuryContent ? item?.content_mercury : item?.content_html
   const coverImageUrl = item?.banner_image?.replace('(', '%28').replace(')', '%29')
     
-  const html = item && `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''}">
+  const html = item && `<html class="font-size-${fontSize} web ${isDarkMode ? 'dark-background' : ''}">
   <head>
     <style>
   :root {

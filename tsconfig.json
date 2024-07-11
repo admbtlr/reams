@@ -11,6 +11,9 @@
     ],
     "moduleResolution": "node",
     "noEmit": true,
+    "paths": {
+      "@/*": ["*"]
+    },
     "strict": true,
     "skipLibCheck": true,
     "target": "esnext"

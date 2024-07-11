@@ -2,21 +2,20 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import React from 'react'
 import { Dimensions, LayoutAnimation, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { sendEmailLink } from '../backends/reams'
-import PasswordStorage from '../utils/password-storage'
-import { authenticate } from '../backends'
-import { hslString } from '../utils/colors'
-import { getMargin } from '../utils/dimensions'
-import { fontSizeMultiplier } from '../utils/dimensions'
+import PasswordStorage from '@/utils/password-storage'
+import { authenticate } from '@/backends'
+import { hslString } from '@/utils/colors'
+import { getMargin } from '@/utils/dimensions'
+import { fontSizeMultiplier } from '@/utils/dimensions'
 import {
   textInputStyle,
   textLabelStyle,
   textInfoStyle,
   textInfoBoldStyle,
   textInfoItalicStyle
-} from '../utils/styles'
+} from '@/utils/styles'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
-import { supabase } from '../storage/supabase'
+import { supabase } from '@/storage/supabase'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -63,10 +62,10 @@ class AccountCredentialsForm extends React.Component {
   async authenticateUser ({username, password, email, token}, {setSubmitting, setErrors}) {
     const { service, setBackend, unsetBackend } = this.props
     if (service === 'reams') {
-      email = email.trim()
-      this.props.setSignInEmail(email)
-      await sendEmailLink(email)
-      console.log(`email: ${email}`)
+      // email = email.trim()
+      // this.props.setSignInEmail(email)
+      // await sendEmailLink(email)
+      // console.log(`email: ${email}`)
     } else if (service === 'readwise') {
       setBackend('readwise', {
         accessToken: token
