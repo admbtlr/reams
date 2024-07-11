@@ -1,0 +1,2008 @@
+$colors: (
+  red1: hsl(330, 52%, 51%),
+  red2: hsl(360, 52%, 51%),
+  red3: hsl(15, 52%, 51%),
+  orange1: hsl(30, 52%, 51%),
+  orange2: hsl(45, 52%, 51%),
+  yellow1: hsl(60, 52%, 51%),
+  yellow2: hsl(75, 52%, 51%),
+  green1: hsl(90, 52%, 51%),
+  green2: hsl(120, 52%, 51%),
+  green3: hsl(150, 52%, 51%),
+  cyan: hsl(180, 52%, 51%),
+  blue1: hsl(210, 52%, 51%),
+  blue2: hsl(240, 52%, 51%),
+  purple1: hsl(270, 52%, 51%),
+  purple2: hsl(300, 52%, 51%),
+);
+$darker: (
+  red1: hsl(330, 52%, 31%),
+  red2: hsl(360, 52%, 31%),
+  red3: hsl(15, 52%, 31%),
+  orange1: hsl(30, 52%, 31%),
+  orange2: hsl(45, 52%, 31%),
+  yellow1: hsl(60, 52%, 31%),
+  yellow2: hsl(75, 52%, 31%),
+  green1: hsl(90, 52%, 31%),
+  green2: hsl(120, 52%, 31%),
+  green3: hsl(150, 52%, 31%),
+  cyan: hsl(180, 52%, 31%),
+  blue1: hsl(210, 52%, 31%),
+  blue2: hsl(240, 52%, 31%),
+  purple1: hsl(270, 52%, 31%),
+  purple2: hsl(300, 52%, 31%),
+);
+$lighter: (
+  red1: hsl(330, 52%, 71%),
+  red2: hsl(360, 52%, 71%),
+  red3: hsl(15, 52%, 71%),
+  orange1: hsl(30, 52%, 71%),
+  orange2: hsl(45, 52%, 71%),
+  yellow1: hsl(60, 52%, 71%),
+  yellow2: hsl(75, 52%, 71%),
+  green1: hsl(90, 52%, 71%),
+  green2: hsl(120, 52%, 71%),
+  green3: hsl(150, 52%, 71%),
+  cyan: hsl(180, 52%, 71%),
+  blue1: hsl(210, 52%, 71%),
+  blue2: hsl(240, 52%, 71%),
+  purple1: hsl(270, 52%, 71%),
+  purple2: hsl(300, 52%, 71%),
+);
+$desaturated: (
+  red1: hsl(330, 32%, 51%),
+  red2: hsl(360, 32%, 51%),
+  red3: hsl(15, 32%, 51%),
+  orange1: hsl(30, 32%, 51%),
+  orange2: hsl(45, 32%, 51%),
+  yellow1: hsl(60, 32%, 51%),
+  yellow2: hsl(75, 32%, 51%),
+  green1: hsl(90, 32%, 51%),
+  green2: hsl(120, 32%, 51%),
+  green3: hsl(150, 32%, 51%),
+  cyan: hsl(180, 32%, 51%),
+  blue1: hsl(210, 32%, 51%),
+  blue2: hsl(240, 32%, 51%),
+  purple1: hsl(270, 32%, 51%),
+  purple2: hsl(300, 32%, 51%),
+);
+$desaturatedDarker: (
+  red1: hsl(330, 32%, 31%),
+  red2: hsl(360, 32%, 31%),
+  red3: hsl(15, 32%, 31%),
+  orange1: hsl(30, 32%, 31%),
+  orange2: hsl(45, 32%, 31%),
+  yellow1: hsl(60, 32%, 31%),
+  yellow2: hsl(75, 32%, 31%),
+  green1: hsl(90, 32%, 31%),
+  green2: hsl(120, 32%, 31%),
+  green3: hsl(150, 32%, 31%),
+  cyan: hsl(180, 32%, 31%),
+  blue1: hsl(210, 32%, 31%),
+  blue2: hsl(240, 32%, 31%),
+  purple1: hsl(270, 32%, 31%),
+  purple2: hsl(300, 32%, 31%),
+);
+$colorsOld: (
+  red1: hsl(355, 84%, 45%),
+  red2: hsl(341, 56%, 49%),
+  orange1: hsl(23, 100%, 60%),
+  orange2: hsl(33, 93%, 54%),
+  yellow1: hsl(49, 100%, 50%),
+  yellow2: hsl(65, 80%, 40%),
+  green1: hsl(167, 80%, 55%),
+  blue1: hsl(226, 68%, 57%),
+  blue2: hsl(198, 90%, 44%),
+  purple1: hsl(298, 32%, 56%),
+  purple2: hsl(320, 82%, 66%),
+  brown1: hsl(355, 56%, 63%),
+);
+$darkerOld: (
+  red1: hsl(355, 84%, 25%),
+  red2: hsl(341, 56%, 29%),
+  orange1: hsl(23, 100%, 30%),
+  orange2: hsl(33, 93%, 34%),
+  yellow1: hsl(49, 100%, 20%),
+  yellow2: hsl(65, 80%, 15%),
+  green1: hsl(167, 80%, 25%),
+  blue1: hsl(226, 68%, 27%),
+  blue2: hsl(198, 90%, 24%),
+  purple1: hsl(298, 32%, 26%),
+  purple2: hsl(320, 82%, 26%),
+  brown1: hsl(355, 56%, 21%),
+);
+$lighterOld: (
+  red1: hsl(355, 84%, 65%),
+  red2: hsl(341, 56%, 69%),
+  orange1: hsl(23, 100%, 70%),
+  orange2: hsl(33, 93%, 74%),
+  yellow1: hsl(49, 100%, 60%),
+  yellow2: hsl(65, 80%, 55%),
+  green1: hsl(167, 80%, 65%),
+  blue1: hsl(226, 68%, 67%),
+  blue2: hsl(198, 90%, 64%),
+  purple1: hsl(246, 52%, 56%),
+  purple2: hsl(320, 82%, 66%),
+  brown1: hsl(355, 56%, 61%),
+);
+$desaturatedOld: (
+  red1: hsl(355, 64%, 45%),
+  red2: hsl(341, 36%, 49%),
+  orange1: hsl(23, 80%, 60%),
+  orange2: hsl(33, 73%, 54%),
+  yellow1: hsl(49, 80%, 50%),
+  yellow2: hsl(65, 60%, 40%),
+  green1: hsl(167, 60%, 55%),
+  blue1: hsl(226, 48%, 57%),
+  blue2: hsl(198, 70%, 44%),
+  purple1: hsl(246, 36%, 56%),
+  purple2: hsl(320, 62%, 66%),
+  brown1: hsl(355, 36%, 63%),
+);
+$desaturatedDarkerOld: (
+  red1: hsl(5, 27%, 28%),
+  red2: hsl(341, 16%, 29%),
+  orange1: hsl(23, 40%, 30%),
+  orange2: hsl(33, 33%, 34%),
+  yellow1: hsl(49, 30%, 20%),
+  yellow2: hsl(65, 30%, 30%),
+  green1: hsl(167, 30%, 25%),
+  blue1: hsl(226, 18%, 27%),
+  blue2: hsl(198, 20%, 24%),
+  purple1: hsl(253, 12%, 36%),
+  purple2: hsl(291, 22%, 36%),
+  brown1: hsl(355, 21%, 35%),
+);
+$ui: (
+  black: hsl(0, 0%, 0%),
+  white: hsl(0, 0%, 100%),
+  buttonBG: hsl(0, 0%, 100%),
+  rizzleFG: hsl(263, 14%, 16%),
+  rizzleBG: hsl(46, 23%, 83%),
+  rizzleSaved: hsl(264, 10%, 30%),
+  rizzleBGAlt: hsl(11, 21%, 16%),
+  rizzleHighlight: hsl(42, 91%, 60%),
+  rizzleText: hsl(300, 20%, 20%),
+  rizzleChrome: hsl(0, 0%, 95%),
+  bodyBG: hsl(60, 17%, 96%),
+  bodyBGDark: hsl(0, 0%, 0%),
+  logo1: hsl(186, 50%, 40%),
+  logo2: hsl(360, 70%, 60%),
+  logo3: hsl(260, 30%, 30%),
+);
+$darkMode: (
+  black: hsl(0, 0%, 100%),
+  white: hsl(0, 0%, 0%),
+  buttonBG: hsl(0, 0%, 10%),
+  rizzleFG: hsl(263, 14%, 86%),
+  rizzleBG: hsl(300, 10%, 17%),
+  rizzleSaved: hsl(264, 10%, 30%),
+  rizzleBGAlt: hsl(11, 21%, 16%),
+  rizzleHighlight: hsl(42, 91%, 60%),
+  rizzleText: hsl(46, 20%, 90%),
+  rizzleChrome: hsl(0, 0%, 95%),
+  bodyBG: hsl(240, 0%, 0%),
+  bodyBGDark: hsl(0, 0%, 0%),
+  logo1: hsl(186, 40%, 30%),
+  logo2: hsl(360, 70%, 60%),
+  logo3: hsl(260, 30%, 30%),
+);
+$step: 28px;
+$margin: 3vmin;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  // this is now my rem value
+  // it's the body lineheight
+  --font-size: calc(var(--device-width) * 0.07px);
+  &.tablet {
+    --font-size: calc(var(--device-width) * 0.04px);
+  }
+
+
+
+  // transition: font-size 0.2s;
+
+  &.font-size-1 {
+    --font-size: calc(var(--device-width) * 0.05px);
+    &.tablet {
+      --font-size: calc(var(--device-width) * 0.03px);
+    }
+  }
+
+  &.font-size-2 {
+    --font-size: calc(var(--device-width) * 0.06px);
+    &.tablet {
+      --font-size: calc(var(--device-width) * 0.035px);
+    }
+  }
+
+  &.font-size-3 {
+    --font-size: calc(var(--device-width) * 0.07px);
+    &.tablet {
+      --font-size: calc(var(--device-width) * 0.04px);
+    }
+  }
+
+  &.font-size-4 {
+    --font-size: calc(var(--device-width) * 0.08px);
+    &.tablet {
+      --font-size: calc(var(--device-width) * 0.045px);
+    }
+  }
+
+  &.font-size-5 {
+    --font-size: calc(var(--device-width) * 0.09px);
+    &.tablet {
+      --font-size: calc(var(--device-width) * 0.05px);
+    }
+  }
+
+  font-size: var(--font-size);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  width: 100vw;
+
+  background-color: hsl(60, 17%, 96%);
+  &, a, a:active, a:visited {
+    color: hsl(0, 0%, 20%);
+  }
+  transition: background-color, color 0.2s;
+
+  .dark-background & {
+    background-color: hsl(240, 0%, 0%);
+    &, a, a:active, a:visited {
+      color: hsl(0, 0%, 80%);
+    }
+  }
+}
+
+.item {
+  height: 100vh;
+}
+
+.itemArticle {
+  padding: 0;
+  margin: 0;
+}
+
+.cover, .body {
+  position: relative;
+  margin: 0;
+  /*padding: $step * .5;*/
+  width: 100%;
+  max-width: 100%;
+  // overflow: hidden;
+}
+
+.itemArticle, .itemArticle table {
+  font-size: calc(1rem / 1.6) !important;
+  line-height: 1rem !important;
+  margin: 0;
+  h1, h2, h3, h4, h5 {
+    padding: 0;
+    line-height: 1em;
+    -webkit-hyphens: none;
+    hyphens: none;
+  }
+
+  // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
+  //   &.#{$name} {
+  //     h1, h2, h3 {
+  //       color: $value;
+  //     }
+  //   }
+  // }
+
+  h1, h2, h3 {
+    color: var(--feed-color);
+
+    a {
+      color: var(--feed-color) !important;
+    }
+  }
+
+  h1, h2 {
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    margin: 3rem 0 .5rem;
+  }
+  h2 {
+    font-size: 1rem;
+  }
+  h2, h4 {
+    font-weight: normal;
+  }
+  h3, h4 {
+    font-size: 1rem;
+    line-height: 1.33rem;
+    margin: 2rem 0 0.2rem;
+  }
+  h4 {
+    font-size: 0.75rem;
+  }
+  h5, h6 {
+    font-size: calc(1rem / 1.7);
+    line-height: 1rem;
+    margin: 1rem 0 0;
+  }
+}
+
+.itemArticle.bodyFontSerif1, .itemArticle.bodyFontSerif1 table {
+  font-size: calc(1rem / 1.8) !important;
+}
+
+.itemArticle.bodyFontSerif3, .itemArticle.bodyFontSerif3 table {
+  font-size: calc(1rem / 1.7) !important;
+}
+
+.itemArticle {
+  position: relative;
+  z-index: 10;
+  padding: 2rem 4vw 3rem;
+  width: 100vw;
+  max-width: 24rem;
+  margin: 0 auto;
+  font-family: "Cochin", serif;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  -webkit-text-size-adjust:none;
+
+  p, center {
+    margin: 0;
+    margin-bottom: .666rem;
+  }
+
+  sup {
+    line-height: 0;
+  }
+
+  figure, img, video, iframe:not(.instagram-media), pre {
+    position: relative !important;
+    max-width: 100vw;
+    height: auto;
+    margin: .666rem 0;
+    border: 0;
+  }
+
+  figure, img, video, pre {
+    height: auto !important;
+  }
+
+
+  // p figure:last-child,
+  //   p img:last-child,
+  //   p video:last-child,
+  //   p iframe:last-child,
+  //   p pre:last-child {
+  //   margin-bottom: 0;
+  // }
+
+  figure, img, video, iframe, pre {
+    width: 100vw;
+    max-width: 100vw;
+    width: 100vw !important;
+    left: -4vw;
+    overflow: scroll;
+
+    @media (min-width: 600px) {
+      left: calc(50% - 50vw);
+      // margin: 0;
+    }
+  }
+
+  .twitter-tweet iframe {
+    @media (min-width: 600px) {
+      left: auto;
+      width: 100% important;
+      max-width: 100%;
+    }
+  }
+
+  pre {
+    background-color: white;
+    border-bottom: 1px solid hsl(0, 0%, 93%);
+  }
+
+  img:not(.img-portrait):not(.img-small) {
+    width: 100vw !important;
+  }
+
+  img.img-portrait, img.img-small {
+    // display: block;
+    margin: 0.5rem 0.5rem 1rem;
+    max-width: calc(100vw - 1rem) !important;
+    width: auto !important;
+
+    &.img-small {
+      float: left;
+      clear: left;
+      margin: 0.25rem 1rem 1rem 0;
+      left: 0;
+    }
+  }
+
+  figure img.img-portrait, figure img.img-small {
+    width: calc(100% - 1rem);
+    margin-bottom: 0;
+  }
+
+  img.img-small {
+    @media (min-width: 600px) {
+      left: 0;
+      float: left;
+      margin-top: 0;
+      margin-left: 0;
+    }
+  }
+
+  // figure handles its own margin
+  figure img, figure iframe {
+    margin: 0;
+    left: 0;
+    border-bottom: 0;
+  }
+
+  @media (min-width: 600px) {
+    figure.figure-small {
+      width: calc(50% - 0.25rem) !important;
+      float: left;
+      margin-right: 0.5rem;
+      left: 0;
+
+      figcaption {
+        margin: 0;
+        padding: .25rem .5rem;
+      }
+
+      img {
+        width: 100% !important;
+        margin-left: 0;
+        margin-top: 0;
+        float: none;
+      }
+    }
+
+    p + figure.figure-small {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+
+  }
+
+  &,
+  & > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child,
+  & > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child > *:not(figure):first-child {
+    & > figure:first-child,
+    & > img:first-child:not(.img-small) {
+      position: relative;
+      top: -2rem;
+      margin-top: 0;
+      margin-bottom: 0rem;
+    }
+    & > iframe:first-child,
+    & > p:first-child > iframe:first-child {
+      margin-top: 0;
+    }
+    & > img.img-portrait:first-child:not(.img-small) {
+      top: -1.5rem;
+    }
+  }
+
+  & > *:empty,
+  & > *:empty:first-child + *:first-of-type,
+  & > *:first-child > *:empty,
+  & > *:first-child > *:first-child > *:empty,
+  & > *:first-child > *:first-child > *:first-child > *:empty {
+    & + figure:first-child,
+    & + img:first-child {
+      position: relative;
+      top: -2rem;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+
+  /* gambling that it's a video */
+  *:not(.twitter-tweet) > iframe:not(.instagram-media), iframe video {
+    height: 55vw !important;
+  }
+
+  blockquote, .pullquote, aside {
+    margin: 0 0 1rem;
+    font-size: 0.55rem;
+    line-height: 1rem;
+    background-color: white;
+    left: -0.5rem;
+    width: 100vw;
+    padding: 1rem .5rem;
+    display: block;
+    position: relative;
+    -webkit-hyphens: none;
+    hyphens: none;
+
+    blockquote, .pullquote, aside {
+      margin: 0;
+      padding: 0;
+      left: 0;
+    }
+
+    & > p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    @media (min-width: 600px) {
+      & {
+        width: 100%;
+      }
+    }
+
+    &.is-quote p:first-child {
+      text-indent: -0.45em;
+    }
+  }
+
+  .pullquote, aside {
+    color: white;
+    &::after {
+      content: "";
+      display: block;
+      background-color: var(--feed-color);
+      width: 100vh;
+      height: 100%;
+      margin-left: calc(50% - 50vh);
+      position: absolute;
+      z-index: -1;
+      top: 0;
+    }
+  }
+
+  blockquote.short-blockquote, .pullquote, aside {
+    color: white;
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    line-height: 1.33rem;
+    font-style: normal;
+    padding: 1rem 1.5rem 1rem 1rem;
+    margin: 1rem 0;
+    text-align: left;
+  }
+
+  figure cite {
+    display: none;
+  }
+
+  figcaption, .caption, img + small {
+    position: relative;
+    padding: .25rem .5rem;
+    font-size: 0.5rem;
+    font-weight: 300;
+    line-height: 0.67rem;
+    color: hsl(0, 0%, 50%);
+    position: relative;
+    text-align: left;
+  }
+
+  *:not(figcaption) > *:not(figcaption).caption:not(figcaption) {
+    display: block;
+    margin: -0.666rem -4vw 1.666rem;
+
+    + .caption:not(figcaption) {
+      margin-top: -1.666rem;
+    }
+  }
+
+  @media (min-width: 600px) {
+    figcaption, blockquote, .caption, img + small {
+      margin: 0 -4vw;
+      padding: 1rem 4vw;
+      left: 0;
+    }
+    figcaption, .caption, img + small {
+      padding: .25rem calc(50vw - 50%) .5rem;
+      margin: 0 4vw;
+      text-align: center;
+    }
+  }
+
+  img + small {
+    display: block;
+    margin: -2.25rem -4vw 1rem;
+  }
+
+  blockquote:not(.pullquote) {
+    @media (min-width: 600px) {
+      margin-bottom: 1rem;
+      left: calc(50% - 50vw);
+      margin: 0 0 1rem;
+      padding: 1rem calc(50vw - 50%);
+      width: 100vw;
+    }
+  }
+
+  // fade on scroll
+  // blockquote, figure {
+  //   opacity: 1;
+  //   transition: opacity 2s;
+
+  //   &:not(in-viewport) {
+  //     opacity: 0;
+  //   }
+  // }
+
+  a.unused, a.unused:active, a.unused:visited {
+    color: inherit !important;
+    /*text-decoration: none;*/
+    background-image: linear-gradient(to bottom, hsla(0, 0%, 0%, 0) 19px, hsla(60, 100%, 39%, 0.3) 19px, hsla(60, 100%, 39%, 0.3) 24px);
+    /*display: inline-block;*/
+    /*padding-bottom: 0;*/
+    /*line-height: .5;*/
+
+    img {
+      /* hide link gradient */
+      margin-bottom: -6px;
+    }
+  }
+
+  figure {
+    padding: 0;
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  iframe {
+    max-width: 100%;
+  }
+
+  twitter-widget {
+    margin: 4vw auto !important;
+  }
+
+  .twitter-tweet {
+    display: block !important;
+  }
+
+  pre {
+    font-size: 14px;
+    line-height: 1.4;
+    overflow: scroll;
+    color: hsl(0, 0%, 20%);
+    padding: $step * .5;
+  }
+
+  // breaks between sections
+  // & > div + div:not(:first-of-type) {
+
+    // &:before {
+    //   content: '';
+    //   height: 16px;
+    //   display: block;
+    //   margin: 0 calc(50% - 33px) 2rem;
+    //   transform: rotateZ(-30deg);
+    // }
+
+    // &:nth-of-type(4n+1):before {
+    //   transform: rotateZ(0deg);
+    // }
+
+    // &:nth-of-type(4n+2):before {
+    //   transform: rotateZ(30deg);
+    // }
+
+    // &:nth-of-type(4n+3):before {
+    //   transform: rotateZ(90deg);
+    // }
+
+    // &:nth-of-type(4n+4):before {
+    //   transform: rotateZ(150deg);
+    // }
+
+    // & > p:first-of-type {
+    //   margin-top: $step * 4
+    // }
+  // }
+
+  ul, ol {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  li {
+    padding: 0 0 .5rem;
+
+    &:before {
+      width: 0.4rem;
+      content: "";
+      float: left;
+      height: .15rem;
+      margin-right: .2rem;
+      margin-bottom: .1rem;
+      margin-top: .4rem;
+    }
+  }
+
+  // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
+  //   &.#{$name} {
+  //     ul li:before {
+  //       background-color: $value;
+  //     }
+  //   }
+  // }
+  ul li:before, ol li:before {
+    background-color: var(--feed-color);
+  }
+
+  // guardian specific stuff
+  header {
+    font-weight: 500;
+  }
+  figure input {
+    display: none;
+  }
+
+  // for newsletters
+  table, th, td {
+    max-width: 92vw !important;
+  }
+
+  .dark-background & {
+    img:not(.img-portrait):not(.img-small), video, iframe, pre {
+      border-bottom: 1px solid hsl(0, 0%, 7%);
+    }
+
+    blockquote {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    blockquote, figcaption, img + small {
+      border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+    }
+
+    figcaption, img + small {
+      color: hsl(0, 0%, 80%);
+    }
+
+    blockquote:not(.pullquote) {
+      background-color: hsl(241, 4%, 11%);
+      color: hsl(0, 0%, 90%) !important;
+    }
+
+    pre {
+      background-color: hsl(241, 4%, 11%);
+      color: hsl(0, 0%, 80%);
+    }
+  }
+}
+
+article {
+  margin-bottom: $step * 6;
+}
+
+hr {
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  width: 66px;
+  height: 16px;
+  background-color: var(--feed-color);
+  border: 0;
+}
+
+@mixin firstLineFontFamily($fontFamily) {
+  .itemArticle {
+    & > p:not(.short-para):first-of-type,
+    & > div:first-of-type > p:not(.short-para):first-of-type,
+    & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-line {
+        font-family: $fontFamily;
+      }
+    }
+  }
+}
+
+@mixin firstShortParaBold($fontFamily, $fontFamilyItalic) {
+    > p:first-of-type.short-para:not(.ends-with-colon) {
+      font-family: $fontFamily;
+      color: var(--feed-color);
+      font-size: 1.2em;
+  
+      em, i, strong, b {
+        font-family: $fontFamilyItalic;
+        font-style: normal;
+      }
+      a {
+        color: var(--feed-color);
+      } 
+    }
+}
+
+@mixin dropCapFontSize($size) {
+  &,
+  & > div:first-of-type,
+  & > div:first-of-type > div:first-of-type {
+    & > p:not(.short-para):first-of-type:first-letter {
+      font-size: $size;
+    }
+  }
+}
+
+@mixin dropCapMarginTop($margin) {
+  &,
+  & > div:first-of-type,
+  & > div:first-of-type > div:first-of-type {
+    & > p:not(.short-para):first-of-type:first-letter {
+      margin-top: $margin;
+    }
+  }
+}
+
+.itemArticle {
+  & > p:not(.short-para):first-of-type,
+  & > div:first-of-type > p:not(.short-para):first-of-type,
+  & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+
+    // margin-top: 2rem;
+
+    &:first-letter {
+      font-size: 4rem;
+      line-height: .6;
+      display: block;
+      margin-right: 0.1rem;
+      text-decoration: none;
+    }
+
+    &.firstPara {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    & > em:first-letter {
+      font-size: inherit;
+    }
+  }
+
+  &.dropCapIsDrop {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        margin-top: 0;
+        float: left;
+      }
+    }
+  }
+
+  &.dropCapSize2 {
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(1.825rem);
+      @include dropCapMarginTop(0.46rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(2.05rem);
+      @include dropCapMarginTop(0.35rem);
+    }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(1.95rem);
+      @include dropCapMarginTop(0.33rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(1.95rem);
+      @include dropCapMarginTop(0.35rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(1.95rem);
+      @include dropCapMarginTop(0.4rem);
+    }
+  }
+
+  &.dropCapSize3 {
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(3.05rem);
+      @include dropCapMarginTop(0.6rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(3.37rem);
+      @include dropCapMarginTop(0.43rem);
+    }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(3.36rem);
+      @include dropCapMarginTop(0.36rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(3.38rem);
+      @include dropCapMarginTop(0.37rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(3.35rem);
+      @include dropCapMarginTop(0.54rem);
+    }
+  }
+
+  &.dropCapSize4 {
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(4.3rem);
+      @include dropCapMarginTop(0.75rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(4.78rem);
+      @include dropCapMarginTop(0.41rem);
+    }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(4.73rem);
+      @include dropCapMarginTop(0.4rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(4.73rem);
+      @include dropCapMarginTop(0.41rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(4.65rem);
+      @include dropCapMarginTop(0.64rem);
+    }
+  }
+
+  &.dropCapSize5 {
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(5.6rem);
+      @include dropCapMarginTop(0.9rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(6.18rem);
+      @include dropCapMarginTop(0.51rem);
+    }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(6.13rem);
+      @include dropCapMarginTop(0.42rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(6.13rem);
+      @include dropCapMarginTop(0.44rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(6.1rem);
+      @include dropCapMarginTop(0.77rem);
+    }
+  }
+
+  &.dropCapSize6 {
+    &.bodyFontSerif1 {
+      @include dropCapFontSize(6.75rem);
+      @include dropCapMarginTop(1.03rem);
+    }
+    &.bodyFontSerif2 {
+      @include dropCapFontSize(7.62rem);
+      @include dropCapMarginTop(0.55rem);
+    }
+    &.bodyFontSerif3 {
+      @include dropCapFontSize(7.58rem);
+      @include dropCapMarginTop(0.56rem);
+    }
+    &.bodyFontSans1 {
+      @include dropCapFontSize(7.5rem);
+      @include dropCapMarginTop(0.475rem);
+    }
+    &.bodyFontSans2 {
+      @include dropCapFontSize(7.45rem);
+      @include dropCapMarginTop(0.92rem);
+    }
+  }
+
+  &.dropCapSize7 {
+    @include dropCapFontSize(7.1rem);
+    @include dropCapMarginTop(0.6rem);
+  }
+
+  // this :not(.dropCapIsStroke) is to avoid a Safari bug 
+  // where the outline gets doubled
+  &.dropCapIsBold:not(.dropCapIsStroke) {
+    &,
+      & > div:first-of-type,
+      & > div:first-of-type > div:first-of-type {
+      & > p:not(.short-para):first-of-type:first-letter {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.single-char-para {
+  text-align: center;
+  margin: 2rem;
+}
+
+
+.bodyFontSerif1 {
+  font-family: "LibreBaskerville-Regular", serif;
+  font-size: calc(1rem / 1.8);
+
+  em, i {
+    font-family: "LibreBaskerville-Italic";
+    font-style: normal;
+  }
+
+  strong, b {
+    font-family: "LibreBaskerville-Bold";
+    font-weight: normal;
+  }
+
+  strong em, em strong, b i, i b {
+    font-family: "LibreBaskerville-Italic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("LibreBaskerville-Bold");
+  @include firstShortParaBold("LibreBaskerville-Bold", "LibreBaskerville-Italic")
+}
+
+.bodyFontSans1 {
+  font-family: "IBMPlexSans", sans-serif;
+  font-size: calc(1rem / 1.6);
+
+  em, i {
+    font-family: "IBMPlexSans-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong, b {
+    font-family: "IBMPlexSans-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong, b i, i b {
+    font-family: "IBMPlexSans-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("IBMPlexSans-Bold");
+  @include firstShortParaBold("IBMPlexSans-Bold", "IBMPlexSans-BoldItalic")
+}
+
+.bodyFontSerif2 {
+  font-family: "Iowan Old Style", "Cardo", serif;
+
+  em, i {
+    font-family: "IowanOldStyle-Italic", "Cardo-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong, b {
+    font-family: "IowanOldStyle-Bold", "Cardo-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong, b i, i b {
+    font-family: "IowanOldStyle-BoldItalic", "Cardo-Bold", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("IowanOldStyle-Bold, Cardo-Bold");
+  @include firstShortParaBold("IowanOldStyle-Bold, Cardo-Bold", "IowanOldStyle-BoldItalic, Cardo-Bold")
+}
+
+.bodyFontSans2 {
+  font-family: "AvenirNext-Regular", serif;
+
+  em, i {
+    font-family: "AvenirNext-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong, b {
+    font-family: "AvenirNext-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong, b i, i b {
+    font-family: "AvenirNext-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("AvenirNext-Bold");
+  @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic");
+
+  .android & {
+    font-family: "NunitoSans-Regular", serif;
+
+    em, i {
+      font-family: "NunitoSans-Italic", sans-serif;
+      font-style: normal;
+    }
+  
+    strong, b {
+      font-family: "NunitoSans-Bold", sans-serif;
+      font-weight: normal;
+    }
+  
+    strong em, em strong, b i, i b {
+      font-family: "NunitoSans-BoldItalic", sans-serif;
+      font-style: normal;
+      font-weight: normal;
+    }
+  
+    @include firstLineFontFamily("NunitoSans-Bold");
+    @include firstShortParaBold("NunitoSans-Bold", "NunitoSans-BoldItalic")  
+  }
+}
+
+.bodyFontSerif3 {
+  font-family: "IBMPlexSerif", serif;
+  font-size: calc(1rem / 1.7);
+
+  em, i {
+    font-family: "IBMPlexSerif-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong, b {
+    font-family: "IBMPlexSerif-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong, b i, i b {
+    font-family: "IBMPlexSerif-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("IBMPlexSerif-Bold");
+  @include firstShortParaBold("IBMPlexSerif-Bold", "IBMPlexSerif-BoldItalic")
+}
+
+// HEADER FONTS
+
+.headerFontSans1 {
+  h1, h3, h5 {
+    font-family: "AvenirNextCondensed-Bold";
+
+    .isWeb & {
+      font-family: "Lato";
+      font-weight: 700;
+    }
+  }
+  .isWeb &.isItalic h1 {
+    font-style: italic;
+  }
+  h2, h4 {
+    font-family: "AvenirNext-Medium";
+
+    .isWeb & {
+      font-family: "Lato";
+      font-weight: 400;
+    }
+  }
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "AvenirNext-MediumItalic";
+
+    .isWeb & {
+      font-family: "Lato";
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    em, i {
+      font-family: "AvenirNext-Medium";
+
+      .isWeb & {
+        font-family: "Lato";
+        font-weight: 400;
+      }
+    }
+
+    strong, b {
+      font-family: "AvenirNext-BoldItalic";
+
+      .isWeb & {
+        font-family: "Lato";
+        font-weight: 700;
+      }
+    }
+
+    em strong, strong em, b i, i b {
+      font-family: "AvenirNext-Bold";
+
+      .isWeb & {
+        font-family: "Lato";
+        font-weight: 700;
+      }
+    }
+  }
+  &.itemTitle p {
+    font-family: "Lato";
+    font-weight: 300;
+    em, i {
+      font-family: "Lato";
+    }
+
+    strong, b {
+      font-family: "Lato";
+      font-weight: 700;
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "Lato";
+      font-weight: 700,
+
+    }
+  }
+}
+
+.headerFontSans2 {
+  h1, h3, h5 {
+    font-family: "Poppins-ExtraBold";
+  }
+  .isWeb &.isItalic h1 {
+    font-family: "Poppins-ExtraBoldItalic";
+  }
+  h2, h4 {
+    font-family: "Poppins-Regular";
+  }
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "Poppins-Italic";
+
+    em, i {
+      font-family: "Poppins-Regular";
+    }
+
+    strong, b {
+      font-family: "Poppins-ExtraBoldItalic";
+    }
+
+    em strong, strong em, b i, i b {
+      font-family: "Poppins-ExtraBold";
+    }
+  }
+  &.itemTitle p {
+    font-family: "Poppins";
+    em, i {
+      font-family: "Poppins-Italic";
+    }
+
+    strong, b {
+      font-family: "Poppins-Bold";
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "Poppins-BoldItalic";
+    }
+  }
+}
+
+.headerFontSans3 {
+  h1, h3, h5 {
+    font-family: "Montserrat-Bold";
+  }
+  .isWeb &.isItalic h1 {
+    font-family: "Montserrat-BoldItalic";
+  }
+  h2, h4 {
+    font-family: "Montserrat-Light";
+  }
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "Montserrat-LightItalic";
+
+    em, i {
+      font-family: "Montserrat-Light";
+    }
+
+    strong, b {
+      font-family: "Montserrat-BoldItalic";
+    }
+  }
+  &.itemTitle p {
+    font-family: "Montserrat-Light";
+    em, i {
+      font-family: "Montserrat-LightItalic";
+    }
+
+    strong, b {
+      font-family: "Montserrat-Bold";
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "Montserrat-BoldItalic";
+    }
+  }
+}
+
+// .headerFontSerif1 {
+//   h1, h3, h5 {
+//     font-family: "IBMPlexSerif-Bold";
+//   }
+//   h2, h4 {
+//     font-family: "IBMPlexSerif-Light";
+//   }
+//   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+//     font-family: "IBMPlexSerif-Italic";
+
+//     em {
+//       font-family: "IBMPlexSerif";
+//     }
+
+//     strong {
+//       font-family: "IBMPlexSerif-BoldItalic";
+//     }
+
+//     em strong, strong em {
+//       font-family: "IBMPlexSerif-Bold";
+//     }
+//   }
+// }
+
+// .headerFontSerif2 {
+//   h1, h3, h5 {
+//     font-family: "Arvo-Bold";
+//   }
+//   h2, h4 {
+//     font-family: "Arvo";
+//   }
+//   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+//     font-family: "Arvo";
+//   }
+// }
+
+.headerFontSerif1 {
+  h1, h3, h5 {
+    font-family: "PlayfairDisplay-Black";
+  }
+  .isWeb &.isItalic h1 {
+    font-family: "IBMPlexSerif-BoldItalic";
+  }
+  h2, h4 {
+    font-family: "PlayfairDisplay-Regular";
+  }
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "IBMPlexSerif-Italic";
+
+    em, i {
+      font-family: "IBMPlexSerif";
+    }
+
+    strong, b {
+      font-family: "IBMPlexSerif-BoldItalic";
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "PlayfairDisplay-Bold";
+    }
+  }
+  &.itemTitle p {
+    font-family: "IBMPlexSerif";
+    em, i {
+      font-family: "IBMPlexSerif-Italic";
+    }
+
+    strong, b {
+      font-family: "IBMPlexSerif-Bold";
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "IBMPlexSerif-BoldItalic";
+    }
+  }
+}
+
+.feedflare, .mc-embed-signup {
+  display: none !important;
+}
+
+
+@each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
+  // .itemArticle.#{$name}, body.#{$name} .itemArticle {
+  //   a, a:active, a:visited {
+  //     // color: $value;
+  //     // text-decoration: none;
+  //     -webkit-text-decoration-color: $value;
+  //   }
+
+  //   blockquote.short-blockquote, .pullquote, aside {
+  //     color: $value;
+  //   }
+
+  //   *:not(:first-of-type) div,
+  //     * div:not(:first-of-type),
+  //     div:not(:first-of-type) {
+  //     &:before {
+  //       background-color: $value;
+  //     }
+  //   }
+
+  //   &:not(.dropCapIsMonochrome) {
+  //     & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         color: $value;
+  //       }
+  //     }
+  //   }
+
+  //   &.dropCapIsStroke {
+  //      & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         color: transparent;
+  //         -webkit-text-stroke: 2px #444444;
+  //       }
+  //     }
+  //   }
+
+  //   &.dropCapIsStroke:not(.dropCapIsMonochrome) {
+  //      & > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > p:not(.short-para):first-of-type,
+  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  //       &:first-letter {
+  //         -webkit-text-stroke-color: $value;
+  //       }
+  //     }
+  //   }
+  // }
+}
+
+.itemArticle {
+  a, a:active, a:visited {
+    // color: $value;
+    text-decoration-color: var(--feed-color);
+    -webkit-text-decoration-color: var(--feed-color);
+    // border-bottom: 2px solid var(--feed-color);
+  }
+
+  blockquote.short-blockquote { //, .pullquote, aside {
+    color: var(--feed-color);
+    a {
+      color: var(--feed-color) !important;
+    }
+  }
+
+  *:not(:first-of-type) div,
+    * div:not(:first-of-type),
+    div:not(:first-of-type) {
+    &:before {
+      background-color: var(--feed-color);
+    }
+  }
+
+  &:not(.dropCapIsMonochrome) {
+    & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        color: var(--feed-color);
+      }
+    }
+  }
+
+  body:not(.isWeb) &.dropCapIsStroke {
+     & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        color: transparent;
+        -webkit-text-stroke: 2px #444444;
+      }
+    }
+  }
+
+  &.dropCapIsStroke:not(.dropCapIsMonochrome) {
+     & > p:not(.short-para):first-of-type,
+      & > div:first-of-type > p:not(.short-para):first-of-type,
+      & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+      &:first-letter {
+        -webkit-text-stroke-color: var(--feed-color);
+      }
+    }
+  }
+}
+
+body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-letter {
+  color: #000;
+
+  .dark-background & {
+    color: #ddd;
+  }
+}
+
+.highlight {
+  background-color: rgba(200, 200, 100, 0.5);
+}
+
+.highlighter {
+  background-color: rgba(220, 220, 50, 1);
+  // box-shadow: #000;
+}
+
+@mixin ipad {
+  @media only screen
+  and (min-device-width : 768px)
+  and (max-device-width : 1024px)
+  and (-webkit-max-device-pixel-ratio: 2) {
+    @content;
+  }
+}
+
+@mixin se {
+  @media only screen
+  and (min-device-width : 320px)
+  and (max-device-width : 376px)
+  and (-webkit-max-device-pixel-ratio: 2) {
+    @content;
+  }
+}
+
+// newsletter stuff
+.newsletter {
+  table {
+    padding: 0;
+    -webkit-border-horizontal-spacing: 0;
+    width: 92vw;
+    max-width: 92vw;
+    padding: 0 4vw;
+    margin-left: calc(50% - 50vw);
+  }
+
+  // this is a kludge: the device width is supposed to approximate 24rems
+  // but the rem actually changes according to the font size
+  @media only screen and (min-device-width: 600px) {
+    table, td {
+      max-width: calc(24rem - 4vw) !important;
+      width: calc(24rem - 4vw) !important;
+      margin-left: calc(50% - 12rem - 2vw)
+    }
+  }
+}
+
+// substack stuff
+
+.itemArticle table.email-body-container {
+  // width: 90vw !important; 
+
+  // td {
+  //   padding: 0;
+  // }
+
+  td.content {
+    & > div:first-of-type {
+      table:first-of-type {
+        display: none;
+      }
+    }
+  }
+
+  .subscribe-widget, .powered-by-substack {
+    display: none;
+  }
+}
+
+
+html.onboarding {
+
+  --logo1: hsl(186, 40%, 50%);
+  --logo2: hsl(360, 70%, 60%);
+  --logo3: hsl(260, 30%, 30%);
+  --bg: hsl(46, 23%, 83%);
+  --text: hsl(300, 20%, 20%);
+
+  &.onboarding-1 {
+    --text: white;
+  }
+
+  &.dark-background {
+    --text: hsl(300, 20%, 90%);
+  }
+
+  // this is now my rem value
+  // it's the body lineheight
+  font-size: calc(7vw);
+  @include ipad {
+    font-size: calc(4vw);
+  }
+
+  body {
+    margin: 0;
+    // font-family: "IBMPlexMono";
+    width: 100vw;
+    background-color: var(--bg);
+    color: white;
+    overflow: hidden;
+    // overflow: scroll;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // padding-top: 200;
+  }
+
+  .bg1 {
+    position: relative;
+    overflow:hidden;
+    // width: 100%;
+    height: 100%;  
+    width: 10000px;
+    background-image: url("../img/ream@2x.png");
+    background-size: 20000px;
+    background-position: 50% 50%;
+    animation: floating 20s infinite alternate;
+  }
+
+
+  .bg1:before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  @keyframes floating {
+    from { transform: translate(0,  0px); }
+    to   { transform: translate(-500px, 0px); }    
+  }
+
+  &.onboarding-1 .bg1 {
+    background-position: 50% 25%;
+  }
+
+  &.onboarding-2 .bg1 {
+    background-position: 50% 75%;
+  }
+
+  &:not(.onboarding-4) body::before {
+    content: "";
+    z-index: 0;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: url("../img/onboarding-bg/onboarding-bg-1@3x.png");
+    background-repeat: no-repeat;
+    background-position-x: left;
+    background-position-y: calc(100% - 20px);
+    background-size: 100%;
+    opacity: 0.5;
+  }
+
+  // slightly better, but not ideal
+  &.dark-background body::after {
+    opacity: 1;
+  }
+
+  .bg1::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    -webkit-backdrop-filter: blur(200px);
+    backdrop-filter: blur(200px);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &.onboarding-1 body::before {
+    background-image: url("../img/onboarding-bg/onboarding-bg-2@3x.png");
+  }
+
+  &.onboarding-2 body::before {
+    background-image: url("../img/onboarding-bg/onboarding-bg-3@3x.png");
+  }
+
+  article, .everything {
+    padding: 0 1rem;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // background-color: green;
+  }
+
+  article {
+    height: 100%;
+    justify-content: space-around;
+  }
+
+  .everything {
+    padding: 0;
+    height: 100%;
+    margin-top: calc(50vh - 1rem);
+    margin-bottom: calc(35vh);
+    justify-content: space-around;
+
+    @include se {
+      margin-top: calc(40vh - 1rem);
+    }
+  }
+
+  &.onboarding-1 .everything {
+    margin-top: calc(40vh - 1rem);
+  }
+
+  h1, h2 {
+    color: var(--logo3);
+    font-size: 2rem;
+    font-family: PTSerif-Bold;
+    font-weight: inherit;
+    line-height: 1;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+    // height: calc(50% - 250px);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  &:not(.onboarding-3) {
+    div.everything::before, h2::before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 20vh;
+      top: 25%;
+      transform: translateY(-50%);
+      background-image: url("../img/ream@2x.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  hr {
+    border-top-style: none;
+    margin: 2em;
+  }
+
+  &.onboarding-0 div.content {
+    align-self: flex-end;
+    width: 66%;
+
+    p {
+      text-align: right;
+    }
+  }
+
+  div.content {
+    align-self: center;
+    width: 100%;
+    p {
+      text-align: left;
+    }
+  }
+
+  // &.onboarding-2 div.content {
+  //   align-self: flex-start;
+  //   width: 50%;
+
+  //   p {
+  //     text-align: left;
+  //   }
+  // }
+
+  p {
+    font-family: "IBMPlexSans";
+    color: var(--text);
+    font-size: 0.666rem;
+    line-height: 1rem;
+    margin: 0 0 1rem;
+
+    strong {
+      font-family: "IBMPlexSans-Bold";
+    }
+    em {
+      font-family: "IBMPlexSans-Italic";
+    }
+
+    &.subhead {
+      color: var(--logo3);
+      margin-bottom: 8vh;
+    }
+  }
+
+  a {
+    color: var(--text);
+  }
+
+  .swipe {
+    position: absolute;
+    width: 100%;
+    bottom: 1rem;
+    text-align: center;
+    font-size: 0.5rem;
+    font-family: "IBMPlexSans-Italic";
+    color: var(--text);
+  }
+
+  img {
+    display: block;
+    margin: -1rem auto 1rem;
+    max-width: 100%;
+  }
+
+  &.dark-background {
+    body {
+      background-color: hsl(240, 0%, 0%);
+      color: hsl(0, 0%, 90%);
+      &, a, a:active, a:visited {
+        color: hsl(0, 0%, 90%);
+      }
+    }
+  }
+}
+
+html.onboarding.onboarding-1:not(.dark-background) body {
+  background-color: var(--logo2);
+
+  h1 {
+    color: var(--bg);
+  }
+}
+
+html.onboarding.onboarding-2:not(.dark-background) body {
+  background-color: var(--logo1);
+
+  h2 {
+    color: var(--logo1);
+  }
+  p {
+    color: var(--logo3);
+  }
+}
+
+.web {
+  &.font-size-3 {
+    font-size: 28px;
+  }
+
+  .coverHolder {
+    .hasCoverImage & {
+      position: relative; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+    }
+  }
+  
+  .itemTitle {
+    margin: 1rem 4vw;
+    margin-bottom: 0;
+    max-width: 900px;
+    z-index: 2;
+  
+    .hasCoverImage & {
+      color: white;
+      position: absolute;
+      bottom: 0;
+  
+      &.center {
+        text-align: center;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 1000px;
+      }
+  
+      &.top {
+        top: 0;
+        bottom: auto;
+      }
+  
+      &.bottom {
+        bottom: 0;
+        top: auto;
+      }
+  
+      &.middle {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      
+    }
+  
+    h1, h2, h3, h4, h5 {
+      line-height: 1.1;
+    }
+  
+    p {
+      font-size: 0.7rem;
+    }
+  
+    .date-published {
+      font-size: 0.6rem;
+      font-family: "IBMPlexMono-Light" !important;
+    }
+  
+    &.center {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    &.isUpperCase h1 {
+      text-transform: uppercase;
+    }
+  
+  
+    &.bg.hasCoverImage h1 {
+      background-color: rgba(255,255,255,0.9);
+      color: black;
+      padding: 0.5rem;
+    }
+  
+    .hasCoverImage &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0 -4vw 2rem;
+      width: calc(100vw + 4vw);
+      height: calc(100% + 2rem);
+      z-index: -1;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
+    }
+  
+    &.center::after {
+      margin: 0 calc(50% - 50vw) 2rem;
+    }
+  
+  }
+  
+  @media screen and (min-width: 32rem) {
+    .itemTitle {
+      margin: 1rem;
+    }
+  }
+  
+  
+  .hasCoverImage .coverImage {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-height: 100%;
+    // z-index: -1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .articleHolder {
+    background-color: hsl(60, 17%, 96%);
+    position: relative;
+    z-index: 2;
+  
+    .dark-background & {
+      background-color: hsl(240, 0%, 0%);
+    }
+  }
+  
+  h1, h2, h3, h4 {
+    font-weight: normal;
+  }
+  
+  .itemTitle h4 {
+    font-size: 0.8rem;
+  }
+}
+
