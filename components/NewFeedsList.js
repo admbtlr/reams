@@ -264,11 +264,11 @@ export default function NewFeedsList (props) {
             ...textStyles(),
             ...boldStyles,
             marginBottom: 32 * fontSizeMultiplier()
-          }}>There are four ways to add new feeds to Already:</Text>
+          }}>There are four ways to add new feeds to Reams:</Text>
           <Text style={{
             ...textStyles(),
             marginBottom: 32 * fontSizeMultiplier()
-          }}>1. Use the Already Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Already icon.</Text>
+          }}>1. Use the Reams Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Reams icon.</Text>
           <TouchableOpacity
             onPress={showAddFeedModal}
           >
