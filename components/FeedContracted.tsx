@@ -115,9 +115,6 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
     type: SET_FILTER,
     filter: { _id, title, type }
   })
-  const clearReadItems = () => dispatch({
-    type: CLEAR_READ_ITEMS
-  })
   const setIndex = (index: number) => dispatch({
     type: UPDATE_CURRENT_INDEX,
     index,
@@ -160,7 +157,6 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
     }).start(() => {
       console.log('starting animation')
     })
-    clearReadItems()
     switch (type) {
       case 'all':
         filterItems(null, null, null)

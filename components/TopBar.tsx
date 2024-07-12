@@ -1,4 +1,4 @@
-import { Item, ItemType } from '../store/items/types'
+import { CLEAR_READ_ITEMS, Item, ItemType } from '../store/items/types'
 import React, { Fragment, useEffect, useState } from 'react'
 import {
   Animated,
@@ -439,30 +439,38 @@ interface BackButtonProps {
   navigation: any 
 }
 
-const BackButton = ({ color, isDarkMode, isSaved , navigation: { navigate } }: BackButtonProps) => (
-  <Animated.View style={{
-    position: 'absolute',
-    left: 0,
-    bottom: 8 * fontSizeMultiplier(),
-    width: 32,
-    height: 48,
-    paddingRight: 50
-  }}>
-    <TouchableOpacity
-      onPress={() => {
-        navigate('Feeds', { isSaved, transition: 'default' })
-      }}
-      style={{
-        paddingBottom: 10,
-        paddingLeft: 0,
-        paddingRight: 50,
-        paddingTop: 10        
-      }}
-    >
-      { getRizzleButtonIcon('back', color, 'transparent', true, false) }
-    </TouchableOpacity>
-  </Animated.View>
-)
+const BackButton = ({ color, isDarkMode, isSaved , navigation: { navigate } }: BackButtonProps) => {
+  const dispatch = useDispatch()
+  const clearReadItems = () => dispatch({
+    type: CLEAR_READ_ITEMS
+  })
+
+  return (
+    <Animated.View style={{
+      position: 'absolute',
+      left: 0,
+      bottom: 8 * fontSizeMultiplier(),
+      width: 32,
+      height: 48,
+      paddingRight: 50
+    }}>
+      <TouchableOpacity
+        onPress={() => {
+          navigate('Feeds', { isSaved, transition: 'default' })
+          clearReadItems()
+        }}
+        style={{
+          paddingBottom: 10,
+          paddingLeft: 0,
+          paddingRight: 50,
+          paddingTop: 10        
+        }}
+      >
+        { getRizzleButtonIcon('back', color, 'transparent', true, false) }
+      </TouchableOpacity>
+    </Animated.View>
+  )
+}
 
 export const getTopBarHeight = () => getStatusBarHeight()// +
   // (hasNotchOrIsland() ? 44 : 22)
