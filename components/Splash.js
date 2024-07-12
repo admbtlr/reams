@@ -101,7 +101,7 @@ export default function Splash () {
         left: 0,
         bottom: 0,
         right: 0,
-        backgroundColor: hslString('rizzleBG', 'strict'),
+        backgroundColor: hslString('logo1', 'strict'),
         opacity: scaleAnim.interpolate({
           inputRange: [1, 20],
           outputRange: [1, 0]
@@ -120,7 +120,7 @@ export default function Splash () {
           if (Platform.OS !== 'web') SplashScreen.hide()
         }}
         // resizeMode='contain'
-        source={require('../assets/images/already.png')}
+        source={require('../assets/images/ream.png')}
         style={{
           // flex: 1,
           height: 256,
@@ -139,11 +139,11 @@ export default function Splash () {
         <Text
           style={{
             fontFamily: 'PTSerif-Bold',
-            color: hslString('logo3'),
+            color: hslString('rizzleBG'),
             fontSize: 40 * fontSizeMultiplier(),
             textAlign: 'center'
           }}
-        >Already</Text>
+        >Reams</Text>
       </Animated.View>
     </Animated.View>
 }

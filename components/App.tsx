@@ -87,7 +87,7 @@ const Main = ({route}) => {
         name='Initial'
         component={InitialScreen}
         options={{
-          title: 'Already',
+          title: 'Reams',
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
           // headerBackImage: getRizzleButtonIcon('account'),
         }} />
