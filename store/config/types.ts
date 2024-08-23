@@ -22,6 +22,7 @@ export const SET_SHOW_NUM_UNREAD = 'SET_SHOW_NUM_UNREAD'
 export const STATE_ACTIVE = 'STATE_ACTIVE'
 export const STATE_INACTIVE = 'STATE_INACTIVE'
 export const SET_MIGRATION_VERSION = 'SET_MIGRATION_VERSION'
+export const SET_SEARCH_TERM = 'SET_SEARCH_TERM'
 
 // this is just used to kick off sagas
 export const START_DOWNLOADS = 'START_DOWNLOADS'
@@ -93,6 +94,11 @@ interface updateMigrationVersionAction {
   version: number
 }
 
+interface setSearchTermAction {
+  type: typeof SET_SEARCH_TERM
+  term: string
+}
+
 export type ConfigActionTypes = updateOnboardingIndexAction |
   toggleOnboardingAction |
   itemsOnboardingDoneAction |
@@ -105,6 +111,7 @@ export type ConfigActionTypes = updateOnboardingIndexAction |
   remoteActionCompletedAction |
   setStateActiveAction |
   deleteCategory |
-  updateMigrationVersionAction
+  updateMigrationVersionAction |
+  setSearchTermAction
 
 export const startDownloads = createAction(START_DOWNLOADS)

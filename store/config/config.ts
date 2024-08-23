@@ -12,7 +12,8 @@ import {
   SET_SHOW_NUM_UNREAD,
   SET_ORIENTATION,
   STATE_ACTIVE,
-  SET_MIGRATION_VERSION
+  SET_MIGRATION_VERSION,
+  SET_SEARCH_TERM 
 } from "./types"
 import {
   UNSET_BACKEND,
@@ -27,8 +28,8 @@ import { DELETE_CATEGORY } from "../categories/types"
 
 export interface Filter {
   title?: string,
-  type: string,
-  _id: string
+  type: 'category' | 'feed' | 'newsletter' | 'search',
+  _id?: string
 }
 
 export interface ConfigState {
@@ -164,6 +165,16 @@ export function config (
       return {
         ...state,
         migrationVersion: action.version
+      }
+    }
+
+    case SET_SEARCH_TERM: {
+      return {
+        ...state,
+        filter: {
+          type: 'search',
+          title: action.term
+        }
       }
     }
 

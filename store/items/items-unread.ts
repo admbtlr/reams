@@ -226,7 +226,7 @@ export function itemsUnread (
       items = state.items.filter(i => action.items.find((ai: Item) => ai._id === i._id) === undefined)
       index = currentItem === undefined ?
         0 :
-        items.findIndex(i => i._id === currentItem._id) 
+        items.findIndex(i => i._id === currentItem?._id) 
       return {
         ...state,
         items,

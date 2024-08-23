@@ -501,5 +501,20 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" strokeWidth={2}/>
       </Svg>
 
+    case 'search':
+      return <Svg
+        width={fontScale(32)}
+        height={fontScale(32)}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={borderColor}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <Circle cx="11" cy="11" r="8"></Circle>
+        <Line x1="21" y1="21" x2="16.65" y2="16.65"></Line>
+      </Svg>
+
   }
 }

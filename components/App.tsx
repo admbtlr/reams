@@ -12,14 +12,14 @@ import FeedsScreen from './FeedsScreen'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
 import { hslString } from '../utils/colors'
-import { getStatusBarHeight } from '../utils/dimensions'
-import { fontSizeMultiplier } from '../utils/dimensions'
-import { Animated, Dimensions, Platform } from 'react-native'
+import { fontSizeMultiplier, getStatusBarHeight } from '../utils/dimensions'
+import { Animated, Dimensions, Platform, TouchableOpacity, View } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
 import SettingsScreen from './SettingsScreen'
 import {default as MainWeb} from './web/Main'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
@@ -117,11 +117,17 @@ const Main = ({route}) => {
           return {
             title: route.params?.isSaved ? 'Library' : 'Feeds',
             headerBackTitleVisible: false,
+            // headerRight: () => (
+            //   <View style={{ backgroundColor: 'red' }}>
+            //     <TouchableOpacity>
+            //       {getRizzleButtonIcon('search')}
+            //     </TouchableOpacity>
+            //   </View>
+            // ),
             headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
             headerTransparent: true,
-            }
           }
-        }
+        }}
       />
       <MainStack.Screen
         name='Items'

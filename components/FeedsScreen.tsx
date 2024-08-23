@@ -13,10 +13,12 @@ import {
   Animated,
   Dimensions,
   Image,
+  LayoutAnimation,
   ScrollView,
   SectionList,
   StatusBar,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
 import FeedContracted from './FeedContracted'
@@ -29,14 +31,13 @@ import { getStatusBarHeight } from '../utils/dimensions'
 import { getMargin } from '../utils/dimensions'
 import { getInset } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
-import { textInfoStyle } from '../utils/styles'
+import { textButtonStyle, textInfoStyle, textInputStyle } from '../utils/styles'
 import { RootState } from 'store/reducers'
 import { useIsFocused } from '@react-navigation/native'
 import { ItemType } from '../store/items/types'
-import { searchItems } from '../storage/sqlite'
-import { memoize } from 'proxy-memoize'
-import { state } from '../__mocks__/state-input'
 import { useModal } from './ModalProvider'
+import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import SearchBar from './SearchBar'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -89,16 +90,9 @@ const normaliseTitle = (title: string) => title.slice(0, 4).toUpperCase() === 'T
 
 function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
 
-  // useEffect(() => {
-  //   const search = async () => { 
-  //     const items = await searchItems('fascism') 
-  //     console.log(items)
-  //   }
-  //   search()
-  // }, [])
-
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
   const [modal, setModal] = useState<{ feed: Feed, position: number } | null>(null)
+  const [showSearch, setShowSearch] = useState(false)
   let isScrolling = false
 
   const scrollAnim = new Animated.Value(0)
@@ -338,6 +332,28 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
 
   return (
     <>
+      <View style={{
+        position: 'absolute',
+        zIndex: 500,
+        flex: 0,
+        height: 40,
+        width: 40,
+        top: getStatusBarHeight() - 45,
+        right: 0,
+        // backgroundColor: 'yellow'
+      }}>
+        <TouchableOpacity onPress={() => {
+          LayoutAnimation.configureNext({ 
+            duration: 500, 
+            create: { type: 'linear', property: 'opacity' }, 
+            update: { type: 'spring', springDamping: 0.6 }, 
+            delete: { duration: 100, type: 'linear', property: 'opacity' } 
+          })
+          setShowSearch(!showSearch) 
+        }}>
+          { getRizzleButtonIcon('search', hslString('rizzleText'))}
+        </TouchableOpacity>
+      </View>
       <Animated.View style={{
         position: 'absolute',
         top: 0,
@@ -419,6 +435,9 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
             // )}
             // scrollEventThrottle={1}
           >
+            { showSearch &&
+              <SearchBar navigation={navigation}/>
+            }
             { sections.map((section, index) => {
               if (section.data.length === 0) return null
               return (

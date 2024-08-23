@@ -232,8 +232,8 @@ export async function updateItem(toUpdate: Record<string, any>) {
   }
 }
 
-export async function searchItems(term: string) {
+export function searchItems(term: string): ItemInflated[] {
   const searchTerm = `"%${term}%"`
   const query = `SELECT * FROM items WHERE content_html LIKE ${searchTerm} OR content_mercury LIKE ${searchTerm} OR excerpt LIKE ${searchTerm};`
-  return await db.getAllAsync(query)
+  return db.getAllSync(query)
 }

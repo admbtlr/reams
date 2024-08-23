@@ -202,7 +202,7 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
     .then(chunkedItems => {
       console.log('got all chunks')
       const items = chunkedItems.reduce((items, chunk) => items.concat(chunk), [])
-        .filter((item: Item) => item.feed_id !== undefined) // just ignore errors
+        .filter((item: Item) => !!item?.feed_id) // just ignore errors
       return items
         .map(mapRizzleServerItemToRizzleItem)
         .map((item: Item) => {
