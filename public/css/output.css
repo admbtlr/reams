@@ -951,7 +951,7 @@ web .headerFontSans3.isItalic h1 {
 }
 
 .headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5 {
-  font-family: "PlayfairDisplay-Black";
+  font-family: "PlayfairDisplay-Bold";
 }
 web .headerFontSerif1.isItalic h1 {
   font-family: "IBMPlexSerif-BoldItalic";
