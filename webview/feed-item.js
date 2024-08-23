@@ -209,6 +209,9 @@ function markImages () {
 
 function markShortBlockquotes() {
   const paras = document.querySelectorAll('blockquote')
+  const hasLongBlockquotes = Array.prototype.filter.call(paras, function(el) {
+    el.innerText.length >= 100
+  }).length > 0
   Array.prototype.forEach.call(paras, function (el, i) {
     if (el.innerText.length < 100) {
       el.classList.add('short-blockquote')

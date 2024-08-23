@@ -3,8 +3,10 @@
 - @inbox.reams.app email address
 
 - editing/deleting highlights doesn't work
+- feeds screen does not update when adding a new feed
 - wtf is up with FeedContracted on web???
-- open articles directly from annotations page- fetch articles never completes when adding saved article via extension
+- open articles directly from annotations page
+- fetch articles never completes when adding saved article via extension
 - maybe update image viewer
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer
 - TopBar with too many lines
