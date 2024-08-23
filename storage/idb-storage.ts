@@ -121,7 +121,18 @@ export async function setItem (item: Item) {
 export async function updateItem (item: ItemInflated) {
   try {
     const db = await openStore()
-    await db.put('items', itemToRow(item))
+    const records = await getItems([item])
+    if (records === undefined) {
+      throw new Error('Item not forund in database')
+    }
+    const record = records[0]
+    const keys = Object.keys(record)
+    keys.forEach((key: string) => {
+      if (record[key] !== item[key]) {
+        record[key] = item[key]
+      }
+    })
+    await db.put('items', itemToRow(record))
   } catch (err) {
     log('updateItem' + err)
   }
