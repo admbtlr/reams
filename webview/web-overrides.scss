@@ -133,6 +133,7 @@
   }
 
   .itemArticle {
+    max-width: 28rem;
     figure, img, video, iframe, pre {
       &:not(.specificity-breaker) {
         width: 100% !important;
