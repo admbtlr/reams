@@ -46,6 +46,28 @@ const getBufferedItems  = (items, index, displayMode, feeds) => {
   }
 }
 
+class Emitter {
+  
+  constructor () {
+    this.listeners = []
+  }
+  on (type, callback, id) {
+    this.listeners.push({
+      type,
+      callback, 
+      id
+    })
+  }
+  emit (type) {
+    this.listeners.filter(l => l.type === type)
+      .forEach(l => l.callback())
+  }
+  off (id) {
+    this.listeners = this.listeners.filter(l => l.id !== id)
+  }
+
+}
+
 class ItemCarousel extends React.Component {
   constructor (props) {
     super(props)
@@ -59,6 +81,8 @@ class ItemCarousel extends React.Component {
     this.state = {
       panAnim: new Animated.Value(0)
     }
+
+    this.emitter = new Emitter()
 
     this.onChangeIndex = this.onChangeIndex.bind(this)
     this.updateCarouselIndex = this.updateCarouselIndex.bind(this)
@@ -239,6 +263,7 @@ class ItemCarousel extends React.Component {
       return (
         <Fragment>
           <SwipeableViews
+            emitter={this.emitter}
             index={index === 0 ? 0 : 1}
             items={this.bufferedItems}
             isOnboarding={isOnboarding}
@@ -255,6 +280,7 @@ class ItemCarousel extends React.Component {
             numItems > 0 &&
             <ItemsScreenOnboarding /> }
           <TopBars
+            emitter={this.emitter}
             items={this.bufferedItems}
             navigation={navigation}
             orientation={orientation}

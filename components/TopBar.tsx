@@ -13,7 +13,7 @@ import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
 import {LinearGradient} from 'expo-linear-gradient'
 import FeedIconContainer from '../containers/FeedIcon'
 import { id } from '../utils'
-import { getStatusBarHeight } from '../utils/dimensions'
+import { getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { isPortrait } from '../utils/dimensions'
 import { hasNotchOrIsland } from '../utils/dimensions'
@@ -21,7 +21,7 @@ import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
-import { getItems, getIndex } from '../utils/get-item'
+import { getItems, getIndex, getScrollRatio } from '../utils/get-item'
 import { Feed, FeedLocal } from '../store/feeds/types'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
@@ -48,6 +48,9 @@ import log from '../utils/log'
 */
  interface TopBarProps {
   clampedAnimatedValue: Animated.AnimatedInterpolation<string | number> | undefined,
+  emitter: {
+    emit: (type: string) => null
+  }
   index: number
   isVisible: boolean,
   item: Item,
@@ -61,6 +64,7 @@ import log from '../utils/log'
 
 export default function TopBar({
   clampedAnimatedValue,
+  emitter,
   item,
   navigation,
   opacityAnim,
@@ -72,6 +76,7 @@ export default function TopBar({
 } : TopBarProps) {
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const items = useSelector((state: RootState) => getItems(state))
+  const scrollRatios = useSelector((state: RootState) => getScrollRatio(state, item))
   const [numItems, setNumItems] = useState(items.length)
   const [isBackgroundTransparent, setIsBackgroundTransparent] = useState(false)
   useEffect(() => {
@@ -149,8 +154,11 @@ export default function TopBar({
     }) : 0
   
   const getCurrentContent = (): string => item.showMercuryContent ? 'mercury' : 'html'
+  const scrollRatio = item.showMercuryContent ? 
+    scrollRatios?.mercury :
+    scrollRatios?.html
 
-  const hasScrollRatio = item && item.scrollRatio && item.scrollRatio[getCurrentContent()] > 0
+  const hasScrollRatio = scrollRatio !== undefined && scrollRatio > 0
 
   return isOnboarding ? null :
   (
@@ -176,7 +184,7 @@ export default function TopBar({
           shadowOpacity: 0.1,
           shadowColor: 'rgba(0, 0, 0, 1)',
           transform: [{
-            translateY: isVisible ? clampedAnimatedValue : 0
+            translateY: (isVisible && clampedAnimatedValue !== undefined) ? clampedAnimatedValue : 0
           }]
         }}
       >
@@ -360,7 +368,7 @@ export default function TopBar({
               </Animated.View>
             </TouchableOpacity>
         </View>
-        {/* <View style={{
+        <View style={{
           position: 'absolute',
           right: 0,
           bottom: 0,
@@ -368,18 +376,19 @@ export default function TopBar({
         }}>
           { hasScrollRatio &&
             <TouchableOpacity 
+              onPress={ () => emitter.emit('scrollToRatio') }
               style={{
                 flex: 1,
                 alignItems: 'flex-end',
                 justifyContent: 'flex-end',
-                marginBottom: 12 * fontSizeMultiplier(),
-                paddingRight: 5 * fontSizeMultiplier(),
+                marginBottom: 16 * fontSizeMultiplier(),
+                paddingRight: getMargin() / 2,
               }}
             >
               {getRizzleButtonIcon('bookmark', getForegroundColor(), 'transparent', true, false)}
             </TouchableOpacity>
           }
-        </View> */}
+        </View>
     </Animated.View>
   </View>)
 }

@@ -67,3 +67,9 @@ export const getItem = (state: RootState, id: string, type = 'unread') => {
   }
   return items.find(item => item._id === id)
 }
+
+export const getScrollRatio = (state: RootState, item: Item) => {
+  const stateItem = state.itemsUnread.items.find(i => i._id === item._id) ||
+    state.itemsSaved.items.find(i => i._id === item._id)
+  return stateItem?.scrollRatio
+}

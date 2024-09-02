@@ -174,6 +174,7 @@ class FeedItem extends React.Component {
   }
 
   componentDidMount () {
+    this.props.emitter.on('scrollToRatio', this.scrollToRatioIfVisible.bind(this), this.props.item._id)
     this.inflateItemAndSetState(this.props.item)
     this.hasMounted = true
   }
@@ -188,8 +189,12 @@ class FeedItem extends React.Component {
     }
     if (isVisible) {
       setScrollAnim(this.scrollAnim)
-      this.scrollToOffset(true)
     }
+  }
+
+  componentWillUnmount () {
+    const { emitter, item } = this.props
+    emitter.off(item._id)
   }
 
   async inflateItemAndSetState (item) {
@@ -213,7 +218,13 @@ class FeedItem extends React.Component {
     // }, 200)
   }
 
-  scrollToOffset (isOverridable = false) {
+  scrollToRatioIfVisible () {
+    if (this.props.isVisible) {
+      this.scrollToOffset(false, false)
+    }
+  }
+
+  scrollToOffset (isOverridable = false, useTimeout = true) {
     if (isOverridable && this.hasBegunScroll) return
     const {item} = this.props
     const {webViewHeight} = this.state
@@ -231,7 +242,7 @@ class FeedItem extends React.Component {
           animated: true
         })
       }
-    }, 2000)
+    }, useTimeout ? 2000: 0)
   }
 
   render () {
@@ -455,7 +466,7 @@ class FeedItem extends React.Component {
           })
           that.hasWebViewResized = true
           that.pendingWebViewHeightId = null
-          that.scrollToOffset(true)
+          // that.scrollToOffset(true)
         }, 500)
       }
     }
