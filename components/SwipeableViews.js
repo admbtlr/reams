@@ -96,6 +96,7 @@ class SwipeableViews extends Component {
   renderSlide = ({_id, index, isVisible, panAnim}) => (
     <FeedItemContainer
       _id={_id}
+      emitter={this.props.emitter}
       key={_id}
       setScrollAnim={this.props.setScrollAnim}
       onScrollEnd={this.props.onScrollEnd}

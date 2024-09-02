@@ -19,6 +19,7 @@ import TopBar from './TopBar'
 import isEqual from 'lodash.isequal'
 
 interface TopBarsProps {
+  emitter: {},
   index: number,
   initialBufferIndex: number,
   items: Item[],
@@ -47,6 +48,7 @@ const initialClampedScrollAnim = new Animated.Value(0)
 
 function TopBars (props: TopBarsProps) {
   const {
+    emitter,
     index,
     initialBufferIndex = 1,
     items,
@@ -141,6 +143,7 @@ function TopBars (props: TopBarsProps) {
   const topBars = items.map((item, i) => (
     <TopBar
       clampedAnimatedValue={clampedAnimatedValue && isVisible(i) ? clampedAnimatedValue : new Animated.Value(0)}
+      emitter={emitter}
       index={index > 0 ? index + i - 1 : index + i}
       isVisible={isVisible(i)}
       item={item}

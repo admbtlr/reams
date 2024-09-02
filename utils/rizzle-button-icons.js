@@ -497,9 +497,17 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         stroke={borderColor}
         strokeLinecap='round'
         strokeLinejoin='round'
+        style={{
+          transform: [{
+            rotate: '45deg'
+          }]
+        }}
       >
-        <Path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" strokeWidth={2}/>
+        <Path d="M21 4v6h-6 M15 4 l5 5 M16 16 a8 8 0 1 1 -1 -12" strokeWidth={2}/>
       </Svg>
+
+
+
 
     case 'search':
       return <Svg
