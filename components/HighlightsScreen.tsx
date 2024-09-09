@@ -22,11 +22,11 @@ import { getStatusBarHeight } from '../utils/dimensions'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { dustbinIcon, noteIcon } from '../utils/icons'
-import FeedIconContainer from '../containers/FeedIcon'
 import { createSelector } from '@reduxjs/toolkit'
 import { selectItemsSaved } from '../store/items/items-saved'
 import { deleteAnnotation, selectAnnotations, updateAnnotation } from '../store/annotations/annotations'
 import { useModal } from './ModalProvider'
+import FeedIcon from './FeedIcon'
 
 interface highlightsByItem {
   item_id: string,
@@ -120,9 +120,8 @@ export default function HighlightsScreen () {
             // marginRight: getMargin() * 0.5,
             marginTop: 5
           }}>
-            <FeedIconContainer
-              id={hbi.item.feed_id}
-              dimensions={{width: 16, height: 16}}
+            <FeedIcon
+              feedId={hbi.item.feed_id}
               isSmall={true}
             />
           </View>

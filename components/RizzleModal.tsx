@@ -20,12 +20,12 @@ import { deepEqual } from '../utils'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { xIcon } from '../utils/icons'
-import FeedIconContainer from '../containers/FeedIcon'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { useModal } from './ModalProvider'
 import AnimatedEllipsis from './AnimatedEllipsis'
+import FeedIcon from './FeedIcon'
 
 namespace RizzleModal {
   export interface Input {
@@ -276,9 +276,8 @@ const RizzleModal  = () => {
                   flex: 1, 
                 }}>
                   <View style={{ width: 30 }}>
-                    <FeedIconContainer
-                      id={row.id}
-                      dimensions={{width: 16, height: 16}}
+                    <FeedIcon
+                      feedId={row.id}
                       isSmall={true}
                     />
                   </View>

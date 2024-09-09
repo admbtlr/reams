@@ -4,9 +4,9 @@ import { RootState } from "store/reducers"
 import { Item, MARK_ITEM_READ, UPDATE_CURRENT_INDEX } from "../../store/items/types"
 import { ScaledSize, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from "react-native"
 import { hslString } from "../../utils/colors"
-import FeedIconContainer from "../../containers/FeedIcon"
 import { Image } from "react-native"
 import { Feed } from "../../store/feeds/types"
+import FeedIcon from "../FeedIcon"
 
 interface Props {
   feeds: Feed[]
@@ -111,9 +111,9 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
           alignItems: 'center',
           marginBottom: 5,
         }}>
-          <FeedIconContainer
+          <FeedIcon
             isSmaller
-            feed={feed} />
+            feedId={feed?._id} />
           <Text style={{
             color: hslString('rizzleText', undefined, 0.8),
             fontSize: 12,

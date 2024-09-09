@@ -5,8 +5,6 @@ import { hslString } from '../../utils/colors'
 import { getMargin } from '../utils/dimensions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/reducers'
-import FeedIcon from '../FeedIcon'
-import FeedIconContainer from '../../containers/FeedIcon'
 import ItemTitle from '../../containers/ItemTitle'
 import { Item, ItemType, MARK_ITEM_READ, SET_DISPLAY_MODE } from '../../store/items/types'
 import {

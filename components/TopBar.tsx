@@ -11,7 +11,6 @@ import {
 import { CommonActions } from '@react-navigation/native'
 import Svg, {Circle, G, Rect, Path } from 'react-native-svg'
 import {LinearGradient} from 'expo-linear-gradient'
-import FeedIconContainer from '../containers/FeedIcon'
 import { id } from '../utils'
 import { getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
@@ -28,6 +27,7 @@ import { getItem as getItemIDB } from "../storage/idb-storage"
 import { Saturate } from 'react-native-image-filter-kit'
 import { Newsletter } from '../store/newsletters/types'
 import log from '../utils/log'
+import FeedIcon from './FeedIcon'
 
 /* Props:
 - clampedAnimatedValue
@@ -254,12 +254,9 @@ export default function TopBar({
               }]
             }}>
               { feed && 
-                <View style={{marginTop: 2}}>
-                  <FeedIconContainer
-                    id={item.feed_id}
-                    dimensions={feedLocal?.cachedIconDimensions}
-                    bgColor={getBackgroundColor()}
-                    isBW={displayMode === ItemType.saved}
+                <View>
+                  <FeedIcon
+                    feedId={feed._id}
                   />
                 </View>
               }
@@ -272,10 +269,10 @@ export default function TopBar({
                     ...getStyles().feedName,
                     fontSize: 12 * fontSizeMultiplier(),
                     fontFamily: filter ?
-                      'IBMPlexSansCond-Bold' :
+                      'IBMPlexSansCond' :
                       'IBMPlexSansCond',
                     color: getForegroundColor(),
-                    textAlign: feedLocal && feedLocal.hasCachedIcon ?
+                    textAlign: feed ?
                       'left' : 'center'
                   }}
                 >{filter?.type ?
@@ -286,7 +283,7 @@ export default function TopBar({
                       'Saved Stories' : 
                       'Unread Stories')} • { index + 1 } / { numItems }</Text>
                 <Text
-                  numberOfLines={2}
+                  numberOfLines={1}
                   ellipsizeMode='tail'
                   style={{
                     ...getStyles().feedName,
@@ -294,14 +291,14 @@ export default function TopBar({
                     lineHeight: 22 * fontSizeMultiplier(),
                     fontFamily: filter ?
                       'IBMPlexSansCond-Bold' :
-                      'IBMPlexSansCond-Bold',
+                      'IBMPlexSansCond',
                     // color: this.getBorderBottomColor(item)
                     color: getForegroundColor(),
                     // height: 36,
                     // paddingBottom: 15,
-                    textAlign: feedLocal && feedLocal.hasCachedIcon ?
+                    textAlign: feed ?
                       'left' : 'center',
-                    textDecorationLine: displayMode === ItemType.saved ? 'none' : 'underline'
+                    // textDecorationLine: displayMode === ItemType.saved ? 'none' : 'underline'
                   }}
                 >
                   {feedTitle}

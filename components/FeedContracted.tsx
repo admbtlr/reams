@@ -11,7 +11,6 @@ import {
 import { hslString } from '../utils/colors'
 import CardCoverImage from './CardCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
-import FeedIconContainer from '../containers/FeedIcon'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
@@ -27,6 +26,7 @@ import isEqual from 'lodash.isequal'
 import { useModal } from './ModalProvider'
 import { BlurView } from 'expo-blur'
 import { createSelector } from '@reduxjs/toolkit'
+import FeedIcon from './FeedIcon'
 
 interface Props {
   _id: string | number
@@ -401,9 +401,8 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                   left: margin/2,
                   zIndex: 10
                 }}>
-                  <FeedIconContainer
-                    feed={feed}
-                    iconDimensions={cachedIconDimensions}
+                  <FeedIcon
+                    feedId={feed?._id}
                   />
                 </View>
                 { (coverImageSources === undefined || coverImageSources.length == 0) && 
