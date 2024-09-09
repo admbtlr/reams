@@ -68,6 +68,10 @@ export interface ItemInflated extends Item {
   content_mercury?: string
   date_published?: string
   excerpt?: string
+  faceCentreNormalised?: {
+    x: number
+    y: number
+  }
   readingTime?: number
   styles: ItemStyles
 }
