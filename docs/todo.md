@@ -2,10 +2,17 @@
 - splash
 - @inbox.reams.app email address
 
+- TensorFlow broken
 - editing/deleting highlights doesn't work
 - feeds screen does not update when adding a new feed
-- wtf is up with FeedContracted on web???
+- finish the add a feed manually feature
 - open articles directly from annotations page
+- favicons for newsletters on TopBar
+- why doesn't find feeds work on www.thisiscolossal.com
+- buttons to save links directly
+- saving an external item adds the same item multiple times
+
+- wtf is up with FeedContracted on web???
 - fetch articles never completes when adding saved article via extension
 - maybe update image viewer
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer
@@ -17,7 +24,6 @@
 - look into ItemTitle problems with ~~too long words~~ and too long titles
 - if currentitem is decorated and has a coverimage, the top bar goes transparent, but the image isn't shown
 - "inflate feeds" - download feed icons instead
-- finish the add a feed manually feature
 - put back the foreign key constraint on annotation.item_id once we're persisting saved items
 - action extension
 - "reams favourites"
@@ -27,8 +33,6 @@
   - ~~sorting~~
 - what's new screen
 - text to speech
-- search
-   - ~~replace AS with SQLite / WatermelonDB~~
 - how come some feeds don't have a feed_local and don't update?
 - remove all messages on init
 - handle being offline better (put checks into fetchItems etc.)
@@ -77,6 +81,8 @@
 - saved folders
 
 # Done
+- ~~search~~
+   - ~~replace AS with SQLite / WatermelonDB~~
 - ~~nyt and substack author image should have class img-small~~
 - ~~make share extension use https://github.com/Expensify/react-native-share-menu~~
 - ~~newsletters with fastmail (or gmail?)~~

@@ -145,7 +145,7 @@ export default function ItemView ({item}: {item: Item | undefined}) {
           justifyContent: 'center',
         }}>
           <FeedIcon
-            feed={feed}
+            feedId={feed?._id}
           />
           <Text style={{ 
             ...textInfoStyle(),
