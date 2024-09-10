@@ -613,7 +613,7 @@ function cleanSource() {
 }
 
 function init() {
-  if (!document.querySelector('html').classList.contains('cleaned')) {
+  if (!document.querySelector('article').classList.contains('cleaned')) {
     cleanSource()
     const src = document.querySelector('article').innerHTML
     window.ReactNativeWebView.postMessage(src)
