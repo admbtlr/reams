@@ -62,12 +62,10 @@ export default function HighlightButtons() {
     ],
     modalOnOk: ({note}: {note: string}) => {
       if (annotation !== undefined) {
-        dispatch({
-          type: updateAnnotation({
-            ...annotation,
-            note
-          }),  
-        })
+        dispatch(updateAnnotation({
+          ...annotation,
+          note
+        }))
       setActiveHighlight(null)
       dispatch({ type: SHOW_ITEM_BUTTONS })
     }},
@@ -116,9 +114,7 @@ export default function HighlightButtons() {
           icon={dustbinIcon()}
           onPress={() => {
             if (annotation !== undefined) {
-              dispatch({ 
-                type: deleteAnnotation(annotation)
-              })
+              dispatch(deleteAnnotation(annotation))
               setActiveHighlight(null)
               dispatch({ type: SHOW_ITEM_BUTTONS })
             }

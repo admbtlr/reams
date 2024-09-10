@@ -2,15 +2,17 @@
 - splash
 - @inbox.reams.app email address
 
-- TensorFlow broken
-- editing/deleting highlights doesn't work
+- update redux-saga to 1.3.0 to remove its redux dep
+- highlight location gets messed up on newsletters 
 - feeds screen does not update when adding a new feed
 - finish the add a feed manually feature
 - open articles directly from annotations page
-- favicons for newsletters on TopBar
 - why doesn't find feeds work on www.thisiscolossal.com
 - buttons to save links directly
 - saving an external item adds the same item multiple times
+- highlights don't have favicons (cos the items don't have feed_ids)
+- hide mercury button if disabled
+- how come mercury button is sometimes disabled for decorated items?
 
 - wtf is up with FeedContracted on web???
 - fetch articles never completes when adding saved article via extension
@@ -81,6 +83,9 @@
 - saved folders
 
 # Done
+- ~~editing/deleting highlights doesn't work~~
+- ~~favicons for newsletters on TopBar~~
+- ~~TensorFlow broken~~
 - ~~search~~
    - ~~replace AS with SQLite / WatermelonDB~~
 - ~~nyt and substack author image should have class img-small~~
