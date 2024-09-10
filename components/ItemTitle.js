@@ -1024,7 +1024,7 @@ class ItemTitle extends React.Component {
           this.getForegroundColor(),
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.9,
-      fontFamily: this.getFontFamily('bold', 'author'),
+      fontFamily: this.getFontFamily('regular', 'author'),
       lineHeight: Math.round(this.getExcerptFontSize() * 0.95),
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
