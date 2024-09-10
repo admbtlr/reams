@@ -123,6 +123,7 @@ export function createItemStyles (item, prevStyles) {
     fontClasses: fonts,
     border: hasBorder(),
     hasColorBlockquoteBG: Math.random() > 0.5,
+    hasFeedBGColor: Math.random() > 0.5,
     dropCapFamily: Math.random() > 0.5 ? 'body' : 'header',
     dropCapIsMonochrome: Math.random() > 0.8,
     dropCapSize: Math.floor(Math.random() * 5) + 2,
