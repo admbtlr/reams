@@ -21,7 +21,7 @@ export default function log (functionName, err, info) {
   if (Platform.OS === 'web') {
     Sentry.Browser.captureMessage(output)
     if (error) Sentry.Browser.captureException(error)
-  } else {
+  } else if (!__DEV__) {
     Sentry.captureMessage(output)
     if (error) Sentry.captureException(error)
   }
