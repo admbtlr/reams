@@ -67,7 +67,7 @@ export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => 
       )
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker, exit any dialogs or menus and move on
+        return
       } else {
         throw err;
       }
@@ -117,7 +117,7 @@ export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => 
         messageString: 'Adding feeds'
       })
       openModal({
-        isError: true,
+        // isError: true,
         modalText: [
           {
             text: 'Error Reading File',
@@ -129,7 +129,7 @@ export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => 
           }
         ],
         modalHideCancel: true,
-        modalShow: true,
+        // modalShow: true,
         modalOnOk: () => {}
       })
     }
