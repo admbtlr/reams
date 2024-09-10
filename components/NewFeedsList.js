@@ -173,10 +173,15 @@ export default function NewFeedsList (props) {
                   isSelfDestruct: true
                 }
               })
-
             }
           } catch(err) {
-            console.log(err)
+            dispatch({
+              type: ADD_MESSAGE,
+              message: {
+                messageString: `Couldn't find a feed`,
+                isSelfDestruct: true
+              }
+            })
           }
         }
         console.log('modalOnOk')
@@ -264,7 +269,7 @@ export default function NewFeedsList (props) {
             ...textStyles(),
             ...boldStyles,
             marginBottom: 32 * fontSizeMultiplier()
-          }}>There are four ways to add new feeds to Reams:</Text>
+          }}>There are three ways to add new feeds to Reams:</Text>
           <Text style={{
             ...textStyles(),
             marginBottom: 32 * fontSizeMultiplier()
@@ -287,7 +292,7 @@ export default function NewFeedsList (props) {
             <Text style={{
               ...textStyles(),
               marginBottom: 32 * fontSizeMultiplier()
-            }}>2. </Text><OPMLImport 
+            }}>3. </Text><OPMLImport 
               textStyles={{
                 ...textStyles(),
                 textDecorationLine: 'underline'
@@ -295,6 +300,7 @@ export default function NewFeedsList (props) {
               addFeeds={addFeeds}
             />
           </View>
+          {/*
           <Text style={{
             ...textStyles(),
             marginBottom: 36 * fontSizeMultiplier()
@@ -327,7 +333,7 @@ export default function NewFeedsList (props) {
                 />}
               />
             </View>)
-          }
+          */}
         </View>
       </Animated.ScrollView>
       <Animated.View style={{

@@ -104,6 +104,7 @@ const RizzleModal  = () => {
     setInputState({
       deletableRows: []
     })
+    setIsHideButtons(false)
   }
 
   const onOK = async () => {
@@ -121,7 +122,7 @@ const RizzleModal  = () => {
       isOpen = false
       // modalProps.hideModalable && modalProps.modalName &&
       //   toggleHide(modalProps.modalName)
-      resetState  
+      resetState()
     }
   }
 
