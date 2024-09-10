@@ -287,7 +287,7 @@ class FeedItem extends React.Component {
 
     const bodyColor = this.props.isDarkMode ? 
       'black' : 
-      styles.hasFeedBGColor && !!item.feed_color ?
+      styles.hasFeedBGColor && !!item.feed_color && JSON.stringify(item.feed_color) !== '[0,0,0]' ?
         `hsl(${(item.feed_color[0] + 180) % 360}, 10%, 90%)` :
         hslString('bodyBG')
 
