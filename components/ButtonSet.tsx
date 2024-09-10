@@ -262,28 +262,30 @@ export default function ButtonSet ({
         >
         { getRizzleButtonIcon('launchBrowserIcon', borderColor, backgroundColor, true, false) }
       </RizzleButton>
-      <RizzleButton
-        backgroundColor={backgroundColor}
-        borderColor={borderColor}
-        borderWidth={borderWidth}
-        iconOff={getRizzleButtonIcon('showMercuryIconOff', borderColor, backgroundColor, !!itemInflated?.content_mercury, false)}
-        iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, !!itemInflated?.content_mercury, false)}
-        initialToggleState={isItemMercury}
-        isToggle={true}
-        style={{
-          paddingLeft: 2,
-          transform: [{
-            translateY: isCurrent ? visibleAnim.interpolate({
-              inputRange: [0, 0.667, 0.833, 1],
-              outputRange: [0, 0, translateDistance * -0.2, translateDistance]
-            }) : 0
-          }]
-        }}
-        onPress={!!itemInflated?.content_mercury ? 
-          () => toggleMercury() : 
-          () => false
-        }
-      />
+      { !!itemInflated?.content_mercury &&
+        <RizzleButton
+          backgroundColor={backgroundColor}
+          borderColor={borderColor}
+          borderWidth={borderWidth}
+          iconOff={getRizzleButtonIcon('showMercuryIconOff', borderColor, backgroundColor, !!itemInflated?.content_mercury, false)}
+          iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, !!itemInflated?.content_mercury, false)}
+          initialToggleState={isItemMercury}
+          isToggle={true}
+          style={{
+            paddingLeft: 2,
+            transform: [{
+              translateY: isCurrent ? visibleAnim.interpolate({
+                inputRange: [0, 0.667, 0.833, 1],
+                outputRange: [0, 0, translateDistance * -0.2, translateDistance]
+              }) : 0
+            }]
+          }}
+          onPress={!!itemInflated?.content_mercury ? 
+            () => toggleMercury() : 
+            () => false
+          }
+        />
+      }
     </Animated.View>
   )
 }
