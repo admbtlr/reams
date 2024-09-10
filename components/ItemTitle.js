@@ -465,6 +465,7 @@ class ItemTitle extends React.Component {
 
   render () {
     let {
+      backgroundColor,
       coverImageStyles, 
       displayMode,
       isPortrait, 
@@ -640,7 +641,7 @@ class ItemTitle extends React.Component {
       backgroundColor: !showCoverImage || item.styles?.coverImage?.isInline ?
         // hslString(item.styles?.coverImage?.color, coverImageColorPalette) :
         // 'white' :
-        hslString('bodyBG') :
+        backgroundColor :
         overlayColour,
       opacity: coverImageStyles?.isInline || !showCoverImage ?
         1 :

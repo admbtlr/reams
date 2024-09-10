@@ -285,7 +285,11 @@ class FeedItem extends React.Component {
       savedAt
     } = inflatedItem
 
-    const bodyColor = this.props.isDarkMode ? 'black' : hslString('bodyBG')
+    const bodyColor = this.props.isDarkMode ? 
+      'black' : 
+      styles.hasFeedBGColor && !!item.feed_color ?
+        `hsl(${(item.feed_color[0] + 180) % 360}, 10%, 90%)` :
+        hslString('bodyBG')
 
     if (styles === undefined || styles === null || Object.keys(styles).length === 0) {
       //styles = item.styles = createItemStyles(item)
@@ -348,6 +352,7 @@ class FeedItem extends React.Component {
           <ItemTitleContainer
             anims={this.anims}
             addAnimation={this.addAnimation}
+            backgroundColor={bodyColor}
             item={inflatedItem}
             isVisible={isVisible}
             title={title}
