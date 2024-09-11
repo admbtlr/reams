@@ -260,12 +260,12 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
   }
 
   const shadowStyle = {
-    shadowColor: 'black',
-    shadowRadius: 5,
-    shadowOpacity: 0.1,
+    shadowColor: 'rgb(80, 80, 50)',
+    shadowRadius: 3,
+    shadowOpacity: 0.3,
     shadowOffset: {
       width: 0,
-      height: 5
+      height: 3
     }
   }
 
