@@ -67,11 +67,11 @@ export const updateCategory = async (category: Category) => {
   }
   const fn = async () => await supabase
     .from('Category')
-    .upsert({ 
-      _id: category._id,
+    .update({ 
       name: category.name,
       user_id: userId
     })
+    .eq('_id', category._id)
   const { error } = await doQuery(fn)
   if (error) {
     throw error
