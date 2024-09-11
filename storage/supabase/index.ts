@@ -36,12 +36,12 @@ export const getUserId = async () => {
 // there are random errors with the supabase client
 export const doQuery = async (fn: () => any, retries = 5, timeout = 5000): Promise<{ data: {}, error: {}}> => {
   try {
-    console.log('Inside doQuery, running fn')
+    // console.log('Inside doQuery, running fn')
     const { data, error } = await Promise.race([
       fn(),
       new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), timeout))
     ])
-    console.log('Inside doQuery, fn completed. Data: ' + JSON.stringify(data).substring(0, 50))
+    // console.log('Inside doQuery, fn completed. Data: ' + JSON.stringify(data).substring(0, 50))
     if (error) {
       throw error
     }
