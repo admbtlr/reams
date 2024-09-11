@@ -1,16 +1,15 @@
 - icon
 - splash
 
+- replace save button in library items
 - update redux-saga to 1.3.0 to remove its redux dep
 - highlight location gets messed up on newsletters 
 - open articles directly from annotations page
-- why doesn't find feeds work on www.thisiscolossal.com
 - buttons to save links directly
 - saving an external item adds the same item multiple times
 - highlights don't have favicons (cos the items don't have feed_ids)
 - hide mercury button if disabled
 - how come mercury button is sometimes disabled for decorated items?
-- replace save button in library items
 - favicons in library
 
 - wtf is up with FeedContracted on web???
@@ -82,6 +81,7 @@
 - saved folders
 
 # Done
+- ~~why doesn't find feeds work on www.thisiscolossal.com~~
 - ~~@inbox.reams.app email address~~
 - ~~feeds screen does not update when adding a new feed~~
 - ~~finish the add a feed manually feature~~
