@@ -228,21 +228,29 @@ export default function ButtonSet ({
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
-        iconOff={getRizzleButtonIcon('saveButtonIconOff', borderColor, backgroundColor, true, false)}
-        iconOn={getRizzleButtonIcon('saveButtonIconOn', borderColor, backgroundColor, true, false)}
+        iconOff={displayMode == ItemType.saved ?
+          getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false) :
+          getRizzleButtonIcon('saveButtonIconOff', borderColor, backgroundColor, true, false)}
+        iconOn={displayMode == ItemType.saved ?
+          getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false) :
+          getRizzleButtonIcon('saveButtonIconOn', borderColor, backgroundColor, true, false)}
         initialToggleState={item?.isSaved}
-        isToggle={true}
+        isToggle={displayMode === ItemType.unread}
         style={{
-          paddingLeft: 1,
-          transform: [{
-            translateY: isCurrent ? visibleAnim.interpolate({
-              inputRange: [0, 0.333, 0.5, 0.667, 1],
-              outputRange: [0, 0, translateDistance * -0.2, translateDistance, translateDistance]
-            }) : 0
-          }]
+          paddingHorizontal: displayMode === ItemType.unread ? 0 : 7,
+          transform: [
+            {
+              translateY: isCurrent ? visibleAnim.interpolate({
+                inputRange: [0, 0.333, 0.5, 0.667, 1],
+                outputRange: [0, 0, translateDistance * -0.2, translateDistance, translateDistance]
+              }) : 0
+            }
+          ]
         }}
         onPress={() => setSaved(item, !item.isSaved)}
-      />
+      >
+        { displayMode == ItemType.saved && getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false) }
+      </RizzleButton>
       <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}

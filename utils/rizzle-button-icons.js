@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, {Circle, G, Path, Polygon, Rect, Line} from 'react-native-svg'
+import Svg, {Circle, G, Path, Polygon, Polyline, Rect, Line} from 'react-native-svg'
 import { fontSizeMultiplier } from './dimensions'
 
 export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isEnabled, applyFontScaling = true, scale = 1) {
@@ -506,9 +506,6 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path d="M21 4v6h-6 M15 4 l5 5 M16 16 a8 8 0 1 1 -1 -12" strokeWidth={2}/>
       </Svg>
 
-
-
-
     case 'search':
       return <Svg
         width={fontScale(32)}
@@ -524,5 +521,20 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Line x1="21" y1="21" x2="16.65" y2="16.65"></Line>
       </Svg>
 
+    case 'trash':
+      return <Svg 
+        width={fontScale(32)} 
+        height={fontScale(32)} 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke={borderColor} 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round">
+          <Polyline points="3 6 5 6 21 6" />
+          <Path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          <Line x1="10" y1="11" x2="10" y2="17" />
+          <Line x1="14" y1="11" x2="14" y2="17" />
+        </Svg>
   }
 }
