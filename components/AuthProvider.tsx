@@ -8,6 +8,7 @@ import { startDownloads } from "../store/config/types"
 import { Item } from "../store/items/types"
 import { RootState } from "../store/reducers"
 import { persistor } from "../store"
+import { getCodeName } from "../storage/supabase/user"
 
 interface SessionContext {
   session?: Session | null,
@@ -38,7 +39,12 @@ export const AuthProvider = (props: any) => {
           }
           lastSessionChange = Date.now()
           setSession({session})
-          dispatch({ type: SET_USER_DETAILS, details: session.user })
+          const codeName = await getCodeName()
+          const userDetails = {
+            ...session.user,
+            codeName
+          }
+          dispatch({ type: SET_USER_DETAILS, details: userDetails })
           dispatch(startDownloads())
         } else {
           setSession({session: null})

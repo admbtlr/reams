@@ -82,11 +82,12 @@ export const fetchNewsletters = createAsyncThunk(
       }
     })
     const lastQueryState = (getState() as RootState).newsletters.queryState
+    const codeName = (getState() as RootState).user.codeName
     let items
     let queryState
     // let response
     try {
-      const response = await fetchNewsletterItems(lastQueryState)
+      const response = await fetchNewsletterItems(lastQueryState, codeName)
       items = response.items
       queryState = response.queryState
     } catch (e: any) {
