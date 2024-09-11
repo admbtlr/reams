@@ -117,7 +117,7 @@ const categoriesSlice = createSlice({
       // state.updatedAt = Date.now()
     })
     builder.addCase(UNSET_BACKEND, (state, action) => {
-      state = initialState
+      state.categories = []
     })
   }
 })

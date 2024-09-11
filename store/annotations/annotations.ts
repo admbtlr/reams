@@ -93,7 +93,8 @@ const annotationsSlice = createSlice({
       state.updatedAt = Date.now()
     })
     builder.addCase(UNSET_BACKEND, (state) => {
-      state = initialState
+      state.annotations = []
+      state.updatedAt = 0
     })
   }
 })
