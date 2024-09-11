@@ -15,6 +15,10 @@ interface credentials {
   email?: string
 }
 
+interface UserDetails extends User {
+  codeName?: string
+}
+
 interface setBackendAction {
   type: typeof SET_BACKEND
   backend: string
@@ -46,7 +50,7 @@ interface setUidAction {
 
 interface setUserDetailsAction {
   type: typeof SET_USER_DETAILS
-  details: User
+  details: UserDetails
 }
 
 interface setSignInEmailAction {

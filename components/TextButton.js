@@ -88,7 +88,7 @@ class TextButton extends React.Component {
       borderColor || hslString('rizzleText', '', 0.5)
     const screenWidth = Dimensions.get('window').width
     const inset = getInset()
-    const height = (isCompact ? 14 : 24) + (18 * fontSizeMultiplier())
+    const height = (isCompact ? 4 : 24) + (18 * fontSizeMultiplier())
     let buttonStyle = {
       borderColor: borderColor,
       backgroundColor: isInverted ? fgColor : bgColor,
@@ -101,9 +101,9 @@ class TextButton extends React.Component {
       height,
       maxHeight: showMaxHeight ? height : 'auto',
       maxWidth: 700,
-      width: '100%',
+      width: isCompact ? 'auto' : '100%',
       ...this.props.buttonStyle,
-      paddingTop: 9 * fontSizeMultiplier()
+      paddingTop: (isCompact ? 2 : 9) * fontSizeMultiplier()
     }
     if (Platform.OS === 'ios') {
       buttonStyle.maxHeight = 42 * fontSizeMultiplier()
@@ -131,16 +131,16 @@ class TextButton extends React.Component {
 
     const textStyle = {
       fontFamily: isExpanded ? 'IBMPlexSans-Bold' : 'IBMPlexSans',
-      fontSize: (isExpanded ? 18 : 16) * fontSizeMultiplier(),
-      lineHeight: (isExpanded ? 20 : 18) * fontSizeMultiplier(),
+      fontSize: (isExpanded ? 24 : isCompact ? 12 : 16) * fontSizeMultiplier(),
+      lineHeight: (isExpanded ? 24 : 18) * fontSizeMultiplier(),
       textAlign: 'center',
       color: isInverted ? bgColor : fgColor,
       marginHorizontal: -10,
       opacity: isDisabled ? 0.5 : 1,
-      paddingLeft: 20 * fontSizeMultiplier(),
-      paddingRight: 20 * fontSizeMultiplier(),
+      paddingLeft: (isCompact ? 5 : 20) * fontSizeMultiplier(),
+      paddingRight: (isCompact ? 5 : 20) * fontSizeMultiplier(),
       paddingTop: (isCompact ? 0 : 3) * fontSizeMultiplier(),
-      marginTop: (isCompact ? -1 : 0)
+      marginTop: (isCompact ? -1 : (isExpanded ? 4 : 0))
     }
     if (isExpandable) {
       if (Platform.OS === 'ios') {
@@ -161,8 +161,8 @@ class TextButton extends React.Component {
             position: 'absolute',
             top: (isCompact ? 2 : 4),
             left: 4,
-            height: (isCompact ? 24 : 32) * fontSizeMultiplier(),
-            width: (isCompact ? 24 : 32) * fontSizeMultiplier(),
+            height: (isCompact ? 18 : 32) * fontSizeMultiplier(),
+            width: (isCompact ? 18 : 32) * fontSizeMultiplier(),
             padding: 2,
             borderRadius: this.props.iconBg ? ((isCompact ? 24 : 32) * fontSizeMultiplier()) / 2 : 0,
             backgroundColor: this.props.iconBg ? (isInverted ? bgColor : fgColor) : 'transparent'

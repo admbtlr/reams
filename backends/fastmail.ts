@@ -74,12 +74,15 @@ const getSession = async () => {
 // }
 
 
-const mailboxQuery = async (apiUrl: string, queryState?: string) => {
+const mailboxQuery = async (apiUrl: string, queryState?: string, codeName?: string) => {
   const emailQuery = `[
     "Email/query",
     {
       "accountId": "u2ee041d2",
-      "filter": { "inMailbox": "aab8c71f-49e6-49a8-970f-e8293fb65b53" },
+      "filter": { 
+        "inMailbox": "aab8c71f-49e6-49a8-970f-e8293fb65b53",
+        "to": "${codeName}@feed.reams.app"
+      },
       "sort": [{ "property": "receivedAt", "isAscending": false }],
       "limit": 50
     },
@@ -90,7 +93,10 @@ const mailboxQuery = async (apiUrl: string, queryState?: string) => {
     "Email/queryChanges",
     {
       "accountId": "u2ee041d2",
-      "filter": { "inMailbox": "aab8c71f-49e6-49a8-970f-e8293fb65b53" },
+      "filter": { 
+        "inMailbox": "aab8c71f-49e6-49a8-970f-e8293fb65b53",
+        "to": "${codeName}@feed.reams.app"
+      },
       "sinceQueryState": "${queryState}",
       "maxChanges": 100,
       "upToId": null
@@ -144,7 +150,7 @@ export const getBlob = async (item: Item, apiUrl: string, accountId: string) => 
   }
 }
 
-export default async function fetchNewsletterItems(lastQueryState?: string): Promise<{
+export default async function fetchNewsletterItems(lastQueryState?: string, codeName?: string): Promise<{
   items: ItemInflated[],
   queryState: string
 }> {
@@ -153,7 +159,7 @@ export default async function fetchNewsletterItems(lastQueryState?: string): Pro
   // console.log(JSON.stringify(session))
   const apiUrl = CORS_PROXY + '?url=' + session.apiUrl
   const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
-  response = await mailboxQuery(apiUrl, lastQueryState)
+  response = await mailboxQuery(apiUrl, lastQueryState, codeName)
   // console.log(JSON.stringify(response["methodResponses"][1].slice(1, -1)))
   console.log('GOT RESPONSE')
   if (response["methodResponses"][0][0] === 'error') {

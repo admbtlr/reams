@@ -33,6 +33,7 @@ export interface Backend {
 export interface UserState {
   readonly userId?: string
   readonly email?: string
+  readonly codeName?: string
   readonly backends: Backend[]
   readonly analyticsId: string
   readonly signInEmail?: string
@@ -41,6 +42,7 @@ export interface UserState {
 const initialState = {
   userId: '',
   email: '',
+  codeName: '',
   // this ternary is because id isn't a function in the test environment
   analyticsId: typeof id === 'function' ? id() : '',
   backends: []
@@ -66,7 +68,8 @@ export function user (
         return {
           ...state,
           email: details.email,
-          userId: details.id
+          userId: details.id,
+          codeName: details.codeName
         }
       }
 

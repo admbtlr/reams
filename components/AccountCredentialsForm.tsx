@@ -16,6 +16,7 @@ import {
 } from '@/utils/styles'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { supabase } from '@/storage/supabase'
+import TextButton from './TextButton'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -253,7 +254,7 @@ class AccountCredentialsForm extends React.Component {
                 flex: 0,
                 flexDirection: 'column',
                 height: Platform.OS === 'web' ? undefined : 'auto',
-                alignItems: 'flex-start',
+                alignItems: 'stretch',
                 justifyContent: 'space-between'
               }}>
                 { service === 'basic' ?
@@ -265,17 +266,33 @@ class AccountCredentialsForm extends React.Component {
                   </View> :
                   <React.Fragment>
                     { loggedInUserName &&
-                      <Text style={{
-                        ...textInfoBoldStyle('white'),
-                        marginTop: -10,
-                        marginBottom: 10,
-                        textAlign: 'left'
+                      <View style={{
+                        flexDirection: 'row',
                       }}>
-                        <Text style={textInfoStyle('white')}>Logged in as </Text>{ loggedInUserName }
-                      </Text>
+                        <Text style={{
+                          ...textInfoBoldStyle('white'),
+                          textAlign: 'left',
+                          flex: 1,
+                        }}>Logged in as</Text>
+                        <Text style={{
+                          ...textInfoStyle('white'),
+                          textAlign: 'right',
+                          flex: 1,
+                        }}>{ loggedInUserName }</Text>
+                      </View>
                     }
-                    { this.state.showPasswordField ? 
-                      <>
+                    <View style={{
+                      alignSelf: 'stretch',
+                      height: 1,
+                      margin: getMargin(),
+                      backgroundColor: 'rgba(255,255,255,0.2)'
+                    }} />
+                      { this.state.showPasswordField ? (
+                      <View style={{
+                        flexDirection: 'row',
+                        marginRight: getMargin(),
+                        flex: 1
+                      }}>
                         <TextInput 
                           autoFocus={true}
                           onChangeText={(text) => this.setState({
@@ -283,53 +300,140 @@ class AccountCredentialsForm extends React.Component {
                           })}
                           style={{
                             ...textInfoStyle('white'),
-                            width: '100%',
+                            flex: 1,
                             height: 24 * fontSizeMultiplier(),
                             borderBottomColor: 'white',
                             borderBottomWidth: 1
                           }}
                         />
-                        <TouchableOpacity
-                          color={hslString('white')}
-                          onPress={async () => {
-                            const { data, error } = await supabase.auth.updateUser({
-                              password: this.state.newPassword
-                            })
-                            console.log(data)
-                            if (error) {
-                              console.error(error)
-                            }
-                          }}
-                          style={{
-                            marginTop: 16 * fontSizeMultiplier(),
-                            width: '100%'
-                          }}
-                        >
+                        <View style={{
+                          flex: 0,
+                          flexDirection: 'row',
+                          width: 110
+                        }}>
+                          <TextButton
+                            buttonStyle={{
+                              flex: -1,
+                              alignSelf: 'flex-end',
+                              width: 50,
+                              marginRight: 10
+                            }}
+                            isCompact
+                            onPress={async () => {
+                              const { data, error } = await supabase.auth.updateUser({
+                                password: this.state.newPassword
+                              })
+                              console.log(data)
+                              if (error) {
+                                console.error(error)
+                              }
+                            }}
+                            text='OK'
+                          />
+                          <TextButton
+                            buttonStyle={{
+                              flex: -1,
+                              alignSelf: 'flex-end',
+                              width: 50
+                            }}
+                            isCompact
+                            onPress={async () => {
+                              LayoutAnimation.configureNext({ 
+                                duration: 500, 
+                                create: { type: 'linear', property: 'opacity' }, 
+                                update: { type: 'spring', springDamping: 0.9 }, 
+                                delete: { duration: 100, type: 'linear', property: 'opacity' } 
+                              })
+                              this.setState({
+                                showPasswordField: false
+                              })
+                            }}
+                            text='Cancel'
+                          />
+                        </View>
+                      </View>) : (
+                      <View>
+                        <View style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between'
+                        }}>                      
                           <Text style={{
-                            ...textInfoStyle('white'),
-                            textAlign: 'right',
-                            textDecorationLine: 'underline',
-                          }}>Set password</Text>
-                        </TouchableOpacity>
-                      </> :
-                      <TouchableOpacity
-                        color={hslString('white')}
-                        onPress={async () => {
-                          this.setState({
-                            showPasswordField: true
-                          })
-                        }}
-                        style={{
-                          marginTop: 16 * fontSizeMultiplier(),
-                          width: '100%'
-                        }}
-                      >
+                            ...textInfoBoldStyle('white'),
+                            textAlign: 'left',
+                            flex: 1,
+                          }}>Password</Text>
+                          <View style={{
+                            flex: 1,
+                            marginRight: getMargin(),
+                            justifyContent: 'center'
+                          }}>
+                            <TextButton
+                              buttonStyle={{
+                                flex: -1,
+                                alignSelf: 'flex-end',
+                                width: 50
+                              }}
+                              isCompact
+                              onPress={async () => {
+                                LayoutAnimation.configureNext({ 
+                                  duration: 500, 
+                                  create: { type: 'linear', property: 'opacity' }, 
+                                  update: { type: 'spring', springDamping: 0.9 }, 
+                                  delete: { duration: 100, type: 'linear', property: 'opacity' } 
+                                })        
+                                this.setState({
+                                  showPasswordField: true
+                                })
+                              }}
+                              text='Add'
+                            />
+                          </View>
+                        </View>
                         <Text style={{
                           ...textInfoStyle('white'),
-                          textDecorationLine: 'underline',
-                        }}>{user.password ? 'Edit' : 'Add a'} password</Text>
-                      </TouchableOpacity>
-                    }
+                          fontSize: 12 * fontSizeMultiplier(),
+                          opacity: 0.8,
+                          marginRight: 60
+                        }}>You'll need to add a password if you want to use desktop browser extensions</Text>
+                        </View>
+                      )}
+                      <View style={{
+                        alignSelf: 'stretch',
+                        height: 1,
+                        margin: getMargin(),
+                        backgroundColor: 'rgba(255,255,255,0.2)'
+                      }} />
+                    <View style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      // marginRight: getMargin()
+                    }}>
+                      <Text style={{
+                        ...textInfoBoldStyle('white'),
+                        flex: -1
+                      }}>Email</Text>
+                      <Text 
+                        selectable
+                        style={{
+                          ...textInfoStyle('white'),
+                          flex: 0,
+                          textAlign: 'right'
+                        }}>{ user.codeName }@feed.reams.app</Text>
+                    </View>
+                    <Text style={{
+                      ...textInfoStyle('white'),
+                      fontSize: 12 * fontSizeMultiplier(),
+                      opacity: 0.8,
+                      marginRight: 60,
+                      marginTop: 3
+                    }}>Use this email address to subscribe to newsletters</Text>
+                    <View style={{
+                        alignSelf: 'stretch',
+                        height: 1,
+                        margin: getMargin(),
+                        backgroundColor: 'rgba(255,255,255,0.2)'
+                      }} />
+                    
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}
                       color={hslString('white')}
