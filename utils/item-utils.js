@@ -83,8 +83,8 @@ export function fixRelativePaths (item) {
   if (!matches) return item
   const host = matches[0]
   const derelativise = s => {
-    s = s.replace(/src="\/\//g, 'src="https://')
-    s = s.replace(/src="\//g, `src="${host}/`)
+    s = s.replace(/(src.*?)="\/\//g, '$1="https://')
+    s = s.replace(/(src.*?)="\//g, `$1="${host}/`)
     return s
   }
   if (item.content_html) item.content_html = derelativise(item.content_html)
