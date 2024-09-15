@@ -156,6 +156,11 @@ class FeedItem extends React.Component {
               case 'scrollRatio':
               case 'readingTime':
               case 'readAt':
+              
+              // these two are here because we don't want to re-render ItemBody
+              // it already has the cleaned version, since it was the one that did the cleaning
+              case 'isMercuryCleaned':
+              case 'isHtmlCleaned':
                 isDiff = false
                 break
             }
@@ -183,7 +188,10 @@ class FeedItem extends React.Component {
     const { isVisible, item, setScrollAnim } = this.props
     this.initAnimatedValues(true)
     if ((item.isNewsletter || item.isExternal) && 
-      (item.isDecorated && !prevProps.item.isDecorated)) {
+      ((item.isDecorated && !prevProps.item.isDecorated) ||
+      (item.isHtmlCleaned && !prevProps.item.isHtmlCleaned) ||
+      (item.isMercuryCleaned && !prevProps.item.isMercuryCleaned)
+    )) {
       console.log('(item.isNewsletter || item.isExternal) && item.isDecorated && !prevProps.item.isDecorated')
       this.inflateItemAndSetState(item)
     }
