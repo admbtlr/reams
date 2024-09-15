@@ -540,6 +540,18 @@ function remove1x1Images() {
   }
 }
 
+function removeSubstackPreamble () {
+  if (document.querySelector('html').classList.contains('newsletter') &&
+    document.querySelectorAll('.email-body-container').length === 1) {
+    var emailBodyContainer = document.querySelector('.email-body-container')
+    var article = document.querySelector('article')
+    while (article.firstChild) {
+      article.removeChild(article.lastChild);
+    }
+    article.appendChild(emailBodyContainer)
+  }
+}
+
 function stopAutoplay () {
   [].slice.call(document.getElementsByTagName('video')).forEach(v => v.removeAttribute('autoplay'))
 }
@@ -609,20 +621,21 @@ function cleanSource() {
   removeSrcSets()
   removeEmptyDivs()
   removeDivsWithImg()
-  convertDivsToFigures()  
+  convertDivsToFigures()
+  removeSubstackPreamble()
 }
 
 function init() {
   if (!document.querySelector('article').classList.contains('cleaned')) {
     cleanSource()
+    markImages()
+    addTapMessageToImages()
+    // addTapMessageToLinks()
+    removeAllBrs()
+    stopAutoplay()
     const src = document.querySelector('article').innerHTML
     window.ReactNativeWebView.postMessage(src)
   }
-  markImages()
-  addTapMessageToImages()
-  // addTapMessageToLinks()
-  removeAllBrs()
-  stopAutoplay()
   rangy.init()
   highlighter = rangy.createHighlighter()
   highlighter.addClassApplier(rangy.createClassApplier("highlight", {
