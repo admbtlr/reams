@@ -100,7 +100,6 @@ export async function fetchItems (
       }))
       newItems = newItems.filter((newItem) => !!!oldItems.find(oldItem => oldItem._id === newItem._id))
       newItems = newItems.filter(newItem => !readItems.find(readItem => newItem._id === readItem._id))
-      console.log('new items after clearing read items', newItems)
       callback(newItems)
     } catch (error) {
       log(error)

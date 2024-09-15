@@ -162,9 +162,9 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     }
     try {
       if (Platform.OS === 'web') {
-        await updateItemIDB(item)
+        await updateItemIDB(cleanedItem)
       } else {
-        await updateItemSQLite(item)
+        await updateItemSQLite(cleanedItem)
       }
       dispatch({
         type: ITEM_BODY_CLEANED,
@@ -190,7 +190,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const annotations = useSelector(
-    (state: RootState ) => state.annotations.annotations.filter(a => a.item_id === item._id), 
+    (state: RootState ) => state.annotations.annotations.filter(a => a?.item_id === item._id), 
     (a1, a2) => JSON.stringify(a1) === JSON.stringify(a2)
   )
 
@@ -321,10 +321,12 @@ html, body {
     decelerationRate='normal'
     injectedJavaScript={ injectedJavaScript }
     mixedContentMode='compatibility'
-    menuItems={[{ 
-      label: 'Highlight', 
-      key: 'highlight'
-    }]}
+    menuItems={[
+      { 
+        label: 'Highlight', 
+        key: 'highlight'
+      }
+    ]}
     onCustomMenuSelection={({ nativeEvent }) => {
       if (nativeEvent?.key === 'highlight') {
         highlightSelection(nativeEvent.selection)
