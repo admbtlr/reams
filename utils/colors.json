@@ -159,7 +159,7 @@
     "white": "hsl(0, 0%, 100%)",
     "buttonBG": "hsl(0, 0%, 100%)",
     "rizzleFG": "hsl(263, 14%, 16%)",
-    "rizzleBG": "hsl(46, 23%, 83%)",
+    "rizzleBG": "hsl(46, 23%, 88%)",
     "rizzleSaved": "hsl(264, 10%, 30%)",
     "rizzleBGAlt": "hsl(11, 21%, 16%)",
     "rizzleHighlight": "hsl(42, 91%, 60%)",
