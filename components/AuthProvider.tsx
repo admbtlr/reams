@@ -35,6 +35,8 @@ export const AuthProvider = (props: any) => {
       async (event: AuthChangeEvent, session: Session | null) => {
         if (!!session) {
           if (Date.now() - lastSessionChange < 10000) {
+            console.log('Date.now() - lastSessionChange < 10000')
+            console.log(`lastSessionChange: ${lastSessionChange}`)
             return
           }
           lastSessionChange = Date.now()
