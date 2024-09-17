@@ -72,6 +72,8 @@ function * startDownloads (shouldSleep = false) {
   }
   const lastUpdated = yield select(getLastUpdated)
     try {
+      console.log(`Last updated: ${lastUpdated}, now: ${Date.now()}`)
+      console.log(`MINIMUM_UPDATE_INTERVAL: ${MINIMUM_UPDATE_INTERVAL}`)
       if (Date.now() - lastUpdated > MINIMUM_UPDATE_INTERVAL) {
         console.log('fetchAllFeeds')
         yield call(fetchAllFeeds)
