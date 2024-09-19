@@ -32,7 +32,7 @@ export const AuthProvider = (props: any) => {
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event: AuthChangeEvent, session: Session | null) => {
+      (event: AuthChangeEvent, session: Session | null) => {
         if (!!session) {
           if (Date.now() - lastSessionChange < 10000) {
             console.log('Date.now() - lastSessionChange < 10000')
@@ -41,18 +41,23 @@ export const AuthProvider = (props: any) => {
           }
           lastSessionChange = Date.now()
           setSession({session})
-          const codeName = await getCodeName()
-          const userDetails = {
-            ...session.user,
-            codeName
-          }
-          dispatch({ type: SET_USER_DETAILS, details: userDetails })
-          dispatch(startDownloads())
+          // https://supabase.com/docs/reference/javascript/auth-onauthstatechange
+          setTimeout(async () => {
+            const codeName = await getCodeName()
+            const userDetails = {
+              ...session.user,
+              codeName
+            }
+            dispatch({ type: SET_USER_DETAILS, details: userDetails })
+            dispatch(startDownloads())  
+          }, 0)
         } else {
           setSession({session: null})
           dispatch({ type: UNSET_BACKEND, backend: 'reams' })
-          // @ts-ignore
-          await persistor.purge()
+          setTimeout(async () => {
+            // @ts-ignore
+            await persistor.purge()
+          }, 0)
         }
       }
     )
