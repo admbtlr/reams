@@ -1,13 +1,15 @@
 - icon
 - splash
 
+- use useColor in ItemTitle and ItemBody
+- use expo splash
+- use wavy line instead of block
 - fix double bold titles
 - update redux-saga to 1.3.0 to remove its redux dep
 - highlight location gets messed up on newsletters 
 - open articles directly from annotations page
 - buttons to save links directly
 - saving an external item adds the same item multiple times
-- highlights don't have favicons (cos the items don't have feed_ids)
 - how come mercury button is sometimes disabled for decorated items?
 
 - wtf is up with FeedContracted on web???
@@ -79,6 +81,7 @@
 - saved folders
 
 # Done
+- ~~highlights don't have favicons (cos the items don't have feed_ids)~~
 - ~~favicons in library~~
 - ~~kottke.org redirects to feeds.kottke.org, which doesn't have a favicon :/ ~~
 - ~~replace save button in library items~~
