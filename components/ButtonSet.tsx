@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import RizzleButton from './RizzleButton'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { hslString } from '../utils/colors'
+import { getLightness, hslString } from '../utils/colors'
 import { getMargin } from '../utils/dimensions'
 import { hasNotchOrIsland } from '../utils/dimensions'
 import { RootState } from '../store/reducers'
@@ -20,6 +20,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
 import { Newsletter } from '../store/newsletters/types'
+import { useColor } from '../hooks/useColor'
 
 // isDarkMode, displayMode, 
 let areButtonsVisible = true
@@ -136,17 +137,11 @@ export default function ButtonSet ({
   const strokeColor = isDarkMode ?
     'hsl(0, 0%, 70%)' :
     'black'
-  let activeColor = displayMode === ItemType.saved ?
-      hslString('rizzleText', 'ui') :
-    (item && feed) ?
-      hslString(feed.color, 'darkmodable') :
-      null
-  const borderColor = displayMode == ItemType.saved ?
-    isDarkMode ? 'hsl(0, 0%, 80%)' : hslString('rizzleText') :
-    activeColor
-  const backgroundColor = displayMode == ItemType.saved ?
-    hslString('rizzleBG') :
-    hslString('buttonBG')
+  const color = useColor(itemFeed?.rootUrl || itemFeed?.url || item.url)
+  let activeColor = color || hslString('rizzleText', 'ui')
+  const borderColor = activeColor
+  const lightness = color ? getLightness(color) : 0
+  const backgroundColor = lightness && lightness > 70 ? hslString('rizzleFG') : hslString('buttonBG')
   const backgroundColorLighter = backgroundColor.replace(/[0-9]*\%\)/, '70%)')
   const borderWidth = 1
 

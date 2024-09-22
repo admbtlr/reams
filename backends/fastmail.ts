@@ -9,7 +9,7 @@ import log from '../utils/log'
 //   process.exit(1)
 // }
 
-const CORS_PROXY = 'https://api.alreadyapp.com/api/cors-proxy' //process.env.CORS_PROXY
+const CORS_PROXY = process.env.CORS_PROXY
 const JMAP_TOKEN = process.env.JMAP_TOKEN
 const API_URL = process.env.API_URL
 

@@ -716,9 +716,9 @@ class ItemTitle extends React.Component {
         // check for small caps in font
         this.renderedTitle = this.getRenderedTitle(this.decodedTitle.toLocaleUpperCase())
       }
-      if (this.props.showCoverImage && this.props.styles.isVertical) {
-        this.renderedTitle = this.getRenderedTitle(this.decodedTitle.replace(/ /g, '\n'))
-      }
+      // if (this.props.showCoverImage && this.props.styles.isVertical) {
+      //   this.renderedTitle = this.getRenderedTitle(this.decodedTitle.replace(/ /g, '\n'))
+      // }
     }
 
     if (this.shouldSplitIntoWords()) {

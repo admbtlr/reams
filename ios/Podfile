@@ -120,7 +120,10 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     # https://stackoverflow.com/a/70335609
     target.build_configurations.each do |config|
-      config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+      # https://github.com/getsentry/sentry-react-native/issues/4095#issuecomment-2358568215
+      if target.name != "Sentry"
+        config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+      end
     end
 
     case target.name

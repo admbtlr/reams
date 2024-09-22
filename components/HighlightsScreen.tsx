@@ -26,7 +26,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import { selectItemsSaved } from '../store/items/items-saved'
 import { deleteAnnotation, selectAnnotations, updateAnnotation } from '../store/annotations/annotations'
 import { useModal } from './ModalProvider'
-import FeedIcon from './FeedIcon'
+import Favicon from './Favicon'
 
 interface highlightsByItem {
   item_id: string,
@@ -114,14 +114,14 @@ export default function HighlightsScreen () {
         width: '100%',
         marginBottom: getMargin(),
       }}>
-        { hbi.item?.feed_id && feeds.find(f => f._id === hbi.item?.feed_id) !== undefined && (
+        {hbi.item !== undefined && (
           <View style={{
             // width: 24,
-            // marginRight: getMargin() * 0.5,
+            marginRight: getMargin() * 0.5,
             marginTop: 5
           }}>
-            <FeedIcon
-              feedId={hbi.item.feed_id}
+            <Favicon
+              url={hbi.item?.url}
               isSmall={true}
             />
           </View>

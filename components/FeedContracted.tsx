@@ -26,7 +26,7 @@ import isEqual from 'lodash.isequal'
 import { useModal } from './ModalProvider'
 import { BlurView } from 'expo-blur'
 import { createSelector } from '@reduxjs/toolkit'
-import FeedIcon from './FeedIcon'
+import Favicon from './Favicon'
 
 interface Props {
   _id: string | number
@@ -401,8 +401,8 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                   left: margin/2,
                   zIndex: 10
                 }}>
-                  <FeedIcon
-                    feedId={feed?._id}
+                  <Favicon
+                    url={feed?.rootUrl || feed?.url}
                   />
                 </View>
                 { (coverImageSources === undefined || coverImageSources.length == 0) && 

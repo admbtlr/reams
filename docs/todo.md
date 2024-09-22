@@ -1,16 +1,14 @@
 - icon
 - splash
 
-- replace save button in library items
+- fix double bold titles
 - update redux-saga to 1.3.0 to remove its redux dep
 - highlight location gets messed up on newsletters 
 - open articles directly from annotations page
 - buttons to save links directly
 - saving an external item adds the same item multiple times
 - highlights don't have favicons (cos the items don't have feed_ids)
-- hide mercury button if disabled
 - how come mercury button is sometimes disabled for decorated items?
-- favicons in library
 
 - wtf is up with FeedContracted on web???
 - fetch articles never completes when adding saved article via extension
@@ -81,6 +79,10 @@
 - saved folders
 
 # Done
+- ~~favicons in library~~
+- ~~kottke.org redirects to feeds.kottke.org, which doesn't have a favicon :/ ~~
+- ~~replace save button in library items~~
+- ~~hide mercury button if disabled~~
 - ~~why doesn't find feeds work on www.thisiscolossal.com~~
 - ~~@inbox.reams.app email address~~
 - ~~feeds screen does not update when adding a new feed~~
