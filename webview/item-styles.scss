@@ -978,6 +978,10 @@ hr {
 
 // HEADER FONTS
 
+h1, h2, h3, h4, h5, b, strong {
+  font-weight: normal;
+}
+
 .headerFontSans1 {
   h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold";
