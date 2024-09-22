@@ -99,15 +99,17 @@ class AppStateListener extends React.Component {
         const pages = typeof parsed === 'object' ?
           parsed :
           [parsed]
-        const that = this
-        const savedItems = this.props.savedItems
-        pages.forEach(page => {
-          if (savedItems.find(item => item.url === page.url)) {
-            that.showAlreadySavedModal(page.url)
-          } else {
-            that.savePage(page)
-          }
-        })
+        if (pages) {
+          const that = this
+          const savedItems = this.props.savedItems
+          pages.forEach(page => {
+            if (savedItems.find(item => item.url === page.url)) {
+              that.showAlreadySavedModal(page.url)
+            } else {
+              that.savePage(page)
+            }
+          })
+        }
       }
     } catch(err) {
       // '1' just means that there is nothing in the bucket

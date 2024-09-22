@@ -16,18 +16,18 @@ import { getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { isPortrait } from '../utils/dimensions'
 import { hasNotchOrIsland } from '../utils/dimensions'
-import { hslString } from '../utils/colors'
+import { getLightness, hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
-import { getItems, getIndex, getScrollRatio } from '../utils/get-item'
-import { Feed, FeedLocal } from '../store/feeds/types'
+import { getItems, getScrollRatio } from '../utils/get-item'
+import { Feed } from '../store/feeds/types'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
-import { Saturate } from 'react-native-image-filter-kit'
 import { Newsletter } from '../store/newsletters/types'
 import log from '../utils/log'
-import FeedIcon from './FeedIcon'
+import Favicon from './Favicon'
+import { useColor } from '../hooks/useColor'
 
 /* Props:
 - clampedAnimatedValue
@@ -91,8 +91,9 @@ export default function TopBar({
   } else {
     feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item.feed_id))
   }
-  const feedLocal: FeedLocal | undefined = useSelector((state: RootState) => state.feedsLocal.feeds.find(f => f._id === item.feed_id))
-  const webviewHeight = useSelector((state: RootState) => getItems(state).find(i => i._id === item._id)?.webviewHeight || 0)
+  // const feedLocal: FeedLocal | undefined = useSelector((state: RootState) => state.feedsLocal.feeds.find(f => f._id === item.feed_id))
+  // const webviewHeight = useSelector((state: RootState) => getItems(state).find(i => i._id === item._id)?.webviewHeight || 0)
+  const color = useColor(feed?.rootUrl || feed?.url || item.url)
 
   useEffect(() => {
     const checkStyles = async () => {
@@ -110,32 +111,39 @@ export default function TopBar({
   }, [item])
 
   const getBackgroundColor = () => {
-    let feedColor = feed ? feed.color : null
-    // if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
-    //   feedColor = 'transparent'
+    // let feedColor = feed ? feed.color : null
+    // // if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
+    // //   feedColor = 'transparent'
+    // // }
+    // if (feedColor && typeof(feedColor) !== 'string' && feedColor[2] > 70) {
+    //   feedColor[2] = 50
     // }
-    if (feedColor && typeof(feedColor) !== 'string' && feedColor[2] > 70) {
-      feedColor[2] = 50
-    }
 
-    const bgColor = displayMode == ItemType.saved ?
-      hslString('rizzleBG') :
-      (feedColor ?
-        hslString(feedColor, 'desaturated') :
-        hslString('rizzleSaved'))
-    return bgColor
+    // const bgColor = displayMode == ItemType.saved ?
+    //   hslString('rizzleBG') :
+    //   (feedColor ?
+    //     hslString(feedColor, 'desaturated') :
+    //     hslString('rizzleSaved'))
+    // return bgColor
+    if (color) {
+      return color
+    } else {
+      return hslString('logo3')
+    }
   }  
 
   const getForegroundColor = () => {
-    return displayMode == ItemType.saved && !isBackgroundTransparent ?
-      (isDarkMode ?
-        'hsl(0, 0%, 80%)' :
-        hslString('rizzleText')) :
-        'white'
+    if (color && !isBackgroundTransparent) {
+      const lightness = getLightness(color)
+      if (lightness && lightness > 70) {
+        return hslString('rizzleFG')
+      }
+    }
+    return 'white'
   }
     
   const getBackgroundOpacityAnim = () => {
-    if (isBackgroundTransparent) {
+    if (isBackgroundTransparent && typeof scrollAnim == 'object') {
       return scrollAnim.interpolate({
         inputRange: [0, getStatusBarHeight(), getStatusBarHeight() + 50],
         outputRange: [0, 0, 1]
@@ -229,7 +237,7 @@ export default function TopBar({
             key={`inner-{id()}`}
             onPress={() => {
               if (isOnboarding || displayMode === ItemType.saved) return
-              openFeedModal()
+              if (feed !== undefined) openFeedModal(feed._id)
             }}
             style={{
               backgroundColor: 'transparent',
@@ -253,13 +261,12 @@ export default function TopBar({
                 translateY: titleTransformAnim || 0
               }]
             }}>
-              { feed && 
                 <View>
-                  <FeedIcon
-                    feedId={feed._id}
+                  <Favicon
+                    // this is a hot mess because newsletters have a url instead of a rootUrl
+                    url={feed?.rootUrl || feed?.url || item.url}
                   />
                 </View>
-              }
               <View style={{
                 flexDirection: 'column',
                 marginTop: 0,
@@ -272,15 +279,14 @@ export default function TopBar({
                       'IBMPlexSansCond' :
                       'IBMPlexSansCond',
                     color: getForegroundColor(),
-                    textAlign: feed ?
-                      'left' : 'center'
+                    textAlign: 'left'
                   }}
                 >{filter?.type ?
                     (filter.type == 'category' ? 
                       filter.title :
                       'Feed') :
                     (displayMode === ItemType.saved ?
-                      'Saved Stories' : 
+                      'Library' : 
                       'Unread Stories')} • { index + 1 } / { numItems }</Text>
                 <Text
                   numberOfLines={1}

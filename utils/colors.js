@@ -3,6 +3,14 @@ import { store } from '../store'
 
 const { colors, darker, lighter, desaturated, desaturatedDarker, ui, darkMode } = require('./colors.json')
 
+export function getLightness(hslString) {
+  const matches = hslString.match(/.*?([0-9]*)%\)/)
+  if (matches && matches.length > 1) {
+    return Number.parseFloat(matches[1])
+  }
+  return null
+}
+
 // taken from https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion#9493060
 /**
  * Converts an HSL color value to RGB. Conversion formula
