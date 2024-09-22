@@ -823,6 +823,10 @@ hr {
   color: var(--feed-color);
 }
 
+h1, h2, h3, h4, h5, b, strong {
+  font-weight: normal;
+}
+
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold";
 }
