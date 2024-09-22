@@ -30,6 +30,7 @@ export function useColor(url: string) {
         const colors = await getColors(iconBase64, {
           cache: true,
           key: host,
+          quality: 'highest'
         })
         if (colors.platform === 'ios') {
           // weirdly, 'background' is the best option
