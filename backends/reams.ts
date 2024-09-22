@@ -27,7 +27,7 @@ import { Newsletter } from '../store/newsletters/types'
 
 let isPlus = false
 
-const CORS_PROXY = 'https://api.alreadyapp.com/api/cors-proxy' //process.env.CORS_PROXY
+const CORS_PROXY = process.env.CORS_PROXY
 const API_URL = process.env.API_URL
 
 export function init () {
