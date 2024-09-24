@@ -19,6 +19,7 @@ import log from '../utils/log'
 import { textInfoBoldStyle, textInfoItalicStyle } from '../utils/styles'
 import TextButton from './TextButton'
 import { getMargin } from '../utils/dimensions'
+import { useColor } from '../hooks/useColor'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -257,9 +258,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     data = coverImageUrl
   }
 
-  const feedColor = feed_color ?
-    hslString(feed_color, 'darkmodable') :
-    hslString('logo1')
+  const feedColor = useColor(item.url)
 
   const { width, height } = Dimensions.get('window')
   const deviceWidth = height > width ? width: height

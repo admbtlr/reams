@@ -399,6 +399,7 @@ body, body a, body a:active, body a:visited {
   margin-right: 0.2rem;
   margin-bottom: 0.1rem;
   margin-top: 0.4rem;
+  border-radius: 0.075rem;
 }
 .itemArticle ul li:before, .itemArticle ol li:before {
   background-color: var(--feed-color);

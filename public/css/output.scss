@@ -251,10 +251,11 @@ body {
   width: 100vw;
 
   background-color: hsl(60, 17%, 96%);
+  transition: background-color, color 0.2s;
+
   &, a, a:active, a:visited {
     color: hsl(0, 0%, 20%);
   }
-  transition: background-color, color 0.2s;
 
   .dark-background & {
     background-color: hsl(240, 0%, 0%);
@@ -732,6 +733,7 @@ body {
       margin-right: .2rem;
       margin-bottom: .1rem;
       margin-top: .4rem;
+      border-radius: .075rem;
     }
   }
 

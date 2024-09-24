@@ -13,7 +13,7 @@ import { isIpad } from '../utils/dimensions'
 import {getTopBarHeight} from './TopBar'
 import * as Sentry from '@sentry/react-native'
 import CategoryToggles from './CategoryToggles'
-import { getRizzleButtonIcon } from '@/utils/rizzle-button-icons'
+import { Bar } from './Bar'
 
 const entities = require('entities')
 
@@ -854,18 +854,11 @@ class ItemTitle extends React.Component {
 
   renderBar (anim) {
     let style = this.props.anims ? this.props.addAnimation({}, anim, this.props.isVisible) : {}
-    return <Animated.View style={style}>
-      <View style={{
-        marginLeft: this.horizontalMargin,
-        margin: 0,
-        marginTop: 10,
-        // marginBottom: -60,
-        // width: 100,
-        height: 30,
-        // backgroundColor: 'red'
-      }}>
-        { getRizzleButtonIcon('wave', this.getForegroundColor()) }
-      </View>
+    return <Animated.View style={{
+      ...style,
+      marginLeft: this.horizontalMargin
+    }}>
+      <Bar item={this.props.item} />
     </Animated.View>
   }
 
