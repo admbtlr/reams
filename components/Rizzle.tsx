@@ -6,6 +6,7 @@ import {
   StatusBar,
   View
 } from 'react-native'
+import * as SplashScreen from 'expo-splash-screen'
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { initStore, persistor } from '../store'
 import * as Sentry from '@sentry/react-native'
@@ -45,6 +46,11 @@ global.isStarting = true
 setTimeout(() => {
   global.isStarting = false
 }, 5000)
+
+// Prevent native splash screen from autohiding before App component declaration
+SplashScreen.preventAutoHideAsync()
+  .then((result) => console.log(`SplashScreen.preventAutoHideAsync() succeeded: ${result}`))
+  .catch(console.warn); // it's good to explicitly catch and inspect any error
 
 const Rizzle = () => {
   let navigation: Ref<NavigationContainerRef>
