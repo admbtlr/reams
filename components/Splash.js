@@ -8,7 +8,7 @@ import {
   Platform,
   Text
 } from 'react-native'
-import SplashScreen from 'react-native-splash-screen'
+import * as SplashScreen from 'expo-splash-screen'
 
 import { hslString } from '../utils/colors'
 import { isFirstLaunch } from '../utils'
@@ -93,7 +93,7 @@ export default function Splash () {
   return hasFaded ? null :
     <Animated.View
       onLayout={() => {
-        if (Platform.OS !== 'web') SplashScreen.hide()
+        if (Platform.OS !== 'web') SplashScreen.hideAsync()
       }}
       style={{
         position: 'absolute',
@@ -117,7 +117,7 @@ export default function Splash () {
     >
       <Image
         onLoadEnd={() => {
-          if (Platform.OS !== 'web') SplashScreen.hide()
+          if (Platform.OS !== 'web') SplashScreen.hideAsync()
         }}
         // resizeMode='contain'
         source={require('../assets/images/ream.png')}

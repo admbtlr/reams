@@ -108,7 +108,7 @@ PODS:
     - sqlite3 (~> 3.42.0)
     - sqlite3/fts (~> 3.42.0)
     - sqlite3/fts5 (~> 3.42.0)
-  - EXSplashScreen (0.27.5):
+  - EXSplashScreen (0.26.5):
     - ExpoModulesCore
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1040,8 +1040,6 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.8.2):
     - React-Core
-  - react-native-splash-screen (3.3.0):
-    - React-Core
   - react-native-webview (13.6.4):
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1343,7 +1341,6 @@ DEPENDENCIES:
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -1519,8 +1516,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-splash-screen:
-    :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-nativeconfig:
@@ -1626,7 +1621,7 @@ SPEC CHECKSUMS:
   ExpoLinearGradient: 4ad1449a2408e0435ac959076562b3921f2e32a1
   ExpoModulesCore: 421e9c6bcb63baf153a5ec22b2b4319addfe331c
   ExpoSQLite: 2c0f6267f9d7f41be9f40d59efc4ced3bfbec93b
-  EXSplashScreen: c270c0914778bd7752a958d20260e3755d53f67b
+  EXSplashScreen: fb4d80520d2348d57879e7a272415438bbcdffd3
   EXUpdatesInterface: 3e444e2093e25b7ca0999a7d8c16e8392dee70c3
   FBLazyVector: f64d1e2ea739b4d8f7e4740cde18089cd97fe864
   FBReactNativeSpec: 9f2b8b243131565335437dba74923a8d3015e780
@@ -1668,7 +1663,6 @@ SPEC CHECKSUMS:
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 3aa5637c18834966e0c932de8ae1ae56fea20a97
   react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
-  react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: ff06d1fe175ff827882ec88b696a7efcafa7e98d
   React-nativeconfig: b4d4e9901d4cabb57be63053fd2aa6086eb3c85f
   React-NativeModulesApple: cd26e56d56350e123da0c1e3e4c76cb58a05e1ee
