@@ -5,7 +5,6 @@ import rnTextSize from 'react-native-text-size'
 import moment from 'moment'
 import quote from 'headline-quotes'
 
-import {hslString} from '../utils/colors'
 import {deepEqual, diff} from '../utils'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
@@ -452,11 +451,7 @@ class ItemTitle extends React.Component {
   }
 
   getForegroundColor () {
-    if (this.props.displayMode === ItemType.saved) {
-      return hslString('logo1')
-    } else {
-      return hslString(this.props.item.feed_color, 'desaturated')
-    }
+    return this.props.color
   }
 
   // called by outerView to set the bottom y of the title
@@ -792,7 +787,7 @@ class ItemTitle extends React.Component {
             ref={(view) => { this.innerView = view }}
           >
             {typeof(this.renderedTitle) === 'object' && this.renderedTitle}
-            {typeof(this.renderedTitle) === 'string' &&
+            {(typeof(this.renderedTitle) === 'string' && this.originalTitle.length > 0) &&
               <Animated.Text style={{
                 ...fontStyle,
                 ...shadowStyle,
@@ -849,7 +844,8 @@ class ItemTitle extends React.Component {
   }
 
   shouldSplitIntoWords () {
-    return this.props.styles.interBolded || this.props.styles.invertBG
+    return this.originalTitle.length > 0 &&
+      (this.props.styles.interBolded || this.props.styles.invertBG)
   }
 
   renderBar (anim) {
@@ -873,7 +869,7 @@ class ItemTitle extends React.Component {
   }
 
   getExcerptColor () {
-    const { coverImageStyles, showCoverImage, item, styles } = this.props
+    const { showCoverImage, item, styles } = this.props
     let excerptColor
     if (!showCoverImage || item.styles?.coverImage?.isInline || item.styles?.coverImage?.isContain) {
       excerptColor = this.props.isDarkMode ? textColorDarkMode : textColor
@@ -1011,7 +1007,7 @@ class ItemTitle extends React.Component {
   }
 
   renderAuthor (anim) {
-    const { coverImageStyles, date, item, scrollOffset, showCoverImage, styles } = this.props
+    const { item, scrollOffset, showCoverImage, styles } = this.props
     let authorStyle = {
       color: showCoverImage && !item.styles?.coverImage?.isInline ?
           'white' :
