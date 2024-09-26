@@ -572,8 +572,13 @@ body {
   }
 
   blockquote.short-blockquote, .pullquote, aside {
-    color: white;
-    background-color: transparent;
+    // color: white;
+    color: var(--feed-color);
+    a {
+      color: var(--feed-color) !important;
+    }
+
+    // background-color: transparent;
     border: none;
     font-size: 1rem;
     line-height: 1.33rem;
@@ -1470,12 +1475,12 @@ h1, h2, h3, h4, h5, b, strong {
     // border-bottom: 2px solid var(--feed-color);
   }
 
-  blockquote.short-blockquote { //, .pullquote, aside {
-    color: var(--feed-color);
-    a {
-      color: var(--feed-color) !important;
-    }
-  }
+  // blockquote.short-blockquote { //, .pullquote, aside {
+  //   color: var(--feed-color);
+  //   a {
+  //     color: var(--feed-color) !important;
+  //   }
+  // }
 
   *:not(:first-of-type) div,
     * div:not(:first-of-type),

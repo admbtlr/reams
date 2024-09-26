@@ -296,8 +296,7 @@ body, body a, body a:active, body a:visited {
   top: 0;
 }
 .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
-  color: white;
-  background-color: transparent;
+  color: var(--feed-color);
   border: none;
   font-size: 1rem;
   line-height: 1.33rem;
@@ -305,6 +304,9 @@ body, body a, body a:active, body a:visited {
   padding: 1rem 1.5rem 1rem 1rem;
   margin: 1rem 0;
   text-align: left;
+}
+.itemArticle blockquote.short-blockquote a, .itemArticle .pullquote a, .itemArticle aside a {
+  color: var(--feed-color) !important;
 }
 .itemArticle figure cite {
   display: none;
@@ -996,12 +998,6 @@ web .headerFontSerif1.isItalic h1 {
 .itemArticle a, .itemArticle a:active, .itemArticle a:visited {
   text-decoration-color: var(--feed-color);
   -webkit-text-decoration-color: var(--feed-color);
-}
-.itemArticle blockquote.short-blockquote {
-  color: var(--feed-color);
-}
-.itemArticle blockquote.short-blockquote a {
-  color: var(--feed-color) !important;
 }
 .itemArticle *:not(:first-of-type) div:before,
 .itemArticle * div:not(:first-of-type):before,
