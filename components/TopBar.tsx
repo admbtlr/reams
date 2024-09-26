@@ -133,12 +133,6 @@ export default function TopBar({
   }  
 
   const getForegroundColor = () => {
-    if (color && !isBackgroundTransparent) {
-      const lightness = getLightness(color)
-      if (lightness && lightness > 70) {
-        return hslString('rizzleFG')
-      }
-    }
     return 'white'
   }
     

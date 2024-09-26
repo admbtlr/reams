@@ -2,8 +2,8 @@ import { connect } from 'react-redux'
 import { 
   SET_TITLE_FONT_SIZE
 } from '../store/items/types'
-import ItemTitle from '../components/ItemTitle.js'
 import { isPortrait } from '../utils/dimensions'
+import ItemTitleWithHook from '../components/ItemTitle.js'
 
 const mapStateToProps = (state, ownProps) => {
   // const index = getIndex(state)
@@ -39,6 +39,6 @@ const mapDispatchToProps = (dispatch) => {
 let ItemTitleContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ItemTitle)
+)(ItemTitleWithHook)
 
 export default ItemTitleContainer

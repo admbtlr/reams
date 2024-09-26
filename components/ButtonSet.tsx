@@ -140,9 +140,7 @@ export default function ButtonSet ({
   const color = useColor(itemFeed?.rootUrl || itemFeed?.url || item.url)
   let activeColor = color || hslString('rizzleText', 'ui')
   const borderColor = activeColor
-  const lightness = color ? getLightness(color) : 0
-  const backgroundColor = lightness && lightness > 70 ? hslString('rizzleFG') : hslString('buttonBG')
-  const backgroundColorLighter = backgroundColor.replace(/[0-9]*\%\)/, '70%)')
+  const backgroundColor = hslString('buttonBG')
   const borderWidth = 1
 
   const getMercuryToggleOpacity = (item: Item, isCurrent: boolean) => {

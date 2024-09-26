@@ -39,7 +39,7 @@ export function useColor(url: string) {
           let bestColor
           for (let i = 0; i < options.length; i++) {
             bestColor = colors[options[i]]
-            if (bestColor !== undefined && bestColor !== '#FFFFFF' && bestColor !== '#000000') {
+            if (bestColor !== undefined && bestColor !== '#FFFFFF') {
               break
             }
           }
@@ -48,14 +48,15 @@ export function useColor(url: string) {
             let hue = hslArray[0]
             let saturation = hslArray[1]
             let lightness = hslArray[2]
-            if (Number.parseInt(lightness) && Number.parseInt(lightness) > 70) {
-              lightness = 70
+            if (Number.parseInt(lightness) && Number.parseInt(lightness) > 75) {
+              lightness = 75
             }
             setColor(`hsl(${hue}, ${saturation}%, ${lightness}%)`)  
           }
         }  
       } catch (err) {
-        log(err, 'useColor')
+        console.error('Error for host ' + host)
+        // log(err, 'useColor')
       }
     }
     getColor()
