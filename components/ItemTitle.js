@@ -1095,13 +1095,16 @@ class ItemTitle extends React.Component {
     const theDate = (typeof date === 'number') ? date : date
     let showYear = (moment(theDate).year() !== moment().year())
     const formattedDate = moment(theDate)
-      .format('MMMM Do' + (showYear ? ' YYYY' : '') + ', h:mma')
-
+      .format('MMMM Do' + (showYear ? ' YYYY' : ''))
+    const formattedTime = moment(theDate)
+      .format('h:mma')
+    const showToday = moment(theDate).dayOfYear === moment(theDate).dayOfYear &&
+      (moment(theDate).year() === moment().year())
     return (
       <Animated.Text
         maxFontSizeMultiplier={1.2}
         style={dateStyle}
-      >{formattedDate}</Animated.Text>
+      >{`${(showToday ? 'Today' : formattedDate)}, ${formattedTime}`}</Animated.Text>
     )
   }
 
