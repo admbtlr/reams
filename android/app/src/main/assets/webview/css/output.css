@@ -833,6 +833,9 @@ h1, h2, h3, h4, h5, b, strong {
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold";
 }
+.headerFontSans1 h1 b, .headerFontSans1 h1 strong, .headerFontSans1 h3 b, .headerFontSans1 h3 strong, .headerFontSans1 h5 b, .headerFontSans1 h5 strong {
+  font-family: "AvenirNextCondensed-BoldItalic";
+}
 web .headerFontSans1 h1, web .headerFontSans1 h3, web .headerFontSans1 h5 {
   font-family: "Lato";
   font-weight: 700;
@@ -842,6 +845,9 @@ web .headerFontSans1.isItalic h1 {
 }
 .headerFontSans1 h2, .headerFontSans1 h4 {
   font-family: "AvenirNext-Medium";
+}
+.headerFontSans1 h2 b, .headerFontSans1 h2 strong, .headerFontSans1 h4 b, .headerFontSans1 h4 strong {
+  font-family: "AvenirNext-MediumItalic";
 }
 web .headerFontSans1 h2, web .headerFontSans1 h4 {
   font-family: "Lato";
@@ -895,11 +901,17 @@ web .headerFontSans1 figcaption em strong, web .headerFontSans1 figcaption stron
 .headerFontSans2 h1, .headerFontSans2 h3, .headerFontSans2 h5 {
   font-family: "Poppins-ExtraBold";
 }
+.headerFontSans2 h1 b, .headerFontSans2 h1 strong, .headerFontSans2 h1 i, .headerFontSans2 h3 b, .headerFontSans2 h3 strong, .headerFontSans2 h3 i, .headerFontSans2 h5 b, .headerFontSans2 h5 strong, .headerFontSans2 h5 i {
+  font-family: "Poppins-ExtraBoldItalic";
+}
 web .headerFontSans2.isItalic h1 {
   font-family: "Poppins-ExtraBoldItalic";
 }
 .headerFontSans2 h2, .headerFontSans2 h4 {
   font-family: "Poppins-Regular";
+}
+.headerFontSans2 h2 b, .headerFontSans2 h2 strong, .headerFontSans2 h2 i, .headerFontSans2 h4 b, .headerFontSans2 h4 strong, .headerFontSans2 h4 i {
+  font-family: "Poppins-Italic";
 }
 .headerFontSans2 figcaption, .headerFontSans2 img + small, .headerFontSans2 .caption, .headerFontSans2 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "Poppins-Italic";
@@ -929,11 +941,17 @@ web .headerFontSans2.isItalic h1 {
 .headerFontSans3 h1, .headerFontSans3 h3, .headerFontSans3 h5 {
   font-family: "Montserrat-Bold";
 }
+.headerFontSans3 h1 b, .headerFontSans3 h1 strong, .headerFontSans3 h3 b, .headerFontSans3 h3 strong, .headerFontSans3 h5 b, .headerFontSans3 h5 strong {
+  font-family: "Montserrat-BoldItalic";
+}
 web .headerFontSans3.isItalic h1 {
   font-family: "Montserrat-BoldItalic";
 }
 .headerFontSans3 h2, .headerFontSans3 h4 {
   font-family: "Montserrat-Light";
+}
+.headerFontSans3 h2 b, .headerFontSans3 h2 strong, .headerFontSans3 h4 b, .headerFontSans3 h4 strong {
+  font-family: "Montserrat-LightItalic";
 }
 .headerFontSans3 figcaption, .headerFontSans3 img + small, .headerFontSans3 .caption, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "Montserrat-LightItalic";
@@ -960,11 +978,17 @@ web .headerFontSans3.isItalic h1 {
 .headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5 {
   font-family: "PlayfairDisplay-Bold";
 }
+.headerFontSerif1 h1 b, .headerFontSerif1 h1 strong, .headerFontSerif1 h3 b, .headerFontSerif1 h3 strong, .headerFontSerif1 h5 b, .headerFontSerif1 h5 strong {
+  font-family: "PlayfairDisplay-BoldItalic";
+}
 web .headerFontSerif1.isItalic h1 {
   font-family: "IBMPlexSerif-BoldItalic";
 }
 .headerFontSerif1 h2, .headerFontSerif1 h4 {
   font-family: "PlayfairDisplay-Regular";
+}
+.headerFontSerif1 h2 b, .headerFontSerif1 h2 strong, .headerFontSerif1 h4 b, .headerFontSerif1 h4 strong {
+  font-family: "PlayfairDisplay-RegularItalic";
 }
 .headerFontSerif1 figcaption, .headerFontSerif1 img + small, .headerFontSerif1 .caption, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "IBMPlexSerif-Italic";
