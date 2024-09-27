@@ -1182,6 +1182,10 @@ h1, h2, h3, h4, h5, b, strong {
   h1, h3, h5 {
     font-family: "AvenirNextCondensed-Bold";
 
+    b, strong {
+      font-family: "AvenirNextCondensed-BoldItalic";
+    }
+
     web & {
       font-family: "Lato";
       font-weight: 700;
@@ -1192,6 +1196,10 @@ h1, h2, h3, h4, h5, b, strong {
   }
   h2, h4 {
     font-family: "AvenirNext-Medium";
+
+    b, strong {
+      font-family: "AvenirNext-MediumItalic";
+    }
 
     web & {
       font-family: "Lato";
@@ -1257,12 +1265,20 @@ h1, h2, h3, h4, h5, b, strong {
 .headerFontSans2 {
   h1, h3, h5 {
     font-family: "Poppins-ExtraBold";
+
+    b, strong, i {
+      font-family: "Poppins-ExtraBoldItalic";  
+    }
   }
   web &.isItalic h1 {
     font-family: "Poppins-ExtraBoldItalic";
   }
   h2, h4 {
     font-family: "Poppins-Regular";
+
+    b, strong, i {
+      font-family: "Poppins-Italic";  
+    }
   }
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Poppins-Italic";
@@ -1298,12 +1314,20 @@ h1, h2, h3, h4, h5, b, strong {
 .headerFontSans3 {
   h1, h3, h5 {
     font-family: "Montserrat-Bold";
+
+    b, strong {
+      font-family: "Montserrat-BoldItalic";  
+    }
   }
   web &.isItalic h1 {
     font-family: "Montserrat-BoldItalic";
   }
   h2, h4 {
     font-family: "Montserrat-Light";
+
+    b, strong {
+      font-family: "Montserrat-LightItalic";  
+    }
   }
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-LightItalic";
@@ -1371,12 +1395,20 @@ h1, h2, h3, h4, h5, b, strong {
 .headerFontSerif1 {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Bold";
+
+    b, strong {
+      font-family: "PlayfairDisplay-BoldItalic";
+    }
   }
   web &.isItalic h1 {
     font-family: "IBMPlexSerif-BoldItalic";
   }
   h2, h4 {
     font-family: "PlayfairDisplay-Regular";
+
+    b, strong {
+      font-family: "PlayfairDisplay-RegularItalic";
+    }
   }
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-Italic";
