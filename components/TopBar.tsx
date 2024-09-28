@@ -77,6 +77,7 @@ export default function TopBar({
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const items = useSelector((state: RootState) => getItems(state))
   const scrollRatios = useSelector((state: RootState) => getScrollRatio(state, item))
+  const orientation = useSelector(state => state.config.orientation)
   const [numItems, setNumItems] = useState(items.length)
   const [isBackgroundTransparent, setIsBackgroundTransparent] = useState(false)
   useEffect(() => {
@@ -101,7 +102,7 @@ export default function TopBar({
         const inflatedItem = Platform.OS === 'web' ?
           await getItemIDB(item) :
           await getItemSQLite(item)
-        const isCoverInline = inflatedItem?.styles?.isCoverInline || false
+        const isCoverInline = (inflatedItem?.styles?.isCoverInline && orientation === 'portrait') || false
         setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
       } catch (e) {
         log('TopBar checkStyles', e)
@@ -111,20 +112,6 @@ export default function TopBar({
   }, [item])
 
   const getBackgroundColor = () => {
-    // let feedColor = feed ? feed.color : null
-    // // if (item && item.showCoverImage && item.styles && !item.styles.isCoverInline && allowTransparent) {
-    // //   feedColor = 'transparent'
-    // // }
-    // if (feedColor && typeof(feedColor) !== 'string' && feedColor[2] > 70) {
-    //   feedColor[2] = 50
-    // }
-
-    // const bgColor = displayMode == ItemType.saved ?
-    //   hslString('rizzleBG') :
-    //   (feedColor ?
-    //     hslString(feedColor, 'desaturated') :
-    //     hslString('rizzleSaved'))
-    // return bgColor
     if (color) {
       return color
     } else {
