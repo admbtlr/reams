@@ -301,6 +301,8 @@ class FeedItem extends React.Component {
       savedAt
     } = inflatedItem
 
+    const isCoverInline = orientation !== 'landscape' && styles.isCoverInline
+
     const bodyColor = this.props.isDarkMode ? 
       'black' : 
       styles.hasFeedBGColor && !!item.feed_color && JSON.stringify(item.feed_color) !== '[0,0,0]' ?
@@ -311,8 +313,6 @@ class FeedItem extends React.Component {
       //styles = item.styles = createItemStyles(item)
       return emptyState
     }
-
-    showCoverImage = showCoverImage && !(styles.isCoverInline && orientation === 'landscape')
 
     const coverImage = showCoverImage ? 
       <CoverImage
@@ -339,7 +339,7 @@ class FeedItem extends React.Component {
           overflow: 'hidden'
         }}
       >
-        { showCoverImage && !styles.isCoverInline && coverImage }
+        { (showCoverImage && !isCoverInline) && coverImage }
         <Animated.ScrollView
           onScroll={
             this.scrollAnim && Animated.event(
@@ -364,7 +364,7 @@ class FeedItem extends React.Component {
             minWidth: 100
           }}
         >
-          { showCoverImage && styles.isCoverInline && coverImage }
+          { (showCoverImage && isCoverInline) && coverImage }
           <ItemTitleContainer
             anims={this.anims}
             addAnimation={this.addAnimation}
@@ -379,7 +379,7 @@ class FeedItem extends React.Component {
             bodyFont={styles.fontClasses.body}
             hasCoverImage={hasCoverImage}
             showCoverImage={showCoverImage}
-            coverImageStyles={styles.coverImage}
+            isCoverInline={isCoverInline}
             layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
           <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/

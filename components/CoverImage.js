@@ -73,17 +73,15 @@ class CoverImage extends React.Component {
     this.screenWidth = window.width
     this.screenHeight = window.height
 
+    // inline images become fullscreen in landscape
+    const isReallyInline = this.props.orientation === 'landscape' ? false : isInline
 
-    // this can happen if 
-    if (!imageDimensions) {
-
-    }
     const absolute = {
       position: 'absolute',
       top: '0%',
-      height: isInline ? '100%' : '120%',
-      left: isInline ? '0%' : '-10%',
-      width: isInline ? '100%' : '120%'
+      height: isReallyInline ? '100%' : '120%',
+      left: isReallyInline ? '0%' : '-10%',
+      width: isReallyInline ? '100%' : '120%'
     }
     const inline = {
       flex: 1,
@@ -103,10 +101,10 @@ class CoverImage extends React.Component {
       // })
       return <View style={inline} />
     }
-    const position = isInline ? inline : absolute
+    const position = isReallyInline ? inline : absolute
     const scrollAnim = this.props.scrollAnim || 0
     const imageHeight = this.screenWidth / imageDimensions.width * imageDimensions.height
-    const scale = isInline ?
+    const scale = isReallyInline ?
       scrollAnim.interpolate({
         inputRange: [-imageHeight, 0, 1],
         outputRange: [2, 1, 1]
@@ -115,7 +113,7 @@ class CoverImage extends React.Component {
         inputRange: [-100, 0, this.screenHeight],
         outputRange: [1.3, 1, 0.8]
       })
-    const translateY = isInline ?
+    const translateY = isReallyInline ?
       scrollAnim.interpolate({
         inputRange: [-1, 0, 1],
         outputRange: [-.5, 0, 0]
@@ -136,7 +134,7 @@ class CoverImage extends React.Component {
       ...position,
       backgroundColor: isMultiply || isScreen ? this.getColor() : hslString('bodyBG'),
       opacity,
-      transform: isInline ?
+      transform: isReallyInline ?
         [ { translateY }, { scale } ] :
         [ { scale }, { translateY } ]
     }
@@ -181,10 +179,10 @@ class CoverImage extends React.Component {
 
       const inlineImageHeight = this.screenWidth / this.props.imageDimensions.width *
         this.props.imageDimensions.height *
-        (isInline ? 1 : 1.2)
+        (isReallyInline ? 1 : 1.2)
       const imageWidth = this.screenHeight / this.props.imageDimensions.height *
         this.props.imageDimensions.width *
-        (isInline ? 1 : 1.2)
+        (isReallyInline ? 1 : 1.2)
 
       let imageOffset = faceCentreNormalised ?
         faceCentreNormalised.x * imageWidth - this.screenWidth / 2 :
@@ -201,9 +199,9 @@ class CoverImage extends React.Component {
             style={{
               resizeMode: 'cover',
               // alignSelf: 'flex-end',
-              height: isInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight,
-              width: isInline || resizeMode === 'contain' ? this.screenWidth : imageWidth,
-              left:  isInline || resizeMode === 'contain' ? 0 : -imageOffset
+              height: isReallyInline || resizeMode === 'contain' ? inlineImageHeight : this.screenHeight,
+              width: isReallyInline || resizeMode === 'contain' ? this.screenWidth : imageWidth,
+              left:  isReallyInline || resizeMode === 'contain' ? 0 : -imageOffset
             }} />
       )
 
@@ -258,7 +256,7 @@ class CoverImage extends React.Component {
           style={style}
         >
           { image }
-          { !isInline && this.getImageSizeRatio() < .5 && blur }
+          { !isReallyInline && this.getImageSizeRatio() < .5 && blur }
         </Animated.View>
       )
     } else {

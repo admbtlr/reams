@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { getColors } from 'react-native-image-colors'
 import * as FileSystem from 'expo-file-system'
 import { fileExists } from "../utils";
-import { hexToHsl, hslToHslString } from "../utils/colors";
-import log from "../utils/log";
+import { hexToHsl } from "../utils/colors";
 
 export function useColor(url: string) {
   const [color, setColor] = React.useState<string>()
