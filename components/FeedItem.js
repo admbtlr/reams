@@ -214,7 +214,9 @@ class FeedItem extends React.Component {
 
       // check whether title is first words of content
       if (inflatedItem.content_html?.length < 500 && 
-        inflatedItem.content_html.replace(/<.*?>/g, '')
+        inflatedItem.content_html
+          .replace(/<.*?>/g, '')
+          .trim()
           .startsWith(inflatedItem.title.replace('...', ''))) {
         inflatedItem.title = ''
       }
