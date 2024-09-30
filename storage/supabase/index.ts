@@ -52,8 +52,10 @@ export const doQuery = async (fn: () => any, retries = 5, timeout = 5000): Promi
       // log('doQuery, retrying', error)
       return await doQuery(fn, retries - 1)
     } else {
-      log('doQuery', error)
-      throw error  
+      if (error.title !== 'Error: URLSearchParams.set is not implemented') {
+        log('doQuery', error)
+        // throw error    
+      }
     }
   }
 }

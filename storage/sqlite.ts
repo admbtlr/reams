@@ -164,7 +164,7 @@ export async function getItems(items: Item[]): Promise<ItemInflated[]> {
       log(new Error('Items missing from database'))
       throw new Error('Items missing from database')
     }
-    console.log('getItems done')
+    // console.log('getItems done')
     return inflatedItems
   } catch (e) {
     log(e)
