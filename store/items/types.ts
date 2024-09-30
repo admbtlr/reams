@@ -23,6 +23,15 @@ interface ItemStyles {
     lineHeight?: number
     fontResized?: boolean
   }
+  color?: string
+  dropCapFamily?: string
+  dropCapIsBold?: boolean
+  dropCapIsDrop?: boolean
+  dropCapIsMonochrome?: boolean
+  dropCapIsStroke?: boolean
+  dropCapSize?: number
+  fontClasses?: any
+  hasColorBlockquoteBG?: boolean
   isCoverInline?: boolean
 }
 
