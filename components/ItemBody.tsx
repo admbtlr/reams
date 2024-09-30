@@ -42,14 +42,14 @@ window.onload = () => {
 };
 true;`
 
-const stripInlineStyles = (html: string) => {
-  if (!html) return html
+const stripInlineStyles = (html: string | undefined) => {
+  if (!html) return ''
   const pattern = new RegExp(/style=".*?"/, 'g')
   return html.replace(pattern, '')
 }
 
 const stripEmptyTags = (html: string) => {
-  const pattern = new RegExp(/<[^\/<]+?>\s*?<\/\1>/, 'g')
+  const pattern = new RegExp(/<([^\/<]+?)>\s*?<\/\1>/, 'g')
   return html ? html.replace(pattern, '') : html
 }
 
@@ -86,10 +86,10 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }, [activeHighlight])
 
   const openLinksExternallyProp = /*__DEV__ ? {} :*/ {
-    onShouldStartLoadWithRequest: (e) => {
+    onShouldStartLoadWithRequest: (e: any) => {
       if (e.navigationType === 'click') {
         // Linking.openURL(e.url)
-        openLink(e.url, hslString(item.feed_color))
+        openLink(e.url, hslString(feedColor))
         return false
       } else {
         return true
@@ -130,12 +130,12 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
       _id: id() as string,
       text,
       serialized,
-      item_id: item._id,
-      url: item.url,
+      item_id: _id,
+      url: url,
       created_at: pgTimestamp(),
     }
     dispatch(createAnnotation(annotation))
-    if (!item.isSaved) {
+    if (!isSaved) {
       dispatch({
         type: SAVE_ITEM,
         item,
@@ -143,7 +143,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
       })
       dispatch({
         type: ADD_ITEM_TO_CATEGORY,
-        itemId: item._id,
+        itemId: _id,
         categoryId: annotatedCategory?._id
       })
     }
@@ -156,7 +156,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   const onBodyCleaned = async (cleanedBody: string) => {
     let cleanedItem = { ...item }
-    if (item.showMercuryContent) {
+    if (showMercuryContent) {
       cleanedItem.content_mercury =  cleanedBody
     } else {
       cleanedItem.content_html = cleanedBody
@@ -177,21 +177,25 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const { 
+    _id,
     coverImageUrl, 
     content_html, 
-    content_mercury, 
-    feed_color, 
+    content_mercury,
+    decoration_failures,
     isHtmlCleaned,
     isMercuryCleaned,
+    isNewsletter,
+    isSaved,
     showCoverImage, 
-    showMercuryContent 
+    showMercuryContent,
+    styles,
+    url
   } = item
-  const styles = { ...item.styles }
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const annotations = useSelector(
-    (state: RootState ) => state.annotations.annotations.filter(a => a?.item_id === item._id), 
+    (state: RootState ) => state.annotations.annotations.filter(a => a?.item_id === _id), 
     (a1, a2) => JSON.stringify(a1) === JSON.stringify(a2)
   )
 
@@ -253,18 +257,18 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   body = stripUTags(body)
 
   // hide the image in the body to avoid repetition
-  let data = ''
+  let data: string | undefined = ''
   if (styles.coverImage.isInline) {
     data = coverImageUrl
   }
 
-  const feedColor = useColor(item.url)
+  const feedColor = useColor(url)
 
   const { width, height } = Dimensions.get('window')
   const deviceWidth = height > width ? width: height
   const deviceWidthToggle = deviceWidth > 600 ? 'tablet' : 'phone'
 
-  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle} ${Platform.OS} ${item.isNewsletter ? 'newsletter' : ''}">
+  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle} ${Platform.OS} ${isNewsletter ? 'newsletter' : ''}">
 <head>
   <style>
 :root {
@@ -297,8 +301,9 @@ html, body {
   if (body === '') {
     return (
       <EmptyState 
-        item={item} 
+        _id={_id} 
         bodyColor={bodyColor}
+        decoration_failures={decoration_failures}
       />
     )
   }
@@ -396,7 +401,11 @@ export default React.memo(ItemBody, (prevProps, nextProps) => (
 
 )
 
-const EmptyState = ({item, bodyColor}: {item: ItemInflated, bodyColor: string}) => {
+const EmptyState = ({_id, bodyColor, decoration_failures}: {
+    _id: string, 
+    bodyColor: string,
+    decoration_failures?: number
+  }) => {
   const [yPos, setYPos] = useState<number | null>(null)
   const [view, setView] = useState<View | null>(null)
   const [isLayedOut, setIsLayedOut] = useState(false)
@@ -432,7 +441,7 @@ const EmptyState = ({item, bodyColor}: {item: ItemInflated, bodyColor: string}) 
         opacity: 1
       }}
     > 
-    { (item.decoration_failures && item.decoration_failures === 5) ?
+    { (decoration_failures && decoration_failures === 5) ?
       (
         <View style={{
           alignItems: 'center',
@@ -447,7 +456,7 @@ const EmptyState = ({item, bodyColor}: {item: ItemInflated, bodyColor: string}) 
           <TextButton
             onPress={() => dispatch({
               type: RESET_DECORATION_FALIURES,
-              itemId: item._id
+              itemId: _id
             })}
             text='Try again'
           />
