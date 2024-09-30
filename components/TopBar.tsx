@@ -115,7 +115,7 @@ export default function TopBar({
     if (color) {
       return color
     } else {
-      return hslString('logo3')
+      return 'black'
     }
   }  
 
