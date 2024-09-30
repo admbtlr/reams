@@ -109,7 +109,7 @@ export default function TopBar({
       }
     }
     checkStyles()
-  }, [item])
+  }, [item._id])
 
   const getBackgroundColor = () => {
     if (color) {
@@ -129,6 +129,8 @@ export default function TopBar({
         inputRange: [0, getStatusBarHeight(), getStatusBarHeight() + 50],
         outputRange: [0, 0, 1]
       })
+    } else if (isBackgroundTransparent) {
+      return 0
     } else {
       return 1
     }
