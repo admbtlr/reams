@@ -222,9 +222,7 @@ class CoverImage extends React.Component {
 
       let finalImage
 
-      if (Platform.OS === 'web') {
-        finalImage = image
-      } else {
+      if (Platform.OS === 'ios') {
         const adjusted = <Brightness
           amount={brightness}
           image={
@@ -249,13 +247,15 @@ class CoverImage extends React.Component {
               srcColor={this.getColor()}
             /> :
             adjusted
+      } else {
+        finalImage = image
       }
 
       return (
         <Animated.View
           style={style}
         >
-          { image }
+          { finalImage }
           { !isReallyInline && this.getImageSizeRatio() < .5 && blur }
         </Animated.View>
       )
