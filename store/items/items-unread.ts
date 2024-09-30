@@ -138,7 +138,7 @@ export function itemsUnread (
       items = rizzleSort(items, action.feeds, action.sortDirection)
       // carouselled = maintainCarouselItems(state, items)
       if (currentItem !== undefined && items.map(i => i._id).indexOf(currentItem._id)) {
-        items = items.filter(i => i._id !== currentItem._id)
+        items = items.filter(i => i._id !== currentItem?._id)
         items.unshift(currentItem)
       }
       index = 0

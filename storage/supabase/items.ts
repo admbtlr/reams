@@ -17,7 +17,11 @@ export const getSavedItems = async (currentItems: {
     .from('User_SavedItem')
     .select('item_id, saved_at')
     .eq('user_id', userId)
-  const { data, error }  = await doQuery(fn)
+  let result  = await doQuery(fn)
+  const { data, error } = result ?? {
+    data: undefined,
+    error: undefined
+  }
   if (error) {
     throw error
   }
@@ -31,11 +35,15 @@ export const getSavedItems = async (currentItems: {
     .from('Item')
     .select()
     .in('_id', newIds)
-  const { data: newItems, error: newItemsError } = await doQuery(fn2)
+  result = await doQuery(fn2)
+  const { data: newItems, error: newItemsError }: { data: any, error: any } = result ?? {
+    data: undefined,
+    error: undefined
+  }
   if (newItemsError) {
     throw newItemsError
   }
-  const completeNewItems = newItems.map(i => ({ 
+  const completeNewItems = newItems?.map((i: Item) => ({ 
     _id: i._id,
     url: i.url, 
     title: i.title,
@@ -68,12 +76,13 @@ export const getReadItems = async (newerThan = 0) => {
     .select('Item(*)')
     .eq('user_id', userId)
     .gte('created_at', pgTimestamp(new Date(newerThan)))
-  const { data, error } = await doQuery(fn)
-  console.log('Got some data, length: ' + data.length)
+  let result = await doQuery(fn)
+  const { data, error }: {data: any, error: any} = result ?? { data: undefined, error: undefined }
+  console.log('Got some data, length: ' + data?.length)
   if (error) {
     throw error
   }
-  return data === null ? [] : data.map(d => d.Item === null ? null : ({
+  return data === null ? [] : data.map((d: { Item: any}) => d.Item === null ? null : ({
     _id: d.Item._id,
     url: d.Item.url,
     title: d.Item.title
@@ -90,7 +99,8 @@ export const addReadItems = async (items: Item[]) => {
     .from('Item')
     .upsert(itemssToUpsert, { onConflict: '_id' })
     .select()
-  const { error } = await doQuery(fn)
+  let result = await doQuery(fn)
+  const { error }: { error: any } = result ?? { error: undefined }
   if (error) {
     throw error
   }
@@ -101,7 +111,8 @@ export const addReadItems = async (items: Item[]) => {
   const fn2 = async () => await supabase
     .from('User_ReadItem')
     .upsert(items.map(item => ({ item_id: item._id, user_id: userId })), { onConflict: 'item_id,user_id' })
-  const { error: readItemError } = await doQuery(fn2)
+  result = await doQuery(fn2)
+  const { error: readItemError } = result ?? { error: undefined }
   if (readItemError) {
     throw readItemError
   }
@@ -112,7 +123,8 @@ export const addSavedItem = async (item: Item) => {
     .from('Item')
     .upsert({ _id: item._id, url: item.url, title: item.title, feed_id: item.feed_id }, { onConflict: '_id,url' })
     .select()
-  const { data, error } = await doQuery(fn)
+  let result = await doQuery(fn)
+  let { data, error }: { data: any, error: any } = result ?? { data: undefined, error: undefined }
   if (error) {
     throw error
   }
@@ -124,7 +136,8 @@ export const addSavedItem = async (item: Item) => {
       saved_at: new Date().toISOString(),
       user_id: await getUserId()
     })
-  const { error: savedItemError } = await doQuery(fn2)
+  result = await doQuery(fn2)
+  const { error: savedItemError } = result ?? { data: undefined, error: undefined }
   if (savedItemError) {
     throw savedItemError
   }
@@ -142,20 +155,23 @@ export const removeSavedItem = async (item: Item) => {
     .delete()
     .eq('item_id', item._id)
     .eq('user_id', userId) 
-  const { error: userSavedItemError } = await doQuery(fn)
-  if (userSavedItemError) {
+  let result = await doQuery(fn)
+  const { error: userSavedItemError } = result ?? { data: undefined, error: undefined }
+    if (userSavedItemError) {
     throw userSavedItemError
   }
   const fn2 = async () => await supabase
     .from('User_ReadItem')
     .select()
     .eq('item_id', item._id)
-  const { data: uriData, error: uriError } = await doQuery(fn2)
+  result = await doQuery(fn2)
+  const { data: uriData, error: uriError }: { data: any, error: any } = result ?? { data: undefined, error: undefined }
   const fn3 = async () => await supabase
     .from('User_SavedItem')
     .select()
     .eq('item_id', item._id)
-  const { data: usiData, error: usiError } = await doQuery(fn3)
+  result = await doQuery(fn3)
+  const { data: usiData, error: usiError }: { data: any, error: any } = result ?? { data: undefined, error: undefined }
   if (usiError) {
     throw usiError
   }
@@ -167,7 +183,8 @@ export const removeSavedItem = async (item: Item) => {
       .from('Item')
       .delete()
       .eq('_id', item._id)
-    const { error: itemError } = await doQuery(fn4)
+    result = await doQuery(fn4)
+    const { error: itemError }: { error: any } = result ?? { error: undefined }
     if (itemError) {
       throw itemError
     }

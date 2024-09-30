@@ -1,4 +1,5 @@
 import { Item, ItemInflated, ItemType } from '../store/items/types'
+// @ts-ignore
 import { store } from '../store'
 import { RootState } from '../store/reducers'
 import { Platform } from 'react-native'
@@ -55,6 +56,7 @@ export const getIndex = (state: RootState, type: ItemType) => {
 }
 
 export const getItem = (state: RootState, id: string, type = 'unread') => {
+  // @ts-ignore
   if (!state) state = store.getState()
   let items = type === ItemType.unread ?
     state.itemsUnread.items :

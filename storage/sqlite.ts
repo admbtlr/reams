@@ -146,7 +146,7 @@ export async function getItems(items: Item[]): Promise<ItemInflated[]> {
   const rows = await db.getAllAsync(query)
   try {
     let inflatedItems: ItemInflated[] = []
-    rows.forEach((flate) => {
+    rows.forEach((flate: any) => {
       let item = toInflate.find((item) => item._id === flate._id) as ItemInflated
       if (item) {
         item.content_html = flate.content_html

@@ -3,6 +3,48 @@ import { store } from '../store'
 import { consoleLog } from './log'
 
 export default function rizzleSort (items, feeds, sortDirection) {
+  // put a buffer of decorated items in front of the undecorated ones
+  // to give the undecorated items a chance to decorate
+  // assumptions:
+  // - the current item will end up at the front
+  // - the index will end up at the front too
+  // - read items have already been removed
+  // - items have already been sorted as required
+  const bufferWithSortIndex = (items) => {
+    let buffer = 5
+    const itemsWithIndex = items.filter(i => i.sortIndex !== undefined)
+    const itemsWithoutIndex = items.filter(i => i.sortIndex === undefined)
+    if (itemsWithIndex.length < buffer) {
+      buffer = itemsWithIndex.length
+    }
+    // let i = buffer - 1
+    // while (i >= 0) {
+    //   if (items[i].sortIndex === undefined) {
+    //     items = items.slice(0, i)
+    //       .concat(items.slice(i+1, buffer+1)
+    //       .concat(items[i])
+    //       .concat(items.slice(buffer+1)))
+    //   }
+    //   i--
+    // }
+    return itemsWithIndex.slice(0, buffer)
+      .concat(itemsWithoutIndex)
+      .concat(itemsWithIndex.slice(buffer))
+  }
+
+  const splitIntoLikedNotLiked = (items, feeds) => {
+    const liked = items.filter(item => {
+      const feed = feeds.find(feed => feed._id === item.feed_id)
+      // occasionally feed here is undefined. wtf?
+      if (feed == null) {
+        consoleLog('Cannot find feed ' + item.feed_id)
+      }
+      return feed && feed.isLiked
+    })
+    const notLiked = items.filter(item => liked.indexOf(item) === -1)
+    return { liked, notLiked }
+  }
+
   feeds = feeds || (store && store.getState().feeds.feeds)
   sortDirection = sortDirection === undefined ? (store && store.getState().config.itemSort) : sortDirection
   items.forEach(item => {
@@ -11,15 +53,7 @@ export default function rizzleSort (items, feeds, sortDirection) {
       // console.log(item)
     }
   })
-  const liked = items.filter(item => {
-    const feed = feeds.find(feed => feed._id === item.feed_id)
-    // occasionally feed here is undefined. wtf?
-    if (feed == null) {
-      consoleLog('Cannot find feed ' + item.feed_id)
-    }
-    return feed && feed.isLiked
-  })
-  const notLiked = items.filter(item => liked.indexOf(item) === -1)
+  const { liked, notLiked } = splitIntoLikedNotLiked(items, feeds)
 
   const sortFunction = sortDirection === Direction.desc ?
     (a, b) => b.created_at - a.created_at :
@@ -30,52 +64,12 @@ export default function rizzleSort (items, feeds, sortDirection) {
 
   liked.sort(sortFunction)
   notLiked.sort(sortFunction)
-  return liked.concat(notLiked)
-  // return items.map(item => {
-  //   const readingRate = feeds.find(f => f._id === item.feed_id).readingRate
-  //   const sorter = 1 / ((now - item.created_at) / 10000)
-  //   return {
-  //     ...item,
-  //     sorter
-  //   }
-  // }).sort((a, b) => b.sorter - a.sorter)
+  const sorted = bufferWithSortIndex(liked.concat(notLiked))
 
-// another possible algorithm here would be
-// sort the items by date
-// then sort each by day by feed readingRate
-  // const sorted = items.sort((a, b) => {
-  //   const aDate = new Date(a.created_at)
-  //   const bDate = new Date(b.created_at)
-  //   if (aDate.getFullYear() === bDate.getFullYear() &&
-  //     aDate.getMonth() === bDate.getMonth() &&
-  //     aDate.getDate() === bDate.getDate()) {
-  //     return (feeds.find(f => f._id === b.feed_id).readingRate || 10) -
-  //       (feeds.find(f => f._id === a.feed_id).readingRate || 10)
-  //   } else {
-  //     return b.created_at - a.created_at
-  //   }
-  // })
-  // return rizzleShuffle(sorted, shuffleStrength)
-
-  // let itemsByFeed = {}
-  // let keys = []
-  // let sorted = []
-  // items.forEach(i => {
-  //   (itemsByFeed[i.feed_id] = itemsByFeed[i.feed_id] || []).push(i)
-  // })
-  // keys = Object.keys(itemsByFeed)
-  // keys.forEach(k => {
-  //   itemsByFeed[k].sort((a, b) => b.created_at - a.created_at)
-  // })
-  // keys.sort((a, b) => {
-  //   aFeed = feeds.find(f => f._id === a)
-  //   bFeed = feeds.find(f => f._id === b)
-  //   return bFeed.readingRate - aFeed.readingRate
-  // })
-  // keys.forEach(k => {
-  //   sorted = sorted.concat(itemsByFeed[k])
-  // })
-  // return rizzleShuffle(sorted)
+  return sorted.map((i, index) => ({
+    ...i,
+    sortIndex: index
+  }))
 }
 
 // caution side effects!
