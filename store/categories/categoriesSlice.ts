@@ -98,7 +98,7 @@ const categoriesSlice = createSlice({
       if (action.payload === undefined) {
         return
       }
-      let i = state.categories.findIndex((a: Category) => a._id === action.payload._id)
+      let i = state.categories.findIndex((a: Category) => a._id === action.payload?._id)
       state.categories[i] = action.payload
     })
     builder.addCase(deleteCategory.fulfilled, (state, action) => {

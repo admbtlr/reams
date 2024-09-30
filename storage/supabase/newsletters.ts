@@ -17,23 +17,27 @@ export const addNewsletter = async (newsletter: {
     try {
       const _id = createId(newsletter.url)
       const newsletterMeta = await getFeedMeta(newsletter)
-      newsletterDB = { 
+      const title = newsletterMeta === undefined ? '' :
+        (newsletterMeta.title.trim().length > 0 ? newsletterMeta.title.trim() : newsletter.title?.trim()) || ''
+      const newNewsletterDB = { 
         _id,
         url: newsletter.url,
-        title: (newsletterMeta.title.trim().length > 0 ? newsletterMeta.title.trim() : newsletter.title?.trim()) || '',
-        description: newsletterMeta.description,
-        color: newsletterMeta.color,
-        favicon_url: newsletterMeta.favicon?.url,
-        favicon_size: newsletterMeta.favicon?.size,
+        title,
+        description: newsletterMeta?.description ?? '',
+        color: newsletterMeta?.color ?? '',
+        favicon_url: newsletterMeta?.favicon?.url ?? '',
+        favicon_size: newsletterMeta?.favicon?.size ?? '',
        }
        const fn = async () => await supabase
         .from('Newsletter')
-        .insert(newsletterDB)
+        .insert(newNewsletterDB)
       const { error, data } = await doQuery(fn)
-      if (error) {
-        console.log(`Error adding newsletter ${newsletter.url}: ${error.message}`)
+      if (error && Object.keys(error).includes('message')) {
+        const errorWithMessage = error as { message: string }
+        console.log(`Error adding newsletter ${newsletter.url}: ${errorWithMessage.message}`)
         throw error
-      }  
+      }
+      newsletterDB = newNewsletterDB
     } catch (error: any) {
       console.error(`Error adding newsletter ${newsletter.url}: ${error.message}`)
       throw error
@@ -53,7 +57,7 @@ export const addNewsletter = async (newsletter: {
   if (response.error) {
     throw response.error
   }
-  if (response.data.length === 0) {
+  if (Array.isArray(response.data) && response.data.length === 0) {
     const fn = async () => await supabase
       .from('User_Newsletter')
       .insert({ 
@@ -107,7 +111,7 @@ const getNewsletter = async (url: string): Promise<NewsletterDB | null> => {
   }
   // console.log(url)
   // console.log('getNewsletter', data)
-  return data === null || data.length === 0 ? null : {
+  return data === null || !Array.isArray(data) || data.length === 0 ? null : {
     ...data[0],
     url,
     color: data[0]?.color?.match(/\[[0-9]*,[0-9]*,[0-9]*\]/) ? JSON.parse(data[0].color) : [0, 0, 0]
@@ -123,7 +127,7 @@ export const getNewsletters = async (): Promise<NewsletterDB[] | null> => {
     throw error
   }
   // console.log('getnewsletter', data)
-  return data === null ? null : data.map(d => ({
+  return data === null || !Array.isArray(data) ? null : data.map(d => ({
     ...d.Newsletter,
     color: d.Newsletter?.color?.match(/\[[0-9]*,[0-9]*,[0-9]*\]/) ? JSON.parse(d.Newsletter.color) : [0, 0, 0]
   })) as NewsletterDB[]

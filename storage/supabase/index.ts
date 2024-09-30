@@ -34,7 +34,7 @@ export const getUserId = async () => {
 }
 
 // there are random errors with the supabase client
-export const doQuery = async (fn: () => any, retries = 5, timeout = 5000): Promise<{ data: {}, error: {}}> => {
+export const doQuery = async (fn: () => any, retries = 5, timeout = 5000): Promise<{ data: {}|[], error: {}}> => {
   try {
     // console.log('Inside doQuery, running fn')
     const { data, error } = await Promise.race([
@@ -46,7 +46,7 @@ export const doQuery = async (fn: () => any, retries = 5, timeout = 5000): Promi
       throw error
     }
     return { data, error }
-  } catch (error) {
+  } catch (error: any) {
     console.log('Inside doQuery, error: ' + JSON.stringify(error))
     if (retries > 0) {
       // log('doQuery, retrying', error)
@@ -54,8 +54,9 @@ export const doQuery = async (fn: () => any, retries = 5, timeout = 5000): Promi
     } else {
       if (error.title !== 'Error: URLSearchParams.set is not implemented') {
         log('doQuery', error)
-        // throw error    
+        throw error
       }
+      return { data: {}, error }
     }
   }
 }

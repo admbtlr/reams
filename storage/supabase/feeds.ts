@@ -61,26 +61,26 @@ export const addFeed = async (feed: { url: string, id?: number }, userId?: strin
     feedDB = { 
       _id,
       url: feed.url,
-      title: feedMeta.title,
-      description: feedMeta.description,
-      root_url: feedMeta.rootUrl,
-      color: feedMeta.color,
-      favicon_url: feedMeta.favicon?.url,
-      favicon_size: feedMeta.favicon?.size,
-      didError: feedMeta.didError
+      title: feedMeta?.title || '',
+      description: feedMeta?.description || '',
+      root_url: feedMeta?.rootUrl,
+      color: feedMeta?.color || '',
+      favicon_url: feedMeta?.favicon?.url || '',
+      favicon_size: feedMeta?.favicon?.size || '',
+      didError: feedMeta?.didError
      }
     let response = await supabase
       .from('Feed')
       .insert({ 
         _id,
-        url: feed.url,
-        title: feedMeta.title,
-        description: feedMeta.description,
-        root_url: feedMeta.rootUrl,
-        color: feedMeta.color,
-        favicon_url: feedMeta.favicon?.url,
-        favicon_size: feedMeta.favicon?.size,
-        did_error: feedMeta.didError ?? false
+        url: feed.url || '',
+        title: feedMeta?.title || '',
+        description: feedMeta?.description || '',
+        root_url: feedMeta?.rootUrl || '',
+        color: feedMeta?.color,
+        favicon_url: feedMeta?.favicon?.url,
+        favicon_size: feedMeta?.favicon?.size,
+        did_error: feedMeta?.didError ?? false
        })
     if (response.error) {
       console.log(`Error adding feed ${feed.url}: ${response.error.message}`)
@@ -117,7 +117,7 @@ export const addFeed = async (feed: { url: string, id?: number }, userId?: strin
     feedDB.color.replace(/[\[\]]/g, '').split(',').map(c => parseInt(c))
   return {
     _id: feedDB._id,
-    rootUrl: feedDB.root_url,
+    rootUrl: feedDB.root_url ?? '',
     url: feedDB.url,
     title: feedDB.title,
     description: feedDB.description,

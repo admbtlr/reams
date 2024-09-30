@@ -156,7 +156,7 @@ export const getItemIdsForCategory = async (category: Category) => {
   if (error) {
     throw error
   }
-  return data === null ? [] : data.map(d => d.item_id) as string[]
+  return data === null || !Array.isArray(data) ? [] : data.map(d => d.item_id) as string[]
 }
 
 export const setItemIdsForCategory = async (category: Category) => {
@@ -210,5 +210,5 @@ export const getFeedIdsForCategory = async (category: Category) => {
   if (error) {
     throw error
   }
-  return data === null ? [] : data.map(d => d.feed_id) as string[]
+  return data === null || !Array.isArray(data) ? [] : data.map(d => d.feed_id) as string[]
 }

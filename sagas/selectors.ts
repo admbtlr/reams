@@ -8,15 +8,15 @@ import {
 import { ItemType } from '../store/items/types'
 
 export function getItems (state: RootState, type: string) {
-  return getItemsUtils(state, type)
+  return getItemsUtils(state, type as ItemType)
 }
 
 export function getUnreadItems (state: RootState) {
-  return getItemsUtils(state, 'unread')
+  return getItemsUtils(state, ItemType.unread)
 }
 
 export function getSavedItems (state: RootState) {
-  return getItemsUtils(state, 'saved')
+  return getItemsUtils(state, ItemType.saved)
 }
 
 export function getItem (state: RootState, id: string, type: string) {
@@ -28,7 +28,7 @@ export function getDisplay (state: RootState) {
 }
 
 export function getCurrentItem (state: RootState, type: string) {
-  return getCurrentItemUtils(state, type)
+  return getCurrentItemUtils(state, type as ItemType)
 }
 
 // gets the current item, plus eight on either side
