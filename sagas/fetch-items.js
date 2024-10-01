@@ -248,7 +248,14 @@ export function * cleanUpItems (items, type) {
     items = items.map(i => ({...i, isSaved: true}))
   }
 
-  return items
+  const uniqueItems = []
+  items.forEach(i => {
+    if (uniqueItems.find(ui => ui.url === i.url) === undefined) {
+      uniqueItems.push(i)
+    }
+  })
+
+  return uniqueItems
     // .filter(i => !existingItems.find(ei => ei._id === i._id))
     .map(nullValuesToEmptyStrings)
     .map(fixRelativePaths)
