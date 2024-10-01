@@ -430,7 +430,14 @@ class ItemTitle extends React.Component {
     changes = diff(this.props, nextProps, diff(this.state, nextState))
     // console.log(this.props.item._id + ' (' + this.props.item.title + ') will update:')
     // console.log(changes)
-    if (changes.item.styles || changes.isVisible || changes.fontSize || changes.isDarkMode || changes.anims || changes.isPortrait) {
+    if (changes.item.styles || 
+      changes.isVisible || 
+      changes.fontSize || 
+      changes.isDarkMode || 
+      changes.anims || 
+      changes.isPortrait ||
+      changes.color
+    ) {
       isDiff = true
     }
     return isDiff
@@ -814,7 +821,10 @@ class ItemTitle extends React.Component {
             !this.props.item.excerpt.includes('ellip') &&
             !this.props.item.excerpt.includes('…') &&
             excerptView }
-          <View style={{ flex: 0 }}>
+          <View style={{ 
+            flex: 0,
+            // marginTop: getMargin()
+          }}>
             { authorView }
             { dateView }
           </View>
@@ -1011,7 +1021,7 @@ class ItemTitle extends React.Component {
     let authorStyle = {
       color: this.getMetaColor(),
       backgroundColor: 'transparent',
-      fontSize: this.getExcerptFontSize() * 0.9,
+      fontSize: this.getExcerptFontSize() * 0.75,
       fontFamily: this.getFontFamily('regular', 'author'),
       lineHeight: Math.round(this.getExcerptFontSize() * 0.95),
       textAlign: styles.textAlign,
@@ -1049,7 +1059,7 @@ class ItemTitle extends React.Component {
     let dateStyle = {
       color: this.getMetaColor(),
       backgroundColor: 'transparent',
-      fontSize: this.getExcerptFontSize() * 0.8,
+      fontSize: this.getExcerptFontSize() * 0.75,
       fontFamily: 'IBMPlexMono-Light',
       lineHeight: Math.round(this.getExcerptFontSize() * 1.4),
       textAlign: styles.textAlign,
@@ -1088,13 +1098,13 @@ class ItemTitle extends React.Component {
 
     // TODO this is feedwrangler... fix it
     const theDate = (typeof date === 'number') ? date : date
-    let showYear = (moment(theDate).year() !== moment().year())
-    const formattedDate = moment(theDate)
+    const momentDate = moment(theDate)
+    let showYear = (momentDate.year() !== moment().year())
+    const formattedDate = momentDate
       .format('MMMM Do' + (showYear ? ' YYYY' : ''))
-    const formattedTime = moment(theDate)
-      .format('h:mma')
-    const showToday = moment(theDate).dayOfYear === moment(theDate).dayOfYear &&
-      (moment(theDate).year() === moment().year())
+    const formattedTime = momentDate.format('h:mma')
+    const showToday = momentDate.dayOfYear() === moment().dayOfYear() &&
+      (momentDate.year() === moment().year())
     return (
       <Animated.Text
         maxFontSizeMultiplier={1.2}
