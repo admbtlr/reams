@@ -3,7 +3,8 @@ import {
   SET_TITLE_FONT_SIZE
 } from '../store/items/types'
 import { isPortrait } from '../utils/dimensions'
-import ItemTitleWithHook from '../components/ItemTitle.js'
+import ItemTitle from '../components/ItemTitle'
+import { withUseColorHOC } from '../components/withUseColorHOC'
 
 const mapStateToProps = (state, ownProps) => {
   // const index = getIndex(state)
@@ -39,6 +40,6 @@ const mapDispatchToProps = (dispatch) => {
 let ItemTitleContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ItemTitleWithHook)
+)(withUseColorHOC(ItemTitle))
 
 export default ItemTitleContainer
