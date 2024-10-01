@@ -3,6 +3,7 @@ import { addFeed } from "../backends/reams"
 import { id } from "../utils"
 import { Category } from "./categories/types"
 import { Feed, FeedLocal } from "./feeds/types"
+import hostColors from "./hostColors/hostColors"
 import { Item } from "./items/types"
 import { RootState } from "./reducers"
 import { DarkModeSetting } from "./ui/types"
@@ -23,21 +24,21 @@ export const migrations = {
       name: 'inbox',
       isSystem: true,
       itemIds: [],
-      feeds: []
+      feedIds: []
     }
     const archiveCategory: Category = {
       _id: 'archive',
       name: 'archive',
       isSystem: true,
       itemIds: [],
-      feeds: []
+      feedIds: []
     }
     const annotatedCategory: Category = {
       _id: 'annotated',
       name: 'annotated',
       isSystem: true,
       itemIds: [],
-      feeds: []
+      feedIds: []
     }
     state.itemsSaved.items.forEach((item: Item) => {
       if (!inboxCategory.itemIds.includes(item._id)) {
@@ -263,7 +264,7 @@ export const migrations = {
     })
     console.log('remapping categories')
     const categories = state.categories.categories.map((c: Category) => {
-      const categoryOldFeedIds = c.feeds.map(f_id => oldFeedIds.find((ofi) => ofi._id === f_id))
+      const categoryOldFeedIds = c.feedIds.map(f_id => oldFeedIds.find((ofi) => ofi._id === f_id))
       const newFeedIds = categoryOldFeedIds.map((cofid) => feeds.find((f: Feed) => f.url === cofid?.url))
       return {
         ...c,
@@ -313,7 +314,7 @@ export const migrations = {
     const categories = state.categories.categories.map((c: Category) => {
       return {
         ...c,
-        feedIds: c.feeds,
+        feedIds: c.feedIds,
         feeds: undefined
       }
     })
@@ -323,6 +324,13 @@ export const migrations = {
         ...state.categories,
         categories
       }
+    }
+  },
+  15: async (state: RootState) => {
+    // add hostColors
+    return {
+      state,
+      hostColors: []
     }
   }
 }

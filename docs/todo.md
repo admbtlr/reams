@@ -1,16 +1,17 @@
 - icon
 - splash
 
-- use useColor in ItemTitle and ItemBody
-- use expo splash
-- use wavy line instead of block
-- fix double bold titles
+- stop TopBar from rerendering so often
+- hide items until they're rendered
+- fix WARN  (ADVICE) View #1559 of type RCTView has a shadow set but cannot   calculate shadow efficiently. Consider setting a background color to fix this, or apply the shadow to a more specific component.
+- on changing orientation back to portrait, something remains landscape length
+  - is it the topbar not re-rendering?
 - update redux-saga to 1.3.0 to remove its redux dep
 - highlight location gets messed up on newsletters 
 - open articles directly from annotations page
 - buttons to save links directly
 - saving an external item adds the same item multiple times
-- how come mercury button is sometimes disabled for decorated items?
+- how come mercury button disappears for Aeon articles?
 
 - wtf is up with FeedContracted on web???
 - fetch articles never completes when adding saved article via extension
@@ -81,6 +82,14 @@
 - saved folders
 
 # Done
+- ~~need to cache colors~~
+- ~~remove duplicate items from batched~~
+- ~~don't show undecorated items if possible~~
+  - how to do this?
+    - add a sortIndex to all items, only use it if sortOrder is desc, add new items slightly later
+- ~~use useColor in ItemTitle and ItemBody~~
+- ~~use expo splash~~
+- ~~fix double bold titles~~
 - ~~highlights don't have favicons (cos the items don't have feed_ids)~~
 - ~~favicons in library~~
 - ~~kottke.org redirects to feeds.kottke.org, which doesn't have a favicon :/ ~~

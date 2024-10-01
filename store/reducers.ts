@@ -21,6 +21,8 @@ import { Annotation, AnnotationsState } from './annotations/types'
 import rizzleSort from '../utils/rizzle-sort'
 import reduceReducers from 'reduce-reducers'
 import { Newsletter, NewslettersState } from './newsletters/types'
+import { HostColorsState } from './hostColors/types'
+import hostColors from './hostColors/hostColors'
 
 // export default {
 //   itemsUnread,
@@ -47,6 +49,7 @@ export interface RootState {
   categories: CategoriesState
   annotations: AnnotationsState
   newsletters: NewslettersState
+  hostColors: HostColorsState
   _persist?: {
     version: number
     rehydrated: boolean
@@ -74,7 +77,8 @@ export default function makeRootReducer (): Reducer<RootState> {
     user,
     categories,
     annotations,
-    newsletters
+    newsletters,
+    hostColors
   })
   
   const crossSliceReducer = (state: RootState, action: any) => {
