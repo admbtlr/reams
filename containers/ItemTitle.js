@@ -7,14 +7,18 @@ import ItemTitle from '../components/ItemTitle'
 import { withUseColorHOC } from '../components/withUseColorHOC'
 
 const mapStateToProps = (state, ownProps) => {
-  // const index = getIndex(state)
-  // const items = getItems(state)
   const styles = ownProps.item &&
       ownProps.item.styles &&
       ownProps.item.styles.title
   const title = ownProps.title || ownProps.item?.title
+
+  const matches = ownProps.item?.url?.match(/:\/\/(.*?)\//)
+  const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : null
+  const color = (host !== null) ?
+    state.hostColors.hostColors.find(hc => hc.host === host)?.color :
+    undefined
   return {
-    // isVisible: ownProps.index === index,
+    color,
     // need to respond to styles changes, because component updates its own font size
     styles: styles,
     coverImageStyles: ownProps.coverImageStyles || styles?.coverImage,

@@ -3,9 +3,13 @@ import { getColors } from 'react-native-image-colors'
 import * as FileSystem from 'expo-file-system'
 import { fileExists } from "../utils";
 import { hexToHsl } from "../utils/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { selectHostColors } from "../store/hostColors/hostColors";
 
 export function useColor(url: string) {
   const [color, setColor] = React.useState<string>()
+  const dispatch = useDispatch()
+  const hostColors = useSelector(selectHostColors)
 
   useEffect(() => {
     const getColor = async () => {
@@ -15,11 +19,16 @@ export function useColor(url: string) {
       if (response.url !== url) {
         url = response.url
       }
-
-      // read the icon in as base64
       const matches = url?.match(/:\/\/(.*?)\//)
       const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : null
       if (host === null) return
+
+      if (hostColors.find(hc => hc.host === host) !== undefined) {
+        setColor(hostColors.find(hc => hc.host === host)?.color)
+        return
+      }
+
+      // read the icon in as base64
       const path = `${FileSystem.documentDirectory}favicons/${host}.png`
       const faviconExists = await fileExists(path)
       if (!faviconExists) return
@@ -50,7 +59,15 @@ export function useColor(url: string) {
             if (Number.parseInt(lightness) && Number.parseInt(lightness) > 75) {
               lightness = 75
             }
-            setColor(`hsl(${hue}, ${saturation}%, ${lightness}%)`)  
+            const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`
+            setColor(color)
+            dispatch({
+              type: 'hostColors/createHostColor', 
+              payload: {
+                host,
+                color
+              }
+            }) 
           }
         }  
       } catch (err) {
