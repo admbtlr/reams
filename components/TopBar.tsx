@@ -188,20 +188,6 @@ export default function TopBar({
           backgroundColor: getBackgroundColor(),
           opacity: getBackgroundOpacityAnim()
         }}>
-          { displayMode === ItemType.saved &&
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={[hslString('logo1'), hslString('logo2')]}
-              style={{
-                position: 'absolute',
-                height: 5,
-                width: '100%',
-                top: getStatusBarHeight() - 5,
-                left: 0
-              }}
-            />
-          }
         </Animated.View>
         <BackButton
           isDarkMode={isDarkMode}
