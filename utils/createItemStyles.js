@@ -65,7 +65,7 @@ export function createItemStyles (item, prevStyles) {
     ? 'center'
     : 'left'
   title.title = item.title
-  title.isVertical = isCoverInline ? false : shouldBeVertical(entities.decodeHTML(item.title))
+  title.isVertical = false //isCoverInline ? false : shouldBeVertical(entities.decodeHTML(item.title))
   title.isInline = !title.isVertical && Math.random() > 0.4
   title.isUpperCase = item.title.length < 80 &&
     ((fonts.heading.substring(0, 14) === 'headerFontSans2' && Math.random() > 0.5) ||
@@ -78,13 +78,12 @@ export function createItemStyles (item, prevStyles) {
   title.invertedBGMargin = Math.floor(Math.random() * 3)
   title.isItalic = !title.isUpperCase && Math.random() > 0.7
   title.bg = !title.invertBG &&
-    !isCoverInline &&
     !isBW &&
     !isScreen &&
-    !isContain &&
     !title.isVertical &&
     item.title.length < 80 &&
-    Math.random() > 0.5
+    // always true, just for testing
+    Math.random() > 0
   title.hasShadow = !title.bg &&
       !isCoverInline &&
       !isMultiply
@@ -158,7 +157,7 @@ export function setCoverInline (oldStyles) {
   styles.title.textAlign = 'left'
   styles.title.isVertical = false
   styles.title.invertBG = false
-  styles.title.bg = false
+  // styles.title.bg = false
   styles.title.hasShadow = false
   styles.coverImage = styles.coverImage || {}
   styles.coverImage.isInline = true

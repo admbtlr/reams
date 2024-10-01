@@ -172,22 +172,12 @@ class ItemTitle extends React.Component {
   }
 
   getInnerHorizontalPadding (fontSize) {
-    if (!this.props.showCoverImage) {
-      return 0
-      // return getMargin(
-    }
-    if (this.props.styles.bg) {
+    const { showCoverImage, isCoverInline, styles } = this.props
+    if (showCoverImage && !isCoverInline && styles.bg) {
       return getMargin() / 2
     } else {
       return 0
     }
-    // const {styles} = this.props
-    // const relativePadding = this.getInnerVerticalPadding(fontSize || styles.fontSize)
-    // if (styles.bg || styles.textAlign === 'center' && styles.valign === 'middle') {
-    //   return relativePadding
-    // } else {
-    //   return 0
-    // }
   }
 
   getInnerHorizontalMargin () {
@@ -509,13 +499,15 @@ class ItemTitle extends React.Component {
     } = this.props.anims ? this.getAnimationValues() : {}
 
     let color = styles.isMonochrome ?
-      ((isFullBleed && !styles.bg) ?
+      (((isFullBleed && !styles.bg) || (!isFullBleed && styles.bg)) ?
         'white' :
         textColor) :
       (styles.isTone ?
         (this.props.item.styles.isCoverImageColorDarker ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') :
         this.getForegroundColor())
-    if (!showCoverImage || isCoverInline) color = this.props.isDarkMode ? textColorDarkMode : textColor
+    if (!showCoverImage || isCoverInline) color = this.props.isDarkMode ? 
+      textColorDarkMode : 
+      this.props.styles.bg ? 'white' : textColor
 
     const invertBGPadding = 6
     let paddingTop = this.shouldSplitIntoWords() ? invertBGPadding : 0
@@ -589,7 +581,7 @@ class ItemTitle extends React.Component {
           innerPadding :
           styles.bg ? this.horizontalMargin : this.getExcerptLineHeight(),
       paddingTop: this.horizontalMargin,//innerPadding + borderWidth,
-      backgroundColor: showCoverImage && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
+      backgroundColor: showCoverImage && !isCoverInline && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       // height: 'auto',
       overflow: 'visible',
       flexDirection: 'row',
@@ -634,7 +626,7 @@ class ItemTitle extends React.Component {
       backgroundColor: !showCoverImage || isCoverInline ?
         // hslString(item.styles?.coverImage?.color, coverImageColorPalette) :
         // 'white' :
-        backgroundColor :
+        (styles.bg ? this.props.color : 'transparent') :
         overlayColour,
       opacity: isCoverInline || !showCoverImage ?
         1 :
@@ -812,7 +804,7 @@ class ItemTitle extends React.Component {
             marginLeft: this.horizontalMargin,
           }}>
             <CategoryToggles 
-              isWhite={showCoverImage && !isCoverInline}
+              isWhite={isFullBleed || styles.bg}
               item={item} /> 
           </Animated.View>
           }
@@ -834,6 +826,7 @@ class ItemTitle extends React.Component {
               styles.excerptInvertBG) ||
             (showCoverImage && item.styles?.coverImage?.resizeMode === 'contain') ||
             (showCoverImage && !this.props.isPortrait) ||
+            (!isFullBleed && styles.bg) ||
             barView
           }
         </Animated.View>
@@ -868,7 +861,7 @@ class ItemTitle extends React.Component {
   getExcerptColor () {
     const { showCoverImage, isCoverInline, item, styles } = this.props
     let excerptColor
-    if (!showCoverImage || isCoverInline || item.styles?.coverImage?.isContain) {
+    if (!styles.bg && (!showCoverImage || isCoverInline || item.styles?.coverImage?.isContain)) {
       excerptColor = this.props.isDarkMode ? textColorDarkMode : textColor
     // } else if (styles.invertBG) {
     //   excerptColor = 'black'
@@ -1003,14 +996,20 @@ class ItemTitle extends React.Component {
       </View>)
   }
 
+  // for the author, date, tags
+  getMetaColor () {
+    const { isCoverInline, isDarkMode, showCoverImage, styles } = this.props
+    return styles.bg || (showCoverImage && !isCoverInline) ?
+      'white' :
+      isDarkMode ?
+        textColorDarkMode :
+        this.getForegroundColor()
+  }
+
   renderAuthor (anim) {
     const { isCoverInline, item, scrollOffset, showCoverImage, styles } = this.props
     let authorStyle = {
-      color: showCoverImage && !isCoverInline ?
-          'white' :
-        this.props.isDarkMode ?
-          textColorDarkMode :
-          this.getForegroundColor(),
+      color: this.getMetaColor(),
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.9,
       fontFamily: this.getFontFamily('regular', 'author'),
@@ -1048,8 +1047,7 @@ class ItemTitle extends React.Component {
   renderDate (anim) {
     const { item, date, isCoverInline, scrollOffset, showCoverImage, styles } = this.props
     let dateStyle = {
-      color: showCoverImage &&
-        !isCoverInline ? 'white' : '#666', // TODO: what about isDarkMode?
+      color: this.getMetaColor(),
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.8,
       fontFamily: 'IBMPlexMono-Light',
