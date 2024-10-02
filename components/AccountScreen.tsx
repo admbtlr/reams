@@ -283,11 +283,6 @@ class AccountScreen extends React.Component {
                 text={ 'Reams' }
                 { ...getAttributes('reams') }
               />
-              <Separator title='RSS' />
-              <TextButton
-                text={ 'Feedbin' }
-                { ...getAttributes('feedbin') }
-              />
               <Separator title='Highlights' />
               <TextButton
                 text={ 'Readwise' }
