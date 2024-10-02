@@ -190,10 +190,12 @@ function * persistDecoration (decoration: Decoration) {
     ...decorated
   }
   wholeItem = addCoverImageToItem(wholeItem, imageStuff)
-  wholeItem.hasCoverImage = !!wholeItem.coverImageFile
-  wholeItem = setShowCoverImage(wholeItem)
-  wholeItem.styles = adjustStylesToCoverImage(decoration)
-  wholeItem = removeCachedCoverImageDuplicate(wholeItem)
+  if (!!wholeItem.coverImageFile) {
+    wholeItem.hasCoverImage = !!wholeItem.coverImageFile
+    wholeItem = setShowCoverImage(wholeItem)
+    wholeItem.styles = adjustStylesToCoverImage(decoration)
+    wholeItem = removeCachedCoverImageDuplicate(wholeItem)  
+  }
   if (Platform.OS === 'web') {
     yield call(updateItemIDB, wholeItem)
   } else {
@@ -242,15 +244,16 @@ function adjustStylesToCoverImage (decoration: Decoration): {} {
     styles = setTitleVAlign(vAlign, styles)
   }
 
-  if (!!item.title &&
-    ((
-      Math.random() > 0.5 /*&&
-      imageStuff.imageDimensions?.height < imageStuff.imageDimensions?.width / 1.8*/
-    ) || mercuryStuff.excerpt && mercuryStuff.excerpt.length > 180)) {
-    if (styles) {
-      styles = setCoverInline(styles)
-    }
-    item.showCoverImage = true
+  const setImageInline = () => Math.random() > 0.5
+    || (mercuryStuff.excerpt && mercuryStuff.excerpt.length > 180)
+
+
+  if (setImageInline()) {
+    styles = setCoverInline(styles)
+  } else {
+    // title.bg has a different meaning for fullbleed cover images
+    // check that title is short enough
+    styles.title.bg  = styles.title.bg && item.title.length < 40
   }
   return styles
 }

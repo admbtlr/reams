@@ -19,9 +19,23 @@ interface ItemStyles {
     showCoverImage: boolean
   }
   title: {
+    bg?: boolean
+    excerptFullWidth?: boolean
+    excerptHorizontalAlign?: boolean
+    excerptInvertBG?: boolean
     fontSize?: number
-    lineHeight?: number
+    hasBorder?: boolean
+    hasShadow?: boolean
+    invertBG?: boolean
+    invertedBGMargin?: number
+    isBold?: boolean
+    isInline?: boolean
+    isItalic?: boolean
+    isUpperCase?: boolean
+    isVertical?: boolean
+    lineHeightAsMultiplier?: number
     fontResized?: boolean
+    vAlign?: boolean
   }
   color?: string
   dropCapFamily?: string
