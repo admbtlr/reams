@@ -340,15 +340,15 @@ export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta | un
 }
 
 export async function findFeeds (url: string): Promise<{ url: string, title: string }[] | undefined> {
-  try {
-    const feedMeta = await getFeedMeta({ url })
-    if (feedMeta && feedMeta.title) {
-      return [{url, title: feedMeta.title}]
-    }
-  } catch (e: any) {
-    log(e)
-    // throw new Error(`Error finding feeds for ${url}: ${e.message}`)
-  }
+  // try {
+  //   const feedMeta = await getFeedMeta({ url })
+  //   if (feedMeta && feedMeta.title) {
+  //     return [{url, title: feedMeta.title}]
+  //   }
+  // } catch (e: any) {
+  //   log(e)
+  //   // throw new Error(`Error finding feeds for ${url}: ${e.message}`)
+  // }
   try {
     const apiUrl = `${API_URL}/find-feeds?url=${url}&extended=1`
     const response = await fetch(apiUrl)
