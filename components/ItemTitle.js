@@ -126,15 +126,6 @@ class ItemTitle extends React.Component {
   constructor (props) {
     super(props)
     this.props = props
-
-    if (props.screenDimensions) {
-      this.screenWidth = props.screenDimensions.width
-      this.screenHeight = props.screenDimensions.height  
-    } else {
-      const window = Dimensions.get('window')
-      this.screenWidth = window.width
-      this.screenHeight = window.height
-    }
   }
 
   getRenderedTitle (title) {
@@ -468,6 +459,10 @@ class ItemTitle extends React.Component {
       showCoverImage, 
       styles, 
     } = this.props
+
+    const window = Dimensions.get('window')
+    this.screenWidth = window.width
+    this.screenHeight = window.height
 
     // this means the item hasn't been inflated from Firebase yet
     if (!styles || !item) return null
