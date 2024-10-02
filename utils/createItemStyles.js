@@ -81,9 +81,8 @@ export function createItemStyles (item, prevStyles) {
     !isBW &&
     !isScreen &&
     !title.isVertical &&
-    item.title.length < 80 &&
-    // always true, just for testing
-    Math.random() > 0
+    Math.random() > 0.5
+  title.hasBorder = title.title.length < 80 && !title.invertBG && !title.bg && Math.random() > 0.7
   title.hasShadow = !title.bg &&
       !isCoverInline &&
       !isMultiply

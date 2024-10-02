@@ -542,7 +542,7 @@ class ItemTitle extends React.Component {
     }
 
     // const borderWidth = styles.invertBG ? 0 : styles.borderWidth
-    const borderWidth = 0
+    const borderWidth = styles.hasBorder ? 5 : 0
     const borderTop = { borderTopWidth: borderWidth }
     const borderBottom = { borderBottomWidth: borderWidth }
     const borderAll = { borderWidth }
@@ -556,6 +556,12 @@ class ItemTitle extends React.Component {
             ...borderBottom
           }
         ))
+    if (styles.hasBorder) {
+      border = {
+        borderWidth: 5,
+        color: 'white'
+      }
+    }
     if (!showCoverImage || isCoverInline) border = {}
 
     const innerPadding = this.getInnerVerticalPadding(fontSize)
@@ -564,7 +570,7 @@ class ItemTitle extends React.Component {
     const defaultHorizontalMargin = this.getInnerHorizontalMargin()
     const widthPercentage = this.getWidthPercentage()
     this.horizontalMargin = getMargin() * 0.8 // TODO: why 0.8?
-    const width = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
+    const maxWidth = (this.screenWidth - this.horizontalMargin * 2) * widthPercentage / 100
 
     const horizontalPadding = this.getInnerHorizontalPadding(fontSize)
 
@@ -573,25 +579,26 @@ class ItemTitle extends React.Component {
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
       marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
       marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
-      marginBottom: isFullBleed && styles.bg ? /*this.getExcerptLineHeight()*/ getMargin() : 0,
+      marginBottom: isFullBleed && (styles.bg || styles.hasBorder) ? getMargin() : 0,
       marginTop: this.horizontalMargin,
-      paddingLeft: horizontalPadding,
-      paddingRight: horizontalPadding,
+      paddingLeft: styles.hasBorder || styles.bg ? getMargin() / 2 : this.horizontalPadding,
+      paddingRight: styles.hasBorder || styles.bg ? getMargin() / 2 : this.horizontalPadding,
       paddingBottom: (!showCoverImage || isCoverInline) ?
           this.getExcerptLineHeight() :
         (styles.textAlign === 'center' || styles.borderWidth) ?
           innerPadding :
-          styles.bg ? this.horizontalMargin : this.getExcerptLineHeight(),
-      paddingTop: this.horizontalMargin,//innerPadding + borderWidth,
+          styles.bg ? getMargin() / 2 : this.getExcerptLineHeight(),
+      paddingTop: styles.hasBorder || styles.bg ? getMargin() : getMargin() / 2,//innerPadding + borderWidth,
       backgroundColor: showCoverImage && !isCoverInline && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       // height: 'auto',
       overflow: 'visible',
       flexDirection: 'row',
       flexWrap: 'wrap',
       alignItems: 'flex-start',
-      width,
-      ...border,
-      borderColor: color
+      width: 'auto',
+      maxWidth,
+      borderColor: color,
+      ...border
     }
     if (this.props.anims) {
       innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation, isVisible)
@@ -628,7 +635,7 @@ class ItemTitle extends React.Component {
       backgroundColor: !showCoverImage || isCoverInline ?
         // hslString(item.styles?.coverImage?.color, coverImageColorPalette) :
         // 'white' :
-        (styles.bg ? this.props.color : 'transparent') :
+        (styles.bg ? this.props.color || 'black' : 'transparent') :
         overlayColour,
       opacity: isCoverInline || !showCoverImage ?
         1 :
@@ -661,7 +668,7 @@ class ItemTitle extends React.Component {
       marginBottom: (isFullBleed && styles.invertedBGMargin || 0) * 3
     }
 
-    const justifiers = {
+    this.justifiers = {
       'top': 'flex-start',
       'middle': 'center',
       'bottom': 'flex-end',
@@ -762,7 +769,7 @@ class ItemTitle extends React.Component {
           ref={(view) => { this.outerView = view }}
           style={{
             ...outerViewStyle,
-            justifyContent: showCoverImage ? justifiers[styles.valign] : 'flex-start',
+            justifyContent: showCoverImage ? this.justifiers[styles.valign] : 'flex-start',
             alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start',
             flex: showCoverImage && !isCoverInline ? 0 : 1
           }}
@@ -925,6 +932,7 @@ class ItemTitle extends React.Component {
     let style = {
       ...innerViewStyle,
       transform: [], // this is to erase the transform from the innerViewStyle
+      borderWidth: 0,
       paddingTop: !isCoverInline &&
         (styles.borderWidth || styles.bg) ?
           excerptLineHeight / 2 :
@@ -935,12 +943,13 @@ class ItemTitle extends React.Component {
           excerptLineHeight / 2 :
           excerptLineHeight,
       ...excerptBg,
+      paddingLeft: styles.excerptInvertBG || styles.bg ? getMargin() / 2 : 0,
       // borderTopWidth: styles.borderWidth,
       // opacity: anim,
       marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
       width: (excerpt.length > 70) && (!showCoverImage || styles.excerptFullWidth || excerpt.length > 100) ?
-        'auto' :
-        this.screenWidth * 0.666,
+        'auto' : 'auto',
+        // this.screenWidth * 0.666,
       alignSelf: {
         'left': 'flex-start',
         'center': 'center',
@@ -967,13 +976,18 @@ class ItemTitle extends React.Component {
     }} />
 
     return (
-      <View style={{ flex: 0 }}>
+      <View style={{ 
+        flex: 0,
+        flexDirection: 'row',
+        justifyContent: showCoverImage ? this.justifiers[styles.valign] : 'flex-start',
+        alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start',
+      }}>
         <Animated.View style={style}>
           <Animated.Text
             maxFontSizeMultiplier={1.2}
             style={{
               justifyContent: this.aligners[styles.textAlign],
-              flex: 1,
+              // flex: 1,
               ...fontStyle,
               // ...shadowStyle,
               ...excerptShadowStyle,
@@ -1135,6 +1149,8 @@ class ItemTitle extends React.Component {
     } else if (item.styles?.coverImage?.isBW ||
       item.styles?.coverImage?.isMultiply ||
       item.styles?.coverImage?.isScreen) {
+      return 'rgba(0,0,0,0.4)'
+    } else if (item.styles.title.bg) {
       return 'rgba(0,0,0,0.4)'
     } else {
       return 'rgba(0,0,0,0.6)'
