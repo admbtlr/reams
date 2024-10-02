@@ -25,6 +25,7 @@ import {
 import { ITEMS_BATCH_FETCHED, ItemType } from "../items/types";
 import log from "../../utils/log";
 import { ADD_MESSAGE, REMOVE_MESSAGE } from "../ui/types";
+import { decode } from "html-entities";
 
 export const createNewsletter = createAsyncThunk(
   'newsletters/createNewsletter',
@@ -110,7 +111,7 @@ export const fetchNewsletters = createAsyncThunk(
           !newNewsletters.find((newsletter: any) => newsletter.url === item.feed_url)) {
         newNewsletters.push({
           url: item.feed_url,
-          title: item.feed_title
+          title: decode(item.feed_title)
         })
       }
     })
