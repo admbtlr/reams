@@ -44,7 +44,13 @@ export const formElementStyles = {
 const width = Dimensions.get('window').width
 
 class AccountCredentialsForm extends React.Component {
-  constructor (props) {
+  constructor (props: {
+    isActive: boolean
+    isExpanded: boolean
+    service: string
+    setBackend: () => void
+    unsetBackend: () => void
+  }) {
     super(props)
     this.props = props
     this.state = {
@@ -129,7 +135,7 @@ class AccountCredentialsForm extends React.Component {
           username: this.state.username,
           password: this.state.password
         }
-    let loggedInUserName
+    let loggedInUserName: string
     switch (service) {
       case 'feedbin':
         loggedInUserName = user.backends.find(b => b.name === 'feedbin')?.username
@@ -151,13 +157,13 @@ class AccountCredentialsForm extends React.Component {
             password: Yup.string().required('Required')
           })
 
-    const reamsText = (isWhite) => <Text 
+    const reamsText = (isWhite: boolean) => <Text 
       style={{
         ...textInfoStyle(isWhite ? 'white' : 'black'),
         marginBottom: getMargin()
       }}><Text style={textInfoBoldStyle(isWhite ? 'white' : 'black')}>Reams Basic</Text> is free, but it doesn’t sync with other devices or apps.</Text>
       
-    const launchBrowser =  async (url) => {
+    const launchBrowser =  async (url: string) => {
       try {
         await InAppBrowser.isAvailable()
         InAppBrowser.open(url, {
@@ -176,7 +182,7 @@ class AccountCredentialsForm extends React.Component {
       }
     }
 
-    const isServiceExtra = (service) => service === 'readwise'
+    const isServiceExtra = (service: string) => service === 'readwise'
 
     const SubmitButton = ({ errors, handleSubmit, isSubmitting, isValid }) => {
       const errorsText = (
