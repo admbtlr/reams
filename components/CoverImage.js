@@ -186,7 +186,7 @@ class CoverImage extends React.Component {
 
       let imageOffset = faceCentreNormalised ?
         faceCentreNormalised.x * imageWidth - this.screenWidth / 2 :
-        imageWidth / 2
+        imageWidth / 2 - this.screenWidth / 2
       if (imageOffset > imageWidth - this.screenWidth * 1.2) {
         imageOffset = imageWidth - this.screenWidth * 1.2
       } else if (imageOffset < this.screenWidth * 0.2) {
