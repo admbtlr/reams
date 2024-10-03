@@ -581,8 +581,8 @@ class ItemTitle extends React.Component {
       marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
       marginBottom: isFullBleed && (styles.bg || styles.hasBorder) ? getMargin() : 0,
       marginTop: this.horizontalMargin,
-      paddingLeft: styles.hasBorder || styles.bg ? getMargin() / 2 : this.horizontalPadding,
-      paddingRight: styles.hasBorder || styles.bg ? getMargin() / 2 : this.horizontalPadding,
+      paddingLeft: isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : this.horizontalPadding,
+      paddingRight: isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : this.horizontalPadding,
       paddingBottom: (!showCoverImage || isCoverInline) ?
           this.getExcerptLineHeight() :
         (styles.textAlign === 'center' || styles.borderWidth) ?
@@ -854,7 +854,7 @@ class ItemTitle extends React.Component {
     let style = this.props.anims ? this.props.addAnimation({}, anim, this.props.isVisible) : {}
     return <Animated.View style={{
       ...style,
-      marginLeft: this.horizontalMargin
+      marginLeft: this.props.styles.textAlign === 'center' ? 0 : this.horizontalMargin
     }}>
       <Bar item={this.props.item} />
     </Animated.View>
@@ -891,6 +891,7 @@ class ItemTitle extends React.Component {
     const { excerpt, isCoverInline, item, scrollOffset, showCoverImage, styles } = this.props
     let excerptShadowStyle
     let excerptColor = this.getExcerptColor()
+    const isFullBleed = showCoverImage && !isCoverInline
 
     let excerptBg = {}
     if (showCoverImage && !isCoverInline) {
@@ -943,7 +944,7 @@ class ItemTitle extends React.Component {
           excerptLineHeight / 2 :
           excerptLineHeight,
       ...excerptBg,
-      paddingLeft: styles.excerptInvertBG || styles.bg ? getMargin() / 2 : 0,
+      paddingLeft: isFullBleed && (styles.excerptInvertBG || styles.bg) ? getMargin() / 2 : 0,
       // borderTopWidth: styles.borderWidth,
       // opacity: anim,
       marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
@@ -1030,9 +1031,9 @@ class ItemTitle extends React.Component {
     let authorStyle = {
       color: this.getMetaColor(),
       backgroundColor: 'transparent',
-      fontSize: this.getExcerptFontSize() * 0.75,
-      fontFamily: this.getFontFamily('regular', 'author'),
-      lineHeight: Math.round(this.getExcerptFontSize() * 0.95),
+      fontSize: this.getExcerptFontSize(),
+      fontFamily: this.getFontFamily('bold', 'author'),
+      lineHeight: Math.round(this.getExcerptFontSize() * 1.1),
       textAlign: styles.textAlign,
       paddingLeft: this.horizontalMargin,
       paddingRight: this.horizontalMargin,
