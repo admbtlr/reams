@@ -33,7 +33,7 @@ export function * saveExternalUrl (action) {
   yield put({
     type: SAVE_EXTERNAL_ITEM,
     item,
-    savedAt: item.created_at
+    savedAt: item.created_at / 1000
   })
   yield put({
     type: ADD_ITEM_TO_CATEGORY,
