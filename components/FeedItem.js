@@ -220,6 +220,13 @@ class FeedItem extends React.Component {
           .startsWith(inflatedItem.title.replace('...', ''))) {
         inflatedItem.title = ''
       }
+      if (inflatedItem.content_html?.length < 1000 && 
+        inflatedItem.excerpt?.replace(/<.*?>/g, '')
+          .trim()
+          .startsWith(inflatedItem.excerpt.replace('...', ''))) {
+        inflatedItem.excerpt = ''
+      }
+
 
       this.setState({
         inflatedItem: {
