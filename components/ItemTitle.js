@@ -577,17 +577,17 @@ class ItemTitle extends React.Component {
     let innerViewStyle = {
       // horizontalMargin: styles.bg ? 28 + horizontalMargin : horizontalMargin,
       // marginRight:  styles.bg ? 28  + horizontalMargin : horizontalMargin,
-      marginLeft: this.horizontalMargin, //defaultHorizontalMargin,
-      marginRight:  this.horizontalMargin, //defaultHorizontalMargin,
+      marginLeft: getMargin(), //defaultHorizontalMargin,
+      marginRight:  getMargin(), //defaultHorizontalMargin,
       marginBottom: isFullBleed && (styles.bg || styles.hasBorder) ? getMargin() : 0,
-      marginTop: this.horizontalMargin,
-      paddingLeft: isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : this.horizontalPadding,
-      paddingRight: isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : this.horizontalPadding,
+      marginTop: getMargin() / 2,
+      paddingLeft: isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : 0,
+      paddingRight: isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : 0,
       paddingBottom: (!showCoverImage || isCoverInline) ?
-          this.getExcerptLineHeight() :
+          getMargin() / 2 :
         (styles.textAlign === 'center' || styles.borderWidth) ?
           innerPadding :
-          styles.bg ? getMargin() / 2 : this.getExcerptLineHeight(),
+          styles.bg ? getMargin() / 2 : getMargin() / 2,
       paddingTop: styles.hasBorder || styles.bg ? getMargin() : getMargin() / 2,//innerPadding + borderWidth,
       backgroundColor: showCoverImage && !isCoverInline && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       // height: 'auto',
@@ -623,7 +623,7 @@ class ItemTitle extends React.Component {
           getTopBarHeight() + this.screenHeight * 0.2 :
           getTopBarHeight(),
       paddingHorizontal: isPortrait ? 0 : 
-        isIpad() ? this.horizontalMargin : this.horizontalMargin * 2, // make space for notch
+        isIpad() ? getMargin() : getMargin() * 2, // make space for notch
       paddingBottom: isCoverInline || !showCoverImage ? 
         0 : 
         isPortrait || isIpad() ? 100 : 0, // looks weird, but means that landscape iPhone doesn't make space fot the buttons
@@ -799,24 +799,6 @@ class ItemTitle extends React.Component {
               </Animated.Text>
             }
           </Animated.View>
-          { this.props.displayMode === ItemType.saved && 
-          <Animated.View style={{
-            ...this.props.addAnimation({
-              transform: [{
-                translateY: scrollOffset.interpolate({
-                  inputRange: [-1, 0, 1],
-                  outputRange: [-0.6, 0, 0]
-                })
-              }]
-            }, categoriesAnimation, this.props.isVisible),
-            marginBottom: getMargin(),
-            marginLeft: this.horizontalMargin,
-          }}>
-            <CategoryToggles 
-              isWhite={isFullBleed || styles.bg}
-              item={item} /> 
-          </Animated.View>
-          }
           { this.props.item.excerpt !== null &&
             this.props.item.excerpt !== undefined &&
             this.props.item.excerpt.length > 0 &&
@@ -830,6 +812,24 @@ class ItemTitle extends React.Component {
             { authorView }
             { dateView }
           </View>
+          { this.props.displayMode === ItemType.saved && 
+          <Animated.View style={{
+            ...this.props.addAnimation({
+              transform: [{
+                translateY: scrollOffset.interpolate({
+                  inputRange: [-1, 0, 1],
+                  outputRange: [0, 0, 0]
+                })
+              }]
+            }, categoriesAnimation, this.props.isVisible),
+            marginBottom: getMargin(),
+            marginLeft: this.horizontalMargin,
+          }}>
+            <CategoryToggles 
+              isWhite={isFullBleed || styles.bg}
+              item={item} /> 
+          </Animated.View>
+          }
           {(!showCoverImage && this.itemStartsWithImage()) ||
             (showCoverImage &&
               this.props.item.excerpt !== null &&
@@ -993,6 +993,8 @@ class ItemTitle extends React.Component {
               // ...shadowStyle,
               ...excerptShadowStyle,
               ...fixPadding,
+              // again, why the -3?
+              marginLeft: -3,
               marginTop: 0,
               paddingTop: 0,
               // textShadowColor: 'rgba(0,0,0,0.4)',
@@ -1033,12 +1035,13 @@ class ItemTitle extends React.Component {
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize(),
       fontFamily: this.getFontFamily('bold', 'author'),
-      lineHeight: Math.round(this.getExcerptFontSize() * 1.1),
+      lineHeight: this.getExcerptFontSize() * 1.1,
       textAlign: styles.textAlign,
-      paddingLeft: this.horizontalMargin,
-      paddingRight: this.horizontalMargin,
-      marginBottom: 0,
-      padding: 0,
+      // no idea why I need this -3
+      marginLeft: getMargin() - 3,
+      paddingRight: getMargin(),
+      marginBottom: getMargin() / 2,
+      // padding: 0,
       width: this.screenWidth
     }
     if (this.props.anims) {
@@ -1066,16 +1069,18 @@ class ItemTitle extends React.Component {
 
   renderDate (anim) {
     const { item, date, isCoverInline, scrollOffset, showCoverImage, styles } = this.props
+    const isFullBleed = showCoverImage && !isCoverInline
     let dateStyle = {
       color: this.getMetaColor(),
       backgroundColor: 'transparent',
       fontSize: this.getExcerptFontSize() * 0.75,
       fontFamily: 'IBMPlexMono-Light',
-      lineHeight: Math.round(this.getExcerptFontSize() * 1.4),
+      lineHeight: Math.round(this.getExcerptFontSize() * 0.75),
       textAlign: styles.textAlign,
-      paddingLeft: this.horizontalMargin,
+      // again, no idea why I need the -3
+      paddingLeft: getMargin() - 3,
       paddingRight: this.horizontalMargin,
-      marginBottom: this.getExcerptLineHeight(),
+      marginBottom: getMargin(),
       padding: 0,
       width: this.screenWidth,
       // ...shadowStyle
@@ -1185,11 +1190,11 @@ class ItemTitle extends React.Component {
             outputRange: [1, 1, 0, 0]
           })),
         titleAnimation: anims[1],
-        categoriesAnimation: anims[2],
         excerptAnimation: anims[2],
         authorAnimation: anims[3],
-        dateAnimation: anims[4], 
-        barAnimation: anims[4],
+        dateAnimation: anims[3], 
+        categoriesAnimation: anims[4],
+        barAnimation: anims[5],
         shadow: scrollOffset.interpolate({
             inputRange: [-100, -20, 0, 40, 400],
             outputRange: [1, 1, 1, 1, 0]
@@ -1205,11 +1210,11 @@ class ItemTitle extends React.Component {
           outputRange: [1, 1, 0, 0]
         })),
       titleAnimation: anims[1],
-      categoriesAnimation: anims[2],
       excerptAnimation: anims[2],
       authorAnimation: anims[3],
-      dateAnimation: anims[4],
-      barAnimation: anims[4],
+      dateAnimation: anims[3],
+      categoriesAnimation: anims[4],
+      barAnimation: anims[5],
       shadow: scrollOffset.interpolate({
           inputRange: [-100, -20, 0, 40, 200],
           outputRange: [0, 1, 1, 1, 0]
