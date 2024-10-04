@@ -3,6 +3,7 @@ import {
 } from "./types";
 import { RootState } from "../reducers";
 import { createSlice } from "@reduxjs/toolkit";
+import { UNSET_BACKEND } from "../user/types";
 
 const initialState:HostColorsState = {
   hostColors: []
@@ -26,6 +27,12 @@ const hostColorsSlice = createSlice({
     deleteHostColor(state, action) {
       state.hostColors = state.hostColors.filter(hc => hc.host !== action.payload.host)
     } 
+  },
+  extraReducers: (builder) => {
+    builder.addCase(UNSET_BACKEND, (state, action) => {
+      state.hostColors = []
+    })
+
   }
 })
 
