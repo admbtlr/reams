@@ -117,7 +117,7 @@ export default function HighlightsScreen () {
         {hbi.item !== undefined && (
           <View style={{
             // width: 24,
-            marginRight: getMargin() * 0.5,
+            marginRight: getMargin() * 0.25,
             marginTop: 5
           }}>
             <Favicon
