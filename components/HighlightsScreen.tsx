@@ -153,8 +153,8 @@ export default function HighlightsScreen () {
       key={i}
       style={{
         marginBottom: i === array.length - 1 ? 0 : getMargin(),
-        marginTop: i === 0 ? 0 : getMargin(),
-        paddingBottom: i === array.length - 1 ? 0 : getMargin(),
+        marginTop: i === 0 ? 0 : getMargin() * 0.5,
+        paddingBottom: i === array.length - 1 ? 0 : getMargin() * 0.5,
         borderBottomColor: hslString('rizzleText', '', 0.1),
         borderBottomWidth: i === array.length - 1 ? 0 : 1,
         maxWidth: '100%',
