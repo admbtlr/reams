@@ -42,7 +42,7 @@ export function useColor(url: string) {
         })
         if (colors.platform === 'ios') {
           // weirdly, 'background' is the best option
-          const options = ['background', 'detail', 'primary', 'secondary']
+          const options = ['background', 'primary', 'detail', 'secondary']
           let i = 0
           let bestColor
           for (let i = 0; i < options.length; i++) {
