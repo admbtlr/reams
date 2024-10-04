@@ -158,7 +158,7 @@ const Share  = () => {
     let pages = []
     try {
       const raw = await SharedGroupPreferences.getItem('page', group)
-      pages = raw ? JSON.parse(raw) : []
+      pages = raw && raw !== 'null' ? JSON.parse(raw) : []
     } catch(error) {
       if (error !== 1) {
         log('savePage', error)
