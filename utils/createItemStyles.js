@@ -331,13 +331,13 @@ const getFontClasses = function () {
   if (Math.random() > 0.3) {
     // sans heading, serif body
     // heading += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
-    heading += 'Sans' + (Math.floor((Math.random() * 3)) + 1)
-    body += 'Serif' + (Math.floor((Math.random() * 3)) + 1)
+    heading += 'Sans' + (Math.floor((Math.random() * 4)) + 1)
+    body += 'Serif' + (Math.floor((Math.random() * 4)) + 1)
   } else {
     // serif heading, sans body
     // heading += 'Serif' + (Math.floor((Math.random()*3))+1)
-    heading += 'Serif1'
-    body += 'Sans' + (Math.floor((Math.random()*2))+1)
+    heading += 'Serif' + (Math.floor((Math.random() * 4)) + 1)
+    body += 'Sans' + (Math.floor((Math.random()*4))+1)
   }
   return {heading, body}
 }

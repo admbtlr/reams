@@ -826,6 +826,105 @@ hr {
   color: var(--feed-color);
 }
 
+.bodyFontSans3 {
+  font-family: "Montserrat-Regular", serif;
+  font-size: 0.5882352941rem !important;
+}
+.bodyFontSans3 em, .bodyFontSans3 i {
+  font-family: "Montserrat-Italic", sans-serif;
+  font-style: normal;
+}
+.bodyFontSans3 strong, .bodyFontSans3 b {
+  font-family: "Montserrat-Bold", sans-serif;
+  font-weight: normal;
+}
+.bodyFontSans3 strong em, .bodyFontSans3 em strong, .bodyFontSans3 b i, .bodyFontSans3 i b {
+  font-family: "Montserrat-BoldItalic", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.bodyFontSans3 .itemArticle > p:not(.short-para):first-of-type:first-line, .bodyFontSans3 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .bodyFontSans3 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "Montserrat-Bold";
+}
+.bodyFontSans3 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "Montserrat-Bold";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.bodyFontSans3 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans3 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans3 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans3 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "Montserrat-BoldItalic";
+  font-style: normal;
+}
+.bodyFontSans3 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
+
+.bodyFontSerif4 {
+  font-family: "Reforma1969-Blanca", serif;
+  font-size: 0.5882352941rem;
+}
+.bodyFontSerif4 em, .bodyFontSerif4 i {
+  font-family: "Reforma1969-BlancaItalica", sans-serif;
+  font-style: normal;
+}
+.bodyFontSerif4 strong, .bodyFontSerif4 b {
+  font-family: "Reforma1969-Negra", sans-serif;
+  font-weight: normal;
+}
+.bodyFontSerif4 strong em, .bodyFontSerif4 em strong, .bodyFontSerif4 b i, .bodyFontSerif4 i b {
+  font-family: "Reforma1969-NegraItalica", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.bodyFontSerif4 .itemArticle > p:not(.short-para):first-of-type:first-line, .bodyFontSerif4 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .bodyFontSerif4 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "Reforma1969-Negra";
+}
+.bodyFontSerif4 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "Reforma1969-Negra";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.bodyFontSerif4 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSerif4 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSerif4 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSerif4 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "Reforma1969-NegraItalica";
+  font-style: normal;
+}
+.bodyFontSerif4 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
+
+.bodyFontSans4 {
+  font-family: "Reforma2018-Blanca", serif;
+  font-size: 0.5882352941rem;
+}
+.bodyFontSans4 em, .bodyFontSans4 i {
+  font-family: "Reforma2018-BlancaItalica", sans-serif;
+  font-style: normal;
+}
+.bodyFontSans4 strong, .bodyFontSans4 b {
+  font-family: "Reforma2018-Negra", sans-serif;
+  font-weight: normal;
+}
+.bodyFontSans4 strong em, .bodyFontSans4 em strong, .bodyFontSans4 b i, .bodyFontSans4 i b {
+  font-family: "Reforma2018-NegraItalica", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.bodyFontSans4 .itemArticle > p:not(.short-para):first-of-type:first-line, .bodyFontSans4 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .bodyFontSans4 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "Reforma2018-Negra";
+}
+.bodyFontSans4 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "Reforma2018-Negra";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.bodyFontSans4 > p:first-of-type.short-para:not(.ends-with-colon) em, .bodyFontSans4 > p:first-of-type.short-para:not(.ends-with-colon) i, .bodyFontSans4 > p:first-of-type.short-para:not(.ends-with-colon) strong, .bodyFontSans4 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "Reforma2018-NegraItalica";
+  font-style: normal;
+}
+.bodyFontSans4 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
+
 h1, h2, h3, h4, h5, b, strong {
   font-weight: normal;
 }
@@ -948,31 +1047,68 @@ web .headerFontSans3.isItalic h1 {
   font-family: "Montserrat-BoldItalic";
 }
 .headerFontSans3 h2, .headerFontSans3 h4 {
-  font-family: "Montserrat-Light";
+  font-family: "Montserrat-Regular";
 }
 .headerFontSans3 h2 b, .headerFontSans3 h2 strong, .headerFontSans3 h4 b, .headerFontSans3 h4 strong {
-  font-family: "Montserrat-LightItalic";
+  font-family: "Montserrat-Italic";
 }
 .headerFontSans3 figcaption, .headerFontSans3 img + small, .headerFontSans3 .caption, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) {
-  font-family: "Montserrat-LightItalic";
+  font-family: "Montserrat-Italic";
 }
 .headerFontSans3 figcaption em, .headerFontSans3 figcaption i, .headerFontSans3 img + small em, .headerFontSans3 img + small i, .headerFontSans3 .caption em, .headerFontSans3 .caption i, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) i {
-  font-family: "Montserrat-Light";
+  font-family: "Montserrat-Regular";
 }
 .headerFontSans3 figcaption strong, .headerFontSans3 figcaption b, .headerFontSans3 img + small strong, .headerFontSans3 img + small b, .headerFontSans3 .caption strong, .headerFontSans3 .caption b, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans3 blockquote:not(.short-blockquote):not(.pullquote) b {
   font-family: "Montserrat-BoldItalic";
 }
 .headerFontSans3.itemTitle p {
-  font-family: "Montserrat-Light";
+  font-family: "Montserrat-Regular";
 }
 .headerFontSans3.itemTitle p em, .headerFontSans3.itemTitle p i {
-  font-family: "Montserrat-LightItalic";
+  font-family: "Montserrat-Italic";
 }
 .headerFontSans3.itemTitle p strong, .headerFontSans3.itemTitle p b {
   font-family: "Montserrat-Bold";
 }
 .headerFontSans3.itemTitle p em strong, .headerFontSans3.itemTitle p strong em, .headerFontSans3.itemTitle p i b, .headerFontSans3.itemTitle p b i {
   font-family: "Montserrat-BoldItalic";
+}
+
+.headerFontSans4 h1, .headerFontSans4 h3, .headerFontSans4 h5 {
+  font-family: "Reforma2018-Negra";
+}
+.headerFontSans4 h1 b, .headerFontSans4 h1 strong, .headerFontSans4 h3 b, .headerFontSans4 h3 strong, .headerFontSans4 h5 b, .headerFontSans4 h5 strong {
+  font-family: "Reforma2018-NegraItalica";
+}
+web .headerFontSans4.isItalic h1 {
+  font-family: "Reforma2018-NegraItalica";
+}
+.headerFontSans4 h2, .headerFontSans4 h4 {
+  font-family: "Reforma2018-Blanca";
+}
+.headerFontSans4 h2 b, .headerFontSans4 h2 strong, .headerFontSans4 h4 b, .headerFontSans4 h4 strong {
+  font-family: "Reforma2018-BlancaItalica";
+}
+.headerFontSans4 figcaption, .headerFontSans4 img + small, .headerFontSans4 .caption, .headerFontSans4 blockquote:not(.short-blockquote):not(.pullquote) {
+  font-family: "Reforma2018-BlancaItalica";
+}
+.headerFontSans4 figcaption em, .headerFontSans4 figcaption i, .headerFontSans4 img + small em, .headerFontSans4 img + small i, .headerFontSans4 .caption em, .headerFontSans4 .caption i, .headerFontSans4 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans4 blockquote:not(.short-blockquote):not(.pullquote) i {
+  font-family: "Reforma2018-Blanca";
+}
+.headerFontSans4 figcaption strong, .headerFontSans4 figcaption b, .headerFontSans4 img + small strong, .headerFontSans4 img + small b, .headerFontSans4 .caption strong, .headerFontSans4 .caption b, .headerFontSans4 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans4 blockquote:not(.short-blockquote):not(.pullquote) b {
+  font-family: "Reforma2018-NegraItalica";
+}
+.headerFontSans4.itemTitle p {
+  font-family: "Reforma2018-Blanca";
+}
+.headerFontSans4.itemTitle p em, .headerFontSans4.itemTitle p i {
+  font-family: "Reforma2018-BlancaItalica";
+}
+.headerFontSans4.itemTitle p strong, .headerFontSans4.itemTitle p b {
+  font-family: "Reforma2018-Negra";
+}
+.headerFontSans4.itemTitle p em strong, .headerFontSans4.itemTitle p strong em, .headerFontSans4.itemTitle p i b, .headerFontSans4.itemTitle p b i {
+  font-family: "Reforma2018-NegraItalica";
 }
 
 .headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5 {
@@ -1015,6 +1151,43 @@ web .headerFontSerif1.isItalic h1 {
   font-family: "IBMPlexSerif-BoldItalic";
 }
 
+.headerFontSerif4 h1, .headerFontSerif4 h3, .headerFontSerif4 h5 {
+  font-family: "Reforma1969-Negra";
+}
+.headerFontSerif4 h1 b, .headerFontSerif4 h1 strong, .headerFontSerif4 h3 b, .headerFontSerif4 h3 strong, .headerFontSerif4 h5 b, .headerFontSerif4 h5 strong {
+  font-family: "Reforma1969-NegraItalica";
+}
+web .headerFontSerif4.isItalic h1 {
+  font-family: "Reforma1969-NegraItalica";
+}
+.headerFontSerif4 h2, .headerFontSerif4 h4 {
+  font-family: "Reforma1969-Blanca";
+}
+.headerFontSerif4 h2 b, .headerFontSerif4 h2 strong, .headerFontSerif4 h4 b, .headerFontSerif4 h4 strong {
+  font-family: "Reforma1969-BlancaItalica";
+}
+.headerFontSerif4 figcaption, .headerFontSerif4 img + small, .headerFontSerif4 .caption, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) {
+  font-family: "Reforma1969-BlancaItalica";
+}
+.headerFontSerif4 figcaption em, .headerFontSerif4 figcaption i, .headerFontSerif4 img + small em, .headerFontSerif4 img + small i, .headerFontSerif4 .caption em, .headerFontSerif4 .caption i, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) i {
+  font-family: "Reforma1969-Blanca";
+}
+.headerFontSerif4 figcaption strong, .headerFontSerif4 figcaption b, .headerFontSerif4 img + small strong, .headerFontSerif4 img + small b, .headerFontSerif4 .caption strong, .headerFontSerif4 .caption b, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) b {
+  font-family: "Reforma1969-NegraItalica";
+}
+.headerFontSerif4.itemTitle p {
+  font-family: "Reforma1969-Blanca";
+}
+.headerFontSerif4.itemTitle p em, .headerFontSerif4.itemTitle p i {
+  font-family: "Reforma1969-BlancaItalica";
+}
+.headerFontSerif4.itemTitle p strong, .headerFontSerif4.itemTitle p b {
+  font-family: "Reforma1969-Negra";
+}
+.headerFontSerif4.itemTitle p em strong, .headerFontSerif4.itemTitle p strong em, .headerFontSerif4.itemTitle p i b, .headerFontSerif4.itemTitle p b i {
+  font-family: "Reforma1969-NegraItalica";
+}
+
 .feedflare, .mc-embed-signup {
   display: none !important;
 }
@@ -1034,6 +1207,9 @@ web .headerFontSerif1.isItalic h1 {
 html:not(web) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, html:not(web) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, html:not(web) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
   -webkit-text-stroke: 2px #444444;
+}
+.dark-background html:not(web) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type, .dark-background html:not(web) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type, .dark-background html:not(web) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+  color: #ddd;
 }
 .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   -webkit-text-stroke-color: var(--feed-color);

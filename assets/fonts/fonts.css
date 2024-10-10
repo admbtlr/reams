@@ -132,15 +132,15 @@ font-style: normal;
 }
 
 @font-face {
-  font-family: 'Montserrat-Light';
-  src: url('/fonts/Montserrat-Light.ttf');
+  font-family: 'Montserrat-Regular';
+  src: url('/fonts/Montserrat-Regular.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Montserrat-LightItalic';
-  src: url('/fonts/Montserrat-LightItalic.ttf');
+  font-family: 'Montserrat-Italic';
+  src: url('/fonts/Montserrat-Italic.ttf');
   font-weight: normal;
   font-style: normal;
 }
@@ -253,6 +253,62 @@ font-style: normal;
 @font-face {
   font-family: 'PTSerif-Italic';
   src: url('/fonts/PTSerif-Italic.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Reforma1969-Bold';
+  src: url('/fonts/Reforma1969-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Reforma1969-BoldItalic';
+  src: url('/fonts/Reforma1969-BoldItalic.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Reforma1969';
+  src: url('/fonts/Reforma1969-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Reforma1969-RegularItalic';
+  src: url('/fonts/Reforma1969-RegularItalic.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Reforma2018-Negra';
+  src: url('/fonts/Reforma2018-Negra.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Reforma2018-NegraItalica';
+  src: url('/fonts/Reforma2018-NegraItalica.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Reforma2018-Blanca';
+  src: url('/fonts/Reforma2018-Blanca.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Reforma2018-BlancaItalica';
+  src: url('/fonts/Reforma2018-BlancaItalica.ttf');
   font-weight: normal;
   font-style: normal;
 }
