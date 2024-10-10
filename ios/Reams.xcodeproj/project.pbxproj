@@ -14,7 +14,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		14E191C4F5364833B0807883 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B26201DAB06487C9C51EBFE /* Montserrat-Light.ttf */; };
 		165F6C9F0D804EC790DC575E /* LibreBaskerville-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 823005F4E98141A58D61C4FD /* LibreBaskerville-Regular.ttf */; };
 		17E475145E6F4DB1A5140583 /* PlayfairDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30A12608F8894744820DBBB1 /* PlayfairDisplay-Regular.ttf */; };
 		1F3AFD1477774196851518C5 /* IBMPlexMono-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FBC8104B4E442A5B9FB054E /* IBMPlexMono-Light.ttf */; };
@@ -27,7 +26,6 @@
 		3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */; };
 		3D427D9BD8F88760988409EC /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A611DA766F9B0A5A5987B58B /* ExpoModulesProvider.swift */; };
 		45852DA026DE45819C2E6132 /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */; };
-		4DA1B3EEF1E74D8D885D44DF /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64AD0B7FA26449D4ABC8E4CB /* Montserrat-LightItalic.ttf */; };
 		50797229E0BE442B98C3A263 /* IBMPlexSerif-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF76841FECC148EBB9E7A18C /* IBMPlexSerif-Thin.ttf */; };
 		5FF246E7404C4B1E893221EF /* IBMPlexSansCond-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F15F6A3A215A44BFA389AA06 /* IBMPlexSansCond-ExtraLight.ttf */; };
 		6034DA6C49924802AEE91A48 /* IBMPlexSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06F5F314CAEB4FF99200CCB4 /* IBMPlexSerif-Italic.ttf */; };
@@ -83,6 +81,17 @@
 		F2E6111401F945D1A0E5D590 /* PlayfairDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */; };
 		FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */; };
 		FF0226A698404963886B7CB1 /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47ADD74982BD43CD980B27AA /* PlayfairDisplay-Bold.ttf */; };
+		C9AC296CCECC464AA04DAFC2 /* Reforma1969-Blanca.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F787B1F82AF4298A9FC50FE /* Reforma1969-Blanca.ttf */; };
+		4AAA5F17F45748E2A58AD461 /* Reforma1969-BlancaItalica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82670BFB43334FC78C942FD6 /* Reforma1969-BlancaItalica.ttf */; };
+		A942CCF1BEBD4BE085ED99E5 /* Reforma1969-Negra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4CFB86F834BA4FA1AC2D791F /* Reforma1969-Negra.ttf */; };
+		8A62A54B0C4A4706906F114F /* Reforma1969-NegraItalica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56BCE9D293BD4191BB0E29A8 /* Reforma1969-NegraItalica.ttf */; };
+		95C2AD6B406B45DEBC897EA6 /* Reforma2018-Blanca.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94C9ECF42B5D423BA433EE44 /* Reforma2018-Blanca.ttf */; };
+		0914F37506D043FE89426E0F /* Reforma2018-BlancaItalica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D94456ED9F9C4BA7B312B1AF /* Reforma2018-BlancaItalica.ttf */; };
+		0A55833D9E8E4D9D92233A01 /* Reforma2018-Negra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC73A304BA1D4B93B8392D31 /* Reforma2018-Negra.ttf */; };
+		722464B79B6041FAAB912C97 /* Reforma2018-NegraItalica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A29FE8B9F174E7EA2D65F2D /* Reforma2018-NegraItalica.ttf */; };
+		347FAC415EAB41A2BA90E807 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBCB64F7E5E496FB5A8D863 /* Montserrat-Italic.ttf */; };
+		1FB74D2D05994815A98A9AEA /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6605816A7EA242F1B514AB50 /* Montserrat-Regular.ttf */; };
+		78698591C0F8404180AE06D2 /* fonts.css in Resources */ = {isa = PBXBuildFile; fileRef = A4065DB606644713A4246FC7 /* fonts.css */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,7 +138,6 @@
 		06F5F314CAEB4FF99200CCB4 /* IBMPlexSerif-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Italic.ttf"; path = "../assets/fonts/IBMPlexSerif-Italic.ttf"; sourceTree = "<group>"; };
 		073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Italic.ttf"; path = "../assets/fonts/PlayfairDisplay-Italic.ttf"; sourceTree = "<group>"; };
 		08245B2253D44286A4B4DD40 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
-		0B26201DAB06487C9C51EBFE /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		0EFC7C78A6AC4E7F85713A83 /* IBMPlexSansCond-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCond-ExtraLightItalic.ttf"; path = "../assets/fonts/IBMPlexSansCond-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		0F6EEEC401334B5AAECD02EF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		11CD500228D549F8B770CE5F /* libRNTextSize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextSize.a; sourceTree = "<group>"; };
@@ -156,7 +164,6 @@
 		499AB3DC82924245886CE016 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Italic.ttf"; path = "../assets/fonts/IBMPlexMono-Italic.ttf"; sourceTree = "<group>"; };
 		5E76F266FA4347AE92C8E288 /* IBMPlexSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
-		64AD0B7FA26449D4ABC8E4CB /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		65A4E7B3216F441182F2D8AC /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		664B4B271FAB59A9006C6DF9 /* webview */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webview; sourceTree = "<group>"; };
 		664BDD0323C7422F007D6D3F /* IBMPlexSansCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSansCondensed-Light.ttf"; sourceTree = "<group>"; };
@@ -240,6 +247,17 @@
 		FE500C58F03B4E759CEEF985 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
 		FF76841FECC148EBB9E7A18C /* IBMPlexSerif-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Thin.ttf"; path = "../assets/fonts/IBMPlexSerif-Thin.ttf"; sourceTree = "<group>"; };
 		FFB182B64E4047B7BF666E29 /* Arvo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Bold.ttf"; path = "../assets/fonts/Arvo-Bold.ttf"; sourceTree = "<group>"; };
+		7F787B1F82AF4298A9FC50FE /* Reforma1969-Blanca.ttf */ = {isa = PBXFileReference; name = "Reforma1969-Blanca.ttf"; path = "../assets/fonts/Reforma1969-Blanca.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		82670BFB43334FC78C942FD6 /* Reforma1969-BlancaItalica.ttf */ = {isa = PBXFileReference; name = "Reforma1969-BlancaItalica.ttf"; path = "../assets/fonts/Reforma1969-BlancaItalica.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4CFB86F834BA4FA1AC2D791F /* Reforma1969-Negra.ttf */ = {isa = PBXFileReference; name = "Reforma1969-Negra.ttf"; path = "../assets/fonts/Reforma1969-Negra.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		56BCE9D293BD4191BB0E29A8 /* Reforma1969-NegraItalica.ttf */ = {isa = PBXFileReference; name = "Reforma1969-NegraItalica.ttf"; path = "../assets/fonts/Reforma1969-NegraItalica.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		94C9ECF42B5D423BA433EE44 /* Reforma2018-Blanca.ttf */ = {isa = PBXFileReference; name = "Reforma2018-Blanca.ttf"; path = "../assets/fonts/Reforma2018-Blanca.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D94456ED9F9C4BA7B312B1AF /* Reforma2018-BlancaItalica.ttf */ = {isa = PBXFileReference; name = "Reforma2018-BlancaItalica.ttf"; path = "../assets/fonts/Reforma2018-BlancaItalica.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AC73A304BA1D4B93B8392D31 /* Reforma2018-Negra.ttf */ = {isa = PBXFileReference; name = "Reforma2018-Negra.ttf"; path = "../assets/fonts/Reforma2018-Negra.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8A29FE8B9F174E7EA2D65F2D /* Reforma2018-NegraItalica.ttf */ = {isa = PBXFileReference; name = "Reforma2018-NegraItalica.ttf"; path = "../assets/fonts/Reforma2018-NegraItalica.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ACBCB64F7E5E496FB5A8D863 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; name = "Montserrat-Italic.ttf"; path = "../assets/fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6605816A7EA242F1B514AB50 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A4065DB606644713A4246FC7 /* fonts.css */ = {isa = PBXFileReference; name = "fonts.css"; path = "../assets/fonts/fonts.css"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,8 +320,6 @@
 				78D2BA048E8A4D53940A372C /* Arvo-Regular.ttf */,
 				BAC2FB0C9E904B1DA4378E1F /* Montserrat-Bold.ttf */,
 				E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */,
-				0B26201DAB06487C9C51EBFE /* Montserrat-Light.ttf */,
-				64AD0B7FA26449D4ABC8E4CB /* Montserrat-LightItalic.ttf */,
 				3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */,
 				AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */,
 				5A1DB9DFF0A34EA8AF4306E5 /* IBMPlexMono-Italic.ttf */,
@@ -350,6 +366,17 @@
 				F15F6A3A215A44BFA389AA06 /* IBMPlexSansCond-ExtraLight.ttf */,
 				0EFC7C78A6AC4E7F85713A83 /* IBMPlexSansCond-ExtraLightItalic.ttf */,
 				3F9C2F335D3D4AB3AD066690 /* IBMPlexSansCond.ttf */,
+				7F787B1F82AF4298A9FC50FE /* Reforma1969-Blanca.ttf */,
+				82670BFB43334FC78C942FD6 /* Reforma1969-BlancaItalica.ttf */,
+				4CFB86F834BA4FA1AC2D791F /* Reforma1969-Negra.ttf */,
+				56BCE9D293BD4191BB0E29A8 /* Reforma1969-NegraItalica.ttf */,
+				94C9ECF42B5D423BA433EE44 /* Reforma2018-Blanca.ttf */,
+				D94456ED9F9C4BA7B312B1AF /* Reforma2018-BlancaItalica.ttf */,
+				AC73A304BA1D4B93B8392D31 /* Reforma2018-Negra.ttf */,
+				8A29FE8B9F174E7EA2D65F2D /* Reforma2018-NegraItalica.ttf */,
+				ACBCB64F7E5E496FB5A8D863 /* Montserrat-Italic.ttf */,
+				6605816A7EA242F1B514AB50 /* Montserrat-Regular.ttf */,
+				A4065DB606644713A4246FC7 /* fonts.css */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -622,8 +649,6 @@
 				66A92E2923D88B12000E6D96 /* wordmark.png in Resources */,
 				0A318D5E3DC347B8A70ED4DF /* Montserrat-Bold.ttf in Resources */,
 				FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */,
-				14E191C4F5364833B0807883 /* Montserrat-Light.ttf in Resources */,
-				4DA1B3EEF1E74D8D885D44DF /* Montserrat-LightItalic.ttf in Resources */,
 				45852DA026DE45819C2E6132 /* IBMPlexMono-Bold.ttf in Resources */,
 				3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */,
 				66ABE8CB2796B3E2004E15B2 /* ream@3x.png in Resources */,
@@ -672,6 +697,17 @@
 				5FF246E7404C4B1E893221EF /* IBMPlexSansCond-ExtraLight.ttf in Resources */,
 				860615272CBA435FAA16F53E /* IBMPlexSansCond-ExtraLightItalic.ttf in Resources */,
 				0FC2DDFA561E4E2C80E8E445 /* IBMPlexSansCond.ttf in Resources */,
+				C9AC296CCECC464AA04DAFC2 /* Reforma1969-Blanca.ttf in Resources */,
+				4AAA5F17F45748E2A58AD461 /* Reforma1969-BlancaItalica.ttf in Resources */,
+				A942CCF1BEBD4BE085ED99E5 /* Reforma1969-Negra.ttf in Resources */,
+				8A62A54B0C4A4706906F114F /* Reforma1969-NegraItalica.ttf in Resources */,
+				95C2AD6B406B45DEBC897EA6 /* Reforma2018-Blanca.ttf in Resources */,
+				0914F37506D043FE89426E0F /* Reforma2018-BlancaItalica.ttf in Resources */,
+				0A55833D9E8E4D9D92233A01 /* Reforma2018-Negra.ttf in Resources */,
+				722464B79B6041FAAB912C97 /* Reforma2018-NegraItalica.ttf in Resources */,
+				347FAC415EAB41A2BA90E807 /* Montserrat-Italic.ttf in Resources */,
+				1FB74D2D05994815A98A9AEA /* Montserrat-Regular.ttf in Resources */,
+				78698591C0F8404180AE06D2 /* fonts.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

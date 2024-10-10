@@ -59,6 +59,20 @@ const fontStyles = {
       fontFamily: 'PlayfairDisplay-Italic'
     }
   },
+  headerFontSerif4: {
+    bold: {
+      fontFamily: 'Reforma1969-Negra'
+    },
+    boldItalic: {
+      fontFamily: 'Reforma1969-NegraItalica'
+    },
+    regular: {
+      fontFamily: 'Reforma1969-Blanca'
+    },
+    regularItalic: {
+      fontFamily: 'Reforma1969-BlancaItalica'
+    }
+  },
   // headerFontSans1: {
   //   verticalOffset: 0.1,
   //   bold: {
@@ -110,10 +124,24 @@ const fontStyles = {
       fontFamily: 'Montserrat-BoldItalic'
     },
     regular: {
-      fontFamily: 'Montserrat-Light'
+      fontFamily: 'Montserrat-Regular'
     },
     regularItalic: {
-      fontFamily: 'Montserrat-LightItalic'
+      fontFamily: 'Montserrat-Italic'
+    }
+  },
+  headerFontSans4: {
+    bold: {
+      fontFamily: 'Reforma2018-Negra'
+    },
+    boldItalic: {
+      fontFamily: 'Reforma2018-NegraItalica'
+    },
+    regular: {
+      fontFamily: 'Reforma2018-Blanca'
+    },
+    regularItalic: {
+      fontFamily: 'Reforma2018-BlancaItalica'
     }
   }
 }

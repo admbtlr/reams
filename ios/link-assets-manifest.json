@@ -122,12 +122,12 @@
       "sha1": "ebc4fa9fab0e7e99dea6634268d4ec9c6350b279"
     },
     {
-      "path": "assets/fonts/Montserrat-Light.ttf",
-      "sha1": "17468b8eb82a8e64d6d0073c2477f101efb7264d"
+      "path": "assets/fonts/Montserrat-Italic.ttf",
+      "sha1": "9b14c390a8b40d941f62a971cb6d7d152e59154a"
     },
     {
-      "path": "assets/fonts/Montserrat-LightItalic.ttf",
-      "sha1": "0853c31bbc939c9b1e79fb0da306fe2e00f9356e"
+      "path": "assets/fonts/Montserrat-Regular.ttf",
+      "sha1": "bb895d19b8a1fbe1c57fc89cac5da82fdc8fdef4"
     },
     {
       "path": "assets/fonts/PTSerif-Bold.ttf",
@@ -196,6 +196,42 @@
     {
       "path": "assets/fonts/Poppins-Regular.ttf",
       "sha1": "a4ef48c17479236fea2197b9a68bf7c6163e0388"
+    },
+    {
+      "path": "assets/fonts/Reforma1969-Blanca.ttf",
+      "sha1": "501863958650714ffcf82e95ba7e53a4806d4059"
+    },
+    {
+      "path": "assets/fonts/Reforma1969-BlancaItalica.ttf",
+      "sha1": "c4a69bd735b0d2e694f3982da8e4ec53a5accee5"
+    },
+    {
+      "path": "assets/fonts/Reforma1969-Negra.ttf",
+      "sha1": "29c64d7c6c8d4d8ef938b515c88dd25e6d67ef79"
+    },
+    {
+      "path": "assets/fonts/Reforma1969-NegraItalica.ttf",
+      "sha1": "be0d095662eea819284a465913f4764fda93a3a2"
+    },
+    {
+      "path": "assets/fonts/Reforma2018-Blanca.ttf",
+      "sha1": "840c32639677c0e7f6fcd3b86fb6c04312a1778f"
+    },
+    {
+      "path": "assets/fonts/Reforma2018-BlancaItalica.ttf",
+      "sha1": "79735cf2942ac4506a604b20af8b0f0986ecec29"
+    },
+    {
+      "path": "assets/fonts/Reforma2018-Negra.ttf",
+      "sha1": "3d022cb9ca95353b38c19ab1fdbfad9339e5fb12"
+    },
+    {
+      "path": "assets/fonts/Reforma2018-NegraItalica.ttf",
+      "sha1": "bc969fe963b4558aae147dea4816647a66d17f5f"
+    },
+    {
+      "path": "assets/fonts/fonts.css",
+      "sha1": "7280ece5153f10f1e226dce3b3516a167473009c"
     }
   ]
 }

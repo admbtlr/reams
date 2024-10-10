@@ -70,8 +70,6 @@
 	<array>
 		<string>Montserrat-Bold.ttf</string>
 		<string>Montserrat-BoldItalic.ttf</string>
-		<string>Montserrat-Light.ttf</string>
-		<string>Montserrat-LightItalic.ttf</string>
 		<string>IBMPlexMono-Bold.ttf</string>
 		<string>IBMPlexMono-BoldItalic.ttf</string>
 		<string>IBMPlexMono-Italic.ttf</string>
@@ -117,6 +115,16 @@
 		<string>Poppins-ExtraBoldItalic.ttf</string>
 		<string>Poppins-Italic.ttf</string>
 		<string>Poppins-Regular.ttf</string>
+		<string>Reforma1969-Blanca.ttf</string>
+		<string>Reforma1969-BlancaItalica.ttf</string>
+		<string>Reforma1969-Negra.ttf</string>
+		<string>Reforma1969-NegraItalica.ttf</string>
+		<string>Reforma2018-Blanca.ttf</string>
+		<string>Reforma2018-BlancaItalica.ttf</string>
+		<string>Reforma2018-Negra.ttf</string>
+		<string>Reforma2018-NegraItalica.ttf</string>
+		<string>Montserrat-Italic.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

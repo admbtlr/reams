@@ -983,6 +983,79 @@ hr {
   @include firstShortParaBold("IBMPlexSerif-Bold", "IBMPlexSerif-BoldItalic")
 }
 
+.bodyFontSans3 {
+  font-family: "Montserrat-Regular", serif;
+  font-size: calc(1rem / 1.7) !important;
+
+  em, i {
+    font-family: "Montserrat-Italic", sans-serif;
+    font-style: normal;
+  }
+
+  strong, b {
+    font-family: "Montserrat-Bold", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong, b i, i b {
+    font-family: "Montserrat-BoldItalic", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("Montserrat-Bold");
+  @include firstShortParaBold("Montserrat-Bold", "Montserrat-BoldItalic")
+}
+
+.bodyFontSerif4 {
+  font-family: "Reforma1969-Blanca", serif;
+  font-size: calc(1rem / 1.7);
+
+  em, i {
+    font-family: "Reforma1969-BlancaItalica", sans-serif;
+    font-style: normal;
+  }
+
+  strong, b {
+    font-family: "Reforma1969-Negra", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong, b i, i b {
+    font-family: "Reforma1969-NegraItalica", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("Reforma1969-Negra");
+  @include firstShortParaBold("Reforma1969-Negra", "Reforma1969-NegraItalica")
+}
+
+.bodyFontSans4 {
+  font-family: "Reforma2018-Blanca", serif;
+  font-size: calc(1rem / 1.7);
+
+  em, i {
+    font-family: "Reforma2018-BlancaItalica", sans-serif;
+    font-style: normal;
+  }
+
+  strong, b {
+    font-family: "Reforma2018-Negra", sans-serif;
+    font-weight: normal;
+  }
+
+  strong em, em strong, b i, i b {
+    font-family: "Reforma2018-NegraItalica", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @include firstLineFontFamily("Reforma2018-Negra");
+  @include firstShortParaBold("Reforma2018-Negra", "Reforma2018-NegraItalica")
+}
+
+
 // HEADER FONTS
 
 h1, h2, h3, h4, h5, b, strong {
@@ -1134,17 +1207,17 @@ h1, h2, h3, h4, h5, b, strong {
     font-family: "Montserrat-BoldItalic";
   }
   h2, h4 {
-    font-family: "Montserrat-Light";
+    font-family: "Montserrat-Regular";
 
     b, strong {
-      font-family: "Montserrat-LightItalic";  
+      font-family: "Montserrat-Italic";  
     }
   }
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
-    font-family: "Montserrat-LightItalic";
+    font-family: "Montserrat-Italic";
 
     em, i {
-      font-family: "Montserrat-Light";
+      font-family: "Montserrat-Regular";
     }
 
     strong, b {
@@ -1152,9 +1225,9 @@ h1, h2, h3, h4, h5, b, strong {
     }
   }
   &.itemTitle p {
-    font-family: "Montserrat-Light";
+    font-family: "Montserrat-Regular";
     em, i {
-      font-family: "Montserrat-LightItalic";
+      font-family: "Montserrat-Italic";
     }
 
     strong, b {
@@ -1167,41 +1240,50 @@ h1, h2, h3, h4, h5, b, strong {
   }
 }
 
-// .headerFontSerif1 {
-//   h1, h3, h5 {
-//     font-family: "IBMPlexSerif-Bold";
-//   }
-//   h2, h4 {
-//     font-family: "IBMPlexSerif-Light";
-//   }
-//   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
-//     font-family: "IBMPlexSerif-Italic";
+.headerFontSans4 {
+  h1, h3, h5 {
+    font-family: "Reforma2018-Negra";
 
-//     em {
-//       font-family: "IBMPlexSerif";
-//     }
+    b, strong {
+      font-family: "Reforma2018-NegraItalica";  
+    }
+  }
+  web &.isItalic h1 {
+    font-family: "Reforma2018-NegraItalica";
+  }
+  h2, h4 {
+    font-family: "Reforma2018-Blanca";
 
-//     strong {
-//       font-family: "IBMPlexSerif-BoldItalic";
-//     }
+    b, strong {
+      font-family: "Reforma2018-BlancaItalica";  
+    }
+  }
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "Reforma2018-BlancaItalica";
 
-//     em strong, strong em {
-//       font-family: "IBMPlexSerif-Bold";
-//     }
-//   }
-// }
+    em, i {
+      font-family: "Reforma2018-Blanca";
+    }
 
-// .headerFontSerif2 {
-//   h1, h3, h5 {
-//     font-family: "Arvo-Bold";
-//   }
-//   h2, h4 {
-//     font-family: "Arvo";
-//   }
-//   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
-//     font-family: "Arvo";
-//   }
-// }
+    strong, b {
+      font-family: "Reforma2018-NegraItalica";
+    }
+  }
+  &.itemTitle p {
+    font-family: "Reforma2018-Blanca";
+    em, i {
+      font-family: "Reforma2018-BlancaItalica";
+    }
+
+    strong, b {
+      font-family: "Reforma2018-Negra";
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "Reforma2018-NegraItalica";
+    }
+  }
+}
 
 .headerFontSerif1 {
   h1, h3, h5 {
@@ -1248,6 +1330,51 @@ h1, h2, h3, h4, h5, b, strong {
 
     em strong, strong em, i b, b i {
       font-family: "IBMPlexSerif-BoldItalic";
+    }
+  }
+}
+
+.headerFontSerif4 {
+  h1, h3, h5 {
+    font-family: "Reforma1969-Negra";
+
+    b, strong {
+      font-family: "Reforma1969-NegraItalica";  
+    }
+  }
+  web &.isItalic h1 {
+    font-family: "Reforma1969-NegraItalica";
+  }
+  h2, h4 {
+    font-family: "Reforma1969-Blanca";
+
+    b, strong {
+      font-family: "Reforma1969-BlancaItalica";  
+    }
+  }
+  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+    font-family: "Reforma1969-BlancaItalica";
+
+    em, i {
+      font-family: "Reforma1969-Blanca";
+    }
+
+    strong, b {
+      font-family: "Reforma1969-NegraItalica";
+    }
+  }
+  &.itemTitle p {
+    font-family: "Reforma1969-Blanca";
+    em, i {
+      font-family: "Reforma1969-BlancaItalica";
+    }
+
+    strong, b {
+      font-family: "Reforma1969-Negra";
+    }
+
+    em strong, strong em, i b, b i {
+      font-family: "Reforma1969-NegraItalica";
     }
   }
 }
@@ -1351,6 +1478,11 @@ h1, h2, h3, h4, h5, b, strong {
         color: transparent;
         -webkit-text-stroke: 2px #444444;
       }
+
+      .dark-background & {
+        color: #ddd;
+      }
+    
     }
   }
 
