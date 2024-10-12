@@ -781,6 +781,12 @@ class ItemTitle extends React.Component {
       })
     }
 
+    const shouldShowExcerpt = () => this.props.item.excerpt !== null &&
+      this.props.item.excerpt !== undefined &&
+      this.props.item.excerpt.length > 0 &&
+      !this.props.item.excerpt.includes('ellip') &&
+      !this.props.item.excerpt.includes('…')
+
     const isAuthorDateBelowFold = showCoverImage && !isPortrait && isCoverInline
 
     const barView = this.renderBar(barAnimation)
@@ -817,7 +823,7 @@ class ItemTitle extends React.Component {
               <Animated.Text style={{
                 ...fontStyle,
                 ...shadowStyle,
-                marginBottom: this.props.styles.isUpperCase ? fontSize * -0.3 : 0,
+                marginBottom: 0, //this.props.styles.isUpperCase ? fontSize * -0.3 : 0,
                 // ensure top of apostrophes, quotes and i dots are not cut off
                 paddingTop: typeof fontStyle.padding === 'number' ? 
                   fontStyle.paddingTop + 10 : 10,
@@ -827,15 +833,11 @@ class ItemTitle extends React.Component {
               </Animated.Text>
             }
           </Animated.View>
-          { this.props.item.excerpt !== null &&
-            this.props.item.excerpt !== undefined &&
-            this.props.item.excerpt.length > 0 &&
-            !this.props.item.excerpt.includes('ellip') &&
-            !this.props.item.excerpt.includes('…') &&
+          { shouldShowExcerpt() &&
             excerptView }
           <View style={{ 
             flex: 0,
-            // marginTop: getMargin()
+            marginTop: shouldShowExcerpt() ? 0 : getMargin()
           }}>
             { authorView }
             { dateView }
@@ -1088,7 +1090,7 @@ class ItemTitle extends React.Component {
         <Animated.Text
           maxFontSizeMultiplier={1.2}
           style={authorStyle}
-        >{this.props.item.author.trim()}</Animated.Text>
+        >{entities.decodeHTML(this.props.item.author).trim()}</Animated.Text>
       )
     } else {
       return null
