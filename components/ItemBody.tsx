@@ -78,6 +78,8 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     setAnnotatedCategoryId(annotatedCategory?._id)
   }, [annotatedCategory?._id])
   const [isLoaded, setIsLoaded] = useState(false)
+  const [cleanedHtmlContent, setCleanedHtmlContent] = useState<string | undefined>()
+  const [cleanedMercuryContent, setCleanedMercuryContent] = useState<string | undefined>()
 
   useEffect(() => {
     if (activeHighlight === null) {
@@ -158,8 +160,10 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     let cleanedItem = { ...item }
     if (showMercuryContent) {
       cleanedItem.content_mercury =  cleanedBody
+      setCleanedMercuryContent(cleanedBody)
     } else {
       cleanedItem.content_html = cleanedBody
+      setCleanedHtmlContent(cleanedBody)
     }
     try {
       if (Platform.OS === 'web') {
@@ -179,8 +183,6 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const { 
     _id,
     coverImageUrl, 
-    content_html, 
-    content_mercury,
     decoration_failures,
     isHtmlCleaned,
     isMercuryCleaned,
@@ -191,6 +193,8 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     styles,
     url
   } = item
+  const content_html = cleanedHtmlContent || item.content_html
+  const content_mercury = cleanedMercuryContent || item.content_mercury
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
