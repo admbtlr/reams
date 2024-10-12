@@ -305,7 +305,7 @@ function * getNextItemToDecorate () {
   const candidateItems = items.filter(item => {
     return !item.isDecorated &&
       (!item.decoration_failures || item.decoration_failures < 3) &&
-      !item.readAt &&
+      // !item.readAt &&
       items.indexOf(item) >= index &&
       items.indexOf(item) < index + 20 &&
       (!activeFilter || activeFilter.feeds.includes(item.feed_id))
