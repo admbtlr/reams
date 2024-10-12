@@ -54,10 +54,9 @@ function Favicon ({
     const cacheFavicon = async () => {
       console.log('Inside cacheFavicon')
       if (url === undefined) return
-      let redirectUrl
       const response = await fetch(url)
       if (response.url !== url) {
-        redirectUrl = response.url
+        url = response.url
       }
       const matches = url?.match(/:\/\/(.*?)\//)
       const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : null
