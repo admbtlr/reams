@@ -6,7 +6,7 @@ import moment from 'moment'
 import quote from 'headline-quotes'
 
 import {deepEqual, diff} from '../utils'
-import { getMargin } from '../utils/dimensions'
+import { getMargin, getSmallestDimension } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { isIpad } from '../utils/dimensions'
 import {getTopBarHeight} from './TopBar'
@@ -226,8 +226,13 @@ class ItemTitle extends React.Component {
   async getMaxFontSize () {
     let { styles } = this.props
     const that = this
-    const width = this.screenWidth * this.getWidthPercentage() / 100
-    const limit = Math.round(width / 8)
+    // always measure to portrait, even if currently in landscape
+    const widthAvailable = getSmallestDimension() * (this.getWidthPercentage() / 100) -
+      // allow space for margins
+      getSmallestDimension() * 0.1
+    
+    // think this is probably a magic number?
+    const limit = Math.round(widthAvailable / 8)
     let maxSize
     const longestWord = this.getLongestWord()
     let sizes = []
@@ -253,7 +258,7 @@ class ItemTitle extends React.Component {
         }
       })
       for (var i = 0; i < values.length; i++) {
-        if (values[i].width < that.getInnerWidth(values[i].size, styles.isItalic)) {
+        if (values[i].width < widthAvailable) {
           return values[i].size
         }
       }
