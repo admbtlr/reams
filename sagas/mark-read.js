@@ -14,7 +14,7 @@ import { removeCachedCoverImages } from '../utils/item-utils'
 import { deleteItems as deleteItemsSQLite } from '../storage/sqlite'
 import { deleteItems as deleteItemsIDB } from '../storage/idb-storage'
 
-export function * markLastItemRead (action) {
+export function * markLastItemReadIfUndecorated (action) {
   yield call(InteractionManager.runAfterInteractions)
   if (typeof(action.lastIndex) === 'undefined') {
     return
@@ -22,6 +22,7 @@ export function * markLastItemRead (action) {
   const lastIndex = action.lastIndex
   const unreadItems = yield select(getItems)
   const item = unreadItems[lastIndex]
+  if (!item.isDecorated) return
   yield call(InteractionManager.runAfterInteractions)
   yield put ({
     type: MARK_ITEM_READ,
