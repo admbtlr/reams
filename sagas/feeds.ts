@@ -102,12 +102,12 @@ export function * fetchAllFeeds () {
   oldFeeds = oldFeeds || []
   let newFeeds: Feed[] = yield call(fetchFeeds)
   newFeeds = newFeeds || []
-  let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => nf.feedbinId === of.feedbinId || nf.url === of.url))
+  let toRemove = oldFeeds.filter(of => !newFeeds.find(nf => /*nf.feedbinId === of.feedbinId ||*/ nf.url === of.url))
   if (toRemove) {
     oldFeeds = oldFeeds.filter(of => !toRemove.includes(of))
   }
   newFeeds = newFeeds.filter(f => !oldFeeds
-      .find(feed => feed.url === f.url || feed.feedbinId === f.feedbinId || feed._id === f._id))
+      .find(feed => feed.url === f.url /*|| feed.feedbinId === f.feedbinId*/ || feed._id === f._id))
   const feeds = oldFeeds.concat(newFeeds)
 
   if (newFeeds.length) {
