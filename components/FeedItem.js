@@ -25,6 +25,7 @@ class FeedItem extends React.Component {
     this.state = {
       webViewHeight: INITIAL_WEBVIEW_HEIGHT,
       inflatedItem: null,
+      hasRendered: false
     }
 
     this.initAnimatedValues(false)
@@ -285,6 +286,7 @@ class FeedItem extends React.Component {
     )
 
     const { 
+      hasRendered,
       inflatedItem,
       webViewHeight 
     } = this.state
@@ -310,12 +312,28 @@ class FeedItem extends React.Component {
       savedAt
     } = inflatedItem
 
+
+    const reveal = new Animated.Value(hasRendered ? 0 : 1)
+    if (!hasRendered && item.isDecorated) {
+      const that = this
+      Animated.timing(reveal, {
+        toValue: 0,
+        delay: 3000,
+        duration: 500,
+        useNativeDriver: true
+      }).start(({finished}) => {
+        if (finished) {
+          setTimeout(() => that.setState({ hasRendered: true }), 3000)
+        }
+      })
+    }
+
     const isCoverInline = orientation !== 'landscape' && styles.isCoverInline
 
     const bodyColor = this.props.isDarkMode ? 
       'black' : 
       styles.hasFeedBGColor && !!item.feed_color && JSON.stringify(item.feed_color) !== '[0,0,0]' ?
-        `hsl(${(item.feed_color[0] + 180) % 360}, 10%, 90%)` :
+        `hsl(${(item.feed_color[0] + 180) % 360}, 20%, 75%)` :
         hslString('bodyBG')
 
     if (styles === undefined || styles === null || Object.keys(styles).length === 0) {
@@ -421,6 +439,21 @@ class FeedItem extends React.Component {
           />
           </Animated.View>
         </Animated.ScrollView>
+        { !hasRendered && 
+          <Animated.View
+            style={{
+              backgroundColor: bodyColor,
+              position: 'absolute',
+              top: 0, 
+              left: 0,
+              right: 0,
+              bottom: 0,
+              opacity: reveal
+            }}
+          >
+            {emptyState}
+          </Animated.View>
+        }
       </View>
     )
   }
