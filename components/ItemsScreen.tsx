@@ -17,17 +17,27 @@ import {
 import ItemCarouselContainer from '../containers/ItemCarousel.js'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import { hslString } from '../utils/colors'
-import HighlightButtons from './HighlightButtons'
+import HighlightButtons, { ActiveHighlight } from './HighlightButtons'
+import { RootState } from '../store/reducers'
 
-export const HighlightModeContext = React.createContext({ activeHighlight: null, setActiveHighlight: (mode) => {} })
 
-export default function ItemsScreen ({ navigation }) {
+interface ActiveHighlightContext {
+  activeHighlight: ActiveHighlight | null
+  setActiveHighlight: (activeHighlight: ActiveHighlight) => void
+}
+
+export const ActiveHighlightContext = React.createContext<ActiveHighlightContext>({
+  activeHighlight: null,
+  setActiveHighlight: () => null
+})
+
+export default function ItemsScreen ({ navigation}: { navigation: any }) {
   const dispatch = useDispatch()
-  const displayMode = useSelector(state => state.itemsMeta.display)
-  const orientation = useSelector(state => state.config.orientation)
+  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
+  const orientation = useSelector((state: RootState) => state.config.orientation)
   // const lastActivated = useSelector(state => state.config.lastActivated)
 
-  const [activeHighlight, setActiveHighlight] = useState(null)
+  const [activeHighlight, setActiveHighlight] = useState<ActiveHighlight | null>(null)
 
   const didFocus = () => {
     dispatch({
@@ -44,7 +54,7 @@ export default function ItemsScreen ({ navigation }) {
     React.useCallback(() => {
       didFocus()
       return didBlur
-    })
+    }, [])
   )
 
   return (
@@ -61,13 +71,13 @@ export default function ItemsScreen ({ navigation }) {
         barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
         hidden={false} />
       <View style={styles.infoView} />
-      <HighlightModeContext.Provider value={{ activeHighlight, setActiveHighlight }}>
+      <ActiveHighlightContext.Provider value={{ activeHighlight, setActiveHighlight }}>
         <ItemCarouselContainer
           navigation={navigation}
           style={styles.ItemCarousel}
           orientation={orientation} />
         <HighlightButtons />
-      </HighlightModeContext.Provider>
+      </ActiveHighlightContext.Provider>
       <RizzleImageViewerContainer />
     </Animated.View>
   )
