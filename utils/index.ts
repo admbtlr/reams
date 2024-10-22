@@ -7,9 +7,9 @@ import DeviceInfo from 'react-native-device-info'
 import { Item } from '../store/items/types'
 import { hslString } from './colors'
 import log from './log'
-// import uuid from 'uuid'
+import * as uuid from 'uuid'
 
-const uuid = require('uuid')
+// const uuid = require('uuid')
 
 let deviceId: string
 
