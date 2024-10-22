@@ -82,3 +82,5 @@ ios/Already.app.dSYM.zip
  
 # testing
 /coverage
+
+dist
