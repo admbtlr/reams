@@ -2,19 +2,20 @@
 - splash
 
 - stop TopBar from rerendering so often
-- hide items until they're rendered
+- decorate visible items after all
 - fix WARN  (ADVICE) View #1559 of type RCTView has a shadow set but cannot   calculate shadow efficiently. Consider setting a background color to fix this, or apply the shadow to a more specific component.
-- on changing orientation back to portrait, something remains landscape length
-  - is it the topbar not re-rendering?
+- fetch articles never completes when adding saved article via extension #BLOCKER
 - update redux-saga to 1.3.0 to remove its redux dep
 - highlight location gets messed up on newsletters 
 - open articles directly from annotations page
 - buttons to save links directly
-- saving an external item adds the same item multiple times
+- saving an external item adds the same item multiple times #BLOCKER
 - how come mercury button disappears for Aeon articles?
-
+  - it happens randomly
+- how come body is sometimes blank when app comes from background?
+- is substack img src sometimes an object? if so, pull src from the object
+- handle blockquote within aside (Guardian)
 - wtf is up with FeedContracted on web???
-- fetch articles never completes when adding saved article via extension
 - maybe update image viewer
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer
 - TopBar with too many lines
@@ -44,31 +45,13 @@
 - feedly
 
 # Someday / Maybe
-- use more built-in fonts?
-  - (match fonts to blogs???)
-  - https://fonts.google.com/specimen/Syne
-  - https://fonts.google.com/specimen/Oswald
-  - https://fonts.google.com/specimen/Open+Sans+Condensed
 - figure out how to re-enable animated scroll view with keyboard avoiding
-- is this useful? https://github.com/osamaqarem/react-native-image-colors
-- in-browser js causes render delays! 
-  - ~~move to item init (with jsdom?)~~
-  - only do it on first load, then store fixed up dom on item
-  - ~~while we're at it, call `window.ReactNativeWebView.postMessage('resize:' + getHeight())` at `window.onload` to ensure that images have loaded~~
 - read srcsets to get the right image
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
-- move backend to postgres, running on https://www.elephantsql.com/
-  - using node-postgres, which looks very nice!
-  - or using supabase?
 - is this useful? https://css-tricks.com/mediastack/
-- icloud integration
-  - https://github.com/XHMM/react-native-cloud-store
-- Feedly integration
 - i8n 
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
     - https://github.com/antfu/i18n-ally#readme
-- login with apple
-    + https://github.com/invertase/react-native-apple-authentication
 - make extension work with more data types
 - text highlights
     + https://github.com/react-native-community/react-native-webview/issues/607
@@ -78,10 +61,18 @@
 - Use https://github.com/DylanVann/react-native-fast-image to show cached images
 - scroll effects
 - make buttons use reanimate
-- newsletters
-- saved folders
 
 # Done
+- ~~context menu in webview~~
+- ~~in-browser js causes render delays! ~~
+- ~~use more built-in fonts?~~
+- ~~is this useful? https://github.com/osamaqarem/react-native-image-colors~~
+- ~~move backend to postgres, running on https://www.elephantsql.com/~~
+- ~~login with apple~~
+- ~~newsletters~~
+- ~~saved folders~~
+- ~~hide items until they're rendered~~
+- ~~on changing orientation back to portrait, something remains landscape length #BLOCKER~~
 - ~~need to cache colors~~
 - ~~remove duplicate items from batched~~
 - ~~don't show undecorated items if possible~~
