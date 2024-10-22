@@ -13,9 +13,9 @@ module.exports = {
   "setupFiles": [
     "./jest.setup.js"
   ],
-  // "moduleNameMapper": {
-  //   // Workaround for Jest not having ESM support yet
-  //   // See: https://github.com/uuidjs/uuid/issues/451
-  //   "uuid": require.resolve('uuid')
-  // }
+  "moduleNameMapper": {
+    // Workaround for Jest not having ESM support yet
+    // See: https://github.com/uuidjs/uuid/issues/451
+    "uuid": require.resolve('uuid')
+  }
 }
