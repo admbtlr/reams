@@ -3,14 +3,16 @@ import {Animated, Dimensions, Linking, View} from 'react-native'
 import { getMargin } from '../utils/dimensions'
 import { hasNotchOrIsland } from '../utils/dimensions'
 import TextButton from './TextButton'
-import { HighlightModeContext } from './ItemsScreen'
+import { ActiveHighlightContext } from './ItemsScreen'
 import { useDispatch, useStore } from 'react-redux'
 import { SHOW_ITEM_BUTTONS } from '../store/ui/types'
 import { dustbinIcon, noteIcon, okIcon, xIcon } from '../utils/icons'
 import { Annotation } from '../store/annotations/types'
 import { useSelector } from 'react-redux'
-import { deleteAnnotation, selectAnnotations, updateAnnotation } from '../store/annotations/annotations'
+import { createAnnotation, deleteAnnotation, selectAnnotations, updateAnnotation } from '../store/annotations/annotations'
 import { useModal } from './ModalProvider'
+import { RootState } from '../store/reducers'
+import { id } from '../utils'
 // import { translateDistance } from './ButtonSet'
 
 
@@ -18,10 +20,22 @@ const screenWidth = Dimensions.get('window').width
 const translateDistance = 90
 const translateAnim = new Animated.Value(1)
 
+export interface ActiveHighlight {
+  _id?: string | undefined
+  text?: string
+  serialized?: string
+  url?: string | null
+  item_id?: string | null
+  note?: string | null
+}
+
 export default function HighlightButtons() {
-  const { activeHighlight, setActiveHighlight } = React.useContext(HighlightModeContext)
+  const { activeHighlight, setActiveHighlight } = React.useContext(ActiveHighlightContext)
   const dispatch = useDispatch()
-  const annotation = useSelector(selectAnnotations)?.find((a: Annotation) => a._id === activeHighlight)
+  const activeAnnotation = useSelector((state: RootState) => state
+    .annotations.annotations.find(a => activeHighlight?._id ? a._id === activeHighlight._id : undefined))
+  const [ note, setNote ] = useState<string | undefined>()
+  
   const screenDimensions = Dimensions.get('window')
   const { openModal } = useModal()
 
@@ -57,22 +71,11 @@ export default function HighlightButtons() {
         // label: 'Name',
         name: 'note',
         type: 'textarea',
-        value: annotation ? annotation.note : '',
+        value: note ?? activeAnnotation?.note ?? '',
       }
     ],
-    modalOnOk: ({note}: {note: string}) => {
-      if (annotation !== undefined) {
-        dispatch(updateAnnotation({
-          ...annotation,
-          note
-        }))
-      setActiveHighlight(null)
-      dispatch({ type: SHOW_ITEM_BUTTONS })
-    }},
-    modalOnCancel: () => {
-      setActiveHighlight(null)
-      dispatch({ type: SHOW_ITEM_BUTTONS })
-    }
+    modalOnOk: ({note}: {note: string}) => setNote(note),
+    modalOnCancel: () => {}
   }
 
 
@@ -111,15 +114,15 @@ export default function HighlightButtons() {
              })}] 
           }}
           hasShadow={true}
-          icon={dustbinIcon()}
+          icon={ activeAnnotation ? dustbinIcon() : xIcon() }
           onPress={() => {
-            if (annotation !== undefined) {
-              dispatch(deleteAnnotation(annotation))
-              setActiveHighlight(null)
-              dispatch({ type: SHOW_ITEM_BUTTONS })
+            if (activeAnnotation !== undefined) {
+              dispatch(deleteAnnotation(activeAnnotation))
             }
-          }}
-          text='Delete' />
+            setActiveHighlight(null)
+            dispatch({ type: SHOW_ITEM_BUTTONS })
+        }}
+          text={ activeAnnotation ? 'Delete' : 'Cancel' } />
         <TextButton 
           buttonStyle={{ 
             margin: getMargin() * .5,
@@ -149,10 +152,24 @@ export default function HighlightButtons() {
           hasShadow={true}
           icon={okIcon()}
           onPress={() => {
+            if (activeAnnotation) {
+              dispatch(updateAnnotation({
+                ...activeAnnotation,
+                note: note ?? activeAnnotation.note
+            }))
+            } else {
+              dispatch(createAnnotation({
+                _id: id(),
+                ...activeHighlight,
+                note
+
+              }))
+            }      
             setActiveHighlight(null)
+            setNote(null)
             dispatch({ type: SHOW_ITEM_BUTTONS })
           }}
-          text='OK' 
+          text='Save' 
         />
       </Animated.View>
     </View>

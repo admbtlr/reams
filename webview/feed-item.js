@@ -163,6 +163,20 @@ function removeEmptyDivs () {
   }
 }
 
+// this doesn't seem to work
+// also, would need to wrap contiguous orphans into one p
+function wrapOrphanElementsInParagraphs () {
+  var article = document.getElementsByTagName('article')[0]
+  article.childNodes.forEach(c => {
+    if ((c.nodeType === 1 && c.tagName === 'A') || c.nodeType === 3) {
+      var p = document.createElement('P')
+      p.appendChild(c.cloneNode(true))
+      article.insertBefore(p, c)
+      article.removeChild(c)
+    }
+  })
+}
+
 function markShortParagraphs () {
   const paras = document.querySelectorAll('p')
   Array.prototype.forEach.call(paras, function (el, i) {
@@ -556,13 +570,13 @@ function stopAutoplay () {
   [].slice.call(document.getElementsByTagName('video')).forEach(v => v.removeAttribute('autoplay'))
 }
 
-function highlightSelection() {
-  const selections = highlighter.highlightSelection('highlight')
-  const selection = selections[0]
-  const text = selection.getText()
-  const serialized = highlighter.serialize(selection)
-  window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
-}
+// function highlightSelection() {
+//   const selections = highlighter.highlightSelection('highlight')
+//   const selection = selections[0]
+//   const text = selection.getText()
+//   const serialized = highlighter.serialize(selection)
+//   window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
+// }
 
 function deselectHighlight() {
   document.querySelectorAll('.highlighter').forEach(el => el.classList.remove('highlighter'))
@@ -603,6 +617,7 @@ function cleanSource() {
   removeEmptyParagraphs()
   removeEmptyDivs()
   removeDivsWithOrphanFigures()
+  // wrapOrphanElementsInParagraphs()
   markShortParagraphs()
   markSingleCharParagraphs()
   markShortBlockquotes()
@@ -642,6 +657,10 @@ function init() {
     ignoreWhiteSpace: true,
     tagNames: ["span", "a"]
   }))
+  highlighter.addClassApplier(rangy.createClassApplier("highlight-pending", {
+    ignoreWhiteSpace: true,
+    tagNames: ["span", "a"]
+  }))
   highlights.forEach(highlight => {
     highlighter.deserialize(highlight.serialized)
     // find the highlight and add the _id as an attribute
@@ -672,6 +691,21 @@ function init() {
   }
 
   remove1x1Images()
+
+  let currentSelectionText = ''
+  document.addEventListener('selectionchange', () => {
+    const text = rangy.getSelection().toString()
+    if (text !== currentSelectionText) {
+      currentSelectionText = text
+      if (text !== '') {
+        const selections = highlighter.highlightSelection('highlight')
+        const selection = selections[0]
+        const serialized = highlighter.serialize(selection)
+        window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
+        highlighter.highlightSelection('highlight-pending')
+      }
+    }
+  })
 }
 
 window.addEventListener("load", init)

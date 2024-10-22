@@ -34,9 +34,6 @@ interface highlightsByItem {
   highlights: Annotation[]
 }
 
-export const HighlightModeContext = React.createContext({ activeHighlight: null, setActiveHighlight: () => {} })
-
-
 export default function HighlightsScreen () {
   const dispatch = useDispatch()
   const highlights = useSelector(selectAnnotations)

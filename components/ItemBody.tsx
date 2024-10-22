@@ -8,7 +8,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { deepEqual, id, pgTimestamp } from '../utils'
 import { RootState } from '../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../store/ui/types'
-import { HighlightModeContext } from './ItemsScreen'
+import { ActiveHighlightContext } from './ItemsScreen'
 import { ITEM_BODY_CLEANED, Item, ItemInflated, RESET_DECORATION_FALIURES, SAVE_ITEM } from '../store/items/types'
 import { ADD_ITEM_TO_CATEGORY, Category } from '../store/categories/types'
 import isEqual from 'lodash.isequal'
@@ -71,7 +71,7 @@ interface ItemBodyProps {
 const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
   let webView = useRef(null)
   const dispatch = useDispatch()
-  const { activeHighlight, setActiveHighlight } = React.useContext(HighlightModeContext)
+  const { activeHighlight, setActiveHighlight } = React.useContext(ActiveHighlightContext)
   const annotatedCategory: Category | undefined = useSelector((store: RootState) => store.categories.categories.find(c => c.name === 'annotated'), isEqual)
   const [annotatedCategoryId, setAnnotatedCategoryId] = useState(annotatedCategory?._id)
   useEffect(() => {
@@ -128,32 +128,18 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const onHighlight = (text: string, serialized: string) => {
-    const annotation = {
-      _id: id() as string,
+    dispatch({ type: HIDE_ALL_BUTTONS })
+    setActiveHighlight({
       text,
       serialized,
-      item_id: _id,
-      url: url,
-      created_at: pgTimestamp(),
-    }
-    dispatch(createAnnotation(annotation))
-    if (!isSaved) {
-      dispatch({
-        type: SAVE_ITEM,
-        item,
-        savedAt: Date.now()
-      })
-      dispatch({
-        type: ADD_ITEM_TO_CATEGORY,
-        itemId: _id,
-        categoryId: annotatedCategory?._id
-      })
-    }
+      item_id: item._id,
+      url: item.url
+    })
   }
 
   const editHighlight = (annotationId: string) => {
     dispatch({ type: HIDE_ALL_BUTTONS })
-    setActiveHighlight(annotationId)
+    setActiveHighlight({ _id: annotationId })
   }
 
   const onBodyCleaned = async (cleanedBody: string) => {
@@ -329,17 +315,17 @@ html, body {
     decelerationRate='normal'
     injectedJavaScript={ injectedJavaScript }
     mixedContentMode='compatibility'
-    menuItems={[
-      { 
-        label: 'Highlight', 
-        key: 'highlight'
-      }
-    ]}
-    onCustomMenuSelection={({ nativeEvent }) => {
-      if (nativeEvent?.key === 'highlight') {
-        highlightSelection(nativeEvent.selection)
-      }
-    }}
+    // menuItems={[
+    //   { 
+    //     label: 'Highlight', 
+    //     key: 'highlight'
+    //   }
+    // ]}
+    // onCustomMenuSelection={({ nativeEvent }) => {
+    //   if (nativeEvent?.key === 'highlight') {
+    //     highlightSelection(nativeEvent.selection)
+    //   }
+    // }}
     onMessage={(event) => {
       const rawMsg = event.nativeEvent.data
       let msg = ''
