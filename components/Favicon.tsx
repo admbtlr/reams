@@ -31,11 +31,6 @@ function Favicon ({
   const [ faviconPath, setFaviconPath ] = React.useState<string>()
 
   React.useEffect(() => {
-    console.log('Favicon!')
-  }, [])
-
-
-  React.useEffect(() => {
     // const fileExists = async (path: string) => {
     //   try {
     //     const fileInfo = await FileSystem.getInfoAsync(path)
@@ -52,7 +47,6 @@ function Favicon ({
       }
     }
     const cacheFavicon = async () => {
-      console.log('Inside cacheFavicon')
       if (url === undefined) return
       const response = await fetch(url)
       if (response.url !== url) {
@@ -79,7 +73,6 @@ function Favicon ({
           log(err, 'cacheFavicon')
         }
       } else {
-        console.log(`Favicon for ${host} exists`)
         setFaviconPath(path)
       }
     }
