@@ -16,6 +16,7 @@ import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
 import { ConfigState } from './config/config'
 import { downloadsListenerMiddleware } from './listenerMiddleware'
+import devToolsEnhancer from 'redux-devtools-expo-dev-plugin'
 
 let store = null
 let persistor = null
@@ -80,7 +81,10 @@ function initStore () {
           .prepend(sagaMiddleware)
           .prepend(downloadsListenerMiddleware.middleware)
         return middleware
-      }
+      },
+      devTools: false,
+      enhancers: (getDefaultEnhancers) =>
+        getDefaultEnhancers().concat(devToolsEnhancer({}))
     })
     // @ts-ignore
     persistor = persistStore(store)
