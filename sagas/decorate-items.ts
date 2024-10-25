@@ -14,7 +14,7 @@ import {
 } from '../store/items/types'
 import { getCachedCoverImagePath, getImageDimensions } from '../utils'
 import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createItemStyles'
-import { getItem } from './selectors'
+import { getItem, getNewsletters } from './selectors'
 import { faceDetection } from '../utils/face-detection'
 
 import {
@@ -32,13 +32,14 @@ import {
   getItems as getItemsIDB, 
   updateItem as updateItemIDB
 } from '../storage/idb-storage'
-import { Feed } from '../store/feeds/types'
+import { Feed, Source } from '../store/feeds/types'
 import { Category } from '../store/categories/types'
 import { RootState } from '../store/reducers'
 import { Filter } from '../store/config/config'
 import { addCoverImageToItem, addMercuryStuffToItem, deflateItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils'
 import log from '../utils/log'
 import { downloadContent } from '../backends/fastmail'
+import { Newsletter } from '../store/newsletters/types'
 
 let pendingDecoration: Item[] = [] // a local cache
 let toDispatch = []
@@ -289,34 +290,37 @@ function * getNextItemToDecorate () {
       !pendingDecoration.find(pd => pd._id === item._id))
     if (nextItem) return nextItem
   }
+  // the getItems selector calls utils/get-item/getItems
+  // which applies the filter
   const items: Item[] = yield select(getItems, ItemType.unread)
   const index: number = yield select(getIndex, ItemType.unread)
   const feeds: Feed[] = yield select(getFeeds)
-  const categories: Category[] = yield select(state => state.categories.categories)
-  const filter: Filter = yield select((state: RootState) => state.config.filter)
-  const activeFilter = filter?._id ? categories.find(c => c._id === filter._id) : null
-  const feedsWithoutDecoration = feeds.filter(feed => {
+  const newsletters: Newsletter[] = yield select(getNewsletters)
+  let sourcesWithoutDecoration: Source[] = feeds.filter(feed => {
     // external items handle their own decoration
     return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === feed._id)
       .find(item => typeof item.coverImageUrl !== 'undefined')
   })
+  sourcesWithoutDecoration = sourcesWithoutDecoration.concat(newsletters.filter(nl => {
+    return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === nl._id)
+      .find(item => typeof item.coverImageUrl !== 'undefined')
+
+  }))
   let count = 0
-  let feed: Feed
   const candidateItems = items.filter(item => {
     return !item.isDecorated &&
       (!item.decoration_failures || item.decoration_failures < 3) &&
       // !item.readAt &&
       items.indexOf(item) >= index &&
-      items.indexOf(item) < index + 20 &&
-      (!activeFilter || activeFilter.feeds.includes(item.feed_id))
+      items.indexOf(item) < index + 20
   })
   if (candidateItems.length) {
     nextItem = candidateItems.find(item => !item.isDecorated
       && !pendingDecoration.find(pd => pd._id === item._id))
   }
   if (!nextItem) {
-    while (feedsWithoutDecoration.length > 0 && count < feedsWithoutDecoration.length && !nextItem) {
-      feed = feedsWithoutDecoration[count++]
+    while (sourcesWithoutDecoration.length > 0 && count < sourcesWithoutDecoration.length && !nextItem) {
+      const feed = sourcesWithoutDecoration[count++]
       nextItem = items.find(i => !i.readAt &&
         i.feed_id === feed._id &&
         !i.isDecorated &&
