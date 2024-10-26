@@ -211,7 +211,7 @@ const RizzleModal  = () => {
             }}
           >
             <TextInput
-              autoCapitalize='none'
+              autoCapitalize={input.type === 'textarea' ? 'sentences' : 'none'}
               autoFocus={!!modalProps.showKeyboard}
               multiline={input.type === 'textarea'}
               numberOfLines={input.type === 'textarea' ? 4 : 1}

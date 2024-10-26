@@ -66,6 +66,7 @@ export default function HighlightButtons() {
     modalText,
     modalHideCancel: false,
     modalShow: true,
+    showKeyboard: true,
     inputs: [
       {
         // label: 'Name',
@@ -75,7 +76,7 @@ export default function HighlightButtons() {
       }
     ],
     modalOnOk: ({note}: {note: string}) => setNote(note),
-    modalOnCancel: () => {}
+    modalOnCancel: () => {},
   }
 
 
