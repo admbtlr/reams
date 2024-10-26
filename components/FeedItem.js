@@ -312,18 +312,17 @@ class FeedItem extends React.Component {
       savedAt
     } = inflatedItem
 
-
     const reveal = new Animated.Value(hasRendered ? 0 : 1)
     if (!hasRendered && item.isDecorated) {
       const that = this
       Animated.timing(reveal, {
         toValue: 0,
-        delay: 3000,
+        delay: 1000,
         duration: 500,
         useNativeDriver: true
       }).start(({finished}) => {
         if (finished) {
-          setTimeout(() => that.setState({ hasRendered: true }), 3000)
+          that.setState({ hasRendered: true })
         }
       })
     }
