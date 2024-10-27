@@ -1,5 +1,7 @@
 import { SourceDB, doQuery, getUserId, supabase } from '.'
 import { getFeedMeta } from '../../backends'
+import { NUDGE_FREQUENCY } from '../../components/Nudge'
+import { Source } from '../../store/feeds/types'
 import { Newsletter } from '../../store/newsletters/types'
 import { id as createId, pgTimestamp} from '../../utils'
 
@@ -19,14 +21,17 @@ export const addNewsletter = async (newsletter: {
       const newsletterMeta = await getFeedMeta(newsletter)
       const title = newsletterMeta === undefined ? '' :
         (newsletterMeta.title.trim().length > 0 ? newsletterMeta.title.trim() : newsletter.title?.trim()) || ''
-      const newNewsletterDB = { 
+      let newNewsletterDB: NewsletterDB = { 
         _id,
         url: newsletter.url,
         title,
         description: newsletterMeta?.description ?? '',
         color: newsletterMeta?.color ?? '',
         favicon_url: newsletterMeta?.favicon?.url ?? '',
-        favicon_size: newsletterMeta?.favicon?.size ?? '',
+        favicon_size: newsletterMeta?.favicon?.size ?? ''
+       }
+       if (newsletterMeta?.favicon?.url.indexOf('substack')) {
+        newNewsletterDB.subscribe_url = newsletter.url + 'subscribe'
        }
        const fn = async () => await supabase
         .from('Newsletter')
@@ -53,22 +58,30 @@ export const addNewsletter = async (newsletter: {
     .select()
     .eq('newsletter_id', newsletterDB._id)
     .eq('user_id', userId)
-  const response = await doQuery(fn)
-  if (response.error) {
-    throw response.error
+  let userNewsletterQuery = await doQuery(fn)
+  if (userNewsletterQuery.error) {
+    throw userNewsletterQuery.error
   }
-  if (Array.isArray(response.data) && response.data.length === 0) {
+  let userNewsletter = Array.isArray(userNewsletterQuery.data) && userNewsletterQuery.data.length === 1 ?
+    userNewsletterQuery.data[0] :
+    undefined
+  if (!userNewsletter) {
     const fn = async () => await supabase
       .from('User_Newsletter')
       .insert({ 
         newsletter_id: newsletterDB._id,
-        user_id: userId
+        user_id: userId,
+        is_nudge_active: true,
+        next_nudge: NUDGE_FREQUENCY
       })
       .select()
-    const response = await doQuery(fn)
-    if (response.error || !response.data) {
-      throw response.error || new Error('No user newsletter data')
+    userNewsletterQuery = await doQuery(fn)
+    if (userNewsletterQuery.error || !userNewsletterQuery.data) {
+      throw userNewsletterQuery.error || new Error('No user newsletter data')
     }
+    userNewsletter = Array.isArray(userNewsletterQuery.data) && userNewsletterQuery.data.length === 1 ?
+      userNewsletterQuery.data[0] :
+      undefined
   }
   return {
     _id: newsletterDB._id,
@@ -79,7 +92,11 @@ export const addNewsletter = async (newsletter: {
     favicon: {
       url: newsletterDB.favicon_url,
       size: newsletterDB.favicon_size
-    }
+    },
+    subscribeUrl: newsletterDB.subscribe_url,
+    readCount: userNewsletter.read_count,
+    nextNudge: userNewsletter.next_nudge,
+    isNudgeActive: userNewsletter.is_nudge_active
   }
 }
 
@@ -133,3 +150,65 @@ export const getNewsletters = async (): Promise<NewsletterDB[] | null> => {
   })) as NewsletterDB[]
 }
 
+export const incrementReadCountNewsletter = async (newsletterId: string) => {
+  const { data } = await supabase.auth.getSession()
+  const user_id = data?.session?.user?.id
+  if (!user_id) {
+    throw new Error('No user id')
+  }
+  const select = await supabase
+    .from('User_Newsletter')
+    .select('read_count')
+    .eq('newsletter_id', newsletterId)
+    .eq('user_id', user_id)
+  if (select.error) {
+    throw select.error
+  }
+  const readCount = (select.data.length > 0 && select.data[0].read_count) || 0
+  const update = await supabase
+    .from('User_Newsletter')
+    .update({
+      read_count: readCount + 1
+    })
+    .eq('newsletter_id', newsletterId)
+    .eq('user_id', user_id)
+  if (update.error) {
+    throw update.error
+  }
+}
+
+export const pauseNudgeNewsletter = async (source: Source) => {
+  const { data } = await supabase.auth.getSession()
+  const user_id = data?.session?.user?.id
+  if (!user_id) {
+    throw new Error('No user id')
+  }
+  const update = await supabase
+    .from('User_Newsletter')
+    .update({
+      next_nudge: source.nextNudge
+    })
+    .eq('newsletter_id', source._id)
+    .eq('user_id', user_id)
+  if (update.error) {
+    throw update.error
+  }
+}
+
+export const deactivateNudgeNewsletter = async (source: Source) => {
+  const { data } = await supabase.auth.getSession()
+  const user_id = data?.session?.user?.id
+  if (!user_id) {
+    throw new Error('No user id')
+  }
+  const update = await supabase
+    .from('User_Newsletter')
+    .update({
+      is_nudge_active: false
+    })
+    .eq('newsletter_id', source._id)
+    .eq('user_id', user_id)
+  if (update.error) {
+    throw update.error
+  }
+}

@@ -1,7 +1,7 @@
 import { 
   Newsletter, NewslettersState
 } from "./types";
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../reducers";
 import { 
   addNewsletter as addNewsletterBackend,
@@ -22,10 +22,12 @@ import {
   setItems as setItemsIDB,
   deleteItems as deleteItemsIDB
 } from '../../storage/idb-storage'
-import { ITEMS_BATCH_FETCHED, ItemType } from "../items/types";
+import { ITEMS_BATCH_FETCHED, ItemType, MARK_ITEM_READ } from "../items/types";
 import log from "../../utils/log";
 import { ADD_MESSAGE, REMOVE_MESSAGE } from "../ui/types";
 import { decode } from "html-entities";
+import { NUDGE_FREQUENCY } from "../../components/Nudge";
+import { DEACTIVATE_NUDGE, PAUSE_NUDGE } from "../feeds/types";
 
 export const createNewsletter = createAsyncThunk(
   'newsletters/createNewsletter',
@@ -154,8 +156,7 @@ export const fetchNewsletters = createAsyncThunk(
       type: REMOVE_MESSAGE,
       messageString: 'Fetching newsletters'
     })
-}
-)
+})
 
 const initialState: NewslettersState = {
   newsletters: [],
@@ -191,12 +192,31 @@ const newslettersSlice = createSlice({
       state.updatedAt = 0
       state.queryState = undefined
     })
+    builder.addCase(MARK_ITEM_READ, (state, action) => {
+      const n = state.newsletters.find(n => n._id === action.item.feed_id)
+      if (n) {
+        n.readCount = n.readCount ?? 0
+        n.readCount++
+      }
+    })
+    builder.addCase(PAUSE_NUDGE, (state, action) => {
+      const n = state.newsletters.find(n => n._id === action.sourceId)
+      if (n) {
+        n.nextNudge = (n.readCount ?? 0) + NUDGE_FREQUENCY
+      }
+    })
+    builder.addCase(DEACTIVATE_NUDGE, (state, action) => {
+      const n = state.newsletters.find(n => n._id === action.sourceId)
+      if (n) {
+        n.isNudgeActive = false
+      }
+    })
   }
 })
 
 // Extract the action creators object and the reducer
 export const { actions, reducer } = newslettersSlice
-export const { updateUpdatedAt, updateQueryState } = actions
+export const { deactivateNudge, pauseNudge, updateQueryState } = actions
 // Export the reducer, either as a default or named export
 const newsletters = newslettersSlice.reducer
 export default newsletters

@@ -14,7 +14,7 @@ import { removeCachedCoverImages } from '../utils/item-utils'
 import { deleteItems as deleteItemsSQLite } from '../storage/sqlite'
 import { deleteItems as deleteItemsIDB } from '../storage/idb-storage'
 
-export function * markLastItemReadIfUndecorated (action) {
+export function * markLastItemReadIfDecorated (action) {
   yield call(InteractionManager.runAfterInteractions)
   if (typeof(action.lastIndex) === 'undefined') {
     return
@@ -31,7 +31,8 @@ export function * markLastItemReadIfUndecorated (action) {
       feed_id: item.feed_id,
       title: item.title,
       id: item.id,
-      url: item.url
+      url: item.url,
+      isNewsletter: item.isNewsletter
     }
   })
 }

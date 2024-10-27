@@ -6,13 +6,17 @@ import { hexToHsl } from "../utils/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { selectHostColors } from "../store/hostColors/hostColors";
 
-export function useColor(url: string) {
+export function useColor(url: string | undefined) {
   const [color, setColor] = React.useState<string>()
   const dispatch = useDispatch()
   const hostColors = useSelector(selectHostColors)
 
   useEffect(() => {
     const getColor = async () => {
+
+      if (url === undefined) {
+        return 'black'
+      }
 
       // resolve any redirects
       const response = await fetch(url)

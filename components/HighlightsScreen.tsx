@@ -1,16 +1,12 @@
 import { Item } from '../store/items/types'
 import React, { useState } from 'react'
 import {
-  StatusBar,
   StyleSheet,
   View,
   Dimensions,
   Animated,
-  Button,
   Text,
-  ScrollView,
   TouchableOpacity,
-  LayoutAnimation,
   Image
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,6 +23,7 @@ import { selectItemsSaved } from '../store/items/items-saved'
 import { deleteAnnotation, selectAnnotations, updateAnnotation } from '../store/annotations/annotations'
 import { useModal } from './ModalProvider'
 import Favicon from './Favicon'
+import { animateNextLayout } from '../utils/layout-animations'
 
 interface highlightsByItem {
   item_id: string,
@@ -198,12 +195,7 @@ export default function HighlightsScreen () {
           {noteIcon(hslString('rizzleText'), 24, 1)}
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
-          LayoutAnimation.configureNext({ 
-            duration: 500, 
-            create: { type: 'linear', property: 'opacity' }, 
-            update: { type: 'spring', springDamping: 0.4 }, 
-            delete: { duration: 100, type: 'linear', property: 'opacity' } 
-          })
+          animateNextLayout()
           dispatch(deleteAnnotation(h))
         }}>
           {dustbinIcon(hslString('rizzleText'), 32, 1)}
