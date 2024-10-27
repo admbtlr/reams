@@ -71,6 +71,10 @@ export interface SourceDB {
   favicon_url: string
   favicon_size: string
   didError?: boolean
+  subscribe_url?: string
+  read_count?: number
+  next_nudge?: number
+  is_nudge_active?: boolean
 }
 
 

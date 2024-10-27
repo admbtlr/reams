@@ -15,6 +15,7 @@ import { addCategory, deleteCategory, markItemRead, markItemsRead, updateCategor
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
 import { updateItem as updateItemSQLite } from '../storage/sqlite'
 import { updateItem as updateItemIDB } from '../storage/idb-storage'
+import { incrementReadCountFeed, incrementReadCountNewsletter } from '@/storage/supabase'
 
 const INITIAL_INTERVAL = 2000
 let interval = INITIAL_INTERVAL
@@ -61,6 +62,11 @@ function * executeAction (action) {
               yield call(updateItemIDB, readItem)
             } else {
               yield call(updateItemSQLite, readItem)
+            }
+            if (action.item.isNewsletter && action.item.feed_id) {
+              yield call(incrementReadCountNewsletter, action.item.feed_id)
+            } else if (action.item.feed_id) {
+              yield call(incrementReadCountFeed, action.item.feed_id)
             }
           }
           yield call(InteractionManager.runAfterInteractions)

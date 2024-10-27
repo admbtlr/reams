@@ -24,7 +24,9 @@ import {
 import {
   ADD_FEED,
   ADD_FEEDS,
+  DEACTIVATE_NUDGE,
   MARK_FEED_READ,
+  PAUSE_NUDGE,
   REMOVE_FEED,
   REMOVE_FEEDS,
   UPDATE_FEEDS,
@@ -37,7 +39,7 @@ import {
 } from '../store/ui/types'
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
-import { markLastItemReadIfUndecorated, clearReadItems, filterItemsForRead } from './mark-read'
+import { markLastItemReadIfDecorated, clearReadItems, filterItemsForRead } from './mark-read'
 import { dedupeSaved, pruneItems, removeItems, removeAllItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
@@ -53,6 +55,7 @@ import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotati
 import { setItemTitleFontSize } from './update-item'
 import { Platform } from 'react-native'
 import { MINIMUM_UPDATE_INTERVAL } from '@/components/AppStateListener'
+import { deactivateNudge, pauseNudge } from './nudges'
 
 let downloadsFork
 
@@ -135,7 +138,7 @@ export function * initSagas () {
   yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)
   yield takeEvery(RECEIVED_REMOTE_READ_ITEMS, filterItemsForRead)
-  yield takeEvery(UPDATE_CURRENT_INDEX, markLastItemReadIfUndecorated)
+  yield takeEvery(UPDATE_CURRENT_INDEX, markLastItemReadIfDecorated)
   yield takeEvery(REMOVE_ITEMS, removeItems)
   yield takeEvery(SAVE_EXTERNAL_URL, saveExternalUrl)
   
@@ -154,4 +157,8 @@ export function * initSagas () {
   yield takeEvery(STATE_INACTIVE, appInactive)
   yield takeEvery(ITEMS_SCREEN_FOCUS, screenActive)
   yield takeEvery(ITEMS_SCREEN_BLUR, screenInactive)
+
+  // nudges
+  yield takeEvery(PAUSE_NUDGE, pauseNudge)
+  yield takeEvery(DEACTIVATE_NUDGE, deactivateNudge)
 }

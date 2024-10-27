@@ -296,7 +296,8 @@ export async function fetchFeeds () {
       url: feed.favicon_url,
       size: feed.favicon_size
     },
-    rootUrl: feed.root_url
+    rootUrl: feed.root_url,
+    subscribeUrl: feed.subscribe_url
   }))
 }
 

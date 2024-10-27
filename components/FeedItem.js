@@ -1,14 +1,17 @@
 import React from 'react'
-import {ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, View} from 'react-native'
+import {ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, Text, View} from 'react-native'
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
-import { getMargin } from '../utils/dimensions'
+import { getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
 import log from '../utils/log'
+import { useColor } from '@/hooks/useColor'
+import { textInfoStyle } from '@/utils/styles'
+import Nudge from './Nudge'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -390,6 +393,12 @@ class FeedItem extends React.Component {
             minWidth: 100
           }}
         >
+          { (isCoverInline || !showCoverImage || !coverImage) && 
+            <Nudge 
+              feed_id={this.props.item.feed_id}
+              scrollAnim={this.scrollAnim}
+            />
+          }
           { (showCoverImage && isCoverInline) && coverImage }
           <ItemTitleContainer
             anims={this.anims}

@@ -17,7 +17,9 @@ import {
   Feed,
   FeedActionTypes,
   FeedsState,
-  ADD_FEEDS
+  ADD_FEEDS,
+  PAUSE_NUDGE,
+  DEACTIVATE_NUDGE
 } from './types'
 import { 
   ADD_readingTime,
@@ -30,6 +32,7 @@ import {
   Item,
   MARK_ITEMS_READ_SKIP_BACKEND
 } from '../items/types'
+import { NUDGE_FREQUENCY } from '../../components/Nudge'
 
 const initialState:FeedsState = {
   feeds: [],
@@ -111,21 +114,12 @@ export function feeds (
       feed.readingTime = feed.readingTime || 0
       feed.readingTime += action.readingTime
 
-      feed.readCount = feed.readCount || 0
-      feed.readCount++
-      feed.unreadCount && feed.unreadCount--
+      // the readCount is updated in MARK_ITEM_READ
+      // feed.readCount = feed.readCount || 0
+      // feed.readCount++
+      // feed.unreadCount && feed.unreadCount--
 
-      // const getContentLength = (item: Item) => {
-      //   if (item.hasShownMercury) {
-      //     return item.content_mercury ? item.content_mercury.length : 0
-      //   } else if (item.content_html) {
-      //     return item.content_html.length
-      //   } else {
-      //     return 1
-      //   }
-      // }
-
-      if (action.item.content_length !== undefined) {
+      if (action.item.content_length !== undefined && feed.readCount) {
         const readingRate = action.readingTime / action.item.content_length
         feed.readingRate = (feed.readingRate && !Number.isNaN(feed.readingRate)) ?
           feed.readingRate :
@@ -238,6 +232,28 @@ export function feeds (
             ...feed,
             unreadCount: feed.unreadCount ? feed.unreadCount - 1 : 0,
             readCount: feed.readCount ? feed.readCount + 1 : 1
+          } :
+          feed)
+      }
+
+    case PAUSE_NUDGE: 
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.sourceId ?
+          {
+            ...feed,
+            nextNudge: (feed.readCount ?? 0) + NUDGE_FREQUENCY
+          } :
+          feed)
+      }
+
+    case DEACTIVATE_NUDGE: 
+      return {
+        ...state,
+        feeds: state.feeds.map(feed => feed._id === action.sourceId ?
+          {
+            ...feed,
+            isNudgeActive: false
           } :
           feed)
       }

@@ -17,6 +17,9 @@ export interface Source {
   isLiked?: boolean
   isMuted?: boolean
   isMercury?: boolean
+  isNudgeActive?: boolean
+  nextNudge?: number | null
+  subscribeUrl?: string | null
 }
 
 export interface SourceLocal {
@@ -70,6 +73,9 @@ export const CACHE_FEED_ICON_ERROR = 'CACHE_FEED_ICON_ERROR'
 export const SET_CACHED_FEED_ICON = 'SET_CACHED_FEED_ICON'
 export const SET_CACHED_COVER_IMAGE = 'SET_CACHED_COVER_IMAGE'
 export const REMOVE_CACHED_COVER_IMAGE = 'REMOVE_CACHED_COVER_IMAGE'
+
+export const PAUSE_NUDGE = 'PAUSE_NUDGE'
+export const DEACTIVATE_NUDGE = 'DEACTIVATE_NUDGE'
 
 interface addFeedsToStoreAction {
   type: typeof ADD_FEEDS_TO_STORE
@@ -167,6 +173,16 @@ interface removeCardCoverImageAction {
   id: string
 }
 
+export interface pauseNudgeAction {
+  type: typeof PAUSE_NUDGE
+  sourceId: string
+}
+
+export interface deactivateNudgeAction {
+  type: typeof DEACTIVATE_NUDGE
+  sourceId: string
+}
+
 export type FeedActionTypes = addFeedsToStoreAction |
   addFeedAction |
   addFeedsAction |
@@ -184,4 +200,6 @@ export type FeedActionTypes = addFeedsToStoreAction |
   cacheFeedIconErrorAction |
   setCachedFeedIconAction |
   setCachedCardCoverImageAction |
-  removeCardCoverImageAction
+  removeCardCoverImageAction |
+  pauseNudgeAction |
+  deactivateNudgeAction

@@ -41,21 +41,44 @@ export const textInfoStyle = (color, margin = 20 * fontSizeMultiplier(), isSmall
   fontSize: (isSmaller ? 12 : 16) * fontSizeMultiplier()
 })
 
-export const textInfoBoldStyle = (color) => ({
-  ...textInfoStyle(color),
+export const textInfoBoldStyle = (color, margin = 20 * fontSizeMultiplier(), isSmaller = false) => ({
+  ...textInfoStyle(color, margin, isSmaller),
   fontFamily: 'IBMPlexSans-Bold'
 })
 
-export const textInfoItalicStyle = (color) => ({
-  ...textInfoStyle(color),
+export const textInfoItalicStyle = (color, margin = 20 * fontSizeMultiplier()) => ({
+  ...textInfoStyle(color, margin),
   fontFamily: 'IBMPlexSans-Italic'
 })
 
-export const textInfoMonoStyle = (color) => ({
+export const textInfoBoldItalicStyle = (color, margin = 20 * fontSizeMultiplier()) => ({
+  ...textInfoStyle(color, margin = 20 * fontSizeMultiplier()),
+  fontFamily: 'IBMPlexSans-BoldItalic'
+})
+
+export const textInfoMonoStyle = (color, margin = 20 * fontSizeMultiplier()) => ({
   ...baseStyles(color),
   fontFamily: 'IBMPlexMono',
-  marginLeft: 20,
-  marginRight: 20,
+  marginLeft: margin,
+  marginRight: margin,
   lineHeight: 24 * fontSizeMultiplier(),
+  fontSize: 16 * fontSizeMultiplier()
+})
+
+export const textInfoMonoItalicStyle = (color, margin = 20 * fontSizeMultiplier()) => ({
+  ...textInfoStyle(color, margin),
+  fontFamily: 'IBMPlexMono-Italic'
+})
+
+export const textInfoMonoBoldStyle = (color, margin = 20 * fontSizeMultiplier()) => ({
+  ...textInfoStyle(color, margin),
+  fontFamily: 'IBMPlexMono-Bold'
+})
+
+export const textSerifStyle = (color, margin = 20) => ({
+  ...baseStyles(color),
+  fontFamily: 'IBMPlexSerif',
+  marginLeft: margin,
+  marginRight: margin,
   fontSize: 16 * fontSizeMultiplier()
 })

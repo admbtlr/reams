@@ -4,6 +4,7 @@ import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
 
 import { SET_SCROLL_OFFSET } from '../store/items/types'
 import { SHOW_IMAGE_VIEWER } from '../store/ui/types'
+import { withUseColorHOC } from '../components/withUseColorHOC'
 
 const mapStateToProps = (state, ownProps) => {
   const items = getItems(state)
@@ -13,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
   const feed = item && state.feeds.feeds.find(f => f._id === item.feed_id)
   const newsletter = item && state.newsletters.newsletters.find(n => n._id === item.feed_id)
   const feed_color = feed?.color || newsletter?.color
+  const feedTitle = feed?.title || newsletter?.title
   const showMercuryContent = item.showMercuryContent !== undefined ? 
     item.showMercuryContent :
     feed && feed.isMercury
@@ -20,6 +22,7 @@ const mapStateToProps = (state, ownProps) => {
     item: {
       ...item,
       feed_color,
+      feedTitle,
       showMercuryContent,
     },
     isDarkMode: state.ui.isDarkMode,
@@ -56,6 +59,6 @@ const mapDispatchToProps = (dispatch) => {
 let FeedItemContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(FeedItem)
+)(withUseColorHOC(FeedItem))
 
 export default FeedItemContainer
