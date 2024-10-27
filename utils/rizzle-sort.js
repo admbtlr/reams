@@ -64,7 +64,9 @@ export default function rizzleSort (items, feeds, sortDirection) {
 
   liked.sort(sortFunction)
   notLiked.sort(sortFunction)
-  const sorted = bufferWithSortIndex(liked.concat(notLiked))
+  const sorted = sortDirection === Direction.desc ?
+    bufferWithSortIndex(liked.concat(notLiked)) :
+    liked.concat(notLiked)
 
   return sorted.map((i, index) => ({
     ...i,
