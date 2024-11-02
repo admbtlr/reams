@@ -574,11 +574,6 @@ body {
   blockquote.short-blockquote, .pullquote, aside {
     // color: white;
     color: var(--feed-color);
-    a {
-      color: var(--feed-color) !important;
-    }
-
-    // background-color: transparent;
     border: none;
     font-size: 1rem;
     line-height: 1.33rem;
@@ -586,6 +581,10 @@ body {
     padding: 1rem 1.5rem 1rem 1rem;
     margin: 1rem 0;
     text-align: left;
+
+    a {
+      color: var(--feed-color) !important;
+    }
   }
 
   figure cite {
