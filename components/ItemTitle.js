@@ -805,6 +805,7 @@ class ItemTitle extends React.Component {
         <Animated.View 
           onLayout={event => this.onLayout(event.nativeEvent.layout.height +
             event.nativeEvent.layout.y)}
+          pointerEvents='box-none'
           ref={(view) => { this.outerView = view }}
           style={{
             ...outerViewStyle,
