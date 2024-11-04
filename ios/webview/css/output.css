@@ -321,6 +321,9 @@ body, body a, body a:active, body a:visited {
   position: relative;
   text-align: left;
 }
+.itemArticle figcaption a, .itemArticle .caption a, .itemArticle img + small a {
+  color: hsl(0, 0%, 50%);
+}
 .itemArticle *:not(figcaption) > *:not(figcaption).caption:not(figcaption) {
   display: block;
   margin: -0.666rem -4vw 1.666rem;
