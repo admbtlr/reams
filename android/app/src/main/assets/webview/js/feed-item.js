@@ -703,6 +703,8 @@ function init() {
         const serialized = highlighter.serialize(selection)
         window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
         highlighter.highlightSelection('highlight-pending')
+      } else {
+        window.ReactNativeWebView.postMessage("end-highlight")
       }
     }
   })
