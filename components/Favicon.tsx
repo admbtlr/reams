@@ -54,7 +54,7 @@ function Favicon ({
       if (response.url !== url) {
         url = response.url
       }
-      const matches = url?.match(/%3A%2F%2F(.*)%2F/)
+      const matches = url?.match(/%3A%2F%2F(.*?)%2F/)
       const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : null
       if (host === null) return
       await createFaviconDirIfNotExists()

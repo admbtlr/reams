@@ -53,7 +53,7 @@ export default function Nudge({ feed_id, scrollAnim  }: {
     <>
       <View style={{
         height: nudgeHeight,
-        width: '100%',
+        width: '100%'
       }}/>
       <Animated.View style={{
         position: 'absolute',
