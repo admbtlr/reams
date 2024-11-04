@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import { View, Text, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, Pressable, TouchableOpacity, Animated, Easing } from 'react-native'
 import { id } from '../utils'
-import { getMargin } from '../utils/dimensions'
-import { fontSizeMultiplier } from '../utils/dimensions'
+import { fontSizeMultiplier, getMargin } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
-import { textInfoStyle } from '../utils/styles'
+import { textInfoItalicStyle, textInfoStyle } from '../utils/styles'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { Item } from '../store/items/types'
 import { ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
-import { ADD_FEED_TO_CATEGORY, ADD_ITEM_TO_CATEGORY, CREATE_CATEGORY, Category as CategoryType, REMOVE_FEED_FROM_CATEGORY, REMOVE_ITEM_FROM_CATEGORY } from '../store/categories/types'
+import { Category as CategoryType } from '../store/categories/types'
 import { Feed } from '../store/feeds/types'
 import { useModal } from './ModalProvider'
 import debounce from 'lodash.debounce'
@@ -18,7 +17,6 @@ import {
   createCategory as createCategoryAction,
   updateCategory as updateCategoryAction 
 } from '../store/categories/categoriesSlice'
-import { create } from 'react-test-renderer'
 
 interface CategoryTogglesProps {
   feed?: Feed
@@ -28,6 +26,7 @@ interface CategoryTogglesProps {
 
 export default function CategoryToggles({ feed, isWhite, item }: CategoryTogglesProps) {
   const dispatch = useDispatch()
+  const [isExpanded, setIsExpanded] = useState(false)
   const categories = useSelector((state: RootState) => state.categories.categories)
   const usedCategories = categories
     .filter(c => !c.isSystem && 
@@ -38,31 +37,59 @@ export default function CategoryToggles({ feed, isWhite, item }: CategoryToggles
       (!!item ? !c.itemIds?.includes(item._id) : feed && !c.feedIds?.includes(feed._id)))
     .sort((a, b) => a.name.localeCompare(b.name))
   
-  const getTouchableCategory = (category: CategoryType, feedId: string | undefined, isActive: boolean, itemId: string | undefined, key: number) => (
-    <TouchableOpacity 
-    key={key}
-    onPress={() => {
-      debounce(() => {
-        !!feedId ? (
-          isActive ?
-            dispatch(updateCategoryAction({ ...category, feedIds: category.feedIds.filter(f => f !== feedId) }) ) :
-            dispatch(updateCategoryAction({ ...category, feedIds: [...category.feedIds, feedId] }) )
-        ) : (
-          isActive ?
-            dispatch(updateCategoryAction({ ...category, itemIds: category.itemIds.filter(i => i !== itemId) }) ) :
-            dispatch(updateCategoryAction({ ...category, itemIds: [...category.itemIds, itemId] }) )
-        )
-      }, 1000)()
-    }}
-  >
-    <Category 
-      name={category.name} 
-      isActive={isActive} 
-      isWhite={isWhite}
-    />
-  </TouchableOpacity>
-
-  )
+  const getTouchableCategory = (category: CategoryType, feedId: string | undefined, isActive: boolean, itemId: string | undefined, key: number) => {
+    const pulseValue = new Animated.Value(1, { useNativeDriver: true })
+    const pulseLoop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseValue, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+          easing: Easing.quad
+        }),
+        Animated.timing(pulseValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+          easing: Easing.quad
+        })
+      ])
+    )
+    return (
+      <Animated.View 
+        key={key}
+        style={{
+          opacity: pulseValue
+        }}
+      >
+        <TouchableOpacity 
+          onPress={() => {
+            pulseLoop.start()
+            debounce(() => {
+              !!feedId ? (
+                isActive ?
+                  dispatch(updateCategoryAction({ ...category, feedIds: category.feedIds.filter(f => f !== feedId) }) ) :
+                  dispatch(updateCategoryAction({ ...category, feedIds: [...category.feedIds, feedId] }) )
+              ) : (
+                isActive ?
+                  dispatch(updateCategoryAction({ ...category, itemIds: category.itemIds.filter(i => i !== itemId) }) ) :
+                  dispatch(updateCategoryAction({ ...category, itemIds: [...category.itemIds, itemId] }) )
+              )
+            }, 1000)()
+          }}
+          style={{
+            opacity: pulseValue
+          }}
+        >
+          <Category 
+            name={category.name} 
+            isActive={isActive} 
+            isWhite={isWhite}
+          />
+        </TouchableOpacity>
+      </Animated.View>
+    )
+  }
   return (
     <View style={{
       flex: 0,
@@ -79,24 +106,24 @@ export default function CategoryToggles({ feed, isWhite, item }: CategoryToggles
         horizontal={true}
         overScrollMode='never'
         showsHorizontalScrollIndicator={false}
-        // style={{ 
-        //   flex: 0,
-        //   flexDirection: 'column',
-        //   marginBottom: getMargin(),
-        //   marginLeft: -5,
-        //   maxHeight: 28 * fontSizeMultiplier(),
-        //   paddingHorizontal: getMargin(),
-        //   overflow: 'hidden',
-        //   width: '100%'
-        // }}
       >
         { usedCategories.map((c, index) => 
           getTouchableCategory(c, feed?._id, true, item?._id, index)
         )}
-        { unusedCategories.map((c, index) => (
-          getTouchableCategory(c, feed?._id, false, item?._id, index + 10000)
-        ))}
-        <AddCategory isWhite={isWhite} feed={feed} item={item} />
+        { isExpanded ? (
+            <>
+              {unusedCategories.map((c, index) => (
+                getTouchableCategory(c, feed?._id, false, item?._id, index + 10000)
+              ))}
+              <AddCategory isWhite={isWhite} feed={feed} item={item} />
+            </>
+          ) : (
+            <TouchableOpacity onPress={() => setIsExpanded(true) }>
+              <Category isAdd isWhite={isWhite}  />
+            </TouchableOpacity>
+          )
+        }
+        
       </ScrollView>
     </View>
   )
@@ -107,27 +134,33 @@ interface CategoryProps {
   isActive?: boolean
   isWhite?: boolean
   isAdd?: boolean
+  isItalic?: boolean
 }
 
-function Category ({ name, isActive, isWhite, isAdd }: CategoryProps) {
+function Category ({ name, isActive, isWhite, isAdd, isItalic }: CategoryProps) {
+  const textBaseStyle = isItalic ? 
+    textInfoItalicStyle() :
+    textInfoStyle()
   return (
     <View style={{
       backgroundColor: isActive ? (isWhite ? 'white' : hslString('rizzleText')) : 'transparent',
       borderRadius: 12 * fontSizeMultiplier(),
       paddingVertical: 3,
-      height: 24 * fontSizeMultiplier(),
+      height: 20 * fontSizeMultiplier(),
       marginRight: 8,
       marginBottom: 8,
       borderColor: isWhite ? 'white' : hslString('rizzleText', undefined, 0.5),
-      borderWidth: 1
+      borderWidth: 1,
+      flexDirection: 'row',
+      alignItems: 'center'
     }}>
       {
         isAdd ? 
-          <View style={{ marginTop: -3 }}>
-            {getRizzleButtonIcon('plus', isWhite ? 'white' : hslString('rizzleText'), 'white', true, true, 0.8)}
+          <View style={{ marginTop: -1 }}>
+            {getRizzleButtonIcon('plus', isWhite ? 'white' : hslString('rizzleText'), 'white', true, true, 0.7)}
           </View> : (
           <Text style={{ 
-            ...textInfoStyle(),
+            ...textBaseStyle,
             fontSize: 12 * fontSizeMultiplier(),
             color: isActive ? 
               isWhite ? hslString('rizzleText') : 'white' : 
@@ -135,6 +168,7 @@ function Category ({ name, isActive, isWhite, isAdd }: CategoryProps) {
             margin: 0,
             marginLeft: 8,
             marginRight: 8,
+            marginTop: -2,
             padding: 0
           }}>{ name }</Text>
         )

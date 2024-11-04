@@ -137,6 +137,10 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     })
   }
 
+  const endHighlight = () => {
+    setActiveHighlight(null)
+  }
+
   const editHighlight = (annotationId: string) => {
     dispatch({ type: HIDE_ALL_BUTTONS })
     setActiveHighlight({ _id: annotationId })
@@ -352,6 +356,8 @@ html, body {
         onHighlight(split[0], split[1])
       } else if (msg.substring(0, 15) === 'edit-highlight:') {
         editHighlight(msg.substring(15))
+      } else if (msg.substring(0, 14) === 'end-highlight') {
+        endHighlight()
       } else if (msg.substring(0, 6) === 'loaded') {
         setIsLoaded(true)
       } else if (rawMsg && rawMsg !== '') {
