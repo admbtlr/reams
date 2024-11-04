@@ -29,8 +29,10 @@ function Favicon ({
   isSmaller
 }: props) {
   const [ faviconPath, setFaviconPath ] = React.useState<string>()
+  const proxiedUrl = url && `${CORS_PROXY}?url=${encodeURIComponent(url)}`
 
   React.useEffect(() => {
+    if (Platform.OS === 'web') return
     // const fileExists = async (path: string) => {
     //   try {
     //     const fileInfo = await FileSystem.getInfoAsync(path)
@@ -48,11 +50,11 @@ function Favicon ({
     }
     const cacheFavicon = async () => {
       if (url === undefined) return
-      const response = await fetch(url)
+      const response = await fetch(proxiedUrl)
       if (response.url !== url) {
         url = response.url
       }
-      const matches = url?.match(/:\/\/(.*?)\//)
+      const matches = url?.match(/%3A%2F%2F(.*)%2F/)
       const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : null
       if (host === null) return
       await createFaviconDirIfNotExists()
@@ -90,7 +92,7 @@ function Favicon ({
     width={width}
     height={height}
     // source={{ uri: Platform.OS === 'web' ? feed.favicon?.url : getCachedFeedIconPath(feed._id) }}
-    source={{ uri: faviconPath }}
+    source={{ uri: Platform.OS === 'web' ?  proxiedUrl : faviconPath }}
     style={{
       width,
       height,
