@@ -22,7 +22,7 @@ export function * markLastItemReadIfDecorated (action) {
   const lastIndex = action.lastIndex
   const unreadItems = yield select(getItems)
   const item = unreadItems[lastIndex]
-  if (!item.isDecorated) return
+  if (!item.isDecorated && item.decoration_failures && item.decoration_failures < MAX_DECORATION_FAILURES) return
   yield call(InteractionManager.runAfterInteractions)
   yield put ({
     type: MARK_ITEM_READ,
