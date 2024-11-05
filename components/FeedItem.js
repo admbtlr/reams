@@ -12,6 +12,7 @@ import log from '../utils/log'
 import { useColor } from '@/hooks/useColor'
 import { textInfoStyle } from '@/utils/styles'
 import Nudge from './Nudge'
+import { MAX_DECORATION_FAILURES } from '../sagas/decorate-items'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -176,10 +177,13 @@ class FeedItem extends React.Component {
           break
       }
     }
-    // if (isDiff) {
-    //   console.log('changes', changes)
-    // }
-    return isDiff
+    if (isDiff) {
+      console.log('changes', changes)
+    }
+    // don't re-render if the reveal animation is running
+    // once the animation has finished the hasRendered state gets set
+    // which will trigger a new render anyway
+    return !this.isRevealing && isDiff
   }
 
   componentDidMount () {
@@ -316,15 +320,19 @@ class FeedItem extends React.Component {
     } = inflatedItem
 
     const reveal = new Animated.Value(hasRendered ? 0 : 1)
-    if (!hasRendered && item.isDecorated) {
+    if (!hasRendered && (item.isDecorated || 
+        (item.decoration_failures && item.decoration_failures >= MAX_DECORATION_FAILURES))) {
+      this.isRevealing = true
       const that = this
-      Animated.timing(reveal, {
+      const animation = Animated.timing(reveal, {
         toValue: 0,
-        delay: 1000,
+        delay: 2000,
         duration: 500,
         useNativeDriver: true
-      }).start(({finished}) => {
+      })
+      animation.start(({finished}) => {
         if (finished) {
+          this.isRevealing = false
           that.setState({ hasRendered: true })
         }
       })
