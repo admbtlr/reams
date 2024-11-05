@@ -46,6 +46,8 @@ let toDispatch = []
 
 const showLogs = true
 
+export const MAX_DECORATION_FAILURES = 5
+
 interface Decoration {
   item: WholeItem
   mercuryStuff: MercuryStuff
@@ -286,7 +288,7 @@ function * getNextItemToDecorate () {
 
   if (displayMode === ItemType.saved) {
     nextItem = savedItems.find(item => !item.isDecorated &&
-      (!item.decoration_failures || item.decoration_failures < 5) &&
+      (!item.decoration_failures || item.decoration_failures < MAX_DECORATION_FAILURES) &&
       !pendingDecoration.find(pd => pd._id === item._id))
     if (nextItem) return nextItem
   }
@@ -324,14 +326,14 @@ function * getNextItemToDecorate () {
       nextItem = items.find(i => !i.readAt &&
         i.feed_id === feed._id &&
         !i.isDecorated &&
-        (i.decoration_failures ? i.decoration_failures < 5 : true) &&
+        (i.decoration_failures ? i.decoration_failures < MAX_DECORATION_FAILURES : true) &&
         !pendingDecoration.find(pd => pd._id === i._id))
     }
   }
   if (!nextItem) {
     nextItem = savedItems.find(item => !item.isDecorated &&
       item.decoration_failures &&
-      item.decoration_failures < 5 &&
+      item.decoration_failures < MAX_DECORATION_FAILURES &&
       !pendingDecoration.find(pd => pd._id === item._id))
   }
   return nextItem
