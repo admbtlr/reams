@@ -46,14 +46,18 @@ class AppStateListener extends React.Component {
     // console.log('PREV APP STATE: ' + this.props.appState)
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.props.appWentActive()
-      this.setState({
-        doNothing: Date.now()
-      })
 
       if (!this.props.isOnboarding) {
         await this.checkBuckets()
-        if (!global.isStarting && (Date.now() - this.props.lastUpdated > MINIMUM_UPDATE_INTERVAL)) {
+        const lastUpdated = this.state?.lastUpdated && this.state.lastUpdated > this.props.lastUpdated ?
+          this.state.lastUdpated :
+          this.props.lastUpdated
+        console.log(Date.now() - lastUpdated)
+        if (!global.isStarting && (Date.now() - lastUpdated > MINIMUM_UPDATE_INTERVAL)) {
           this.props.fetchData()
+          this.setState({
+            lastUpdated: Date.now()
+          })
         }
       }
     } else if (this.props.appState.match(/active/) &&
