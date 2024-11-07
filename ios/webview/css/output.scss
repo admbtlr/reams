@@ -908,6 +908,10 @@ hr {
       @include dropCapFontSize(1.95rem);
       @include dropCapMarginTop(0.33rem);
     }
+    &.bodyFontSerif4 {
+      @include dropCapFontSize(2rem);
+      @include dropCapMarginTop(0.45rem);
+    }
     &.bodyFontSans1 {
       @include dropCapFontSize(1.95rem);
       @include dropCapMarginTop(0.35rem);
@@ -930,6 +934,10 @@ hr {
     &.bodyFontSerif3 {
       @include dropCapFontSize(3.36rem);
       @include dropCapMarginTop(0.36rem);
+    }
+    &.bodyFontSerif4 {
+      @include dropCapFontSize(3.3rem);
+      @include dropCapMarginTop(0.5rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(3.38rem);
@@ -954,6 +962,10 @@ hr {
       @include dropCapFontSize(4.73rem);
       @include dropCapMarginTop(0.4rem);
     }
+    &.bodyFontSerif4 {
+      @include dropCapFontSize(4.6rem);
+      @include dropCapMarginTop(0.7rem);
+    }
     &.bodyFontSans1 {
       @include dropCapFontSize(4.73rem);
       @include dropCapMarginTop(0.41rem);
@@ -977,6 +989,10 @@ hr {
       @include dropCapFontSize(6.13rem);
       @include dropCapMarginTop(0.42rem);
     }
+    &.bodyFontSerif4 {
+      @include dropCapFontSize(6rem);
+      @include dropCapMarginTop(0.75rem);
+    }
     &.bodyFontSans1 {
       @include dropCapFontSize(6.13rem);
       @include dropCapMarginTop(0.44rem);
@@ -997,6 +1013,10 @@ hr {
       @include dropCapMarginTop(0.55rem);
     }
     &.bodyFontSerif3 {
+      @include dropCapFontSize(7.58rem);
+      @include dropCapMarginTop(0.56rem);
+    }
+    &.bodyFontSerif4 {
       @include dropCapFontSize(7.58rem);
       @include dropCapMarginTop(0.56rem);
     }
