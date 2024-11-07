@@ -266,7 +266,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 <head>
   <style>
 :root {
---feed-color: ${feedColor};
+--feed-color: ${feedColor ?? 'hsl(0, 0%, 0%)'};
 --font-path-prefix: ${ server === '' ? '../' : server };
 --device-width: ${deviceWidth};
 }
