@@ -50,7 +50,7 @@ export default function Nudge({ feed_id, scrollAnim  }: {
     'th'
 
   return (
-    <>
+    <View style={{ zIndex: 100 }}>
       <View style={{
         height: nudgeHeight,
         width: '100%'
@@ -129,7 +129,7 @@ export default function Nudge({ feed_id, scrollAnim  }: {
           
         </View>
       </Animated.View>
-    </>
+    </View>
 
   )
 }
