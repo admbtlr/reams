@@ -36,7 +36,7 @@ export function * updateCategory (action) {
     yield select(state => state.categories.categories.find(c => c._id === action.categoryId))
   const reamsFeeds = yield select(state => state.feeds.feeds)
   if (!action.fromRemote) {
-    const feedIds = category.feedsId.map(f => reamsFeeds.find(rf => rf._id === f))
+    const feedIds = category.feedIds.map(f => reamsFeeds.find(rf => rf._id === f))
     yield put({ type: UPDATE_CATEGORY_REMOTE, category: { ...category, feedIds } })
   }
 }
