@@ -3,7 +3,7 @@ import { View, Text, Pressable, TouchableOpacity, Animated, Easing } from 'react
 import { id } from '../utils'
 import { fontSizeMultiplier, getMargin } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
-import { textInfoItalicStyle, textInfoStyle } from '../utils/styles'
+import { textInfoItalicStyle, textInfoMonoStyle, textInfoStyle } from '../utils/styles'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { Item } from '../store/items/types'
 import { ScrollView } from 'react-native'
@@ -107,6 +107,15 @@ export default function CategoryToggles({ feed, isWhite, item }: CategoryToggles
         overScrollMode='never'
         showsHorizontalScrollIndicator={false}
       >
+        { usedCategories.length === 0 &&
+          <Text style={{
+            ...textInfoMonoStyle(isWhite ? 'white' : 'rizzleText', 0),
+            fontSize: 12 * fontSizeMultiplier(),
+            lineHeight: 12 * fontSizeMultiplier(),
+            marginBottom: 2 * fontSizeMultiplier(),
+            alignSelf: 'center'
+          }}>Tags: </Text>
+        }
         { usedCategories.map((c, index) => 
           getTouchableCategory(c, feed?._id, true, item?._id, index)
         )}
