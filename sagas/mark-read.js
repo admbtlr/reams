@@ -9,10 +9,7 @@ import { getReadItemsFS } from '../storage/firestore'
 
 import { getItems, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems, getIndex } from './selectors'
 
-import log from '../utils/log'
-import { removeCachedCoverImages } from '../utils/item-utils'
-import { deleteItems as deleteItemsSQLite } from '../storage/sqlite'
-import { deleteItems as deleteItemsIDB } from '../storage/idb-storage'
+import { MAX_DECORATION_FAILURES } from './decorate-items'
 
 export function * markLastItemReadIfDecorated (action) {
   yield call(InteractionManager.runAfterInteractions)
@@ -22,7 +19,10 @@ export function * markLastItemReadIfDecorated (action) {
   const lastIndex = action.lastIndex
   const unreadItems = yield select(getItems)
   const item = unreadItems[lastIndex]
-  if (!item.isDecorated && item.decoration_failures && item.decoration_failures < MAX_DECORATION_FAILURES) return
+  if (!item.isDecorated && 
+    (item.decoration_failures === undefined || item.decoration_failures < MAX_DECORATION_FAILURES)) {
+    return
+  }
   yield call(InteractionManager.runAfterInteractions)
   yield put ({
     type: MARK_ITEM_READ,
