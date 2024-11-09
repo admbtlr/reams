@@ -177,9 +177,6 @@ class FeedItem extends React.Component {
           break
       }
     }
-    if (isDiff) {
-      console.log('changes', changes)
-    }
     // don't re-render if the reveal animation is running
     // once the animation has finished the hasRendered state gets set
     // which will trigger a new render anyway
