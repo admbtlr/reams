@@ -1109,14 +1109,15 @@ class ItemTitle extends React.Component {
     let dateStyle = {
       color: this.getMetaColor(),
       backgroundColor: 'transparent',
-      fontSize: this.getExcerptFontSize() * 0.75,
-      fontFamily: 'IBMPlexMono-Light',
-      lineHeight: Math.round(this.getExcerptFontSize() * 0.75),
+      fontSize: this.getExcerptFontSize() * 0.8,
+      fontFamily: this.getFontFamily('regular', 'author'),
+      lineHeight: this.getExcerptFontSize(),
       textAlign: styles.textAlign,
       // again, no idea why I need the -3
       paddingLeft: getMargin() - 3,
       paddingRight: this.horizontalMargin,
-      marginBottom: getMargin(),
+      marginTop: -getMargin() / 4,
+      marginBottom: getMargin() * 2,
       padding: 0,
       width: this.screenWidth,
       // ...shadowStyle
@@ -1151,8 +1152,9 @@ class ItemTitle extends React.Component {
     const theDate = (typeof date === 'number') ? date : date
     const momentDate = moment(theDate)
     let showYear = (momentDate.year() !== moment().year())
+    const showTime = Date.now() - theDate < 1000 * 60 * 60 * 24 * 30
     const formattedDate = momentDate
-      .format('MMMM Do' + (showYear ? ' YYYY' : ''))
+      .format('MMM. D' + (showYear ? ' YYYY' : ''))
     const formattedTime = momentDate.format('h:mma')
     const showToday = momentDate.dayOfYear() === moment().dayOfYear() &&
       (momentDate.year() === moment().year())
@@ -1160,7 +1162,7 @@ class ItemTitle extends React.Component {
       <Animated.Text
         maxFontSizeMultiplier={1.2}
         style={dateStyle}
-      >{`${(showToday ? 'Today' : formattedDate)}, ${formattedTime}`}</Animated.Text>
+      >{`${(showToday ? 'Today' : formattedDate)}${ showTime ? `, ${formattedTime}`: ''}`}</Animated.Text>
     )
   }
 
