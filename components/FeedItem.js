@@ -4,7 +4,7 @@ import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
-import { getMargin, getStatusBarHeight } from '../utils/dimensions'
+import { getDimensions, getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
@@ -374,6 +374,18 @@ class FeedItem extends React.Component {
         }}
       >
         { (showCoverImage && !isCoverInline) && coverImage }
+        <Animated.View style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          height: 250,
+          width: this.screenDimensions.width,
+          backgroundColor: bodyColor,
+          opacity: this.scrollAnim.interpolate({
+            inputRange: [0, 250, 251],
+            outputRange: [0, 0, 1]
+          })
+        }} />
         <Animated.ScrollView
           onScroll={
             this.scrollAnim && Animated.event(
