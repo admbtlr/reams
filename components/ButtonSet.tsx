@@ -128,18 +128,12 @@ export default function ButtonSet ({
       console.log('openLink', error)
     }
   }
-  
-
 
   const visibleAnim = new Animated.Value(visibleRef.current ? 0 : 1)
   const toggleAnimMercury = new Animated.Value(0)
 
-  const strokeColor = isDarkMode ?
-    'hsl(0, 0%, 70%)' :
-    'black'
   const color = useColor(itemFeed?.rootUrl || itemFeed?.url || item.url)
-  let activeColor = color || hslString('rizzleText', 'ui')
-  const borderColor = activeColor
+  const borderColor = (isDarkMode || !color) ? hslString('rizzleText', 'ui') : color
   const backgroundColor = hslString('buttonBG')
   const borderWidth = 1
 
