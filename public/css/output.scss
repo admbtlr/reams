@@ -1147,7 +1147,7 @@ hr {
   @include firstLineFontFamily("AvenirNext-Bold");
   @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic");
 
-  .android & {
+  .android &, .web & {
     font-family: "NunitoSans-Regular", serif;
 
     em, i {
@@ -1282,12 +1282,12 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "AvenirNextCondensed-BoldItalic";
     }
 
-    web & {
+    .web & {
       font-family: "Lato";
       font-weight: 700;
     }
   }
-  web &.isItalic h1 {
+  .web &.isItalic h1 {
     font-style: italic;
   }
   h2, h4 {
@@ -1297,7 +1297,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "AvenirNext-MediumItalic";
     }
 
-    web & {
+    .web & {
       font-family: "Lato";
       font-weight: 400;
     }
@@ -1305,7 +1305,7 @@ h1, h2, h3, h4, h5, b, strong {
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic";
 
-    web & {
+    .web & {
       font-family: "Lato";
       font-weight: 400;
       font-style: italic;
@@ -1314,7 +1314,7 @@ h1, h2, h3, h4, h5, b, strong {
     em, i {
       font-family: "AvenirNext-Medium";
 
-      web & {
+     .web & {
         font-family: "Lato";
         font-weight: 400;
       }
@@ -1323,7 +1323,7 @@ h1, h2, h3, h4, h5, b, strong {
     strong, b {
       font-family: "AvenirNext-BoldItalic";
 
-      web & {
+     .web & {
         font-family: "Lato";
         font-weight: 700;
       }
@@ -1332,7 +1332,7 @@ h1, h2, h3, h4, h5, b, strong {
     em strong, strong em, b i, i b {
       font-family: "AvenirNext-Bold";
 
-      web & {
+     .web & {
         font-family: "Lato";
         font-weight: 700;
       }
@@ -1366,7 +1366,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Poppins-ExtraBoldItalic";  
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "Poppins-ExtraBoldItalic";
   }
   h2, h4 {
@@ -1415,7 +1415,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Montserrat-BoldItalic";  
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "Montserrat-BoldItalic";
   }
   h2, h4 {
@@ -1460,7 +1460,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Reforma2018-NegraItalica";  
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "Reforma2018-NegraItalica";
   }
   h2, h4 {
@@ -1505,7 +1505,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "PlayfairDisplay-BoldItalic";
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "IBMPlexSerif-BoldItalic";
   }
   h2, h4 {
@@ -1554,7 +1554,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Reforma1969-NegraItalica";  
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "Reforma1969-NegraItalica";
   }
   h2, h4 {
@@ -1682,7 +1682,7 @@ h1, h2, h3, h4, h5, b, strong {
     }
   }
 
-  html:not(web) &.dropCapIsStroke {
+  body:not(.web) &.dropCapIsStroke {
      & > p:not(.short-para):first-of-type,
       & > div:first-of-type > p:not(.short-para):first-of-type,
       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
@@ -2074,13 +2074,11 @@ html.onboarding.onboarding-2:not(.dark-background) body {
     font-size: 28px;
   }
 
-  .coverHolder {
-    .hasCoverImage & {
-      position: relative; 
-      top: 0; 
-      left: 0; 
-      width: 100vw; 
-    }
+  &.hasCoverImage .coverHolder {
+    position: relative; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
   }
   
   .itemTitle {
@@ -2088,37 +2086,8 @@ html.onboarding.onboarding-2:not(.dark-background) body {
     margin-bottom: 0;
     max-width: 900px;
     z-index: 2;
-  
-    .hasCoverImage & {
-      color: white;
-      position: absolute;
-      bottom: 0;
-  
-      &.center {
-        text-align: center;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        max-width: 1000px;
-      }
-  
-      &.top {
-        top: 0;
-        bottom: auto;
-      }
-  
-      &.bottom {
-        bottom: 0;
-        top: auto;
-      }
-  
-      &.middle {
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      
-    }
-  
+    position: relative;
+    
     h1, h2, h3, h4, h5 {
       line-height: 1.1;
     }
@@ -2148,25 +2117,50 @@ html.onboarding.onboarding-2:not(.dark-background) body {
       color: black;
       padding: 0.5rem;
     }
-  
-    .hasCoverImage &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin: 0 -4vw 2rem;
-      width: calc(100vw + 4vw);
-      height: calc(100% + 2rem);
-      z-index: -1;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
-    }
-  
+
     &.center::after {
       margin: 0 calc(50% - 50vw) 2rem;
     }
   
   }
-  
+
+  &.hasCoverImage .itemTitle {
+    color: white;
+    position: absolute;
+    bottom: 0;
+    top: auto;
+
+    &.center {
+      text-align: center;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 1000px;
+    }
+
+    &.top {
+      top: 0;
+      bottom: auto;
+    }
+
+    &.middle {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &.hasCoverImage .itemTitle::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0 -4vw 2rem;
+    width: calc(100vw + 4vw);
+    height: calc(100% + 2rem);
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
+  }
+
   @media screen and (min-width: 32rem) {
     .itemTitle {
       margin: 1rem;

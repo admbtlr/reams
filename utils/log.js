@@ -18,7 +18,7 @@ export default function log (functionName, err, info) {
   if (error && error.stack) {
     console.error(error.stack)
   }
-  if (Platform.OS === 'web') {
+  if (Platform.OS === 'web' && Sentry.Browser) {
     Sentry.Browser.captureMessage(output)
     if (error) Sentry.Browser.captureException(error)
   } else if (!__DEV__) {
