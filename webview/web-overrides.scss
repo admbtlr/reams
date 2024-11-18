@@ -3,13 +3,11 @@
     font-size: 28px;
   }
 
-  .coverHolder {
-    .hasCoverImage & {
-      position: relative; 
-      top: 0; 
-      left: 0; 
-      width: 100vw; 
-    }
+  &.hasCoverImage .coverHolder {
+    position: relative; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
   }
   
   .itemTitle {
@@ -17,37 +15,8 @@
     margin-bottom: 0;
     max-width: 900px;
     z-index: 2;
-  
-    .hasCoverImage & {
-      color: white;
-      position: absolute;
-      bottom: 0;
-  
-      &.center {
-        text-align: center;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        max-width: 1000px;
-      }
-  
-      &.top {
-        top: 0;
-        bottom: auto;
-      }
-  
-      &.bottom {
-        bottom: 0;
-        top: auto;
-      }
-  
-      &.middle {
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      
-    }
-  
+    position: relative;
+    
     h1, h2, h3, h4, h5 {
       line-height: 1.1;
     }
@@ -77,25 +46,50 @@
       color: black;
       padding: 0.5rem;
     }
-  
-    .hasCoverImage &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin: 0 -4vw 2rem;
-      width: calc(100vw + 4vw);
-      height: calc(100% + 2rem);
-      z-index: -1;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
-    }
-  
+
     &.center::after {
       margin: 0 calc(50% - 50vw) 2rem;
     }
   
   }
-  
+
+  &.hasCoverImage .itemTitle {
+    color: white;
+    position: absolute;
+    bottom: 0;
+    top: auto;
+
+    &.center {
+      text-align: center;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 1000px;
+    }
+
+    &.top {
+      top: 0;
+      bottom: auto;
+    }
+
+    &.middle {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &.hasCoverImage .itemTitle::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0 -4vw 2rem;
+    width: calc(100vw + 4vw);
+    height: calc(100% + 2rem);
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
+  }
+
   @media screen and (min-width: 32rem) {
     .itemTitle {
       margin: 1rem;

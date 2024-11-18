@@ -958,7 +958,7 @@ hr {
   @include firstLineFontFamily("AvenirNext-Bold");
   @include firstShortParaBold("AvenirNext-Bold", "AvenirNext-BoldItalic");
 
-  .android & {
+  .android &, .web & {
     font-family: "NunitoSans-Regular", serif;
 
     em, i {
@@ -1093,12 +1093,12 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "AvenirNextCondensed-BoldItalic";
     }
 
-    web & {
+    .web & {
       font-family: "Lato";
       font-weight: 700;
     }
   }
-  web &.isItalic h1 {
+  .web &.isItalic h1 {
     font-style: italic;
   }
   h2, h4 {
@@ -1108,7 +1108,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "AvenirNext-MediumItalic";
     }
 
-    web & {
+    .web & {
       font-family: "Lato";
       font-weight: 400;
     }
@@ -1116,7 +1116,7 @@ h1, h2, h3, h4, h5, b, strong {
   figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic";
 
-    web & {
+    .web & {
       font-family: "Lato";
       font-weight: 400;
       font-style: italic;
@@ -1125,7 +1125,7 @@ h1, h2, h3, h4, h5, b, strong {
     em, i {
       font-family: "AvenirNext-Medium";
 
-      web & {
+     .web & {
         font-family: "Lato";
         font-weight: 400;
       }
@@ -1134,7 +1134,7 @@ h1, h2, h3, h4, h5, b, strong {
     strong, b {
       font-family: "AvenirNext-BoldItalic";
 
-      web & {
+     .web & {
         font-family: "Lato";
         font-weight: 700;
       }
@@ -1143,7 +1143,7 @@ h1, h2, h3, h4, h5, b, strong {
     em strong, strong em, b i, i b {
       font-family: "AvenirNext-Bold";
 
-      web & {
+     .web & {
         font-family: "Lato";
         font-weight: 700;
       }
@@ -1177,7 +1177,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Poppins-ExtraBoldItalic";  
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "Poppins-ExtraBoldItalic";
   }
   h2, h4 {
@@ -1226,7 +1226,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Montserrat-BoldItalic";  
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "Montserrat-BoldItalic";
   }
   h2, h4 {
@@ -1271,7 +1271,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Reforma2018-NegraItalica";  
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "Reforma2018-NegraItalica";
   }
   h2, h4 {
@@ -1316,7 +1316,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "PlayfairDisplay-BoldItalic";
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "IBMPlexSerif-BoldItalic";
   }
   h2, h4 {
@@ -1365,7 +1365,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Reforma1969-NegraItalica";  
     }
   }
-  web &.isItalic h1 {
+ .web &.isItalic h1 {
     font-family: "Reforma1969-NegraItalica";
   }
   h2, h4 {
@@ -1493,7 +1493,7 @@ h1, h2, h3, h4, h5, b, strong {
     }
   }
 
-  html:not(web) &.dropCapIsStroke {
+  body:not(.web) &.dropCapIsStroke {
      & > p:not(.short-para):first-of-type,
       & > div:first-of-type > p:not(.short-para):first-of-type,
       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {

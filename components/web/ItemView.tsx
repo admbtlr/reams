@@ -3,16 +3,18 @@ import { Animated, Image, ScaledSize, Text, View, useWindowDimensions } from "re
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/reducers"
 import { hslString } from "../../utils/colors"
-import { Item } from "../../store/items/types"
+import { Item, ItemInflated } from "../../store/items/types"
 import { textInfoStyle } from '../../utils/styles'
 import WebView from "react-native-webview"
 import ButtonSet from "../ButtonSet"
 import FeedIcon from "../FeedIcon"
 import { HIDE_ALL_BUTTONS, SHOW_ITEM_BUTTONS } from "../../store/ui/types"
+import { fontStyles } from "../../index.web"
+import { useColor } from "../../hooks/useColor"
 
 const TOP_BAR_HEIGHT = 60
 
-export default function ItemView ({item}: {item: Item | undefined}) {
+export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   if (!item?.styles?.fontClasses) return null
   const dispatch = useDispatch()
   let dimensions: ScaledSize = useWindowDimensions()
@@ -20,8 +22,8 @@ export default function ItemView ({item}: {item: Item | undefined}) {
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item?.feed_id))
   const bodyColor = isDarkMode ? 'black' : hslString('rizzleBg')
-  if (item?.banner_image) {
-    Image.getSize(item.banner_image, (width, height) => {
+  if (item?.coverImageUrl) {
+    Image.getSize(item.coverImageUrl, (width, height) => {
       if (width !== coverImageSize.width || height !== coverImageSize.height) {
         setCoverImageSize({width, height})
       }
@@ -36,25 +38,23 @@ export default function ItemView ({item}: {item: Item | undefined}) {
   useEffect(() => {
     dispatch({type: SHOW_ITEM_BUTTONS})
   }, [item])
-  // const coverImage = /*item?.showCoverImage && */typeof item?.banner_image === 'string' ?
+  // const coverImage = /*item?.showCoverImage && */typeof item?.coverImageUrl === 'string' ?
   //   <Image 
-  //     source={item.banner_image}
+  //     source={item.coverImageUrl}
   //     style={{
   //       width: '100%',
   //       height: dimensions.width * (coverImageSize.height / coverImageSize.width),
   //     }} /> :
   //   null
 
-  const feedColor = feed?.color ?
-    hslString(feed.color) :
-    hslString('logo1')
+  const feedColor = useColor(feed?.rootUrl)
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
 
   // hide the image in the body to avoid repetition
   let data = ''
   if (item?.styles?.coverImage?.isInline) {
-    data = item.banner_image || ''
+    data = item.coverImageUrl || ''
   }
   
   let articleClasses = ''
@@ -84,7 +84,7 @@ export default function ItemView ({item}: {item: Item | undefined}) {
   ].join(' ')
 
   const body = item?.showMercuryContent ? item?.content_mercury : item?.content_html
-  const coverImageUrl = item?.banner_image?.replace('(', '%28').replace(')', '%29')
+  const coverImageUrl = item?.coverImageUrl?.replace('(', '%28').replace(')', '%29')
     
   const html = item && `<html class="font-size-${fontSize} web ${isDarkMode ? 'dark-background' : ''}">
   <head>
@@ -97,6 +97,7 @@ export default function ItemView ({item}: {item: Item | undefined}) {
   html, body {
     background-color: ${bodyColor};
   }
+    ${fontStyles.innerHTML}
     </style>
     <link rel="stylesheet" type="text/css" href="/css/output.css">
     <link rel="stylesheet" type="text/css" href="/css/fonts.css">
@@ -105,7 +106,7 @@ export default function ItemView ({item}: {item: Item | undefined}) {
     <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
   </head>
-  <body class="${displayMode} ${coverImageHeight > 0 ? 'hasCoverImage' : ''} isWeb" style="background-color: ${bodyColor}" data-cover="${data}">
+  <body class="${displayMode} ${coverImageHeight > 0 ? 'hasCoverImage' : ''} web" style="background-color: ${bodyColor}" data-cover="${data}">
     <div class="coverHolder" style="${coverImageHeight > 0 ? `height: ${coverImageHeight}px;` : ''}  max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;">
       <div class="coverImage" style="background-image: url(${coverImageUrl}); height: ${coverImageHeight}px; max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;">.</div>
       <div class="${headingClasses}" style="${dimensions.width > 1200 && coverImageHeight > dimensions.height ? 'margin-bottom: 2rem' : ''}">

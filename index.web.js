@@ -1,7 +1,7 @@
 import './wdyr'
 import 'react-native-gesture-handler'
 
-import { Text, View } from 'react-native'
+import { Platform, Text, View } from 'react-native'
 import React from 'react'
 import {registerRootComponent} from 'expo'
 import Rizzle from './components/Rizzle'
@@ -38,6 +38,10 @@ import './public/fonts/Montserrat-Bold.ttf'
 import './public/fonts/Montserrat-BoldItalic.ttf'
 import './public/fonts/Montserrat-Regular.ttf'
 import './public/fonts/Montserrat-Italic.ttf'
+import './public/fonts/NunitoSans-Bold.ttf'
+import './public/fonts/NunitoSans-BoldItalic.ttf'
+import './public/fonts/NunitoSans-Regular.ttf'
+import './public/fonts/NunitoSans-Italic.ttf'
 import './public/fonts/PTSerif-Bold.ttf'
 import './public/fonts/PTSerif-BoldItalic.ttf'
 import './public/fonts/PTSerif-Italic.ttf'
@@ -185,6 +189,22 @@ const MontserratLightItalic = `@font-face {
   src: url('./public/fonts/Montserrat-LightItalic.ttf')
   font-family: 'Montserrat-LightItalic'
 }`
+const NunitoSansBold = `@font-face { 
+  src: url('/public/fonts/NunitoSans-Bold.ttf');
+  font-family: 'NunitoSans-Bold';
+}`
+const NunitoSansBoldItalic = `@font-face { 
+  src: url('/public/fonts/NunitoSans-BoldItalic.ttf');
+  font-family: 'NunitoSans-BoldItalic';
+}`
+const NunitoSansItalic = `@font-face { 
+  src: url('/public/fonts/NunitoSans-Italic.ttf');
+  font-family: 'NunitoSans-Italic';
+}`
+const NunitoSansRegular = `@font-face { 
+  src: url('/public/fonts/NunitoSans-Regular.ttf');
+  font-family: 'NunitoSans-Regular';
+}`
 const PTSerifBold = `@font-face { 
   src: url('./public/fonts/PTSerif-Bold.ttf')
   font-family: 'PTSerif-Bold'
@@ -250,117 +270,135 @@ const PoppinsRegular = `@font-face {
   font-family: 'Poppins-Regular'
 }`
 
-// Create stylesheet
-const style = document.createElement('style')
-style.type = 'text/css'
-
-if (style.styleSheet) {
-  style.styleSheet.cssText = `
-${IBMPlexMonoBold}
-${IBMPlexMonoBoldItalic}
-${IBMPlexMonoItalic}
-${IBMPlexMonoLight}
-${IBMPlexMonoLightItalic}
-${IBMPlexMono}
-${IBMPlexSansBold}
-${IBMPlexSansBoldItalic}
-${IBMPlexSansItalic}
-${IBMPlexSansLight}
-${IBMPlexSansLightItalic}
-${IBMPlexSans}
-${IBMPlexSansCondBold}
-${IBMPlexSansCondBoldItalic}
-${IBMPlexSansCondExtraLight}
-${IBMPlexSansCondExtraLightItalic}
-${IBMPlexSansCond}
-${IBMPlexSerifBold}
-${IBMPlexSerifBoldItalic}
-${IBMPlexSerifItalic}
-${IBMPlexSerifLight}
-${IBMPlexSerifLightItalic}
-${IBMPlexSerifThin}
-${IBMPlexSerifThinItalic}
-${IBMPlexSerif}
-${LibreBaskervilleBold}
-${LibreBaskervilleItalic}
-${LibreBaskervilleRegular}
-${MontserratBold}
-${MontserratBoldItalic}
-${MontserratLight}
-${MontserratLightItalic}
-${PTSerifBold}
-${PTSerifBoldItalic}
-${PTSerifItalic}
-${PTSerifRegular}
-${PlayfairDisplayBlack}
-${PlayfairDisplayBlackItalic}
-${PlayfairDisplayBold}
-${PlayfairDisplayBoldItalic}
-${PlayfairDisplayItalic}
-${PlayfairDisplayRegular}
-${PlayfairDisplaySCBold}
-${PlayfairDisplaySCBoldItalic}
-${PoppinsExtraBold}
-${PoppinsExtraBoldItalic}
-${PoppinsItalic}
-${PoppinsRegular}
-  `
-} else {
-  style.appendChild(document.createTextNode(IBMPlexMonoBold))
-  style.appendChild(document.createTextNode(IBMPlexMonoBoldItalic))
-  style.appendChild(document.createTextNode(IBMPlexMonoItalic))
-  style.appendChild(document.createTextNode(IBMPlexMonoLight))
-  style.appendChild(document.createTextNode(IBMPlexMonoLightItalic))
-  style.appendChild(document.createTextNode(IBMPlexMono))
-  style.appendChild(document.createTextNode(IBMPlexSansBold))
-  style.appendChild(document.createTextNode(IBMPlexSansBoldItalic))
-  style.appendChild(document.createTextNode(IBMPlexSansItalic))
-  style.appendChild(document.createTextNode(IBMPlexSansLight))
-  style.appendChild(document.createTextNode(IBMPlexSansLightItalic))
-  style.appendChild(document.createTextNode(IBMPlexSans))
-  style.appendChild(document.createTextNode(IBMPlexSansCondBold))
-  style.appendChild(document.createTextNode(IBMPlexSansCondBoldItalic))
-  style.appendChild(document.createTextNode(IBMPlexSansCondExtraLight))
-  style.appendChild(document.createTextNode(IBMPlexSansCondExtraLightItalic))
-  style.appendChild(document.createTextNode(IBMPlexSansCond))
-  style.appendChild(document.createTextNode(IBMPlexSerifBold))
-  style.appendChild(document.createTextNode(IBMPlexSerifBoldItalic))
-  style.appendChild(document.createTextNode(IBMPlexSerifItalic))
-  style.appendChild(document.createTextNode(IBMPlexSerifLight))
-  style.appendChild(document.createTextNode(IBMPlexSerifLightItalic))
-  style.appendChild(document.createTextNode(IBMPlexSerifThin))
-  style.appendChild(document.createTextNode(IBMPlexSerifThinItalic))
-  style.appendChild(document.createTextNode(IBMPlexSerif))
-  style.appendChild(document.createTextNode(LibreBaskervilleBold))
-  style.appendChild(document.createTextNode(LibreBaskervilleItalic))
-  style.appendChild(document.createTextNode(LibreBaskervilleRegular))
-  style.appendChild(document.createTextNode(MontserratBold))
-  style.appendChild(document.createTextNode(MontserratBoldItalic))
-  style.appendChild(document.createTextNode(MontserratLight))
-  style.appendChild(document.createTextNode(MontserratLightItalic))
-  style.appendChild(document.createTextNode(PTSerifBold))
-  style.appendChild(document.createTextNode(PTSerifBoldItalic))
-  style.appendChild(document.createTextNode(PTSerifItalic))
-  style.appendChild(document.createTextNode(PTSerifRegular))
-  style.appendChild(document.createTextNode(PlayfairDisplayBlack))
-  style.appendChild(document.createTextNode(PlayfairDisplayBlackItalic))
-  style.appendChild(document.createTextNode(PlayfairDisplayBold))
-  style.appendChild(document.createTextNode(PlayfairDisplayBoldItalic))
-  style.appendChild(document.createTextNode(PlayfairDisplayItalic))
-  style.appendChild(document.createTextNode(PlayfairDisplayRegular))
-  style.appendChild(document.createTextNode(PlayfairDisplaySCBold))
-  style.appendChild(document.createTextNode(PlayfairDisplaySCBoldItalic))
-  style.appendChild(document.createTextNode(PoppinsExtraBold))
-  style.appendChild(document.createTextNode(PoppinsExtraBoldItalic))
-  style.appendChild(document.createTextNode(PoppinsItalic))
-  style.appendChild(document.createTextNode(PoppinsRegular))
+if (Platform.OS === 'web') {
+  
 }
 
-// Inject stylesheet
-document.head.appendChild(style);
+// Create stylesheet
+export const fontStyles = Platform.OS === 'web' ? 
+  document.createElement('style') :
+  undefined
 
-const HelloWorld = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Hello world!</Text></View>
-)
-
-registerRootComponent(Rizzle)
+if (Platform.OS === 'web') {
+  if (fontStyles.styleSheet) {
+    fontStyles.styleSheet.cssText = `
+  ${IBMPlexMonoBold}
+  ${IBMPlexMonoBoldItalic}
+  ${IBMPlexMonoItalic}
+  ${IBMPlexMonoLight}
+  ${IBMPlexMonoLightItalic}
+  ${IBMPlexMono}
+  ${IBMPlexSansBold}
+  ${IBMPlexSansBoldItalic}
+  ${IBMPlexSansItalic}
+  ${IBMPlexSansLight}
+  ${IBMPlexSansLightItalic}
+  ${IBMPlexSans}
+  ${IBMPlexSansCondBold}
+  ${IBMPlexSansCondBoldItalic}
+  ${IBMPlexSansCondExtraLight}
+  ${IBMPlexSansCondExtraLightItalic}
+  ${IBMPlexSansCond}
+  ${IBMPlexSerifBold}
+  ${IBMPlexSerifBoldItalic}
+  ${IBMPlexSerifItalic}
+  ${IBMPlexSerifLight}
+  ${IBMPlexSerifLightItalic}
+  ${IBMPlexSerifThin}
+  ${IBMPlexSerifThinItalic}
+  ${IBMPlexSerif}
+  ${LibreBaskervilleBold}
+  ${LibreBaskervilleItalic}
+  ${LibreBaskervilleRegular}
+  ${MontserratBold}
+  ${MontserratBoldItalic}
+  ${MontserratLight}
+  ${MontserratLightItalic}
+  ${NunitoSansBold}
+  ${NunitoSansBoldItalic}
+  ${NunitoSansRegular}
+  ${NunitoSansItalic}
+  ${PTSerifBold}
+  ${PTSerifBoldItalic}
+  ${PTSerifItalic}
+  ${PTSerifRegular}
+  ${PlayfairDisplayBlack}
+  ${PlayfairDisplayBlackItalic}
+  ${PlayfairDisplayBold}
+  ${PlayfairDisplayBoldItalic}
+  ${PlayfairDisplayItalic}
+  ${PlayfairDisplayRegular}
+  ${PlayfairDisplaySCBold}
+  ${PlayfairDisplaySCBoldItalic}
+  ${PoppinsExtraBold}
+  ${PoppinsExtraBoldItalic}
+  ${PoppinsItalic}
+  ${PoppinsRegular}
+    `
+  } else {
+    fontStyles.appendChild(document.createTextNode(IBMPlexMonoBold))
+    fontStyles.appendChild(document.createTextNode(IBMPlexMonoBoldItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexMonoItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexMonoLight))
+    fontStyles.appendChild(document.createTextNode(IBMPlexMonoLightItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexMono))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansBold))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansBoldItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansLight))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansLightItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSans))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansCondBold))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansCondBoldItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansCondExtraLight))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansCondExtraLightItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSansCond))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSerifBold))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSerifBoldItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSerifItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSerifLight))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSerifLightItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSerifThin))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSerifThinItalic))
+    fontStyles.appendChild(document.createTextNode(IBMPlexSerif))
+    fontStyles.appendChild(document.createTextNode(LibreBaskervilleBold))
+    fontStyles.appendChild(document.createTextNode(LibreBaskervilleItalic))
+    fontStyles.appendChild(document.createTextNode(LibreBaskervilleRegular))
+    fontStyles.appendChild(document.createTextNode(MontserratBold))
+    fontStyles.appendChild(document.createTextNode(MontserratBoldItalic))
+    fontStyles.appendChild(document.createTextNode(MontserratLight))
+    fontStyles.appendChild(document.createTextNode(MontserratLightItalic))
+    fontStyles.appendChild(document.createTextNode(NunitoSansBold))
+    fontStyles.appendChild(document.createTextNode(NunitoSansBoldItalic))
+    fontStyles.appendChild(document.createTextNode(NunitoSansRegular))
+    fontStyles.appendChild(document.createTextNode(NunitoSansItalic))
+    fontStyles.appendChild(document.createTextNode(PTSerifBold))
+    fontStyles.appendChild(document.createTextNode(PTSerifBoldItalic))
+    fontStyles.appendChild(document.createTextNode(PTSerifItalic))
+    fontStyles.appendChild(document.createTextNode(PTSerifRegular))
+    fontStyles.appendChild(document.createTextNode(PlayfairDisplayBlack))
+    fontStyles.appendChild(document.createTextNode(PlayfairDisplayBlackItalic))
+    fontStyles.appendChild(document.createTextNode(PlayfairDisplayBold))
+    fontStyles.appendChild(document.createTextNode(PlayfairDisplayBoldItalic))
+    fontStyles.appendChild(document.createTextNode(PlayfairDisplayItalic))
+    fontStyles.appendChild(document.createTextNode(PlayfairDisplayRegular))
+    fontStyles.appendChild(document.createTextNode(PlayfairDisplaySCBold))
+    fontStyles.appendChild(document.createTextNode(PlayfairDisplaySCBoldItalic))
+    fontStyles.appendChild(document.createTextNode(PoppinsExtraBold))
+    fontStyles.appendChild(document.createTextNode(PoppinsExtraBoldItalic))
+    fontStyles.appendChild(document.createTextNode(PoppinsItalic))
+    fontStyles.appendChild(document.createTextNode(PoppinsRegular))
+  }
+  
+  // Inject stylesheet
+  if (document !== undefined) {
+    document.head.appendChild(fontStyles);
+  }
+  
+  const HelloWorld = () => (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Hello world!</Text></View>
+  )
+  
+  registerRootComponent(Rizzle)
+  
+}

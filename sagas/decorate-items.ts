@@ -187,14 +187,17 @@ function * applyDecoration (decoration: Decoration) {
 
 function * persistDecoration (decoration: Decoration) {
   const {imageStuff, item, mercuryStuff} = decoration
+  const isWeb = Platform.OS === 'web'
   const decorated = addMercuryStuffToItem(item, mercuryStuff)
   let wholeItem = {
     ...item,
     ...decorated
   }
   wholeItem = addCoverImageToItem(wholeItem, imageStuff)
-  if (!!wholeItem.coverImageFile) {
-    wholeItem.hasCoverImage = !!wholeItem.coverImageFile
+  if (!!wholeItem.coverImageFile || (isWeb && !!wholeItem.coverImageUrl)) {
+    wholeItem.hasCoverImage = isWeb ?
+      !!wholeItem.coverImageUrl :
+      !!wholeItem.coverImageFile
     wholeItem = setShowCoverImage(wholeItem)
     wholeItem.styles = adjustStylesToCoverImage(decoration)
     wholeItem = removeCachedCoverImageDuplicate(wholeItem)  
