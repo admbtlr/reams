@@ -1,4 +1,4 @@
-package com.alreadyapp.already
+package app.reams
  
 import android.app.Application
 import android.content.res.Configuration
