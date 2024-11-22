@@ -8,7 +8,9 @@
     "clear": "npx concurrently --kill-others 'node_modules/expo/bin/cli start --clear --dev-client' 'gulp'",
     "test": "jest",
     "postinstall": "patch-package",
-    "deploy:web": "expo export:web; vercel build; vercel deploy --prebuilt"
+    "deploy:web": "expo export:web; vercel build; vercel deploy --prebuilt",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.2.2",
