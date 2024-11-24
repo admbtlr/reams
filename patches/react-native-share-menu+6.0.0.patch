@@ -1,8 +1,13 @@
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
-index f42bce6..8632ef6 100644
+index f42bce6..80fe76a 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 +++ b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
-@@ -12,8 +12,9 @@ import RNShareMenu
+@@ -9,11 +9,14 @@
+ 
+ import RNShareMenu
+ 
++@available(iOSApplicationExtension, unavailable)
++
  class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactShareViewDelegate {
    func sourceURL(for bridge: RCTBridge!) -> URL! {
  #if DEBUG
@@ -13,7 +18,7 @@ index f42bce6..8632ef6 100644
  #else
      return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
  #endif
-@@ -25,7 +26,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
+@@ -25,7 +28,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
      let bridge: RCTBridge! = RCTBridge(delegate: self, launchOptions: nil)
      let rootView = RCTRootView(
        bridge: bridge,
@@ -41,3 +46,43 @@ index 308ec99..3c92827 100644
  
  #import <React/RCTLinkingManager.h>
  
+diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
+index 12d8c92..48a4a23 100644
+--- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
++++ b/node_modules/react-native-share-menu/ios/ShareViewController.swift
+@@ -14,6 +14,8 @@ import UIKit
+ import Social
+ import RNShareMenu
+ 
++@available(iOSApplicationExtension, unavailable)
++
+ class ShareViewController: SLComposeServiceViewController {
+   var hostAppId: String?
+   var hostAppUrlScheme: String?
+@@ -222,21 +224,15 @@ class ShareViewController: SLComposeServiceViewController {
+       return
+     }
+     
+-    let url = URL(string: urlScheme)
+-    let selectorOpenURL = sel_registerName("openURL:")
+-    var responder: UIResponder? = self
+-    
+-    while responder != nil {
+-      if responder?.responds(to: selectorOpenURL) == true {
+-        responder?.perform(selectorOpenURL, with: url)
+-      }
+-      responder = responder!.next
++    guard let url = URL(string: urlScheme) else {
++      exit(withError: NO_INFO_PLIST_URL_SCHEME_ERROR)
++      return //be safe
+     }
+  
+-    completeRequest()
++    UIApplication.shared.open(url, options: [:], completionHandler: completeRequest)
+   }
+   
+-  func completeRequest() {
++  func completeRequest(success: Bool) {
+     // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
+     extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+   }
