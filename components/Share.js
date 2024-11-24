@@ -16,6 +16,7 @@ import AnimatedEllipsis from './AnimatedEllipsis'
 import XButton from './XButton'
 import {getRizzleButtonIcon} from '../utils/rizzle-button-icons'
 import log from '../utils/log'
+import { fontSizeMultiplier } from '../utils/dimensions'
 
 const { ui, darkMode } = require('../utils/colors.json')
 
@@ -60,24 +61,23 @@ const Share  = () => {
   }
 
   const searchForRSS = async (url) => {
-    fetch(`https://api.rizzle.net/api/find-feeds?url=${url}`)
-      .then(res => res.json())
-      .then(newRssUrls => {
-        const feeds = rssUrls.concat(newRssUrls)
-        const deduped = dedupeFeeds(feeds)
-        setRssUrls(deduped)
-      })
-      .catch(e => console.log(e))
-    fetch(`https://api.rizzle.net/api/find-feeds?url=${url}&extended=1`)
-      .then(res => res.json())
-      .then(newRssUrls => {
-        const deduped = dedupeFeeds(rssUrls.concat(newRssUrls))
-        console.log(deduped)
-        setRssUrls(deduped)
-        setSearchingForRss(false)
-        setRetrievingRss(false)
-      })
-      .catch(e => console.log(e))
+    let deduped
+    try {
+      let res = await fetch(`https://api.rizzle.net/api/find-feeds?url=${url}`)
+      let newRssUrls = await res.json()
+      deduped = dedupeFeeds(rssUrls.concat(newRssUrls))
+      if (!deduped || deduped.length === 0) {
+        res = await fetch(`https://api.rizzle.net/api/find-feeds?url=${url}`)
+        newRssUrls = await res.json()
+        deduped = dedupeFeeds(rssUrls.concat(newRssUrls))  
+      }
+    } catch(e) {
+      console.log(e)
+    } finally {
+      setRssUrls(deduped || [])
+      setSearchingForRss(false)
+      setRetrievingRss(false)  
+    }
   }
 
   const getPageTitle = async (url) => {
@@ -184,7 +184,7 @@ const Share  = () => {
     fontFamily: 'IBMPlexSans-Light',
     fontSize: 18,
     textAlign: 'left',
-    marginBottom: 16
+    marginBottom: 32
   }
   
   const margin = 24
@@ -243,7 +243,11 @@ const Share  = () => {
               marginBottom: margin
             }} />
           </View>
-        <View style={{ flex: 0, marginVertical: margin }}>              
+          <View style={{ 
+            flex: 0, 
+            marginVertical: margin,
+            height: 120 * fontSizeMultiplier()
+          }}>              
             <Text
               style={helpText}
             >{getRizzleButtonIcon('rss', hslString('rizzleText'))} Add 
