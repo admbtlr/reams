@@ -1,6 +1,8 @@
 - icon
 - splash
 
+- save item / unsave item / save item doesn't work
+- remove category doesn't work
 - stop TopBar from rerendering so often
 - decorate visible items after all
 - fix WARN  (ADVICE) View #1559 of type RCTView has a shadow set but cannot   calculate shadow efficiently. Consider setting a background color to fix this, or apply the shadow to a more specific component.
@@ -26,7 +28,6 @@
 - look into ItemTitle problems with ~~too long words~~ and too long titles
 - if currentitem is decorated and has a coverimage, the top bar goes transparent, but the image isn't shown
 - "inflate feeds" - download feed icons instead
-- put back the foreign key constraint on annotation.item_id once we're persisting saved items
 - action extension
 - "reams favourites"
 - settings screen
@@ -63,6 +64,7 @@
 - make buttons use reanimate
 
 # Done
+- ~~put back the foreign key constraint on annotation.item_id once we're persisting saved items~~
 - ~~context menu in webview~~
 - ~~in-browser js causes render delays! ~~
 - ~~use more built-in fonts?~~
