@@ -28,6 +28,8 @@ import { BlurView } from 'expo-blur'
 import { createSelector } from '@reduxjs/toolkit'
 import Favicon from './Favicon'
 
+const entities = require('entities')
+
 interface Props {
   _id: string | number
   count: number
@@ -446,7 +448,7 @@ function FeedContracted ({ _id, count, index, isSaved, title, navigation, type, 
                 fontFamily: 'IBMPlexSans-Bold',
                 fontSize: (Platform.OS === 'web' ? 16 : 18) * fontSizeMultiplier(),
                 lineHeight: (Platform.OS === 'web' ? 18 : 20) * fontSizeMultiplier()
-              }}>{title}</Text>
+              }}>{!!title ? entities.decodeHTML(title): ''}</Text>
             </View>
             <View style={{
               paddingLeft: 4,

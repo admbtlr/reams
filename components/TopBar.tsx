@@ -29,6 +29,8 @@ import log from '../utils/log'
 import Favicon from './Favicon'
 import { useColor } from '../hooks/useColor'
 
+const entities = require('entities')
+
 /* Props:
 - clampedAnimatedValue
 - filter *
@@ -136,7 +138,9 @@ export default function TopBar({
     }
   }
   
-  const feedTitle = feed?.title ? feed.title : (!!item && item.url?.split('/').length > 3) ? item.url.split('/')[2] : ''
+  const feedTitle = feed?.title ? 
+    entities.decode(feed.title) : 
+    (!!item && item.url?.split('/').length > 3) ? item.url.split('/')[2] : ''
 
   const titleOpacity = typeof scrollAnim !== 'number' && isVisible ? 
     scrollAnim.interpolate({
