@@ -13,6 +13,7 @@ import {
 import {
   CLEAR_READ_ITEMS,
   ITEM_DECORATION_SUCCESS,
+  ItemType,
   RECEIVED_REMOTE_READ_ITEMS,
   REMOVE_ITEMS,
   SAVE_EXTERNAL_URL,
@@ -25,6 +26,8 @@ import {
   ADD_FEED,
   ADD_FEEDS,
   DEACTIVATE_NUDGE,
+  Feed,
+  FeedLocal,
   MARK_FEED_READ,
   PAUSE_NUDGE,
   REMOVE_FEED,
@@ -48,7 +51,7 @@ import { executeRemoteActions } from './remote-action-queue'
 import { fetchAllFeeds, markFeedRead, inflateFeeds, subscribeToFeed, subscribeToFeeds, unsubscribeFromFeed, unsubscribeFromFeeds } from './feeds'
 import { primeAllBackends, primeBackend } from './backend'
 import { unsetBackend } from '../backends'
-import { getConfig, getLastUpdated } from './selectors'
+import { getConfig, getFeeds, getFeedsLocal, getLastUpdated } from './selectors'
 import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
 import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
 import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotations'
@@ -73,26 +76,28 @@ function * startDownloads (shouldSleep = false) {
     // let the app render and get started
     yield delay(5000)
   }
-  const lastUpdated = yield select(getLastUpdated)
-    try {
-      console.log(`Last updated: ${lastUpdated}, now: ${Date.now()}`)
-      console.log(`MINIMUM_UPDATE_INTERVAL: ${MINIMUM_UPDATE_INTERVAL}`)
-      if (Date.now() - lastUpdated > MINIMUM_UPDATE_INTERVAL) {
-        console.log('fetchAllFeeds')
-        yield call(fetchAllFeeds)
-        console.log('fetchAllItems')
-        yield call(fetchAllItems, true)
-      }
-      console.log('clearReadItems')
-      yield call(clearReadItems)
-      console.log('pruneItems')
-      yield call(pruneItems)
-      yield call(decorateItems)
-      yield call(executeRemoteActions)
-    } catch (e) {
-      console.log(e)
-      yield put({ type: CLEAR_MESSAGES })
-    }  
+  const lastUpdated: number = yield select(getLastUpdated, ItemType.unread)
+  const feedsLocal: FeedLocal[] = yield select(getFeedsLocal)
+  try {
+    console.log(`Last updated: ${lastUpdated}, now: ${Date.now()}`)
+    console.log(`MINIMUM_UPDATE_INTERVAL: ${MINIMUM_UPDATE_INTERVAL}`)
+    if (Date.now() - lastUpdated > MINIMUM_UPDATE_INTERVAL ||
+      feedsLocal.filter((fl) => fl.isNew).length > 0) {
+      console.log('fetchAllFeeds')
+      yield call(fetchAllFeeds)
+      console.log('fetchAllItems')
+      yield call(fetchAllItems, true)
+    }
+    console.log('clearReadItems')
+    yield call(clearReadItems)
+    console.log('pruneItems')
+    yield call(pruneItems)
+    yield call(decorateItems)
+    yield call(executeRemoteActions)
+  } catch (e) {
+    console.log(e)
+    yield put({ type: CLEAR_MESSAGES })
+  }  
 }
 
 function * killBackend ({ backend }) {
