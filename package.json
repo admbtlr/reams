@@ -22,7 +22,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",
     "@reduxjs/toolkit": "^2.3.0",
-    "@sentry/react-native": "~5.24.3",
+    "@sentry/react-native": "^6.2.0",
     "@supabase/supabase-js": "^2.45.3",
     "@tensorflow-models/blazeface": "0.1.0",
     "@tensorflow/tfjs": "4.16.0",

@@ -6,7 +6,16 @@
     "slug": "reams",
     "plugins": [
       "expo-dev-launcher",
-      "expo-router"
+      "expo-router",
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
+          "project": "reams",
+          "organization": "adam-butler"
+        }
+      ]
     ],
     "jsEngine": "hermes",
     "android": {

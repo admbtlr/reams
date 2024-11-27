@@ -1,13 +1,9 @@
 const { getDefaultConfig, mergeConfig, MetroConfig } = require('expo/metro-config')
 const path = require('path')
 
-const {
- createSentryMetroSerializer
-} = require("@sentry/react-native/dist/js/tools/sentryMetroSerializer");
+const { getSentryExpoConfig } = require("@sentry/react-native/metro")
 
-const config = getDefaultConfig(__dirname)
-
-config.serializer.customSerializer = createSentryMetroSerializer()
+const config = getSentryExpoConfig(__dirname)
 
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (platform === 'web') {

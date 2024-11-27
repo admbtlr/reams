@@ -136,7 +136,7 @@ const Rizzle = () => {
 
 }
 
-export default Rizzle
+export default Sentry.wrap(Rizzle)
 
 // class RizzleOld extends Component<Props, State> {
 //   navigation: Ref<NavigationContainerRef> = React.createRef()
