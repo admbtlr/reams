@@ -1621,11 +1621,29 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (5.24.3):
+  - RNSentry (6.2.0):
+    - DoubleConversion
+    - glog
     - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
     - React-hermes
-    - Sentry/HybridSDK (= 8.36.0)
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Sentry/HybridSDK (= 8.40.1)
+    - Yoga
   - RNSharedElement (0.8.8):
     - React-Core
   - RNShareMenu (6.0.0):
@@ -1638,7 +1656,7 @@ PODS:
   - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry/HybridSDK (8.36.0)
+  - Sentry/HybridSDK (8.40.1)
   - SocketRocket (0.7.0)
   - "sqlite3 (3.45.3+1)":
     - "sqlite3/common (= 3.45.3+1)"
@@ -2093,14 +2111,14 @@ SPEC CHECKSUMS:
   RNReactNativeSharedGroupPreferences: 29092869fc2e40d5baca5e15d82fa5c24a668977
   RNReanimated: 35f9ac9c3ac42d0497ebd1cce5c39d7687a8493e
   RNScreens: b32a9ff15bea7fcdbe5dff6477bc503f792b1208
-  RNSentry: e7e5d059d62d6c447d83e14800edc1812a594a5d
+  RNSentry: b548d7e794fdc276b8ba094a6bd07935e3272cea
   RNSharedElement: 504fa28a235b12505b6daedbb452a9ec96809bd0
   RNShareMenu: cb9dac548c8bf147d06f0bf07296ad51ea9f5fc3
   RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
   RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
-  Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
+  Sentry: e9215d7b17f7902692b4f8700e061e4f853e3521
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
   Yoga: 2246eea72aaf1b816a68a35e6e4b74563653ae09
