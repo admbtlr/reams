@@ -194,7 +194,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     const allCards = feedSkeletons?.length > 0 || newsletterSkeletons?.length > 0 ? [{
       _id: '9999999',
       type: 'all',
-      title: `All ${isSaved ? 'Saved' : 'Unread'} Stories`
+      title: `All ${isSaved ? 'Saved' : 'Unread'}`
     }] : []
 
     let sections = [
