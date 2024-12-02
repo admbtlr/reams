@@ -108,7 +108,7 @@ function FeedContracted({
     numItems: number | undefined,
     categoryFeeds: (Feed | undefined)[] = [],
     categoryItems: (ThinItem | undefined)[] = [],
-    cachedIconDimensions: { width: number height: number } | undefined
+    cachedIconDimensions: { width: number, height: number } | undefined
   if (type === 'feed') {
     feed = feeds.find((f) => f._id === _id)
     numItems = unreadThinItems
@@ -234,13 +234,13 @@ function FeedContracted({
         filterItems(null, null, null)
         break
       case 'feed':
-        filterItems(feed?._id || null, feed?.title || ', type)
+        filterItems(feed?._id || null, feed?.title || '', type)
         break
       case 'category':
-        filterItems(category?._id || null, category?.name || ', type)
+        filterItems(category?._id || null, category?.name || '', type)
         break
       case 'newsletter':
-        filterItems(feed?._id || null, feed?.title || ', type)
+        filterItems(feed?._id || null, feed?.title || '', type)
         break
     }
     setIndex(0)
@@ -318,7 +318,7 @@ function FeedContracted({
             console.log(state)
             updateCategory({
               ...category,
-              _id: category?._id || ',
+              _id: category?._id || '',
               itemIds: category?.itemIds || [],
               name: state.categoryName || category?.name,
               feedIds: state.deletableRows.map((dr: Feed) => dr._id),
@@ -392,7 +392,7 @@ function FeedContracted({
       .filter((w) => !['the', 'of', 'and'].includes(w.toLowerCase()))
     return words
       .map((w) => w.substring(0, 1).toUpperCase())
-      .join(')
+      .join(' ')
       .split(/[^A-Z]/)[0]
   }
 
@@ -554,7 +554,7 @@ function FeedContracted({
               }}
             />
           </View>
-          {type === 'feed' && <FeedLikedMuted feed_id={feed?._id || '} />}
+          { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
           <View
             style={{
               paddingLeft: 4,
@@ -574,7 +574,7 @@ function FeedContracted({
                   (Platform.OS === 'web' ? 18 : 20) * fontSizeMultiplier(),
               }}
             >
-              {!!title ? entities.decodeHTML(title) : '}
+              {!!title ? entities.decodeHTML(title) : ''}
             </Text>
           </View>
           <View
@@ -594,7 +594,7 @@ function FeedContracted({
               }}
             >
               {numItems}{' '}
-              {isSaved ? `article${numItems > 1 ? 's' : '}` : 'unread'}
+              {isSaved ? `article${numItems > 1 ? 's' : ''}` : 'unread'}
             </Text>
           </View>
         </Animated.View>
