@@ -7,6 +7,9 @@ import { hslString } from "../../utils/colors"
 import { Image } from "react-native"
 import { Feed } from "../../store/feeds/types"
 import FeedIcon from "../FeedIcon"
+import { getRizzleButtonIcon } from "../../utils/rizzle-button-icons"
+import { textInfoItalicStyle, textInfoMonoItalicStyle, textLabelStyle } from "../../utils/styles"
+import { useNavigation } from "@react-navigation/native"
 
 interface Props {
   feeds: Feed[]
@@ -18,6 +21,7 @@ const ItemsList = ({ feeds, index, items }: Props) => {
   const currentItem = !!items && !!index ? items[index] : undefined
   const dimensions: ScaledSize = useWindowDimensions()
   const scrollRef = useRef<any>()
+  const navigation = useNavigation()
   return (
     <View style={{
       // width: DRAWER_WIDTH,
@@ -25,6 +29,32 @@ const ItemsList = ({ feeds, index, items }: Props) => {
       backgroundColor: hslString('rizzleBG'),
       flex: -1,
     }}>
+      <View style={{ 
+        height: 40,
+        width: '100%',
+        backgroundColor: hslString('rizzleBG'),
+        opacity: 0.95,
+        position: 'absolute',
+        top: 0,
+        zIndex: 10
+      }}>
+        <TouchableOpacity 
+          onPress={() => navigation.goBack()}
+          style={{ 
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center'
+          }}
+        >
+          { getRizzleButtonIcon('back', hslString('rizzleText')) }
+          <Text style={{ 
+            ...textInfoItalicStyle(),
+            fontSize: 12,
+            margin: 0,
+            opacity: 0.5
+          }}>Back to feed screen</Text>
+        </TouchableOpacity>
+      </View>
       <ScrollView 
         ref={scrollRef}
         style={{
@@ -34,6 +64,7 @@ const ItemsList = ({ feeds, index, items }: Props) => {
         }}
       >
         <View style={{
+          paddingTop: 40
         }}>
           {items && items.map((item, index) => (
             <ItemListItem
