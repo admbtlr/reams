@@ -132,13 +132,13 @@ const FeedsStack = createStackNavigator()
 const Feeds = ({navigation}) => {
   return (
     <FeedsStack.Navigator
-      initialRouteName='Feeds List'
+      initialRouteName='Feeds'
       screenOptions={{
         headerShown: false
       }}
       >
       <FeedsStack.Screen
-        name='Feeds List'
+        name='Feeds'
         component={FeedsScreen}
       />
       <FeedsStack.Screen
