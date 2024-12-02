@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   const matches = ownProps.item?.url?.match(/:\/\/(.*?)\//)
   const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : null
   const color = (host !== null) ?
-    state.hostColors.hostColors.find(hc => hc.host === host)?.color :
+    state.hostColors.hostColors?.find(hc => hc.host === host)?.color :
     undefined
   return {
     color,
