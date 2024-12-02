@@ -219,7 +219,7 @@ export const migrations = {
       }
     }
   },
-  12: async (state: RootState) => {
+  12: (state: RootState) => {
     // update feed ids to be based on url
     const oldFeeds = state.feeds.feeds
     const oldFeedIds = oldFeeds.map((f: Feed) => ({
@@ -291,7 +291,8 @@ export const migrations = {
       }
     }
   },
-  13: async (state: RootState) => {
+  13: (state: RootState) => { 
+    console.log(state)
     // update feed.id to feed.feedbinId
     const feeds = state.feeds.feeds.map((f: Feed) => {
       return {
@@ -309,7 +310,7 @@ export const migrations = {
       }
     }
   },
-  14: async (state: RootState) => {
+  14: (state: RootState) => {
     // feeds to feedIds on category
     const categories = state.categories.categories.map((c: Category) => {
       return {
@@ -326,11 +327,13 @@ export const migrations = {
       }
     }
   },
-  15: async (state: RootState) => {
+  15: (state: RootState) => {
     // add hostColors
     return {
-      state,
-      hostColors: []
+      ...state,
+      hostColors: {
+        hostColors: []
+      }
     }
   }
 }
