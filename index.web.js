@@ -181,13 +181,13 @@ const MontserratBoldItalic = `@font-face {
   src: url('/public/fonts/Montserrat-BoldItalic.ttf');
   font-family: 'Montserrat-BoldItalic';
 }`;
-const MontserratLight = `@font-face {
-  src: url('/public/fonts/Montserrat-Light.ttf');
-  font-family: 'Montserrat-Light';
+const Montserrat = `@font-face {
+  src: url('/public/fonts/Montserrat-Regular.ttf');
+  font-family: 'Montserrat';
 }`;
-const MontserratLightItalic = `@font-face {
-  src: url('/public/fonts/Montserrat-LightItalic.ttf');
-  font-family: 'Montserrat-LightItalic';
+const MontserratItalic = `@font-face {
+  src: url('/public/fonts/Montserrat-Italic.ttf');
+  font-family: 'Montserrat-Italic';
 }`;
 const NunitoSansBold = `@font-face {
   src: url('/public/fonts/NunitoSans-Bold.ttf');
@@ -339,8 +339,8 @@ if (Platform.OS === "web") {
   ${LibreBaskervilleRegular}
   ${MontserratBold}
   ${MontserratBoldItalic}
-  ${MontserratLight}
-  ${MontserratLightItalic}
+  ${Montserrat}
+  ${MontserratItalic}
   ${NunitoSansBold}
   ${NunitoSansBoldItalic}
   ${NunitoSansRegular}
@@ -403,8 +403,8 @@ if (Platform.OS === "web") {
     fontStyles.appendChild(document.createTextNode(LibreBaskervilleRegular));
     fontStyles.appendChild(document.createTextNode(MontserratBold));
     fontStyles.appendChild(document.createTextNode(MontserratBoldItalic));
-    fontStyles.appendChild(document.createTextNode(MontserratLight));
-    fontStyles.appendChild(document.createTextNode(MontserratLightItalic));
+    fontStyles.appendChild(document.createTextNode(Montserrat));
+    fontStyles.appendChild(document.createTextNode(MontserratItalic));
     fontStyles.appendChild(document.createTextNode(NunitoSansBold));
     fontStyles.appendChild(document.createTextNode(NunitoSansBoldItalic));
     fontStyles.appendChild(document.createTextNode(NunitoSansRegular));
