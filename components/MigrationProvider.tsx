@@ -5,7 +5,6 @@ import { RootState } from '../store/reducers'
 import { SET_MIGRATION_VERSION } from '../store/config/types'
 import { store } from '../store'
 import { addFeed } from '../backends/reams'
-import { useSession } from './AuthProvider'
 import { hslString } from '../utils/colors'
 import { Image } from 'react-native'
 import { Text } from 'react-native'
@@ -15,7 +14,7 @@ import { fontSizeMultiplier } from '../utils/dimensions'
 const CURRENT_VERSION = 2
 
 const migrations = [
-  (store: RootState) => {
+  async (store: RootState) => {
     console.log('migration 1')
   },
   async (store: RootState) => {
@@ -74,7 +73,7 @@ const MigrationProvider = ({ children }: { children: ReactNode }): JSX.Element =
     }}
   >
     <Image
-      source={require('../assets/images/already.png')}
+      source={require('../assets/images/ream.png')}
       style={{
         // flex: 1,
         height: 256,
