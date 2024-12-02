@@ -155,7 +155,7 @@ class AppStateListener extends React.Component {
     if (Platform.OS === 'web') return
     try {
       const value = await SharedGroupPreferences.getItem('feed', this.group)
-      if (value !== null) {
+      if (value !== null && value !== 'null') { // idk either
         const url = value
         const that = this
         await SharedGroupPreferences.setItem('feed', null, this.group)
