@@ -30,7 +30,7 @@ const hostColorsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(UNSET_BACKEND, (state, action) => {
-      state.hostColors = []
+      state.hostColors = state.hostColors.filter(hc => false)
     })
 
   }

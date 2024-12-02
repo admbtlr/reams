@@ -22,7 +22,8 @@ export function useColor(url: string | undefined) {
       }
 
       // resolve any redirects
-      const response = await fetch(`${CORS_PROXY}?url=${encodeURIComponent(url)}`)
+      const json = await fetch(`${CORS_PROXY}?url=${encodeURIComponent(url)}`)
+      const response = await json.json()
       if (response.url !== url) {
         url = response.url
       }
