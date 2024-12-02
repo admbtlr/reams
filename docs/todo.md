@@ -1,6 +1,8 @@
 - icon
 - splash
 
+- add button to email contents of store to support 
+- add an about page that includes this button ^
 - save item / unsave item / save item doesn't work
 - remove category doesn't work
 - stop TopBar from rerendering so often
