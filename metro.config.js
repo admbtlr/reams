@@ -21,14 +21,12 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
       }
     }
     if (moduleName === 'react-native-config') {
-      console.log(path.join(__dirname, 'node_modules/react-web-config/lib/index.js'))
       return {
         filePath: path.join(__dirname, 'node_modules/react-web-config/lib/index.js'),
         type: 'sourceFile'
       }
     }
     if (moduleName == 'react-native-webview') {
-      console.log(path.join(__dirname, 'node_modules/react-native-web-webview/dist/index.js'))
       return {
         filePath: path.join(__dirname, 'node_modules/react-native-web-webview/dist/index.js'),
         type: 'sourceFile'

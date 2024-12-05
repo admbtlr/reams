@@ -84,3 +84,6 @@ ios/Already.app.dSYM.zip
 /coverage
 
 dist
+
+# Local Netlify folder
+.netlify

@@ -412,7 +412,7 @@ body {
     border-bottom: 1px solid hsl(0, 0%, 93%);
   }
 
-  img:not(.img-portrait):not(.img-small) {
+  img:not(.img-portrait):not(.img-small):not(.img-tiny) {
     width: 100vw !important;
   }
 
@@ -1497,7 +1497,7 @@ h1, h2, h3, h4, h5, b, strong {
   }
 }
 
-.headerFontSerif1 {
+.headerFontSerif1, .headerFontSerif3 {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Bold";
 
@@ -1546,7 +1546,7 @@ h1, h2, h3, h4, h5, b, strong {
   }
 }
 
-.headerFontSerif4 {
+.headerFontSerif2, .headerFontSerif4 {
   h1, h3, h5 {
     font-family: "Reforma1969-Negra";
 
@@ -2167,7 +2167,6 @@ html.onboarding.onboarding-2:not(.dark-background) body {
     }
   }
   
-  
   .hasCoverImage .coverImage {
     position: fixed;
     top: 0;
@@ -2199,15 +2198,29 @@ html.onboarding.onboarding-2:not(.dark-background) body {
 
   .itemArticle {
     max-width: 28rem;
+    
     figure, img, video, iframe, pre {
-      &:not(.specificity-breaker) {
+      &:not(.specificity-breaker):not(.img-small):not(.img-tiny) {
         width: 100% !important;
         left: 0 !important;
       }
     }
+    
     figcaption {
       padding: 0;
       margin: 0;
+    }
+    
+    blockquote:not(.pullquote) {
+      margin-bottom: 1rem;
+      left: calc(50% - 50vw);
+      margin: 0 -4vw 1rem;
+      padding: 1rem calc(50vw - 50% + 4vw);
+      width: 100vw;
+    }
+
+    table, th, td {
+      max-width: 28rem !important;
     }
   }
 }

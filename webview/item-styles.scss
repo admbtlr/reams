@@ -223,7 +223,7 @@ body {
     border-bottom: 1px solid hsl(0, 0%, 93%);
   }
 
-  img:not(.img-portrait):not(.img-small) {
+  img:not(.img-portrait):not(.img-small):not(.img-tiny) {
     width: 100vw !important;
   }
 
@@ -1308,7 +1308,7 @@ h1, h2, h3, h4, h5, b, strong {
   }
 }
 
-.headerFontSerif1 {
+.headerFontSerif1, .headerFontSerif3 {
   h1, h3, h5 {
     font-family: "PlayfairDisplay-Bold";
 
@@ -1357,7 +1357,7 @@ h1, h2, h3, h4, h5, b, strong {
   }
 }
 
-.headerFontSerif4 {
+.headerFontSerif2, .headerFontSerif4 {
   h1, h3, h5 {
     font-family: "Reforma1969-Negra";
 

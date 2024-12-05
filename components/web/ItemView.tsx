@@ -9,7 +9,6 @@ import WebView from "react-native-webview"
 import ButtonSet from "../ButtonSet"
 import FeedIcon from "../FeedIcon"
 import { HIDE_ALL_BUTTONS, SHOW_ITEM_BUTTONS } from "../../store/ui/types"
-import { fontStyles } from "../../index.web"
 import { useColor } from "../../hooks/useColor"
 
 const TOP_BAR_HEIGHT = 60
@@ -86,6 +85,9 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   const body = item?.showMercuryContent ? item?.content_mercury : item?.content_html
   const coverImageUrl = item?.coverImageUrl?.replace('(', '%28').replace(')', '%29')
     
+  const fontStyles = document.getElementById('expo-generated-fonts')
+  console.log(fontStyles)
+
   const html = item && `<html class="font-size-${fontSize} web ${isDarkMode ? 'dark-background' : ''}">
   <head>
     <style>
@@ -97,7 +99,6 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   html, body {
     background-color: ${bodyColor};
   }
-    ${fontStyles.innerHTML}
     </style>
     <link rel="stylesheet" type="text/css" href="/css/output.css">
     <link rel="stylesheet" type="text/css" href="/css/fonts.css">
@@ -105,6 +106,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <style>${fontStyles?.innerText}</style>
   </head>
   <body class="${displayMode} ${coverImageHeight > 0 ? 'hasCoverImage' : ''} web" style="background-color: ${bodyColor}" data-cover="${data}">
     <div class="coverHolder" style="${coverImageHeight > 0 ? `height: ${coverImageHeight}px;` : ''}  max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;">

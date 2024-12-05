@@ -96,7 +96,6 @@
     }
   }
   
-  
   .hasCoverImage .coverImage {
     position: fixed;
     top: 0;
@@ -128,15 +127,29 @@
 
   .itemArticle {
     max-width: 28rem;
+    
     figure, img, video, iframe, pre {
-      &:not(.specificity-breaker) {
+      &:not(.specificity-breaker):not(.img-small):not(.img-tiny) {
         width: 100% !important;
         left: 0 !important;
       }
     }
+    
     figcaption {
       padding: 0;
       margin: 0;
+    }
+    
+    blockquote:not(.pullquote) {
+      margin-bottom: 1rem;
+      left: calc(50% - 50vw);
+      margin: 0 -4vw 1rem;
+      padding: 1rem calc(50vw - 50% + 4vw);
+      width: 100vw;
+    }
+
+    table, th, td {
+      max-width: 28rem !important;
     }
   }
 }
