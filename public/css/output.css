@@ -178,7 +178,7 @@ body, body a, body a:active, body a:visited {
   background-color: white;
   border-bottom: 1px solid hsl(0, 0%, 93%);
 }
-.itemArticle img:not(.img-portrait):not(.img-small) {
+.itemArticle img:not(.img-portrait):not(.img-small):not(.img-tiny) {
   width: 100vw !important;
 }
 .itemArticle img.img-portrait, .itemArticle img.img-small {
@@ -1144,80 +1144,80 @@ h1, h2, h3, h4, h5, b, strong {
   font-family: "Reforma2018-NegraItalica";
 }
 
-.headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5 {
+.headerFontSerif1 h1, .headerFontSerif1 h3, .headerFontSerif1 h5, .headerFontSerif3 h1, .headerFontSerif3 h3, .headerFontSerif3 h5 {
   font-family: "PlayfairDisplay-Bold";
 }
-.headerFontSerif1 h1 b, .headerFontSerif1 h1 strong, .headerFontSerif1 h3 b, .headerFontSerif1 h3 strong, .headerFontSerif1 h5 b, .headerFontSerif1 h5 strong {
+.headerFontSerif1 h1 b, .headerFontSerif1 h1 strong, .headerFontSerif1 h3 b, .headerFontSerif1 h3 strong, .headerFontSerif1 h5 b, .headerFontSerif1 h5 strong, .headerFontSerif3 h1 b, .headerFontSerif3 h1 strong, .headerFontSerif3 h3 b, .headerFontSerif3 h3 strong, .headerFontSerif3 h5 b, .headerFontSerif3 h5 strong {
   font-family: "PlayfairDisplay-BoldItalic";
 }
-.web .headerFontSerif1.isItalic h1 {
+.web .headerFontSerif1.isItalic h1, .web .headerFontSerif3.isItalic h1 {
   font-family: "IBMPlexSerif-BoldItalic";
 }
-.headerFontSerif1 h2, .headerFontSerif1 h4 {
+.headerFontSerif1 h2, .headerFontSerif1 h4, .headerFontSerif3 h2, .headerFontSerif3 h4 {
   font-family: "PlayfairDisplay-Regular";
 }
-.headerFontSerif1 h2 b, .headerFontSerif1 h2 strong, .headerFontSerif1 h4 b, .headerFontSerif1 h4 strong {
+.headerFontSerif1 h2 b, .headerFontSerif1 h2 strong, .headerFontSerif1 h4 b, .headerFontSerif1 h4 strong, .headerFontSerif3 h2 b, .headerFontSerif3 h2 strong, .headerFontSerif3 h4 b, .headerFontSerif3 h4 strong {
   font-family: "PlayfairDisplay-RegularItalic";
 }
-.headerFontSerif1 figcaption, .headerFontSerif1 img + small, .headerFontSerif1 .caption, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) {
+.headerFontSerif1 figcaption, .headerFontSerif1 img + small, .headerFontSerif1 .caption, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote), .headerFontSerif3 figcaption, .headerFontSerif3 img + small, .headerFontSerif3 .caption, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "IBMPlexSerif-Italic";
 }
-.headerFontSerif1 figcaption em, .headerFontSerif1 figcaption i, .headerFontSerif1 img + small em, .headerFontSerif1 img + small i, .headerFontSerif1 .caption em, .headerFontSerif1 .caption i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i {
+.headerFontSerif1 figcaption em, .headerFontSerif1 figcaption i, .headerFontSerif1 img + small em, .headerFontSerif1 img + small i, .headerFontSerif1 .caption em, .headerFontSerif1 .caption i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i, .headerFontSerif3 figcaption em, .headerFontSerif3 figcaption i, .headerFontSerif3 img + small em, .headerFontSerif3 img + small i, .headerFontSerif3 .caption em, .headerFontSerif3 .caption i, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) i {
   font-family: "IBMPlexSerif";
 }
-.headerFontSerif1 figcaption strong, .headerFontSerif1 figcaption b, .headerFontSerif1 img + small strong, .headerFontSerif1 img + small b, .headerFontSerif1 .caption strong, .headerFontSerif1 .caption b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b {
+.headerFontSerif1 figcaption strong, .headerFontSerif1 figcaption b, .headerFontSerif1 img + small strong, .headerFontSerif1 img + small b, .headerFontSerif1 .caption strong, .headerFontSerif1 .caption b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b, .headerFontSerif3 figcaption strong, .headerFontSerif3 figcaption b, .headerFontSerif3 img + small strong, .headerFontSerif3 img + small b, .headerFontSerif3 .caption strong, .headerFontSerif3 .caption b, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) b {
   font-family: "IBMPlexSerif-BoldItalic";
 }
-.headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 figcaption i b, .headerFontSerif1 figcaption b i, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 img + small i b, .headerFontSerif1 img + small b i, .headerFontSerif1 .caption em strong, .headerFontSerif1 .caption strong em, .headerFontSerif1 .caption i b, .headerFontSerif1 .caption b i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b i {
+.headerFontSerif1 figcaption em strong, .headerFontSerif1 figcaption strong em, .headerFontSerif1 figcaption i b, .headerFontSerif1 figcaption b i, .headerFontSerif1 img + small em strong, .headerFontSerif1 img + small strong em, .headerFontSerif1 img + small i b, .headerFontSerif1 img + small b i, .headerFontSerif1 .caption em strong, .headerFontSerif1 .caption strong em, .headerFontSerif1 .caption i b, .headerFontSerif1 .caption b i, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) i b, .headerFontSerif1 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSerif3 figcaption em strong, .headerFontSerif3 figcaption strong em, .headerFontSerif3 figcaption i b, .headerFontSerif3 figcaption b i, .headerFontSerif3 img + small em strong, .headerFontSerif3 img + small strong em, .headerFontSerif3 img + small i b, .headerFontSerif3 img + small b i, .headerFontSerif3 .caption em strong, .headerFontSerif3 .caption strong em, .headerFontSerif3 .caption i b, .headerFontSerif3 .caption b i, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) i b, .headerFontSerif3 blockquote:not(.short-blockquote):not(.pullquote) b i {
   font-family: "PlayfairDisplay-Bold";
 }
-.headerFontSerif1.itemTitle p {
+.headerFontSerif1.itemTitle p, .headerFontSerif3.itemTitle p {
   font-family: "IBMPlexSerif";
 }
-.headerFontSerif1.itemTitle p em, .headerFontSerif1.itemTitle p i {
+.headerFontSerif1.itemTitle p em, .headerFontSerif1.itemTitle p i, .headerFontSerif3.itemTitle p em, .headerFontSerif3.itemTitle p i {
   font-family: "IBMPlexSerif-Italic";
 }
-.headerFontSerif1.itemTitle p strong, .headerFontSerif1.itemTitle p b {
+.headerFontSerif1.itemTitle p strong, .headerFontSerif1.itemTitle p b, .headerFontSerif3.itemTitle p strong, .headerFontSerif3.itemTitle p b {
   font-family: "IBMPlexSerif-Bold";
 }
-.headerFontSerif1.itemTitle p em strong, .headerFontSerif1.itemTitle p strong em, .headerFontSerif1.itemTitle p i b, .headerFontSerif1.itemTitle p b i {
+.headerFontSerif1.itemTitle p em strong, .headerFontSerif1.itemTitle p strong em, .headerFontSerif1.itemTitle p i b, .headerFontSerif1.itemTitle p b i, .headerFontSerif3.itemTitle p em strong, .headerFontSerif3.itemTitle p strong em, .headerFontSerif3.itemTitle p i b, .headerFontSerif3.itemTitle p b i {
   font-family: "IBMPlexSerif-BoldItalic";
 }
 
-.headerFontSerif4 h1, .headerFontSerif4 h3, .headerFontSerif4 h5 {
+.headerFontSerif2 h1, .headerFontSerif2 h3, .headerFontSerif2 h5, .headerFontSerif4 h1, .headerFontSerif4 h3, .headerFontSerif4 h5 {
   font-family: "Reforma1969-Negra";
 }
-.headerFontSerif4 h1 b, .headerFontSerif4 h1 strong, .headerFontSerif4 h3 b, .headerFontSerif4 h3 strong, .headerFontSerif4 h5 b, .headerFontSerif4 h5 strong {
+.headerFontSerif2 h1 b, .headerFontSerif2 h1 strong, .headerFontSerif2 h3 b, .headerFontSerif2 h3 strong, .headerFontSerif2 h5 b, .headerFontSerif2 h5 strong, .headerFontSerif4 h1 b, .headerFontSerif4 h1 strong, .headerFontSerif4 h3 b, .headerFontSerif4 h3 strong, .headerFontSerif4 h5 b, .headerFontSerif4 h5 strong {
   font-family: "Reforma1969-NegraItalica";
 }
-.web .headerFontSerif4.isItalic h1 {
+.web .headerFontSerif2.isItalic h1, .web .headerFontSerif4.isItalic h1 {
   font-family: "Reforma1969-NegraItalica";
 }
-.headerFontSerif4 h2, .headerFontSerif4 h4 {
+.headerFontSerif2 h2, .headerFontSerif2 h4, .headerFontSerif4 h2, .headerFontSerif4 h4 {
   font-family: "Reforma1969-Blanca";
 }
-.headerFontSerif4 h2 b, .headerFontSerif4 h2 strong, .headerFontSerif4 h4 b, .headerFontSerif4 h4 strong {
+.headerFontSerif2 h2 b, .headerFontSerif2 h2 strong, .headerFontSerif2 h4 b, .headerFontSerif2 h4 strong, .headerFontSerif4 h2 b, .headerFontSerif4 h2 strong, .headerFontSerif4 h4 b, .headerFontSerif4 h4 strong {
   font-family: "Reforma1969-BlancaItalica";
 }
-.headerFontSerif4 figcaption, .headerFontSerif4 img + small, .headerFontSerif4 .caption, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) {
+.headerFontSerif2 figcaption, .headerFontSerif2 img + small, .headerFontSerif2 .caption, .headerFontSerif2 blockquote:not(.short-blockquote):not(.pullquote), .headerFontSerif4 figcaption, .headerFontSerif4 img + small, .headerFontSerif4 .caption, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "Reforma1969-BlancaItalica";
 }
-.headerFontSerif4 figcaption em, .headerFontSerif4 figcaption i, .headerFontSerif4 img + small em, .headerFontSerif4 img + small i, .headerFontSerif4 .caption em, .headerFontSerif4 .caption i, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) i {
+.headerFontSerif2 figcaption em, .headerFontSerif2 figcaption i, .headerFontSerif2 img + small em, .headerFontSerif2 img + small i, .headerFontSerif2 .caption em, .headerFontSerif2 .caption i, .headerFontSerif2 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif2 blockquote:not(.short-blockquote):not(.pullquote) i, .headerFontSerif4 figcaption em, .headerFontSerif4 figcaption i, .headerFontSerif4 img + small em, .headerFontSerif4 img + small i, .headerFontSerif4 .caption em, .headerFontSerif4 .caption i, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) i {
   font-family: "Reforma1969-Blanca";
 }
-.headerFontSerif4 figcaption strong, .headerFontSerif4 figcaption b, .headerFontSerif4 img + small strong, .headerFontSerif4 img + small b, .headerFontSerif4 .caption strong, .headerFontSerif4 .caption b, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) b {
+.headerFontSerif2 figcaption strong, .headerFontSerif2 figcaption b, .headerFontSerif2 img + small strong, .headerFontSerif2 img + small b, .headerFontSerif2 .caption strong, .headerFontSerif2 .caption b, .headerFontSerif2 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif2 blockquote:not(.short-blockquote):not(.pullquote) b, .headerFontSerif4 figcaption strong, .headerFontSerif4 figcaption b, .headerFontSerif4 img + small strong, .headerFontSerif4 img + small b, .headerFontSerif4 .caption strong, .headerFontSerif4 .caption b, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSerif4 blockquote:not(.short-blockquote):not(.pullquote) b {
   font-family: "Reforma1969-NegraItalica";
 }
-.headerFontSerif4.itemTitle p {
+.headerFontSerif2.itemTitle p, .headerFontSerif4.itemTitle p {
   font-family: "Reforma1969-Blanca";
 }
-.headerFontSerif4.itemTitle p em, .headerFontSerif4.itemTitle p i {
+.headerFontSerif2.itemTitle p em, .headerFontSerif2.itemTitle p i, .headerFontSerif4.itemTitle p em, .headerFontSerif4.itemTitle p i {
   font-family: "Reforma1969-BlancaItalica";
 }
-.headerFontSerif4.itemTitle p strong, .headerFontSerif4.itemTitle p b {
+.headerFontSerif2.itemTitle p strong, .headerFontSerif2.itemTitle p b, .headerFontSerif4.itemTitle p strong, .headerFontSerif4.itemTitle p b {
   font-family: "Reforma1969-Negra";
 }
-.headerFontSerif4.itemTitle p em strong, .headerFontSerif4.itemTitle p strong em, .headerFontSerif4.itemTitle p i b, .headerFontSerif4.itemTitle p b i {
+.headerFontSerif2.itemTitle p em strong, .headerFontSerif2.itemTitle p strong em, .headerFontSerif2.itemTitle p i b, .headerFontSerif2.itemTitle p b i, .headerFontSerif4.itemTitle p em strong, .headerFontSerif4.itemTitle p strong em, .headerFontSerif4.itemTitle p i b, .headerFontSerif4.itemTitle p b i {
   font-family: "Reforma1969-NegraItalica";
 }
 
@@ -1617,11 +1617,21 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
 .web .itemArticle {
   max-width: 28rem;
 }
-.web .itemArticle figure:not(.specificity-breaker), .web .itemArticle img:not(.specificity-breaker), .web .itemArticle video:not(.specificity-breaker), .web .itemArticle iframe:not(.specificity-breaker), .web .itemArticle pre:not(.specificity-breaker) {
+.web .itemArticle figure:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle img:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle video:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle iframe:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle pre:not(.specificity-breaker):not(.img-small):not(.img-tiny) {
   width: 100% !important;
   left: 0 !important;
 }
 .web .itemArticle figcaption {
   padding: 0;
   margin: 0;
+}
+.web .itemArticle blockquote:not(.pullquote) {
+  margin-bottom: 1rem;
+  left: calc(50% - 50vw);
+  margin: 0 -4vw 1rem;
+  padding: 1rem calc(50vw - 50% + 4vw);
+  width: 100vw;
+}
+.web .itemArticle table, .web .itemArticle th, .web .itemArticle td {
+  max-width: 28rem !important;
 }

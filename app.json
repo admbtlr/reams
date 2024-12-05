@@ -1,6 +1,4 @@
 {
-  "name": "Reams",
-  "displayName": "Reams",
   "expo": {
     "name": "Reams",
     "slug": "reams",
@@ -15,6 +13,65 @@
           "project": "reams",
           "organization": "adam-butler"
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/IBMPlexMono-Bold.ttf",
+            "./assets/fonts/IBMPlexMono-BoldItalic.ttf",
+            "./assets/fonts/IBMPlexMono-Italic.ttf",
+            "./assets/fonts/IBMPlexMono-Light.ttf",
+            "./assets/fonts/IBMPlexMono-LightItalic.ttf",
+            "./assets/fonts/IBMPlexMono.ttf",
+            "./assets/fonts/IBMPlexSans-Bold.ttf",
+            "./assets/fonts/IBMPlexSans-BoldItalic.ttf",
+            "./assets/fonts/IBMPlexSans-Italic.ttf",
+            "./assets/fonts/IBMPlexSans-Light.ttf",
+            "./assets/fonts/IBMPlexSans-LightItalic.ttf",
+            "./assets/fonts/IBMPlexSans.ttf",
+            "./assets/fonts/IBMPlexSansCond-Bold.ttf",
+            "./assets/fonts/IBMPlexSansCond-BoldItalic.ttf",
+            "./assets/fonts/IBMPlexSansCond-ExtraLight.ttf",
+            "./assets/fonts/IBMPlexSansCond-ExtraLightItalic.ttf",
+            "./assets/fonts/IBMPlexSansCond.ttf",
+            "./assets/fonts/IBMPlexSerif-Bold.ttf",
+            "./assets/fonts/IBMPlexSerif-BoldItalic.ttf",
+            "./assets/fonts/IBMPlexSerif-Italic.ttf",
+            "./assets/fonts/IBMPlexSerif-Light.ttf",
+            "./assets/fonts/IBMPlexSerif-LightItalic.ttf",
+            "./assets/fonts/IBMPlexSerif-Thin.ttf",
+            "./assets/fonts/IBMPlexSerif-ThinItalic.ttf",
+            "./assets/fonts/IBMPlexSerif.ttf",
+            "./assets/fonts/LibreBaskerville-Bold.ttf",
+            "./assets/fonts/LibreBaskerville-Italic.ttf",
+            "./assets/fonts/LibreBaskerville-Regular.ttf",
+            "./assets/fonts/Montserrat-Bold.ttf",
+            "./assets/fonts/Montserrat-BoldItalic.ttf",
+            "./assets/fonts/Montserrat-Regular.ttf",
+            "./assets/fonts/Montserrat-Italic.ttf",
+            "./assets/fonts/NunitoSans-Bold.ttf",
+            "./assets/fonts/NunitoSans-BoldItalic.ttf",
+            "./assets/fonts/NunitoSans-Regular.ttf",
+            "./assets/fonts/NunitoSans-Italic.ttf",
+            "./assets/fonts/PTSerif-Bold.ttf",
+            "./assets/fonts/PTSerif-BoldItalic.ttf",
+            "./assets/fonts/PTSerif-Italic.ttf",
+            "./assets/fonts/PTSerif-Regular.ttf",
+            "./assets/fonts/PlayfairDisplay-Black.ttf",
+            "./assets/fonts/PlayfairDisplay-BlackItalic.ttf",
+            "./assets/fonts/PlayfairDisplay-Bold.ttf",
+            "./assets/fonts/PlayfairDisplay-BoldItalic.ttf",
+            "./assets/fonts/PlayfairDisplay-Italic.ttf",
+            "./assets/fonts/PlayfairDisplay-Regular.ttf",
+            "./assets/fonts/PlayfairDisplaySC-Bold.ttf",
+            "./assets/fonts/PlayfairDisplaySC-BoldItalic.ttf",
+            "./assets/fonts/Poppins-ExtraBold.ttf",
+            "./assets/fonts/Poppins-ExtraBoldItalic.ttf",
+            "./assets/fonts/Poppins-Italic.ttf",
+            "./assets/fonts/Poppins-Regular.ttf"
+          ]
+        }
       ]
     ],
     "jsEngine": "hermes",
@@ -23,10 +80,10 @@
     },
     "ios": {
       "bundleIdentifier": "app.reams"
-    }
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro"
+    }  
   },
-  "web": {
-    "output": "single",
-    "bundler": "metro"
-  }
 }

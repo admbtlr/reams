@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import { RootState } from '../reducers'
 import {
   Item,
@@ -120,7 +121,9 @@ export function itemDecorationSuccess (
         ...i,
         coverImageFile: action.imageStuff?.coverImageFile,
         coverImageUrl: action.mercuryStuff?.lead_image_url,
-        hasCoverImage: !!action.imageStuff?.coverImageFile,
+        hasCoverImage: Platform.OS === 'web' ?
+          !!action.mercuryStuff?.lead_image_url :
+          !!action.imageStuff?.coverImageFile,
         imageDimensions: action.imageStuff?.imageDimensions,
         isDecorated: true
       }

@@ -20,6 +20,7 @@ import { CLEAR_MESSAGES } from '../store/ui/types'
 import SettingsScreen from './SettingsScreen'
 import {default as MainWeb} from './web/Main'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import { WebFontsLoader } from './WebFontsLoader'
 
 const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
@@ -243,7 +244,11 @@ const App = (): JSX.Element => {
   }, [])
 
   if (Platform.OS === 'web') {
-    return <MainWeb />
+    return (
+      <WebFontsLoader fallback={<View />}>
+        <MainWeb />
+      </WebFontsLoader>
+    )
   }
   
   return (

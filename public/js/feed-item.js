@@ -152,7 +152,10 @@ function removeEmptyDivs () {
   const divs = document.querySelectorAll('div')
   let toRemove = []
   Array.prototype.forEach.call(divs, function (el, i) {
-    if (el.innerText.trim().length === 0 &&
+    if (el.innerText
+      // substack loves to add these
+      .replace(/[\u00ad\u034f\s]/g, '')
+      .trim().length === 0 &&
       el.childElementCount === 0) {
       toRemove.push(el)
     }
@@ -205,9 +208,9 @@ function markImages () {
     if (el.naturalHeight >= el.naturalWidth) {
       el.classList.add('img-portrait')
 
-      // added 20240213 because only portrait images should be small
-      // this might be a mistake
-      if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
+      if (el.naturalHeight < 10 || el.naturalWidth < document.body.clientWidth * 0.2) {
+        el.classList.add('img-tiny')
+      } else if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
         el.classList.add('img-small')
       }
     }

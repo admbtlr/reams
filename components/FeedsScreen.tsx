@@ -14,6 +14,7 @@ import {
   Dimensions,
   Image,
   LayoutAnimation,
+  Platform,
   ScrollView,
   SectionList,
   StatusBar,
@@ -233,14 +234,14 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     const margin = getMargin()
     return (
       <View style={{ 
-        maxWidth: 1000,
+        maxWidth: Platform.OS === 'web' ? 10000 : 1000,
         width: '100%'
       }}>
         <View style={{
           borderTopColor: hslString('rizzleText', '', 0.2),
           borderTopWidth: 1,
           marginTop: margin,
-          marginHorizontal: margin,
+          marginHorizontal: Platform.OS === 'web' ? margin * 2 : margin,
           paddingTop: margin / 2,
           flex: 1,
           flexDirection: 'row',
@@ -287,8 +288,8 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     return item && <View 
       key={item._id}
       style={{ 
-        marginLeft: index === 0 ? margin : 0,
-        marginRight: margin
+        marginLeft: Platform.OS !== 'web' && index === 0 ? margin : 0,
+        marginRight: Platform.OS === 'web' ? margin * 2 : margin
       }}>
       <FeedContracted
         _id={item._id}
@@ -309,21 +310,25 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
       <View style={{
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
+        justifyContent: Platform.OS === 'web' ? 'flex-begin' : 'space-between',
+        marginHorizontal: Platform.OS === 'web' ? margin * 2 : 0,        
         marginTop: margin
         // width: '100%',
         // maxWidth: 1000,
         // paddingHorizontal: getMargin(),
       }}>
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          style={{
-            width: '100%',
-            maxWidth: 1000,
-          }}>
-            { section.data.map((item, index) => renderFeed({ item, index, count })) }
-          </ScrollView>
+        { Platform.OS === 'web' ?
+          section.data.map((item, index) => renderFeed({ item, index, count })) :
+          (<ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            style={{
+              width: '100%',
+              maxWidth: 1000,
+            }}>
+              { section.data.map((item, index) => renderFeed({ item, index, count })) }
+          </ScrollView>)
+        }
       </View>
     )
   }

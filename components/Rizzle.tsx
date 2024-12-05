@@ -109,7 +109,9 @@ const Rizzle = () => {
           <AuthProvider>
             <View style={{
               flex: 1,
-              backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
+              backgroundColor: 'black',
+              overflow: 'hidden'
+            }}>
               <StatusBar
                 barStyle='light-content'
                 hidden={false} />
