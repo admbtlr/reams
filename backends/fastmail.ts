@@ -189,10 +189,11 @@ export const downloadContent = async (item: ItemInflated) => {
   const endpoint = `${CORS_PROXY}?url=${contentUrl}`
   const response = await fetch(endpoint)
   const { body, url } = await response.json()
+
   return {
     ...item,
     content_html: body,
-    url
+    url: transformSubstackUrl(url)
   }
 
   // const settings = {
@@ -252,7 +253,18 @@ const mapFastmailItemToRizzleItem = (item) => {
     isNewsletter: true,
     url: item.url
   }
+  // mappedItem.feed_url = transformSubstackUrl(mappedItem.feed_url)
   return mappedItem
+}
+
+const transformSubstackUrl = (url: String) => {
+  if (url.indexOf('open.substack.com') !== -1) {
+    const pieces = url.match(/.*?\/pub\/(.*?)(\/.*)/)
+    if (pieces?.length === 3) {
+      url = `https://${pieces[1]}.substack.com${pieces[2]}`
+    }
+  }
+  return url
 }
 
 // main()
