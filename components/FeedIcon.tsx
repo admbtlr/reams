@@ -57,7 +57,7 @@ function FeedIcon ({
     }
   }, [ isCached ])
 
-  if (isCached === undefined) {
+  if (Platform.OS !== 'web' && isCached === undefined) {
     return null
   }
 

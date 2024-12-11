@@ -8,14 +8,14 @@ import { DECREMENT_INDEX, INCREMENT_INDEX, Item, ItemInflated, ItemType, MARK_IT
 import { getItems as getItemsSQLite } from "../../storage/sqlite"
 import { getItems as getItemsIDB } from "../../storage/idb-storage"
 import log from '../../utils/log'
+import { getItems } from '../../utils/get-item'
 
 let previousItem: Item
 
 export default function ItemsScreen ({}) {
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const itemsStateKey = displayMode === ItemType.unread ? 'itemsUnread' : 'itemsSaved'
-  const items = useSelector((state: RootState) => state[itemsStateKey].items)
-  const filteredItems = items
+  const items = useSelector((state: RootState) => getItems(state))
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
   const index = useSelector((state: RootState) => state[itemsStateKey].index)
   const dispatch = useDispatch()
@@ -79,7 +79,7 @@ export default function ItemsScreen ({}) {
       }}
     >
       <ItemsList 
-        items={filteredItems}
+        items={items}
         feeds={feeds}
         index={index}
       />

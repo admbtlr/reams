@@ -8,7 +8,7 @@
     "clear": "npx concurrently --kill-others 'node_modules/expo/bin/cli start --clear --dev-client' 'gulp'",
     "test": "jest",
     "postinstall": "patch-package",
-    "deploy:web": "expo export:web; vercel build; vercel deploy --prebuilt",
+    "deploy:web": "vercel build; vercel deploy --prebuilt",
     "android": "expo run:android",
     "ios": "expo run:ios"
   },
@@ -69,7 +69,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
     "react-native-animated-ellipsis": "git+ssh://git@github.com/admbtlr/react-native-animated-ellipsis",
-    "react-native-blob-util": "^0.16.0",
+    "react-native-blob-util": "^0.19.11",
     "react-native-config": "^1.4.3",
     "react-native-deep-linking": "^2.2.0",
     "react-native-device-info": "^10.9.0",

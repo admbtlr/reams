@@ -10,6 +10,7 @@ import ButtonSet from "../ButtonSet"
 import FeedIcon from "../FeedIcon"
 import { HIDE_ALL_BUTTONS, SHOW_ITEM_BUTTONS } from "../../store/ui/types"
 import { useColor } from "../../hooks/useColor"
+import { decode } from "entities"
 
 const TOP_BAR_HEIGHT = 60
 
@@ -19,7 +20,9 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   let dimensions: ScaledSize = useWindowDimensions()
   const [coverImageSize, setCoverImageSize] = useState({width: 0, height: 0})
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
-  const feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item?.feed_id))
+  const feed = item?.isNewsletter ?
+    useSelector((state: RootState) => state.newsletters.newsletters.find(f => f._id === item?.feed_id)) :
+    useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item?.feed_id))    
   const bodyColor = isDarkMode ? 'black' : hslString('rizzleBg')
   if (item?.coverImageUrl) {
     Image.getSize(item.coverImageUrl, (width, height) => {
@@ -46,7 +49,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   //     }} /> :
   //   null
 
-  const feedColor = useColor(feed?.rootUrl)
+  const feedColor = useColor(feed?.url)
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
 
@@ -86,7 +89,11 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   const coverImageUrl = item?.coverImageUrl?.replace('(', '%28').replace(')', '%29')
     
   const fontStyles = document.getElementById('expo-generated-fonts')
-  console.log(fontStyles)
+
+  const matches = item.url.match(/:\/\/(.*?)\//)
+  const host = matches && matches.length > 1 ? matches[1] : null
+
+  console.log('Rendering ItemView, item: ' + item?.title + ', feed: ' + feed?.title)
 
   const html = item && `<html class="font-size-${fontSize} web ${isDarkMode ? 'dark-background' : ''}">
   <head>
@@ -147,14 +154,14 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          <FeedIcon
-            feedId={feed?._id}
-          />
+          { host && 
+              <img height="32" width="auto" src={`https://icons.duckduckgo.com/ip3/${host}.ico`} />
+          }
           <Text style={{ 
             ...textInfoStyle(),
             marginLeft: 10,
             color: 'white',
-          }}>{ feed?.title }</Text>
+          }}>{ decode(feed?.title) }</Text>
         </View>
         <WebView 
           onMessage={(event) => {

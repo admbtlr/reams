@@ -1245,7 +1245,7 @@ PODS:
   - React-Mapbuffer (0.74.5):
     - glog
     - React-debug
-  - react-native-blob-util (0.16.4):
+  - react-native-blob-util (0.19.11):
     - React-Core
   - react-native-config (1.5.3):
     - react-native-config/App (= 1.5.3)
@@ -2065,7 +2065,7 @@ SPEC CHECKSUMS:
   React-jsitracing: 3b6060bbf5317663667e1dd93560c7943ab86ccc
   React-logger: 257858bd55f3a4e1bc0cf07ddc8fb9faba6f8c7c
   React-Mapbuffer: 6c1cacdbf40b531f549eba249e531a7d0bfd8e7f
-  react-native-blob-util: 60453b777610c87a22b3524032c0214e8db555db
+  react-native-blob-util: 39a20f2ef11556d958dc4beb0aa07d1ef2690745
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-document-picker: 4921045c5c6c78243010f784eae0a3f4b2af7799
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7

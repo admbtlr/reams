@@ -58,13 +58,14 @@
     position: absolute;
     bottom: 0;
     top: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 
-    &.center {
+    &.center h1 {
       text-align: center;
-      left: 50%;
-      transform: translateX(-50%);
       width: 80%;
-      max-width: 1000px;
+      max-width: 900px;
     }
 
     &.top {
@@ -83,8 +84,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    margin: 0 -4vw 2rem;
-    width: calc(100vw + 4vw);
+    margin-bottom: 2rem;
+    // not sure why that 4vw was there?
+    width: calc(100vw/* + 4vw*/);
     height: calc(100% + 2rem);
     z-index: -1;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
@@ -92,7 +94,8 @@
 
   @media screen and (min-width: 32rem) {
     .itemTitle {
-      margin: 1rem;
+      padding: 1rem;
+      margin: 0;
     }
   }
   
@@ -140,17 +143,19 @@
       margin: 0;
     }
     
-    blockquote:not(.pullquote) {
-      margin-bottom: 1rem;
-      left: calc(50% - 50vw);
-      margin: 0 -4vw 1rem;
-      padding: 1rem calc(50vw - 50% + 4vw);
-      width: 100vw;
-    }
-
     table, th, td {
       max-width: 28rem !important;
     }
+
+    img.img-portrait:not(.img-tiny), img.img-small {
+      width: 100% !important;
+      margin: 1rem 0 !important;
+      left: 0;
+    }
+  }
+
+  input:focus {
+    outline: 1px solid rgba(255,255,255,0.3);
   }
 }
 

@@ -28,6 +28,12 @@ interface ItemsDB extends DBSchema {
 }
 
 function rowToItem (row: Row) {
+  let styles
+  try {
+    styles = JSON.parse(row.styles)
+  } catch(e) {
+    console.error(e)
+  }
   return {
     id: row.id,
     _id: row._id,
@@ -39,7 +45,7 @@ function rowToItem (row: Row) {
     excerpt: row.excerpt,
     readAt: row.readAt,
     scrollRatio: row.scrollRatio && JSON.parse(row.scrollRatio),
-    styles: JSON.parse(row.styles)
+    styles
   }
 }
 
@@ -128,7 +134,7 @@ export async function updateItem (item: ItemInflated) {
     const record = records[0]
     const keys = Object.keys(record)
     keys.forEach((key: string) => {
-      if (record[key] !== item[key]) {
+      if (record[key] !== item[key] && item[key] !== undefined) {
         record[key] = item[key]
       }
     })
