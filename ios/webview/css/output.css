@@ -165,6 +165,7 @@ body, body a, body a:active, body a:visited {
 @media (min-width: 600px) {
   .itemArticle figure, .itemArticle img, .itemArticle video, .itemArticle iframe, .itemArticle pre {
     left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw) !important;
   }
 }
 @media (min-width: 600px) {
@@ -256,44 +257,39 @@ body, body a, body a:active, body a:visited {
   margin: 0 0 1rem;
   font-size: 0.55rem;
   line-height: 1rem;
-  background-color: rgba(255, 255, 255, 0.5);
-  left: -0.5rem;
-  width: 100vw;
-  padding: 1rem 0.5rem;
-  display: block;
+  padding: 1rem 0;
   position: relative;
   -webkit-hyphens: none;
   hyphens: none;
 }
 .itemArticle blockquote blockquote, .itemArticle blockquote .pullquote, .itemArticle blockquote aside, .itemArticle .pullquote blockquote, .itemArticle .pullquote .pullquote, .itemArticle .pullquote aside, .itemArticle aside blockquote, .itemArticle aside .pullquote, .itemArticle aside aside {
   margin: 0;
-  padding: 0;
-  left: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  position: relative;
 }
 .itemArticle blockquote > p:last-of-type, .itemArticle .pullquote > p:last-of-type, .itemArticle aside > p:last-of-type {
   margin-bottom: 0;
 }
-@media (min-width: 600px) {
-  .itemArticle blockquote, .itemArticle .pullquote, .itemArticle aside {
-    width: 100%;
-  }
-}
 .itemArticle blockquote.is-quote p:first-child, .itemArticle .pullquote.is-quote p:first-child, .itemArticle aside.is-quote p:first-child {
   text-indent: -0.45em;
+}
+.itemArticle blockquote::after, .itemArticle .pullquote::after, .itemArticle aside::after {
+  content: "";
+  display: block;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 100vw;
+  height: 100%;
+  left: calc(50% - 50vw);
+  position: absolute;
+  z-index: -1;
+  top: 0;
 }
 .itemArticle .pullquote, .itemArticle aside {
   color: white;
 }
 .itemArticle .pullquote::after, .itemArticle aside::after {
-  content: "";
-  display: block;
   background-color: var(--feed-color);
-  width: 100vh;
-  height: 100%;
-  margin-left: calc(50% - 50vh);
-  position: absolute;
-  z-index: -1;
-  top: 0;
 }
 .itemArticle blockquote.short-blockquote, .itemArticle .pullquote, .itemArticle aside {
   color: var(--feed-color);
@@ -331,30 +327,9 @@ body, body a, body a:active, body a:visited {
 .itemArticle *:not(figcaption) > *:not(figcaption).caption:not(figcaption) + .caption:not(figcaption) {
   margin-top: -1.666rem;
 }
-@media (min-width: 600px) {
-  .itemArticle figcaption, .itemArticle blockquote, .itemArticle .caption, .itemArticle img + small {
-    margin: 0 -4vw;
-    padding: 1rem 4vw;
-    left: 0;
-  }
-  .itemArticle figcaption, .itemArticle .caption, .itemArticle img + small {
-    padding: 0.25rem calc(50vw - 50%) 0.5rem;
-    margin: 0 4vw;
-    text-align: center;
-  }
-}
 .itemArticle img + small {
   display: block;
   margin: -2.25rem -4vw 1rem;
-}
-@media (min-width: 600px) {
-  .itemArticle blockquote:not(.pullquote) {
-    margin-bottom: 1rem;
-    left: calc(50% - 50vw);
-    margin: 0 0 1rem;
-    padding: 1rem calc(50vw - 50%);
-    width: 100vw;
-  }
 }
 .itemArticle a.unused, .itemArticle a.unused:active, .itemArticle a.unused:visited {
   color: inherit !important;
@@ -760,6 +735,37 @@ hr {
   font-style: normal;
 }
 .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a {
+  color: var(--feed-color);
+}
+.android .bodyFontSerif2, .web .bodyFontSerif2 {
+  font-family: "LibreBaskerville-Regular", serif;
+}
+.android .bodyFontSerif2 em, .android .bodyFontSerif2 i, .web .bodyFontSerif2 em, .web .bodyFontSerif2 i {
+  font-family: "LibreBaskerville-Italic", sans-serif;
+  font-style: normal;
+}
+.android .bodyFontSerif2 strong, .android .bodyFontSerif2 b, .web .bodyFontSerif2 strong, .web .bodyFontSerif2 b {
+  font-family: "LibreBaskerville-Bold", sans-serif;
+  font-weight: normal;
+}
+.android .bodyFontSerif2 strong em, .android .bodyFontSerif2 em strong, .android .bodyFontSerif2 b i, .android .bodyFontSerif2 i b, .web .bodyFontSerif2 strong em, .web .bodyFontSerif2 em strong, .web .bodyFontSerif2 b i, .web .bodyFontSerif2 i b {
+  font-family: "LibreBaskerville-BoldItalic", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.android .bodyFontSerif2 .itemArticle > p:not(.short-para):first-of-type:first-line, .android .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .android .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line, .web .bodyFontSerif2 .itemArticle > p:not(.short-para):first-of-type:first-line, .web .bodyFontSerif2 .itemArticle > div:first-of-type > p:not(.short-para):first-of-type:first-line, .web .bodyFontSerif2 .itemArticle > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-line {
+  font-family: "LibreBaskerville-Bold";
+}
+.android .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon), .web .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) {
+  font-family: "LibreBaskerville-Bold";
+  color: var(--feed-color);
+  font-size: 1.2em;
+}
+.android .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) em, .android .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) i, .android .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .android .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) b, .web .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) em, .web .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) i, .web .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) strong, .web .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) b {
+  font-family: "LibreBaskerville-BoldItalic";
+  font-style: normal;
+}
+.android .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a, .web .bodyFontSerif2 > p:first-of-type.short-para:not(.ends-with-colon) a {
   color: var(--feed-color);
 }
 
@@ -1279,9 +1285,6 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   }
 }
 
-.itemArticle table.email-body-container td.content > div:first-of-type table:first-of-type {
-  display: none;
-}
 .itemArticle table.email-body-container .subscribe-widget, .itemArticle table.email-body-container .powered-by-substack {
   display: none;
 }
@@ -1559,13 +1562,14 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   position: absolute;
   bottom: 0;
   top: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
-.web.hasCoverImage .itemTitle.center {
+.web.hasCoverImage .itemTitle.center h1 {
   text-align: center;
-  left: 50%;
-  transform: translateX(-50%);
   width: 80%;
-  max-width: 1000px;
+  max-width: 900px;
 }
 .web.hasCoverImage .itemTitle.top {
   top: 0;
@@ -1580,15 +1584,16 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   position: absolute;
   top: 0;
   left: 0;
-  margin: 0 -4vw 2rem;
-  width: 104vw;
+  margin-bottom: 2rem;
+  width: 100vw;
   height: calc(100% + 2rem);
   z-index: -1;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0) 100%);
 }
 @media screen and (min-width: 32rem) {
   .web .itemTitle {
-    margin: 1rem;
+    padding: 1rem;
+    margin: 0;
   }
 }
 .web .hasCoverImage .coverImage {
@@ -1625,13 +1630,14 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   padding: 0;
   margin: 0;
 }
-.web .itemArticle blockquote:not(.pullquote) {
-  margin-bottom: 1rem;
-  left: calc(50% - 50vw);
-  margin: 0 -4vw 1rem;
-  padding: 1rem calc(50vw - 50% + 4vw);
-  width: 100vw;
-}
 .web .itemArticle table, .web .itemArticle th, .web .itemArticle td {
   max-width: 28rem !important;
+}
+.web .itemArticle img.img-portrait:not(.img-tiny), .web .itemArticle img.img-small {
+  width: 100% !important;
+  margin: 1rem 0 !important;
+  left: 0;
+}
+.web input:focus {
+  outline: 1px solid rgba(255, 255, 255, 0.3);
 }

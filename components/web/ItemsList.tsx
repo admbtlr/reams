@@ -10,6 +10,7 @@ import FeedIcon from "../FeedIcon"
 import { getRizzleButtonIcon } from "../../utils/rizzle-button-icons"
 import { textInfoItalicStyle, textInfoMonoItalicStyle, textLabelStyle } from "../../utils/styles"
 import { useNavigation } from "@react-navigation/native"
+import { getMargin } from "../../utils/dimensions"
 
 interface Props {
   feeds: Feed[]
@@ -95,28 +96,30 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
   const dispatch = useDispatch()
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const ref = useRef<View>(null)
-  const [measure, setMeasure] = useState<{
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  } | null>(null)
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.measureLayout(scrollRef.current, (x: number, y: number, width: number, height: number) => {
-        setMeasure({ x, y, width, height })
-      }, () => console.log('error'))
-    }
-  }, [])
-  useEffect(() => {
-    if (item._id === currentItem?._id) {
-      console.log('scrolling to', measure?.y)
-      scrollRef.current.scrollTo({ y: measure?.y, animated: true })
-    }
-  }, [currentItem])
+  const matches = item?.url?.match(/:\/\/(.*?)\//)
+  const host = matches && matches.length > 1 ? matches[1] : null
+  // const [measure, setMeasure] = useState<{
+  //   x: number;
+  //   y: number;
+  //   width: number;
+  //   height: number;
+  // } | null>(null)
+  // useEffect(() => {
+  //   if (ref.current) {
+  //     ref.current.measureLayout(scrollRef.current, (x: number, y: number, width: number, height: number) => {
+  //       setMeasure({ x, y, width, height })
+  //     }, () => console.log('error'))
+  //   }
+  // }, [])
+  // useEffect(() => {
+  //   if (item._id === currentItem?._id) {
+  //     console.log('scrolling to', measure?.y)
+  //     scrollRef.current.scrollTo({ y: measure?.y, animated: true })
+  //   }
+  // }, [currentItem])
   return (
     <TouchableOpacity
-      key={index}
+      key={item._id}
       onPress={() => {
         dispatch({
           type: UPDATE_CURRENT_INDEX,
@@ -142,13 +145,14 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
           alignItems: 'center',
           marginBottom: 5,
         }}>
-          <FeedIcon
-            isSmaller
-            feedId={feed?._id} />
+          { host && 
+              <img height="16" width="auto" src={`https://icons.duckduckgo.com/ip3/${host}.ico`} />
+          }
           <Text style={{
             color: hslString('rizzleText', undefined, 0.8),
             fontSize: 12,
             fontFamily: 'IBMPlexSans',
+            marginLeft: getMargin() / 2
           }}>{feed?.title}</Text>
         </View>
         <View style={{

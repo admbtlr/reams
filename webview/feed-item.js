@@ -704,10 +704,10 @@ function init() {
         const selections = highlighter.highlightSelection('highlight')
         const selection = selections[0]
         const serialized = highlighter.serialize(selection)
-        window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
+        window.ReactNativeWebView?.postMessage("highlight:" + text + "++++++" + serialized)
         highlighter.highlightSelection('highlight-pending')
       } else {
-        window.ReactNativeWebView.postMessage("end-highlight")
+        window.ReactNativeWebView?.postMessage("end-highlight")
       }
     }
   })

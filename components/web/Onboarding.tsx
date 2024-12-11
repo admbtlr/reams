@@ -65,15 +65,15 @@ export default function Onboarding(props: Props) {
         flex: -1
       }}>
         <Text style={{
-          fontFamily: 'PTSerif',
+          fontFamily: 'PTSerif-Regular',
           fontSize: 40,
           color: 'white',
-        }}>Welcome to Reams</Text>
+        }}>Welcome to <Text style={{ fontFamily: 'PTSerif-Bold' }}>Reams</Text></Text>
         <Text style={{
-          fontFamily: 'PTSerif',
+          fontFamily: 'PTSerif-Regular',
           fontSize: 20,
           color: 'white',
-        }}>Enter your email address to get started</Text>
+        }}>The serious, joyful & open app for readers</Text>
         <Image
           source={require('../../assets/images/figures.png')}
           style={{
@@ -107,7 +107,7 @@ export default function Onboarding(props: Props) {
           onPress={() => {
             sendMagicLink(email)
           }}
-          text='Send me a link'
+          text='Send me a login link'
         />
         {__DEV__ && (
           <TextButton

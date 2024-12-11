@@ -206,7 +206,7 @@ body {
 
     @media (min-width: 600px) {
       left: calc(50% - 50vw);
-      // margin: 0;
+      margin-right: calc(50% - 50vw) !important;
     }
   }
 
@@ -337,48 +337,53 @@ body {
     margin: 0 0 1rem;
     font-size: 0.55rem;
     line-height: 1rem;
-    background-color: rgba(255, 255, 255, 0.5);
-    left: -0.5rem;
-    width: 100vw;
-    padding: 1rem .5rem;
-    display: block;
+    // background-color: rgba(255, 255, 255, 0.5);
+    // left: -0.5rem;
+    // width: 100vw;
+    padding: 1rem 0;
+    // display: block;
     position: relative;
     -webkit-hyphens: none;
     hyphens: none;
 
     blockquote, .pullquote, aside {
       margin: 0;
-      padding: 0;
-      left: 0;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      position: relative;
     }
 
     & > p:last-of-type {
       margin-bottom: 0;
     }
 
-    @media (min-width: 600px) {
-      & {
-        width: 100%;
-      }
-    }
+    // @media (min-width: 600px) {
+    //   & {
+    //     width: 100%;
+    //   }
+    // }
 
     &.is-quote p:first-child {
       text-indent: -0.45em;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      background-color: rgba(255, 255, 255, 0.5);
+      width: 100vw;
+      height: 100%;
+      left: calc(50% - 50vw);
+      position: absolute;
+      z-index: -1;
+      top: 0;
     }
   }
 
   .pullquote, aside {
     color: white;
     &::after {
-      content: "";
-      display: block;
       background-color: var(--feed-color);
-      width: 100vh;
-      height: 100%;
-      margin-left: calc(50% - 50vh);
-      position: absolute;
-      z-index: -1;
-      top: 0;
     }
   }
 
@@ -426,33 +431,33 @@ body {
     }
   }
 
-  @media (min-width: 600px) {
-    figcaption, blockquote, .caption, img + small {
-      margin: 0 -4vw;
-      padding: 1rem 4vw;
-      left: 0;
-    }
-    figcaption, .caption, img + small {
-      padding: .25rem calc(50vw - 50%) .5rem;
-      margin: 0 4vw;
-      text-align: center;
-    }
-  }
+  // @media (min-width: 600px) {
+  //   figcaption, blockquote, .caption, img + small {
+  //     margin: 0 -4vw;
+  //     padding: 1rem 4vw;
+  //     left: 0;
+  //   }
+  //   figcaption, .caption, img + small {
+  //     padding: .25rem calc(50vw - 50%) .5rem;
+  //     margin: 0 4vw;
+  //     text-align: center;
+  //   }
+  // }
 
   img + small {
     display: block;
     margin: -2.25rem -4vw 1rem;
   }
 
-  blockquote:not(.pullquote) {
-    @media (min-width: 600px) {
-      margin-bottom: 1rem;
-      left: calc(50% - 50vw);
-      margin: 0 0 1rem;
-      padding: 1rem calc(50vw - 50%);
-      width: 100vw;
-    }
-  }
+  // blockquote:not(.pullquote) {
+  //   @media (min-width: 600px) {
+  //     margin-bottom: 1rem;
+  //     left: calc(50% - 50vw);
+  //     margin: 0 0 1rem;
+  //     padding: 1rem calc(50vw - 50%);
+  //     width: 100vw;
+  //   }
+  // }
 
   // fade on scroll
   // blockquote, figure {
@@ -933,7 +938,30 @@ hr {
   }
 
   @include firstLineFontFamily("IowanOldStyle-Bold, Cardo-Bold");
-  @include firstShortParaBold("IowanOldStyle-Bold, Cardo-Bold", "IowanOldStyle-BoldItalic, Cardo-Bold")
+  @include firstShortParaBold("IowanOldStyle-Bold, Cardo-Bold", "IowanOldStyle-BoldItalic, Cardo-Bold");
+
+  .android &, .web & {
+    font-family: "LibreBaskerville-Regular", serif;
+
+    em, i {
+      font-family: "LibreBaskerville-Italic", sans-serif;
+      font-style: normal;
+    }
+  
+    strong, b {
+      font-family: "LibreBaskerville-Bold", sans-serif;
+      font-weight: normal;
+    }
+  
+    strong em, em strong, b i, i b {
+      font-family: "LibreBaskerville-BoldItalic", sans-serif;
+      font-style: normal;
+      font-weight: normal;
+    }
+  
+    @include firstLineFontFamily("LibreBaskerville-Bold");
+    @include firstShortParaBold("LibreBaskerville-Bold", "LibreBaskerville-BoldItalic")  
+  }
 }
 
 .bodyFontSans2 {
@@ -1586,10 +1614,11 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   //   padding: 0;
   // }
 
+  // not sure why I added this, but its causing a lot of images to be hidden
   td.content {
     & > div:first-of-type {
       table:first-of-type {
-        display: none;
+        // display: none;
       }
     }
   }
