@@ -1,16 +1,20 @@
 import { fontSizeMultiplier } from './dimensions'
 import { hslString } from './colors'
 
+export const opacitise = (color, opacity) => color.indexOf('hsl') === -1 ?
+  hslString(color, '', opacity) :
+  color.replace(/hsl\(([0-9]*), ([0-9]*%), ([0-9]*%)/, `hsla($1, $2, $3, ${opacity}`)
+
 export const baseStyles = (color = 'rizzleText', opacity = 1) => ({
   fontFamily: 'IBMPlexMono',
-  color: hslString(color, '', opacity)
+  color: opacitise(color, opacity)
 })
 
 export const textInputStyle = (color = 'rizzleText') => ({
   ...baseStyles(color),
   // padding: 8,
   fontSize: 20 * fontSizeMultiplier(),
-  borderBottomColor: hslString(color, '', 0.5),
+  borderBottomColor: opacitise(color, 0.5),
   borderBottomWidth: 1
 })
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { createRef, useEffect, useRef, useState } from 'react'
 import {ActionSheetIOS, Animated, Dimensions, Easing, Image, Keyboard, Linking, Pressable, Text, TextInput, View} from 'react-native'
 import { hslString } from '../utils/colors'
 import TextButton from './TextButton'
@@ -13,6 +13,7 @@ import { useSession } from './AuthProvider'
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { BackgroundGradient } from './BackgroundGradient'
+import Login from './Login'
 
 export const pages = [{
     heading: 'Reams',
@@ -320,193 +321,22 @@ const Onboarding2 = ({ index }) => {
   )
 }
 
-const Onboarding3 = ({ index }) => {
+export const Onboarding3 = ({ index }) => {
   const onboardingIndex = useSelector(state => state.config.onboardingIndex)
+  const inputRef = createRef()
   useEffect(() => {
     if (!!onboardingIndex && onboardingIndex === index) {
-      inputRef.current.focus()
+      inputRef?.current?.focus()
     }
   }, [onboardingIndex])
-  const [email, setEmail] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState(null)
-  const [message, setMessage] = useState(null)
-  const isEmailValid = email && email.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
-  const session = useSession()
-  const inputRef = useRef(null)
-
-  async function sendMagicLink(email) {
-    let redirectURL = 'already://onboarding'
-    if (email) {
-      setIsSubmitting(true)
-      let result
-      try {
-        result = await supabase.auth.signInWithOtp({
-          email,
-          options: {
-            emailRedirectTo: redirectURL,
-          },
-        })
-        setMessage('Check your email for the magic link')  
-      } catch (e) {
-        console.log(e)
-      } finally {
-        setIsSubmitting(false);
-      }
-
-      if (result.error) {
-        console.log(result.error)
-      }
-    }
-  }
-
-  async function onAppleButtonPress() {
-    // performs login request
-    try {
-      const appleAuthRequestResponse = await appleAuth.performRequest({
-        requestedOperation: appleAuth.Operation.LOGIN,
-        // Note: it appears putting FULL_NAME first is important, see issue #293
-        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-        nonce: 'apple'
-      })
-    
-      // This method must be tested on a real device. On the iOS simulator it always throws an error.
-      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user)
-    
-      // use credentialState response to ensure the user is authenticated
-      if (credentialState === appleAuth.State.AUTHORIZED) {
-        const token = appleAuthRequestResponse.identityToken
-        const result = await supabase.auth.signInWithIdToken({
-          provider: 'apple',
-          token,
-          nonce: 'apple',
-        })
-        console.log(result)
-      }  
-    } catch (error) {
-      log('onAppleButtonPress', error)
-    }
-  }
-
-  const inlineMessage = message || (isSubmitting ? 'Sending...' : null)
-
-  const orSeparator = (
-    <View 
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 24 * fontSizeMultiplier(),
-        marginBottom: 24 * fontSizeMultiplier(),
-      }}
-    >
-      <View style={{
-        flex: 1,
-        height: 1,
-        backgroundColor: 'white',
-      }}/>
-      <Text style={{
-        color: 'white',
-        fontSize: 16 * fontSizeMultiplier(),
-        fontFamily: 'IBMPlexSerif-Italic',
-        textAlign: 'center',
-        marginHorizontal: 12 * fontSizeMultiplier(),
-        marginBottom: 4,
-        padding: 0
-      }}>or</Text>
-      <View style={{
-        flex: 1,
-        height: 1,
-        backgroundColor: 'white',
-      }}/>
-    </View>)
-
 
   return (
     <OnboardingPage index={index}>
-      <View 
-        style={{
-          flex: 1,
-          marginTop: 100 * fontSizeMultiplier(),
-          marginHorizontal: getMargin()
-        }}>
-        <Text style={{
-          ...textLargeStyle,
-          textAlign: 'center',
-          marginBottom: 24 * fontSizeMultiplier(),
-        }}>Ready to get started?</Text>
-        {session?.error ? (
-          <Text style={{
-            ...textLargeStyle,
-            textAlign: 'center',
-            marginBottom: 48 * fontSizeMultiplier(),
-            backgroundColor: 'red',
-          }}>Error: {session.error}. Please try again.</Text>
-        ) : (
-          <Text style={{
-            ...textLargeStyle,
-            textAlign: 'center',
-            marginBottom: 48 * fontSizeMultiplier(),
-          }}>Enter your email, and we’ll send you a magic sign-in link:</Text>
-        )}
-        <TextInput
-          autoCapitalize='none'
-          autoCorrect={false}
-          keyboardType='email-address'
-          onChangeText={setEmail}
-          ref={inputRef}
-          selectionColor='white'
-          style={{
-            ...textInputStyle('white'),
-            textAlign: 'center',
-            borderBottomWidth: 0,
-            marginBottom: 24 * fontSizeMultiplier(),
-          }}
-        />
-        {!!inlineMessage && !session.error ?
-          <Text style={{
-            ...textLargeStyle,
-            textAlign: 'center',
-            marginTop: 48 * fontSizeMultiplier(),
-          }}>{inlineMessage}</Text> :
-          (<TextButton
-            isDisabled={!isEmailValid || isSubmitting}
-            buttonStylea={{
-              opacity: isEmailValid ? 1 : 0.5
-            }}
-            onPress={() => {
-              Keyboard.dismiss()
-              setIsSubmitting(true)
-              sendMagicLink(email)
-            }}
-            text='Send me a link'
-          />)
-        }
-        {!!inlineMessage && !session.error && !__DEV__ ? null : (
-          <>
-            {orSeparator}
-            <AppleButton
-              buttonStyle={AppleButton.Style.BLACK}
-              buttonType={AppleButton.Type.SIGN_IN}
-              style={{
-                width: '100%',
-                height: 40 * fontSizeMultiplier(),
-                maxWidth: 700,
-                borderRadius: 20 * fontSizeMultiplier(),
-                alignSelf: 'center',
-              }}
-              onPress={() => onAppleButtonPress()}
-            />
-            {orSeparator}
-            <TextButton
-              onPress={() => supabase.auth.signInWithPassword({
-                email: 'a@btlr.eu',
-                password: 'Asdfasdf'
-              })}
-              text='Log in with password' />
-          </>
-        )}
-      </View>
+      <Login 
+        cta='Ready to get started?'
+        inputRef={inputRef} 
+        textColor={'white'}
+      />
     </OnboardingPage>
   )
 }

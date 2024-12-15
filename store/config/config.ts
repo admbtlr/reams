@@ -76,8 +76,7 @@ export function config (
     case UNSET_BACKEND:
       if (action.backend === 'reams') {
         return {
-          ...state,
-          isOnboarding: true,
+          ...state
         }
       } else {
         return state

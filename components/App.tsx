@@ -21,6 +21,7 @@ import SettingsScreen from './SettingsScreen'
 import {default as MainWeb} from './web/Main'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { WebFontsLoader } from './WebFontsLoader'
+import Login from './Login'
 
 const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
@@ -231,6 +232,16 @@ const Main = ({route}) => {
           }
         }
       />
+      <MainStack.Screen
+        name='Login'
+        component={Login}
+        options={{
+          gestureEnabled: false,
+          headerShown: false,
+          presentation: 'modal'
+        }}
+      />
+
     </MainStack.Navigator>
   )
 }

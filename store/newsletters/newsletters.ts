@@ -76,7 +76,6 @@ export const deleteNewsletter = createAsyncThunk(
 export const fetchNewsletters = createAsyncThunk(
   'newsletters/fetchNewsletters',
   async (_, { getState, dispatch }): Promise<void> => {
-    console.log('fetchNewsletters')
     dispatch({
       type: ADD_MESSAGE,
       message: {
@@ -120,7 +119,6 @@ export const fetchNewsletters = createAsyncThunk(
     for (const newNewsletter of newNewsletters) {
       try {
         const returned = await dispatch(createNewsletter(newNewsletter)) as any
-        console.log('Returned', returned)
         // newsletters.push(returned.payload)
         } catch (error: any) { 
           log('fetchNewsletters', error) 
