@@ -10,16 +10,13 @@
 - fix WARN  (ADVICE) View #1559 of type RCTView has a shadow set but cannot   calculate shadow efficiently. Consider setting a background color to fix this, or apply the shadow to a more specific component.
 - fetch articles never completes when adding saved article via extension #BLOCKER
 - update redux-saga to 1.3.0 to remove its redux dep
-- highlight location gets messed up on newsletters 
 - open articles directly from annotations page
 - buttons to save links directly
-- saving an external item adds the same item multiple times #BLOCKER
 - how come mercury button disappears for Aeon articles?
   - it happens randomly
 - how come body is sometimes blank when app comes from background?
 - is substack img src sometimes an object? if so, pull src from the object
 - handle blockquote within aside (Guardian)
-- wtf is up with FeedContracted on web???
 - maybe update image viewer
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer
 - TopBar with too many lines
@@ -66,6 +63,8 @@
 - make buttons use reanimate
 
 # Done
+- ~~wtf is up with FeedContracted on web???~~
+- ~~highlight location gets messed up on newsletters~~
 - ~~put back the foreign key constraint on annotation.item_id once we're persisting saved items~~
 - ~~context menu in webview~~
 - ~~in-browser js causes render delays! ~~

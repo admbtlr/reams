@@ -27,23 +27,26 @@ export default function InitialScreen({}) {
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
-  const isLoggedIn = useSelector((state: RootState) => state.user.uid !== '')
+  const isLoggedIn = useSelector((state: RootState) => state.user.userId !== '')
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const hasFeeds = useSelector((state: RootState) => state.feeds.feeds.length > 0)
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
   useEffect(() => {
-    if (isOnboarding) {
+    if (!isOnboarding && !isLoggedIn) {
+      console.log('User is not logged in')
+      setTimeout(() => {
+        navigation.navigate('Login')
+      }, 300)
+    } else if (isOnboarding) {
       redirectToItems(true, true)
+    } else {
+      if (navigation.canGoBack()) {
+        navigation.popToTop()
+      }
     }
-  }, [isOnboarding])
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      redirectToItems(true, true)
-    }
-  }, [isOnboarding])
+  }, [isLoggedIn, isOnboarding])
 
   // useEffect(() => {
   //   redirectToItems(false, true)
