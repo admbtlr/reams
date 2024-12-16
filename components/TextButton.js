@@ -100,7 +100,7 @@ class TextButton extends React.Component {
       // flex: 1,
       height,
       maxHeight: showMaxHeight ? height : 'auto',
-      maxWidth: 700,
+      maxWidth: 600,
       width: isCompact ? 'auto' : '100%',
       ...this.props.buttonStyle,
       paddingTop: (isCompact ? 2 : 9) * fontSizeMultiplier()

@@ -14,7 +14,7 @@ export default OrientationListener = () => {
       })
     })
     return () => {
-      Dimensions.removeEventListener('change')
+      Dimensions.removeEventListener && Dimensions.removeEventListener('change')
     }
   })
 
