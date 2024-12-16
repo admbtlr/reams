@@ -5,6 +5,11 @@
     "plugins": [
       "expo-dev-launcher",
       "expo-router",
+      ["expo-sqlite",
+        {
+          "enableFTS": true,
+        }
+      ],
       [
         "@sentry/react-native/expo",
         {

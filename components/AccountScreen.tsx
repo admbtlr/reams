@@ -275,7 +275,9 @@ class AccountScreen extends React.Component {
             <View style={{
               // marginBottom: 64,
               minHeight: height - 55 - 64,
-              width: width - getInset() * (isPortrait ? 2 : 4),
+              width: Platform.OS === 'web' ? 
+                600 : 
+                width - getInset() * (isPortrait ? 2 : 4),
               marginHorizontal: getInset() * (isPortrait ? 1 : 2),
               marginTop: getMargin() * 2,
             }}>
