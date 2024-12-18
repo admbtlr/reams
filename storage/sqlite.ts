@@ -1,4 +1,4 @@
-import * as SQLite from "expo-sqlite/next";
+import * as SQLite from "expo-sqlite";
 import { Item, ItemInflated } from "store/items/types";
 import log from "../utils/log";
 
@@ -62,7 +62,7 @@ export async function initSQLite() {
       scrollRatio TEXT,
       styles TEXT
     );`)
-    // await initSearchTable()
+    await initSearchTable()
     console.log('SQLite initialized, items count: ', await db.getFirstAsync('select count(*) from items;'))
   } catch (error) {
     log('initSQLite', error)
@@ -106,6 +106,7 @@ async function initSearchTable() {
         content_mercury,
         excerpt FROM items;
     `)
+    // const result = await db.getAllAsync<any>('SELECT * FROM items_search WHERE items_search MATCH ?', 'software')
   } catch (e) {
     log(e)
   }
