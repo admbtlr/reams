@@ -7,7 +7,7 @@
       "expo-router",
       ["expo-sqlite",
         {
-          "enableFTS": true,
+          "enableFTS": true
         }
       ],
       [
