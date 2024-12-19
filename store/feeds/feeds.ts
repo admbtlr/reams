@@ -32,7 +32,7 @@ import {
   Item,
   MARK_ITEMS_READ_SKIP_BACKEND
 } from '../items/types'
-import { NUDGE_FREQUENCY } from '../../components/Nudge'
+import { NUDGE_FREQUENCY } from '@/components/Nudge'
 
 const initialState:FeedsState = {
   feeds: [],

@@ -4,6 +4,12 @@ import { createSavedItem } from '../../utils/test-helpers'
 
 jest.mock('@supabase/supabase-js')
 
+
+jest.mock('../../utils/uuid', () => ({
+  uuidv4: () => '1234',
+  uuidv5: () => '5678'
+}))
+
 describe ('getSavedItems', () => {
   beforeEach(() => {
     jest.clearAllMocks()
