@@ -1,19 +1,17 @@
 import * as FileSystem from 'expo-file-system'
-import {
-  Animated,
-  Image} from 'react-native'
+import { Animated, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import DeviceInfo from 'react-native-device-info'
 import { Item } from '../store/items/types'
 import { hslString } from './colors'
 import log from './log'
-import * as uuid from 'uuid'
+import { uuidv4, uuidv5} from './uuid'
 
 // const uuid = require('uuid')
 
 let deviceId: string
 
-export function deepEqual (a: any, b: any, ignoreNull = false) {
+export function deepEqual(a: any, b: any, ignoreNull = false) {
   try {
     if (!(a instanceof Object) || !(b instanceof Object)) {
       // compare by value
@@ -46,8 +44,7 @@ export function deepEqual (a: any, b: any, ignoreNull = false) {
     for (i = ka.length - 1; i >= 0; i--) {
       key = ka[i]
       // strying to stop errors going deep into animating transforms
-      if (key === 'transform' ||
-        a[key] instanceof Animated.Value) {
+      if (key === 'transform' || a[key] instanceof Animated.Value) {
         return true
       }
       if (!deepEqual(a[key], b[key], ignoreNull)) {
@@ -59,15 +56,14 @@ export function deepEqual (a: any, b: any, ignoreNull = false) {
     console.log(e)
     return false
   }
-
 }
 
-export function diff (a: Item, b: Item, changes = {}) {
-  changes = oneWayDiff (a, b, changes)
+export function diff(a: Item, b: Item, changes = {}) {
+  changes = oneWayDiff(a, b, changes)
   return oneWayDiff(b, a, changes)
 }
 
-function oneWayDiff (a: any, b: any, changes: { [key: string]: any}) {
+function oneWayDiff(a: any, b: any, changes: { [key: string]: any }) {
   for (var key in a) {
     if (changes[key] !== undefined) continue
     if (key === 'item') {
@@ -76,7 +72,7 @@ function oneWayDiff (a: any, b: any, changes: { [key: string]: any}) {
       if (a[key] !== b[key]) {
         changes[key] = {
           old: a[key],
-          new: b[key]
+          new: b[key],
         }
       }
     }
@@ -84,9 +80,10 @@ function oneWayDiff (a: any, b: any, changes: { [key: string]: any}) {
   return changes
 }
 
-export const sleep = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay))
+export const sleep = (delay: number) =>
+  new Promise((resolve) => setTimeout(resolve, delay))
 
-export function deviceCanHandleAnimations () {
+export function deviceCanHandleAnimations() {
   if (deviceId === undefined) {
     deviceId = DeviceInfo.getDeviceId()
   }
@@ -100,46 +97,48 @@ export function deviceCanHandleAnimations () {
   return true
 }
 
-export function getCachedCoverImagePath (item: Item | string) {
-  const id = typeof item === 'object'
-    ? item._id
-    : item
+export function getCachedCoverImagePath(item: Item | string) {
+  const id = typeof item === 'object' ? item._id : item
   return `${FileSystem.documentDirectory}${id}.jpg`
 }
 
-export function getCachedFeedIconPath (id: string) {
+export function getCachedFeedIconPath(id: string) {
   return `${FileSystem.documentDirectory}feed-icons/${id}.png`
 }
 
-export function getRenderedFeedIconPath (id: string) {
+export function getRenderedFeedIconPath(id: string) {
   return `${FileSystem.documentDirectory}feed-icons/rendered/${id}.png`
 }
 
-export async function fileExists (path: string) {
+export async function fileExists(path: string) {
   try {
     const fileInfo = await FileSystem.getInfoAsync(path)
-    return fileInfo.exists  
+    return fileInfo.exists
   } catch (error) {
     log('fileExists', error)
     throw error
   }
 }
 
-export function getImageDimensions (path: string) {
+export function getImageDimensions(path: string) {
   return new Promise((resolve, reject) => {
-    Image.getSize(path, (imageWidth, imageHeight) => {
-      resolve({
-        width: imageWidth,
-        height: imageHeight
-      })
-    }, (error) => {
-      // log(error)
-      reject(error)
-    })
+    Image.getSize(
+      path,
+      (imageWidth, imageHeight) => {
+        resolve({
+          width: imageWidth,
+          height: imageHeight,
+        })
+      },
+      (error) => {
+        // log(error)
+        reject(error)
+      }
+    )
   })
 }
 
-export async function isFirstLaunch () {
+export async function isFirstLaunch() {
   const setLaunchDate = (date: string) => {
     AsyncStorage.setItem('launchDate', date)
   }
@@ -157,15 +156,15 @@ export async function isFirstLaunch () {
   }
 }
 
-export function id (item?: any) {
-  if (item && typeof item === 'string' || item?.url) {
-    return uuid.v5(item.url || item, uuid.v5.URL)
+export function id(item?: any) {
+  if ((item && typeof item === 'string') || item?.url) {
+    return uuidv5(item.url || item, uuidv5.URL)
   } else {
-    return uuid.v4()
+    return uuidv4()
   }
 }
 
-export function getFeedColor () {
+export function getFeedColor() {
   // const { desaturated } = require('./colors.json')
   // const colorNames = Object.keys(desaturated)
   // const taken = feeds.length < 12 ?
@@ -176,11 +175,19 @@ export function getFeedColor () {
   //   randomIndex = Math.floor(Math.random() * colorNames.length)
   // }
   // return colorNames[randomIndex]
-  
+
   // return [Math.round(Math.random() * 360), 20, 50]
-  return hslString('rizzleFG').replace('hsl(', '').replace(')', '').split(',').map((n: String) => Number.parseInt(n.replace('%', '')))
+  return hslString('rizzleFG')
+    .replace('hsl(', '')
+    .replace(')', '')
+    .split(',')
+    .map((n: String) => Number.parseInt(n.replace('%', '')))
 }
 
-export function pgTimestamp (date: Date = new Date(Date.now())) {
-  return date.toISOString().replace('T',' ').replace('Z','').replace(/\.\d{3}/,'')
+export function pgTimestamp(date: Date = new Date(Date.now())) {
+  return date
+    .toISOString()
+    .replace('T', ' ')
+    .replace('Z', '')
+    .replace(/\.\d{3}/, '')
 }

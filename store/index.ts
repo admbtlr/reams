@@ -83,6 +83,7 @@ function initStore () {
         return middleware
       },
       devTools: false,
+      // @ts-ignore
       enhancers: (getDefaultEnhancers) =>
         getDefaultEnhancers().concat(devToolsEnhancer({}))
     })

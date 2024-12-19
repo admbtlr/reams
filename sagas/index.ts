@@ -78,6 +78,8 @@ function * startDownloads (shouldSleep = false) {
   }
   const lastUpdated: number = yield select(getLastUpdated, ItemType.unread)
   const feedsLocal: FeedLocal[] = yield select(getFeedsLocal)
+  console.log('clearReadItems')
+  yield call(clearReadItems)
   try {
     console.log(`Last updated: ${lastUpdated}, now: ${Date.now()}`)
     console.log(`MINIMUM_UPDATE_INTERVAL: ${MINIMUM_UPDATE_INTERVAL}`)
@@ -88,8 +90,6 @@ function * startDownloads (shouldSleep = false) {
       console.log('fetchAllItems')
       yield call(fetchAllItems, true)
     }
-    console.log('clearReadItems')
-    yield call(clearReadItems)
     console.log('pruneItems')
     yield call(pruneItems)
     yield call(decorateItems)
