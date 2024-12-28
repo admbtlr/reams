@@ -204,16 +204,20 @@ body {
     left: -4vw;
     overflow: scroll;
 
-    // newsletters sometimes leave a gap
-    table & {
-      left: calc(-4vw - 1px);
-    }
-
     @media (min-width: 600px) {
       left: calc(50% - 50vw);
       margin-right: calc(50% - 50vw) !important;
     }
   }
+
+  // newsletters sometimes leave a gap
+  table {
+    figure, img, video, iframe, pre {
+      left: calc(-4vw - 1px);
+    }
+  }
+  
+  
 
   .twitter-tweet iframe {
     @media (min-width: 600px) {
