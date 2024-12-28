@@ -395,6 +395,11 @@ body {
     left: -4vw;
     overflow: scroll;
 
+    // newsletters sometimes leave a gap
+    table & {
+      left: calc(-4vw - 1px);
+    }
+
     @media (min-width: 600px) {
       left: calc(50% - 50vw);
       margin-right: calc(50% - 50vw) !important;
@@ -580,7 +585,7 @@ body {
 
   blockquote.short-blockquote, .pullquote, aside {
     // color: white;
-    color: var(--feed-color);
+    // color: var(--feed-color);
     border: none;
     font-size: 1rem;
     line-height: 1.33rem;
