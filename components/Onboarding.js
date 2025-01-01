@@ -141,7 +141,7 @@ const Onboarding1 = ({ index, navigation }) => {
             inputRange: [0, 0.1, 0.2, 1],
             outputRange: [0, 0, 1, 1]
           })
-        }}>Deeply Superficial Reading</Animated.Text>
+        }}>The Serious, Joyful and Open App for Readers</Animated.Text>
         <Animated.Text style={{
           fontFamily: 'IBMPlexSans',
           fontSize: 20 * fontSizeMultiplier(),
@@ -152,7 +152,7 @@ const Onboarding1 = ({ index, navigation }) => {
             outputRange: [0, 0, 1, 1]
           }),
           marginTop: getMargin() * 4,
-        }}>Imagine an endless, beautiful magazine, filled with all the articles that you want to read.</Animated.Text>
+        }}>Imagine an endless, beautiful magazine, filled only with articles that you want to read, from sources you choose.</Animated.Text>
         <Animated.Text style={{
           fontFamily: 'IBMPlexSans',
           fontSize: 20 * fontSizeMultiplier(),
@@ -336,6 +336,7 @@ export const Onboarding3 = ({ index }) => {
         cta='Ready to get started?'
         inputRef={inputRef} 
         textColor={'white'}
+        inputColor={'white'}
       />
     </OnboardingPage>
   )

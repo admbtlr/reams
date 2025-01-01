@@ -8,20 +8,23 @@ import { RootState } from '../store/reducers'
 import { useSession } from './AuthProvider'
 import { supabase } from '../storage/supabase'
 import { fontSizeMultiplier, getMargin } from '../utils/dimensions'
-import { opacitise, textInfoStyle, textInputStyle } from '../utils/styles'
+import { opacitise, textInfoBoldStyle, textInfoStyle, textInputStyle } from '../utils/styles'
 import { AuthOtpResponse } from '@supabase/supabase-js'
 import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
+import log from '../utils/log'
 
 const Login = ({ 
   inputRef, 
   cta,
+  inputColor,
   textColor,
   hideHeader
 }: { 
   inputRef: any,
   cta: string,
+  inputColor?: string,
   textColor: string,
   hideHeader: boolean | undefined
 }) => {
@@ -40,6 +43,10 @@ const Login = ({
 
   if (!textColor) {
     textColor = hslString('rizzleText')
+  }
+
+  if (!inputColor) {
+    inputColor = hslString('logo1')
   }
 
   if (!cta) {
@@ -94,7 +101,7 @@ const Login = ({
         const token = appleAuthRequestResponse.identityToken
         const result = await supabase.auth.signInWithIdToken({
           provider: 'apple',
-          token,
+          token: token || '',
           nonce: 'apple',
         })
         console.log(result)
@@ -185,12 +192,14 @@ const Login = ({
         <TextInput
           autoCapitalize='none'
           autoCorrect={false}
+          editable={!isSubmitting}
           keyboardType='email-address'
           onChangeText={setEmail}
           ref={inputRef}
-          selectionColor={textColor}
+          selectionColor={inputColor}
           style={{
-            ...textInputStyle(textColor),
+            ...textInputStyle(inputColor),
+            color: inputColor,
             textAlign: 'center',
             borderBottomWidth: 0,
             marginBottom: 24 * fontSizeMultiplier(),
@@ -198,9 +207,10 @@ const Login = ({
         />
         {!!inlineMessage && !session.error ?
           <Text style={{
-            ...textLargeStyle,
+            ...textInfoBoldStyle(textColor),
+            fontSize: 18 * fontSizeMultiplier(),
             textAlign: 'center',
-            marginTop: 48 * fontSizeMultiplier(),
+            marginVertical: 4 * fontSizeMultiplier(),
           }}>{inlineMessage}</Text> :
           (<TextButton
             isDisabled={!isEmailValid || isSubmitting}
