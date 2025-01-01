@@ -50,7 +50,6 @@ function initStore () {
     storage,
     timeout: 30000,
     transforms: [orientationTransform],
-    blacklist: ['animatedValues'],
     // @ts-ignore
     migrate: createMigrate(migrations, { debug: true }),
     version: 22
