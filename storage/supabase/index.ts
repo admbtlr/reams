@@ -65,16 +65,16 @@ export interface SourceDB {
   _id: string
   url: string
   title: string
-  description: string
-  root_url?: string
-  color: string
-  favicon_url: string
-  favicon_size: string
-  didError?: boolean
-  subscribe_url?: string
-  read_count?: number
-  next_nudge?: number
-  is_nudge_active?: boolean
+  description: string | null
+  root_url?: string | null
+  color: string | null
+  favicon_url: string | null
+  favicon_size: string | null
+  didError?: boolean | null
+  subscribe_url?: string | null
+  read_count?: number | null
+  next_nudge?: number | null
+  is_nudge_active?: boolean | null
 }
 
 

@@ -45,7 +45,7 @@ interface Feed {
   title?:String
 }
 
-export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => {} }) {
+export default function OPMLImport (props: { textStyles?: {}, addFeeds: ([]) => {} | void }) {
   const dispatch = useDispatch()
   const { openModal } = useModal()
   let feeds: Array<Feed> = []
