@@ -210,7 +210,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     ]
     if (!isSaved) {
       sections.push({
-        title: 'Feeds',
+        title: 'Websites',
         data: feedCards
       })
       sections.push({
@@ -256,7 +256,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
             marginLeft: 0,
             flex: 4
           }}>{title}</Text> 
-          { title === 'Feeds' && (
+          { title === 'Websites' && (
             <TextButton
               text="Add"
               isCompact={true}

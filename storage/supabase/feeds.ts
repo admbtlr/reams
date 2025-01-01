@@ -38,6 +38,18 @@ export const getFeeds = async (): Promise<FeedDB[] | null> => {
   })) as FeedDB[]
 }
 
+export const getFeedsById = async (ids: [string]): Promise<FeedDB[] | null> => {
+  const {data, error} = await supabase
+    .from('Feed')
+    .select('*',)
+    .in('_id', ids)
+  if (error) {
+    throw error
+  }
+  // console.log('getFeed', data)
+  return data === null ? null : data as FeedDB[]
+}
+
 export const getFeedBySiteUrl = async (siteUrl: string): Promise<FeedDB | null> => {
   const {data, error} = await supabase
     .from('Feed')

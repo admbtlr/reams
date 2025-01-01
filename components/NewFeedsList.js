@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   Animated,
@@ -24,6 +24,9 @@ import { rgba } from 'react-native-image-filter-kit'
 import { useModal } from './ModalProvider'
 import { findFeeds } from '../backends/reams'
 import { ADD_MESSAGE } from '../store/ui/types'
+import { getFeedsById, supabase } from '@/storage/supabase'
+import reamsFavourites from '@/utils/reams-favouries'
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
@@ -42,10 +45,7 @@ const headerStyles = () => ({
   marginTop: 18 * fontSizeMultiplier()
 })
 
-const screenWidth = Dimensions.get('window').width
 const margin = getMargin()
-
-const buttonAnim = new Animated.Value(margin * 4)
 
 const sortByTitle = (a, b) => {
   aTitle = a.title.toUpperCase()
@@ -55,50 +55,26 @@ const sortByTitle = (a, b) => {
   return 0
 }
 
-const art = {
-  title: 'Art',
-  feeds: feeds.filter(f => f.category === 'art').sort(sortByTitle)
-}
-const business = {
-  title: 'Business',
-  name: 'business',
-  feeds: feeds.filter(f => f.category === 'business').sort(sortByTitle)
-}
-const culture = {
-  title: 'Culture',
-  name: 'culture',
-  feeds: feeds.filter(f => f.category === 'culture').sort(sortByTitle)
-}
-const design = {
-  title: 'Design',
-  name: 'design',
-  feeds: feeds.filter(f => f.category === 'design').sort(sortByTitle)
-}
-const future = {
-  title: 'Future',
-  name: 'future',
-  feeds: feeds.filter(f => f.category === 'future').sort(sortByTitle)
-}
-const politics = {
-  title: 'Politics',
-  name: 'politics',
-  feeds: feeds.filter(f => f.category === 'politics').sort(sortByTitle)
-}
-const technology = {
-  title: 'Technology',
-  name: 'technology',
-  feeds: feeds.filter(f => f.category === 'technology').sort(sortByTitle)
-}
-
 const scrollY = new Animated.Value(0)
 
 export default function NewFeedsList (props) {
   const [selectedFeeds, setFeeds] = useState([])
   const [expandedFeedSets, setExpandedFeedSets] = useState([])
   const [headerHeight, setHeaderHeight] = useState(100)
+  const [favourites, setFavourites] = useState([])
   const dispatch = useDispatch()
   const { openModal } = useModal()
-  // let headerExpanded = 
+  const favouriteIds = reamsFavourites.feeds 
+
+  useEffect(() => {
+    const fetchFavourites = async () => {
+      console.log('fetching favourites: ', favouriteIds) 
+      const feeds = await getFeedsById(favouriteIds)
+      console.log('favourites: ', feeds)
+      setFavourites(feeds)
+    }
+    fetchFavourites()
+  }, [])
 
   const toggleFeedSelected = (feed, isSelected) => {
     if (isSelected) {
@@ -269,7 +245,7 @@ export default function NewFeedsList (props) {
             ...textStyles(),
             ...boldStyles,
             marginBottom: 32 * fontSizeMultiplier()
-          }}>There are three ways to add new feeds to Reams:</Text>
+          }}>There are three ways to add new websites to Reams:</Text>
           <Text style={{
             ...textStyles(),
             marginBottom: 32 * fontSizeMultiplier()
@@ -283,7 +259,7 @@ export default function NewFeedsList (props) {
               }}
             >2. <Text style={{ 
               textDecorationLine: 'underline' 
-              }}>Enter a feed URL or the URL of a site where you want to search for a feed</Text></Text>
+              }}>Enter the URL of an RSS feed, or the URL of a site where you want to search for an RSS feed</Text></Text>
           </TouchableOpacity>
           <View style={{
             flexDirection: 'row',
@@ -300,57 +276,29 @@ export default function NewFeedsList (props) {
               addFeeds={addFeeds}
             />
           </View>
-          {/*
-          <Text style={{
-            ...textStyles(),
-            marginBottom: 36 * fontSizeMultiplier()
-          }}>3. Select your favourite topics to find new feeds:</Text>
-          {
-            [
-              technology,
-              politics, 
-              culture, 
-              art, 
-              business, 
-              design, 
-              future
-            ].map((feedSet, i) => <View key={`feedSet-${i}`}>
-              <TextButton
-                buttonStyle={{ marginBottom: 36 * fontSizeMultiplier() }}
-                iconBg={true}
-                iconCollapsed={hashtag}
-                iconExpanded={hashtag}
-                key={feedSet.name}
-                name={feedSet.name}
-                text={feedSet.title}
-                isExpandable={true}
-                isExpanded={expandedFeedSets.indexOf(feedSet.name) !== -1}
-                isGroup={true}
-                onExpand={() => toggleExpandedFeedSet(feedSet.name)}
-                expandedView={<FeedList 
-                  feeds={feedSet.feeds}
-                  toggleFeedSelected={toggleFeedSelected}
-                />}
-              />
-            </View>)
-          */}
+          { favourites.length > 0 && (
+            <>
+              <Text style={{
+                ...textStyles(),
+                marginBottom: 36 * fontSizeMultiplier()
+              }}>4. Add some of Reams’ favourite websites:</Text>
+              <FeedList feeds={favourites.sort((a, b) => a.title < b.title ? -1 : 1)} toggleFeedSelected={toggleFeedSelected} />
+            </>
+          )}
         </View>
       </Animated.ScrollView>
       <Animated.View style={{
           position: 'absolute',
           left: getMargin(),
-          top:  getMargin() /2,
+          top:  getMargin() / 2 + 5,
           zIndex: 10,
-          opacity: selectedFeeds.length === 0 ? 0 :
-            scrollY.interpolate({ 
-              inputRange: [0, headerHeight * 0.4, headerHeight * 0.5],
-              outputRange: [0, 0, 1] 
-            })
+          opacity: selectedFeeds.length === 0 ? 0 : 1
       }}>
         <TextButton 
           isDisabled={selectedFeeds.length === 0}
-          isCompact={true}
+          isCompact
           onPress={() => addFeeds(selectedFeeds) }
+          
           text={`Add ${selectedFeeds.length > 0 ? selectedFeeds.length : ''} Site${selectedFeeds.length === 1 ? '' : 's'}`}
         />
       </Animated.View>
@@ -406,7 +354,7 @@ export default function NewFeedsList (props) {
                 outputRange: [1, 0]
               }),
               textAlign: 'center',        
-            }}>Add Feeds</Animated.Text>
+            }}>Add Websites</Animated.Text>
           </Animated.View>
         </Animated.View>
       </View>
@@ -417,20 +365,24 @@ export default function NewFeedsList (props) {
 const FeedList = ({feeds, toggleFeedSelected}) => {
   return (
   <View style={{
-    marginTop: 16 * fontSizeMultiplier(),
-    paddingTop: 0
+    marginTop: 0, //getMargin(),
+    paddingTop: 0,
+    backgroundColor: hslString('white'),
+    borderRadius: getMargin(),
   }}>
     { feeds.map((feed, index) => <FeedToggle 
         key={`feed-toggle-${index}`}
         feed={feed}
+        index={index}
         toggleFeedSelected={toggleFeedSelected}
+        total={feeds.length}
       />)}
   </View>
 )}
 
 const FeedToggle = (props) => {
   const [isSelected, setSelected] = useState(false)
-  const { feed, isLast, toggleFeedSelected } = props
+  const { feed, index, isLast, toggleFeedSelected, total } = props
   const buttonStyles = {
     paddingTop: 9,
     paddingBottom: 18,
@@ -459,24 +411,27 @@ const FeedToggle = (props) => {
       }}
       style={{
           flexDirection: 'row',
-          backgroundColor: isSelected ? feed.color || hslString('rizzleText') : 'transparent',
+          backgroundColor: isSelected ? hslString('rizzleText') : 'transparent',
           paddingTop: 16 * fontSizeMultiplier(),
-          paddingRight: 16 * fontSizeMultiplier()
-          // height: 300
+          paddingRight: 16 * fontSizeMultiplier(),
+          borderTopLeftRadius: index === 0 ? getMargin() : 0,
+          borderTopRightRadius: index === 0 ? getMargin() : 0,
+          borderBottomLeftRadius: index === total - 1 ? getMargin() : 0,
+          borderBottomRightRadius: index === total - 1 ? getMargin() : 0,
       }}>
         <View style={{
           width: 65,
           height: 70
         }}>
-          {feed.favicon && <Image
+          {<Image
             // resizeMode='contain'
-            source={feed.favicon.source}
+            source={{uri: feed.favicon_url}}
             style={{
               // flex: 1,
               marginLeft: 16 * fontSizeMultiplier(),
               marginTop: 8 * fontSizeMultiplier(),
               height: 32 * fontSizeMultiplier(),
-              width: 32 * fontSizeMultiplier()
+              width: 32 * fontSizeMultiplier(),
             }}
           />}
         </View>
@@ -494,7 +449,8 @@ const FeedToggle = (props) => {
             ...textStyles(),
             color: isSelected ? 'white' : hslString('rizzleText'),
             opacity: 0.7,
-            fontSize: 16 * fontSizeMultiplier(),
+            fontSize: 14 * fontSizeMultiplier(),
+            lineHeight: 20 * fontSizeMultiplier(),
             marginTop: 0,
             marginBottom: 24 * fontSizeMultiplier()
           }}>{feed.description}</Text>
