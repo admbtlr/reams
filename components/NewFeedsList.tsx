@@ -4,6 +4,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  PixelRatio,
   Platform,
   StatusBar,
   Text,
@@ -11,22 +12,18 @@ import {
   View
 } from 'react-native'
 import Svg, {Path} from 'react-native-svg'
-import { ADD_FEED, ADD_FEEDS } from '../store/feeds/types'
+import { ADD_FEED, ADD_FEEDS, Feed, Source } from '../store/feeds/types'
 import OPMLImport from './OPMLImport'
 import TextButton from './TextButton'
 import XButton from './XButton'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
-import {feeds} from '../utils/feeds/feeds'
-import { textInfoBoldStyle } from '../utils/styles'
-import { rgba } from 'react-native-image-filter-kit'
 import { useModal } from './ModalProvider'
 import { findFeeds } from '../backends/reams'
 import { ADD_MESSAGE } from '../store/ui/types'
-import { getFeedsById, supabase } from '@/storage/supabase'
+import { getFeedsById } from '@/storage/supabase'
 import reamsFavourites from '@/utils/reams-favouries'
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
@@ -47,9 +44,9 @@ const headerStyles = () => ({
 
 const margin = getMargin()
 
-const sortByTitle = (a, b) => {
-  aTitle = a.title.toUpperCase()
-  bTitle = b.title.toUpperCase()
+const sortByTitle = (a: Source, b: Source) => {
+  const aTitle = a.title.toUpperCase()
+  const bTitle = b.title.toUpperCase()
   if (aTitle < bTitle) return -1
   if (aTitle > bTitle) return 1
   return 0
@@ -57,11 +54,10 @@ const sortByTitle = (a, b) => {
 
 const scrollY = new Animated.Value(0)
 
-export default function NewFeedsList (props) {
-  const [selectedFeeds, setFeeds] = useState([])
-  const [expandedFeedSets, setExpandedFeedSets] = useState([])
+export default function NewFeedsList (props: { close: () => void, isPortrait: boolean }) {
+  const [selectedFeeds, setFeeds] = useState<Feed[]>([])
   const [headerHeight, setHeaderHeight] = useState(100)
-  const [favourites, setFavourites] = useState([])
+  const [favourites, setFavourites] = useState<Feed[] | null>([])
   const dispatch = useDispatch()
   const { openModal } = useModal()
   const favouriteIds = reamsFavourites.feeds 
@@ -76,7 +72,7 @@ export default function NewFeedsList (props) {
     fetchFavourites()
   }, [])
 
-  const toggleFeedSelected = (feed, isSelected) => {
+  const toggleFeedSelected = (feed: Feed, isSelected: boolean) => {
     if (isSelected) {
       let sf = selectedFeeds.map(f => f)
       sf.push(feed)
@@ -86,17 +82,7 @@ export default function NewFeedsList (props) {
     }
   }
 
-  const toggleExpandedFeedSet = (feedSetName) => {
-    let feedSets = [ ...expandedFeedSets ]
-    if (feedSets.indexOf(feedSetName) !== -1) {
-      feedSets = feedSets.filter(fs => fs !== feedSetName)
-    } else {
-      feedSets.push(feedSetName)        
-    }
-    return setExpandedFeedSets(feedSets)
-  }
-
-  const addFeeds = (feeds) => {
+  const addFeeds = (feeds: Feed[]) => {
     console.log(feeds)
     dispatch({
       type: ADD_FEEDS,
@@ -113,7 +99,6 @@ export default function NewFeedsList (props) {
     openModal({
       modalText,
       modalHideCancel: false,
-      modalShow: true,
       inputs: [
         {
           label: 'Feed or site URL',
@@ -129,7 +114,7 @@ export default function NewFeedsList (props) {
           try {
             const feeds = await findFeeds(url)
             console.log(feeds)
-            if (feeds.length > 0) {
+            if (feeds !== undefined && feeds.length > 0) {
               dispatch({
                 type: ADD_FEED,
                 feed: feeds[0]
@@ -166,39 +151,8 @@ export default function NewFeedsList (props) {
     })
   }
 
-
-  // useEffect(() => {
-  //   if (selectedFeeds.length > 0) {
-  //     Animated.spring(buttonAnim, {
-  //       toValue: 0,
-  //       duration: 300,
-  //       useNative: true
-  //     }).start()
-  //   } else {
-  //     Animated.spring(buttonAnim, {
-  //       toValue: margin * 4,
-  //       duration: 300,
-  //       useNative: true
-  //     }).start()
-  //   }
-  // })
-
-  const hashtag = <Svg
-    width={32 * fontSizeMultiplier()}
-    height={32 * fontSizeMultiplier()}
-    viewBox='0 0 32 32'
-    style={{
-      top: -2,
-      left: -2
-    }}>
-      <Path d="M11.791,19.538 L9.307,19.538 L9.307,17.008 L12.251,17.008 L12.596,14.938 L10.181,14.938 L10.181,12.408 L13.056,12.408 L13.838,7.946 L16.529,7.946 L13.7,24 L11.009,24 L11.791,19.538 Z M18.3,7.946 L20.991,7.946 L20.209,12.408 L22.693,12.408 L22.693,14.938 L19.749,14.938 L19.404,17.008 L21.819,17.008 L21.819,19.538 L18.944,19.538 L18.162,24 L15.471,24 L18.3,7.946 Z" 
-        fill={ hslString('rizzleBG')}
-        fill-rule="nonzero" />
-    </Svg>
-
   const screenWidth = Platform.OS === 'web' ? 600 : Dimensions.get('window').width
   const collapsedHeaderHeight = getMargin() + 32 * fontSizeMultiplier() // allow space for the TextButton
-
 
   return (
     <View>
@@ -282,7 +236,7 @@ export default function NewFeedsList (props) {
                 ...textStyles(),
                 marginBottom: 36 * fontSizeMultiplier()
               }}>4. Add some of Reams’ favourite websites:</Text>
-              <FeedList feeds={favourites.sort((a, b) => a.title < b.title ? -1 : 1)} toggleFeedSelected={toggleFeedSelected} />
+              <FeedList feeds={favourites.sort(sortByTitle)} toggleFeedSelected={toggleFeedSelected} />
             </>
           )}
         </View>
@@ -362,7 +316,7 @@ export default function NewFeedsList (props) {
   )
 }
 
-const FeedList = ({feeds, toggleFeedSelected}) => {
+const FeedList = ({feeds, toggleFeedSelected}: {feeds: Feed[], toggleFeedSelected: any}) => {
   return (
   <View style={{
     marginTop: 0, //getMargin(),
@@ -375,14 +329,14 @@ const FeedList = ({feeds, toggleFeedSelected}) => {
         feed={feed}
         index={index}
         toggleFeedSelected={toggleFeedSelected}
-        total={feeds.length}
+        isLast={index === feeds.length - 1}
       />)}
   </View>
 )}
 
-const FeedToggle = (props) => {
+const FeedToggle = (props: { feed: Feed, index: number, isLast: boolean, toggleFeedSelected: any }) => {
   const [isSelected, setSelected] = useState(false)
-  const { feed, index, isLast, toggleFeedSelected, total } = props
+  const { feed, index, isLast, toggleFeedSelected } = props
   const buttonStyles = {
     paddingTop: 9,
     paddingBottom: 18,
@@ -411,13 +365,13 @@ const FeedToggle = (props) => {
       }}
       style={{
           flexDirection: 'row',
-          backgroundColor: isSelected ? hslString('rizzleText') : 'transparent',
+          backgroundColor: isSelected ? hslString('logo3', undefined, 0.5) : 'transparent',
           paddingTop: 16 * fontSizeMultiplier(),
           paddingRight: 16 * fontSizeMultiplier(),
           borderTopLeftRadius: index === 0 ? getMargin() : 0,
           borderTopRightRadius: index === 0 ? getMargin() : 0,
-          borderBottomLeftRadius: index === total - 1 ? getMargin() : 0,
-          borderBottomRightRadius: index === total - 1 ? getMargin() : 0,
+          borderBottomLeftRadius: isLast ? getMargin() : 0,
+          borderBottomRightRadius: isLast ? getMargin() : 0,
       }}>
         <View style={{
           width: 65,
@@ -425,7 +379,7 @@ const FeedToggle = (props) => {
         }}>
           {<Image
             // resizeMode='contain'
-            source={{uri: feed.favicon_url}}
+            source={{uri: feed.favicon?.url}}
             style={{
               // flex: 1,
               marginLeft: 16 * fontSizeMultiplier(),
@@ -457,10 +411,10 @@ const FeedToggle = (props) => {
         </View>
       </TouchableOpacity>
       <View style={{
-        height: 1,
+        height: 1 / PixelRatio.get(),
         paddingLeft: 16 * fontSizeMultiplier(),
         paddingRight: 16 * fontSizeMultiplier(),
-        backgroundColor: isSelected || isLast ? 'transparent' : 'rgba(0,0,0,0.1)',
+        backgroundColor: isSelected || isLast ? 'transparent' : hslString('rizzleText', '', 0.5),
       }} />
     </Fragment>
   )

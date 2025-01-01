@@ -38,7 +38,7 @@ export const getFeeds = async (): Promise<FeedDB[] | null> => {
   })) as FeedDB[]
 }
 
-export const getFeedsById = async (ids: [string]): Promise<FeedDB[] | null> => {
+export const getFeedsById = async (ids: string[]): Promise<Feed[] | null> => {
   const {data, error} = await supabase
     .from('Feed')
     .select('*',)
@@ -47,7 +47,7 @@ export const getFeedsById = async (ids: [string]): Promise<FeedDB[] | null> => {
     throw error
   }
   // console.log('getFeed', data)
-  return data === null ? null : data as FeedDB[]
+  return data === null ? null : data.map(d => feedDBToFeed(d))
 }
 
 export const getFeedBySiteUrl = async (siteUrl: string): Promise<FeedDB | null> => {
@@ -132,25 +132,28 @@ export const addFeed = async (feed: { url: string, id?: number }, userId?: strin
     }
     userFeed = userFeedQuery.data[0]
   }
-  const color = typeof feedDB.color === 'object' ?
-    feedDB.color :
-    feedDB.color.replace(/[\[\]]/g, '').split(',').map(c => parseInt(c))
   return {
-    _id: feedDB._id,
-    rootUrl: feedDB.root_url ?? '',
-    url: feedDB.url,
-    title: feedDB.title,
-    description: feedDB.description,
-    color,
-    favicon: {
-      url: feedDB.favicon_url,
-      size: feedDB.favicon_size
-    },
+    ...feedDBToFeed(feedDB),
     isNudgeActive: userFeed.is_nudge_active,
     nextNudge: userFeed.next_nudge,
     readCount: userFeed.read_count ?? 0
   }
 }
+
+const feedDBToFeed = (feedDB: FeedDB): Feed => ({
+  _id: feedDB._id,
+  rootUrl: feedDB.root_url ?? '',
+  url: feedDB.url,
+  title: feedDB.title,
+  description: feedDB.description,
+  color: typeof feedDB.color === 'object' ?
+  feedDB.color :
+  feedDB.color.replace(/[\[\]]/g, '').split(',').map(c => parseInt(c)),
+  favicon: {
+    url: feedDB.favicon_url,
+    size: feedDB.favicon_size
+  }
+})
 
 export const removeUserFeed = async (feed: Feed) => {
   const { data } = await supabase.auth.getSession()
