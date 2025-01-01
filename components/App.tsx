@@ -5,9 +5,9 @@ import {
   HeaderStyleInterpolators,
   TransitionPresets 
 } from '@react-navigation/stack'
-import { useDispatch } from 'react-redux'
-import ItemsScreen from './ItemsScreen'
-import AccountScreenContainer from '../containers/AccountScreen'
+import { useDispatch, useSelector } from 'react-redux'
+import ItemsScreen from '@/components/ItemsScreen'
+import AccountScreenContainer from '@/containers/AccountScreen'
 import FeedsScreen from './FeedsScreen'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
@@ -22,6 +22,7 @@ import {default as MainWeb} from './web/Main'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { WebFontsLoader } from './WebFontsLoader'
 import Login from './Login'
+import { RootState } from '../store/reducers'
 
 const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
@@ -56,6 +57,8 @@ const Feeds = () => (
 )
 
 const Main = ({route}) => {
+  const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
+
   return (
     <MainStack.Navigator
       // headerMode='screen'
@@ -65,7 +68,7 @@ const Main = ({route}) => {
       }}
       screenOptions={{
         headerStyle: {
-          backgroundColor: hslString('rizzleBG', Platform.OS === 'android' ? 'darker': ''),
+          backgroundColor: isDarkMode ? hslString('rizzleBG') : hslString('rizzleBG', Platform.OS === 'android' ? 'darker': ''),
           height: getStatusBarHeight(),
           // https://github.com/react-navigation/react-navigation/issues/6899
           shadowColor: 'transparent',
