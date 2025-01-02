@@ -20,13 +20,15 @@ const Login = ({
   cta,
   inputColor,
   textColor,
-  hideHeader
+  hideHeader,
+  marginTop
 }: { 
   inputRef: any,
   cta: string,
   inputColor?: string,
   textColor: string,
-  hideHeader: boolean | undefined
+  hideHeader: boolean | undefined,
+  marginTop: number | undefined
 }) => {
   const navigation = useNavigation()
   const isLoggedIn = useSelector((state: RootState) => state.user.userId !== '')
@@ -126,7 +128,7 @@ const Login = ({
       <View style={{
         flex: 1,
         height: 1 / PixelRatio.get(),
-        backgroundColor: opacitise(textColor, 0.5),
+        backgroundColor: opacitise(textColor, 0.5)
       }}/>
       <Text style={{
         color: textColor,
@@ -153,10 +155,10 @@ const Login = ({
       <View 
         style={{
           flex: 1,
-          marginTop: hideHeader ? 
-            100 * fontSizeMultiplier() :
-            0,
-          marginHorizontal: getMargin()
+          marginTop: marginTop || 0,
+          marginHorizontal: getMargin(),
+          paddingTop: hideHeader ? 
+            100 * fontSizeMultiplier() : 0
         }}>
         { hideHeader || (
           <Image 

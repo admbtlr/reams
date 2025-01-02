@@ -207,7 +207,7 @@ export function hslString (color, modifier = '', alpha) {
     if (modifier === 'darkmodable' && isDarkMode) {
       lightness = lightness < 30 ?
         100 - lightness :
-        lightness
+        lightness - 50
     }
     return `hsl(${color[0]}, ${color[1]}%, ${lightness}%)`
   }
