@@ -620,8 +620,8 @@ class ItemTitle extends React.Component {
           getMargin() / 2 :
         (styles.textAlign === 'center' || styles.borderWidth) ?
           innerPadding :
-          styles.bg ? getMargin() / 2 : getMargin() / 2,
-      paddingTop: styles.hasBorder || styles.bg ? getMargin() : getMargin() / 2,//innerPadding + borderWidth,
+          styles.bg ? getMargin() : getMargin() / 2,
+      paddingTop: styles.hasBorder || styles.bg ? getMargin() / 2 : getMargin() / 2,//innerPadding + borderWidth,
       backgroundColor: showCoverImage && !isCoverInline && styles.bg ?  'rgba(255,255,255,0.95)' : 'transparent',
       // height: 'auto',
       overflow: 'visible',
@@ -631,7 +631,8 @@ class ItemTitle extends React.Component {
       width: 'auto',
       maxWidth,
       borderColor: color,
-      ...border
+      ...border,
+      borderRadius: styles.bg ? getMargin() : 0
     }
     if (this.props.anims) {
       innerViewStyle = this.props.addAnimation(innerViewStyle, titleAnimation, isVisible)
