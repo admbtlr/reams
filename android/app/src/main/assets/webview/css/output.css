@@ -869,7 +869,7 @@ hr {
 
 .bodyFontSans3 {
   font-family: "Montserrat-Regular", serif;
-  font-size: 0.5882352941rem !important;
+  font-size: 0.5714285714rem !important;
 }
 .bodyFontSans3 em, .bodyFontSans3 i {
   font-family: "Montserrat-Italic", sans-serif;
@@ -1242,7 +1242,7 @@ h1, h2, h3, h4, h5, b, strong {
 .itemArticle div:not(:first-of-type):before {
   background-color: var(--feed-color);
 }
-.itemArticle:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+html:not(.dark-background) .itemArticle:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, html:not(.dark-background) .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, html:not(.dark-background) .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: var(--feed-color);
 }
 body:not(.web) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {

@@ -1236,7 +1236,7 @@ hr {
 
 .bodyFontSans3 {
   font-family: "Montserrat-Regular", serif;
-  font-size: calc(1rem / 1.7) !important;
+  font-size: calc(1rem / 1.75) !important;
 
   em, i {
     font-family: "Montserrat-Italic", sans-serif;
@@ -1711,7 +1711,7 @@ h1, h2, h3, h4, h5, b, strong {
     }
   }
 
-  &:not(.dropCapIsMonochrome) {
+  html:not(.dark-background) &:not(.dropCapIsMonochrome) {
     & > p:not(.short-para):first-of-type,
       & > div:first-of-type > p:not(.short-para):first-of-type,
       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
