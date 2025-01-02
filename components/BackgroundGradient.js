@@ -2,13 +2,15 @@ import React from 'react';
 import { hslString } from '../utils/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 
+const xValues = [-1, 0, 1, 2]
+
 export const BackgroundGradient = ({ index = 0 }) => (
   <LinearGradient
-    colors={Math.floor(index / 2) % 2 == 0 ?
-      [hslString('logo2'), hslString('logo1')] :
-      [hslString('logo1'), hslString('logo2')]}
-    end={{ x: index % 2 === 0 ? -1 : 0, y: 1 }}
-    start={{ x: index % 2 === 0 ? 1 : 2, y: 0 }}
+    colors={index % 4 === 0 || index % 4 === 3  ?
+      [hslString('logo1', 'darkmodable'), hslString('logo2', 'darkmodable')] :
+      [hslString('logo2', 'darkmodable'), hslString('logo1', 'darkmodable')]}
+    end={{ x: xValues[index % 4], y: index % 4 === 0 || index % 4 === 3 ? 1 : 0 }}
+    start={{ x: xValues[(index + 2) % 4], y: index % 4 === 0 || index % 4 === 3 ? 0 : 1 }}
     style={{
       position: 'absolute',
       top: 0,

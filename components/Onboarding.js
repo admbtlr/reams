@@ -337,6 +337,7 @@ export const Onboarding3 = ({ index }) => {
         inputRef={inputRef} 
         textColor={'white'}
         inputColor={'white'}
+        marginTop={50}
       />
     </OnboardingPage>
   )
@@ -359,7 +360,7 @@ const Onboarding4 = ({ index }) => {
     if (isVisible)  {
       Animated.timing(mainAnim, {
         toValue: 1,
-        duration: 15000,
+        duration: 25000,
         delay: 0,
         useNativeDriver: true
       }).start()
@@ -378,49 +379,54 @@ const Onboarding4 = ({ index }) => {
           textAlign: 'left',
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
-            inputRange: [0, 0.025, 1],
+            inputRange: [0, 0.03, 1],
             outputRange: [0, 1, 1]
           }),
-        }}>You're in!</Animated.Text>
-        <Animated.Text style={{
-          ...textLargeBoldStyle,
-          textAlign: 'left',
-          marginBottom: 24 * fontSizeMultiplier(),
-          opacity: mainAnim.interpolate({
-            inputRange: [0, 0.025, 0.065, 1],
-            outputRange: [0, 0, 1, 1]
-          }),
-        }}>A couple of things you should know before you get started</Animated.Text>
+        }}>Thanks for choosing Reams!</Animated.Text>
         { /* Using a View here because android can't do opacity on the icons */}
         <Animated.View style={{
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
-            inputRange: [0, 0.1, 0.18, 1],
+            inputRange: [0, 0.07, 0.1, 1],
+            outputRange: [0, 0, 1, 1]
+          }),
+        }}>
+          <Text style={{
+            ...textStyle,
+            textAlign: 'left',
+          }}>There are two areas in Reams: the {getRizzleButtonIcon('rss', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Feed</Text> and the {getRizzleButtonIcon('saved', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Library</Text>.</Text>
+        </Animated.View>
+        { /* Using a View here because android can't do opacity on the icons */}
+        <Animated.View style={{
+          marginBottom: 24 * fontSizeMultiplier(),
+          opacity: mainAnim.interpolate({
+            inputRange: [0, 0.2, 0.23, 1],
             outputRange: [0, 0, 1, 1]
           }),
         }}>
           <Animated.Text style={{
             ...textStyle,
             textAlign: 'left',
-          }}>New articles flow through your {getRizzleButtonIcon('rss', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Feed</Text> via RSS. Want to keep one of them? Save it to your {getRizzleButtonIcon('saved', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Library</Text>.</Animated.Text>
+          }}>New articles enter your {getRizzleButtonIcon('rss', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Feed</Text> via RSS, or from newsletters. Want to keep one of the articles forever? Save it to your {getRizzleButtonIcon('saved', 'white', null, null, true, 0.7)}&#160;<Text style={textBoldStyle}>Library</Text>.</Animated.Text>
         </Animated.View>
         <Animated.Text style={{
           ...textStyle,
           textAlign: 'left',
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
-            inputRange: [0, 0.5, 0.58, 1],
+            inputRange: [0, 0.6, 0.63, 1],
             outputRange: [0, 0, 1, 1]
           }),
-        }}>You can also save articles to your library from Safari (or 3rd party apps like the LRB or Substack) with the <Text style={textBoldStyle}>Reams share extension</Text>.</Animated.Text> 
+        }}>You can also save articles to your library from Safari (or 3rd party apps) with the <Text style={textBoldStyle}>Reams share extension</Text>.</Animated.Text> 
         <Animated.Text style={{
           ...textStyle,
           textAlign: 'left',
+          marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
-            inputRange: [0, 0.8, 0.88, 1],
+            inputRange: [0, 0.9, 0.93, 1],
             outputRange: [0, 0, 1, 1]
           }),
-        }}>(The extension also lets you add new sites to your feed btw)</Animated.Text>
+        }}>(Extensions for desktop browsers will be available very soon!)</Animated.Text> 
       </View>
       <Animated.Text style={{
         fontFamily: 'IBMPlexSans-Italic',
@@ -430,7 +436,7 @@ const Onboarding4 = ({ index }) => {
         bottom: 30,
         alignSelf: 'center',
         opacity: mainAnim.interpolate({
-          inputRange: [0, 0.95, 1],
+          inputRange: [0, 0.97, 1],
           outputRange: [0, 0, 1]
         }),
       }}>swipe >>></Animated.Text>
@@ -483,6 +489,7 @@ const Onboarding5 = ({ index, navigation }) => {
       <View style={{
         flex: 1,
         marginHorizontal: getMargin(),
+        marginTop: getMargin() * 2,
         justifyContent: 'center',
         alignItems: 'center',
       }}>
