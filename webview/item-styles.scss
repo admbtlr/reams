@@ -614,6 +614,10 @@ body {
     blockquote:not(.pullquote) {
       background-color: hsl(241, 4%, 11%);
       color: hsl(0, 0%, 90%) !important;
+
+      &::after {
+        background-color: hsl(241, 4%, 11%);
+      }
     }
 
     pre {
