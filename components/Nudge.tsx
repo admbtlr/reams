@@ -79,11 +79,11 @@ export default function Nudge({ feed_id, scrollAnim  }: {
           // backgroundColor: 'yellow',
         }}>
         <Text style={{
-          ...textInfoBoldStyle('white', 0),
+          ...textInfoBoldStyle('hsl(0, 0%, 100%)', 0),
           flex: 0,
           paddingHorizontal: getMargin(),
           opacity: 1
-        }}>This is the { feed?.readCount + suffix } article you’ve read from <Text style={textInfoBoldItalicStyle('white', 0)}>{feed?.title}</Text>. How about supporting them?</Text>
+        }}>This is the { feed?.readCount + suffix } article you’ve read from <Text style={textInfoBoldItalicStyle('hsl(0, 0%, 100%)', 0)}>{feed?.title}</Text>. How about supporting them?</Text>
         <View style={{
           flex: 0,
           flexDirection: 'row',
@@ -99,7 +99,7 @@ export default function Nudge({ feed_id, scrollAnim  }: {
               style={touchableOpacityStyle}
             >
               <Text style={{ 
-                ...textInfoBoldStyle('black', 0, true),
+                ...textInfoBoldStyle('hsl(0, 0%, 0%)', 0, true),
               }}>Already done</Text>            
             </TouchableOpacity>
           </View>
@@ -111,7 +111,7 @@ export default function Nudge({ feed_id, scrollAnim  }: {
               style={touchableOpacityStyle}
             >
               <Text style={{ 
-                ...textInfoBoldStyle('black', 0, true),
+                ...textInfoBoldStyle('hsl(0, 0%, 0%)', 0, true),
               }}>Maybe later</Text>            
             </TouchableOpacity>
           </View>
@@ -121,7 +121,7 @@ export default function Nudge({ feed_id, scrollAnim  }: {
               onPress={() => feed?.subscribeUrl&& feed?.subscribeUrl !== undefined && launchBrowser(feed?.subscribeUrl)}
             >
               <Text style={{ 
-                ...textInfoBoldStyle('black', 0, true),
+                ...textInfoBoldStyle('hsl(0, 0%, 0%)', 0, true),
               }}>Show me</Text>
             </TouchableOpacity>
           </View>
