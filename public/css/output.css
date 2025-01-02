@@ -411,6 +411,9 @@ body, body a, body a:active, body a:visited {
   background-color: hsl(241, 4%, 11%);
   color: hsl(0, 0%, 90%) !important;
 }
+.dark-background .itemArticle blockquote:not(.pullquote)::after {
+  background-color: hsl(241, 4%, 11%);
+}
 .dark-background .itemArticle pre {
   background-color: hsl(241, 4%, 11%);
   color: hsl(0, 0%, 80%);
