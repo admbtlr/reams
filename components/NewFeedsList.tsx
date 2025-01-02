@@ -167,7 +167,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'flex-start',
-          backgroundColor: hslString('logo1'),
+          backgroundColor: hslString('logo1', 'darkmodable'),
           paddingLeft: getMargin(),
           paddingRight: getMargin()
         }}
@@ -203,7 +203,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
           <Text style={{
             ...textStyles(),
             marginBottom: 32 * fontSizeMultiplier()
-          }}>1. Use the Reams Share Extension to add sites straight from Safari. Just tap the share button in your browser and look for the Reams icon.</Text>
+          }}>1. Use the Reams Share Extension to add sites straight from Safari (if the site offers RSS).</Text>
           <TouchableOpacity
             onPress={showAddFeedModal}
           >
