@@ -1630,6 +1630,7 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
 .web .itemArticle figure:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle img:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle video:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle iframe:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle pre:not(.specificity-breaker):not(.img-small):not(.img-tiny) {
   width: 100% !important;
   left: 0 !important;
+  margin-right: 0 !important;
 }
 .web .itemArticle figcaption {
   padding: 0;
