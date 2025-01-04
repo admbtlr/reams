@@ -14,7 +14,8 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
       moduleName === 'react-native-image-filter-kit' ||
       moduleName === '@invertase/react-native-apple-authentication' ||
       moduleName === 'react-native-haptic-feedback' ||
-      moduleName === 'redux-persist-filesystem-storage') {
+      moduleName === 'redux-persist-filesystem-storage' ||
+      moduleName === 'expo-sqlite') {
       return {
         type: 'empty',
         path: ''
