@@ -21,14 +21,18 @@ const Login = ({
   inputColor,
   textColor,
   hideHeader,
-  marginTop
+  marginTop,
+  backgroundColor,
+  focusCondition
 }: { 
   inputRef: any,
   cta: string,
   inputColor?: string,
   textColor: string,
   hideHeader: boolean | undefined,
-  marginTop: number | undefined
+  marginTop: number | undefined,
+  backgroundColor: string | undefined,
+  focusCondition: boolean | undefined
 }) => {
   const navigation = useNavigation()
   const isLoggedIn = useSelector((state: RootState) => state.user.userId !== '')
@@ -56,7 +60,7 @@ const Login = ({
   }
 
   useEffect(() => {
-    if (inputRef) {
+    if (inputRef && (focusCondition === undefined || focusCondition)) {
       inputRef?.current?.focus()
     }
   }, [inputRef])
@@ -154,7 +158,7 @@ const Login = ({
   return (
       <View 
         style={{
-          backgroundColor: hslString('rizzleBG'),
+          backgroundColor: backgroundColor || hslString('rizzleBG'),
           flex: 1,
           marginTop: marginTop || 0,
           paddingHorizontal: getMargin(),

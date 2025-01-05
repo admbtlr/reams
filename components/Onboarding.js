@@ -335,6 +335,7 @@ export const Onboarding3 = ({ index }) => {
       <Login 
         backgroundColor='transparent'
         cta='Ready to get started?'
+        focusCondition={onboardingIndex === index}
         inputRef={inputRef} 
         textColor={'white'}
         inputColor={'white'}
@@ -415,7 +416,7 @@ const Onboarding4 = ({ index }) => {
           textAlign: 'left',
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
-            inputRange: [0, 0.6, 0.63, 1],
+            inputRange: [0, 0.5, 0.53, 1],
             outputRange: [0, 0, 1, 1]
           }),
         }}>You can also save articles to your library from Safari (or 3rd party apps) with the <Text style={textBoldStyle}>Reams share extension</Text>.</Animated.Text> 
@@ -424,7 +425,7 @@ const Onboarding4 = ({ index }) => {
           textAlign: 'left',
           marginBottom: 24 * fontSizeMultiplier(),
           opacity: mainAnim.interpolate({
-            inputRange: [0, 0.9, 0.93, 1],
+            inputRange: [0, 0.8, 0.83, 1],
             outputRange: [0, 0, 1, 1]
           }),
         }}>(Extensions for desktop browsers will be available very soon!)</Animated.Text> 
@@ -437,8 +438,8 @@ const Onboarding4 = ({ index }) => {
         bottom: 30,
         alignSelf: 'center',
         opacity: mainAnim.interpolate({
-          inputRange: [0, 0.97, 1],
-          outputRange: [0, 0, 1]
+          inputRange: [0, 0.9, 0.93, 1],
+          outputRange: [0, 0, 1, 1]
         }),
       }}>swipe >>></Animated.Text>
     </OnboardingPage>
