@@ -9,7 +9,7 @@ const reams = require('./reams')
 
 const MAX_ITEMS_TO_DOWNLOAD = 1000
 
-const API_URL = process.env.API_URL
+const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 
 let backend
 let backends = {
@@ -54,7 +54,7 @@ export async function loadMercuryStuff (item) {
 }
 
 export function getMercuryUrl (item) {
-  let url = API_URL + '/mercury?url=' +
+  let url = EXPO_PUBLIC_API_URL + '/mercury?url=' +
     encodeURIComponent(item.url)
   if (item.isNewsletter) {
     url += '&skipContent=true'

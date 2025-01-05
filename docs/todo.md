@@ -1,15 +1,16 @@
-- icon
-- splash
-
-- add button to email contents of store to support 
-- add an about page that includes this button ^
+- duh I broke onboarding
+- replace react-native-text-size with https://github.com/DomiR/react-native-measure-text
+  - this doesn't measure text height, but then I could use onLayout for that
+- install and use skia
+- https://api.reams.app/api/find-feeds?url=https://werd.io/ doesn't work
+- about page
+  - add button to email contents of store to support 
 - save item / unsave item / save item doesn't work
 - remove category doesn't work
 - stop TopBar from rerendering so often
 - decorate visible items after all
 - fix WARN  (ADVICE) View #1559 of type RCTView has a shadow set but cannot   calculate shadow efficiently. Consider setting a background color to fix this, or apply the shadow to a more specific component.
 - fetch articles never completes when adding saved article via extension #BLOCKER
-- update redux-saga to 1.3.0 to remove its redux dep
 - open articles directly from annotations page
 - buttons to save links directly
 - how come mercury button disappears for Aeon articles?
@@ -42,7 +43,6 @@
 - onboarding in dark mode
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
-- feedly
 
 # Someday / Maybe
 - figure out how to re-enable animated scroll view with keyboard avoiding
@@ -63,6 +63,9 @@
 - make buttons use reanimate
 
 # Done
+- ~~icon~~
+- ~~splash~~
+- ~~update redux-saga to 1.3.0 to remove its redux dep~~
 - ~~wtf is up with FeedContracted on web???~~
 - ~~highlight location gets messed up on newsletters~~
 - ~~put back the foreign key constraint on annotation.item_id once we're persisting saved items~~

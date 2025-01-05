@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  PixelRatio,
   Platform,
   StatusBar,
   Text,
@@ -46,9 +47,9 @@ class AccountScreen extends React.Component {
       if (displayMode === ItemType.saved) {
         args = ['Items']
       } else if (gotoFeeds) {
-        args = ['Feeds', 'Items', 'Feeds']
+        args = ['Feed', 'Items', 'Feed']
       } else {
-        args = ['Feeds', 'Items']
+        args = ['Feed', 'Items']
       }
     }
 
@@ -174,8 +175,8 @@ class AccountScreen extends React.Component {
 
     const Separator = ({title}) => (
       <View style={{
-        borderTopColor: hslString('rizzleText', '', 0.3),
-        borderTopWidth: 1,
+        borderTopColor: hslString('rizzleText', '', 0.5),
+        borderTopWidth: 1 / PixelRatio.get(),
         marginVertical: margin,
         paddingTop: margin / 2,
         // flex: 1,
@@ -225,6 +226,7 @@ class AccountScreen extends React.Component {
         expandedView: (
           <AccountCredentialsForm
             isActive={isActive}
+            navigation={navigation}
             service={service}
             setBackend={that.props.setBackend}
             unsetBackend={that.props.unsetBackend}

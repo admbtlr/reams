@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectHostColors } from "../store/hostColors/hostColors";
 import { Platform } from "react-native";
 
-const CORS_PROXY = process.env.CORS_PROXY
+const EXPO_PUBLIC_CORS_PROXY = process.env.EXPO_PUBLIC_CORS_PROXY
 
 export function useColor(url: string | undefined) {
   const [color, setColor] = React.useState<string>()
@@ -41,7 +41,7 @@ export function useColor(url: string | undefined) {
       try {
         let iconSource
         if (Platform.OS === 'web') {
-          iconSource = process.env.API_URL + '/favicon?url=https://' + host
+          iconSource = process.env.EXPO_PUBLIC_API_URL + '/favicon?url=https://' + host
         } else {
           const path = `${FileSystem.documentDirectory}favicons/${host}.png`
           const faviconExists = await fileExists(path)

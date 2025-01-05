@@ -24,7 +24,7 @@ const hslString = (label) => {
   return ui[label]
 }
 
-const SENTRY_DSN = process.env.SENTRY_DSN
+const EXPO_PUBLIC_SENTRY_DSN = process.env.EXPO_PUBLIC_SENTRY_DSN
 
 const Share  = () => {
 
@@ -42,7 +42,7 @@ const Share  = () => {
 
   useEffect(() => {
     Sentry.init({
-      dsn: SENTRY_DSN
+      dsn: EXPO_PUBLIC_SENTRY_DSN
     })  
   }, [])
 

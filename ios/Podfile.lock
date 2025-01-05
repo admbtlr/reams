@@ -313,6 +313,8 @@ PODS:
   - MixpanelReactNative (2.4.1):
     - Mixpanel-swift (= 4.2.0)
     - React-Core
+  - PurchasesHybridCommon (13.12.1):
+    - RevenueCat (= 5.12.1)
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1515,6 +1517,7 @@ PODS:
   - ReactNativeWebPFormat (1.2.0):
     - React-Core
     - SDWebImageWebPCoder
+  - RevenueCat (5.12.1)
   - RNAppleAuthentication (2.4.0):
     - React-Core
   - RNCAsyncStorage (1.23.1):
@@ -1550,6 +1553,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - RNInAppBrowser (3.7.0):
+    - React-Core
+  - RNPurchases (8.4.1):
+    - PurchasesHybridCommon (= 13.12.1)
     - React-Core
   - RNReactNativeHapticFeedback (2.3.3):
     - DoubleConversion
@@ -1755,6 +1761,7 @@ DEPENDENCIES:
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
+  - RNPurchases (from `../node_modules/react-native-purchases`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReactNativeSharedGroupPreferences (from `../node_modules/react-native-shared-group-preferences`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -1772,6 +1779,8 @@ SPEC REPOS:
     - Bolts
     - libwebp
     - Mixpanel-swift
+    - PurchasesHybridCommon
+    - RevenueCat
     - SDWebImage
     - SDWebImageWebPCoder
     - Sentry
@@ -1971,6 +1980,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNInAppBrowser:
     :path: "../node_modules/react-native-inappbrowser-reborn"
+  RNPurchases:
+    :path: "../node_modules/react-native-purchases"
   RNReactNativeHapticFeedback:
     :path: "../node_modules/react-native-haptic-feedback"
   RNReactNativeSharedGroupPreferences:
@@ -2027,6 +2038,7 @@ SPEC CHECKSUMS:
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   Mixpanel-swift: e5dd85295923e6a875acf17ccbab8d2ecb10ea65
   MixpanelReactNative: 0101b8828c2f335c128850e71ab7d3b7adde089a
+  PurchasesHybridCommon: 6c07c9abb12b96413ee583c017957f52f5f4ceaa
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: 3afceddffa65aee666dafd6f0116f1d975db1584
   RCTRequired: ec1239bc9d8bf63e10fb92bd8b26171a9258e0c1
@@ -2085,6 +2097,7 @@ SPEC CHECKSUMS:
   React-utils: f242eb7e7889419d979ca0e1c02ccc0ea6e43b29
   ReactCommon: f7da14a8827b72704169a48c929bcde802698361
   ReactNativeWebPFormat: f5f043cc9ded052e535c3869ec341f91ba5a67c5
+  RevenueCat: c6a6faaaab1ca8903416b36a51470cca0ea6b5b5
   RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCCheckbox: a3ca9978cb0846b981d28da4e9914bd437403d77
@@ -2093,6 +2106,7 @@ SPEC CHECKSUMS:
   RNFS: 3ab21fa6c56d65566d1fb26c2228e2b6132e5e32
   RNGestureHandler: 2282cfbcf86c360d29f44ace393203afd5c6cff7
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
+  RNPurchases: 280a5cfd58c42a3d77cf9e582195a3bc028f1254
   RNReactNativeHapticFeedback: 7c701396d35a0e8863d8d8f97a7273c5f8509b40
   RNReactNativeSharedGroupPreferences: 29092869fc2e40d5baca5e15d82fa5c24a668977
   RNReanimated: 35f9ac9c3ac42d0497ebd1cce5c39d7687a8493e

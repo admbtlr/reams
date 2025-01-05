@@ -47,6 +47,7 @@ class AccountCredentialsForm extends React.Component {
   constructor (props: {
     isActive: boolean
     isExpanded: boolean
+    navigation: any
     service: string
     setBackend: () => void
     unsetBackend: () => void
@@ -123,7 +124,7 @@ class AccountCredentialsForm extends React.Component {
   }
 
   render = () => {
-    const { isActive, isExpanded, service, setBackend, unsetBackend, user } = this.props
+    const { isActive, isExpanded, navigation, service, setBackend, unsetBackend, user } = this.props
     const serviceDisplay = service === 'basic' ?
       'Rizzle Basic' :
       service[0].toUpperCase() + service.slice(1)
@@ -466,6 +467,33 @@ class AccountCredentialsForm extends React.Component {
                         textAlign: 'center'
                       }}>Stop using {serviceDisplay}</Text>
                     </TouchableOpacity>
+                  { service === 'reams' && (
+                    user.isPremium ? (
+                      <Text style={{
+                        ...textInfoBoldStyle('white'),
+                        textAlign: 'center',
+                        marginTop: 32 * fontSizeMultiplier(),
+                      }}>Thank you for being a Preamium user!</Text>
+                    ) : (
+                      <TouchableOpacity
+                        accessibilityLabel={`Go Preamium`}
+                        color={hslString('white')}
+                        onPress={() => navigation.navigate('Subscribe') }
+                        style={{
+                          marginTop: 32 * fontSizeMultiplier(),
+                          width: '100%'
+                        }}
+                        testID={`${service}-preamium-button`}
+                      >
+                        <Text style={{
+                          ...textInfoBoldStyle('white'),
+                          textDecorationLine: 'underline',
+                          textAlign: 'center'
+                        }}>Go Preamium</Text>
+                      </TouchableOpacity>
+                    )
+                  )
+                  }
                   </React.Fragment>
                 }
               </View> :

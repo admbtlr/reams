@@ -72,7 +72,7 @@ function getUrl (endpoint: string) {
   } else {
     feedbinUrl = 'https://api.feedbin.com/v2/' + endpoint
   }
-  return !!process.env.CORS_PROXY ? `${process.env.CORS_PROXY}?url=${feedbinUrl}` : feedbinUrl
+  return !!process.env.EXPO_PUBLIC_CORS_PROXY ? `${process.env.EXPO_PUBLIC_CORS_PROXY}?url=${feedbinUrl}` : feedbinUrl
 }
 
 function getFetchConfig () {
@@ -125,7 +125,7 @@ async function doRequest (url: string, options: {
   options.headers = options.headers || getBasicAuthHeader()
   //@ts-ignore
   options.headers['Content-Type'] = 'application/json; charset=utf-8'
-  const reqUrl = !!process.env.CORS_PROXY ? process.env.CORS_PROXY + '?url=' + encodeURIComponent(url) : url
+  const reqUrl = !!process.env.EXPO_PUBLIC_CORS_PROXY ? process.env.EXPO_PUBLIC_CORS_PROXY + '?url=' + encodeURIComponent(url) : url
   const response = await fetch(reqUrl, options)
   if (!response.ok) {
     const text = await response.text()

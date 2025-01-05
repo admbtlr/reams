@@ -8,6 +8,7 @@ import {
   SET_BACKEND,
   UNSET_BACKEND,
   UserActionTypes,
+  SET_PREMIUM,
 } from '../user/types'
 
 // export interface UserState {
@@ -37,6 +38,7 @@ export interface UserState {
   readonly backends: Backend[]
   readonly analyticsId: string
   readonly signInEmail?: string
+  readonly isPremium?: boolean
 }
 
 const initialState = {
@@ -45,7 +47,8 @@ const initialState = {
   codeName: '',
   // this ternary is because id isn't a function in the test environment
   analyticsId: typeof id === 'function' ? id() : '',
-  backends: []
+  backends: [],
+  isPremium: false
 }
 
 export function user (
@@ -107,6 +110,12 @@ export function user (
       return {
         ...state,
         signInEmail: action.email
+      }
+
+    case SET_PREMIUM:
+      return {
+        ...state,
+        isPremium: action.isPremium
       }
 
     default:

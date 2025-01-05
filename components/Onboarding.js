@@ -333,6 +333,7 @@ export const Onboarding3 = ({ index }) => {
   return (
     <OnboardingPage index={index}>
       <Login 
+        backgroundColor='transparent'
         cta='Ready to get started?'
         inputRef={inputRef} 
         textColor={'white'}
