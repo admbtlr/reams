@@ -69,14 +69,14 @@ export default function InitialScreen({}) {
   const redirectToItems = (gotoFeeds = false, useTimeout = false) => {
     let args: string[] = []
     if (isOnboarding) {
-      args = ['Feeds', 'Items']
+      args = ['Feed', 'Items']
     } else if (backend) {
       if (displayMode === ItemType.saved) {
-        args = ['Feeds', 'Items']
+        args = ['Feed', 'Items']
       } else if (gotoFeeds) {
-        args = ['Feeds', 'Items', 'Feeds']
+        args = ['Feed', 'Items', 'Feed']
       } else if (hasFeeds) {
-        args = ['Feeds', 'Items']
+        args = ['Feed', 'Items']
       }
     }
 
@@ -190,11 +190,11 @@ export default function InitialScreen({}) {
                   type: SET_DISPLAY_MODE,
                   displayMode: 'unread'
                 })
-                navigation.navigate('Feeds', { isSaved: false })
+                navigation.navigate('Feed', { isSaved: false })
               }}
               scrollAnim={scrollAnim}
               index={0}
-              text='Feeds'
+              text='Feed'
               viewStyle={{ paddingLeft: 5 }}
             />
             <NavButton
@@ -205,7 +205,7 @@ export default function InitialScreen({}) {
                   type: SET_DISPLAY_MODE,
                   displayMode: 'saved'
                 })
-                navigation.navigate('Feeds', { isSaved: true })
+                navigation.navigate('Feed', { isSaved: true })
               }}
               scrollAnim={scrollAnim}
               index={1}
@@ -265,17 +265,17 @@ export default function InitialScreen({}) {
             ...textInfoStyle('rizzleText'),
             marginBottom: getMargin() * 0.5,
           }}>Questions? Feedback?</Text>
-          <TouchableOpacity onPress={() => Linking.openURL('mailto:hello@reams.app')}>
+          <TouchableOpacity onPress={() => Linking.openURL('mailto:adam@reams.app')}>
             <Text style={{
               ...textInfoStyle('rizzleText'),
               textDecorationLine: 'underline',  
               marginBottom: getMargin() * 2,
-            }}>hello@reams.app</Text>
+            }}>adam@reams.app</Text>
           </TouchableOpacity>
           <Text style={{
             ...textInfoBoldStyle('rizzleText'),
             // marginBottom: getMargin() * 0.5,
-          }}>Deeply Superficial</Text>
+          }}>Serious, joyful & open</Text>
         </View>
       </View>
     </View>

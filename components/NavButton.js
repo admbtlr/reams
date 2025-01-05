@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Animated,
+  PixelRatio,
   Text,
   TouchableOpacity,
   View
@@ -26,9 +27,9 @@ export default NavButton = ({ children, icon, onPress, text, hasBottomBorder, ha
   }}>
     { hasTopBorder && 
       <Animated.View style={{
-        height: 1,
+        height: 1 / PixelRatio.get(),
         width: '100%',
-        backgroundColor: hslString('rizzleText', '', 0.2),
+        backgroundColor: hslString('rizzleText', '', 0.5),
         transform: [{
           translateY: scrollAnim ? scrollAnim.interpolate({
             inputRange: [-1, 0, 1],
@@ -80,9 +81,9 @@ export default NavButton = ({ children, icon, onPress, text, hasBottomBorder, ha
     </Animated.View>
     { hasBottomBorder && 
       <Animated.View style={{
-        height: 1,
+        height: 1 / PixelRatio.get(),
         width: '100%',
-        backgroundColor: hslString('rizzleText', '', 0.2),
+        backgroundColor: hslString('rizzleText', '', 0.5),
         transform: [{
           translateY: scrollAnim ? scrollAnim.interpolate({
             inputRange: [-1, 0, 1],

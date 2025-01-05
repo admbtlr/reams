@@ -27,8 +27,8 @@ import { Newsletter } from '../store/newsletters/types'
 
 let isPlus = false
 
-const CORS_PROXY = process.env.CORS_PROXY
-const API_URL = process.env.API_URL
+const EXPO_PUBLIC_CORS_PROXY = process.env.EXPO_PUBLIC_CORS_PROXY
+const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 
 export function init () {
 }
@@ -118,7 +118,7 @@ export async function fetchItems (
 
 // const fetchUnreadItems = (feeds: { url : string, isNew?: boolean }[], lastUpdated: number) => {
 //   const promises = feeds.filter(feed => !!feed).map(feed => {
-//     const url = `${API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
+//     const url = `${EXPO_PUBLIC_API_URL}/feed/?url=${feed.url}&lastUpdated=${feed.isNew ? 0 : lastUpdated}`
 //     // const url = `http://localhost:8080/feed/?url=${feed.url}`
 //     return fetch(url).then(response => {
 //       return { response, feed }
@@ -176,8 +176,8 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
   const promises = Object.values(chunked).map(async(feeds: bodyFeed[]) => {
     try {
       console.log('fetching a chunk')
-      const apiUrl = API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
-      const proxy = CORS_PROXY //`${apiUrl}/cors-proxy/`
+      const apiUrl = EXPO_PUBLIC_API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
+      const proxy = EXPO_PUBLIC_CORS_PROXY //`${apiUrl}/cors-proxy/`
       const feedsUrl = `${apiUrl}/feeds`
       const url = `${proxy}?url=${encodeURIComponent(feedsUrl)}`
       console.log(url)
@@ -320,7 +320,7 @@ interface FeedMeta {
 
 export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta | undefined> {
   // log('getFeedMeta')
-  const apiUrl = `${API_URL}/feed-meta?url=${feed.url}`
+  const apiUrl = `${EXPO_PUBLIC_API_URL}/feed-meta?url=${feed.url}`
   try {
     const response = await fetch(apiUrl)
     if (!response.ok) {
@@ -351,7 +351,7 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
   //   // throw new Error(`Error finding feeds for ${url}: ${e.message}`)
   // }
   try {
-    const apiUrl = `${API_URL}/find-feeds?url=${url}&extended=1`
+    const apiUrl = `${EXPO_PUBLIC_API_URL}/find-feeds?url=${url}&extended=1`
     const response = await fetch(apiUrl)
     if (!response.ok) {
       throw {

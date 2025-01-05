@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   LayoutAnimation,
+  PixelRatio,
   Platform,
   Text,
   TouchableOpacity,
@@ -85,14 +86,14 @@ class TextButton extends React.Component {
     bgColor = bgColor || hslString('buttonBG')
     borderColor = hideBorder ? 
       (isInverted ? fgColor : bgColor) : 
-      borderColor || hslString('rizzleText', '', 0.5)
+      borderColor || hslString('rizzleText', '', 1)
     const screenWidth = Dimensions.get('window').width
     const inset = getInset()
     const height = (isCompact ? 4 : 24) + (18 * fontSizeMultiplier())
     let buttonStyle = {
       borderColor: borderColor,
       backgroundColor: isInverted ? fgColor : bgColor,
-      borderWidth: isGradient ? 0 : 1,
+      borderWidth: isGradient ? 0 : 1 / PixelRatio.get(),
       borderRadius: height / 2,
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),

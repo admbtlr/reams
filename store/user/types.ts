@@ -8,6 +8,7 @@ export const UNSET_EXTRA_BACKEND = 'UNSET_EXTRA_BACKEND'
 export const SET_UID = 'SET_UID'
 export const SET_USER_DETAILS = 'SET_USER_DETAILS'
 export const SET_SIGN_IN_EMAIL = 'SET_SIGN_IN_EMAIL'
+export const SET_PREMIUM = 'SET_PREMIUM'
 
 interface credentials {
   username?: string
@@ -17,6 +18,7 @@ interface credentials {
 
 interface UserDetails extends User {
   codeName?: string
+  isPremium?: boolean
 }
 
 interface setBackendAction {
@@ -58,10 +60,16 @@ interface setSignInEmailAction {
   email: string
 }
 
+interface setPremiumAction {
+  type: typeof SET_PREMIUM
+  isPremium: boolean
+}
+
 export type UserActionTypes = setBackendAction | 
   unsetBackendAction | 
   setExtraBackend | 
   unsetExtraBackend |
   setUidAction |
   setUserDetailsAction |
-  setSignInEmailAction
+  setSignInEmailAction |
+  setPremiumAction

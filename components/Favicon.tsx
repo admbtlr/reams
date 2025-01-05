@@ -19,8 +19,8 @@ interface props {
   isSmaller?: boolean | undefined
 }
 
-const CORS_PROXY = process.env.CORS_PROXY
-const API_URL = process.env.API_URL
+const EXPO_PUBLIC_CORS_PROXY = process.env.EXPO_PUBLIC_CORS_PROXY
+const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 
 function Favicon ({
   url,
@@ -29,7 +29,7 @@ function Favicon ({
   isSmaller
 }: props) {
   const [ faviconPath, setFaviconPath ] = React.useState<string>()
-  const proxiedUrl = url && `${CORS_PROXY}?url=${encodeURIComponent(url)}`
+  const proxiedUrl = url && `${EXPO_PUBLIC_CORS_PROXY}?url=${encodeURIComponent(url)}`
 
   React.useEffect(() => {
     if (Platform.OS === 'web') return
@@ -62,8 +62,8 @@ function Favicon ({
       const faviconExists = await fileExists(path)
       if (!faviconExists) {
         console.log('Favicon doesn\'t exist')
-        const apiUrl = API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
-        const proxy = CORS_PROXY //`${apiUrl}/cors-proxy/`
+        const apiUrl = EXPO_PUBLIC_API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
+        const proxy = EXPO_PUBLIC_CORS_PROXY //`${apiUrl}/cors-proxy/`
         let faviconUrl = `${apiUrl}/favicon?url=${encodeURIComponent(`https://${host}`)}`
         faviconUrl = Platform.OS === 'web' ?
           `${proxy}?url=${encodeURIComponent(faviconUrl)}` :

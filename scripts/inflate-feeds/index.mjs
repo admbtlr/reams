@@ -3,7 +3,7 @@ import rp from 'request-promise'
 import {feeds} from '../../utils/feeds/index.mjs'
 
 const getMeta = async (feedUrl) => {
-  const metaUrl = process.env.API_URL + '/feed-meta?url=' + feedUrl
+  const metaUrl = process.env.EXPO_PUBLIC_API_URL + '/feed-meta?url=' + feedUrl
   try {
     const meta = await rp({
       uri: metaUrl,

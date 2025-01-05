@@ -22,6 +22,7 @@ import {default as MainWeb} from './web/Main'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { WebFontsLoader } from './WebFontsLoader'
 import Login from './Login'
+import Subscribe from './Subscribe'
 import { RootState } from '../store/reducers'
 
 const FeedsStack = createStackNavigator()
@@ -115,12 +116,12 @@ const Main = ({route}) => {
           // headerBackImage: getRizzleButtonIcon('account'),
         }} />
       <MainStack.Screen
-        name='Feeds'
+        name='Feed'
         component={Feeds}
         options={({route}) => {
           const toFeeds = route.params?.toFeeds
           return {
-            title: route.params?.isSaved ? 'Library' : 'Feeds',
+            title: route.params?.isSaved ? 'Library' : 'Feed',
             headerBackTitleVisible: false,
             // headerRight: () => (
             //   <View style={{ backgroundColor: 'red' }}>
@@ -234,6 +235,14 @@ const Main = ({route}) => {
             }
           }
         }
+      />
+      <MainStack.Screen
+        name='Subscribe'
+        component={Subscribe}
+        options={{
+          headerShown: false,
+          presentation: 'modal'
+        }}
       />
       <MainStack.Screen
         name='Login'

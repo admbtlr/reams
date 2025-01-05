@@ -464,7 +464,7 @@ class FeedItem extends React.Component {
           />
           </Animated.View>
         </Animated.ScrollView>
-        { !hasRendered && 
+        { !hasRendered && !item.isDecorated &&
           <Animated.View
             style={{
               backgroundColor: bodyColor,

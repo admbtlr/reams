@@ -67,7 +67,7 @@ const Rizzle = () => {
       }
       initSQLite()
       Sentry.init({
-        dsn: process.env.SENTRY_DSN,
+        dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
         debug: __DEV__
       })
       initTensorFlow()
@@ -168,7 +168,7 @@ export default Sentry.wrap(Rizzle)
 //       initSQLite()
 //       InteractionManager.setDeadline(100)
 //       Sentry.init({
-//         dsn: process.env.SENTRY_DSN,
+//         dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
 //         debug: __DEV__
 //       })
 //       initTensorFlow()

@@ -2,26 +2,26 @@ import { Item, ItemInflated } from '../store/items/types'
 import log from '../utils/log'
 
 // bail if we don't have our ENV set:
-// if (!process.env.JMAP_TOKEN) {
-//   console.log("Please set your JMAP_USERNAME and JMAP_TOKEN")
-//   console.log("JMAP_TOKEN=token node hello-world.js")
+// if (!process.env.EXPO_PUBLIC_JMAP_TOKEN) {
+//   console.log("Please set your JMAP_USERNAME and EXPO_PUBLIC_JMAP_TOKEN")
+//   console.log("EXPO_PUBLIC_JMAP_TOKEN=token node hello-world.js")
 
 //   process.exit(1)
 // }
 
-const CORS_PROXY = process.env.CORS_PROXY
-const JMAP_TOKEN = process.env.JMAP_TOKEN
-const API_URL = process.env.API_URL
+const EXPO_PUBLIC_CORS_PROXY = process.env.EXPO_PUBLIC_CORS_PROXY
+const EXPO_PUBLIC_JMAP_TOKEN = process.env.EXPO_PUBLIC_JMAP_TOKEN
+const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 
-const authUrl = CORS_PROXY + '?url=' + 
+const authUrl = EXPO_PUBLIC_CORS_PROXY + '?url=' + 
   encodeURIComponent('https://api.fastmail.com/.well-known/jmap')
 const headers = {
   "Content-Type": "application/json; charset=utf-8",
-  'x-authorization': 'Bearer ' + JMAP_TOKEN,
-  'Authorization': 'Bearer ' + JMAP_TOKEN
+  'x-authorization': 'Bearer ' + EXPO_PUBLIC_JMAP_TOKEN,
+  'Authorization': 'Bearer ' + EXPO_PUBLIC_JMAP_TOKEN
 }
 
-const reamsMailboxId = process.env.REAMS_MAILBOX_ID
+const reamsMailboxId = process.env.EXPO_PUBLIC_REAMS_MAILBOX_ID
 let session: any = undefined
 
 const getSession = async () => {
@@ -123,7 +123,7 @@ const mailboxQuery = async (apiUrl: string, queryState?: string, codeName?: stri
     ]
   }`
   try {
-    const response = await fetch(`${CORS_PROXY}?url=${encodeURIComponent('https://api.fastmail.com/jmap/api/')}&t=${Date.now()}`, {
+    const response = await fetch(`${EXPO_PUBLIC_CORS_PROXY}?url=${encodeURIComponent('https://api.fastmail.com/jmap/api/')}&t=${Date.now()}`, {
       method: "POST",
       headers: {
         ...headers,
@@ -141,7 +141,7 @@ const mailboxQuery = async (apiUrl: string, queryState?: string, codeName?: stri
 export const getBlob = async (item: Item, apiUrl: string, accountId: string) => {
   const url = encodeURIComponent(`https://www.fastmailusercontent.com/jmap/download/${accountId}/${item.blobId}/${item.title}`)
   try {
-    const response = await fetch(CORS_PROXY + '?url=' + url, { headers })
+    const response = await fetch(EXPO_PUBLIC_CORS_PROXY + '?url=' + url, { headers })
     const body = await response.text()
     return body
   } catch (e) {
@@ -157,7 +157,7 @@ export default async function fetchNewsletterItems(lastQueryState?: string, code
   let response
   const session = await getSession()
   // console.log(JSON.stringify(session))
-  const apiUrl = CORS_PROXY + '?url=' + session.apiUrl
+  const apiUrl = EXPO_PUBLIC_CORS_PROXY + '?url=' + session.apiUrl
   const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
   response = await mailboxQuery(apiUrl, lastQueryState, codeName)
   // console.log(JSON.stringify(response["methodResponses"][1].slice(1, -1)))
@@ -185,8 +185,8 @@ export const downloadContent = async (item: ItemInflated) => {
   const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
   const blobId = item.blobId
   const title = 'whatever'
-  const contentUrl = encodeURIComponent(`${API_URL}/fastmail-content/?accountId=${accountId}&blobId=${blobId}&title=${title}`)
-  const endpoint = `${CORS_PROXY}?url=${contentUrl}`
+  const contentUrl = encodeURIComponent(`${EXPO_PUBLIC_API_URL}/fastmail-content/?accountId=${accountId}&blobId=${blobId}&title=${title}`)
+  const endpoint = `${EXPO_PUBLIC_CORS_PROXY}?url=${contentUrl}`
   const response = await fetch(endpoint)
   const { body, url } = await response.json()
 
@@ -204,7 +204,7 @@ export const downloadContent = async (item: ItemInflated) => {
   //   },
   //   allowVulnerableTags: true
   // }
-  // const apiUrl = CORS_PROXY + '?url=' + session.apiUrl
+  // const apiUrl = EXPO_PUBLIC_CORS_PROXY + '?url=' + session.apiUrl
   // const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
   // try {
   //   console.log("Getting blob for ", item.title)

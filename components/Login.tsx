@@ -154,9 +154,10 @@ const Login = ({
   return (
       <View 
         style={{
+          backgroundColor: hslString('rizzleBG'),
           flex: 1,
           marginTop: marginTop || 0,
-          marginHorizontal: getMargin(),
+          paddingHorizontal: getMargin(),
           paddingTop: hideHeader ? 
             100 * fontSizeMultiplier() : 0
         }}>

@@ -46,7 +46,7 @@ let toDispatch = []
 
 const showLogs = true
 
-export const MAX_DECORATION_FAILURES = 5
+export const MAX_DECORATION_FAILURES = 1
 
 interface Decoration {
   item: WholeItem
