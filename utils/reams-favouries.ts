@@ -7,7 +7,6 @@ const reamsFavourites = {
     '4b27f7aa-7d4a-5b87-b5c8-3845d40ec9aa',
     '4e0ce856-eb94-5f9b-8f22-5826852b3163',
     '66fc4509-f547-5cd6-936f-e2ede1668c6a',
-    '6ac8c1c9-7cef-5a16-b520-a522fab4de98',
     'adcd0740-12b0-543c-86aa-4a5ed4a0178d',
     'b18e5eb3-d846-54b0-8927-09f76b3ef617',
     'b52be924-9fda-5a65-8c86-d2bce5560f5c',
