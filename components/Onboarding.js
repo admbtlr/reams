@@ -349,13 +349,15 @@ const Onboarding4 = ({ index }) => {
   const mainAnim = new Animated.Value(0)
   const onboardingIndex = useSelector(state => state.config.onboardingIndex)
 
+  console.log('onboardingIndex', onboardingIndex)
+
   // so this is weird
   // if the app has been opened from an emailed link, the onboardingIndex will be 2, 
   // because that's where it left off with the enter email screen
   // but if the user is going back and forth between the onboarding screens, it might be 0
-  const [isVisible, setIsVisible] = useState(onboardingIndex === 2 || onboardingIndex === 0)
+  const [isVisible, setIsVisible] = useState(onboardingIndex <= 2)
   useEffect(() => {
-    setIsVisible(onboardingIndex === 2 || onboardingIndex === 0)
+    setIsVisible(onboardingIndex <= 2)
   }, [onboardingIndex])
 
   useEffect(() => {
@@ -493,7 +495,7 @@ const Onboarding5 = ({ index, navigation }) => {
         marginHorizontal: getMargin(),
         marginTop: getMargin() * 2,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
       }}>
         <Animated.Text style={{
           ...textLargeStyle,
@@ -544,20 +546,38 @@ const Onboarding5 = ({ index, navigation }) => {
             ...textLargeBoldStyle,
             textAlign: 'center',
             marginBottom: 24 * fontSizeMultiplier(),
-          }}>You’re ready to go. Hit the button below to fall in love with reading online again.</Text>
+          }}>You have full access to Reams for one month</Text>
+          <Animated.Text style={{
+            ...textStyle,
+            textAlign: 'center',
+            marginBottom: 24 * fontSizeMultiplier(),
+            // opacity: anim.interpolate({
+            //   inputRange: [0, 0.25, 0.75, 1],
+            //   outputRange: [1, 1, 0, 0]
+            // }),
+          }}>After one month, you won’t be able to add any more sites or newsletters to your feed without paying for a (very cheap!) subscription.</Animated.Text>
+          <Animated.Text style={{
+            ...textStyle,
+            textAlign: 'center',
+            marginBottom: 24 * fontSizeMultiplier(),
+            // opacity: anim.interpolate({
+            //   inputRange: [0, 0.25, 0.75, 1],
+            //   outputRange: [1, 1, 0, 0]
+            // }),
+          }}>(You’ll still be able to keep on reading everything that comes through your feed from the sites and newsletters that you’ve already added, though)</Animated.Text>
           <Image 
             source={require('../assets/images/ream.png')} 
             style={{
               alignSelf: 'center'
             }}
           />
-        </Animated.View>
-        {isFinished ? (
           <TextButton
             onPress={endOnboardingAndResetNav}
             text='Start using Reams!'
           />
-        ) : (
+
+        </Animated.View>
+        {isFinished || (
           <>
             <TextButton
               buttonStyle={{marginBottom: 24 * fontSizeMultiplier()}}              
