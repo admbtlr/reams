@@ -111,21 +111,25 @@ export default function ButtonSet ({
   }
   const launchBrowser = async () => {
     if (!item?.url) return
-    try {
-      await InAppBrowser.isAvailable()
-      InAppBrowser.open(item.url, {
-        // iOS Properties
-        dismissButtonStyle: 'close',
-        preferredBarTintColor: hslString('rizzleBG'),
-        preferredControlTintColor: hslString('rizzleText'),
-        animated: true,
-        modalEnabled: true,
-        // modalPresentationStyle: "popover",
-        // readerMode: true,
-        enableBarCollapsing: true,
-      })
-    } catch (error) {
-      console.log('openLink', error)
+    if (Platform.OS === 'web') {
+      window.open(item.url, '_blank')
+    } else {
+      try {
+        await InAppBrowser.isAvailable()
+        InAppBrowser.open(item.url, {
+          // iOS Properties
+          dismissButtonStyle: 'close',
+          preferredBarTintColor: hslString('rizzleBG'),
+          preferredControlTintColor: hslString('rizzleText'),
+          animated: true,
+          modalEnabled: true,
+          // modalPresentationStyle: "popover",
+          // readerMode: true,
+          enableBarCollapsing: true,
+        })
+      } catch (error) {
+        console.log('openLink', error)
+      }
     }
   }
 
@@ -194,7 +198,7 @@ export default function ButtonSet ({
         }}
         onPress={toggleViewButtons}
       /> */}
-      <RizzleButton
+      { Platform.OS === 'web' || <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
@@ -211,6 +215,7 @@ export default function ButtonSet ({
         >
         { getRizzleButtonIcon('showShareSheetIcon', borderColor, backgroundColor, true, false) }
       </RizzleButton>
+      } 
       <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
