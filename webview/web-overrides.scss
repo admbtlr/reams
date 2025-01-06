@@ -8,6 +8,8 @@
     top: 0; 
     left: 0; 
     width: 100vw; 
+    display: flex;
+    align-items: flex-end;
   }
   
   .itemTitle {
@@ -55,17 +57,13 @@
 
   &.hasCoverImage .itemTitle {
     color: white;
-    position: absolute;
-    bottom: 0;
-    top: auto;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    justify-content: flex-end;
 
     &.center h1 {
       text-align: center;
-      width: 80%;
-      max-width: 900px;
+      // max-width: 900px;
     }
 
     &.top {
@@ -76,6 +74,13 @@
     &.middle {
       top: 50%;
       transform: translateY(-50%);
+    }
+
+    &.bg h1 {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 1rem;
+      color: black;
     }
   }
 
@@ -106,8 +111,9 @@
     max-height: 100%;
     // z-index: -1;
     background-repeat: no-repeat;
-    background-size: cover;
+    // background-size: cover;
     background-position: center;
+    background-color: var(--feed-color);
   }
   
   .articleHolder {

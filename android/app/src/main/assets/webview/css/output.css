@@ -280,7 +280,7 @@ body, body a, body a:active, body a:visited {
 .itemArticle blockquote::after, .itemArticle .pullquote::after, .itemArticle aside::after {
   content: "";
   display: block;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.75);
   width: 100vw;
   height: 100%;
   left: calc(50% - 50vw);
@@ -1528,6 +1528,8 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   top: 0;
   left: 0;
   width: 100vw;
+  display: flex;
+  align-items: flex-end;
 }
 .web .itemTitle {
   margin: 1rem 4vw;
@@ -1564,17 +1566,12 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
 }
 .web.hasCoverImage .itemTitle {
   color: white;
-  position: absolute;
-  bottom: 0;
-  top: auto;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  justify-content: flex-end;
 }
 .web.hasCoverImage .itemTitle.center h1 {
   text-align: center;
-  width: 80%;
-  max-width: 900px;
 }
 .web.hasCoverImage .itemTitle.top {
   top: 0;
@@ -1583,6 +1580,12 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
 .web.hasCoverImage .itemTitle.middle {
   top: 50%;
   transform: translateY(-50%);
+}
+.web.hasCoverImage .itemTitle.bg h1 {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  color: black;
 }
 .web.hasCoverImage .itemTitle::after {
   content: "";
@@ -1607,8 +1610,8 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   width: 100%;
   max-height: 100%;
   background-repeat: no-repeat;
-  background-size: cover;
   background-position: center;
+  background-color: var(--feed-color);
 }
 .web .articleHolder {
   background-color: hsl(60, 17%, 96%);
