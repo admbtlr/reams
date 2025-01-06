@@ -199,7 +199,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
             ...textStyles(),
             ...boldStyles,
             marginBottom: 32 * fontSizeMultiplier()
-          }}>There are three ways to add new websites to Reams:</Text>
+          }}>There are four ways to add new websites to Reams:</Text>
           <Text style={{
             ...textStyles(),
             marginBottom: 32 * fontSizeMultiplier()
