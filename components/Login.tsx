@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Onboarding3 } from './Onboarding'
-import { browserLinkedErrorsIntegration } from '@sentry/react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Image, Keyboard, PixelRatio, Text, TextInput, View } from 'react-native'
 import { useSelector } from 'react-redux'

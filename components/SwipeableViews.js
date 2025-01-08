@@ -4,7 +4,7 @@ import {
   Dimensions,
 } from 'react-native'
 import FeedItemContainer from '../containers/FeedItem.js'
-import Onboarding, { pages } from './Onboarding.js'
+import Onboarding from './onboarding/Onboarding'
 import { hslString } from '../utils/colors'
 import { SessionContext } from './AuthProvider'
 
