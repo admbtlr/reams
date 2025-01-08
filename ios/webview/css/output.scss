@@ -296,6 +296,36 @@ body {
     hyphens: none;
   }
 
+  &.bodyFontSans1, &.bodyFontSans1 table {
+    font-size: calc(1rem / 1.6) !important;
+    line-height: 1rem !important;
+  }
+
+  &.bodyFontSerif1, &.bodyFontSerif1 table {
+    font-size: calc(1rem / 1.8) !important;
+    line-height: 1rem !important;
+  } 
+
+  &.bodyFontSans3, &.bodyFontSans3 table {
+    font-size: calc(1rem / 1.7) !important;
+    line-height: 1rem !important;
+  }
+
+  &.bodyFontSerif3, &.bodyFontSerif3 table {
+    font-size: calc(1rem / 1.7) !important;
+    line-height: 1rem !important;
+  }
+
+  &.bodyFontSans4, &.bodyFontSans4 table {
+    font-size: calc(1rem / 1.7) !important;
+    line-height: 1rem !important;
+  }
+
+  &.bodyFontSerif4, &.bodyFontSerif4 table {
+    font-size: calc(1rem / 1.7) !important;
+    line-height: 1.3rem !important;
+  }
+
   // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
   //   &.#{$name} {
   //     h1, h2, h3 {
@@ -336,14 +366,6 @@ body {
     line-height: 1rem;
     margin: 1rem 0 0;
   }
-}
-
-.itemArticle.bodyFontSerif1, .itemArticle.bodyFontSerif1 table {
-  font-size: calc(1rem / 1.8) !important;
-}
-
-.itemArticle.bodyFontSerif3, .itemArticle.bodyFontSerif3 table {
-  font-size: calc(1rem / 1.7) !important;
 }
 
 .itemArticle {
@@ -1073,10 +1095,8 @@ hr {
   margin: 2rem;
 }
 
-
 .bodyFontSerif1 {
   font-family: "LibreBaskerville-Regular", serif;
-  font-size: calc(1rem / 1.8);
 
   em, i {
     font-family: "LibreBaskerville-Italic";
@@ -1100,7 +1120,6 @@ hr {
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
-  font-size: calc(1rem / 1.6);
 
   em, i {
     font-family: "IBMPlexSans-Italic", sans-serif;
@@ -1216,7 +1235,6 @@ hr {
 
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif", serif;
-  font-size: calc(1rem / 1.7);
 
   em, i {
     font-family: "IBMPlexSerif-Italic", sans-serif;
@@ -1240,7 +1258,6 @@ hr {
 
 .bodyFontSans3 {
   font-family: "Montserrat-Regular", serif;
-  font-size: calc(1rem / 1.75) !important;
 
   em, i {
     font-family: "Montserrat-Italic", sans-serif;
@@ -1264,7 +1281,6 @@ hr {
 
 .bodyFontSerif4 {
   font-family: "Reforma1969-Blanca", serif;
-  font-size: calc(1rem / 1.7);
 
   em, i {
     font-family: "Reforma1969-BlancaItalica", sans-serif;
@@ -1288,7 +1304,6 @@ hr {
 
 .bodyFontSans4 {
   font-family: "Reforma2018-Blanca", serif;
-  font-size: calc(1rem / 1.7);
 
   em, i {
     font-family: "Reforma2018-BlancaItalica", sans-serif;
@@ -1830,6 +1845,38 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   .subscribe-widget, .powered-by-substack {
     display: none;
   }
+
+  .post-header, .email-ufi-2-bottom {
+    padding-bottom: 4vw;
+
+    .post-title, .subtitle {
+      display: none;
+    }
+
+    table, td, tr, img {
+      // 83 just looks about right :shrug:
+      max-width: 83vw !important;
+      width: auto !important;
+      margin: 0 !important;
+      // padding: 0 !important;
+      display: inline;
+    }
+  }
+
+  // substack's weird caption then image thing
+  figure:has(figcaption + img) {
+    display: flex;
+    flex-direction: column;
+
+    figcaption {
+      order: 2;
+    }
+  
+    img {
+      order: 1;
+    }
+  }
+
 }
 
 

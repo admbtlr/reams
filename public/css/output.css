@@ -86,6 +86,30 @@ body, body a, body a:active, body a:visited {
   -webkit-hyphens: none;
   hyphens: none;
 }
+.itemArticle.bodyFontSans1, .itemArticle.bodyFontSans1 table, .itemArticle table.bodyFontSans1, .itemArticle table.bodyFontSans1 table {
+  font-size: 0.625rem !important;
+  line-height: 1rem !important;
+}
+.itemArticle.bodyFontSerif1, .itemArticle.bodyFontSerif1 table, .itemArticle table.bodyFontSerif1, .itemArticle table.bodyFontSerif1 table {
+  font-size: 0.5555555556rem !important;
+  line-height: 1rem !important;
+}
+.itemArticle.bodyFontSans3, .itemArticle.bodyFontSans3 table, .itemArticle table.bodyFontSans3, .itemArticle table.bodyFontSans3 table {
+  font-size: 0.5882352941rem !important;
+  line-height: 1rem !important;
+}
+.itemArticle.bodyFontSerif3, .itemArticle.bodyFontSerif3 table, .itemArticle table.bodyFontSerif3, .itemArticle table.bodyFontSerif3 table {
+  font-size: 0.5882352941rem !important;
+  line-height: 1rem !important;
+}
+.itemArticle.bodyFontSans4, .itemArticle.bodyFontSans4 table, .itemArticle table.bodyFontSans4, .itemArticle table.bodyFontSans4 table {
+  font-size: 0.5882352941rem !important;
+  line-height: 1rem !important;
+}
+.itemArticle.bodyFontSerif4, .itemArticle.bodyFontSerif4 table, .itemArticle table.bodyFontSerif4, .itemArticle table.bodyFontSerif4 table {
+  font-size: 0.5882352941rem !important;
+  line-height: 1.3rem !important;
+}
 .itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle table h1, .itemArticle table h2, .itemArticle table h3 {
   color: var(--feed-color);
 }
@@ -115,14 +139,6 @@ body, body a, body a:active, body a:visited {
   font-size: 0.5882352941rem;
   line-height: 1rem;
   margin: 1rem 0 0;
-}
-
-.itemArticle.bodyFontSerif1, .itemArticle.bodyFontSerif1 table {
-  font-size: 0.5555555556rem !important;
-}
-
-.itemArticle.bodyFontSerif3, .itemArticle.bodyFontSerif3 table {
-  font-size: 0.5882352941rem !important;
 }
 
 .itemArticle {
@@ -647,7 +663,6 @@ hr {
 
 .bodyFontSerif1 {
   font-family: "LibreBaskerville-Regular", serif;
-  font-size: 0.5555555556rem;
 }
 .bodyFontSerif1 em, .bodyFontSerif1 i {
   font-family: "LibreBaskerville-Italic";
@@ -680,7 +695,6 @@ hr {
 
 .bodyFontSans1 {
   font-family: "IBMPlexSans", sans-serif;
-  font-size: 0.625rem;
 }
 .bodyFontSans1 em, .bodyFontSans1 i {
   font-family: "IBMPlexSans-Italic", sans-serif;
@@ -839,7 +853,6 @@ hr {
 
 .bodyFontSerif3 {
   font-family: "IBMPlexSerif", serif;
-  font-size: 0.5882352941rem;
 }
 .bodyFontSerif3 em, .bodyFontSerif3 i {
   font-family: "IBMPlexSerif-Italic", sans-serif;
@@ -872,7 +885,6 @@ hr {
 
 .bodyFontSans3 {
   font-family: "Montserrat-Regular", serif;
-  font-size: 0.5714285714rem !important;
 }
 .bodyFontSans3 em, .bodyFontSans3 i {
   font-family: "Montserrat-Italic", sans-serif;
@@ -905,7 +917,6 @@ hr {
 
 .bodyFontSerif4 {
   font-family: "Reforma1969-Blanca", serif;
-  font-size: 0.5882352941rem;
 }
 .bodyFontSerif4 em, .bodyFontSerif4 i {
   font-family: "Reforma1969-BlancaItalica", sans-serif;
@@ -938,7 +949,6 @@ hr {
 
 .bodyFontSans4 {
   font-family: "Reforma2018-Blanca", serif;
-  font-size: 0.5882352941rem;
 }
 .bodyFontSans4 em, .bodyFontSans4 i {
   font-family: "Reforma2018-BlancaItalica", sans-serif;
@@ -1292,6 +1302,28 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
 
 .itemArticle table.email-body-container .subscribe-widget, .itemArticle table.email-body-container .powered-by-substack {
   display: none;
+}
+.itemArticle table.email-body-container .post-header, .itemArticle table.email-body-container .email-ufi-2-bottom {
+  padding-bottom: 4vw;
+}
+.itemArticle table.email-body-container .post-header .post-title, .itemArticle table.email-body-container .post-header .subtitle, .itemArticle table.email-body-container .email-ufi-2-bottom .post-title, .itemArticle table.email-body-container .email-ufi-2-bottom .subtitle {
+  display: none;
+}
+.itemArticle table.email-body-container .post-header table, .itemArticle table.email-body-container .post-header td, .itemArticle table.email-body-container .post-header tr, .itemArticle table.email-body-container .post-header img, .itemArticle table.email-body-container .email-ufi-2-bottom table, .itemArticle table.email-body-container .email-ufi-2-bottom td, .itemArticle table.email-body-container .email-ufi-2-bottom tr, .itemArticle table.email-body-container .email-ufi-2-bottom img {
+  max-width: 83vw !important;
+  width: auto !important;
+  margin: 0 !important;
+  display: inline;
+}
+.itemArticle table.email-body-container figure:has(figcaption + img) {
+  display: flex;
+  flex-direction: column;
+}
+.itemArticle table.email-body-container figure:has(figcaption + img) figcaption {
+  order: 2;
+}
+.itemArticle table.email-body-container figure:has(figcaption + img) img {
+  order: 1;
 }
 
 html.onboarding {
