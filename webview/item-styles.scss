@@ -88,10 +88,8 @@ body {
 .cover, .body {
   position: relative;
   margin: 0;
-  /*padding: $step * .5;*/
   width: 100%;
   max-width: 100%;
-  // overflow: hidden;
 }
 
 .itemArticle, .itemArticle table {
@@ -134,14 +132,6 @@ body {
     font-size: calc(1rem / 1.7) !important;
     line-height: 1.3rem !important;
   }
-
-  // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-  //   &.#{$name} {
-  //     h1, h2, h3 {
-  //       color: $value;
-  //     }
-  //   }
-  // }
 
   h1, h2, h3 {
     color: var(--feed-color);
@@ -592,13 +582,6 @@ body {
     }
   }
 
-  // @each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-  //   &.#{$name} {
-  //     ul li:before {
-  //       background-color: $value;
-  //     }
-  //   }
-  // }
   ul li:before, ol li:before {
     background-color: var(--feed-color);
   }
@@ -1462,63 +1445,8 @@ h1, h2, h3, h4, h5, b, strong {
   display: none !important;
 }
 
-
-@each $name, $value in map-merge($desaturated, ("saved": map-get($ui, "rizzleText"))) {
-  // .itemArticle.#{$name}, body.#{$name} .itemArticle {
-  //   a, a:active, a:visited {
-  //     // color: $value;
-  //     // text-decoration: none;
-  //     -webkit-text-decoration-color: $value;
-  //   }
-
-  //   blockquote.short-blockquote, .pullquote, aside {
-  //     color: $value;
-  //   }
-
-  //   *:not(:first-of-type) div,
-  //     * div:not(:first-of-type),
-  //     div:not(:first-of-type) {
-  //     &:before {
-  //       background-color: $value;
-  //     }
-  //   }
-
-  //   &:not(.dropCapIsMonochrome) {
-  //     & > p:not(.short-para):first-of-type,
-  //       & > div:first-of-type > p:not(.short-para):first-of-type,
-  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-  //       &:first-letter {
-  //         color: $value;
-  //       }
-  //     }
-  //   }
-
-  //   &.dropCapIsStroke {
-  //      & > p:not(.short-para):first-of-type,
-  //       & > div:first-of-type > p:not(.short-para):first-of-type,
-  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-  //       &:first-letter {
-  //         color: transparent;
-  //         -webkit-text-stroke: 2px #444444;
-  //       }
-  //     }
-  //   }
-
-  //   &.dropCapIsStroke:not(.dropCapIsMonochrome) {
-  //      & > p:not(.short-para):first-of-type,
-  //       & > div:first-of-type > p:not(.short-para):first-of-type,
-  //       & > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
-  //       &:first-letter {
-  //         -webkit-text-stroke-color: $value;
-  //       }
-  //     }
-  //   }
-  // }
-}
-
 .itemArticle {
   a, a:active, a:visited {
-    // color: $value;
     text-decoration-color: var(--feed-color);
     -webkit-text-decoration-color: var(--feed-color);
     // border-bottom: 2px solid var(--feed-color);

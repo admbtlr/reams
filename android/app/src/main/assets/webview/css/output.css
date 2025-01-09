@@ -70,7 +70,6 @@ body, body a, body a:active, body a:visited {
 .cover, .body {
   position: relative;
   margin: 0;
-  /*padding: $step * .5;*/
   width: 100%;
   max-width: 100%;
 }
