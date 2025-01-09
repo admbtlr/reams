@@ -130,7 +130,7 @@ body {
 
   &.bodyFontSerif4, &.bodyFontSerif4 table {
     font-size: calc(1rem / 1.7) !important;
-    line-height: 1.3rem !important;
+    line-height: 1rem !important;
   }
 
   h1, h2, h3 {
@@ -754,6 +754,14 @@ hr {
       @include dropCapFontSize(1.95rem);
       @include dropCapMarginTop(0.4rem);
     }
+    &.bodyFontSans3 {
+      @include dropCapFontSize(2rem);
+      @include dropCapMarginTop(0.3rem);
+    }
+    &.bodyFontSans4 {
+      @include dropCapFontSize(1.95rem);
+      @include dropCapMarginTop(0.42rem);
+    }
   }
 
   &.dropCapSize3 {
@@ -781,6 +789,14 @@ hr {
       @include dropCapFontSize(3.35rem);
       @include dropCapMarginTop(0.54rem);
     }
+    &.bodyFontSans3 {
+      @include dropCapFontSize(3.42rem);
+      @include dropCapMarginTop(0.325rem);
+    }
+    &.bodyFontSans4 {
+      @include dropCapFontSize(3.3rem);
+      @include dropCapMarginTop(0.55rem);
+    }
   }
 
   &.dropCapSize4 {
@@ -807,6 +823,14 @@ hr {
     &.bodyFontSans2 {
       @include dropCapFontSize(4.65rem);
       @include dropCapMarginTop(0.64rem);
+    }
+    &.bodyFontSans3 {
+      @include dropCapFontSize(4.85rem);
+      @include dropCapMarginTop(0.325rem);
+    }
+    &.bodyFontSans4 {
+      @include dropCapFontSize(4.55rem);
+      @include dropCapMarginTop(0.7rem);
     }
   }
 
