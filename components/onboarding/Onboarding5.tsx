@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { TOGGLE_ONBOARDING } from '../../store/config/types'
-import { ActionSheetIOS, Animated, Easing, Image, Pressable, Text, View } from 'react-native'
+import { ActionSheetIOS, Animated, Easing, Image, Linking, Pressable, Text, View } from 'react-native'
 import OnboardingPage from './OnboardingPage'
 import { fontSizeMultiplier, getMargin } from '../../utils/dimensions'
 import { textLargeBoldStyle, textLargeStyle, textStyle } from './Onboarding'
@@ -132,7 +132,7 @@ const Onboarding5 = ({ index, navigation }: { index: number, navigation: any }) 
               inputRange: [0, 0.03, 0.05, 1],
               outputRange: [0, 1, 1, 1]
             })
-          }}>You have full access to Reams for one month</Animated.Text>
+          }}>I hope you enjoy using Reams</Animated.Text>
           <Animated.Text style={{
             ...textStyle,
             textAlign: 'center',
@@ -141,7 +141,7 @@ const Onboarding5 = ({ index, navigation }: { index: number, navigation: any }) 
               inputRange: [0, 0.1, 0.13, 1],
               outputRange: [0, 0, 1, 1]
             })
-          }}>After one month, you won’t be able to add any more sites or newsletters to your feed without paying for a (very cheap!) subscription.</Animated.Text>
+          }}>I've worked on it for a long time, and I've made a real effort to sweat the details, and create the best possible reading experience</Animated.Text>
           <Animated.Text style={{
             ...textStyle,
             textAlign: 'center',
@@ -150,7 +150,15 @@ const Onboarding5 = ({ index, navigation }: { index: number, navigation: any }) 
               inputRange: [0, 0.3, 0.33, 1],
               outputRange: [0, 0, 1, 1]
             })
-          }}>(New articles will still enter your feed from the sites and newsletters that you’ve already added, though)</Animated.Text>
+          }}>If you have any questions, comments or bug reports, don’t hesitate get in touch at <Pressable
+            onPress={() => Linking.openURL('mailto:adam@reams.app')}
+            >
+            <Text style={{
+              ...textStyle,
+              textDecorationLine: 'underline',
+              marginBottom: -3 * fontSizeMultiplier(),
+            }}>adam@reams.app</Text>
+            </Pressable></Animated.Text>
           <Image 
             source={require('../../assets/images/ream.png')} 
             style={{
