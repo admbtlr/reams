@@ -22,7 +22,7 @@ export default function Nudge({ feed_id, scrollAnim  }: {
   const feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feed_id) ??
     state.newsletters.newsletters.find(n => n._id === feed_id))
   //@ts-ignore
-  const color = useColor(feed?.root_url ?? feed?.url)
+  const color = useColor(feed?.root_url ?? feed?.url) || 'black'
   const dispatch = useDispatch()
 
   if (!(feed?.readCount && feed?.nextNudge &&
