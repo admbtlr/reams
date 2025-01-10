@@ -323,7 +323,7 @@ class FeedItem extends React.Component {
       const that = this
       const animation = Animated.timing(reveal, {
         toValue: 0,
-        delay: 2000,
+        delay: 1500,
         duration: 500,
         useNativeDriver: true
       })
@@ -464,7 +464,7 @@ class FeedItem extends React.Component {
           />
           </Animated.View>
         </Animated.ScrollView>
-        { !hasRendered && !item.isDecorated &&
+        { !hasRendered &&
           <Animated.View
             style={{
               backgroundColor: bodyColor,
