@@ -68,11 +68,11 @@ export function * decorateItems () {
       if (nextItem) {
         // consoleLog(`Got item to decorate: ${nextItem.title}`)
         pendingDecoration.push(nextItem)
-        yield delay(3000)
+        yield delay(2000)
         if (!nextItem) continue // somehow item can become undefined here...?
         yield decorateItem(nextItem)
       } else {
-        yield delay(3000)
+        yield delay(2000)
       }
     }
   })
