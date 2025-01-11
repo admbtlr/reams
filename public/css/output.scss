@@ -254,12 +254,12 @@ body {
     max-width: calc(100vw - 1rem) !important;
     width: auto !important;
 
-    &.img-small {
-      float: left;
-      clear: left;
-      margin: 0.25rem 1rem 1rem 0;
-      left: 0;
-    }
+    // &.img-small {
+    //   float: left;
+    //   clear: left;
+    //   margin: 0.25rem 1rem 1rem 0;
+    //   left: 0;
+    // }
   }
 
   figure img.img-portrait, figure img.img-small {
@@ -267,14 +267,14 @@ body {
     margin-bottom: 0;
   }
 
-  img.img-small {
-    @media (min-width: 600px) {
-      left: 0;
-      float: left;
-      margin-top: 0;
-      margin-left: 0;
-    }
-  }
+  // img.img-small {
+  //   @media (min-width: 600px) {
+  //     left: 0;
+  //     float: left;
+  //     margin-top: 0;
+  //     margin-left: 0;
+  //   }
+  // }
 
   // figure handles its own margin
   figure img, figure iframe {
@@ -285,8 +285,8 @@ body {
 
   @media (min-width: 600px) {
     figure.figure-small {
-      width: calc(50% - 0.25rem) !important;
-      float: left;
+      // width: calc(50% - 0.25rem) !important;
+      // float: left;
       margin-right: 0.5rem;
       left: 0;
 
@@ -743,8 +743,8 @@ hr {
       @include dropCapMarginTop(0.33rem);
     }
     &.bodyFontSerif4 {
-      @include dropCapFontSize(2rem);
-      @include dropCapMarginTop(0.45rem);
+      @include dropCapFontSize(1.9rem);
+      @include dropCapMarginTop(0.47rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(1.95rem);
@@ -778,8 +778,8 @@ hr {
       @include dropCapMarginTop(0.36rem);
     }
     &.bodyFontSerif4 {
-      @include dropCapFontSize(3.3rem);
-      @include dropCapMarginTop(0.5rem);
+      @include dropCapFontSize(3.15rem);
+      @include dropCapMarginTop(0.63rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(3.38rem);
@@ -813,8 +813,8 @@ hr {
       @include dropCapMarginTop(0.4rem);
     }
     &.bodyFontSerif4 {
-      @include dropCapFontSize(4.6rem);
-      @include dropCapMarginTop(0.7rem);
+      @include dropCapFontSize(4.45rem);
+      @include dropCapMarginTop(0.75rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(4.73rem);
@@ -848,8 +848,8 @@ hr {
       @include dropCapMarginTop(0.42rem);
     }
     &.bodyFontSerif4 {
-      @include dropCapFontSize(6rem);
-      @include dropCapMarginTop(0.75rem);
+      @include dropCapFontSize(5.8rem);
+      @include dropCapMarginTop(0.9rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(6.13rem);
@@ -875,8 +875,8 @@ hr {
       @include dropCapMarginTop(0.56rem);
     }
     &.bodyFontSerif4 {
-      @include dropCapFontSize(7.58rem);
-      @include dropCapMarginTop(0.56rem);
+      @include dropCapFontSize(7rem);
+      @include dropCapMarginTop(1.1rem);
     }
     &.bodyFontSans1 {
       @include dropCapFontSize(7.5rem);
