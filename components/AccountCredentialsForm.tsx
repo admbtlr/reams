@@ -1,7 +1,7 @@
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import React from 'react'
-import { Dimensions, LayoutAnimation, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, LayoutAnimation, Platform, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import PasswordStorage from '@/utils/password-storage'
 import { authenticate } from '@/backends'
 import { hslString } from '@/utils/colors'
@@ -17,6 +17,7 @@ import {
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { supabase } from '@/storage/supabase'
 import TextButton from './TextButton'
+import { ModalContext } from './ModalProvider'
 
 const services = {
   feedbin: 'https://feedbin.com',
@@ -44,6 +45,9 @@ export const formElementStyles = {
 const width = Dimensions.get('window').width
 
 class AccountCredentialsForm extends React.Component {
+  static contextType = ModalContext
+  declare context: React.ContextType<typeof ModalContext>
+
   constructor (props: {
     isActive: boolean
     isExpanded: boolean
@@ -63,7 +67,6 @@ class AccountCredentialsForm extends React.Component {
       showPasswordField: false,
       newPassword: ''
     }
-
     this.authenticateUser = this.authenticateUser.bind(this)
   }
 
@@ -173,10 +176,7 @@ class AccountCredentialsForm extends React.Component {
           preferredBarTintColor: hslString('rizzleBG'),
           preferredControlTintColor: hslString('rizzleText'),
           animated: true,
-          modalEnabled: true,
-          // modalPresentationStyle: "popover",
-          // readerMode: true,
-          // enableBarCollapsing: true,
+          modalEnabled: true
         })
       } catch (error) {
         console.log('openLink', error)
@@ -440,10 +440,50 @@ class AccountCredentialsForm extends React.Component {
                         margin: getMargin(),
                         backgroundColor: 'rgba(255,255,255,0.2)'
                       }} />
+                    <Pressable
+                      onPress={() => {
+                        const { openModal } = this.context
+                        openModal({
+                          modalText: [
+                            {
+                              text: 'Delete Account',
+                              style: ['title']
+                            },
+                            {
+                              text: 'Are you sure you want to delete your Reams account?', 
+                              style: ['text']
+                            },
+                            {
+                              text: 'This will delete all your data, including your saved articles and newsletters.', 
+                              style: ['text']
+                            }
+                          ],
+                          modalOnOk: async () => {
+                            console.log('delete account')
+                            try {
+                              const { data, error } = await supabase.functions.invoke('user-self-delete')
+                              console.log(data)
+                              if (error) {
+                                console.error(error)
+                              }
+                              await supabase.auth.signOut()
+                            } catch (error) {
+                              console.error(error)
+                            }
+                          }
+                        })
                     
+                      }}
+                    >
+                      <Text style={{
+                          ...textInfoStyle('white'),
+                          fontSize: 12 * fontSizeMultiplier(),
+                          textDecorationLine: 'underline',
+                          textAlign: 'center'
+                        }}>Permanently delete your Reams account</Text>
+                    </Pressable>
                     <TouchableOpacity
                       accessibilityLabel={`Stop using ${serviceDisplay}`}
-                      color={hslString('white')}
                       onPress={async () => {
                         if (service === 'feedbin') {
                           PasswordStorage.removeItem("feedbin_password")
@@ -465,22 +505,27 @@ class AccountCredentialsForm extends React.Component {
                         ...textInfoStyle('white'),
                         textDecorationLine: 'underline',
                         textAlign: 'center'
-                      }}>Stop using {serviceDisplay}</Text>
+                      }}>Logout</Text>
                     </TouchableOpacity>
-                  { service === 'reams' && (
-                    user.isPremium ? (
+                  { service === 'reams' && 
+                    <View style={{
+                      alignSelf: 'stretch',
+                      height: 1,
+                      margin: getMargin(),
+                      backgroundColor: 'rgba(255,255,255,0.2)'
+                    }} />}
+                  { service === 'reams' && 
+                    (user.isPremium ? (
                       <Text style={{
                         ...textInfoBoldStyle('white'),
                         textAlign: 'center',
-                        marginTop: 32 * fontSizeMultiplier(),
                       }}>Thank you for being a Preamium user!</Text>
                     ) : (
                       <TouchableOpacity
                         accessibilityLabel={`Go Preamium`}
-                        color={hslString('white')}
                         onPress={() => navigation.navigate('Subscribe') }
                         style={{
-                          marginTop: 32 * fontSizeMultiplier(),
+                          // marginTop: 32 * fontSizeMultiplier(),
                           width: '100%'
                         }}
                         testID={`${service}-preamium-button`}
@@ -489,7 +534,7 @@ class AccountCredentialsForm extends React.Component {
                           ...textInfoBoldStyle('white'),
                           textDecorationLine: 'underline',
                           textAlign: 'center'
-                        }}>Go Preamium</Text>
+                        }}>Upgrade to a Preamium subscription</Text>
                       </TouchableOpacity>
                     )
                   )
