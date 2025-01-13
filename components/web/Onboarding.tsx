@@ -5,6 +5,7 @@ import { textInfoBoldStyle, textInfoStyle } from '../../utils/styles'
 import TextButton from "../TextButton"
 import { supabase } from "../../storage/supabase"
 import { useSession } from "../AuthProvider"
+import AnimatedEllipsis from "../AnimatedEllipsis"
 
 
 interface Props {
@@ -14,7 +15,9 @@ interface Props {
 export default function Onboarding(props: Props) {
   const [email, setEmail] = useState<string>('')
   const [isSending, setIsSending] = useState(false)
+  const [isSent, setIsSent] = useState(false)
   const [isTextInputFocused, setIsTextInputFocused] = useState(false)
+  const [isSubmitHidden, setIsSubmitHidden] = useState(false)
   const isEmailValid = email && email.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
   const session = useSession()
   console.log(session)
@@ -40,6 +43,8 @@ export default function Onboarding(props: Props) {
 
       if (result?.error) {
         console.log(result.error)
+      } else {
+        setIsSent(true)
       }
     }
   }
@@ -68,7 +73,7 @@ export default function Onboarding(props: Props) {
           fontFamily: 'PTSerif-Regular',
           fontSize: 40,
           color: 'white',
-        }}>Welcome to <Text style={{ fontFamily: 'PTSerif-Bold' }}>Reams</Text></Text>
+        }}>Welcome to Reams</Text>
         <Text style={{
           fontFamily: 'PTSerif-Regular',
           fontSize: 20,
@@ -96,19 +101,36 @@ export default function Onboarding(props: Props) {
             textAlign: 'center',
           }}
         />
-        <TextButton
-          isDisabled={!isEmailValid}
-          buttonStyle={{
-            marginTop: 20,
-            opacity: isEmailValid ? 1 : 0.5,
-            width: 200,
-          }}
-          showMaxHeight={true}
-          onPress={() => {
-            sendMagicLink(email)
-          }}
-          text='Send me a login link'
-        />
+        <View style={{ height: 60 }} >
+          { isSending ? (
+            <Text style={{           
+              fontSize: 40,
+              color: 'white',
+            }}><AnimatedEllipsis /></Text>
+          ) : 
+            isSent ? (
+              <Text style={{
+                ...textInfoBoldStyle('white'),
+                marginTop: 20,
+              }}>Check your email for the login link</Text>
+            ) : (
+              <TextButton
+                isDisabled={!isEmailValid}
+                buttonStyle={{
+                  marginTop: 20,
+                  opacity: isEmailValid ? 1 : 0.5,
+                  width: 200,
+                }}
+                showMaxHeight={true}
+                onPress={() => {
+                  sendMagicLink(email)
+                  setIsSubmitHidden(true)
+                }}
+                text='Send me a login link'
+              />
+            )
+          }
+        </View>
         {__DEV__ && (
           <TextButton
             buttonStyle={{
