@@ -1,5 +1,4 @@
 import { doQuery, getUserId, supabase } from '.'
-import { id as createId, pgTimestamp} from '../../utils'
 import log from '../../utils/log'
 import { adjectives, nouns } from '../../utils/usernames'
 
@@ -50,7 +49,7 @@ const getUniqueCodeName = async () => {
 }
 
 const getCandidate = () => {
-  const adjective = adjectives[Math.round(Math.random() * adjectives.length)]
-  const noun = nouns[Math.round(Math.random() * nouns.length)]
+  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)]
+  const noun = nouns[Math.floor(Math.random() * nouns.length)]
   return `${adjective}.${noun}`
 }
