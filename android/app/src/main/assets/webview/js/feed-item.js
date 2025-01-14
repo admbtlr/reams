@@ -279,7 +279,7 @@ function setFontSize (fontSize) {
   html.classList.remove(fontSizeClass)
   html.classList.add(`font-size-${fontSize}`)
   window.setTimeout(() => {
-    window.ReactNativeWebView.postMessage('resize:' + getHeight())
+    window.ReactNativeWebView && window.ReactNativeWebView.postMessage('resize:' + getHeight())
   }, 1000)
 
 }
@@ -490,13 +490,23 @@ function addTapMessageToElements (tag, msg, attr, fn) {
   var els = document.querySelectorAll(tag)
   Array.prototype.forEach.call(els, function (el, i) {
     el.onclick = function (event) {
-      window.ReactNativeWebView.postMessage(msg + el.getAttribute(attr))
+      window.ReactNativeWebView && window.ReactNativeWebView.postMessage(msg + el.getAttribute(attr))
       fn && fn(el)
       event.stopPropagation()
       event.preventDefault()
       return false
     }
   })
+}
+
+function addTargetToLinksOnWeb () {
+  var html = document.getElementsByTagName('html')[0]
+  if (html.classList.contains('web')) {
+    var links = document.querySelectorAll('a')
+    Array.prototype.forEach.call(links, function (link, i) {
+      link.setAttribute('target', '_blank')
+    })
+  }
 }
 
 function removeNYTImageText () {
@@ -648,11 +658,12 @@ function init() {
     cleanSource()
     markImages()
     addTapMessageToImages()
+    addTargetToLinksOnWeb()
     // addTapMessageToLinks()
     removeAllBrs()
     stopAutoplay()
     const src = document.querySelector('article').innerHTML
-    window.ReactNativeWebView.postMessage(src)
+    window.ReactNativeWebView && window.ReactNativeWebView.postMessage(src)
   }
   rangy.init()
   highlighter = rangy.createHighlighter()
@@ -704,10 +715,10 @@ function init() {
         const selections = highlighter.highlightSelection('highlight')
         const selection = selections[0]
         const serialized = highlighter.serialize(selection)
-        window.ReactNativeWebView?.postMessage("highlight:" + text + "++++++" + serialized)
+        window.ReactNativeWebView && window.ReactNativeWebView?.postMessage("highlight:" + text + "++++++" + serialized)
         highlighter.highlightSelection('highlight-pending')
       } else {
-        window.ReactNativeWebView?.postMessage("end-highlight")
+        window.ReactNativeWebView && window.ReactNativeWebView?.postMessage("end-highlight")
       }
     }
   })
