@@ -26,6 +26,8 @@ import NewFeedsList from '../NewFeedsList'
 import ModalScreen from '../ModalScreen'
 export const DRAWER_WIDTH = 300
 
+const title = 'Reams: Serious, joyful and open reading'
+
 export default function Main() {
   const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
   const session = useSession()
@@ -53,11 +55,11 @@ export default function Main() {
           drawerType: 'permanent',
           headerShown: false,
         }}>
-        <Drawer.Screen name="Feeds" component={Feeds} />
-        <Drawer.Screen name="Library" component={Feeds} />
-        <Drawer.Screen name="Highlights" component={HighlightsScreen} />
-        <Drawer.Screen name="Accounts" component={AccountScreenContainer} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
+        <Drawer.Screen name="Feeds" options={{ title }} component={Feeds} />
+        <Drawer.Screen name="Library" options={{ title }} component={Feeds} />
+        <Drawer.Screen name="Highlights" options={{ title }} component={HighlightsScreen} />
+        <Drawer.Screen name="Accounts" options={{ title }} component={AccountScreenContainer} />
+        <Drawer.Screen name="Settings" options={{ title }} component={SettingsScreen} />
       </Drawer.Navigator>
     </View>
   )
@@ -139,14 +141,23 @@ const Feeds = ({navigation}) => {
       >
       <FeedsStack.Screen
         name='Feed'
+        screenOptions={{
+          title
+        }}
         component={FeedsScreen}
       />
       <FeedsStack.Screen
         name='Items'
         component={ItemsScreen}
+        options={{
+          title
+        }}
       />
       <FeedsStack.Screen
         name='New Feeds List'
+        screenOptions={{
+          title
+        }}
         component={NewFeedsList}
       />
       <FeedsStack.Screen
@@ -165,6 +176,9 @@ const Feeds = ({navigation}) => {
             vertical: 800
           }
         }}
+        screenOptions={{
+          title
+        }}
       />
       <FeedsStack.Screen
         name='Modal'
@@ -173,6 +187,9 @@ const Feeds = ({navigation}) => {
           gestureResponseDistance: {
             vertical: 300
           }
+        }}
+        screenOptions={{
+          title
         }}
       />
     </FeedsStack.Navigator>
