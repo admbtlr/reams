@@ -11,6 +11,7 @@ import { getRizzleButtonIcon } from "../../utils/rizzle-button-icons"
 import { textInfoItalicStyle, textInfoMonoItalicStyle, textLabelStyle } from "../../utils/styles"
 import { useNavigation } from "@react-navigation/native"
 import { getMargin } from "../../utils/dimensions"
+import getFaviconUrl from "../../utils/get-favicon"
 
 interface Props {
   feeds: Feed[]
@@ -98,25 +99,6 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
   const ref = useRef<View>(null)
   const matches = item?.url?.match(/:\/\/(.*?)\//)
   const host = matches && matches.length > 1 ? matches[1] : null
-  // const [measure, setMeasure] = useState<{
-  //   x: number;
-  //   y: number;
-  //   width: number;
-  //   height: number;
-  // } | null>(null)
-  // useEffect(() => {
-  //   if (ref.current) {
-  //     ref.current.measureLayout(scrollRef.current, (x: number, y: number, width: number, height: number) => {
-  //       setMeasure({ x, y, width, height })
-  //     }, () => console.log('error'))
-  //   }
-  // }, [])
-  // useEffect(() => {
-  //   if (item._id === currentItem?._id) {
-  //     console.log('scrolling to', measure?.y)
-  //     scrollRef.current.scrollTo({ y: measure?.y, animated: true })
-  //   }
-  // }, [currentItem])
   return (
     <TouchableOpacity
       key={item._id}
@@ -146,14 +128,19 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
           marginBottom: 5,
         }}>
           { host && 
-              <img height="16" width="auto" src={`https://icons.duckduckgo.com/ip3/${host}.ico`} />
+              <Image 
+                source={{ uri: getFaviconUrl(host) }}
+                style={{
+                  width: 16,
+                  height: 16
+                }} />
           }
           <Text style={{
             color: hslString('rizzleText', undefined, 0.8),
             fontSize: 12,
             fontFamily: 'IBMPlexSans',
             marginLeft: getMargin() / 2
-          }}>{feed?.title}</Text>
+          }}>{feed?.title || host}</Text>
         </View>
         <View style={{
           flexDirection: 'row',

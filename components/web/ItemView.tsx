@@ -11,6 +11,7 @@ import FeedIcon from "../FeedIcon"
 import { HIDE_ALL_BUTTONS, SHOW_ITEM_BUTTONS } from "../../store/ui/types"
 import { useColor } from "../../hooks/useColor"
 import { decode } from "entities"
+import getFaviconUrl from "../../utils/get-favicon"
 
 const TOP_BAR_HEIGHT = 60
 
@@ -49,7 +50,19 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   //     }} /> :
   //   null
 
-  const feedColor = useColor(feed?.url)
+  const matches = item.url.match(/:\/\/(.*?)\//)
+  const host = matches && matches.length > 1 ? matches[1] : null
+
+  const [feedColor, setFeedColor] = useState<string>('')
+
+  const color = useColor(feed?.url || host || '')
+  console.log('Color from useColor:', color)
+  useEffect(() => {
+    console.log('setting feedColor:', color)
+    if (!color) return
+    setFeedColor(color)
+  }, [color]);
+
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
 
@@ -90,9 +103,6 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
     
   const fontStyles = document.getElementById('expo-generated-fonts')
 
-  const matches = item.url.match(/:\/\/(.*?)\//)
-  const host = matches && matches.length > 1 ? matches[1] : null
-
   console.log('Rendering ItemView, item: ' + item?.title + ', feed: ' + feed?.title)
 
   const html = item && `<html class="font-size-${fontSize} web ${isDarkMode ? 'dark-background' : ''}">
@@ -108,7 +118,6 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   }
     </style>
     <link rel="stylesheet" type="text/css" href="/css/output.css">
-    <link rel="stylesheet" type="text/css" href="/css/fonts.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -155,13 +164,13 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
           justifyContent: 'center',
         }}>
           { host && 
-              <img height="32" width="auto" src={`https://icons.duckduckgo.com/ip3/${host}.ico`} />
+              <img height="32" width="auto" src={ getFaviconUrl(host) } />
           }
           <Text style={{ 
             ...textInfoStyle(),
             marginLeft: 10,
             color: 'white',
-          }}>{ decode(feed?.title) }</Text>
+          }}>{ feed?.title ? decode(feed?.title) : host }</Text>
         </View>
         <WebView 
           onMessage={(event) => {
