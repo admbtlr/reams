@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import { getColors } from 'react-native-image-colors'
 import * as FileSystem from 'expo-file-system'
-import ReactNativeBlobUtil from 'react-native-blob-util'
 import { fileExists } from "../utils";
 import { hexToHsl } from "../utils/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { selectHostColors } from "../store/hostColors/hostColors";
 import { Platform } from "react-native";
-
-const EXPO_PUBLIC_CORS_PROXY = process.env.EXPO_PUBLIC_CORS_PROXY
 
 export function useColor(url: string | undefined) {
   const [color, setColor] = React.useState<string>()
@@ -30,11 +27,11 @@ export function useColor(url: string | undefined) {
       }
 
       const matches = url?.match(/:\/\/(.*?)\//)
-      const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : null
-      if (host === null) return
+      let host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
 
-      if (hostColors.find(hc => hc.host === host) !== undefined) {
-        setColor(hostColors.find(hc => hc.host === host)?.color)
+      const cachedColor = hostColors.find(hc => hc.host === host)?.color
+      if (cachedColor) {
+        setColor(cachedColor)
         return
       }
 
@@ -81,7 +78,7 @@ export function useColor(url: string | undefined) {
             }
           }) 
         }
-    } catch (err) {
+      } catch (err) {
         console.error('Error for host ' + host)
         // log(err, 'useColor')
       }
@@ -98,7 +95,7 @@ export function useColor(url: string | undefined) {
       lightness = 75
     }
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`
-
   }
+  
   return color
 }
