@@ -128,7 +128,7 @@ export default function HighlightsScreen () {
             marginLeft: 0,
             marginRight: 0
           }}>{hbi.item ? hbi.item.title : hbi.item_id}</Text>
-          { hbi.item?.feed_id && feeds.find(f => f._id === hbi.item?.feed_id) !== undefined && (
+          { !!hbi.item?.feed_id && feeds.find(f => f._id === hbi.item?.feed_id) !== undefined && (
             <Text style={{
               ...textInfoStyle(),
               fontSize: 12 * fontSizeMultiplier(),
