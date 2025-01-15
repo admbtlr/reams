@@ -175,13 +175,10 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
   console.log(`chunked into ${chunked.length}`)
   const promises = Object.values(chunked).map(async(feeds: bodyFeed[]) => {
     try {
-      console.log('fetching a chunk')
       const apiUrl = EXPO_PUBLIC_API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
       const proxy = EXPO_PUBLIC_CORS_PROXY //`${apiUrl}/cors-proxy/`
       const feedsUrl = `${apiUrl}/feeds`
       const url = `${proxy}?url=${encodeURIComponent(feedsUrl)}`
-      console.log(url)
-      console.log(JSON.stringify({ feeds }))
       const body = '{"feeds":[{"url":"https://www.noemamag.com/feed/","_id":"db81639e-6e40-5968-a8d7-4cd4ac39b465","lastUpdated":0},{"url":"https://www.daringfireball.net/feeds/main","_id":"b52be924-9fda-5a65-8c86-d2bce5560f5c","lastUpdated":0},{"url":"https://www.lrb.co.uk/feeds/rss","_id":"57eaa70c-ce4b-588b-a484-77bae50d5d7e","lastUpdated":0},{"url":"https://crookedtimber.org/feed/","_id":"3ce7b581-945f-5199-b69f-eb643e42322a","lastUpdated":0},{"url":"https://pluralistic.net/feed/","_id":"4b27f7aa-7d4a-5b87-b5c8-3845d40ec9aa","lastUpdated":0},{"url":"https://interconnected.org/home/feed","_id":"23ccb407-ec54-54fd-9a8f-8c65e17cf0e8","lastUpdated":0}]}'
       const res = await fetch(url, {
         method: 'POST',
