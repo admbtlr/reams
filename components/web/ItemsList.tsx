@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "store/reducers"
-import { Item, MARK_ITEM_READ, UPDATE_CURRENT_INDEX } from "../../store/items/types"
+import { Item, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_INDEX } from "../../store/items/types"
 import { ScaledSize, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from "react-native"
 import { hslString } from "../../utils/colors"
 import { Image } from "react-native"
@@ -21,6 +21,7 @@ interface Props {
 
 const ItemsList = ({ feeds, index, items }: Props) => {
   const currentItem = !!items && !!index ? items[index] : undefined
+  const displayMode = useSelector((store: RootState) => store.itemsMeta.display)
   const dimensions: ScaledSize = useWindowDimensions()
   const scrollRef = useRef<any>()
   const navigation = useNavigation()
@@ -54,7 +55,7 @@ const ItemsList = ({ feeds, index, items }: Props) => {
             fontSize: 12,
             margin: 0,
             opacity: 0.5
-          }}>Back to feed screen</Text>
+          }}>Back to { displayMode === ItemType.unread ? 'feed' : 'library' } screen</Text>
         </TouchableOpacity>
       </View>
       <ScrollView 

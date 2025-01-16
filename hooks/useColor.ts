@@ -83,6 +83,16 @@ export function useColor(url: string | undefined) {
         // log(err, 'useColor')
       }
     }
+
+    const matches = url?.match(/:\/\/(.*?)\//)
+    let host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
+
+    const cachedColor = hostColors.find(hc => hc.host === host)?.color
+    if (cachedColor) {
+      setColor(cachedColor)
+      return
+    }
+
     getColor()
   }, [url])
   
