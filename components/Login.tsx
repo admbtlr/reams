@@ -230,7 +230,7 @@ const Login = ({
             text='Send me a link'
           />)
         }
-        {!!inlineMessage && !session.error && !__DEV__ ? null : (
+        {!!inlineMessage && !session.error ? null : (
           <>
             {orSeparator}
             <AppleButton
@@ -245,13 +245,16 @@ const Login = ({
               }}
               onPress={() => onAppleButtonPress()}
             />
-            {orSeparator}
-            <TextButton
-              onPress={() => supabase.auth.signInWithPassword({
-                email: 'a@btlr.eu',
-                password: 'Asdfasdf'
-              })}
-              text='Log in with password' />
+            { __DEV__ &&
+            <>
+              {orSeparator}
+              <TextButton
+                onPress={() => supabase.auth.signInWithPassword({
+                  email: 'a@btlr.eu',
+                  password: 'Asdfasdf'
+                })}
+                text='Log in with password' />
+            </>}
           </>
         )}
       </View>
