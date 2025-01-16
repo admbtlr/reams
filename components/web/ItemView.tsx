@@ -12,6 +12,7 @@ import { HIDE_ALL_BUTTONS, SHOW_ITEM_BUTTONS } from "../../store/ui/types"
 import { useColor } from "../../hooks/useColor"
 import { decode } from "entities"
 import getFaviconUrl from "../../utils/get-favicon"
+import moment from "moment"
 
 const TOP_BAR_HEIGHT = 60
 
@@ -98,12 +99,20 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
     item?.styles?.title.textAlign || ''
   ].join(' ')
 
-  const body = item?.showMercuryContent ? item?.content_mercury : item?.content_html
+  const body = item?.content_html === '' || item?.showMercuryContent ? item?.content_mercury : item?.content_html
   const coverImageUrl = item?.coverImageUrl?.replace('(', '%28').replace(')', '%29')
     
   const fontStyles = document.getElementById('expo-generated-fonts')
 
-  console.log('Rendering ItemView, item: ' + item?.title + ', feed: ' + feed?.title)
+  const date = item.date_published || 0
+  const momentDate = moment(date)
+  let showYear = (momentDate.year() !== moment().year())
+  const showTime = Date.now() - date < 1000 * 60 * 60 * 24 * 30
+  const formattedDate = momentDate
+    .format('MMM. D' + (showYear ? ' YYYY' : ''))
+  const formattedTime = momentDate.format('h:mma')
+  const showToday = momentDate.dayOfYear() === moment().dayOfYear() &&
+    (momentDate.year() === moment().year())
 
   const html = item && `<html class="font-size-${fontSize} web ${isDarkMode ? 'dark-background' : ''}">
   <head>
@@ -131,7 +140,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
         <h1>${item?.title}</h1>
         ${item?.excerpt ? `<p class="excerpt">${item?.excerpt}</p>` : ''}
         ${item?.author ? `<p><b>${item?.author}</b></p>` : ''}
-        ${item?.date_published ? `<p class="date-published">${new Date(item.date_published).toUTCString()}</p>` : ''}
+        ${item?.date_published ? `<p class="date-published">${(showToday ? 'Today' : formattedDate)}${ showTime ? `, ${formattedTime}`: ''}</p>` : ''}
       </div>
     </div>
     <div class="articleHolder">
