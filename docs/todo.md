@@ -1,4 +1,9 @@
-- duh I broke onboarding
+- web
+  - ~~open all links in new tab~~
+  - ~~saved items site title~~
+  - ~~how can I render the site color faster?~~
+  - settings screen layout
+  - redo drop caps for different fonts (e.g. Nunito)
 - replace react-native-text-size with https://github.com/DomiR/react-native-measure-text
   - this doesn't measure text height, but then I could use onLayout for that
 - install and use skia
@@ -7,6 +12,8 @@
   - add button to email contents of store to support 
 - save item / unsave item / save item doesn't work
 - remove category doesn't work
+- fix search queries
+  - https://github.com/expo/expo/pull/27738
 - stop TopBar from rerendering so often
 - decorate visible items after all
 - fix WARN  (ADVICE) View #1559 of type RCTView has a shadow set but cannot   calculate shadow efficiently. Consider setting a background color to fix this, or apply the shadow to a more specific component.
@@ -40,7 +47,6 @@
 - remove all messages on init
 - handle being offline better (put checks into fetchItems etc.)
 - move message down when not in item screen
-- onboarding in dark mode
 - bug: add feed, get items, remove feed, still two items remaining
 - J dropcaps
 
@@ -63,6 +69,8 @@
 - make buttons use reanimate
 
 # Done
+- ~~duh I broke onboarding~~
+- ~~onboarding in dark mode~~
 - ~~icon~~
 - ~~splash~~
 - ~~update redux-saga to 1.3.0 to remove its redux dep~~
