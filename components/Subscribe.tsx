@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Image, PixelRatio, Text, View } from 'react-native'
+import { Image, PixelRatio, Pressable, Text, View } from 'react-native'
 import { fontSizeMultiplier, getMargin } from '../utils/dimensions'
 import { textInfoStyle } from '../utils/styles'
 import { hslString } from '../utils/colors'
@@ -13,6 +13,7 @@ import log from '../utils/log'
 import { useDispatch } from 'react-redux'
 import { ModalContext } from './ModalProvider'
 import { SET_PREMIUM } from '../store/user/types'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 
 const textLargeStyle = {
   ...textInfoStyle(hslString('rizzleText')),
@@ -25,6 +26,11 @@ const textListStyle = {
   textAlign: 'left',
   // marginBottom: 18 * fontSizeMultiplier(),
   marginLeft: getMargin() / 2
+}
+
+const textSmallStyle = {
+  ...textInfoStyle(hslString('rizzleText')),
+  fontSize: 12 * fontSizeMultiplier(),
 }
 
 const Subscribe = () => {
@@ -126,6 +132,30 @@ const Subscribe = () => {
 
           </View>
         )}
+        <View style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          marginTop: getMargin() / 2
+        }}>
+          <Pressable onPress={() => {
+            InAppBrowser.open('https://reams.app/privacy/')
+          }}>
+            <Text style={{
+              ...textSmallStyle,
+              textDecorationLine: 'underline',
+              margin: 0
+              }}>Privacy</Text>
+          </Pressable>
+          <Pressable onPress={() => {
+            InAppBrowser.open('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')
+          }}>
+            <Text style={{
+              ...textSmallStyle,
+              textDecorationLine: 'underline'
+              }}>Terms</Text>
+          </Pressable>
+        </View>  
       </View>
   )
 }
