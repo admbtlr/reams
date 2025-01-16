@@ -290,6 +290,10 @@ function * getNextItemToDecorate () {
   const savedItems: Item[] = yield select(getSavedItems)
 
   if (displayMode === ItemType.saved) {
+    const index: number = yield select(getIndex, ItemType.saved)
+    if (!savedItems[index].isDecorated) {
+      return savedItems[index]
+    }
     nextItem = savedItems.find(item => !item.isDecorated &&
       (!item.decoration_failures || item.decoration_failures < MAX_DECORATION_FAILURES) &&
       !pendingDecoration.find(pd => pd._id === item._id))
