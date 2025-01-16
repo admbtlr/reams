@@ -8,17 +8,13 @@ module.exports = api => {
         "plugins": ["transform-remove-console"]
       }
     },
-    presets: ['babel-preset-expo'],
+    presets: [
+      'babel-preset-expo',
+      ['@babel/preset-typescript', {allowDeclareFields: true}]
+    ],
     plugins: [
       '@babel/plugin-transform-export-namespace-from',
       'react-native-reanimated/plugin',
-      [
-        'module:react-native-dotenv',
-        {
-          moduleName: 'react-native-dotenv',
-          verbose: false,
-        },
-      ]
     ]    
   }
 }
