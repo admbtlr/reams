@@ -285,18 +285,22 @@ export async function cacheCoverImage (item: Item, imageURL: string) {
 }
 
 function * getNextItemToDecorate () {
+  const isItemViable = (item: Item) => {
+    return !item.isDecorated &&
+      (!item.decoration_failures || item.decoration_failures < MAX_DECORATION_FAILURES) &&
+      !pendingDecoration.find(pd => pd._id === item._id)
+  }
+
   let nextItem
   const displayMode: string = yield select(getDisplay)
   const savedItems: Item[] = yield select(getSavedItems)
 
   if (displayMode === ItemType.saved) {
     const index: number = yield select(getIndex, ItemType.saved)
-    if (!savedItems[index].isDecorated) {
+    if (isItemViable(savedItems[index])) {
       return savedItems[index]
     }
-    nextItem = savedItems.find(item => !item.isDecorated &&
-      (!item.decoration_failures || item.decoration_failures < MAX_DECORATION_FAILURES) &&
-      !pendingDecoration.find(pd => pd._id === item._id))
+    nextItem = savedItems.find(isItemViable)
     if (nextItem) return nextItem
   }
   // the getItems selector calls utils/get-item/getItems
