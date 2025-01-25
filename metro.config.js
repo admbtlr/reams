@@ -10,7 +10,7 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
     if (moduleName === 'redux-persist-filesystem-storage' ||
       moduleName === '@tensorflow/tfjs' ||
       moduleName === '@tensorflow/tfjs-react-native' ||
-      moduleName === 'mixpanel-react-native' ||
+      // moduleName === 'mixpanel-react-native' ||
       moduleName === 'react-native-image-filter-kit' ||
       moduleName === '@invertase/react-native-apple-authentication' ||
       moduleName === 'react-native-haptic-feedback' ||

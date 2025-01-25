@@ -2296,6 +2296,13 @@
   dependencies:
     merge-options "^3.0.4"
 
+"@react-native-async-storage/async-storage@^1.21.0":
+  version "1.24.0"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.24.0.tgz#888efbc62a26f7d9464b32f4d3027b7f2771999b"
+  integrity sha512-W4/vbwUOYOjco0x3toB8QCr7EjIP6nE9G7o8PMguvvjYT5Awg09lyV4enACRx4s++PPulBiBSjL0KTFx2u0Z/g==
+  dependencies:
+    merge-options "^3.0.4"
+
 "@react-native-clipboard/clipboard@^1.10.0":
   version "1.14.2"
   resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.14.2.tgz#d290e9f79799e260ba4ebd9e9948079258826b25"
@@ -12299,10 +12306,13 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mixpanel-react-native@^2.1.0:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/mixpanel-react-native/-/mixpanel-react-native-2.4.1.tgz#d63bf160875e9a0b7e3a50f395ad7aaa6d8c09a5"
-  integrity sha512-NNzXxOxX83FSIKN3x9vY49a13mk2syshWDcXvkfljiQ2bgwk0suA9PKYQNOkbwT/Af53oWt06JMe0xP4RUOyCA==
+mixpanel-react-native@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/mixpanel-react-native/-/mixpanel-react-native-3.0.8.tgz#072812a497cf658281424fd91cfdd4063d9853a0"
+  integrity sha512-wFP+Uba28+QO017VmRLk/pUZCPec05WQJ0GNJFcE23hQvh5RoMzG3FhV/Ca9bkjXKXUF7cnl+wvAw+e47JWVjA==
+  dependencies:
+    "@react-native-async-storage/async-storage" "^1.21.0"
+    uuid "3.3.2"
 
 mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.6"
@@ -17087,6 +17097,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
+  integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
 uuid@^3.0.1, uuid@^3.3.2:
   version "3.4.0"

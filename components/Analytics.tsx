@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import { AppState } from 'react-native'
+import { AppState, Platform } from 'react-native'
 import { Mixpanel } from 'mixpanel-react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/reducers'
@@ -15,14 +15,15 @@ interface feed {
 let prevFeeds: feed[]
 
 const Analytics: React.FC<AnalyticsProps> = ({}) => {
-  const userId = useSelector((state: RootState) => state.user.analyticsId)
+  const userId = useSelector((state: RootState) => state.user.userId)
   const isRehydrated = useSelector((state: RootState) => state._persist?.rehydrated)
 
   useEffect(() => {
-    const trackAutomaticEvents = true;
-    const mixpanel = new Mixpanel(MIXPANEL_TOKEN, trackAutomaticEvents)
-    mixpanel.init()
-    if (isRehydrated) {
+    const trackAutomaticEvents = true
+    const useNative = Platform.OS !== 'web'
+    const mixpanel = new Mixpanel(MIXPANEL_TOKEN, trackAutomaticEvents, useNative)
+    if (isRehydrated && userId) {
+      mixpanel.init()
       mixpanel.identify(userId)
     }
   }, [isRehydrated])

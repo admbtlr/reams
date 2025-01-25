@@ -307,11 +307,11 @@ PODS:
   - libwebp/sharpyuv (1.3.2)
   - libwebp/webp (1.3.2):
     - libwebp/sharpyuv
-  - Mixpanel-swift (4.2.0):
-    - Mixpanel-swift/Complete (= 4.2.0)
-  - Mixpanel-swift/Complete (4.2.0)
-  - MixpanelReactNative (2.4.1):
-    - Mixpanel-swift (= 4.2.0)
+  - Mixpanel-swift (4.3.0):
+    - Mixpanel-swift/Complete (= 4.3.0)
+  - Mixpanel-swift/Complete (4.3.0)
+  - MixpanelReactNative (3.0.8):
+    - Mixpanel-swift (= 4.3.0)
     - React-Core
   - PurchasesHybridCommon (13.12.1):
     - RevenueCat (= 5.12.1)
@@ -2036,8 +2036,8 @@ SPEC CHECKSUMS:
   hermes-engine: 8c1577f3fdb849cbe7729c2e7b5abc4b845e88f8
   ImageColors: 88be684570585c07ae2750bff34eb7b78bfc53b4
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
-  Mixpanel-swift: e5dd85295923e6a875acf17ccbab8d2ecb10ea65
-  MixpanelReactNative: 0101b8828c2f335c128850e71ab7d3b7adde089a
+  Mixpanel-swift: 2192b9a24cf41b870749e4e0e10fbc9822bb2b4a
+  MixpanelReactNative: cd3d7129cfc77d796d07e117846f1f2a9d2fe02d
   PurchasesHybridCommon: 6c07c9abb12b96413ee583c017957f52f5f4ceaa
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: 3afceddffa65aee666dafd6f0116f1d975db1584
