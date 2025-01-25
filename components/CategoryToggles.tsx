@@ -108,13 +108,7 @@ export default function CategoryToggles({ feed, isWhite, item }: CategoryToggles
         showsHorizontalScrollIndicator={false}
       >
         { usedCategories.length === 0 &&
-          <Text style={{
-            ...textInfoMonoStyle(isWhite ? 'white' : 'rizzleText', 0),
-            fontSize: 12 * fontSizeMultiplier(),
-            lineHeight: 12 * fontSizeMultiplier(),
-            marginBottom: 2 * fontSizeMultiplier(),
-            alignSelf: 'center'
-          }}>Tags: </Text>
+          getRizzleButtonIcon('tag', isWhite ? 'white' : hslString('rizzleText'), 'white', true, false, 0.75) 
         }
         { usedCategories.map((c, index) => 
           getTouchableCategory(c, feed?._id, true, item?._id, index)
