@@ -117,7 +117,7 @@ const Rizzle = () => {
                 hidden={false} />
               <ConnectionListener />
               { Platform.OS === 'web' || <OrientationListener /> }
-              { Platform.OS === 'web' || <Analytics /> } 
+              <Analytics />
               <MigrationsProvider>
                 <ModalProvider>
                   <AppStateListenerContainer>
