@@ -469,6 +469,20 @@ export function getRizzleButtonIcon (iconName, borderColor, backgroundColor, isE
         <Path d="M16 19.5H3" strokeWidth={1}/>
       </Svg>
 
+    case 'tag':
+      return <Svg
+      width={fontScale(32)}
+      height={fontScale(32)}
+      viewBox='0 0 24 24'
+      fill='none' 
+      stroke={borderColor}
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <Path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+      <Line x1="7" y1="7" x2="7.01" y2="7" />
+    </Svg>
+
     case 'saved':
       return <Svg
         width={fontScale(32)}
