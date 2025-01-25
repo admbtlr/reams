@@ -425,8 +425,9 @@ article {
 hr {
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
-  width: 66px;
+  width: 100px;
   height: 16px;
+  border-radius: 8px;
   background-color: var(--feed-color);
   border: 0;
 }
@@ -1333,6 +1334,39 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   width: auto !important;
   margin: 0 !important;
   display: inline;
+}
+.itemArticle table.email-body-container .post-header table.post-meta td > a > img.custom-css-email-avatar, .itemArticle table.email-body-container .email-ufi-2-bottom table.post-meta td > a > img.custom-css-email-avatar {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 25px !important;
+}
+.itemArticle table.email-body-container .post-header a.email-icon-button, .itemArticle table.email-body-container .email-ufi-2-bottom a.email-icon-button {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #666;
+  display: block;
+  border-radius: 17px;
+}
+.itemArticle table.email-body-container .post-header a.email-icon-button > .icon, .itemArticle table.email-body-container .email-ufi-2-bottom a.email-icon-button > .icon {
+  width: 20px !important;
+  margin: 6px 0 0 6px !important;
+  left: 0;
+}
+.itemArticle table.email-body-container .post-header a.email-button-outline, .itemArticle table.email-body-container .email-ufi-2-bottom a.email-button-outline {
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.itemArticle table.email-body-container .post-header a.email-button-outline > .email-button-text, .itemArticle table.email-body-container .email-ufi-2-bottom a.email-button-outline > .email-button-text {
+  font-size: 0.4rem;
+}
+.itemArticle table.email-body-container .post-header a.email-button-outline > .icon, .itemArticle table.email-body-container .email-ufi-2-bottom a.email-button-outline > .icon {
+  width: 30px !important;
+  margin: 0;
+  margin-right: 0px;
+  left: 0;
 }
 .itemArticle table.email-body-container figure:has(figcaption + img) {
   display: flex;
