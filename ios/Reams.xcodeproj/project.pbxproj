@@ -50,6 +50,7 @@
 		665A9A412AF3BBEF00A7479A /* IBMPlexMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 665A9A402AF3BBEF00A7479A /* IBMPlexMono.ttf */; };
 		665A9A432AF3BC1100A7479A /* IBMPlexSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 665A9A422AF3BC1100A7479A /* IBMPlexSans.ttf */; };
 		665A9A452AF3BC2B00A7479A /* IBMPlexSerif.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 665A9A442AF3BC2A00A7479A /* IBMPlexSerif.ttf */; };
+		6673DB462D46A5BB00E603CD /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6673DB452D46A5BB00E603CD /* SplashScreen.storyboard */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
 		6697466F23057C6400EDCFE7 /* rizzle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697462F23057C6200EDCFE7 /* rizzle.png */; };
 		6697467023057C6400EDCFE7 /* Splash-20190815.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697466E23057C6400EDCFE7 /* Splash-20190815.png */; };
@@ -82,6 +83,7 @@
 		999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A4E7B3216F441182F2D8AC /* libz.tbd */; };
 		9B29B4BC3A004A7489FE2344 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */; };
 		A942CCF1BEBD4BE085ED99E5 /* Reforma1969-Negra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4CFB86F834BA4FA1AC2D791F /* Reforma1969-Negra.ttf */; };
+		ABEE5A8402125CB1281EC990 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B763FC7144975E602D506EE /* ExpoModulesProvider.swift */; };
 		AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A52A25ECE9284C6BB3598823 /* IBMPlexMono-LightItalic.ttf */; };
 		BEE8067138D948F88BB81DFA /* IBMPlexSansCond-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD3A2A9B12004B5495F86308 /* IBMPlexSansCond-BoldItalic.ttf */; };
 		C102E7B205024F1D94EE06FC /* IBMPlexSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */; };
@@ -155,6 +157,7 @@
 		30A12608F8894744820DBBB1 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Regular.ttf"; path = "../assets/fonts/PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		3B5194F5FDB958FE98DB0F45 /* Pods-Reams.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.debug.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.debug.xcconfig"; sourceTree = "<group>"; };
 		3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Bold.ttf"; path = "../assets/fonts/IBMPlexMono-Bold.ttf"; sourceTree = "<group>"; };
+		3B763FC7144975E602D506EE /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Reams Share2/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		3E3494F4F2894804ADE2C868 /* LibreBaskerville-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LibreBaskerville-Bold.ttf"; path = "../assets/fonts/LibreBaskerville-Bold.ttf"; sourceTree = "<group>"; };
 		3F9C2F335D3D4AB3AD066690 /* IBMPlexSansCond.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = IBMPlexSansCond.ttf; path = ../assets/fonts/IBMPlexSansCond.ttf; sourceTree = "<group>"; };
 		43E02F89082E4739AB0CC9AB /* IBMPlexSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Light.ttf"; path = "../assets/fonts/IBMPlexSans-Light.ttf"; sourceTree = "<group>"; };
@@ -184,6 +187,7 @@
 		665A9A442AF3BC2A00A7479A /* IBMPlexSerif.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = IBMPlexSerif.ttf; path = ../assets/fonts/IBMPlexSerif.ttf; sourceTree = "<group>"; };
 		66737812204314A900572989 /* rizzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rizzle.entitlements; path = rizzle/rizzle.entitlements; sourceTree = "<group>"; };
 		66737813204315E300572989 /* RizzleShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RizzleShare.entitlements; sourceTree = "<group>"; };
+		6673DB452D46A5BB00E603CD /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		668CE9EC2158BE6A00CA3EDF /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
 		6697462F23057C6200EDCFE7 /* rizzle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rizzle.png; path = ../img/splash/rizzle.png; sourceTree = "<group>"; };
@@ -291,6 +295,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				6673DB452D46A5BB00E603CD /* SplashScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				664B4B271FAB59A9006C6DF9 /* webview */,
 				668CE9EC2158BE6A00CA3EDF /* icons.xcassets */,
@@ -399,6 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				41A8BDE96D778B05398892FB /* Reams */,
+				4C917832AD6E61AD4BA3A46C /* Reams Share2 */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -409,6 +415,14 @@
 				A611DA766F9B0A5A5987B58B /* ExpoModulesProvider.swift */,
 			);
 			name = Reams;
+			sourceTree = "<group>";
+		};
+		4C917832AD6E61AD4BA3A46C /* Reams Share2 */ = {
+			isa = PBXGroup;
+			children = (
+				3B763FC7144975E602D506EE /* ExpoModulesProvider.swift */,
+			);
+			name = "Reams Share2";
 			sourceTree = "<group>";
 		};
 		6655FBF42BEA4BA300E8A4EF /* Reams Share2 */ = {
@@ -687,6 +701,7 @@
 				309C7C44D4CC40F0AD8EFCD3 /* PTSerif-Bold.ttf in Resources */,
 				66D9D0CE5D3A459F9B53579E /* PTSerif-BoldItalic.ttf in Resources */,
 				CCC549379A404E4784782CCA /* PTSerif-Italic.ttf in Resources */,
+				6673DB462D46A5BB00E603CD /* SplashScreen.storyboard in Resources */,
 				6808D92C526845F5BCD20577 /* PTSerif-Regular.ttf in Resources */,
 				66ABE8C92796B3E2004E15B2 /* ream.png in Resources */,
 				EA14D3AC6EF74834BD9F374B /* Poppins-ExtraBold.ttf in Resources */,
@@ -826,7 +841,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\n# bash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Reams-Reams\\ Share2/expo-configure-project.sh\"\n";
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Reams\\ Share2/expo-configure-project.sh\"\n";
 		};
 		4406A330C80C49ACAFA7A94F /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -932,6 +947,7 @@
 			files = (
 				66F761A72BEA56A8006FF940 /* ReactShareViewController.swift in Sources */,
 				6655FC032BEA4C9400E8A4EF /* ShareViewController.swift in Sources */,
+				ABEE5A8402125CB1281EC990 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1012,7 +1028,7 @@
 				INFOPLIST_FILE = rizzle/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Reams;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -1073,7 +1089,7 @@
 				INFOPLIST_FILE = rizzle/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Reams;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -1276,6 +1292,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				USE_HERMES = true;
 			};
 			name = Debug;
