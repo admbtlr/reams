@@ -1595,16 +1595,13 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   //   padding: 0;
   // }
 
-  // not sure why I added this, but its causing a lot of images to be hidden
-  td.content {
-    & > div:first-of-type {
-      table:first-of-type {
-        // display: none;
-      }
-    }
+  .subscribe-widget, .powered-by-substack {
+    display: none;
   }
 
-  .subscribe-widget, .powered-by-substack {
+  // this hides all the buttons and author photo at the top
+  // not sure I really want to hide all that, but it's just annoying right now
+  .post-header {
     display: none;
   }
 
