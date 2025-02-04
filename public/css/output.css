@@ -1323,6 +1323,9 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
 .itemArticle table.email-body-container .subscribe-widget, .itemArticle table.email-body-container .powered-by-substack {
   display: none;
 }
+.itemArticle table.email-body-container .post-header {
+  display: none;
+}
 .itemArticle table.email-body-container .post-header, .itemArticle table.email-body-container .email-ufi-2-bottom {
   padding-bottom: 4vw;
 }
