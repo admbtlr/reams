@@ -1,17 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { useEffect, useRef, useState } from 'react'
 import { Image, Keyboard, PixelRatio, Text, TextInput, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import { RootState } from '../store/reducers'
 import { useSession } from './AuthProvider'
 import { supabase } from '../storage/supabase'
 import { fontSizeMultiplier, getMargin } from '../utils/dimensions'
 import { opacitise, textInfoBoldStyle, textInfoStyle, textInputStyle } from '../utils/styles'
-import { AuthOtpResponse } from '@supabase/supabase-js'
 import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
 import log from '../utils/log'
+import type { RootState } from '../store/reducers'
+import type { AuthOtpResponse } from '@supabase/supabase-js'
+import type React from 'react'
 
 const Login = ({ 
   inputRef, 
@@ -23,7 +24,7 @@ const Login = ({
   backgroundColor,
   focusCondition
 }: { 
-  inputRef: any,
+  inputRef: React.RefObject<TextInput>,
   cta: string,
   inputColor?: string,
   textColor: string,
@@ -38,11 +39,11 @@ const Login = ({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [message, setMessage] = useState<string | null>(null)
-  const isEmailValid = email && email.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
+  const isEmailValid = email?.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
   const session = useSession()
 
   if (!inputRef) {
-    inputRef = useRef()
+    inputRef = useRef<TextInput>(null)
   }
 
   if (!textColor) {
@@ -61,10 +62,10 @@ const Login = ({
     if (inputRef && (focusCondition === undefined || focusCondition)) {
       inputRef?.current?.focus()
     }
-  }, [inputRef])
+  }, [inputRef, focusCondition])
 
   async function sendMagicLink(email: string) {
-    let redirectURL = 'already://onboarding'
+    const redirectURL = 'already://onboarding'
     if (email) {
       setIsSubmitting(true)
       let result: AuthOtpResponse | null = null
@@ -80,7 +81,7 @@ const Login = ({
         console.log(e)
       } finally {
         setIsSubmitting(false);
-        if (result !== null && result.error) {
+        if (result?.error) {
           console.log(result.error)
         }
       }
