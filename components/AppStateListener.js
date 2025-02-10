@@ -97,7 +97,7 @@ class AppStateListener extends React.Component {
     try {
       const value = await SharedGroupPreferences.getItem('page', this.group)
       // console.log('CHECKING PAGE BUCKET: ' + value)
-      if (value !== null) {
+      if (value !== null && value !== 'null') { 
         await SharedGroupPreferences.setItem('page', null, this.group)
         const parsed = JSON.parse(value)
         const pages = typeof parsed === 'object' ?
