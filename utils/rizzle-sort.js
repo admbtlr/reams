@@ -12,24 +12,23 @@ export default function rizzleSort (items, feeds, sortDirection) {
   // - items have already been sorted as required
   const bufferWithSortIndex = (items) => {
     let buffer = 5
-    const itemsWithIndex = items.filter(i => i.sortIndex !== undefined)
-    const itemsWithoutIndex = items.filter(i => i.sortIndex === undefined)
-    if (itemsWithIndex.length < buffer) {
-      buffer = itemsWithIndex.length
-    }
-    // let i = buffer - 1
-    // while (i >= 0) {
-    //   if (items[i].sortIndex === undefined) {
-    //     items = items.slice(0, i)
-    //       .concat(items.slice(i+1, buffer+1)
-    //       .concat(items[i])
-    //       .concat(items.slice(buffer+1)))
-    //   }
-    //   i--
+    // const itemsWithIndex = items.filter(i => i.sortIndex !== undefined)
+    // const itemsWithoutIndex = items.filter(i => i.sortIndex === undefined)
+    // if (itemsWithIndex.length < buffer) {
+    //   buffer = itemsWithIndex.length
     // }
-    return itemsWithIndex.slice(0, buffer)
-      .concat(itemsWithoutIndex)
-      .concat(itemsWithIndex.slice(buffer))
+    // return itemsWithIndex.slice(0, buffer)
+    //   .concat(itemsWithoutIndex)
+    //   .concat(itemsWithIndex.slice(buffer))
+    const decoratedItems = items.filter(i => i.isDecorated !== undefined)
+    if (decoratedItems.length < buffer) {
+      buffer = decoratedItems.length
+    }
+    const firstItems = decoratedItems.slice(0, buffer)
+    const otherItems = items.filter(i => !firstItems.includes(i))
+    return firstItems.concat(otherItems)
+      // .concat(itemsWithoutIndex)
+      // .concat(decoratedItems.slice(buffer))
   }
 
   const splitIntoLikedNotLiked = (items, feeds) => {
@@ -37,16 +36,16 @@ export default function rizzleSort (items, feeds, sortDirection) {
       const feed = feeds.find(feed => feed._id === item.feed_id)
       // occasionally feed here is undefined. wtf?
       if (feed == null) {
-        consoleLog('Cannot find feed ' + item.feed_id)
+        consoleLog(`Cannot find feed ${item.feed_id}`)
       }
-      return feed && feed.isLiked
+      return feed?.isLiked
     })
     const notLiked = items.filter(item => liked.indexOf(item) === -1)
     return { liked, notLiked }
   }
 
-  feeds = feeds || (store && store.getState().feeds.feeds)
-  sortDirection = sortDirection === undefined ? (store && store.getState().config.itemSort) : sortDirection
+  feeds = feeds || store?.getState().feeds.feeds
+  sortDirection = sortDirection === undefined ? store?.getState().config.itemSort : sortDirection
   items.forEach(item => {
     if (!feeds.find(feed => feed._id === item.feed_id)) {
       console.log('NO FEED FOR ITEM!?')
