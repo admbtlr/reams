@@ -47,7 +47,7 @@
     "expo-linear-gradient": "~14.0.2",
     "expo-router": "~4.0.17",
     "expo-splash-screen": "~0.29.21",
-    "expo-sqlite": "~15.0.3",
+    "expo-sqlite": "~15.1.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "formik": "^2.2.9",
     "fuzzball": "^2.1.2",
