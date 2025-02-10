@@ -204,22 +204,20 @@ function markSingleCharParagraphs () {
 
 function markImages () {
   const imgs = document.querySelectorAll('img')
-  Array.prototype.forEach.call(imgs, function (el, i) {
-    if (el.naturalHeight >= el.naturalWidth) {
-      el.classList.add('img-portrait')
-
-      if (el.naturalHeight < 10 || el.naturalWidth < document.body.clientWidth * 0.2) {
-        el.classList.add('img-tiny')
-      } else if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
-        el.classList.add('img-small')
-      }
-    }
-  })
-  const figures = document.querySelectorAll('figure')
-  Array.prototype.forEach.call(figures, function (el, i) {
-    if (el.getElementsByTagName('img').length > 0 &&
-      el.getElementsByTagName('img')[0].classList.contains('img-small')) {
-      el.classList.add('figure-small')
+  Array.prototype.forEach.call(imgs, (el, i) => {
+    el.onload = () => {
+      if (el.naturalHeight >= el.naturalWidth) {
+        el.classList.add('img-portrait')
+  
+        if (el.naturalHeight < 10 || el.naturalWidth < document.body.clientWidth * 0.2) {
+          el.classList.add('img-tiny')
+        } else if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
+          el.classList.add('img-small')
+          if (el.parentElement.tagName === 'FIGURE') {
+            el.parentElement.classList.add('figure-small')
+          }
+        }
+      }  
     }
   })
 }
@@ -376,7 +374,7 @@ function markPullQuotes() {
 }
 
 function markQuoteBlockquotes() {
-  var blockquotes = document.getElementsByTagName('blockquote')
+  const blockquotes = document.getElementsByTagName('blockquote')
   Array.prototype.forEach.call(blockquotes, function (bq) {
     if (bq.innerText.startsWith('“')) {
       bq.classList.add('is-quote')
@@ -663,7 +661,7 @@ function init() {
     removeAllBrs()
     stopAutoplay()
     const src = document.querySelector('article').innerHTML
-    window.ReactNativeWebView && window.ReactNativeWebView.postMessage(src)
+    window.ReactNativeWebView?.postMessage(src)
   }
   rangy.init()
   highlighter = rangy.createHighlighter()
@@ -689,8 +687,8 @@ function init() {
   addTapMessageToHighlights()
 
   let lastScrollPosition = 0
-  window.addEventListener('scrollend', function(e) {
-    let didScrollDown = window.scrollY > lastScrollPosition
+  window.addEventListener('scrollend', (e) => {
+    const didScrollDown = window.scrollY > lastScrollPosition
     postMessage(didScrollDown ? 'scroll-down' : 'scroll-up')
     lastScrollPosition = window.scrollY
   })
@@ -715,10 +713,10 @@ function init() {
         const selections = highlighter.highlightSelection('highlight')
         const selection = selections[0]
         const serialized = highlighter.serialize(selection)
-        window.ReactNativeWebView && window.ReactNativeWebView?.postMessage("highlight:" + text + "++++++" + serialized)
+        window.ReactNativeWebView?.postMessage("highlight:" + text + "++++++" + serialized)
         highlighter.highlightSelection('highlight-pending')
       } else {
-        window.ReactNativeWebView && window.ReactNativeWebView?.postMessage("end-highlight")
+        window.ReactNativeWebView?.postMessage("end-highlight")
       }
     }
   })
