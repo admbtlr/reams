@@ -264,7 +264,7 @@ PODS:
     - Yoga
   - ExpoSplashScreen (0.29.21):
     - ExpoModulesCore
-  - ExpoSQLite (15.0.6):
+  - ExpoSQLite (15.1.2):
     - ExpoModulesCore
   - EXUpdatesInterface (1.0.0):
     - ExpoModulesCore
@@ -2446,7 +2446,7 @@ SPEC CHECKSUMS:
   ExpoLinearGradient: ee9efc5acb988b911320e964fab9b4cbdeb198c4
   ExpoModulesCore: 31fd95f046c79da70df0cd68f7e7c5b789be30d1
   ExpoSplashScreen: 83f585abeb0506103f9309628634dbbcd9bc5573
-  ExpoSQLite: c9b5fe929b1aedb0aac6c2d7f14587b1b49e6929
+  ExpoSQLite: 120519a7bc76d95265b7ace13ac18aea98c4f000
   EXUpdatesInterface: 1dcebac98ac5dad4289e6ff2bd5616822e894397
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 2bc03a5cf64e29c611bbc5d7eb9d9f7431f37ee6
