@@ -21,7 +21,7 @@ export const SessionContext = createContext<SessionContext>({})
 export const useSession = () => {
   const context = useContext(SessionContext);
   if (context === undefined) {
-    throw new Error(`useSession must be used within an AuthProvider.`);
+    throw new Error('useSession must be used within an AuthProvider');
   }
   return context;
 }
