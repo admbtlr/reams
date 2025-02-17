@@ -23,7 +23,7 @@ platform :ios do
     ENV["FLAG_PLUS"] = "true"
     increment_build_number(
       build_number: latest_testflight_build_number + 1,
-      xcodeproj: "Already.xcodeproj")
+      xcodeproj: "Reams.xcodeproj")
     build_app(
       scheme: "Reams",
       include_bitcode: false,
@@ -41,10 +41,10 @@ platform :ios do
   lane :beta do
     increment_build_number(
       build_number: latest_testflight_build_number + 1,
-      xcodeproj: "Already.xcodeproj")
+      xcodeproj: "Reams.xcodeproj")
     commit_version_bump(
       message: "chore: version bump",
-      xcodeproj: "Already.xcodeproj"
+      xcodeproj: "Reams.xcodeproj"
     )
     add_git_tag
     push_to_git_remote
