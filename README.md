@@ -1,21 +1,17 @@
-![Reams logo](app/assets/images/ream.png)
+![Reams logo](assets/images/ream.png)
 
 # Reams
 
-This is the monorepo for Reams. It contains the app (React Native, currently iOS only) and the server (a bunch of Vercel functions).
+Reams is a serious, joyful and open reading app, written in React Native / Expo. It is available on the [ios app store](https://apps.apple.com/de/app/reams/id1229027127?l=en) and on the [web](https://web.reams.app/).
 
-To run the app:
+To run the app in an ios simulator:
 
 ```
-cd app
-yarn install
-cd ios; pod install; cd ..
+yarn; cd ios; pod install; cd ..
 yarn start
 ```
 
 Then in another console:
 ```
-npx react-native run-ios
+yarn expo ios
 ```
-
-Reams is available on the [app store](https://apps.apple.com/de/app/reams/id1229027127?l=en).
