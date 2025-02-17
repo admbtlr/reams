@@ -75,6 +75,7 @@ vendor/bundle/
 expo-env.d.ts
 
 .env
+.env.local
 
 ios/Already.app.dSYM.zip
 
