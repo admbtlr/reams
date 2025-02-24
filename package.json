@@ -1,6 +1,6 @@
 {
-  "name": "rizzle",
-  "version": "0.3.1",
+  "name": "reams",
+  "version": "1.2.2",
   "private": true,
   "main": "index.js",
   "scripts": {
