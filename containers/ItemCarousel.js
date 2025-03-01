@@ -18,7 +18,7 @@ import { ADD_TO_CATEGORY } from '../store/categories/types'
 
 const mapStateToProps = (state, ownProps) => {
   // const items = state.items.display === 'unread' ? state.items.items : state.items.saved
-  let items = getItems(state)
+  const items = getItems(state)
   // temporary!
   // just keeping this here while there's no UI for saved items
   // only want to show saved items with 'inbox' category
@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateCurrentIndex: (index, lastIndex, displayMode, isOnboarding) => {
       if (isOnboarding) {
-        return dispatch({
+        dispatch({
           type: UPDATE_ONBOARDING_INDEX,
           index,
           lastIndex,
@@ -113,7 +113,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-let ItemCarouselContainer = connect(
+const ItemCarouselContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ItemCarousel)

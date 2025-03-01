@@ -254,15 +254,6 @@ export default function InitialScreen({}) {
           width: '100%',
           alignItems: 'center',
         }}>
-          {/* <Image 
-            source={require('../assets/images/ream-sepia.png')} 
-            style={{
-              alignSelf: 'center',
-              width: 246,
-              height: 217,
-              marginBottom: getMargin(),
-            }}
-          /> */}
           <Text style={{
             ...textInfoStyle('rizzleText'),
             marginBottom: getMargin() * 0.5,
@@ -276,6 +267,7 @@ export default function InitialScreen({}) {
           </TouchableOpacity>
           <Text style={{
             ...textInfoBoldStyle('rizzleText'),
+            color: hslString('logo1')
             // marginBottom: getMargin() * 0.5,
           }}>Serious, joyful & open</Text>
         </View>
