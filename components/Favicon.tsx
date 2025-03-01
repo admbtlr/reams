@@ -3,13 +3,9 @@ import * as FileSystem from 'expo-file-system'
 import {
   Image,
   Platform,
-  Text,
   View
 } from 'react-native'
-import {fileExists, getCachedFeedIconPath} from '../utils'
-import { Sepia } from 'react-native-image-filter-kit'
-import { useSelector } from 'react-redux'
-import { RootState } from '../store/reducers'
+import {fileExists} from '../utils'
 import log from '../utils/log'
 
 interface props {
@@ -98,11 +94,6 @@ function Favicon ({
       height,
     }}
   /> : null
-  if (isBW && image !== null) {
-    image = <Sepia
-      amount={1}
-      image={image} />
-  }
   return url ?
     <View style={{
       backgroundColor: 'transparent',//feed ? feed.color : 'white',
