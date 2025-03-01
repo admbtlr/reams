@@ -1,4 +1,5 @@
-import { Item, ItemInflated, ItemType, SAVE_ITEM, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '../store/items/types'
+import { ItemType, SAVE_ITEM, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '../store/items/types'
+import type { Item, ItemInflated } from '../store/items/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -13,17 +14,14 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { getLightness, hslString } from '../utils/colors'
 import { getMargin } from '../utils/dimensions'
 import { hasNotchOrIsland } from '../utils/dimensions'
-import { RootState } from '../store/reducers'
-import { Feed } from '../store/feeds/types'
+import type { RootState } from '../store/reducers'
+import type { Feed } from '../store/feeds/types'
 import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { getItem as getItemSQLite } from "../storage/sqlite"
 import { getItem as getItemIDB } from "../storage/idb-storage"
-import { Newsletter } from '../store/newsletters/types'
+import type { Newsletter } from '../store/newsletters/types'
 import { useColor } from '../hooks/useColor'
-
-// isDarkMode, displayMode, 
-let areButtonsVisible = true
 
 export const translateDistance = 80
 
@@ -172,11 +170,14 @@ export default function ButtonSet ({
     }).start()
   }
 
+  const showShareButton = Platform.OS === 'ios'
+  const showMercuryButton = !!itemInflated?.content_mercury
+
   return (
     <Animated.View
       pointerEvents={isCurrent ? 'box-none' : 'none'}
       style={{
-        ...getStyles().base,
+        ...getStyles(showShareButton && showMercuryButton).base,
         opacity: opacityAnim || 1
       }}>
       {/* <RizzleButton
@@ -198,7 +199,7 @@ export default function ButtonSet ({
         }}
         onPress={toggleViewButtons}
       /> */}
-      { Platform.OS === 'web' || <RizzleButton
+      { showShareButton && <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
@@ -241,7 +242,7 @@ export default function ButtonSet ({
         }}
         onPress={() => setSaved(item, !item.isSaved)}
       >
-        { displayMode == ItemType.saved && getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false) }
+        { displayMode === ItemType.saved && getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false) }
       </RizzleButton>
       <RizzleButton
         backgroundColor={backgroundColor}
@@ -262,7 +263,7 @@ export default function ButtonSet ({
         >
         { getRizzleButtonIcon('launchBrowserIcon', borderColor, backgroundColor, true, false) }
       </RizzleButton>
-      { !!itemInflated?.content_mercury &&
+      { showMercuryButton &&
         <RizzleButton
           backgroundColor={backgroundColor}
           borderColor={borderColor}
@@ -291,7 +292,7 @@ export default function ButtonSet ({
 }
 
 
-const getStyles = () => {
+const getStyles = (allButtons = true) => {
   const screenDimensions = Dimensions.get('window')
   return {
     base: {
@@ -303,9 +304,9 @@ const getStyles = () => {
       zIndex: 10,
       flex: 1,
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: allButtons ? 'space-between' : 'space-around',
       alignSelf: 'center',
-      marginBottom: getMargin() / (hasNotchOrIsland() ? 1 : 2),
+      marginBottom: getMargin() / (hasNotchOrIsland() || Platform.OS === 'android' ? 1 : 2),
       paddingLeft: getMargin() / (screenDimensions.width < 321 ? 2 : 1),
       paddingRight: getMargin() / (screenDimensions.width < 321 ? 2 : 1)
     },

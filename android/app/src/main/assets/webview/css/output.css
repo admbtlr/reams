@@ -93,6 +93,10 @@ body, body a, body a:active, body a:visited {
   font-size: 0.5555555556rem !important;
   line-height: 1rem !important;
 }
+.android .itemArticle.bodyFontSerif2, .android .itemArticle.bodyFontSerif2 table, .android .itemArticle table.bodyFontSerif2, .android .itemArticle table.bodyFontSerif2 table {
+  font-size: 0.5555555556rem !important;
+  line-height: 1rem !important;
+}
 .itemArticle.bodyFontSans3, .itemArticle.bodyFontSans3 table, .itemArticle table.bodyFontSans3, .itemArticle table.bodyFontSans3 table {
   font-size: 0.5882352941rem !important;
   line-height: 1rem !important;
@@ -450,10 +454,10 @@ hr {
   margin-top: 0;
   float: left;
 }
-.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 1.825rem;
 }
-.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize2.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.46rem;
 }
 .itemArticle.dropCapSize2.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -498,10 +502,10 @@ hr {
 .itemArticle.dropCapSize2.bodyFontSans4 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans4 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize2.bodyFontSans4 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.42rem;
 }
-.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 3.05rem;
 }
-.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize3.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.6rem;
 }
 .itemArticle.dropCapSize3.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -546,10 +550,10 @@ hr {
 .itemArticle.dropCapSize3.bodyFontSans4 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans4 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize3.bodyFontSans4 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.55rem;
 }
-.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 4.3rem;
 }
-.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize4.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.75rem;
 }
 .itemArticle.dropCapSize4.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -594,10 +598,10 @@ hr {
 .itemArticle.dropCapSize4.bodyFontSans4 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans4 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize4.bodyFontSans4 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.7rem;
 }
-.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 5.6rem;
 }
-.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize5.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.9rem;
 }
 .itemArticle.dropCapSize5.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -630,10 +634,10 @@ hr {
 .itemArticle.dropCapSize5.bodyFontSans2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize5.bodyFontSans2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.77rem;
 }
-.itemArticle.dropCapSize6.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize6.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize6.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-size: 6.75rem;
 }
-.itemArticle.dropCapSize6.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapSize6.bodyFontSerif1 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif1 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize6.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 1.03rem;
 }
 .itemArticle.dropCapSize6.bodyFontSerif2 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize6.bodyFontSerif2 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
@@ -672,7 +676,7 @@ hr {
 .itemArticle.dropCapSize7 > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize7 > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapSize7 > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   margin-top: 0.6rem;
 }
-.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+.itemArticle.dropCapIsBold:not(.dropCapIsStroke) > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsBold:not(.dropCapIsStroke) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapIsBold > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapIsBold > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .android .itemArticle.dropCapIsBold > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   font-weight: 700;
 }
 
@@ -1006,54 +1010,50 @@ h1, h2, h3, h4, h5, b, strong {
 .headerFontSans1 h1, .headerFontSans1 h3, .headerFontSans1 h5 {
   font-family: "AvenirNextCondensed-Bold";
 }
+.web .headerFontSans1 h1, .android .headerFontSans1 h1, .web .headerFontSans1 h3, .android .headerFontSans1 h3, .web .headerFontSans1 h5, .android .headerFontSans1 h5 {
+  font-family: "NunitoSans-Bold";
+}
 .headerFontSans1 h1 b, .headerFontSans1 h1 strong, .headerFontSans1 h3 b, .headerFontSans1 h3 strong, .headerFontSans1 h5 b, .headerFontSans1 h5 strong {
   font-family: "AvenirNextCondensed-BoldItalic";
 }
-.web .headerFontSans1 h1, .web .headerFontSans1 h3, .web .headerFontSans1 h5 {
-  font-family: "Lato";
-  font-weight: 700;
-}
-.web .headerFontSans1.isItalic h1 {
-  font-style: italic;
+.web .headerFontSans1 h1 b, .android .headerFontSans1 h1 b, .web .headerFontSans1 h1 strong, .android .headerFontSans1 h1 strong, .web .headerFontSans1 h3 b, .android .headerFontSans1 h3 b, .web .headerFontSans1 h3 strong, .android .headerFontSans1 h3 strong, .web .headerFontSans1 h5 b, .android .headerFontSans1 h5 b, .web .headerFontSans1 h5 strong, .android .headerFontSans1 h5 strong {
+  font-family: "NunitoSans-BoldItalic";
 }
 .headerFontSans1 h2, .headerFontSans1 h4 {
   font-family: "AvenirNext-Medium";
 }
+.web .headerFontSans1 h2, .android .headerFontSans1 h2, .web .headerFontSans1 h4, .android .headerFontSans1 h4 {
+  font-family: "NunitoSans-Regular";
+}
 .headerFontSans1 h2 b, .headerFontSans1 h2 strong, .headerFontSans1 h4 b, .headerFontSans1 h4 strong {
   font-family: "AvenirNext-MediumItalic";
 }
-.web .headerFontSans1 h2, .web .headerFontSans1 h4 {
-  font-family: "Lato";
-  font-weight: 400;
+.web .headerFontSans1 h2 b, .android .headerFontSans1 h2 b, .web .headerFontSans1 h2 strong, .android .headerFontSans1 h2 strong, .web .headerFontSans1 h4 b, .android .headerFontSans1 h4 b, .web .headerFontSans1 h4 strong, .android .headerFontSans1 h4 strong {
+  font-family: "NunitoSans-Italic";
 }
 .headerFontSans1 figcaption, .headerFontSans1 img + small, .headerFontSans1 .caption, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
   font-family: "AvenirNext-MediumItalic";
 }
-.web .headerFontSans1 figcaption, .web .headerFontSans1 img + small, .web .headerFontSans1 .caption, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
-  font-family: "Lato";
-  font-weight: 400;
-  font-style: italic;
+.web .headerFontSans1 figcaption, .android .headerFontSans1 figcaption, .web .headerFontSans1 img + small, .android .headerFontSans1 img + small, .web .headerFontSans1 .caption, .android .headerFontSans1 .caption, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote), .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) {
+  font-family: "NunitoSans-Italic";
 }
 .headerFontSans1 figcaption em, .headerFontSans1 figcaption i, .headerFontSans1 img + small em, .headerFontSans1 img + small i, .headerFontSans1 .caption em, .headerFontSans1 .caption i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
   font-family: "AvenirNext-Medium";
 }
-.web .headerFontSans1 figcaption em, .web .headerFontSans1 figcaption i, .web .headerFontSans1 img + small em, .web .headerFontSans1 img + small i, .web .headerFontSans1 .caption em, .web .headerFontSans1 .caption i, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
-  font-family: "Lato";
-  font-weight: 400;
+.web .headerFontSans1 figcaption em, .android .headerFontSans1 figcaption em, .web .headerFontSans1 figcaption i, .android .headerFontSans1 figcaption i, .web .headerFontSans1 img + small em, .android .headerFontSans1 img + small em, .web .headerFontSans1 img + small i, .android .headerFontSans1 img + small i, .web .headerFontSans1 .caption em, .android .headerFontSans1 .caption em, .web .headerFontSans1 .caption i, .android .headerFontSans1 .caption i, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i, .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i {
+  font-family: "NunitoSans-Regular";
 }
 .headerFontSans1 figcaption strong, .headerFontSans1 figcaption b, .headerFontSans1 img + small strong, .headerFontSans1 img + small b, .headerFontSans1 .caption strong, .headerFontSans1 .caption b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
   font-family: "AvenirNext-BoldItalic";
 }
-.web .headerFontSans1 figcaption strong, .web .headerFontSans1 figcaption b, .web .headerFontSans1 img + small strong, .web .headerFontSans1 img + small b, .web .headerFontSans1 .caption strong, .web .headerFontSans1 .caption b, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
-  font-family: "Lato";
-  font-weight: 700;
+.web .headerFontSans1 figcaption strong, .android .headerFontSans1 figcaption strong, .web .headerFontSans1 figcaption b, .android .headerFontSans1 figcaption b, .web .headerFontSans1 img + small strong, .android .headerFontSans1 img + small strong, .web .headerFontSans1 img + small b, .android .headerFontSans1 img + small b, .web .headerFontSans1 .caption strong, .android .headerFontSans1 .caption strong, .web .headerFontSans1 .caption b, .android .headerFontSans1 .caption b, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b, .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b {
+  font-family: "NunitoSans-BoldItalic";
 }
 .headerFontSans1 figcaption em strong, .headerFontSans1 figcaption strong em, .headerFontSans1 figcaption b i, .headerFontSans1 figcaption i b, .headerFontSans1 img + small em strong, .headerFontSans1 img + small strong em, .headerFontSans1 img + small b i, .headerFontSans1 img + small i b, .headerFontSans1 .caption em strong, .headerFontSans1 .caption strong em, .headerFontSans1 .caption b i, .headerFontSans1 .caption i b, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
   font-family: "AvenirNext-Bold";
 }
-.web .headerFontSans1 figcaption em strong, .web .headerFontSans1 figcaption strong em, .web .headerFontSans1 figcaption b i, .web .headerFontSans1 figcaption i b, .web .headerFontSans1 img + small em strong, .web .headerFontSans1 img + small strong em, .web .headerFontSans1 img + small b i, .web .headerFontSans1 img + small i b, .web .headerFontSans1 .caption em strong, .web .headerFontSans1 .caption strong em, .web .headerFontSans1 .caption b i, .web .headerFontSans1 .caption i b, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
-  font-family: "Lato";
-  font-weight: 700;
+.web .headerFontSans1 figcaption em strong, .android .headerFontSans1 figcaption em strong, .web .headerFontSans1 figcaption strong em, .android .headerFontSans1 figcaption strong em, .web .headerFontSans1 figcaption b i, .android .headerFontSans1 figcaption b i, .web .headerFontSans1 figcaption i b, .android .headerFontSans1 figcaption i b, .web .headerFontSans1 img + small em strong, .android .headerFontSans1 img + small em strong, .web .headerFontSans1 img + small strong em, .android .headerFontSans1 img + small strong em, .web .headerFontSans1 img + small b i, .android .headerFontSans1 img + small b i, .web .headerFontSans1 img + small i b, .android .headerFontSans1 img + small i b, .web .headerFontSans1 .caption em strong, .android .headerFontSans1 .caption em strong, .web .headerFontSans1 .caption strong em, .android .headerFontSans1 .caption strong em, .web .headerFontSans1 .caption b i, .android .headerFontSans1 .caption b i, .web .headerFontSans1 .caption i b, .android .headerFontSans1 .caption i b, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) em strong, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) strong em, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) b i, .web .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b, .android .headerFontSans1 blockquote:not(.short-blockquote):not(.pullquote) i b {
+  font-family: "NunitoSans-Bold";
 }
 .headerFontSans1.itemTitle p {
   font-family: "Lato";
@@ -1278,14 +1278,14 @@ h1, h2, h3, h4, h5, b, strong {
 html:not(.dark-background) .itemArticle:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, html:not(.dark-background) .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, html:not(.dark-background) .itemArticle:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: var(--feed-color);
 }
-body:not(.web) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+html:not(.android) > body:not(.web) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type:first-letter, html:not(.android) > body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type:first-letter, html:not(.android) > body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   color: transparent;
   -webkit-text-stroke: 2px #444444;
 }
-.dark-background body:not(.web) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type, .dark-background body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type, .dark-background body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
+.dark-background html:not(.android) > body:not(.web) .itemArticle.dropCapIsStroke > p:not(.short-para):first-of-type, .dark-background html:not(.android) > body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > p:not(.short-para):first-of-type, .dark-background html:not(.android) > body:not(.web) .itemArticle.dropCapIsStroke > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type {
   color: #ddd;
 }
-.itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
+html:not(.android) body:not(.web) .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > p:not(.short-para):first-of-type:first-letter, html:not(.android) body:not(.web) .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > p:not(.short-para):first-of-type:first-letter, html:not(.android) body:not(.web) .itemArticle.dropCapIsStroke:not(.dropCapIsMonochrome) > div:first-of-type > div:first-of-type > p:not(.short-para):first-of-type:first-letter {
   -webkit-text-stroke-color: var(--feed-color);
 }
 
@@ -1311,6 +1311,10 @@ body .itemArticle.dropCapIsMonochrome > p:not(.short-para):first-of-type:first-l
   max-width: 92vw;
   padding: 0 4vw;
   margin-left: calc(50% - 50vw);
+}
+.newsletter table table {
+  padding: 0;
+  margin: 0;
 }
 @media only screen and (min-device-width: 600px) {
   .newsletter table, .newsletter td {

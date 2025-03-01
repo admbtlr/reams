@@ -390,10 +390,11 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
         }}
         testID='feeds-screen'
       >
-        <StatusBar
-          animated={true}
-          barStyle="dark-content"
-          showHideTransition="slide"/>
+         { Platform.OS === 'ios' && 
+          <StatusBar
+            animated={true}
+            barStyle="dark-content"
+            showHideTransition="slide"/> }
         { feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ? 
           (<View style={{
             flex: 1,

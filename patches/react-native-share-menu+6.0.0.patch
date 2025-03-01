@@ -1,3 +1,22 @@
+diff --git a/node_modules/react-native-share-menu/android/build.gradle b/node_modules/react-native-share-menu/android/build.gradle
+index 9557fdb..29deb35 100644
+--- a/node_modules/react-native-share-menu/android/build.gradle
++++ b/node_modules/react-native-share-menu/android/build.gradle
+@@ -1,12 +1,12 @@
+ apply plugin: 'com.android.library'
+ 
+ android {
+-    compileSdkVersion 29
++    compileSdkVersion 30
+     buildToolsVersion "29.0.2"
+ 
+     defaultConfig {
+         minSdkVersion 16
+-        targetSdkVersion 29
++        targetSdkVersion 30
+         versionCode 1
+         versionName "1.0"
+         ndk {
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 index f42bce6..7cfaba1 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift

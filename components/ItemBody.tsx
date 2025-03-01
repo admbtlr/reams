@@ -343,7 +343,7 @@ html, body {
         showImageViewer(msg.substring(6))
       } else if (msg.substring(0, 5) === 'link:') {
         const url = msg.substring(5)
-        // console.log('OPEN LINK: ' + url)
+        console.log('OPEN LINK: ' + url)
         if (!__DEV__) {
           Linking.openURL(url)
         }

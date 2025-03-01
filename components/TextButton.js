@@ -93,7 +93,7 @@ class TextButton extends React.Component {
     let buttonStyle = {
       borderColor: borderColor,
       backgroundColor: isInverted ? fgColor : bgColor,
-      borderWidth: isGradient ? 0 : 1 / PixelRatio.get(),
+      borderWidth: isGradient ? 0 : 1 / (Platform.os === 'ios' ? PixelRatio.get() : 1),
       borderRadius: height / 2,
       // paddingTop: (isCompact ? 7 : 12) * fontSizeMultiplier(),
       // paddingBottom: (isCompact ? 3 : 8) * fontSizeMultiplier(),
@@ -106,7 +106,7 @@ class TextButton extends React.Component {
       ...this.props.buttonStyle,
       paddingTop: (isCompact ? 2 : 9) * fontSizeMultiplier()
     }
-    if (Platform.OS === 'ios') {
+    if (Platform.OS !== 'web') {
       buttonStyle.maxHeight = 42 * fontSizeMultiplier()
     }
     if (hasShadow) {

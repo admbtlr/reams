@@ -185,10 +185,11 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
           backgroundColor: hslString('logo1'),
           flex: 1
         }}>
-        <StatusBar
-          animated={true}
-          barStyle="dark-content"
-          showHideTransition="slide"/>
+         { Platform.OS === 'ios' && 
+          <StatusBar
+            animated={true}
+            barStyle="dark-content"
+            showHideTransition="slide"/> }
         <View style={{
           marginTop: headerHeight + collapsedHeaderHeight + getMargin(),
           marginBottom: 64 * fontSizeMultiplier(),

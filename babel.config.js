@@ -1,6 +1,6 @@
 module.exports = api => {
 
-  api.cache(false)
+  api.cache(true)
 
   return {
     "env": {
@@ -9,8 +9,8 @@ module.exports = api => {
       }
     },
     presets: [
-      'babel-preset-expo',
-      ['@babel/preset-typescript', {allowDeclareFields: true}]
+      ['babel-preset-expo', { "jsxImportSource": "@welldone-software/why-did-you-render" }],
+      ['@babel/preset-typescript', {allowDeclareFields: true}],
     ],
     plugins: [
       '@babel/plugin-transform-export-namespace-from',

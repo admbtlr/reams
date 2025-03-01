@@ -6,8 +6,7 @@ export const withUseColorHOC = (Component: any) => {
     const color = useColor(props.item?.url || props.item?.feed_url);
     if (props.color !== undefined) {
       return <Component {...props} />  
-    } else {
-      return <Component {...props} color={color} />
     }
-  };
-};
+    return <Component {...props} color={color} />
+  }
+}

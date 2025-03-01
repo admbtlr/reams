@@ -4,9 +4,25 @@
   - ~~how can I render the site color faster?~~
   - settings screen layout
   - redo drop caps for different fonts (e.g. Nunito)
+- android bugs
+  - ~~splash screen colour~~
+  - ~~can navigate by dragging during onboarding~~
+  - ~~send me a link button shrinks when keyboard is visible (flex thing?)~~
+  - ~~status bar is just white~~
+  - ~~newsletter article body is moved left by quite a bit~~
+  - ~~dropcaps don't appear~~
+  - ~~title descenders are cropped~~
+    - ~~can also see this on titles with borders~~
+    - ~~but summaries are fine~~
+  - ~~links in articles open in the webview~~ (works suddenly?)
+  - ~~lack of padding under buttons in nudges~~ (seems OK now?)
+  - layout of search bar is a bit weird
+  - titles break words
+  - ~~divider isn't rounded~~
+  - ~~share button doesn't work~~ (just got rid of it)
+  - ~~one of the serif fonts is way too big~~
 - replace react-native-text-size with https://github.com/DomiR/react-native-measure-text
   - this doesn't measure text height, but then I could use onLayout for that
-- install and use skia
 - https://api.reams.app/api/find-feeds?url=https://werd.io/ doesn't work
 - about page
   - add button to email contents of store to support 
@@ -69,6 +85,8 @@
 - make buttons use reanimate
 
 # Done
+- ~~install and use skia~~
+
 - ~~duh I broke onboarding~~
 - ~~onboarding in dark mode~~
 - ~~icon~~
