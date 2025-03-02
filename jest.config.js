@@ -9,12 +9,10 @@ module.exports = {
     '^.+\\.tsx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|@sentry|@tensorflow|gl-react-native|redux-persist-filesystem-storage|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|@sentry|@tensorflow|gl-react-native|redux-persist-filesystem-storage|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|@invertase/react-native-apple-authentication)',
   ],
   setupFiles: ['./jest.setup.js'],
-  // moduleNameMapper: {
-  //   // Workaround for Jest not having ESM support yet
-  //   // See: https://github.com/uuidjs/uuid/issues/451
-  //   uuid: require.resolve('uuid'),
-  // },
+  moduleNameMapper: {
+    '^@shopify/react-native-skia$': '<rootDir>/__mocks__/@shopify/react-native-skia.js',
+  }
 }
