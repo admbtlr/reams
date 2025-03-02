@@ -6,15 +6,42 @@ import ItemTitleContainer from '../containers/ItemTitle'
 import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
 import { getDimensions, getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
-import { getItem as getItemSQLite } from "../storage/sqlite"
-import { getItem as getItemIDB } from "../storage/idb-storage"
+import { getItem as getItemSQLite } from "@/storage/sqlite"
+import { getItem as getItemIDB } from "@/storage/idb-storage"
 import log from '../utils/log'
-import { useColor } from '@/hooks/useColor'
-import { textInfoStyle } from '@/utils/styles'
 import Nudge from './Nudge'
 import { MAX_DECORATION_FAILURES } from '../sagas/decorate-items'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
+
+// props:
+// item: {
+//   ...item,
+//   feed_color,
+//   feedTitle,
+//   showMercuryContent,
+// },
+// isDarkMode: state.ui.isDarkMode,
+// orientation: state.config.orientation,
+// fontSize: state.ui.fontSize,
+// isImageViewerVisible: state.ui.imageViewerVisible,
+// coverImageComponent: ownProps.coverImageComponent,
+// setTimerFunction: ownProps.setTimerFunction,
+// displayMode: state.itemsMeta.display,
+// isVisible: index === itemIndex,
+// index: itemIndex,
+// color: state.hostColors.hostColors
+//
+// showImageViewer
+// setScrollOffset
+
+// state:
+// webViewHeight
+// inflatedItem
+// hasRendered
+// anims updated
+
+
 
 // right now I get re-renders for:
 // - color (props via HOC)
@@ -136,16 +163,6 @@ class FeedItem extends React.Component {
       isDiff = false
     } else if (changes && Object.keys(changes).length === 1) {
       switch (Object.keys(changes)[0]) {
-        case 'isVisible':
-          // isDiff = false
-          // this is a bit sneaky...
-          // if (nextProps.isVisible) {
-          //   setTimeout(() => {
-          //     this.props.setScrollAnim(this.scrollAnim)
-          //   }, 0)
-          // }
-          break
-
         case 'fontSize':
           if (this.webView) {
             isDiff = false
@@ -177,10 +194,6 @@ class FeedItem extends React.Component {
                 break
             }
           }
-          break
-
-        case 'panAnim':
-          console.log('panAnim changed!')
           break
       }
     }
@@ -309,7 +322,9 @@ class FeedItem extends React.Component {
       webViewHeight 
     } = this.state
 
-    if (!inflatedItem) return emptyState
+    if (!inflatedItem) {
+      return emptyState
+    }
 
     const {
       displayMode,

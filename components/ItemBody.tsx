@@ -69,7 +69,7 @@ interface ItemBodyProps {
 }
 
 const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
-  let webView = useRef(null)
+  const webView = useRef(null)
   const dispatch = useDispatch()
   const { activeHighlight, setActiveHighlight } = React.useContext(ActiveHighlightContext)
   const annotatedCategory: Category | undefined = useSelector((store: RootState) => store.categories.categories.find(c => c.name === 'annotated'), isEqual)
@@ -93,9 +93,8 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
         // Linking.openURL(e.url)
         openLink(e.url, hslString(feedColor))
         return false
-      } else {
-        return true
       }
+      return true
     }
   }
   
@@ -103,7 +102,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const onNavigationStateChange = (event: WebViewNavigation) => {
     // this means we're loading an image
     if (event.url.startsWith('react-js-navigation')) return
-    const calculatedHeight = parseInt(event.jsEvaluationValue)
+    const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
     if (calculatedHeight) {
       updateWebViewHeight(calculatedHeight)
     }
@@ -202,7 +201,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     console.log('what?')
   }
 
-  let articleClasses = [
+  const articleClasses = [
     ...Object.values(styles.fontClasses),
     'itemArticle',
     styles.color,
@@ -367,7 +366,7 @@ html, body {
     onNavigationStateChange={onNavigationStateChange}
     {...openLinksExternallyProp}
     originWhitelist={['*']}
-    ref={webView}
+    ref={ process.env.NODE_ENV === 'test' ? undefined : webView }
     scalesPageToFit={false}
     scrollEnabled={false}
     style={{
