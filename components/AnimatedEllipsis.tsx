@@ -44,7 +44,7 @@ const AnimatedEllipsis: React.FC<AnimatedEllipsisProps> = ({ style, containerSty
     const opacity = interpolate(
       firstDotProgress.value,
       [0, 0.5, 1],
-      [0.2, 1, 0.2],
+      [0.1, 1, 0.1],
       Extrapolation.CLAMP
     )
     return { opacity }
@@ -54,7 +54,7 @@ const AnimatedEllipsis: React.FC<AnimatedEllipsisProps> = ({ style, containerSty
     const opacity = interpolate(
       secondDotProgress.value,
       [0, 0.5, 1],
-      [0.2, 1, 0.2],
+      [0.1, 1, 0.1],
       Extrapolation.CLAMP
     )
     return { opacity }
@@ -64,7 +64,7 @@ const AnimatedEllipsis: React.FC<AnimatedEllipsisProps> = ({ style, containerSty
     const opacity = interpolate(
       thirdDotProgress.value,
       [0, 0.5, 1],
-      [0.2, 1, 0.2],
+      [0.1, 1, 0.1],
       Extrapolation.CLAMP
     )
     return { opacity }
@@ -95,7 +95,7 @@ const AnimatedEllipsis: React.FC<AnimatedEllipsisProps> = ({ style, containerSty
       {[0, 1, 2].map((i) => (
         <Reanimated.Text
           key={i}
-          style={[style, dotStyles[i]]}
+          style={[style, styles.dotStyle, dotStyles[i]]}
         >
           .
         </Reanimated.Text>
@@ -107,6 +107,9 @@ const AnimatedEllipsis: React.FC<AnimatedEllipsisProps> = ({ style, containerSty
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row'
+  },
+  dotStyle: {
+    marginBottom: -2
   }
 })
 

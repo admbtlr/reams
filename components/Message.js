@@ -118,14 +118,12 @@ export default function Message (props) {
       }}>
         <Text 
           numberOfLines={1}
-
           style={{
             ...textInfoBoldStyle('rizzleFG'),
             fontSize: 14 * fontSizeMultiplier(),
             lineHeight: 20 * fontSizeMultiplier(),
           }}>{visibleMessage}{isNextMessageEllipsis && <AnimatedEllipsis style={{ 
-          color: hslString('rizzleText'),
-          marginLeft: -2
+            ...textInfoBoldStyle('rizzleFG', 0)
         }} />}</Text>
       </View>
     </Animated.View>
