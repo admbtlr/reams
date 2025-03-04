@@ -392,9 +392,7 @@ html, body {
 export default React.memo(ItemBody, (prevProps, nextProps) => (
   prevProps === nextProps ||
   isEqual(prevProps, nextProps)
-)
-
-)
+))
 
 const EmptyState = ({_id, bodyColor, decoration_failures}: {
     _id: string, 

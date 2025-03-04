@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import FeedItem from '@/components/FeedItem'
 import {Animated} from 'react-native'
+import { ItemType } from '../../store/items/types'
 
 const mockStore = configureStore([])
 
@@ -55,7 +56,7 @@ describe('FeedItem Component', () => {
         orientation: 'portrait',
       },
       itemsMeta: {
-        display: 'list',
+        display: ItemType.unread,
       },
       hostColors: {
         hostColors: [{
@@ -72,8 +73,17 @@ describe('FeedItem Component', () => {
       categories: {
         categories: [],
       },
-      items: {
-        items: [],
+      itemsUnread: {
+        items: [
+          {
+            _id: '1',
+            feed_color: '#000000',
+            feedTitle: 'Test Feed',
+            showMercuryContent: false,
+            title: '<p>This is the title</p>',
+            isDecorated: true
+          }
+        ],
       },
       annotations: {
         annotations: [],
