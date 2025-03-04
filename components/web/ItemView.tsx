@@ -7,7 +7,6 @@ import { Item, ItemInflated } from "../../store/items/types"
 import { textInfoStyle } from '../../utils/styles'
 import WebView from "react-native-webview"
 import ButtonSet from "../ButtonSet"
-import FeedIcon from "../FeedIcon"
 import { HIDE_ALL_BUTTONS, SHOW_ITEM_BUTTONS } from "../../store/ui/types"
 import { useColor } from "../../hooks/useColor"
 import { decode } from "entities"

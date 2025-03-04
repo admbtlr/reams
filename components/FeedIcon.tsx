@@ -7,11 +7,10 @@ import {
   View
 } from 'react-native'
 import {fileExists, getCachedFeedIconPath} from '../utils'
-import { Sepia } from 'react-native-image-filter-kit'
-import { Feed } from '../store/feeds/types'
+import type { Feed } from '../store/feeds/types'
 import { useSelector } from 'react-redux'
-import { RootState } from '../store/reducers'
-import { Newsletter } from '../store/newsletters/types'
+import type { RootState } from '../store/reducers'
+import type { Newsletter } from '../store/newsletters/types'
 
 interface props {
   feedId: string | undefined
@@ -73,11 +72,6 @@ function FeedIcon ({
       height,
     }}
   /> : null
-  if (isBW) {
-    image = <Sepia
-      amount={1}
-      image={image} />
-  }
   return feed?.favicon?.url ?
     <View style={{
       backgroundColor: 'transparent',//feed ? feed.color : 'white',
