@@ -6,7 +6,6 @@ import { ScaledSize, ScrollView, Text, TouchableOpacity, View, useWindowDimensio
 import { hslString } from "../../utils/colors"
 import { Image } from "react-native"
 import { Feed } from "../../store/feeds/types"
-import FeedIcon from "../FeedIcon"
 import { getRizzleButtonIcon } from "../../utils/rizzle-button-icons"
 import { textInfoItalicStyle, textInfoMonoItalicStyle, textLabelStyle } from "../../utils/styles"
 import { useNavigation } from "@react-navigation/native"
