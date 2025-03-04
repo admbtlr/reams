@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, Text, View } from 'react-native'
+import { ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, ScrollView, Text, View } from 'react-native'
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
@@ -12,11 +12,11 @@ import { getItem as getItemIDB } from "@/storage/idb-storage"
 import log from '../utils/log'
 import Nudge from './Nudge'
 import { MAX_DECORATION_FAILURES } from '../sagas/decorate-items'
-import { SET_SCROLL_OFFSET } from '../store/items/types'
+import { Item, ItemInflated, SET_SCROLL_OFFSET } from '../store/items/types'
 import { SHOW_IMAGE_VIEWER } from '../store/ui/types'
 import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
 import { useColor } from '../hooks/useColor'
-import type { RootState } from '../store/types'
+import type { RootState } from '../store/reducers'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -45,7 +45,7 @@ interface CoverImageStyles {
 
 interface ItemStyles {
   coverImage?: CoverImageStyles;
-  fontClasses: FontClasses;
+  fontClasses?: FontClasses;
   hasFeedBGColor?: boolean;
   isCoverInline?: boolean;
   [key: string]: any;
@@ -57,33 +57,6 @@ interface ScrollRatio {
   [key: string]: number | undefined;
 }
 
-interface ItemProps {
-  _id: string;
-  title: string;
-  content_html?: string;
-  excerpt?: string;
-  url?: string;
-  feed_id: string;
-  feed_color?: FeedColor;
-  feedTitle?: string;
-  showMercuryContent?: boolean;
-  isDecorated?: boolean;
-  isHtmlCleaned?: boolean;
-  isMercuryCleaned?: boolean;
-  isNewsletter?: boolean;
-  isExternal?: boolean;
-  decoration_failures?: number;
-  scrollRatio?: ScrollRatio;
-  showCoverImage?: boolean;
-  hasCoverImage?: boolean;
-  faceCentreNormalised?: FaceCentreNormalised;
-  imageDimensions?: ImageDimensions;
-  created_at: number;
-  savedAt?: number;
-  styles?: ItemStyles;
-  [key: string]: any;
-}
-
 interface FeedItemProps {
   _id: string;
   coverImageComponent?: React.ComponentType<any>;
@@ -93,7 +66,6 @@ interface FeedItemProps {
     off: (id: string) => void;
   };
   panAnim: Animated.Value;
-  onTextSelection?: (selection: any) => void;
   onScrollEnd: (offset: number) => void;
   setScrollAnim: (anim: Animated.Value) => void;
 }
@@ -105,7 +77,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     setTimerFunction,
     emitter,
     panAnim,
-    onTextSelection,
     onScrollEnd,
     setScrollAnim
   } = props
@@ -126,9 +97,9 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const itemIndex = items.findIndex(item => item._id === _id)
   const rawItem = items[itemIndex]
   
-  // Custom color hook
   const colorFromHook = useColor(rawItem?.url)
-  const color = hostColors || colorFromHook
+  const host = rawItem?.url ? new URL(rawItem.url).hostname : ''
+  const color = hostColors.find(hc => hc.host === host) || colorFromHook
   
   // Early return if item not found
   if (!rawItem) return null
@@ -141,16 +112,13 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     state.newsletters.newsletters.find(n => n._id === rawItem.feed_id)
   )
   const feed_color = feed?.color || newsletter?.color
-  const feedTitle = feed?.title || newsletter?.title
   const showMercuryContent = rawItem.showMercuryContent !== undefined ?
     rawItem.showMercuryContent :
     feed?.isMercury
   
   // Complete item with additional data
-  const item: ItemProps = {
+  const item: Item = {
     ...rawItem,
-    feed_color,
-    feedTitle,
     showMercuryContent
   }
   
@@ -158,7 +126,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const isVisible = currentIndex === itemIndex
   
   // Refs
-  const scrollView = useRef<typeof Animated.ScrollView>(null)
+  const scrollView = useRef<ScrollView>(null)
   const view = useRef<View>(null)
   
   // Animation refs
@@ -170,7 +138,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   
   // State
   const [webViewHeight, setWebViewHeight] = useState<number>(INITIAL_WEBVIEW_HEIGHT)
-  const [inflatedItem, setInflatedItem] = useState<ItemProps | null>(null)
+  const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
   const [hasRendered, setHasRendered] = useState<boolean>(false)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
   
@@ -193,7 +161,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     })
   }
   
-  const setScrollOffset = (item: ItemProps, offset: number, totalHeight: number): void => {
+  const setScrollOffset = (item: Item, offset: number, totalHeight: number): void => {
     dispatch({
       type: SET_SCROLL_OFFSET,
       item,
@@ -203,7 +171,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   }
 
   // Initialize animated values
-  useEffect(() => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
     initAnimatedValues()
     if (isVisible) {
       setScrollAnim(scrollAnim)
@@ -211,7 +180,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   }, [isVisible, panAnim])
 
   // Component mount/unmount
-  useEffect(() => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
     emitter.on('scrollToRatio', scrollToRatioIfVisible, item._id)
     inflateItemAndSetState(item)
     hasMounted.current = true
@@ -222,7 +192,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   }, [])
 
   // Component update for decoration status
-  useEffect(() => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
     if ((item.isNewsletter || item.isExternal) && 
       (item.isDecorated || item.isHtmlCleaned || item.isMercuryCleaned)) {
       inflateItemAndSetState(item)
@@ -277,13 +248,15 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   }
 
   interface StyleWithTransform {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     transform?: Array<{[key: string]: any}>;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     [key: string]: any;
   }
 
   const addAnimation = (
     style: StyleWithTransform, 
-    anim: Animated.AnimatedInterpolation, 
+    anim: Animated.AnimatedInterpolation<number>, 
     isVisible: boolean
   ): StyleWithTransform => {
     const width = getMargin()
@@ -326,21 +299,25 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     }  
   }
 
-  const inflateItemAndSetState = async (itemToInflate: ItemProps): Promise<void> => {
+  const inflateItemAndSetState = async (itemToInflate: Item): Promise<void> => {
     try {
       const inflated = Platform.OS === 'web' ?
         await getItemIDB(itemToInflate) :
         await getItemSQLite(itemToInflate)
 
+      if (!inflated) {
+        return
+      }
+
       // check whether title is first words of content
-      if (inflated.content_html?.length < 1000 && 
+      if (inflated.content_html?.length !== undefined && inflated.content_html?.length < 1000 && 
         inflated.content_html
           .replace(/<.*?>/g, '')
           .trim()
           .startsWith(inflated.title.replace('...', ''))) {
         inflated.title = ''
       }
-      if (inflated.content_html?.length < 1000 && 
+      if (inflated.content_html?.length !== undefined && inflated.content_html?.length < 1000 && 
         inflated.excerpt?.replace(/<.*?>/g, '')
           .trim()
           .startsWith(inflated.excerpt.replace('...', ''))) {
@@ -362,7 +339,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     }
   }
 
-  const scrollToOffset = (isOverridable: boolean = false, useTimeout: boolean = true): void => {
+  const scrollToOffset = (isOverridable = false, useTimeout = true): void => {
     if (isOverridable && hasBegunScroll.current) return
     if (!scrollView.current) return
     if (!hasWebViewResized.current) return
@@ -373,7 +350,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     
     setTimeout(() => {
       if (scrollView.current) {
-        scrollView.current.scrollTo({
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        (scrollView.current as any).scrollTo({
           x: 0,
           y: scrollRatio * webViewHeight,
           animated: true
@@ -395,7 +373,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
       // debounce
       if (!pendingWebViewHeightId.current) {
         pendingWebViewHeightId.current = setTimeout(() => {
-          setWebViewHeight(pendingWebViewHeight.current!)
+          setWebViewHeight(pendingWebViewHeight.current || INITIAL_WEBVIEW_HEIGHT)
           hasWebViewResized.current = true
           pendingWebViewHeightId.current = null
         }, 500)
@@ -411,14 +389,14 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     }
   }
 
-  const onScrollEndDrag = (e: any): void => {
+  const onScrollEndDrag = (e: { nativeEvent: { contentOffset: { y: number } } }): void => {
     const offset = e.nativeEvent.contentOffset.y
     scrollEndTimer.current = setTimeout(() => {
       onMomentumScrollEnd(offset)
     }, 250)
   }
 
-  const onMomentumScrollBegin = (e: any): void => {
+  const onMomentumScrollBegin = (): void => {
     if (scrollEndTimer.current) {
       clearTimeout(scrollEndTimer.current)
     }
@@ -440,7 +418,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const onNavigationStateChange = (event: { url: string; jsEvaluationValue: string }): void => {
     // this means we're loading an image
     if (event.url.startsWith('react-js-navigation')) return
-    const calculatedHeight = parseInt(event.jsEvaluationValue)
+    const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
     if (calculatedHeight) {
       updateWebViewHeight(calculatedHeight)
     }
@@ -483,8 +461,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
 
   const bodyColor = isDarkMode ? 
     'black' : 
-    styles?.hasFeedBGColor && !!item.feed_color && JSON.stringify(item.feed_color) !== '[0,0,0]' ?
-      `hsl(${(item.feed_color[0] + 180) % 360}, 15%, 90%)` :
+    styles?.hasFeedBGColor && !!color && JSON.stringify(color) !== '[0,0,0]' ?
+      `hsl(${(color[0] + 180) % 360}, 15%, 90%)` :
       hslString('bodyBG')
 
   if (!styles || Object.keys(styles).length === 0) {
@@ -495,8 +473,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     <CoverImage
       styles={styles.coverImage}
       scrollAnim={scrollAnim}
-      imagePath={!!hasCoverImage && getCachedCoverImagePath(inflatedItem)}
-      imageDimensions={!!hasCoverImage && imageDimensions}
+      imagePath={hasCoverImage ? getCachedCoverImagePath(inflatedItem) : undefined}
+      imageDimensions={hasCoverImage ? imageDimensions : undefined}
       faceCentreNormalised={faceCentreNormalised}
       orientation={orientation}
     /> :
@@ -598,7 +576,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
               ...inflatedItem,
               ...item
             }}
-            onTextSelection={onTextSelection}
             orientation={orientation}
             showImageViewer={showImageViewer}
             updateWebViewHeight={updateWebViewHeight}

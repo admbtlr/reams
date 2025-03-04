@@ -61,14 +61,13 @@ const stripUTags = (html: string) => {
 interface ItemBodyProps {
   bodyColor: string
   item: ItemInflated
-  onTextSelection: (text: string, serialized: string) => void
   orientation: string
   showImageViewer: (image: string) => void
   updateWebViewHeight: (height: number) => void
   webViewHeight: number
 }
 
-const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
+const ItemBody = ({ bodyColor, item, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
   const webView = useRef(null)
   const dispatch = useDispatch()
   const { activeHighlight, setActiveHighlight } = React.useContext(ActiveHighlightContext)

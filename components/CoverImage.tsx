@@ -31,11 +31,11 @@ interface CoverImageProps {
     isCoverImageLighter: boolean
     align: string
   }
-  imagePath: string
+  imagePath: string | undefined
   imageDimensions: {
     width: number
     height: number
-  }
+  } | undefined
   orientation: string
   scrollAnim?: Animated.Value
   faceCentreNormalised?: {
