@@ -1,5 +1,5 @@
 import { user } from "./user"
-import { User } from "@supabase/supabase-js"
+import type { User } from "@supabase/supabase-js"
 
 export const SET_BACKEND = 'SET_BACKEND'
 export const UNSET_BACKEND = 'UNSET_BACKEND'
@@ -21,7 +21,7 @@ interface UserDetails extends User {
   isPremium?: boolean
 }
 
-interface setBackendAction {
+export interface setBackendAction {
   type: typeof SET_BACKEND
   backend: string
   credentials: credentials | null
