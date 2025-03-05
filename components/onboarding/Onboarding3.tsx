@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store/reducers'
 import OnboardingPage from './OnboardingPage'
 import Login from '../Login'
+import { KeyboardAvoidingView } from 'react-native'
 
 const Onboarding3 = ({ index }: { index: number }) => {
   const onboardingIndex = useSelector((state: RootState) => state.config.onboardingIndex)

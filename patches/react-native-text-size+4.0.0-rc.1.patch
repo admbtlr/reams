@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-native-text-size/android/build.gradle b/node_modules/react-native-text-size/android/build.gradle
+index 2617bd7..0e4943f 100644
+--- a/node_modules/react-native-text-size/android/build.gradle
++++ b/node_modules/react-native-text-size/android/build.gradle
+@@ -9,8 +9,8 @@ def safeExtGet(prop, fallback) {
+ }
+ 
+ def _buildToolsVersion  = safeExtGet('buildToolsVersion', '28.0.3')
+-def _compileSdkVersion  = safeExtGet('compileSdkVersion', 28)
+-def _targetSdkVersion   = safeExtGet('targetSdkVersion', 28)
++def _compileSdkVersion  = safeExtGet('compileSdkVersion', 30)
++def _targetSdkVersion   = safeExtGet('targetSdkVersion', 30)
+ def _minSdkVersion      = safeExtGet('minSdkVersion', 16)
+ 
+ buildscript {

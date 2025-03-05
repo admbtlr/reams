@@ -6,7 +6,8 @@ import {
   View,
   Dimensions,
   Animated,
-  Button
+  Button,
+  Platform
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
@@ -66,10 +67,12 @@ export default function ItemsScreen ({ navigation}: { navigation: any }) {
         overflow: 'hidden',
         borderRadius: 0
       }}>
-      <StatusBar
-        showHideTransition="slide"
-        barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
-        hidden={false} />
+       { Platform.OS === 'ios' && 
+        <StatusBar
+          showHideTransition="slide"
+          barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
+          hidden={false} />
+       }
       <View style={styles.infoView} />
       <ActiveHighlightContext.Provider value={{ activeHighlight, setActiveHighlight }}>
         <ItemCarouselContainer

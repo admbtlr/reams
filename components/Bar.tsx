@@ -10,6 +10,7 @@ export const Bar = ({ item }: { item: Item }) => {
     height: 20,
     width: 100,
     backgroundColor: color,
-    borderRadius: 10
+    borderRadius: 10,
+    overflow: 'hidden',
   }} />
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react'
 import {
   Animated,
   Dimensions,
+  Platform,
   StatusBar,
   View
 } from 'react-native'
@@ -77,19 +78,19 @@ function TopBars (props: TopBarsProps) {
   useEffect(() => {
     const listener = {
       onStatusBarDown: () => {
-        StatusBar.setHidden(false, 'slide')
+        Platform.OS === 'ios' && StatusBar.setHidden(false, 'slide')
         dispatch({ type: SHOW_ITEM_BUTTONS })
       },
       onStatusBarDownBegin: () => {},
       onStatusBarUp: () => {
-        StatusBar.setHidden(true, 'slide')
+        Platform.OS === 'ios' && StatusBar.setHidden(true, 'slide')
         dispatch({ type: HIDE_ALL_BUTTONS })
       },
       onStatusBarUpBegin: () => {
-        StatusBar.setHidden(true, 'slide')
+        Platform.OS === 'ios' && StatusBar.setHidden(true, 'slide')
       },
       onStatusBarReset: () => {
-        StatusBar.setHidden(false, 'slide')
+        Platform.OS === 'ios' && StatusBar.setHidden(false, 'slide')
         dispatch({ type: SHOW_ITEM_BUTTONS })
       }
     }

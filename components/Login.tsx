@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { useEffect, useRef, useState } from 'react'
-import { Image, Keyboard, PixelRatio, Text, TextInput, View } from 'react-native'
+import { Image, Keyboard, KeyboardAvoidingView, PixelRatio, Platform, Text, TextInput, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useSession } from './AuthProvider'
 import { supabase } from '../storage/supabase'
@@ -162,7 +162,7 @@ const Login = ({
           marginTop: marginTop || 0,
           paddingHorizontal: getMargin(),
           paddingTop: hideHeader ? 
-            100 * fontSizeMultiplier() : 0
+            10 * fontSizeMultiplier() : 0
         }}>
         { hideHeader || (
           <Image 
@@ -258,6 +258,7 @@ const Login = ({
             </>}
           </>
         )}
+
       </View>
   )}
 

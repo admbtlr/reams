@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {
   Animated,
   Dimensions,
+  Platform,
 } from 'react-native'
 import FeedItemContainer from '../containers/FeedItem.js'
 import Onboarding from './onboarding/Onboarding'
@@ -166,8 +167,9 @@ class SwipeableViews extends Component {
         bounces={false}
         contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
         // contentOffset={{ x: 500, y: 0 }}
-        decelerationRate="fast"
+        decelerationRate={ Platform.os === 'ios' ? 'fast' : 0.9 }
         disableIntervalMomentum={true}
+        disableScrollViewPanResponder={ Platform.OS === 'android' }
         horizontal
         keyboardShouldPersistTaps='handled'
         onLayout={this.init}

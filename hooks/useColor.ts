@@ -6,11 +6,13 @@ import { hexToHsl } from "../utils/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { selectHostColors } from "../store/hostColors/hostColors";
 import { Platform } from "react-native";
+import type { IOSImageColors } from "react-native-image-colors/build/types";
 
-export function useColor(url: string | undefined) {
+export function useColor(urlParam: string | undefined) {
   const [color, setColor] = React.useState<string>()
   const dispatch = useDispatch()
   const hostColors = useSelector(selectHostColors)
+  let url = urlParam
 
   useEffect(() => {
     const getColor = async () => {
@@ -27,7 +29,7 @@ export function useColor(url: string | undefined) {
       }
 
       const matches = url?.match(/:\/\/(.*?)\//)
-      let host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
+      const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
 
       const cachedColor = hostColors.find(hc => hc.host === host)?.color
       if (cachedColor) {
@@ -36,15 +38,15 @@ export function useColor(url: string | undefined) {
       }
 
       try {
-        let iconSource
+        let iconSource: string
         if (Platform.OS === 'web') {
-          iconSource = process.env.EXPO_PUBLIC_API_URL + '/favicon?url=https://' + host
+          iconSource = `${process.env.EXPO_PUBLIC_API_URL}/favicon?url=https://${host}`
         } else {
           const path = `${FileSystem.documentDirectory}favicons/${host}.png`
           const faviconExists = await fileExists(path)
           if (!faviconExists) return
           iconSource = await FileSystem.readAsStringAsync(path, { encoding: FileSystem.EncodingType.Base64 })
-          iconSource = 'data:image/png;base64,' + iconSource  
+          iconSource = `data:image/png;base64,${iconSource}`  
         }
         if (!iconSource) return
         const colors = await getColors(iconSource, {
@@ -52,19 +54,18 @@ export function useColor(url: string | undefined) {
           key: host,
           quality: 'highest'
         })
-        let bestColor
+        let bestColor: string
         console.log(colors)
         if (colors.platform === 'ios') {
           // weirdly, 'background' is the best option
-          const options = ['background', 'primary', 'detail', 'secondary']
-          let i = 0
+          const options: (keyof IOSImageColors)[] = ['background', 'primary', 'detail', 'secondary']
           for (let i = 0; i < options.length; i++) {
-            bestColor = colors[options[i]]
+            bestColor = colors[options[i] as keyof IOSImageColors]
             if (bestColor !== undefined && bestColor !== '#FFFFFF') {
               break
             }
           }
-        } else if (colors.platform === 'web') {
+        } else if (colors.platform === 'web' || colors.platform === 'android') {
           bestColor = colors.dominant
         }
         if (bestColor) {
@@ -79,13 +80,13 @@ export function useColor(url: string | undefined) {
           }) 
         }
       } catch (err) {
-        console.error('Error for host ' + host)
+        console.error(`Error for host ${host}`)
         // log(err, 'useColor')
       }
     }
 
     const matches = url?.match(/:\/\/(.*?)\//)
-    let host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
+    const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
 
     const cachedColor = hostColors.find(hc => hc.host === host)?.color
     if (cachedColor) {
@@ -94,12 +95,12 @@ export function useColor(url: string | undefined) {
     }
 
     getColor()
-  }, [url])
+  }, [dispatch, hostColors, url])
   
   const convertToHsl = (color: string) => {
     const hslArray = hexToHsl(color.substring(1))
-    let hue = hslArray[0]
-    let saturation = hslArray[1]
+    const hue = hslArray[0]
+    const saturation = hslArray[1]
     let lightness = hslArray[2]
     if (Number.parseInt(lightness) && Number.parseInt(lightness) > 75) {
       lightness = 75

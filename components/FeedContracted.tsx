@@ -1,4 +1,4 @@
-import React, { memo, useRef } from 'react'
+import React, { memo, useEffect, useRef } from 'react'
 import {
   Animated,
   Dimensions,
@@ -21,7 +21,7 @@ import {
   SET_CACHED_COVER_IMAGE,
 } from '../store/feeds/types'
 import { LinearGradient } from 'expo-linear-gradient'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { SET_FILTER } from '../store/config/types'
 import {
   CLEAR_READ_ITEMS,
@@ -40,6 +40,7 @@ import { useModal } from './ModalProvider'
 import { BlurView } from 'expo-blur'
 import { createSelector } from '@reduxjs/toolkit'
 import Favicon from './Favicon'
+import { deepEqual } from '../utils'
 
 const entities = require('entities')
 
@@ -62,6 +63,27 @@ interface ThinItem {
   readAt: number | undefined
 }
 
+const unreadThinItemsSelector = createSelector(
+  [(state: RootState) => state.itemsUnread.items],
+  (items) =>
+    items.map((i) => ({
+      _id: i._id,
+      feed_id: i.feed_id,
+      hasCoverImage: i.hasCoverImage,
+      readAt: i.readAt,
+    }))
+)
+
+const savedThinItemsSelector = createSelector(
+  [(state: RootState) => state.itemsSaved.items],
+  (items) =>
+    items.map((i) => ({
+      _id: i._id,
+      hasCoverImage: i.hasCoverImage,
+      readAt: i.readAt,
+    }))
+)
+
 function FeedContracted({
   _id,
   count,
@@ -78,27 +100,8 @@ function FeedContracted({
     (state: RootState) => state.newsletters.newsletters
   )
   const feedsLocal = useSelector((state: RootState) => state.feedsLocal.feeds)
-  const unreadThinItemsSelector = createSelector(
-    [(state: RootState) => state.itemsUnread.items],
-    (items) =>
-      items.map((i) => ({
-        _id: i._id,
-        feed_id: i.feed_id,
-        hasCoverImage: i.hasCoverImage,
-        readAt: i.readAt,
-      }))
-  )
-  const unreadThinItems = useSelector(unreadThinItemsSelector)
-  const savedThinItemsSelector = createSelector(
-    [(state: RootState) => state.itemsSaved.items],
-    (items) =>
-      items.map((i) => ({
-        _id: i._id,
-        hasCoverImage: i.hasCoverImage,
-        readAt: i.readAt,
-      }))
-  )
-  const savedThinItems = useSelector(savedThinItemsSelector)
+  const unreadThinItems = useSelector(unreadThinItemsSelector, deepEqual)
+  const savedThinItems = useSelector(savedThinItemsSelector, deepEqual)
   const category = useSelector(
     (state: RootState) =>
       state.categories.categories.find((c) => c._id === _id),
@@ -193,7 +196,7 @@ function FeedContracted({
     })
 
   const opacityAnim = new Animated.Value(1)
-  let mainViewRef = useRef<View>(null)
+  const mainViewRef = useRef<View>(null)
 
   const navigateToItems = (
     x: number,
@@ -210,7 +213,7 @@ function FeedContracted({
     })
   }
 
-  const onPress = (e: GestureResponderEvent) => {
+  const onPress = () => {
     // fixes a bug when setting a filter with no feeds or items
     if (
       type === 'category' &&
@@ -229,6 +232,7 @@ function FeedContracted({
     }).start(() => {
       console.log('starting animation')
     })
+    const now = Date.now()
     switch (type) {
       case 'all':
         filterItems(null, null, null)
@@ -244,6 +248,7 @@ function FeedContracted({
         break
     }
     setIndex(0)
+    console.log(`Filtering items took ${Date.now() - now}ms`)
     Animated.timing(opacityAnim, {
       toValue: 1,
       // delay: 100,
@@ -276,8 +281,7 @@ function FeedContracted({
           },
         ]
         openModal({
-          modalText,
-          showModal: true,
+          modalText
         })
       } else {
         const modalText = [
@@ -293,7 +297,6 @@ function FeedContracted({
         openModal({
           modalText,
           modalHideCancel: false,
-          modalShow: true,
           inputs: [
             {
               label: 'Tag',

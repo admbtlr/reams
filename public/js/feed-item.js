@@ -472,12 +472,6 @@ function fadeIntoView() {
 
 function addTapMessageToImages () {
   addTapMessageToElements('img', 'image:', 'src')
-  // var images = document.querySelectorAll('img')
-  // Array.prototype.forEach.call(images, function (image, i) {
-  //   image.onclick = function (event) {
-  //     window.postMessage('image:' + image.src)
-  //   }
-  // })
 }
 
 function addTapMessageToLinks () {
@@ -485,10 +479,10 @@ function addTapMessageToLinks () {
 }
 
 function addTapMessageToElements (tag, msg, attr, fn) {
-  var els = document.querySelectorAll(tag)
-  Array.prototype.forEach.call(els, function (el, i) {
-    el.onclick = function (event) {
-      window.ReactNativeWebView && window.ReactNativeWebView.postMessage(msg + el.getAttribute(attr))
+  const els = document.querySelectorAll(tag)
+  Array.prototype.forEach.call(els, (el) => {
+    el.onclick = (event) => {
+      window.ReactNativeWebView?.postMessage(msg + el.getAttribute(attr))
       fn && fn(el)
       event.stopPropagation()
       event.preventDefault()
@@ -498,10 +492,10 @@ function addTapMessageToElements (tag, msg, attr, fn) {
 }
 
 function addTargetToLinksOnWeb () {
-  var html = document.getElementsByTagName('html')[0]
+  const html = document.getElementsByTagName('html')[0]
   if (html.classList.contains('web')) {
-    var links = document.querySelectorAll('a')
-    Array.prototype.forEach.call(links, function (link, i) {
+    const links = document.querySelectorAll('a')
+    Array.prototype.forEach.call(links, (link) => {
       link.setAttribute('target', '_blank')
     })
   }
@@ -513,14 +507,14 @@ function removeNYTImageText () {
 
 function removeNodes (query) {
   const nodes = document.querySelectorAll(query)
-  for (var i = nodes.length - 1; i >= 0; i--) {
+  for (let i = nodes.length - 1; i >= 0; i--) {
     nodes[i].remove()
   }
 }
 
 function removeSrcSets () {
   const images = document.querySelectorAll('img')
-  for (var i = images.length - 1; i >= 0; i--) {
+  for (let i = images.length - 1; i >= 0; i--) {
     images[i].srcset = ''
   }
 }
@@ -533,7 +527,7 @@ const substack = {
   },
   removeEmptyDivs: () => {
     const divs = document.querySelectorAll('div')
-    for (var i = divs.length - 1; i >= 0; i--) {
+    for (let i = divs.length - 1; i >= 0; i--) {
       if (divs[i].innerText.replace(/[\s\u034F\u00AD\u0022]*/g, '').length === 0) {
         divs[i].remove()
       }
@@ -541,14 +535,14 @@ const substack = {
   },
   fixFigures: () => {
     const figures = document.querySelectorAll('figure')
-    for (var i = figures.length - 1; i >= 0; i--) {
+    for (let i = figures.length - 1; i >= 0; i--) {
       const img = figures[i].querySelector('img')
       figures[i].appendChild(img)
     }
   },
   removeEmptyTds: () => {
     const tds = document.querySelectorAll('td')
-    for (var i = tds.length - 1; i >= 0; i--) {
+    for (let i = tds.length - 1; i >= 0; i--) {
       if (tds[i].innerText.replace(/[\s\u034F\u00AD\u0022]*/g, '').length === 0 && tds[i].childElementCount === 0) {
         tds[i].remove()
       }
@@ -558,7 +552,7 @@ const substack = {
 
 function remove1x1Images() {
   const images = document.querySelectorAll('img')
-  for (var i = images.length - 1; i >= 0; i--) {
+  for (let i = images.length - 1; i >= 0; i--) {
     if (images[i].naturalHeight === 1 && images[i].naturalWidth === 1) {
       images[i].remove()
     }
@@ -568,8 +562,8 @@ function remove1x1Images() {
 function removeSubstackPreamble () {
   if (document.querySelector('html').classList.contains('newsletter') &&
     document.querySelectorAll('.email-body-container').length === 1) {
-    var emailBodyContainer = document.querySelector('.email-body-container')
-    var article = document.querySelector('article')
+    const emailBodyContainer = document.querySelector('.email-body-container')
+    const article = document.querySelector('article')
     while (article.firstChild) {
       article.removeChild(article.lastChild);
     }
@@ -657,7 +651,7 @@ function init() {
     markImages()
     addTapMessageToImages()
     addTargetToLinksOnWeb()
-    // addTapMessageToLinks()
+    addTapMessageToLinks()
     removeAllBrs()
     stopAutoplay()
     const src = document.querySelector('article').innerHTML
@@ -673,11 +667,12 @@ function init() {
     ignoreWhiteSpace: true,
     tagNames: ["span", "a"]
   }))
+  // biome-ignore lint/complexity/noForEach: <explanation>
   highlights.forEach(highlight => {
     highlighter.deserialize(highlight.serialized)
     // find the highlight and add the _id as an attribute
     const highlights = document.querySelectorAll('.highlight')
-    for (var i = highlights.length - 1; i >= 0; i--) {
+    for (let i = highlights.length - 1; i >= 0; i--) {
       const h = highlights[i]
       if (h.getAttribute('data-id') === null) {
         h.setAttribute('data-id', highlight._id)
