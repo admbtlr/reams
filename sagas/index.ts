@@ -7,7 +7,7 @@ import {
 } from '../store/config/types'
 import {
   SET_BACKEND, 
-  SET_EXTRA_BACKEND, 
+  type setBackendAction, 
   UNSET_BACKEND
 } from '../store/user/types'
 import {
@@ -26,8 +26,7 @@ import {
   ADD_FEED,
   ADD_FEEDS,
   DEACTIVATE_NUDGE,
-  Feed,
-  FeedLocal,
+  type FeedLocal,
   MARK_FEED_READ,
   PAUSE_NUDGE,
   REMOVE_FEED,
@@ -59,10 +58,11 @@ import { setItemTitleFontSize } from './update-item'
 import { Platform } from 'react-native'
 import { MINIMUM_UPDATE_INTERVAL } from '@/components/AppStateListener'
 import { deactivateNudge, pauseNudge } from './nudges'
+import { TakeableChannel } from 'redux-saga'
 
 let downloadsFork
 
-function * init (action) {
+function * init () {
   yield primeAllBackends()
 
   // see comment below about START_DOWNLOADS
@@ -100,15 +100,15 @@ function * startDownloads (shouldSleep = false) {
   }  
 }
 
-function * killBackend ({ backend }) {
+function * killBackend ({ backend }: { backend: string }) {
   unsetBackend(backend)
   yield put({ type: CLEAR_MESSAGES })
-  if (!!downloadsFork) {
+  if (downloadsFork) {
     yield cancel(downloadsFork)
   }
 }
 
-function * initBackend (action) {
+function * initBackend (action: setBackendAction) {
   yield primeBackend(action)
   if (action.backend === 'feedbin' || action.backend === 'reams') {
     yield startDownloads()
