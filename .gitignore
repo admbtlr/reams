@@ -89,3 +89,5 @@ dist
 
 # Local Netlify folder
 .netlify
+
+reams.keystore

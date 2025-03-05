@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
   const feedTitle = feed?.title || newsletter?.title
   const showMercuryContent = item.showMercuryContent !== undefined ? 
     item.showMercuryContent :
-    feed && feed.isMercury
+    feed?.isMercury
   return {
     item: {
       ...item,
@@ -33,7 +33,8 @@ const mapStateToProps = (state, ownProps) => {
     setTimerFunction: ownProps.setTimerFunction,
     displayMode: state.itemsMeta.display,
     isVisible: index === itemIndex,
-    index: itemIndex
+    index: itemIndex,
+    color: state.hostColors.hostColors
   }
 }
 
@@ -56,7 +57,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-let FeedItemContainer = connect(
+const FeedItemContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(withUseColorHOC(FeedItem))

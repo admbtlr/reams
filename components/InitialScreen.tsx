@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   Linking,
+  Platform,
   StatusBar,
   Text,
   TouchableOpacity,
@@ -171,9 +172,10 @@ export default function InitialScreen({}) {
         }}
         testID='initial-screen'
       >
-        <StatusBar
-          showHideTransition="slide"
-          barStyle="dark-content" />
+          <StatusBar
+            showHideTransition="slide"
+            backgroundColor='black'
+            barStyle={ Platform.OS === 'ios' ? "dark-content" : 'light-content' } />
         <View style={{
           // marginBottom: 64,
           minHeight: height - 55 - 64,

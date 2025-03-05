@@ -112,9 +112,10 @@ const Rizzle = () => {
               backgroundColor: 'black',
               overflow: 'hidden'
             }}>
-              <StatusBar
-                barStyle='light-content'
-                hidden={false} />
+               { Platform.OS === 'ios' && 
+                <StatusBar
+                  barStyle='light-content'
+                  hidden={false} /> }
               <ConnectionListener />
               { Platform.OS === 'web' || <OrientationListener /> }
               <Analytics />

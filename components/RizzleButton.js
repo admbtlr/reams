@@ -53,7 +53,7 @@ class RizzleButton extends React.Component {
     if (Platform.OS !== 'web') {
       ReactNativeHapticFeedback.trigger("impactLight", {})
     }
-    this.props.onPress && this.props.onPress(this.toggleState)
+    this.props.onPress?.(this.toggleState)
   }
 
   // onPressIn(...args) {

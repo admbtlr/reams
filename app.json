@@ -5,7 +5,8 @@
     "plugins": [
       "expo-dev-launcher",
       "expo-router",
-      ["expo-sqlite",
+      [
+        "expo-sqlite",
         {
           "enableFTS": true
         }
@@ -89,6 +90,15 @@
     "web": {
       "output": "single",
       "bundler": "metro"
-    }  
-  },
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d8797fd1-4cee-4f06-b61b-bc721210e857"
+      }
+    },
+    "owner": "admbtlr"
+  }
 }

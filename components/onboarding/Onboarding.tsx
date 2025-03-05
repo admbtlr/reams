@@ -2,12 +2,15 @@ import React, { createRef, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { HIDE_ALL_BUTTONS, HIDE_LOADING_ANIMATION } from '../../store/ui/types'
 import { fontSizeMultiplier } from '../../utils/dimensions'
-import { RootState } from '../../store/reducers'
+import type { RootState } from '../../store/reducers'
 import Onboarding3 from './Onboarding3'
 import Onboarding5 from './Onboarding5'
 import Onboarding1 from './Onboarding1'
 import Onboarding2 from './Onboarding2'
 import Onboarding4 from './Onboarding4'
+import { useFocusEffect } from '@react-navigation/native'
+import BackButton from '../BackButton'
+import { BackHandler } from 'react-native'
 
 export default function Onboarding ({index, navigation, isVisible}: {index: number, navigation: any, isVisible: boolean}) {
   const dispatch = useDispatch()
@@ -19,6 +22,19 @@ export default function Onboarding ({index, navigation, isVisible}: {index: numb
     hideAllButtons()
     hideLoadingAnimation()
   })
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        () => {
+          BackHandler.exitApp()
+          return true
+        }
+      )
+      return () => subscription.remove()
+    }, [])
+  )
 
   let server = ''
   if (__DEV__) {

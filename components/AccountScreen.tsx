@@ -271,9 +271,10 @@ class AccountScreen extends React.Component {
             }}
             testID='account-screen'
           >
-            <StatusBar
-              showHideTransition="slide"
-              barStyle="dark-content" />
+            { Platform.OS === 'ios' && 
+              <StatusBar
+                showHideTransition="slide"
+                barStyle="dark-content" /> }
             <View style={{
               // marginBottom: 64,
               minHeight: height - 55 - 64,

@@ -90,16 +90,16 @@ const fontStyles = {
   // },
   headerFontSans1: {
     bold: {
-      fontFamily: 'AvenirNextCondensed-Bold'
+      fontFamily: Platform.ios === 'ios' ? 'AvenirNextCondensed-Bold' : 'NunitoSans-Bold'
     },
     boldItalic: {
-      fontFamily: 'AvenirNextCondensed-BoldItalic'
+      fontFamily: Platform.ios === 'ios' ? 'AvenirNextCondensed-BoldItalic' : 'NunitoSans-BoldItalic'
     },
     regular: {
-      fontFamily: 'AvenirNext-Medium'
+      fontFamily: Platform.ios === 'ios' ? 'AvenirNext-Medium' : 'NunitoSans-Regular'
     },
     regularItalic: {
-      fontFamily: 'AvenirNext-MediumItalic'
+      fontFamily: Platform.ios === 'ios' ? 'AvenirNext-MediumItalic' : 'NunitoSans-Italic'
     }
   },
   headerFontSans2: {
@@ -194,9 +194,8 @@ class ItemTitle extends React.Component {
     const { showCoverImage, isCoverInline, styles } = this.props
     if (showCoverImage && !isCoverInline && styles.bg) {
       return getMargin() / 2
-    } else {
-      return 0
     }
+    return 0
   }
 
   getInnerHorizontalMargin () {
@@ -554,7 +553,7 @@ class ItemTitle extends React.Component {
 
     // https://github.com/facebook/react-native/issues/7687
     // (9 is a heuristic value)
-    const extraPadding = Math.round(fontSize / 9)
+    const extraPadding = Platform.OS === 'ios' ? Math.round(fontSize / 9) : 0
     paddingTop += extraPadding
     const marginTop = 0 - extraPadding
 
@@ -730,13 +729,17 @@ class ItemTitle extends React.Component {
       })
     } else if (styles.interBolded) {
       wordStyles = styles.interBolded.map(isBold => {
-        const fontFamily = this.getFontFamily(isBold ? 'bold' :
+        const fontFamily = this.getFontFamily(isBold ? 'bold' : 
           (styles.isItalic ? 'regularItalic' : 'regular'))
+        // adjustedFontSize = isBold ? fontSize : fontSize * 0.5
         return {
           fontFamily,
           fontSize,
           height: lineHeight * 1.2,
-          lineHeight
+          lineHeight,
+          overflow: 'visible',
+          // borderBottomWidth: isBold ? 0 : 1,
+          // borderBottomColor: color
         }
       })
     } else {
@@ -888,7 +891,7 @@ class ItemTitle extends React.Component {
   }
 
   renderBar (anim) {
-    let style = this.props.anims ? this.props.addAnimation({}, anim, this.props.isVisible) : {}
+    const style = this.props.anims ? this.props.addAnimation({}, anim, this.props.isVisible) : {}
     return <Animated.View style={{
       ...style,
       marginLeft: this.props.styles.textAlign === 'center' ? 0 : this.horizontalMargin
@@ -1018,7 +1021,7 @@ class ItemTitle extends React.Component {
         flex: 0,
         flexDirection: 'row',
         justifyContent: showCoverImage ? this.justifiers[styles.valign] : 'flex-start',
-        alignItems: styles.textAlign == 'center' ? 'center' : 'flex-start',
+        alignItems: styles.textAlign === 'center' ? 'center' : 'flex-start',
       }}>
         <Animated.View style={style}>
           <Animated.Text
@@ -1099,9 +1102,8 @@ class ItemTitle extends React.Component {
           style={authorStyle}
         >{entities.decodeHTML(this.props.item.author).trim()}</Animated.Text>
       )
-    } else {
-      return null
     }
+    return null
   }
 
   renderDate (anim) {

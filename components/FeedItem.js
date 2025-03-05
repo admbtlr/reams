@@ -16,6 +16,13 @@ import { MAX_DECORATION_FAILURES } from '../sagas/decorate-items'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
+// right now I get re-renders for:
+// - color (props via HOC)
+// - animsUpdated (state)
+// - inflatedItem (state)
+// - webViewHeight (state)
+// - hasRendered (state)
+
 class FeedItem extends React.Component {
   constructor(props) {
     super(props)
@@ -91,25 +98,24 @@ class FeedItem extends React.Component {
           }
         ]
       }
-    } else {
-      return {
-        ...style,
-        left: width,
-        opacity: anim.interpolate({
-          inputRange: [0, 1, 1.05, 1.1, 2],
-          outputRange: [1, 1, 1, 0, 0]
-        }),
-        transform: [
-          ...transform,
-          {
-            translateX: anim.interpolate({
-              inputRange: [0, 1.01, 1.1, 2],
-              outputRange: [-width, -width, width * 4, width * 4]
-            })
-          }
-        ]
-      }  
-    }
+    } 
+    return {
+      ...style,
+      left: width,
+      opacity: anim.interpolate({
+        inputRange: [0, 1, 1.05, 1.1, 2],
+        outputRange: [1, 1, 1, 0, 0]
+      }),
+      transform: [
+        ...transform,
+        {
+          translateX: anim.interpolate({
+            inputRange: [0, 1.01, 1.1, 2],
+            outputRange: [-width, -width, width * 4, width * 4]
+          })
+        }
+      ]
+    }  
   }
   
   shouldComponentUpdate (nextProps, nextState) {
@@ -122,11 +128,12 @@ class FeedItem extends React.Component {
     }
 
     // various special cases
-    if (changes && changes.item && Object.keys(changes.item).length === 0) {
+    if (changes?.item && Object.keys(changes.item).length === 0) {
+      // biome-ignore lint/performance/noDelete: this is just the best way to do it
       delete changes.item
     }
     if (changes && Object.keys(changes).length === 0) {
-      isDiff == false
+      isDiff = false
     } else if (changes && Object.keys(changes).length === 1) {
       switch (Object.keys(changes)[0]) {
         case 'isVisible':
@@ -156,7 +163,7 @@ class FeedItem extends React.Component {
         case 'index':
 
         case 'item':
-          if (changes && changes.item && Object.keys(changes.item).length === 1) {
+          if (changes?.item && Object.keys(changes.item).length === 1) {
             switch (Object.keys(changes.item)[0]) {
               case 'scrollRatio':
               case 'readingTime':
@@ -177,6 +184,13 @@ class FeedItem extends React.Component {
           break
       }
     }
+
+    if (isDiff) {
+      console.log('diff', changes)
+    } else {
+      console.log('No diff')
+    }
+
     // don't re-render if the reveal animation is running
     // once the animation has finished the hasRendered state gets set
     // which will trigger a new render anyway
@@ -276,7 +290,7 @@ class FeedItem extends React.Component {
   }
 
   render () {
-    // __DEV__ && console.log('Rendering item', this.props.index)
+    __DEV__ && console.log('Rendering item ', this.props.item.title)
     const emptyState = (
       <View style={{
         width: this.screenDimensions.width,

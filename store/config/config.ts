@@ -1,5 +1,4 @@
 import { 
-  ConfigActionTypes,
   Direction,
   UPDATE_ONBOARDING_INDEX,
   TOGGLE_ONBOARDING,
@@ -15,14 +14,17 @@ import {
   SET_MIGRATION_VERSION,
   SET_SEARCH_TERM 
 } from "./types"
+import type {
+  ConfigActionTypes
+} from './types'
 import {
   UNSET_BACKEND,
-  UserActionTypes
 } from '../user/types'
-import { 
+import type { UserActionTypes } from '../user/types'
+import type { 
   FeedActionTypes,
-  REMOVE_FEED 
 } from "../feeds/types"
+import { REMOVE_FEED } from "../feeds/types"
 import { Dimensions } from "react-native"
 import { DELETE_CATEGORY } from "../categories/types"
 
@@ -66,10 +68,9 @@ export const initialState: ConfigState = {
   showNumUnread: true,
 }
 
-let extras
-
 export function config (
-  state = initialState, 
+  // biome-ignore lint/style/useDefaultParameterLast: <explanation>
+  state: ConfigState = initialState, 
   action: ConfigActionTypes | FeedActionTypes | UserActionTypes
 ) : ConfigState {
   switch (action.type) {
@@ -78,17 +79,17 @@ export function config (
         return {
           ...state
         }
-      } else {
-        return state
       }
+      return state
 
-    case UPDATE_ONBOARDING_INDEX:
+    case UPDATE_ONBOARDING_INDEX: {
       const isOnboarding = (action.index < state.onboardingLength)
       return {
         ...state,
         isOnboarding,
         onboardingIndex: action.index
       }
+    }
 
     case TOGGLE_ONBOARDING:
       return {
@@ -115,13 +116,13 @@ export function config (
       }
 
     case DELETE_CATEGORY:
-      //@ts-ignore
       if (state.filter !== null && state.filter._id === action.category._id) {
         return {
           ...state,
           filter: null
         }
       }
+      return state
 
     case REMOVE_FEED:
       return {

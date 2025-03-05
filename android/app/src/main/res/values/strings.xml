@@ -1,3 +1,5 @@
 <resources>
   <string name="app_name">Reams</string>
+  <string name="expo_splash_screen_resize_mode">native</string>
+  <string name="expo_runtime_version">1.0.0</string>
 </resources>
