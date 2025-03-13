@@ -1,5 +1,5 @@
-import { Direction } from "../config/types"
-import { Feed } from "../feeds/types"
+import type { Direction } from "../config/types"
+import type { Feed } from "../feeds/types"
 
 export enum ItemType {
   unread = 'unread',
@@ -19,6 +19,7 @@ interface ItemStyles {
     showCoverImage: boolean
   }
   title: {
+    [x: string]: string | boolean | number | undefined
     bg?: boolean
     excerptFullWidth?: boolean
     excerptHorizontalAlign?: boolean
@@ -44,7 +45,7 @@ interface ItemStyles {
   dropCapIsMonochrome?: boolean
   dropCapIsStroke?: boolean
   dropCapSize?: number
-  fontClasses?: any
+  fontClasses?: string[]
   hasColorBlockquoteBG?: boolean
   isCoverInline?: boolean
 }
@@ -204,7 +205,7 @@ interface itemsBatchFetchedAction {
 interface pruneUnreadAction {
   type: typeof PRUNE_UNREAD
   maxItems: number
-  itemSort: any
+  itemSort: string
   prunedItems: Item[]
 }
 

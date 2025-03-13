@@ -12,7 +12,7 @@ const MAX_ITEMS_TO_DOWNLOAD = 1000
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 
 let backend
-let backends = {
+const backends = {
   feedbin,
   feedwrangler,
   reams,
@@ -44,18 +44,16 @@ export async function loadMercuryStuff (item) {
     const response = await fetch(url)
     if (response.ok) {
       return response.json()
-    } else {
-      log(`${response.url}: ${response.status} ${response.statusText}`)
-      return
-    }  
+    }
+    log(`${response.url}: ${response.status} ${response.statusText}`)
+    return
   } catch (e) {
     log('loadMercuryStuff', e)
   }
 }
 
 export function getMercuryUrl (item) {
-  let url = EXPO_PUBLIC_API_URL + '/mercury?url=' +
-    encodeURIComponent(item.url)
+  let url = `${EXPO_PUBLIC_API_URL}/mercury?url=${encodeURIComponent(item.url)}`
   if (item.isNewsletter) {
     url += '&skipContent=true'
   }
@@ -118,9 +116,8 @@ export async function markItemsRead (items, feedId = null, olderThan = null) {
 export async function saveItem (item) {
   if (backend === 'feedbin') {
     return await feedbin.saveItem(item)
-  } else {
-    return await reams.saveItem(item)
   }
+  return await reams.saveItem(item)
 }
 
 export async function unsaveItem (item, folder) {
@@ -134,9 +131,8 @@ export async function unsaveItem (item, folder) {
 export async function saveExternalItem (item, folder) {
   if (backend === 'feedbin') {
     return await feedbin.saveExternalItem(item)
-  } else {
-    return await reams.saveExternalItem(item, folder)
   }
+  return await reams.saveExternalItem(item, folder)
 }
 
 
