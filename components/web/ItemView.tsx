@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { Animated, Image, ScaledSize, Text, View, useWindowDimensions } from "react-native"
+import { Animated, Image, type ScaledSize, Text, View, useWindowDimensions } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../store/reducers"
+import type { RootState } from "../../store/reducers"
 import { hslString } from "../../utils/colors"
-import { Item, ItemInflated } from "../../store/items/types"
+import type {  ItemInflated } from "../../store/items/types"
 import { textInfoStyle } from '../../utils/styles'
 import WebView from "react-native-webview"
 import ButtonSet from "../ButtonSet"
@@ -18,7 +18,7 @@ const TOP_BAR_HEIGHT = 60
 export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   if (!item?.styles?.fontClasses) return null
   const dispatch = useDispatch()
-  let dimensions: ScaledSize = useWindowDimensions()
+  const dimensions: ScaledSize = useWindowDimensions()
   const [coverImageSize, setCoverImageSize] = useState({width: 0, height: 0})
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const feed = item?.isNewsletter ?
@@ -37,7 +37,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
     }
   }
   const coverImageHeight = coverImageSize.height > 0 ? Math.round(dimensions.width * (coverImageSize.height / coverImageSize.width)) : 0
-  // console.log('coverImageHeight', coverImageHeight)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 
   useEffect(() => {
     dispatch({type: SHOW_ITEM_BUTTONS})
   }, [item])
@@ -74,7 +74,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   
   let articleClasses = ''
 
-  if (item?.styles && item?.styles.fontClasses) {
+  if (item?.styles?.fontClasses) {
     articleClasses = [
       ...Object.values(item?.styles.fontClasses),
       'itemArticle',
@@ -105,10 +105,10 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
 
   const date = item.date_published || 0
   const momentDate = moment(date)
-  let showYear = (momentDate.year() !== moment().year())
-  const showTime = Date.now() - date < 1000 * 60 * 60 * 24 * 30
+  const showYear = (momentDate.year() !== moment().year())
+  const showTime = Date.now() - momentDate.milliseconds() < 1000 * 60 * 60 * 24 * 30
   const formattedDate = momentDate
-    .format('MMM. D' + (showYear ? ' YYYY' : ''))
+    .format(`MMM. D${showYear ? ' YYYY' : ''}`)
   const formattedTime = momentDate.format('h:mma')
   const showToday = momentDate.dayOfYear() === moment().dayOfYear() &&
     (momentDate.year() === moment().year())
@@ -134,7 +134,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   </head>
   <body class="${displayMode} ${coverImageHeight > 0 ? 'hasCoverImage' : ''} web" style="background-color: ${bodyColor}" data-cover="${data}">
     <div class="coverHolder" style="${coverImageHeight > 0 ? `height: ${coverImageHeight}px;` : ''}  max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;">
-      <div class="coverImage" style="background-image: url(${coverImageUrl}); height: ${coverImageHeight}px; max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;">.</div>
+      ${coverImageUrl !== undefined ? `<div class="coverImage" style="background-image: url(${coverImageUrl}); height: ${coverImageHeight}px; max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;"></div>`: ''}
       <div class="${headingClasses}" style="${dimensions.width > 1200 && coverImageHeight > dimensions.height ? 'margin-bottom: 2rem' : ''}">
         <h1>${item?.title}</h1>
         ${item?.excerpt ? `<p class="excerpt">${item?.excerpt}</p>` : ''}
@@ -150,7 +150,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
       </article>
     </div>
   </body>
-  <script>${`const highlights = []`}</script>
+  <script>${"const highlights = []"}</script>
   <script src="/js/feed-item.js"></script>
   <script src="/js/rangy-core.js"></script>
   <script src="/js/rangy-classapplier.js"></script>
@@ -172,7 +172,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
           justifyContent: 'center',
         }}>
           { host && 
-              <img height="32" width="auto" src={ getFaviconUrl(host) } />
+              <img height="32" width="auto" src={ getFaviconUrl(host) } alt={`Favicon for ${host}`} />
           }
           <Text style={{ 
             ...textInfoStyle(),
@@ -196,11 +196,9 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
           }}
       />
       <ButtonSet
-          displayMode={displayMode}
           isCurrent
           item={item}
           opacityAnim={new Animated.Value(1)}
-          visible
         />
       </View>
     )
