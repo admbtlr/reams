@@ -228,11 +228,12 @@ body {
   }
 
   // newsletters sometimes leave a gap
-  table {
-    figure, img, video, iframe, pre {
-      left: calc(-4vw - 1px);
-    }
-  }
+  // pretty sure this isn't relevant anymore
+  // table {
+  //   figure, img, video, iframe, pre {
+  //     left: calc(-4vw - 1px);
+  //   }
+  // }
   
   
 

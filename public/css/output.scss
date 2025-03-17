@@ -228,11 +228,12 @@ body {
   }
 
   // newsletters sometimes leave a gap
-  table {
-    figure, img, video, iframe, pre {
-      left: calc(-4vw - 1px);
-    }
-  }
+  // pretty sure this isn't relevant anymore
+  // table {
+  //   figure, img, video, iframe, pre {
+  //     left: calc(-4vw - 1px);
+  //   }
+  // }
   
   
 
@@ -1978,9 +1979,8 @@ html.onboarding.onboarding-2:not(.dark-background) body {
   }
   
   .itemTitle {
-    margin: 1rem 4vw;
-    margin-bottom: 0;
-    max-width: 900px;
+    margin: 1rem auto 0;
+    width: 27rem; // I assume there is 1rem of horizontal padding somewhere on the article 
     z-index: 2;
     position: relative;
     
@@ -2025,6 +2025,8 @@ html.onboarding.onboarding-2:not(.dark-background) body {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    margin: 1rem 0 0;
+    max-width: 900px;
 
     &.center h1 {
       text-align: center;
@@ -2065,7 +2067,12 @@ html.onboarding.onboarding-2:not(.dark-background) body {
   @media screen and (min-width: 32rem) {
     .itemTitle {
       padding: 1rem;
-      margin: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+
+      &.hasCoverImage & {
+        margin: 0;
+      }
     }
   }
   

@@ -187,9 +187,6 @@ body, body a, body a:active, body a:visited {
     margin-right: calc(50% - 50vw) !important;
   }
 }
-.itemArticle table figure, .itemArticle table img, .itemArticle table video, .itemArticle table iframe, .itemArticle table pre {
-  left: calc(-4vw - 1px);
-}
 @media (min-width: 600px) {
   .itemArticle .twitter-tweet iframe {
     left: auto;
@@ -1624,9 +1621,8 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   align-items: flex-end;
 }
 .web .itemTitle {
-  margin: 1rem 4vw;
-  margin-bottom: 0;
-  max-width: 900px;
+  margin: 1rem auto 0;
+  width: 27rem;
   z-index: 2;
   position: relative;
 }
@@ -1661,6 +1657,8 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  margin: 1rem 0 0;
+  max-width: 900px;
 }
 .web.hasCoverImage .itemTitle.center h1 {
   text-align: center;
@@ -1693,6 +1691,10 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
 @media screen and (min-width: 32rem) {
   .web .itemTitle {
     padding: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .web .itemTitle.hasCoverImage .web .itemTitle {
     margin: 0;
   }
 }
