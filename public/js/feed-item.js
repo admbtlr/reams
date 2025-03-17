@@ -107,11 +107,12 @@ function removeSoloSurroundingDivs () {
 
 function removeDivsWithOrphanFigures () {
   const figures = document.querySelectorAll('figure')
-  Array.prototype.forEach.call(figures, function (figure, i) {
-    const parent = figure.parentNode
+  Array.prototype.forEach.call(figures, (figure, i) => {
+    const parent = figure.parentElement
+    const grandparent = parent.parentElement
     if (parent.tagName == 'DIV' && parent.childElementCount === 1) {
-      parent.parentNode.insertBefore(figure.cloneNode(true), parent)
-      parent.remove()
+      grandparent.insertBefore(figure, parent)
+      grandparent.removeChild(parent)
     }
   })
 }
@@ -149,7 +150,7 @@ function removeEmptyParagraphs () {
 }
 
 function removeEmptyDivs () {
-  const divs = document.querySelectorAll('div')
+  const divs = document.querySelectorAll('article div')
   let toRemove = []
   Array.prototype.forEach.call(divs, function (el, i) {
     if (el.innerText
@@ -638,7 +639,7 @@ function cleanSource() {
   removeNodes('time')
   removeSoloSurroundingDivs()
   createFigCaptions()
-  removeSrcSets()
+  // removeSrcSets()
   removeEmptyDivs()
   removeDivsWithImg()
   convertDivsToFigures()
