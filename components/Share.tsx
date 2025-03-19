@@ -25,6 +25,7 @@ const hslString = (label: string): string => {
 }
 
 const EXPO_PUBLIC_SENTRY_DSN = process.env.EXPO_PUBLIC_SENTRY_DSN
+const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 
 interface Feed {
   url: string
@@ -68,11 +69,11 @@ const Share: React.FC = () => {
   const searchForRSS = async (url: string) => {
     let deduped: Feed[] = []
     try {
-      let res = await fetch(`https://api.reams.app/api/find-feeds?url=${url}`)
+      let res = await fetch(`${EXPO_PUBLIC_API_URL}/find-feeds?url=${url}`)
       let newRssUrls: Feed[] = await res.json()
       deduped = dedupeFeeds(rssUrls.concat(newRssUrls))
       if (!deduped || deduped.length === 0) {
-        res = await fetch(`https://api.reams.app/api/find-feeds?url=${url}`)
+        res = await fetch(`${EXPO_PUBLIC_API_URL}/api/find-feeds?url=${url}`)
         newRssUrls = await res.json()
         deduped = dedupeFeeds(rssUrls.concat(newRssUrls))
       }
@@ -103,7 +104,7 @@ const Share: React.FC = () => {
         console.log(data)
         const url = data.data[0].data
         console.log(url)
-        const matches = /http[s]*:\/\/([a-zA-Z0-9\.]*)/.exec(url) 
+        const matches = /http[s]*:\/\/([a-zA-Z0-9\.]*)/.exec(url)
         const domain = matches !== null ? matches[1] : undefined
         if (!domain) return
         console.log(domain)
@@ -308,8 +309,8 @@ const Share: React.FC = () => {
             flex: 1
           }} />
         </View>
-        <View style={{ 
-          flex: 0, 
+        <View style={{
+          flex: 0,
           paddingVertical: margin,
           alignItems: 'center',
         }}>
@@ -377,4 +378,3 @@ const TextButton: React.FC<TextButtonProps> = ({ onPress, label, isDisabled }) =
 )
 
 export default Share
-

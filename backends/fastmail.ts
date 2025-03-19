@@ -9,11 +9,13 @@ import log from '../utils/log'
 //   process.exit(1)
 // }
 
+const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 const EXPO_PUBLIC_CORS_PROXY = process.env.EXPO_PUBLIC_CORS_PROXY
 const EXPO_PUBLIC_JMAP_TOKEN = process.env.EXPO_PUBLIC_JMAP_TOKEN
-const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
+const EXPO_PUBLIC_REAMS_MAILBOX_ID = process.env.EXPO_PUBLIC_REAMS_MAILBOX_ID
+const EXPO_PUBLIC_JMAP_ACCOUNT_ID = process.env.EXPO_PUBLIC_JMAP_ACCOUNT_ID
 
-const authUrl = EXPO_PUBLIC_CORS_PROXY + '?url=' + 
+const authUrl = EXPO_PUBLIC_CORS_PROXY + '?url=' +
   encodeURIComponent('https://api.fastmail.com/.well-known/jmap')
 const headers = {
   "Content-Type": "application/json; charset=utf-8",
@@ -21,7 +23,6 @@ const headers = {
   'Authorization': 'Bearer ' + EXPO_PUBLIC_JMAP_TOKEN
 }
 
-const reamsMailboxId = process.env.EXPO_PUBLIC_REAMS_MAILBOX_ID
 let session: any = undefined
 
 const getSession = async () => {
@@ -40,47 +41,13 @@ const getSession = async () => {
   }
 }
 
-// const inboxIdQuery = async (apiUrl, accountId) => {
-//   const response = await fetch(apiUrl, {
-//     method: "POST",
-//     headers,
-//     body: JSON.stringify({
-//       using: ["urn:ietf:params:jmap:core", "urn:ietf:params:jmap:mail"],
-//       methodCalls: [
-//         [
-//           "Mailbox/query",
-//           {
-//             accountId: accountId,
-//             sort: [{ property: "name", isAscending: true }],
-//             // filter: { role: "inbox", hasAnyRole: true },
-//           },
-//           "a",
-//         ],
-//       ],
-//     }),
-//   })
-
-//   const data = await response.json()
-
-//   console.log(data["methodResponses"][0][1])
-//   let inbox_id = data["methodResponses"][0][1]
-
-//   if (!inbox_id.length) {
-//     console.error("Could not get an inbox.")
-//     process.exit(1)
-//   }
-
-//   return await inbox_id
-// }
-
-
 const mailboxQuery = async (apiUrl: string, queryState?: string, codeName?: string) => {
   const emailQuery = `[
     "Email/query",
     {
-      "accountId": "u2ee041d2",
-      "filter": { 
-        "inMailbox": "aab8c71f-49e6-49a8-970f-e8293fb65b53",
+      "accountId": "${EXPO_PUBLIC_JMAP_ACCOUNT_ID}",
+      "filter": {
+        "inMailbox": "${EXPO_PUBLIC_REAMS_MAILBOX_ID}",
         "to": "${codeName}@feed.reams.app"
       },
       "sort": [{ "property": "receivedAt", "isAscending": false }],
@@ -88,13 +55,13 @@ const mailboxQuery = async (apiUrl: string, queryState?: string, codeName?: stri
     },
     "a"
   ]`
-  
+
   const emailQueryChanges = `[
     "Email/queryChanges",
     {
-      "accountId": "u2ee041d2",
-      "filter": { 
-        "inMailbox": "aab8c71f-49e6-49a8-970f-e8293fb65b53",
+      "accountId": "${EXPO_PUBLIC_JMAP_ACCOUNT_ID}",
+      "filter": {
+        "inMailbox": "${EXPO_PUBLIC_REAMS_MAILBOX_ID}",
         "to": "${codeName}@feed.reams.app"
       },
       "sinceQueryState": "${queryState}",
@@ -110,7 +77,7 @@ const mailboxQuery = async (apiUrl: string, queryState?: string, codeName?: stri
       [
         "Email/get",
         {
-          "accountId": "u2ee041d2",
+          "accountId": "${EXPO_PUBLIC_JMAP_ACCOUNT_ID}",
           "properties": ["id", "subject", "receivedAt", "from", "htmlBody", "headers"],
           "#ids": {
             "resultOf": "a",
@@ -133,7 +100,7 @@ const mailboxQuery = async (apiUrl: string, queryState?: string, codeName?: stri
     })
     const data = await response.json()
     return data
-  } catch(e) {
+  } catch (e) {
     log(e)
   }
 }
@@ -177,7 +144,7 @@ export default async function fetchNewsletterItems(lastQueryState?: string, code
   // console.log(JSON.stringify(items))
   // // const bodies = await getBodies(response["methodResponses"][1][1]["list"], apiUrl, accountId)
   // // console.log(JSON.stringify(bodies))
-  // return []  
+  // return []
 }
 
 export const downloadContent = async (item: ItemInflated) => {
@@ -244,7 +211,7 @@ const mapFastmailItemToRizzleItem = (item) => {
     date_modified: new Date(item.receivedAt).getTime(),
     date_published: new Date(item.receivedAt).getTime(),
     feed_title: item.from[0].name,
-    feed_id: item.headers.find(header => header.name === 'List-Id')?.value || 
+    feed_id: item.headers.find(header => header.name === 'List-Id')?.value ||
       item.headers.find(header => header.name === 'X-EmailOctopus-List-Id')?.value ||
       item.headers.find(header => header.name === 'X-List-Id')?.value ||
       item.from[0].email.trim(),
