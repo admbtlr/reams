@@ -32,7 +32,7 @@ To handle newsletters. I use an account on [Fastmail](https://fastmail.com). You
 
 
 
-Once those three services are up and running, you can create `.env` file based on `.env.example`. 
+Once those three services are up and running, create an `.env` file based on `.env.example`. 
 
 Then you'll need to install the depedencies:
 
