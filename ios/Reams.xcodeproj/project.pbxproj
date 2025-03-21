@@ -990,7 +990,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 195;
+				CURRENT_PROJECT_VERSION = 196;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = LQ43Q9L9MY;
@@ -1054,7 +1054,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 195;
+				CURRENT_PROJECT_VERSION = 196;
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				HEADER_SEARCH_PATHS = (
@@ -1117,7 +1117,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 195;
+				CURRENT_PROJECT_VERSION = 196;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "../assets/fonts/PTSerif-Bold.ttf";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
@@ -1170,7 +1170,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 195;
+				CURRENT_PROJECT_VERSION = 196;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "../assets/fonts/PTSerif-Bold.ttf";
 				DEVELOPMENT_TEAM = LQ43Q9L9MY;
