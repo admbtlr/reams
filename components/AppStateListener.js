@@ -18,7 +18,7 @@ class AppStateListener extends React.Component {
 
   group = 'group.com.adam-butler.rizzle'
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.props = props
 
@@ -34,14 +34,14 @@ class AppStateListener extends React.Component {
     this.checkBuckets()
   }
 
-  async checkBuckets () {
+  async checkBuckets() {
     await this.checkClipboard()
     await this.checkPageBucket()
     await this.checkFeedBucket()
     // see Rizzle component
   }
 
-  async handleAppStateChange (nextAppState) {
+  async handleAppStateChange(nextAppState) {
     // console.log('NEXT APP STATE: ' + nextAppState)
     // console.log('PREV APP STATE: ' + this.props.appState)
     if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
@@ -62,12 +62,12 @@ class AppStateListener extends React.Component {
       }
     } else if (this.props.appState.match(/active/) &&
       (nextAppState === 'inactive' ||
-      nextAppState === 'background')) {
+        nextAppState === 'background')) {
       this.props.appWentInactive()
     }
   }
 
-  async checkClipboard () {
+  async checkClipboard() {
     if (Platform.OS === 'web') return
     // console.log('Checking clipboard')
     try {
@@ -87,17 +87,17 @@ class AppStateListener extends React.Component {
         }
       } else if (contents.substring(0, 6) === '<opml>') {
       }
-    } catch(err) {
+    } catch (err) {
       log('checkClipboard', err)
     }
   }
 
-  async checkPageBucket () {
+  async checkPageBucket() {
     if (Platform.OS === 'web') return
     try {
       const value = await SharedGroupPreferences.getItem('page', this.group)
       // console.log('CHECKING PAGE BUCKET: ' + value)
-      if (value !== null && value !== 'null') { 
+      if (value !== null && value !== 'null') {
         await SharedGroupPreferences.setItem('page', null, this.group)
         const parsed = JSON.parse(value)
         const pages = typeof parsed === 'object' ?
@@ -115,7 +115,7 @@ class AppStateListener extends React.Component {
           })
         }
       }
-    } catch(err) {
+    } catch (err) {
       // '1' just means that there is nothing in the bucket
       if (err !== 1) {
         log('checkPageBucket', err)
@@ -123,7 +123,7 @@ class AppStateListener extends React.Component {
     }
   }
 
-  showAlreadySavedModal (page) {
+  showAlreadySavedModal(page) {
     const { openModal } = this.context
     openModal({
       isError: true,
@@ -133,25 +133,25 @@ class AppStateListener extends React.Component {
           style: ['title']
         },
         {
-          text: 'You’ve already saved this article:', 
+          text: 'You’ve already saved this article:',
           style: ['text']
         },
         {
-          text: page.title || page.url || 'Unknown Article', 
+          text: page.title || page.url || 'Unknown Article',
           style: ['text']
         },
         {
-          text: 'Saving it again is liable to make everything explode, so let’s just not do it, OK?', 
+          text: 'Saving it again is liable to make everything explode, so let’s just not do it, OK?',
           style: ['text']
         }
       ],
       modalHideCancel: true,
       modalShow: true,
-      modalOnOk: () => {}
+      modalOnOk: () => { }
     })
   }
 
-  async checkFeedBucket () {
+  async checkFeedBucket() {
     if (Platform.OS === 'web') return
     try {
       const value = await SharedGroupPreferences.getItem('feed', this.group)
@@ -191,14 +191,14 @@ class AppStateListener extends React.Component {
                   ''
               } else if (result.feed) {
                 // atom
-                title = typeof result.feed.title[0] === 'string' ? 
-                  result.feed.title[0] : 
+                title = typeof result.feed.title[0] === 'string' ?
+                  result.feed.title[0] :
                   result.feed.title[0]._
-                description = result.feed.subtitle ?
-                  (typeof result.feed.subtitle[0] === 'string' ? 
-                    result.feed.subtitle[0] : 
+                description = (result.feed.subtitle ?
+                  (typeof result.feed.subtitle[0] === 'string' ?
+                    result.feed.subtitle[0] :
                     result.feed.subtitle[0]._) :
-                  ''
+                  '') || ''
               }
               this.showSaveFeedModal(url, title.trim(), description.trim(), that)
             })
@@ -207,7 +207,7 @@ class AppStateListener extends React.Component {
             log('checkFeedBucket', err)
           })
       }
-    } catch(err) {
+    } catch (err) {
       // '1' just means that there is nothing in the bucket
       if (err !== 1) {
         log('checkFeedBucket', err)
@@ -215,19 +215,19 @@ class AppStateListener extends React.Component {
     }
   }
 
-  savePage (page) {
+  savePage(page) {
     // console.log(`Saving page: ${page.url}`)
     this.props.saveURL(page.url, page.title)
     this.props.addMessage('Saved page: ' + (page.title ?? page.url))
   }
 
-  addFeed (feed) {
+  addFeed(feed) {
     this.props.addFeed(feed)
     this.props.addMessage('Added feed: ' + (feed.title ?? feed.url))
     this.props.fetchData()
   }
 
-  showSavePageModal (url, isClipboard = false) {
+  showSavePageModal(url, isClipboard = false) {
     const { openModal } = this.context
     let displayUrl = url
     if (displayUrl.length > 64) {
@@ -261,7 +261,7 @@ class AppStateListener extends React.Component {
     })
   }
 
-  showSaveFeedModal (url, title, description, scope) {
+  showSaveFeedModal(url, title, description, scope) {
     const { openModal } = this.context
     openModal({
       modalText: [
@@ -291,9 +291,9 @@ class AppStateListener extends React.Component {
     })
   }
 
-  render () {
+  render() {
     return <DarkModeListener>
-      { this.props.children }
+      {this.props.children}
     </DarkModeListener>
   }
 }
