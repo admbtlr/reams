@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {ActivityIndicator, Dimensions, Linking, Platform, Text, TouchableOpacity, View} from 'react-native'
-import {WebView, WebViewNavigation} from 'react-native-webview'
+import { ActivityIndicator, Dimensions, Linking, Platform, Text, TouchableOpacity, View } from 'react-native'
+import { WebView, WebViewNavigation } from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
 import { hslString } from '../utils/colors'
@@ -18,8 +18,9 @@ import { updateItem as updateItemSQLite } from '../storage/sqlite'
 import log from '../utils/log'
 import { textInfoBoldStyle, textInfoItalicStyle } from '../utils/styles'
 import TextButton from './TextButton'
-import { getMargin } from '../utils/dimensions'
+import { isPortrait, screenWidth } from '../utils/dimensions'
 import { useColor } from '../hooks/useColor'
+import { isLandscape } from 'react-native-device-info'
 
 const calculateHeight = `
   (document.body && document.body.scrollHeight) &&
@@ -32,13 +33,13 @@ window.setTimeout(() => {
   if (document.body && document.body.scrollHeight) {
     const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
     window.ReactNativeWebView?.postMessage('resize:' + height);
-  }  
+  }
 }, 500);
 window.onload = () => {
   if (document.body && document.body.scrollHeight) {
     const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
     window.ReactNativeWebView?.postMessage('resize:' + height);
-  }  
+  }
 };
 true;`
 
@@ -97,7 +98,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
       return true
     }
   }
-  
+
   // called when HTML was loaded and injected JS executed
   const onNavigationStateChange = (event: WebViewNavigation) => {
     // this means we're loading an image
@@ -148,7 +149,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const onBodyCleaned = async (cleanedBody: string) => {
     let cleanedItem = { ...item }
     if (showMercuryContent) {
-      cleanedItem.content_mercury =  cleanedBody
+      cleanedItem.content_mercury = cleanedBody
       setCleanedMercuryContent(cleanedBody)
     } else {
       cleanedItem.content_html = cleanedBody
@@ -169,15 +170,15 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     }
   }
 
-  const { 
+  const {
     _id,
-    coverImageUrl, 
+    coverImageUrl,
     decoration_failures,
     isHtmlCleaned,
     isMercuryCleaned,
     isNewsletter,
     isSaved,
-    showCoverImage, 
+    showCoverImage,
     showMercuryContent,
     styles,
     url
@@ -188,15 +189,15 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const annotations = useSelector(
-    (state: RootState ) => state.annotations.annotations.filter(a => a?.item_id === _id), 
+    (state: RootState) => state.annotations.annotations.filter(a => a?.item_id === _id),
     (a1, a2) => JSON.stringify(a1) === JSON.stringify(a2)
   )
 
   const isCoverImagePortrait = () => {
-    const {imageDimensions} = item
+    const { imageDimensions } = item
     return imageDimensions && imageDimensions.height > imageDimensions.width
   }
-    
+
   if (styles === undefined) {
     console.log('what?')
   }
@@ -211,9 +212,10 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     styles.dropCapIsDrop ? 'dropCapIsDrop' : '',
     styles.dropCapIsBold ? 'dropCapIsBold' : '',
     styles.dropCapIsStroke ? 'dropCapIsStroke' : '',
-    (showMercuryContent && isMercuryCleaned) || isHtmlCleaned ? 'cleaned' : ''
+    (showMercuryContent && isMercuryCleaned) || isHtmlCleaned ? 'cleaned' : '',
+    isPortrait() ? 'portrait' : 'landscapes'
   ].join(' ')
-    
+
   const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
 
   const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 1 : webViewHeight
@@ -258,7 +260,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const feedColor = useColor(url)
 
   const { width, height } = Dimensions.get('window')
-  const deviceWidth = height > width ? width: height
+  const deviceWidth = height > width ? width : height
   const deviceWidthToggle = deviceWidth > 600 ? 'tablet' : 'phone'
 
   const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle} ${Platform.OS} ${isNewsletter ? 'newsletter' : ''}">
@@ -266,7 +268,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   <style>
 :root {
 --feed-color: ${feedColor ?? 'hsl(0, 0%, 0%)'};
---font-path-prefix: ${ server === '' ? '../' : server };
+--font-path-prefix: ${server === '' ? '../' : server};
 --device-width: ${deviceWidth};
 }
 html, body {
@@ -293,8 +295,8 @@ html, body {
 
   if (body === '') {
     return (
-      <EmptyState 
-        _id={_id} 
+      <EmptyState
+        _id={_id}
         bodyColor={bodyColor}
         decoration_failures={decoration_failures}
       />
@@ -310,17 +312,17 @@ html, body {
     allowUniversalAccessFromFileURLs
     allowFileAccess
     androidLayerType='hardware'
-    containerStyle={{ 
+    containerStyle={{
       backgroundColor: bodyColor,
       flex: 0,
       height: webViewHeight,
     }}
     decelerationRate='normal'
-    injectedJavaScript={ injectedJavaScript }
+    injectedJavaScript={injectedJavaScript}
     mixedContentMode='compatibility'
     // menuItems={[
-    //   { 
-    //     label: 'Highlight', 
+    //   {
+    //     label: 'Highlight',
     //     key: 'highlight'
     //   }
     // ]}
@@ -346,7 +348,7 @@ html, body {
         if (!__DEV__) {
           Linking.openURL(url)
         }
-      } else if (msg.substring(0,7) === 'resize:') {
+      } else if (msg.substring(0, 7) === 'resize:') {
         updateWebViewHeight(parseInt(msg.substring(7)))
       } else if (msg.substring(0, 10) === 'highlight:') {
         const selectedText = msg.substring(10)
@@ -366,7 +368,7 @@ html, body {
     onNavigationStateChange={onNavigationStateChange}
     {...openLinksExternallyProp}
     originWhitelist={['*']}
-    ref={ process.env.NODE_ENV === 'test' ? undefined : webView }
+    ref={process.env.NODE_ENV === 'test' ? undefined : webView}
     scalesPageToFit={false}
     scrollEnabled={false}
     style={{
@@ -396,11 +398,11 @@ export default React.memo(ItemBody, (prevProps, nextProps) => (
 
 )
 
-const EmptyState = ({_id, bodyColor, decoration_failures}: {
-    _id: string, 
-    bodyColor: string,
-    decoration_failures?: number
-  }) => {
+const EmptyState = ({ _id, bodyColor, decoration_failures }: {
+  _id: string,
+  bodyColor: string,
+  decoration_failures?: number
+}) => {
   const [yPos, setYPos] = useState<number | null>(null)
   const [view, setView] = useState<View | null>(null)
   const [isLayedOut, setIsLayedOut] = useState(false)
@@ -421,7 +423,7 @@ const EmptyState = ({_id, bodyColor, decoration_failures}: {
     }
   }, [isLayedOut, view])
   return (
-    <View 
+    <View
       onLayout={event => {
         setIsLayedOut(true)
       }}
@@ -435,30 +437,30 @@ const EmptyState = ({_id, bodyColor, decoration_failures}: {
         backgroundColor: bodyColor,
         opacity: 1
       }}
-    > 
-    { (decoration_failures && decoration_failures === 5) ?
-      (
-        <View style={{
-          alignItems: 'center',
-          flex: 1,
-          justifyContent: 'center'
-        }}>
-          <Text style={{
-            ...textInfoBoldStyle(),
-            marginBottom: getMargin(),
-            textAlign: 'center'
-          }}>Oh no! Something went wrong downloading this article.</Text>
-          <TextButton
-            onPress={() => dispatch({
-              type: RESET_DECORATION_FALIURES,
-              itemId: _id
-            })}
-            text='Try again'
-          />
-        </View>    
-      ) :
-      (<ActivityIndicator size="large" color={hslString('rizzleFG')}/>)
-    }
+    >
+      {(decoration_failures && decoration_failures === 5) ?
+        (
+          <View style={{
+            alignItems: 'center',
+            flex: 1,
+            justifyContent: 'center'
+          }}>
+            <Text style={{
+              ...textInfoBoldStyle(),
+              marginBottom: getMargin(),
+              textAlign: 'center'
+            }}>Oh no! Something went wrong downloading this article.</Text>
+            <TextButton
+              onPress={() => dispatch({
+                type: RESET_DECORATION_FALIURES,
+                itemId: _id
+              })}
+              text='Try again'
+            />
+          </View>
+        ) :
+        (<ActivityIndicator size="large" color={hslString('rizzleFG')} />)
+      }
     </View>
   )
 }
