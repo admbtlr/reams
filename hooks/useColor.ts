@@ -17,7 +17,7 @@ export function useColor(urlParam: string | undefined) {
   useEffect(() => {
     const getColor = async () => {
 
-      if (url === undefined) {
+      if (url === undefined || url.length === 0) {
         return 'black'
       }
 
@@ -25,7 +25,7 @@ export function useColor(urlParam: string | undefined) {
         const response = await fetch(url)
         if (response.url !== url) {
           url = response.url
-        }    
+        }
       }
 
       const matches = url?.match(/:\/\/(.*?)\//)
@@ -46,7 +46,7 @@ export function useColor(urlParam: string | undefined) {
           const faviconExists = await fileExists(path)
           if (!faviconExists) return
           iconSource = await FileSystem.readAsStringAsync(path, { encoding: FileSystem.EncodingType.Base64 })
-          iconSource = `data:image/png;base64,${iconSource}`  
+          iconSource = `data:image/png;base64,${iconSource}`
         }
         if (!iconSource) return
         const colors = await getColors(iconSource, {
@@ -72,12 +72,12 @@ export function useColor(urlParam: string | undefined) {
           const color = convertToHsl(bestColor)
           setColor(color)
           dispatch({
-            type: 'hostColors/createHostColor', 
+            type: 'hostColors/createHostColor',
             payload: {
               host,
               color
             }
-          }) 
+          })
         }
       } catch (err) {
         console.error(`Error for host ${host}`)
@@ -96,7 +96,7 @@ export function useColor(urlParam: string | undefined) {
 
     getColor()
   }, [dispatch, hostColors, url])
-  
+
   const convertToHsl = (color: string) => {
     const hslArray = hexToHsl(color.substring(1))
     const hue = hslArray[0]
@@ -107,6 +107,6 @@ export function useColor(urlParam: string | undefined) {
     }
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`
   }
-  
+
   return color
 }
