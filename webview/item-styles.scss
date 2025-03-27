@@ -443,7 +443,7 @@ body {
     display: none;
   }
 
-  figcaption, .caption, img + small {
+  figcaption, .caption, .img-caption, .img-caption__desc, img + small {
     position: relative;
     padding: .25rem .5rem;
     font-size: 0.5rem;
@@ -1196,7 +1196,7 @@ h1, h2, h3, h4, h5, b, strong {
 
     }
   }
-  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, .img-caption, .img-caption__desc, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "AvenirNext-MediumItalic";
     .web &, .android & {
       font-family: "NunitoSans-Italic";
@@ -1261,7 +1261,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Poppins-Italic";
     }
   }
-  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, .img-caption, .img-caption__desc, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Poppins-Italic";
 
     em, i {
@@ -1310,7 +1310,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Montserrat-Italic";
     }
   }
-  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, .img-caption, .img-caption__desc, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Montserrat-Italic";
 
     em, i {
@@ -1355,7 +1355,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Reforma2018-BlancaItalica";
     }
   }
-  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, .img-caption, .img-caption__desc, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Reforma2018-BlancaItalica";
 
     em, i {
@@ -1400,7 +1400,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "PlayfairDisplay-RegularItalic";
     }
   }
-  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, .img-caption, .img-caption__desc, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "IBMPlexSerif-Italic";
 
     em, i {
@@ -1449,7 +1449,7 @@ h1, h2, h3, h4, h5, b, strong {
       font-family: "Reforma1969-BlancaItalica";
     }
   }
-  figcaption, img + small, .caption, blockquote:not(.short-blockquote):not(.pullquote) {
+  figcaption, img + small, .caption, .img-caption, .img-caption__desc, blockquote:not(.short-blockquote):not(.pullquote) {
     font-family: "Reforma1969-BlancaItalica";
 
     em, i {
