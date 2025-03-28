@@ -49,8 +49,8 @@ const MIN_FONT_SIZE = 1
 
 let isDarkMode
 
-export function ui (
-  state: UIState = initialState, 
+export function ui(
+  state: UIState = initialState,
   action: UIActionTypes
 ) {
   switch (action.type) {
@@ -146,8 +146,8 @@ export function ui (
         ...state,
         fontSize: action.fontSize
       }
-  
-      case SET_MESSAGE:
+
+    case SET_MESSAGE:
       return {
         ...state,
         message: action.message
@@ -170,7 +170,7 @@ export function ui (
           message
         ]
       }
-  
+
     case REMOVE_MESSAGE:
       return {
         ...state,
@@ -202,7 +202,7 @@ export function ui (
         displayedHelpTips
       }
 
-  
+
     default:
       return state
   }

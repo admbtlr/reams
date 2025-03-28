@@ -3,11 +3,11 @@ import createSagaMiddleware from 'redux-saga'
 import makeRootReducer, { RootState } from './reducers'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {initSagas} from '../sagas'
+import { initSagas } from '../sagas'
 import {
-  createMigrate, 
-  createTransform, 
-  persistReducer, 
+  createMigrate,
+  createTransform,
+  persistReducer,
   persistStore,
 } from 'redux-persist'
 import { state } from '../__mocks__/state-input'
@@ -15,6 +15,7 @@ import log from '../utils/log'
 import { Dimensions, Platform } from 'react-native'
 import { migrations } from './migrations'
 import { ConfigState } from './config/config'
+import { UIState } from './ui/types'
 import { downloadsListenerMiddleware } from './listenerMiddleware'
 import devToolsEnhancer from 'redux-devtools-expo-dev-plugin'
 
@@ -22,21 +23,29 @@ let store = null
 let persistor = null
 let sagaMiddleware: any = null
 
-function initStore () {
+function initStore() {
   sagaMiddleware = createSagaMiddleware({
-    onError: (error, { sagaStack}) => {
+    onError: (error, { sagaStack }) => {
       log('sagas', error, sagaStack)
     }
   })
 
-  const {width, height } = Dimensions.get('window')
+  const { width, height } = Dimensions.get('window')
 
   // @ts-ignore
   const orientationTransform = createTransform(null, (state: ConfigState, key) => {
-    const newState = {...state}
+    const newState = { ...state }
     newState.orientation = height > width ? 'portrait' : 'landscape'
     return newState
   }, { whitelist: ['config'] })
+
+  // remove the message queue
+  // @ts-ignore
+  const messageQueueTransform = createTransform(null, (state: UIState, key) => {
+    const newState = { ...state }
+    newState.messageQueue = []
+    return newState
+  }, { whitelist: ['ui'] })
 
   let storage
   if (Platform.OS === 'web') {
@@ -49,7 +58,7 @@ function initStore () {
     key: 'primary',
     storage,
     timeout: 30000,
-    transforms: [orientationTransform],
+    transforms: [messageQueueTransform, orientationTransform],
     // @ts-ignore
     migrate: createMigrate(migrations, { debug: true }),
     version: 22
@@ -71,7 +80,7 @@ function initStore () {
           .prepend(sagaMiddleware)
           .prepend(downloadsListenerMiddleware.middleware)
       }
-    })  
+    })
   } else {
     store = configureStore({
       reducer: persistedReducer,
