@@ -24,7 +24,7 @@
     "@reduxjs/toolkit": "^2.3.0",
     "@sentry/react-native": "~6.3.0",
     "@shopify/react-native-skia": "^1.11.8",
-    "@supabase/supabase-js": "^2.45.3",
+    "@supabase/supabase-js": "^2.49.4",
     "@tensorflow-models/blazeface": "0.1.0",
     "@tensorflow/tfjs": "4.16.0",
     "@tensorflow/tfjs-react-native": "1.0.0",

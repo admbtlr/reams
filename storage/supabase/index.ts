@@ -18,15 +18,14 @@ export const supabase = createClient<Database>(supabaseUrl || '', supabaseAnonKe
     // ...(Platform.OS !== "web" ? { storage: AsyncStorage as any } : {}),
     storage: AsyncStorage,
     autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
+    persistSession: true
   },
 })
 
 export const getUserId = async () => {
   try {
     const { data } = await supabase.auth.getSession()
-    return data?.session?.user?.id  
+    return data?.session?.user?.id
   } catch (error) {
     log('getUserId', error)
     throw error
@@ -34,7 +33,7 @@ export const getUserId = async () => {
 }
 
 // there are random errors with the supabase client
-export const doQuery = async (fn: () => any, retries = 5, timeout = 5000): Promise<{ data: {}|[], error: {}}> => {
+export const doQuery = async (fn: () => any, retries = 5, timeout = 5000): Promise<{ data: {} | [], error: {} }> => {
   try {
     // console.log('Inside doQuery, running fn')
     const { data, error } = await Promise.race([
@@ -76,5 +75,3 @@ export interface SourceDB {
   next_nudge?: number | null
   is_nudge_active?: boolean | null
 }
-
-
