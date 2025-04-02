@@ -121,7 +121,7 @@ export default async function fetchNewsletterItems(lastQueryState?: string, code
   items: ItemInflated[],
   queryState: string
 }> {
-  let response
+  let response: {}
   const session = await getSession()
   // console.log(JSON.stringify(session))
   const apiUrl = EXPO_PUBLIC_CORS_PROXY + '?url=' + session.apiUrl
@@ -201,6 +201,17 @@ export const downloadContent = async (item: ItemInflated) => {
 
 const mapFastmailItemToRizzleItem = (item) => {
   // console.log(item)
+  let feed_url = item.headers.find(header => header.name === 'List-URL')?.value.replace(/[<> ]/g, '') ||
+    'https://www.' + item.from[0].email.trim().split('@')[1]
+  if (feed_url === 'https://www.ghost.io') {
+    const listUnsubscribe = item.headers.find(h => h.name === 'List-Unsubscribe').value
+    if (listUnsubscribe) {
+      const matches = /https:\/\/.*?\//.exec(listUnsubscribe)
+      if (matches !== null && matches.length > 0) {
+        feed_url = matches[0]
+      }
+    }
+  }
   let mappedItem = {
     id: item.id,
     title: item.subject,
@@ -214,9 +225,8 @@ const mapFastmailItemToRizzleItem = (item) => {
     feed_id: item.headers.find(header => header.name === 'List-Id')?.value ||
       item.headers.find(header => header.name === 'X-EmailOctopus-List-Id')?.value ||
       item.headers.find(header => header.name === 'X-List-Id')?.value ||
-      item.from[0].email.trim(),
-    feed_url: item.headers.find(header => header.name === 'List-URL')?.value.replace(/[<> ]/g, '') ||
-      'https://www.' + item.from[0].email.trim().split('@')[1],
+      feed_url,
+    feed_url,
     isNewsletter: true,
     url: item.url
   }
