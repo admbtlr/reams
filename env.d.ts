@@ -1,0 +1,14 @@
+declare namespace NodeJS {
+  interface ProcessEnv {
+    EXPO_PUBLIC_CORS_PROXY: string
+    EXPO_PUBLIC_API_URL: string
+    EXPO_PUBLIC_SUPABASE_URL: string
+    EXPO_PUBLIC_SUPABASE_ANON_KEY: string
+    EXPO_PUBLIC_JMAP_TOKEN: string
+    EXPO_PUBLIC_REAMS_MAILBOX_ID: string
+    EXPO_PUBLIC_JMAP_ACCOUNT_ID: string
+    EXPO_PUBLIC_SENTRY_AUTH_TOKEN: string
+    EXPO_PUBLIC_SENTRY_DSN: string
+    EXPO_PUBLIC_REVENUECAT_API_KEY: string
+  }
+}
