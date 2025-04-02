@@ -28,12 +28,13 @@ import { hslString } from '../utils/colors'
 import App from './App'
 import MigrationsProvider from './MigrationProvider'
 import log from '../utils/log'
+import { DebugProvider } from './DebugContext'
 
 export interface Props {
   isActionExtension?: boolean
 }
 
-export interface State {}
+export interface State { }
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 // const routingInstrumentation = Platform.OS !== 'web' ? new Sentry.ReactNavigationInstrumentation() : null
@@ -60,10 +61,10 @@ const Rizzle = () => {
       const initTensorFlow = async () => {
         try {
           await tf.ready()
-          console.log('Tensor Flow is ready')      
+          console.log('Tensor Flow is ready')
         } catch (error: any) {
           log('Error loading Tensor Flow', error)
-        }  
+        }
       }
       initSQLite()
       Sentry.init({
@@ -75,15 +76,15 @@ const Rizzle = () => {
     }
   }, [])
 
-  const PersistGateWrapper = ({children}: {children: any}) => {
+  const PersistGateWrapper = ({ children }: { children: any }) => {
     if (Platform.OS === 'web') {
       return children
     } else {
       return (
         <PersistGate
           loading={<View />}
-          onBeforeLift={() => {}}
-          persistor={persistor}>            
+          onBeforeLift={() => { }}
+          persistor={persistor}>
           {children}
         </PersistGate>
       )
@@ -91,12 +92,12 @@ const Rizzle = () => {
   }
 
   return (
-    <NavigationContainer        
+    <NavigationContainer
       ref={navigation}
       onReady={() => {
         if (Platform.OS !== 'web') {
           // routingInstrumentation?.registerNavigationContainer(this.navigation);
-         }
+        }
       }}
       theme={{
         colors: {
@@ -106,32 +107,34 @@ const Rizzle = () => {
     >
       <Provider store={store}>
         <PersistGateWrapper>
-          <AuthProvider>
-            <View style={{
-              flex: 1,
-              backgroundColor: 'black',
-              overflow: 'hidden'
-            }}>
-               { Platform.OS === 'ios' && 
-                <StatusBar
-                  barStyle='light-content'
-                  hidden={false} /> }
-              <ConnectionListener />
-              { Platform.OS === 'web' || <OrientationListener /> }
-              <Analytics />
-              <MigrationsProvider>
-                <ModalProvider>
-                  <AppStateListenerContainer>
-                    <App />
-                    <Message />
-                    <RizzleModal />
-                  </AppStateListenerContainer>
-                </ModalProvider>
-                <HelpTipProvider />
-              </MigrationsProvider>
-              <Splash />
-            </View>
-          </AuthProvider>
+          <DebugProvider>
+            <AuthProvider>
+              <View style={{
+                flex: 1,
+                backgroundColor: 'black',
+                overflow: 'hidden'
+              }}>
+                {Platform.OS === 'ios' &&
+                  <StatusBar
+                    barStyle='light-content'
+                    hidden={false} />}
+                <ConnectionListener />
+                {Platform.OS === 'web' || <OrientationListener />}
+                <Analytics />
+                <MigrationsProvider>
+                  <ModalProvider>
+                    <AppStateListenerContainer>
+                      <App />
+                      <Message />
+                      <RizzleModal />
+                    </AppStateListenerContainer>
+                  </ModalProvider>
+                  <HelpTipProvider />
+                </MigrationsProvider>
+                <Splash />
+              </View>
+            </AuthProvider>
+          </DebugProvider>
         </PersistGateWrapper>
       </Provider>
     </NavigationContainer>
@@ -161,10 +164,10 @@ export default Sentry.wrap(Rizzle)
 //       const initTensorFlow = async () => {
 //         try {
 //           await tf.ready()
-//           console.log('Tensor Flow is ready')      
+//           console.log('Tensor Flow is ready')
 //         } catch (error: any) {
 //           log('Error loading Tensor Flow', error)
-//         }  
+//         }
 //       }
 //       initSQLite()
 //       InteractionManager.setDeadline(100)
@@ -189,7 +192,7 @@ export default Sentry.wrap(Rizzle)
 //       InteractionManager.setDeadline(100)
 //       try {
 //         await tf.ready()
-//         console.log('Tensor Flow is ready')      
+//         console.log('Tensor Flow is ready')
 //       } catch (error: any) {
 //         log('Error loading Tensor Flow', error)
 //       }
@@ -205,7 +208,7 @@ export default Sentry.wrap(Rizzle)
 //           <PersistGate
 //             loading={<View />}
 //             onBeforeLift={() => {}}
-//             persistor={persistor}>            
+//             persistor={persistor}>
 //             {children}
 //           </PersistGate>
 //         )
@@ -213,7 +216,7 @@ export default Sentry.wrap(Rizzle)
 //     }
 
 //     return (
-//       <NavigationContainer        
+//       <NavigationContainer
 //         ref={this.navigation}
 //         onReady={() => {
 //           if (Platform.OS !== 'web') {
@@ -237,7 +240,7 @@ export default Sentry.wrap(Rizzle)
 //                   hidden={false} />
 //                 <ConnectionListener />
 //                 { Platform.OS === 'web' || <OrientationListener /> }
-//                 { Platform.OS === 'web' || <Analytics /> } 
+//                 { Platform.OS === 'web' || <Analytics /> }
 //                 <MigrationsProvider>
 //                   <ModalProvider>
 //                     <AppStateListenerContainer>
