@@ -1,9 +1,9 @@
-import { 
+import {
   Newsletter, NewslettersState
 } from "./types";
 import { PayloadAction, createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../reducers";
-import { 
+import {
   addNewsletter as addNewsletterBackend,
   updateNewsletter as updateNewsletterBackend,
   deleteNewsletter as deleteNewsletterBackend,
@@ -14,11 +14,11 @@ import fetchNewsletterItems from "../../backends/fastmail";
 import { id } from "../../utils";
 import { createItemStyles } from "../../utils/createItemStyles";
 import { Platform } from "react-native";
-import { 
+import {
   setItems as setItemsSQLite,
   deleteItems as deleteItemsSQLite
 } from '../../storage/sqlite'
-import { 
+import {
   setItems as setItemsIDB,
   deleteItems as deleteItemsIDB
 } from '../../storage/idb-storage'
@@ -27,11 +27,12 @@ import log from "../../utils/log";
 import { ADD_MESSAGE, REMOVE_MESSAGE } from "../ui/types";
 import { decode } from "html-entities";
 import { NUDGE_FREQUENCY } from "../../components/Nudge";
-import { DEACTIVATE_NUDGE, PAUSE_NUDGE } from "../feeds/types";
+import { DEACTIVATE_NUDGE, Feed, PAUSE_NUDGE } from "../feeds/types";
+import { debugService } from "../../utils/debug-service";
 
 export const createNewsletter = createAsyncThunk(
   'newsletters/createNewsletter',
-  async (newsletter: {url: string}, { getState }): Promise<Newsletter> => {
+  async (newsletter: { url: string }, { getState }): Promise<{ url: string }> => {
     const { config } = getState() as RootState
     if (!config.isOnline) {
       // TODO add to remote action queue
@@ -101,6 +102,9 @@ export const fetchNewsletters = createAsyncThunk(
           messageString: 'Fetching newsletters'
         })
       }
+      if (debugService) {
+        debugService.log('Error fetching newsletters', e)
+      }
       throw e
     }
     let { newsletters } = (getState() as RootState).newsletters
@@ -109,7 +113,7 @@ export const fetchNewsletters = createAsyncThunk(
     const newNewsletters: any = []
     items.forEach((item) => {
       if (!newsletters.find((newsletter: any) => newsletter.url === item.feed_url) &&
-          !newNewsletters.find((newsletter: any) => newsletter.url === item.feed_url)) {
+        !newNewsletters.find((newsletter: any) => newsletter.url === item.feed_url)) {
         newNewsletters.push({
           url: item.feed_url,
           title: decode(item.feed_title)
@@ -120,41 +124,46 @@ export const fetchNewsletters = createAsyncThunk(
       try {
         const returned = await dispatch(createNewsletter(newNewsletter)) as any
         // newsletters.push(returned.payload)
-        } catch (error: any) { 
-          log('fetchNewsletters', error) 
-          // TODO: right now this just bails - maybe come up with something better?
-          newNewsletters.splice(newNewsletters.indexOf(newNewsletter), 1)
-        }
+      } catch (error: any) {
+        log('fetchNewsletters', error)
+        // TODO: right now this just bails - maybe come up with something better?
+        newNewsletters.splice(newNewsletters.indexOf(newNewsletter), 1)
+      }
     }
     newsletters = (getState() as RootState).newsletters.newsletters
     if (items.length > 0) {
-      items.forEach((item) => {
-        item.feed_id = (getState() as RootState).newsletters.newsletters
-          .find((newsletter) => newsletter.url === item.feed_url)?._id || ''
-        item._id = id(item.feed_id + item.id)
-        item.styles = createItemStyles(item)
-      })
+      try {
+        items.forEach((item) => {
+          item.feed_id = (getState() as RootState).newsletters.newsletters
+            .find((newsletter) => newsletter.url === item.feed_url)?._id || ''
+          item._id = id(item.feed_id + item.id)
+          item.styles = createItemStyles(item)
+        })
 
-      if (Platform.OS === 'web') {
-        await setItemsIDB(items)
-      } else {
-        await setItemsSQLite(items)
-      }        
-      const { feeds: { feeds }, newsletters: { newsletters }, config: { itemSort }  } = (getState() as RootState)
-      dispatch({
-        type: ITEMS_BATCH_FETCHED,
-        itemType: ItemType.unread,
-        items,
-        feeds: feeds.concat(newsletters),
-        sortDirection: itemSort
-      })
+        if (Platform.OS === 'web') {
+          await setItemsIDB(items)
+        } else {
+          await setItemsSQLite(items)
+        }
+        const { feeds: { feeds }, newsletters: { newsletters }, config: { itemSort } } = (getState() as RootState)
+        dispatch({
+          type: ITEMS_BATCH_FETCHED,
+          itemType: ItemType.unread,
+          items,
+          feeds: feeds.concat(newsletters as Feed[]),
+          sortDirection: itemSort
+        })
+      } catch (error: any) {
+        log('fetchNewsletters', error)
+        // TODO: right now this just bails - maybe come up with something better?
+      }
     }
     dispatch(updateQueryState(queryState))
     dispatch({
       type: REMOVE_MESSAGE,
       messageString: 'Fetching newsletters'
     })
-})
+  })
 
 const initialState: NewslettersState = {
   newsletters: [],
@@ -166,13 +175,13 @@ const newslettersSlice = createSlice({
   name: 'newsletters',
   initialState,
   reducers: {
-    updateQueryState: (state, action: PayloadAction<string | undefined>) => { 
-      state.queryState = action.payload 
+    updateQueryState: (state, action: PayloadAction<string | undefined>) => {
+      state.queryState = action.payload
     }
   },
   extraReducers: (builder) => {
     builder.addCase(createNewsletter.fulfilled, (state, action) => {
-      state.newsletters.push(action.payload)
+      state.newsletters.push(action.payload as unknown as Newsletter)
     })
     builder.addCase(updateNewsletter.fulfilled, (state, action) => {
       if (action.payload === undefined) {
