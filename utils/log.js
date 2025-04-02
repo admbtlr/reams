@@ -1,7 +1,8 @@
 import { Platform } from 'react-native'
 import * as Sentry from '@sentry/react-native'
+import { debugService } from './debug-service'
 
-export default function log (functionName, err, info) {
+export default function log(functionName, err, info) {
   let output, error
   if (typeof functionName === 'object') {
     error = functionName
@@ -25,6 +26,7 @@ export default function log (functionName, err, info) {
     Sentry.captureMessage(output)
     if (error) Sentry.captureException(error)
   }
+  debugService.log(output, {})
 }
 
 export function consoleLog(txt, showLogs = __DEV__) {

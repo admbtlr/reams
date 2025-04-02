@@ -21,8 +21,9 @@ import { ItemType, SET_DISPLAY_MODE } from '../store/items/types'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import { RootState } from 'store/reducers'
 import { useNavigation } from '@react-navigation/native'
+import DebugView from './DebugView'
 
-export default function InitialScreen({}) {
+export default function InitialScreen({ }) {
   const scrollAnim = new Animated.Value(0)
   const backend = useSelector((state: RootState) => !!state.user.backends.find(b => b.name === 'feedbin') ? 'feedbin' : 'reams')
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
@@ -114,7 +115,7 @@ export default function InitialScreen({}) {
   //   const { backend, hasFeeds, isOnboarding, navigation } = this.props
   //   if (isOnboarding) {
   //     // this.redirectToItems()
-  //   }    
+  //   }
   //   if (prevProps.backend === '' && backend !== '') {
   //     this.redirectToItems(!hasFeeds, true)
   //   }
@@ -162,70 +163,70 @@ export default function InitialScreen({}) {
   // console.log(Config)
 
   return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: hslString('rizzleBG'),
-          marginBottom: 0
-        }}
-        testID='initial-screen'
-      >
-          <StatusBar
-            showHideTransition="slide"
-            backgroundColor='black'
-            barStyle={ Platform.OS === 'ios' ? "dark-content" : 'light-content' } />
-        <View style={{
-          // marginBottom: 64,
-          minHeight: height - 55 - 64,
-          width: width - getInset() * (isPortrait ? 2 : 4),
-          marginHorizontal: getInset() * (isPortrait ? 1 : 2)
-        }}>
-          <View>
-            <NavButton
-              hasTopBorder={true}
-              hasBottomBorder={true}
-              icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
-              onPress={() => {
-                dispatch({
-                  type: SET_DISPLAY_MODE,
-                  displayMode: 'unread'
-                })
-                navigation.navigate('Feed', { isSaved: false })
-              }}
-              scrollAnim={scrollAnim}
-              index={0}
-              text='Feed'
-              viewStyle={{ paddingLeft: 5 }}
-            />
-            <NavButton
-              hasBottomBorder={true}
-              icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
-              onPress={() => {
-                dispatch({
-                  type: SET_DISPLAY_MODE,
-                  displayMode: 'saved'
-                })
-                navigation.navigate('Feed', { isSaved: true })
-              }}
-              scrollAnim={scrollAnim}
-              index={1}
-              text='Library'
-              viewStyle={{ paddingLeft: 5 }}
-            />
-            <NavButton
-              hasBottomBorder={true}
-              icon={getRizzleButtonIcon('highlights', hslString('rizzleText'), hslString('rizzleBG'))}
-              onPress={() => {
-                navigation.navigate('Highlights')
-              }}
-              scrollAnim={scrollAnim}
-              index={1}
-              text='Highlights'
-              viewStyle={{ paddingLeft: 5 }}
-            />
-          </View>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: hslString('rizzleBG'),
+        marginBottom: 0
+      }}
+      testID='initial-screen'
+    >
+      <StatusBar
+        showHideTransition="slide"
+        backgroundColor='black'
+        barStyle={Platform.OS === 'ios' ? "dark-content" : 'light-content'} />
+      <View style={{
+        // marginBottom: 64,
+        minHeight: height - 55 - 64,
+        width: width - getInset() * (isPortrait ? 2 : 4),
+        marginHorizontal: getInset() * (isPortrait ? 1 : 2)
+      }}>
+        <View>
+          <NavButton
+            hasTopBorder={true}
+            hasBottomBorder={true}
+            icon={getRizzleButtonIcon('rss', hslString('rizzleText'))}
+            onPress={() => {
+              dispatch({
+                type: SET_DISPLAY_MODE,
+                displayMode: 'unread'
+              })
+              navigation.navigate('Feed', { isSaved: false })
+            }}
+            scrollAnim={scrollAnim}
+            index={0}
+            text='Feed'
+            viewStyle={{ paddingLeft: 5 }}
+          />
+          <NavButton
+            hasBottomBorder={true}
+            icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
+            onPress={() => {
+              dispatch({
+                type: SET_DISPLAY_MODE,
+                displayMode: 'saved'
+              })
+              navigation.navigate('Feed', { isSaved: true })
+            }}
+            scrollAnim={scrollAnim}
+            index={1}
+            text='Library'
+            viewStyle={{ paddingLeft: 5 }}
+          />
+          <NavButton
+            hasBottomBorder={true}
+            icon={getRizzleButtonIcon('highlights', hslString('rizzleText'), hslString('rizzleBG'))}
+            onPress={() => {
+              navigation.navigate('Highlights')
+            }}
+            scrollAnim={scrollAnim}
+            index={1}
+            text='Highlights'
+            viewStyle={{ paddingLeft: 5 }}
+          />
+        </View>
         <NavButton
           hasBottomBorder={true}
           icon={getRizzleButtonIcon('account', hslString('rizzleText'))}
@@ -261,7 +262,7 @@ export default function InitialScreen({}) {
           <TouchableOpacity onPress={() => Linking.openURL('mailto:adam@reams.app')}>
             <Text style={{
               ...textInfoStyle('rizzleText'),
-              textDecorationLine: 'underline',  
+              textDecorationLine: 'underline',
               marginBottom: getMargin() * 2,
             }}>adam@reams.app</Text>
           </TouchableOpacity>
@@ -271,6 +272,7 @@ export default function InitialScreen({}) {
             // marginBottom: getMargin() * 0.5,
           }}>Serious, joyful & open</Text>
         </View>
+        {/* <DebugView /> */}
       </View>
     </View>
   )
