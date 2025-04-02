@@ -100,10 +100,10 @@ export function useColor(urlParam: string | undefined) {
   const convertToHsl = (color: string) => {
     const hslArray = hexToHsl(color.substring(1))
     const hue = hslArray[0]
-    const saturation = hslArray[1]
-    let lightness = hslArray[2]
-    if (Number.parseInt(lightness) && Number.parseInt(lightness) > 75) {
-      lightness = 75
+    let saturation = hslArray[1]
+    const lightness = hslArray[2]
+    if (Number.parseInt(saturation) && Number.parseInt(saturation) > 85) {
+      saturation = 85
     }
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`
   }
