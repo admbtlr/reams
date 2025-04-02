@@ -12,7 +12,9 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@/*": ["*"]
+      "@/*": [
+        "*"
+      ]
     },
     "strict": true,
     "skipLibCheck": true,
@@ -24,5 +26,8 @@
     "metro.config.js",
     "jest.config.js"
   ],
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "env.d.ts"
+  ]
 }
