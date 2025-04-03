@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import type { TextStyle, ViewStyle } from 'react-native'
-import Reanimated, { 
+import Reanimated, {
   useSharedValue,
   useAnimatedStyle,
   withRepeat,
@@ -22,23 +22,23 @@ interface AnimatedEllipsisProps {
 const AnimatedEllipsis: React.FC<AnimatedEllipsisProps> = ({ style, containerStyle }) => {
   // Create a continuously increasing shared value
   const progress = useSharedValue<number>(0)
-  
+
   // Create derived values for each dot that cycle between 0-1
   // Dot 1 (first)
   const firstDotProgress = useDerivedValue(() => {
     return (progress.value % 1)
   })
-  
+
   // Dot 2 (second) - delay by 1/3 of the cycle
   const secondDotProgress = useDerivedValue(() => {
     return ((progress.value - 0.33) % 1 + 1) % 1
   })
-  
+
   // Dot 3 (third) - delay by 2/3 of the cycle
   const thirdDotProgress = useDerivedValue(() => {
     return ((progress.value - 0.66) % 1 + 1) % 1
   })
-  
+
   // Create animated styles using the derived values
   const firstDotStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
@@ -74,14 +74,14 @@ const AnimatedEllipsis: React.FC<AnimatedEllipsisProps> = ({ style, containerSty
   React.useEffect(() => {
     progress.value = 0
     progress.value = withRepeat(
-      withTiming(100, { 
+      withTiming(100, {
         duration: 100 * 1500, // Scale the duration with the animation range
-        easing: Easing.linear 
-      }), 
+        easing: Easing.linear
+      }),
       -1,
       false
     )
-    
+
     // Cleanup on unmount
     return () => {
       cancelAnimation(progress)
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   dotStyle: {
-    marginBottom: -2
+    marginBottom: -3
   }
 })
 
