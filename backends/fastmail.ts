@@ -1,4 +1,5 @@
 import { Item, ItemInflated } from '../store/items/types'
+import { debugService } from '../utils/debug-service'
 import log from '../utils/log'
 
 // bail if we don't have our ENV set:
@@ -128,23 +129,20 @@ export default async function fetchNewsletterItems(lastQueryState?: string, code
   const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
   response = await mailboxQuery(apiUrl, lastQueryState, codeName)
   // console.log(JSON.stringify(response["methodResponses"][1].slice(1, -1)))
-  console.log('GOT RESPONSE')
+  debugService.log('GOT RESPONSE')
   if (response["methodResponses"][0][0] === 'error') {
     const type = response["methodResponses"][0][1]?.type || 'Unknown error'
-    console.log('RESPONSE WAS ERROR')
+    debugService.log('RESPONSE WAS ERROR')
+    debugService.log(`Account id: ${EXPO_PUBLIC_JMAP_ACCOUNT_ID}`)
     throw new Error(type)
   }
   let emails = response["methodResponses"][1][1].list
-  console.log('GOT EMAILS ' + emails.length)
+  debugService.log('GOT EMAILS ' + emails.length)
   const queryState = response["methodResponses"][0][1].queryState || response["methodResponses"][0][1].newQueryState
   return {
     items: emails.map(mapFastmailItemToRizzleItem),
     queryState
   }
-  // console.log(JSON.stringify(items))
-  // // const bodies = await getBodies(response["methodResponses"][1][1]["list"], apiUrl, accountId)
-  // // console.log(JSON.stringify(bodies))
-  // return []
 }
 
 export const downloadContent = async (item: ItemInflated) => {
@@ -162,49 +160,31 @@ export const downloadContent = async (item: ItemInflated) => {
     content_html: body,
     url: transformSubstackUrl(url)
   }
-
-  // const settings = {
-  //   allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'script', 'video' ]),
-  //   allowedAttributes: {
-  //     '*': ['class', 'src'],
-  //     'a': ['href', 'name', 'target'],
-  //   },
-  //   allowVulnerableTags: true
-  // }
-  // const apiUrl = EXPO_PUBLIC_CORS_PROXY + '?url=' + session.apiUrl
-  // const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
-  // try {
-  //   console.log("Getting blob for ", item.title)
-  //   const body = await getBlob(item, apiUrl, accountId)
-  //   const substackUrl = body.match(/(https:\/\/open\.substack\.com.*?)"/)
-  //   if (substackUrl && substackUrl.length === 2) {
-  //     item.url = substackUrl[1].split('?')[0]
-  //   } else {
-  //     await InteractionManager.runAfterInteractions()
-  //     const viewInBrowserUrl = body.match(/href="(.*?)".*?>View in browser/)
-  //     if (viewInBrowserUrl && viewInBrowserUrl.length === 2) {
-  //       item.url = viewInBrowserUrl[1]
-  //     } else {
-  //       await InteractionManager.runAfterInteractions()
-  //       const viewThisEmailInYourBrowserUrl = body.match(/href="(.*?)".*?>View this email in your browser/)
-  //       if (viewThisEmailInYourBrowserUrl && viewThisEmailInYourBrowserUrl.length === 2) {
-  //         item.url = viewThisEmailInYourBrowserUrl[1]
-  //       }
-  //     }
-  //   }
-  //   await InteractionManager.runAfterInteractions()
-  //   return sanitizeHtml(body, settings)
-  // } catch (e) {
-  //   log(e)
-  // }
 }
 
-const mapFastmailItemToRizzleItem = (item) => {
+interface FastmailItem {
+  headers: {
+    name: string
+    value: string
+  }[]
+  id: string,
+  htmlBody: { blobId: string }[],
+  body?: string,
+  url?: string,
+  receivedAt: number,
+  from: {
+    email: string,
+    name: string
+  }[],
+  subject: string
+}
+
+const mapFastmailItemToRizzleItem = (item: FastmailItem) => {
   // console.log(item)
   let feed_url = item.headers.find(header => header.name === 'List-URL')?.value.replace(/[<> ]/g, '') ||
     'https://www.' + item.from[0].email.trim().split('@')[1]
   if (feed_url === 'https://www.ghost.io') {
-    const listUnsubscribe = item.headers.find(h => h.name === 'List-Unsubscribe').value
+    const listUnsubscribe = item.headers.find(h => h.name === 'List-Unsubscribe')?.value
     if (listUnsubscribe) {
       const matches = /https:\/\/.*?\//.exec(listUnsubscribe)
       if (matches !== null && matches.length > 0) {

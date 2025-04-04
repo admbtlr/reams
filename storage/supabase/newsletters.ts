@@ -3,25 +3,26 @@ import { getFeedMeta } from '../../backends'
 import { NUDGE_FREQUENCY } from '../../components/Nudge'
 import { Source } from '../../store/feeds/types'
 import { Newsletter } from '../../store/newsletters/types'
-import { id as createId, pgTimestamp} from '../../utils'
+import { id as createId, pgTimestamp } from '../../utils'
+import { debugService } from '../../utils/debug-service'
 
-interface NewsletterDB extends SourceDB {}
+interface NewsletterDB extends SourceDB { }
 
-export const addNewsletter = async (newsletter: { 
-  url: string, 
-  title?: string, 
-  _id?: string 
+export const addNewsletter = async (newsletter: {
+  url: string,
+  title?: string,
+  _id?: string
 }, userId?: string): Promise<Newsletter> => {
   // is the newsletter already in the database?
   let newsletterDB = await getNewsletter(newsletter.url)
   if (newsletterDB === null) {
-    console.error(`Don't have newsletter ${newsletter.url}`)
+    debugService.log(`Newsletter ${newsletter.url} is not in the database`)
     try {
       const _id = createId(newsletter.url)
       const newsletterMeta = await getFeedMeta(newsletter)
       const title = newsletterMeta === undefined ? '' :
         (newsletterMeta.title.trim().length > 0 ? newsletterMeta.title.trim() : newsletter.title?.trim()) || ''
-      let newNewsletterDB: NewsletterDB = { 
+      let newNewsletterDB: NewsletterDB = {
         _id,
         url: newsletter.url,
         title,
@@ -29,19 +30,20 @@ export const addNewsletter = async (newsletter: {
         color: newsletterMeta?.color ?? '',
         favicon_url: newsletterMeta?.favicon?.url ?? '',
         favicon_size: newsletterMeta?.favicon?.size ?? ''
-       }
-       if (newsletterMeta?.favicon?.url.indexOf('substack')) {
+      }
+      if (newsletterMeta?.favicon?.url.indexOf('substack')) {
         newNewsletterDB.subscribe_url = newsletter.url + 'subscribe'
-       }
-       const fn = async () => await supabase
+      }
+      const fn = async () => await supabase
         .from('Newsletter')
         .insert(newNewsletterDB)
-      const { error, data } = await doQuery(fn)
+      const { error } = await doQuery(fn)
       if (error && Object.keys(error).includes('message')) {
         const errorWithMessage = error as { message: string }
-        console.log(`Error adding newsletter ${newsletter.url}: ${errorWithMessage.message}`)
+        debugService.log(`Error adding newsletter ${newsletter.url}: ${errorWithMessage.message}`)
         throw error
       }
+      debugService.log(`Newsletter ${newsletter.url} added to database`)
       newsletterDB = newNewsletterDB
     } catch (error: any) {
       console.error(`Error adding newsletter ${newsletter.url}: ${error.message}`)
@@ -56,8 +58,8 @@ export const addNewsletter = async (newsletter: {
   const fn = async () => await supabase
     .from('User_Newsletter')
     .select()
-    .eq('newsletter_id', newsletterDB._id)
-    .eq('user_id', userId)
+    .eq('newsletter_id', (newsletterDB as NewsletterDB)._id)
+    .eq('user_id', userId as string)
   let userNewsletterQuery = await doQuery(fn)
   if (userNewsletterQuery.error) {
     throw userNewsletterQuery.error
@@ -68,9 +70,9 @@ export const addNewsletter = async (newsletter: {
   if (!userNewsletter) {
     const fn = async () => await supabase
       .from('User_Newsletter')
-      .insert({ 
-        newsletter_id: newsletterDB._id,
-        user_id: userId,
+      .insert({
+        newsletter_id: (newsletterDB as NewsletterDB)._id,
+        user_id: userId as string,
         is_nudge_active: true,
         next_nudge: NUDGE_FREQUENCY
       })
@@ -87,8 +89,8 @@ export const addNewsletter = async (newsletter: {
     _id: newsletterDB._id,
     url: newsletterDB.url,
     title: newsletterDB.title,
-    description: newsletterDB.description,
-    color: newsletterDB.color,
+    description: newsletterDB.description ?? '',
+    color: newsletterDB.color ?? '',
     favicon: {
       url: newsletterDB.favicon_url,
       size: newsletterDB.favicon_size
@@ -122,7 +124,7 @@ const getNewsletter = async (url: string): Promise<NewsletterDB | null> => {
     .from('Newsletter')
     .select('*')
     .like('url', url)
-  const {data, error} = await doQuery(fn)
+  const { data, error } = await doQuery(fn)
   if (error) {
     throw error
   }
@@ -139,7 +141,7 @@ export const getNewsletters = async (): Promise<NewsletterDB[] | null> => {
   const fn = async () => await supabase
     .from('User_Newsletter')
     .select('Newsletter(*)')
-  const {data, error} = await doQuery(fn)
+  const { data, error } = await doQuery(fn)
   if (error) {
     throw error
   }

@@ -272,7 +272,7 @@ export default function InitialScreen({ }) {
             // marginBottom: getMargin() * 0.5,
           }}>Serious, joyful & open</Text>
         </View>
-        {/* <DebugView /> */}
+        <DebugView />
       </View>
     </View>
   )

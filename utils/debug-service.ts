@@ -7,7 +7,7 @@ export const debugService = {
   setLogFunction: (logFn: (message: string, data: {}) => void) => {
     debugCallback = logFn
   },
-  log: (message: string, data: {}) => {
+  log: (message: string, data = {}) => {
     debugCallback(message, data)
   }
 }

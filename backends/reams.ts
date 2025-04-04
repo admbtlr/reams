@@ -1,5 +1,5 @@
-import {id} from '../utils'
-import { 
+import { id } from '../utils'
+import {
   addFeed as addFeedSupabase,
   addFeeds as addFeedsSupabase,
   addReadItems as addReadItemsSupabase,
@@ -30,7 +30,7 @@ let isPlus = false
 const EXPO_PUBLIC_CORS_PROXY = process.env.EXPO_PUBLIC_CORS_PROXY
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 
-export function init () {
+export function init() {
 }
 
 // export async function sendEmailLink (email: string) {
@@ -53,7 +53,7 @@ export function init () {
 
 // }
 
-export async function getReadItems (oldItems: Item[]) {
+export async function getReadItems(oldItems: Item[]) {
   const oldestItem = oldItems.map(i => i.created_at).sort()[0]
   console.log('Calling getReadItemsSupabase, oldestItem: ' + JSON.stringify(oldestItem))
   const readItems = await getReadItemsSupabase(oldestItem)
@@ -61,12 +61,12 @@ export async function getReadItems (oldItems: Item[]) {
 }
 
 // callback, type, lastUpdated, oldItems, feeds, maxNum
-export async function fetchItems (
-  callback: (items: Item[]) => void, 
-  type: string, 
-  lastUpdated: number, 
-  oldItems: Item[], 
-  feeds: FeedWithIsNew[], 
+export async function fetchItems(
+  callback: (items: Item[]) => void,
+  type: string,
+  lastUpdated: number,
+  oldItems: Item[],
+  feeds: FeedWithIsNew[],
   maxNum: number) {
   lastUpdated = lastUpdated || oldItems.map(item => item.created_at).sort()[0]
   if (type === 'saved') {
@@ -173,13 +173,12 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
     return acc
   }, [])
   console.log(`chunked into ${chunked.length}`)
-  const promises = Object.values(chunked).map(async(feeds: bodyFeed[]) => {
+  const promises = Object.values(chunked).map(async (feeds: bodyFeed[]) => {
     try {
       const apiUrl = EXPO_PUBLIC_API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
       const proxy = EXPO_PUBLIC_CORS_PROXY //`${apiUrl}/cors-proxy/`
       const feedsUrl = `${apiUrl}/feeds`
       const url = `${proxy}?url=${encodeURIComponent(feedsUrl)}`
-      const body = '{"feeds":[{"url":"https://www.noemamag.com/feed/","_id":"db81639e-6e40-5968-a8d7-4cd4ac39b465","lastUpdated":0},{"url":"https://www.daringfireball.net/feeds/main","_id":"b52be924-9fda-5a65-8c86-d2bce5560f5c","lastUpdated":0},{"url":"https://www.lrb.co.uk/feeds/rss","_id":"57eaa70c-ce4b-588b-a484-77bae50d5d7e","lastUpdated":0},{"url":"https://crookedtimber.org/feed/","_id":"3ce7b581-945f-5199-b69f-eb643e42322a","lastUpdated":0},{"url":"https://pluralistic.net/feed/","_id":"4b27f7aa-7d4a-5b87-b5c8-3845d40ec9aa","lastUpdated":0},{"url":"https://interconnected.org/home/feed","_id":"23ccb407-ec54-54fd-9a8f-8c65e17cf0e8","lastUpdated":0}]}'
       const res = await fetch(url, {
         method: 'POST',
         headers: {
@@ -190,8 +189,8 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
       console.log('got a chunk')
       const json = await res.json()
       return json
-    } catch(err) { 
-      log(err) 
+    } catch (err) {
+      log(err)
     }
   })
   return Promise.all(promises)
@@ -221,7 +220,7 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
 //   }
 // }
 
-export async function markItemsRead (items: Item[]) {
+export async function markItemsRead(items: Item[]) {
   try {
     addReadItemsSupabase(items)
   } catch (e) {
@@ -249,7 +248,7 @@ export const unsaveItem = async (item: Item) => {
 }
 
 
-export async function saveExternalItem (item: Item) {
+export async function saveExternalItem(item: Item) {
   try {
     await addSavedItemSupabase(item)
   } catch (e) {
@@ -258,7 +257,7 @@ export async function saveExternalItem (item: Item) {
   }
 }
 
-export async function addFeed (feedToAdd: {url: string, id?: number}, userId?: string): Promise<Feed | undefined> {
+export async function addFeed(feedToAdd: { url: string, id?: number }, userId?: string): Promise<Feed | undefined> {
   let feed
   try {
     feed = await addFeedSupabase(feedToAdd, userId)
@@ -269,7 +268,7 @@ export async function addFeed (feedToAdd: {url: string, id?: number}, userId?: s
   }
 }
 
-export async function addFeeds (feeds: Feed[]) {
+export async function addFeeds(feeds: Feed[]) {
   return await addFeedsSupabase(feeds)
 }
 
@@ -280,15 +279,15 @@ export async function addFeeds (feeds: Feed[]) {
 //   }
 // }
 
-export async function removeFeed (feed: Feed) {
+export async function removeFeed(feed: Feed) {
   await removeUserFeedSupabase(feed)
 }
 
-export async function fetchFeeds () {
+export async function fetchFeeds() {
   const feeds = await getFeedsSupabase()
   return feeds && feeds.map(feed => ({
     ...feed,
-    color: convertColorIfNecessary(feed.color),
+    color: feed.color && convertColorIfNecessary(feed.color),
     favicon: {
       url: feed.favicon_url,
       size: feed.favicon_size
@@ -315,7 +314,7 @@ interface FeedMeta {
   didError: boolean
 }
 
-export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta | undefined> {
+export async function getFeedMeta(feed: { url: string }): Promise<FeedMeta | undefined> {
   // log('getFeedMeta')
   const apiUrl = `${EXPO_PUBLIC_API_URL}/feed-meta?url=${feed.url}`
   try {
@@ -332,12 +331,12 @@ export async function getFeedMeta (feed: { url: string }): Promise<FeedMeta | un
       url: feed.url,
       color: json?.color?.length > 0 && convertColorIfNecessary(json.color)
     }
-  } catch(e) {
+  } catch (e) {
     log(e)
   }
 }
 
-export async function findFeeds (url: string): Promise<{ url: string, title: string }[] | undefined> {
+export async function findFeeds(url: string): Promise<{ url: string, title: string }[] | undefined> {
   // try {
   //   const feedMeta = await getFeedMeta({ url })
   //   if (feedMeta && feedMeta.title) {
@@ -363,21 +362,21 @@ export async function findFeeds (url: string): Promise<{ url: string, title: str
         color: feed.color ? convertColorIfNecessary(feed.color) : undefined
       }))
     }
-  } catch(e: any) {
+  } catch (e: any) {
     log(e)
     throw new Error(`Error finding feeds for ${url}: ${e.message}`)
   }
   try {
     const feed = await getFeedBySiteUrl(url)
     if (feed !== undefined && feed !== null) {
-      return [{url, title: feed.title}]
+      return [{ url, title: feed.title }]
     }
   } catch (e: any) {
     throw new Error(`Error finding feeds for ${url}: ${e.message}`)
   }
 }
 
-export async function getCategories () {
+export async function getCategories() {
   try {
     return await getCategoriesSupabase()
   } catch (e) {
@@ -386,7 +385,7 @@ export async function getCategories () {
   }
 }
 
-export async function addCategory (category: Category) {
+export async function addCategory(category: Category) {
   try {
     return await addCategorySupabase(category)
   } catch (e) {
@@ -395,7 +394,7 @@ export async function addCategory (category: Category) {
   }
 }
 
-export async function updateCategory (category: Category) {
+export async function updateCategory(category: Category) {
   try {
     return await updateCategorySupabase(category)
   } catch (e) {
@@ -404,7 +403,7 @@ export async function updateCategory (category: Category) {
   }
 }
 
-export async function addNewsletter (newsletter: Newsletter) {
+export async function addNewsletter(newsletter: Newsletter) {
   try {
     return await addNewsletterSupabase(newsletter)
   } catch (e: any) {
@@ -413,7 +412,7 @@ export async function addNewsletter (newsletter: Newsletter) {
   }
 }
 
-export async function removeNewsletter (newsletter: Newsletter) {
+export async function removeNewsletter(newsletter: Newsletter) {
   try {
     return await removeNewsletterSupabase(newsletter)
   } catch (e) {
@@ -422,7 +421,7 @@ export async function removeNewsletter (newsletter: Newsletter) {
   }
 }
 
-export async function getNewsletters (): Promise<Newsletter[]> {
+export async function getNewsletters(): Promise<Newsletter[]> {
   try {
     const dbNl = await getNewslettersSupabase()
     return dbNl?.map((nl: any) => ({

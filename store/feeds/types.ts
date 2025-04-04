@@ -5,8 +5,8 @@ export interface Source {
   url: string
   color?: string | number[]
   favicon?: {
-    url: string
-    size: string
+    url: string | null
+    size: string | null
   }
   readingTime?: number
   readCount?: number

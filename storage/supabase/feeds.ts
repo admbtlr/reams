@@ -1,12 +1,12 @@
 import { SourceDB, getUserId, supabase } from '.'
 import { getFeedMeta } from '../../backends'
 import { Feed, Source } from '../../store/feeds/types'
-import { id as createId, pgTimestamp} from '../../utils'
+import { id as createId, pgTimestamp } from '../../utils'
 
-interface FeedDB extends SourceDB {}
+interface FeedDB extends SourceDB { }
 
 export const getFeed = async (url: string): Promise<FeedDB | null> => {
-  const {data, error} = await supabase
+  const { data, error } = await supabase
     .from('Feed')
     .select('*')
     .like('url', url)
@@ -22,7 +22,7 @@ export const getFeed = async (url: string): Promise<FeedDB | null> => {
 }
 
 export const getFeeds = async (): Promise<FeedDB[] | null> => {
-  const {data, error} = await supabase
+  const { data, error } = await supabase
     .from('User_Feed')
     .select('*, Feed(*)',)
   if (error) {
@@ -39,7 +39,7 @@ export const getFeeds = async (): Promise<FeedDB[] | null> => {
 }
 
 export const getFeedsById = async (ids: string[]): Promise<Feed[] | null> => {
-  const {data, error} = await supabase
+  const { data, error } = await supabase
     .from('Feed')
     .select('*',)
     .in('_id', ids)
@@ -51,7 +51,7 @@ export const getFeedsById = async (ids: string[]): Promise<Feed[] | null> => {
 }
 
 export const getFeedBySiteUrl = async (siteUrl: string): Promise<FeedDB | null> => {
-  const {data, error} = await supabase
+  const { data, error } = await supabase
     .from('Feed')
     .select('*')
     .like('root_url', siteUrl)
@@ -73,7 +73,7 @@ export const addFeed = async (feed: { url: string, id?: number }, userId?: strin
   if (!feedDB) {
     const _id = createId(feed.url)
     const feedMeta = await getFeedMeta(feed)
-    feedDB = { 
+    feedDB = {
       _id,
       url: feed.url,
       title: feedMeta?.title || '',
@@ -83,10 +83,10 @@ export const addFeed = async (feed: { url: string, id?: number }, userId?: strin
       favicon_url: feedMeta?.favicon?.url || '',
       favicon_size: feedMeta?.favicon?.size || '',
       didError: feedMeta?.didError
-     }
+    }
     let response = await supabase
       .from('Feed')
-      .insert({ 
+      .insert({
         _id,
         url: feed.url || '',
         title: feedMeta?.title || '',
@@ -96,7 +96,7 @@ export const addFeed = async (feed: { url: string, id?: number }, userId?: strin
         favicon_url: feedMeta?.favicon?.url,
         favicon_size: feedMeta?.favicon?.size,
         did_error: feedMeta?.didError ?? false
-       })
+      })
     if (response.error) {
       console.log(`Error adding feed ${feed.url}: ${response.error.message}`)
       throw response.error
@@ -113,16 +113,16 @@ export const addFeed = async (feed: { url: string, id?: number }, userId?: strin
     .select()
     .eq('feed_id', feedDB._id)
     .eq('user_id', userId)
-    if (response.error) {
-      throw response.error
-    } else {
-      userFeed = response.data[0]
-    }
+  if (response.error) {
+    throw response.error
+  } else {
+    userFeed = response.data[0]
+  }
   let userFeedQuery
   if (response.data.length === 0) {
     userFeedQuery = await supabase
       .from('User_Feed')
-      .insert({ 
+      .insert({
         feed_id: feedDB._id,
         user_id: userId
       })
@@ -145,10 +145,10 @@ const feedDBToFeed = (feedDB: FeedDB): Feed => ({
   rootUrl: feedDB.root_url ?? '',
   url: feedDB.url,
   title: feedDB.title,
-  description: feedDB.description,
+  description: feedDB.description || undefined,
   color: typeof feedDB.color === 'object' ?
-  feedDB.color :
-  feedDB.color.replace(/[\[\]]/g, '').split(',').map(c => parseInt(c)),
+    feedDB.color || undefined :
+    feedDB.color.replace(/[\[\]]/g, '').split(',').map(c => parseInt(c)) || undefined,
   favicon: {
     url: feedDB.favicon_url,
     size: feedDB.favicon_size
@@ -233,4 +233,3 @@ export const deactivateNudgeFeed = async (source: Source) => {
     throw update.error
   }
 }
-

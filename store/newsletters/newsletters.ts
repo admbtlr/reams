@@ -39,9 +39,10 @@ export const createNewsletter = createAsyncThunk(
       return newsletter
     } else {
       try {
+        debugService.log(`Adding newsletter ${newsletter.url}`)
         return await addNewsletterBackend(newsletter)
       } catch (error: any) {
-        console.error(`Error adding newsletter ${newsletter.url}: ${error.message}`)
+        debugService.log(`Error adding newsletter ${newsletter.url}: ${error.message}`)
         throw error
       }
     }
@@ -103,13 +104,14 @@ export const fetchNewsletters = createAsyncThunk(
         })
       }
       if (debugService) {
-        debugService.log('Error fetching newsletters', e)
+        debugService.log(`Error fetching newsletters: ${e.message}`, e)
+        debugService.log(e.stack)
       }
       throw e
     }
     let { newsletters } = (getState() as RootState).newsletters
     // items = items.filter((item) => item.created_at > lastUpdated)
-    console.log(`Got ${items.length} newsletters`)
+    debugService.log(`Got ${items.length} newsletters`)
     const newNewsletters: any = []
     items.forEach((item) => {
       if (!newsletters.find((newsletter: any) => newsletter.url === item.feed_url) &&
@@ -200,6 +202,7 @@ const newslettersSlice = createSlice({
       state.queryState = undefined
     })
     builder.addCase(MARK_ITEM_READ, (state, action) => {
+      //@ts-ignore
       const n = state.newsletters.find(n => n._id === action.item.feed_id)
       if (n) {
         n.readCount = n.readCount ?? 0
@@ -207,12 +210,14 @@ const newslettersSlice = createSlice({
       }
     })
     builder.addCase(PAUSE_NUDGE, (state, action) => {
+      //@ts-ignore
       const n = state.newsletters.find(n => n._id === action.sourceId)
       if (n) {
         n.nextNudge = (n.readCount ?? 0) + NUDGE_FREQUENCY
       }
     })
     builder.addCase(DEACTIVATE_NUDGE, (state, action) => {
+      //@ts-ignore
       const n = state.newsletters.find(n => n._id === action.sourceId)
       if (n) {
         n.isNudgeActive = false
@@ -223,7 +228,7 @@ const newslettersSlice = createSlice({
 
 // Extract the action creators object and the reducer
 export const { actions, reducer } = newslettersSlice
-export const { deactivateNudge, pauseNudge, updateQueryState } = actions
+export const { updateQueryState } = actions
 // Export the reducer, either as a default or named export
 const newsletters = newslettersSlice.reducer
 export default newsletters

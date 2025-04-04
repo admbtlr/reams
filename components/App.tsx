@@ -6,8 +6,8 @@ import {
   TransitionPresets
 } from '@react-navigation/stack'
 import { useDispatch, useSelector } from 'react-redux'
-import ItemsScreen from '@/components/ItemsScreen'
-import AccountScreenContainer from '@/containers/AccountScreen'
+import ItemsScreen from './ItemsScreen'
+import AccountScreenContainer from '../containers/AccountScreen'
 import FeedsScreen from './FeedsScreen'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
@@ -41,34 +41,26 @@ const Feeds = () => (
   >
     <FeedsStack.Screen
       name='Feeds Screen'
-      component={FeedsScreen}
+      component={FeedsScreen as React.ComponentType<any>}
     />
     <FeedsStack.Screen
       name='New Feeds List'
-      component={NewFeedsList}
+      component={NewFeedsList as React.ComponentType<any>}
     />
     <FeedsStack.Screen
       name='Modal'
-      component={ModalScreen}
-      navigationOptions={{
-        gestureResponseDistance: {
-          vertical: 300
-        }
-      }}
+      component={ModalScreen as React.ComponentType<any>}
     />
   </FeedsStack.Navigator>
 )
 
-const Main = ({ route }) => {
+const Main = () => {
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
 
   return (
     <MainStack.Navigator
       // headerMode='screen'
       initialRouteName='Initial'
-      options={{
-        gesturesEnabled: false
-      }}
       screenOptions={{
         headerStyle: {
           backgroundColor: isDarkMode ? hslString('rizzleBG') : hslString('rizzleBG', Platform.OS === 'android' ? 'darker' : ''),
@@ -88,7 +80,8 @@ const Main = ({ route }) => {
         headerBackTitleStyle: {
           color: hslString('rizzleText'),
           fontFamily: 'IBMPlexSans'
-        }
+        },
+        gestureEnabled: false
       }}
     >
       <MainStack.Screen
@@ -121,9 +114,12 @@ const Main = ({ route }) => {
         name='Feed'
         component={Feeds}
         options={({ route }) => {
-          const toFeeds = route.params?.toFeeds
+          type FeedRouteParams = {
+            isSaved?: boolean
+          }
+
           return {
-            title: route.params?.isSaved ? 'Library' : 'Feed',
+            title: (route.params as FeedRouteParams)?.isSaved ? 'Library' : 'Feed',
             headerBackTitleVisible: false,
             // headerRight: () => (
             //   <View style={{ backgroundColor: 'red' }}>
@@ -141,7 +137,15 @@ const Main = ({ route }) => {
         name='Items'
         component={ItemsScreen}
         options={({ route }) => {
-          const { feedCardHeight, feedCardWidth, feedCardX, feedCardY, toItems } = route?.params || {}
+          type ItemsRouteParams = {
+            feedCardHeight: number
+            feedCardWidth: number
+            feedCardX?: number
+            feedCardY?: number
+            toItems?: boolean
+          }
+
+          const { feedCardHeight, feedCardWidth, feedCardX, feedCardY, toItems } = (route?.params as ItemsRouteParams) || {}
           const dimensions = Dimensions.get('window')
           const translateY = feedCardY ?
             feedCardY + feedCardHeight / 2 - dimensions.height / 2 :
@@ -151,7 +155,7 @@ const Main = ({ route }) => {
             0
           return {
             cardStyleInterpolator: toItems ?
-              ({ closing, current, next, index }) => {
+              ({ closing, current, next }) => {
                 // I use closing so that I can do fancy stuff with the translateX
                 // feeds screen has to act like normal, items screen is custom
                 let anim = Animated.add(current.progress, Animated.multiply(closing, new Animated.Value(5)))
@@ -228,7 +232,7 @@ const Main = ({ route }) => {
       <MainStack.Screen
         name='Highlights'
         component={HighlightsScreen}
-        options={({ route }) => {
+        options={() => {
           return {
             title: 'Highlights',
             headerBackTitleVisible: false,
@@ -248,7 +252,7 @@ const Main = ({ route }) => {
       />
       <MainStack.Screen
         name='Login'
-        component={Login}
+        component={Login as React.ComponentType}
         options={{
           gestureEnabled: false,
           headerShown: false,
@@ -300,18 +304,13 @@ const App = (): JSX.Element => {
       />
       <AppStack.Screen
         name='ModalWithGesture'
-        component={ModalScreen}
+        component={ModalScreen as React.ComponentType}
         options={{
           cardOverlayEnabled: true,
           cardStyle: {
             backgroundColor: 'transparent'
           },
           ...TransitionPresets.ModalPresentationIOS
-        }}
-        navigationOptions={{
-          gestureResponseDistance: {
-            vertical: 800
-          }
         }}
       />
     </AppStack.Navigator>
