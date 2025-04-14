@@ -118,6 +118,11 @@ body {
     line-height: 1rem !important;
   }
 
+  .web &.bodyFontSerif2, .web &.bodyFontSerif2 table {
+    font-size: calc(1rem / 1.8) !important;
+    line-height: 1rem !important;
+  }
+
   &.bodyFontSans3, &.bodyFontSans3 table {
     font-size: calc(1rem / 1.7) !important;
     line-height: 1rem !important;
@@ -134,7 +139,7 @@ body {
   }
 
   &.bodyFontSerif4, &.bodyFontSerif4 table {
-    font-size: calc(1rem / 1.7) !important;
+    font-size: calc(1rem / 1.65) !important;
     line-height: 1rem !important;
   }
 

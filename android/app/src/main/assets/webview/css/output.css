@@ -97,6 +97,10 @@ body, body a, body a:active, body a:visited {
   font-size: 0.5555555556rem !important;
   line-height: 1rem !important;
 }
+.web .itemArticle.bodyFontSerif2, .web .itemArticle.bodyFontSerif2 table, .web .itemArticle table.bodyFontSerif2, .web .itemArticle table.bodyFontSerif2 table {
+  font-size: 0.5555555556rem !important;
+  line-height: 1rem !important;
+}
 .itemArticle.bodyFontSans3, .itemArticle.bodyFontSans3 table, .itemArticle table.bodyFontSans3, .itemArticle table.bodyFontSans3 table {
   font-size: 0.5882352941rem !important;
   line-height: 1rem !important;
@@ -110,7 +114,7 @@ body, body a, body a:active, body a:visited {
   line-height: 1rem !important;
 }
 .itemArticle.bodyFontSerif4, .itemArticle.bodyFontSerif4 table, .itemArticle table.bodyFontSerif4, .itemArticle table.bodyFontSerif4 table {
-  font-size: 0.5882352941rem !important;
+  font-size: 0.6060606061rem !important;
   line-height: 1rem !important;
 }
 .itemArticle h1, .itemArticle h2, .itemArticle h3, .itemArticle table h1, .itemArticle table h2, .itemArticle table h3 {
