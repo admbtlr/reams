@@ -54,7 +54,7 @@ export function useColor(urlParam: string | undefined) {
           key: host,
           quality: 'highest'
         })
-        let bestColor: string
+        let bestColor: string | undefined
         console.log(colors)
         if (colors.platform === 'ios') {
           // weirdly, 'background' is the best option
@@ -102,9 +102,9 @@ export function useColor(urlParam: string | undefined) {
     const hue = hslArray[0]
     let saturation = hslArray[1]
     const lightness = hslArray[2]
-    if (Number.parseInt(saturation) && Number.parseInt(saturation) > 85) {
-      saturation = 85
-    }
+    // if (Number.parseInt(saturation) && Number.parseInt(saturation) > 85) {
+    //   saturation = 85
+    // }
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`
   }
 
