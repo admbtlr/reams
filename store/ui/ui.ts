@@ -1,47 +1,50 @@
 import {
+  ADD_MESSAGE,
+  CLEAR_MESSAGES,
   DECREASE_FONT_SIZE,
+  DarkModeSetting,
   FETCH_DATA_SUCCESS,
   HIDE_ALL_BUTTONS,
+  HIDE_HELPTIP,
   HIDE_IMAGE_VIEWER,
   HIDE_LOADING_ANIMATION,
   INCREASE_FONT_SIZE,
+  REMOVE_MESSAGE,
+  SET_BUTTON_LABELS,
   SET_DARK_MODE,
   SET_DARK_MODE_SETTING,
+  SET_FONT_SIZE,
+  SET_MESSAGE,
+  SHOW_HELPTIP,
   SHOW_IMAGE_VIEWER,
   SHOW_ITEM_BUTTONS,
   SHOW_VIEW_BUTTONS,
+  TOGGLE_BUTTON_LABELS,
   TOGGLE_DARK_MODE,
   TOGGLE_VIEW_BUTTONS,
-  SET_MESSAGE,
-  ADD_MESSAGE,
-  REMOVE_MESSAGE,
-  CLEAR_MESSAGES,
   UIActionTypes,
-  UIState,
-  SHOW_HELPTIP,
-  HIDE_HELPTIP,
-  DarkModeSetting,
-  SET_FONT_SIZE
+  UIState
 } from './types'
 
 const initialState = {
-  viewButtonsVisible: false,
-  itemButtonsVisible: false,
-  modalVisible: false,
-  modalProps: {},
-  showLoadingAnimation: true,
-  imageViewerVisible: false,
-  imageViewerUrl: '',
+  darkModeSetting: DarkModeSetting.AUTO,
+  displayedHelpTips: [],
+  fontSize: 3,
+  helpTipKey: '',
   hiddenModals: [],
+  imageViewerUrl: '',
+  imageViewerVisible: false,
+  isActive: true,
+  showButtonLabels: false,
+  isDarkMode: false,
+  isHelpTipVisible: false,
+  itemButtonsVisible: false,
   message: '',
   messageQueue: [],
-  isDarkMode: false,
-  darkModeSetting: DarkModeSetting.AUTO,
-  fontSize: 3,
-  isActive: true,
-  isHelpTipVisible: false,
-  helpTipKey: '',
-  displayedHelpTips: []
+  modalProps: {},
+  modalVisible: false,
+  showLoadingAnimation: true,
+  viewButtonsVisible: false
 }
 
 const MAX_FONT_SIZE = 5
@@ -90,6 +93,18 @@ export function ui(
       return {
         ...state,
         isDarkMode: !state.isDarkMode
+      }
+
+    case TOGGLE_BUTTON_LABELS:
+      return {
+        ...state,
+        showButtonLabels: !state.showButtonLabels
+      }
+
+    case SET_BUTTON_LABELS:
+      return {
+        ...state,
+        showButtonLabels: action.showButtonLabels
       }
 
     case SET_DARK_MODE:

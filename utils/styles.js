@@ -23,7 +23,13 @@ export const textValueStyle = (color) => ({
   fontSize: 12 * fontSizeMultiplier()
 })
 
-export const textLabelStyle = (color) => ({
+export const textUiStyle = (color) => ({
+  ...baseStyles(color),
+  fontFamily: 'IBMPlexSans',
+  fontSize: 14 * fontSizeMultiplier()
+})
+
+export const textLabelStyle = (color = 'rizzleText') => ({
   ...baseStyles(color),
   textTransform: 'uppercase',
   fontFamily: 'IBMPlexSans-Light',

@@ -40,7 +40,7 @@ export interface UIState {
   readonly isHelpTipVisible: boolean
   readonly helpTipKey: string
   readonly displayedHelpTips: string[]
-
+  readonly showButtonLabels: boolean
 }
 
 export const TOGGLE_VIEW_BUTTONS = 'TOGGLE_VIEW_BUTTONS'
@@ -55,6 +55,8 @@ export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS'
 export const SET_DARK_MODE = 'SET_DARK_MODE'
 export const SET_DARK_MODE_SETTING = 'SET_DARK_MODE_SETTING'
 export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE'
+export const TOGGLE_BUTTON_LABELS = 'TOGGLE_BUTTON_LABELS'
+export const SET_BUTTON_LABELS = 'SET_BUTTON_LABELS'
 export const INCREASE_FONT_SIZE = 'INCREASE_FONT_SIZE'
 export const DECREASE_FONT_SIZE = 'DECREASE_FONT_SIZE'
 export const SET_FONT_SIZE = 'SET_FONT_SIZE'
@@ -107,6 +109,15 @@ interface setDarkModeAction {
 
 interface toggleDarkModeAction {
   type: typeof TOGGLE_DARK_MODE
+}
+
+interface toggleButtonLabelsAction {
+  type: typeof TOGGLE_BUTTON_LABELS
+}
+
+interface setButtonLabelsAction {
+  type: typeof SET_BUTTON_LABELS
+  showButtonLabels: boolean
 }
 
 interface setDarkModeSettingAction {
@@ -166,6 +177,8 @@ export type UIActionTypes = toggleViewButtonsAction |
   fetchDataSuccessAction |
   setDarkModeAction |
   toggleDarkModeAction |
+  toggleButtonLabelsAction |
+  setButtonLabelsAction |
   setDarkModeSettingAction |
   increaseFontSizeAction |
   decreaseFontSizeAction |

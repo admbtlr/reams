@@ -8,7 +8,6 @@ import SwipeableViews from './SwipeableViews'
 import TopBars from './TopBars'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import ButtonsContainer from '../containers/Buttons.js'
-import ViewButtonsContainer from '../containers/ViewButtons.js'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
 import EmptyCarousel from './EmptyCarousel'
 
@@ -19,7 +18,7 @@ export const BUFFER_LENGTH = 5
 // them with clampedScrollAnims
 let bufferedItems
 
-const getBufferedItems  = (items, index, displayMode, feeds) => {
+const getBufferedItems = (items, index, displayMode, feeds) => {
   const bufferStart = index === 0 ? index : index - 1
   const bufferEnd = index + BUFFER_LENGTH > items.length - 1 ?
     items.length :
@@ -47,34 +46,34 @@ const getBufferedItems  = (items, index, displayMode, feeds) => {
 }
 
 class Emitter {
-  
-  constructor () {
+
+  constructor() {
     this.listeners = []
   }
-  on (type, callback, id) {
+  on(type, callback, id) {
     this.listeners.push({
       type,
-      callback, 
+      callback,
       id
     })
   }
-  emit (type) {
+  emit(type) {
     this.listeners.filter(l => l.type === type)
       .forEach(l => l.callback())
   }
-  off (id) {
+  off(id) {
     this.listeners = this.listeners.filter(l => l.id !== id)
   }
 
 }
 
 class ItemCarousel extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.props = props
 
     this.index = -1,
-    this.items = []
+      this.items = []
     this.bufferIndex = -1
     this.selectedText = undefined
 
@@ -95,16 +94,16 @@ class ItemCarousel extends React.Component {
     this.setBufferIndexChangeListener = this.setBufferIndexChangeListener.bind(this)
   }
 
-  _stringifyBufferedItems (items, index, displayMode, feeds, includeMercury = false) {
+  _stringifyBufferedItems(items, index, displayMode, feeds, includeMercury = false) {
     return JSON
-    .stringify(getBufferedItems(items, index, displayMode, feeds)
-      .map(item => includeMercury ? {
-        _id: item._id,
-        isDecorated: item.isDecorated
-      } : item._id))
+      .stringify(getBufferedItems(items, index, displayMode, feeds)
+        .map(item => includeMercury ? {
+          _id: item._id,
+          isDecorated: item.isDecorated
+        } : item._id))
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return nextProps.displayMode !== this.props.displayMode ||
       nextProps.orientation !== this.props.orientation ||
       this.state !== nextState ||
@@ -112,7 +111,7 @@ class ItemCarousel extends React.Component {
         nextProps.index > this.initialIndex - 1 &&
         nextProps.index < this.initialIndex + BUFFER_LENGTH &&
         this._stringifyBufferedItems(nextProps.items, this.props.index, this.props.displayMode, this.props.feeds, false) ===
-          this._stringifyBufferedItems(this.props.items, this.props.index, this.props.displayMode, this.props.feeds, false)
+        this._stringifyBufferedItems(this.props.items, this.props.index, this.props.displayMode, this.props.feeds, false)
       )
   }
 
@@ -143,25 +142,25 @@ class ItemCarousel extends React.Component {
   //   }
   // }
 
-  initIndex () {
+  initIndex() {
     this.index = this.initialIndex = this.props.index
     this.bufferIndex = this.index === 0 ? 0 : 1
   }
 
-  incrementIndex () {
+  incrementIndex() {
     this.setIndex(this.index + 1, this.bufferIndex + 1)
   }
 
-  decrementIndex () {
+  decrementIndex() {
     this.setIndex(this.index - 1, this.bufferIndex - 1)
   }
 
-  updateCarouselIndex (bufferIndex) {
+  updateCarouselIndex(bufferIndex) {
     const diff = bufferIndex - this.bufferIndex
     this.setIndex(this.index + diff, bufferIndex)
   }
 
-  setIndex (index, bufferIndex) {
+  setIndex(index, bufferIndex) {
     this.incomingIndex = index
     const lastIndex = this.index
     this.index = index
@@ -172,32 +171,32 @@ class ItemCarousel extends React.Component {
     this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
   }
 
-  openFeedModal () {
+  openFeedModal() {
     const { navigation } = this.props
     const item = this.bufferedItems[this.bufferIndex]
     navigation.push('ModalWithGesture', {
       childView: <FeedExpandedContainer
-          feedId={item.feed_id}
-          close={() => navigation.navigate('Items')}
-          navigation={navigation}
-        />
+        feedId={item.feed_id}
+        close={() => navigation.navigate('Items')}
+        navigation={navigation}
+      />
     })
   }
 
-  onSavePress (isSaved) {
+  onSavePress(isSaved) {
     const item = this.bufferedItems[this.bufferIndex]
     this.props.isOnboarding || this.props.setSaved(item, isSaved)
   }
 
-  showViewButtons (areVisible) {
+  showViewButtons(areVisible) {
     const item = this.props.items[this.bufferIndex]
   }
 
-  setPanAnim (panAnim) {
+  setPanAnim(panAnim) {
     this.setState({ panAnim })
   }
 
-  setScrollAnim (scrollAnim) {
+  setScrollAnim(scrollAnim) {
     if (this.clampedScrollAnimSetter) {
       this.clampedScrollAnimSetter(getClampedScrollAnim(scrollAnim))
     }
@@ -206,7 +205,7 @@ class ItemCarousel extends React.Component {
     }
   }
 
-  onScrollEnd (scrollOffset) {
+  onScrollEnd(scrollOffset) {
     // console.log('Scroll end')
     onScrollEnd(scrollOffset)
     // const item = bufferedItems.find(bi => bi._id === item_id)
@@ -215,31 +214,31 @@ class ItemCarousel extends React.Component {
     // }
   }
 
-  onTextSelection (selectedText) {
+  onTextSelection(selectedText) {
     this.selectedText = selectedText
   }
 
-  setClampedScrollAnimSetterAndListener (clampedScrollAnimSetter, clampedScrollAnimListener) {
+  setClampedScrollAnimSetterAndListener(clampedScrollAnimSetter, clampedScrollAnimListener) {
     this.clampedScrollAnimSetter = clampedScrollAnimSetter
     setClampedScrollListener(clampedScrollAnimListener)
   }
 
-  setScrollAnimSetterAndListener (scrollAnimSetter, scrollAnimListener) {
+  setScrollAnimSetterAndListener(scrollAnimSetter, scrollAnimListener) {
     this.scrollAnimSetter = scrollAnimSetter
     if (scrollAnimListener) {
       setScrollListener(scrollAnimListener)
     }
   }
 
-  setBufferIndexChangeListener (bufferIndexChangeListener) {
+  setBufferIndexChangeListener(bufferIndexChangeListener) {
     this.bufferIndexChangeListener = bufferIndexChangeListener
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     this.bufferIndexChangeListener && this.bufferIndexChangeListener(this.bufferIndex)
   }
 
-  render () {
+  render() {
     const {
       displayMode,
       feeds,
@@ -258,7 +257,7 @@ class ItemCarousel extends React.Component {
       this.initIndex()
 
       this.bufferedItems = getBufferedItems(items, index, displayMode, feeds)
-  
+
       // do something with setPanAnim on the ToolbarContainer
       return (
         <Fragment>
@@ -275,10 +274,10 @@ class ItemCarousel extends React.Component {
             onTextSelection={this.onTextSelection}
             updateCarouselIndex={this.updateCarouselIndex}
           />
-          { !isItemsOnboardingDone &&
+          {!isItemsOnboardingDone &&
             !isOnboarding &&
             numItems > 0 &&
-            <ItemsScreenOnboarding /> }
+            <ItemsScreenOnboarding />}
           <TopBars
             emitter={this.emitter}
             items={this.bufferedItems}
@@ -294,7 +293,7 @@ class ItemCarousel extends React.Component {
             setBufferIndexChangeListener={this.setBufferIndexChangeListener}
           />
           <ButtonsContainer
-            bufferStartIndex={ index === 0 ? index : index - 1 }
+            bufferStartIndex={index === 0 ? index : index - 1}
             bufferedItems={this.bufferedItems}
             panAnim={this.state.panAnim}
             showViewButtons={this.showViewButtons}
@@ -304,7 +303,6 @@ class ItemCarousel extends React.Component {
             // launchBrowser={this.launchBrowser}
             toggleMercury={this.props.toggleMercury}
           />
-          <ViewButtonsContainer />
         </Fragment>
       )
     } else {
@@ -316,7 +314,7 @@ class ItemCarousel extends React.Component {
     }
   }
 
-  onChangeIndex (index, lastIndex) {
+  onChangeIndex(index, lastIndex) {
     // // workaround for a weird bug
     // if (index % 1 !== 0) {
     //   return

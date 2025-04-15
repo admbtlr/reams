@@ -3,7 +3,9 @@ import {
   View,
   Dimensions,
   Text,
-  Pressable
+  Pressable,
+  Switch,
+  PixelRatio
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { hslString } from '../utils/colors'
@@ -11,52 +13,55 @@ import { RootState } from '../store/reducers'
 import { getStatusBarHeight } from '../utils/dimensions'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
-import { DarkModeSetting, SET_DARK_MODE_SETTING } from '../store/ui/types'
+import { DarkModeSetting, SET_BUTTON_LABELS, SET_DARK_MODE_SETTING } from '../store/ui/types'
 import RadioButtons from './RadioButtons'
 import { Direction, SET_ITEM_SORT } from '../store/config/types'
 import { SORT_ITEMS } from '../store/items/types'
 import WebView from 'react-native-webview'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
+import { textInfoStyle, textLabelStyle, textUiStyle } from '../utils/styles'
 
-export default function SettingsScreen () {
+export default function SettingsScreen() {
   const dispatch = useDispatch()
   const itemSort = useSelector((state: RootState) => state.config.itemSort)
   const darkModeSetting = useSelector((state: RootState) => state.ui.darkModeSetting)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
+  const showButtonLabels = useSelector((state: RootState) => state.ui.showButtonLabels)
+  const setShowButtonLabels = (value: boolean) => dispatch({ type: SET_BUTTON_LABELS, showButtonLabels: value })
   const sortButtons = [
-    { 
+    {
       value: Direction.desc,
       label: 'Newest first',
       icon: 'arrow-right'
-     },
-     { 
+    },
+    {
       value: Direction.asc,
       label: 'Oldest first',
       icon: 'arrow-left'
-     },
-     { 
+    },
+    {
       value: Direction.rnd,
       label: 'Random',
       icon: 'shuffle'
-     },
+    },
   ]
   const darkModeButtons = [
-    { 
+    {
       value: Direction.desc,
       label: 'Light',
       icon: 'sun'
-     },
-     { 
+    },
+    {
       value: Direction.asc,
       label: 'Dark',
       icon: 'moon'
-     },
-     { 
+    },
+    {
       value: Direction.rnd,
       label: 'System',
       icon: 'dark-mode'
-     },
+    },
   ]
   const sortItems = (itemSort: number) => {
     dispatch({
@@ -70,7 +75,7 @@ export default function SettingsScreen () {
   const setDarkMode = (darkModeSetting: DarkModeSetting) => {
     dispatch({
       type: SET_DARK_MODE_SETTING,
-      darkModeSetting 
+      darkModeSetting
     })
   }
   const setFontSize = (fontSize: number) => {
@@ -79,41 +84,46 @@ export default function SettingsScreen () {
       fontSize
     })
   }
-  const SettingBlock = ({ children, title }: {children: ReactElement, title: string}) => (
-    <View style={{
-      backgroundColor: hslString('white'),
-      borderRadius: getMargin(),
-      borderColor: hslString('rizzleText'),
-      borderWidth: 1,
-      marginVertical: getMargin() * 0.5,
-      padding: getMargin(),
-      paddingTop: getMargin() * .5,
-      width: '100%',
-      maxWidth: 700,
-    }}>
+
+  const SettingBlock = ({ children, title }: { children: ReactElement, title: string }) => (
+    <View style={{ flex: 0, width: '100%' }}>
       <Text style={{
+        alignSelf: 'flex-start',
         fontFamily: 'IBMPlexSans',
-        fontSize: 18 * fontSizeMultiplier(),
+        fontSize: 12 * fontSizeMultiplier(),
         textAlign: 'center',
-        marginBottom: getMargin() * .5,
+        marginBottom: getMargin() * 0.25,
+        marginLeft: getMargin(),
         color: hslString('rizzleText')
-      }}>{ title }</Text>
+      }}>{title.toUpperCase()}</Text>
       <View style={{
-        // flex: 1,
-        flexDirection: 'row',
+        backgroundColor: hslString('white'),
+        borderRadius: getMargin() * .5,
+        borderColor: hslString('rizzleText', '', 0.3),
+        borderWidth: 1 / PixelRatio.get(),
+        marginBottom: getMargin(),
+        padding: getMargin() * .25,
+        paddingHorizontal: getMargin(),
+        width: '100%',
+        maxWidth: 700,
       }}>
-        { children }
+        <View style={{
+          // flex: 1,
+          flexDirection: 'row',
+        }}>
+          {children}
+        </View>
       </View>
     </View>
   )
-  const FontSizeBlock = ({ fontSize, isDarkMode }: {fontSize: number, isDarkMode: boolean}) => {
+  const FontSizeBlock = ({ fontSize, isDarkMode }: { fontSize: number, isDarkMode: boolean }) => {
     const bodyColor = hslString('rizzleBG')
     let server = ''
     if (__DEV__) {
       server = 'http://localhost:8888/'
     }
     const { width, height } = Dimensions.get('window')
-    const deviceWidth = height > width ? width: height
+    const deviceWidth = height > width ? width : height
     const deviceWidthToggle = deviceWidth > 600 ? 'tablet' : 'phone'
 
     const html = `
@@ -121,7 +131,7 @@ export default function SettingsScreen () {
     <head>
       <style>
     :root {
-    --font-path-prefix: ${ server === '' ? '../' : server };
+    --font-path-prefix: ${server === '' ? '../' : server};
     --device-width: ${deviceWidth};
   }
     html, body {
@@ -159,7 +169,7 @@ export default function SettingsScreen () {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-        <WebView 
+        <WebView
           originWhitelist={['*']}
           scalesPageToFit={false}
           scrollEnabled={false}
@@ -178,8 +188,9 @@ export default function SettingsScreen () {
           }}
           source={{
             html: html,
-            baseUrl: 'web/'}}
-        />   
+            baseUrl: 'web/'
+          }}
+        />
         <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -197,7 +208,7 @@ export default function SettingsScreen () {
             {getRizzleButtonIcon('plus', hslString('rizzleText'))}
           </Pressable>
         </View>
-      </View> 
+      </View>
     )
   }
 
@@ -206,23 +217,38 @@ export default function SettingsScreen () {
       flex: 1,
       backgroundColor: hslString('rizzleBG'),
       padding: getMargin(),
-      alignItems: 'center',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
     }}>
-      <SettingBlock 
-        children={<RadioButtons data={sortButtons} selected={itemSort} onSelect={sortItems}/>}
+      <SettingBlock
+        children={<RadioButtons data={sortButtons} selected={itemSort} onSelect={sortItems} />}
         title='Sort articles'
       />
-      <SettingBlock 
-        children={<RadioButtons data={darkModeButtons} selected={darkModeSetting} onSelect={setDarkMode}/>}
+      <SettingBlock
+        children={<RadioButtons data={darkModeButtons} selected={darkModeSetting} onSelect={setDarkMode} />}
         title='Dark mode'
       />
-      <SettingBlock 
+      <SettingBlock
+        children={
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%'
+          }}>
+            <Text style={{
+              ...textUiStyle(),
+              alignSelf: 'center'
+            }}>Show button labels</Text>
+            <Switch value={showButtonLabels} onValueChange={setShowButtonLabels} />
+          </View>}
+        title='Article display'
+      />
+      <SettingBlock
         children={<FontSizeBlock fontSize={fontSize} isDarkMode={isDarkMode} />}
         title='Article font size'
       />
-    </View>
+    </View >
   )
 }
 
-const {height, width} = Dimensions.get('screen')
-
+const { height, width } = Dimensions.get('screen')

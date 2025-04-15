@@ -23,7 +23,7 @@ import { getItem as getItemIDB } from "../storage/idb-storage"
 import type { Newsletter } from '../store/newsletters/types'
 import { useColor } from '../hooks/useColor'
 
-export const translateDistance = 80
+export const translateDistance = 100
 
 interface ButtonSetProps {
   isCurrent: boolean,
@@ -31,7 +31,7 @@ interface ButtonSetProps {
   opacityAnim: Animated.Value,
 }
 
-export default function ButtonSet ({
+export default function ButtonSet({
   isCurrent,
   item,
   opacityAnim,
@@ -95,11 +95,11 @@ export default function ButtonSet ({
       url: item.url,
       message: '',//this.selectedText, // TODO
     },
-    (error) => {
-      console.error(error)
-    },
-    (success, method) => {
-    })
+      (error) => {
+        console.error(error)
+      },
+      (success, method) => {
+      })
   }
   const toggleMercury = () => {
     dispatch({
@@ -199,10 +199,11 @@ export default function ButtonSet ({
         }}
         onPress={toggleViewButtons}
       /> */}
-      { showShareButton && <RizzleButton
+      {showShareButton && <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
+        label='share'
         style={{
           paddingLeft: 0,
           transform: [{
@@ -213,10 +214,10 @@ export default function ButtonSet ({
           }]
         }}
         onPress={showShareSheet}
-        >
-        { getRizzleButtonIcon('showShareSheetIcon', borderColor, backgroundColor, true, false) }
+      >
+        {getRizzleButtonIcon('showShareSheetIcon', borderColor, backgroundColor, true, false)}
       </RizzleButton>
-      } 
+      }
       <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
@@ -229,6 +230,7 @@ export default function ButtonSet ({
           getRizzleButtonIcon('saveButtonIconOn', borderColor, backgroundColor, true, false)}
         initialToggleState={item?.isSaved}
         isToggle={displayMode === ItemType.unread}
+        label={displayMode === ItemType.saved ? 'delete' : 'save'}
         style={{
           paddingHorizontal: displayMode === ItemType.unread ? 0 : 7,
           transform: [
@@ -242,12 +244,13 @@ export default function ButtonSet ({
         }}
         onPress={() => setSaved(item, !item.isSaved)}
       >
-        { displayMode === ItemType.saved && getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false) }
+        {displayMode === ItemType.saved && getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false)}
       </RizzleButton>
       <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
         borderWidth={borderWidth}
+        label='browser'
         style={{
           paddingLeft: 0,
           transform: [{
@@ -260,10 +263,10 @@ export default function ButtonSet ({
         onPress={() => {
           launchBrowser()
         }}
-        >
-        { getRizzleButtonIcon('launchBrowserIcon', borderColor, backgroundColor, true, false) }
+      >
+        {getRizzleButtonIcon('launchBrowserIcon', borderColor, backgroundColor, true, false)}
       </RizzleButton>
-      { showMercuryButton &&
+      {showMercuryButton &&
         <RizzleButton
           backgroundColor={backgroundColor}
           borderColor={borderColor}
@@ -272,6 +275,7 @@ export default function ButtonSet ({
           iconOn={getRizzleButtonIcon('showMercuryIconOn', borderColor, backgroundColor, !!itemInflated?.content_mercury, false)}
           initialToggleState={isItemMercury}
           isToggle={true}
+          label='full text'
           style={{
             paddingLeft: 2,
             transform: [{
@@ -281,8 +285,8 @@ export default function ButtonSet ({
               }) : 0
             }]
           }}
-          onPress={!!itemInflated?.content_mercury ? 
-            () => toggleMercury() : 
+          onPress={!!itemInflated?.content_mercury ?
+            () => toggleMercury() :
             () => false
           }
         />
