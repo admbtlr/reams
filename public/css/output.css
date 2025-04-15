@@ -324,12 +324,11 @@ body.landscape .itemArticle img:not(.img-portrait):not(.img-small):not(.img-tiny
 }
 .itemArticle figcaption, .itemArticle .caption, .itemArticle .img-caption, .itemArticle .img-caption__desc, .itemArticle img + small {
   position: relative;
-  padding: 0.25rem 0.5rem;
+  top: -0.5rem;
   font-size: 0.5rem;
   font-weight: 300;
   line-height: 0.67rem;
   color: hsl(0, 0%, 50%);
-  position: relative;
   text-align: left;
 }
 .itemArticle figcaption a, .itemArticle .caption a, .itemArticle .img-caption a, .itemArticle .img-caption__desc a, .itemArticle img + small a {
