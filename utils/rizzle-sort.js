@@ -1,8 +1,8 @@
 import { Direction } from '../store/config/types'
-import { store } from '../store'
+import { store } from '../components/Rizzle'
 import { consoleLog } from './log'
 
-export default function rizzleSort (items, feeds, sortDirection) {
+export default function rizzleSort(items, feeds, sortDirection) {
   // put a buffer of decorated items in front of the undecorated ones
   // to give the undecorated items a chance to decorate
   // assumptions:
@@ -27,8 +27,8 @@ export default function rizzleSort (items, feeds, sortDirection) {
     const firstItems = decoratedItems.slice(0, buffer)
     const otherItems = items.filter(i => !firstItems.includes(i))
     return firstItems.concat(otherItems)
-      // .concat(itemsWithoutIndex)
-      // .concat(decoratedItems.slice(buffer))
+    // .concat(itemsWithoutIndex)
+    // .concat(decoratedItems.slice(buffer))
   }
 
   const splitIntoLikedNotLiked = (items, feeds) => {

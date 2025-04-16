@@ -1,4 +1,5 @@
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import isEqual from 'lodash.isequal'
 import {
   Feed,
@@ -33,7 +34,7 @@ import { getMargin } from '../utils/dimensions'
 import { getInset } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { textButtonStyle, textInfoStyle, textInputStyle } from '../utils/styles'
-import { RootState } from 'store/reducers'
+import type { RootState } from '../store/reducers'
 import { useIsFocused } from '@react-navigation/native'
 import { ItemType } from '../store/items/types'
 import { useModal } from './ModalProvider'
@@ -109,7 +110,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
 
   const isFocused = useIsFocused()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>()
 
   const { openModal } = useModal()
 
@@ -149,7 +150,6 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     openModal({
       modalText,
       modalHideCancel: false,
-      modalShow: true,
       inputs: [
         {
           label: 'Tag',
@@ -311,7 +311,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
       <View style={{
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: Platform.OS === 'web' ? 'flex-begin' : 'space-between',
+        justifyContent: Platform.OS === 'web' ? 'flex-start' : 'space-between',
         marginHorizontal: Platform.OS === 'web' ? margin * 2 : 0,
         marginTop: margin
         // width: '100%',

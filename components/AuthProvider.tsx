@@ -7,7 +7,7 @@ import { supabase } from "../storage/supabase"
 import { startDownloads } from "../store/config/types"
 import { Item } from "../store/items/types"
 import { RootState } from "../store/reducers"
-import { persistor } from "../store"
+import { persistor } from "./Rizzle"
 import { getCodeName } from "../storage/supabase/user"
 import Purchases, { LOG_LEVEL } from 'react-native-purchases'
 
@@ -42,7 +42,7 @@ export const AuthProvider = (props: any) => {
             return
           }
           lastSessionChange = Date.now()
-          setSession({session})
+          setSession({ session })
           // https://supabase.com/docs/reference/javascript/auth-onauthstatechange
           setTimeout(async () => {
             const codeName = await getCodeName()
@@ -51,10 +51,10 @@ export const AuthProvider = (props: any) => {
               codeName
             }
             dispatch({ type: SET_USER_DETAILS, details: userDetails })
-            dispatch(startDownloads())  
+            dispatch(startDownloads())
           }, 0)
         } else {
-          setSession({session: null})
+          setSession({ session: null })
           dispatch({ type: UNSET_BACKEND, backend: 'reams' })
           setTimeout(async () => {
             // @ts-ignore
@@ -98,7 +98,7 @@ export const AuthProvider = (props: any) => {
       if (url.indexOf('error') !== -1) {
         let errorMessage = url?.match(/error_description=([^&]+)/)
         if (errorMessage !== null) {
-          setSession({error: errorMessage[1].replace(/\+/g, ' ')})
+          setSession({ error: errorMessage[1].replace(/\+/g, ' ') })
         }
         return
       }
@@ -107,12 +107,12 @@ export const AuthProvider = (props: any) => {
     getLinkUrl()
     return () => {
       if (Linking !== undefined) Linking.removeAllListeners('url')
-    } 
+    }
   }, [])
 
   useEffect(() => {
     const configureRevenueCat = async () => {
-      await Purchases.configure({ 
+      await Purchases.configure({
         apiKey: process.env.EXPO_PUBLIC_REVENUECAT_API_KEY || '',
         appUserID: session.session?.user.id
       })
@@ -121,7 +121,7 @@ export const AuthProvider = (props: any) => {
       console.log('RevCat appUserId: ' + appUserId)
       try {
         const customerInfo = await Purchases.getCustomerInfo()
-        if ((session.session && isUserTrial(session.session)) || 
+        if ((session.session && isUserTrial(session.session)) ||
           typeof customerInfo.entitlements.active["premium"] !== "undefined") {
           dispatch({ type: SET_PREMIUM, isPremium: true })
         } else {
@@ -148,7 +148,7 @@ export const AuthProvider = (props: any) => {
       Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG)
       if (Platform.OS === 'ios') {
         configureRevenueCat()
-      }  
+      }
     }
   }, [session?.session?.user.id])
 

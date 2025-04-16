@@ -1,5 +1,5 @@
 import { Appearance } from 'react-native'
-import { store } from '../store'
+import { store } from '../components/Rizzle'
 
 const { colors, darker, lighter, desaturated, desaturatedDarker, ui, darkMode } = require('./colors.json')
 
@@ -23,13 +23,13 @@ export function getLightness(hslString) {
  * @param   {number}  l       The lightness
  * @return  {Array}           The RGB representation
  */
-export function hslToRgb (h, s, l) {
+export function hslToRgb(h, s, l) {
   var r, g, b
 
   if (s === 0) {
     r = g = b = l // achromatic
   } else {
-    var hue2rgb = function hue2rgb (p, q, t) {
+    var hue2rgb = function hue2rgb(p, q, t) {
       if (t < 0) t += 1
       if (t > 1) t -= 1
       if (t < 1 / 6) return p + (q - p) * 6 * t
@@ -59,7 +59,7 @@ export function hslToRgb (h, s, l) {
  * @param   {number}  b       The blue color value
  * @return  {Array}           The HSL representation
  */
-export function rgbToHsl (r, g, b) {
+export function rgbToHsl(r, g, b) {
   r /= 255
   g /= 255
   b /= 255
@@ -88,7 +88,7 @@ export function rgbToHsl (r, g, b) {
   return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)]
 }
 
-function hexToRgb (hex) {
+function hexToRgb(hex) {
   const hexArray = hex.length === 3 ? [
     hex[0] + hex[0],
     hex[1] + hex[1],
@@ -101,25 +101,25 @@ function hexToRgb (hex) {
   return hexArray.map(hexVal => parseInt(hexVal, 16))
 }
 
-export function hexToHsl (hex) {
+export function hexToHsl(hex) {
   return rgbToHsl(...hexToRgb(hex))
 }
 
-export function rgbStringToHsl (rgbString) {
+export function rgbStringToHsl(rgbString) {
   let rgb = rgbString.replace('rgb(', '')
     .replace(')', '')
     .split(',')
-  rgb = rgb.map(i=> parseInt(i, 10))
+  rgb = rgb.map(i => parseInt(i, 10))
   return rgbToHsl(...rgb)
 }
 
-export function hslStringToRgbString (hslString) {
+export function hslStringToRgbString(hslString) {
   const hsl = normaliseHsl(hslStringToHSL(hslString))
   const rgb = hslToRgb(...hsl)
   return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}`
 }
 
-export function hslStringToHSL (hslString) {
+export function hslStringToHSL(hslString) {
   let hsl = hslString.substring(4, hslString.length - 1).split(',')
   return [
     hsl[0],
@@ -128,7 +128,7 @@ export function hslStringToHSL (hslString) {
   ]
 }
 
-function normaliseHsl (hsl) {
+function normaliseHsl(hsl) {
   return [
     hsl[0] / 360,
     hsl[1] / 100,
@@ -136,7 +136,7 @@ function normaliseHsl (hsl) {
   ]
 }
 
-export function hslToHslString (hsl) {
+export function hslToHslString(hsl) {
   if (hsl[0] > 1 || hsl[1] > 1 || hsl[2] > 1) {
     hsl = normaliseHsl(hsl)
   }
@@ -144,7 +144,7 @@ export function hslToHslString (hsl) {
   return 'hsl(' + stringified.join(',') + ')'
 }
 
-export function hslToBlendColor (hsl) {
+export function hslToBlendColor(hsl) {
   if (hsl[0] > 1 || hsl[1] > 1 || hsl[2] > 1) {
     hsl = normaliseHsl(hsl)
   }
@@ -154,26 +154,26 @@ export function hslToBlendColor (hsl) {
   return rgb
 }
 
-export function hslStringToBlendColor (hslString) {
+export function hslStringToBlendColor(hslString) {
   return hslToBlendColor(hslStringToHSL(hslString))
 }
 
-export function getNames () {
+export function getNames() {
   return Object.keys(colors)
 }
 
-export function getHues () {
+export function getHues() {
   return Object.values(colors).reduce((color, accum) => {
     accum.push(/hsl\(([0-9]*),/.exec(color)[1])
     return accum
   }, [])
 }
 
-export function blendColor (colorName, modifier = '') {
+export function blendColor(colorName, modifier = '') {
   return hslStringToBlendColor(hslString(colorName, modifier))
 }
 
-function makeDarkModeFriendly (color) {
+function makeDarkModeFriendly(color) {
   if (color.startsWith('#')) {
     if (/[012]{6}/.test(color.substring(1))) {
       return '#ffffff'
@@ -181,16 +181,16 @@ function makeDarkModeFriendly (color) {
   } else if (color.startsWith('rgb')) {
     const [r, g, b] = color.substring(4, color.length - 1).split(',')
       .map(v => Number.parseInt(v.trim()))
-    if (isRgbDark([r,g,b])) {
+    if (isRgbDark([r, g, b])) {
       return 'rgb(0,0,0)'
     }
   }
   return color
 }
 
-const isRgbDark = ([r,g,b]) => [r,g,b].reduce((accum, curr) => accum && (curr < 20), true)
+const isRgbDark = ([r, g, b]) => [r, g, b].reduce((accum, curr) => accum && (curr < 20), true)
 
-export function hslString (color, modifier = '', alpha) {
+export function hslString(color, modifier = '', alpha) {
   const isDarkMode = store && store.getState().ui.isDarkMode
   if (typeof color === 'string') {
     if (modifier === 'darkmodable' && isDarkMode) {

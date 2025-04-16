@@ -3,7 +3,7 @@ import { ActivityIndicator, Dimensions, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { SET_MIGRATION_VERSION } from '../store/config/types'
-import { store } from '../store'
+import { store } from './Rizzle'
 import { addFeed } from '../backends/reams'
 import { hslString } from '../utils/colors'
 import { Image } from 'react-native'
@@ -59,45 +59,45 @@ const MigrationProvider = ({ children }: { children: ReactNode }): JSX.Element =
   }, [])
 
   return isMigrating ?
-  <View
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      backgroundColor: hslString('rizzleBG', 'strict'),
-      justifyContent: 'center',
-      alignItems: 'center'
-      // opacity: interpolate
-    }}
-  >
-    <Image
-      source={require('../assets/images/ream.png')}
+    <View
       style={{
-        // flex: 1,
-        height: 256,
-        width: 256
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        backgroundColor: hslString('rizzleBG', 'strict'),
+        justifyContent: 'center',
+        alignItems: 'center'
+        // opacity: interpolate
       }}
-    />
-    <View style={{
-      position: 'absolute',
-      bottom: 100,
-      // left: width * 0.333,
-      zIndex: 10,
-    }}>
-      <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
-      <Text
+    >
+      <Image
+        source={require('../assets/images/ream.png')}
         style={{
-          fontFamily: 'IBMPlexMono',
-          color: hslString('logo3'),
-          fontSize: 20 * fontSizeMultiplier(),
-          textAlign: 'center',
-          marginTop: 40
-        }}>Migrating data</Text>
-    </View>
-  </View> :
-  <>{children}</>
+          // flex: 1,
+          height: 256,
+          width: 256
+        }}
+      />
+      <View style={{
+        position: 'absolute',
+        bottom: 100,
+        // left: width * 0.333,
+        zIndex: 10,
+      }}>
+        <ActivityIndicator size="large" color={hslString('rizzleFG')} />
+        <Text
+          style={{
+            fontFamily: 'IBMPlexMono',
+            color: hslString('logo3'),
+            fontSize: 20 * fontSizeMultiplier(),
+            textAlign: 'center',
+            marginTop: 40
+          }}>Migrating data</Text>
+      </View>
+    </View> :
+    <>{children}</>
 }
 
 export default MigrationProvider

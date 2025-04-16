@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import * as SplashScreen from 'expo-splash-screen'
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
-import { initStore, persistor } from '../store'
+import { initStore } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppStateListenerContainer from '../containers/AppStateListener'
 import ConnectionListener from './ConnectionListener'
@@ -29,6 +29,8 @@ import App from './App'
 import MigrationsProvider from './MigrationProvider'
 import log from '../utils/log'
 import { DebugProvider } from './DebugContext'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { persistStore } from 'redux-persist'
 
 export interface Props {
   isActionExtension?: boolean
@@ -39,7 +41,11 @@ export interface State { }
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 // const routingInstrumentation = Platform.OS !== 'web' ? new Sentry.ReactNavigationInstrumentation() : null
 
-let store: object | undefined = initStore()
+const store = initStore()
+const persistor = persistStore(store)
+
+export type AppDispatch = typeof store.dispatch
+export { store, persistor }
 
 // this is a stupid hack to stop AppState firing on startup
 // which it does on the device in some circumstances
@@ -102,7 +108,13 @@ const Rizzle = () => {
       theme={{
         colors: {
           background: hslString('rizzleBG'),
-        }
+          primary: hslString('rizzleBG'),
+          card: hslString('rizzleBG'),
+          text: hslString('rizzleBG'),
+          border: hslString('rizzleBG'),
+          notification: hslString('rizzleBG')
+        },
+        dark: false
       }}
     >
       <Provider store={store}>
@@ -143,120 +155,3 @@ const Rizzle = () => {
 }
 
 export default Sentry.wrap(Rizzle)
-
-// class RizzleOld extends Component<Props, State> {
-//   navigation: Ref<NavigationContainerRef> = React.createRef()
-
-//   static defaultProps = {
-//     isActionExtension: false
-//   }
-
-//   constructor (props: Props) {
-//     super(props)
-
-//     this.state = {}
-//     store = undefined
-
-//     // is there any special reason why the store was only configured after an anonymous login?
-//     store = initStore()
-
-//     if (Platform.OS !== 'web') {
-//       const initTensorFlow = async () => {
-//         try {
-//           await tf.ready()
-//           console.log('Tensor Flow is ready')
-//         } catch (error: any) {
-//           log('Error loading Tensor Flow', error)
-//         }
-//       }
-//       initSQLite()
-//       InteractionManager.setDeadline(100)
-//       Sentry.init({
-//         dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-//         debug: __DEV__
-//       })
-//       initTensorFlow()
-//       InteractionManager.setDeadline(100)
-//     }
-
-//     // this is a stupid hack to stop AppState firing on startup
-//     // which it does on the device in some circumstances
-//     global.isStarting = true
-//     setTimeout(() => {
-//       global.isStarting = false
-//     }, 5000)
-//   }
-
-//   async componentDidMount () {
-//     if (Platform.OS !== 'web') {
-//       InteractionManager.setDeadline(100)
-//       try {
-//         await tf.ready()
-//         console.log('Tensor Flow is ready')
-//       } catch (error: any) {
-//         log('Error loading Tensor Flow', error)
-//       }
-//     }
-//   }
-
-//   render () {
-//     const PersistGateWrapper = ({children}: {children: any}) => {
-//       if (Platform.OS === 'web') {
-//         return children
-//       } else {
-//         return (
-//           <PersistGate
-//             loading={<View />}
-//             onBeforeLift={() => {}}
-//             persistor={persistor}>
-//             {children}
-//           </PersistGate>
-//         )
-//       }
-//     }
-
-//     return (
-//       <NavigationContainer
-//         ref={this.navigation}
-//         onReady={() => {
-//           if (Platform.OS !== 'web') {
-//             // routingInstrumentation?.registerNavigationContainer(this.navigation);
-//            }
-//         }}
-//         theme={{
-//           colors: {
-//             background: hslString('rizzleBG'),
-//           }
-//         }}
-//       >
-//         <Provider store={store}>
-//           <PersistGateWrapper>
-//             <AuthProvider>
-//               <View style={{
-//                 flex: 1,
-//                 backgroundColor: 'black'/*hslString('rizzleBG')*/}}>
-//                 <StatusBar
-//                   barStyle='light-content'
-//                   hidden={false} />
-//                 <ConnectionListener />
-//                 { Platform.OS === 'web' || <OrientationListener /> }
-//                 { Platform.OS === 'web' || <Analytics /> }
-//                 <MigrationsProvider>
-//                   <ModalProvider>
-//                     <AppStateListenerContainer>
-//                       <App />
-//                       <Message />
-//                       <RizzleModal />
-//                     </AppStateListenerContainer>
-//                   </ModalProvider>
-//                   <HelpTipProvider />
-//                 </MigrationsProvider>
-//                 <Splash />
-//               </View>
-//             </AuthProvider>
-//           </PersistGateWrapper>
-//         </Provider>
-//       </NavigationContainer>
-//     )
-//   }
-// }

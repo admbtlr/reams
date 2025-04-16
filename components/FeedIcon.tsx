@@ -6,7 +6,7 @@ import {
   Text,
   View
 } from 'react-native'
-import {fileExists, getCachedFeedIconPath} from '../utils'
+import { fileExists, getCachedFeedIconPath } from '../utils'
 import type { Feed } from '../store/feeds/types'
 import { useSelector } from 'react-redux'
 import type { RootState } from '../store/reducers'
@@ -20,15 +20,15 @@ interface props {
   testID?: string
 }
 
-function FeedIcon ({
+function FeedIcon({
   feedId,
   isBW,
   isSmall,
   isSmaller,
   testID
 }: props) {
-  const [ isCached, setIsCached ] = React.useState<boolean>()
-  const [ feed, setFeed ] = React.useState<Feed | Newsletter | undefined>()
+  const [isCached, setIsCached] = React.useState<boolean>()
+  const [feed, setFeed] = React.useState<Feed | Newsletter | undefined>()
 
   const f = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feedId))
   const n = useSelector((state: RootState) => state.newsletters.newsletters.find(n => n._id === feedId))
@@ -56,7 +56,7 @@ function FeedIcon ({
         then(() => setIsCached(true)).
         catch(() => setIsCached(false))
     }
-  }, [ isCached ])
+  }, [isCached])
 
   if (Platform.OS !== 'web' && isCached === undefined) {
     return null
@@ -68,14 +68,14 @@ function FeedIcon ({
     width={width}
     height={height}
     // source={{ uri: Platform.OS === 'web' ? feed.favicon?.url : getCachedFeedIconPath(feed._id) }}
-    source={{ uri: isCached ? getCachedFeedIconPath(feed._id) : feed.favicon?.url }}
+    source={{ uri: isCached ? getCachedFeedIconPath(feed._id) : (feed.favicon?.url || undefined) }}
     style={{
       width,
       height,
     }}
   /> : null
   return feed?.favicon?.url ?
-    <View 
+    <View
       testID={testID}
       style={{
         backgroundColor: 'transparent',//feed ? feed.color : 'white',
@@ -85,7 +85,7 @@ function FeedIcon ({
         marginRight: 3
       }}
     >
-      { image }
+      {image}
     </View> :
     null
 }

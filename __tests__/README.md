@@ -45,8 +45,8 @@ Tests are organized by component type:
 - [x] ItemTitle
 
 ### Phase 4: Screen Components
-- [ ] FeedsScreen
-- [ ] ItemsScreen 
+- [x] FeedsScreen
+- [ ] ItemsScreen
 - [ ] SettingsScreen
 
 ### Phase 5: Navigation/Redux Integration

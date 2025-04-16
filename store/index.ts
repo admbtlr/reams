@@ -1,4 +1,4 @@
-import { AsyncThunk, AsyncThunkPayloadCreator, Dispatch, configureStore } from '@reduxjs/toolkit'
+import { AsyncThunk, AsyncThunkPayloadCreator, Dispatch, EnhancedStore, configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 import makeRootReducer, { RootState } from './reducers'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
@@ -19,8 +19,7 @@ import { UIState } from './ui/types'
 import { downloadsListenerMiddleware } from './listenerMiddleware'
 import devToolsEnhancer from 'redux-devtools-expo-dev-plugin'
 
-let store = null
-let persistor = null
+let store: EnhancedStore | undefined = undefined
 let sagaMiddleware: any = null
 
 function initStore() {
@@ -33,7 +32,7 @@ function initStore() {
   const { width, height } = Dimensions.get('window')
 
   // @ts-ignore
-  const orientationTransform = createTransform(null, (state: ConfigState, key) => {
+  const orientationTransform = createTransform(null, (state: ConfigState, _) => {
     const newState = { ...state }
     newState.orientation = height > width ? 'portrait' : 'landscape'
     return newState
@@ -41,13 +40,13 @@ function initStore() {
 
   // remove the message queue
   // @ts-ignore
-  const messageQueueTransform = createTransform(null, (state: UIState, key) => {
+  const messageQueueTransform = createTransform(null, (state: UIState, _) => {
     const newState = { ...state }
     newState.messageQueue = []
     return newState
   }, { whitelist: ['ui'] })
 
-  let storage
+  let storage: typeof AsyncStorage | typeof FilesystemStorage
   if (Platform.OS === 'web') {
     storage = AsyncStorage
   } else {
@@ -95,8 +94,6 @@ function initStore() {
       enhancers: (getDefaultEnhancers) =>
         getDefaultEnhancers().concat(devToolsEnhancer({}))
     })
-    // @ts-ignore
-    persistor = persistStore(store)
   }
 
   sagaMiddleware.run(initSagas)
@@ -110,7 +107,7 @@ function initStore() {
   return store
 }
 
-export { store, initStore, persistor }
+export { initStore }
 
 // https://stackoverflow.com/a/66382690
 // declare module "@reduxjs/toolkit" {

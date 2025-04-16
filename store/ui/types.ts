@@ -26,21 +26,22 @@ export enum DarkModeSetting {
 }
 
 export interface UIState {
-  readonly viewButtonsVisible: boolean
-  readonly itemButtonsVisible: boolean
-  readonly showLoadingAnimation: boolean
-  readonly imageViewerVisible: boolean
-  readonly imageViewerUrl: string
-  readonly isDarkMode: boolean
   readonly darkModeSetting: DarkModeSetting
+  readonly displayedHelpTips: string[]
+  readonly fontSize: number
+  readonly helpTipKey: string
+  readonly hiddenModals: any[]
+  readonly imageViewerUrl: string
+  readonly imageViewerVisible: boolean
+  readonly isActive: boolean
+  readonly isDarkMode: boolean
+  readonly isHelpTipVisible: boolean
+  readonly itemButtonsVisible: boolean
   readonly message: string
   readonly messageQueue: Message[]
-  readonly fontSize: number
-  readonly isActive: boolean
-  readonly isHelpTipVisible: boolean
-  readonly helpTipKey: string
-  readonly displayedHelpTips: string[]
   readonly showButtonLabels: boolean
+  readonly showLoadingAnimation: boolean
+  readonly viewButtonsVisible: boolean
 }
 
 export const TOGGLE_VIEW_BUTTONS = 'TOGGLE_VIEW_BUTTONS'

@@ -31,10 +31,10 @@ export const textUiStyle = (color) => ({
 
 export const textLabelStyle = (color = 'rizzleText') => ({
   ...baseStyles(color),
-  textTransform: 'uppercase',
   fontFamily: 'IBMPlexSans-Light',
   fontSize: 12 * fontSizeMultiplier(),
-  marginTop: 3
+  marginTop: 3,
+  textTransform: 'uppercase',
 })
 
 export const textButtonStyle = (color) => ({

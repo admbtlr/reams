@@ -5,7 +5,7 @@ import {
   Platform,
   View
 } from 'react-native'
-import {fileExists} from '../utils'
+import { fileExists } from '../utils'
 import log from '../utils/log'
 
 interface props {
@@ -18,13 +18,13 @@ interface props {
 const EXPO_PUBLIC_CORS_PROXY = process.env.EXPO_PUBLIC_CORS_PROXY
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL
 
-function Favicon ({
+function Favicon({
   url,
   isBW,
   isSmall,
   isSmaller
 }: props) {
-  const [ faviconPath, setFaviconPath ] = React.useState<string>()
+  const [faviconPath, setFaviconPath] = React.useState<string>()
   const proxiedUrl = url && `${EXPO_PUBLIC_CORS_PROXY}?url=${encodeURIComponent(url)}`
 
   React.useEffect(() => {
@@ -32,7 +32,7 @@ function Favicon ({
     // const fileExists = async (path: string) => {
     //   try {
     //     const fileInfo = await FileSystem.getInfoAsync(path)
-    //     return fileInfo.exists  
+    //     return fileInfo.exists
     //   } catch (error) {
     //     log('fileExists in FavIcon', error)
     //     throw error
@@ -45,7 +45,7 @@ function Favicon ({
       }
     }
     const cacheFavicon = async () => {
-      if (url === undefined) return
+      if (url === undefined || proxiedUrl === undefined) return
       const response = await fetch(proxiedUrl)
       if (response.url !== url) {
         url = response.url
@@ -88,7 +88,7 @@ function Favicon ({
     width={width}
     height={height}
     // source={{ uri: Platform.OS === 'web' ? feed.favicon?.url : getCachedFeedIconPath(feed._id) }}
-    source={{ uri: Platform.OS === 'web' ?  proxiedUrl : faviconPath }}
+    source={{ uri: Platform.OS === 'web' ? proxiedUrl : faviconPath }}
     style={{
       width,
       height,
@@ -102,7 +102,7 @@ function Favicon ({
       height,
       marginRight: 3
     }}>
-      { image }
+      {image}
     </View> :
     null
 }

@@ -1,5 +1,4 @@
 import { InteractionManager } from 'react-native'
-import { store } from '../store'
 import { getFeedColor, id } from '../utils'
 import { getItemsByIds } from './utils'
 import log from '../utils/log'
@@ -55,7 +54,7 @@ export const fetchItems = async function (callback, type, lastUpdated, oldItems,
   console.log(`Got ${newIds.length} new item ids to expand`)
 
   // feedwrangler always orders DESC
-  if (typeof(maxNum) === 'number') newIds = newIds.slice(0, maxNum)
+  if (typeof (maxNum) === 'number') newIds = newIds.slice(0, maxNum)
   console.log(`Sliced down to ${newIds.length} new item ids to expand`)
 
   newItems = newIds.map((item) => {
@@ -73,7 +72,7 @@ export const fetchItems = async function (callback, type, lastUpdated, oldItems,
   return true
 }
 
-async function fetchItemIds (createdSince, type) {
+async function fetchItemIds(createdSince, type) {
   const pageSize = 1000
   let itemIds = []
   let itemIdBatch
@@ -146,7 +145,7 @@ const mapFeedwranglerItemToRizzleItem = (item) => {
 //     })
 // }
 
-function getItemIds (createdSince, offset = 0, type = 'unread') {
+function getItemIds(createdSince, offset = 0, type = 'unread') {
   let url = 'https://feedwrangler.net/api/v2/feed_items/list_ids?'
   url += 'access_token=' + feedWranglerAccessToken
   url += (createdSince && type === 'unread') ? ('&updated_since=' + (createdSince / 1000)) : ''
@@ -167,7 +166,7 @@ function getItemIds (createdSince, offset = 0, type = 'unread') {
     })
 }
 
-export async function markItemRead (item) {
+export async function markItemRead(item) {
   const id = typeof item === 'object' ? item.id : item
   let url = 'https://feedwrangler.net/api/v2/feed_items/update?'
   url += 'access_token=' + feedWranglerAccessToken
@@ -186,7 +185,7 @@ export async function markItemRead (item) {
     })
 }
 
-export async function markItemsRead (items) {
+export async function markItemsRead(items) {
   const idString = items.reduce((accum, val) => {
     return `${accum},${val}`
   }, '')
