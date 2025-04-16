@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import * as SplashScreen from 'expo-splash-screen'
 import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
-import { initStore } from '../store'
+import { initStore, persistor, store } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppStateListenerContainer from '../containers/AppStateListener'
 import ConnectionListener from './ConnectionListener'
@@ -30,7 +30,6 @@ import MigrationsProvider from './MigrationProvider'
 import log from '../utils/log'
 import { DebugProvider } from './DebugContext'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { persistStore } from 'redux-persist'
 
 export interface Props {
   isActionExtension?: boolean
@@ -41,11 +40,7 @@ export interface State { }
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 // const routingInstrumentation = Platform.OS !== 'web' ? new Sentry.ReactNavigationInstrumentation() : null
 
-const store = initStore()
-const persistor = persistStore(store)
-
-export type AppDispatch = typeof store.dispatch
-export { store, persistor }
+initStore()
 
 // this is a stupid hack to stop AppState firing on startup
 // which it does on the device in some circumstances

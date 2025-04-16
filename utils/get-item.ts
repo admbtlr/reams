@@ -1,6 +1,6 @@
 import { Item, ItemInflated, ItemType } from '../store/items/types'
 // @ts-ignore
-import { store } from '../components/Rizzle'
+import { store } from '../store'
 import { RootState } from '../store/reducers'
 import { Platform } from 'react-native'
 import { searchItems } from '../storage/sqlite'

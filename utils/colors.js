@@ -1,5 +1,5 @@
 import { Appearance } from 'react-native'
-import { store } from '../components/Rizzle'
+import { store } from '../store'
 
 const { colors, darker, lighter, desaturated, desaturatedDarker, ui, darkMode } = require('./colors.json')
 
@@ -191,7 +191,7 @@ function makeDarkModeFriendly(color) {
 const isRgbDark = ([r, g, b]) => [r, g, b].reduce((accum, curr) => accum && (curr < 20), true)
 
 export function hslString(color, modifier = '', alpha) {
-  const isDarkMode = store && store.getState().ui.isDarkMode
+  const isDarkMode = store === undefined ? undefined : store?.getState().ui.isDarkMode
   if (typeof color === 'string') {
     if (modifier === 'darkmodable' && isDarkMode) {
       color = makeDarkModeFriendly(color)

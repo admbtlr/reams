@@ -1,5 +1,5 @@
 import { Direction } from '../store/config/types'
-import { store } from '../components/Rizzle'
+import { store } from '../store'
 import { consoleLog } from './log'
 
 export default function rizzleSort(items, feeds, sortDirection) {

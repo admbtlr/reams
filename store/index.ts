@@ -20,6 +20,7 @@ import { downloadsListenerMiddleware } from './listenerMiddleware'
 import devToolsEnhancer from 'redux-devtools-expo-dev-plugin'
 
 let store: EnhancedStore | undefined = undefined
+let persistor: any = null
 let sagaMiddleware: any = null
 
 function initStore() {
@@ -96,6 +97,7 @@ function initStore() {
     })
   }
 
+  persistor = persistStore(store)
   sagaMiddleware.run(initSagas)
 
   // @ts-ignore
@@ -107,7 +109,7 @@ function initStore() {
   return store
 }
 
-export { initStore }
+export { initStore, persistor, store }
 
 // https://stackoverflow.com/a/66382690
 // declare module "@reduxjs/toolkit" {
