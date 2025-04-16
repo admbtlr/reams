@@ -146,6 +146,8 @@ const RizzleButton = (props) => {
             bottom: 5,
             left: 5
           }}
+          testID={props.testID}
+          accessibilityLabel={props.accessibilityLabel}
           onPressOut={handlePress}
           style={{
             borderRadius: 25,

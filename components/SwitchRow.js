@@ -15,7 +15,7 @@ import { hasNotchOrIsland } from '../utils/dimensions'
 const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.03
 
-export default SwitchRow = ({help, icon, label, value, onValueChange}) => <View style={{
+export default SwitchRow = ({help, icon, label, value, onValueChange, testID}) => <View testID={testID} style={{
   flex: 0,
   flexDirection: 'column',
   marginBottom: margin,
@@ -33,9 +33,12 @@ export default SwitchRow = ({help, icon, label, value, onValueChange}) => <View 
       marginLeft: 8 // the internal padding of a TextButton, to align icons
     }}>{ icon }</View>
     <View style={{ flex: 1 }}>
-    <Text style={{
-      ...textInfoStyle(),
-    }}>{label}</Text>
+    <Text 
+      testID={testID ? `${testID}-label` : 'switch-row-label'}
+      style={{
+        ...textInfoStyle(),
+      }}
+    >{label}</Text>
   { help && false &&
     <View style={{ flexDirection: 'row' }}> 
       <Text style={{
@@ -47,6 +50,7 @@ export default SwitchRow = ({help, icon, label, value, onValueChange}) => <View 
   }
     </View>
     <Switch 
+      testID={testID ? `${testID}-switch` : 'switch-row-toggle'}
       onValueChange={onValueChange}
       trackColor={{
         false: hslString('rizzleText', '', 0.3),

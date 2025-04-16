@@ -14,9 +14,10 @@ interface Props {
   itemId: string | undefined
   width: number
   height: number
+  testID?: string
 }
 
-export default function CardCoverImage ({feedId, itemId, width, height}: Props) {
+export default function CardCoverImage ({feedId, itemId, width, height, testID}: Props) {
   const dispatch = useDispatch()
   const feed = feedId ? useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feedId)) : undefined
   const itemSaved = itemId ? useSelector((state: RootState) => state.itemsSaved.items.find(i => i._id === itemId)) : undefined
@@ -99,7 +100,7 @@ export default function CardCoverImage ({feedId, itemId, width, height}: Props) 
   const coverImagePath = getCoverImagePath()
 
   return (color && !!coverImagePath && coverImageDimensions && coverImageDimensions.width !== 0 && width !== 0) ?
-    <Animated.View style={{ width, height }}>
+    <Animated.View testID={testID} style={{ width, height }}>
       <Animated.Image
         source={{ uri: coverImagePath }}
         style={{

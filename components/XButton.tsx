@@ -28,6 +28,7 @@ class XButton extends React.Component {
         ...this.props.style
       }}>
         <TouchableOpacity
+          testID={this.props.testID}
           onPress={onPress}
           style={{
             width: 28 * fontSizeMultiplier(),

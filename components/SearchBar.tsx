@@ -50,6 +50,8 @@ const SearchBar = ({ navigation }) => {
       <TextInput
         autoFocus={true}
         onChangeText={(text) => setTerm(text)}
+        value={term}
+        testID="search-input"
         style={{
           ...textInputStyle(),
           marginRight: getMargin() / 2,

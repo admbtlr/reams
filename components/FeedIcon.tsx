@@ -17,13 +17,15 @@ interface props {
   isBW?: boolean | undefined
   isSmall?: boolean | undefined
   isSmaller?: boolean | undefined
+  testID?: string
 }
 
 function FeedIcon ({
   feedId,
   isBW,
   isSmall,
-  isSmaller
+  isSmaller,
+  testID
 }: props) {
   const [ isCached, setIsCached ] = React.useState<boolean>()
   const [ feed, setFeed ] = React.useState<Feed | Newsletter | undefined>()
@@ -73,13 +75,16 @@ function FeedIcon ({
     }}
   /> : null
   return feed?.favicon?.url ?
-    <View style={{
-      backgroundColor: 'transparent',//feed ? feed.color : 'white',
-      // margin: 10,
-      width,
-      height,
-      marginRight: 3
-    }}>
+    <View 
+      testID={testID}
+      style={{
+        backgroundColor: 'transparent',//feed ? feed.color : 'white',
+        // margin: 10,
+        width,
+        height,
+        marginRight: 3
+      }}
+    >
       { image }
     </View> :
     null
