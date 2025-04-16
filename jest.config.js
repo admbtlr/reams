@@ -3,7 +3,10 @@ module.exports = {
     __TEST__: true,
   },
   preset: 'jest-expo',
-  setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
+  setupFilesAfterEnv: [
+    '<rootDir>/jest.setup.js',
+    '@testing-library/jest-native/extend-expect'
+  ],
   transform: {
     '^.+\\.jsx?$': 'babel-jest', // Adding this line solved the issue
     '^.+\\.tsx?$': 'babel-jest',

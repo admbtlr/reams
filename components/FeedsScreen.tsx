@@ -1,9 +1,9 @@
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import isEqual from 'lodash.isequal'
-import { 
+import {
   Feed,
 } from '../store/feeds/types'
-import { 
+import {
   SHOW_HELPTIP
 } from '../store/ui/types'
 import { CREATE_CATEGORY, Category } from '../store/categories/types'
@@ -135,7 +135,6 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
           navigation.navigate('Main')
         }}
         isPortrait={isPortrait}
-        navigation={navigation}
       />
     })
   }
@@ -158,7 +157,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
           type: 'text',
         }
       ],
-      modalOnOk: (state: {categoryName: string}) => {
+      modalOnOk: (state: { categoryName: string }) => {
         state.categoryName && createCategory(state.categoryName)
       },
       showKeyboard: true
@@ -166,7 +165,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   }
 
   const getSections = (categories: Category[], feedSkeletons: FeedSkeleton[]) => {
-    const feedCards = feedSkeletons ? 
+    const feedCards = feedSkeletons ?
       feedSkeletons.map((feed) => ({
         _id: feed._id,
         type: 'feed',
@@ -185,11 +184,11 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     const catCards = categories ?
       categories.filter((c: Category) => (isSaved && c.itemIds?.length > 0) || (!isSaved && c.feedIds?.length > 0))
         .sort((a, b) => a.name < b.name ? -1 : 1).map(category => ({
-        _id: category._id,
-        type: 'category',
-        title: category.name,
-        category
-      })) :
+          _id: category._id,
+          type: 'category',
+          title: category.name,
+          category
+        })) :
       []
 
     const allCards = feedSkeletons?.length > 0 || newsletterSkeletons?.length > 0 ? [{
@@ -229,11 +228,11 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
 
   const sections = getSections(categories, feedSkeletons)
 
-  const renderSectionHeader = ({ section: { title } }: { section: { title?: string }}) => {
+  const renderSectionHeader = ({ section: { title } }: { section: { title?: string } }) => {
     if (!title) return null
     const margin = getMargin()
     return (
-      <View style={{ 
+      <View style={{
         maxWidth: Platform.OS === 'web' ? 10000 : 1000,
         width: '100%'
       }}>
@@ -255,9 +254,10 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
             // marginTop: margin,
             marginLeft: 0,
             flex: 4
-          }}>{title}</Text> 
-          { title === 'Websites' && (
+          }}>{title}</Text>
+          {title === 'Websites' && (
             <TextButton
+              testID="add-feeds-button"
               text="Add"
               isCompact={true}
               onPress={showAddFeeds}
@@ -266,8 +266,9 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
               }}
             />
           )}
-          { title === 'Tags' && (
+          {title === 'Tags' && (
             <TextButton
+              testID="add-category-button"
               text="Add"
               isCompact={true}
               onPress={showAddCategory}
@@ -281,13 +282,13 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     )
   }
 
-  const renderFeed = ({item, index, count}: {item: any, index: number, count: number}) => {
+  const renderFeed = ({ item, index, count }: { item: any, index: number, count: number }) => {
     // const isSelected = this.state.selectedFeedElement !== null &&
     //   this.state.selectedFeedElement.props.feedId === item._id
     // console.log('RENDER FEED', item._id, item.title)
-    return item && <View 
+    return item && <View
       key={item._id}
-      style={{ 
+      style={{
         marginLeft: Platform.OS !== 'web' && index === 0 ? margin : 0,
         marginRight: Platform.OS === 'web' ? margin * 2 : margin
       }}>
@@ -298,26 +299,26 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
         type={item.type}
         index={index}
         navigation={navigation}
-        isSaved={isSaved}        
+        isSaved={isSaved}
         {...{ modal, width }}
       />
     </View>
   }
 
-  const renderSection = ({ section }: { section: { data: any[] }}) => {
+  const renderSection = ({ section }: { section: { data: any[] } }) => {
     const count = section.data.length
     return (
       <View style={{
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: Platform.OS === 'web' ? 'flex-begin' : 'space-between',
-        marginHorizontal: Platform.OS === 'web' ? margin * 2 : 0,        
+        marginHorizontal: Platform.OS === 'web' ? margin * 2 : 0,
         marginTop: margin
         // width: '100%',
         // maxWidth: 1000,
         // paddingHorizontal: getMargin(),
       }}>
-        { Platform.OS === 'web' ?
+        {Platform.OS === 'web' ?
           section.data.map((item, index) => renderFeed({ item, index, count })) :
           (<ScrollView
             horizontal={true}
@@ -326,7 +327,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
               width: '100%',
               maxWidth: 1000,
             }}>
-              { section.data.map((item, index) => renderFeed({ item, index, count })) }
+            {section.data.map((item, index) => renderFeed({ item, index, count }))}
           </ScrollView>)
         }
       </View>
@@ -347,16 +348,18 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
         right: 0,
         // backgroundColor: 'yellow'
       }}>
-        <TouchableOpacity onPress={() => {
-          LayoutAnimation.configureNext({ 
-            duration: 500, 
-            create: { type: 'linear', property: 'opacity' }, 
-            update: { type: 'spring', springDamping: 0.6 }, 
-            delete: { duration: 100, type: 'linear', property: 'opacity' } 
-          })
-          setShowSearch(!showSearch) 
-        }}>
-          { getRizzleButtonIcon('search', hslString('rizzleText'))}
+        <TouchableOpacity
+          testID="search-button"
+          onPress={() => {
+            LayoutAnimation.configureNext({
+              duration: 500,
+              create: { type: 'linear', property: 'opacity' },
+              update: { type: 'spring', springDamping: 0.6 },
+              delete: { duration: 100, type: 'linear', property: 'opacity' }
+            })
+            setShowSearch(!showSearch)
+          }}>
+          {getRizzleButtonIcon('search', hslString('rizzleText'))}
         </TouchableOpacity>
       </View>
       <Animated.View style={{
@@ -390,12 +393,12 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
         }}
         testID='feeds-screen'
       >
-         { Platform.OS === 'ios' && 
+        {Platform.OS === 'ios' &&
           <StatusBar
             animated={true}
             barStyle="dark-content"
-            showHideTransition="slide"/> }
-        { feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ? 
+            showHideTransition="slide" />}
+        {feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ?
           (<View style={{
             flex: 1,
             alignItems: 'center',
@@ -405,10 +408,10 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
             <Text style={{
               ...textInfoStyle(),
               margin: getMargin(),
-              lineHeight: 24,  
+              lineHeight: 24,
             }}>Add feeds from your favourite websites with the Reams Share Extension. New articles will then automatically show up here.</Text>
-            {<Image 
-              source={require('../assets/images/reams-extension.webp')} 
+            {<Image
+              source={require('../assets/images/reams-extension.webp')}
               style={{
                 backgroundColor: 'white',
                 borderColor: 'rgba(0,0,0,0.8)',
@@ -422,7 +425,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
             <Text style={{
               ...textInfoStyle(),
               margin: getMargin(),
-              lineHeight: 24,  
+              lineHeight: 24,
             }}>You can also add feeds from an OPML file, or the built-in library:</Text>
             <TextButton text='Add Feeds' onPress={showAddFeeds} />
           </View>) :
@@ -431,25 +434,27 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
               flex: 1,
               width: '100%'
             }}
-            // onScroll={Animated.event(
-            //   [{ nativeEvent: {
-            //     contentOffset: { y: scrollAnim }
-            //   }}],
-            //   {
-            //     useNativeDriver: true
-            //   }
-            // )}
-            // scrollEventThrottle={1}
+          // onScroll={Animated.event(
+          //   [{ nativeEvent: {
+          //     contentOffset: { y: scrollAnim }
+          //   }}],
+          //   {
+          //     useNativeDriver: true
+          //   }
+          // )}
+          // scrollEventThrottle={1}
           >
-            { showSearch &&
-              <SearchBar navigation={navigation}/>
+            {showSearch &&
+              <View testID="search-bar-container">
+                <SearchBar navigation={navigation} />
+              </View>
             }
-            { sections.map((section, index) => {
+            {sections.map((section, index) => {
               if (section.data.length === 0) return null
               return (
                 <View key={index} style={{ width: '100%' }}>
-                  { renderSectionHeader({ section }) }
-                  { renderSection({ section }) }
+                  {renderSectionHeader({ section })}
+                  {renderSection({ section })}
                 </View>
               )
             })
@@ -457,9 +462,9 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
           </ScrollView>
 
         }
-        { modal !== null && (
-            <FeedExpanded {...modal} {...{ close }} />
-          )
+        {modal !== null && (
+          <FeedExpanded {...modal} {...{ close }} />
+        )
         }
       </View>
     </>
