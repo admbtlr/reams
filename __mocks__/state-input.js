@@ -1403,5 +1403,9 @@ export const state = {
     signInEmail: "",
     uid: "",
     username: "",
-  }
+  },
+  categories: [],
+  annotations: [],
+  newsletters: [],
+  hostColors: []
 };

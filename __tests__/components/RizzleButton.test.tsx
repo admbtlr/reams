@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react-native'
 import { Text } from 'react-native'
-import { render } from '../test-utils'
+import { render } from '../test-utils-helpers'
 import RizzleButton from '@/components/RizzleButton'
 
 jest.mock('react-native-haptic-feedback', () => ({

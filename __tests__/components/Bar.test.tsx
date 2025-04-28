@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '../test-utils'
+import { render } from '../test-utils-helpers'
 import { Bar } from '@/components/Bar'
 
 // Mock the useColor hook

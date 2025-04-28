@@ -11,13 +11,22 @@ import { animateNextLayout } from '../utils/layout-animations'
 
 export const NUDGE_FREQUENCY = 10
 
-export const nudgeHeight = getMargin() * 3 + (24 * fontSizeMultiplier() * 2) + (32 * fontSizeMultiplier())
-
+// Set a default value but don't calculate at module load time
+export let nudgeHeight = 100
 
 export default function Nudge({ feed_id, scrollAnim }: {
   feed_id: string
   scrollAnim: any
 }) {
+  // Use useState to keep track of the height locally
+  const [height, setHeight] = useState(nudgeHeight)
+  
+  // Calculate the height when the component mounts
+  useEffect(() => {
+    const calculatedHeight = getMargin() * 3 + (24 * fontSizeMultiplier() * 2) + (32 * fontSizeMultiplier())
+    nudgeHeight = calculatedHeight // Update the exported value
+    setHeight(calculatedHeight)
+  }, [])
   const feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feed_id) ??
     state.newsletters.newsletters.find(n => n._id === feed_id))
   //@ts-ignore
@@ -51,14 +60,14 @@ export default function Nudge({ feed_id, scrollAnim }: {
   return (
     <View style={{ zIndex: 100 }}>
       <View style={{
-        height: nudgeHeight,
+        height: height,
         width: '100%'
       }} />
       <Animated.View style={{
         position: 'absolute',
         left: 0,
         top: getStatusBarHeight(),
-        height: nudgeHeight,
+        height: height,
         width: '100%',
         paddingTop: getMargin(),
         backgroundColor: color,

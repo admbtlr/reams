@@ -5,6 +5,7 @@ import FilesystemStorage from 'redux-persist-filesystem-storage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { initSagas } from '../sagas'
 import {
+  PersistPartial,
   createMigrate,
   createTransform,
   persistReducer,
@@ -18,20 +19,22 @@ import { ConfigState } from './config/config'
 import { UIState } from './ui/types'
 import { downloadsListenerMiddleware } from './listenerMiddleware'
 import devToolsEnhancer from 'redux-devtools-expo-dev-plugin'
+import { getStyle } from 'react-native-svg/lib/typescript/xml'
+import { getStoredState } from 'redux-persist/es/integration/getStoredStateMigrateV4'
 
 let store: EnhancedStore | undefined = undefined
 let persistor: any = null
 let sagaMiddleware: any = null
 
-function initStore() {
-  sagaMiddleware = createSagaMiddleware({
-    onError: (error, { sagaStack }) => {
-      log('sagas', error, sagaStack)
-    }
-  })
+let storage: typeof AsyncStorage | typeof FilesystemStorage
+if (Platform.OS === 'web') {
+  storage = AsyncStorage
+} else {
+  storage = FilesystemStorage
+}
 
+const getPersistedReducer = () => {
   const { width, height } = Dimensions.get('window')
-
   // @ts-ignore
   const orientationTransform = createTransform(null, (state: ConfigState, _) => {
     const newState = { ...state }
@@ -47,13 +50,6 @@ function initStore() {
     return newState
   }, { whitelist: ['ui'] })
 
-  let storage: typeof AsyncStorage | typeof FilesystemStorage
-  if (Platform.OS === 'web') {
-    storage = AsyncStorage
-  } else {
-    storage = FilesystemStorage
-  }
-
   const persistConfig = {
     key: 'primary',
     storage,
@@ -64,38 +60,48 @@ function initStore() {
     version: 22
   }
 
-  const persistedReducer = persistReducer(persistConfig, makeRootReducer())
-  const middlewareConf = {
-    serializableCheck: false,
-    immutableCheck: false
-  }
+  return persistReducer(persistConfig, makeRootReducer())
+}
 
-  if (process.env.USE_STATE) {
-    store = configureStore({
-      reducer: makeRootReducer(),
-      // @ts-ignore
-      state,
-      middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware(middlewareConf)
-          .prepend(sagaMiddleware)
-          .prepend(downloadsListenerMiddleware.middleware)
-      }
-    })
-  } else {
-    store = configureStore({
-      reducer: persistedReducer,
-      middleware: (getDefaultMiddleware) => {
-        const middleware = getDefaultMiddleware(middlewareConf)
-          .prepend(sagaMiddleware)
-          .prepend(downloadsListenerMiddleware.middleware)
-        return middleware
-      },
-      devTools: false,
-      // @ts-ignore
-      enhancers: (getDefaultEnhancers) =>
-        getDefaultEnhancers().concat(devToolsEnhancer({}))
-    })
+const middlewareConf = {
+  serializableCheck: false,
+  immutableCheck: false
+}
+
+// https://redux.js.org/usage/writing-tests
+const setupStore = (preloadedState?: RootState & PersistPartial) => {
+  if (!sagaMiddleware) {
+    sagaMiddleware = createSagaMiddleware()
   }
+  return configureStore({
+    reducer: getPersistedReducer(),
+    middleware: (getDefaultMiddleware) => {
+      // @ts-ignore
+      const middleware = getDefaultMiddleware(middlewareConf)
+        .prepend(sagaMiddleware)
+        .prepend(downloadsListenerMiddleware.middleware)
+      return middleware
+    },
+    preloadedState,
+    devTools: false,
+    // @ts-ignore
+    enhancers: (getDefaultEnhancers) =>
+      getDefaultEnhancers().concat(devToolsEnhancer({}))
+  })
+}
+
+function initStore() {
+  sagaMiddleware = createSagaMiddleware({
+    onError: (error, { sagaStack }) => {
+      log('sagas', error, sagaStack)
+    }
+  })
+
+  // if (process.env.USE_STATE) {
+  //   store = setupStore(state)
+  // } else {
+  store = setupStore()
+  // }
 
   persistor = persistStore(store)
   sagaMiddleware.run(initSagas)
@@ -109,31 +115,4 @@ function initStore() {
   return store
 }
 
-export { initStore, persistor, store }
-
-// https://stackoverflow.com/a/66382690
-// declare module "@reduxjs/toolkit" {
-//   type AsyncThunkConfig = {
-//     state?: unknown;
-//     dispatch?: Dispatch;
-//     extra?: unknown;
-//     rejectValue?: unknown;
-//     serializedErrorType?: unknown;
-//   };
-
-//   function createAsyncThunk<
-//     Returned,
-//     ThunkArg = void,
-//     ThunkApiConfig extends AsyncThunkConfig = {
-//       state: RootState; // this line makes a difference
-//     }
-//   >(
-//     typePrefix: string,
-//     payloadCreator: AsyncThunkPayloadCreator<
-//       Returned,
-//       ThunkArg,
-//       ThunkApiConfig
-//     >,
-//     options?: any
-//   ): AsyncThunk<Returned, ThunkArg, ThunkApiConfig>;
-// }
+export { initStore, persistor, setupStore, store }

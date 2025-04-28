@@ -5,7 +5,7 @@ describe('cleanUpItems', () => {
   it('should correctly clean up items', async () => {
     const dispatchedActions = [];
     const fakeStore = {
-      getState: () => ({ 
+      getState: () => ({
         config: { filter: {} },
         categories: { categories: [] },
         itemsMeta: { display: 'unread' },
@@ -16,9 +16,10 @@ describe('cleanUpItems', () => {
     };
 
     const items = [
-      { _id: '1', created_at: '2022-01-01' },
-      { _id: '2', created_at: 1641013200000 },
-      { _id: '3', created_at: 1641013200 },
+      { _id: '1', created_at: '2022-01-01', url: 'x' },
+      { _id: '2', created_at: 1641013200000, url: 'y' },
+      { _id: '3', created_at: 1641013200, url: 'z' },
+      { _id: '4', created_at: 1641013200, url: 'z' },
     ];
 
     const cleanedItems = await runSaga(fakeStore, cleanUpItems, items, 'saved').toPromise();
@@ -32,5 +33,8 @@ describe('cleanUpItems', () => {
     expect(cleanedItems[0].created_at).toEqual(Date.parse('2022-01-01'));
     expect(cleanedItems[1].created_at).toEqual(1641013200000);
     expect(cleanedItems[2].created_at).toEqual(1641013200000);
+
+    // remove item with duplicate url
+    expect(cleanedItems.length).toBe(3);
   });
 });

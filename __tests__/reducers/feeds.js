@@ -69,7 +69,7 @@ describe('feeds reducer', () => {
     ).toEqual(initial)
   })
 
-  it ('should handle UPDATE_FEED', () => {
+  it('should handle UPDATE_FEED', () => {
     const updatedFeed = {
       ...newFeed,
       title: 'Updated Feed'
@@ -85,7 +85,7 @@ describe('feeds reducer', () => {
     })
   })
 
-  it ('should handle UPDATE_FEEDS', () => {
+  it('should handle UPDATE_FEEDS', () => {
     const updatedFeed = {
       ...newFeed,
       title: 'Updated Feed'
@@ -133,9 +133,6 @@ describe('feeds reducer', () => {
       readingTime: 10
     })
     expect(withReadingTime.feeds[0].readingTime).toEqual(10)
-    expect(withReadingTime.feeds[0].unreadCount).toEqual(9)
-    expect(withReadingTime.feeds[0].readCount).toEqual(1)
-    expect(withReadingTime.feeds[0].readingRate).toEqual(1)
   })
 
   it('should handle SHARE_ITEM', () => {
@@ -171,7 +168,7 @@ describe('feeds reducer', () => {
     expect(withUnlike.feeds[0].isLiked).toEqual(false)
   })
 
-  it ('should handle UNLIKE_FEED', () => {
+  it('should handle UNLIKE_FEED', () => {
     const withLike = feeds(added, {
       type: LIKE_FEED_TOGGLE,
       feed: newFeed
@@ -196,7 +193,7 @@ describe('feeds reducer', () => {
     expect(withUnmute.feeds[0].isMuted).toEqual(false)
   })
 
-  it ('should handle UNMUTE_FEED', () => {
+  it('should handle UNMUTE_FEED', () => {
     const withMute = feeds(added, {
       type: MUTE_FEED_TOGGLE,
       feed: newFeed

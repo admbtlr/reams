@@ -5,7 +5,7 @@ import DeviceInfo from 'react-native-device-info'
 import { Item } from '../store/items/types'
 import { hslString } from './colors'
 import log from './log'
-import { uuidv4, uuidv5} from './uuid'
+import { uuidv4, uuidv5 } from './uuid'
 
 // const uuid = require('uuid')
 
@@ -21,8 +21,8 @@ export const deepEqual = <T>(a: T, b: T): boolean => {
 
   return Boolean(
     bothAreObjects &&
-      Object.keys(a).length === Object.keys(b).length &&
-      Object.entries(a).every(([k, v]) => deepEqual(v, b[k as keyof T]))
+    Object.keys(a).length === Object.keys(b).length &&
+    Object.entries(a).every(([k, v]) => deepEqual(v, b[k as keyof T]))
   )
 }
 

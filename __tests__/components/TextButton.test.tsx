@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, act } from '@testing-library/react-native'
 import { Text } from 'react-native'
-import { render } from '../test-utils'
+import { render } from '../test-utils-helpers'
 import TextButton from '@/components/TextButton'
 
 // Mock dependencies

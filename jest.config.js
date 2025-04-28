@@ -17,5 +17,8 @@ module.exports = {
   setupFiles: ['./jest.setup.js'],
   moduleNameMapper: {
     '^@shopify/react-native-skia$': '<rootDir>/__mocks__/@shopify/react-native-skia.js',
+  },
+  fakeTimers: {
+    enableGlobally: true
   }
 }

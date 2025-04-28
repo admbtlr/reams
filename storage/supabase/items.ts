@@ -17,15 +17,16 @@ export const getSavedItems = async (currentItems: {
     .from('User_SavedItem')
     .select('item_id, saved_at')
     .eq('user_id', userId)
-  let result  = await doQuery(fn)
+  let result = await doQuery(fn)
   const { data, error } = result ?? {
     data: undefined,
     error: undefined
   }
+  console.log('saved items', data)
   if (error) {
     throw error
   }
-  const allSavedIds = data as { item_id: string, saved_at: string}[]
+  const allSavedIds = data as { item_id: string, saved_at: string }[]
   const newIds = (allSavedIds?.map(d => d.item_id) || []).filter(id => !currentItems.find(i => i._id === id))
   if (newIds.length === 0) {
     return currentItems
@@ -43,14 +44,14 @@ export const getSavedItems = async (currentItems: {
   if (newItemsError) {
     throw newItemsError
   }
-  const completeNewItems = newItems?.map((i: Item) => ({ 
+  const completeNewItems = newItems?.map((i: Item) => ({
     _id: i._id,
-    url: i.url, 
+    url: i.url,
     title: i.title,
     feed_id: i.feed_id,
     savedAt: Math.round(new Date((allSavedIds
-        ?.find(asi => asi?.item_id === i._id)
-        ?.saved_at || 0))
+      ?.find(asi => asi?.item_id === i._id)
+      ?.saved_at || 0))
       .valueOf() / 1000),
     isSaved: true
   }))
@@ -77,12 +78,12 @@ export const getReadItems = async (newerThan = 0) => {
     .eq('user_id', userId)
     .gte('created_at', pgTimestamp(new Date(newerThan)))
   let result = await doQuery(fn)
-  const { data, error }: {data: any, error: any} = result ?? { data: undefined, error: undefined }
+  const { data, error }: { data: any, error: any } = result ?? { data: undefined, error: undefined }
   console.log('Got some data, length: ' + data?.length)
   if (error) {
     throw error
   }
-  return data === null ? [] : data.map((d: { Item: any}) => d.Item === null ? null : ({
+  return data === null ? [] : data.map((d: { Item: any }) => d.Item === null ? null : ({
     _id: d.Item._id,
     url: d.Item.url,
     title: d.Item.title
@@ -131,7 +132,7 @@ export const addSavedItem = async (item: Item) => {
   const savedId = data[0]._id
   const fn2 = async () => await supabase
     .from('User_SavedItem')
-    .insert({ 
+    .insert({
       item_id: savedId,
       saved_at: new Date().toISOString(),
       user_id: await getUserId()
@@ -154,10 +155,10 @@ export const removeSavedItem = async (item: Item) => {
     .from('User_SavedItem')
     .delete()
     .eq('item_id', item._id)
-    .eq('user_id', userId) 
+    .eq('user_id', userId)
   let result = await doQuery(fn)
   const { error: userSavedItemError } = result ?? { data: undefined, error: undefined }
-    if (userSavedItemError) {
+  if (userSavedItemError) {
     throw userSavedItemError
   }
   const fn2 = async () => await supabase
@@ -191,5 +192,4 @@ export const removeSavedItem = async (item: Item) => {
   }
 }
 
-export const upsertSavedItems = async (items: Item[]) => {}
-
+export const upsertSavedItems = async (items: Item[]) => { }
