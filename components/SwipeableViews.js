@@ -26,11 +26,11 @@ state = {
 // NB `index` in this component is always the virtual index
 
 class SwipeableViews extends Component {
-  
+
   static whyDidYouRender = true
   static contextType = SessionContext
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.props = props
     this.panOffset = new Animated.Value(0)
@@ -43,15 +43,15 @@ class SwipeableViews extends Component {
     this.screenWidth = Dimensions.get('window').width
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (!this.props.items || !nextProps.items) return true
     if (this.props.orientation !== nextProps.orientation) return true
     return JSON.stringify(this.props.items.map(item => item._id)) !==
       JSON.stringify(nextProps.items.map(item => item._id))
   }
 
-  updateIndex (newIndex) {
-    const {updateCarouselIndex} = this.props
+  updateIndex(newIndex) {
+    const { updateCarouselIndex } = this.props
     const indexDelta = newIndex - this.currentIndex
     if (indexDelta !== 0) {
       updateCarouselIndex(newIndex)
@@ -59,13 +59,13 @@ class SwipeableViews extends Component {
     }
   }
 
-  onScrollEndDrag (evt) {
+  onScrollEndDrag(evt) {
     this.currentOffset = evt.nativeEvent.targetContentOffset.x
     const newIndex = Math.round(this.currentOffset / this.screenWidth)
     this.updateIndex(newIndex)
   }
 
-  onMomentumScrollEnd (evt) {
+  onMomentumScrollEnd(evt) {
     this.currentOffset = evt.nativeEvent.contentOffset.x
     const newIndex = Math.round(this.currentOffset / this.screenWidth)
     this.updateIndex(newIndex)
@@ -73,17 +73,17 @@ class SwipeableViews extends Component {
 
   init() {
     const that = this
-    // setTimeout(() => {      
-      that.setScrollIndex(that.currentIndex)
-      that.props.setPanAnim(that.panOffset)
+    // setTimeout(() => {
+    that.setScrollIndex(that.currentIndex)
+    that.props.setPanAnim(that.panOffset)
     // }, 1000)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     this.init()
   }
 
-  setScrollIndex (index) {
+  setScrollIndex(index) {
     const x = index * this.screenWidth
     if (this.scrollView) {
       this.scrollView.scrollTo({
@@ -94,7 +94,7 @@ class SwipeableViews extends Component {
     }
   }
 
-  renderSlide = ({_id, index, isVisible, panAnim}) => (
+  renderSlide = ({ _id, index, isVisible, panAnim }) => (
     <FeedItemContainer
       _id={_id}
       emitter={this.props.emitter}
@@ -108,7 +108,7 @@ class SwipeableViews extends Component {
     />
   )
 
-  render () {
+  render() {
     console.log('RENDER SWIPEABLE VIEWS')
     const {
       index,
@@ -127,9 +127,9 @@ class SwipeableViews extends Component {
       // 3 pages before login, 2 after
       let pages = []
       if (this.context?.session?.user) {
-        pages = [3,4]
+        pages = [3, 4]
       } else {
-        pages = [0,1,2]
+        pages = [0, 1, 2]
       }
       this.children = pages.map((page, index) => (
         <Onboarding
@@ -167,17 +167,19 @@ class SwipeableViews extends Component {
         bounces={false}
         contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
         // contentOffset={{ x: 500, y: 0 }}
-        decelerationRate={ Platform.os === 'ios' ? 'fast' : 0.9 }
+        decelerationRate={Platform.os === 'ios' ? 'fast' : 0.9}
         disableIntervalMomentum={true}
-        disableScrollViewPanResponder={ Platform.OS === 'android' }
+        disableScrollViewPanResponder={Platform.OS === 'android'}
         horizontal
         keyboardShouldPersistTaps='handled'
         onLayout={this.init}
         onMomentumScrollEnd={this.onMomentumScrollEnd}
         onScroll={Animated.event(
-          [{ nativeEvent: {
-            contentOffset: { x: this.panOffset }
-          }}],
+          [{
+            nativeEvent: {
+              contentOffset: { x: this.panOffset }
+            }
+          }],
           { useNativeDriver: true }
         )}
         overscroll='never'
@@ -195,7 +197,7 @@ class SwipeableViews extends Component {
           backgroundColor: hslString('bodyBG')
         }}
       >
-        { this.children }
+        {this.children}
       </Animated.ScrollView>
     )
   }

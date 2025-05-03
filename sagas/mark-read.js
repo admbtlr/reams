@@ -1,6 +1,6 @@
 import { InteractionManager, Platform } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
-import { 
+import {
   MARK_ITEM_READ,
   MARK_ITEMS_READ,
   REMOVE_ITEMS
@@ -11,20 +11,21 @@ import { getItems, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnrea
 
 import { MAX_DECORATION_FAILURES } from './decorate-items'
 
-export function * markLastItemReadIfDecorated (action) {
+export function* markLastItemReadIfDecorated(action) {
+  console.log('Calling markLastItemReadIfDecorated')
   yield call(InteractionManager.runAfterInteractions)
-  if (typeof(action.lastIndex) === 'undefined') {
+  if (typeof (action.lastIndex) === 'undefined') {
     return
   }
   const lastIndex = action.lastIndex
   const unreadItems = yield select(getItems)
   const item = unreadItems[lastIndex]
-  if (!item.isDecorated && 
+  if (!item.isDecorated &&
     (item.decoration_failures === undefined || item.decoration_failures < MAX_DECORATION_FAILURES)) {
     return
   }
   yield call(InteractionManager.runAfterInteractions)
-  yield put ({
+  yield put({
     type: MARK_ITEM_READ,
     item: {
       _id: item._id,
@@ -37,16 +38,16 @@ export function * markLastItemReadIfDecorated (action) {
   })
 }
 
-export function * markItemsRead (action) {
+export function* markItemsRead(action) {
   yield delay(500)
   yield call(InteractionManager.runAfterInteractions)
   const display = yield select(getDisplay)
-  if (display !== 'unread' || typeof(action.lastIndex) === 'undefined') {
+  if (display !== 'unread' || typeof (action.lastIndex) === 'undefined') {
     return
   }
 }
 
-export function * clearReadItems () {
+export function* clearReadItems() {
   // yield call(InteractionManager.runAfterInteractions)
   const items = yield select(getUnreadItems)
   const savedItems = yield select(getSavedItems)
@@ -90,7 +91,7 @@ export function * clearReadItems () {
 }
 
 // called when the Firestore read items cache has been initialised
-export function * filterItemsForRead () {
+export function* filterItemsForRead() {
   const items = yield select(getUnreadItems)
   const readItemsObj = getReadItemsFS()
   const itemsToMarkRead = items.filter(item => readItemsObj[item._id] !== undefined)

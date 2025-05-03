@@ -1,6 +1,6 @@
 import {
   SET_ITEM_SORT,
-  ConfigActionTypes 
+  ConfigActionTypes
 } from '../config/types'
 import {
   UNSET_BACKEND,
@@ -11,7 +11,7 @@ import {
   UPDATE_FEED,
   MUTE_FEED_TOGGLE,
   LIKE_FEED_TOGGLE,
-  FeedActionTypes 
+  FeedActionTypes
 } from '../feeds/types'
 import {
   ADD_readingTime,
@@ -29,7 +29,7 @@ import {
   SORT_ITEMS,
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
-  UPDATE_CURRENT_INDEX, 
+  UPDATE_CURRENT_INDEX,
   Item,
   ItemActionTypes,
   ItemsState,
@@ -59,26 +59,26 @@ import { BUFFER_LENGTH } from '../../components/ItemCarousel'
 
 export const selectItemsUnread = (state: ItemsState) => state.items
 
-export const initialState:ItemsState = {
+export const initialState: ItemsState = {
   items: [],
   index: 0,
   lastUpdated: 0
 }
 
-export function itemsUnread (
-  state = initialState, 
+export function itemsUnread(
+  state = initialState,
   action: any //ItemActionTypes | ConfigActionTypes | FeedActionTypes | UserActionTypes
-) : ItemsState {
+): ItemsState {
   let items: Item[] = []
   let newItems: Item[] = []
   let index: number
-  let newState: { 
-    index? : number, 
-    lastUpdated? : number
-    items? : Item[]
+  let newState: {
+    index?: number,
+    lastUpdated?: number
+    items?: Item[]
   } = {}
   let currentItem: Item | undefined
-  let carouselled: { index : number, items : Item[] }
+  let carouselled: { index: number, items: Item[] }
 
   switch (action.type) {
     case UPDATE_CURRENT_INDEX:
@@ -91,7 +91,7 @@ export function itemsUnread (
       }
 
     case INCREMENT_INDEX:
-      if (action.displayMode === ItemType.unread && 
+      if (action.displayMode === ItemType.unread &&
         state.index < state.items.length - 1) {
         newState.index = state.index + 1
       }
@@ -101,7 +101,7 @@ export function itemsUnread (
       }
 
     case DECREMENT_INDEX:
-      if (action.displayMode === ItemType.unread && 
+      if (action.displayMode === ItemType.unread &&
         state.index > 0) {
         newState.index = state.index - 1
       }
@@ -119,7 +119,7 @@ export function itemsUnread (
           }
           return item
         })
-      } 
+      }
 
     case ITEMS_BATCH_FETCHED:
       if (action.itemType !== ItemType.unread) return state
@@ -203,6 +203,7 @@ export function itemsUnread (
     //   }
 
     case MARK_ITEM_READ:
+      console.log('Received MARK_ITEM_READ action in items-unread reducer')
       return itemMarkRead(action, state)
 
     case MARK_ITEMS_READ:
@@ -226,7 +227,7 @@ export function itemsUnread (
       items = state.items.filter(i => action.items.find((ai: Item) => ai._id === i._id) === undefined)
       index = currentItem === undefined ?
         0 :
-        items.findIndex(i => i._id === currentItem?._id) 
+        items.findIndex(i => i._id === currentItem?._id)
       return {
         ...state,
         items,
@@ -303,7 +304,7 @@ const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
         if (state.items[state.index + i]) {
           itemsToKeep.push(state.items[state.index + i])
         }
-      }  
+      }
     }
   }
   if (itemsToKeep.length > 0) {

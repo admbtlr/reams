@@ -1,9 +1,9 @@
 import React from 'react'
-import {ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, Text, View} from 'react-native'
+import { ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, Text, View } from 'react-native'
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
-import {deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath} from '../utils/'
+import { deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath } from '../utils/'
 import { getDimensions, getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { getItem as getItemSQLite } from "@/storage/sqlite"
@@ -79,7 +79,7 @@ class FeedItem extends React.Component {
     this.hasBegunScroll = false
   }
 
-  initAnimatedValues (isMounted) {
+  initAnimatedValues(isMounted) {
     const { panAnim } = this.props
     const anims = [0, 0, 0, 0, 0, 0].map((a, i) => {
       const inputRange = [0, 0.3, 0.7, 1, 1.3 - i * 0.05, 1.7 + i * 0.05, 2]
@@ -104,7 +104,7 @@ class FeedItem extends React.Component {
     }
   }
 
-  addAnimation (style, anim, isVisible) {
+  addAnimation(style, anim, isVisible) {
     const width = getMargin()
     const transform = style.transform || []
     if (isVisible) {
@@ -125,7 +125,7 @@ class FeedItem extends React.Component {
           }
         ]
       }
-    } 
+    }
     return {
       ...style,
       left: width,
@@ -142,10 +142,10 @@ class FeedItem extends React.Component {
           })
         }
       ]
-    }  
+    }
   }
-  
-  shouldComponentUpdate (nextProps, nextState) {
+
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.isAnimating) return true
     const { item } = this.props
     let changes
@@ -185,7 +185,7 @@ class FeedItem extends React.Component {
               case 'scrollRatio':
               case 'readingTime':
               case 'readAt':
-              
+
               // these two are here because we don't want to re-render ItemBody
               // it already has the cleaned version, since it was the one that did the cleaning
               case 'isMercuryCleaned':
@@ -198,11 +198,11 @@ class FeedItem extends React.Component {
       }
     }
 
-    if (isDiff) {
-      console.log('diff', changes)
-    } else {
-      console.log('No diff')
-    }
+    // if (isDiff) {
+    //   console.log('diff', changes)
+    // } else {
+    //   console.log('No diff')
+    // }
 
     // don't re-render if the reveal animation is running
     // once the animation has finished the hasRendered state gets set
@@ -210,21 +210,21 @@ class FeedItem extends React.Component {
     return !this.isRevealing && isDiff
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.emitter.on('scrollToRatio', this.scrollToRatioIfVisible.bind(this), this.props.item._id)
     this.inflateItemAndSetState(this.props.item)
     this.hasMounted = true
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { isVisible, item, setScrollAnim } = this.props
     this.initAnimatedValues(true)
-    if ((item.isNewsletter || item.isExternal) && 
+    if ((item.isNewsletter || item.isExternal) &&
       ((item.isDecorated && !prevProps.item.isDecorated) ||
-      (item.isHtmlCleaned && !prevProps.item.isHtmlCleaned) ||
-      (item.isMercuryCleaned && !prevProps.item.isMercuryCleaned)
-    )) {
-      console.log('(item.isNewsletter || item.isExternal) && item.isDecorated && !prevProps.item.isDecorated')
+        (item.isHtmlCleaned && !prevProps.item.isHtmlCleaned) ||
+        (item.isMercuryCleaned && !prevProps.item.isMercuryCleaned)
+      )) {
+      // console.log('(item.isNewsletter || item.isExternal) && item.isDecorated && !prevProps.item.isDecorated')
       this.inflateItemAndSetState(item)
     }
     if (isVisible) {
@@ -232,27 +232,27 @@ class FeedItem extends React.Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { emitter, item } = this.props
     emitter.off(item._id)
   }
 
-  async inflateItemAndSetState (item) {
+  async inflateItemAndSetState(item) {
     try {
       const inflatedItem = Platform.OS === 'web' ?
-      await getItemIDB(item) :
-      await getItemSQLite(item)
+        await getItemIDB(item) :
+        await getItemSQLite(item)
       const that = this
 
       // check whether title is first words of content
-      if (inflatedItem.content_html?.length < 1000 && 
+      if (inflatedItem.content_html?.length < 1000 &&
         inflatedItem.content_html
           .replace(/<.*?>/g, '')
           .trim()
           .startsWith(inflatedItem.title.replace('...', ''))) {
         inflatedItem.title = ''
       }
-      if (inflatedItem.content_html?.length < 1000 && 
+      if (inflatedItem.content_html?.length < 1000 &&
         inflatedItem.excerpt?.replace(/<.*?>/g, '')
           .trim()
           .startsWith(inflatedItem.excerpt.replace('...', ''))) {
@@ -263,7 +263,7 @@ class FeedItem extends React.Component {
       this.setState({
         inflatedItem: {
           ...item,
-          ...inflatedItem  
+          ...inflatedItem
         }
       })
     } catch (err) {
@@ -275,16 +275,16 @@ class FeedItem extends React.Component {
     // }, 200)
   }
 
-  scrollToRatioIfVisible () {
+  scrollToRatioIfVisible() {
     if (this.props.isVisible) {
       this.scrollToOffset(false, false)
     }
   }
 
-  scrollToOffset (isOverridable = false, useTimeout = true) {
+  scrollToOffset(isOverridable = false, useTimeout = true) {
     if (isOverridable && this.hasBegunScroll) return
-    const {item} = this.props
-    const {webViewHeight} = this.state
+    const { item } = this.props
+    const { webViewHeight } = this.state
     const scrollView = this.scrollView
     if (!scrollView) return
     if (!this.hasWebViewResized) return
@@ -299,11 +299,11 @@ class FeedItem extends React.Component {
           animated: true
         })
       }
-    }, useTimeout ? 2000: 0)
+    }, useTimeout ? 2000 : 0)
   }
 
-  render () {
-    __DEV__ && console.log('Rendering item ', this.props.item.title)
+  render() {
+    // __DEV__ && console.log('Rendering item ', this.props.item.title)
     const emptyState = (
       <View style={{
         width: this.screenDimensions.width,
@@ -312,14 +312,14 @@ class FeedItem extends React.Component {
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
+        <ActivityIndicator size="large" color={hslString('rizzleFG')} />
       </View>
     )
 
-    const { 
+    const {
       hasRendered,
       inflatedItem,
-      webViewHeight 
+      webViewHeight
     } = this.state
 
     if (!inflatedItem) {
@@ -331,7 +331,7 @@ class FeedItem extends React.Component {
       isVisible,
       item,
       orientation,
-      showMercuryContent 
+      showMercuryContent
     } = this.props
 
     let {
@@ -346,8 +346,8 @@ class FeedItem extends React.Component {
     } = inflatedItem
 
     const reveal = new Animated.Value(hasRendered ? 0 : 1)
-    if (!hasRendered && (item.isDecorated || 
-        (item.decoration_failures && item.decoration_failures >= MAX_DECORATION_FAILURES))) {
+    if (!hasRendered && (item.isDecorated ||
+      (item.decoration_failures && item.decoration_failures >= MAX_DECORATION_FAILURES))) {
       this.isRevealing = true
       const that = this
       const animation = Animated.timing(reveal, {
@@ -356,7 +356,7 @@ class FeedItem extends React.Component {
         duration: 500,
         useNativeDriver: true
       })
-      animation.start(({finished}) => {
+      animation.start(({ finished }) => {
         if (finished) {
           this.isRevealing = false
           that.setState({ hasRendered: true })
@@ -366,8 +366,8 @@ class FeedItem extends React.Component {
 
     const isCoverInline = orientation !== 'landscape' && styles.isCoverInline
 
-    const bodyColor = this.props.isDarkMode ? 
-      'black' : 
+    const bodyColor = this.props.isDarkMode ?
+      'black' :
       styles.hasFeedBGColor && !!item.feed_color && JSON.stringify(item.feed_color) !== '[0,0,0]' ?
         `hsl(${(item.feed_color[0] + 180) % 360}, 15%, 90%)` :
         hslString('bodyBG')
@@ -377,7 +377,7 @@ class FeedItem extends React.Component {
       return emptyState
     }
 
-    const coverImage = showCoverImage ? 
+    const coverImage = showCoverImage ?
       <CoverImage
         styles={styles.coverImage}
         scrollAnim={this.scrollAnim}
@@ -402,7 +402,7 @@ class FeedItem extends React.Component {
           overflow: 'hidden'
         }}
       >
-        { (showCoverImage && !isCoverInline) && coverImage }
+        {(showCoverImage && !isCoverInline) && coverImage}
         <Animated.View style={{
           position: 'absolute',
           bottom: 0,
@@ -418,9 +418,11 @@ class FeedItem extends React.Component {
         <Animated.ScrollView
           onScroll={
             this.scrollAnim && Animated.event(
-              [{ nativeEvent: {
-                contentOffset: { y: this.scrollAnim }
-              }}],
+              [{
+                nativeEvent: {
+                  contentOffset: { y: this.scrollAnim }
+                }
+              }],
               {
                 useNativeDriver: true
               }
@@ -439,13 +441,13 @@ class FeedItem extends React.Component {
             minWidth: 100
           }}
         >
-          { (isCoverInline || !showCoverImage || !coverImage) && 
-            <Nudge 
+          {(isCoverInline || !showCoverImage || !coverImage) &&
+            <Nudge
               feed_id={this.props.item.feed_id}
               scrollAnim={this.scrollAnim}
             />
           }
-          { (showCoverImage && isCoverInline) && coverImage }
+          {(showCoverImage && isCoverInline) && coverImage}
           <ItemTitleContainer
             anims={this.anims}
             addAnimation={this.addAnimation}
@@ -464,9 +466,9 @@ class FeedItem extends React.Component {
             layoutListener={(bottomY) => this.setWebViewStartY(bottomY)}
           />
           <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
-            (styles.coverImage?.isInline || !showCoverImage) ? 
-              this.addAnimation(bodyStyle, this.anims[5], isVisible) :
-              bodyStyle}
+            (styles.coverImage?.isInline || !showCoverImage) ?
+            this.addAnimation(bodyStyle, this.anims[5], isVisible) :
+            bodyStyle}
           >
             <View style={{
               position: "absolute",
@@ -477,9 +479,9 @@ class FeedItem extends React.Component {
               paddingTop: 100,
               backgroundColor: bodyColor
             }}>
-              <ActivityIndicator size="large" color={hslString('rizzleFG')}/>
+              <ActivityIndicator size="large" color={hslString('rizzleFG')} />
             </View>
-            <ItemBody 
+            <ItemBody
               bodyColor={bodyColor}
               item={{
                 ...inflatedItem,
@@ -490,15 +492,15 @@ class FeedItem extends React.Component {
               showImageViewer={this.props.showImageViewer}
               updateWebViewHeight={this.updateWebViewHeight}
               webViewHeight={this.state.webViewHeight}
-          />
+            />
           </Animated.View>
         </Animated.ScrollView>
-        { !hasRendered &&
+        {!hasRendered &&
           <Animated.View
             style={{
               backgroundColor: bodyColor,
               position: 'absolute',
-              top: 0, 
+              top: 0,
               left: 0,
               right: 0,
               bottom: 0,
@@ -512,7 +514,7 @@ class FeedItem extends React.Component {
     )
   }
 
-  setWebViewStartY (y) {
+  setWebViewStartY(y) {
     // this is causing the `CALayerInvalidGeometry` bug
     // https://sentry.io/organizations/adam-butler/issues/1608223243
     // so don't call setState for now until I figure it out
@@ -524,7 +526,7 @@ class FeedItem extends React.Component {
     }
   }
 
-  passScrollPositionToWebView (position) {
+  passScrollPositionToWebView(position) {
     // console.log(position)
   }
 
@@ -544,7 +546,7 @@ class FeedItem extends React.Component {
   }
 
   onMomentumScrollEnd = (scrollOffset) => {
-    const {inflatedItem} = this.state
+    const { inflatedItem } = this.state
     scrollOffset = typeof scrollOffset === 'number' ?
       scrollOffset :
       scrollOffset.nativeEvent.contentOffset.y
@@ -554,7 +556,7 @@ class FeedItem extends React.Component {
   }
 
   // called when HTML was loaded and injected JS executed
-  onNavigationStateChange (event) {
+  onNavigationStateChange(event) {
     // this means we're loading an image
     if (event.url.startsWith('react-js-navigation')) return
     const calculatedHeight = parseInt(event.jsEvaluationValue)
@@ -563,7 +565,7 @@ class FeedItem extends React.Component {
     }
   }
 
-  updateWebViewHeight (height) {
+  updateWebViewHeight(height) {
     if (!this.pendingWebViewHeight || height !== this.pendingWebViewHeight) {
       this.pendingWebViewHeight = height
     }

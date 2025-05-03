@@ -4,19 +4,9 @@ import 'react-native-get-random-values'
 import 'core-js/actual/url'
 import 'core-js/actual/url-search-params'
 
-import {registerRootComponent} from 'expo'
+import { registerRootComponent } from 'expo'
 import { LogBox } from 'react-native'
 import Rizzle from './components/Rizzle'
-
-// if (__DEV__) {
-//   const ReactRedux = require("react-redux/lib");
-//   const whyDidYouRender = require('@welldone-software/why-did-you-render')
-//   // whyDidYouRender(React)
-//   // whyDidYouRender(React, {
-//   //   trackAllPureComponents: true,
-//   //   trackExtraHooks: [[ReactRedux, "useSelector"]]
-//   // })
-// }
 
 // AppRegistry.registerComponent('rizzle', () => Rizzle)
 // AppRegistry.registerComponent('RizzleShare', () => Share)

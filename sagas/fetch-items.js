@@ -23,7 +23,8 @@ import {
   isFetchPaginated
 } from '../backends'
 import { getFeedColor, id } from '../utils'
-import { nullValuesToEmptyStrings,
+import {
+  nullValuesToEmptyStrings,
   fixRelativePaths,
   addStylesIfNecessary,
   sanitizeContent,
@@ -42,11 +43,11 @@ import {
   getUser,
 } from './selectors'
 import NetInfo from '@react-native-community/netinfo'
-import { 
+import {
   setItems as setItemsSQLite,
   deleteItems as deleteItemsSQLite
 } from '../storage/sqlite'
-import { 
+import {
   setItems as setItemsIDB,
   deleteItems as deleteItemsIDB
 } from '../storage/idb-storage'
@@ -55,9 +56,9 @@ import {
 let feeds
 let savedItems = []
 
-export function * fetchAllItems (includeSaved = true) {
+export function* fetchAllItems(includeSaved = true) {
   const lastUpdated = yield select(getLastUpdated)
-  if (Date.now() - lastUpdated < 100000) return 
+  if (Date.now() - lastUpdated < 100000) return
   const netInfo = yield call(NetInfo.fetch)
   if (!netInfo.isInternetReachable) return
   yield put({
@@ -77,12 +78,12 @@ export function * fetchAllItems (includeSaved = true) {
   })
 }
 
-export function * fetchUnreadItems (action) {
+export function* fetchUnreadItems(action) {
   if (action.skipFetchItems) return
   yield fetchAllItems(false)
 }
 
-function * addIsNewToFeeds () {
+function* addIsNewToFeeds() {
   let feeds = yield select(getFeeds)
   if (!feeds || feeds.length === 0) {
     return []
@@ -99,18 +100,21 @@ function * addIsNewToFeeds () {
   return feedsWithIsNew
 }
 
-function * getReadItemsFromBackendAndMarkRead () {
-  const oldItems = yield select(getItems, ItemType.unread)
-  const readItems = yield call(getReadItemsBackends, oldItems)
+function* getReadItemsFromBackendAndMarkRead(since) {
+  if (since === undefined) {
+    const oldItems = yield select(getItems, ItemType.unread)
+    since = oldItems.map(i => i.created_at).sort()[0]
+  }
+  const readItems = yield call(getReadItemsBackends, since)
   if (readItems?.length > 0) {
     yield put({
       type: MARK_ITEMS_READ_SKIP_BACKEND,
       items: readItems
-    })  
+    })
   }
 }
 
-export function * fetchItems (type = ItemType.unread) {
+export function* fetchItems(type = ItemType.unread) {
   const lastUpdated = yield select(getLastUpdated, type)
   if (lastUpdated === -1) {
     return
@@ -119,39 +123,39 @@ export function * fetchItems (type = ItemType.unread) {
   const oldItems = yield select(getItems, type)
   if (type === ItemType.unread) {
     console.log('Calling getReadItemsFromBackendAndMarkRead')
-    yield getReadItemsFromBackendAndMarkRead()
+    yield getReadItemsFromBackendAndMarkRead(lastUpdated)
   }
-  
+
   // feedbin is paged, so we need to keep fetching until we get no items
   // reams is not paged, so we only need to fetch once
   // if (isFetchPaginated()) {
-    const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feedsWithIsNew)
-    let isFirstBatch = true
-    let didError = false
-    try {
-      while (true) {
-        const items = yield take(itemsChannel)
-        if (items.length > 0) {
-          yield receiveItems(items, type)
-          isFirstBatch = false
-        }
+  const itemsChannel = yield call(fetchItemsChannel, type, lastUpdated, oldItems, feedsWithIsNew)
+  let isFirstBatch = true
+  let didError = false
+  try {
+    while (true) {
+      const items = yield take(itemsChannel)
+      if (items.length > 0) {
+        yield receiveItems(items, type)
+        isFirstBatch = false
       }
-    } catch (err) {
-      didError = true
-      log('fetchItems', err)
-    } finally {
-      // if isFirstBatch is still true, we didn't get any items
-      // so don't set the last updated date
-      if (!(didError || isFirstBatch)) {
-        yield put({
-          type: SET_LAST_UPDATED,
-          itemType: type,
-          lastUpdated: Date.now()
-        })
-      }
-      yield cleanupFetch(type, feedsWithIsNew)
-      itemsChannel.close()
     }
+  } catch (err) {
+    didError = true
+    log('fetchItems', err)
+  } finally {
+    // if isFirstBatch is still true, we didn't get any items
+    // so don't set the last updated date
+    if (!(didError || isFirstBatch)) {
+      yield put({
+        type: SET_LAST_UPDATED,
+        itemType: type,
+        lastUpdated: Date.now()
+      })
+    }
+    yield cleanupFetch(type, feedsWithIsNew)
+    itemsChannel.close()
+  }
   // } else {
   //   let items = yield call(fetchItemsBackends, receiveAndProcessItems, lastUpdated, oldItems, feedsWithIsNew)
   //   yield receiveAndProcessItems(items, type, true, 0)
@@ -159,9 +163,9 @@ export function * fetchItems (type = ItemType.unread) {
   // }
 }
 
-function * cleanupFetch (type, feedsWithIsNew) {
+function* cleanupFetch(type, feedsWithIsNew) {
   if (type === ItemType.unread) {
-    const updatedFeeds = feedsWithIsNew?.filter(f => f.isNew).map(f => ({...f, isNew: false}))
+    const updatedFeeds = feedsWithIsNew?.filter(f => f.isNew).map(f => ({ ...f, isNew: false }))
     if (updatedFeeds?.length > 0) {
       yield put({
         type: UPDATE_FEEDS,
@@ -172,7 +176,7 @@ function * cleanupFetch (type, feedsWithIsNew) {
   }
 }
 
-function fetchItemsChannel (type, lastUpdated, oldItems, feeds) {
+function fetchItemsChannel(type, lastUpdated, oldItems, feeds) {
   const logger = log
   return eventChannel(emitter => {
     fetchItemsBackends(emitter, type, lastUpdated, oldItems, feeds)
@@ -188,7 +192,7 @@ function fetchItemsChannel (type, lastUpdated, oldItems, feeds) {
   })
 }
 
-function * receiveItems (items, type) {
+function* receiveItems(items, type) {
   console.log('Received ' + items.length + ' new items')
   const feeds = yield select(getFeeds)
   const newsletters = yield select(getNewsletters)
@@ -229,7 +233,7 @@ function * receiveItems (items, type) {
   }
 }
 
-function * updateFeeds (items) {
+function* updateFeeds(items) {
   const feeds = yield select(getFeeds)
   const updated = yield createFeedsWhereNeededAndAddInfo(items, [...feeds])
   updatedFeeds = updated.feeds
@@ -241,11 +245,11 @@ function * updateFeeds (items) {
   return updated.items
 }
 
-export function * cleanUpItems (items, type) {
+export function* cleanUpItems(items, type) {
   // remove all existing items from the new items
   // const existingItems = (yield select(getItems, type))?.filter(ei => items.find(i => i._id === ei._id))
   if (type === ItemType.saved) {
-    items = items.map(i => ({...i, isSaved: true}))
+    items = items.map(i => ({ ...i, isSaved: true }))
   }
 
   const uniqueItems = []
@@ -265,26 +269,26 @@ export function * cleanUpItems (items, type) {
     .map(setId)
 }
 
-function fixCreatedAt (item) {
+function fixCreatedAt(item) {
   return {
     ...item,
     created_at: typeof item.created_at === 'number'
       ? (item.created_at > Date.parse('2000-01-01') ?
-          item.created_at :
-          item.created_at * 1000)
+        item.created_at :
+        item.created_at * 1000)
       : Date.parse(item.created_at),
     original_created_at: item.created_at
   }
 }
 
-function setId (item) {
+function setId(item) {
   return {
     ...item,
     _id: item._id || id(item)
   }
 }
 
-function * createFeedsWhereNeededAndAddInfo (items, feeds) {
+function* createFeedsWhereNeededAndAddInfo(items, feeds) {
   let feed
   let item
   let newOrUpdatedFeeds = []
@@ -324,13 +328,13 @@ function * createFeedsWhereNeededAndAddInfo (items, feeds) {
     // item.feed_color = feed.color
     item.feed_title = feed.title
   }
-  return { 
-    feeds: newOrUpdatedFeeds, 
-    items 
+  return {
+    feeds: newOrUpdatedFeeds,
+    items
   }
 }
 
-function * addToLocalDatabase (items) {
+function* addToLocalDatabase(items) {
   if (Platform.OS === 'web') {
     yield call(setItemsIDB, items)
   } else {
@@ -338,7 +342,7 @@ function * addToLocalDatabase (items) {
   }
 }
 
-function * removeFromLocalDatabase (items) {
+function* removeFromLocalDatabase(items) {
   if (Platform.OS === 'web') {
     yield call(deleteItemsIDB, items)
   } else {

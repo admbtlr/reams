@@ -20,13 +20,13 @@ const backends = {
   plus: reams
 }
 
-export async function setBackend (bcknd, config = {}) {
+export async function setBackend(bcknd, config = {}) {
   backend = bcknd
   await backends[backend].init(config)
   // SharedGroupPreferences.setItem('backend', backend, group)
 }
 
-export function unsetBackend (bcknd) {
+export function unsetBackend(bcknd) {
   if (bcknd === 'feedbin') {
     backend = 'reams'
   } else if (bcknd === 'reams') {
@@ -34,11 +34,11 @@ export function unsetBackend (bcknd) {
   }
 }
 
-export function isFetchPaginated () {
+export function isFetchPaginated() {
   return backend === 'feedbin'
 }
 
-export async function loadMercuryStuff (item) {
+export async function loadMercuryStuff(item) {
   const url = getMercuryUrl(item)
   try {
     const response = await fetch(url)
@@ -52,7 +52,7 @@ export async function loadMercuryStuff (item) {
   }
 }
 
-export function getMercuryUrl (item) {
+export function getMercuryUrl(item) {
   let url = `${EXPO_PUBLIC_API_URL}/mercury?url=${encodeURIComponent(item.url)}`
   if (item.isNewsletter) {
     url += '&skipContent=true'
@@ -60,15 +60,15 @@ export function getMercuryUrl (item) {
   return url
 }
 
-export async function getReadItems (oldItems) {
+export async function getReadItems(since) {
   if (backend === 'feedbin') {
-    return await feedbin.getReadItems(oldItems)
+    return await feedbin.getReadItems(since)
   }
-  return await reams.getReadItems(oldItems)
+  return await reams.getReadItems(since)
 }
 
 // old items are (fetched items + read items)
-export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) {
+export async function fetchItems(callback, type, lastUpdated, oldItems, feeds) {
   if (backend === 'feedbin') {
     return await feedbin.fetchItems(callback, type, lastUpdated, oldItems, feeds, MAX_ITEMS_TO_DOWNLOAD)
   }
@@ -89,7 +89,7 @@ export async function fetchItems (callback, type, lastUpdated, oldItems, feeds) 
 //   return items
 // }
 
-export function fetchUnreadIds () {
+export function fetchUnreadIds() {
   switch (backend) {
     case 'basic':
     case 'reams':
@@ -99,28 +99,29 @@ export function fetchUnreadIds () {
   }
 }
 
-export async function markItemRead (item) {
+export async function markItemRead(item) {
+  console.log('Calling markItemRead on backend')
   if (backend === 'feedbin') {
     await feedbin.markItemRead(item)
   }
   return await reams.markItemsRead([item])
 }
 
-export async function markItemsRead (items, feedId = null, olderThan = null) {
+export async function markItemsRead(items, feedId = null, olderThan = null) {
   if (backend === 'feedbin') {
     await feedbin.markItemsRead(items)
   }
   return await reams.markItemsRead(items)
 }
 
-export async function saveItem (item) {
+export async function saveItem(item) {
   if (backend === 'feedbin') {
     return await feedbin.saveItem(item)
   }
   return await reams.saveItem(item)
 }
 
-export async function unsaveItem (item, folder) {
+export async function unsaveItem(item, folder) {
   if (backend === 'feedbin') {
     await feedbin.unsaveItem(item)
   } else {
@@ -128,7 +129,7 @@ export async function unsaveItem (item, folder) {
   }
 }
 
-export async function saveExternalItem (item, folder) {
+export async function saveExternalItem(item, folder) {
   if (backend === 'feedbin') {
     return await feedbin.saveExternalItem(item)
   }
@@ -145,27 +146,27 @@ export async function saveExternalItem (item, folder) {
 //   }
 // }
 
-export async function fetchFeeds () {
+export async function fetchFeeds() {
   let feedsFeedbin = []
   if (backend === 'feedbin') {
     feedsFeedbin = await feedbin.fetchFeeds()
   }
   const feedsAlready = await reams.fetchFeeds()
   const feedsToAddToAlready = feedsFeedbin.filter(fb => !feedsAlready.find(fa => fa.feedbinId === fb.id))
-  
+
   await reams.addFeeds(feedsToAddToAlready)
 
   return feedsAlready.concat(feedsToAddToAlready)
 }
 
-export async function addFeed (feed) {
+export async function addFeed(feed) {
   if (backend === 'feedbin') {
     feed.feedbinId = await feedbin.addFeed(feed)
   }
   return await reams.addFeed(feed)
 }
 
-export async function updateFeed (feed) {
+export async function updateFeed(feed) {
   switch (backend) {
     case 'basic':
     case 'reams':
@@ -173,18 +174,18 @@ export async function updateFeed (feed) {
   }
 }
 
-export async function removeFeed (feed) {
+export async function removeFeed(feed) {
   if (backend === 'feedbin') {
     await feedbin.removeFeed(feed)
   }
   return await reams.removeFeed(feed)
 }
 
-export async function getFeedMeta (feed) {
+export async function getFeedMeta(feed) {
   return await reams.getFeedMeta(feed)
 }
 
-export async function getCategories () {
+export async function getCategories() {
   // let's just say that categories are not supported when using feedbin as a backend
   // if (backend === 'feedbin') {
   //   await feedbin.getCategories()
@@ -192,44 +193,44 @@ export async function getCategories () {
   return await reams.getCategories()
 }
 
-export async function addCategory (category) {
+export async function addCategory(category) {
   // if (backend === 'feedbin') {
   //   await feedbin.addCategory(category)
   // }
   return await reams.addCategory(category)
 }
 
-export async function updateCategory (category) {
+export async function updateCategory(category) {
   // if (backend === 'feedbin') {
   //   await feedbin.updateCategory(category)
   // }
   return await reams.updateCategory(category)
 }
 
-export async function deleteCategory (category) {
+export async function deleteCategory(category) {
   // if (backend === 'feedbin') {
   //   await feedbin.deleteCategory(category)
   // }
   return await reams.deleteCategory(category)
 }
 
-export async function getNewsletters () {
+export async function getNewsletters() {
   return await reams.getNewsletters()
 }
 
-export async function addNewsletter (newsletter) {
+export async function addNewsletter(newsletter) {
   return await reams.addNewsletter(newsletter)
 }
 
-export async function updateNewsletter (newsletter) {
+export async function updateNewsletter(newsletter) {
   return await reams.updateNewsletter(newsletter)
 }
 
-export async function deleteNewsletter (newsletter) {
+export async function deleteNewsletter(newsletter) {
   return await reams.deleteNewsletter(newsletter)
 }
 
-export async function authenticate ({username, password, email}, backend) {
+export async function authenticate({ username, password, email }, backend) {
   switch (backend) {
     case 'basic':
     case 'reams':

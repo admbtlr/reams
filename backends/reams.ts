@@ -53,10 +53,8 @@ export function init() {
 
 // }
 
-export async function getReadItems(oldItems: Item[]) {
-  const oldestItem = oldItems.map(i => i.created_at).sort()[0]
-  console.log('Calling getReadItemsSupabase, oldestItem: ' + JSON.stringify(oldestItem))
-  const readItems = await getReadItemsSupabase(oldestItem)
+export async function getReadItems(since) {
+  const readItems = await getReadItemsSupabase(since)
   return readItems
 }
 

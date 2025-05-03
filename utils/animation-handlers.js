@@ -1,4 +1,4 @@
-import {Animated} from 'react-native'
+import { Animated } from 'react-native'
 import { getStatusBarHeight } from './dimensions'
 
 let clampedScrollListeners = []
@@ -20,7 +20,7 @@ let prevScrollOffset = 0
 
 let initiated = false
 
-function reset (newScrollAnimValue) {
+function reset(newScrollAnimValue) {
   // const toValue = newScrollAnimValue > 0 ?
   //   getStatusBarHeight() :
   //   -getStatusBarHeight()
@@ -36,16 +36,16 @@ function reset (newScrollAnimValue) {
   })
 }
 
-export function panHandler (value, divisor) {
+export function panHandler(value, divisor) {
   panAnim = value
   panAnimDivisor = divisor
 }
 
-export function getPanValue () {
+export function getPanValue() {
   return { panAnim, panAnimDivisor }
 }
 
-export function getClampedScrollAnim (feedItemScrollAnim) {
+export function getClampedScrollAnim(feedItemScrollAnim) {
   let resetValue = 0
   if (feedItemScrollAnim === undefined) return
   if (initiated) {
@@ -103,8 +103,7 @@ export function getClampedScrollAnim (feedItemScrollAnim) {
   return clampedAnim
 }
 
-export function onScrollEnd (scrollOffset) {
-  // console.log('Scroll ended!')
+export function onScrollEnd(scrollOffset) {
   const toValue = scrollValue > getStatusBarHeight() &&
     clampedScrollValue > (getStatusBarHeight()) / 2
     ? resetValue + getStatusBarHeight()
@@ -137,7 +136,7 @@ export function onScrollEnd (scrollOffset) {
 //   return scrollAnim
 // }
 
-export function getAnimatedValue () {
+export function getAnimatedValue() {
   return clampedAnim
 }
 
@@ -149,10 +148,10 @@ export function getAnimatedValue () {
 //   clampedScrollListeners.push(listener)
 // }
 
-export function setClampedScrollListener (listener) {
+export function setClampedScrollListener(listener) {
   clampedScrollListeners = [listener]
 }
 
-export function setScrollListener (listener) {
+export function setScrollListener(listener) {
   scrollListeners = [listener]
 }

@@ -472,6 +472,6 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
 
 }
 
-// FeedsScreen.whyDidYouRender = true
+FeedsScreen.whyDidYouRender = true
 
 export default React.memo(FeedsScreen, isEqual)

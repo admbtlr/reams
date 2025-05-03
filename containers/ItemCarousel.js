@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
-import { 
+import {
   UPDATE_ONBOARDING_INDEX
 } from '../store/config/types'
-import { 
+import {
   SAVE_ITEM,
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
   UPDATE_CURRENT_INDEX,
   ItemType
 } from '../store/items/types'
-import { 
+import {
   TOGGLE_VIEW_BUTTONS
 } from '../store/ui/types'
 import ItemCarousel from '../components/ItemCarousel.js'
@@ -88,7 +88,7 @@ const mapDispatchToProps = (dispatch) => {
           itemId: item._id,
           categoryId: 'inbox'
         })
-        } else {
+      } else {
         dispatch({
           type: UNSAVE_ITEM,
           item
