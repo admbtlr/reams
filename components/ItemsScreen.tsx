@@ -20,16 +20,19 @@ import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import { hslString } from '../utils/colors'
 import HighlightButtons, { ActiveHighlight } from './HighlightButtons'
 import { RootState } from '../store/reducers'
+import { selectAnnotations } from '../store/annotations/annotations'
 
 
 interface ActiveHighlightContext {
+  activeHighlightId: string | null
+  setActiveHighlightId: (activeHighlightId: string | null) => void
   activeHighlight: ActiveHighlight | null
-  setActiveHighlight: (activeHighlight: ActiveHighlight) => void
 }
 
 export const ActiveHighlightContext = React.createContext<ActiveHighlightContext>({
-  activeHighlight: null,
-  setActiveHighlight: () => null
+  activeHighlightId: null,
+  setActiveHighlightId: () => null,
+  activeHighlight: null
 })
 
 export default function ItemsScreen ({ navigation}: { navigation: any }) {
@@ -38,7 +41,11 @@ export default function ItemsScreen ({ navigation}: { navigation: any }) {
   const orientation = useSelector((state: RootState) => state.config.orientation)
   // const lastActivated = useSelector(state => state.config.lastActivated)
 
-  const [activeHighlight, setActiveHighlight] = useState<ActiveHighlight | null>(null)
+  const [activeHighlightId, setActiveHighlightId] = useState<string | null>(null)
+  const annotations = useSelector(selectAnnotations)
+  const activeHighlight = activeHighlightId 
+    ? annotations.find(a => a._id === activeHighlightId) || { _id: activeHighlightId }
+    : null
 
   const didFocus = () => {
     dispatch({
@@ -74,7 +81,7 @@ export default function ItemsScreen ({ navigation}: { navigation: any }) {
           hidden={false} />
        }
       <View style={styles.infoView} />
-      <ActiveHighlightContext.Provider value={{ activeHighlight, setActiveHighlight }}>
+      <ActiveHighlightContext.Provider value={{ activeHighlightId, setActiveHighlightId, activeHighlight }}>
         <ItemCarouselContainer
           navigation={navigation}
           style={styles.ItemCarousel}

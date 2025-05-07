@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {Animated, Dimensions, Linking, View} from 'react-native'
+import { Animated, Dimensions, Linking, View } from 'react-native'
 import { getMargin } from '../utils/dimensions'
 import { hasNotchOrIsland } from '../utils/dimensions'
 import TextButton from './TextButton'
@@ -21,7 +21,7 @@ const translateDistance = 90
 const translateAnim = new Animated.Value(1)
 
 export interface ActiveHighlight {
-  _id?: string | undefined
+  _id: string
   text?: string
   serialized?: string
   url?: string | null
@@ -30,17 +30,15 @@ export interface ActiveHighlight {
 }
 
 export default function HighlightButtons() {
-  const { activeHighlight, setActiveHighlight } = React.useContext(ActiveHighlightContext)
+  const { activeHighlightId, setActiveHighlightId, activeHighlight } = React.useContext(ActiveHighlightContext)
   const dispatch = useDispatch()
-  const activeAnnotation = useSelector((state: RootState) => state
-    .annotations.annotations.find(a => activeHighlight?._id ? a._id === activeHighlight._id : undefined))
-  const [ note, setNote ] = useState<string | undefined>()
-  
+  const [note, setNote] = useState<string | undefined>(undefined)
+
   const screenDimensions = Dimensions.get('window')
   const { openModal } = useModal()
 
   useEffect(() => {
-    if (activeHighlight !== null) {
+    if (activeHighlightId !== null) {
       Animated.timing(translateAnim, {
         toValue: 0,
         duration: 400,
@@ -54,7 +52,31 @@ export default function HighlightButtons() {
         useNativeDriver: true,
       }).start()
     }
-  }, [activeHighlight])
+  }, [activeHighlightId])
+
+  const updateNote = (note: string) => {
+    if (activeHighlight) {
+      if ('text' in activeHighlight && 'serialized' in activeHighlight) {
+        // Update existing annotation
+        dispatch(updateAnnotation({
+          ...activeHighlight,
+          note: note ?? activeHighlight.note
+        } as Annotation) as any)
+      } else if (activeHighlightId) {
+        // We should not reach here normally as we should have the full annotation
+        console.warn('Updating annotation with incomplete data')
+        dispatch(updateAnnotation({
+          _id: activeHighlightId,
+          text: '',
+          serialized: '',
+          note
+        } as Annotation) as any)
+      }
+    } else {
+      // This should not happen in normal flow
+      console.warn('No active highlight to save')
+    }
+  }
 
   const modalText = [
     {
@@ -72,16 +94,21 @@ export default function HighlightButtons() {
         // label: 'Name',
         name: 'note',
         type: 'textarea',
-        value: note ?? activeAnnotation?.note ?? '',
+        value: note ?? activeHighlight?.note ?? '',
       }
     ],
-    modalOnOk: ({note}: {note: string}) => setNote(note),
-    modalOnCancel: () => {},
+    modalOnOk: ({ note }: { note: string }) => {
+      updateNote(note)
+      setActiveHighlightId(null)
+      setNote(undefined)
+      dispatch({ type: SHOW_ITEM_BUTTONS })
+    },
+    modalOnCancel: () => { },
   }
 
 
   return (
-    <View 
+    <View
       pointerEvents='box-none'
       style={{
         justifyContent: 'flex-end',
@@ -93,7 +120,7 @@ export default function HighlightButtons() {
         marginBottom: getMargin() / (hasNotchOrIsland() ? 1 : 2)
       }}
     >
-      <Animated.View 
+      <Animated.View
         pointerEvents='box-none'
         style={{
           flex: 0,
@@ -104,73 +131,66 @@ export default function HighlightButtons() {
             500,
           alignSelf: 'center',
         }}>
-        <TextButton 
-          buttonStyle={{ 
+        <TextButton
+          buttonStyle={{
             margin: getMargin() * .5,
-            transform: [{ translateY: translateAnim.interpolate({
-              inputRange: [0, 0.25, 0.5, 0.75, 1],
-              outputRange: [0, 0, 0, translateDistance * -0.2, translateDistance]
-              // inputRange: [0, 0.333, 0.666, 1],
-              // outputRange: [0, 0, 0, translateDistance]
-             })}] 
+            transform: [{
+              translateY: translateAnim.interpolate({
+                inputRange: [0, 0.25, 0.5, 0.75, 1],
+                outputRange: [0, 0, 0, translateDistance * -0.2, translateDistance]
+                // inputRange: [0, 0.333, 0.666, 1],
+                // outputRange: [0, 0, 0, translateDistance]
+              })
+            }]
           }}
           hasShadow={true}
-          icon={ activeAnnotation ? dustbinIcon() : xIcon() }
+          icon={dustbinIcon()}
           onPress={() => {
-            if (activeAnnotation !== undefined) {
-              dispatch(deleteAnnotation(activeAnnotation))
+            if (activeHighlight !== null) {
+              dispatch(deleteAnnotation(activeHighlight as Annotation) as any)
             }
-            setActiveHighlight(null)
+            setActiveHighlightId(null)
             dispatch({ type: SHOW_ITEM_BUTTONS })
-        }}
-          text={ activeAnnotation ? 'Delete' : 'Cancel' } />
-        <TextButton 
-          buttonStyle={{ 
+          }}
+          text={'Delete'} />
+        <TextButton
+          buttonStyle={{
             margin: getMargin() * .5,
-            transform: [{ translateY: translateAnim.interpolate({
-              inputRange: [0, 0.25, 0.5, 0.75, 1],
-              outputRange: [0, 0, translateDistance * -0.2, translateDistance, translateDistance]
-              // inputRange: [0, 0.333, 0.666, 1],
-              // outputRange: [0, 0, translateDistance, translateDistance]
-             })}] 
-          }} 
+            transform: [{
+              translateY: translateAnim.interpolate({
+                inputRange: [0, 0.25, 0.5, 0.75, 1],
+                outputRange: [0, 0, translateDistance * -0.2, translateDistance, translateDistance]
+                // inputRange: [0, 0.333, 0.666, 1],
+                // outputRange: [0, 0, translateDistance, translateDistance]
+              })
+            }]
+          }}
           hasShadow={true}
           icon={noteIcon()}
           onPress={() => {
             openModal(modalProps)
           }}
           text='Note' />
-        <TextButton 
-          buttonStyle={{ 
+        <TextButton
+          buttonStyle={{
             margin: getMargin() * .5,
-            transform: [{ translateY: translateAnim.interpolate({
-              inputRange: [0, 0.25, 0.5, 0.75, 1],
-              outputRange: [0, translateDistance * -0.2, translateDistance, translateDistance, translateDistance]
-              // inputRange: [0, 0.333, 0.666, 1],
-              // outputRange: [0, translateDistance, translateDistance, translateDistance]
-            })}] 
-          }} 
+            transform: [{
+              translateY: translateAnim.interpolate({
+                inputRange: [0, 0.25, 0.5, 0.75, 1],
+                outputRange: [0, translateDistance * -0.2, translateDistance, translateDistance, translateDistance]
+                // inputRange: [0, 0.333, 0.666, 1],
+                // outputRange: [0, translateDistance, translateDistance, translateDistance]
+              })
+            }]
+          }}
           hasShadow={true}
           icon={okIcon()}
           onPress={() => {
-            if (activeAnnotation) {
-              dispatch(updateAnnotation({
-                ...activeAnnotation,
-                note: note ?? activeAnnotation.note
-            }))
-            } else {
-              dispatch(createAnnotation({
-                _id: id(),
-                ...activeHighlight,
-                note
-
-              }))
-            }      
-            setActiveHighlight(null)
-            setNote(null)
+            setActiveHighlightId(null)
+            setNote(undefined)
             dispatch({ type: SHOW_ITEM_BUTTONS })
           }}
-          text='Save' 
+          text='OK'
         />
       </Animated.View>
     </View>

@@ -1,0 +1,633 @@
+diff --git a/node_modules/react-native-webview/apple/RNCWebViewImpl.h b/node_modules/react-native-webview/apple/RNCWebViewImpl.h
+index e19fddd..8059262 100644
+--- a/node_modules/react-native-webview/apple/RNCWebViewImpl.h
++++ b/node_modules/react-native-webview/apple/RNCWebViewImpl.h
+@@ -45,7 +45,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
+ @end
+ 
+ #if !TARGET_OS_OSX
+-@interface RNCWebViewImpl : RCTView <UIEditMenuInteractionDelegate>
++@interface RNCWebViewImpl : RCTView <UIEditMenuInteractionDelegate, UIGestureRecognizerDelegate>
+ 
+ @property (nonatomic, nullable) UIEditMenuInteraction *editMenuInteraction API_AVAILABLE(ios(16.0));
+ #else
+@@ -154,6 +154,8 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
+ #if !TARGET_OS_OSX
+ - (void)addPullToRefreshControl;
+ - (void)pullToRefresh:(UIRefreshControl *)refreshControl;
++// Handle custom menu item selection
++- (void)tappedMenuItem:(NSString *)key;
+ #endif
+ 
+ @end
+diff --git a/node_modules/react-native-webview/apple/RNCWebViewImpl.m b/node_modules/react-native-webview/apple/RNCWebViewImpl.m
+index fb35885..581ec90 100644
+--- a/node_modules/react-native-webview/apple/RNCWebViewImpl.m
++++ b/node_modules/react-native-webview/apple/RNCWebViewImpl.m
+@@ -56,6 +56,55 @@ NSString *const CUSTOM_SELECTOR = @"_CUSTOM_SELECTOR_";
+ @end
+ @implementation RNCWKWebView
+ #if !TARGET_OS_OSX
++// Forward custom menu actions to the parent RNCWebViewImpl
++- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
++{
++  // Check for standard methods first
++  NSMethodSignature *existingSelector = [super methodSignatureForSelector:sel];
++  if (existingSelector) {
++    return existingSelector;
++  }
++
++  // Check if it's a custom menu selector
++  NSString *selStr = NSStringFromSelector(sel);
++  NSRange match = [selStr rangeOfString:CUSTOM_SELECTOR];
++
++  if (match.location == 0) {
++    // For custom selectors, return a basic void method signature
++    return [NSMethodSignature signatureWithObjCTypes:"v@:"];
++  }
++
++  return nil;
++}
++
++- (void)forwardInvocation:(NSInvocation *)invocation
++{
++  NSString *sel = NSStringFromSelector([invocation selector]);
++  NSRange match = [sel rangeOfString:CUSTOM_SELECTOR];
++
++  if (match.location == 0) {
++    // Find our parent view
++    UIView *superview = self.superview;
++    if ([superview isKindOfClass:[RNCWebViewImpl class]]) {
++      RNCWebViewImpl *parent = (RNCWebViewImpl *)superview;
++
++      // Extract the key and forward to parent
++      NSString *key = [sel substringFromIndex:[CUSTOM_SELECTOR length]];
++      NSLog(@"WebView forwarding custom menu selector to parent: %@", key);
++
++      // Call the parent method with the menu key
++      if ([parent respondsToSelector:@selector(tappedMenuItem:)]) {
++        [parent tappedMenuItem:key];
++      } else {
++        NSLog(@"Parent does not respond to tappedMenuItem: selector");
++      }
++    } else {
++      NSLog(@"WebView cannot find parent to forward selector: %@", sel);
++    }
++  } else {
++    [super forwardInvocation:invocation];
++  }
++}
+ - (NSString *)stringFromAction:(SEL) action {
+   NSString *sel = NSStringFromSelector(action);
+ 
+@@ -80,6 +129,7 @@ NSString *const CUSTOM_SELECTOR = @"_CUSTOM_SELECTOR_";
+ 
+ - (BOOL)canPerformAction:(SEL)action
+               withSender:(id)sender{
++  // First check if action should be suppressed
+   if(self.suppressMenuItems) {
+       NSString * sel = [self stringFromAction:action];
+       if ([self.suppressMenuItems containsObject: sel]) {
+@@ -87,19 +137,34 @@ NSString *const CUSTOM_SELECTOR = @"_CUSTOM_SELECTOR_";
+       }
+   }
+ 
+-  if (!self.menuItems) {
+-      return [super canPerformAction:action withSender:sender];
++  // Check if it's one of our custom actions
++  NSString *sel = NSStringFromSelector(action);
++  NSRange match = [sel rangeOfString:CUSTOM_SELECTOR];
++  if (match.location == 0) {
++    return YES;
+   }
+ 
+-  return NO;
+-}
+-- (void)buildMenuWithBuilder:(id<UIMenuBuilder>)builder API_AVAILABLE(ios(13.0))  {
+-    if (@available(iOS 16.0, *)) {
+-      if(self.menuItems){
+-        [builder removeMenuForIdentifier:UIMenuLookup];
++  // For iOS < 16, setup the UIMenuController with our custom items
++  if (@available(iOS 16.0, *)) { } else {
++    if (self.menuItems && self.menuItems.count > 0) {
++      UIMenuController *menuController = [UIMenuController sharedMenuController];
++      NSMutableArray *menuControllerItems = [NSMutableArray arrayWithCapacity:self.menuItems.count];
++
++      for(NSDictionary *menuItem in self.menuItems) {
++        NSString *menuItemLabel = [RCTConvert NSString:menuItem[@"label"]];
++        NSString *menuItemKey = [RCTConvert NSString:menuItem[@"key"]];
++        NSString *selName = [NSString stringWithFormat:@"%@%@", CUSTOM_SELECTOR, menuItemKey];
++        UIMenuItem *item = [[UIMenuItem alloc] initWithTitle: menuItemLabel
++                                                     action: NSSelectorFromString(selName)];
++        [menuControllerItems addObject: item];
+       }
++
++      menuController.menuItems = menuControllerItems;
+     }
+-    [super buildMenuWithBuilder:builder];
++  }
++
++  // Otherwise, defer to super for standard actions
++  return [super canPerformAction:action withSender:sender];
+ }
+ #else // TARGET_OS_OSX
+ - (void)scrollWheel:(NSEvent *)theEvent {
+@@ -165,36 +230,42 @@ RCTAutoInsetsProtocol>
+     _bounces = YES;
+     _scrollEnabled = YES;
+     _showsHorizontalScrollIndicator = YES;
++    _javaScriptEnabled = YES;
++    _allowsLinkPreview = YES;
+     _showsVerticalScrollIndicator = YES;
+     _directionalLockEnabled = YES;
++    _useSharedProcessPool = YES;
++    _cacheEnabled = YES;
++    _mediaPlaybackRequiresUserAction = YES;
+     _automaticallyAdjustContentInsets = YES;
+     _autoManageStatusBarEnabled = YES;
+     _contentInset = UIEdgeInsetsZero;
+     _savedKeyboardDisplayRequiresUserAction = YES;
+-#if TARGET_OS_IOS
+-    _savedStatusBarStyle = RCTSharedApplication().statusBarStyle;
+-    _savedStatusBarHidden = RCTSharedApplication().statusBarHidden;
+-#endif // TARGET_OS_IOS
+     _injectedJavaScript = nil;
+     _injectedJavaScriptForMainFrameOnly = YES;
+     _injectedJavaScriptBeforeContentLoaded = nil;
+     _injectedJavaScriptBeforeContentLoadedForMainFrameOnly = YES;
+-
++    _enableApplePay = NO;
++#if TARGET_OS_IOS
++    _savedStatusBarStyle = RCTSharedApplication().statusBarStyle;
++    _savedStatusBarHidden = RCTSharedApplication().statusBarHidden;
++#endif // TARGET_OS_IOS
+ #if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000 /* __IPHONE_11_0 */
+     _savedContentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+ #endif
+ #if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000 /* __IPHONE_13_0 */
+     _savedAutomaticallyAdjustsScrollIndicatorInsets = NO;
++    _fraudulentWebsiteWarningEnabled = YES;
++#endif
++#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500 /* __IPHONE_13_0 */
++    _textInteractionEnabled = YES;
+ #endif
+-    _enableApplePay = NO;
+ #if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 150000 /* iOS 15 */
+     _mediaCapturePermissionGrantType = RNCWebViewPermissionGrantType_Prompt;
+ #endif
+ #if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000 /* iOS 15 */
+-    if (@available(iOS 16.0, *)) {
+-      _editMenuInteraction = [[UIEditMenuInteraction alloc] initWithDelegate:self];
+-      [self addInteraction:_editMenuInteraction];
+-    }
++    // We're using UIMenuController directly now instead of UIEditMenuInteraction
++    // for better compatibility with all iOS versions
+ #endif
+   }
+ 
+@@ -238,65 +309,19 @@ RCTAutoInsetsProtocol>
+ }
+ 
+ #if !TARGET_OS_OSX
+-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+-  // Only allow long press gesture
+-  if ([otherGestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+-    return YES;
+-  }else{
+-    return NO;
+-  }
+-}
++// Not using any custom gesture recognizers anymore
+ 
+-// Listener for long presses
+-- (void)startLongPress:(UILongPressGestureRecognizer *)pressSender
+-{
+-    if (pressSender.state != UIGestureRecognizerStateEnded || !self.menuItems) {
+-        return;
+-    }
+-    if (@available(iOS 16.0, *)) {
+-      CGPoint location = [pressSender locationInView:self];
+-      UIEditMenuConfiguration *config = [UIEditMenuConfiguration configurationWithIdentifier:nil sourcePoint:location];
+-      [_editMenuInteraction presentEditMenuWithConfiguration:config];
+-    } else {
+-      // When a long press ends, bring up our custom UIMenu if defined
+-      if (self.menuItems.count == 0) {
+-        UIMenuController *menuController = [UIMenuController sharedMenuController];
+-        menuController.menuItems = nil;
+-        [menuController showMenuFromView:self rect:self.bounds];
+-        return;
+-      }
++// We no longer use long press gesture recognition to show the menu
++// The standard text selection menu now includes our custom items
+ 
+-      UIMenuController *menuController = [UIMenuController sharedMenuController];
+-      NSMutableArray *menuControllerItems = [NSMutableArray arrayWithCapacity:self.menuItems.count];
+-      
+-      for(NSDictionary *menuItem in self.menuItems) {
+-        NSString *menuItemLabel = [RCTConvert NSString:menuItem[@"label"]];
+-        NSString *menuItemKey = [RCTConvert NSString:menuItem[@"key"]];
+-        NSString *sel = [NSString stringWithFormat:@"%@%@", CUSTOM_SELECTOR, menuItemKey];
+-        UIMenuItem *item = [[UIMenuItem alloc] initWithTitle: menuItemLabel
+-                                                      action: NSSelectorFromString(sel)];
+-        [menuControllerItems addObject: item];
+-      }
+-      menuController.menuItems = menuControllerItems;
+-      [menuController showMenuFromView:self rect:self.bounds];
+-    }
+-}
+-
+-- (UIMenu *)editMenuInteraction:(UIEditMenuInteraction *)interaction menuForConfiguration:(UIEditMenuConfiguration *)configuration suggestedActions:(NSArray<UIMenuElement *> *)suggestedActions API_AVAILABLE(ios(16.0))
++// We don't need this method for iOS 16+ anymore since we're using UIMenuController directly
++// for better compatibility. Keeping this as a stub that passes through the default actions.
++- (UIMenu *)editMenuInteraction:(UIEditMenuInteraction *)interaction
++         menuForConfiguration:(UIEditMenuConfiguration *)configuration
++              suggestedActions:(NSArray<UIMenuElement *> *)suggestedActions API_AVAILABLE(ios(16.0))
+ {
+-  NSMutableArray<UICommand *> *menuItems = [NSMutableArray new];
+-  for(NSDictionary *menuItem in self.menuItems) {
+-    NSString *menuItemLabel = [RCTConvert NSString:menuItem[@"label"]];
+-    NSString *menuItemKey = [RCTConvert NSString:menuItem[@"key"]];
+-    NSString *sel = [NSString stringWithFormat:@"%@%@", CUSTOM_SELECTOR, menuItemKey];
+-    UICommand *command = [UICommand commandWithTitle:menuItemLabel
+-                                               image:nil
+-                                              action:NSSelectorFromString(sel)
+-                                        propertyList:nil];
+-    [menuItems addObject:command];
+-  }
+-  UIMenu *menu = [UIMenu menuWithChildren:menuItems];
+-  return menu;
++  // Always return the default suggested actions
++  return [UIMenu menuWithChildren:suggestedActions];
+ }
+ #endif // !TARGET_OS_OSX
+ 
+@@ -310,21 +335,31 @@ RCTAutoInsetsProtocol>
+ 
+ - (void)tappedMenuItem:(NSString *)eventType
+ {
++  // Log for debugging
++  NSLog(@"Custom menu item tapped: %@", eventType);
++
+   // Get the selected text
+   // NOTE: selecting text in an iframe or shadow DOM will not work
+   [self.webView evaluateJavaScript: @"window.getSelection().toString()" completionHandler: ^(id result, NSError *error) {
+     if (error != nil) {
+-      RCTLogWarn(@"%@", [NSString stringWithFormat:@"Error evaluating injectedJavaScript: This is possibly due to an unsupported return type. Try adding true to the end of your injectedJavaScript string. %@", error]);
++      RCTLogWarn(@"%@", [NSString stringWithFormat:@"Error evaluating getSelection: %@", error]);
+     } else {
+       if (self.onCustomMenuSelection) {
+-        NSPredicate *filter = [NSPredicate predicateWithFormat:@"key contains[c] %@ ",eventType];
+-        NSArray *filteredMenuItems = [self.menuItems filteredArrayUsingPredicate:filter];
+-        NSDictionary *selectedMenuItem = filteredMenuItems[0];
+-        NSString *label = [RCTConvert NSString:selectedMenuItem[@"label"]];
++        // Find the matching menu item that was selected
++        NSString *label = @"";
++        for (NSDictionary *menuItem in self.menuItems) {
++          NSString *itemKey = [RCTConvert NSString:menuItem[@"key"]];
++          if ([itemKey isEqualToString:eventType]) {
++            label = [RCTConvert NSString:menuItem[@"label"]];
++            break;
++          }
++        }
++
++        // Call the callback with the event data
+         self.onCustomMenuSelection(@{
+           @"key": eventType,
+           @"label": label,
+-          @"selectedText": result
++          @"selectedText": result ?: @""
+         });
+       } else {
+         RCTLogWarn(@"Error evaluating onCustomMenuSelection: You must implement an `onCustomMenuSelection` callback when using custom menu items");
+@@ -351,7 +386,14 @@ RCTAutoInsetsProtocol>
+   NSString *sel = NSStringFromSelector([invocation selector]);
+   NSRange match = [sel rangeOfString:CUSTOM_SELECTOR];
+   if (match.location == 0) {
+-    [self tappedMenuItem:[sel substringFromIndex:17]];
++    // Extract the key part after the CUSTOM_SELECTOR prefix
++    NSString *key = [sel substringFromIndex:[CUSTOM_SELECTOR length]];
++    NSLog(@"Forward invocation with custom selector: %@ -> key: %@", sel, key);
++
++    // Call our handler with the extracted key
++    if (key && key.length > 0) {
++      [self tappedMenuItem:key];
++    }
+   } else {
+     [super forwardInvocation:invocation];
+   }
+@@ -366,14 +408,70 @@ RCTAutoInsetsProtocol>
+ // Control which items show up on the UIMenuController
+ - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+ {
++  // First check if it's one of our custom menu items
+   NSString *sel = NSStringFromSelector(action);
+-  // Do any of them have our custom keys?
+   NSRange match = [sel rangeOfString:CUSTOM_SELECTOR];
+-
+   if (match.location == 0) {
++    // This is a custom menu item, allow it
+     return YES;
+   }
+-  return NO;
++
++  // Then check for standard menu items we want to keep
++  BOOL isStandardAction =
++      [sel isEqualToString:@"copy:"] ||
++      [sel isEqualToString:@"paste:"] ||
++      [sel isEqualToString:@"cut:"] ||
++      [sel isEqualToString:@"select:"] ||
++      [sel isEqualToString:@"selectAll:"] ||
++      [sel isEqualToString:@"_share:"] ||
++      [sel isEqualToString:@"_define:"] ||
++      [sel isEqualToString:@"_translate:"];
++
++  if (isStandardAction) {
++    return [super canPerformAction:action withSender:sender];
++  }
++
++  // For other standard actions, ask super
++  return [super canPerformAction:action withSender:sender];
++}
++
++// Method to update custom menu items
++- (void)updateCustomMenuItems
++{
++  if (!self.menuItems || self.menuItems.count == 0) {
++    UIMenuController *menuController = [UIMenuController sharedMenuController];
++    menuController.menuItems = nil;
++    return;
++  }
++
++  NSMutableArray *menuControllerItems = [NSMutableArray arrayWithCapacity:self.menuItems.count];
++
++  for(NSDictionary *menuItem in self.menuItems) {
++    NSString *menuItemLabel = [RCTConvert NSString:menuItem[@"label"]];
++    NSString *menuItemKey = [RCTConvert NSString:menuItem[@"key"]];
++    NSString *sel = [NSString stringWithFormat:@"%@%@", CUSTOM_SELECTOR, menuItemKey];
++    UIMenuItem *item = [[UIMenuItem alloc] initWithTitle: menuItemLabel
++                                                 action: NSSelectorFromString(sel)];
++    [menuControllerItems addObject: item];
++  }
++
++  UIMenuController *menuController = [UIMenuController sharedMenuController];
++  menuController.menuItems = menuControllerItems;
++}
++
++// Called when menu is about to show
++- (void)handleSelectionChange
++{
++  dispatch_async(dispatch_get_main_queue(), ^{
++    // Make sure we can show menus
++    [self becomeFirstResponder];
++
++    // Update menu items in case they changed
++    [self updateCustomMenuItems];
++
++    // Log for debugging
++    NSLog(@"Menu will show - custom items updated");
++  });
+ }
+ 
+ /**
+@@ -514,6 +612,18 @@ RCTAutoInsetsProtocol>
+     _webView.menuItems = _menuItems;
+     _webView.suppressMenuItems = _suppressMenuItems;
+     _webView.scrollView.delegate = self;
++
++        // Register to receive text selection notifications
++    [[NSNotificationCenter defaultCenter] addObserver:self
++                                             selector:@selector(handleSelectionChange)
++                                                 name:UIMenuControllerWillShowMenuNotification
++                                               object:nil];
++
++    // Set up custom menu items
++    if (_menuItems && _menuItems.count > 0) {
++      // Register custom menu items on the shared UIMenuController
++      [self updateCustomMenuItems];
++    }
+ #endif // !TARGET_OS_OSX
+     _webView.UIDelegate = self;
+     _webView.navigationDelegate = self;
+@@ -561,16 +671,8 @@ RCTAutoInsetsProtocol>
+   }
+ 
+ #if !TARGET_OS_OSX
+-  // Allow this object to recognize gestures
+-  if (self.menuItems != nil) {
+-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(startLongPress:)];
+-    longPress.delegate = self;
+-
+-    longPress.minimumPressDuration = 0.4f;
+-    longPress.numberOfTouchesRequired = 1;
+-    longPress.cancelsTouchesInView = YES;
+-    [self addGestureRecognizer:longPress];
+-  }
++// We don't need to add a custom long press recognizer anymore
++// The standard WebView text selection menu will include our custom items
+ #endif // !TARGET_OS_OSX
+ }
+ 
+@@ -796,22 +898,25 @@ RCTAutoInsetsProtocol>
+   }
+ }
+ 
+-#if !TARGET_OS_OSX
+ - (void)setContentInset:(UIEdgeInsets)contentInset
+ {
++#if !TARGET_OS_OSX
+   _contentInset = contentInset;
+   [RCTView autoAdjustInsetsForView:self
+                     withScrollView:_webView.scrollView
+                       updateOffset:NO];
++#endif // !TARGET_OS_OSX
+ }
+ 
+ - (void)refreshContentInset
+ {
++#if !TARGET_OS_OSX
+   [RCTView autoAdjustInsetsForView:self
+                     withScrollView:_webView.scrollView
+                       updateOffset:YES];
+-}
+ #endif // !TARGET_OS_OSX
++}
++
+ 
+ - (void)visitSource
+ {
+@@ -878,6 +983,7 @@ RCTAutoInsetsProtocol>
+ #if TARGET_OS_IOS
+ -(void)setKeyboardDisplayRequiresUserAction:(BOOL)keyboardDisplayRequiresUserAction
+ {
++  _keyboardDisplayRequiresUserAction = keyboardDisplayRequiresUserAction;
+   if (_webView == nil) {
+     _savedKeyboardDisplayRequiresUserAction = keyboardDisplayRequiresUserAction;
+     return;
+@@ -910,7 +1016,7 @@ RCTAutoInsetsProtocol>
+     SEL selector = sel_getUid("_elementDidFocus:userIsInteracting:blurPreviousNode:activityStateChanges:userObject:");
+     method = class_getInstanceMethod(class, selector);
+     IMP original = method_getImplementation(method);
+-    override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
++    override = imp_implementationWithBlock(^void(id me, void* arg0, __unused BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
+       ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, TRUE, arg2, arg3, arg4);
+     });
+   }
+@@ -919,7 +1025,7 @@ RCTAutoInsetsProtocol>
+     SEL selector = sel_getUid("_elementDidFocus:userIsInteracting:blurPreviousNode:changingActivityState:userObject:");
+     method = class_getInstanceMethod(class, selector);
+     IMP original = method_getImplementation(method);
+-    override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
++    override = imp_implementationWithBlock(^void(id me, void* arg0, __unused BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
+       ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, TRUE, arg2, arg3, arg4);
+     });
+   }
+@@ -928,7 +1034,7 @@ RCTAutoInsetsProtocol>
+     SEL selector = sel_getUid("_startAssistingNode:userIsInteracting:blurPreviousNode:changingActivityState:userObject:");
+     method = class_getInstanceMethod(class, selector);
+     IMP original = method_getImplementation(method);
+-    override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
++    override = imp_implementationWithBlock(^void(id me, void* arg0, __unused BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
+       ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, TRUE, arg2, arg3, arg4);
+     });
+   } else {
+@@ -936,7 +1042,7 @@ RCTAutoInsetsProtocol>
+     SEL selector = sel_getUid("_startAssistingNode:userIsInteracting:blurPreviousNode:userObject:");
+     method = class_getInstanceMethod(class, selector);
+     IMP original = method_getImplementation(method);
+-    override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL arg2, id arg3) {
++    override = imp_implementationWithBlock(^void(id me, void* arg0, __unused BOOL arg1, BOOL arg2, id arg3) {
+       ((void (*)(id, SEL, void*, BOOL, BOOL, id))original)(me, selector, arg0, TRUE, arg2, arg3);
+     });
+   }
+@@ -946,6 +1052,7 @@ RCTAutoInsetsProtocol>
+ 
+ -(void)setHideKeyboardAccessoryView:(BOOL)hideKeyboardAccessoryView
+ {
++  _hideKeyboardAccessoryView = hideKeyboardAccessoryView;
+   _savedHideKeyboardAccessoryView = hideKeyboardAccessoryView;
+ 
+   if (_webView == nil) {
+@@ -1168,7 +1275,7 @@ RCTAutoInsetsProtocol>
+ {
+ #if !TARGET_OS_OSX
+   UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+-  [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
++  [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action) {
+     completionHandler();
+   }]];
+   [[self topViewController] presentViewController:alert animated:YES completion:NULL];
+@@ -1187,10 +1294,10 @@ RCTAutoInsetsProtocol>
+ - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler{
+ #if !TARGET_OS_OSX
+   UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+-  [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
++  [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action) {
+     completionHandler(YES);
+   }]];
+-  [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
++  [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(__unused UIAlertAction *action) {
+     completionHandler(NO);
+   }]];
+   [[self topViewController] presentViewController:alert animated:YES completion:NULL];
+@@ -1215,11 +1322,11 @@ RCTAutoInsetsProtocol>
+   [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+     textField.text = defaultText;
+   }];
+-  UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
++  UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *action) {
+     completionHandler([[alert.textFields lastObject] text]);
+   }];
+   [alert addAction:okAction];
+-  UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
++  UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(__unused UIAlertAction *action) {
+     completionHandler(nil);
+   }];
+   [alert addAction:cancelAction];
+@@ -1328,7 +1435,6 @@ RCTAutoInsetsProtocol>
+     }
+ 
+     if (_onShouldStartLoadWithRequest) {
+-        NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+         int lockIdentifier = [[RNCWebViewDecisionManager getInstance] setDecisionHandler: ^(BOOL shouldStart){
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 if (!shouldStart) {
+@@ -1352,6 +1458,7 @@ RCTAutoInsetsProtocol>
+             });
+ 
+         }];
++        NSMutableDictionary<NSString *, id> *event = [self baseEvent];
+         if (request.mainDocumentURL) {
+           [event addEntriesFromDictionary: @{
+             @"mainDocumentURL": (request.mainDocumentURL).absoluteString,
+@@ -1685,6 +1792,7 @@ didFinishNavigation:(WKNavigation *)navigation
+ 
+ - (void)setInjectedJavaScriptObject:(NSString *)source
+ {
++  _injectedJavaScriptObject = source;
+   self.injectedObjectJsonScript = [
+     [WKUserScript alloc]
+     initWithSource: [
+@@ -1823,8 +1931,8 @@ didFinishNavigation:(WKNavigation *)navigation
+                                          "  })\n"
+                                          "})(window.history)\n", HistoryShimName
+   ];
+-  WKUserScript *script = [[WKUserScript alloc] initWithSource:html5HistoryAPIShimSource injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+-  [wkWebViewConfig.userContentController addUserScript:script];
++  WKUserScript *userScript = [[WKUserScript alloc] initWithSource:html5HistoryAPIShimSource injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
++  [wkWebViewConfig.userContentController addUserScript:userScript];
+ 
+   if(_sharedCookiesEnabled) {
+     // More info to sending cookies with WKWebView
+diff --git a/node_modules/react-native-webview/src/WebViewTypes.ts b/node_modules/react-native-webview/src/WebViewTypes.ts
+index c8e017e..ab25597 100644
+--- a/node_modules/react-native-webview/src/WebViewTypes.ts
++++ b/node_modules/react-native-webview/src/WebViewTypes.ts
+@@ -57,15 +57,15 @@ export type State = NormalState | ErrorState;
+ 
+ type Constructor<T> = new (...args: any[]) => T;
+ 
+-declare class NativeWebViewMacOSComponent extends Component<MacOSNativeWebViewProps> {}
++declare class NativeWebViewMacOSComponent extends Component<MacOSNativeWebViewProps> { }
+ declare const NativeWebViewMacOSBase: Constructor<NativeMethodsMixin> &
+   typeof NativeWebViewMacOSComponent;
+-export class NativeWebViewMacOS extends NativeWebViewMacOSBase {}
++export class NativeWebViewMacOS extends NativeWebViewMacOSBase { }
+ 
+-declare class NativeWebViewWindowsComponent extends Component<WindowsNativeWebViewProps> {}
++declare class NativeWebViewWindowsComponent extends Component<WindowsNativeWebViewProps> { }
+ declare const NativeWebViewWindowsBase: Constructor<NativeMethodsMixin> &
+   typeof NativeWebViewWindowsComponent;
+-export class NativeWebViewWindows extends NativeWebViewWindowsBase {}
++export class NativeWebViewWindows extends NativeWebViewWindowsBase { }
+ 
+ export interface ContentInsetProp {
+   top?: number;
+@@ -89,12 +89,12 @@ export interface WebViewNativeProgressEvent extends WebViewNativeEvent {
+ 
+ export interface WebViewNavigation extends WebViewNativeEvent {
+   navigationType:
+-    | 'click'
+-    | 'formsubmit'
+-    | 'backforward'
+-    | 'reload'
+-    | 'formresubmit'
+-    | 'other';
++  | 'click'
++  | 'formsubmit'
++  | 'backforward'
++  | 'reload'
++  | 'formresubmit'
++  | 'other';
+   mainDocumentURL?: string;
+ }
+ 
+@@ -729,7 +729,8 @@ export interface IOSWebViewProps extends WebViewSharedProps {
+   enableApplePay?: boolean;
+ 
+   /**
+-   * An array of objects which will be shown when selecting text. An empty array will suppress the menu.
++   * An array of objects which will be shown when selecting text.
++   * These custom menu items will be added to the default menu items when text is selected.
+    * These will appear after a long press to select text.
+    * @platform ios, android
+    */

@@ -1,4 +1,4 @@
-function replaceSectionsWithDivs () {
+function replaceSectionsWithDivs() {
   const sections = document.querySelector('article').querySelectorAll('section')
   let div
   for (var i = sections.length - 1; i >= 0; i--) {
@@ -8,7 +8,7 @@ function replaceSectionsWithDivs () {
   }
 }
 
-function moveChildrenUpALevel (div) {
+function moveChildrenUpALevel(div) {
   var parent = div.parentNode
   var children = div.childNodes
   children.forEach(child => {
@@ -43,7 +43,7 @@ function removeDivsWithImg(divs) {
 
   const hasOnlyImgChild = function (el) {
     return el.childNodes.length === 1 && el.childNodes[0].nodeType === 1 &&
-    el.childNodes[0].tagName === 'IMG'
+      el.childNodes[0].tagName === 'IMG'
   }
   let divsWithImgs = Array.from(divs).filter(hasOnlyImgChild)
   while (divsWithImgs.length > 0) {
@@ -54,7 +54,7 @@ function removeDivsWithImg(divs) {
   }
 }
 
-function hasOnlyDivChildren (el) {
+function hasOnlyDivChildren(el) {
   const children = getChildrenRemoveBlankTextNodes(el)
   if (children.length === 0) return false
   for (var i = 0; i < children.length; i++) {
@@ -63,7 +63,7 @@ function hasOnlyDivChildren (el) {
   return true
 }
 
-function removeArticles () {
+function removeArticles() {
   const articles = document.querySelector('article').querySelectorAll('article')
   for (var i = 0; i < articles.length; i++) {
     var article = articles[i]
@@ -76,7 +76,7 @@ function removeArticles () {
   }
 }
 
-function removeSoloSurroundingDivs () {
+function removeSoloSurroundingDivs() {
   const article = document.querySelectorAll('article')[0]
   let children = getChildrenRemoveBlankTextNodes(article)
   while (children.length === 1 && children[0].tagName === 'DIV') {
@@ -105,7 +105,7 @@ function removeSoloSurroundingDivs () {
   // }
 }
 
-function removeDivsWithOrphanFigures () {
+function removeDivsWithOrphanFigures() {
   const figures = document.querySelectorAll('figure')
   Array.prototype.forEach.call(figures, (figure, i) => {
     const parent = figure.parentElement
@@ -117,7 +117,7 @@ function removeDivsWithOrphanFigures () {
   })
 }
 
-function convertDivsToFigures () {
+function convertDivsToFigures() {
   const divs = document.querySelectorAll('div')
   Array.prototype.forEach.call(divs, function (div, i) {
     if (div.childNodes.length === 2 &&
@@ -134,7 +134,7 @@ function convertDivsToFigures () {
   })
 }
 
-function removeEmptyParagraphs () {
+function removeEmptyParagraphs() {
   const paras = document.querySelectorAll('p')
   let toRemove = []
   Array.prototype.forEach.call(paras, function (el, i) {
@@ -149,7 +149,7 @@ function removeEmptyParagraphs () {
   }
 }
 
-function removeEmptyDivs () {
+function removeEmptyDivs() {
   const divs = document.querySelectorAll('article div')
   let toRemove = []
   Array.prototype.forEach.call(divs, function (el, i) {
@@ -169,7 +169,7 @@ function removeEmptyDivs () {
 
 // this doesn't seem to work
 // also, would need to wrap contiguous orphans into one p
-function wrapOrphanElementsInParagraphs () {
+function wrapOrphanElementsInParagraphs() {
   var article = document.getElementsByTagName('article')[0]
   article.childNodes.forEach(c => {
     if ((c.nodeType === 1 && c.tagName === 'A') || c.nodeType === 3) {
@@ -181,7 +181,7 @@ function wrapOrphanElementsInParagraphs () {
   })
 }
 
-function markShortParagraphs () {
+function markShortParagraphs() {
   const paras = document.querySelectorAll('p')
   Array.prototype.forEach.call(paras, function (el, i) {
     const text = el.innerText
@@ -194,7 +194,7 @@ function markShortParagraphs () {
   })
 }
 
-function markSingleCharParagraphs () {
+function markSingleCharParagraphs() {
   const paras = document.querySelectorAll('p')
   Array.prototype.forEach.call(paras, function (el, i) {
     if (el.innerText.length === 1) {
@@ -203,13 +203,13 @@ function markSingleCharParagraphs () {
   })
 }
 
-function markImages () {
+function markImages() {
   const imgs = document.querySelectorAll('img')
   Array.prototype.forEach.call(imgs, (el, i) => {
     el.onload = () => {
       if (el.naturalHeight >= el.naturalWidth) {
         el.classList.add('img-portrait')
-  
+
         if (el.naturalHeight < 10 || el.naturalWidth < document.body.clientWidth * 0.2) {
           el.classList.add('img-tiny')
         } else if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
@@ -218,14 +218,14 @@ function markImages () {
             el.parentElement.classList.add('figure-small')
           }
         }
-      }  
+      }
     }
   })
 }
 
 function markShortBlockquotes() {
   const paras = document.querySelectorAll('blockquote')
-  const hasLongBlockquotes = Array.prototype.filter.call(paras, function(el) {
+  const hasLongBlockquotes = Array.prototype.filter.call(paras, function (el) {
     el.innerText.length >= 100
   }).length > 0
   Array.prototype.forEach.call(paras, function (el, i) {
@@ -267,7 +267,7 @@ var toggleCollapsed = (e) => {
   }
 }
 
-function setFontSize (fontSize) {
+function setFontSize(fontSize) {
   const html = document.getElementsByTagName('html')[0]
   let fontSizeClass
   html.classList.forEach((c) => {
@@ -283,7 +283,7 @@ function setFontSize (fontSize) {
 
 }
 
-function getHeight () {
+function getHeight() {
   return Math.ceil(document.querySelector('article').getBoundingClientRect().height)
 }
 
@@ -301,7 +301,7 @@ function capitaliseFirstWords() {
 
 function capitaliseFirstChildP(el) {
   if (!el.children) {
-   return
+    return
   }
   var maxCaps = 15
   for (var i = 0; i < el.children.length; i++) {
@@ -324,7 +324,7 @@ function capitaliseFirstChildP(el) {
   }
 }
 
-function capitaliseText (text, maxCaps) {
+function capitaliseText(text, maxCaps) {
   if (text.split(/[,\.;:\?!]/, 2)[0].length < maxCaps) {
     var splitted = text.split(/([,\.;:\?!])/)
     splitted[0] = splitted[0].toUpperCase()
@@ -383,7 +383,7 @@ function markQuoteBlockquotes() {
   })
 }
 
-function createFigCaptions () {
+function createFigCaptions() {
   var article = document.getElementsByTagName('article')[0]
   var nodes = article.childNodes
   var indexes = []
@@ -412,7 +412,7 @@ function createFigCaptions () {
   })
 }
 
-function onlyContentIsImg (node) {
+function onlyContentIsImg(node) {
   var children = getChildrenRemoveBlankTextNodes(node)
   if (children.length !== 1) {
     return false
@@ -425,7 +425,7 @@ function onlyContentIsImg (node) {
   }
 }
 
-function getChildrenRemoveBlankTextNodes (node) {
+function getChildrenRemoveBlankTextNodes(node) {
   return Array.from(node.childNodes)
     .filter(node => node.nodeType !== 3 || node.nodeValue.trim().length > 0)
 }
@@ -461,9 +461,9 @@ function fadeIntoView() {
   console.log('fadeIntoView')
   var fadables = Array.from(document.querySelectorAll('figure'))
     .concat(Array.from(document.querySelectorAll('blockquote')))
-  window.addEventListener('scroll', function(e) {
+  window.addEventListener('scroll', function (e) {
     console.log("We're scrolling!")
-    fadables.forEach(function(fadable) {
+    fadables.forEach(function (fadable) {
       if (isInViewport(fadable)) {
         fadable.classList.add('in-viewport')
       }
@@ -471,15 +471,15 @@ function fadeIntoView() {
   }, false)
 }
 
-function addTapMessageToImages () {
+function addTapMessageToImages() {
   addTapMessageToElements('img', 'image:', 'src')
 }
 
-function addTapMessageToLinks () {
+function addTapMessageToLinks() {
   addTapMessageToElements('a', 'link:', 'href')
 }
 
-function addTapMessageToElements (tag, msg, attr, fn) {
+function addTapMessageToElements(tag, msg, attr, fn) {
   const els = document.querySelectorAll(tag)
   Array.prototype.forEach.call(els, (el) => {
     el.onclick = (event) => {
@@ -492,7 +492,7 @@ function addTapMessageToElements (tag, msg, attr, fn) {
   })
 }
 
-function addTargetToLinksOnWeb () {
+function addTargetToLinksOnWeb() {
   const html = document.getElementsByTagName('html')[0]
   if (html.classList.contains('web')) {
     const links = document.querySelectorAll('a')
@@ -502,18 +502,18 @@ function addTargetToLinksOnWeb () {
   }
 }
 
-function removeNYTImageText () {
+function removeNYTImageText() {
   removeNodes('figure div span')
 }
 
-function removeNodes (query) {
+function removeNodes(query) {
   const nodes = document.querySelectorAll(query)
   for (let i = nodes.length - 1; i >= 0; i--) {
     nodes[i].remove()
   }
 }
 
-function removeSrcSets () {
+function removeSrcSets() {
   const images = document.querySelectorAll('img')
   for (let i = images.length - 1; i >= 0; i--) {
     images[i].srcset = ''
@@ -560,7 +560,7 @@ function remove1x1Images() {
   }
 }
 
-function removeSubstackPreamble () {
+function removeSubstackPreamble() {
   if (document.querySelector('html').classList.contains('newsletter') &&
     document.querySelectorAll('.email-body-container').length === 1) {
     const emailBodyContainer = document.querySelector('.email-body-container')
@@ -572,36 +572,36 @@ function removeSubstackPreamble () {
   }
 }
 
-function stopAutoplay () {
+function stopAutoplay() {
   [].slice.call(document.getElementsByTagName('video')).forEach(v => v.removeAttribute('autoplay'))
 }
 
-// function highlightSelection() {
-//   const selections = highlighter.highlightSelection('highlight')
-//   const selection = selections[0]
-//   const text = selection.getText()
-//   const serialized = highlighter.serialize(selection)
-//   window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
-// }
+function highlightSelection() {
+  const selections = highlighter.highlightSelection('highlight')
+  const selection = selections[0]
+  const text = selection.getText()
+  const serialized = highlighter.serialize(selection)
+  window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
+}
 
 function deselectHighlight() {
-  document.querySelectorAll('.highlighter').forEach(el => el.classList.remove('highlighter'))
+  document.querySelectorAll('.active-highlight').forEach(el => el.classList.remove('active-highlight'))
 }
 
 function deleteSelectedHighlight() {
-  document.querySelectorAll('.highlighter').forEach(el => el.classList.remove('highlighter'))
+  document.querySelectorAll('.active-highlight').forEach(el => el.classList.remove('active-highlight'))
   document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'))
 }
 
-function addTapMessageToHighlights () {
+function addTapMessageToHighlights() {
   const highlighter = (el) => {
     const highlightId = el.getAttribute('data-id')
-    document.querySelectorAll(`[data-id="${highlightId}"]`).forEach(el => el.classList.add('highlighter'))
+    document.querySelectorAll(`[data-id="${highlightId}"]`).forEach(el => el.classList.add('active-highlight'))
   }
   addTapMessageToElements('.highlight', 'edit-highlight:', 'data-id', highlighter)
 }
 
-function postMessage (msg) {
+function postMessage(msg) {
   const payload = JSON.stringify(msg)
   if (window.ReactNativeWebView) {
     window.ReactNativeWebView.postMessage(payload);
@@ -690,7 +690,7 @@ function init() {
   })
 
   if (substack.is()) {
-    substack.fixFigures()  
+    substack.fixFigures()
   }
 
   if (document.querySelector('html').classList.contains('newsletter')) {
@@ -700,23 +700,22 @@ function init() {
 
   remove1x1Images()
 
-  let currentSelectionText = ''
-  document.addEventListener('selectionchange', () => {
-    const text = rangy.getSelection().toString()
-    if (text !== currentSelectionText) {
-      currentSelectionText = text
-      if (text !== '') {
-        const selections = highlighter.highlightSelection('highlight')
-        const selection = selections[0]
-        const serialized = highlighter.serialize(selection)
-        window.ReactNativeWebView?.postMessage("highlight:" + text + "++++++" + serialized)
-        highlighter.highlightSelection('highlight-pending')
-      } else {
-        window.ReactNativeWebView?.postMessage("end-highlight")
-      }
-    }
-  })
+  // let currentSelectionText = ''
+  // document.addEventListener('selectionchange', () => {
+  //   const text = rangy.getSelection().toString()
+  //   if (text !== currentSelectionText) {
+  //     currentSelectionText = text
+  //     if (text !== '') {
+  //       const selections = highlighter.highlightSelection('highlight')
+  //       const selection = selections[0]
+  //       const serialized = highlighter.serialize(selection)
+  //       window.ReactNativeWebView?.postMessage("highlight:" + text + "++++++" + serialized)
+  //       highlighter.highlightSelection('highlight-pending')
+  //     } else {
+  //       window.ReactNativeWebView?.postMessage("end-highlight")
+  //     }
+  //   }
+  // })
 }
 
 window.addEventListener("load", init)
-

@@ -72,7 +72,7 @@ interface ItemBodyProps {
 const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
   const webView = useRef(null)
   const dispatch = useDispatch()
-  const { activeHighlight, setActiveHighlight } = React.useContext(ActiveHighlightContext)
+  const { activeHighlightId, setActiveHighlightId, activeHighlight } = React.useContext(ActiveHighlightContext)
   const annotatedCategory: Category | undefined = useSelector((store: RootState) => store.categories.categories.find(c => c.name === 'annotated'), isEqual)
   const [annotatedCategoryId, setAnnotatedCategoryId] = useState(annotatedCategory?._id)
   useEffect(() => {
@@ -83,10 +83,10 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const [cleanedMercuryContent, setCleanedMercuryContent] = useState<string | undefined>()
 
   useEffect(() => {
-    if (activeHighlight === null) {
+    if (activeHighlightId === null) {
       deselectHighlight()
     }
-  }, [activeHighlight])
+  }, [activeHighlightId])
 
   const openLinksExternallyProp = /*__DEV__ ? {} :*/ {
     onShouldStartLoadWithRequest: (e: any) => {
@@ -111,7 +111,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   const highlightSelection = () => {
     if (Platform.OS !== 'web' && webView?.current) {
-      webView.current.injectJavaScript(`
+      (webView.current as any).injectJavaScript(`
         highlightSelection();
         true;
       `)
@@ -120,7 +120,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   const deselectHighlight = () => {
     if (Platform.OS !== 'web' && webView?.current) {
-      webView.current.injectJavaScript(`
+      (webView.current as any).injectJavaScript(`
         deselectHighlight();
         true;
       `)
@@ -128,22 +128,23 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const onHighlight = (text: string, serialized: string) => {
-    dispatch({ type: HIDE_ALL_BUTTONS })
-    setActiveHighlight({
+    const newHighlight = {
+      _id: id(),
       text,
       serialized,
       item_id: item._id,
       url: item.url
-    })
+    }
+    dispatch(createAnnotation(newHighlight) as any)
   }
 
   const endHighlight = () => {
-    setActiveHighlight(null)
+    setActiveHighlightId(null)
   }
 
   const editHighlight = (annotationId: string) => {
     dispatch({ type: HIDE_ALL_BUTTONS })
-    setActiveHighlight({ _id: annotationId })
+    setActiveHighlightId(annotationId)
   }
 
   const onBodyCleaned = async (cleanedBody: string) => {
@@ -203,7 +204,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const articleClasses = [
-    ...Object.values(styles.fontClasses),
+    ...Object.values(styles.fontClasses || {}),
     'itemArticle',
     styles.color,
     styles.dropCapFamily === 'header' ? 'dropCapFamilyHeader' : '',
@@ -320,17 +321,17 @@ html, body {
     decelerationRate='normal'
     injectedJavaScript={injectedJavaScript}
     mixedContentMode='compatibility'
-    // menuItems={[
-    //   {
-    //     label: 'Highlight',
-    //     key: 'highlight'
-    //   }
-    // ]}
-    // onCustomMenuSelection={({ nativeEvent }) => {
-    //   if (nativeEvent?.key === 'highlight') {
-    //     highlightSelection(nativeEvent.selection)
-    //   }
-    // }}
+    menuItems={[
+      {
+        label: 'Highlight',
+        key: 'highlight'
+      }
+    ]}
+    onCustomMenuSelection={({ nativeEvent }) => {
+      if (nativeEvent?.key === 'highlight') {
+        highlightSelection()
+      }
+    }}
     onMessage={(event) => {
       const rawMsg = event.nativeEvent.data
       let msg = ''
