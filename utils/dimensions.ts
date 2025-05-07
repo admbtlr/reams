@@ -4,14 +4,14 @@ import { Dimensions, Platform } from 'react-native';
 export const hasNotchOrIsland = () => {
   let d = Dimensions.get('window')
   const { height, width } = d
-  const heights = [812, 844, 896, 852, 932]
+  const heights = [812, 844, 852, 874, 896, 932]
 
   return (
     Platform.OS === 'ios' &&
     // Accounting for the height in either orientation
     (heights.includes(height) || heights.includes(width))
   )
-};export const isIpad = () => {
+}; export const isIpad = () => {
   return Platform.OS === 'ios' && getSmallestDimension() > 700
 };
 export const isPortrait = () => Dimensions.get('window').height > Dimensions.get('window').width;
@@ -49,4 +49,3 @@ export const getMargin = () => {
 };
 export const getStatusBarHeight = () => 70 * fontSizeMultiplier() +
   (hasNotchOrIsland() && isPortrait() ? 44 : 22)
-
