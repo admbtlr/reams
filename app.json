@@ -85,7 +85,7 @@
       "package": "app.reams"
     },
     "ios": {
-      "bundleIdentifier": "app.reams"
+      "bundleIdentifier": "com.adam-butler.rizzle"
     },
     "web": {
       "output": "single",
