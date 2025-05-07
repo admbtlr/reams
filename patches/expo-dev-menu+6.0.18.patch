@@ -1,0 +1,81 @@
+diff --git a/node_modules/expo-dev-menu/ios/DevMenuRCTBridge.mm b/node_modules/expo-dev-menu/ios/DevMenuRCTBridge.mm
+index a47fe00..d0a1faa 100644
+--- a/node_modules/expo-dev-menu/ios/DevMenuRCTBridge.mm
++++ b/node_modules/expo-dev-menu/ios/DevMenuRCTBridge.mm
+@@ -21,7 +21,7 @@
+ #else
+ #import <EXDevMenu-Swift.h>
+ #endif
+-#import <RCTCxxBridge+Private.h>
++#import <EXDevMenu/RCTCxxBridge+Private.h>
+ 
+ #import <React/RCTPerformanceLogger.h>
+ #import <React/RCTDevSettings.h>
+diff --git a/node_modules/expo-dev-menu/ios/DevMenuViewController.swift b/node_modules/expo-dev-menu/ios/DevMenuViewController.swift
+index 2469f1a..366c8b1 100644
+--- a/node_modules/expo-dev-menu/ios/DevMenuViewController.swift
++++ b/node_modules/expo-dev-menu/ios/DevMenuViewController.swift
+@@ -1,7 +1,7 @@
+ // Copyright 2015-present 650 Industries. All rights reserved.
+ 
+-import UIKit
+ import React
++import UIKit
+ 
+ class DevMenuViewController: UIViewController {
+   static let JavaScriptDidLoadNotification = Notification.Name("RCTJavaScriptDidLoadNotification")
+@@ -39,7 +39,8 @@ class DevMenuViewController: UIViewController {
+ 
+   override func viewWillLayoutSubviews() {
+     super.viewWillLayoutSubviews()
+-    reactRootView?.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
++    reactRootView?.frame = CGRect(
++      x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+   }
+ 
+   override func viewWillAppear(_ animated: Bool) {
+@@ -48,9 +49,7 @@ class DevMenuViewController: UIViewController {
+   }
+ 
+   override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+-    get {
+-      return UIInterfaceOrientationMask.all
+-    }
++    return UIInterfaceOrientationMask.all
+   }
+ 
+   override var overrideUserInterfaceStyle: UIUserInterfaceStyle {
+@@ -63,7 +62,11 @@ class DevMenuViewController: UIViewController {
+   // MARK: private
+ 
+   private func initialProps() -> [String: Any] {
+-    let isSimulator = TARGET_IPHONE_SIMULATOR > 0
++    #if targetEnvironment(simulator)
++      let isSimulator = true
++    #else
++      let isSimulator = false
++    #endif
+ 
+     return [
+       "showOnboardingView": manager.shouldShowOnboarding(),
+@@ -72,16 +75,17 @@ class DevMenuViewController: UIViewController {
+       "menuPreferences": DevMenuPreferences.serialize(),
+       "uuid": UUID.init().uuidString,
+       "isDevice": !isSimulator,
+-      "registeredCallbacks": manager.registeredCallbacks.map { $0.name }
++      "registeredCallbacks": manager.registeredCallbacks.map { $0.name },
+     ]
+   }
+ 
+   private func rebuildRootView() {
+-    reactRootView = manager.appInstance.rootViewFactory.view(withModuleName: "main", initialProperties: initialProps())
++    reactRootView = manager.appInstance.rootViewFactory.view(
++      withModuleName: "main", initialProperties: initialProps())
+     reactRootView?.frame = view.bounds
+     reactRootView?.backgroundColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in
+       if traitCollection.userInterfaceStyle == .dark {
+-        return  UIColor(red: 22 / 255.0, green: 27 / 255.0, blue: 34 / 255.0, alpha: 1)
++        return UIColor(red: 22 / 255.0, green: 27 / 255.0, blue: 34 / 255.0, alpha: 1)
+       }
+ 
+       return UIColor.clear

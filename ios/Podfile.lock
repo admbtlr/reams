@@ -263,7 +263,7 @@ PODS:
     - Yoga
   - ExpoSplashScreen (0.29.21):
     - ExpoModulesCore
-  - ExpoSQLite (15.1.2):
+  - ExpoSQLite (15.1.4):
     - ExpoModulesCore
   - EXUpdatesInterface (1.0.0):
     - ExpoModulesCore
@@ -276,17 +276,17 @@ PODS:
   - hermes-engine/Pre-built (0.77.0)
   - ImageColors (2.4.0):
     - ExpoModulesCore
-  - libwebp (1.3.2):
-    - libwebp/demux (= 1.3.2)
-    - libwebp/mux (= 1.3.2)
-    - libwebp/sharpyuv (= 1.3.2)
-    - libwebp/webp (= 1.3.2)
-  - libwebp/demux (1.3.2):
+  - libwebp (1.5.0):
+    - libwebp/demux (= 1.5.0)
+    - libwebp/mux (= 1.5.0)
+    - libwebp/sharpyuv (= 1.5.0)
+    - libwebp/webp (= 1.5.0)
+  - libwebp/demux (1.5.0):
     - libwebp/webp
-  - libwebp/mux (1.3.2):
+  - libwebp/mux (1.5.0):
     - libwebp/demux
-  - libwebp/sharpyuv (1.3.2)
-  - libwebp/webp (1.3.2):
+  - libwebp/sharpyuv (1.5.0)
+  - libwebp/webp (1.5.0):
     - libwebp/sharpyuv
   - Mixpanel-swift (4.3.0):
     - Mixpanel-swift/Complete (= 4.3.0)
@@ -294,8 +294,8 @@ PODS:
   - MixpanelReactNative (3.0.8):
     - Mixpanel-swift (= 4.3.0)
     - React-Core
-  - PurchasesHybridCommon (13.15.2):
-    - RevenueCat (= 5.14.5)
+  - PurchasesHybridCommon (13.29.1):
+    - RevenueCat (= 5.22.2)
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -1852,7 +1852,7 @@ PODS:
   - ReactNativeWebPFormat (1.2.0):
     - React-Core
     - SDWebImageWebPCoder
-  - RevenueCat (5.14.5)
+  - RevenueCat (5.22.2)
   - RNAppleAuthentication (2.4.0):
     - React-Core
   - RNCAsyncStorage (1.23.1):
@@ -1889,8 +1889,8 @@ PODS:
     - Yoga
   - RNInAppBrowser (3.7.0):
     - React-Core
-  - RNPurchases (8.5.1):
-    - PurchasesHybridCommon (= 13.15.2)
+  - RNPurchases (8.9.6):
+    - PurchasesHybridCommon (= 13.29.1)
     - React-Core
   - RNReactNativeHapticFeedback (2.3.3):
     - DoubleConversion
@@ -2024,7 +2024,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (6.3.0):
+  - RNSentry (6.10.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2045,7 +2045,7 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - Sentry/HybridSDK (= 8.41.0)
+    - Sentry/HybridSDK (= 8.48.0)
     - Yoga
   - RNShareMenu (6.0.0):
     - React
@@ -2053,11 +2053,11 @@ PODS:
     - React-Core
   - RNTextSize (4.0.0-rc.1):
     - React
-  - SDWebImage/Core (5.20.0)
+  - SDWebImage/Core (5.21.0)
   - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
-  - Sentry/HybridSDK (8.41.0)
+  - Sentry/HybridSDK (8.48.0)
   - SocketRocket (0.7.1)
   - Yoga (0.0.0)
 
@@ -2458,7 +2458,7 @@ SPEC CHECKSUMS:
   ExpoLinearGradient: ee9efc5acb988b911320e964fab9b4cbdeb198c4
   ExpoModulesCore: 31fd95f046c79da70df0cd68f7e7c5b789be30d1
   ExpoSplashScreen: 83f585abeb0506103f9309628634dbbcd9bc5573
-  ExpoSQLite: 120519a7bc76d95265b7ace13ac18aea98c4f000
+  ExpoSQLite: a55722487de46cdb8d87992e63a19c069818083c
   EXUpdatesInterface: 1dcebac98ac5dad4289e6ff2bd5616822e894397
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 2bc03a5cf64e29c611bbc5d7eb9d9f7431f37ee6
@@ -2466,10 +2466,10 @@ SPEC CHECKSUMS:
   glog: eb93e2f488219332457c3c4eafd2738ddc7e80b8
   hermes-engine: 1f783c3d53940aed0d2c84586f0b7a85ab7827ef
   ImageColors: 88be684570585c07ae2750bff34eb7b78bfc53b4
-  libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
+  libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
   Mixpanel-swift: 2192b9a24cf41b870749e4e0e10fbc9822bb2b4a
   MixpanelReactNative: cd3d7129cfc77d796d07e117846f1f2a9d2fe02d
-  PurchasesHybridCommon: 8af6bb6d85b794dc47ccef1b536ed0e677c789ea
+  PurchasesHybridCommon: 1728ff834821ecfc85e987a565d51eda36213958
   RCT-Folly: 36fe2295e44b10d831836cc0d1daec5f8abcf809
   RCTDeprecation: f5c19ebdb8804b53ed029123eb69914356192fc8
   RCTRequired: 6ae6cebe470486e0e0ce89c1c0eabb998e7c51f4
@@ -2539,7 +2539,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 1baa534318b19e95fb0f02db0a1ae1e3c271944d
   ReactCommon: 6014af4276bb2debc350e2620ef1bd856b4d981c
   ReactNativeWebPFormat: f5f043cc9ded052e535c3869ec341f91ba5a67c5
-  RevenueCat: 4c0e809f7c7428cbe8d79cbb9a0dc7551e71e74e
+  RevenueCat: 234d2361e453ce1282cee7e18449d01aba45ebbf
   RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCCheckbox: a3ca9978cb0846b981d28da4e9914bd437403d77
@@ -2548,18 +2548,18 @@ SPEC CHECKSUMS:
   RNFS: 3ab21fa6c56d65566d1fb26c2228e2b6132e5e32
   RNGestureHandler: a883459e2f268dde0af479e0d6e73bc8662a3502
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
-  RNPurchases: 4d21eeedea6609663311af000392db5fc7659871
+  RNPurchases: 7a84b8dbbbc2fe8fce7d3c04971f0ba1e4bbbe12
   RNReactNativeHapticFeedback: 288ef2881046914e9108441e783f64899807282a
   RNReactNativeSharedGroupPreferences: 29092869fc2e40d5baca5e15d82fa5c24a668977
   RNReanimated: 10df3198b328f8a0677fdaaa2b449db53cdbff40
   RNScreens: 81237378a6d7921fb2dbb6a6c6c45c3d8cc696bb
-  RNSentry: 8cc0ee46b46e88dccac9ea834f03227bb1de23c2
+  RNSentry: 700416958ba5af5149e4bf6567f4eaaf09dcc699
   RNShareMenu: cb9dac548c8bf147d06f0bf07296ad51ea9f5fc3
   RNSVG: 515a902fc18a375907eb4c3abec0b803fbfa37ef
   RNTextSize: 7efa06531c6bb7ab6ed070b4ce0d1248cf06fcdf
-  SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
+  SDWebImage: f84b0feeb08d2d11e6a9b843cb06d75ebf5b8868
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
-  Sentry: 54d0fe6c0df448497c8ed4cce66ccf7027e1823e
+  Sentry: 1ca8405451040482877dcd344dfa3ef80b646631
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: c0d8564af14a858f962607cd7306539cb2ace926
 

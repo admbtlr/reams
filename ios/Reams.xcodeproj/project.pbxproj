@@ -50,6 +50,7 @@
 		665A9A432AF3BC1100A7479A /* IBMPlexSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 665A9A422AF3BC1100A7479A /* IBMPlexSans.ttf */; };
 		665A9A452AF3BC2B00A7479A /* IBMPlexSerif.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 665A9A442AF3BC2A00A7479A /* IBMPlexSerif.ttf */; };
 		6673DB462D46A5BB00E603CD /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6673DB452D46A5BB00E603CD /* SplashScreen.storyboard */; };
+		6679DB902DCA6F0E009FFD5A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6679DB8F2DCA6F0E009FFD5A /* StoreKit.framework */; };
 		668CE9ED2158BE6A00CA3EDF /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 668CE9EC2158BE6A00CA3EDF /* icons.xcassets */; };
 		6697466F23057C6400EDCFE7 /* rizzle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697462F23057C6200EDCFE7 /* rizzle.png */; };
 		6697467023057C6400EDCFE7 /* Splash-20190815.png in Resources */ = {isa = PBXBuildFile; fileRef = 6697466E23057C6400EDCFE7 /* Splash-20190815.png */; };
@@ -186,6 +187,7 @@
 		66737812204314A900572989 /* rizzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rizzle.entitlements; path = rizzle/rizzle.entitlements; sourceTree = "<group>"; };
 		66737813204315E300572989 /* RizzleShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RizzleShare.entitlements; sourceTree = "<group>"; };
 		6673DB452D46A5BB00E603CD /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
+		6679DB8F2DCA6F0E009FFD5A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		6687CA701F9FA0CA0011FBE3 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		668CE9EC2158BE6A00CA3EDF /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
 		6697462F23057C6200EDCFE7 /* rizzle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rizzle.png; path = ../img/splash/rizzle.png; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6679DB902DCA6F0E009FFD5A /* StoreKit.framework in Frameworks */,
 				999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */,
 				0DD1634FB43D3A7E07C669A2 /* libPods-Reams.a in Frameworks */,
 			);
@@ -389,6 +392,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6679DB8F2DCA6F0E009FFD5A /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				EE65D910590F280939486A5C /* libPods-Reams.a */,
@@ -600,7 +604,9 @@
 					};
 					6655FBF22BEA4BA300E8A4EF = {
 						CreatedOnToolsVersion = 15.2;
+						DevelopmentTeam = LQ43Q9L9MY;
 						LastSwiftMigration = 1520;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -811,9 +817,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -861,9 +871,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -915,9 +929,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reams Share2/Pods-Reams Share2-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reams Share2/Pods-Reams Share2-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1095,7 +1113,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "*[expo] com.adam-butler.rizzle AppStore 2025-03-24T16:52:46.245Z";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Reams Ad Hoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reams-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1118,11 +1136,11 @@
 				CODE_SIGN_ENTITLEMENTS = "Reams Share2/Reams Share2.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 196;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "../assets/fonts/PTSerif-Bold.ttf";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = LQ43Q9L9MY;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1174,11 +1192,11 @@
 				CODE_SIGN_ENTITLEMENTS = "Reams Share2/Reams Share2.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 196;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "../assets/fonts/PTSerif-Bold.ttf";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = LQ43Q9L9MY;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = LQ43Q9L9MY;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
