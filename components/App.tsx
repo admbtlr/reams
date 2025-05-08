@@ -72,8 +72,9 @@ const Main = () => {
         headerTintColor: hslString('rizzleText'),
         headerTitleStyle: {
           color: hslString('rizzleText'),
-          fontFamily: 'PTSerif-Bold',
+          fontFamily: 'IBMPlexSerif-Light',
           fontSize: 32 * fontSizeMultiplier(),
+          fontWeight: 'light',
           lineHeight: 36 * fontSizeMultiplier(),
         },
         // headerTransparent: true,
