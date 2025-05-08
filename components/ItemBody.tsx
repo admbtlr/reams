@@ -70,7 +70,7 @@ interface ItemBodyProps {
 }
 
 const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
-  const webView = useRef(null)
+  const webViewRef = useRef(null)
   const dispatch = useDispatch()
   const { activeHighlightId, setActiveHighlightId, activeHighlight } = React.useContext(ActiveHighlightContext)
   const annotatedCategory: Category | undefined = useSelector((store: RootState) => store.categories.categories.find(c => c.name === 'annotated'), isEqual)
@@ -110,8 +110,8 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const highlightSelection = () => {
-    if (Platform.OS !== 'web' && webView?.current) {
-      (webView.current as any).injectJavaScript(`
+    if (Platform.OS !== 'web' && webViewRef?.current) {
+      (webViewRef.current as any).injectJavaScript(`
         highlightSelection();
         true;
       `)
@@ -119,8 +119,8 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const deselectHighlight = () => {
-    if (Platform.OS !== 'web' && webView?.current) {
-      (webView.current as any).injectJavaScript(`
+    if (Platform.OS !== 'web' && webViewRef?.current) {
+      (webViewRef.current as any).injectJavaScript(`
         deselectHighlight();
         true;
       `)
@@ -327,6 +327,9 @@ html, body {
         key: 'highlight'
       }
     ]}
+    onContentProcessDidTerminate={() => {
+      webViewRef.current && (webViewRef.current as any).reload();
+    }}
     onCustomMenuSelection={({ nativeEvent }) => {
       if (nativeEvent?.key === 'highlight') {
         highlightSelection()
@@ -369,7 +372,7 @@ html, body {
     onNavigationStateChange={onNavigationStateChange}
     {...openLinksExternallyProp}
     originWhitelist={['*']}
-    ref={process.env.NODE_ENV === 'test' ? undefined : webView}
+    ref={process.env.NODE_ENV === 'test' ? undefined : webViewRef}
     scalesPageToFit={false}
     scrollEnabled={false}
     style={{
