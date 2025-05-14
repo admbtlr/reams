@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Path} from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
 import { ADD_FEED, ADD_FEEDS, Feed, Source } from '../store/feeds/types'
 import OPMLImport from './OPMLImport'
 import TextButton from './TextButton'
@@ -24,6 +24,7 @@ import { findFeeds } from '../backends/reams'
 import { ADD_MESSAGE } from '../store/ui/types'
 import { getFeedsById } from '@/storage/supabase'
 import reamsFavourites from '@/utils/reams-favouries'
+import { useNavigation } from '@react-navigation/native'
 
 const textStyles = () => ({
   fontFamily: 'IBMPlexSans',
@@ -54,17 +55,18 @@ const sortByTitle = (a: Source, b: Source) => {
 
 const scrollY = new Animated.Value(0)
 
-export default function NewFeedsList (props: { close: () => void, isPortrait: boolean }) {
+export default function NewFeedsList(props: { close: () => void, isPortrait: boolean }) {
   const [selectedFeeds, setFeeds] = useState<Feed[]>([])
   const [headerHeight, setHeaderHeight] = useState(100)
   const [favourites, setFavourites] = useState<Feed[] | null>([])
   const dispatch = useDispatch()
   const { openModal } = useModal()
-  const favouriteIds = reamsFavourites.feeds 
+  const favouriteIds = reamsFavourites.feeds
+  const navigation = useNavigation()
 
   useEffect(() => {
     const fetchFavourites = async () => {
-      console.log('fetching favourites: ', favouriteIds) 
+      console.log('fetching favourites: ', favouriteIds)
       const feeds = await getFeedsById(favouriteIds)
       console.log('favourites: ', feeds)
       setFavourites(feeds)
@@ -135,7 +137,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
                 }
               })
             }
-          } catch(err) {
+          } catch (err) {
             dispatch({
               type: ADD_MESSAGE,
               message: {
@@ -155,9 +157,9 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
   const collapsedHeaderHeight = getMargin() + 32 * fontSizeMultiplier() // allow space for the TextButton
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <XButton
-        onPress={props.close}
+        onPress={() => navigation.goBack()}
         style={{
           top: getMargin() / 2,
           right: getMargin() / 2
@@ -172,24 +174,28 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
           paddingRight: getMargin()
         }}
         onScroll={Animated.event(
-          [{ nativeEvent: {
-            contentOffset: {
-              y: scrollY
+          [{
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY
+              }
             }
-          }}],
+          }],
           { useNativeDriver: true }
         )}
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
         style={{
           backgroundColor: hslString('logo1'),
+          height: '100%',
+          width: '100%',
           flex: 1
         }}>
-         { Platform.OS === 'ios' && 
+        {Platform.OS === 'ios' &&
           <StatusBar
             animated={true}
             barStyle="dark-content"
-            showHideTransition="slide"/> }
+            showHideTransition="slide" />}
         <View style={{
           marginTop: headerHeight + collapsedHeaderHeight + getMargin(),
           marginBottom: 64 * fontSizeMultiplier(),
@@ -200,7 +206,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
             ...textStyles(),
             ...boldStyles,
             marginBottom: 32 * fontSizeMultiplier()
-          }}>There are four ways to add new websites to Reams:</Text>
+          }}>There are four ways to add new RSS feeds to Reams:</Text>
           <Text style={{
             ...textStyles(),
             marginBottom: 32 * fontSizeMultiplier()
@@ -209,12 +215,12 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
             onPress={showAddFeedModal}
           >
             <Text style={{
-                ...textStyles(),
-                marginBottom: 32 * fontSizeMultiplier()
-              }}
-            >2. <Text style={{ 
-              textDecorationLine: 'underline' 
-              }}>Enter the URL of an RSS feed, or the URL of a site where you want to search for an RSS feed</Text></Text>
+              ...textStyles(),
+              marginBottom: 32 * fontSizeMultiplier()
+            }}
+            >2. <Text style={{
+              textDecorationLine: 'underline'
+            }}>Enter the URL of an RSS feed, or the URL of a site where you want to search for an RSS feed</Text></Text>
           </TouchableOpacity>
           <View style={{
             flexDirection: 'row',
@@ -223,7 +229,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
             <Text style={{
               ...textStyles(),
               marginBottom: 32 * fontSizeMultiplier()
-            }}>3. </Text><OPMLImport 
+            }}>3. </Text><OPMLImport
               textStyles={{
                 ...textStyles(),
                 textDecorationLine: 'underline'
@@ -231,7 +237,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
               addFeeds={addFeeds}
             />
           </View>
-          { favourites.length > 0 && (
+          {favourites.length > 0 && (
             <>
               <Text style={{
                 ...textStyles(),
@@ -243,21 +249,21 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
         </View>
       </Animated.ScrollView>
       <Animated.View style={{
-          position: 'absolute',
-          left: getMargin(),
-          top:  getMargin() / 2 + 5,
-          zIndex: 10,
-          opacity: selectedFeeds.length === 0 ? 0 : 1
+        position: 'absolute',
+        left: getMargin(),
+        top: getMargin() / 2 + 5,
+        zIndex: 10,
+        opacity: selectedFeeds.length === 0 ? 0 : 1
       }}>
-        <TextButton 
+        <TextButton
           isDisabled={selectedFeeds.length === 0}
           isCompact
-          onPress={() => addFeeds(selectedFeeds) }
-          
+          onPress={() => addFeeds(selectedFeeds)}
+
           text={`Add ${selectedFeeds.length > 0 ? selectedFeeds.length : ''} Site${selectedFeeds.length === 1 ? '' : 's'}`}
         />
       </Animated.View>
-      <View 
+      <View
         style={{
           position: 'absolute',
           top: 0,
@@ -271,7 +277,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
           paddingTop: collapsedHeaderHeight
         }}>
         </View>
-        <Animated.View 
+        <Animated.View
           onLayout={(ne) => {
             setHeaderHeight(ne.nativeEvent.layout.height)
           }}
@@ -291,7 +297,7 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
                 extrapolate: 'clamp'
               })
             }]
-        }}>
+          }}>
           <Animated.View style={{
             width: '90%',
             marginLeft: '5%',
@@ -308,8 +314,8 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
                 inputRange: [0, 50],
                 outputRange: [1, 0]
               }),
-              textAlign: 'center',        
-            }}>Add Websites</Animated.Text>
+              textAlign: 'center',
+            }}>Add RSS Feeds</Animated.Text>
           </Animated.View>
         </Animated.View>
       </View>
@@ -317,23 +323,24 @@ export default function NewFeedsList (props: { close: () => void, isPortrait: bo
   )
 }
 
-const FeedList = ({feeds, toggleFeedSelected}: {feeds: Feed[], toggleFeedSelected: any}) => {
+const FeedList = ({ feeds, toggleFeedSelected }: { feeds: Feed[], toggleFeedSelected: any }) => {
   return (
-  <View style={{
-    marginTop: 0, //getMargin(),
-    paddingTop: 0,
-    backgroundColor: hslString('white'),
-    borderRadius: getMargin(),
-  }}>
-    { feeds.map((feed, index) => <FeedToggle 
+    <View style={{
+      marginTop: 0, //getMargin(),
+      paddingTop: 0,
+      backgroundColor: hslString('white'),
+      borderRadius: getMargin(),
+    }}>
+      {feeds.map((feed, index) => <FeedToggle
         key={`feed-toggle-${index}`}
         feed={feed}
         index={index}
         toggleFeedSelected={toggleFeedSelected}
         isLast={index === feeds.length - 1}
       />)}
-  </View>
-)}
+    </View>
+  )
+}
 
 const FeedToggle = (props: { feed: Feed, index: number, isLast: boolean, toggleFeedSelected: any }) => {
   const [isSelected, setSelected] = useState(false)
@@ -360,11 +367,11 @@ const FeedToggle = (props: { feed: Feed, index: number, isLast: boolean, toggleF
   return (
     <Fragment>
       <TouchableOpacity
-      onPress={() => {
-        toggleFeedSelected(feed, !isSelected)
-        return setSelected(!isSelected)
-      }}
-      style={{
+        onPress={() => {
+          toggleFeedSelected(feed, !isSelected)
+          return setSelected(!isSelected)
+        }}
+        style={{
           flexDirection: 'row',
           backgroundColor: isSelected ? hslString('logo3', undefined, 0.5) : 'transparent',
           paddingTop: 16 * fontSizeMultiplier(),
@@ -373,14 +380,14 @@ const FeedToggle = (props: { feed: Feed, index: number, isLast: boolean, toggleF
           borderTopRightRadius: index === 0 ? getMargin() : 0,
           borderBottomLeftRadius: isLast ? getMargin() : 0,
           borderBottomRightRadius: isLast ? getMargin() : 0,
-      }}>
+        }}>
         <View style={{
           width: 65,
           height: 70
         }}>
           {<Image
             // resizeMode='contain'
-            source={{uri: feed.favicon?.url}}
+            source={{ uri: feed.favicon?.url }}
             style={{
               // flex: 1,
               marginLeft: 16 * fontSizeMultiplier(),

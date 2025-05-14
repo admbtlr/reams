@@ -424,7 +424,7 @@ interface BackButtonProps {
   navigation: any
 }
 
-const BackButton = ({ color, isDarkMode, isSaved, navigation: { navigate } }: BackButtonProps) => {
+const BackButton = ({ color, isDarkMode, isSaved, navigation: { popTo } }: BackButtonProps) => {
   const dispatch = useDispatch()
   const clearReadItems = () => dispatch({
     type: CLEAR_READ_ITEMS
@@ -441,7 +441,7 @@ const BackButton = ({ color, isDarkMode, isSaved, navigation: { navigate } }: Ba
     }}>
       <TouchableOpacity
         onPress={() => {
-          navigate('Feed', { isSaved, transition: 'default' })
+          popTo('Feed', { isSaved, transition: 'default' })
           clearReadItems()
         }}
         style={{

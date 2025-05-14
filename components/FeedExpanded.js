@@ -14,16 +14,16 @@ import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 
 class FeedExpanded extends React.Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.props = props
   }
 
-  setFeedExpanded () {
+  setFeedExpanded() {
     this.isExpanded = true
   }
 
-  deselectFeed ([position, finished]) {
+  deselectFeed([position, finished]) {
     if (position <= 0 && finished > 0) {
       if (this.isExpanded) {
         this.props.deselectFeed()
@@ -34,11 +34,11 @@ class FeedExpanded extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const {
-      close,
+      navigation,
       feed,
-    } = this.props
+    } = this.props.route.params
 
     if (!feed) return null
 
@@ -58,7 +58,7 @@ class FeedExpanded extends React.Component {
     const EnclosingView = screenWidth < 500 ? View : View
 
     return (
-      <EnclosingView 
+      <EnclosingView
         alwaysBounceVertical={false}
         bounces={false}
         overScrollMode='never'
@@ -94,7 +94,7 @@ class FeedExpanded extends React.Component {
               feed={feed}
               width={screenWidth}
               height={screenHeight * 0.6}
-              setCachedCoverImage={this.props.setCachedCoverImage} 
+              setCachedCoverImage={this.props.setCachedCoverImage}
               removeCachedCoverImage={this.props.removeCachedCoverImage} />
             <View style={{
               position: 'absolute',
@@ -129,14 +129,14 @@ class FeedExpanded extends React.Component {
                 fontSize: 32 * fontSizeMultiplier(),
                 lineHeight: 32 * fontSizeMultiplier()
               }}>{feed.title}</Text>
-              { feed.description != null && feed.description.length > 0 && <Text style={{
+              {feed.description != null && feed.description.length > 0 && <Text style={{
                 ...textStyles,
                 fontFamily: 'IBMPlexSans',
                 fontSize: (feed.description.length > 100 ? 18 : 20) *
                   fontSizeMultiplier(),
                 textAlign: 'left',
                 marginBottom: 16 * fontSizeMultiplier()
-              }}>{ feed.description }</Text> }
+              }}>{feed.description}</Text>}
             </View>
             <View style={{
               paddingBottom: 5,
@@ -148,7 +148,7 @@ class FeedExpanded extends React.Component {
                 marginLeft: 0,
                 fontSize: 14 * fontSizeMultiplier()
               }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'} • <FeedStats feed={feed} /></Text>
-              
+
             </View>
           </View>
           {/* <FeedIconCorner
@@ -166,7 +166,7 @@ class FeedExpanded extends React.Component {
           margin: 0,
           flexGrow: 0
         }}>
-          <FeedDetails { ...this.props } />
+          <FeedDetails {...this.props.route.params} />
         </View>
         <View style={{
           // opacity: this.expandAnim,
@@ -176,7 +176,7 @@ class FeedExpanded extends React.Component {
         }}>
           <XButton
             isLight={true}
-            onPress={close} />
+            onPress={() => navigation.goBack()} />
         </View>
         { /*isFeedOnboardingDone || <FeedExpandedOnboarding /> */}
       </EnclosingView>

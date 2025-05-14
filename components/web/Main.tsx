@@ -54,6 +54,7 @@ export default function Main() {
           },
           drawerType: 'permanent',
           headerShown: false,
+          animation: 'none'
         }}>
         <Drawer.Screen name="Feeds" options={{ title }} component={Feeds} />
         <Drawer.Screen name="Library" options={{ title }} component={Feeds} />
@@ -136,7 +137,8 @@ const Feeds = ({navigation}) => {
     <FeedsStack.Navigator
       initialRouteName='Feed'
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        animation: 'slide_from_right'
       }}
       >
       <FeedsStack.Screen

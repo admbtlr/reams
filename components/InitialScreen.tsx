@@ -40,7 +40,7 @@ export default function InitialScreen({ }) {
       console.log('User is not logged in')
       setTimeout(() => {
         navigation.navigate('Login')
-      }, 300)
+      }, 1000)
     } else if (isOnboarding) {
       redirectToItems(true, true)
     } else {

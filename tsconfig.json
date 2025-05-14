@@ -28,6 +28,7 @@
   ],
   "extends": "expo/tsconfig.base",
   "include": [
-    "env.d.ts"
+    "env.d.ts",
+    "navigation.d.ts"
   ]
 }

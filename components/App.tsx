@@ -26,63 +26,111 @@ import Subscribe from './Subscribe'
 import { RootState } from '../store/reducers'
 import { useDebug } from './DebugContext'
 import { debugService } from '../utils/debug-service'
+import { createComponentForStaticNavigation, createStaticNavigation, NavigationContainer } from '@react-navigation/native'
+import FeedExpandedContainer from '../containers/FeedExpanded'
+import AccountScreen from './AccountScreen'
 
-const FeedsStack = createStackNavigator()
 const AppStack = createStackNavigator()
 const MainStack = createStackNavigator()
-
-const Feeds = () => (
-  <FeedsStack.Navigator
-    initialRouteName='Feeds Screen'
-    screenOptions={{
-      headerShown: false,
-      presentation: 'modal'
-    }}
-  >
-    <FeedsStack.Screen
-      name='Feeds Screen'
-      component={FeedsScreen as React.ComponentType<any>}
-    />
-    <FeedsStack.Screen
-      name='New Feeds List'
-      component={NewFeedsList as React.ComponentType<any>}
-    />
-    <FeedsStack.Screen
-      name='Modal'
-      component={ModalScreen as React.ComponentType<any>}
-    />
-  </FeedsStack.Navigator>
-)
 
 const Main = () => {
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
 
+  const headerOptions = {
+    headerStyle: {
+      backgroundColor: isDarkMode ? hslString('rizzleBG') : hslString('rizzleBG', Platform.OS === 'android' ? 'darker' : ''),
+      height: getStatusBarHeight(),
+      // https://github.com/react-navigation/react-navigation/issues/6899
+      shadowColor: 'transparent',
+      elevation: 0,
+    },
+    headerTintColor: hslString('rizzleText'),
+    headerTitleStyle: {
+      color: hslString('rizzleText'),
+      fontFamily: 'IBMPlexSerif-Light',
+      fontSize: 32 * fontSizeMultiplier(),
+      // fontWeight: 'light',
+      lineHeight: 36 * fontSizeMultiplier(),
+    },
+    headerBackTitleStyle: {
+      color: hslString('rizzleText'),
+      fontFamily: 'IBMPlexSans'
+    },
+    headerBackButtonDisplayMode: 'minimal',
+  }
+
+  const FeedsStack = createStackNavigator({
+    screenOptions: {
+      // headerShown: false,
+      ...headerOptions,
+      gestureEnabled: true,
+      cardOverlayEnabled: true,
+      ...TransitionPresets.ModalPresentationIOS,
+      presentation: 'modal'
+    },
+    screens: {
+      FeedsScreen: {
+        screen: FeedsScreen,
+        options: {
+          title: 'Feeds'
+        }
+      },
+      NewFeedsList: {
+        screen: NewFeedsList,
+        options: {
+          headerShown: false
+        }
+      },
+      FeedExpanded: {
+        screen: FeedExpandedContainer,
+        options: {
+          headerShown: false
+        }
+      },
+      Modal: {
+        screen: ModalScreen,
+        options: {
+          headerShown: false
+        }
+      }
+    }
+  })
+
+  const AccountStack = createStackNavigator({
+    screenOptions: {
+      // headerShown: false,
+      ...headerOptions,
+      gestureEnabled: true,
+      cardOverlayEnabled: true,
+      ...TransitionPresets.ModalPresentationIOS,
+      presentation: 'modal'
+    },
+    screens: {
+      Account: {
+        screen: AccountScreen,
+        options: {
+          headerShown: false
+        }
+      },
+      Subscribe: {
+        screen: Subscribe,
+        options: {
+          headerShown: false
+        }
+      }
+    }
+  })
+
+  const Feeds = createComponentForStaticNavigation(FeedsStack, 'Feeds')
+  const Account = createComponentForStaticNavigation(AccountStack, 'Account')
+
   return (
     <MainStack.Navigator
-      // headerMode='screen'
       initialRouteName='Initial'
       screenOptions={{
-        headerStyle: {
-          backgroundColor: isDarkMode ? hslString('rizzleBG') : hslString('rizzleBG', Platform.OS === 'android' ? 'darker' : ''),
-          height: getStatusBarHeight(),
-          // https://github.com/react-navigation/react-navigation/issues/6899
-          shadowColor: 'transparent',
-          elevation: 0,
-        },
-        headerTintColor: hslString('rizzleText'),
-        headerTitleStyle: {
-          color: hslString('rizzleText'),
-          fontFamily: 'IBMPlexSerif-Light',
-          fontSize: 32 * fontSizeMultiplier(),
-          fontWeight: 'light',
-          lineHeight: 36 * fontSizeMultiplier(),
-        },
-        // headerTransparent: true,
-        headerBackTitleStyle: {
-          color: hslString('rizzleText'),
-          fontFamily: 'IBMPlexSans'
-        },
-        gestureEnabled: false
+        ...headerOptions,
+        gestureEnabled: false,
+        animation: 'slide_from_right'
       }}
     >
       <MainStack.Screen
@@ -95,9 +143,9 @@ const Main = () => {
         }} />
       <MainStack.Screen
         name='Account'
-        component={AccountScreenContainer}
+        component={Account}
         options={{
-          headerBackTitleVisible: false,
+          headerBackButtonDisplayMode: 'minimal',
           title: 'Accounts',
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
           // headerBackImage: getRizzleButtonIcon('account'),
@@ -106,33 +154,25 @@ const Main = () => {
         name='Settings'
         component={SettingsScreen}
         options={{
-          headerBackTitleVisible: false,
+          headerBackButtonDisplayMode: 'minimal',
           title: 'Settings',
           headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
           // headerBackImage: getRizzleButtonIcon('account'),
         }} />
       <MainStack.Screen
         name='Feed'
-        component={Feeds}
         options={({ route }) => {
           type FeedRouteParams = {
             isSaved?: boolean
           }
-
           return {
             title: (route.params as FeedRouteParams)?.isSaved ? 'Library' : 'Feed',
-            headerBackTitleVisible: false,
-            // headerRight: () => (
-            //   <View style={{ backgroundColor: 'red' }}>
-            //     <TouchableOpacity>
-            //       {getRizzleButtonIcon('search')}
-            //     </TouchableOpacity>
-            //   </View>
-            // ),
+            headerBackButtonDisplayMode: 'minimal',
             headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
-            headerTransparent: true,
+            headerShown: false
           }
         }}
+        component={Feeds}
       />
       <MainStack.Screen
         name='Items'
@@ -207,18 +247,9 @@ const Main = () => {
                 }
               } :
               CardStyleInterpolators.forHorizontalIOS,
-            // headerStyleInterpolator: ({ closing, current: { progress } }) => {
-            //   return {
-            //     headerStyle: {
-            //       opacity: progress.interpolate({
-            //         inputRange: [0, 1],
-            //         outputRange: [1, 1]
-            //       })
-            //     }
-            //   }
-            // },
             gestureEnabled: false,
-            headerTransparent: true,
+            headerShown: false,
+            // headerTransparent: true,
             // need to do this to hide the back button when using height: 0
             // it might not work on Android
             // https://stackoverflow.com/questions/54613631/how-to-hide-back-button-in-react-navigation-react-native
@@ -236,7 +267,7 @@ const Main = () => {
         options={() => {
           return {
             title: 'Highlights',
-            headerBackTitleVisible: false,
+            headerBackButtonDisplayMode: 'minimal',
             headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
             headerTransparent: true,
           }
@@ -255,6 +286,8 @@ const Main = () => {
         name='Login'
         component={Login as React.ComponentType}
         options={{
+          ...TransitionPresets.ModalPresentationIOS,
+          cardOverlayEnabled: true,
           gestureEnabled: false,
           headerShown: false,
           presentation: 'modal'
@@ -296,7 +329,8 @@ const App = (): JSX.Element => {
           backgroundColor: hslString('rizzleBG')
         },
         headerShown: false,
-        presentation: 'modal'
+        presentation: 'modal',
+        animation: 'fade'
       }}
     >
       <AppStack.Screen
@@ -311,7 +345,8 @@ const App = (): JSX.Element => {
           cardStyle: {
             backgroundColor: 'transparent'
           },
-          ...TransitionPresets.ModalPresentationIOS
+          animation: 'slide_from_bottom',
+          presentation: 'transparentModal'
         }}
       />
     </AppStack.Navigator>

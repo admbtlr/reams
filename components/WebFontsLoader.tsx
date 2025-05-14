@@ -51,8 +51,6 @@ export function WebFontsLoader({
     'IBMPlexSerif-Italic': require('../assets/fonts/IBMPlexSerif-Italic.ttf'),
     'IBMPlexSerif-Light': require('../assets/fonts/IBMPlexSerif-Light.ttf'),
     'IBMPlexSerif-LightItalic': require('../assets/fonts/IBMPlexSerif-LightItalic.ttf'),
-    'IBMPlexSerif-Thin': require('../assets/fonts/IBMPlexSerif-Thin.ttf'),
-    'IBMPlexSerif-ThinItalic': require('../assets/fonts/IBMPlexSerif-ThinItalic.ttf'),
     'IBMPlexSerif': require('../assets/fonts/IBMPlexSerif.ttf'),
     'LibreBaskerville-Bold': require('../assets/fonts/LibreBaskerville-Bold.ttf'),
     'LibreBaskerville-Italic': require('../assets/fonts/LibreBaskerville-Italic.ttf'),

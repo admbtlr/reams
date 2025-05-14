@@ -7,7 +7,7 @@ import {
   View
 } from 'react-native'
 import * as SplashScreen from 'expo-splash-screen'
-import { Link, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
+import { Link, NavigationContainer, type NavigationContainerRefWithCurrent } from '@react-navigation/native'
 import { initStore, persistor, store } from '../store'
 import * as Sentry from '@sentry/react-native'
 import AppStateListenerContainer from '../containers/AppStateListener'
@@ -55,7 +55,7 @@ SplashScreen.preventAutoHideAsync()
   .catch(console.warn); // it's good to explicitly catch and inspect any error
 
 const Rizzle = () => {
-  let navigation: Ref<NavigationContainerRef>
+  let navigation: Ref<NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>>
   useEffect(() => {
     navigation = React.createRef()
     if (Platform.OS !== 'web') {
@@ -95,6 +95,7 @@ const Rizzle = () => {
   return (
     <NavigationContainer
       ref={navigation}
+      navigationInChildEnabled={true}
       onReady={() => {
         if (Platform.OS !== 'web') {
           // routingInstrumentation?.registerNavigationContainer(this.navigation);
@@ -109,7 +110,8 @@ const Rizzle = () => {
           border: hslString('rizzleBG'),
           notification: hslString('rizzleBG')
         },
-        dark: false
+        dark: false,
+        fonts: {}
       }}
     >
       <Provider store={store}>

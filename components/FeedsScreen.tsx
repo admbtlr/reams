@@ -35,7 +35,7 @@ import { getInset } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { textButtonStyle, textInfoStyle, textInputStyle } from '../utils/styles'
 import type { RootState } from '../store/reducers'
-import { useIsFocused } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { ItemType } from '../store/items/types'
 import { useModal } from './ModalProvider'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
@@ -90,13 +90,13 @@ const normaliseTitle = (title: string) => title.slice(0, 4).toUpperCase() === 'T
   title.slice(4).toUpperCase() :
   title.toUpperCase()
 
-function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
+function FeedsScreen() {
 
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
   const [modal, setModal] = useState<{ feed: Feed, position: number } | null>(null)
   const [showSearch, setShowSearch] = useState(false)
   let isScrolling = false
-
+  const navigation = useNavigation()
   const scrollAnim = new Animated.Value(0)
 
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
@@ -130,14 +130,15 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
   }
 
   const showAddFeeds = () => {
-    navigation.push('ModalWithGesture', {
-      childView: <NewFeedsList
-        close={() => {
-          navigation.navigate('Main')
-        }}
-        isPortrait={isPortrait}
-      />
-    })
+    navigation.navigate('NewFeedsList', { isPortrait })
+    // navigation.push('ModalWithGesture', {
+    //   childView: <NewFeedsList
+    //     close={() => {
+    //       navigation.navigate('Main')
+    //     }}
+    //     isPortrait={isPortrait}
+    //   />
+    // })
   }
 
   const showAddCategory = () => {
@@ -209,7 +210,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
     ]
     if (!isSaved) {
       sections.push({
-        title: 'Websites',
+        title: 'RSS',
         data: feedCards
       })
       sections.push({
@@ -255,7 +256,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
             marginLeft: 0,
             flex: 4
           }}>{title}</Text>
-          {title === 'Websites' && (
+          {title === 'RSS' && (
             <TextButton
               testID="add-feeds-button"
               text="Add"
@@ -344,7 +345,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
         flex: 0,
         height: 40,
         width: 40,
-        top: getStatusBarHeight() - 45,
+        // top: getStatusBarHeight() - 45,
         right: 0,
         // backgroundColor: 'yellow'
       }}>
@@ -362,7 +363,7 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
           {getRizzleButtonIcon('search', hslString('rizzleText'))}
         </TouchableOpacity>
       </View>
-      <Animated.View style={{
+      {/* <Animated.View style={{
         position: 'absolute',
         top: 0,
         left: 0,
@@ -382,14 +383,14 @@ function FeedsScreen({ navigation }: { navigation: any, isSaved: boolean }) {
           width: 1
         },
         overflow: 'visible',
-      }} />
+      }} /> */}
       <View
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: hslString('rizzleBG'),
-          paddingTop: getStatusBarHeight(),
+          // paddingTop: getStatusBarHeight(),
         }}
         testID='feeds-screen'
       >

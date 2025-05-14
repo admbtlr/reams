@@ -41,6 +41,7 @@ import { BlurView } from 'expo-blur'
 import { createSelector } from '@reduxjs/toolkit'
 import Favicon from './Favicon'
 import { deepEqual } from '../utils'
+import { useNavigation } from '@react-navigation/native'
 
 const entities = require('entities')
 
@@ -90,10 +91,11 @@ function FeedContracted({
   index,
   isSaved,
   title,
-  navigation,
+  // navigation,
   type,
   width,
 }: Props) {
+  const navigation = useNavigation()
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
   const newsletters = useSelector(
@@ -143,8 +145,8 @@ function FeedContracted({
     if (isSaved) {
       categoryItems = category
         ? category.itemIds
-            .map((itemId) => savedThinItems.find((i) => i._id === itemId))
-            .filter((i) => i !== undefined)
+          .map((itemId) => savedThinItems.find((i) => i._id === itemId))
+          .filter((i) => i !== undefined)
         : []
       numItems = categoryItems.length
     } else {
@@ -263,15 +265,16 @@ function FeedContracted({
   const showDetails = (e: GestureResponderEvent) => {
     ReactNativeHapticFeedback.trigger('impactLight', {})
     if (type === 'feed') {
-      navigation.push('ModalWithGesture', {
-        childView: (
-          <FeedExpandedContainer
-            feed={feed}
-            close={() => navigation.navigate('Main')}
-            navigation={navigation}
-          />
-        ),
-      })
+      navigation.navigate('FeedExpanded', { feed, navigation })
+      // navigation.push('ModalWithGesture', {
+      //   childView: (
+      //     <FeedExpandedContainer
+      //       feed={feed}
+      //       close={() => navigation.navigate('Main')}
+      //       navigation={navigation}
+      //     />
+      //   ),
+      // })
     } else if (type === 'category') {
       if (isSaved) {
         const modalText = [
@@ -364,19 +367,19 @@ function FeedContracted({
   let coverImageSources = isSaved
     ? categoryItems.filter((i) => i?.hasCoverImage)
     : type === 'all'
-    ? unreadThinItems.filter((i) => i.hasCoverImage)
-    : categoryItems.filter((i) => i?.hasCoverImage)
+      ? unreadThinItems.filter((i) => i.hasCoverImage)
+      : categoryItems.filter((i) => i?.hasCoverImage)
   const numElemsWithCover = coverImageSources.length
   const cardSizeDivisor =
     numElemsWithCover > 15
       ? 4
       : numElemsWithCover > 11
-      ? 3
-      : numElemsWithCover > 3
-      ? 2
-      : numElemsWithCover > 0
-      ? 1
-      : 0
+        ? 3
+        : numElemsWithCover > 3
+          ? 2
+          : numElemsWithCover > 0
+            ? 1
+            : 0
   coverImageSources = coverImageSources.slice(
     0,
     cardSizeDivisor * cardSizeDivisor
@@ -386,8 +389,8 @@ function FeedContracted({
     Platform.OS === 'web'
       ? 50
       : index % 2 === 0 && screenWidth > 500 && count > 1
-      ? margin
-      : 0
+        ? margin
+        : 0
 
   const getInitials = (title: string) => {
     let words = title
@@ -524,24 +527,24 @@ function FeedContracted({
                 </View>
                 {(coverImageSources === undefined ||
                   coverImageSources.length == 0) && (
-                  <Text
-                    style={{
-                      ...textStyles,
-                      fontFamily: 'IBMPlexSans',
-                      fontSize: 100 * fontSizeMultiplier(),
-                      color: 'rgb(120, 120, 120)',
-                      opacity: 0.2,
-                      // position: 'absolute',
-                      // bottom: margin,
-                      // left: margin,
-                      alignSelf: 'center',
-                      textAlign: 'center',
-                      flex: 1,
-                    }}
-                  >
-                    {getInitials(feed?.title || 'what the fuck')}
-                  </Text>
-                )}
+                    <Text
+                      style={{
+                        ...textStyles,
+                        fontFamily: 'IBMPlexSans',
+                        fontSize: 100 * fontSizeMultiplier(),
+                        color: 'rgb(120, 120, 120)',
+                        opacity: 0.2,
+                        // position: 'absolute',
+                        // bottom: margin,
+                        // left: margin,
+                        alignSelf: 'center',
+                        textAlign: 'center',
+                        flex: 1,
+                      }}
+                    >
+                      {getInitials(feed?.title || 'what the fuck')}
+                    </Text>
+                  )}
               </View>
             )}
             <View
@@ -557,7 +560,7 @@ function FeedContracted({
               }}
             />
           </View>
-          { type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} /> }
+          {type === 'feed' && <FeedLikedMuted feed_id={feed?._id || ''} />}
           <View
             style={{
               paddingLeft: 4,
