@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { CommonActions } from '@react-navigation/native'
+import { CommonActions, useNavigation } from '@react-navigation/native'
 import Svg, { Circle, G, Rect, Path } from 'react-native-svg'
 import { LinearGradient } from 'expo-linear-gradient'
 import { deepEqual, id } from '../utils'
@@ -424,11 +424,12 @@ interface BackButtonProps {
   navigation: any
 }
 
-const BackButton = ({ color, isDarkMode, isSaved, navigation: { popTo } }: BackButtonProps) => {
+const BackButton = ({ color, isDarkMode, isSaved }: BackButtonProps) => {
   const dispatch = useDispatch()
   const clearReadItems = () => dispatch({
     type: CLEAR_READ_ITEMS
   })
+  const navigation = useNavigation()
 
   return (
     <Animated.View style={{
@@ -441,7 +442,7 @@ const BackButton = ({ color, isDarkMode, isSaved, navigation: { popTo } }: BackB
     }}>
       <TouchableOpacity
         onPress={() => {
-          popTo('Feed', { isSaved, transition: 'default' })
+          navigation.popTo('Feed', { isSaved, transition: 'default' })
           clearReadItems()
         }}
         style={{

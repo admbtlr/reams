@@ -35,7 +35,7 @@ export const ActiveHighlightContext = React.createContext<ActiveHighlightContext
   activeHighlight: null
 })
 
-export default function ItemsScreen ({ navigation}: { navigation: any }) {
+export default function ItemsScreen({ navigation }: { navigation: any }) {
   const dispatch = useDispatch()
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const orientation = useSelector((state: RootState) => state.config.orientation)
@@ -43,7 +43,7 @@ export default function ItemsScreen ({ navigation}: { navigation: any }) {
 
   const [activeHighlightId, setActiveHighlightId] = useState<string | null>(null)
   const annotations = useSelector(selectAnnotations)
-  const activeHighlight = activeHighlightId 
+  const activeHighlight = activeHighlightId
     ? annotations.find(a => a._id === activeHighlightId) || { _id: activeHighlightId }
     : null
 
@@ -66,7 +66,7 @@ export default function ItemsScreen ({ navigation}: { navigation: any }) {
   )
 
   return (
-    <Animated.View 
+    <Animated.View
       style={{
         flex: 1,
         backgroundColor: hslString('bodyBG'),
@@ -74,12 +74,12 @@ export default function ItemsScreen ({ navigation}: { navigation: any }) {
         overflow: 'hidden',
         borderRadius: 0
       }}>
-       { Platform.OS === 'ios' && 
+      {Platform.OS === 'ios' &&
         <StatusBar
           showHideTransition="slide"
-          barStyle={ displayMode === ItemType.saved ? 'dark-content' : 'light-content' }
+          barStyle={displayMode === ItemType.saved ? 'dark-content' : 'light-content'}
           hidden={false} />
-       }
+      }
       <View style={styles.infoView} />
       <ActiveHighlightContext.Provider value={{ activeHighlightId, setActiveHighlightId, activeHighlight }}>
         <ItemCarouselContainer
@@ -93,7 +93,7 @@ export default function ItemsScreen ({ navigation}: { navigation: any }) {
   )
 }
 
-const {height, width} = Dimensions.get('screen')
+const { height, width } = Dimensions.get('screen')
 
 const styles = StyleSheet.create({
   mainView: {

@@ -93,60 +93,60 @@ const Rizzle = () => {
   }
 
   return (
-    <NavigationContainer
-      ref={navigation}
-      navigationInChildEnabled={true}
-      onReady={() => {
-        if (Platform.OS !== 'web') {
-          // routingInstrumentation?.registerNavigationContainer(this.navigation);
-        }
-      }}
-      theme={{
-        colors: {
-          background: hslString('rizzleBG'),
-          primary: hslString('rizzleBG'),
-          card: hslString('rizzleBG'),
-          text: hslString('rizzleBG'),
-          border: hslString('rizzleBG'),
-          notification: hslString('rizzleBG')
-        },
-        dark: false,
-        fonts: {}
-      }}
-    >
-      <Provider store={store}>
-        <PersistGateWrapper>
-          <DebugProvider>
-            <AuthProvider>
-              <View style={{
-                flex: 1,
-                backgroundColor: 'black',
-                overflow: 'hidden'
-              }}>
-                {Platform.OS === 'ios' &&
-                  <StatusBar
-                    barStyle='light-content'
-                    hidden={false} />}
-                <ConnectionListener />
-                {Platform.OS === 'web' || <OrientationListener />}
-                <Analytics />
-                <MigrationsProvider>
-                  <ModalProvider>
-                    <AppStateListenerContainer>
-                      <App />
-                      <Message />
-                      <RizzleModal />
-                    </AppStateListenerContainer>
-                  </ModalProvider>
-                  <HelpTipProvider />
-                </MigrationsProvider>
-                <Splash />
-              </View>
-            </AuthProvider>
-          </DebugProvider>
-        </PersistGateWrapper>
-      </Provider>
-    </NavigationContainer>
+    // <NavigationContainer
+    //   ref={navigation}
+    //   navigationInChildEnabled={true}
+    //   onReady={() => {
+    //     if (Platform.OS !== 'web') {
+    //       // routingInstrumentation?.registerNavigationContainer(this.navigation);
+    //     }
+    //   }}
+    //   theme={{
+    //     colors: {
+    //       background: hslString('rizzleBG'),
+    //       primary: hslString('rizzleBG'),
+    //       card: hslString('rizzleBG'),
+    //       text: hslString('rizzleBG'),
+    //       border: hslString('rizzleBG'),
+    //       notification: hslString('rizzleBG')
+    //     },
+    //     dark: false,
+    //     fonts: {}
+    //   }}
+    // >
+    <Provider store={store}>
+      <PersistGateWrapper>
+        <DebugProvider>
+          <AuthProvider>
+            <View style={{
+              flex: 1,
+              backgroundColor: 'black',
+              overflow: 'hidden'
+            }}>
+              {Platform.OS === 'ios' &&
+                <StatusBar
+                  barStyle='light-content'
+                  hidden={false} />}
+              <ConnectionListener />
+              {Platform.OS === 'web' || <OrientationListener />}
+              <Analytics />
+              <MigrationsProvider>
+                <ModalProvider>
+                  <AppStateListenerContainer>
+                    <App />
+                    <Message />
+                    <RizzleModal />
+                  </AppStateListenerContainer>
+                </ModalProvider>
+                <HelpTipProvider />
+              </MigrationsProvider>
+              <Splash />
+            </View>
+          </AuthProvider>
+        </DebugProvider>
+      </PersistGateWrapper>
+    </Provider>
+    // </NavigationContainer>
   )
 
 }

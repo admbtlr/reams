@@ -31,7 +31,7 @@ interface highlightsByItem {
   highlights: Annotation[]
 }
 
-export default function HighlightsScreen () {
+export default function HighlightsScreen() {
   const dispatch = useDispatch()
   const highlights = useSelector(selectAnnotations)
   const selectAnnotatedItems = createSelector([selectItemsSaved, selectAnnotations], (items, annotations) => {
@@ -46,10 +46,10 @@ export default function HighlightsScreen () {
     if (h.item_id !== undefined) {
       let itemWithHighlights = highlightsByItem.find(hbi => hbi.item_id === h.item_id)
       if (itemWithHighlights === undefined) {
-        itemWithHighlights = { 
-          item_id: h.item_id, 
+        itemWithHighlights = {
+          item_id: h.item_id,
           item: annotatedItems.find(i => i._id === h.item_id),
-          highlights: [] 
+          highlights: []
         }
         highlightsByItem.push(itemWithHighlights)
       }
@@ -74,14 +74,14 @@ export default function HighlightsScreen () {
         value: annotation ? annotation.note : '',
       }
     ],
-    modalOnOk: ({note}: {note: string}) => {
+    modalOnOk: ({ note }: { note: string }) => {
       dispatch(updateAnnotation({
         ...annotation,
         note
       }))
     }
   })
-  
+
   const shadowStyle = {
     shadowColor: 'rgba(0, 0, 0, 0.3)',
     shadowRadius: 5,
@@ -91,7 +91,7 @@ export default function HighlightsScreen () {
       height: 5
     }
   }
-  
+
   const renderHighlightsByItem = (hbi: highlightsByItem, i: number) => (
     <View key={i} style={{
       backgroundColor: hslString('white'),
@@ -128,7 +128,7 @@ export default function HighlightsScreen () {
             marginLeft: 0,
             marginRight: 0
           }}>{hbi.item ? hbi.item.title : hbi.item_id}</Text>
-          { !!hbi.item?.feed_id && feeds.find(f => f._id === hbi.item?.feed_id) !== undefined && (
+          {!!hbi.item?.feed_id && feeds.find(f => f._id === hbi.item?.feed_id) !== undefined && (
             <Text style={{
               ...textInfoStyle(),
               fontSize: 12 * fontSizeMultiplier(),
@@ -138,12 +138,12 @@ export default function HighlightsScreen () {
           )}
         </View>
       </View>
-      { hbi.highlights.map(renderHighlight) }
-    </View> 
+      {hbi.highlights.map(renderHighlight)}
+    </View>
   )
 
   const renderHighlight = (h: Annotation, i: number, array: Annotation[]) => (
-    <View 
+    <View
       key={i}
       style={{
         marginBottom: i === array.length - 1 ? 0 : getMargin(),
@@ -167,7 +167,7 @@ export default function HighlightsScreen () {
           // borderLeftColor: hslString('rizzleHighlight'),
         }}>{h.text}</Text>
       </View>
-      { h.note && (
+      {h.note && (
         <View style={{
           marginVertical: getMargin() * 0.5,
           backgroundColor: hslString('rizzleText', '', 0.05),
@@ -186,7 +186,7 @@ export default function HighlightsScreen () {
         flexDirection: 'row',
         marginTop: getMargin() * 0.5,
       }}>
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => openModal(modalProps(h))}
           style={{
             marginRight: getMargin()
@@ -227,18 +227,18 @@ export default function HighlightsScreen () {
         },
         overflow: 'visible',
       }} />
-      <View 
+      <View
         style={{
           flex: 1,
           backgroundColor: hslString('rizzleBG'),
           // to ensure that borderRadius works on the animation
           overflow: 'hidden',
           borderRadius: 0,
-          paddingTop: getStatusBarHeight(),
+          // paddingTop: getStatusBarHeight(),
           paddingBottom: getMargin() * 2,
         }}
       >
-        { highlightsByItem.length === 0 ? (
+        {highlightsByItem.length === 0 ? (
           <View style={{
             flex: 1,
             alignItems: 'center',
@@ -248,10 +248,10 @@ export default function HighlightsScreen () {
             <Text style={{
               ...textInfoStyle(),
               margin: getMargin(),
-              lineHeight: 24,  
+              lineHeight: 24,
             }}>Highlights and annotations that you add to your stories are displayed here.</Text>
-            <Image 
-              source={require('../assets/images/reams-highlights.webp')} 
+            <Image
+              source={require('../assets/images/reams-highlights.webp')}
               style={{
                 backgroundColor: 'white',
                 borderColor: 'rgba(0,0,0,0.8)',
@@ -264,18 +264,20 @@ export default function HighlightsScreen () {
             />
           </View>
         ) : (
-          <Animated.ScrollView 
+          <Animated.ScrollView
             onScroll={Animated.event(
-              [{ nativeEvent: {
-                contentOffset: { y: scrollAnim }
-              }}],
+              [{
+                nativeEvent: {
+                  contentOffset: { y: scrollAnim }
+                }
+              }],
               {
                 useNativeDriver: true
               }
             )}
             showsVerticalScrollIndicator={false}
           >
-            { highlightsByItem.map(renderHighlightsByItem) }
+            {highlightsByItem.map(renderHighlightsByItem)}
           </Animated.ScrollView>
         )}
       </View>
@@ -283,7 +285,7 @@ export default function HighlightsScreen () {
   )
 }
 
-const {height, width} = Dimensions.get('screen')
+const { height, width } = Dimensions.get('screen')
 
 const styles = StyleSheet.create({
   mainView: {
