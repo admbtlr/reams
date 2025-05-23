@@ -8,6 +8,7 @@ import {
   PixelRatio
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHeaderStyle } from '../hooks/useHeaderStyle'
 import { hslString } from '../utils/colors'
 import { RootState } from '../store/reducers'
 import { getStatusBarHeight } from '../utils/dimensions'
@@ -29,6 +30,12 @@ export default function SettingsScreen() {
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const showButtonLabels = useSelector((state: RootState) => state.ui.showButtonLabels)
   const setShowButtonLabels = (value: boolean) => dispatch({ type: SET_BUTTON_LABELS, showButtonLabels: value })
+  
+  // Update header style based on dark mode changes
+  useHeaderStyle({
+    bgColor: 'rizzleBG',
+    textColor: 'rizzleText'
+  })
   const sortButtons = [
     {
       value: Direction.desc,

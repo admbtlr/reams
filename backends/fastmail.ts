@@ -1,5 +1,4 @@
 import { Item, ItemInflated } from '../store/items/types'
-import { debugService } from '../utils/debug-service'
 import log from '../utils/log'
 
 // bail if we don't have our ENV set:
@@ -124,20 +123,17 @@ export default async function fetchNewsletterItems(lastQueryState?: string, code
 }> {
   let response: {}
   const session = await getSession()
-  // console.log(JSON.stringify(session))
+  console.log(JSON.stringify(session))
   const apiUrl = EXPO_PUBLIC_CORS_PROXY + '?url=' + session.apiUrl
   const accountId = session.primaryAccounts["urn:ietf:params:jmap:mail"]
   response = await mailboxQuery(apiUrl, lastQueryState, codeName)
   // console.log(JSON.stringify(response["methodResponses"][1].slice(1, -1)))
-  debugService.log('GOT RESPONSE')
   if (response["methodResponses"][0][0] === 'error') {
     const type = response["methodResponses"][0][1]?.type || 'Unknown error'
-    debugService.log('RESPONSE WAS ERROR')
-    debugService.log(`Account id: ${EXPO_PUBLIC_JMAP_ACCOUNT_ID}`)
     throw new Error(type)
   }
   let emails = response["methodResponses"][1][1].list
-  debugService.log('GOT EMAILS ' + emails.length)
+
   const queryState = response["methodResponses"][0][1].queryState || response["methodResponses"][0][1].newQueryState
   return {
     items: emails.map(mapFastmailItemToRizzleItem),

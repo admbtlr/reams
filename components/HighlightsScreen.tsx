@@ -10,6 +10,7 @@ import {
   Image
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHeaderStyle } from '../hooks/useHeaderStyle'
 import { hslString } from '../utils/colors'
 import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { RootState } from '../store/reducers'
@@ -41,6 +42,13 @@ export default function HighlightsScreen() {
   })
   const annotatedItems = useSelector(selectAnnotatedItems)
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
+
+  // Update header style based on dark mode changes
+  useHeaderStyle({
+    bgColor: 'rizzleBG',
+    textColor: 'rizzleText'
+  })
+
   let highlightsByItem: highlightsByItem[] = []
   highlights.forEach(h => {
     if (h.item_id !== undefined) {
@@ -206,7 +214,7 @@ export default function HighlightsScreen() {
 
   return (
     <>
-      <Animated.View style={{
+      {/* <Animated.View style={{
         position: 'absolute',
         top: 0,
         left: 0,
@@ -226,7 +234,7 @@ export default function HighlightsScreen() {
           width: 0
         },
         overflow: 'visible',
-      }} />
+      }} /> */}
       <View
         style={{
           flex: 1,

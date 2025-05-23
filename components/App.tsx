@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import {
   CardStyleInterpolators,
   createStackNavigator,
@@ -12,8 +12,8 @@ import FeedsScreen from './FeedsScreen'
 import NewFeedsList from './NewFeedsList'
 import ModalScreen from './ModalScreen'
 import { hslString } from '../utils/colors'
-import { fontSizeMultiplier, getStatusBarHeight } from '../utils/dimensions'
-import { Animated, Dimensions, Platform, TouchableOpacity, View } from 'react-native'
+import { fontSizeMultiplier, getMargin, getStatusBarHeight } from '../utils/dimensions'
+import { Animated, Dimensions, Platform, Settings, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import InitialScreen from './InitialScreen'
 import HighlightsScreen from './HighlightsScreen'
 import { CLEAR_MESSAGES } from '../store/ui/types'
@@ -24,14 +24,40 @@ import { WebFontsLoader } from './WebFontsLoader'
 import Login from './Login'
 import Subscribe from './Subscribe'
 import { RootState } from '../store/reducers'
-import { useDebug } from './DebugContext'
-import { debugService } from '../utils/debug-service'
-import { createComponentForStaticNavigation, createStaticNavigation, NavigationContainer } from '@react-navigation/native'
+import { createComponentForStaticNavigation, createStaticNavigation, NavigationContainer, useNavigation } from '@react-navigation/native'
 import FeedExpandedContainer from '../containers/FeedExpanded'
 import AccountScreen from './AccountScreen'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import BackButton from './BackButton'
+import DrawerButton from './DrawerButton'
+import CustomDrawerContent from './CustomDrawerContent'
 
 const AppStack = createStackNavigator()
 const MainStack = createStackNavigator()
+
+export const headerOptions = {
+  headerStyle: {
+    backgroundColor: hslString('rizzleBG'),
+    height: getStatusBarHeight(),
+    // https://github.com/react-navigation/react-navigation/issues/6899
+    shadowColor: 'transparent',
+    elevation: 0,
+  },
+  headerTintColor: hslString('rizzleText'),
+  headerTitleStyle: {
+    color: hslString('rizzleText'),
+    fontFamily: 'IBMPlexSerif-Light',
+    fontSize: 32 * fontSizeMultiplier(),
+    fontWeight: 'light',
+    lineHeight: 36 * fontSizeMultiplier(),
+  },
+  headerBackTitleStyle: {
+    color: hslString('rizzleText'),
+    fontFamily: 'IBMPlexSerif-Light'
+  },
+  headerBackButtonDisplayMode: 'minimal',
+}
 
 const Main = () => {
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
@@ -288,13 +314,6 @@ const App = (): JSX.Element => {
     })
   }, [])
 
-  const debug = useDebug()
-  React.useEffect(() => {
-    if (debug) {
-      debugService.setLogFunction(debug.addLog)
-    }
-  }, [debug])
-
   if (Platform.OS === 'web') {
     return (
       <WebFontsLoader fallback={<View />}>
@@ -305,28 +324,21 @@ const App = (): JSX.Element => {
 
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
 
-  const headerOptions = {
-    headerStyle: {
-      backgroundColor: isDarkMode ? hslString('rizzleBG') : hslString('rizzleBG', Platform.OS === 'android' ? 'darker' : ''),
-      height: getStatusBarHeight(),
-      // https://github.com/react-navigation/react-navigation/issues/6899
-      shadowColor: 'transparent',
-      elevation: 0,
-    },
-    headerTintColor: hslString('rizzleText'),
-    headerTitleStyle: {
-      color: hslString('rizzleText'),
-      fontFamily: 'IBMPlexSerif-Light',
-      fontSize: 32 * fontSizeMultiplier(),
-      fontWeight: 'light',
-      lineHeight: 36 * fontSizeMultiplier(),
-    },
-    headerBackTitleStyle: {
-      color: hslString('rizzleText'),
-      fontFamily: 'IBMPlexSerif-Light'
-    },
-    headerBackButtonDisplayMode: 'minimal',
+  const drawerButton = (props) => {
+    const navigation = useNavigation()
+    return <View style={{ marginLeft: getMargin() }}>
+      <DrawerButton isLight={false} onPress={() => navigation.openDrawer()} />
+    </View>
   }
+
+  const drawerIcon = (name, { focused, color, size }) => (
+    <View style={{
+      opacity: 0.7,
+      width: size + getMargin() / 2
+    }}>
+      {getRizzleButtonIcon(name, color)}
+    </View>
+  )
 
   const modalOptions = {
     headerShown: false,
@@ -336,27 +348,258 @@ const App = (): JSX.Element => {
     presentation: 'modal'
   }
 
-  const AppStack = createStackNavigator({
-    initialRouteName: 'Initial',
-    screenOptions: {
-      ...headerOptions,
+  const itemsOptions = ({ route }) => {
+    type ItemsRouteParams = {
+      feedCardHeight: number
+      feedCardWidth: number
+      feedCardX?: number
+      feedCardY?: number
+      toItems?: boolean
+    }
+
+    const { feedCardHeight, feedCardWidth, feedCardX, feedCardY, toItems } = (route?.params as ItemsRouteParams) || {}
+    const dimensions = Dimensions.get('window')
+    const translateY = feedCardY ?
+      feedCardY + feedCardHeight / 2 - dimensions.height / 2 :
+      0
+    const translateX = feedCardX ?
+      feedCardX + feedCardWidth / 2 - dimensions.width / 2 :
+      0
+    return {
+      cardStyleInterpolator: toItems ?
+        ({ closing, current, next }) => {
+          // I use closing so that I can do fancy stuff with the translateX
+          // feeds screen has to act like normal, items screen is custom
+          let anim = Animated.add(current.progress, Animated.multiply(closing, new Animated.Value(5)))
+          anim = next ? Animated.add(anim, Animated.multiply(next.progress, 1)) : anim
+          return {
+            cardStyle: {
+              borderRadius: anim.interpolate({
+                inputRange: [0, 1, 2],
+                outputRange: [48, 0, 0],
+                extrapolate: 'clamp',
+              }),
+              opacity: anim.interpolate({
+                inputRange: [0, 0.2, 1, 2],
+                outputRange: [0, 1, 1, 1],
+                extrapolate: 'clamp',
+              }),
+              transform: [
+                {
+                  translateX: anim.interpolate({
+                    inputRange: [0, 1, 2, 3, 5, 6],
+                    outputRange: [translateX, 0, dimensions.width * -0.3, 0, dimensions.width, 0],
+                    extrapolate: 'clamp'
+                  })
+                },
+                {
+                  translateY: anim.interpolate({
+                    inputRange: [0, 1, 2],
+                    outputRange: [translateY, 0, 0],
+                    extrapolate: 'clamp'
+                  })
+                },
+                {
+                  scaleX: anim.interpolate({
+                    inputRange: [0, 1, 2],
+                    outputRange: [feedCardWidth / dimensions.width, 1, 1],
+                    extrapolate: 'clamp',
+                  })
+                },
+                {
+                  scaleY: anim.interpolate({
+                    inputRange: [0, 1, 2],
+                    outputRange: [feedCardHeight / dimensions.height, 1, 1],
+                    extrapolate: 'clamp',
+                  }),
+                }
+              ],
+            }
+          }
+        } :
+        CardStyleInterpolators.forHorizontalIOS,
       gestureEnabled: false,
-      headerStyleInterpolator: HeaderStyleInterpolators.forUIKit
-      // animation: 'slide_from_right'
+      headerShown: false,
+      // headerTransparent: true,
+      // need to do this to hide the back button when using height: 0
+      // it might not work on Android
+      // https://stackoverflow.com/questions/54613631/how-to-hide-back-button-in-react-navigation-react-native
+      headerLeft: () => <></>,
+      title: '',
+      cardStyle: {
+        backgroundColor: 'transparent'
+      }
+    }
+  }
+
+  const createFeedStack = (isSaved = false) => {
+    return createStackNavigator({
+      initialRouteName: isSaved ? 'Library' : 'Feed',
+      screenOptions: {
+        gestureEnabled: false,
+        headerStyleInterpolator: HeaderStyleInterpolators.forUIKit
+        // animation: 'slide_from_right'
+      },
+      screens: {
+        Feed: {
+          initialParams: { isSaved: false },
+          screen: FeedsScreen,
+          options: {
+            ...headerOptions,
+            headerLeft: (props) => drawerButton(props)
+          }
+        },
+        Library: {
+          initialParams: { isSaved: true },
+          screen: FeedsScreen,
+          options: {
+            ...headerOptions,
+            headerLeft: (props) => drawerButton(props)
+          }
+        },
+        NewFeedsList: {
+          screen: NewFeedsList,
+          options: modalOptions
+        },
+        FeedExpanded: {
+          screen: FeedExpandedContainer,
+          options: {
+            headerShown: false
+          }
+        },
+        Items: {
+          screen: ItemsScreen,
+          options: itemsOptions
+        },
+        Modal: {
+          screen: ModalScreen,
+          options: {
+            headerShown: false
+          }
+        },
+        Login: {
+          screen: Login,
+          options: modalOptions
+        }
+      }
+    })
+  }
+  const HighlightStack = createStackNavigator({
+    options: {
+      headerLeft: (props) => drawerButton(props),
+      headerShown: false
     },
     screens: {
-      Feed: {
-        screen: FeedsScreen,
+      Highlights: {
+        screen: HighlightsScreen,
         options: {
-          title: 'Feed'
+          ...headerOptions,
+          headerLeft: (props) => drawerButton(props)
+        }
+      }
+    }
+  })
+  const AccountStack = createStackNavigator({
+    screens: {
+      Account: {
+        screen: AccountScreen,
+        options: {
+          ...headerOptions,
+          headerLeft: (props) => drawerButton(props)
         }
       },
-      NewFeedsList: {
-        screen: NewFeedsList,
+      Subscribe: {
+        screen: Subscribe,
         options: modalOptions
       },
-      FeedExpanded: {
-        screen: FeedExpandedContainer,
+    }
+  })
+  const SettingsStack = createStackNavigator({
+    screens: {
+      Settings: {
+        screen: SettingsScreen,
+        options: {
+          ...headerOptions,
+          headerLeft: (props) => drawerButton(props)
+        }
+      }
+    }
+  })
+
+  const dimensions = useWindowDimensions()
+  const isLargeScreen = dimensions.width >= 768
+
+  const AppDrawer = createDrawerNavigator({
+    screenOptions: {
+      drawerInactiveTintColor: hslString('rizzleBG', 'strict'),
+      drawerActiveBackgroundColor: hslString('rizzleBG', 'strict', 0.3),
+      drawerActiveTintColor: hslString('rizzleBG', 'strict'),
+      drawerStyle: {
+        backgroundColor: hslString('logo1'),
+        width: isLargeScreen ? 200 : '100%'
+      },
+      drawerItemStyle: {
+        // marginBottom: getMargin() / 2,
+        paddingVertical: getMargin() / 4
+      },
+      drawerLabelStyle: {
+        color: hslString('rizzleBG', 'strict'),
+        fontFamily: 'IBMPlexSans-Light',
+        fontSize: 18,
+        fontWeight: 'light'
+      },
+      headerShown: false,
+      overlayColor: 'transparent'
+    },
+    drawerContent: (props) => <CustomDrawerContent {...props} />,
+    screens: {
+      Feed: {
+        screen: createFeedStack(false),
+        options: {
+          drawerIcon: ({ focused, color, size }) => drawerIcon('rss', { focused, color, size })
+        },
+        // initialParams: { isSaved: false }
+      },
+      Library: {
+        screen: createFeedStack(true),
+        initialParams: { isSaved: true },
+        options: {
+          drawerIcon: ({ focused, color, size }) => drawerIcon('saved', { focused, color, size })
+        }
+      },
+      Highlights: {
+        screen: HighlightStack,
+        options: {
+          drawerIcon: ({ focused, color, size }) => drawerIcon('highlights', { focused, color, size }),
+          headerShown: false
+        }
+      },
+      Accounts: {
+        screen: AccountStack,
+        options: {
+          drawerIcon: ({ focused, color, size }) => drawerIcon('account', { focused, color, size })
+        }
+      },
+      Settings: {
+        screen: SettingsStack,
+        options: {
+          drawerIcon: ({ focused, color, size }) => drawerIcon('settings', { focused, color, size })
+        }
+      }
+    }
+  })
+
+  const AppStack = createStackNavigator({
+    initialRouteName: 'Drawer',
+    // screenOptions: {
+    //   ...headerOptions,
+    //   gestureEnabled: false,
+    //   headerStyleInterpolator: HeaderStyleInterpolators.forUIKit
+    //   // animation: 'slide_from_right'
+    // },
+    screens: {
+      Drawer: {
+        screen: AppDrawer,
         options: {
           headerShown: false
         }
@@ -366,121 +609,14 @@ const App = (): JSX.Element => {
         options: {
           headerShown: false
         }
-      },
-      Account: {
-        screen: AccountScreen
-      },
-      Subscribe: {
-        screen: Subscribe,
-        options: modalOptions
-      },
-      Initial: {
-        screen: InitialScreen,
-        options: {
-          title: 'Reams'
-        }
-      },
-      Items: {
-        screen: ItemsScreen,
-        options: ({ route }) => {
-          type ItemsRouteParams = {
-            feedCardHeight: number
-            feedCardWidth: number
-            feedCardX?: number
-            feedCardY?: number
-            toItems?: boolean
-          }
-
-          const { feedCardHeight, feedCardWidth, feedCardX, feedCardY, toItems } = (route?.params as ItemsRouteParams) || {}
-          const dimensions = Dimensions.get('window')
-          const translateY = feedCardY ?
-            feedCardY + feedCardHeight / 2 - dimensions.height / 2 :
-            0
-          const translateX = feedCardX ?
-            feedCardX + feedCardWidth / 2 - dimensions.width / 2 :
-            0
-          return {
-            cardStyleInterpolator: toItems ?
-              ({ closing, current, next }) => {
-                // I use closing so that I can do fancy stuff with the translateX
-                // feeds screen has to act like normal, items screen is custom
-                let anim = Animated.add(current.progress, Animated.multiply(closing, new Animated.Value(5)))
-                anim = next ? Animated.add(anim, Animated.multiply(next.progress, 1)) : anim
-                return {
-                  cardStyle: {
-                    borderRadius: anim.interpolate({
-                      inputRange: [0, 1, 2],
-                      outputRange: [48, 0, 0],
-                      extrapolate: 'clamp',
-                    }),
-                    opacity: anim.interpolate({
-                      inputRange: [0, 0.2, 1, 2],
-                      outputRange: [0, 1, 1, 1],
-                      extrapolate: 'clamp',
-                    }),
-                    transform: [
-                      {
-                        translateX: anim.interpolate({
-                          inputRange: [0, 1, 2, 3, 5, 6],
-                          outputRange: [translateX, 0, dimensions.width * -0.3, 0, dimensions.width, 0],
-                          extrapolate: 'clamp'
-                        })
-                      },
-                      {
-                        translateY: anim.interpolate({
-                          inputRange: [0, 1, 2],
-                          outputRange: [translateY, 0, 0],
-                          extrapolate: 'clamp'
-                        })
-                      },
-                      {
-                        scaleX: anim.interpolate({
-                          inputRange: [0, 1, 2],
-                          outputRange: [feedCardWidth / dimensions.width, 1, 1],
-                          extrapolate: 'clamp',
-                        })
-                      },
-                      {
-                        scaleY: anim.interpolate({
-                          inputRange: [0, 1, 2],
-                          outputRange: [feedCardHeight / dimensions.height, 1, 1],
-                          extrapolate: 'clamp',
-                        }),
-                      }
-                    ],
-                  }
-                }
-              } :
-              CardStyleInterpolators.forHorizontalIOS,
-            gestureEnabled: false,
-            headerShown: false,
-            // headerTransparent: true,
-            // need to do this to hide the back button when using height: 0
-            // it might not work on Android
-            // https://stackoverflow.com/questions/54613631/how-to-hide-back-button-in-react-navigation-react-native
-            headerLeft: () => <></>,
-            title: '',
-            cardStyle: {
-              backgroundColor: 'transparent'
-            }
-          }
-        }
-      },
-      Highlights: {
-        screen: HighlightsScreen
-      },
-      Settings: {
-        screen: SettingsScreen
-      },
-      Login: {
-        screen: Login,
-        options: modalOptions
       }
     }
 
   })
 
-  const Navigation = createStaticNavigation(AppStack)
+  const Navigation = createStaticNavigation(AppDrawer)
+
+  console.log('RENDER APP')
 
   return <Navigation />
 

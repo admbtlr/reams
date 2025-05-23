@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, waitFor } from '@testing-library/react-native'
 import { render } from '../test-utils-helpers'
-import FeedsScreen from '@components/FeedsScreen'
+import FeedsScreen from '@/components/FeedsScreen'
 import { ItemType } from '@/store/items/types'
 import { ModalContext } from '@/components/ModalProvider'
 import { NavigationContainer } from '@react-navigation/native'
@@ -214,7 +214,7 @@ describe('FeedsScreen Component', () => {
     )
 
     // Check section headers
-    expect(queryByText('Websites')).toBeTruthy()
+    expect(queryByText('RSS')).toBeTruthy()
     expect(queryByText('Newsletters')).toBeTruthy()
     expect(queryByText('Tags')).toBeTruthy()
 

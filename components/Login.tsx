@@ -12,7 +12,6 @@ import { hslString } from '../utils/colors'
 import log from '../utils/log'
 import type { RootState } from '../store/reducers'
 import type { AuthOtpResponse } from '@supabase/supabase-js'
-import DebugView from './DebugView'
 
 const Login = ({
   inputRef,
@@ -41,6 +40,12 @@ const Login = ({
   const [message, setMessage] = useState<string | null>(null)
   const isEmailValid = email?.match(/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/)
   const session = useSession()
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigation.popToTop()
+    }
+  }, [isLoggedIn, navigation])
 
   if (!inputRef) {
     inputRef = useRef<TextInput>(null)
@@ -151,6 +156,8 @@ const Login = ({
 
   const textLargeStyle = {
     ...textInfoStyle(textColor),
+    fontFamily: 'IBMPlexSerif-Light',
+    fontWeight: 'light',
     fontSize: 24 * fontSizeMultiplier()
   }
 
@@ -258,7 +265,6 @@ const Login = ({
             </>}
         </>
       )}
-      {/* <DebugView /> */}
     </View>
   )
 }

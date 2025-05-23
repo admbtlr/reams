@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import { useHeaderStyle } from '../hooks/useHeaderStyle'
 import NavButton from './NavButton'
 import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
@@ -21,7 +22,6 @@ import { ItemType, SET_DISPLAY_MODE } from '../store/items/types'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import { RootState } from 'store/reducers'
 import { useNavigation } from '@react-navigation/native'
-import DebugView from './DebugView'
 
 export default function InitialScreen({ }) {
   const scrollAnim = new Animated.Value(0)
@@ -34,6 +34,12 @@ export default function InitialScreen({ }) {
   const hasFeeds = useSelector((state: RootState) => state.feeds.feeds.length > 0)
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  
+  // Update header style based on dark mode changes
+  useHeaderStyle({
+    bgColor: 'rizzleBG',
+    textColor: 'rizzleText'
+  })
 
   useEffect(() => {
     if (!isOnboarding && !isLoggedIn) {
@@ -272,7 +278,6 @@ export default function InitialScreen({ }) {
             // marginBottom: getMargin() * 0.5,
           }}>Serious, joyful & open</Text>
         </View>
-        <DebugView />
       </View>
     </View>
   )

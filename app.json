@@ -83,7 +83,8 @@
       "package": "app.reams"
     },
     "ios": {
-      "bundleIdentifier": "com.adam-butler.rizzle"
+      "bundleIdentifier": "com.adam-butler.rizzle",
+      "appleTeamId": "LQ43Q9L9MY"
     },
     "web": {
       "output": "single",

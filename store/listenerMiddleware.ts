@@ -10,10 +10,9 @@ downloadsListenerMiddleware.startListening({
   actionCreator: startDownloads,
   effect: async (action, listenerApi) => {
     console.log('Listener caught the startDownloads action')
-      listenerApi.dispatch(fetchAnnotations())
-      listenerApi.dispatch(fetchCategories())
-      listenerApi.dispatch(fetchNewsletters())    
+    listenerApi.dispatch(fetchAnnotations())
+    listenerApi.dispatch(fetchCategories())
+    listenerApi.dispatch(fetchNewsletters())
   }
 
 })
-

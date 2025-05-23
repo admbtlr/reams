@@ -4,7 +4,6 @@ import { NUDGE_FREQUENCY } from '../../components/Nudge'
 import { Source } from '../../store/feeds/types'
 import { Newsletter } from '../../store/newsletters/types'
 import { id as createId, pgTimestamp } from '../../utils'
-import { debugService } from '../../utils/debug-service'
 
 interface NewsletterDB extends SourceDB { }
 
@@ -16,7 +15,6 @@ export const addNewsletter = async (newsletter: {
   // is the newsletter already in the database?
   let newsletterDB = await getNewsletter(newsletter.url)
   if (newsletterDB === null) {
-    debugService.log(`Newsletter ${newsletter.url} is not in the database`)
     try {
       const _id = createId(newsletter.url)
       const newsletterMeta = await getFeedMeta(newsletter)
@@ -40,10 +38,8 @@ export const addNewsletter = async (newsletter: {
       const { error } = await doQuery(fn)
       if (error && Object.keys(error).includes('message')) {
         const errorWithMessage = error as { message: string }
-        debugService.log(`Error adding newsletter ${newsletter.url}: ${errorWithMessage.message}`)
         throw error
       }
-      debugService.log(`Newsletter ${newsletter.url} added to database`)
       newsletterDB = newNewsletterDB
     } catch (error: any) {
       console.error(`Error adding newsletter ${newsletter.url}: ${error.message}`)

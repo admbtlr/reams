@@ -29,6 +29,7 @@ import { fontSizeMultiplier } from '@/utils/dimensions'
 import { textInfoStyle } from '@/utils/styles'
 import { ItemType } from '@/store/items/types'
 import { useNavigation } from '@react-navigation/native'
+import useHeaderStyle from '../hooks/useHeaderStyle'
 
 // Type annotations for components with TypeScript
 type AccountCredentialsFormProps = {
@@ -78,6 +79,8 @@ const AccountScreen: React.FC = () => {
   const scrollAnim = new Animated.Value(0)
   const [expandedBackend, setExpandedBackend] = useState(backend ? null : 'basic')
   const navigation = useNavigation()
+
+  useHeaderStyle()
 
   // Define dispatch functions that were previously in mapDispatchToProps
   const setBackend = (backend: string, credentials: any) => {

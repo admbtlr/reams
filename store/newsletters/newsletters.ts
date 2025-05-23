@@ -28,7 +28,6 @@ import { ADD_MESSAGE, REMOVE_MESSAGE } from "../ui/types";
 import { decode } from "html-entities";
 import { NUDGE_FREQUENCY } from "../../components/Nudge";
 import { DEACTIVATE_NUDGE, Feed, PAUSE_NUDGE } from "../feeds/types";
-import { debugService } from "../../utils/debug-service";
 
 export const createNewsletter = createAsyncThunk(
   'newsletters/createNewsletter',
@@ -39,10 +38,8 @@ export const createNewsletter = createAsyncThunk(
       return newsletter
     } else {
       try {
-        debugService.log(`Adding newsletter ${newsletter.url}`)
         return await addNewsletterBackend(newsletter)
       } catch (error: any) {
-        debugService.log(`Error adding newsletter ${newsletter.url}: ${error.message}`)
         throw error
       }
     }
@@ -103,15 +100,10 @@ export const fetchNewsletters = createAsyncThunk(
           messageString: 'Fetching newsletters'
         })
       }
-      if (debugService) {
-        debugService.log(`Error fetching newsletters: ${e.message}`, e)
-        debugService.log(e.stack)
-      }
       throw e
     }
     let { newsletters } = (getState() as RootState).newsletters
     // items = items.filter((item) => item.created_at > lastUpdated)
-    debugService.log(`Got ${items.length} newsletters`)
     const newNewsletters: any = []
     items.forEach((item) => {
       if (!newsletters.find((newsletter: any) => newsletter.url === item.feed_url) &&

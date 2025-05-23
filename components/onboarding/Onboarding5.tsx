@@ -8,9 +8,12 @@ import { textLargeBoldStyle, textLargeStyle, textStyle } from './Onboarding'
 import TextButton from '../TextButton'
 import { textInfoStyle } from '../../utils/styles'
 import { RootState } from '../../store/reducers'
+import { user } from '../../store/user/user'
+import { useNavigation } from '@react-navigation/native'
 
-const Onboarding5 = ({ index, navigation }: { index: number, navigation: any }) => {
+const Onboarding5 = ({ index }: { index: number }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   const [isFinished, setIsFinished] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isShareSheetClosed, setIsShareSheetClosed] = useState(false)
@@ -39,17 +42,15 @@ const Onboarding5 = ({ index, navigation }: { index: number, navigation: any }) 
 
   const endOnboardingAndResetNav = () => {
     endOnboarding()
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'Initial'}]})
+    navigation.goBack()
   }
 
   const openShareSheet = () => {
     ActionSheetIOS.showShareActionSheetWithOptions({
-        url: 'https://reams.app',
-        message: 'Reams is for people who love to read. It‘s all about the immersive pleasures of text and image.',
-        subject: 'Reams'
-      },
+      url: 'https://reams.app',
+      message: 'Reams is for people who love to read. It‘s all about the immersive pleasures of text and image.',
+      subject: 'Reams'
+    },
       (error) => {
         console.error(error)
       },
@@ -103,8 +104,8 @@ const Onboarding5 = ({ index, navigation }: { index: number, navigation: any }) 
             outputRange: [1, 0, 0]
           }),
         }}>
-          <Image 
-            source={require('../../assets/images/reams-enable-share.webp')} 
+          <Image
+            source={require('../../assets/images/reams-enable-share.webp')}
             style={{
               backgroundColor: 'white',
               borderColor: 'rgba(0,0,0,0.8)',
@@ -152,15 +153,15 @@ const Onboarding5 = ({ index, navigation }: { index: number, navigation: any }) 
             })
           }}>If you have any questions, comments or bug reports, don’t hesitate get in touch at <Pressable
             onPress={() => Linking.openURL('mailto:adam@reams.app')}
-            >
-            <Text style={{
-              ...textStyle,
-              textDecorationLine: 'underline',
-              marginBottom: -3 * fontSizeMultiplier(),
-            }}>adam@reams.app</Text>
+          >
+              <Text style={{
+                ...textStyle,
+                textDecorationLine: 'underline',
+                marginBottom: -3 * fontSizeMultiplier(),
+              }}>adam@reams.app</Text>
             </Pressable></Animated.Text>
-          <Image 
-            source={require('../../assets/images/ream.png')} 
+          <Image
+            source={require('../../assets/images/ream.png')}
             style={{
               alignSelf: 'center'
             }}
@@ -180,22 +181,22 @@ const Onboarding5 = ({ index, navigation }: { index: number, navigation: any }) 
         {isFinished || (
           <>
             <TextButton
-              buttonStyle={{marginBottom: 24 * fontSizeMultiplier()}}              
+              buttonStyle={{ marginBottom: 24 * fontSizeMultiplier() }}
               onPress={openShareSheet}
               text='Open share sheet'
             />
             <TextButton
-              buttonStyle={{opacity: isShareSheetClosed ? 1 : 0}}
+              buttonStyle={{ opacity: isShareSheetClosed ? 1 : 0 }}
               onPress={() => setIsFinished(true)}
               text='OK, done!'
             />
-            <Pressable 
+            <Pressable
               onPress={() => setIsFinished(true)}
               style={{
                 marginTop: -24 * fontSizeMultiplier(),
                 opacity: isShareSheetClosed ? 0 : 1
               }}>
-              <Text style={ textInfoStyle() }>Skip</Text>
+              <Text style={textInfoStyle()}>Skip</Text>
             </Pressable>
           </>
         )}

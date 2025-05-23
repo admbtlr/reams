@@ -4,6 +4,7 @@ import isEqual from 'lodash.isequal'
 import {
   Feed,
 } from '../store/feeds/types'
+import { useHeaderStyle } from '../hooks/useHeaderStyle'
 import {
   SHOW_HELPTIP
 } from '../store/ui/types'
@@ -35,8 +36,8 @@ import { getInset } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { textButtonStyle, textInfoStyle, textInputStyle } from '../utils/styles'
 import type { RootState } from '../store/reducers'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { ItemType } from '../store/items/types'
+import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native'
+import { ItemType, SET_DISPLAY_MODE } from '../store/items/types'
 import { useModal } from './ModalProvider'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import SearchBar from './SearchBar'
@@ -90,7 +91,7 @@ const normaliseTitle = (title: string) => title.slice(0, 4).toUpperCase() === 'T
   title.slice(4).toUpperCase() :
   title.toUpperCase()
 
-function FeedsScreen() {
+function FeedsScreen({ route }) {
 
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
   const [modal, setModal] = useState<{ feed: Feed, position: number } | null>(null)
@@ -100,7 +101,7 @@ function FeedsScreen() {
   const scrollAnim = new Animated.Value(0)
 
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
-  const isSaved = displayMode === ItemType.saved
+  const isSaved = route?.params?.isSaved // displayMode === ItemType.saved
 
   const feedSkeletons: FeedSkeleton[] = useSelector(selectFeedSkeletons, isEqual)
   const newsletterSkeletons: FeedSkeleton[] = useSelector(selectNewsletterSkeletons, isEqual)
@@ -113,6 +114,34 @@ function FeedsScreen() {
   const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>()
 
   const { openModal } = useModal()
+
+  // Update header style based on dark mode changes
+  useHeaderStyle({
+    bgColor: 'rizzleBG',
+    textColor: 'rizzleText'
+  })
+
+  useFocusEffect(
+    useCallback(() => {
+      if (isSaved) dispatch({ type: SET_DISPLAY_MODE, displayMode: ItemType.saved })
+      else dispatch({ type: SET_DISPLAY_MODE, displayMode: ItemType.unread })
+    }, [isSaved])
+  )
+
+  const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
+  const isLoggedIn = useSelector((state: RootState) => state.user.userId !== '')
+  useEffect(() => {
+    if (!isLoggedIn) {
+      console.log('User is not logged in')
+      setTimeout(() => {
+        navigation.navigate('Login')
+      }, 1000)
+      // } else if (isOnboarding) {
+      //   redirectToItems(true, true)
+    } else if (isOnboarding) {
+      navigation.navigate('Items')
+    }
+  }, [isLoggedIn, isOnboarding])
 
   const createCategory = (name: string) => {
     const category: Category = {

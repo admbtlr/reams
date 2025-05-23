@@ -118,30 +118,24 @@ const Rizzle = () => {
       <PersistGateWrapper>
         <DebugProvider>
           <AuthProvider>
-            <View style={{
-              flex: 1,
-              backgroundColor: 'black',
-              overflow: 'hidden'
-            }}>
-              {Platform.OS === 'ios' &&
-                <StatusBar
-                  barStyle='light-content'
-                  hidden={false} />}
-              <ConnectionListener />
-              {Platform.OS === 'web' || <OrientationListener />}
-              <Analytics />
-              <MigrationsProvider>
-                <ModalProvider>
-                  <AppStateListenerContainer>
-                    <App />
-                    <Message />
-                    <RizzleModal />
-                  </AppStateListenerContainer>
-                </ModalProvider>
-                <HelpTipProvider />
-              </MigrationsProvider>
-              <Splash />
-            </View>
+            {Platform.OS === 'ios' &&
+              <StatusBar
+                barStyle='light-content'
+                hidden={false} />}
+            <ConnectionListener />
+            {Platform.OS === 'web' || <OrientationListener />}
+            <Analytics />
+            <MigrationsProvider>
+              <ModalProvider>
+                <AppStateListenerContainer>
+                  <App />
+                  <Message />
+                  <RizzleModal />
+                </AppStateListenerContainer>
+              </ModalProvider>
+              <HelpTipProvider />
+            </MigrationsProvider>
+            <Splash />
           </AuthProvider>
         </DebugProvider>
       </PersistGateWrapper>

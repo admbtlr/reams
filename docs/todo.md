@@ -5,27 +5,16 @@
   - settings screen layout
   - redo drop caps for different fonts (e.g. Nunito)
 - android bugs
-  - ~~splash screen colour~~
-  - ~~can navigate by dragging during onboarding~~
-  - ~~send me a link button shrinks when keyboard is visible (flex thing?)~~
-  - ~~status bar is just white~~
-  - ~~newsletter article body is moved left by quite a bit~~
-  - ~~dropcaps don't appear~~
-  - ~~title descenders are cropped~~
-    - ~~can also see this on titles with borders~~
-    - ~~but summaries are fine~~
-  - ~~links in articles open in the webview~~ (works suddenly?)
-  - ~~lack of padding under buttons in nudges~~ (seems OK now?)
   - layout of search bar is a bit weird
   - titles break words
-  - ~~divider isn't rounded~~
-  - ~~share button doesn't work~~ (just got rid of it)
-  - ~~one of the serif fonts is way too big~~
+- marking img-small doesn't work
+  - line 210 in feed-item.js
+- newsletters sometimes double in the feeds screen
 - replace react-native-text-size with https://github.com/DomiR/react-native-measure-text
   - this doesn't measure text height, but then I could use onLayout for that
 - https://api.reams.app/api/find-feeds?url=https://werd.io/ doesn't work
 - about page
-  - add button to email contents of store to support 
+  - add button to email contents of store to support
 - save item / unsave item / save item doesn't work
 - remove category doesn't work
 - fix search queries
@@ -71,7 +60,7 @@
 - read srcsets to get the right image
 - replace https://github.com/request/request-promise-native in the server, since it's now deprecated
 - is this useful? https://css-tricks.com/mediastack/
-- i8n 
+- i8n
     - https://medium.com/better-programming/creating-a-multi-language-app-in-react-native-9828b138c274
     - https://github.com/antfu/i18n-ally#readme
 - make extension work with more data types
@@ -85,8 +74,22 @@
 - make buttons use reanimate
 
 # Done
+- android bugs
+  - ~~divider isn't rounded~~
+  - ~~share button doesn't work~~ (just got rid of it)
+  - ~~one of the serif fonts is way too big~~
+  - ~~splash screen colour~~
+  - ~~can navigate by dragging during onboarding~~
+  - ~~send me a link button shrinks when keyboard is visible (flex thing?)~~
+  - ~~status bar is just white~~
+  - ~~newsletter article body is moved left by quite a bit~~
+  - ~~dropcaps don't appear~~
+  - ~~title descenders are cropped~~
+    - ~~can also see this on titles with borders~~
+    - ~~but summaries are fine~~
+  - ~~links in articles open in the webview~~ (works suddenly?)
+  - ~~lack of padding under buttons in nudges~~ (seems OK now?)
 - ~~install and use skia~~
-
 - ~~duh I broke onboarding~~
 - ~~onboarding in dark mode~~
 - ~~icon~~
