@@ -7,8 +7,10 @@ import {
 } from '@react-navigation/drawer'
 import { View, StyleSheet, Animated, Easing, Text } from 'react-native'
 import { useDrawerStatus } from '@react-navigation/drawer'
+import * as Application from 'expo-application'
 import { hslString } from '../utils/colors'
 import { getMargin } from '../utils/dimensions'
+import { BackgroundGradient } from './BackgroundGradient'
 
 const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
   const { state, navigation, descriptors } = props || {}
@@ -50,7 +52,8 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
   }
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
+      <BackgroundGradient index={3} />
       <DrawerContentScrollView {...props}>
         <View style={styles.container}>
           {state.routes.map((route, i) => {
@@ -119,8 +122,13 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
           fontSize: 36,
           fontFamily: 'IBMPlexSerif-Light'
         }}>Reams</Text>
+        <Text style={{
+          color: hslString('rizzleBG', 'strict'),
+          fontSize: 14,
+          fontFamily: 'IBMPlexMono-Light'
+        }}>{Application.nativeApplicationVersion}</Text>
       </View>
-    </>
+    </View>
   )
 }
 

@@ -14,7 +14,7 @@ import { hslString } from '../utils/colors'
 import { isFirstLaunch } from '../utils'
 import { fontSizeMultiplier } from '../utils/dimensions'
 
-export default function Splash () {
+export default function Splash() {
   const { height, width } = Dimensions.get('window')
   const rizzleAnim = new Animated.Value(0)
   const scaleAnim = new Animated.Value(1)
@@ -33,7 +33,7 @@ export default function Splash () {
       const isFirst = await isFirstLaunch()
       if (!isFirst || hasRehydrated) {
         setVisible(false)
-      }  
+      }
     } catch (e) {
       log('hideWhenReady', e)
     }
@@ -83,9 +83,9 @@ export default function Splash () {
           })
         }
       })
-      return () => {
-        isSubscribed = false
-      }
+    return () => {
+      isSubscribed = false
+    }
   })
 
   hideWhenReady()
@@ -138,9 +138,10 @@ export default function Splash () {
       }}>
         <Text
           style={{
-            fontFamily: 'PTSerif-Bold',
+            fontFamily: 'IBMPlexSerif-Light',
             color: hslString('rizzleBG'),
             fontSize: 40 * fontSizeMultiplier(),
+            fontWeight: 'light',
             textAlign: 'center'
           }}
         >Reams</Text>

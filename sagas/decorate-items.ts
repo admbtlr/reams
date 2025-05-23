@@ -2,7 +2,7 @@ import { call, delay, put, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
 import * as FileSystem from 'expo-file-system'
 import { InteractionManager, Platform } from 'react-native'
-import { 
+import {
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
   ImageStuff,
@@ -24,12 +24,12 @@ import {
   getFeeds,
   getSavedItems
 } from './selectors'
-import { 
-  getItems as getItemsSQLite, 
+import {
+  getItems as getItemsSQLite,
   updateItem as updateItemSQLite
 } from '../storage/sqlite'
-import { 
-  getItems as getItemsIDB, 
+import {
+  getItems as getItemsIDB,
   updateItem as updateItemIDB
 } from '../storage/idb-storage'
 import { Feed, Source } from '../store/feeds/types'
@@ -54,14 +54,14 @@ interface Decoration {
   imageStuff: ImageStuff
 }
 
-interface WholeItem extends Item, ItemInflated {}
+interface WholeItem extends Item, ItemInflated { }
 
-export function * decorateItems () {
+export function* decorateItems() {
   let items
   let item
   let count = 0
 
-  yield spawn(function * () {
+  yield spawn(function* () {
     while (true) {
       const nextItem: Item = yield getNextItemToDecorate()
       // console.log('Looking for new item')
@@ -78,9 +78,9 @@ export function * decorateItems () {
   })
 }
 
-export function * decorateItem (item: Item) {
+export function* decorateItem(item: Item) {
   // console.log(`Inside decorateItem "${item.title}"`)
-  try {    
+  try {
     const decoration: Decoration = yield assembleDecoration(item)
     if (decoration && decoration.mercuryStuff && !decoration.mercuryStuff.error) {
       yield applyDecoration(decoration)
@@ -93,7 +93,7 @@ export function * decorateItem (item: Item) {
   }
 }
 
-function * decorationFailed (item: Item) {
+function* decorationFailed(item: Item) {
   if (!item) return
   consoleLog(`Error decorating item "${item.title}", trying again next time around`)
   yield call(InteractionManager.runAfterInteractions)
@@ -118,25 +118,25 @@ function consoleLog(txt: string) {
   }
 }
 
-export function * assembleDecoration (i: Item): Generator<any, Decoration | boolean, any> {
+export function* assembleDecoration(i: Item): Generator<any, Decoration | boolean, any> {
   let items: ItemInflated[] = Platform.OS === 'web' ?
     yield call(getItemsIDB, [i]) :
     yield call(getItemsSQLite, [i])
   let itemInflated = items[0]
-  let item: WholeItem = { ...i , ...itemInflated}
+  let item: WholeItem = { ...i, ...itemInflated }
   if (item.blobId) {
     const { content_html, url } = yield call(downloadContent, item)
-    item = { 
-      ...item, 
-      content_html, 
-      url 
+    item = {
+      ...item,
+      content_html,
+      url
     }
     if (Platform.OS === 'web') {
       yield call(updateItemIDB, item)
     } else {
       yield call(updateItemSQLite, item)
     }
-    yield put({ 
+    yield put({
       type: UPDATE_ITEM,
       item: deflateItem(item)
     })
@@ -153,11 +153,11 @@ export function * assembleDecoration (i: Item): Generator<any, Decoration | bool
   }
 }
 
-function * applyDecoration (decoration: Decoration) {
+function* applyDecoration(decoration: Decoration) {
   yield call(InteractionManager.runAfterInteractions)
   const displayMode: string = yield select(getDisplay)
   const isSaved = decoration.item.isSaved
-  yield call(persistDecoration, {...decoration})
+  yield call(persistDecoration, { ...decoration })
   yield put({
     type: ITEM_DECORATION_SUCCESS,
     ...decoration,
@@ -165,7 +165,7 @@ function * applyDecoration (decoration: Decoration) {
     displayMode
   })
   //@ts-ignore
-  const items: Item[] = [ ...yield select(getItems, isSaved ? ItemType.saved : ItemType.unread) ]
+  const items: Item[] = [...yield select(getItems, isSaved ? ItemType.saved : ItemType.unread)]
 
   // this appears to have been replace by the call to persistDecoration above
   // let item = items.find(item => item._id === decoration.item._id)
@@ -185,8 +185,8 @@ function * applyDecoration (decoration: Decoration) {
   }
 }
 
-function * persistDecoration (decoration: Decoration) {
-  const {imageStuff, item, mercuryStuff} = decoration
+function* persistDecoration(decoration: Decoration) {
+  const { imageStuff, item, mercuryStuff } = decoration
   const isWeb = Platform.OS === 'web'
   const decorated = addMercuryStuffToItem(item, mercuryStuff)
   let wholeItem = {
@@ -200,23 +200,23 @@ function * persistDecoration (decoration: Decoration) {
       !!wholeItem.coverImageFile
     wholeItem = setShowCoverImage(wholeItem)
     wholeItem.styles = adjustStylesToCoverImage(decoration)
-    wholeItem = removeCachedCoverImageDuplicate(wholeItem)  
+    wholeItem = removeCachedCoverImageDuplicate(wholeItem)
   }
   if (Platform.OS === 'web') {
     yield call(updateItemIDB, wholeItem)
   } else {
     yield call(updateItemSQLite, wholeItem)
   }
-  yield put({ 
+  yield put({
     type: UPDATE_ITEM,
     item: deflateItem(wholeItem)
   })
 }
 
-function * prepareCoverImage (item: Item, mercuryStuff: MercuryStuff): Generator<any, ImageStuff, any> {
+function* prepareCoverImage(item: Item, mercuryStuff: MercuryStuff): Generator<any, ImageStuff, any> {
   let imageStuff = {}
   if (mercuryStuff.lead_image_url && Platform.OS !== 'web') {
-    let coverImageFile = yield call (cacheCoverImage, item, mercuryStuff.lead_image_url)
+    let coverImageFile = yield call(cacheCoverImage, item, mercuryStuff.lead_image_url)
     if (coverImageFile) {
       try {
         const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
@@ -238,7 +238,7 @@ function * prepareCoverImage (item: Item, mercuryStuff: MercuryStuff): Generator
   return imageStuff
 }
 
-function adjustStylesToCoverImage (decoration: Decoration): {} {
+function adjustStylesToCoverImage(decoration: Decoration): {} {
   let { imageStuff, item, mercuryStuff } = decoration
   let styles = { ...item.styles }
   if (imageStuff.faceCentreNormalised) {
@@ -259,12 +259,12 @@ function adjustStylesToCoverImage (decoration: Decoration): {} {
   } else {
     // title.bg has a different meaning for fullbleed cover images
     // check that title is short enough
-    styles.title.bg  = styles.title.bg && item.title.length < 40
+    styles.title.bg = styles.title.bg && item.title.length < 40
   }
   return styles
 }
 
-export async function cacheCoverImage (item: Item, imageURL: string) {
+export async function cacheCoverImage(item: Item, imageURL: string) {
   const splitted = imageURL.split('.')
   // const extension = splitted[splitted.length - 1].split('?')[0].split('%')[0]
   // making a big assumption on the .jpg extension here...
@@ -277,14 +277,14 @@ export async function cacheCoverImage (item: Item, imageURL: string) {
     if (fileInfo.exists) return fileName
     await FileSystem.downloadAsync(imageURL, fileName)
     return fileName
-  } catch(err) {
+  } catch (err) {
     consoleLog(`Loading cover image for ${item._id} failed :(`)
     log('cacheCoverImage', err)
     return false
   }
 }
 
-function * getNextItemToDecorate () {
+function* getNextItemToDecorate() {
   const isItemViable = (item: Item) => {
     return !item.isDecorated &&
       (!item.decoration_failures || item.decoration_failures < MAX_DECORATION_FAILURES) &&

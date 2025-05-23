@@ -7662,10 +7662,10 @@ expect@^29.0.0, expect@^29.7.0:
     jest-message-util "^29.7.0"
     jest-util "^29.7.0"
 
-expo-application@~6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-6.0.2.tgz#4384299f0518958e2fb18b8b029af5583c642479"
-  integrity sha512-qcj6kGq3mc7x5yIb5KxESurFTJCoEKwNEL34RdPEvTB/xhl7SeVZlu05sZBqxB1V4Ryzq/LsCb7NHNfBbb3L7A==
+expo-application@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-6.1.4.tgz#34ee2f7a86e3689f15961b296e82934e0f85afd6"
+  integrity sha512-jXVZb3llTQ5j4C/I03GxKjujmhKex9Xo5JDZo/pRjScHSr4NoeMjPKWThyWVlWDM1v5YSEcsRJebVfTvq9SR5Q==
 
 expo-asset@~11.0.2:
   version "11.0.2"
