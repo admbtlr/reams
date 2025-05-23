@@ -442,7 +442,7 @@ const BackButton = ({ color, isDarkMode, isSaved }: BackButtonProps) => {
     }}>
       <TouchableOpacity
         onPress={() => {
-          navigation.popTo('Feed', { isSaved, transition: 'default' })
+          navigation.goBack()
           clearReadItems()
         }}
         style={{
