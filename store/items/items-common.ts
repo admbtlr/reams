@@ -6,6 +6,7 @@ import {
   ItemsState,
   itemDecorationFailureAction,
   itemDecorationSuccessAction,
+  imageAnalysisSuccessAction,
   markItemReadAction,
   markItemsReadAction,
   resetDecorationFailuresAction,
@@ -16,7 +17,7 @@ import {
 } from './types'
 
 export const itemMarkRead = (
-  action: markItemReadAction, 
+  action: markItemReadAction,
   state: ItemsState
 ) => {
   const items = state.items.map((i: Item) => {
@@ -32,8 +33,8 @@ export const itemMarkRead = (
   }
 }
 
-export function itemsMarkRead (
-  action: markItemsReadAction, 
+export function itemsMarkRead(
+  action: markItemsReadAction,
   state: ItemsState
 ) {
   if (action.items.length === 0) {
@@ -55,12 +56,12 @@ export function itemsMarkRead (
   }
 }
 
-export function itemSetScrollOffset (
-  action: setScrollOffsetAction, 
+export function itemSetScrollOffset(
+  action: setScrollOffsetAction,
   state: ItemsState
 ) {
   let items = state.items.map((i: Item) => {
-    let item = { 
+    let item = {
       ...i,
       // need to gracefully migrate to new format
       scrollRatio: i.scrollRatio ?
@@ -86,8 +87,8 @@ export function itemSetScrollOffset (
   }
 }
 
-export function itemToggleMercury (
-  action: toggleMercuryViewAction, 
+export function itemToggleMercury(
+  action: toggleMercuryViewAction,
   state: ItemsState
 ) {
   let items = state.items.map((i: Item) => {
@@ -104,8 +105,8 @@ export function itemToggleMercury (
   }
 }
 
-export function itemDecorationSuccess (
-  action: itemDecorationSuccessAction, 
+export function itemDecorationSuccess(
+  action: itemDecorationSuccessAction,
   state: ItemsState,
   isCurrentDisplayMode: boolean
 ) {
@@ -138,8 +139,28 @@ export function itemDecorationSuccess (
 
 }
 
-export function itemDecorationFailure (
-  action: itemDecorationFailureAction, 
+export function imageAnalysisSuccess(
+  action: imageAnalysisSuccessAction,
+  state: ItemsState
+) {
+  const items = state.items.map((i: Item) => {
+    if (i._id === action.item._id) {
+      return {
+        ...i,
+        isAnalysed: true
+      }
+    } else {
+      return i
+    }
+  })
+  return {
+    ...state,
+    items
+  }
+}
+
+export function itemDecorationFailure(
+  action: itemDecorationFailureAction,
   state: ItemsState
 ) {
   const items = state.items.map((i: Item) => {
@@ -161,8 +182,8 @@ export function itemDecorationFailure (
   }
 }
 
-export function itemBodyCleaned (
-  action: setTitleFontSizeAction, 
+export function itemBodyCleaned(
+  action: setTitleFontSizeAction,
   state: ItemsState
 ) {
   const items = state.items.map((i: Item) => {
@@ -182,8 +203,8 @@ export function itemBodyCleaned (
   }
 }
 
-export function resetDecorationFailures (
-  action: resetDecorationFailuresAction, 
+export function resetDecorationFailures(
+  action: resetDecorationFailuresAction,
   state: ItemsState
 ) {
   const items = state.items.map((i: Item) => {
@@ -199,8 +220,8 @@ export function resetDecorationFailures (
   }
 }
 
-export function updateCurrentItemTitleFontSize (
-  action: setTitleFontSizeAction, 
+export function updateCurrentItemTitleFontSize(
+  action: setTitleFontSizeAction,
   state: ItemsState
 ) {
   let stateChanged = false

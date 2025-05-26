@@ -6,7 +6,7 @@ export enum ItemType {
   saved = 'saved'
 }
 
-interface ItemStyles {
+export interface ItemStyles {
   coverImage: {
     align: string
     color: string
@@ -66,6 +66,7 @@ export interface Item {
     width: number
     height: number
   }
+  isAnalysed?: boolean | undefined
   isDecorated?: boolean | undefined
   isExternal?: boolean | undefined
   isHtmlCleaned?: boolean | undefined
@@ -161,6 +162,7 @@ export const TOGGLE_MERCURY_VIEW = 'TOGGLE_MERCURY_VIEW'
 export const ITEM_DECORATION_SUCCESS = 'ITEM_DECORATION_SUCCESS'
 export const ITEM_DECORATION_FAILURE = 'ITEM_DECORATION_FAILURE'
 export const ITEM_DECORATION_PROGRESS = 'ITEM_DECORATION_PROGRESS'
+export const IMAGE_ANALYSIS_DONE = 'IMAGE_ANALYSIS_DONE'
 export const ADD_readingTime = 'ADD_readingTime'
 export const SET_SCROLL_OFFSET = 'SET_SCROLL_OFFSET'
 export const SET_TITLE_FONT_SIZE = 'SET_TITLE_FONT_SIZE'
@@ -297,6 +299,14 @@ export interface itemDecorationFailureAction {
   isSaved: boolean
 }
 
+export interface imageAnalysisSuccessAction {
+  type: typeof IMAGE_ANALYSIS_DONE
+  item: Item
+  imageStuff: ImageStuff
+  isSaved: boolean
+  displayMode: string
+}
+
 interface itemDecorationProgressAction {
   type: typeof ITEM_DECORATION_PROGRESS
   decoratedCount: number
@@ -362,6 +372,7 @@ export type ItemActionTypes = setDisplayModeAction |
   itemDecorationSuccessAction |
   itemDecorationFailureAction |
   itemDecorationProgressAction |
+  imageAnalysisSuccessAction |
   addReadingTimeAction |
   setScrollOffsetAction |
   setTitleFontSizeAction |

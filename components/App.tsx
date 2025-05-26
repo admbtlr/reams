@@ -557,8 +557,7 @@ const App = (): JSX.Element => {
         screen: createFeedStack(false),
         options: {
           drawerIcon: ({ focused, color, size }) => drawerIcon('rss', { focused, color, size })
-        },
-        // initialParams: { isSaved: false }
+        }
       },
       Library: {
         screen: createFeedStack(true),

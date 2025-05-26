@@ -9,6 +9,7 @@
   - titles break words
 - marking img-small doesn't work
   - line 210 in feed-item.js
+- faces are not centred in cover images because hAlign is (left|centre|right) - make it a normalised number instead
 - newsletters sometimes double in the feeds screen
 - replace react-native-text-size with https://github.com/DomiR/react-native-measure-text
   - this doesn't measure text height, but then I could use onLayout for that

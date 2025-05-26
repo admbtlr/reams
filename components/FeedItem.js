@@ -352,7 +352,7 @@ class FeedItem extends React.Component {
       const that = this
       const animation = Animated.timing(reveal, {
         toValue: 0,
-        delay: 1500,
+        // delay: 1500,
         duration: 500,
         useNativeDriver: true
       })

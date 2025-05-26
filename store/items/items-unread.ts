@@ -18,6 +18,7 @@ import {
   ITEMS_BATCH_FETCHED,
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
+  IMAGE_ANALYSIS_DONE,
   MARK_ITEM_READ,
   MARK_ITEMS_READ,
   PRUNE_UNREAD,
@@ -47,6 +48,7 @@ import {
   itemSetScrollOffset,
   itemToggleMercury,
   itemDecorationSuccess,
+  imageAnalysisSuccess,
   itemDecorationFailure,
   updateCurrentItemTitleFontSize,
   itemBodyCleaned,
@@ -270,6 +272,9 @@ export function itemsUnread(
 
     case ITEM_DECORATION_SUCCESS:
       return action.isSaved ? state : itemDecorationSuccess(action, state, action.displayMode === 'unread')
+
+    case IMAGE_ANALYSIS_DONE:
+      return action.isSaved ? state : imageAnalysisSuccess(action, state, action.displayMode === 'unread')
 
     case ITEM_DECORATION_FAILURE:
       return action.isSaved ? state : itemDecorationFailure(action, state)

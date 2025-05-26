@@ -1,13 +1,13 @@
 const fuzz = require('fuzzball')
 import * as FileSystem from 'expo-file-system'
 const sanitizeHtml = require('sanitize-html')
-import {createItemStyles, compressStyles, expandStyles} from './createItemStyles'
-import {fileExists, getCachedCoverImagePath} from './index'
+import { createItemStyles, compressStyles, expandStyles } from './createItemStyles'
+import { fileExists, getCachedCoverImagePath } from './index'
 import log from './log'
 import LZString from 'lz-string'
 import { Platform } from 'react-native'
 
-export function addStylesIfNecessary (item, index, items) {
+export function addStylesIfNecessary(item, index, items) {
   if (item.styles && !item.styles.temporary) {
     return item
   } else {
@@ -23,7 +23,7 @@ export function addStylesIfNecessary (item, index, items) {
   }
 }
 
-export function deflateItem (item) {
+export function deflateItem(item) {
   if (!item) {
     log('Item is null?')
   }
@@ -45,6 +45,7 @@ export function deflateItem (item) {
     hasCoverImage: item.hasCoverImage,
     showCoverImage: item.showCoverImage,
     imageDimensions: item.imageDimensions,
+    isAnalysed: item.isAnalysed,
     isDecorated: item.isDecorated,
     isExternal: item.isExternal,
     isNewsletter: item.isNewsletter,
@@ -60,7 +61,7 @@ export function deflateItem (item) {
   return deflated
 }
 
-export function inflateStyles (item) {
+export function inflateStyles(item) {
   if (!item) {
     log('inflateStyles', 'Item is null?')
   }
@@ -73,11 +74,11 @@ export function inflateStyles (item) {
   }
 }
 
-export function isInflated (item) {
+export function isInflated(item) {
   return Object.keys(item).indexOf('content_html') !== -1 && !!item.content_html
 }
 
-export function fixRelativePaths (item) {
+export function fixRelativePaths(item) {
   if (!item.url) return item
   const matches = /http[s]?:\/\/[^:\/\s]+/.exec(item.url)
   if (!matches) return item
@@ -93,9 +94,9 @@ export function fixRelativePaths (item) {
   return item
 }
 
-export function sanitizeContent (item) {
+export function sanitizeContent(item) {
   const settings = {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'script', 'video' ]),
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'script', 'video']),
     allowedAttributes: false,
     allowVulnerableTags: true
   }
@@ -104,13 +105,13 @@ export function sanitizeContent (item) {
   return item
 }
 
-export function nullValuesToEmptyStrings (item) {
+export function nullValuesToEmptyStrings(item) {
   item.title = item.title ? item.title : ''
   item.content_html = item.content_html ? item.content_html : ''
   return item
 }
 
-export function addMercuryStuffToItem (item, mercury) {
+export function addMercuryStuffToItem(item, mercury) {
   // mercury.content = sanitizeHtml(mercury.content, {
   //   allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
   // })
@@ -190,21 +191,21 @@ export function addMercuryStuffToItem (item, mercury) {
   return decoratedItem
 }
 
-function stripTags (text) {
+function stripTags(text) {
   return text.replace(/<.*?>/g, '')
 }
 
-export function isExcerptUseful (item) {
+export function isExcerptUseful(item) {
   return item.excerpt && item.excerpt.length < 200
 }
 
-export function isExcerptFirstPara (item) {
+export function isExcerptFirstPara(item) {
   if (!item.content_html) return
   let firstPara = item.content_html.split('</p>')[0].replace('<p>', '')
   return firstPara && strip(firstPara) === item.excerpt
 }
 
-export function isExcerptExtract (item, isMercury = false) {
+export function isExcerptExtract(item, isMercury = false) {
   if (!item.content_html) return false
   const excerptWithoutEllipsis = item.excerpt.substring(0, item.excerpt.length - 4)
   return strip(item.content_html).substring(0, excerptWithoutEllipsis.length) === excerptWithoutEllipsis
@@ -222,14 +223,14 @@ export function strip(content) {
     .trim()
 }
 
-export function addCoverImageToItem (item, imageStuff) {
+export function addCoverImageToItem(item, imageStuff) {
   return {
     ...item,
     ...imageStuff
   }
 }
 
-export function setShowCoverImage (item) {
+export function setShowCoverImage(item) {
   const getLongestContentLength = (item) => {
     const hasMercury = item.content_mercury && typeof item.content_mercury === 'string'
     const hasHtml = item.content_html && typeof item.content_mercury === 'string'
@@ -247,12 +248,12 @@ export function setShowCoverImage (item) {
   return {
     ...item,
     showCoverImage: item.hasCoverImage //&&
-      // (currentItem ? item._id !== currentItem._id : true) &&
-      //(getLongestContentLength(item) > 1500)
+    // (currentItem ? item._id !== currentItem._id : true) &&
+    //(getLongestContentLength(item) > 1500)
   }
 }
 
-export function removeCachedCoverImageDuplicate (item) {
+export function removeCachedCoverImageDuplicate(item) {
   if (item.showCoverImage && item.styles && item.styles.coverImage?.isInline && item.coverImageUrl) {
     const getImageFileName = (path) => /.*\/(.*?)\./.exec(path)[1]
     const imageSrcIsUrl = (path) => path.startsWith('http')
@@ -272,7 +273,7 @@ export function removeCachedCoverImageDuplicate (item) {
   return item
 }
 
-export async function removeCachedCoverImages (items) {
+export async function removeCachedCoverImages(items) {
   if (!items) return
 
   if (Platform.OS === 'web') return

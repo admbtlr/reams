@@ -140,7 +140,7 @@ describe('items-unread reducer', () => {
         _id: '2'
       }
     })
-    expect(typeof(markedRead.items[1].readAt)).toEqual('number')
+    expect(typeof (markedRead.items[1].readAt)).toEqual('number')
   })
   it('should handle PRUNE_UNREAD', () => {
     const markedRead = itemsUnread(itemsFetched, {
@@ -265,5 +265,15 @@ describe('items-unread reducer', () => {
       }
     })
     expect(decorated.items[1].decoration_failures).toEqual(1)
+  })
+  it('should handle IMAGE_ANALYSIS_DONE', () => {
+    const analyzed = itemsUnread(itemsFetched, {
+      type: 'IMAGE_ANALYSIS_DONE',
+      item: {
+        _id: '2'
+      }
+    })
+    expect(analyzed.items[1]._id).toEqual('2')
+    expect(analyzed.items[1].isAnalysed).toBeTruthy()
   })
 })

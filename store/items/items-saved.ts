@@ -1,11 +1,12 @@
 import {
   UNSET_BACKEND,
-  UserActionTypes 
+  UserActionTypes
 } from '../user/types'
-import { 
+import {
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
-  ITEMS_BATCH_FETCHED, 
+  IMAGE_ANALYSIS_DONE,
+  ITEMS_BATCH_FETCHED,
   MARK_ITEM_READ,
   SAVE_ITEM,
   SAVE_EXTERNAL_ITEM,
@@ -34,6 +35,7 @@ import {
   itemSetScrollOffset,
   itemToggleMercury,
   itemDecorationSuccess,
+  imageAnalysisSuccess,
   itemDecorationFailure,
   updateCurrentItemTitleFontSize,
   itemBodyCleaned,
@@ -46,7 +48,7 @@ import {
 } from '../../utils/item-utils.js'
 import { RootState } from '../reducers'
 
-export const initialState:ItemsState = {
+export const initialState: ItemsState = {
   items: [],
   index: 0,
   lastUpdated: 0
@@ -54,10 +56,10 @@ export const initialState:ItemsState = {
 
 export const selectItemsSaved = (state: RootState) => state.itemsSaved.items
 
-export function itemsSaved (
-  state = initialState, 
+export function itemsSaved(
+  state = initialState,
   action: any //ItemActionTypes | UserActionTypes
-) : ItemsState {
+): ItemsState {
   let items: Item[] = []
   let newItems: Item[] = []
   let savedItem: Item
@@ -74,7 +76,7 @@ export function itemsSaved (
 
     case INCREMENT_INDEX:
       index = state.index
-      if (action.displayMode === ItemType.saved && 
+      if (action.displayMode === ItemType.saved &&
         state.index < state.items.length) {
         index++
       }
@@ -85,7 +87,7 @@ export function itemsSaved (
 
     case DECREMENT_INDEX:
       index = state.index
-      if (action.displayMode === ItemType.saved && 
+      if (action.displayMode === ItemType.saved &&
         state.index > 0) {
         index--
       }
@@ -103,7 +105,7 @@ export function itemsSaved (
           }
           return item
         })
-      } 
+      }
 
     case MARK_ITEM_READ:
       return itemMarkRead(action, state)
@@ -121,7 +123,7 @@ export function itemsSaved (
       }
 
     case SAVE_ITEM:
-      items = [ ...state.items ]
+      items = [...state.items]
       savedItem = action.item
       savedItem.isSaved = true
       savedItem.savedAt = action.savedAt
@@ -132,7 +134,7 @@ export function itemsSaved (
       }
 
     case SAVE_EXTERNAL_ITEM:
-      items = [ ...state.items ]
+      items = [...state.items]
       savedItem = nullValuesToEmptyStrings(action.item)
       savedItem.savedAt = action.savedAt
       items.unshift(savedItem)
@@ -154,7 +156,7 @@ export function itemsSaved (
         ...state,
         items
       }
-  
+
     case UNSAVE_ITEM:
       items = state.items
         .filter((item) => item._id !== action.item._id)
@@ -240,7 +242,7 @@ export function itemsSaved (
       })
 
       // order by date
-      items.sort((a, b) => ((b.savedAt || b.created_at) - (a.savedAt || a .created_at) ))
+      items.sort((a, b) => ((b.savedAt || b.created_at) - (a.savedAt || a.created_at)))
       index = items.indexOf(currentItem)
       index = index < 0 ? 0 : index
 
@@ -255,6 +257,10 @@ export function itemsSaved (
       // I'm setting isCurrentDisplayMode to false because I always want saved external items to re-render
       return itemDecorationSuccess(action, state, false)
 
+    case IMAGE_ANALYSIS_DONE:
+      if (!action.isSaved) return state
+      return imageAnalysisSuccess(action, state, false)
+
     case ITEM_DECORATION_FAILURE:
       return action.isSaved ? itemDecorationFailure(action, state) : state
 
@@ -263,7 +269,7 @@ export function itemsSaved (
 
     case ITEM_BODY_CLEANED:
       return itemBodyCleaned(action, state)
-  
+
     case RESET_DECORATION_FALIURES:
       return resetDecorationFailures(action, state)
 
