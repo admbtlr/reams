@@ -74,23 +74,29 @@ export function useColor(urlParam: string | undefined) {
     const matches = url?.match(/:\/\/(.*?)\//)
     const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
 
-    const cachedColor = hostColors.find(hc => hc.host === host)?.color
+    let cachedColor = hostColors.find(hc => hc.host === host)?.color
     if (cachedColor) {
-      setColor(cachedColor)
+      setColor(limitHsl(cachedColor))
       return
     }
 
     getColor()
   }, [dispatch, hostColors, url])
 
-  const convertToHsl = (color: string) => {
-    const hslArray = hexToHsl(color.substring(1))
-    const hue = hslArray[0]
-    let saturation = hslArray[1]
-    const lightness = hslArray[2]
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`
-  }
+  const limitHsl = (hslString: string) => {
+    // Use regex to extract the h, s, l values
+    const match = hslString.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
 
+    if (!match) {
+      throw new Error('Invalid HSL string format');
+    }
+
+    const h = parseInt(match[1]);
+    const s = Math.min(parseInt(match[2]), 85);
+    const l = Math.min(parseInt(match[3]), 85);
+
+    return `hsl(${h}, ${s}%, ${l}%)`;
+  }
   return color
 }
 
@@ -108,16 +114,16 @@ async function performColorAnalysis(host: string, dispatch: any): Promise<string
       iconSource = `data:image/png;base64,${iconSource}`
     }
     if (!iconSource) return undefined
-    
+
     const colors = await getColors(iconSource, {
       cache: true,
       key: host,
       quality: 'highest'
     })
-    
+
     let bestColor: string | undefined
     console.log(colors)
-    
+
     if (colors.platform === 'ios') {
       // weirdly, 'background' is the best option
       const options: (keyof IOSImageColors)[] = ['background', 'primary', 'detail', 'secondary']
@@ -130,14 +136,14 @@ async function performColorAnalysis(host: string, dispatch: any): Promise<string
     } else if (colors.platform === 'web' || colors.platform === 'android') {
       bestColor = colors.dominant
     }
-    
+
     if (bestColor) {
       const hslArray = hexToHsl(bestColor.substring(1))
       const hue = hslArray[0]
       let saturation = hslArray[1]
       const lightness = hslArray[2]
       const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`
-      
+
       dispatch({
         type: 'hostColors/createHostColor',
         payload: {
@@ -145,13 +151,13 @@ async function performColorAnalysis(host: string, dispatch: any): Promise<string
           color
         }
       })
-      
+
       return color
     }
   } catch (err) {
     console.error(`Error analyzing color for host ${host}`, err)
     throw err
   }
-  
+
   return undefined
 }
