@@ -423,12 +423,12 @@ function FeedsScreen({ route }) {
         }}
         testID='feeds-screen'
       >
-        {Platform.OS === 'ios' &&
+         { Platform.OS === 'ios' && 
           <StatusBar
             animated={true}
             barStyle="dark-content"
-            showHideTransition="slide" />}
-        {feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ?
+            showHideTransition="slide"/> }
+        { feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ? 
           (<View style={{
             flex: 1,
             alignItems: 'center',

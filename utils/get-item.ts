@@ -45,9 +45,9 @@ export const getCurrentItem = (state: RootState, type: ItemType) => {
   return getItems(state, type)[getIndex(state, type)]
 }
 
-export const getIndex = (state: RootState, type: ItemType) => {
-  type = type || state.itemsMeta.display
-  const index = type === ItemType.unread ?
+export const getIndex = (state: RootState, type: ItemType | undefined = undefined) => {
+  const theType = type || state.itemsMeta.display
+  const index = theType === ItemType.unread ?
     state.itemsUnread.index :
     state.itemsSaved.index
   return index && index >= 0 ? index : 0

@@ -123,6 +123,11 @@ body {
     line-height: 1rem !important;
   }
 
+  .android &.bodyFontSerif2, .android &.bodyFontSerif2 table {
+    font-size: calc(1rem / 1.8) !important;
+    line-height: 1rem !important;
+  }
+
   &.bodyFontSans3, &.bodyFontSans3 table {
     font-size: calc(1rem / 1.7) !important;
     line-height: 1rem !important;

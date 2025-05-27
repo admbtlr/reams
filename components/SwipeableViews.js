@@ -4,7 +4,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native'
-import FeedItemContainer from '../containers/FeedItem.js'
+import FeedItem from './FeedItem'
 import Onboarding from './onboarding/Onboarding'
 import { hslString } from '../utils/colors'
 import { SessionContext } from './AuthProvider'
@@ -94,8 +94,8 @@ class SwipeableViews extends Component {
     }
   }
 
-  renderSlide = ({ _id, index, isVisible, panAnim }) => (
-    <FeedItemContainer
+  renderSlide = ({_id, index, isVisible, panAnim}) => (
+    <FeedItem
       _id={_id}
       emitter={this.props.emitter}
       key={_id}

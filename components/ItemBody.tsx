@@ -56,7 +56,6 @@ const stripUTags = (html: string) => {
 interface ItemBodyProps {
   bodyColor: string
   item: ItemInflated
-  onTextSelection: (text: string, serialized: string) => void
   orientation: string
   showImageViewer: (image: string) => void
   updateWebViewHeight: (height: number) => void
@@ -392,6 +391,7 @@ html, body {
             '' :
             'web/'
         }}
+        testID='mock-webview'
         webviewDebuggingEnabled={true}
       />
     </>
@@ -401,9 +401,7 @@ html, body {
 export default React.memo(ItemBody, (prevProps, nextProps) => (
   prevProps === nextProps ||
   isEqual(prevProps, nextProps)
-)
-
-)
+))
 
 const EmptyState = ({ _id, bodyColor, decoration_failures, underlay }: {
   _id: string,

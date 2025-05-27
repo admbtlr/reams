@@ -31,11 +31,11 @@ interface CoverImageProps {
     isCoverImageLighter: boolean
     align: string
   }
-  imagePath: string
+  imagePath: string | undefined
   imageDimensions: {
     width: number
     height: number
-  }
+  } | undefined
   orientation: string
   scrollAnim?: Animated.Value
   faceCentreNormalised?: {
@@ -219,7 +219,7 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
 
     const adjusted = isBW ? (
       <Group>
-        { skiaImage}
+        {skiaImage}
         <BackdropFilter
           filter={<ColorMatrix matrix={BW} />} />
       </Group>
@@ -227,13 +227,13 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
 
     const finalImage = (isMultiply || isScreen) ? (
       <Group>
-        { adjusted }
-        <Rect 
-          x={0} 
-          y={0} 
-          width={screenWidth * 1.2} 
-          height={screenHeight} 
-          color={getColor()} 
+        {adjusted}
+        <Rect
+          x={0}
+          y={0}
+          width={screenWidth * 1.2}
+          height={screenHeight}
+          color={getColor()}
           blendMode={isMultiply ? 'multiply' : 'screen'}
         />
       </Group>
@@ -243,12 +243,12 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
       <Animated.View
         style={style}
       >
-        <Canvas style={{ 
+        <Canvas style={{
           flex: 1,
           backgroundColor: 'red',
         }}>
-          { finalImage}
-          { !isReallyInline && getImageSizeRatio() < .5 && 
+          {finalImage}
+          {!isReallyInline && getImageSizeRatio() < .5 &&
             <Blur blur={4} />
           }
         </Canvas>

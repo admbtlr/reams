@@ -101,6 +101,10 @@ body, body a, body a:active, body a:visited {
   font-size: 0.5555555556rem !important;
   line-height: 1rem !important;
 }
+.android .itemArticle.bodyFontSerif2, .android .itemArticle.bodyFontSerif2 table, .android .itemArticle table.bodyFontSerif2, .android .itemArticle table.bodyFontSerif2 table {
+  font-size: 0.5555555556rem !important;
+  line-height: 1rem !important;
+}
 .itemArticle.bodyFontSans3, .itemArticle.bodyFontSans3 table, .itemArticle table.bodyFontSans3, .itemArticle table.bodyFontSans3 table {
   font-size: 0.5882352941rem !important;
   line-height: 1rem !important;

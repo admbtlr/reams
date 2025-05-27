@@ -729,7 +729,7 @@ class ItemTitle extends React.Component {
       })
     } else if (styles.interBolded) {
       wordStyles = styles.interBolded.map(isBold => {
-        const fontFamily = this.getFontFamily(isBold ? 'bold' :
+        const fontFamily = this.getFontFamily(isBold ? 'bold' : 
           (styles.isItalic ? 'regularItalic' : 'regular'))
         // adjustedFontSize = isBold ? fontSize : fontSize * 0.5
         return {
