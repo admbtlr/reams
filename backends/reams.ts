@@ -24,6 +24,7 @@ import { createItemStyles } from '../utils/createItemStyles'
 import { Category } from '../store/categories/types'
 import log from '../utils/log'
 import { Newsletter } from '../store/newsletters/types'
+import { Platform } from 'react-native'
 
 let isPlus = false
 
@@ -176,7 +177,7 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
       const apiUrl = EXPO_PUBLIC_API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
       const proxy = EXPO_PUBLIC_CORS_PROXY //`${apiUrl}/cors-proxy/`
       const feedsUrl = `${apiUrl}/feeds`
-      const url = `${proxy}?url=${encodeURIComponent(feedsUrl)}`
+      const url = Platform.OS === 'web' ? `${proxy}?url=${encodeURIComponent(feedsUrl)}` : feedsUrl
       const res = await fetch(url, {
         method: 'POST',
         headers: {
