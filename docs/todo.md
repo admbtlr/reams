@@ -7,8 +7,6 @@
 - android bugs
   - layout of search bar is a bit weird
   - titles break words
-- marking img-small doesn't work
-  - line 210 in feed-item.js
 - faces are not centred in cover images because hAlign is (left|centre|right) - make it a normalised number instead
 - newsletters sometimes double in the feeds screen
 - replace react-native-text-size with https://github.com/DomiR/react-native-measure-text
@@ -75,6 +73,7 @@
 - make buttons use reanimate
 
 # Done
+- ~~marking img-small doesn't work~~
 - android bugs
   - ~~divider isn't rounded~~
   - ~~share button doesn't work~~ (just got rid of it)
