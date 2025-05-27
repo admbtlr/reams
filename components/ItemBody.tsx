@@ -4,28 +4,22 @@ import { WebView, WebViewNavigation } from 'react-native-webview'
 import { openLink } from '../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './FeedItem'
 import { hslString } from '../utils/colors'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { deepEqual, id, pgTimestamp } from '../utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { id } from '../utils'
 import { RootState } from '../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../store/ui/types'
 import { ActiveHighlightContext } from './ItemsScreen'
-import { ITEM_BODY_CLEANED, Item, ItemInflated, RESET_DECORATION_FALIURES, SAVE_ITEM } from '../store/items/types'
-import { ADD_ITEM_TO_CATEGORY, Category } from '../store/categories/types'
+import { ITEM_BODY_CLEANED, ItemInflated, RESET_DECORATION_FALIURES, SAVE_ITEM } from '../store/items/types'
+import { Category } from '../store/categories/types'
 import isEqual from 'lodash.isequal'
 import { createAnnotation } from '../store/annotations/annotations'
 import { updateItem as updateItemIDB } from '../storage/idb-storage'
 import { updateItem as updateItemSQLite } from '../storage/sqlite'
 import log from '../utils/log'
-import { textInfoBoldStyle, textInfoItalicStyle } from '../utils/styles'
+import { textInfoBoldStyle } from '../utils/styles'
 import TextButton from './TextButton'
-import { isPortrait, screenWidth } from '../utils/dimensions'
+import { getMargin, isPortrait } from '../utils/dimensions'
 import { useColor } from '../hooks/useColor'
-import { isLandscape } from 'react-native-device-info'
-
-const calculateHeight = `
-  (document.body && document.body.scrollHeight) &&
-    window.ReactNativeWebView?.postMessage(getHeight())
-`
 
 const injectedJavaScript = `
 window.ReactNativeWebView?.postMessage('loaded');
@@ -294,105 +288,114 @@ html, body {
 <script src="${server}webview/js/feed-item.js"></script>
 </html>`
 
-  if (body === '') {
-    return (
-      <EmptyState
-        _id={_id}
-        bodyColor={bodyColor}
-        decoration_failures={decoration_failures}
-      />
-    )
-  }
+  // if (body === '') {
+  //   return (
+  //     <EmptyState
+  //       _id={_id}
+  //       bodyColor={bodyColor}
+  //       decoration_failures={decoration_failures}
+  //     />
+  //   )
+  // }
 
   // see https://github.com/facebook/react-native/issues/32547#issuecomment-962009710 for androidLayerType
 
-  return <WebView
-    allowsFullscreenVideo={true}
-    allowsLinkPreview={true}
-    allowFileAccessFromFileURLs
-    allowUniversalAccessFromFileURLs
-    allowFileAccess
-    androidLayerType='hardware'
-    containerStyle={{
-      backgroundColor: bodyColor,
-      flex: 0,
-      height: webViewHeight,
-    }}
-    decelerationRate='normal'
-    injectedJavaScript={injectedJavaScript}
-    mixedContentMode='compatibility'
-    menuItems={[
-      {
-        label: 'Highlight',
-        key: 'highlight'
-      }
-    ]}
-    onContentProcessDidTerminate={() => {
-      webViewRef.current && (webViewRef.current as any).reload();
-    }}
-    onCustomMenuSelection={({ nativeEvent }) => {
-      if (nativeEvent?.key === 'highlight') {
-        highlightSelection()
-      }
-    }}
-    onMessage={(event) => {
-      const rawMsg = event.nativeEvent.data
-      let msg = ''
-      try {
-        msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
-      } catch (error) {
-        // log(error)
-        // this just means that this is an unencoded, cleaned body
-      }
-      if (msg.substring(0, 6) === 'image:') {
-        showImageViewer(msg.substring(6))
-      } else if (msg.substring(0, 5) === 'link:') {
-        const url = msg.substring(5)
-        console.log('OPEN LINK: ' + url)
-        if (!__DEV__) {
-          Linking.openURL(url)
-        }
-      } else if (msg.substring(0, 7) === 'resize:') {
-        updateWebViewHeight(parseInt(msg.substring(7)))
-      } else if (msg.substring(0, 10) === 'highlight:') {
-        const selectedText = msg.substring(10)
-        const split = selectedText.split('++++++')
-        console.log('HIGHLIGHT: ' + split[0] + ' (' + split[1] + ')')
-        onHighlight(split[0], split[1])
-      } else if (msg.substring(0, 15) === 'edit-highlight:') {
-        editHighlight(msg.substring(15))
-      } else if (msg.substring(0, 14) === 'end-highlight') {
-        endHighlight()
-      } else if (msg.substring(0, 6) === 'loaded') {
-        setIsLoaded(true)
-      } else if (rawMsg && rawMsg !== '') {
-        onBodyCleaned(rawMsg)
-      }
-    }}
-    onNavigationStateChange={onNavigationStateChange}
-    {...openLinksExternallyProp}
-    originWhitelist={['*']}
-    ref={process.env.NODE_ENV === 'test' ? undefined : webViewRef}
-    scalesPageToFit={false}
-    scrollEnabled={false}
-    style={{
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: webViewHeight,
-      width,
-      flex: 0,
-      backgroundColor: bodyColor,
-      opacity: isLoaded ? 1 : 0,
-    }}
-    source={{
-      html: html,
-      baseUrl: Platform.OS === 'android' ?
-        '' :
-        'web/'
-    }}
-    webviewDebuggingEnabled={true}
-  />
-
+  return (
+    <>
+      {/* <EmptyState
+        _id={_id}
+        bodyColor={bodyColor}
+        decoration_failures={decoration_failures}
+        underlay
+      /> */}
+      <WebView
+        allowsFullscreenVideo={true}
+        allowsLinkPreview={true}
+        allowFileAccessFromFileURLs
+        allowUniversalAccessFromFileURLs
+        allowFileAccess
+        androidLayerType='hardware'
+        containerStyle={{
+          backgroundColor: 'transparent',
+          flex: 0,
+          height: webViewHeight,
+        }}
+        decelerationRate='normal'
+        injectedJavaScript={injectedJavaScript}
+        mixedContentMode='compatibility'
+        menuItems={[
+          {
+            label: 'Highlight',
+            key: 'highlight'
+          }
+        ]}
+        onContentProcessDidTerminate={() => {
+          webViewRef.current && (webViewRef.current as any).reload();
+        }}
+        onCustomMenuSelection={({ nativeEvent }) => {
+          if (nativeEvent?.key === 'highlight') {
+            highlightSelection()
+          }
+        }}
+        onMessage={(event) => {
+          const rawMsg = event.nativeEvent.data
+          let msg = ''
+          try {
+            msg = decodeURIComponent(decodeURIComponent(event.nativeEvent.data))
+          } catch (error) {
+            // log(error)
+            // this just means that this is an unencoded, cleaned body
+          }
+          if (msg.substring(0, 6) === 'image:') {
+            showImageViewer(msg.substring(6))
+          } else if (msg.substring(0, 5) === 'link:') {
+            const url = msg.substring(5)
+            console.log('OPEN LINK: ' + url)
+            if (!__DEV__) {
+              Linking.openURL(url)
+            }
+          } else if (msg.substring(0, 7) === 'resize:') {
+            updateWebViewHeight(parseInt(msg.substring(7)))
+          } else if (msg.substring(0, 10) === 'highlight:') {
+            const selectedText = msg.substring(10)
+            const split = selectedText.split('++++++')
+            console.log('HIGHLIGHT: ' + split[0] + ' (' + split[1] + ')')
+            onHighlight(split[0], split[1])
+          } else if (msg.substring(0, 15) === 'edit-highlight:') {
+            editHighlight(msg.substring(15))
+          } else if (msg.substring(0, 14) === 'end-highlight') {
+            endHighlight()
+          } else if (msg.substring(0, 6) === 'loaded') {
+            setIsLoaded(true)
+          } else if (rawMsg && rawMsg !== '') {
+            onBodyCleaned(rawMsg)
+          }
+        }}
+        onNavigationStateChange={onNavigationStateChange}
+        {...openLinksExternallyProp}
+        originWhitelist={['*']}
+        ref={process.env.NODE_ENV === 'test' ? undefined : webViewRef}
+        scalesPageToFit={false}
+        scrollEnabled={false}
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: webViewHeight,
+          width,
+          flex: 0,
+          backgroundColor: bodyColor,
+          opacity: isLoaded ? 1 : 0,
+        }}
+        source={{
+          html: html,
+          baseUrl: Platform.OS === 'android' ?
+            '' :
+            'web/'
+        }}
+        webviewDebuggingEnabled={true}
+      />
+    </>
+  )
 }
 
 export default React.memo(ItemBody, (prevProps, nextProps) => (
@@ -402,10 +405,11 @@ export default React.memo(ItemBody, (prevProps, nextProps) => (
 
 )
 
-const EmptyState = ({ _id, bodyColor, decoration_failures }: {
+const EmptyState = ({ _id, bodyColor, decoration_failures, underlay }: {
   _id: string,
   bodyColor: string,
-  decoration_failures?: number
+  decoration_failures?: number,
+  underlay?: boolean,
 }) => {
   const [yPos, setYPos] = useState<number | null>(null)
   const [view, setView] = useState<View | null>(null)
@@ -439,32 +443,38 @@ const EmptyState = ({ _id, bodyColor, decoration_failures }: {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: bodyColor,
-        opacity: 1
+        opacity: 1,
+        position: underlay ? 'absolute' : 'relative',
+        // zIndex: underlay ? 0 : 1
       }}
     >
-      {(decoration_failures && decoration_failures === 5) ?
-        (
-          <View style={{
-            alignItems: 'center',
-            flex: 1,
-            justifyContent: 'center'
-          }}>
-            <Text style={{
-              ...textInfoBoldStyle(),
-              marginBottom: getMargin(),
-              textAlign: 'center'
-            }}>Oh no! Something went wrong downloading this article.</Text>
-            <TextButton
-              onPress={() => dispatch({
-                type: RESET_DECORATION_FALIURES,
-                itemId: _id
-              })}
-              text='Try again'
-            />
-          </View>
-        ) :
-        (<ActivityIndicator size="large" color={hslString('rizzleFG')} />)
-      }
+      <View style={{
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center'
+      }}>
+        {(decoration_failures && decoration_failures === 5) ?
+          (
+            <>
+              <Text style={{
+                ...textInfoBoldStyle(),
+                marginBottom: getMargin(),
+                textAlign: 'center'
+              }}>Oh no! Something went wrong downloading this article.</Text>
+              <TextButton
+                onPress={() => dispatch({
+                  type: RESET_DECORATION_FALIURES,
+                  itemId: _id
+                })}
+                text='Try again'
+              />
+            </>
+          ) :
+          (<View>
+            <ActivityIndicator size="large" color={hslString('rizzleFG')} />
+          </View>)
+        }
+      </View>
     </View>
   )
 }
