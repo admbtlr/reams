@@ -204,25 +204,39 @@ function markSingleCharParagraphs() {
 }
 
 function markImages() {
-  const imgs = document.querySelectorAll('img')
-  Array.prototype.forEach.call(imgs, (el, i) => {
-    el.onload = () => {
-      if (el.naturalHeight >= el.naturalWidth) {
-        el.classList.add('img-portrait')
+  const imgs = document.querySelectorAll('img');
 
-        if (el.naturalHeight < 10 || el.naturalWidth < document.body.clientWidth * 0.2) {
-          el.classList.add('img-tiny')
-        } else if (el.naturalHeight < 20 || el.naturalWidth < document.body.clientWidth * 0.6) {
-          el.classList.add('img-small')
+  imgs.forEach((el) => {
+    const processImage = () => {
+      if (el.naturalHeight >= el.naturalWidth) {
+        el.classList.add('img-portrait');
+
+        // Adjust these thresholds to more reasonable values
+        const widthThreshold = document.body.clientWidth;
+
+        if (el.naturalHeight < 50 || el.naturalWidth < widthThreshold * 0.2) {
+          el.classList.add('img-tiny');
+        } else if (el.naturalHeight < 200 || el.naturalWidth < widthThreshold * 0.6) {
+          el.classList.add('img-small');
           if (el.parentElement.tagName === 'FIGURE') {
-            el.parentElement.classList.add('figure-small')
+            el.parentElement.classList.add('figure-small');
           }
         }
       }
-    }
-  })
-}
+    };
 
+    // Check if image is already loaded
+    if (el.complete && el.naturalHeight !== 0) {
+      processImage();
+    } else {
+      el.addEventListener('load', processImage);
+      // Also handle error cases
+      el.addEventListener('error', () => {
+        console.error('Failed to load image:', el.src);
+      });
+    }
+  });
+}
 function markShortBlockquotes() {
   const paras = document.querySelectorAll('blockquote')
   const hasLongBlockquotes = Array.prototype.filter.call(paras, function (el) {
