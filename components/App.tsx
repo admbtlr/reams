@@ -536,7 +536,7 @@ const App = (): JSX.Element => {
       drawerActiveTintColor: hslString('rizzleBG', 'strict'),
       drawerStyle: {
         backgroundColor: hslString('logo1'),
-        width: isLargeScreen ? 200 : '100%'
+        width: isLargeScreen ? 350 : '100%'
       },
       drawerItemStyle: {
         // marginBottom: getMargin() / 2,
