@@ -58,7 +58,9 @@ export const AuthProvider = (props: any) => {
           dispatch({ type: UNSET_BACKEND, backend: 'reams' })
           setTimeout(async () => {
             // @ts-ignore
-            await persistor.purge()
+            if (persistor !== undefined) {
+              await persistor.purge()
+            }
           }, 0)
         }
       }
