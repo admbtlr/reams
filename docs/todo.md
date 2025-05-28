@@ -26,7 +26,6 @@
 - buttons to save links directly
 - how come mercury button disappears for Aeon articles?
   - it happens randomly
-- how come body is sometimes blank when app comes from background?
 - is substack img src sometimes an object? if so, pull src from the object
 - handle blockquote within aside (Guardian)
 - maybe update image viewer
@@ -73,6 +72,7 @@
 - make buttons use reanimate
 
 # Done
+- ~~how come body is sometimes blank when app comes from background?~~
 - ~~marking img-small doesn't work~~
 - android bugs
   - ~~divider isn't rounded~~
