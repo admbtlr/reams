@@ -3,45 +3,40 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
   DrawerItem,
-  DrawerContentComponentProps
+  DrawerContentComponentProps,
+  useDrawerProgress
 } from '@react-navigation/drawer'
-import { View, StyleSheet, Animated, Easing, Text } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import { useDrawerStatus } from '@react-navigation/drawer'
 import * as Application from 'expo-application'
 import { hslString } from '../utils/colors'
 import { getMargin } from '../utils/dimensions'
 import { BackgroundGradient } from './BackgroundGradient'
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
   const { state, navigation, descriptors } = props || {}
   const isDrawerOpen = useDrawerStatus() === 'open'
+  const progress = useDrawerProgress()
 
-  // Create animation values for each possible item
-  const animatedValues = React.useRef(
-    Array(10).fill(0).map(() => new Animated.Value(0))
-  ).current
+  const animatedValues = Array(5).fill(0).map(() => useSharedValue<number>(-200))
+
+  const DURATION = 300
+  const DELAY = 100
 
   // Animate items when drawer status changes
   useEffect(() => {
     if (isDrawerOpen) {
       // Drawer is open - animate items in with staggered delay
-      animatedValues.forEach((animation, i) => {
-        Animated.timing(animation, {
-          toValue: 1,
-          duration: 300,
-          delay: i * 100,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true
-        }).start()
+      animatedValues.forEach((av, i) => {
+        av.value = withDelay(i * DELAY, withTiming(0, {
+          duration: DURATION,
+          easing: Easing.out(Easing.cubic)
+        }))
       })
     } else {
-      // Drawer is closing - animate items out quickly
-      animatedValues.forEach(animation => {
-        Animated.timing(animation, {
-          toValue: 0,
-          duration: 100,
-          useNativeDriver: true
-        }).start()
+      animatedValues.forEach((av, i) => {
+        av.value = -200
       })
     }
   }, [isDrawerOpen, animatedValues])
@@ -70,20 +65,11 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
             return (
               <Animated.View
                 key={route.key}
-                style={[
-                  styles.itemContainer,
-                  {
-                    opacity: animatedValues[i],
-                    transform: [
-                      {
-                        translateX: animatedValues[i].interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [-150, 0]
-                        })
-                      }
-                    ]
-                  }
-                ]}
+                style={{
+                  transform: [{
+                    translateX: animatedValues[i]
+                  }]
+                }}
               >
                 <DrawerItem
                   label={label}
