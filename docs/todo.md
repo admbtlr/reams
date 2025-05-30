@@ -1,3 +1,5 @@
+- convert scroll animations to reanimated
+- move webview out of scrollview
 - web
   - ~~open all links in new tab~~
   - ~~saved items site title~~
@@ -47,7 +49,6 @@
 - what's new screen
 - text to speech
 - how come some feeds don't have a feed_local and don't update?
-- remove all messages on init
 - handle being offline better (put checks into fetchItems etc.)
 - move message down when not in item screen
 - bug: add feed, get items, remove feed, still two items remaining

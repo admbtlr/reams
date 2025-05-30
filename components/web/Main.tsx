@@ -2,28 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { View, Text, ScrollView, useWindowDimensions, ScaledSize, Touchable, TouchableOpacity, Image, Animated } from 'react-native'
 import { hslString } from '../../utils/colors'
-import { getMargin } from '../utils/dimensions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/reducers'
-import ItemTitle from '../../containers/ItemTitle'
-import { Item, ItemType, MARK_ITEM_READ, SET_DISPLAY_MODE } from '../../store/items/types'
+import { ItemType, SET_DISPLAY_MODE } from '../../store/items/types'
 import {
   textInfoStyle,
 } from '../../utils/styles'
-import ButtonSet from '../ButtonSet'
 import { getRizzleButtonIcon } from '../../utils/rizzle-button-icons'
 import FeedsScreen from '../FeedsScreen'
 import HighlightsScreen from '../HighlightsScreen'
-import AccountScreen from '../AccountScreen'
 import AccountScreenContainer from '../../containers/AccountScreen'
 import SettingsScreen from '../SettingsScreen'
-import ItemsList from './ItemsList'
 import { createStackNavigator } from '@react-navigation/stack'
 import ItemsScreen from './ItemsScreen'
 import Onboarding from './Onboarding'
 import { useSession } from '../AuthProvider'
 import NewFeedsList from '../NewFeedsList'
 import ModalScreen from '../ModalScreen'
+import { createStaticNavigation } from '@react-navigation/native'
 export const DRAWER_WIDTH = 300
 
 const title = 'Reams: Serious, joyful and open reading'
@@ -35,9 +31,45 @@ export default function Main() {
 
   if (isOnboarding && !session.session) return <Onboarding />
 
-  const Drawer = createDrawerNavigator()
-  const drawerAnim = new Animated.Value(DRAWER_WIDTH)
-  // const drawerWidth
+  const AppDrawer = createDrawerNavigator({
+    drawerContent: props => <MenuBar {...props} />,
+    screenOptions: {
+      drawerStyle: {
+        width: 55 //'100%'
+      },
+      drawerType: 'permanent',
+      headerShown: false,
+      animation: 'none'
+    },
+    screens: {
+      Feeds: {
+        screen: Feeds,
+        navigationOptions: {
+          title
+        }
+      },
+      Highlights: {
+        screen: HighlightsScreen,
+        navigationOptions: {
+          title: 'Highlights'
+        }
+      },
+      Account: {
+        screen: AccountScreenContainer,
+        navigationOptions: {
+          title: 'Account'
+        }
+      },
+      Settings: {
+        screen: SettingsScreen,
+        navigationOptions: {
+          title: 'Settings'
+        }
+      }
+    }
+  })
+
+  const Navigation = createStaticNavigation(AppDrawer)
 
   return (
     <View style={{
@@ -46,22 +78,7 @@ export default function Main() {
       backgroundColor: hslString('white'),
       height: dimensions.height,
     }}>
-      <Drawer.Navigator 
-        drawerContent={props => <MenuBar {...props} />}
-        screenOptions={{ 
-          drawerStyle: {
-            width: 55 //'100%'
-          },
-          drawerType: 'permanent',
-          headerShown: false,
-          animation: 'none'
-        }}>
-        <Drawer.Screen name="Feeds" options={{ title }} component={Feeds} />
-        <Drawer.Screen name="Library" options={{ title }} component={Feeds} />
-        <Drawer.Screen name="Highlights" options={{ title }} component={HighlightsScreen} />
-        <Drawer.Screen name="Accounts" options={{ title }} component={AccountScreenContainer} />
-        <Drawer.Screen name="Settings" options={{ title }} component={SettingsScreen} />
-      </Drawer.Navigator>
+      <Navigation />
     </View>
   )
 }
@@ -77,7 +94,7 @@ export default function Main() {
 //   </View>
 // )
 
-const MenuBar = ({navigation}) => {
+const MenuBar = ({ navigation }) => {
   const dimensions: ScaledSize = useWindowDimensions()
   const dispatch = useDispatch()
   return (
@@ -94,9 +111,9 @@ const MenuBar = ({navigation}) => {
       {
         [
           { icon: 'rss', label: 'Feeds', action: { type: SET_DISPLAY_MODE, displayMode: ItemType.unread } },
-          { icon: 'saved', label: 'Library', action: { type: SET_DISPLAY_MODE, displayMode: ItemType.saved }  },
+          { icon: 'saved', label: 'Library', action: { type: SET_DISPLAY_MODE, displayMode: ItemType.saved } },
           { icon: 'highlights', label: 'Highlights' },
-          { icon: 'account', label: 'Accounts' },
+          { icon: 'account', label: 'Account' },
           { icon: 'settings', label: 'Settings' },
         ].map((button, index) => (
           <TouchableOpacity
@@ -117,13 +134,13 @@ const MenuBar = ({navigation}) => {
               paddingVertical: 10,
             }}
           >
-            { getRizzleButtonIcon(button.icon, hslString('rizzleText'), undefined, true, false, 0.9) }
+            {getRizzleButtonIcon(button.icon, hslString('rizzleText'), undefined, true, false, 0.9)}
             <Text style={{
               ...textInfoStyle(),
               fontSize: 10,
             }}>{button.label}</Text>
           </TouchableOpacity>
-  
+
         ))
       }
     </View>
@@ -132,7 +149,7 @@ const MenuBar = ({navigation}) => {
 
 const FeedsStack = createStackNavigator()
 
-const Feeds = ({navigation}) => {
+const Feeds = ({ navigation }) => {
   return (
     <FeedsStack.Navigator
       initialRouteName='Feed'
@@ -140,7 +157,7 @@ const Feeds = ({navigation}) => {
         headerShown: false,
         animation: 'slide_from_right'
       }}
-      >
+    >
       <FeedsStack.Screen
         name='Feed'
         screenOptions={{

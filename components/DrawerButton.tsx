@@ -6,7 +6,7 @@ import {
 import Svg, { Line, Path } from 'react-native-svg'
 import { hslString } from '../utils/colors'
 
-export default function DrawerButton({ isLight, onPress, style }) {
+export default function DrawerButton({ isLight, onPress, style = {} }) {
   return (
     <View style={{
       // position: 'absolute',
