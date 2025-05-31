@@ -77,7 +77,8 @@ export function itemSetScrollOffset(
         }
     }
     if (item._id === action.item._id) {
-      item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html'] = action.scrollRatio
+      const content = item.showMercuryContent ? 'mercury' : 'html'
+      item.scrollRatio[content] = Math.max(action.scrollRatio, item.scrollRatio[content] || 0)
     }
     return item
   })

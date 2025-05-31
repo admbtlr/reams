@@ -202,6 +202,14 @@ describe('items-unread reducer', () => {
       scrollRatio: 0.123
     })
     expect(updated.items.find(i => i._id === '2')?.scrollRatio?.html).toEqual(0.123)
+    const lower = itemsUnread(updated, {
+      type: SET_SCROLL_OFFSET,
+      item: {
+        _id: '2'
+      },
+      scrollRatio: 0.1
+    })
+    expect(lower.items.find(i => i._id === '2')?.scrollRatio?.html).toEqual(0.123)
     const toggled = itemsUnread(itemsFetched, {
       type: TOGGLE_MERCURY_VIEW,
       item: {
