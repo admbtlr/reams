@@ -5,7 +5,6 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  Animated,
   Button,
   Platform
 } from 'react-native'
@@ -21,6 +20,7 @@ import { hslString } from '../utils/colors'
 import HighlightButtons, { ActiveHighlight } from './HighlightButtons'
 import { RootState } from '../store/reducers'
 import { selectAnnotations } from '../store/annotations/annotations'
+import Animated from 'react-native-reanimated'
 
 
 interface ActiveHighlightContext {

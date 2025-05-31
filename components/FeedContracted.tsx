@@ -1,6 +1,5 @@
 import React, { memo, useEffect, useRef } from 'react'
 import {
-  Animated,
   Dimensions,
   GestureResponderEvent,
   Platform,
@@ -8,6 +7,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import Animated, { useSharedValue, withTiming, withDelay, runOnUI, measure, useAnimatedRef, runOnJS } from 'react-native-reanimated'
 import { hslString } from '../utils/colors'
 import CardCoverImage from './CardCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
@@ -197,18 +197,20 @@ function FeedContracted({
       category,
     })
 
-  const opacityAnim = new Animated.Value(1)
-  const mainViewRef = useRef<View>(null)
+  const opacityAnim = useSharedValue(1)
+  const mainViewRef = useAnimatedRef<Animated.View>()
 
   const navigateToItems = (
     x: number,
     y: number,
     width: number,
-    height: number
+    height: number,
+    pageX: number,
+    pageY: number
   ) => {
     navigation.navigate('Items', {
-      feedCardX: Math.round(x),
-      feedCardY: Math.round(y),
+      feedCardX: Math.round(pageX),
+      feedCardY: Math.round(pageY),
       feedCardWidth: Math.round(width),
       feedCardHeight: Math.round(height),
       toItems: true,
@@ -225,15 +227,8 @@ function FeedContracted({
       return
     }
 
-    opacityAnim.setValue(0.2)
-    Animated.timing(opacityAnim, {
-      toValue: 0,
-      delay: 200,
-      duration: 200,
-      useNativeDriver: true,
-    }).start(() => {
-      console.log('starting animation')
-    })
+    opacityAnim.value = 0.2
+    opacityAnim.value = withTiming(0, { duration: 200 })
     const now = Date.now()
     switch (type) {
       case 'all':
@@ -251,14 +246,15 @@ function FeedContracted({
     }
     setIndex(0)
     console.log(`Filtering items took ${Date.now() - now}ms`)
-    Animated.timing(opacityAnim, {
-      toValue: 1,
-      // delay: 100,
-      duration: 500,
-      useNativeDriver: false,
-    }).start()
-    if (mainViewRef.current) {
-      mainViewRef.current.measureInWindow(navigateToItems)
+    opacityAnim.value = withTiming(1, { duration: 500 })
+    if (mainViewRef !== null) {
+      console.log('trying to runOnUI')
+      runOnUI(() => {
+        const measurement = measure(mainViewRef)
+        if (measurement === null) return
+        const { x, y, width, height, pageX, pageY } = measurement
+        runOnJS(navigateToItems)(x, y, width, height, pageX, pageY)
+      })()
     }
   }
 
