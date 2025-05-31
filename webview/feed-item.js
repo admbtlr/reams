@@ -661,12 +661,15 @@ function cleanSource() {
 }
 
 function init() {
+  const html = document.getElementsByTagName('html')[0]
+  const isWeb = html.classList.contains('web')
+
   if (!document.querySelector('article').classList.contains('cleaned')) {
     cleanSource()
     markImages()
     addTapMessageToImages()
-    addTargetToLinksOnWeb()
-    addTapMessageToLinks()
+    if (isWeb) addTargetToLinksOnWeb()
+    if (!isWeb) addTapMessageToLinks()
     removeAllBrs()
     stopAutoplay()
     const src = document.querySelector('article').innerHTML
