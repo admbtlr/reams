@@ -23,8 +23,8 @@ export default function Onboarding(props: Props) {
   console.log(session)
 
   async function sendMagicLink(email: string) {
-    let redirectURL = __DEV__ ? 
-      'http://localhost:8081' : 
+    let redirectURL = __DEV__ ?
+      'http://localhost:8081' :
       'https://web.reams.app/'
     if (email) {
       setIsSending(true)
@@ -35,7 +35,7 @@ export default function Onboarding(props: Props) {
           options: {
             emailRedirectTo: redirectURL,
           },
-        })  
+        })
       } catch (e) {
         console.log(e)
       }
@@ -50,7 +50,7 @@ export default function Onboarding(props: Props) {
   }
 
   return (
-    <View 
+    <View
       style={{
         backgroundColor: 'red',
         flex: 1,
@@ -70,13 +70,16 @@ export default function Onboarding(props: Props) {
         flex: -1
       }}>
         <Text style={{
-          fontFamily: 'PTSerif-Regular',
+          fontFamily: 'IBMPlexSerif-Light',
           fontSize: 40,
+          fontWeight: 'light',
           color: 'white',
+          marginTop: 30
         }}>Welcome to Reams</Text>
         <Text style={{
-          fontFamily: 'PTSerif-Regular',
+          fontFamily: 'IBMPlexSans-Light',
           fontSize: 20,
+          fontWeight: 'light',
           color: 'white',
         }}>The serious, joyful & open app for readers</Text>
         <Image
@@ -87,7 +90,7 @@ export default function Onboarding(props: Props) {
             marginVertical: 50,
           }}
         />
-        <TextInput 
+        <TextInput
           autoFocus={true}
           onChangeText={setEmail}
           onFocus={() => setIsTextInputFocused(true)}
@@ -102,12 +105,12 @@ export default function Onboarding(props: Props) {
           }}
         />
         <View style={{ height: 60 }} >
-          { isSending ? (
-            <Text style={{           
+          {isSending ? (
+            <Text style={{
               fontSize: 40,
               color: 'white',
             }}><AnimatedEllipsis /></Text>
-          ) : 
+          ) :
             isSent ? (
               <Text style={{
                 ...textInfoBoldStyle('white'),
