@@ -10,7 +10,8 @@
     "postinstall": "patch-package",
     "deploy:web": "vercel build; cp -R dist/* .vercel/output/static; vercel deploy --prebuilt",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "nuke": "rm -rf node_modules && yarn && cd ios && rm -rf Pods && pod install && cd .."
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.2.2",
