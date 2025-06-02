@@ -8,15 +8,13 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { CommonActions, useNavigation } from '@react-navigation/native'
-import Svg, { Circle, G, Rect, Path } from 'react-native-svg'
-import { LinearGradient } from 'expo-linear-gradient'
+import { useNavigation } from '@react-navigation/native'
 import { deepEqual, id } from '../utils'
 import { getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { isPortrait } from '../utils/dimensions'
 import { hasNotchOrIsland } from '../utils/dimensions'
-import { getLightness, hslString } from '../utils/colors'
+import { hslString } from '../utils/colors'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
@@ -57,7 +55,6 @@ interface TopBarProps {
   isVisible: boolean,
   item: Item,
   key: string,
-  navigation: any,
   opacityAnim: number | Animated.AnimatedInterpolation<string | number>,
   openFeedModal: (feedId: string) => void,
   scrollAnim: number | Animated.AnimatedInterpolation<string | number>,
@@ -68,7 +65,6 @@ export default function TopBar({
   clampedAnimatedValue,
   emitter,
   item,
-  navigation,
   opacityAnim,
   openFeedModal,
   scrollAnim,
@@ -76,6 +72,7 @@ export default function TopBar({
   isVisible,
   index
 }: TopBarProps) {
+  const navigation = useNavigation()
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const items = useSelector((state: RootState) => getItems(state), deepEqual)
   const scrollRatios = useSelector((state: RootState) => getScrollRatio(state, item))
@@ -210,7 +207,7 @@ export default function TopBar({
               key={`inner-{id()}`}
               onPress={() => {
                 if (isOnboarding || displayMode === ItemType.saved) return
-                if (feed !== undefined) openFeedModal(feed._id)
+                if (feed !== undefined) navigation.navigate('FeedExpanded', { feed, navigation })
               }}
               style={{
                 backgroundColor: 'transparent',

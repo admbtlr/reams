@@ -11,20 +11,15 @@ import Animated, { useSharedValue, withTiming, withDelay, runOnUI, measure, useA
 import { hslString } from '../utils/colors'
 import CardCoverImage from './CardCoverImage'
 import FeedLikedMuted from './FeedLikedMuted'
-import FeedExpandedContainer from '../containers/FeedExpanded'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback'
 import {
-  Feed,
-  REMOVE_CACHED_COVER_IMAGE,
-  SET_CACHED_COVER_IMAGE,
+  Feed
 } from '../store/feeds/types'
-import { LinearGradient } from 'expo-linear-gradient'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { SET_FILTER } from '../store/config/types'
 import {
-  CLEAR_READ_ITEMS,
   Item,
   ItemType,
   UPDATE_CURRENT_INDEX,
@@ -37,7 +32,6 @@ import {
 import { RootState } from 'store/reducers'
 import isEqual from 'lodash.isequal'
 import { useModal } from './ModalProvider'
-import { BlurView } from 'expo-blur'
 import { createSelector } from '@reduxjs/toolkit'
 import Favicon from './Favicon'
 import { deepEqual } from '../utils'
@@ -262,15 +256,6 @@ function FeedContracted({
     ReactNativeHapticFeedback.trigger('impactLight', {})
     if (type === 'feed') {
       navigation.navigate('FeedExpanded', { feed, navigation })
-      // navigation.push('ModalWithGesture', {
-      //   childView: (
-      //     <FeedExpandedContainer
-      //       feed={feed}
-      //       close={() => navigation.navigate('Main')}
-      //       navigation={navigation}
-      //     />
-      //   ),
-      // })
     } else if (type === 'category') {
       if (isSaved) {
         const modalText = [

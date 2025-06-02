@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import Svg, {Circle, Polyline, Path, Line} from 'react-native-svg'
+import Svg, { Circle, Polyline, Path, Line } from 'react-native-svg'
 import TextButton from './TextButton'
 import SwitchRow from './SwitchRow'
 import { hslString } from '../utils/colors'
@@ -19,6 +19,9 @@ import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { dustbinIcon, xIcon } from '../utils/icons'
 import CategoryToggles from './CategoryToggles'
+import { CLEAR_READ_ITEMS, SORT_ITEMS } from '../store/items/types'
+import { LIKE_FEED_TOGGLE, MARK_FEED_READ, MERCURY_FEED_TOGGLE, MUTE_FEED_TOGGLE, REMOVE_FEED } from '../store/feeds/types'
+import { useNavigation } from '@react-navigation/native'
 
 const compactButtons = !hasNotchOrIsland() && !isIpad()
 
@@ -37,7 +40,7 @@ export const FeedStats = ({ feed }) => {
   const margin = screenWidth * 0.03
   const totalReadingTime = createTimeString(feed.readingTime)
   const avgReadingTime = createTimeString(Math.round(feed.readingTime / feed.numRead))
-  
+
   const bold = {
     fontFamily: 'IBMPlexSans-Bold',
     // color: hslString(feed.color, 'darkmodable')
@@ -45,6 +48,8 @@ export const FeedStats = ({ feed }) => {
   const italic = {
     fontFamily: 'IBMPlexSans-LightItalic'
   }
+
+  if (feed.numRead === 0) return null
 
   return (
     <Text style={{
@@ -55,77 +60,112 @@ export const FeedStats = ({ feed }) => {
       // fontFamily: 'IBMPlexSans-Light',
       // marginBottom: margin,
       // textAlign: 'left'
-    }}>You’ve read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from <Text style={{ fontFamily: 'IBMPlexSans-Bold'}}>{feed.title}</Text>
-      {feed.numRead > 0 &&
+    }}> • You’ve read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from <Text style={{ fontFamily: 'IBMPlexSans-Bold' }}>{feed.title}</Text>
+      {feed.numRead > 0 && avgReadingTime && avgReadingTime > 0 &&
         <Text>. It takes you an average of {avgReadingTime} to read each story
         </Text>
       }.
-      </Text>)
+    </Text>)
 
 }
 
-export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearReadItems, close, filterItems, navigation, setIndex, toggleMute, toggleLike, toggleMercury }) {
+export default function FeedDetails({ feed, close }) {
   const [isLiked, setLiked] = useState(feed.isLiked)
   const [isMuted, setMuted] = useState(feed.isMuted)
   const [isMercury, setMercury] = useState(feed.isMercury)
 
-  const categories = useSelector(state => state.categories.categories)
+  const navigation = useNavigation()
   const dispatch = useDispatch()
+
+  const markAllRead = (feed, olderThan) => dispatch({
+    type: MARK_FEED_READ,
+    feed,
+    olderThan: olderThan || Date.now()
+  })
+  const clearReadItems = () => dispatch({
+    type: CLEAR_READ_ITEMS
+  })
+  const unsubscribe = (feed) => dispatch({
+    type: REMOVE_FEED,
+    feed
+  })
+  const toggleMute = (feed) => {
+    dispatch({
+      type: MUTE_FEED_TOGGLE,
+      feed
+    })
+    dispatch({
+      type: CLEAR_READ_ITEMS
+    })
+  }
+  const toggleLike = (feed) => {
+    dispatch({
+      type: LIKE_FEED_TOGGLE,
+      feed
+    })
+    dispatch({
+      type: SORT_ITEMS
+    })
+  }
+  const toggleMercury = (feed) => dispatch({
+    type: MERCURY_FEED_TOGGLE,
+    feed
+  })
 
   const screenWidth = Dimensions.get('window').width
   const margin = screenWidth * 0.03
 
   const likeIcon = <Svg
-      viewBox='0 0 32 32'
-      height={ 32 * fontSizeMultiplier() }
-      width={ 32 * fontSizeMultiplier() }
-      style={{
-        top: 3
-      }}>
-      <Path
-        d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
-        strokeWidth={2}
-        stroke={ hslString('rizzleText') }
-        fill={ isLiked ? hslString('rizzleText') : 'none' }
-      />
-    </Svg>
+    viewBox='0 0 32 32'
+    height={32 * fontSizeMultiplier()}
+    width={32 * fontSizeMultiplier()}
+    style={{
+      top: 3
+    }}>
+    <Path
+      d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'
+      strokeWidth={2}
+      stroke={hslString('rizzleText')}
+      fill={isLiked ? hslString('rizzleText') : 'none'}
+    />
+  </Svg>
 
   const muteIcon = <Svg
-      viewBox='0 0 32 32'
-      height={ 32 * fontSizeMultiplier() }
-      width={ 32 * fontSizeMultiplier() }
-      style={{
-        top: 3
-      }}>
-      <Path
-        d='M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6'
-        strokeWidth={2}
-        stroke={ hslString('rizzleText') }
-        fill={ isMuted ? hslString('rizzleText') : 'none' }
-      />
-    </Svg>
+    viewBox='0 0 32 32'
+    height={32 * fontSizeMultiplier()}
+    width={32 * fontSizeMultiplier()}
+    style={{
+      top: 3
+    }}>
+    <Path
+      d='M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6'
+      strokeWidth={2}
+      stroke={hslString('rizzleText')}
+      fill={isMuted ? hslString('rizzleText') : 'none'}
+    />
+  </Svg>
 
   const discardAllIcon = dustbinIcon()
 
   const readIcon = <Svg
-      viewBox='0 0 32 32'
-      height={ 32 * fontSizeMultiplier() }
-      width={ 32 * fontSizeMultiplier() }>
-      <Path
-        d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'
-        strokeWidth={2}
-        stroke={hslString('rizzleText')}
-        fill='none'
-      />
-      <Circle
-        cx='12'
-        cy='12'
-        r='3'
-        strokeWidth={2}
-        stroke={hslString('rizzleText')}
-        fill='none'
-      />
-    </Svg>
+    viewBox='0 0 32 32'
+    height={32 * fontSizeMultiplier()}
+    width={32 * fontSizeMultiplier()}>
+    <Path
+      d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'
+      strokeWidth={2}
+      stroke={hslString('rizzleText')}
+      fill='none'
+    />
+    <Circle
+      cx='12'
+      cy='12'
+      r='3'
+      strokeWidth={2}
+      stroke={hslString('rizzleText')}
+      fill='none'
+    />
+  </Svg>
 
   const mercuryIcon = <View style={{
     width: 28 * fontSizeMultiplier(),
@@ -133,9 +173,9 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
     left: 8 * fontSizeMultiplier(),
     transform: [{ rotateZ: '180deg' }, { scale: 0.9 }]
   }}>
-    { getRizzleButtonIcon(
-        'showMercuryIconOn', hslString('rizzleText'), hslString('rizzleBG'), 
-        true) }
+    {getRizzleButtonIcon(
+      'showMercuryIconOn', hslString('rizzleText'), hslString('rizzleBG'),
+      true)}
   </View>
 
   const { iconDimensions } = feed
@@ -155,10 +195,10 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
         <View style={{
           paddingTop: getMargin(),
           height: 60 * fontSizeMultiplier()
-          
+
         }}>
           <CategoryToggles feed={feed} />
-          {/* <ScrollView 
+          {/* <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           >
@@ -172,10 +212,10 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
           </ScrollView> */}
         </View>
         <View style={{
-            flexDirection: 'column',
-            flex: 0,
-            width: '100%'
-          }}>
+          flexDirection: 'column',
+          flex: 0,
+          width: '100%'
+        }}>
           <SwitchRow
             label='Always show full text view'
             help='Show the full text of the story instead of the (possibly truncated) RSS version'
@@ -227,7 +267,7 @@ export default function FeedDetails ({ feed, markAllRead, unsubscribe, clearRead
             icon={xIcon()}
             noResize={true}
             onPress={() => {
-              close()
+              navigation.goBack()
               unsubscribe(feed)
               clearReadItems()
             }}

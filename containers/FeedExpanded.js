@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import { SET_FILTER } from '../store/config/types'
 import {
-  CLEAR_READ_ITEMS, 
+  CLEAR_READ_ITEMS,
   SORT_ITEMS,
   UPDATE_CURRENT_INDEX,
-  ItemType 
+  ItemType
 } from '../store/items/types'
 import {
   MARK_FEED_READ,
@@ -19,9 +19,7 @@ import FeedExpanded from '../components/FeedExpanded.js'
 // import {getCachedCoverImagePath} from '../utils/'
 
 const mapStateToProps = (state, ownProps) => {
-  const feedId = ownProps.feed ?
-    ownProps.feed._id :
-    ownProps.feedId
+  const feedId = ownProps?.route?.params?.feed?._id || ownProps?.feed?._id || ownProps.feedId
   const feed = state.feeds.feeds.find(f => f._id === feedId)
   const items = state.itemsUnread.items
 

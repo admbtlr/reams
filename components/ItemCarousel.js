@@ -174,13 +174,8 @@ class ItemCarousel extends React.Component {
   openFeedModal() {
     const { navigation } = this.props
     const item = this.bufferedItems[this.bufferIndex]
-    navigation.push('ModalWithGesture', {
-      childView: <FeedExpandedContainer
-        feedId={item.feed_id}
-        close={() => navigation.navigate('Items')}
-        navigation={navigation}
-      />
-    })
+    // the FeedExpanded container converts the feedId to a feed
+    navigation.navigate('FeedExpanded', { feedId: item.feed_id, navigation })
   }
 
   onSavePress(isSaved) {

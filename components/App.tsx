@@ -211,6 +211,7 @@ const App = (): JSX.Element => {
         FeedExpanded: {
           screen: FeedExpandedContainer,
           options: {
+            ...modalOptions,
             headerShown: false
           }
         },

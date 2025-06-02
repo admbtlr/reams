@@ -35,10 +35,8 @@ class FeedExpanded extends React.Component {
   }
 
   render() {
-    const {
-      navigation,
-      feed,
-    } = this.props.route.params
+    const { feed } = this.props
+    const { navigation } = this.props.route.params
 
     if (!feed) return null
 
@@ -91,7 +89,7 @@ class FeedExpanded extends React.Component {
               flex: 1
             }}>
             <CardCoverImage
-              feed={feed}
+              itemId={feed.coverImageId}
               width={screenWidth}
               height={screenHeight * 0.6}
               setCachedCoverImage={this.props.setCachedCoverImage}
@@ -147,7 +145,7 @@ class FeedExpanded extends React.Component {
                 ...textInfoStyle('white'),
                 marginLeft: 0,
                 fontSize: 14 * fontSizeMultiplier()
-              }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'} • <FeedStats feed={feed} /></Text>
+              }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'}<FeedStats feed={feed} /></Text>
 
             </View>
           </View>
