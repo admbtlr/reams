@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import {
   Dimensions,
-  ScrollView,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native'
-import Svg, { Circle, Polyline, Path, Line } from 'react-native-svg'
+import Svg, { Circle, Path } from 'react-native-svg'
 import TextButton from './TextButton'
 import SwitchRow from './SwitchRow'
 import { hslString } from '../utils/colors'
@@ -15,17 +13,41 @@ import { fontSizeMultiplier } from '../utils/dimensions'
 import { isIpad } from '../utils/dimensions'
 import { hasNotchOrIsland } from '../utils/dimensions'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { textInfoStyle, textInfoBoldStyle } from '../utils/styles'
-import { useDispatch, useSelector } from 'react-redux'
+import { textInfoStyle } from '../utils/styles'
+import { useDispatch } from 'react-redux'
 import { dustbinIcon, xIcon } from '../utils/icons'
 import CategoryToggles from './CategoryToggles'
 import { CLEAR_READ_ITEMS, SORT_ITEMS } from '../store/items/types'
 import { LIKE_FEED_TOGGLE, MARK_FEED_READ, MERCURY_FEED_TOGGLE, MUTE_FEED_TOGGLE, REMOVE_FEED } from '../store/feeds/types'
 import { useNavigation } from '@react-navigation/native'
+import type { NavigationProp } from '@react-navigation/native'
+
+interface Feed {
+  _id: string
+  title: string
+  color: string
+  isLiked: boolean
+  isMuted: boolean
+  isMercury: boolean
+  readingTime: number
+  numRead: number
+  iconDimensions?: {
+    width: number
+    height: number
+  }
+}
+
+interface FeedStatsProps {
+  feed: Feed
+}
+
+interface SourceDetailsProps {
+  feed: Feed
+}
 
 const compactButtons = !hasNotchOrIsland() && !isIpad()
 
-const createTimeString = (seconds) => {
+const createTimeString = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
   const hours = Math.floor(mins / 60)
   return (hours > 0 ?
@@ -35,7 +57,7 @@ const createTimeString = (seconds) => {
       seconds + ' seconds')
 }
 
-export const FeedStats = ({ feed }) => {
+export const FeedStats: React.FC<FeedStatsProps> = ({ feed }) => {
   const screenWidth = Dimensions.get('window').width
   const margin = screenWidth * 0.03
   const totalReadingTime = createTimeString(feed.readingTime)
@@ -60,7 +82,7 @@ export const FeedStats = ({ feed }) => {
       // fontFamily: 'IBMPlexSans-Light',
       // marginBottom: margin,
       // textAlign: 'left'
-    }}> • You’ve read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from <Text style={{ fontFamily: 'IBMPlexSans-Bold' }}>{feed.title}</Text>
+    }}> • You've read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from <Text style={{ fontFamily: 'IBMPlexSans-Bold' }}>{feed.title}</Text>
       {feed.numRead > 0 && avgReadingTime && avgReadingTime > 0 &&
         <Text>. It takes you an average of {avgReadingTime} to read each story
         </Text>
@@ -69,15 +91,15 @@ export const FeedStats = ({ feed }) => {
 
 }
 
-export default function FeedDetails({ feed, close }) {
-  const [isLiked, setLiked] = useState(feed.isLiked)
-  const [isMuted, setMuted] = useState(feed.isMuted)
-  const [isMercury, setMercury] = useState(feed.isMercury)
+const SourceDetails: React.FC<SourceDetailsProps> = ({ feed }) => {
+  const [isLiked, setLiked] = useState<boolean>(feed.isLiked)
+  const [isMuted, setMuted] = useState<boolean>(feed.isMuted)
+  const [isMercury, setMercury] = useState<boolean>(feed.isMercury)
 
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<any>>()
   const dispatch = useDispatch()
 
-  const markAllRead = (feed, olderThan) => dispatch({
+  const markAllRead = (feed: Feed, olderThan?: number) => dispatch({
     type: MARK_FEED_READ,
     feed,
     olderThan: olderThan || Date.now()
@@ -85,11 +107,11 @@ export default function FeedDetails({ feed, close }) {
   const clearReadItems = () => dispatch({
     type: CLEAR_READ_ITEMS
   })
-  const unsubscribe = (feed) => dispatch({
+  const unsubscribe = (feed: Feed) => dispatch({
     type: REMOVE_FEED,
     feed
   })
-  const toggleMute = (feed) => {
+  const toggleMute = (feed: Feed) => {
     dispatch({
       type: MUTE_FEED_TOGGLE,
       feed
@@ -98,7 +120,7 @@ export default function FeedDetails({ feed, close }) {
       type: CLEAR_READ_ITEMS
     })
   }
-  const toggleLike = (feed) => {
+  const toggleLike = (feed: Feed) => {
     dispatch({
       type: LIKE_FEED_TOGGLE,
       feed
@@ -107,7 +129,7 @@ export default function FeedDetails({ feed, close }) {
       type: SORT_ITEMS
     })
   }
-  const toggleMercury = (feed) => dispatch({
+  const toggleMercury = (feed: Feed) => dispatch({
     type: MERCURY_FEED_TOGGLE,
     feed
   })
@@ -291,3 +313,5 @@ export default function FeedDetails({ feed, close }) {
     </View>
   )
 }
+
+export default SourceDetails
