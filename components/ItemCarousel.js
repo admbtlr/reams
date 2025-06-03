@@ -6,7 +6,6 @@ import {
 } from 'react-native'
 import SwipeableViews from './SwipeableViews'
 import TopBars from './TopBars'
-import FeedExpandedContainer from '../containers/FeedExpanded'
 import ButtonsContainer from '../containers/Buttons.js'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
 import EmptyCarousel from './EmptyCarousel'
@@ -174,7 +173,7 @@ class ItemCarousel extends React.Component {
   openFeedModal() {
     const { navigation } = this.props
     const item = this.bufferedItems[this.bufferIndex]
-    // the FeedExpanded container converts the feedId to a feed
+    // FeedExpanded converts the feedId to a feed
     navigation.navigate('FeedExpanded', { feedId: item.feed_id, navigation })
   }
 
