@@ -19,7 +19,7 @@ import {
   Feed
 } from '../store/feeds/types'
 
-interface FeedExpandedProps {
+interface SourceExpandedProps {
   route: {
     params: {
       feed?: Feed
@@ -43,7 +43,7 @@ interface ExtendedFeed extends Feed {
   }
 }
 
-const FeedExpanded: React.FC<FeedExpandedProps> = ({ route }) => {
+const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   
@@ -202,4 +202,4 @@ const FeedExpanded: React.FC<FeedExpandedProps> = ({ route }) => {
   )
 }
 
-export default FeedExpanded
+export default SourceExpanded

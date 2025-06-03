@@ -67,7 +67,7 @@ const buttonStyle = {
   flexDirection: 'row'
 }
 
-export default function FeedExpandedOnboarding (props) {
+export default function SourceExpandedOnboarding (props) {
 
   const index = useSelector(state => {
     return state.itemsUnread.index

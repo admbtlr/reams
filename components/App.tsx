@@ -24,7 +24,7 @@ import Login from './Login'
 import Subscribe from './Subscribe'
 import { RootState } from '../store/reducers'
 import { createComponentForStaticNavigation, createStaticNavigation, useNavigation } from '@react-navigation/native'
-import FeedExpanded from './FeedExpanded'
+import SourceExpanded from './SourceExpanded'
 import AccountScreen from './AccountScreen'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import DrawerButton from './DrawerButton'
@@ -208,8 +208,8 @@ const App = (): JSX.Element => {
           screen: NewFeedsList,
           options: modalOptions
         },
-        FeedExpanded: {
-          screen: FeedExpanded,
+        SourceExpanded: {
+          screen: SourceExpanded,
           options: {
             ...modalOptions,
             headerShown: false

@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import SwipeableViews from './SwipeableViews'
 import TopBars from './TopBars'
-import FeedExpanded from './FeedExpanded'
+import SourceExpanded from './SourceExpanded'
 import ButtonsContainer from '../containers/Buttons'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '../utils/animation-handlers'
 import EmptyCarousel from './EmptyCarousel'

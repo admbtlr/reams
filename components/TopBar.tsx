@@ -207,7 +207,7 @@ export default function TopBar({
               key={`inner-{id()}`}
               onPress={() => {
                 if (isOnboarding || displayMode === ItemType.saved) return
-                if (feed !== undefined) navigation.navigate('FeedExpanded', { feed, navigation })
+                if (feed !== undefined) navigation.navigate('SourceExpanded', { feed, navigation })
               }}
               style={{
                 backgroundColor: 'transparent',

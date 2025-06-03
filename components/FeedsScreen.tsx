@@ -25,7 +25,7 @@ import {
   View
 } from 'react-native'
 import FeedContracted from './FeedContracted'
-import FeedExpanded from './FeedExpanded'
+import SourceExpanded from './SourceExpanded'
 import TextButton from './TextButton'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
@@ -493,7 +493,7 @@ function FeedsScreen({ route }) {
 
         }
         {modal !== null && (
-          <FeedExpanded {...modal} {...{ close }} />
+          <SourceExpanded {...modal} {...{ close }} />
         )
         }
       </View>

@@ -45,7 +45,7 @@ const mockModalContext = {
 
 // Mock components that might be problematic
 jest.mock('@/components/NewFeedsList', () => 'MockNewFeedsList')
-jest.mock('@/components/FeedExpanded', () => 'MockFeedExpanded')
+jest.mock('@/components/SourceExpanded', () => 'MockSourceExpanded')
 jest.mock('@/components/SearchBar', () => 'MockSearchBar')
 jest.mock('@/components/FeedContracted', () => {
   const React = require('react');

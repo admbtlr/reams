@@ -255,7 +255,7 @@ function FeedContracted({
   const showDetails = (e: GestureResponderEvent) => {
     ReactNativeHapticFeedback.trigger('impactLight', {})
     if (type === 'feed') {
-      navigation.navigate('FeedExpanded', { feed, navigation })
+      navigation.navigate('SourceExpanded', { feed, navigation })
     } else if (type === 'category') {
       if (isSaved) {
         const modalText = [

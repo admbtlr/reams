@@ -14,7 +14,7 @@ import {
   ITEMS_SCREEN_BLUR,
   ITEMS_SCREEN_FOCUS
 } from '../store/ui/types'
-import ItemCarouselContainer from '../containers/ItemCarousel.js'
+import ItemCarousel from './ItemCarousel'
 import RizzleImageViewerContainer from '../containers/RizzleImageViewer.js'
 import { hslString } from '../utils/colors'
 import HighlightButtons, { ActiveHighlight } from './HighlightButtons'
@@ -82,10 +82,7 @@ export default function ItemsScreen({ navigation }: { navigation: any }) {
       }
       <View style={styles.infoView} />
       <ActiveHighlightContext.Provider value={{ activeHighlightId, setActiveHighlightId, activeHighlight }}>
-        <ItemCarouselContainer
-          navigation={navigation}
-          style={styles.ItemCarousel}
-          orientation={orientation} />
+        <ItemCarousel />
         <HighlightButtons />
       </ActiveHighlightContext.Provider>
       <RizzleImageViewerContainer />
