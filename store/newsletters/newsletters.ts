@@ -31,7 +31,7 @@ import { DEACTIVATE_NUDGE, Feed, PAUSE_NUDGE } from "../feeds/types";
 
 export const createNewsletter = createAsyncThunk(
   'newsletters/createNewsletter',
-  async (newsletter: { url: string }, { getState }): Promise<{ url: string }> => {
+  async (newsletter: { url: string, unsubscribeUrl: string }, { getState }): Promise<{ url: string }> => {
     const { config } = getState() as RootState
     if (!config.isOnline) {
       // TODO add to remote action queue
@@ -110,7 +110,8 @@ export const fetchNewsletters = createAsyncThunk(
         !newNewsletters.find((newsletter: any) => newsletter.url === item.feed_url)) {
         newNewsletters.push({
           url: item.feed_url,
-          title: decode(item.feed_title)
+          title: decode(item.feed_title),
+          unsubscribeUrl: item.unsubscribeUrl
         })
       }
     })

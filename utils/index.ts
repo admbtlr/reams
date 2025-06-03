@@ -206,3 +206,11 @@ export function pgTimestamp(date: Date = new Date(Date.now())) {
     .replace('Z', '')
     .replace(/\.\d{3}/, '')
 }
+
+export function findUrl(text: string): string | undefined {
+  // Regex pattern to match URLs
+  const urlPattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
+  const match = text.match(urlPattern);
+  return match ? match[0] : undefined;
+}

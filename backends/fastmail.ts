@@ -1,4 +1,5 @@
 import { Item, ItemInflated } from '../store/items/types'
+import { findUrl } from '../utils'
 import log from '../utils/log'
 
 // bail if we don't have our ENV set:
@@ -159,30 +160,32 @@ export const downloadContent = async (item: ItemInflated) => {
 }
 
 interface FastmailItem {
-  headers: {
-    name: string
-    value: string
-  }[]
-  id: string,
-  htmlBody: { blobId: string }[],
   body?: string,
-  url?: string,
-  receivedAt: number,
   from: {
     email: string,
     name: string
   }[],
+  headers: {
+    name: string
+    value: string
+  }[]
+  htmlBody: { blobId: string }[],
+  id: string,
+  receivedAt: number,
+  unsubscribeUrl: string
+  url?: string,
   subject: string
 }
 
 const mapFastmailItemToRizzleItem = (item: FastmailItem) => {
   // console.log(item)
+  const unsubscribeHeader = item.headers.find(h => h.name === 'List-Unsubscribe')
+  const unsubscribeUrl = unsubscribeHeader ? findUrl(unsubscribeHeader.value) : undefined
   let feed_url = item.headers.find(header => header.name === 'List-URL')?.value.replace(/[<> ]/g, '') ||
     'https://www.' + item.from[0].email.trim().split('@')[1]
   if (feed_url === 'https://www.ghost.io') {
-    const listUnsubscribe = item.headers.find(h => h.name === 'List-Unsubscribe')?.value
-    if (listUnsubscribe) {
-      const matches = /https:\/\/.*?\//.exec(listUnsubscribe)
+    if (unsubscribeUrl) {
+      const matches = /https:\/\/.*?\//.exec(unsubscribeUrl)
       if (matches !== null && matches.length > 0) {
         feed_url = matches[0]
       }
@@ -204,6 +207,7 @@ const mapFastmailItemToRizzleItem = (item: FastmailItem) => {
       feed_url,
     feed_url,
     isNewsletter: true,
+    unsubscribeUrl,
     url: item.url
   }
   // mappedItem.feed_url = transformSubstackUrl(mappedItem.feed_url)

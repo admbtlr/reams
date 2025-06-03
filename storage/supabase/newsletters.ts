@@ -10,7 +10,8 @@ interface NewsletterDB extends SourceDB { }
 export const addNewsletter = async (newsletter: {
   url: string,
   title?: string,
-  _id?: string
+  _id?: string,
+  unsubscribeUrl?: string
 }, userId?: string): Promise<Newsletter> => {
   // is the newsletter already in the database?
   let newsletterDB = await getNewsletter(newsletter.url)
@@ -51,7 +52,7 @@ export const addNewsletter = async (newsletter: {
   if (!userId) {
     throw new Error('No user id')
   }
-  const fn = async () => await supabase
+  let fn = async () => await supabase
     .from('User_Newsletter')
     .select()
     .eq('newsletter_id', (newsletterDB as NewsletterDB)._id)
@@ -63,17 +64,30 @@ export const addNewsletter = async (newsletter: {
   let userNewsletter = Array.isArray(userNewsletterQuery.data) && userNewsletterQuery.data.length === 1 ?
     userNewsletterQuery.data[0] :
     undefined
+  let userNewsletterFn: (() => void) | undefined = undefined
   if (!userNewsletter) {
-    const fn = async () => await supabase
+    userNewsletterFn = async () => await supabase
       .from('User_Newsletter')
       .insert({
         newsletter_id: (newsletterDB as NewsletterDB)._id,
         user_id: userId as string,
         is_nudge_active: true,
-        next_nudge: NUDGE_FREQUENCY
+        next_nudge: NUDGE_FREQUENCY,
+        unsubscribe_url: newsletter.unsubscribeUrl
       })
       .select()
-    userNewsletterQuery = await doQuery(fn)
+  } else if (!userNewsletter.unsubscribe_url && newsletter.unsubscribeUrl) {
+    userNewsletterFn = async () => await supabase
+      .from('User_Newsletter')
+      .update({
+        unsubscribe_url: newsletter.unsubscribeUrl
+      })
+      .eq('newsletter_id', (newsletterDB as NewsletterDB)._id)
+      .eq('user_id', userId as string)
+      .select()
+  }
+  if (userNewsletterFn !== undefined) {
+    userNewsletterQuery = await doQuery(userNewsletterFn)
     if (userNewsletterQuery.error || !userNewsletterQuery.data) {
       throw userNewsletterQuery.error || new Error('No user newsletter data')
     }
@@ -94,7 +108,8 @@ export const addNewsletter = async (newsletter: {
     subscribeUrl: newsletterDB.subscribe_url,
     readCount: userNewsletter.read_count,
     nextNudge: userNewsletter.next_nudge,
-    isNudgeActive: userNewsletter.is_nudge_active
+    isNudgeActive: userNewsletter.is_nudge_active,
+    unsubscribeUrl: newsletterDB.unsubscribe_url
   }
 }
 
