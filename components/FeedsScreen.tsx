@@ -22,7 +22,7 @@ import {
   View
 } from 'react-native'
 import FeedContracted from './FeedContracted'
-import FeedExpanded from '../containers/FeedExpanded'
+import FeedExpanded from './FeedExpanded'
 import TextButton from './TextButton'
 import NewFeedsList from './NewFeedsList'
 import { hslString } from '../utils/colors'
