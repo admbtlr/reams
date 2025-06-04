@@ -135,7 +135,7 @@ export default function ButtonSet({
   const toggleAnimMercury = new Animated.Value(0)
 
   const color = useColor(itemFeed?.rootUrl || itemFeed?.url || item.url)
-  const borderColor = (isDarkMode || !color) ? hslString('rizzleText', 'ui') : color
+  const borderColor = 'white' //(isDarkMode || !color) ? hslString('rizzleText', 'ui') : color
   const backgroundColor = hslString('buttonBG')
   const borderWidth = 1
 

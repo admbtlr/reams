@@ -11,6 +11,7 @@ import { hslString } from '../utils/colors'
 import { textInfoStyle } from '@/utils/styles'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/reducers'
+import { BlurView } from 'expo-blur'
 
 const RizzleButton = (props) => {
   const {
@@ -151,17 +152,22 @@ const RizzleButton = (props) => {
           onPressOut={handlePress}
           style={{
             borderRadius: 25,
-            ...buttonStyle,
+            overflow: 'hidden',
+            borderWidth: 1,
+            borderColor: 'white'
+            // ...buttonStyle,
           }}
         >
-          <View style={{
-            ...getStyles(),
-            paddingHorizontal: style.paddingHorizontal || 0
-          }}
+          <BlurView
+            blurTint='extraLight'
+            style={{
+              ...getStyles(),
+              paddingHorizontal: style.paddingHorizontal || 0
+            }}
             {...newProps}
           >
             {isToggle ? getTogglableInnerView() : children}
-          </View>
+          </BlurView>
         </TouchableOpacity>
       </View>
       {label && showButtonLabels && (
