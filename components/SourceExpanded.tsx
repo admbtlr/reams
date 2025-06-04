@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { hslString } from '../utils/colors'
 import CardCoverImage from './CardCoverImage'
-import SourceDetails, { FeedStats } from './SourceDetails'
+import SourceDetails, { SourceStats } from './SourceDetails'
 import XButton from './XButton'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
@@ -29,7 +29,7 @@ interface SourceExpandedProps {
   }
 }
 
-interface ExtendedFeed extends Feed {
+interface ExtendedSource extends Source {
   numUnread: number
   numRead: number
   readingTime: number
@@ -49,29 +49,29 @@ const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
 
   const feedId = route?.params?.feed?._id || route?.params?.feedId
   const feed = useSelector((state: RootState) => {
-    const baseFeed = state.feeds.feeds.find(f => f._id === feedId)
+    const baseSource = state.feeds.feeds.find(f => f._id === feedId)
     const items = state.itemsUnread.items
     const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
     const feedItems = items.filter(i => i.feed_id === feedId)
     const coverImageItem = feedItems.find(item => item.coverImageUrl)
 
-    if (baseFeed) {
+    if (baseSource) {
       return {
-        ...baseFeed,
+        ...baseSource,
         numUnread: feedItems.length,
-        numRead: baseFeed.readCount || 0,
-        readingTime: baseFeed.readingTime || 0,
-        readingRate: baseFeed.readingRate || 0,
+        numRead: baseSource.readCount || 0,
+        readingTime: baseSource.readingTime || 0,
+        readingRate: baseSource.readingRate || 0,
         coverImageId: coverImageItem ? coverImageItem._id : null,
         coverImageDimensions: coverImageItem ? coverImageItem.imageDimensions : null,
         cachedCoverImageId: feedLocal?.cachedCoverImageId,
         iconDimensions: feedLocal?.cachedIconDimensions
-      } as ExtendedFeed
+      } as ExtendedSource
     }
     return null
   })
 
-  const isFeedOnboardingDone = useSelector((state: RootState) => state.config.isFeedOnboardingDone)
+  const isSourceOnboardingDone = useSelector((state: RootState) => state.config.isSourceOnboardingDone)
 
 
 
@@ -173,7 +173,7 @@ const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
               ...textInfoStyle('white'),
               marginLeft: 0,
               fontSize: 14 * fontSizeMultiplier()
-            }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'}<FeedStats feed={feed} /></Text>
+            }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'}<SourceStats feed={feed} /></Text>
           </View>
         </View>
       </View>

@@ -57,7 +57,7 @@ const createTimeString = (seconds: number): string => {
       seconds + ' seconds')
 }
 
-export const FeedStats: React.FC<FeedStatsProps> = ({ feed }) => {
+export const SourceStats: React.FC<FeedStatsProps> = ({ feed }) => {
   const screenWidth = Dimensions.get('window').width
   const margin = screenWidth * 0.03
   const totalReadingTime = createTimeString(feed.readingTime)
