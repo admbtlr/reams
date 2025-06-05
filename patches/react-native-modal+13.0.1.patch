@@ -1,0 +1,57 @@
+diff --git a/node_modules/react-native-modal/dist/modal.js b/node_modules/react-native-modal/dist/modal.js
+index 80f4e75..cd6f8a4 100644
+--- a/node_modules/react-native-modal/dist/modal.js
++++ b/node_modules/react-native-modal/dist/modal.js
+@@ -444,27 +444,33 @@ export class ReactNativeModal extends React.Component {
+         }
+         return null;
+     }
+-    componentDidMount() {
+-        // Show deprecation message
+-        if (this.props.onSwipe) {
+-            console.warn('`<Modal onSwipe="..." />` is deprecated and will be removed starting from 13.0.0. Use `<Modal onSwipeComplete="..." />` instead.');
+-        }
+-        this.didUpdateDimensionsEmitter = DeviceEventEmitter.addListener('didUpdateDimensions', this.handleDimensionsUpdate);
+-        if (this.state.isVisible) {
+-            this.open();
+-        }
+-        BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPress);
++componentDidMount() {
++    // Show deprecation message
++    if (this.props.onSwipe) {
++        console.warn('`<Modal onSwipe="..." />` is deprecated and will be removed starting from 13.0.0. Use `<Modal onSwipeComplete="..." />` instead.');
+     }
+-    componentWillUnmount() {
+-        BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPress);
+-        if (this.didUpdateDimensionsEmitter) {
+-            this.didUpdateDimensionsEmitter.remove();
+-        }
+-        if (this.interactionHandle) {
+-            InteractionManager.clearInteractionHandle(this.interactionHandle);
+-            this.interactionHandle = null;
+-        }
++    this.didUpdateDimensionsEmitter = DeviceEventEmitter.addListener('didUpdateDimensions', this.handleDimensionsUpdate);
++    if (this.state.isVisible) {
++        this.open();
+     }
++    // Deprecated usage - change this line:
++    // BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPress);
++    this.backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPress);
++}
++
++componentWillUnmount() {
++    // Change this line:
++    // BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPress);
++    this.backHandlerSubscription?.remove?.();
++
++    if (this.didUpdateDimensionsEmitter) {
++        this.didUpdateDimensionsEmitter.remove();
++    }
++    if (this.interactionHandle) {
++        InteractionManager.clearInteractionHandle(this.interactionHandle);
++        this.interactionHandle = null;
++    }
++}
+     componentDidUpdate(prevProps) {
+         // If the animations have been changed then rebuild them to make sure we're
+         // using the most up-to-date ones
