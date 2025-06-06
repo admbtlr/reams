@@ -9,11 +9,11 @@ import {
   REMOVE_FEED,
   UPDATE_FEEDS,
   UPDATE_FEED,
-  LIKE_FEED_TOGGLE,
+  LIKE_SOURCE_TOGGLE,
   UNLIKE_FEED,
-  MUTE_FEED_TOGGLE,
+  MUTE_SOURCE_TOGGLE,
   UNMUTE_FEED,
-  MERCURY_FEED_TOGGLE,
+  MERCURY_SOURCE_TOGGLE,
   Feed,
   FeedActionTypes,
   FeedsState,
@@ -162,10 +162,10 @@ export function feeds (
           feed)
       }
 
-    case LIKE_FEED_TOGGLE:
+    case LIKE_SOURCE_TOGGLE:
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+        feeds: state.feeds.map(feed => feed._id === action.source._id ?
           {
             ...feed,
             isLiked: !!!feed.isLiked
@@ -184,10 +184,10 @@ export function feeds (
           feed)
       }
 
-    case MUTE_FEED_TOGGLE:
+    case MUTE_SOURCE_TOGGLE:
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+        feeds: state.feeds.map(feed => feed._id === action.source._id ?
           {
             ...feed,
             isMuted: !!!feed.isMuted
@@ -206,10 +206,10 @@ export function feeds (
           feed)
       }
 
-    case MERCURY_FEED_TOGGLE:
+    case MERCURY_SOURCE_TOGGLE:
       return {
         ...state,
-        feeds: state.feeds.map(feed => feed._id === action.feed._id ?
+        feeds: state.feeds.map(feed => feed._id === action.source._id ?
           {
             ...feed,
             isMercury: !!!feed.isMercury

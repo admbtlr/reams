@@ -47,11 +47,11 @@ const mockModalContext = {
 jest.mock('@/components/NewFeedsList', () => 'MockNewFeedsList')
 jest.mock('@/components/SourceExpanded', () => 'MockSourceExpanded')
 jest.mock('@/components/SearchBar', () => 'MockSearchBar')
-jest.mock('@/components/FeedContracted', () => {
+jest.mock('@/components/SourceContracted', () => {
   const React = require('react');
   const { View, Text } = require('react-native');
 
-  return function MockFeedContracted(props) {
+  return function MockSourceContracted(props) {
     return (
       <View testID={`feed-${props._id}`}>
         <Text>{props.title}</Text>
@@ -141,9 +141,9 @@ const createMockState = (hasFeeds = true) => ({
   },
   categories: {
     categories: [
-      { _id: 'cat-1', name: 'Category 1', isSystem: false, feedIds: ['feed-1'], itemIds: [] },
-      { _id: 'cat-2', name: 'Category 2', isSystem: false, feedIds: ['feed-2'], itemIds: [] },
-      { _id: 'system-cat', name: 'System Category', isSystem: true, feedIds: [], itemIds: [] }
+      { _id: 'cat-1', name: 'Category 1', isSystem: false, sourceIds: ['feed-1'], itemIds: [] },
+      { _id: 'cat-2', name: 'Category 2', isSystem: false, sourceIds: ['feed-2'], itemIds: [] },
+      { _id: 'system-cat', name: 'System Category', isSystem: true, sourceIds: [], itemIds: [] }
     ]
   },
   config: {

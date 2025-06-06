@@ -23,10 +23,10 @@ const SearchBar = ({ navigation }) => {
       displayMode
     })
     navigation.navigate('Items', { 
-      feedCardX: 0,
-      feedCardY: 0,
-      feedCardWidth: Dimensions.get('screen').width,
-      feedCardHeight: Dimensions.get('screen').height,
+      sourceCardX: 0,
+      sourceCardY: 0,
+      sourceCardWidth: Dimensions.get('screen').width,
+      sourceCardHeight: Dimensions.get('screen').height,
       toItems: true
     })
   }

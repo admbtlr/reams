@@ -16,25 +16,25 @@ import { textInfoStyle } from '../utils/styles'
 import { RootState } from '../store/reducers'
 
 import {
-  Feed
+  Source
 } from '../store/feeds/types'
 
 interface SourceExpandedProps {
   route: {
     params: {
-      feed?: Feed
-      feedId?: string
+      source?: Source
+      sourceId?: string
       navigation: any
     }
   }
 }
 
-interface ExtendedSource extends Source {
+export interface ExtendedSource extends Source {
   numUnread: number
   numRead: number
   readingTime: number
   readingRate: number
-  coverImageId: string | null
+  coverImageId: string | undefined
   coverImageDimensions: any
   cachedCoverImageId?: string
   iconDimensions?: {
@@ -44,40 +44,36 @@ interface ExtendedSource extends Source {
 }
 
 const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
-  const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const feedId = route?.params?.feed?._id || route?.params?.feedId
-  const feed = useSelector((state: RootState) => {
-    const baseSource = state.feeds.feeds.find(f => f._id === feedId)
+  const sourceId = route?.params?.source?._id || route?.params?.sourceId
+  const source = useSelector((state: RootState) => {
+    const baseSource = state.feeds.feeds.find(f => f._id === sourceId) ??
+      state.newsletters.newsletters.find(n => n._id === sourceId)
     const items = state.itemsUnread.items
-    const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
-    const feedItems = items.filter(i => i.feed_id === feedId)
-    const coverImageItem = feedItems.find(item => item.coverImageUrl)
+    // const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
+    const sourceItems = items.filter(i => i.feed_id === sourceId)
+    const coverImageItem = sourceItems.find(item => item.coverImageUrl)
 
     if (baseSource) {
       return {
         ...baseSource,
-        numUnread: feedItems.length,
+        numUnread: sourceItems.length,
         numRead: baseSource.readCount || 0,
         readingTime: baseSource.readingTime || 0,
         readingRate: baseSource.readingRate || 0,
         coverImageId: coverImageItem ? coverImageItem._id : null,
         coverImageDimensions: coverImageItem ? coverImageItem.imageDimensions : null,
-        cachedCoverImageId: feedLocal?.cachedCoverImageId,
-        iconDimensions: feedLocal?.cachedIconDimensions
+        // cachedCoverImageId: feedLocal?.cachedCoverImageId,
+        // iconDimensions: feedLocal?.cachedIconDimensions
       } as ExtendedSource
     }
     return null
   })
 
-  const isSourceOnboardingDone = useSelector((state: RootState) => state.config.isSourceOnboardingDone)
+  const isSourceOnboardingDone = useSelector((state: RootState) => state.config.isFeedOnboardingDone)
 
-
-
-
-
-  if (!feed) return null
+  if (!source) return null
 
   const textStyles = {
     color: 'white',
@@ -104,7 +100,7 @@ const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
         style={{
           alignItems: 'flex-start',
           justifyContent: 'flex-start',
-          backgroundColor: hslString(feed.color, 'desaturated'),
+          backgroundColor: hslString(source.color, 'desaturated'),
           overflow: 'hidden',
           flex: 0,
           flexGrow: 1,
@@ -118,7 +114,7 @@ const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
             flex: 1
           }}>
           <CardCoverImage
-            itemId={feed.coverImageId}
+            itemId={source.coverImageId}
             width={screenWidth}
             height={screenHeight * 0.6}
             feedId={undefined} />
@@ -154,15 +150,15 @@ const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
               fontFamily: 'IBMPlexSansCond-Bold',
               fontSize: 32 * fontSizeMultiplier(),
               lineHeight: 32 * fontSizeMultiplier()
-            }}>{feed.title}</Text>
-            {feed.description != null && feed.description.length > 0 && <Text style={{
+            }}>{source.title}</Text>
+            {source.description != null && source.description.length > 0 && <Text style={{
               ...textStyles,
               fontFamily: 'IBMPlexSans',
-              fontSize: (feed.description.length > 100 ? 18 : 20) *
+              fontSize: (source.description.length > 100 ? 18 : 20) *
                 fontSizeMultiplier(),
               textAlign: 'left',
               marginBottom: 16 * fontSizeMultiplier()
-            }}>{feed.description}</Text>}
+            }}>{source.description}</Text>}
           </View>
           <View style={{
             paddingBottom: 5,
@@ -173,7 +169,7 @@ const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
               ...textInfoStyle('white'),
               marginLeft: 0,
               fontSize: 14 * fontSizeMultiplier()
-            }}>{feed.numUnread} unread stor{feed.numUnread === 1 ? 'y' : 'ies'}<SourceStats feed={feed} /></Text>
+            }}>{source.numUnread} unread stor{source.numUnread === 1 ? 'y' : 'ies'}<SourceStats source={source} /></Text>
           </View>
         </View>
       </View>
@@ -185,7 +181,7 @@ const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
         flexGrow: 0
       }}>
         <SourceDetails
-          feed={feed}
+          source={source}
           close={() => navigation.goBack()}
         />
       </View>

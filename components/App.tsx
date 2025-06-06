@@ -97,20 +97,20 @@ const App = (): JSX.Element => {
 
   const itemsOptions = ({ route }) => {
     type ItemsRouteParams = {
-      feedCardHeight: number
-      feedCardWidth: number
-      feedCardX?: number
-      feedCardY?: number
+      sourceCardHeight: number
+      sourceCardWidth: number
+      sourceCardX?: number
+      sourceCardY?: number
       toItems?: boolean
     }
 
-    const { feedCardHeight, feedCardWidth, feedCardX, feedCardY, toItems } = (route?.params as ItemsRouteParams) || {}
+    const { sourceCardHeight, sourceCardWidth, sourceCardX, sourceCardY, toItems } = (route?.params as ItemsRouteParams) || {}
     const dimensions = Dimensions.get('window')
-    const translateY = feedCardY ?
-      feedCardY + feedCardHeight / 2 - dimensions.height / 2 :
+    const translateY = sourceCardY ?
+      sourceCardY + sourceCardHeight / 2 - dimensions.height / 2 :
       0
-    const translateX = feedCardX ?
-      feedCardX + feedCardWidth / 2 - dimensions.width / 2 :
+    const translateX = sourceCardX ?
+      sourceCardX + sourceCardWidth / 2 - dimensions.width / 2 :
       0
     return {
       cardStyleInterpolator: toItems ?
@@ -149,14 +149,14 @@ const App = (): JSX.Element => {
                 {
                   scaleX: anim.interpolate({
                     inputRange: [0, 1, 2],
-                    outputRange: [feedCardWidth / dimensions.width, 1, 1],
+                    outputRange: [sourceCardWidth / dimensions.width, 1, 1],
                     extrapolate: 'clamp',
                   })
                 },
                 {
                   scaleY: anim.interpolate({
                     inputRange: [0, 1, 2],
-                    outputRange: [feedCardHeight / dimensions.height, 1, 1],
+                    outputRange: [sourceCardHeight / dimensions.height, 1, 1],
                     extrapolate: 'clamp',
                   }),
                 }

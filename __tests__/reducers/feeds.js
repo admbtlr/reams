@@ -1,6 +1,6 @@
 import { ADD_readingTime, MARK_ITEMS_READ, MARK_ITEM_READ, SAVE_ITEM, SHARE_ITEM } from '../../store/items/types'
 import { feeds } from '../../store/feeds/feeds.ts'
-import { ADD_FEED, ADD_FEEDS_TO_STORE, LIKE_FEED_TOGGLE, MERCURY_FEED_TOGGLE, MUTE_FEED_TOGGLE, REMOVE_FEED, SET_FEEDS, UNLIKE_FEED, UNMUTE_FEED, UPDATE_FEED, UPDATE_FEEDS } from '../../store/feeds/types'
+import { ADD_FEED, ADD_FEEDS_TO_STORE, LIKE_SOURCE_TOGGLE, MERCURY_SOURCE_TOGGLE, MUTE_SOURCE_TOGGLE, REMOVE_FEED, SET_FEEDS, UNLIKE_FEED, UNMUTE_FEED, UPDATE_FEED, UPDATE_FEEDS } from '../../store/feeds/types'
 import { UNSET_BACKEND } from '../../store/user/types'
 
 const newFeed = {
@@ -155,23 +155,23 @@ describe('feeds reducer', () => {
     expect(withShare.feeds[0].savedCount).toEqual(1)
   })
 
-  it('should handle LIKE_FEED_TOGGLE', () => {
+  it('should handle LIKE_SOURCE_TOGGLE', () => {
     const withLike = feeds(added, {
-      type: LIKE_FEED_TOGGLE,
-      feed: newFeed
+      type: LIKE_SOURCE_TOGGLE,
+      source: newFeed
     })
     expect(withLike.feeds[0].isLiked).toEqual(true)
     const withUnlike = feeds(withLike, {
-      type: LIKE_FEED_TOGGLE,
-      feed: newFeed
+      type: LIKE_SOURCE_TOGGLE,
+      source: newFeed
     })
     expect(withUnlike.feeds[0].isLiked).toEqual(false)
   })
 
   it('should handle UNLIKE_FEED', () => {
     const withLike = feeds(added, {
-      type: LIKE_FEED_TOGGLE,
-      feed: newFeed
+      type: LIKE_SOURCE_TOGGLE,
+      source: newFeed
     })
     const withUnlike = feeds(withLike, {
       type: UNLIKE_FEED,
@@ -180,23 +180,23 @@ describe('feeds reducer', () => {
     expect(withUnlike.feeds[0].isLiked).toEqual(false)
   })
 
-  it('should handle MUTE_FEED_TOGGLE', () => {
+  it('should handle MUTE_SOURCE_TOGGLE', () => {
     const withMute = feeds(added, {
-      type: MUTE_FEED_TOGGLE,
-      feed: newFeed
+      type: MUTE_SOURCE_TOGGLE,
+      source: newFeed
     })
     expect(withMute.feeds[0].isMuted).toEqual(true)
     const withUnmute = feeds(withMute, {
-      type: MUTE_FEED_TOGGLE,
-      feed: newFeed
+      type: MUTE_SOURCE_TOGGLE,
+      source: newFeed
     })
     expect(withUnmute.feeds[0].isMuted).toEqual(false)
   })
 
   it('should handle UNMUTE_FEED', () => {
     const withMute = feeds(added, {
-      type: MUTE_FEED_TOGGLE,
-      feed: newFeed
+      type: MUTE_SOURCE_TOGGLE,
+      source: newFeed
     })
     const withUnmute = feeds(withMute, {
       type: UNMUTE_FEED,
@@ -205,15 +205,15 @@ describe('feeds reducer', () => {
     expect(withUnmute.feeds[0].isMuted).toEqual(false)
   })
 
-  it('should handle MERCURY_FEED_TOGGLE', () => {
+  it('should handle MERCURY_SOURCE_TOGGLE', () => {
     const withMercury = feeds(added, {
-      type: MERCURY_FEED_TOGGLE,
-      feed: newFeed
+      type: MERCURY_SOURCE_TOGGLE,
+      source: newFeed
     })
     expect(withMercury.feeds[0].isMercury).toEqual(true)
     const withoutMercury = feeds(withMercury, {
-      type: MERCURY_FEED_TOGGLE,
-      feed: newFeed
+      type: MERCURY_SOURCE_TOGGLE,
+      source: newFeed
     })
     expect(withoutMercury.feeds[0].isMercury).toEqual(false)
   })

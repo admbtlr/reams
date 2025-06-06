@@ -54,7 +54,6 @@ export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
   async (_, { getState }): Promise<Category[]> => {
     console.log('fetchCategories')
-    const { categories } = getState() as RootState
     return await fetchCategoriesBackend()
   }
 )
@@ -65,21 +64,21 @@ const initialState: CategoriesState = {
       _id: 'annotated',
       name: 'annotated',
       isSystem: true,
-      feedIds: [],
+      sourceIds: [],
       itemIds: []
     },
     {
       _id: 'inbox',
       name: 'inbox',
       isSystem: true,
-      feedIds: [],
+      sourceIds: [],
       itemIds: []
     },
     {
       _id: 'archive',
       name: 'archive',
       isSystem: true,
-      feedIds: [],
+      sourceIds: [],
       itemIds: []
     }
   ],

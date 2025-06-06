@@ -1,7 +1,7 @@
 import { ITEMS_BATCH_FETCHED, ItemType, ItemsState, SET_SCROLL_OFFSET, TOGGLE_MERCURY_VIEW } from '../../store/items/types'
 import { itemsUnread, initialState } from '../../store/items/items-unread'
 import dotenv from 'dotenv'
-import { MUTE_FEED_TOGGLE, REMOVE_FEED } from '../../store/feeds/types'
+import { MUTE_SOURCE_TOGGLE, REMOVE_FEED } from '../../store/feeds/types'
 dotenv.config()
 
 const newItems = [
@@ -159,10 +159,10 @@ describe('items-unread reducer', () => {
     })
     expect(pruned.items.length).toEqual(2)
   })
-  it('should handle MUTE_FEED_TOGGLE', () => {
+  it('should handle MUTE_SOURCE_TOGGLE', () => {
     const muted = itemsUnread(itemsFetched, {
-      type: MUTE_FEED_TOGGLE,
-      feed: {
+      type: MUTE_SOURCE_TOGGLE,
+      source: {
         _id: '1'
       }
     })

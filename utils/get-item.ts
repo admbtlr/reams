@@ -13,7 +13,7 @@ export const getItems = (state: RootState, type?: ItemType) => {
   }
 
   const filter = state.config.filter
-  let filterFeedIds: string[] | undefined, filterItemIds: string[] | undefined
+  let filterSourceIds: string[] | undefined, filterItemIds: string[] | undefined
 
   if (filter?.type === 'search' &&
     Platform.OS !== 'web' &&
@@ -25,20 +25,22 @@ export const getItems = (state: RootState, type?: ItemType) => {
       state.itemsUnread.items.filter((iu: Item) => dbItemIds.indexOf(iu._id) !== -1) :
       state.itemsSaved.items.filter((is: Item) => dbItemIds.indexOf(is._id) !== -1)
   } else if (filter?.type === 'category' && filter._id) {
-    filterFeedIds = state.categories.categories.find(c => c._id === filter._id)?.feedIds
+    filterSourceIds = state.categories.categories.find(c => c._id === filter._id)?.sourceIds
     filterItemIds = state.categories.categories.find(c => c._id === filter._id)?.itemIds
   } else if ((filter?.type === 'feed' || filter?.type === 'newsletter') && filter._id) {
-    filterFeedIds = [filter._id]
+    filterSourceIds = [filter._id]
   }
   type = type || state.itemsMeta.display
 
   return type === ItemType.unread ?
-    (filterFeedIds ?
-      state.itemsUnread.items.filter((item: Item) => filterFeedIds?.indexOf(item.feed_id) !== -1) :
+    (filterSourceIds ?
+      state.itemsUnread.items.filter((item: Item) => filterSourceIds?.indexOf(item.feed_id) !== -1) :
       state.itemsUnread.items) :
     (filterItemIds ?
       state.itemsSaved.items.filter((item: Item) => filterItemIds?.indexOf(item._id) !== -1) :
-      state.itemsSaved.items)
+      filterSourceIds ?
+        state.itemsSaved.items.filter((item: Item) => filterSourceIds?.indexOf(item.feed_id) !== -1) :
+        state.itemsSaved.items)
 }
 
 export const getCurrentItem = (state: RootState, type: ItemType) => {

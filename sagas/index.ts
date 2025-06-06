@@ -1,13 +1,13 @@
 import { call, cancel, delay, fork, put, select, takeEvery } from 'redux-saga/effects'
 import { REHYDRATE } from 'redux-persist'
-import { 
+import {
   START_DOWNLOADS,
   STATE_ACTIVE,
-  STATE_INACTIVE, 
+  STATE_INACTIVE,
 } from '../store/config/types'
 import {
-  SET_BACKEND, 
-  type setBackendAction, 
+  SET_BACKEND,
+  type setBackendAction,
   UNSET_BACKEND
 } from '../store/user/types'
 import {
@@ -20,7 +20,7 @@ import {
   SAVE_ITEM,
   SET_TITLE_FONT_SIZE,
   UNSAVE_ITEM,
-  UPDATE_CURRENT_INDEX 
+  UPDATE_CURRENT_INDEX
 } from '../store/items/types'
 import {
   ADD_FEED,
@@ -52,7 +52,7 @@ import { primeAllBackends, primeBackend } from './backend'
 import { unsetBackend } from '../backends'
 import { getConfig, getFeeds, getFeedsLocal, getLastUpdated } from './selectors'
 import { createCategory, deleteCategory, getCategories, updateCategory } from './categories'
-import { ADD_FEED_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
+import { ADD_FEED_TO_CATEGORY, ADD_SOURCE_TO_CATEGORY, CREATE_CATEGORY, DELETE_CATEGORY, REMOVE_FEED_FROM_CATEGORY, REMOVE_SOURCE_FROM_CATEGORY, UPDATE_CATEGORY } from '../store/categories/types'
 import { createAnnotation, deleteAnnotation, updateAnnotation } from './annotations'
 import { setItemTitleFontSize } from './update-item'
 import { Platform } from 'react-native'
@@ -62,7 +62,7 @@ import { TakeableChannel } from 'redux-saga'
 
 let downloadsFork
 
-function * init () {
+function* init() {
   yield primeAllBackends()
 
   // see comment below about START_DOWNLOADS
@@ -71,7 +71,7 @@ function * init () {
   }
 }
 
-function * startDownloads (shouldSleep = false) {
+function* startDownloads(shouldSleep = false) {
   if (shouldSleep) {
     // let the app render and get started
     yield delay(5000)
@@ -97,10 +97,10 @@ function * startDownloads (shouldSleep = false) {
   } catch (e) {
     console.log(e)
     yield put({ type: CLEAR_MESSAGES })
-  }  
+  }
 }
 
-function * killBackend ({ backend }: { backend: string }) {
+function* killBackend({ backend }: { backend: string }) {
   unsetBackend(backend)
   yield put({ type: CLEAR_MESSAGES })
   if (downloadsFork) {
@@ -108,21 +108,21 @@ function * killBackend ({ backend }: { backend: string }) {
   }
 }
 
-function * initBackend (action: setBackendAction) {
+function* initBackend(action: setBackendAction) {
   yield primeBackend(action)
   if (action.backend === 'feedbin' || action.backend === 'reams') {
     yield startDownloads()
   }
 }
 
-export function * initSagas () {
+export function* initSagas() {
   let rehydrated = false
   let authenticated = false
 
   yield takeEvery(REHYDRATE, init)
   yield takeEvery(SET_BACKEND, initBackend)
   yield takeEvery(UNSET_BACKEND, killBackend)
-  
+
   // called by the AuthProvider
   // on non-web, the AuthProvider is behind the PersistGate, so it will be called after rehydration
   // on web, it's all up for grabs - I should investigate why I can't use PersistGate on web
@@ -146,11 +146,11 @@ export function * initSagas () {
   yield takeEvery(UPDATE_CURRENT_INDEX, markLastItemReadIfDecorated)
   yield takeEvery(REMOVE_ITEMS, removeItems)
   yield takeEvery(SAVE_EXTERNAL_URL, saveExternalUrl)
-  
+
   yield takeEvery(DELETE_CATEGORY, deleteCategory)
   yield takeEvery(UPDATE_CATEGORY, updateCategory)
-  yield takeEvery(ADD_FEED_TO_CATEGORY, updateCategory)
-  yield takeEvery(REMOVE_FEED_FROM_CATEGORY, updateCategory)
+  yield takeEvery(ADD_SOURCE_TO_CATEGORY, updateCategory)
+  yield takeEvery(REMOVE_SOURCE_FROM_CATEGORY, updateCategory)
 
   yield takeEvery('annotations/createAnnotation', createAnnotation)
   yield takeEvery('annotations/updateAnnotiation', updateAnnotation)

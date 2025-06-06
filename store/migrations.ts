@@ -24,6 +24,7 @@ export const migrations = {
       name: 'inbox',
       isSystem: true,
       itemIds: [],
+      // @ts-ignore - historical migration with old property
       feedIds: []
     }
     const archiveCategory: Category = {
@@ -31,6 +32,7 @@ export const migrations = {
       name: 'archive',
       isSystem: true,
       itemIds: [],
+      // @ts-ignore - historical migration with old property
       feedIds: []
     }
     const annotatedCategory: Category = {
@@ -38,6 +40,7 @@ export const migrations = {
       name: 'annotated',
       isSystem: true,
       itemIds: [],
+      // @ts-ignore - historical migration with old property
       feedIds: []
     }
     state.itemsSaved.items.forEach((item: Item) => {
@@ -264,6 +267,7 @@ export const migrations = {
     })
     console.log('remapping categories')
     const categories = state.categories.categories.map((c: Category) => {
+      // @ts-ignore - historical migration with old property
       const categoryOldFeedIds = c.feedIds.map(f_id => oldFeedIds.find((ofi) => ofi._id === f_id))
       const newFeedIds = categoryOldFeedIds.map((cofid) => feeds.find((f: Feed) => f.url === cofid?.url))
       return {
@@ -315,6 +319,7 @@ export const migrations = {
     const categories = state.categories.categories.map((c: Category) => {
       return {
         ...c,
+        // @ts-ignore - historical migration with old property
         feedIds: c.feedIds,
         feeds: undefined
       }
@@ -333,6 +338,24 @@ export const migrations = {
       ...state,
       hostColors: {
         hostColors: []
+      }
+    }
+  },
+  16: (state: RootState) => {
+    // convert feedIds to sourceIds in categories
+    const categories = state.categories.categories.map((c: Category) => {
+      return {
+        ...c,
+        // @ts-ignore - historical migration converting old property
+        sourceIds: c.feedIds || [],
+        feedIds: undefined
+      }
+    })
+    return {
+      ...state,
+      categories: {
+        ...state.categories,
+        categories
       }
     }
   }

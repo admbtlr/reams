@@ -8,10 +8,10 @@ declare namespace ReactNavigation {
     Settings: undefined;
     Feed: { isSaved?: boolean };
     Items: {
-      feedCardHeight?: number;
-      feedCardWidth?: number;
-      feedCardX?: number;
-      feedCardY?: number;
+      sourceCardHeight?: number;
+      sourceCardWidth?: number;
+      sourceCardX?: number;
+      sourceCardY?: number;
       toItems?: boolean;
     };
     Highlights: undefined;

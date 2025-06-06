@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import Svg, { Circle, Path } from 'react-native-svg'
 import TextButton from './TextButton'
-import SwitchRow from './SwitchRow'
+import { SwitchRow } from './SwitchRow'
 import { hslString } from '../utils/colors'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
@@ -18,31 +18,17 @@ import { useDispatch } from 'react-redux'
 import { dustbinIcon, xIcon } from '../utils/icons'
 import CategoryToggles from './CategoryToggles'
 import { CLEAR_READ_ITEMS, SORT_ITEMS } from '../store/items/types'
-import { LIKE_FEED_TOGGLE, MARK_FEED_READ, MERCURY_FEED_TOGGLE, MUTE_FEED_TOGGLE, REMOVE_FEED } from '../store/feeds/types'
+import { Source, LIKE_SOURCE_TOGGLE, MARK_FEED_READ, MERCURY_SOURCE_TOGGLE, MUTE_SOURCE_TOGGLE, REMOVE_FEED } from '../store/feeds/types'
 import { useNavigation } from '@react-navigation/native'
 import type { NavigationProp } from '@react-navigation/native'
+import { ExtendedSource } from './SourceExpanded'
 
-interface Feed {
-  _id: string
-  title: string
-  color: string
-  isLiked: boolean
-  isMuted: boolean
-  isMercury: boolean
-  readingTime: number
-  numRead: number
-  iconDimensions?: {
-    width: number
-    height: number
-  }
-}
-
-interface FeedStatsProps {
-  feed: Feed
+interface SourceStatsProps {
+  source: ExtendedSource
 }
 
 interface SourceDetailsProps {
-  feed: Feed
+  source: Source
 }
 
 const compactButtons = !hasNotchOrIsland() && !isIpad()
@@ -57,21 +43,12 @@ const createTimeString = (seconds: number): string => {
       seconds + ' seconds')
 }
 
-export const SourceStats: React.FC<FeedStatsProps> = ({ feed }) => {
-  const screenWidth = Dimensions.get('window').width
-  const margin = screenWidth * 0.03
-  const totalReadingTime = createTimeString(feed.readingTime)
-  const avgReadingTime = createTimeString(Math.round(feed.readingTime / feed.numRead))
+export const SourceStats: React.FC<SourceStatsProps> = ({ source }) => {
+  const avgReadingTime = source.readingTime && source.readingTime > 0 ?
+    createTimeString(Math.round(source.readingTime / source.numRead)) :
+    null
 
-  const bold = {
-    fontFamily: 'IBMPlexSans-Bold',
-    // color: hslString(feed.color, 'darkmodable')
-  }
-  const italic = {
-    fontFamily: 'IBMPlexSans-LightItalic'
-  }
-
-  if (feed.numRead === 0) return null
+  if (source.numRead === 0) return null
 
   return (
     <Text style={{
@@ -82,8 +59,8 @@ export const SourceStats: React.FC<FeedStatsProps> = ({ feed }) => {
       // fontFamily: 'IBMPlexSans-Light',
       // marginBottom: margin,
       // textAlign: 'left'
-    }}> • You've read {feed.numRead} {feed.numRead === 1 ? 'story' : 'stories'} from <Text style={{ fontFamily: 'IBMPlexSans-Bold' }}>{feed.title}</Text>
-      {feed.numRead > 0 && avgReadingTime && avgReadingTime > 0 &&
+    }}> • You've read {source.numRead} {source.numRead === 1 ? 'story' : 'stories'} from <Text style={{ fontFamily: 'IBMPlexSans-Bold' }}>{source.title}</Text>
+      {source.numRead > 0 && avgReadingTime &&
         <Text>. It takes you an average of {avgReadingTime} to read each story
         </Text>
       }.
@@ -91,47 +68,47 @@ export const SourceStats: React.FC<FeedStatsProps> = ({ feed }) => {
 
 }
 
-const SourceDetails: React.FC<SourceDetailsProps> = ({ feed }) => {
-  const [isLiked, setLiked] = useState<boolean>(feed.isLiked)
-  const [isMuted, setMuted] = useState<boolean>(feed.isMuted)
-  const [isMercury, setMercury] = useState<boolean>(feed.isMercury)
+const SourceDetails: React.FC<SourceDetailsProps> = ({ source }) => {
+  const [isLiked, setLiked] = useState<boolean>(!!source.isLiked)
+  const [isMuted, setMuted] = useState<boolean>(!!source.isMuted)
+  const [isMercury, setMercury] = useState<boolean>(!!source.isMercury)
 
   const navigation = useNavigation<NavigationProp<any>>()
   const dispatch = useDispatch()
 
-  const markAllRead = (feed: Feed, olderThan?: number) => dispatch({
+  const markAllRead = (source: Source, olderThan?: number) => dispatch({
     type: MARK_FEED_READ,
-    feed,
+    source,
     olderThan: olderThan || Date.now()
   })
   const clearReadItems = () => dispatch({
     type: CLEAR_READ_ITEMS
   })
-  const unsubscribe = (feed: Feed) => dispatch({
+  const unsubscribe = (source: Source) => dispatch({
     type: REMOVE_FEED,
-    feed
+    source
   })
-  const toggleMute = (feed: Feed) => {
+  const toggleMute = (source: Source) => {
     dispatch({
-      type: MUTE_FEED_TOGGLE,
-      feed
+      type: MUTE_SOURCE_TOGGLE,
+      source
     })
     dispatch({
       type: CLEAR_READ_ITEMS
     })
   }
-  const toggleLike = (feed: Feed) => {
+  const toggleLike = (source: Source) => {
     dispatch({
-      type: LIKE_FEED_TOGGLE,
-      feed
+      type: LIKE_SOURCE_TOGGLE,
+      source
     })
     dispatch({
       type: SORT_ITEMS
     })
   }
-  const toggleMercury = (feed: Feed) => dispatch({
-    type: MERCURY_FEED_TOGGLE,
-    feed
+  const toggleMercury = (source: Source) => dispatch({
+    type: MERCURY_SOURCE_TOGGLE,
+    source
   })
 
   const screenWidth = Dimensions.get('window').width
@@ -200,8 +177,6 @@ const SourceDetails: React.FC<SourceDetailsProps> = ({ feed }) => {
       true)}
   </View>
 
-  const { iconDimensions } = feed
-
   return (
     <View style={{
       justifyContent: 'flex-start',
@@ -219,7 +194,7 @@ const SourceDetails: React.FC<SourceDetailsProps> = ({ feed }) => {
           height: 60 * fontSizeMultiplier()
 
         }}>
-          <CategoryToggles feed={feed} />
+          <CategoryToggles source={source} isWhite={false} />
           {/* <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -244,18 +219,20 @@ const SourceDetails: React.FC<SourceDetailsProps> = ({ feed }) => {
             icon={mercuryIcon}
             onValueChange={() => {
               setMercury(!isMercury)
-              toggleMercury(feed)
+              toggleMercury(source)
             }}
+            testID='switchrow-mercury'
             value={isMercury} />
           <SwitchRow
-            label='Mute this feed'
+            label='Mute this source'
             icon={muteIcon}
             onValueChange={() => {
               setMuted(!isMuted)
               setTimeout(() => {
-                toggleMute(feed)
+                toggleMute(source)
               }, 100)
             }}
+            testID='switchrow-mute'
             value={isMuted} />
           <SwitchRow
             icon={likeIcon}
@@ -263,10 +240,11 @@ const SourceDetails: React.FC<SourceDetailsProps> = ({ feed }) => {
             onValueChange={() => {
               setLiked(!isLiked)
               setTimeout(() => {
-                toggleLike(feed)
+                toggleLike(source)
               }, 100)
             }}
             help='Stories will always appear at the front of your unread list'
+            testID='switchrow-like'
             value={isLiked} />
         </View>
         <View style={{
@@ -290,7 +268,7 @@ const SourceDetails: React.FC<SourceDetailsProps> = ({ feed }) => {
             noResize={true}
             onPress={() => {
               navigation.goBack()
-              unsubscribe(feed)
+              unsubscribe(source)
               clearReadItems()
             }}
             text='Unsubscribe' />
@@ -304,7 +282,7 @@ const SourceDetails: React.FC<SourceDetailsProps> = ({ feed }) => {
             noResize={true}
             onPress={() => {
               setTimeout(() => {
-                markAllRead(feed)
+                markAllRead(source)
               }, 100)
             }}
             text='Discard stories' />

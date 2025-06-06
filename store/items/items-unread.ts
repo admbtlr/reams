@@ -9,8 +9,8 @@ import {
 import {
   REMOVE_FEED,
   UPDATE_FEED,
-  MUTE_FEED_TOGGLE,
-  LIKE_FEED_TOGGLE,
+  MUTE_SOURCE_TOGGLE,
+  LIKE_SOURCE_TOGGLE,
   FeedActionTypes
 } from '../feeds/types'
 import {
@@ -172,12 +172,12 @@ export function itemsUnread(
         index
       }
 
-    case MUTE_FEED_TOGGLE:
+    case MUTE_SOURCE_TOGGLE:
       items = [...state.items]
-      // if there are any items from this feed, we must be toggling mute ON
+      // if there are any items from this source, we must be toggling mute ON
       return {
         ...state,
-        items: items.filter(item => item.feed_id !== action.feed._id)
+        items: items.filter(item => item.feed_id !== action.source._id)
       }
 
     case SET_LAST_UPDATED:

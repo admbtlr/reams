@@ -27,7 +27,7 @@ import log from "../../utils/log";
 import { ADD_MESSAGE, REMOVE_MESSAGE } from "../ui/types";
 import { decode } from "html-entities";
 import { NUDGE_FREQUENCY } from "../../components/Nudge";
-import { DEACTIVATE_NUDGE, Feed, PAUSE_NUDGE } from "../feeds/types";
+import { DEACTIVATE_NUDGE, Feed, PAUSE_NUDGE, LIKE_SOURCE_TOGGLE, MUTE_SOURCE_TOGGLE, MERCURY_SOURCE_TOGGLE } from "../feeds/types";
 
 export const createNewsletter = createAsyncThunk(
   'newsletters/createNewsletter',
@@ -214,6 +214,27 @@ const newslettersSlice = createSlice({
       const n = state.newsletters.find(n => n._id === action.sourceId)
       if (n) {
         n.isNudgeActive = false
+      }
+    })
+    builder.addCase(LIKE_SOURCE_TOGGLE, (state, action) => {
+      //@ts-ignore
+      const n = state.newsletters.find(n => n._id === action.source._id)
+      if (n) {
+        n.isLiked = !!!n.isLiked
+      }
+    })
+    builder.addCase(MUTE_SOURCE_TOGGLE, (state, action) => {
+      //@ts-ignore
+      const n = state.newsletters.find(n => n._id === action.source._id)
+      if (n) {
+        n.isMuted = !!!n.isMuted
+      }
+    })
+    builder.addCase(MERCURY_SOURCE_TOGGLE, (state, action) => {
+      //@ts-ignore
+      const n = state.newsletters.find(n => n._id === action.source._id)
+      if (n) {
+        n.isMercury = !!!n.isMercury
       }
     })
   }

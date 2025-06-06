@@ -17,6 +17,7 @@ export interface Source {
   isLiked?: boolean
   isMuted?: boolean
   isMercury?: boolean
+  isNewsletter?: boolean
   isNudgeActive?: boolean
   nextNudge?: number | null
   subscribeUrl?: string | null
@@ -62,12 +63,12 @@ export const REMOVE_FEED = 'REMOVE_FEED'
 export const REMOVE_FEEDS = 'REMOVE_FEEDS'
 export const UPDATE_FEEDS = 'UPDATE_FEEDS'
 export const UPDATE_FEED = 'UPDATE_FEED'
-export const LIKE_FEED_TOGGLE = 'LIKE_FEED_TOGGLE'
+export const LIKE_SOURCE_TOGGLE = 'LIKE_SOURCE_TOGGLE'
 export const UNLIKE_FEED = 'UNLIKE_FEED'
-export const MUTE_FEED_TOGGLE = 'MUTE_FEED_TOGGLE'
+export const MUTE_SOURCE_TOGGLE = 'MUTE_SOURCE_TOGGLE'
 export const UNMUTE_FEED = 'UNMUTE_FEED'
 export const MARK_FEED_READ = 'MARK_FEED_READ'
-export const MERCURY_FEED_TOGGLE = 'MERCURY_FEED_TOGGLE'
+export const MERCURY_SOURCE_TOGGLE = 'MERCURY_SOURCE_TOGGLE'
 
 export const CACHE_FEED_ICON_ERROR = 'CACHE_FEED_ICON_ERROR'
 export const SET_CACHED_FEED_ICON = 'SET_CACHED_FEED_ICON'
@@ -117,9 +118,9 @@ interface updateFeedAction {
   feed: Feed
 }
 
-interface likeFeedToggleAction {
-  type: typeof LIKE_FEED_TOGGLE
-  feed: Feed
+interface likeSourceToggleAction {
+  type: typeof LIKE_SOURCE_TOGGLE
+  source: Source
 }
 
 interface unlikeFeedAction {
@@ -127,9 +128,9 @@ interface unlikeFeedAction {
   feed: Feed
 }
 
-interface muteFeedToggleAction {
-  type: typeof MUTE_FEED_TOGGLE
-  feed: Feed
+interface muteSourceToggleAction {
+  type: typeof MUTE_SOURCE_TOGGLE
+  source: Source
 }
 
 interface unmuteFeedAction {
@@ -137,9 +138,9 @@ interface unmuteFeedAction {
   feed: Feed
 }
 
-interface mercuryFeedToggleAction {
-  type: typeof MERCURY_FEED_TOGGLE
-  feed: Feed
+interface mercurySourceToggleAction {
+  type: typeof MERCURY_SOURCE_TOGGLE
+  source: Source
 }
 
 interface markFeedReadAction {
@@ -191,11 +192,11 @@ export type FeedActionTypes = addFeedsToStoreAction |
   updateFeedsAction |
   setFeedsAction |
   updateFeedAction |
-  likeFeedToggleAction |
+  likeSourceToggleAction |
   unlikeFeedAction |
-  muteFeedToggleAction |
+  muteSourceToggleAction |
   unmuteFeedAction |
-  mercuryFeedToggleAction |
+  mercurySourceToggleAction |
   markFeedReadAction |
   cacheFeedIconErrorAction |
   setCachedFeedIconAction |

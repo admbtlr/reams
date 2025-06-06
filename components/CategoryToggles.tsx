@@ -10,34 +10,36 @@ import { ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'
 import { Category as CategoryType } from '../store/categories/types'
-import { Feed } from '../store/feeds/types'
+import { Source } from '../store/feeds/types'
 import { useModal } from './ModalProvider'
 import debounce from 'lodash.debounce'
 import { 
   createCategory as createCategoryAction,
   updateCategory as updateCategoryAction 
 } from '../store/categories/categoriesSlice'
+import { ThunkDispatch } from 'redux-thunk'
+import { Action } from 'redux'
 
 interface CategoryTogglesProps {
-  feed?: Feed
+  source?: Source
   isWhite: boolean
   item?: Item
 }
 
-export default function CategoryToggles({ feed, isWhite, item }: CategoryTogglesProps) {
-  const dispatch = useDispatch()
+export default function CategoryToggles({ source, isWhite, item }: CategoryTogglesProps) {
+  const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>()
   const [isExpanded, setIsExpanded] = useState(false)
   const categories = useSelector((state: RootState) => state.categories.categories)
   const usedCategories = categories
     .filter(c => !c.isSystem && 
-      (!!item ? c.itemIds?.includes(item._id) : feed && c.feedIds?.includes(feed._id)))
+      (!!item ? c.itemIds?.includes(item._id) : source && c.sourceIds?.includes(source._id)))
     .sort((a, b) => a.name.localeCompare(b.name))
   const unusedCategories = categories
     .filter(c => !c.isSystem && 
-      (!!item ? !c.itemIds?.includes(item._id) : feed && !c.feedIds?.includes(feed._id)))
+      (!!item ? !c.itemIds?.includes(item._id) : source && !c.sourceIds?.includes(source._id)))
     .sort((a, b) => a.name.localeCompare(b.name))
   
-  const getTouchableCategory = (category: CategoryType, feedId: string | undefined, isActive: boolean, itemId: string | undefined, key: number) => {
+  const getTouchableCategory = (category: CategoryType, sourceId: string | undefined, isActive: boolean, itemId: string | undefined, key: number) => {
     const pulseValue = new Animated.Value(1, { useNativeDriver: true })
     const pulseLoop = Animated.loop(
       Animated.sequence([
@@ -66,15 +68,15 @@ export default function CategoryToggles({ feed, isWhite, item }: CategoryToggles
           onPress={() => {
             pulseLoop.start()
             debounce(() => {
-              !!feedId ? (
+              if (sourceId) {
                 isActive ?
-                  dispatch(updateCategoryAction({ ...category, feedIds: category.feedIds.filter(f => f !== feedId) }) ) :
-                  dispatch(updateCategoryAction({ ...category, feedIds: [...category.feedIds, feedId] }) )
-              ) : (
+                  dispatch(updateCategoryAction({ ...category, sourceIds: category.sourceIds.filter(s => s !== sourceId) }) ) :
+                  dispatch(updateCategoryAction({ ...category, sourceIds: [...category.sourceIds, sourceId] }) )
+              } else if (itemId) {
                 isActive ?
                   dispatch(updateCategoryAction({ ...category, itemIds: category.itemIds.filter(i => i !== itemId) }) ) :
                   dispatch(updateCategoryAction({ ...category, itemIds: [...category.itemIds, itemId] }) )
-              )
+              }
             }, 1000)()
           }}
           style={{
@@ -111,14 +113,14 @@ export default function CategoryToggles({ feed, isWhite, item }: CategoryToggles
           getRizzleButtonIcon('tag', isWhite ? 'white' : hslString('rizzleText'), 'white', true, false, 0.75) 
         }
         { usedCategories.map((c, index) => 
-          getTouchableCategory(c, feed?._id, true, item?._id, index)
+          getTouchableCategory(c, source?._id, true, item?._id, index)
         )}
         { isExpanded ? (
             <>
               {unusedCategories.map((c, index) => (
-                getTouchableCategory(c, feed?._id, false, item?._id, index + 10000)
+                getTouchableCategory(c, source?._id, false, item?._id, index + 10000)
               ))}
-              <AddCategory isWhite={isWhite} feed={feed} item={item} />
+              <AddCategory isWhite={isWhite} source={source} item={item} />
             </>
           ) : (
             <TouchableOpacity onPress={() => setIsExpanded(true) }>
@@ -180,22 +182,23 @@ function Category ({ name, isActive, isWhite, isAdd, isItalic }: CategoryProps) 
   )
 }
 
-const AddCategory = ({ feed, isWhite, item }: { feed: Feed | undefined, isWhite: boolean, item: Item | undefined }) => {
+const AddCategory = ({ source, isWhite, item }: { source: Source | undefined, isWhite: boolean, item: Item | undefined }) => {
   const { openModal } = useModal()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>()
   const createCategory = (name: string) => {
     const category = {
       _id: id() as string,
       name,
       isSystem: false,
-      feedIds: [],
+      sourceIds: [],
       itemIds: []
     }
     dispatch(createCategoryAction(category))
-    dispatch(feed ? 
-      updateCategoryAction({ ...category, feedIds: [...category.feedIds, feed._id] }) : 
-      updateCategoryAction({ ...category, itemIds: [...category.itemIds, item._id] })
-    )
+    if (source) {
+      dispatch(updateCategoryAction({ ...category, sourceIds: [...category.sourceIds, source._id] }))
+    } else if (item) {
+      dispatch(updateCategoryAction({ ...category, itemIds: [...category.itemIds, item._id] }))
+    }
   }
   const showAddCategory = () => {
     const modalText = [
