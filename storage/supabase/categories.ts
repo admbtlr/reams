@@ -19,7 +19,6 @@ export const getCategories = async (): Promise<Category[]> => {
   }
   const categories = data === null ? [] : data as Category[]
   for (const category of categories) {
-    const sourceIds = await getSourceIdsForCategory(category)
     // For now, treat all sourceIds as feedIds since we don't have separate tables
     category.feedIds = await getFeedIdsForCategory(category)
     category.newsletterIds = await getNewsletterIdsForCategory(category)

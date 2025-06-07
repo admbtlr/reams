@@ -191,7 +191,7 @@ const RizzleModal = () => {
     if (deletableRows && !deepEqual(deletableRows, inputState.deletableRows)) {
       setInputState({ deletableRows })
     }
-  }, modalProps?.deletableRows)
+  }, modalProps?.deletableRows || [])
 
   if (hiddenModals && modalProps?.modalName && hiddenModals.indexOf(modalProps.modalName) !== -1) {
     return null
