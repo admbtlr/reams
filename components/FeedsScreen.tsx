@@ -148,7 +148,8 @@ function FeedsScreen({ route }) {
       _id: id() as string,
       name,
       isSystem: false,
-      sourceIds: [],
+      feedIds: [],
+      newsletterIds: [],
       itemIds: []
     }
     return dispatch(createCategoryAction(category))
@@ -212,7 +213,7 @@ function FeedsScreen({ route }) {
       []
 
     const catCards = categories ?
-      categories.filter((c: Category) => (isSaved && c.itemIds?.length > 0) || (!isSaved && c.sourceIds?.length > 0))
+      categories.filter((c: Category) => (isSaved && c.itemIds?.length > 0) || (!isSaved && (c.feedIds?.length > 0 || c.newsletterIds?.length > 0)))
         .sort((a, b) => a.name < b.name ? -1 : 1).map(category => ({
           _id: category._id,
           type: 'category',

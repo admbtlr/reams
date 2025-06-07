@@ -19,7 +19,8 @@ export interface Category {
   _id: string
   name: string
   isSystem?: boolean
-  sourceIds: string[] // source ids for feeds and newsletters
+  feedIds: string[] // feed ids
+  newsletterIds: string[] // newsletter ids
   itemIds: string[]
 }
 
@@ -49,12 +50,14 @@ interface addSourceToCategory {
   type: typeof ADD_SOURCE_TO_CATEGORY
   categoryId: string
   sourceId: string
+  isNewsletter?: boolean
 }
 
 interface removeSourceFromCategory {
   type: typeof REMOVE_SOURCE_FROM_CATEGORY
   categoryId: string
   sourceId: string
+  isNewsletter?: boolean
 }
 
 interface addItemToCategory {

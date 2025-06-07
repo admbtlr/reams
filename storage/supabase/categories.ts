@@ -2,7 +2,7 @@ import { doQuery, getUserId, supabase } from '.'
 import { Category } from '../../store/categories/types'
 import { Source } from '../../store/feeds/types'
 import { Item } from '../../store/items/types'
-import { id as createId, pgTimestamp} from '../../utils'
+import { id as createId, pgTimestamp } from '../../utils'
 
 export const getCategories = async (): Promise<Category[]> => {
   const userId = await getUserId()
@@ -12,14 +12,17 @@ export const getCategories = async (): Promise<Category[]> => {
   const fn = async () => await supabase
     .from('Category')
     .select('*')
-    .eq('user_id', userId) 
-  const {data, error} = await doQuery(fn)
+    .eq('user_id', userId)
+  const { data, error } = await doQuery(fn)
   if (error) {
     throw error
   }
   const categories = data === null ? [] : data as Category[]
   for (const category of categories) {
-    category.sourceIds = await getSourceIdsForCategory(category)
+    const sourceIds = await getSourceIdsForCategory(category)
+    // For now, treat all sourceIds as feedIds since we don't have separate tables
+    category.feedIds = await getFeedIdsForCategory(category)
+    category.newsletterIds = await getNewsletterIdsForCategory(category)
     category.itemIds = await getItemIdsForCategory(category)
   }
   return categories
@@ -32,7 +35,7 @@ export const addCategory = async (category: Category) => {
   }
   const fn = async () => await supabase
     .from('Category')
-    .insert({ 
+    .insert({
       _id: category._id,
       name: category.name,
       user_id: userId
@@ -65,9 +68,9 @@ export const updateCategory = async (category: Category) => {
   if (!userId) {
     throw new Error('No user id')
   }
-  const fn = async () => await supabase
+  let fn = async () => await supabase
     .from('Category')
-    .update({ 
+    .update({
       name: category.name,
       user_id: userId
     })
@@ -76,7 +79,19 @@ export const updateCategory = async (category: Category) => {
   if (error) {
     throw error
   }
-  await setSourceIdsForCategory(category)
+
+  // remove all item, feed and newsletter references and reinsert
+  fn = async () => await supabase
+    .from('Category_Feed')
+    .delete()
+    .eq('category_id', category._id)
+  const { error: deleteError } = await doQuery(fn)
+  if (deleteError) {
+    throw deleteError
+  }
+
+  await setFeedIdsForCategory(category)
+  await setNewsletterIdsForCategory(category)
   await setItemIdsForCategory(category)
   return category
 }
@@ -104,7 +119,7 @@ export const addSourceToCategory = async (sourceId: string, category: Category) 
   }
   const fn = async () => await supabase
     .from('Category_Feed')
-    .insert({ 
+    .insert({
       category_id: category._id,
       feed_id: sourceId
     })
@@ -121,7 +136,7 @@ export const addItemToCategory = async (item: Item, category: Category) => {
   }
   const fn = async () => await supabase
     .from('Category_Item')
-    .insert({ 
+    .insert({
       category_id: category._id,
       item_id: item._id
     })
@@ -180,7 +195,7 @@ export const setItemIdsForCategory = async (category: Category) => {
   return category
 }
 
-export const setSourceIdsForCategory = async (category: Category) => {
+export const setFeedIdsForCategory = async (category: Category) => {
   const fn = async () => await supabase
     .from('Category_Feed')
     .delete()
@@ -189,10 +204,10 @@ export const setSourceIdsForCategory = async (category: Category) => {
   if (error) {
     throw error
   }
-  if (category.sourceIds) {
+  if (category.feedIds.length > 0) {
     const fn = async () => await supabase
       .from('Category_Feed')
-      .insert(category.sourceIds.map(feed_id => ({ category_id: category._id, feed_id })))
+      .insert(category.feedIds.map(feed_id => ({ category_id: category._id, feed_id })))
     const { error: insertError } = await doQuery(fn)
     if (insertError) {
       throw insertError
@@ -201,7 +216,20 @@ export const setSourceIdsForCategory = async (category: Category) => {
   return category
 }
 
-export const getSourceIdsForCategory = async (category: Category) => {
+export const setNewsletterIdsForCategory = async (category: Category) => {
+  if (category.newsletterIds.length > 0) {
+    const fn = async () => await supabase
+      .from('Category_Feed')
+      .insert(category.newsletterIds.map(newsletter_id => ({ category_id: category._id, newsletter_id })))
+    const { error: insertError } = await doQuery(fn)
+    if (insertError) {
+      throw insertError
+    }
+  }
+  return category
+}
+
+export const getFeedIdsForCategory = async (category: Category) => {
   const fn = async () => await supabase
     .from('Category_Feed')
     .select('feed_id')
@@ -211,4 +239,16 @@ export const getSourceIdsForCategory = async (category: Category) => {
     throw error
   }
   return data === null || !Array.isArray(data) ? [] : data.map(d => d.feed_id) as string[]
+}
+
+export const getNewsletterIdsForCategory = async (category: Category) => {
+  const fn = async () => await supabase
+    .from('Category_Feed')
+    .select('newsletter_id')
+    .eq('category_id', category._id)
+  const { data, error } = await doQuery(fn)
+  if (error) {
+    throw error
+  }
+  return data === null || !Array.isArray(data) ? [] : data.map(d => d.newsletter_id) as string[]
 }

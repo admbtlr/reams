@@ -49,7 +49,11 @@ const SourceExpanded: React.FC<SourceExpandedProps> = ({ route }) => {
   const sourceId = route?.params?.source?._id || route?.params?.sourceId
   const source = useSelector((state: RootState) => {
     const baseSource = state.feeds.feeds.find(f => f._id === sourceId) ??
-      state.newsletters.newsletters.find(n => n._id === sourceId)
+    {
+      ...state.newsletters.newsletters.find(n => n._id === sourceId),
+      isNewsletter: true
+    }
+
     const items = state.itemsUnread.items
     // const feedLocal = state.feedsLocal.feeds.find(f => f._id === feedId)
     const sourceItems = items.filter(i => i.feed_id === sourceId)

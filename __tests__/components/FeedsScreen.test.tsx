@@ -141,9 +141,9 @@ const createMockState = (hasFeeds = true) => ({
   },
   categories: {
     categories: [
-      { _id: 'cat-1', name: 'Category 1', isSystem: false, sourceIds: ['feed-1'], itemIds: [] },
-      { _id: 'cat-2', name: 'Category 2', isSystem: false, sourceIds: ['feed-2'], itemIds: [] },
-      { _id: 'system-cat', name: 'System Category', isSystem: true, sourceIds: [], itemIds: [] }
+      { _id: 'cat-1', name: 'Category 1', isSystem: false, feedIds: ['feed-1'], newsletterIds: [], itemIds: [] },
+      { _id: 'cat-2', name: 'Category 2', isSystem: false, feedIds: ['feed-2'], newsletterIds: [], itemIds: [] },
+      { _id: 'system-cat', name: 'System Category', isSystem: true, feedIds: [], newsletterIds: [], itemIds: [] }
     ]
   },
   config: {

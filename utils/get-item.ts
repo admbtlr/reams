@@ -25,7 +25,8 @@ export const getItems = (state: RootState, type?: ItemType) => {
       state.itemsUnread.items.filter((iu: Item) => dbItemIds.indexOf(iu._id) !== -1) :
       state.itemsSaved.items.filter((is: Item) => dbItemIds.indexOf(is._id) !== -1)
   } else if (filter?.type === 'category' && filter._id) {
-    filterSourceIds = state.categories.categories.find(c => c._id === filter._id)?.sourceIds
+    const category = state.categories.categories.find(c => c._id === filter._id)
+    filterSourceIds = category ? [...(category.feedIds || []), ...(category.newsletterIds || [])] : []
     filterItemIds = state.categories.categories.find(c => c._id === filter._id)?.itemIds
   } else if ((filter?.type === 'feed' || filter?.type === 'newsletter') && filter._id) {
     filterSourceIds = [filter._id]

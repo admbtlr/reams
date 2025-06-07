@@ -64,21 +64,24 @@ const initialState: CategoriesState = {
       _id: 'annotated',
       name: 'annotated',
       isSystem: true,
-      sourceIds: [],
+      feedIds: [],
+      newsletterIds: [],
       itemIds: []
     },
     {
       _id: 'inbox',
       name: 'inbox',
       isSystem: true,
-      sourceIds: [],
+      feedIds: [],
+      newsletterIds: [],
       itemIds: []
     },
     {
       _id: 'archive',
       name: 'archive',
       isSystem: true,
-      sourceIds: [],
+      feedIds: [],
+      newsletterIds: [],
       itemIds: []
     }
   ],

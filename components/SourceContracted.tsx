@@ -15,7 +15,8 @@ import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback'
 import {
-  Feed
+  Feed,
+  Newsletter
 } from '../store/feeds/types'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_FILTER } from '../store/config/types'
@@ -105,7 +106,7 @@ function SourceContracted({
   )
   let source: Feed | undefined,
     numItems: number | undefined,
-    categoryFeeds: (Feed | undefined)[] = [],
+    categoryFeeds: (Feed | Newsletter | undefined)[] = [],
     categoryItems: (ThinItem | undefined)[] = [],
     cachedIconDimensions: { width: number, height: number } | undefined
   if (type === 'feed') {
@@ -144,16 +145,19 @@ function SourceContracted({
         : []
       numItems = categoryItems.length
     } else {
-      const categorySourceIds: string[] = category ? category.sourceIds : [] // note that these are source_ids
+      const categoryFeedIds: string[] = category ? category.feedIds : []
+      const categoryNewsletterIds: string[] = category ? category.newsletterIds : []
+      const allCategorySourceIds = [...categoryFeedIds, ...categoryNewsletterIds]
       categoryItems = unreadThinItems
         .filter(
-          (i) => categorySourceIds.find((cf) => cf === i.feed_id) !== undefined
+          (i) => allCategorySourceIds.find((cf) => cf === i.feed_id) !== undefined
         )
         .filter((i) => !i.readAt)
       numItems = categoryItems.length
-      categoryFeeds = categorySourceIds.map((cfi) =>
-        feeds.find((f) => f._id === cfi)
-      )
+      categoryFeeds = [
+        ...categoryFeedIds.map((cfi) => feeds.find((f) => f._id === cfi)),
+        ...categoryNewsletterIds.map((cni) => newsletters.find((n) => n._id === cni))
+      ]
       cachedIconDimensions = feedsLocal.find(
         (fl) => fl._id === categoryFeeds[0]?._id
       )?.cachedIconDimensions
@@ -274,7 +278,7 @@ function SourceContracted({
             style: ['title'],
           },
           {
-            text: 'Add sources to this tag by editing each source individually',
+            text: 'Add feeds and newsletters to this tag by editing each source individually',
             style: ['hint'],
           },
         ]
@@ -308,7 +312,8 @@ function SourceContracted({
               _id: category?._id || '',
               itemIds: category?.itemIds || [],
               name: state.categoryName || category?.name,
-              sourceIds: state.deletableRows.map((dr: Feed) => dr._id),
+              feedIds: state.deletableRows.filter((dr: Feed) => !dr.isNewsletter).map((dr: Feed) => dr._id),
+              newsletterIds: state.deletableRows.filter((dr: Feed) => dr.isNewsletter).map((dr: Feed) => dr._id),
             })
           },
         })

@@ -213,16 +213,18 @@ const SourceDetails: React.FC<SourceDetailsProps> = ({ source }) => {
           flex: 0,
           width: '100%'
         }}>
-          <SwitchRow
-            label='Always show full text view'
-            help='Show the full text of the story instead of the (possibly truncated) RSS version'
-            icon={mercuryIcon}
-            onValueChange={() => {
-              setMercury(!isMercury)
-              toggleMercury(source)
-            }}
-            testID='switchrow-mercury'
-            value={isMercury} />
+          {!source.isNewsletter &&
+            <SwitchRow
+              label='Always show full text view'
+              help='Show the full text of the story instead of the (possibly truncated) RSS version'
+              icon={mercuryIcon}
+              onValueChange={() => {
+                setMercury(!isMercury)
+                toggleMercury(source)
+              }}
+              testID='switchrow-mercury'
+              value={isMercury} />
+          }
           <SwitchRow
             label='Mute this source'
             icon={muteIcon}

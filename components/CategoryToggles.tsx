@@ -32,11 +32,13 @@ export default function CategoryToggles({ source, isWhite, item }: CategoryToggl
   const categories = useSelector((state: RootState) => state.categories.categories)
   const usedCategories = categories
     .filter(c => !c.isSystem && 
-      (!!item ? c.itemIds?.includes(item._id) : source && c.sourceIds?.includes(source._id)))
+      (!!item ? c.itemIds?.includes(item._id) : 
+        source && (source.isNewsletter ? c.newsletterIds?.includes(source._id) : c.feedIds?.includes(source._id))))
     .sort((a, b) => a.name.localeCompare(b.name))
   const unusedCategories = categories
     .filter(c => !c.isSystem && 
-      (!!item ? !c.itemIds?.includes(item._id) : source && !c.sourceIds?.includes(source._id)))
+      (!!item ? !c.itemIds?.includes(item._id) : 
+        source && !(source.isNewsletter ? c.newsletterIds?.includes(source._id) : c.feedIds?.includes(source._id))))
     .sort((a, b) => a.name.localeCompare(b.name))
   
   const getTouchableCategory = (category: CategoryType, sourceId: string | undefined, isActive: boolean, itemId: string | undefined, key: number) => {
@@ -69,9 +71,15 @@ export default function CategoryToggles({ source, isWhite, item }: CategoryToggl
             pulseLoop.start()
             debounce(() => {
               if (sourceId) {
-                isActive ?
-                  dispatch(updateCategoryAction({ ...category, sourceIds: category.sourceIds.filter(s => s !== sourceId) }) ) :
-                  dispatch(updateCategoryAction({ ...category, sourceIds: [...category.sourceIds, sourceId] }) )
+                if (source?.isNewsletter) {
+                  isActive ?
+                    dispatch(updateCategoryAction({ ...category, newsletterIds: category.newsletterIds.filter(s => s !== sourceId) }) ) :
+                    dispatch(updateCategoryAction({ ...category, newsletterIds: [...category.newsletterIds, sourceId] }) )
+                } else {
+                  isActive ?
+                    dispatch(updateCategoryAction({ ...category, feedIds: category.feedIds.filter(s => s !== sourceId) }) ) :
+                    dispatch(updateCategoryAction({ ...category, feedIds: [...category.feedIds, sourceId] }) )
+                }
               } else if (itemId) {
                 isActive ?
                   dispatch(updateCategoryAction({ ...category, itemIds: category.itemIds.filter(i => i !== itemId) }) ) :
@@ -190,12 +198,17 @@ const AddCategory = ({ source, isWhite, item }: { source: Source | undefined, is
       _id: id() as string,
       name,
       isSystem: false,
-      sourceIds: [],
+      feedIds: [],
+      newsletterIds: [],
       itemIds: []
     }
     dispatch(createCategoryAction(category))
     if (source) {
-      dispatch(updateCategoryAction({ ...category, sourceIds: [...category.sourceIds, source._id] }))
+      if (source.isNewsletter) {
+        dispatch(updateCategoryAction({ ...category, newsletterIds: [...category.newsletterIds, source._id] }))
+      } else {
+        dispatch(updateCategoryAction({ ...category, feedIds: [...category.feedIds, source._id] }))
+      }
     } else if (item) {
       dispatch(updateCategoryAction({ ...category, itemIds: [...category.itemIds, item._id] }))
     }

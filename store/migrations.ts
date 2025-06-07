@@ -25,7 +25,8 @@ export const migrations = {
       isSystem: true,
       itemIds: [],
       // @ts-ignore - historical migration with old property
-      feedIds: []
+      feedIds: [],
+      newsletterIds: []
     }
     const archiveCategory: Category = {
       _id: 'archive',
@@ -33,7 +34,8 @@ export const migrations = {
       isSystem: true,
       itemIds: [],
       // @ts-ignore - historical migration with old property
-      feedIds: []
+      feedIds: [],
+      newsletterIds: []
     }
     const annotatedCategory: Category = {
       _id: 'annotated',
@@ -41,7 +43,8 @@ export const migrations = {
       isSystem: true,
       itemIds: [],
       // @ts-ignore - historical migration with old property
-      feedIds: []
+      feedIds: [],
+      newsletterIds: []
     }
     state.itemsSaved.items.forEach((item: Item) => {
       if (!inboxCategory.itemIds.includes(item._id)) {
@@ -349,6 +352,25 @@ export const migrations = {
         // @ts-ignore - historical migration converting old property
         sourceIds: c.feedIds || [],
         feedIds: undefined
+      }
+    })
+    return {
+      ...state,
+      categories: {
+        ...state.categories,
+        categories
+      }
+    }
+  },
+  17: (state: RootState) => {
+    // convert sourceIds back to separate feedIds and newsletterIds in categories
+    const categories = state.categories.categories.map((c: Category) => {
+      return {
+        ...c,
+        // @ts-ignore - historical migration converting old property
+        feedIds: c.sourceIds || [],
+        newsletterIds: [],
+        sourceIds: undefined
       }
     })
     return {

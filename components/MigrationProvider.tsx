@@ -11,7 +11,7 @@ import { Text } from 'react-native'
 import { fontSizeMultiplier } from '../utils/dimensions'
 // import { migrate } from '../store/migrations'
 
-const CURRENT_VERSION = 2
+const CURRENT_VERSION = 17
 
 const migrations = [
   async (store: RootState) => {
