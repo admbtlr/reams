@@ -219,7 +219,7 @@ body.landscape .itemArticle img:not(.img-portrait):not(.img-small):not(.img-tiny
   border-bottom: 1px solid hsl(0, 0%, 93%);
 }
 .itemArticle img.img-portrait, .itemArticle img.img-small {
-  margin: 0.5rem 0.5rem 1rem;
+  margin: 0.5rem 0 1rem;
   max-width: calc(100vw - 1rem) !important;
   width: auto !important;
 }
