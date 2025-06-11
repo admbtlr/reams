@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, ScrollView, Text, View } from 'react-native'
+import { ActivityIndicator, Animated, Dimensions, Platform, ScrollView, View } from 'react-native'
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitleContainer from '../containers/ItemTitle'
-import { deepEqual, deviceCanHandleAnimations, diff, getCachedCoverImagePath } from '../utils/'
-import { getDimensions, getMargin, getStatusBarHeight } from '../utils/dimensions'
+import { getCachedCoverImagePath } from '../utils/'
+import { getMargin } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { getItem as getItemSQLite } from "@/storage/sqlite"
 import { getItem as getItemIDB } from "@/storage/idb-storage"
@@ -14,48 +14,13 @@ import Nudge from './Nudge'
 import { MAX_DECORATION_FAILURES } from '../sagas/decorate-items'
 import { Item, ItemInflated, SET_SCROLL_OFFSET } from '../store/items/types'
 import { SHOW_IMAGE_VIEWER } from '../store/ui/types'
-import { getCurrentItem, getIndex, getItems } from '../utils/get-item'
+import { getIndex, getItems } from '../utils/get-item'
 import { useColor } from '../hooks/useColor'
 import type { RootState } from '../store/reducers'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
 // Types
-type FeedColor = [number, number, number]
-
-interface ImageDimensions {
-  width: number;
-  height: number;
-}
-
-interface FaceCentreNormalised {
-  x: number;
-  y: number;
-}
-
-interface FontClasses {
-  heading: string;
-  body: string;
-}
-
-interface CoverImageStyles {
-  isInline?: boolean;
-  [key: string]: any;
-}
-
-interface ItemStyles {
-  coverImage?: CoverImageStyles;
-  fontClasses?: FontClasses;
-  hasFeedBGColor?: boolean;
-  isCoverInline?: boolean;
-  [key: string]: any;
-}
-
-interface ScrollRatio {
-  html?: number;
-  mercury?: number;
-  [key: string]: number | undefined;
-}
 
 interface FeedItemProps {
   _id: string;
@@ -73,8 +38,6 @@ interface FeedItemProps {
 export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const {
     _id,
-    coverImageComponent,
-    setTimerFunction,
     emitter,
     panAnim,
     onScrollEnd,
@@ -88,21 +51,15 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const currentIndex = useSelector((state: RootState) => getIndex(state))
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const orientation = useSelector((state: RootState) => state.config.orientation)
-  const fontSize = useSelector((state: RootState) => state.ui.fontSize)
-  const isImageViewerVisible = useSelector((state: RootState) => state.ui.imageViewerVisible)
-  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
-  const hostColors = useSelector((state: RootState) => state.hostColors.hostColors)
 
   // Find the current item
   const itemIndex = items.findIndex(item => item._id === _id)
   const rawItem = items[itemIndex]
 
-  const colorFromHook = useColor(rawItem?.url)
-  const host = rawItem?.url ? new URL(rawItem.url).hostname : ''
-  const color = hostColors.find(hc => hc.host === host) || colorFromHook
-
   // Early return if item not found
   if (!rawItem) return null
+
+  const color = useColor(rawItem?.url)
 
   // Find related feed or newsletter
   const feed = useSelector((state: RootState) =>
@@ -111,7 +68,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const newsletter = useSelector((state: RootState) =>
     state.newsletters.newsletters.find(n => n._id === rawItem.feed_id)
   )
-  const feed_color = feed?.color || newsletter?.color
   const showMercuryContent = rawItem.showMercuryContent !== undefined ?
     rawItem.showMercuryContent :
     feed?.isMercury
@@ -439,10 +395,11 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
 
   const isCoverInline = orientation !== 'landscape' && styles?.isCoverInline
 
+  const colorArray = color?.match(/hsl\((\d+), (\d+)%, (\d+)%\)/)
   const bodyColor = isDarkMode ?
     'black' :
-    styles?.hasFeedBGColor && !!color && JSON.stringify(color) !== '[0,0,0]' ?
-      `hsl(${(color[0] + 180) % 360}, 15%, 90%)` :
+    styles?.hasFeedBGColor && !!colorArray && !!colorArray[1] && JSON.stringify(color) !== '[0,0,0]' ?
+      `hsl(${(Number.parseInt(colorArray[1]) + 180) % 360}, 15%, 90%)` :
       hslString('bodyBG')
 
   if (!styles || Object.keys(styles).length === 0) {
@@ -529,8 +486,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
           excerpt={inflatedItem.excerpt}
           date={savedAt ? savedAt * 1000 : created_at}
           scrollOffset={scrollAnim}
-          font={styles.fontClasses.heading}
-          bodyFont={styles.fontClasses.body}
+          font={styles.fontClasses?.heading}
+          bodyFont={styles.fontClasses?.body}
           hasCoverImage={hasCoverImage}
           showCoverImage={showCoverImage}
           isCoverInline={isCoverInline}

@@ -9,7 +9,7 @@
     "lib": [
       "es6"
     ],
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
       "@/*": [
@@ -28,6 +28,7 @@
   ],
   "extends": "expo/tsconfig.base",
   "include": [
+    "**/*",
     "env.d.ts",
     "navigation.d.ts"
   ]
