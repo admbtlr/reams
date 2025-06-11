@@ -31,7 +31,7 @@ const ItemsList = ({ feeds, index, items }: Props) => {
       backgroundColor: hslString('rizzleBG'),
       flex: -1,
     }}>
-      <View style={{ 
+      <View style={{
         height: 40,
         width: '100%',
         backgroundColor: hslString('rizzleBG'),
@@ -40,24 +40,24 @@ const ItemsList = ({ feeds, index, items }: Props) => {
         top: 0,
         zIndex: 10
       }}>
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={{ 
+          style={{
             flexDirection: 'row',
             justifyContent: 'flex-start',
             alignItems: 'center'
           }}
         >
-          { getRizzleButtonIcon('back', hslString('rizzleText')) }
-          <Text style={{ 
+          {getRizzleButtonIcon('back', hslString('rizzleText'))}
+          <Text style={{
             ...textInfoItalicStyle(),
             fontSize: 12,
             margin: 0,
             opacity: 0.5
-          }}>Back to { displayMode === ItemType.unread ? 'feed' : 'library' } screen</Text>
+          }}>Back to {displayMode === ItemType.unread ? 'feed' : 'library'} screen</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView 
+      <ScrollView
         ref={scrollRef}
         style={{
           width: 300,
@@ -110,13 +110,13 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
         })
       }}
     >
-      <View 
+      <View
         ref={ref}
         style={{
           padding: 15,
           backgroundColor: item?._id === currentItem?._id ? 'rgba(255, 255, 255, 0.5)' : hslString('rizzleBG'),
           opacity: item?.readAt ? 0.5 : 1,
-          borderBottomColor: hslString('rizzleText', undefined, 0.1),
+          borderBottomColor: hslString('rizzleText', undefined, 0.3),
           borderBottomWidth: 1,
           // borderLeftColor: hslString(feed?.color),
           // borderLeftWidth: feed?.color ? 10 : 0,
@@ -127,13 +127,13 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
           alignItems: 'center',
           marginBottom: 5,
         }}>
-          { host && 
-              <Image 
-                source={{ uri: getFaviconUrl(host) }}
-                style={{
-                  width: 16,
-                  height: 16
-                }} />
+          {host &&
+            <Image
+              source={{ uri: getFaviconUrl(host) }}
+              style={{
+                width: 16,
+                height: 16
+              }} />
           }
           <Text style={{
             color: hslString('rizzleText', undefined, 0.8),
@@ -147,7 +147,7 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
           alignItems: 'flex-start',
           justifyContent: 'flex-start',
         }}>
-          { item.banner_image && (
+          {item.banner_image && (
             <View style={{
               width: 50,
               height: 50,
@@ -155,9 +155,9 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
               borderRadius: 5,
               overflow: 'hidden',
             }}>
-              <Image 
+              <Image
                 // onLoadEnd={() => setLatestImage(item._id)}
-                source={{uri: item.banner_image}} 
+                source={{ uri: item.banner_image }}
                 style={{
                   width: '100%',
                   height: '100%',
@@ -171,7 +171,7 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
             position: 'relative',
             top: -3
           }}>
-            <Text 
+            <Text
               numberOfLines={3}
               style={{
                 color: hslString('rizzleText'),
@@ -187,11 +187,12 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
               fontFamily: 'IBMPlexSans',
               flex: 1,
               flexWrap: 'wrap',
-            }}>{item.author && `${item.author} • ` }{item.date_published && new Date(item.date_published).toLocaleDateString()}</Text>
+            }}>{item.author && `${item.author} • `}{item.date_published && new Date(item.date_published).toLocaleDateString()}</Text>
           </View>
         </View>
       </View>
     </TouchableOpacity>
-  )}
+  )
+}
 
 export default ItemsList

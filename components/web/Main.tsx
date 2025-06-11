@@ -48,6 +48,12 @@ export default function Main() {
           title
         }
       },
+      Library: {
+        screen: Feeds,
+        navigationOptions: {
+          title
+        }
+      },
       Highlights: {
         screen: HighlightsScreen,
         navigationOptions: {
@@ -97,6 +103,10 @@ export default function Main() {
 const MenuBar = ({ navigation }) => {
   const dimensions: ScaledSize = useWindowDimensions()
   const dispatch = useDispatch()
+  const state = navigation.getState()
+
+  const isActive = (label: string) => label === state.routeNames[state.index]
+
   return (
     <View style={{
       flex: -1,
@@ -104,8 +114,8 @@ const MenuBar = ({ navigation }) => {
       width: 55,
       backgroundColor: hslString('rizzleBG'),
       paddingTop: 10,
-      paddingHorizontal: 5,
-      borderRightColor: hslString('rizzleText', undefined, 0.1),
+      paddingHorizontal: 0,
+      borderRightColor: hslString('rizzleText', undefined, 0.3),
       borderRightWidth: 1,
     }}>
       {
@@ -126,18 +136,21 @@ const MenuBar = ({ navigation }) => {
               navigation.navigate(button.label)
             }}
             style={{
-              width: 45,
+              width: 55,
               justifyContent: 'center',
               alignItems: 'center',
-              borderBottomColor: hslString('rizzleText', undefined, 0.1),
               borderBottomWidth: 1,
               paddingVertical: 10,
+              backgroundColor: isActive(button.label) ? hslString('rizzleText') : hslString('rizzleBG'),
+              borderColor: hslString('rizzleText', undefined, 0.3),
+              borderRightWidth: 1,
             }}
           >
-            {getRizzleButtonIcon(button.icon, hslString('rizzleText'), undefined, true, false, 0.9)}
+            {getRizzleButtonIcon(button.icon, isActive(button.label) ? hslString('rizzleBG') : hslString('rizzleText'), undefined, true, false, 0.9)}
             <Text style={{
               ...textInfoStyle(),
               fontSize: 10,
+              color: isActive(button.label) ? hslString('rizzleBG') : hslString('rizzleText')
             }}>{button.label}</Text>
           </TouchableOpacity>
 

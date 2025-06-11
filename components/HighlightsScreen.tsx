@@ -7,7 +7,8 @@ import {
   Animated,
   Text,
   TouchableOpacity,
-  Image
+  Image,
+  Platform
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHeaderStyle } from '../hooks/useHeaderStyle'
@@ -103,9 +104,9 @@ export default function HighlightsScreen() {
   const renderHighlightsByItem = (hbi: highlightsByItem, i: number) => (
     <View key={i} style={{
       backgroundColor: hslString('white'),
-      margin: getMargin(),
-      maxWidth: 500,
-      padding: getMargin(),
+      margin: getMargin() * (Platform.OS === 'web' ? 3 : 1),
+      maxWidth: Platform.OS === 'web' ? 800 : 500,
+      padding: getMargin() * (Platform.OS === 'web' ? 3 : 1),
       paddingBottom: getMargin() * 0.5,
       borderRadius: getMargin(),
       ...shadowStyle
@@ -114,7 +115,7 @@ export default function HighlightsScreen() {
         flexDirection: 'row',
         alignItems: 'flex-start',
         width: '100%',
-        marginBottom: getMargin(),
+        marginBottom: getMargin() * (Platform.OS === 'web' ? 3 : 1),
       }}>
         {hbi.item !== undefined && (
           <View style={{
@@ -133,6 +134,7 @@ export default function HighlightsScreen() {
         }}>
           <Text style={{
             ...textInfoBoldStyle(),
+            fontSize: (Platform.OS === 'web' ? 20 : 16) * fontSizeMultiplier(),
             marginLeft: 0,
             marginRight: 0
           }}>{hbi.item ? hbi.item.title : hbi.item_id}</Text>
@@ -284,6 +286,9 @@ export default function HighlightsScreen() {
               }
             )}
             showsVerticalScrollIndicator={false}
+            contentContainerStyle={Platform.OS == 'web' && {
+              alignItems: 'center'
+            }}
           >
             {highlightsByItem.map(renderHighlightsByItem)}
           </Animated.ScrollView>
