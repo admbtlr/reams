@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, Dimensions, Linking, Platform, Text, TouchableOpacity, View } from 'react-native'
 import { WebView, WebViewNavigation } from 'react-native-webview'
 import { openLink } from '../utils/open-link'
@@ -93,14 +93,14 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   // called when HTML was loaded and injected JS executed
-  const onNavigationStateChange = (event: WebViewNavigation) => {
+  const onNavigationStateChange = useCallback((event: WebViewNavigation) => {
     // this means we're loading an image
     if (event.url.startsWith('react-js-navigation')) return
     const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
     if (calculatedHeight) {
       updateWebViewHeight(calculatedHeight)
     }
-  }
+  }, [updateWebViewHeight])
 
   const highlightSelection = () => {
     if (Platform.OS !== 'web' && webViewRef?.current) {

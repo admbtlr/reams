@@ -349,7 +349,9 @@ export default function TopBar({
           }}>
             {hasScrollRatio &&
               <TouchableOpacity
-                onPress={() => emitter.emit('scrollToRatio')}
+                onPress={() => {
+                  emitter.emit('scrollToRatio')
+                }}
                 style={{
                   flex: 1,
                   alignItems: 'flex-end',
