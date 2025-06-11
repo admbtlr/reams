@@ -45,8 +45,9 @@ export interface ItemStyles {
   dropCapIsMonochrome?: boolean
   dropCapIsStroke?: boolean
   dropCapSize?: number
-  fontClasses?: string[]
+  fontClasses?: { heading: string, body: string }
   hasColorBlockquoteBG?: boolean
+  hasFeedBGColor?: boolean
   isCoverInline?: boolean
 }
 

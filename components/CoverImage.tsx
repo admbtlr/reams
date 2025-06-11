@@ -27,8 +27,6 @@ interface CoverImageProps {
     isInline: boolean
     resizeMode: string
     color: string
-    isCoverImageDarker: boolean
-    isCoverImageLighter: boolean
     align: string
   }
   imagePath: string | undefined
@@ -58,11 +56,8 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
   const brightness = props.styles.isMultiply ? 1.3 : 1
 
   const getColor = () => {
-    const { color, isCoverImageDarker, isCoverImageLighter } = props.styles
-    let palette = ''
-    if (isCoverImageLighter) palette = 'lighter'
-    if (isCoverImageDarker) palette = 'darker'
-    return hslString(color, palette)
+    const { color } = props.styles
+    return hslString(color)
   }
 
   const getImageSizeRatio = () => {
