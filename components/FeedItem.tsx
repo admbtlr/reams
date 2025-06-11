@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { ActivityIndicator, Animated, Dimensions, Easing, Linking, Platform, ScrollView, Text, View } from 'react-native'
 import CoverImage from './CoverImage'
@@ -142,9 +142,16 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const [hasRendered, setHasRendered] = useState<boolean>(false)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
 
+  // use a ref so that we can reference this value within a closure
+  // i.e. the scrollToOffset function below
+  const webViewHeightRef = useRef(webViewHeight)
+  // Update the ref whenever webViewHeight changes
+  useEffect(() => {
+    webViewHeightRef.current = webViewHeight
+  }, [webViewHeight])
+
   // Other refs to replace class properties
   const screenDimensions = useRef(Dimensions.get('window')).current
-  const hasWebViewResized = useRef<boolean>(false)
   const wasShowCoverImage = useRef<boolean | undefined>(item.showCoverImage)
   const currentScrollOffset = useRef<number>(0)
   const hasBegunScroll = useRef<boolean>(false)
@@ -341,7 +348,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const scrollToOffset = (isOverridable = false, useTimeout = true): void => {
     if (isOverridable && hasBegunScroll.current) return
     if (!scrollView.current) return
-    if (!hasWebViewResized.current) return
     if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
 
     const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
@@ -352,7 +358,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         (scrollView.current as any).scrollTo({
           x: 0,
-          y: scrollRatio * webViewHeight,
+          // use the ref to escape the problem of webViewHeight being inside the closure
+          y: scrollRatio * webViewHeightRef.current,
           animated: true
         })
       }
@@ -360,32 +367,10 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   }
 
   const updateWebViewHeight = (height: number): void => {
-    if (!pendingWebViewHeight.current || height !== pendingWebViewHeight.current) {
-      pendingWebViewHeight.current = height
-    }
-
-    if (Math.abs(height - webViewHeight) < height * 0.1) {
+    if (!height || Math.abs(height - webViewHeight) < height * 0.1) {
       return
     }
-
-    if (pendingWebViewHeight.current !== webViewHeight) {
-      // debounce
-      if (!pendingWebViewHeightId.current) {
-        pendingWebViewHeightId.current = setTimeout(() => {
-          setWebViewHeight(pendingWebViewHeight.current || INITIAL_WEBVIEW_HEIGHT)
-          hasWebViewResized.current = true
-          pendingWebViewHeightId.current = null
-        }, 500)
-      }
-    }
-  }
-
-  const setWebViewStartY = (y: number): void => {
-    // this is causing the `CALayerInvalidGeometry` bug
-    // so don't call setWebViewHeight for now until figuring it out
-    if (y < screenDimensions.height) {
-      // setWebViewHeight(Math.round(screenDimensions.height - y))
-    }
+    setWebViewHeight(height)
   }
 
   const onScrollEndDrag = (e: { nativeEvent: { contentOffset: { y: number } } }): void => {
@@ -421,10 +406,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     if (calculatedHeight) {
       updateWebViewHeight(calculatedHeight)
     }
-  }
-
-  if (__DEV__ || process.env.NODE_ENV === 'test') {
-    console.log('Rendering item ', item.title)
   }
 
   const emptyState = (
@@ -553,7 +534,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
           hasCoverImage={hasCoverImage}
           showCoverImage={showCoverImage}
           isCoverInline={isCoverInline}
-          layoutListener={(bottomY: number) => setWebViewStartY(bottomY)}
         />
         <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
           (styles.coverImage?.isInline || !showCoverImage) ?
