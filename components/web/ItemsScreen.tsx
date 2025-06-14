@@ -8,14 +8,14 @@ import { DECREMENT_INDEX, INCREMENT_INDEX, Item, ItemInflated, ItemType, MARK_IT
 import { getItems as getItemsSQLite } from "../../storage/sqlite"
 import { getItems as getItemsIDB } from "../../storage/idb-storage"
 import log from '../../utils/log'
-import { getItems } from '../../utils/get-item'
+import { selectFilteredItems } from '@/selectors/selectFilteredItems'
 
 let previousItem: Item
 
-export default function ItemsScreen ({}) {
+export default function ItemsScreen({ }) {
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const itemsStateKey = displayMode === ItemType.unread ? 'itemsUnread' : 'itemsSaved'
-  const items = useSelector((state: RootState) => getItems(state))
+  const items = useSelector(selectFilteredItems)
   const feeds = useSelector((state: RootState) => state.feeds.feeds)
   const index = useSelector((state: RootState) => state[itemsStateKey].index)
   const dispatch = useDispatch()
@@ -46,10 +46,10 @@ export default function ItemsScreen ({}) {
     }
     previousItem = currentItem
     inflateAndSet(currentItem)
-  }, [index]) 
+  }, [index])
 
 
-  function shortcutListener (e: KeyboardEvent) {
+  function shortcutListener(e: KeyboardEvent) {
     if (!e) return
     const { ...props } = e;
     if (props.nativeEvent.key === 'j' || props.nativeEvent.key === 'ArrowDown') {
@@ -72,18 +72,18 @@ export default function ItemsScreen ({}) {
   }, []);
 
   return (
-    <View 
+    <View
       style={{
         flex: 1,
         flexDirection: 'row',
       }}
     >
-      <ItemsList 
+      <ItemsList
         items={items}
         feeds={feeds}
         index={index}
       />
-      <ItemView 
+      <ItemView
         item={currentItemInflated}
       />
     </View>

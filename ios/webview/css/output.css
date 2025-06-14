@@ -805,7 +805,7 @@ hr {
   font-weight: normal;
 }
 .android .bodyFontSerif2 strong em, .android .bodyFontSerif2 em strong, .android .bodyFontSerif2 b i, .android .bodyFontSerif2 i b, .web .bodyFontSerif2 strong em, .web .bodyFontSerif2 em strong, .web .bodyFontSerif2 b i, .web .bodyFontSerif2 i b {
-  font-family: "LibreBaskerville-BoldItalic", sans-serif;
+  font-family: "LibreBaskerville-Bold", sans-serif;
   font-style: normal;
   font-weight: normal;
 }
@@ -1647,15 +1647,15 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
 }
 .web .itemTitle p {
   font-size: 0.7rem;
+  margin: 0;
 }
-.web .itemTitle .date-published {
-  font-size: 0.6rem;
+.web .itemTitle .date {
   font-family: "IBMPlexMono-Light" !important;
 }
 .web .itemTitle.center {
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 .web .itemTitle.isUpperCase h1 {
   text-transform: uppercase;

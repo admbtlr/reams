@@ -1,4 +1,3 @@
-import { Appearance } from 'react-native'
 import { store } from '../store'
 
 const { colors, darker, lighter, desaturated, desaturatedDarker, ui, darkMode } = require('./colors.json')

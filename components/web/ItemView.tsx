@@ -3,7 +3,7 @@ import { Animated, Image, type ScaledSize, Text, View, useWindowDimensions } fro
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../../store/reducers"
 import { hslString } from "../../utils/colors"
-import type {  ItemInflated } from "../../store/items/types"
+import type { ItemInflated } from "../../store/items/types"
 import { textInfoStyle } from '../../utils/styles'
 import WebView from "react-native-webview"
 import ButtonSet from "../ButtonSet"
@@ -13,36 +13,36 @@ import { decode } from "entities"
 import getFaviconUrl from "../../utils/get-favicon"
 import moment from "moment"
 
-const TOP_BAR_HEIGHT = 60
+export const TOP_BAR_HEIGHT = 80
 
-export default function ItemView ({item}: {item: ItemInflated | undefined}) {
+export default function ItemView({ item }: { item: ItemInflated | undefined }) {
   if (!item?.styles?.fontClasses) return null
   const dispatch = useDispatch()
   const dimensions: ScaledSize = useWindowDimensions()
-  const [coverImageSize, setCoverImageSize] = useState({width: 0, height: 0})
+  const [coverImageSize, setCoverImageSize] = useState({ width: 0, height: 0 })
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const feed = item?.isNewsletter ?
     useSelector((state: RootState) => state.newsletters.newsletters.find(f => f._id === item?.feed_id)) :
-    useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item?.feed_id))    
+    useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item?.feed_id))
   const bodyColor = isDarkMode ? 'black' : hslString('rizzleBg')
   if (item?.coverImageUrl) {
     Image.getSize(item.coverImageUrl, (width, height) => {
       if (width !== coverImageSize.width || height !== coverImageSize.height) {
-        setCoverImageSize({width, height})
+        setCoverImageSize({ width, height })
       }
     })
   } else {
     if (coverImageSize.height > 0) {
-      setCoverImageSize({width: 0, height: 0})
+      setCoverImageSize({ width: 0, height: 0 })
     }
   }
-  const coverImageHeight = coverImageSize.height > 0 ? Math.round(dimensions.width * (coverImageSize.height / coverImageSize.width)) : 0
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 
+  const coverImageHeight = coverImageSize.height// > 0 ? Math.round(dimensions.width * (coverImageSize.height / coverImageSize.width)) : 0
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
-    dispatch({type: SHOW_ITEM_BUTTONS})
+    dispatch({ type: SHOW_ITEM_BUTTONS })
   }, [item])
   // const coverImage = /*item?.showCoverImage && */typeof item?.coverImageUrl === 'string' ?
-  //   <Image 
+  //   <Image
   //     source={item.coverImageUrl}
   //     style={{
   //       width: '100%',
@@ -50,7 +50,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   //     }} /> :
   //   null
 
-  const matches = item.url.match(/:\/\/(.*?)\//)
+  const matches = item?.url?.match(/:\/\/(.*?)\//)
   const host = matches && matches.length > 1 ? matches[1] : null
 
   const [feedColor, setFeedColor] = useState<string>('')
@@ -71,7 +71,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   if (item?.styles?.coverImage?.isInline) {
     data = item.coverImageUrl || ''
   }
-  
+
   let articleClasses = ''
 
   if (item?.styles?.fontClasses) {
@@ -100,7 +100,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
 
   const body = item?.content_html === '' || item?.showMercuryContent ? item?.content_mercury : item?.content_html
   const coverImageUrl = item?.coverImageUrl?.replace('(', '%28').replace(')', '%29')
-    
+
   const fontStyles = document.getElementById('expo-generated-fonts')
 
   const date = item.date_published || 0
@@ -112,6 +112,7 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   const formattedTime = momentDate.format('h:mma')
   const showToday = momentDate.dayOfYear() === moment().dayOfYear() &&
     (momentDate.year() === moment().year())
+  const displayDate = date !== 0 ? (showToday ? 'Today' : formattedDate) + (showTime ? `, ${formattedTime}` : '') : undefined
 
   const html = item && `<html class="font-size-${fontSize} web ${isDarkMode ? 'dark-background' : ''}">
   <head>
@@ -134,12 +135,18 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
   </head>
   <body class="${displayMode} ${coverImageHeight > 0 ? 'hasCoverImage' : ''} web" style="background-color: ${bodyColor}" data-cover="${data}">
     <div class="coverHolder" style="${coverImageHeight > 0 ? `height: ${coverImageHeight}px;` : ''}  max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;">
-      ${coverImageUrl !== undefined ? `<div class="coverImage" style="background-image: url(${coverImageUrl}); height: ${coverImageHeight}px; max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;"></div>`: ''}
+      ${coverImageUrl !== undefined ? `<div class="coverImage" style="background-image: url(${coverImageUrl}); height: ${coverImageHeight}px; max-height: ${dimensions.height - TOP_BAR_HEIGHT}px;"></div>` : ''}
       <div class="${headingClasses}" style="${dimensions.width > 1200 && coverImageHeight > dimensions.height ? 'margin-bottom: 2rem' : ''}">
         <h1>${item?.title}</h1>
         ${item?.excerpt ? `<p class="excerpt">${item?.excerpt}</p>` : ''}
-        ${item?.author ? `<p><b>${item?.author}</b></p>` : ''}
-        ${item?.date_published ? `<p class="date-published">${(showToday ? 'Today' : formattedDate)}${ showTime ? `, ${formattedTime}`: ''}</p>` : ''}
+        ${item?.author || displayDate ?
+      '<p>' +
+      (item?.author ? `<b>${item?.author}</b>` : '') +
+      (displayDate && item?.author ? ' • ' : '') +
+      `<span class="date">${displayDate}</span>` ?? '' +
+      '</p>' :
+      ''
+    }
       </div>
     </div>
     <div class="articleHolder">
@@ -171,31 +178,31 @@ export default function ItemView ({item}: {item: ItemInflated | undefined}) {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          { host && 
-              <img height="32" width="auto" src={ getFaviconUrl(host) } alt={`Favicon for ${host}`} />
+          {host &&
+            <img height="32" width="auto" src={getFaviconUrl(host)} alt={`Favicon for ${host}`} />
           }
-          <Text style={{ 
+          <Text style={{
             ...textInfoStyle(),
             marginLeft: 10,
             color: 'white',
-          }}>{ feed?.title ? decode(feed?.title) : host }</Text>
+          }}>{feed?.title ? decode(feed?.title) : host}</Text>
         </View>
-        <WebView 
+        <WebView
           onMessage={(event) => {
             if (event.nativeEvent.data === '"scroll-down"') {
-              dispatch({type: HIDE_ALL_BUTTONS})
+              dispatch({ type: HIDE_ALL_BUTTONS })
             } else if (event.nativeEvent.data === '"scroll-up"') {
-              dispatch({type: SHOW_ITEM_BUTTONS})
+              dispatch({ type: SHOW_ITEM_BUTTONS })
             }
           }}
           source={{
-            html      
+            html
           }}
           style={{
             flex: 1,
           }}
-      />
-      <ButtonSet
+        />
+        <ButtonSet
           isCurrent
           item={item}
           opacityAnim={new Animated.Value(1)}

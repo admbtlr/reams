@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHeaderStyle } from '../hooks/useHeaderStyle'
 import { hslString } from '../utils/colors'
 import { RootState } from '../store/reducers'
-import { getStatusBarHeight } from '../utils/dimensions'
 import { getMargin } from '../utils/dimensions'
 import { fontSizeMultiplier } from '../utils/dimensions'
 import { DarkModeSetting, SET_BUTTON_LABELS, SET_DARK_MODE_SETTING } from '../store/ui/types'
@@ -20,7 +19,7 @@ import { Direction, SET_ITEM_SORT } from '../store/config/types'
 import { SORT_ITEMS } from '../store/items/types'
 import WebView from 'react-native-webview'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
-import { textInfoStyle, textLabelStyle, textUiStyle } from '../utils/styles'
+import { textUiStyle } from '../utils/styles'
 
 export default function SettingsScreen() {
   const dispatch = useDispatch()
@@ -30,7 +29,7 @@ export default function SettingsScreen() {
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const showButtonLabels = useSelector((state: RootState) => state.ui.showButtonLabels)
   const setShowButtonLabels = (value: boolean) => dispatch({ type: SET_BUTTON_LABELS, showButtonLabels: value })
-  
+
   // Update header style based on dark mode changes
   useHeaderStyle({
     bgColor: 'rizzleBG',
@@ -93,7 +92,11 @@ export default function SettingsScreen() {
   }
 
   const SettingBlock = ({ children, title }: { children: ReactElement, title: string }) => (
-    <View style={{ flex: 0, width: '100%' }}>
+    <View style={{ /*flex: 0,*/
+      marginHorizontal: 'auto',
+      maxWidth: 700,
+      width: '100%'
+    }}>
       <Text style={{
         alignSelf: 'flex-start',
         fontFamily: 'IBMPlexSans',
@@ -111,6 +114,7 @@ export default function SettingsScreen() {
         marginBottom: getMargin(),
         padding: getMargin() * .25,
         paddingHorizontal: getMargin(),
+        marginHorizontal: 'auto',
         width: '100%',
         maxWidth: 700,
       }}>
@@ -222,10 +226,11 @@ export default function SettingsScreen() {
   return (
     <View style={{
       flex: 1,
+      width: '100%',
       backgroundColor: hslString('rizzleBG'),
       padding: getMargin(),
-      alignItems: 'flex-start',
-      justifyContent: 'flex-start',
+      // alignItems: 'center',
+      // justifyContent: 'center',
     }}>
       <SettingBlock
         children={<RadioButtons data={sortButtons} selected={itemSort} onSelect={sortItems} />}

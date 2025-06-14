@@ -1018,7 +1018,7 @@ hr {
     }
 
     strong em, em strong, b i, i b {
-      font-family: "LibreBaskerville-BoldItalic", sans-serif;
+      font-family: "LibreBaskerville-Bold", sans-serif;
       font-style: normal;
       font-weight: normal;
     }
@@ -1988,44 +1988,44 @@ html.onboarding.onboarding-2:not(.dark-background) body {
   }
 
   &.hasCoverImage .coverHolder {
-    position: relative; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100vw;
     display: flex;
     align-items: flex-end;
   }
-  
+
   .itemTitle {
     margin: 1rem auto 0;
-    width: 27rem; // I assume there is 1rem of horizontal padding somewhere on the article 
+    width: 27rem; // I assume there is 1rem of horizontal padding somewhere on the article
     z-index: 2;
     position: relative;
-    
+
     h1, h2, h3, h4, h5 {
       line-height: 1.1;
     }
-  
+
     p {
       font-size: 0.7rem;
+      margin: 0;
     }
-  
-    .date-published {
-      font-size: 0.6rem;
+
+    .date {
       font-family: "IBMPlexMono-Light" !important;
     }
-  
+
     &.center {
       text-align: center;
-      margin-left: auto;
-      margin-right: auto;
+      margin-left: auto !important;
+      margin-right: auto !important;
     }
-    
+
     &.isUpperCase h1 {
       text-transform: uppercase;
     }
-  
-  
+
+
     &.bg.hasCoverImage h1 {
       background-color: rgba(255,255,255,0.9);
       color: black;
@@ -2035,7 +2035,7 @@ html.onboarding.onboarding-2:not(.dark-background) body {
     &.center::after {
       margin: 0 calc(50% - 50vw) 2rem;
     }
-  
+
   }
 
   &.hasCoverImage .itemTitle {
@@ -2093,7 +2093,7 @@ html.onboarding.onboarding-2:not(.dark-background) body {
       }
     }
   }
-  
+
   .hasCoverImage .coverImage {
     position: fixed;
     top: 0;
@@ -2105,28 +2105,28 @@ html.onboarding.onboarding-2:not(.dark-background) body {
     background-position: center;
     background-color: var(--feed-color);
   }
-  
+
   .articleHolder {
     background-color: hsl(60, 17%, 96%);
     position: relative;
     z-index: 2;
-  
+
     .dark-background & {
       background-color: hsl(240, 0%, 0%);
     }
   }
-  
+
   h1, h2, h3, h4 {
     font-weight: normal;
   }
-  
+
   .itemTitle h4 {
     font-size: 0.8rem;
   }
 
   .itemArticle {
     max-width: 28rem;
-    
+
     figure, img, video, iframe, pre {
       &:not(.specificity-breaker):not(.img-small):not(.img-tiny) {
         width: 100% !important;
@@ -2134,12 +2134,12 @@ html.onboarding.onboarding-2:not(.dark-background) body {
         margin-right: 0 !important;
       }
     }
-    
+
     figcaption {
       padding: 0;
       margin: 0;
     }
-    
+
     table, th, td {
       max-width: 28rem !important;
     }
@@ -2155,4 +2155,3 @@ html.onboarding.onboarding-2:not(.dark-background) body {
     outline: 1px solid rgba(255,255,255,0.3);
   }
 }
-

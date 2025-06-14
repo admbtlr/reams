@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import { View, Text, ScrollView, useWindowDimensions, ScaledSize, Touchable, TouchableOpacity, Image, Animated } from 'react-native'
+import { View, Text, ScrollView, useWindowDimensions, ScaledSize, Touchable, TouchableOpacity, Image, Animated, LayoutAnimation } from 'react-native'
 import { hslString } from '../../utils/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/reducers'
@@ -20,6 +20,8 @@ import { useSession } from '../AuthProvider'
 import NewFeedsList from '../NewFeedsList'
 import ModalScreen from '../ModalScreen'
 import { createStaticNavigation } from '@react-navigation/native'
+import { useSharedValue, withTiming } from 'react-native-reanimated'
+import { TOP_BAR_HEIGHT } from './ItemView'
 export const DRAWER_WIDTH = 300
 
 const title = 'Reams: Serious, joyful and open reading'
@@ -107,33 +109,38 @@ const MenuBar = ({ navigation }) => {
 
   const isActive = (label: string) => label === state.routeNames[state.index]
 
+  const sections = [
+    { icon: 'rss', label: 'Feeds', action: { type: SET_DISPLAY_MODE, displayMode: ItemType.unread } },
+    { icon: 'saved', label: 'Library', action: { type: SET_DISPLAY_MODE, displayMode: ItemType.saved } },
+    { icon: 'highlights', label: 'Highlights' },
+    { icon: 'account', label: 'Account' },
+    { icon: 'settings', label: 'Settings' },
+  ].map(s => ({ ...s, isActive: isActive(s.label) }))
+  // .sort((a, b) => a.isActive ? -1 : b.isActive ? 1 : 0)
+
   return (
     <View style={{
       flex: -1,
       height: dimensions.height,
       width: 55,
       backgroundColor: hslString('rizzleBG'),
-      paddingTop: 10,
+      opacity: 0.95,
+      paddingTop: 0,
       paddingHorizontal: 0,
       borderRightColor: hslString('rizzleText', undefined, 0.3),
       borderRightWidth: 1,
     }}>
       {
-        [
-          { icon: 'rss', label: 'Feeds', action: { type: SET_DISPLAY_MODE, displayMode: ItemType.unread } },
-          { icon: 'saved', label: 'Library', action: { type: SET_DISPLAY_MODE, displayMode: ItemType.saved } },
-          { icon: 'highlights', label: 'Highlights' },
-          { icon: 'account', label: 'Account' },
-          { icon: 'settings', label: 'Settings' },
-        ].map((button, index) => (
+        sections.map((button, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => {
-              console.log(button.label)
-              if (button.action) {
-                dispatch(button.action)
-              }
               navigation.navigate(button.label)
+              if (button.action) {
+                setTimeout(() => {
+                  dispatch(button.action)
+                }, 100)
+              }
             }}
             style={{
               width: 55,
@@ -144,6 +151,7 @@ const MenuBar = ({ navigation }) => {
               backgroundColor: isActive(button.label) ? hslString('rizzleText') : hslString('rizzleBG'),
               borderColor: hslString('rizzleText', undefined, 0.3),
               borderRightWidth: 1,
+              height: TOP_BAR_HEIGHT
             }}
           >
             {getRizzleButtonIcon(button.icon, isActive(button.label) ? hslString('rizzleBG') : hslString('rizzleText'), undefined, true, false, 0.9)}

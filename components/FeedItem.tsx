@@ -17,6 +17,7 @@ import { SHOW_IMAGE_VIEWER } from '../store/ui/types'
 import { getIndex, getItems } from '../utils/get-item'
 import { useColor } from '../hooks/useColor'
 import type { RootState } from '../store/reducers'
+import { selectFilteredItems } from '@/selectors/selectFilteredItems'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -47,7 +48,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const dispatch = useDispatch()
 
   // Redux selectors
-  const items = useSelector((state: RootState) => getItems(state))
+  const items = useSelector(selectFilteredItems)
   const currentIndex = useSelector((state: RootState) => getIndex(state))
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const orientation = useSelector((state: RootState) => state.config.orientation)

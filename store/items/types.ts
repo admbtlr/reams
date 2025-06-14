@@ -53,11 +53,13 @@ export interface ItemStyles {
 
 export interface Item {
   _id: string
+  author: string | undefined
   blobId: string | undefined // fastmail newsletters
   content_length: number | undefined
   coverImageFile: string | undefined
   coverImageUrl: string | undefined
   created_at: number
+  date_published: number | undefined
   decoration_failures?: number | undefined
   feed_id: string
   feed_title: string

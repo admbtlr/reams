@@ -1,16 +1,19 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
+import { forwardRef, memo, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "store/reducers"
 import { Item, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_INDEX } from "../../store/items/types"
-import { ScaledSize, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from "react-native"
+import { Dimensions, ScaledSize, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from "react-native"
 import { hslString } from "../../utils/colors"
 import { Image } from "react-native"
 import { Feed } from "../../store/feeds/types"
 import { getRizzleButtonIcon } from "../../utils/rizzle-button-icons"
-import { textInfoItalicStyle, textInfoMonoItalicStyle, textLabelStyle } from "../../utils/styles"
+import { textInfoMonoStyle, textInfoBoldStyle, textLabelStyle } from "../../utils/styles"
 import { useNavigation } from "@react-navigation/native"
 import { getMargin } from "../../utils/dimensions"
 import getFaviconUrl from "../../utils/get-favicon"
+import { TOP_BAR_HEIGHT } from "./ItemView"
+import { selectFilterTitle } from "@/sagas/selectors"
+import { selectUnreadItemsInCurrentFilter } from "@/selectors/selectUnreadItemsInCurrentFilter"
 
 interface Props {
   feeds: Feed[]
@@ -21,6 +24,8 @@ interface Props {
 const ItemsList = ({ feeds, index, items }: Props) => {
   const currentItem = !!items && !!index ? items[index] : undefined
   const displayMode = useSelector((store: RootState) => store.itemsMeta.display)
+  const filterTitle = useSelector(selectFilterTitle)
+  const unreadCount = useSelector(selectUnreadItemsInCurrentFilter)
   const dimensions: ScaledSize = useWindowDimensions()
   const scrollRef = useRef<any>()
   const navigation = useNavigation()
@@ -32,9 +37,9 @@ const ItemsList = ({ feeds, index, items }: Props) => {
       flex: -1,
     }}>
       <View style={{
-        height: 40,
+        height: TOP_BAR_HEIGHT,
         width: '100%',
-        backgroundColor: hslString('rizzleBG'),
+        backgroundColor: hslString('rizzleText'),
         opacity: 0.95,
         position: 'absolute',
         top: 0,
@@ -43,30 +48,58 @@ const ItemsList = ({ feeds, index, items }: Props) => {
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
+            flex: 1,
             flexDirection: 'row',
             justifyContent: 'flex-start',
-            alignItems: 'center'
+            alignItems: 'center',
+            height: 40,
+            paddingLeft: 30
           }}
         >
-          {getRizzleButtonIcon('back', hslString('rizzleText'))}
-          <Text style={{
-            ...textInfoItalicStyle(),
-            fontSize: 12,
-            margin: 0,
-            opacity: 0.5
-          }}>Back to {displayMode === ItemType.unread ? 'feed' : 'library'} screen</Text>
+          <View style={{
+            marginTop: -13,
+            marginLeft: -3
+          }}>
+            {getRizzleButtonIcon('back', hslString('white'), null, true, true, 0.7)}
+          </View>
+          <View style={{
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            // marginBottom: -5,
+            flex: 2
+          }}>
+            <Text style={{
+              ...textInfoBoldStyle(),
+              margin: 0,
+              marginBottom: 5,
+              padding: 0,
+              color: 'white'
+            }}>{filterTitle ??
+              (displayMode === ItemType.saved ?
+                'Library' :
+                'Unread')}</Text>
+            <Text style={{
+              fontFamily: 'IBMPlexSans-Light',
+              color: 'hsla(0, 100%, 100%, 0.7)',
+              margin: 0,
+              fontSize: 12,
+              lineHeight: 12,
+              flex: 1
+            }}>{unreadCount} unread articles</Text>
+          </View>
         </TouchableOpacity>
       </View>
       <ScrollView
         ref={scrollRef}
         style={{
           width: 300,
-          height: 1000,
+          height: Dimensions.get('window').height,
           flex: -1,
         }}
       >
         <View style={{
-          paddingTop: 40
+          paddingTop: TOP_BAR_HEIGHT + 20
         }}>
           {items && items.map((item, index) => (
             <ItemListItem
@@ -93,31 +126,34 @@ interface ItemListItemProps {
   scrollRef: any
 }
 
-const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListItemProps) => {
+const ItemListItem = memo(({ currentItem, feed, item, index, scrollRef }: ItemListItemProps) => {
   const dispatch = useDispatch()
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const ref = useRef<View>(null)
   const matches = item?.url?.match(/:\/\/(.*?)\//)
   const host = matches && matches.length > 1 ? matches[1] : null
+
+  const handlePress = useCallback(() => {
+    dispatch({
+      type: UPDATE_CURRENT_INDEX,
+      index: index,
+      displayMode
+    })
+  }, [dispatch, index, displayMode])
+
   return (
     <TouchableOpacity
       key={item._id}
-      onPress={() => {
-        dispatch({
-          type: UPDATE_CURRENT_INDEX,
-          index: index,
-          displayMode
-        })
-      }}
+      onPress={handlePress}
     >
       <View
         ref={ref}
         style={{
           padding: 15,
-          backgroundColor: item?._id === currentItem?._id ? 'rgba(255, 255, 255, 0.5)' : hslString('rizzleBG'),
+          backgroundColor: item?._id === currentItem?._id ? hslString('logo2') : hslString('rizzleBG'),
           opacity: item?.readAt ? 0.5 : 1,
-          borderBottomColor: hslString('rizzleText', undefined, 0.3),
-          borderBottomWidth: 1,
+          marginHorizontal: 15,
+          borderRadius: 10
           // borderLeftColor: hslString(feed?.color),
           // borderLeftWidth: feed?.color ? 10 : 0,
         }}
@@ -136,7 +172,7 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
               }} />
           }
           <Text style={{
-            color: hslString('rizzleText', undefined, 0.8),
+            color: item?._id === currentItem?._id ? 'white' : hslString('rizzleText', undefined, 0.8),
             fontSize: 12,
             fontFamily: 'IBMPlexSans',
             marginLeft: getMargin() / 2
@@ -174,7 +210,7 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
             <Text
               numberOfLines={3}
               style={{
-                color: hslString('rizzleText'),
+                color: item?._id === currentItem?._id ? 'white' : hslString('rizzleText'),
                 fontSize: 14,
                 fontFamily: 'IBMPlexSans-Bold',
                 flex: 1,
@@ -182,7 +218,7 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
               }}
             >{item.title}</Text>
             <Text style={{
-              color: hslString('rizzleText', undefined, 0.8),
+              color: item?._id === currentItem?._id ? 'hsla(0, 100%, 100%, 0.8)' : hslString('rizzleText', undefined, 0.8),
               fontSize: 12,
               fontFamily: 'IBMPlexSans',
               flex: 1,
@@ -191,8 +227,20 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
           </View>
         </View>
       </View>
+      <View style={{
+        height: 1,
+        backgroundColor: hslString('rizzleText', undefined, 0.2),
+        marginHorizontal: 30
+      }} />
     </TouchableOpacity>
   )
-}
+}, (prevProps, nextProps) => {
+  // Only re-render if the item is currently selected or was previously selected
+  return prevProps.item._id === nextProps.item._id &&
+    prevProps.currentItem?._id === nextProps.currentItem?._id &&
+    (prevProps.item._id !== prevProps.currentItem?._id &&
+      nextProps.item._id !== nextProps.currentItem?._id) &&
+    prevProps.item.readAt !== nextProps.item.readAt
+})
 
 export default ItemsList

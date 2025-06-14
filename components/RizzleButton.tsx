@@ -148,7 +148,8 @@ const RizzleButton = (props) => {
           }}
           testID={props.testID}
           accessibilityLabel={props.accessibilityLabel}
-          onPressOut={handlePress}
+          onPressOut={Platform.OS === 'web' ? () => null : handlePress}
+          onPress={Platform.OS === 'web' ? handlePress : () => null}
           style={{
             borderRadius: 25,
             ...buttonStyle,

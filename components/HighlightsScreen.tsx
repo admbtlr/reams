@@ -105,7 +105,7 @@ export default function HighlightsScreen() {
     <View key={i} style={{
       backgroundColor: hslString('white'),
       margin: getMargin() * (Platform.OS === 'web' ? 3 : 1),
-      maxWidth: Platform.OS === 'web' ? 800 : 500,
+      maxWidth: Platform.OS === 'web' ? 600 : 500,
       padding: getMargin() * (Platform.OS === 'web' ? 3 : 1),
       paddingBottom: getMargin() * 0.5,
       borderRadius: getMargin(),
