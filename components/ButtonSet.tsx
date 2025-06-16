@@ -1,5 +1,4 @@
-import { ItemType, SAVE_ITEM, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '../store/items/types'
-import type { Item, ItemInflated } from '../store/items/types'
+import { Item, ItemInflated, ItemType, SAVE_ITEM, SET_KEEP_UNREAD, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '../store/items/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -23,7 +22,10 @@ import { getItem as getItemIDB } from "../storage/idb-storage"
 import type { Newsletter } from '../store/newsletters/types'
 import { useColor } from '../hooks/useColor'
 
-export const translateDistance = 100
+// isDarkMode, displayMode,
+let areButtonsVisible = true
+
+export const translateDistance = 80
 
 interface ButtonSetProps {
   isCurrent: boolean,
@@ -60,6 +62,13 @@ export default function ButtonSet({
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const [feed, setFeed] = useState<Feed | Newsletter | undefined>()
+
+  // the stringified items actually only consist of _ids
+  // this allows us to keep track of the real state of items
+  // for keepUnread etc.
+  const actualItem = useSelector((state: RootState) => displayMode === ItemType.unread ?
+    state.itemsUnread.items.find(i => i._id === item._id) :
+    state.itemsSaved.items.find(i => i._id === item._id))
   useEffect(() => {
     setFeed(itemFeed)
   }, [itemFeed])
@@ -69,6 +78,10 @@ export default function ButtonSet({
       (item.showMercuryContent || feed?.isMercury) &&
       !!itemInflated?.content_mercury
   }, [item, itemInflated, feed])
+  let isKeepUnread: boolean | undefined
+  useEffect(() => {
+    isKeepUnread = item.isKeepUnread
+  }, [item])
 
   const dispatch = useDispatch()
   const setSaved = (item: Item, isSaved: boolean) => {
@@ -105,6 +118,13 @@ export default function ButtonSet({
     dispatch({
       type: TOGGLE_MERCURY_VIEW,
       item
+    })
+  }
+  const setKeepUnread = (item: Item, keepUnread: boolean) => {
+    dispatch({
+      type: SET_KEEP_UNREAD,
+      item,
+      keepUnread
     })
   }
   const launchBrowser = async () => {
@@ -246,6 +266,27 @@ export default function ButtonSet({
       >
         {displayMode === ItemType.saved && getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false)}
       </RizzleButton>
+      {displayMode == ItemType.unread && __DEV__ && (<RizzleButton
+        backgroundColor={backgroundColor}
+        borderColor={borderColor}
+        borderWidth={borderWidth}
+        iconOff={getRizzleButtonIcon('keep-unread-off', borderColor, backgroundColor, true, false)}
+        iconOn={getRizzleButtonIcon('keep-unread-on', borderColor, backgroundColor, true, false)}
+        initialToggleState={item.isKeepUnread}
+        isToggle={true}
+        style={{
+          transform: [
+            {
+              translateY: isCurrent ? visibleAnim.interpolate({
+                inputRange: [0, 0.333, 0.5, 0.667, 1],
+                outputRange: [0, 0, translateDistance * -0.2, translateDistance, translateDistance]
+              }) : 0
+            }
+          ]
+        }}
+        onPress={() => setKeepUnread(item, !actualItem?.isKeepUnread)}
+      >
+      </RizzleButton>)}
       <RizzleButton
         backgroundColor={backgroundColor}
         borderColor={borderColor}
@@ -266,7 +307,7 @@ export default function ButtonSet({
       >
         {getRizzleButtonIcon('launchBrowserIcon', borderColor, backgroundColor, true, false)}
       </RizzleButton>
-      {showMercuryButton &&
+      {!!itemInflated?.content_mercury &&
         <RizzleButton
           backgroundColor={backgroundColor}
           borderColor={borderColor}

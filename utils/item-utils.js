@@ -48,6 +48,7 @@ export function deflateItem(item) {
     isAnalysed: item.isAnalysed,
     isDecorated: item.isDecorated,
     isExternal: item.isExternal,
+    isKeepUnread: item.isKeepUnread,
     isNewsletter: item.isNewsletter,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
