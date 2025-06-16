@@ -100,7 +100,6 @@ function FeedsScreen({ route }) {
   const navigation = useNavigation()
   const scrollAnim = new Animated.Value(0)
 
-  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isSaved = route?.params?.isSaved // displayMode === ItemType.saved
 
   const feedSkeletons: FeedSkeleton[] = useSelector(selectFeedSkeletons, isEqual)
@@ -110,7 +109,6 @@ function FeedsScreen({ route }) {
     .filter(c => !c.isSystem), isEqual)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
 
-  const isFocused = useIsFocused()
   const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>()
 
   const { openModal } = useModal()
@@ -423,12 +421,12 @@ function FeedsScreen({ route }) {
         }}
         testID='feeds-screen'
       >
-         { Platform.OS === 'ios' && 
+        {Platform.OS === 'ios' &&
           <StatusBar
             animated={true}
             barStyle="dark-content"
-            showHideTransition="slide"/> }
-        { feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ? 
+            showHideTransition="slide" />}
+        {feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ?
           (<View style={{
             flex: 1,
             alignItems: 'center',
