@@ -192,7 +192,8 @@ const App = (): JSX.Element => {
           initialParams: { isSaved: false },
           screen: FeedsScreen,
           options: {
-            ...headerOptions,
+            // ...headerOptions,
+            headerShown: false,
             headerLeft: (props) => drawerButton(props)
           }
         },
@@ -200,7 +201,8 @@ const App = (): JSX.Element => {
           initialParams: { isSaved: true },
           screen: FeedsScreen,
           options: {
-            ...headerOptions,
+            // ...headerOptions,
+            headerShown: false,
             headerLeft: (props) => drawerButton(props)
           }
         },
