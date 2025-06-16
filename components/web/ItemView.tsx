@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../../store/reducers"
 import { hslString } from "../../utils/colors"
 import type { ItemInflated } from "../../store/items/types"
-import { textInfoStyle } from '../../utils/styles'
+import { textInfoBoldStyle } from '../../utils/styles'
 import WebView from "react-native-webview"
 import ButtonSet from "../ButtonSet"
 import { HIDE_ALL_BUTTONS, SHOW_ITEM_BUTTONS } from "../../store/ui/types"
@@ -182,7 +182,7 @@ export default function ItemView({ item }: { item: ItemInflated | undefined }) {
             <img height="32" width="auto" src={getFaviconUrl(host)} alt={`Favicon for ${host}`} />
           }
           <Text style={{
-            ...textInfoStyle(),
+            ...textInfoBoldStyle(),
             marginLeft: 10,
             color: 'white',
           }}>{feed?.title ? decode(feed?.title) : host}</Text>
