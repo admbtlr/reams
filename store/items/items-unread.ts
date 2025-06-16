@@ -40,7 +40,8 @@ import {
   UPDATE_ITEM,
   MARK_ITEMS_READ_SKIP_BACKEND,
   ITEM_BODY_CLEANED,
-  RESET_DECORATION_FALIURES
+  RESET_DECORATION_FALIURES,
+  SET_KEEP_UNREAD
 } from './types'
 import {
   itemMarkRead,
@@ -263,6 +264,17 @@ export function itemsUnread(
             ...item,
             isSaved: false,
             savedAt: undefined
+          } :
+          item)
+      }
+
+    case SET_KEEP_UNREAD:
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action.item._id ?
+          {
+            ...item,
+            isKeepUnread: action.keepUnread
           } :
           item)
       }

@@ -71,6 +71,7 @@ export interface Item {
   isDecorated?: boolean | undefined
   isExternal?: boolean | undefined
   isHtmlCleaned?: boolean | undefined
+  isKeepUnread?: boolean | undefined
   isMercuryCleaned?: boolean | undefined
   isNewsletter?: boolean | undefined
   isSaved?: boolean | undefined
@@ -170,6 +171,7 @@ export const SET_TITLE_FONT_SIZE = 'SET_TITLE_FONT_SIZE'
 export const SORT_ITEMS = 'SORT_ITEMS'
 export const ITEM_BODY_CLEANED = 'ITEM_BODY_CLEANED'
 export const RESET_DECORATION_FALIURES = 'RESET_DECORATION_FALIURES'
+export const SET_KEEP_UNREAD = 'SET_KEEP_UNREAD'
 
 interface setDisplayModeAction {
   type: typeof SET_DISPLAY_MODE
@@ -350,6 +352,12 @@ export interface resetDecorationFailuresAction {
   itemId: string
 }
 
+export interface setKeepUnread {
+  type: typeof SET_KEEP_UNREAD
+  item: Item
+  keepUnread: boolean
+}
+
 export type ItemActionTypes = setDisplayModeAction |
   updateCurrentIndexAction |
   incrementIndexAction |
@@ -380,4 +388,5 @@ export type ItemActionTypes = setDisplayModeAction |
   // setTitleFontResizedAction |
   sortItems |
   itemBodyCleanedAction |
-  resetDecorationFailuresAction
+  resetDecorationFailuresAction |
+  setKeepUnread

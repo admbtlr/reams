@@ -24,6 +24,9 @@ export function* markLastItemReadIfDecorated(action) {
     (item.decoration_failures === undefined || item.decoration_failures < MAX_DECORATION_FAILURES)) {
     return
   }
+  if (!!item.isKeepUnread) {
+    return
+  }
   yield call(InteractionManager.runAfterInteractions)
   yield put({
     type: MARK_ITEM_READ,

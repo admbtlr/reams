@@ -19,6 +19,7 @@ const mapStateToProps = (state) => {
   return {
     index,
     isCurrentItemSaved: currentItem && currentItem.isSaved,
+    isCurrentItemKeepUnread: currentItem && currentItem.isKeepUnread,
     showMercuryContent: currentItem && currentItem.showMercuryContent,
     isCurrentItemMercuryButtonEnabled: currentItem && currentItem.content_mercury,
     displayMode: state.itemsMeta.display,
