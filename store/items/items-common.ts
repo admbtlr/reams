@@ -144,16 +144,12 @@ export function imageAnalysisSuccess(
   action: imageAnalysisSuccessAction,
   state: ItemsState
 ) {
-  const items = state.items.map((i: Item) => {
-    if (i._id === action.item._id) {
-      return {
-        ...i,
-        isAnalysed: true
-      }
-    } else {
-      return i
-    }
-  })
+  const items = state.items.map((i: Item) => (i._id === action.item._id) ?
+    {
+      ...i,
+      isAnalysed: true
+    } : i
+  )
   return {
     ...state,
     items
