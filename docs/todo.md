@@ -4,7 +4,7 @@
   - ~~open all links in new tab~~
   - ~~saved items site title~~
   - ~~how can I render the site color faster?~~
-  - settings screen layout
+  - ~~settings screen layout~~
   - redo drop caps for different fonts (e.g. Nunito)
 - android bugs
   - layout of search bar is a bit weird
