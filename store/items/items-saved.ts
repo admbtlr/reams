@@ -259,7 +259,7 @@ export function itemsSaved(
 
     case IMAGE_ANALYSIS_DONE:
       if (!action.isSaved) return state
-      return imageAnalysisSuccess(action, state, false)
+      return imageAnalysisSuccess(action, state)
 
     case ITEM_DECORATION_FAILURE:
       return action.isSaved ? itemDecorationFailure(action, state) : state

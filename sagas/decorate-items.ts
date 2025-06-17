@@ -178,7 +178,8 @@ export function* analyseItem(item: Item) {
     }
     yield put({
       type: IMAGE_ANALYSIS_DONE,
-      item
+      item,
+      isSaved: item.isSaved
     })
 
   } catch (error) {

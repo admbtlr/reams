@@ -305,9 +305,7 @@ export interface itemDecorationFailureAction {
 export interface imageAnalysisSuccessAction {
   type: typeof IMAGE_ANALYSIS_DONE
   item: Item
-  imageStuff: ImageStuff
   isSaved: boolean
-  displayMode: string
 }
 
 interface itemDecorationProgressAction {

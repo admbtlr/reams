@@ -286,7 +286,7 @@ export function itemsUnread(
       return action.isSaved ? state : itemDecorationSuccess(action, state, action.displayMode === 'unread')
 
     case IMAGE_ANALYSIS_DONE:
-      return action.isSaved ? state : imageAnalysisSuccess(action, state, action.displayMode === 'unread')
+      return action.isSaved ? state : imageAnalysisSuccess(action, state)
 
     case ITEM_DECORATION_FAILURE:
       return action.isSaved ? state : itemDecorationFailure(action, state)
