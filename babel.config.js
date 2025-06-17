@@ -14,12 +14,7 @@ module.exports = api => {
     ],
     plugins: [
       '@babel/plugin-transform-export-namespace-from',
-      'react-native-reanimated/plugin',
-      ['@babel/plugin-transform-react-jsx', {
-        runtime: 'automatic',
-        development: process.env.NODE_ENV === 'development',
-        importSource: '@welldone-software/why-did-you-render',
-      }]
+      'react-native-reanimated/plugin'
     ]
   }
 }

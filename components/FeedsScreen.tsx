@@ -5,9 +5,6 @@ import {
   Feed,
 } from '../store/feeds/types'
 import { useHeaderStyle } from '../hooks/useHeaderStyle'
-import {
-  SHOW_HELPTIP
-} from '../store/ui/types'
 import { CREATE_CATEGORY, Category } from '../store/categories/types'
 import { createCategory as createCategoryAction } from '../store/categories/categoriesSlice'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -41,6 +38,8 @@ import { ItemType, SET_DISPLAY_MODE } from '../store/items/types'
 import { useModal } from './ModalProvider'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import SearchBar from './SearchBar'
+import { headerOptions } from './App'
+import DrawerButton from './DrawerButton';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -100,7 +99,6 @@ function FeedsScreen({ route }) {
   const navigation = useNavigation()
   const scrollAnim = new Animated.Value(0)
 
-  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isSaved = route?.params?.isSaved // displayMode === ItemType.saved
 
   const feedSkeletons: FeedSkeleton[] = useSelector(selectFeedSkeletons, isEqual)
@@ -110,7 +108,6 @@ function FeedsScreen({ route }) {
     .filter(c => !c.isSystem), isEqual)
   const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
 
-  const isFocused = useIsFocused()
   const dispatch = useDispatch<ThunkDispatch<RootState, any, Action>>()
 
   const { openModal } = useModal()
@@ -372,25 +369,39 @@ function FeedsScreen({ route }) {
         position: 'absolute',
         zIndex: 500,
         flex: 0,
-        height: 40,
-        width: 40,
+        height: getStatusBarHeight(),
+        width: '100%',
         // top: getStatusBarHeight() - 45,
         right: 0,
-        // backgroundColor: 'yellow'
+        backgroundColor: hslString('rizzleBG', undefined, 0.8),
+        paddingBottom: getMargin() / 2
       }}>
-        <TouchableOpacity
-          testID="search-button"
-          onPress={() => {
-            LayoutAnimation.configureNext({
-              duration: 500,
-              create: { type: 'linear', property: 'opacity' },
-              update: { type: 'spring', springDamping: 0.6 },
-              delete: { duration: 100, type: 'linear', property: 'opacity' }
-            })
-            setShowSearch(!showSearch)
-          }}>
-          {getRizzleButtonIcon('search', hslString('rizzleText'))}
-        </TouchableOpacity>
+        <View style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-end',
+          height: '100%',
+          paddingHorizontal: getMargin()
+        }}>
+          <DrawerButton isLight={false} onPress={() => navigation.openDrawer()} />
+          <Text style={{
+            ...headerOptions.headerTitleStyle
+          }}>{isSaved ? 'Library' : 'Feed'}</Text>
+          <TouchableOpacity
+            testID="search-button"
+            onPress={() => {
+              LayoutAnimation.configureNext({
+                duration: 500,
+                create: { type: 'linear', property: 'opacity' },
+                update: { type: 'spring', springDamping: 0.6 },
+                delete: { duration: 100, type: 'linear', property: 'opacity' }
+              })
+              setShowSearch(!showSearch)
+            }}>
+            {getRizzleButtonIcon('search', hslString('rizzleText'))}
+          </TouchableOpacity>
+        </View>
       </View>
       {/* <Animated.View style={{
         position: 'absolute',
@@ -419,16 +430,17 @@ function FeedsScreen({ route }) {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: hslString('rizzleBG'),
+          marginTop: getStatusBarHeight()
           // paddingTop: getStatusBarHeight(),
         }}
         testID='feeds-screen'
       >
-         { Platform.OS === 'ios' && 
+        {Platform.OS === 'ios' &&
           <StatusBar
             animated={true}
             barStyle="dark-content"
-            showHideTransition="slide"/> }
-        { feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ? 
+            showHideTransition="slide" />}
+        {feedSkeletons.length === 0 && newsletterSkeletons.length === 0 ?
           (<View style={{
             flex: 1,
             alignItems: 'center',
