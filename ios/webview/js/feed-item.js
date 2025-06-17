@@ -207,19 +207,21 @@ function markImages() {
   const imgs = document.querySelectorAll('img');
 
   imgs.forEach((el) => {
-    const processImage = () => {
-      if (el.naturalHeight >= el.naturalWidth) {
-        el.classList.add('img-portrait');
+    const processImage = (img) => {
+      console.log(`Processing image: ${img.src}`)
+      console.log(`Natural height: ${img.naturalHeight}, natural width: ${img.naturalWidth}`)
+      if (img.naturalHeight >= img.naturalWidth) {
+        img.classList.add('img-portrait');
 
         // Adjust these thresholds to more reasonable values
-        const widthThreshold = document.body.clientWidth;
+        const widthThreshold = document.querySelector('article').clientWidth;
 
-        if (el.naturalHeight < 50 || el.naturalWidth < widthThreshold * 0.2) {
-          el.classList.add('img-tiny');
-        } else if (el.naturalHeight < 200 || el.naturalWidth < widthThreshold * 0.6) {
-          el.classList.add('img-small');
-          if (el.parentElement.tagName === 'FIGURE') {
-            el.parentElement.classList.add('figure-small');
+        if (img.naturalHeight < 50 || img.naturalWidth < widthThreshold * 0.2) {
+          img.classList.add('img-tiny');
+        } else if (img.naturalHeight < 200 || img.naturalWidth < widthThreshold * 0.8) {
+          img.classList.add('img-small');
+          if (img.parentElement.tagName === 'FIGURE') {
+            img.parentElement.classList.add('figure-small');
           }
         }
       }
@@ -227,7 +229,7 @@ function markImages() {
 
     // Check if image is already loaded
     if (el.complete && el.naturalHeight !== 0) {
-      processImage();
+      processImage(el);
     } else {
       el.addEventListener('load', processImage);
       // Also handle error cases

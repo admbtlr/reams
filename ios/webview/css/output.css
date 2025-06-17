@@ -1742,6 +1742,7 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
 }
 .web .itemArticle figure:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle img:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle video:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle iframe:not(.specificity-breaker):not(.img-small):not(.img-tiny), .web .itemArticle pre:not(.specificity-breaker):not(.img-small):not(.img-tiny) {
   width: 100% !important;
+  height: auto;
   left: 0 !important;
   margin-right: 0 !important;
 }
@@ -1753,9 +1754,8 @@ html.onboarding.onboarding-2:not(.dark-background) body p {
   max-width: 28rem !important;
 }
 .web .itemArticle img.img-portrait:not(.img-tiny), .web .itemArticle img.img-small {
-  width: 100% !important;
-  margin: 1rem 0 !important;
-  left: 0;
+  display: block;
+  margin: 1rem auto !important;
 }
 .web input:focus {
   outline: 1px solid rgba(255, 255, 255, 0.3);

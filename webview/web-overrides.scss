@@ -146,6 +146,7 @@
     figure, img, video, iframe, pre {
       &:not(.specificity-breaker):not(.img-small):not(.img-tiny) {
         width: 100% !important;
+        height: auto;
         left: 0 !important;
         margin-right: 0 !important;
       }
@@ -161,9 +162,8 @@
     }
 
     img.img-portrait:not(.img-tiny), img.img-small {
-      width: 100% !important;
-      margin: 1rem 0 !important;
-      left: 0;
+      display: block;
+      margin: 1rem auto !important;
     }
   }
 
