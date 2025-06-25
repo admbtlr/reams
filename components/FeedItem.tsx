@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ActivityIndicator, Animated, Dimensions, Platform, ScrollView, View } from 'react-native'
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
-import ItemTitleContainer from '../containers/ItemTitle'
+import ItemTitle from './ItemTitle'
 import { getCachedCoverImagePath } from '../utils/'
 import { getMargin } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
@@ -476,9 +476,9 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
           />
         }
         {(showCoverImage && isCoverInline) && coverImage}
-        <ItemTitleContainer
+        <ItemTitle
           anims={anims.current}
-          addAnimation={addAnimation}
+          // addAnimation={addAnimation}
           backgroundColor={bodyColor}
           item={inflatedItem}
           isVisible={isVisible}

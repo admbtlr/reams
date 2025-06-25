@@ -73,21 +73,6 @@ const fontStyles = {
       fontFamily: 'Reforma1969-BlancaItalica'
     }
   },
-  // headerFontSans1: {
-  //   verticalOffset: 0.1,
-  //   bold: {
-  //     fontFamily: 'AvenirNextCondensed-Bold'
-  //   },
-  //   boldItalic: {
-  //     fontFamily: 'AvenirNextCondensed-BoldItalic'
-  //   },
-  //   regular: {
-  //     fontFamily: 'AvenirNextCondensed-Medium'
-  //   },
-  //   regularItalic: {
-  //     fontFamily: 'AvenirNextCondensed-MediumItalic'
-  //   }
-  // },
   headerFontSans1: {
     bold: {
       fontFamily: Platform.OS === 'ios' ? 'AvenirNextCondensed-Bold' : 'NunitoSans-Bold'
@@ -729,7 +714,7 @@ class ItemTitle extends React.Component {
       })
     } else if (styles.interBolded) {
       wordStyles = styles.interBolded.map(isBold => {
-        const fontFamily = this.getFontFamily(isBold ? 'bold' : 
+        const fontFamily = this.getFontFamily(isBold ? 'bold' :
           (styles.isItalic ? 'regularItalic' : 'regular'))
         // adjustedFontSize = isBold ? fontSize : fontSize * 0.5
         return {

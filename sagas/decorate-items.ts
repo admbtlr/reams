@@ -373,13 +373,13 @@ function* performImageAnalysisForItem(item: Item): Generator<any, { x: number, y
   }
 
   try {
-    console.log(`Starting face detection for "${item.title}"`)
+    // console.log(`Starting face detection for "${item.title}"`)
     // Face detection timing
     const faceStart = Date.now()
     const faceCentreNormalised = yield call(() => faceDetection(coverImageFile!, imageDimensions!))
     const faceDuration = Date.now() - faceStart
     updateTimingStats('faceDetection', faceDuration)
-    console.log(`Face detection completed for "${item.title}" in ${faceDuration}ms`)
+    // console.log(`Face detection completed for "${item.title}" in ${faceDuration}ms`)
     return faceCentreNormalised
   } catch (error: any) {
     console.log(`Face detection error for "${item.title}":`, error)
