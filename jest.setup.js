@@ -15,7 +15,7 @@ jest.mock('redux-persist', () => {
   return {
     ...real,
     persistReducer: jest.fn().mockImplementation((_, reducers) => reducers),
-    persistStore: jest.fn().mockImplementation(() => ({ purge: () => {} })),
+    persistStore: jest.fn().mockImplementation(() => ({ purge: () => { } })),
   }
 })
 
@@ -69,7 +69,7 @@ jest.mock('./utils/dimensions', () => {
 jest.mock('react-native-webview', () => {
   const React = require('react')
   const { View, Text } = require('react-native')
-  
+
   return {
     WebView: ({ source, originWhitelist, onMessage, testID, style, ref, containerStyle }) => {
       // Extract HTML content from source if available
@@ -81,7 +81,7 @@ jest.mock('react-native-webview', () => {
           content = articleMatch[1].replace(/<[^>]*>/g, '')
         }
       }
-      
+
       // Call onMessage with 'loaded' event after render
       React.useEffect(() => {
         if (onMessage) {
@@ -91,7 +91,7 @@ jest.mock('react-native-webview', () => {
           }, 0)
         }
       }, [])
-      
+
       return (
         <View testID="mock-webview" style={containerStyle || style}>
           <Text>{content}</Text>
@@ -145,7 +145,39 @@ jest.mock('react-native-reanimated', () => {
   // So we override it with a no-op
   Reanimated.default.call = () => { }
 
-  return Reanimated
+  // Add missing functions for ButtonSet component
+  const mockInterpolate = jest.fn((value, inputRange, outputRange, extrapolate) => {
+    // Simple interpolation logic for testing
+    if (inputRange.length === 2 && outputRange.length === 2) {
+      const progress = (value - inputRange[0]) / (inputRange[1] - inputRange[0])
+      return outputRange[0] + progress * (outputRange[1] - outputRange[0])
+    }
+    return outputRange[0] || 1
+  })
+
+  const mockUseAnimatedStyle = jest.fn((styleFunction) => {
+    // Return a basic style object for testing
+    try {
+      return styleFunction()
+    } catch (error) {
+      // If styleFunction fails, return a basic style
+      return { opacity: 1 }
+    }
+  })
+
+  const mockWithTiming = jest.fn((value, config) => value)
+
+  return {
+    ...Reanimated,
+    useAnimatedStyle: mockUseAnimatedStyle,
+    withTiming: mockWithTiming,
+    withDelay: jest.fn((delay, animation) => animation),
+    interpolate: mockInterpolate,
+    Extrapolate: { CLAMP: 'clamp' },
+    useSharedValue: jest.fn((value) => ({ value })),
+    useAnimatedProps: jest.fn((callback) => callback()),
+    runOnJS: jest.fn((fn) => fn),
+  }
 })
 
 // Silence the warning: Animated: `useNativeDriver` is not supported because the native animated module is missing

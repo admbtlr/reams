@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { ActivityIndicator, Animated, Dimensions, Platform, ScrollView, View } from 'react-native'
+import { ActivityIndicator, Animated, Dimensions, Platform, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native'
+import Reanimated, { useAnimatedScrollHandler, runOnJS, useSharedValue, withTiming, interpolate, useAnimatedStyle, useAnimatedReaction } from 'react-native-reanimated'
 import CoverImage from './CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitle from './ItemTitle'
 import { getCachedCoverImagePath } from '../utils/'
-import { getMargin } from '../utils/dimensions'
+import { getMargin, getStatusBarHeight } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { getItem as getItemSQLite } from "@/storage/sqlite"
 import { getItem as getItemIDB } from "@/storage/idb-storage"
@@ -13,10 +14,12 @@ import log from '../utils/log'
 import Nudge from './Nudge'
 import { MAX_DECORATION_FAILURES } from '../sagas/decorate-items'
 import { Item, ItemInflated, SET_SCROLL_OFFSET } from '../store/items/types'
-import { SHOW_IMAGE_VIEWER } from '../store/ui/types'
+import { HIDE_ALL_BUTTONS, SHOW_IMAGE_VIEWER, SHOW_ITEM_BUTTONS } from '../store/ui/types'
 import { getIndex, getItems } from '../utils/get-item'
 import { useColor } from '../hooks/useColor'
 import type { RootState } from '../store/reducers'
+import { useAnimation } from '@/components/ItemCarousel/AnimationContext'
+import { useReanimatedScroll, logAnimationEvent } from '../utils/feature-flags'
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -30,18 +33,18 @@ interface FeedItemProps {
     on: (event: string, callback: () => void, id?: string) => void;
     off: (id: string) => void;
   };
+  itemIndex: number;
   panAnim: Animated.Value;
   onScrollEnd: (offset: number) => void;
-  setScrollAnim: (anim: Animated.Value) => void;
+  // setScrollAnim: (anim: Animated.Value) => void;
 }
 
 export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const {
     _id,
     emitter,
-    panAnim,
+    itemIndex,
     onScrollEnd,
-    setScrollAnim
   } = props
 
   const dispatch = useDispatch()
@@ -52,34 +55,34 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const orientation = useSelector((state: RootState) => state.config.orientation)
 
-  // Find the current item
-  const itemIndex = items.findIndex(item => item._id === _id)
-  const rawItem = items[itemIndex]
+  // Animation context (new Reanimated system)
+  const animationContext = useAnimation()
 
-  // Early return if item not found
-  if (!rawItem) return null
+  // Feature flag to control new vs old scroll behavior
+  const useReanimatedScrollHandlers = useReanimatedScroll()
+
+  // Find the current item
+  const rawItem = items.find(item => item._id === _id)
 
   const color = useColor(rawItem?.url)
 
   // Find related feed or newsletter
   const feed = useSelector((state: RootState) =>
-    state.feeds.feeds.find(f => f._id === rawItem.feed_id)
+    state.feeds.feeds.find(f => f._id === rawItem?.feed_id)
   )
   const newsletter = useSelector((state: RootState) =>
-    state.newsletters.newsletters.find(n => n._id === rawItem.feed_id)
+    state.newsletters.newsletters.find(n => n._id === rawItem?.feed_id)
   )
-  const showMercuryContent = rawItem.showMercuryContent !== undefined ?
+
+  const showMercuryContent = rawItem?.showMercuryContent !== undefined ?
     rawItem.showMercuryContent :
     feed?.isMercury
 
   // Complete item with additional data
-  const item: Item = {
+  const item: Item | undefined = rawItem && {
     ...rawItem,
     showMercuryContent
   }
-
-  // Is this item currently visible
-  const isVisible = currentIndex === itemIndex
 
   // Refs
   const scrollView = useRef<ScrollView>(null)
@@ -97,6 +100,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
   const [hasRendered, setHasRendered] = useState<boolean>(false)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
+  const [isVisible, setIsVisible] = useState<boolean>(false)
 
   // use a ref so that we can reference this value within a closure
   // i.e. the scrollToOffset function below
@@ -108,7 +112,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
 
   // Other refs to replace class properties
   const screenDimensions = useRef(Dimensions.get('window')).current
-  const wasShowCoverImage = useRef<boolean | undefined>(item.showCoverImage)
+  const wasShowCoverImage = useRef<boolean | undefined>(item?.showCoverImage)
   const currentScrollOffset = useRef<number>(0)
   const hasBegunScroll = useRef<boolean>(false)
   const pendingWebViewHeight = useRef<number | null>(null)
@@ -133,18 +137,10 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     })
   }
 
-  // Initialize animated values
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    initAnimatedValues()
-    if (isVisible) {
-      setScrollAnim(scrollAnim)
-    }
-  }, [isVisible, panAnim])
-
   // Component mount/unmount
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
+    if (item === undefined) return
     emitter.on('scrollToRatio', scrollToRatioIfVisible, item._id)
     inflateItemAndSetState(item)
     hasMounted.current = true
@@ -152,25 +148,25 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     return () => {
       emitter.off(item._id)
     }
-  }, [])
+  }, [item])
 
   // Component update for decoration status
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if ((item.isNewsletter || item.isExternal) &&
-      (item.isDecorated || item.isHtmlCleaned || item.isMercuryCleaned)) {
+    if ((item?.isNewsletter || item?.isExternal) &&
+      (item?.isDecorated || item?.isHtmlCleaned || item?.isMercuryCleaned)) {
       inflateItemAndSetState(item)
     }
   }, [
-    item.isDecorated,
-    item.isHtmlCleaned,
-    item.isMercuryCleaned
+    item?.isDecorated,
+    item?.isHtmlCleaned,
+    item?.isMercuryCleaned
   ])
 
   // Reveal animation effect
   useEffect(() => {
-    if (!hasRendered && (item.isDecorated ||
-      (item.decoration_failures && item.decoration_failures >= MAX_DECORATION_FAILURES))) {
+    if (!hasRendered && (item?.isDecorated ||
+      (item?.decoration_failures && item?.decoration_failures >= MAX_DECORATION_FAILURES))) {
       const reveal = new Animated.Value(1)
       isRevealing.current = true
 
@@ -187,7 +183,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
         }
       })
     }
-  }, [hasRendered, item.isDecorated, item.decoration_failures])
+  }, [hasRendered, item?.isDecorated, item?.decoration_failures])
 
   const initAnimatedValues = (): void => {
     const newAnims = [0, 0, 0, 0, 0, 0].map((a, i) => {
@@ -227,10 +223,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
       return {
         ...style,
         left: width,
-        opacity: anim.interpolate({
-          inputRange: [0, 1, 1.05, 1.1, 2],
-          outputRange: [1, 1, 1, 1, 1]
-        }),
         transform: [
           ...transform,
           {
@@ -304,7 +296,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const scrollToOffset = (isOverridable = false, useTimeout = true): void => {
     if (isOverridable && hasBegunScroll.current) return
     if (!scrollView.current) return
-    if (!item.scrollRatio || typeof item.scrollRatio !== 'object') return
+    if (!item?.scrollRatio || typeof item?.scrollRatio !== 'object') return
 
     const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
     if (!scrollRatio || scrollRatio === 0) return
@@ -329,32 +321,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     setWebViewHeight(height)
   }
 
-  const onScrollEndDrag = (e: { nativeEvent: { contentOffset: { y: number } } }): void => {
-    const offset = e.nativeEvent.contentOffset.y
-    scrollEndTimer.current = setTimeout(() => {
-      onMomentumScrollEnd(offset)
-    }, 250)
-  }
-
-  const onMomentumScrollBegin = (): void => {
-    if (scrollEndTimer.current) {
-      clearTimeout(scrollEndTimer.current)
-    }
-    hasBegunScroll.current = true
-  }
-
-  const onMomentumScrollEnd = (scrollOffset: number | { nativeEvent: { contentOffset: { y: number } } }): void => {
-    const offset = typeof scrollOffset === 'number' ?
-      scrollOffset :
-      scrollOffset.nativeEvent.contentOffset.y
-
-    currentScrollOffset.current = offset
-    if (inflatedItem) {
-      setScrollOffset(inflatedItem, offset, webViewHeight)
-    }
-    onScrollEnd(offset)
-  }
-
   const onNavigationStateChange = (event: { url: string; jsEvaluationValue: string }): void => {
     // this means we're loading an image
     if (event.url.startsWith('react-js-navigation')) return
@@ -363,6 +329,154 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
       updateWebViewHeight(calculatedHeight)
     }
   }
+
+  // SCROLL HANDLER
+  const { buttonsVisibles, headerVisibles, horizontalScroll, isScrolling, verticalScrolls } = useAnimation()
+  const scrollBegin = useSharedValue(0)
+  const lastScrollY = useSharedValue(0)
+  const lastScrollDirection = useSharedValue(0) // 1 = down, -1 = up, 0 = none
+  const statusBarHeight = getStatusBarHeight()
+
+  const screenWidth = useWindowDimensions().width
+
+  const setButtonsVisible = (isVisible: boolean) => {
+    dispatch({
+      type: isVisible ? SHOW_ITEM_BUTTONS : HIDE_ALL_BUTTONS
+    })
+  }
+
+  // reset the shared scroll animation values as soon as this FeedItem becomes visible
+  useAnimatedReaction(
+    () => horizontalScroll.value,
+    () => {
+      if (horizontalScroll.value / screenWidth === itemIndex) {
+        // buttonsVisible.value = 1
+        // headerVisibles[itemIndex].value = 0
+        // verticalScrolls[itemIndex].value = 0
+        runOnJS(setButtonsVisible)(true)
+        runOnJS(setIsVisible)(true)
+        // runOnJS(initAnimatedValues)
+      }
+    })
+
+  const setStatusBarVisible = (isStatusBarVisible: boolean) => {
+    StatusBar.setHidden(!isStatusBarVisible)
+  }
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onBeginDrag: (event) => {
+      isScrolling.value = true
+      scrollBegin.value = event.contentOffset.y
+      lastScrollY.value = event.contentOffset.y
+    },
+    onScroll: (event) => {
+      // Update scroll position
+      verticalScrolls[itemIndex].value = event.contentOffset.y
+
+      // Track relative scroll movement for TopBar
+      const currentY = event.contentOffset.y
+      const deltaY = currentY - lastScrollY.value
+      const contentHeight = event.contentSize.height
+      const layoutHeight = event.layoutMeasurement.height
+      const maxScrollY = contentHeight - layoutHeight
+
+      // Don't update header when at top of page to prevent bounce issues
+      if (currentY < 10) {
+        headerVisibles[itemIndex].value = 0 // Keep header visible at top
+        lastScrollY.value = currentY
+        return
+      }
+
+      // Don't update header when at bottom of page to prevent bounce issues
+      if (currentY > maxScrollY - 10) {
+        // Keep current header state when at bottom to avoid bounce effects
+        lastScrollY.value = currentY
+        return
+      }
+
+      // Track scroll direction
+      if (Math.abs(deltaY) > 1) { // Only update direction for meaningful movement
+        lastScrollDirection.value = deltaY > 0 ? 1 : -1
+      }
+
+      // Update header offset based on scroll direction
+      // Scrolling down (positive delta) - hide header
+      // Scrolling up (negative delta) - show header
+      const currentOffset = headerVisibles[itemIndex].value
+      const newOffset = Math.max(0, Math.min(statusBarHeight, currentOffset + deltaY))
+
+      headerVisibles[itemIndex].value = newOffset
+      lastScrollY.value = currentY
+    },
+    onEndDrag: (event) => {
+      isScrolling.value = false
+      buttonsVisibles[itemIndex].value = event.contentOffset.y > scrollBegin.value ? 0 : 1
+
+      runOnJS(setButtonsVisible)(buttonsVisibles[itemIndex].value === 1)
+
+      // Snap TopBar to fully visible or hidden based on last scroll direction
+      const currentOffset = headerVisibles[itemIndex].value
+      const threshold = statusBarHeight / 2
+
+      let targetOffset = 0
+      if (lastScrollDirection.value > 0) {
+        // Was scrolling down - snap to hidden
+        targetOffset = statusBarHeight
+      } else if (lastScrollDirection.value < 0) {
+        // Was scrolling up - snap to visible
+        targetOffset = 0
+      } else {
+        // No clear direction - snap based on current position
+        targetOffset = currentOffset > threshold ? statusBarHeight : 0
+      }
+
+      runOnJS(setStatusBarVisible)(targetOffset === 0)
+
+      headerVisibles[itemIndex].value = withTiming(targetOffset, { duration: 200 })
+
+      if (__DEV__) {
+        runOnJS(logAnimationEvent)('scroll-end-drag', {
+          offset: event.contentOffset.y
+        })
+      }
+    },
+    onMomentumEnd: (event) => {
+      // Only update shared values if this FeedItem is currently visible
+      isScrolling.value = false
+
+      // Snap TopBar to fully visible or hidden based on last scroll direction
+      const currentOffset = headerVisibles[itemIndex].value
+      const threshold = statusBarHeight / 2
+
+      let targetOffset = 0
+      if (lastScrollDirection.value > 0) {
+        // Was scrolling down - snap to hidden
+        targetOffset = statusBarHeight
+      } else if (lastScrollDirection.value < 0) {
+        // Was scrolling up - snap to visible
+        targetOffset = 0
+      } else {
+        // No clear direction - snap based on current position
+        targetOffset = currentOffset > threshold ? statusBarHeight : 0
+      }
+
+      headerVisibles[itemIndex].value = withTiming(targetOffset, { duration: 200 })
+
+      if (__DEV__) {
+        runOnJS(logAnimationEvent)('scroll-momentum-end', { offset: event.contentOffset.y })
+      }
+    }
+  })
+  // END SCROLL HANDLER
+
+  // ANIMATED STYLES
+  const fakeBgOpacityStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(verticalScrolls[itemIndex].value, [0, 250, 251], [0, 0, 1])
+  }))
+  // END ANIMATED STYLES
+
+  // Early return if item not found
+  if (!rawItem) return null
 
   const emptyState = (
     <View style={{
@@ -414,6 +528,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
       imageDimensions={hasCoverImage ? imageDimensions : undefined}
       faceCentreNormalised={faceCentreNormalised}
       orientation={orientation}
+      isVisible={isVisible}
+      itemIndex={itemIndex}
     /> :
     null
 
@@ -431,38 +547,25 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
       }}
     >
       {(showCoverImage && !isCoverInline) && coverImage}
-      <Animated.View style={{
+      <Reanimated.View style={[{
         position: 'absolute',
         bottom: 0,
         left: 0,
         height: 250,
         width: screenDimensions.width,
         backgroundColor: bodyColor,
-        opacity: scrollAnim.interpolate({
-          inputRange: [0, 250, 251],
-          outputRange: [0, 0, 1]
-        })
-      }} />
-      <Animated.ScrollView
-        onScroll={
-          Animated.event(
-            [{
-              nativeEvent: {
-                contentOffset: { y: scrollAnim }
-              }
-            }],
-            {
-              useNativeDriver: true
-            }
-          )
-        }
-        onMomentumScrollBegin={onMomentumScrollBegin}
-        onMomentumScrollEnd={onMomentumScrollEnd}
-        onScrollBeginDrag={() => { hasBegunScroll.current = true }}
-        onScrollEndDrag={onScrollEndDrag}
+      }, fakeBgOpacityStyle]} />
+      <Reanimated.ScrollView
+        onScroll={scrollHandler}
+        // onMomentumScrollBegin={onMomentumScrollBegin}
+        // onMomentumScrollEnd={onMomentumScrollEnd}
+        // onScrollBeginDrag={() => {
+        //   hasBegunScroll.current = true
+        // }}
+        // onScrollEndDrag={onScrollEndDrag}
         pinchGestureEnabled={false}
         ref={scrollView}
-        scrollEventThrottle={1}
+        scrollEventThrottle={useReanimatedScrollHandlers ? 16 : 1}
         style={{
           flex: 1,
           minHeight: 100,
@@ -482,6 +585,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
           backgroundColor={bodyColor}
           item={inflatedItem}
           isVisible={isVisible}
+          itemIndex={itemIndex}
           title={title}
           excerpt={inflatedItem.excerpt}
           date={savedAt ? savedAt * 1000 : created_at}
@@ -494,7 +598,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
         />
         <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
           (styles.coverImage?.isInline || !showCoverImage) ?
-          addAnimation(bodyStyle, anims.current[5], isVisible) :
+          //addAnimation(bodyStyle, anims.current[5], isVisible) :
+          bodyStyle :
           bodyStyle}
         >
           <View style={{
@@ -520,7 +625,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
             webViewHeight={webViewHeight}
           />
         </Animated.View>
-      </Animated.ScrollView>
+      </Reanimated.ScrollView>
       {!hasRendered &&
         <Animated.View
           style={{

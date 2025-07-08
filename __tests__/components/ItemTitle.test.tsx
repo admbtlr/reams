@@ -44,7 +44,7 @@ jest.mock('@/utils', () => ({
   diff: jest.fn(() => ({}))
 }))
 
-jest.mock('@/components/TopBar', () => ({
+jest.mock('@/components/ItemCarousel/TopBar', () => ({
   getTopBarHeight: jest.fn(() => 50)
 }))
 

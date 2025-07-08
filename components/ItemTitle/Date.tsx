@@ -69,18 +69,18 @@ const Date: React.FC<DateProps> = ({
     transform: []
   }
 
-  if (anims && addAnimation) {
-    dateStyle = addAnimation(dateStyle, dateAnimation, !!isVisible)
-    if (!isCoverInline) {
-      dateStyle.transform = dateStyle.transform || []
-      dateStyle.transform.push({
-        translateY: scrollOffset.interpolate({
-          inputRange: [-1, 0, 1],
-          outputRange: [-0.25, 0, 0]
-        })
-      })
-    }
-  }
+  // if (anims && addAnimation) {
+  //   dateStyle = addAnimation(dateStyle, dateAnimation, !!isVisible)
+  //   if (!isCoverInline) {
+  //     dateStyle.transform = dateStyle.transform || []
+  //     dateStyle.transform.push({
+  //       translateY: scrollOffset.interpolate({
+  //         inputRange: [-1, 0, 1],
+  //         outputRange: [-0.25, 0, 0]
+  //       })
+  //     })
+  //   }
+  // }
 
   return (
     <Animated.Text

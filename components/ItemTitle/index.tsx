@@ -1,9 +1,10 @@
 import React from 'react'
 import { Animated, Dimensions, View, ViewStyle, Platform } from 'react-native'
+import Reanimated from 'react-native-reanimated'
 import { useSelector, useDispatch } from 'react-redux'
 import { ItemType, SET_TITLE_FONT_SIZE } from '@/store/items/types'
 import { getMargin, isIpad, isPortrait } from '@/utils/dimensions'
-import { getTopBarHeight } from '@/components/TopBar'
+import { getTopBarHeight } from '@/components/ItemCarousel/TopBar'
 import CategoryToggles from '@/components/CategoryToggles'
 import { withUseColorHOC } from '@/components/withUseColorHOC'
 import Title from './Title'
@@ -11,6 +12,8 @@ import Excerpt from './Excerpt'
 import Author from './Author'
 import Date from './Date'
 import Bar from './Bar'
+import { useAnimationValues } from '../ItemCarousel/AnimationContext'
+import { interpolate, useAnimatedStyle } from 'react-native-reanimated'
 
 interface FontStyle {
   fontFamily: string
@@ -32,6 +35,7 @@ interface ItemTitleProps {
   isCoverInline?: boolean
   isVisible?: boolean
   item: any
+  itemIndex: number
   scrollOffset: Animated.Value
   showCoverImage?: boolean
   anims?: any
@@ -190,6 +194,7 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
     isCoverInline,
     isVisible,
     item,
+    itemIndex,
     scrollOffset,
     showCoverImage,
     anims,
@@ -264,6 +269,13 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
   const screenHeight: number = window.height
 
   const isFullBleed: boolean = !!(showCoverImage && !isCoverInline)
+
+  const { verticalScrolls } = useAnimationValues()
+  const animatedOpacity = useAnimatedStyle(() => ({
+    opacity: isCoverInline || !showCoverImage || !isVisible ?
+      1 :
+      interpolate(verticalScrolls[itemIndex].value, [-100, -10, 0, 100, 200], [0, 1, 1, 1, 0])
+  }))
 
   // Helper function for animation values (extracted from original)
   const getAnimationValues = (): AnimationValues => {
@@ -348,8 +360,7 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
     flexDirection: 'column',
     backgroundColor: !showCoverImage || isCoverInline ?
       (styles.bg ? color || 'black' : 'transparent') :
-      getOverlayColor(),
-    opacity: isCoverInline || !showCoverImage ? 1 : opacity
+      getOverlayColor()
   }
 
   // Layout justifiers and aligners
@@ -420,17 +431,17 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
   }
 
   return (
-    <Animated.View
+    <Reanimated.View
       onLayout={event => onLayout(
         event.nativeEvent.layout.height + event.nativeEvent.layout.y
       )}
       pointerEvents='box-none'
-      style={{
+      style={[{
         ...outerViewStyle,
         justifyContent: showCoverImage ? (justifiers[styles.valign] || 'flex-start') : 'flex-start',
         alignItems: styles.textAlign === 'center' ? 'center' : 'flex-start',
         flex: showCoverImage && !isCoverInline ? 0 : 1
-      }}
+      }, animatedOpacity]}
     >
       <Title
         title={title}
@@ -548,7 +559,7 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
             anims={anims}
           />
         )}
-    </Animated.View>
+    </Reanimated.View>
   )
 }
 

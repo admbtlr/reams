@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, Dimensions, View, StyleSheet, useWindowDimensions, Platform } from 'react-native'
+import Reanimated, { interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 import {
   Canvas,
@@ -18,6 +19,7 @@ import { getStatusBarHeight } from '../utils/dimensions'
 import { hslString } from '../utils/colors'
 import { G } from 'react-native-svg'
 import { BW } from '../utils/color-filters'
+import { useAnimation } from './ItemCarousel/AnimationContext'
 
 interface CoverImageProps {
   styles: {
@@ -34,6 +36,8 @@ interface CoverImageProps {
     width: number
     height: number
   } | undefined
+  isVisible: boolean
+  itemIndex: number
   orientation: string
   scrollAnim?: Animated.Value
   faceCentreNormalised?: {
@@ -86,7 +90,9 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
 
   const {
     faceCentreNormalised,
-    imageDimensions
+    imageDimensions,
+    isVisible,
+    itemIndex
   } = props
 
   const isReallyInline = props.orientation === 'landscape' ? false : isInline
@@ -112,41 +118,36 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
   }
 
   const position = isReallyInline ? inline : absolute
-  const scrollAnim = props.scrollAnim || new Animated.Value(0)
   const imageHeight = screenWidth / imageDimensions.width * imageDimensions.height
-  const scale = isReallyInline ?
-    scrollAnim.interpolate({
-      inputRange: [-imageHeight, 0, 1],
-      outputRange: [2, 1, 1]
-    }) :
-    scrollAnim.interpolate({
-      inputRange: [-100, 0, screenHeight],
-      outputRange: [1.3, 1, 0.8]
-    })
-  const translateY = isReallyInline ?
-    scrollAnim.interpolate({
-      inputRange: [-1, 0, 1],
-      outputRange: [-.5, 0, 0]
-    }) :
-    scrollAnim.interpolate({
-      inputRange: [-1, 0, 1],
-      outputRange: [0, 0, -0.333]
-    })
-  const opacity = scrollAnim.interpolate({
-    inputRange: [0, screenHeight * 0.75, screenHeight],
-    outputRange: [1, 1, 0]
-  })
-  const blurOpacity = scrollAnim.interpolate({
-    inputRange: [-100, -50, 0, 200],
-    outputRange: [0, 0.8, 1, 0]
+
+  const { verticalScrolls } = useAnimation()
+  const animatedStyles = useAnimatedStyle(() => {
+    const scale = isReallyInline ?
+      interpolate(verticalScrolls[itemIndex].value, [-imageHeight, 0, 1], [2, 1, 1]) :
+      interpolate(verticalScrolls[itemIndex].value, [-100, 0, screenHeight], [1.3, 1, 0.8])
+    const translateY = isReallyInline ?
+      interpolate(verticalScrolls[itemIndex].value, [-1, 0, 1], [-.5, 0, 0]) :
+      interpolate(verticalScrolls[itemIndex].value, [-1, 0, 1], [0, 0, -0.333])
+    const opacity = interpolate(verticalScrolls[itemIndex].value, [0, screenHeight * 0.75, screenHeight], [1, 1, 0])
+    const blurOpacity = interpolate(verticalScrolls[itemIndex].value, [-100, -50, 0, 200], [0, 0.8, 1, 0])
+    return isVisible ?
+      {
+        opacity,
+        transform: isReallyInline ?
+          [{ translateY }, { scale }] :
+          [{ scale }, { translateY }]
+      } :
+      {
+        opacity: 1,
+        transform: [
+          { translateY: 0 },
+          { scale: 1 }
+        ]
+      }
   })
   let style = {
     ...position,
     backgroundColor: isMultiply || isScreen ? getColor() : hslString('bodyBG'),
-    opacity,
-    transform: isReallyInline ?
-      [{ translateY }, { scale }] :
-      [{ scale }, { translateY }]
   }
 
   if (resizeMode === 'contain') {
@@ -161,7 +162,7 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
 
   const blurStyle = {
     ...absolute,
-    opacity
+    // opacity
   }
 
   const borderStyle = {
@@ -235,8 +236,8 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
     ) : adjusted
 
     return (
-      <Animated.View
-        style={style}
+      <Reanimated.View
+        style={[style, animatedStyles]}
       >
         <Canvas style={{
           flex: 1,
@@ -247,7 +248,7 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
             <Blur blur={4} />
           }
         </Canvas>
-      </Animated.View>
+      </Reanimated.View>
     )
   }
   return <Animated.View />

@@ -364,18 +364,18 @@ const Title: React.FC<TitleProps> = ({
     borderRadius: styles.bg ? getMargin() : 0
   }
 
-  if (anims && addAnimation) {
-    innerViewStyle = addAnimation(innerViewStyle, titleAnimation, !!isVisible)
-    if (!showCoverImage || !isCoverInline) {
-      innerViewStyle.transform = innerViewStyle.transform || []
-      innerViewStyle.transform.push({
-        translateY: scrollOffset.interpolate({
-          inputRange: [-1, 0, 1],
-          outputRange: [-0.75, 0, 0]
-        })
-      })
-    }
-  }
+  // if (anims && addAnimation) {
+  //   innerViewStyle = addAnimation(innerViewStyle, titleAnimation, !!isVisible)
+  //   if (!showCoverImage || !isCoverInline) {
+  //     innerViewStyle.transform = innerViewStyle.transform || []
+  //     innerViewStyle.transform.push({
+  //       translateY: scrollOffset.interpolate({
+  //         inputRange: [-1, 0, 1],
+  //         outputRange: [-0.75, 0, 0]
+  //       })
+  //     })
+  //   }
+  // }
 
   // Shadow style
   const shadowStyle: TextStyle = showCoverImage && styles.hasShadow ? {

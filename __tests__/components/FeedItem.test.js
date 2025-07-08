@@ -13,6 +13,25 @@ jest.mock('../../hooks/useColor', () => ({
 // Mock utils functions
 jest.mock('../../utils/log', () => jest.fn())
 
+// Mock feature flags
+jest.mock('../../utils/feature-flags', () => ({
+  useReanimatedScroll: jest.fn(() => false), // Default to old system
+  logAnimationEvent: jest.fn()
+}))
+
+// Mock AnimationContext
+jest.mock('@/components/ItemCarousel/AnimationContext', () => ({
+  useAnimation: jest.fn(() => ({
+    verticalScroll: { value: 0 },
+    headerVisible: { value: 1 },
+    buttonsVisible: { value: 1 },
+    scrollDirection: { value: 0 },
+    isScrolling: { value: false },
+    scrollVelocity: { value: 0 }
+  })),
+  AnimationProvider: ({ children }) => children
+}))
+
 // Create a simplified mock store with only what's needed for this test
 const createMockStore = (customState = {}) => {
   const testItem = {
@@ -167,6 +186,16 @@ jest.mock('../../components/ItemsScreen', () => {
   }
 })
 
+// Mock Reanimated functions
+jest.mock('react-native-reanimated', () => {
+  const actualReanimated = jest.requireActual('react-native-reanimated/mock')
+  return {
+    ...actualReanimated,
+    useAnimatedScrollHandler: jest.fn(() => jest.fn()),
+    runOnJS: jest.fn((fn) => fn)
+  }
+})
+
 // Test error boundary to catch and report any errors
 class TestErrorBoundary extends React.Component {
   state = { hasError: false, error: null }
@@ -198,26 +227,11 @@ describe('FeedItem Component Simplified', () => {
       <Provider store={store}>
         <TestErrorBoundary>
           <FeedItem
-            item={{
-              _id: '1',
-              feed_color: [0, 0, 0],
-              feedTitle: 'Test Feed',
-              showMercuryContent: false,
-              title: 'Test Title',
-              isDecorated: true,
-              url: 'https://example.com/article',
-              created_at: new Date().getTime()
-            }}
-            coverImageComponent={<View />}
-            setTimerFunction={() => { }}
-            setScrollOffset={() => { }}
-            setScrollAnim={() => { }}
-            onScrollEnd={() => { }}
-            onTextSelection={() => { }}
-            showImageViewer={() => { }}
-            panAnim={new Animated.Value(0)}
+            _id="1"
             emitter={mockEmitter}
-            isVisible={true}
+            panAnim={new Animated.Value(0)}
+            onScrollEnd={() => { }}
+            setScrollAnim={() => { }}
           />
         </TestErrorBoundary>
       </Provider>

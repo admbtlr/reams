@@ -54,18 +54,18 @@ const Author: React.FC<AuthorProps> = ({
     width: screenWidth
   }
 
-  if (anims && addAnimation) {
-    authorStyle = addAnimation(authorStyle, authorAnimation, !!isVisible)
-    if (!isCoverInline) {
-      authorStyle.transform = authorStyle.transform || []
-      authorStyle.transform.push({
-        translateY: scrollOffset.interpolate({
-          inputRange: [-1, 0, 1],
-          outputRange: [-0.25, 0, 0]
-        })
-      })
-    }
-  }
+  // if (anims && addAnimation) {
+  //   authorStyle = addAnimation(authorStyle, authorAnimation, !!isVisible)
+  //   if (!isCoverInline) {
+  //     authorStyle.transform = authorStyle.transform || []
+  //     authorStyle.transform.push({
+  //       translateY: scrollOffset.interpolate({
+  //         inputRange: [-1, 0, 1],
+  //         outputRange: [-0.25, 0, 0]
+  //       })
+  //     })
+  //   }
+  // }
 
   return (
     <Animated.Text

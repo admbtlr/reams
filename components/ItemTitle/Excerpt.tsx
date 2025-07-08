@@ -99,19 +99,19 @@ const Excerpt: React.FC<ExcerptProps> = ({
     transform: []
   }
 
-  if (anims && addAnimation) {
-    innerViewStyle = addAnimation(innerViewStyle, excerptAnimation, !!isVisible)
+  // if (anims && addAnimation) {
+  //   innerViewStyle = addAnimation(innerViewStyle, excerptAnimation, !!isVisible)
 
-    if (!isCoverInline) {
-      innerViewStyle.transform = innerViewStyle.transform || []
-      innerViewStyle.transform.push({
-        translateY: scrollOffset.interpolate({
-          inputRange: [-1, 0, 1],
-          outputRange: [-0.5, 0, 0]
-        })
-      })
-    }
-  }
+  //   if (!isCoverInline) {
+  //     innerViewStyle.transform = innerViewStyle.transform || []
+  //     innerViewStyle.transform.push({
+  //       translateY: scrollOffset.interpolate({
+  //         inputRange: [-1, 0, 1],
+  //         outputRange: [-0.5, 0, 0]
+  //       })
+  //     })
+  //   }
+  // }
 
   const fontStyle: TextStyle = {
     justifyContent: aligners[styles.textAlign] || 'flex-start',

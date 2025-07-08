@@ -25,9 +25,10 @@ const Bar: React.FC<BarProps> = ({
   const horizontalMargin: number = getMargin() * 0.8
 
   let style: ViewStyle = {}
-  if (anims && addAnimation) {
-    style = addAnimation({}, barAnimation, !!isVisible)
-  }
+
+  // if (anims && addAnimation) {
+  //   style = addAnimation({}, barAnimation, !!isVisible)
+  // }
 
   return (
     <Animated.View style={{
