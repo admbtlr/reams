@@ -203,10 +203,20 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
     color
   } = props
 
+  const { verticalScrolls } = useAnimationValues()
+  const animatedOpacity = useAnimatedStyle(() => ({
+    opacity: isCoverInline || !showCoverImage || !isVisible ?
+      1 :
+      interpolate(verticalScrolls[itemIndex].value, [-100, -10, 0, 100, 200], [0, 1, 1, 1, 0])
+  }))
+
   // Extract styles and title from props/item
   const styles = props.styles || (item?.styles?.title)
   const title = props.title || item?.title
   const isPortraitOrientation = isPortrait()
+
+  // Early return if not ready
+  if (!styles || !item) return null
 
   // Font family calculation function
   const getFontFamily = (fontType?: string, fontVariant?: string) => {
@@ -258,9 +268,6 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
   const authorFontFamily: string = getFontFamily('bold', 'author')
   const dateFontFamily: string = getFontFamily('regular', 'author')
 
-  // Early return if not ready
-  if (!styles || !item) return null
-
   const textColor = 'hsl(0, 0%, 20%)'
   const textColorDarkMode = 'hsl(0, 0%, 70%)'
 
@@ -269,13 +276,6 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
   const screenHeight: number = window.height
 
   const isFullBleed: boolean = !!(showCoverImage && !isCoverInline)
-
-  const { verticalScrolls } = useAnimationValues()
-  const animatedOpacity = useAnimatedStyle(() => ({
-    opacity: isCoverInline || !showCoverImage || !isVisible ?
-      1 :
-      interpolate(verticalScrolls[itemIndex].value, [-100, -10, 0, 100, 200], [0, 1, 1, 1, 0])
-  }))
 
   // Helper function for animation values (extracted from original)
   const getAnimationValues = (): AnimationValues => {
