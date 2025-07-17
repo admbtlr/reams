@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState, useMemo, useCallback, useEffect, useRef } from 'react'
+import React, { createContext, useContext, ReactNode, useState, useMemo, useCallback, useEffect, useRef, MutableRefObject } from 'react'
 import { Item, ItemType } from '@/store/items/types'
 import { useSelector } from 'react-redux'
 import { getIndex, getItems } from '@/utils/get-item'
@@ -10,6 +10,8 @@ import { useAnimation } from './AnimationContext'
 interface BufferedItemsContextType {
   bufferedItems: Item[]
   bufferStartIndex: number
+  bufferIndexRef: MutableRefObject<number>
+  setBufferIndex: (bufferIndex: number) => void
 }
 
 interface BufferedItemsProviderProps {
@@ -25,9 +27,7 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
   const feeds = useSelector((state: RootState) => state.feeds.feeds, (oldFeeds: Feed[], newFeeds: Feed[]) => (
     JSON.stringify(oldFeeds.map(f => f._id)) === JSON.stringify(newFeeds.map(f => f._id))
   ))
-  const currentIndex = useSelector(getIndex)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
-  const { setBufferIndex } = useAnimation()
 
   const mapItem = (item: Item) => ({
     _id: item._id,
@@ -56,19 +56,22 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
 
   const [bufferedItems, setBufferedItems] = useState<Item[]>([])
   const [bufferStartIndex, setBufferStartIndex] = useState<number>(0)
-
+  // we want to keep track of the buffer index
+  // without causing re-renders of the whole carousel
+  const bufferIndexRef = useRef(0)
 
   const calculateBufferStartIndex = useCallback(() => {
     // Calculate buffer position based on current Redux index
-    const relativeIndex = currentIndex - bufferStartIndex
-    if (relativeIndex === BUFFER_LENGTH) {
-      return bufferStartIndex + BUFFER_LENGTH - 1
-    } else if (relativeIndex === 0) {
+    if (bufferIndexRef.current === BUFFER_LENGTH - 1) {
+      // remember that there's an item BEFORE the current Item
+      // which is why we have to do -2 instead of just -1 here
+      return bufferStartIndex + BUFFER_LENGTH - 2
+    } else if (bufferIndexRef.current === 0) {
       return Math.max(0, bufferStartIndex - 1)
     } else {
       return bufferStartIndex
     }
-  }, [currentIndex, bufferStartIndex])
+  }, [bufferStartIndex])
 
   const getBufferedItems = useMemo(() => () => {
     // do we need to calculate a new buffer?
@@ -99,7 +102,12 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
         } : item._id))
   }, [])
 
-  useEffect(() => {
+  const setBufferIndex = (bufferIndex: number) => {
+    bufferIndexRef.current = bufferIndex
+    maybeUpdateBuffer()
+  }
+
+  const maybeUpdateBuffer = () => {
     const newBufferedItems = getBufferedItems()
     if (stringifyItems(newBufferedItems) !== stringifyItems(bufferedItems)) {
       const newBufferStartIndex = calculateBufferStartIndex()
@@ -108,13 +116,19 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
         setBufferStartIndex(newBufferStartIndex)
       }
     }
-  }, [items, currentIndex, displayMode, getBufferedItems, stringifyItems, bufferedItems, calculateBufferStartIndex, bufferStartIndex])
+  }
+
+  useEffect(() => {
+    maybeUpdateBuffer()
+  }, [])
   //}, [items, bufferStartIndex, displayMode, getBufferedItems, stringifyItems, bufferedItems, calculateBufferStartIndex])
 
   const value = useMemo(() => ({
     bufferedItems,
-    bufferStartIndex
-  }), [bufferedItems, bufferStartIndex])
+    bufferStartIndex,
+    bufferIndexRef,
+    setBufferIndex
+  }), [bufferedItems, bufferStartIndex, bufferIndexRef, setBufferIndex])
 
   return (
     <BufferedItemsContext.Provider value={value}>

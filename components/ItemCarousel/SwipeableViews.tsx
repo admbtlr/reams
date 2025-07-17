@@ -38,7 +38,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
     updateIndex,
   } = props
 
-  const { bufferedItems, bufferStartIndex } = useBufferedItems()
+  const { bufferedItems, bufferStartIndex, bufferIndexRef, setBufferIndex } = useBufferedItems()
 
   // Animation context for Reanimated shared values
   const { horizontalScroll } = useAnimation()
@@ -50,7 +50,6 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
 
   // Refs
   const scrollViewRef = useRef<Reanimated.ScrollView>(null)
-  const currentBufferIndexRef = useRef(bufferStartIndex)
   const panAnimsRef = useRef<{ [key: string]: Animated.Value }>({})
 
   // Screen dimensions
@@ -103,14 +102,13 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
 
   // Update index helper
   const updateBufferIndex = (newBufferIndex: number) => {
-    const indexDelta = newBufferIndex - currentBufferIndexRef.current
+    const indexDelta = newBufferIndex - bufferIndexRef.current
     if (indexDelta !== 0) {
       // Update Redux (for all app logic that depends on index changes)
       const newIndex = bufferStartIndex + newBufferIndex
-      updateIndex(newIndex)
 
-      // Update refs and shared values
-      currentBufferIndexRef.current = newBufferIndex
+      setBufferIndex(newBufferIndex)
+      updateIndex(newIndex)
 
       // Update buffer index: increment/decrement from current buffer position
 
@@ -187,7 +185,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
       <Onboarding
         key={page}
         index={page}
-        isVisible={currentBufferIndexRef.current === pageIndex}
+        isVisible={bufferIndexRef.current === pageIndex}
         navigation={navigation}
       />
     ))
