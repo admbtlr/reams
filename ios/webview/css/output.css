@@ -152,6 +152,11 @@ body, body a, body a:active, body a:visited {
   margin: 1rem 0 0;
 }
 
+.cover-image.cover-image-inline {
+  width: 100vw;
+  height: auto;
+}
+
 .itemArticle {
   position: relative;
   z-index: 10;
@@ -164,6 +169,17 @@ body, body a, body a:active, body a:visited {
   hyphens: auto;
   -webkit-text-size-adjust: none;
   /* gambling that it's a video */
+}
+.itemArticle .header {
+  margin-bottom: 10vw;
+}
+.itemArticle .header h1 {
+  font-size: 20vw;
+  line-height: 1;
+}
+.itemArticle .header h1, .itemArticle .header h2, .itemArticle .header h3, .itemArticle .header h4, .itemArticle .header p {
+  margin-top: 5vw;
+  margin-bottom: 5vw;
 }
 .itemArticle p, .itemArticle center {
   margin: 0;
