@@ -1,17 +1,17 @@
 import { call, put } from 'redux-saga/effects'
 import { ImageStuff, Item, ItemInflated, MercuryStuff, UPDATE_ITEM } from '../store/items/types';
-import { 
-  getItems as getItemsSQLite, 
+import {
+  getItems as getItemsSQLite,
   updateItem as updateItemSQLite
 } from '../storage/sqlite'
-import { 
-  getItems as getItemsIDB, 
+import {
+  getItems as getItemsIDB,
   updateItem as updateItemIDB
 } from '../storage/idb-storage'
 import { addCoverImageToItem, addMercuryStuffToItem, deflateItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils';
 import { Platform } from 'react-native';
 
-export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize: number}) {
+export function* setItemTitleFontSize({ item, fontSize }: { item: Item, fontSize: number }) {
   const items: ItemInflated[] = Platform.OS === 'web' ?
     yield call(getItemsIDB, [item]) :
     yield call(getItemsSQLite, [item])
@@ -44,7 +44,6 @@ export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize:
 //     ...decorated
 //   }
 //   item = addCoverImageToItem(item, imageStuff)
-//   item.hasCoverImage = !!item.coverImageFile
 //   item = setShowCoverImage(item)
 //   item = removeCachedCoverImageDuplicate(item)
 //   if (Platform.OS === 'web') {
@@ -52,7 +51,7 @@ export function * setItemTitleFontSize ({item, fontSize}: {item: Item, fontSize:
 //   } else {
 //     yield call(updateItemSQLite, item)
 //   }
-//   yield put({ 
+//   yield put({
 //     type: UPDATE_ITEM,
 //     item: deflateItem(item)
 //   })

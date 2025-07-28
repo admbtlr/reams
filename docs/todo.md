@@ -1,4 +1,5 @@
-- convert scroll animations to reanimated
+- I can get rid of date_published in favour of created_at
+- check decorate-items for changes to index and currentItem
 - move webview out of scrollview
 - web
   - ~~open all links in new tab~~
@@ -73,6 +74,7 @@
 - make buttons use reanimate
 
 # Done
+- ~~convert scroll animations to reanimated~~
 - ~~how come body is sometimes blank when app comes from background?~~
 - ~~marking img-small doesn't work~~
 - android bugs

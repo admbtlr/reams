@@ -27,7 +27,8 @@ jest.mock('@/utils/styles', () => ({
 
 // Mock selectors
 jest.mock('@/sagas/selectors', () => ({
-  getDisplay: jest.fn(() => 'unread')
+  getDisplay: jest.fn(() => 'unread'),
+  getItems: jest.fn(() => [])
 }))
 
 describe('SearchBar Component', () => {

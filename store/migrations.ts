@@ -44,13 +44,13 @@ export const migrations = {
       if (!inboxCategory.itemIds.includes(item._id)) {
         inboxCategory.itemIds.push(item._id)
       }
-    })  
+    })
     if (!state.categories) {
       state.categories = {
         categories: []
       }
     }
-    
+
     return {
       ...state,
       categories: {
@@ -192,7 +192,7 @@ export const migrations = {
         })
       }
     }
-  },  
+  },
   11: (state: RootState) => {
     // rename hasLoadedMercuryStuff to isDecorated
     return {
@@ -291,7 +291,7 @@ export const migrations = {
       }
     }
   },
-  13: (state: RootState) => { 
+  13: (state: RootState) => {
     console.log(state)
     // update feed.id to feed.feedbinId
     const feeds = state.feeds.feeds.map((f: Feed) => {
@@ -333,6 +333,43 @@ export const migrations = {
       ...state,
       hostColors: {
         hostColors: []
+      }
+    }
+  },
+  16: (state: RootState) => {
+    // migration to convert index-based current item tracking to ID-based
+
+    // Convert unread items current index to current item ID
+    let unreadCurrentItemId: string | null = null
+    const oldUnreadState = state.itemsUnread as any
+    if (state.itemsUnread.items.length > 0 &&
+      oldUnreadState.index >= 0 &&
+      oldUnreadState.index < state.itemsUnread.items.length) {
+      unreadCurrentItemId = state.itemsUnread.items[oldUnreadState.index]._id
+    } else if (state.itemsUnread.items.length > 0) {
+      unreadCurrentItemId = state.itemsUnread.items[0]._id
+    }
+
+    // Convert saved items current index to current item ID
+    let savedCurrentItemId: string | null = null
+    const oldSavedState = state.itemsSaved as any
+    if (state.itemsSaved.items.length > 0 &&
+      oldSavedState.index >= 0 &&
+      oldSavedState.index < state.itemsSaved.items.length) {
+      savedCurrentItemId = state.itemsSaved.items[oldSavedState.index]._id
+    } else if (state.itemsSaved.items.length > 0) {
+      savedCurrentItemId = state.itemsSaved.items[0]._id
+    }
+
+    return {
+      ...state,
+      itemsUnread: {
+        ...state.itemsUnread,
+        currentItemId: unreadCurrentItemId
+      },
+      itemsSaved: {
+        ...state.itemsSaved,
+        currentItemId: savedCurrentItemId
       }
     }
   }

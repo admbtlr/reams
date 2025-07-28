@@ -220,8 +220,8 @@ describe('AnimationContext', () => {
       // but we can test that the values are consistent
       expect(contextValue1.horizontalScroll.value).toBe(0)
       expect(contextValue2.horizontalScroll.value).toBe(0)
-      expect(contextValue1.verticalScroll.value).toBe(0)
-      expect(contextValue2.verticalScroll.value).toBe(0)
+      expect(contextValue1.verticalScrolls[0].value).toBe(0)
+      expect(contextValue2.verticalScrolls[0].value).toBe(0)
     })
   })
 })

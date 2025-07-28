@@ -1,11 +1,10 @@
 import React, { createContext, useContext, ReactNode, useState, useMemo, useCallback, useEffect, useRef, MutableRefObject } from 'react'
-import { Item, ItemType } from '@/store/items/types'
-import { useSelector } from 'react-redux'
-import { getIndex, getItems } from '@/utils/get-item'
+import { Item, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_ITEM } from '@/store/items/types'
+import { useDispatch, useSelector } from 'react-redux'
+import { getItems } from '@/utils/get-item'
 import { Feed } from '@/store/feeds/types'
 import { RootState } from '@/store/reducers'
-import { BUFFER_LENGTH } from '.'
-import { useAnimation } from './AnimationContext'
+import { BUFFER_LENGTH } from './constants'
 
 interface BufferedItemsContextType {
   bufferedItems: Item[]
@@ -103,9 +102,17 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
         } : item._id))
   }, [])
 
+  const dispatch = useDispatch()
   const setBufferIndex = (bufferIndex: number) => {
+    const previousItem = bufferedItems[bufferIndexRef.current]
     bufferIndexRef.current = bufferIndex
     maybeUpdateBuffer()
+    dispatch({
+      type: UPDATE_CURRENT_ITEM,
+      displayMode,
+      item: bufferedItems[bufferIndex]._id,
+      previousItemId: previousItem?._id
+    })
   }
 
   const maybeUpdateBuffer = () => {

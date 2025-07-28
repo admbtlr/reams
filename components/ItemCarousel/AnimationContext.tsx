@@ -5,7 +5,7 @@ import React, { createContext, useContext, ReactNode, useState, useEffect, useMe
 import { StatusBar } from 'react-native'
 import { useSharedValue, SharedValue, useAnimatedScrollHandler, withTiming, runOnJS, ScrollHandler, ScrollHandlers, ScrollHandlerProcessed } from 'react-native-reanimated'
 import { useDispatch } from 'react-redux'
-import { BUFFER_LENGTH } from '.'
+import { BUFFER_LENGTH } from './constants'
 
 interface AnimationContextType {
   horizontalScroll: SharedValue<number>

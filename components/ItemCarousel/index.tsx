@@ -13,11 +13,15 @@ import SwipeableViews from './SwipeableViews'
 import ButtonSets from './ButtonSets'
 import Emitter from './Emitter'
 
-export const BUFFER_LENGTH = 5
+import { BUFFER_LENGTH } from './constants'
+
+export { BUFFER_LENGTH }
 
 class ItemCarousel extends React.Component {
 
+  currentItem: Item | undefined
   emitter: Emitter
+  selectedText: string | undefined
 
   constructor(props) {
     super(props)
@@ -29,19 +33,25 @@ class ItemCarousel extends React.Component {
 
     // this.updateCarouselIndex = this.updateCarouselIndex.bind(this)
     this.onTextSelection = this.onTextSelection.bind(this)
-    this.updateIndex = this.updateIndex.bind(this)
+    // this.updateIndex = this.updateIndex.bind(this)
   }
 
-  updateIndex(index) {
-    const lastIndex = this.index
-    this.index = index
+  // updateIndex(index) {
+  //   const lastIndex = this.index
+  //   this.index = index
+  //   this.selectedText = undefined
+  //   this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
+  // }
+
+  updateCurrentItem(item: Item) {
+    const prevItem = this.currentItem
     this.selectedText = undefined
-    this.props.updateCurrentIndex(index, lastIndex, this.props.displayMode, this.props.isOnboarding)
+    // this.props.updateCurrentItem(item, prevItem, this.props.displayMode, this.props.isOnboarding)
   }
 
-  onScrollEnd(scrollOffset) {
-    onScrollEnd(scrollOffset)
-  }
+  // onScrollEnd(scrollOffset) {
+  //   onScrollEnd(scrollOffset)
+  // }
 
   onTextSelection(selectedText) {
     this.selectedText = selectedText
@@ -51,8 +61,7 @@ class ItemCarousel extends React.Component {
     const {
       displayMode,
       isOnboarding,
-      numItems,
-      toggleDisplayMode,
+      numItems
     } = this.props
 
     if (numItems > 0 || isOnboarding) {
@@ -65,7 +74,7 @@ class ItemCarousel extends React.Component {
             isOnboarding={isOnboarding}
             onScrollEnd={this.onScrollEnd}
             onTextSelection={this.onTextSelection}
-            updateIndex={this.updateIndex}
+          // updateIndex={this.updateIndex}
           />
           <TopBars
             emitter={this.emitter}

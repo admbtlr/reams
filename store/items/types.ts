@@ -55,7 +55,6 @@ export interface Item {
   _id: string
   blobId: string | undefined // fastmail newsletters
   content_length: number | undefined
-  coverImageFile: string | undefined
   coverImageUrl: string | undefined
   created_at: number
   decoration_failures?: number | undefined
@@ -116,7 +115,6 @@ export interface MercuryStuff {
 }
 
 export interface ImageStuff {
-  coverImageFile?: string
   imageDimensions?: {
     width: number
     height: number
@@ -134,14 +132,12 @@ interface BackendItem {
 
 export interface ItemsState {
   readonly items: Item[]
-  readonly index: number
+  readonly currentItemId: string | null
   readonly lastUpdated: number
 }
 
 export const SET_DISPLAY_MODE = 'SET_DISPLAY_MODE'
-export const UPDATE_CURRENT_INDEX = 'UPDATE_CURRENT_INDEX'
-export const INCREMENT_INDEX = 'INCREMENT_INDEX'
-export const DECREMENT_INDEX = 'DECREMENT_INDEX'
+export const UPDATE_CURRENT_ITEM = 'UPDATE_CURRENT_ITEM'
 export const ITEMS_BATCH_FETCHED = 'ITEMS_BATCH_FETCHED'
 export const PRUNE_UNREAD = 'PRUNE_UNREAD'
 export const CLEAR_READ_ITEMS = 'CLEAR_READ_ITEMS'
@@ -178,20 +174,11 @@ interface setDisplayModeAction {
   displayMode: ItemType
 }
 
-interface updateCurrentIndexAction {
-  type: typeof UPDATE_CURRENT_INDEX
+interface updateCurrentItemAction {
+  type: typeof UPDATE_CURRENT_ITEM
   displayMode: ItemType
-  index: number
-}
-
-interface incrementIndexAction {
-  type: typeof INCREMENT_INDEX
-  displayMode: ItemType
-}
-
-interface decrementIndexAction {
-  type: typeof DECREMENT_INDEX
-  displayMode: ItemType
+  itemId: string
+  previousItemId?: string
 }
 
 interface updateItemAction {
@@ -357,9 +344,7 @@ export interface setKeepUnread {
 }
 
 export type ItemActionTypes = setDisplayModeAction |
-  updateCurrentIndexAction |
-  incrementIndexAction |
-  decrementIndexAction |
+  updateCurrentItemAction |
   updateItemAction |
   itemsBatchFetchedAction |
   pruneUnreadAction |

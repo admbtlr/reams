@@ -24,7 +24,6 @@ import { getStatusBarHeight } from '@/utils/dimensions'
 import { Item } from '@/store/items/types'
 import TopBar from './TopBar'
 import { useAnimation } from './AnimationContext'
-import { getIndex } from '@/utils/get-item'
 import { useBufferedItems } from './BufferedItemsContext'
 import { useNavigation } from '@react-navigation/native'
 

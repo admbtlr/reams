@@ -1,25 +1,25 @@
 import { InteractionManager, Platform } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
 import {
+  ItemType,
   MARK_ITEM_READ,
   MARK_ITEMS_READ,
   REMOVE_ITEMS
 } from '../store/items/types'
 import { getReadItemsFS } from '../storage/firestore'
 
-import { getItems, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems, getIndex } from './selectors'
+import { getItem, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems, getIndex } from './selectors'
 
 import { MAX_DECORATION_FAILURES } from './decorate-items'
 
-export function* markLastItemReadIfDecorated(action) {
-  console.log('Calling markLastItemReadIfDecorated')
+export function* markPreviousItemReadIfDecorated(action) {
+  console.log('Calling markPreviousItemReadIfDecorated')
   yield call(InteractionManager.runAfterInteractions)
-  if (typeof (action.lastIndex) === 'undefined') {
+  if (!action.previousItemId) {
     return
   }
-  const lastIndex = action.lastIndex
-  const unreadItems = yield select(getItems)
-  const item = unreadItems[lastIndex]
+  const item = yield select(getItem, action.previousItemId, ItemType.unread)
+  if (!item) return
   if (!item.isDecorated &&
     (item.decoration_failures === undefined || item.decoration_failures < MAX_DECORATION_FAILURES)) {
     return

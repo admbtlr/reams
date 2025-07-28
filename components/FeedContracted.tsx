@@ -22,7 +22,7 @@ import { SET_FILTER } from '../store/config/types'
 import {
   Item,
   ItemType,
-  UPDATE_CURRENT_INDEX,
+  UPDATE_CURRENT_ITEM,
 } from '../store/items/types'
 import {
   Category,
@@ -172,10 +172,10 @@ function FeedContracted({
       type: SET_FILTER,
       filter: { _id, title, type },
     })
-  const setIndex = (index: number) =>
+  const unsetCurrentItem = () =>
     dispatch({
-      type: UPDATE_CURRENT_INDEX,
-      index,
+      type: UPDATE_CURRENT_ITEM,
+      itemId: null,
       displayMode: isSaved ? ItemType.saved : ItemType.unread,
     })
   const updateCategory = (category: Category) =>
@@ -238,7 +238,7 @@ function FeedContracted({
         filterItems(feed?._id || null, feed?.title || '', type)
         break
     }
-    setIndex(0)
+    unsetCurrentItem()
     // console.log(`Filtering items took ${Date.now() - now}ms`)
     navigation.navigate('Items')
     // opacityAnim.value = withTiming(1, { duration: 500 })

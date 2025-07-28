@@ -3,7 +3,8 @@ import {
   getCurrentItem as getCurrentItemUtils,
   getItems as getItemsUtils,
   getItem as getItemUtils,
-  getIndex as getIndexUtils
+  getIndex as getIndexUtils,
+  getCurrentItemId as getCurrentItemIdUtils
 } from '../utils/get-item'
 import { ItemType } from '../store/items/types'
 
@@ -29,6 +30,10 @@ export function getDisplay(state: RootState) {
 
 export function getCurrentItem(state: RootState, type: string) {
   return getCurrentItemUtils(state, type as ItemType)
+}
+
+export function getCurrentItemId(state: RootState, type?: ItemType) {
+  return getCurrentItemIdUtils(state, type)
 }
 
 export function getIndex(state: RootState, type: ItemType) {

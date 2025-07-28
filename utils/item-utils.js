@@ -224,13 +224,6 @@ export function strip(content) {
     .trim()
 }
 
-export function addCoverImageToItem(item, imageStuff) {
-  return {
-    ...item,
-    ...imageStuff
-  }
-}
-
 export function setShowCoverImage(item) {
   const getLongestContentLength = (item) => {
     const hasMercury = item.content_mercury && typeof item.content_mercury === 'string'

@@ -5,24 +5,30 @@ import { textInfoStyle, textInputStyle } from '../utils/styles'
 import TextButton from './TextButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_SEARCH_TERM } from '../store/config/types'
-import { UPDATE_CURRENT_INDEX } from '../store/items/types'
-import { getDisplay } from '../sagas/selectors'
+import { UPDATE_CURRENT_ITEM } from '../store/items/types'
+import { getDisplay, getItems } from '../sagas/selectors'
+import { RootState } from 'store/reducers'
 
-const SearchBar = ({ navigation }) => {
+const SearchBar = ({ navigation }: { navigation: any }) => {
   const displayMode = useSelector(getDisplay)
-  const [ term, setTerm ] = useState('')
+  const items = useSelector((state: RootState) => getItems(state, displayMode))
+  const [term, setTerm] = useState('')
   const dispatch = useDispatch()
   const doSearch = () => {
     dispatch({
       type: SET_SEARCH_TERM,
       term
     })
-    dispatch({
-      type: UPDATE_CURRENT_INDEX,
-      index: 0,
-      displayMode
-    })
-    navigation.navigate('Items', { 
+    // Get the first item's ID after search filter is applied
+    const firstItemId = items.length > 0 ? items[0]._id : null
+    if (firstItemId) {
+      dispatch({
+        type: UPDATE_CURRENT_ITEM,
+        itemId: firstItemId,
+        displayMode
+      })
+    }
+    navigation.navigate('Items', {
       feedCardX: 0,
       feedCardY: 0,
       feedCardWidth: Dimensions.get('screen').width,
@@ -40,7 +46,7 @@ const SearchBar = ({ navigation }) => {
       marginHorizontal: getMargin(),
       marginVertical: getMargin() / 2
     }}>
-      <Text style={{ 
+      <Text style={{
         ...textInfoStyle(),
         marginLeft: 0,
         marginRight: getMargin() / 2,
@@ -56,9 +62,9 @@ const SearchBar = ({ navigation }) => {
           ...textInputStyle(),
           marginRight: getMargin() / 2,
           flex: 1
-        }}/>
-      <TextButton 
-        text='Go' 
+        }} />
+      <TextButton
+        text='Go'
         isCompact={true}
         onPress={doSearch}
         buttonStyle={{

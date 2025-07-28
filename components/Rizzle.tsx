@@ -70,7 +70,7 @@ const Rizzle = () => {
       initSQLite()
       Sentry.init({
         dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-        debug: __DEV__
+        debug: false //__DEV__
       })
       initTensorFlow()
       InteractionManager.setDeadline(100)

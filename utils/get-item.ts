@@ -67,15 +67,26 @@ export const getItems = (state: RootState, type?: ItemType) => {
 }
 
 export const getCurrentItem = (state: RootState, type: ItemType) => {
-  return getItems(state, type)[getIndex(state, type)]
+  const currentItemId = getCurrentItemId(state, type)
+  if (!currentItemId) return null
+  const items = getItems(state, type)
+  return items.find(item => item._id === currentItemId) || null
+}
+
+export const getCurrentItemId = (state: RootState, type: ItemType | undefined = undefined) => {
+  const theType = type || state.itemsMeta.display
+  return theType === ItemType.unread ?
+    state.itemsUnread.currentItemId :
+    state.itemsSaved.currentItemId
 }
 
 export const getIndex = (state: RootState, type: ItemType | undefined = undefined) => {
   const theType = type || state.itemsMeta.display
-  const index = theType === ItemType.unread ?
-    state.itemsUnread.index :
-    state.itemsSaved.index
-  return index && index >= 0 ? index : 0
+  const currentItemId = getCurrentItemId(state, theType)
+  if (!currentItemId) return 0
+  const items = getItems(state, theType)
+  const index = items.findIndex(item => item._id === currentItemId)
+  return index >= 0 ? index : 0
 }
 
 export const getItem = (state: RootState, id: string, type = 'unread') => {
@@ -97,4 +108,23 @@ export const getScrollRatio = (state: RootState, item: Item) => {
   const stateItem = state.itemsUnread.items.find(i => i._id === item._id) ||
     state.itemsSaved.items.find(i => i._id === item._id)
   return stateItem?.scrollRatio
+}
+
+// Helper functions for item navigation
+export const findItemIndexById = (items: Item[], id: string | null): number => {
+  if (!id) return 0
+  const index = items.findIndex(item => item._id === id)
+  return index >= 0 ? index : 0
+}
+
+export const getNextItem = (items: Item[], currentId: string | null): Item | null => {
+  if (!currentId || items.length === 0) return items[0] || null
+  const currentIndex = findItemIndexById(items, currentId)
+  return items[currentIndex + 1] || null
+}
+
+export const getPreviousItem = (items: Item[], currentId: string | null): Item | null => {
+  if (!currentId || items.length === 0) return items[0] || null
+  const currentIndex = findItemIndexById(items, currentId)
+  return currentIndex > 0 ? items[currentIndex - 1] : null
 }

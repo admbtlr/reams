@@ -111,21 +111,14 @@ export function itemDecorationSuccess(
   state: ItemsState,
   isCurrentDisplayMode: boolean
 ) {
-  const currentItems = [
-    state.items[state.index],
-    state.items[state.index + 1 < state.items.length ? state.index + 1 : state.index],
-    state.items[state.index + 2 < state.items.length ? state.index + 2 : state.index],
-    state.items[state.index + 3 < state.items.length ? state.index + 3 : state.index],
-  ]
   const items = state.items.map((i: Item) => {
     if (i._id === action.item._id) {
       return {
         ...i,
-        coverImageFile: action.imageStuff?.coverImageFile,
         coverImageUrl: action.mercuryStuff?.lead_image_url,
         hasCoverImage: Platform.OS === 'web' ?
           !!action.mercuryStuff?.lead_image_url :
-          !!action.imageStuff?.coverImageFile,
+          !!action.imageStuff?.imageDimensions,
         imageDimensions: action.imageStuff?.imageDimensions,
         isDecorated: true
       }
@@ -239,10 +232,4 @@ export function updateCurrentItemTitleFontSize(
       items: newItems
     } :
     state
-}
-
-export const selectCurrentIndex = (state: RootState) => {
-  const displayMode = state.itemsMeta.display
-  return displayMode === ItemType.unread ? state.itemsUnread.index :
-    state.itemsSaved.index
 }

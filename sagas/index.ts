@@ -1,13 +1,13 @@
 import { call, cancel, delay, fork, put, select, takeEvery } from 'redux-saga/effects'
 import { REHYDRATE } from 'redux-persist'
-import { 
+import {
   START_DOWNLOADS,
   STATE_ACTIVE,
-  STATE_INACTIVE, 
+  STATE_INACTIVE,
 } from '../store/config/types'
 import {
-  SET_BACKEND, 
-  type setBackendAction, 
+  SET_BACKEND,
+  type setBackendAction,
   UNSET_BACKEND
 } from '../store/user/types'
 import {
@@ -20,7 +20,7 @@ import {
   SAVE_ITEM,
   SET_TITLE_FONT_SIZE,
   UNSAVE_ITEM,
-  UPDATE_CURRENT_INDEX 
+  UPDATE_CURRENT_ITEM
 } from '../store/items/types'
 import {
   ADD_FEED,
@@ -41,7 +41,7 @@ import {
 } from '../store/ui/types'
 import { decorateItems } from './decorate-items'
 import { fetchAllItems, fetchUnreadItems } from './fetch-items'
-import { markLastItemReadIfDecorated, clearReadItems, filterItemsForRead } from './mark-read'
+import { markPreviousItemReadIfDecorated, clearReadItems, filterItemsForRead } from './mark-read'
 import { dedupeSaved, pruneItems, removeItems, removeAllItems } from './prune-items'
 import { appActive, appInactive, currentItemChanged, screenActive, screenInactive } from './reading-timer'
 import { saveExternalUrl, maybeUpsertSavedItem } from './external-items'
@@ -62,7 +62,7 @@ import { TakeableChannel } from 'redux-saga'
 
 let downloadsFork
 
-function * init () {
+function* init() {
   yield primeAllBackends()
 
   // see comment below about START_DOWNLOADS
@@ -71,7 +71,7 @@ function * init () {
   }
 }
 
-function * startDownloads (shouldSleep = false) {
+function* startDownloads(shouldSleep = false) {
   if (shouldSleep) {
     // let the app render and get started
     yield delay(5000)
@@ -97,10 +97,10 @@ function * startDownloads (shouldSleep = false) {
   } catch (e) {
     console.log(e)
     yield put({ type: CLEAR_MESSAGES })
-  }  
+  }
 }
 
-function * killBackend ({ backend }: { backend: string }) {
+function* killBackend({ backend }: { backend: string }) {
   unsetBackend(backend)
   yield put({ type: CLEAR_MESSAGES })
   if (downloadsFork) {
@@ -108,21 +108,21 @@ function * killBackend ({ backend }: { backend: string }) {
   }
 }
 
-function * initBackend (action: setBackendAction) {
+function* initBackend(action: setBackendAction) {
   yield primeBackend(action)
   if (action.backend === 'feedbin' || action.backend === 'reams') {
     yield startDownloads()
   }
 }
 
-export function * initSagas () {
+export function* initSagas() {
   let rehydrated = false
   let authenticated = false
 
   yield takeEvery(REHYDRATE, init)
   yield takeEvery(SET_BACKEND, initBackend)
   yield takeEvery(UNSET_BACKEND, killBackend)
-  
+
   // called by the AuthProvider
   // on non-web, the AuthProvider is behind the PersistGate, so it will be called after rehydration
   // on web, it's all up for grabs - I should investigate why I can't use PersistGate on web
@@ -143,10 +143,10 @@ export function * initSagas () {
   yield takeEvery(FETCH_ITEMS, clearReadItems)
   yield takeEvery(CLEAR_READ_ITEMS, clearReadItems)
   yield takeEvery(RECEIVED_REMOTE_READ_ITEMS, filterItemsForRead)
-  yield takeEvery(UPDATE_CURRENT_INDEX, markLastItemReadIfDecorated)
+  yield takeEvery(UPDATE_CURRENT_ITEM, markPreviousItemReadIfDecorated)
   yield takeEvery(REMOVE_ITEMS, removeItems)
   yield takeEvery(SAVE_EXTERNAL_URL, saveExternalUrl)
-  
+
   yield takeEvery(DELETE_CATEGORY, deleteCategory)
   yield takeEvery(UPDATE_CATEGORY, updateCategory)
   yield takeEvery(ADD_FEED_TO_CATEGORY, updateCategory)
@@ -157,7 +157,7 @@ export function * initSagas () {
   yield takeEvery('annotations/deleteAnnotiation', deleteAnnotation)
 
   // reading timer
-  yield takeEvery(UPDATE_CURRENT_INDEX, currentItemChanged)
+  yield takeEvery(UPDATE_CURRENT_ITEM, currentItemChanged)
   yield takeEvery(STATE_ACTIVE, appActive)
   yield takeEvery(STATE_INACTIVE, appInactive)
   yield takeEvery(ITEMS_SCREEN_FOCUS, screenActive)

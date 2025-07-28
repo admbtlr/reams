@@ -30,13 +30,11 @@ import {
   SORT_ITEMS,
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
-  UPDATE_CURRENT_INDEX,
+  UPDATE_CURRENT_ITEM,
   Item,
   ItemActionTypes,
   ItemsState,
   ItemType,
-  INCREMENT_INDEX,
-  DECREMENT_INDEX,
   UPDATE_ITEM,
   MARK_ITEMS_READ_SKIP_BACKEND,
   ITEM_BODY_CLEANED,
@@ -58,13 +56,11 @@ import {
 } from './items-common'
 import rizzleSort from '../../utils/rizzle-sort'
 
-import { BUFFER_LENGTH } from '../../components/ItemCarousel'
-
 export const selectItemsUnread = (state: ItemsState) => state.items
 
 export const initialState: ItemsState = {
   items: [],
-  index: 0,
+  currentItemId: null,
   lastUpdated: 0
 }
 
@@ -76,41 +72,19 @@ export function itemsUnread(
   let newItems: Item[] = []
   let index: number
   let newState: {
-    index?: number,
+    currentItemId?: string | null,
     lastUpdated?: number
     items?: Item[]
   } = {}
   let currentItem: Item | undefined
-  let carouselled: { index: number, items: Item[] }
+  let newCurrentItemId: string | null | undefined
 
   switch (action.type) {
-    case UPDATE_CURRENT_INDEX:
-      if (action.displayMode === ItemType.unread) {
-        newState.index = action.index
-      }
+    case UPDATE_CURRENT_ITEM:
+      if (action.displayMode !== ItemType.unread) return state
       return {
         ...state,
-        ...newState
-      }
-
-    case INCREMENT_INDEX:
-      if (action.displayMode === ItemType.unread &&
-        state.index < state.items.length - 1) {
-        newState.index = state.index + 1
-      }
-      return {
-        ...state,
-        ...newState
-      }
-
-    case DECREMENT_INDEX:
-      if (action.displayMode === ItemType.unread &&
-        state.index > 0) {
-        newState.index = state.index - 1
-      }
-      return {
-        ...state,
-        ...newState
+        currentItemId: action.itemId
       }
 
     case UPDATE_ITEM:
@@ -127,7 +101,7 @@ export function itemsUnread(
     case ITEMS_BATCH_FETCHED:
       if (action.itemType !== ItemType.unread) return state
       items = [...state.items]
-      currentItem = items[state.index] ? { ...items[state.index] } : undefined
+      currentItem = state.currentItemId ? items.find(item => item._id === state.currentItemId) : undefined
       newItems = action.items
       newItems.forEach(newItem => {
         let indexToUpdate = items.findIndex(item => item.id === newItem.id || (item._id === newItem._id && item.title === newItem.title))
@@ -144,33 +118,34 @@ export function itemsUnread(
         items = items.filter(i => i._id !== currentItem?._id)
         items.unshift(currentItem)
       }
-      index = 0
+      newCurrentItemId = items.length > 0 ?
+        (items.find(item => item._id === state.currentItemId) ? state.currentItemId : items[0]._id) :
+        null
 
       return {
         ...state,
         items,
-        index
-        // items,
-        // index
+        currentItemId: newCurrentItemId
       }
 
     case PRUNE_UNREAD:
       items = [...state.items]
-      index = state.index
       if (items.length < action.maxItems) {
         return state
       }
 
-      currentItem = items[state.index]
+      currentItem = state.currentItemId ? items.find(item => item._id === state.currentItemId) : undefined
       items = items.filter(item => action.prunedItems.find((pi: Item) => pi._id === item._id) === undefined)
       if (currentItem && items.indexOf(currentItem) === -1) {
         items.unshift(currentItem)
-        index = 0
       }
+      newCurrentItemId = items.length > 0 ?
+        (items.find(item => item._id === state.currentItemId) ? state.currentItemId : items[0]._id) :
+        null
       return {
         ...state,
         items,
-        index
+        currentItemId: newCurrentItemId
       }
 
     case MUTE_FEED_TOGGLE:
@@ -224,17 +199,15 @@ export function itemsUnread(
 
     case REMOVE_ITEMS:
       // const itemIds = action.items.map(f => f._id)
-      if (state.index && state.index > 0) {
-        currentItem = state.items[state.index]
-      }
+      currentItem = state.currentItemId ? state.items.find(item => item._id === state.currentItemId) : undefined
       items = state.items.filter(i => action.items.find((ai: Item) => ai._id === i._id) === undefined)
-      index = currentItem === undefined ?
-        0 :
-        items.findIndex(i => i._id === currentItem?._id)
+      newCurrentItemId = items.length > 0 ?
+        (currentItem && items.find(i => i._id === currentItem!._id) ? currentItem._id : items[0]._id) :
+        null
       return {
         ...state,
         items,
-        index: index > 0 ? index : 0
+        currentItemId: newCurrentItemId
       }
 
     case UNSET_BACKEND:
@@ -303,31 +276,4 @@ export function itemsUnread(
     default:
       return state
   }
-}
-
-// check for the items that are currently in the carousel
-// places them at the beginning of the new items array
-// and sets index appropriately
-// (sucks that reducers need to think about UI implementation, but :shrug:)
-const maintainCarouselItems = (state: ItemsState, items: Item[]) => {
-  // keep the current item minus two more, to avoid items jumping around and disappearing
-  let index = 0
-  let currentItem = state.items[state.index]
-  let itemsToKeep: Item[] = []
-  if (currentItem) {
-    itemsToKeep.push(currentItem)
-    if (state.items.length > state.index + 2) {
-      for (let i = 1; i <= 2; i++) {
-        if (state.items[state.index + i]) {
-          itemsToKeep.push(state.items[state.index + i])
-        }
-      }
-    }
-  }
-  if (itemsToKeep.length > 0) {
-    items = items.filter(item => !itemsToKeep.find(keeper => keeper._id === item._id))
-    items.unshift(...itemsToKeep)
-  }
-  return { items, index }
-
 }

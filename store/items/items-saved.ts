@@ -17,7 +17,7 @@ import {
   TOGGLE_MERCURY_VIEW,
   UNSAVE_ITEM,
   UNSAVE_ITEMS,
-  UPDATE_CURRENT_INDEX,
+  UPDATE_CURRENT_ITEM,
   UPDATE_ITEM,
   Item,
   ItemActionTypes,
@@ -25,8 +25,7 @@ import {
   ItemType,
   SAVE_EXTERNAL_ITEM_SUCCESS,
   SET_SAVED_ITEMS,
-  INCREMENT_INDEX,
-  DECREMENT_INDEX,
+
   ITEM_BODY_CLEANED,
   RESET_DECORATION_FALIURES
 } from './types'
@@ -50,7 +49,7 @@ import { RootState } from '../reducers'
 
 export const initialState: ItemsState = {
   items: [],
-  index: 0,
+  currentItemId: null,
   lastUpdated: 0
 }
 
@@ -63,37 +62,14 @@ export function itemsSaved(
   let items: Item[] = []
   let newItems: Item[] = []
   let savedItem: Item
-  let index: number
-  let currentItem: Item
+  let newCurrentItemId: string | undefined | null
 
   switch (action.type) {
-    case UPDATE_CURRENT_INDEX:
+    case UPDATE_CURRENT_ITEM:
       if (action.displayMode !== ItemType.saved) return state
       return {
         ...state,
-        index: action.index
-      }
-
-    case INCREMENT_INDEX:
-      index = state.index
-      if (action.displayMode === ItemType.saved &&
-        state.index < state.items.length) {
-        index++
-      }
-      return {
-        ...state,
-        index
-      }
-
-    case DECREMENT_INDEX:
-      index = state.index
-      if (action.displayMode === ItemType.saved &&
-        state.index > 0) {
-        index--
-      }
-      return {
-        ...state,
-        index
+        currentItemId: action.itemId
       }
 
     case UPDATE_ITEM:
@@ -130,7 +106,8 @@ export function itemsSaved(
       items.unshift(savedItem)
       return {
         ...state,
-        items
+        items,
+        currentItemId: savedItem._id
       }
 
     case SAVE_EXTERNAL_ITEM:
@@ -141,7 +118,7 @@ export function itemsSaved(
       return {
         ...state,
         items,
-        index: 0
+        currentItemId: savedItem._id
       }
 
     case SAVE_EXTERNAL_ITEM_SUCCESS:
@@ -161,31 +138,28 @@ export function itemsSaved(
       items = state.items
         .filter((item) => item._id !== action.item._id)
         .map(item => item)
-      index = state.index > items.length - 1 ?
-        items.length - 1 :
-        state.index
+      newCurrentItemId = items.length > 0 ?
+        (items.find(item => item._id === state.currentItemId) ? state.currentItemId : items[0]._id) :
+        null
       return {
         ...state,
         items,
-        index
+        currentItemId: newCurrentItemId
       }
 
     case UNSAVE_ITEMS:
-      currentItem = state.items[state.index]
       items = state.items
         .filter((item) => {
           return action.items.find((ai: Item) => ai._id === item._id) === undefined
         })
         .map(item => item)
-      if (items.indexOf(currentItem) === -1) {
-        index = 0
-      } else {
-        index = items.indexOf(currentItem)
-      }
+      newCurrentItemId = items.length > 0 ?
+        (items.find(item => item._id === state.currentItemId) ? state.currentItemId : items[0]._id) :
+        null
       return {
         ...state,
         items,
-        index
+        currentItemId: newCurrentItemId
       }
 
     case UNSET_BACKEND:
@@ -223,7 +197,6 @@ export function itemsSaved(
     case ITEMS_BATCH_FETCHED:
       if (action.itemType !== ItemType.saved) return state
       items = [...state.items]
-      currentItem = items[state.index]
       newItems = action.items.map((item: Item) => ({
         ...item,
         savedAt: item.savedAt || item.created_at || 0,
@@ -243,13 +216,14 @@ export function itemsSaved(
 
       // order by date
       items.sort((a, b) => ((b.savedAt || b.created_at) - (a.savedAt || a.created_at)))
-      index = items.indexOf(currentItem)
-      index = index < 0 ? 0 : index
+      newCurrentItemId = items.length > 0 ?
+        (items.find(item => item._id === state.currentItemId) ? state.currentItemId : items[0]._id) :
+        null
 
       return {
         ...state,
         items,
-        index
+        currentItemId: newCurrentItemId
       }
 
     case ITEM_DECORATION_SUCCESS:

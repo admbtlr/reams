@@ -18,15 +18,13 @@ import { useAnimation } from './AnimationContext'
 import { logAnimationEvent } from '@/utils/feature-flags'
 import { useBufferedItems } from './BufferedItemsContext'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
-import { getIndex } from '@/utils/get-item'
 
 interface SwipeableViewsReanimatedProps {
   isOnboarding?: boolean
   emitter: any
   onScrollEnd: (offset: number) => void
   onTextSelection?: () => void
-  updateIndex: (index: number) => void
+  // updateIndex: (index: number) => void
 }
 
 const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props) => {
@@ -35,7 +33,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
     emitter,
     onScrollEnd,
     onTextSelection,
-    updateIndex,
+    // updateIndex,
   } = props
 
   const { bufferedItems, bufferStartIndex, bufferIndexRef, setBufferIndex } = useBufferedItems()
@@ -85,7 +83,6 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
     }
   }, [bufferedItems, isOnboarding])
 
-
   // Set initial scroll position
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -108,13 +105,13 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
       const newIndex = bufferStartIndex + newBufferIndex
 
       setBufferIndex(newBufferIndex)
-      updateIndex(newIndex)
+      // updateIndex(newIndex)
 
       // Update buffer index: increment/decrement from current buffer position
 
-      if (__DEV__) {
-        console.log(`[SwipeableViews] updateIndex: oldIndex=${newBufferIndex - indexDelta}, newBufferIndex=${newBufferIndex}, newBufferIndex=${newBufferIndex}`)
-      }
+      // if (__DEV__) {
+      //   console.log(`[SwipeableViews] updateIndex: oldIndex=${newBufferIndex - indexDelta}, newBufferIndex=${newBufferIndex}, newBufferIndex=${newBufferIndex}`)
+      // }
     }
   }
 

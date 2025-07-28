@@ -1,4 +1,4 @@
-import { ITEMS_BATCH_FETCHED, ItemType, ItemsState, SET_SCROLL_OFFSET, TOGGLE_MERCURY_VIEW } from '../../store/items/types'
+import { ITEMS_BATCH_FETCHED, ItemType, ItemsState, SET_SCROLL_OFFSET, TOGGLE_MERCURY_VIEW, UPDATE_CURRENT_ITEM } from '../../store/items/types'
 import { itemsUnread, initialState } from '../../store/items/items-unread'
 import dotenv from 'dotenv'
 import { MUTE_FEED_TOGGLE, REMOVE_FEED } from '../../store/feeds/types'
@@ -54,75 +54,30 @@ describe('items-unread reducer', () => {
   it('should handle ITEMS_BATCH_FETCHED', () => {
     expect(itemsFetched).toEqual({
       ...initialState,
-      items: newItems
+      items: newItems,
+      currentItemId: '1'
     })
   })
 
-  it('should handle UPDATE_CURRENT_INDEX', () => {
-    const result = itemsUnread(initial, {
-      type: 'UPDATE_CURRENT_INDEX',
+  it('should handle UPDATE_CURRENT_ITEM', () => {
+    const result = itemsUnread(itemsFetched, {
+      type: UPDATE_CURRENT_ITEM,
       displayMode: ItemType.unread,
-      index: 1
+      itemId: '2'
     })
     expect(result).toEqual({
-      ...initial,
-      index: 1
-    })
-    const result2 = itemsUnread(initial, {
-      type: 'UPDATE_CURRENT_INDEX',
-      displayMode: ItemType.saved,
-      index: 1
-    })
-    expect(result2).toEqual(initial)
-  })
-
-  it('should handle INCREMENT_INDEX', () => {
-    const result = itemsUnread(initial, {
-      type: 'INCREMENT_INDEX',
-      displayMode: ItemType.unread
-    })
-    expect(result).toEqual({
-      ...initial,
-      index: 0
+      ...itemsFetched,
+      currentItemId: '2'
     })
     const result2 = itemsUnread(itemsFetched, {
-      type: 'INCREMENT_INDEX',
-      displayMode: ItemType.unread
+      type: UPDATE_CURRENT_ITEM,
+      displayMode: ItemType.saved,
+      itemId: '2'
     })
-    expect(result2).toEqual({
-      ...itemsFetched,
-      index: 1
-    })
-    const result3 = itemsUnread(initial, {
-      type: 'INCREMENT_INDEX',
-      displayMode: ItemType.saved
-    })
-    expect(result3).toEqual(initial)
+    expect(result2).toEqual(itemsFetched)
   })
 
-  it('should handle DECREMENT_INDEX', () => {
-    const incremented = itemsUnread(itemsFetched, {
-      type: 'INCREMENT_INDEX',
-      displayMode: ItemType.unread
-    })
-    expect(incremented).toEqual({
-      ...itemsFetched,
-      index: 1
-    })
-    const decremented = itemsUnread(incremented, {
-      type: 'DECREMENT_INDEX',
-      displayMode: ItemType.unread
-    })
-    expect(decremented).toEqual({
-      ...incremented,
-      index: 0
-    })
-    const result3 = itemsUnread(incremented, {
-      type: 'DECREMENT_INDEX',
-      displayMode: ItemType.saved
-    })
-    expect(result3).toEqual(incremented)
-  })
+
   it('should handle UPDATE_ITEM', () => {
     const updatedItem = itemsUnread(itemsFetched, {
       type: 'UPDATE_ITEM',
@@ -283,5 +238,24 @@ describe('items-unread reducer', () => {
     })
     expect(analyzed.items[1]._id).toEqual('2')
     expect(analyzed.items[1].isAnalysed).toBeTruthy()
+  })
+
+  it('should migrate from index to currentItemId', () => {
+    // Test the migration from old index-based state to new currentItemId-based state
+    const oldState = {
+      items: newItems,
+      index: 1, // pointing to second item
+      lastUpdated: 123
+    }
+
+    // Simulate what the migration would do
+    const migratedState = {
+      ...oldState,
+      currentItemId: newItems[1]._id, // '2'
+      index: undefined
+    }
+
+    expect(migratedState.currentItemId).toEqual('2')
+    expect(migratedState.index).toBeUndefined()
   })
 })

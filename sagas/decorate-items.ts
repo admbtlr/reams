@@ -16,7 +16,7 @@ import {
 } from '../store/items/types'
 import { getCachedCoverImagePath, getImageDimensions } from '../utils'
 import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createItemStyles'
-import { getItem, getNewsletters } from './selectors'
+import { getCurrentItem, getItem, getNewsletters } from './selectors'
 import { faceDetection } from '../utils/face-detection'
 
 import {
@@ -110,7 +110,6 @@ interface Decoration {
 }
 
 interface BasicImageStuff {
-  coverImageFile?: string
   imageDimensions?: any
 }
 
@@ -308,12 +307,10 @@ function* persistBasicDecoration(result: { item: WholeItem, mercuryStuff: Mercur
     ...item,
     ...decorated
   }
-  wholeItem = addCoverImageToItem(wholeItem, basicImageStuff)
-
-  if (!!wholeItem.coverImageFile || (isWeb && !!wholeItem.coverImageUrl)) {
-    wholeItem.hasCoverImage = isWeb ?
-      !!wholeItem.coverImageUrl :
-      !!wholeItem.coverImageFile
+  const hasCoverImage = !!basicImageStuff.imageDimensions?.height || (isWeb && !!wholeItem.coverImageUrl)
+  if (hasCoverImage) {
+    wholeItem.hasCoverImage = true
+    wholeItem.imageDimensions = basicImageStuff.imageDimensions
     wholeItem = setShowCoverImage(wholeItem)
     // Basic styles without face detection positioning
     wholeItem.styles = adjustBasicStylesToCoverImage(wholeItem, mercuryStuff)
@@ -348,7 +345,6 @@ function* prepareBasicCoverImage(item: Item, mercuryStuff: MercuryStuff, stepTim
       try {
         const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
         imageStuff = {
-          coverImageFile,
           imageDimensions
         }
       } catch (error: any) {
@@ -365,13 +361,13 @@ function* performImageAnalysisForItem(item: Item): Generator<any, { x: number, y
     yield call(getItemsIDB, [item]) :
     yield call(getItemsSQLite, [item])
   let itemInflated = items[0]
-  const { coverImageFile, imageDimensions } = itemInflated
 
-  if (!coverImageFile || !imageDimensions || Platform.OS === 'web') {
-    console.log(`Skipping face detection for "${item.title}": ${!coverImageFile ? 'no image file' : 'web platform'}`)
+  const { imageDimensions } = itemInflated
+  if (!imageDimensions || Platform.OS === 'web') {
     return
   }
 
+  const coverImageFile = getCachedCoverImagePath(item)
   try {
     // console.log(`Starting face detection for "${item.title}"`)
     // Face detection timing
@@ -473,9 +469,9 @@ function* getNextItemToDecorate() {
   const savedItems: Item[] = yield select(getSavedItems)
 
   if (displayMode === ItemType.saved) {
-    const index: number = yield select(getIndex, ItemType.saved)
-    if (isItemViable(savedItems[index])) {
-      return savedItems[index]
+    const currentItem: Item = yield select(getCurrentItem, ItemType.saved)
+    if (isItemViable(currentItem)) {
+      return currentItem
     }
     nextItem = savedItems.find(isItemViable)
     if (nextItem) return nextItem
@@ -546,7 +542,7 @@ function* getNextItemToAnalyse(): Generator<any, Item | null, any> {
   const needsAnalysis = (item: Item) => {
     return item.isDecorated === true &&
       !item.isAnalysed &&
-      !!item.coverImageFile
+      !!item.hasCoverImage
   }
 
   // First check current display mode items

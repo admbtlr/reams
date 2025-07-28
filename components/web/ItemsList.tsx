@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "store/reducers"
-import { Item, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_INDEX } from "../../store/items/types"
+import { Item, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_ITEM } from "../../store/items/types"
 import { ScaledSize, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from "react-native"
 import { hslString } from "../../utils/colors"
 import { Image } from "react-native"
@@ -104,8 +104,9 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
       key={item._id}
       onPress={() => {
         dispatch({
-          type: UPDATE_CURRENT_INDEX,
-          index: index,
+          type: UPDATE_CURRENT_ITEM,
+          itemId: item._id,
+          previousItemId: currentItem._id,
           displayMode
         })
       }}
