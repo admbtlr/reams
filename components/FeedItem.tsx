@@ -15,7 +15,7 @@ import Nudge from './Nudge'
 import { MAX_DECORATION_FAILURES } from '../sagas/decorate-items'
 import { Item, ItemInflated, SET_SCROLL_OFFSET } from '../store/items/types'
 import { HIDE_ALL_BUTTONS, SHOW_IMAGE_VIEWER, SHOW_ITEM_BUTTONS } from '../store/ui/types'
-import { getIndex, getItems } from '../utils/get-item'
+import { getIndex, getItems, selectFilteredItems } from '../utils/get-item'
 import { useColor } from '../hooks/useColor'
 import type { RootState } from '../store/reducers'
 import { useAnimation } from '@/components/ItemCarousel/AnimationContext'
@@ -50,16 +50,12 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   const dispatch = useDispatch()
 
   // Redux selectors
-  const items = useSelector((state: RootState) => getItems(state))
-  const currentIndex = useSelector((state: RootState) => getIndex(state))
+  const items = useSelector(selectFilteredItems)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const orientation = useSelector((state: RootState) => state.config.orientation)
 
   // Animation context (new Reanimated system)
   const animationContext = useAnimation()
-
-  // Feature flag to control new vs old scroll behavior
-  const useReanimatedScrollHandlers = useReanimatedScroll()
 
   // Find the current item
   const rawItem = items.find(item => item._id === _id)
@@ -565,7 +561,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
         // onScrollEndDrag={onScrollEndDrag}
         pinchGestureEnabled={false}
         ref={scrollView}
-        scrollEventThrottle={useReanimatedScrollHandlers ? 16 : 1}
+        scrollEventThrottle={16}
         style={{
           flex: 1,
           minHeight: 100,

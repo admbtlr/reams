@@ -26,6 +26,7 @@ import { deleteAnnotation, selectAnnotations, updateAnnotation } from '../store/
 import { useModal } from './ModalProvider'
 import Favicon from './Favicon'
 import { animateNextLayout } from '../utils/layout-animations'
+import { useHeaderHeight } from '@react-navigation/elements'
 
 interface highlightsByItem {
   item_id: string,
@@ -286,8 +287,9 @@ export default function HighlightsScreen() {
               }
             )}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={Platform.OS == 'web' && {
-              alignItems: 'center'
+            contentContainerStyle={{
+              alignItems: Platform.OS === 'web' ? 'center' : 'flex-start',
+              paddingTop: useHeaderHeight() + getMargin() / 2
             }}
           >
             {highlightsByItem.map(renderHighlightsByItem)}

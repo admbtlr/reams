@@ -212,18 +212,18 @@ function FeedContracted({
   }
 
   const onPress = () => {
-    // fixes a bug when setting a filter with no feeds or items
-    if (
-      type === 'category' &&
-      categoryFeeds.length === 0 &&
-      categoryItems.length === 0
-    ) {
-      return
-    }
+    // // fixes a bug when setting a filter with no feeds or items
+    // if (
+    //   type === 'category' &&
+    //   categoryFeeds.length === 0 &&
+    //   categoryItems.length === 0
+    // ) {
+    //   return
+    // }
 
-    opacityAnim.value = 0.2
-    opacityAnim.value = withTiming(0, { duration: 200 })
-    const now = Date.now()
+    // opacityAnim.value = 0.2
+    // opacityAnim.value = withTiming(0, { duration: 200 })
+    // const now = Date.now()
     switch (type) {
       case 'all':
         filterItems(null, null, null)
@@ -239,17 +239,18 @@ function FeedContracted({
         break
     }
     setIndex(0)
-    console.log(`Filtering items took ${Date.now() - now}ms`)
-    opacityAnim.value = withTiming(1, { duration: 500 })
-    if (mainViewRef !== null) {
-      console.log('trying to runOnUI')
-      runOnUI(() => {
-        const measurement = measure(mainViewRef)
-        if (measurement === null) return
-        const { x, y, width, height, pageX, pageY } = measurement
-        runOnJS(navigateToItems)(x, y, width, height, pageX, pageY)
-      })()
-    }
+    // console.log(`Filtering items took ${Date.now() - now}ms`)
+    navigation.navigate('Items')
+    // opacityAnim.value = withTiming(1, { duration: 500 })
+    // if (mainViewRef !== null) {
+    //   console.log('trying to runOnUI')
+    //   runOnUI(() => {
+    //     const measurement = measure(mainViewRef)
+    //     if (measurement === null) return
+    //     const { x, y, width, height, pageX, pageY } = measurement
+    //     runOnJS(navigateToItems)(x, y, width, height, pageX, pageY)
+    //   })()
+    // }
   }
 
   const showDetails = (e: GestureResponderEvent) => {

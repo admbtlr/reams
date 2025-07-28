@@ -11,5 +11,5 @@ import Rizzle from './components/Rizzle'
 // AppRegistry.registerComponent('rizzle', () => Rizzle)
 // AppRegistry.registerComponent('RizzleShare', () => Share)
 
-LogBox.ignoreLogs(['new NativeEventEmitter()'])
+// LogBox.ignoreLogs(['new NativeEventEmitter()'])
 registerRootComponent(Rizzle)

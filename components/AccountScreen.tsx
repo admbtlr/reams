@@ -30,6 +30,7 @@ import { textInfoStyle } from '@/utils/styles'
 import { ItemType } from '@/store/items/types'
 import { useNavigation } from '@react-navigation/native'
 import useHeaderStyle from '../hooks/useHeaderStyle'
+import { useHeaderHeight } from '@react-navigation/elements'
 
 // Type annotations for components with TypeScript
 type AccountCredentialsFormProps = {
@@ -347,6 +348,9 @@ const AccountScreen: React.FC = () => {
         // scrollEventThrottle: 1,
         style: {
           backgroundColor: hslString('rizzleBG')
+        },
+        contentContainerStyle: {
+          paddingTop: useHeaderHeight() + getMargin() / 2
         }
       },
         <View

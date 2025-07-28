@@ -74,7 +74,6 @@ const Title: React.FC<TitleProps> = ({
     })
   }
 
-
   // Text processing pipeline
   const originalTitle = title
   const decodedTitle = quote(entities.decodeHTML(title || '').replace(/\n/g, ''))
@@ -138,7 +137,7 @@ const Title: React.FC<TitleProps> = ({
     })
   }, [])
 
-  const measureSizes = useCallback(async (sizes: number[], maxFontSize: number) => {
+  const measureSizes = async (sizes: number[], maxFontSize: number) => {
     if (!displayTitle || !styles) return
     Promise.all(sizes.map(size => rnTextSize.measure({
       text: styles.isUpperCase ? displayTitle.toLocaleUpperCase() : displayTitle,
@@ -199,9 +198,9 @@ const Title: React.FC<TitleProps> = ({
       updateFontSize(optimal.size)
       setOptimalFontSize(optimal.size)
     })
-  }, [displayTitle, styles, screenWidth, getWidthPercentage, item, updateFontSize])
+  }
 
-  const getMaxFontSize = useCallback(async () => {
+  const getMaxFontSize = async () => {
     // always measure to portrait, even if currently in landscape
     const widthAvailable = getSmallestDimension() * (getWidthPercentage() / 100) -
       // allow space for double margins on each side
@@ -246,12 +245,11 @@ const Title: React.FC<TitleProps> = ({
       debugger
       console.log(e)
     })
-  }, [displayTitle])
+  }
 
   useEffect(() => {
     const startMeasuring = async () => {
-      // always measure in dev
-      if (!__DEV__ && (styles?.fontResized || optimalFontSize)) return
+      if (styles?.fontResized || optimalFontSize) return
       let maxFontSize = 32
 
       try {

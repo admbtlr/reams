@@ -74,6 +74,7 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
   }, [bufferStartIndex])
 
   const getBufferedItems = useMemo(() => () => {
+    debugger
     // do we need to calculate a new buffer?
     const bufferStart = calculateBufferStartIndex()
     const bufferEnd = bufferStart + BUFFER_LENGTH > items.length - 1 ?
@@ -108,18 +109,18 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
   }
 
   const maybeUpdateBuffer = () => {
-    const newBufferedItems = getBufferedItems()
-    if (stringifyItems(newBufferedItems) !== stringifyItems(bufferedItems)) {
-      const newBufferStartIndex = calculateBufferStartIndex()
-      setBufferedItems(newBufferedItems)
-      if (newBufferStartIndex !== bufferStartIndex) {
-        setBufferStartIndex(newBufferStartIndex)
-      }
+    // const newBufferedItems = getBufferedItems()
+    // if (stringifyItems(newBufferedItems) !== stringifyItems(bufferedItems)) {
+    const newBufferStartIndex = calculateBufferStartIndex()
+    if (newBufferStartIndex !== bufferStartIndex) {
+      setBufferedItems(getBufferedItems())
+      setBufferStartIndex(newBufferStartIndex)
     }
+    // }
   }
 
   useEffect(() => {
-    maybeUpdateBuffer()
+    setBufferedItems(getBufferedItems())
   }, [])
   //}, [items, bufferStartIndex, displayMode, getBufferedItems, stringifyItems, bufferedItems, calculateBufferStartIndex])
 

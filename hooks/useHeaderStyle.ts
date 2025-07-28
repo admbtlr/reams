@@ -37,9 +37,9 @@ export const useHeaderStyle = (options?: {
       ...headerOptions,
       headerStyle: {
         ...headerOptions.headerStyle,
-        backgroundColor: isDarkMode
-          ? hslString(bgColorKey)
-          : hslString(bgColorKey, bgVariant),
+        // backgroundColor: isDarkMode
+        //   ? hslString(bgColorKey)
+        //   : hslString(bgColorKey, bgVariant),
       },
       headerTintColor: hslString(textColorKey),
       headerTitleStyle: {

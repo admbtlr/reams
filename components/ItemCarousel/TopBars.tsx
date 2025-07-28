@@ -30,11 +30,13 @@ import { useNavigation } from '@react-navigation/native'
 
 interface TopBarsProps {
   emitter: any,
+  isTitleOnly: boolean | undefined
 }
 
 function TopBars(props: TopBarsProps) {
   const {
     emitter,
+    isTitleOnly
   } = props
 
   const navigation = useNavigation()
@@ -52,6 +54,7 @@ function TopBars(props: TopBarsProps) {
       <TopBar
         key={item ? item._id : i.toString()}
         emitter={emitter}
+        isTitleOnly={isTitleOnly}
         item={item}
         itemIndex={i}
         pageWidth={pageWidth}

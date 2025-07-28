@@ -7,72 +7,47 @@ import {
 } from '../utils/get-item'
 import { ItemType } from '../store/items/types'
 
-export function getItems (state: RootState, type: string) {
+export function getItems(state: RootState, type: string) {
   return getItemsUtils(state, type as ItemType)
 }
 
-export function getUnreadItems (state: RootState) {
+export function getUnreadItems(state: RootState) {
   return getItemsUtils(state, ItemType.unread)
 }
 
-export function getSavedItems (state: RootState) {
+export function getSavedItems(state: RootState) {
   return getItemsUtils(state, ItemType.saved)
 }
 
-export function getItem (state: RootState, id: string, type: string) {
+export function getItem(state: RootState, id: string, type: string) {
   return getItemUtils(state, id, type)
 }
 
-export function getDisplay (state: RootState) {
+export function getDisplay(state: RootState) {
   return state.itemsMeta.display
 }
 
-export function getCurrentItem (state: RootState, type: string) {
+export function getCurrentItem(state: RootState, type: string) {
   return getCurrentItemUtils(state, type as ItemType)
 }
 
-// gets the current item, plus eight on either side
-export function getActiveItems (state: RootState) {
-  const displayMode = state.itemsMeta.display
-  const items = getItemsUtils(state, displayMode)
-  const index = getIndexUtils(state, displayMode)
-  const buffer = 8
-  const preBuffer = index < buffer ? index : buffer
-  const postBuffer = index + buffer
-  let activeItems = []
-  // let activeItems = [ items[index] ]
-  // for (var i = -buffer; i <= buffer; i++) {
-  //   if (index + i >= 0 && index + i < items.length) {
-  //     const activeItem = items[index + i]
-  //     if (!activeItems.find(ai => ai._id === activeItem._id)) {
-  //       activeItems.push(activeItem)
-  //     }
-  //   }
-  // }
-  for (let i = index - preBuffer; i <= index + postBuffer; i++) {
-    if (items[i] === undefined) continue
-    activeItems.push(items[i])
-  }
-  return activeItems
-}
-
-export function getIndex (state: RootState, type: ItemType) {
+export function getIndex(state: RootState, type: ItemType) {
   return getIndexUtils(state, type)
 }
 
-export function getFeeds (state: RootState) {
+export function getFeeds(state: RootState) {
   return state.feeds.feeds
 }
 
-export function getFeedsLocal (state: RootState) {
+export function getFeedsLocal(state: RootState) {
   return state.feedsLocal.feeds
 }
 
-export function getNewsletters (state: RootState) {
+export function getNewsletters(state: RootState) {
   return state.newsletters.newsletters
 }
 
-export function getLastUpdated (state: RootState, type: ItemType) {
+export function getLastUpdated(state: RootState, type: ItemType) {
   if (type === 'saved') {
     return state.itemsSaved.lastUpdated || 0
   } else {
@@ -80,30 +55,30 @@ export function getLastUpdated (state: RootState, type: ItemType) {
   }
 }
 
-export function getRemoteActions (state: RootState) {
+export function getRemoteActions(state: RootState) {
   return state.remoteActionQueue.actions
 }
 
-export function getConfig (state: RootState) {
+export function getConfig(state: RootState) {
   return state.config
 }
 
-export function getFilter (state: RootState) {
+export function getFilter(state: RootState) {
   return state.config.filter
 }
 
-export function getCategories (state: RootState) {
+export function getCategories(state: RootState) {
   return state.categories.categories
 }
 
-export function getUser<UserState> (state: RootState) {
+export function getUser<UserState>(state: RootState) {
   return state.user
 }
 
-export function isOnline (state: RootState) {
+export function isOnline(state: RootState) {
   return state.config.isOnline
 }
 
-export function getAnnotations (state: RootState) {
+export function getAnnotations(state: RootState) {
   return state.annotations.annotations
 }

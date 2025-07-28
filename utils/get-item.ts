@@ -4,9 +4,34 @@ import { store } from '../store'
 import { RootState } from '../store/reducers'
 import { Platform } from 'react-native'
 import { searchItems } from '../storage/sqlite'
+import { createSelector } from '@reduxjs/toolkit'
 
-// this returns a promise if we're searching, otherwise Item[]
-// which is probably weird
+const selectItems = (state: RootState) => {
+  return state.itemsMeta.display === ItemType.saved ?
+    state.itemsSaved.items :
+    state.itemsUnread.items
+}
+
+const selectFilter = (state: RootState) => state.config.filter
+
+const selectCategories = (state: RootState) => state.categories.categories
+
+export const selectFilteredItems = createSelector([selectItems, selectFilter, selectCategories], (items, filter, categories) => {
+  let filterFeedIds: string[] | undefined, filterItemIds: string[] | undefined
+  if (filter?.type === 'category' && filter._id) {
+    filterFeedIds = categories.find(c => c._id === filter._id)?.feedIds
+    filterItemIds = categories.find(c => c._id === filter._id)?.itemIds
+  } else if ((filter?.type === 'feed' || filter?.type === 'newsletter') && filter._id) {
+    filterFeedIds = [filter._id]
+  }
+
+  return filterFeedIds ?
+    items.filter((item: Item) => filterFeedIds?.indexOf(item.feed_id) !== -1) :
+    (filterItemIds ?
+      items.filter((item: Item) => filterItemIds?.indexOf(item._id) !== -1) :
+      items)
+})
+
 export const getItems = (state: RootState, type?: ItemType) => {
   if (type === undefined) {
     type = state.itemsMeta.display

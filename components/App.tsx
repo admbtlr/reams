@@ -29,24 +29,32 @@ import AccountScreen from './AccountScreen'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import DrawerButton from './DrawerButton'
 import CustomDrawerContent from './CustomDrawerContent'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import TopBars from './ItemCarousel/TopBars'
+import { AnimationProvider } from './ItemCarousel/AnimationContext'
+import { BufferedItemsProvider } from './ItemCarousel/BufferedItemsContext'
 
 const MainStack = createStackNavigator()
 
 export const headerOptions = {
-  headerStyle: {
-    backgroundColor: hslString('rizzleBG'),
-    height: getStatusBarHeight(),
-    // https://github.com/react-navigation/react-navigation/issues/6899
-    shadowColor: 'transparent',
-    elevation: 0,
-  },
+  headerTransparent: true,
+  headerBlurEffect: 'regular',
+  headerShadowVisible: false,
+
+  // headerStyle: {
+  //   // backgroundColor: hslString('rizzleBG'),
+  //   height: getStatusBarHeight(),
+  //   // https://github.com/react-navigation/react-navigation/issues/6899
+  //   shadowColor: 'transparent',
+  //   elevation: 0,
+  // },
   headerTintColor: hslString('rizzleText'),
   headerTitleStyle: {
     color: hslString('rizzleText'),
     fontFamily: 'IBMPlexSerif-Light',
-    fontSize: 32 * fontSizeMultiplier(),
+    fontSize: 24 * fontSizeMultiplier(),
     fontWeight: 'light',
-    lineHeight: 36 * fontSizeMultiplier(),
+    lineHeight: 24 * fontSizeMultiplier(),
   },
   headerBackTitleStyle: {
     color: hslString('rizzleText'),
@@ -73,7 +81,7 @@ const App = (): JSX.Element => {
 
   const drawerButton = () => {
     const navigation = useNavigation()
-    return <View style={{ marginLeft: getMargin() }}>
+    return <View>
       <DrawerButton isLight={false} onPress={() => navigation.openDrawer()} />
     </View>
   }
@@ -180,7 +188,7 @@ const App = (): JSX.Element => {
   }
 
   const createFeedStack = (isSaved = false) => {
-    return createStackNavigator({
+    return createNativeStackNavigator({
       initialRouteName: isSaved ? 'Library' : 'Feed',
       screenOptions: {
         gestureEnabled: false,
@@ -193,8 +201,8 @@ const App = (): JSX.Element => {
           screen: FeedsScreen,
           options: {
             // ...headerOptions,
-            headerShown: false,
-            headerLeft: (props) => drawerButton(props)
+            // headerShown: false,
+            headerLeft: (props) => drawerButton(props),
           }
         },
         Library: {
@@ -202,7 +210,7 @@ const App = (): JSX.Element => {
           screen: FeedsScreen,
           options: {
             // ...headerOptions,
-            headerShown: false,
+            // headerShown: false,
             headerLeft: (props) => drawerButton(props)
           }
         },
@@ -219,7 +227,20 @@ const App = (): JSX.Element => {
         },
         Items: {
           screen: ItemsScreen,
-          options: itemsOptions
+          options: {
+            headerShown: false
+            // headerTransparent: true,
+            // headerBlurEffect: 'light',
+            // animation: 'slide_from_bottom',
+            // headerTitle: () => <TopBars emitter={() => null} isTitleOnly={true} />,
+            // headerTitleStyle: {
+            //   fontFamily: 'IBMPlexSans',
+            //   fontSize: 20,
+            //   fontWeight: 'normal',
+            //   color: 'white'
+            // }
+          }
+          // options: itemsOptions
         },
         Modal: {
           screen: ModalScreen,
@@ -234,7 +255,7 @@ const App = (): JSX.Element => {
       }
     })
   }
-  const HighlightStack = createStackNavigator({
+  const HighlightStack = createNativeStackNavigator({
     options: {
       headerLeft: (props) => drawerButton(props),
       headerShown: false
@@ -249,7 +270,7 @@ const App = (): JSX.Element => {
       }
     }
   })
-  const AccountStack = createStackNavigator({
+  const AccountStack = createNativeStackNavigator({
     screens: {
       Account: {
         screen: AccountScreen,
@@ -264,7 +285,7 @@ const App = (): JSX.Element => {
       },
     }
   })
-  const SettingsStack = createStackNavigator({
+  const SettingsStack = createNativeStackNavigator({
     screens: {
       Settings: {
         screen: SettingsScreen,
@@ -367,7 +388,11 @@ const App = (): JSX.Element => {
 
   console.log('RENDER APP')
 
-  return <Navigation />
+  return <AnimationProvider>
+    <BufferedItemsProvider>
+      <Navigation />
+    </BufferedItemsProvider>
+  </AnimationProvider>
 
   // return (
   //   <AppStack.Navigator

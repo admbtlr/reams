@@ -40,6 +40,7 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import SearchBar from './SearchBar'
 import { headerOptions } from './App'
 import DrawerButton from './DrawerButton';
+import { useHeaderHeight } from '@react-navigation/elements'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -365,7 +366,7 @@ function FeedsScreen({ route }) {
 
   return (
     <>
-      <View style={{
+      {/* <View style={{
         position: 'absolute',
         zIndex: 500,
         flex: 0,
@@ -402,35 +403,14 @@ function FeedsScreen({ route }) {
             {getRizzleButtonIcon('search', hslString('rizzleText'))}
           </TouchableOpacity>
         </View>
-      </View>
-      {/* <Animated.View style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: getStatusBarHeight(),
-        backgroundColor: hslString('rizzleBG', '', 0.98),
-        zIndex: 100,
-        shadowColor: 'black',
-        shadowRadius: 1,
-        shadowOpacity: scrollAnim.interpolate({
-          inputRange: [0, 20],
-          outputRange: [0, 0.1],
-          extrapolate: 'clamp'
-        }),
-        shadowOffset: {
-          height: 1,
-          width: 1
-        },
-        overflow: 'visible',
-      }} /> */}
+      </View> */}
       <View
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: hslString('rizzleBG'),
-          marginTop: getStatusBarHeight()
+          // marginTop: getStatusBarHeight()
           // paddingTop: getStatusBarHeight(),
         }}
         testID='feeds-screen'
@@ -472,9 +452,13 @@ function FeedsScreen({ route }) {
             <TextButton text='Add Feeds' onPress={showAddFeeds} />
           </View>) :
           <ScrollView
+            contentContainerStyle={{
+              paddingTop: useHeaderHeight() + getMargin() / 2
+            }}
             style={{
               flex: 1,
-              width: '100%'
+              width: '100%',
+              inset: 0
             }}
           // onScroll={Animated.event(
           //   [{ nativeEvent: {

@@ -21,6 +21,7 @@ import { SORT_ITEMS } from '../store/items/types'
 import WebView from 'react-native-webview'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import { textInfoStyle, textLabelStyle, textUiStyle } from '../utils/styles'
+import { useHeaderHeight } from '@react-navigation/elements'
 
 export default function SettingsScreen() {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ export default function SettingsScreen() {
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const showButtonLabels = useSelector((state: RootState) => state.ui.showButtonLabels)
   const setShowButtonLabels = (value: boolean) => dispatch({ type: SET_BUTTON_LABELS, showButtonLabels: value })
-  
+
   // Update header style based on dark mode changes
   useHeaderStyle({
     bgColor: 'rizzleBG',
@@ -226,6 +227,8 @@ export default function SettingsScreen() {
       padding: getMargin(),
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
+      paddingTop: useHeaderHeight() + getMargin() / 2
+
     }}>
       <SettingBlock
         children={<RadioButtons data={sortButtons} selected={itemSort} onSelect={sortItems} />}
