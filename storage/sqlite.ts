@@ -31,12 +31,12 @@ const columns = [
 //             return rowsToArray(rows)
 //           },
 //           (_, error) => {
-            // console.log(error)
+// console.log(error)
 //             reject(error)
 //             return false
 //           }
 //         )
-//       })  
+//       })
 //     } catch (error) {
 //       log(error)
 //       reject(error)
@@ -99,7 +99,7 @@ async function initSearchTable() {
         );
       end;`)
     await db.runAsync(`
-      INSERT INTO items_search SELECT 
+      INSERT INTO items_search SELECT
         _id,
         content_html,
         author,
@@ -119,16 +119,16 @@ export async function setItems(items: ItemInflated[]) {
       await db.runAsync(`insert or replace into items (
           id, _id, content_html, author, date_published, content_mercury, excerpt, faceCentreNormalised, scrollRatio, styles
         ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-        [ 
-          item.id || null, 
-          item._id, 
-          item.content_html || null, 
-          item.author || null, 
-          item.date_published || null, 
-          item.content_mercury || null, 
-          item.excerpt || null, 
+        [
+          item.id || null,
+          item._id,
+          item.content_html || null,
+          item.author || null,
+          item.date_published || null,
+          item.content_mercury || null,
+          item.excerpt || null,
           JSON.stringify(item.faceCentreNormalised),
-          JSON.stringify(item.scrollRatio), 
+          JSON.stringify(item.scrollRatio),
           JSON.stringify(item.styles)
         ]
       )
@@ -146,7 +146,10 @@ export async function getItems(items: Item[]): Promise<ItemInflated[]> {
   const query = `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`
   const rows = await db.getAllAsync(query)
   try {
-    let inflatedItems: ItemInflated[] = []
+    if (rows.length !== items.length) {
+      log(new Error('Items missing from database'))
+      throw new Error('Items missing from database')
+    }
     rows.forEach((flate: any) => {
       let item = toInflate.find((item) => item._id === flate._id) as ItemInflated
       if (item) {
@@ -158,22 +161,17 @@ export async function getItems(items: Item[]): Promise<ItemInflated[]> {
         item.faceCentreNormalised = JSON.parse(flate.faceCentreNormalised)
         item.scrollRatio = JSON.parse(flate.scrollRatio)
         item.styles = JSON.parse(flate.styles)
-        inflatedItems.push(item as ItemInflated)
       }
     })
-    if (inflatedItems.length !== items.length) {
-      log(new Error('Items missing from database'))
-      throw new Error('Items missing from database')
-    }
     // console.log('getItems done')
-    return inflatedItems
+    return toInflate as ItemInflated[]
   } catch (e) {
     log(e)
     throw e
   }
 }
 
-export async function getItem (item: Item): Promise<ItemInflated> {
+export async function getItem(item: Item): Promise<ItemInflated> {
   try {
     const items: ItemInflated[] = await getItems([item])
     return items[0]
@@ -183,7 +181,7 @@ export async function getItem (item: Item): Promise<ItemInflated> {
   }
 }
 
-export async function inflateItem (item: Item): Promise<ItemInflated> {
+export async function inflateItem(item: Item): Promise<ItemInflated> {
   try {
     const items = await getItems([item])
     return items[0]
@@ -221,9 +219,9 @@ export async function updateItem(toUpdate: Record<string, any>) {
   const keys = Object.keys(toUpdate).filter((key) => key !== "_id").
     filter((key) => columns.indexOf(key) !== -1)
   const updateString = keys.map((key) => `${key} = ?`).join(",")
-  const values = keys.map((key) => typeof toUpdate[key] === "boolean" ? 
-    (toUpdate[key] ? 
-      1 : 
+  const values = keys.map((key) => typeof toUpdate[key] === "boolean" ?
+    (toUpdate[key] ?
+      1 :
       0) :
     (typeof toUpdate[key] === "object" ?
       JSON.stringify(toUpdate[key]) :

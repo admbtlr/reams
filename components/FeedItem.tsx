@@ -20,6 +20,9 @@ import { useColor } from '../hooks/useColor'
 import type { RootState } from '../store/reducers'
 import { useAnimation } from '@/components/ItemCarousel/AnimationContext'
 import { useReanimatedScroll, logAnimationEvent } from '../utils/feature-flags'
+import { useBufferedItems } from './ItemCarousel/BufferedItemsContext'
+
+const entities = require('entities')
 
 export const INITIAL_WEBVIEW_HEIGHT = 1000
 
@@ -49,34 +52,55 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
 
   const dispatch = useDispatch()
 
+  const inflatedItem = useBufferedItems().bufferedItems
+    .find(item => item._id === _id) as ItemInflated
+
   // Redux selectors
-  const items = useSelector(selectFilteredItems)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const orientation = useSelector((state: RootState) => state.config.orientation)
 
-  // Animation context (new Reanimated system)
-  const animationContext = useAnimation()
+  const [adjustedTitle, setAdjustedTitle] = useState<string | undefined>(inflatedItem.title)
+  const [adjustedExcerpt, setAdjustedExcerpt] = useState<string | undefined>(inflatedItem.excerpt)
 
-  // Find the current item
-  const rawItem = items.find(item => item._id === _id)
+  useEffect(() => {
+    // check whether title is first words of content
+    const content = inflatedItem?.content_html?.length !== undefined &&
+      inflatedItem?.content_html?.length > 0 ?
+      inflatedItem.content_html :
+      inflatedItem.content_mercury
+    if (content === undefined || content.length > 1000) return
+    if (entities.decode(content.substring(0, 200))
+      .replace(/<.*?>/g, '')
+      .trim()
+      .startsWith(inflatedItem?.title.replace('...', ''))) {
+      setAdjustedTitle('')
+    }
+    if (inflatedItem?.excerpt != null && content
+      .substring(0, 200)
+      .replace(/<.*?>/g, '')
+      .trim()
+      .startsWith(inflatedItem.excerpt.replace('...', ''))) {
+      setAdjustedExcerpt('')
+    }
+  }, [inflatedItem])
 
-  const color = useColor(rawItem?.url)
+  const color = useColor(inflatedItem?.url)
 
   // Find related feed or newsletter
   const feed = useSelector((state: RootState) =>
-    state.feeds.feeds.find(f => f._id === rawItem?.feed_id)
+    state.feeds.feeds.find(f => f._id === inflatedItem?.feed_id)
   )
   const newsletter = useSelector((state: RootState) =>
-    state.newsletters.newsletters.find(n => n._id === rawItem?.feed_id)
+    state.newsletters.newsletters.find(n => n._id === inflatedItem?.feed_id)
   )
 
-  const showMercuryContent = rawItem?.showMercuryContent !== undefined ?
-    rawItem.showMercuryContent :
+  const showMercuryContent = inflatedItem?.showMercuryContent !== undefined ?
+    inflatedItem.showMercuryContent :
     feed?.isMercury
 
   // Complete item with additional data
-  const item: Item | undefined = rawItem && {
-    ...rawItem,
+  const item: Item | undefined = inflatedItem && {
+    ...inflatedItem,
     showMercuryContent
   }
 
@@ -93,7 +117,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
 
   // State
   const [webViewHeight, setWebViewHeight] = useState<number>(INITIAL_WEBVIEW_HEIGHT)
-  const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
+  // const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
   const [hasRendered, setHasRendered] = useState<boolean>(false)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
   const [isVisible, setIsVisible] = useState<boolean>(false)
@@ -138,7 +162,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   useEffect(() => {
     if (item === undefined) return
     emitter.on('scrollToRatio', scrollToRatioIfVisible, item._id)
-    inflateItemAndSetState(item)
+    // inflateItemAndSetState(item)
     hasMounted.current = true
 
     return () => {
@@ -148,16 +172,16 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
 
   // Component update for decoration status
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if ((item?.isNewsletter || item?.isExternal) &&
-      (item?.isDecorated || item?.isHtmlCleaned || item?.isMercuryCleaned)) {
-      inflateItemAndSetState(item)
-    }
-  }, [
-    item?.isDecorated,
-    item?.isHtmlCleaned,
-    item?.isMercuryCleaned
-  ])
+  // useEffect(() => {
+  //   if ((item?.isNewsletter || item?.isExternal) &&
+  //     (item?.isDecorated || item?.isHtmlCleaned || item?.isMercuryCleaned)) {
+  //     inflateItemAndSetState(item)
+  //   }
+  // }, [
+  //   item?.isDecorated,
+  //   item?.isHtmlCleaned,
+  //   item?.isMercuryCleaned
+  // ])
 
   // Reveal animation effect
   useEffect(() => {
@@ -246,40 +270,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
           })
         }
       ]
-    }
-  }
-
-  const inflateItemAndSetState = async (itemToInflate: Item): Promise<void> => {
-    try {
-      const inflated = Platform.OS === 'web' ?
-        await getItemIDB(itemToInflate) :
-        await getItemSQLite(itemToInflate)
-
-      if (!inflated) {
-        return
-      }
-
-      // check whether title is first words of content
-      if (inflated.content_html?.length !== undefined && inflated.content_html?.length < 1000 &&
-        inflated.content_html
-          .replace(/<.*?>/g, '')
-          .trim()
-          .startsWith(inflated.title.replace('...', ''))) {
-        inflated.title = ''
-      }
-      if (inflated.content_html?.length !== undefined && inflated.content_html?.length < 1000 &&
-        inflated.excerpt?.replace(/<.*?>/g, '')
-          .trim()
-          .startsWith(inflated.excerpt.replace('...', ''))) {
-        inflated.excerpt = ''
-      }
-
-      setInflatedItem({
-        ...itemToInflate,
-        ...inflated
-      })
-    } catch (err) {
-      log('inflateItemAndSetState', err)
     }
   }
 
@@ -472,7 +462,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   // END ANIMATED STYLES
 
   // Early return if item not found
-  if (!rawItem) return null
+  if (!inflatedItem) return null
 
   const emptyState = (
     <View style={{
@@ -582,8 +572,8 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
           item={inflatedItem}
           isVisible={isVisible}
           itemIndex={itemIndex}
-          title={title}
-          excerpt={inflatedItem.excerpt}
+          title={adjustedTitle}
+          excerpt={adjustedExcerpt}
           date={savedAt ? savedAt * 1000 : created_at}
           scrollOffset={scrollAnim}
           font={styles.fontClasses?.heading}

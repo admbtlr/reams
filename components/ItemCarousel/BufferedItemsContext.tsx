@@ -1,13 +1,14 @@
 import React, { createContext, useContext, ReactNode, useState, useMemo, useCallback, useEffect, useRef, MutableRefObject } from 'react'
-import { Item, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_ITEM } from '@/store/items/types'
+import { Item, ItemInflated, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_ITEM } from '@/store/items/types'
 import { useDispatch, useSelector } from 'react-redux'
 import { getItems } from '@/utils/get-item'
 import { Feed } from '@/store/feeds/types'
 import { RootState } from '@/store/reducers'
 import { BUFFER_LENGTH } from './constants'
+import { getItems as getItemsSqlite } from '@/storage/sqlite'
 
 interface BufferedItemsContextType {
-  bufferedItems: Item[]
+  bufferedItems: ItemInflated[]
   bufferStartIndex: number
   bufferIndexRef: MutableRefObject<number>
   setBufferIndex: (bufferIndex: number) => void
@@ -58,6 +59,9 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
   // we want to keep track of the buffer index
   // without causing re-renders of the whole carousel
   const bufferIndexRef = useRef(0)
+  // keep a cache of inflated items in case we return to them
+  const previouslyInflatedRef = useRef<ItemInflated[]>([])
+  const previouslyInflatedMaxLength = 20
 
   const calculateBufferStartIndex = useCallback(() => {
     // Calculate buffer position based on current Redux index
@@ -72,14 +76,38 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
     }
   }, [bufferStartIndex])
 
-  const getBufferedItems = useMemo(() => () => {
-    debugger
+  const getBufferedItems = useMemo(() => async () => {
     // do we need to calculate a new buffer?
     const bufferStart = calculateBufferStartIndex()
     const bufferEnd = bufferStart + BUFFER_LENGTH > items.length - 1 ?
       items.length :
       bufferStart + BUFFER_LENGTH
-    const buffered = items.slice(bufferStart, bufferEnd)
+    const buffered = items.slice(bufferStart, bufferEnd) as (Item | ItemInflated)[]
+
+    // extract the inflated items that we already have in the current buffer
+    let alreadyInflated
+    for (let i = 0; i < buffered.length; i++) {
+      if (alreadyInflated = bufferedItems.find(bi => bi._id === buffered[i]._id)) {
+        buffered[i] = alreadyInflated
+      } else if (alreadyInflated = previouslyInflatedRef.current.find(pi => pi._id === buffered[i]._id)) {
+        buffered[i] = alreadyInflated
+      }
+    }
+    const toInflate = buffered.filter(b => !('styles' in b))
+    if (toInflate.length > 0) {
+      const now = Date.now()
+      const inflated = await getItemsSqlite(toInflate)
+      console.log(`Time taken to inflate items: ${Date.now() - now}ms`)
+      previouslyInflatedRef.current.push(...inflated)
+      if (previouslyInflatedRef.current.length > previouslyInflatedMaxLength) {
+        previouslyInflatedRef.current = previouslyInflatedRef.current.slice(-previouslyInflatedMaxLength)
+      }
+      for (let i = 0; i < buffered.length; i++) {
+        if (!('styles' in buffered[i])) {
+          buffered[i] = inflated.find(inf => inf._id === buffered[i]._id) as ItemInflated
+        }
+      }
+    }
     if (displayMode === ItemType.saved) {
       return buffered
     } else {
@@ -115,20 +143,33 @@ export const BufferedItemsProvider: React.FC<BufferedItemsProviderProps> = ({ ch
     })
   }
 
-  const maybeUpdateBuffer = () => {
+  const maybeUpdateBuffer = async () => {
     // const newBufferedItems = getBufferedItems()
     // if (stringifyItems(newBufferedItems) !== stringifyItems(bufferedItems)) {
     const newBufferStartIndex = calculateBufferStartIndex()
     if (newBufferStartIndex !== bufferStartIndex) {
-      setBufferedItems(getBufferedItems())
+      const buffered = await getBufferedItems()
+      setBufferedItems(buffered)
       setBufferStartIndex(newBufferStartIndex)
+      // TODO: if we're swipe back to the beginning, it's possible that this is wrong
+      // e.g. we just had this buffer of absolute indexes: [1, 2, 3, 4, 5]
+      // when we swipe back from item 2 to item 1,
+      // the buffer gets rebuilt as [0, 1, 2, 3, 4]
+      // the currentItem should be 1 (both abs and relative),
+      // but since the bufferStartIndex is 0, it gets set to 0 too
+      bufferIndexRef.current = bufferStartIndex === 0 ? 0 : bufferStartIndex - 1
     }
     // }
   }
 
+  const inflateAndSetItems = async () => {
+    const buffered = await getBufferedItems()
+    setBufferedItems(buffered)
+  }
+
   useEffect(() => {
-    setBufferedItems(getBufferedItems())
-  }, [])
+    inflateAndSetItems()
+  }, [displayMode])
   //}, [items, bufferStartIndex, displayMode, getBufferedItems, stringifyItems, bufferedItems, calculateBufferStartIndex])
 
   const value = useMemo(() => ({

@@ -212,7 +212,7 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
 
   // Extract styles and title from props/item
   const styles = props.styles || (item?.styles?.title)
-  const title = props.title || item?.title
+  const title = props.title ?? item?.title
   const isPortraitOrientation = isPortrait()
 
   // Early return if not ready

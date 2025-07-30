@@ -1,4 +1,4 @@
-import { CLEAR_READ_ITEMS, Item, ItemType } from '@/store/items/types'
+import { CLEAR_READ_ITEMS, Item, ItemInflated, ItemType } from '@/store/items/types'
 import React, { Fragment, useEffect, useState } from 'react'
 import {
   Dimensions,
@@ -40,7 +40,7 @@ interface TopBarProps {
     emit: (type: string) => null
   }
   isTitleOnly: Boolean | undefined,
-  item: Item,
+  item: ItemInflated,
   itemIndex: number,
   pageWidth: number,
 }
@@ -98,19 +98,9 @@ export default function TopBar({
   const statusBarHeight = getStatusBarHeight()
 
   useEffect(() => {
-    const checkStyles = async () => {
-      try {
-        const inflatedItem = Platform.OS === 'web' ?
-          await getItemIDB(item) :
-          await getItemSQLite(item)
-        const isCoverInline = (inflatedItem?.styles?.isCoverInline && orientation === 'portrait') || false
-        setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
-      } catch (e) {
-        log('TopBar checkStyles', e)
-      }
-    }
-    checkStyles()
-  }, [item._id])
+    const isCoverInline = (item?.styles?.isCoverInline && orientation === 'portrait') || false
+    setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
+  }, [item, orientation])
 
   // Animated styles
   const containerStyle = useAnimatedStyle(() => {
