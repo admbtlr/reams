@@ -11,11 +11,10 @@ import type { IOSImageColors } from "react-native-image-colors/build/types";
 // Map to store pending color analysis promises by host
 const pendingAnalysis = new Map<string, Promise<string | undefined>>()
 
-export function useColor(urlParam: string | undefined) {
+export function useColor(url: string | undefined) {
   const [color, setColor] = React.useState<string>()
   const dispatch = useDispatch()
   const hostColors = useSelector(selectHostColors)
-  let url = urlParam
 
   useEffect(() => {
     const getColor = async () => {
@@ -24,60 +23,63 @@ export function useColor(urlParam: string | undefined) {
         return 'black'
       }
 
+      let resolvedUrl = url
+
       // resolve redirects
       if (Platform.OS !== 'web') {
         const response = await fetch(url)
         if (response.url !== url) {
-          url = response.url
+          resolvedUrl = response.url
         }
       }
 
-      const matches = url?.match(/:\/\/(.*?)\//)
+      let matches = url?.match(/:\/\/(.*?)\//)
       const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
 
-      const cachedColor = hostColors.find(hc => hc.host === host)?.color
+      matches = resolvedUrl?.match(/:\/\/(.*?)\//)
+      const resolvedHost = matches?.length !== undefined && matches.length > 1 ? matches[1] : resolvedUrl
+
+      const cachedColor = hostColors.find(hc => hc.host === host || hc.host === resolvedHost)?.color
       if (cachedColor) {
-        setColor(cachedColor)
+        setColor(limitHsl(cachedColor))
         return
       }
 
       // Check if there's already a pending analysis for this host
-      if (pendingAnalysis.has(host)) {
+      if (pendingAnalysis.has(resolvedHost)) {
         try {
-          const result = await pendingAnalysis.get(host)
+          const result = await pendingAnalysis.get(resolvedHost)
           if (result) {
             setColor(result)
           }
         } catch (err) {
-          console.error(`Error waiting for pending analysis for host ${host}`, err)
+          console.error(`Error waiting for pending analysis for resolvedHost ${resolvedHost}`, err)
         }
         return
       }
 
       // Create and store the analysis promise
-      const analysisPromise = performColorAnalysis(host, dispatch)
-      pendingAnalysis.set(host, analysisPromise)
+      const analysisPromise = performColorAnalysis(resolvedHost, dispatch)
+      pendingAnalysis.set(resolvedHost, analysisPromise)
 
       try {
         const result = await analysisPromise
         if (result) {
+          dispatch({
+            type: 'hostColors/createHostColor',
+            payload: {
+              host,
+              color: result
+            }
+          })
           setColor(result)
         }
       } catch (err) {
-        console.error(`Error for host ${host}`, err)
+        console.error(`Error for resolvedHost ${resolvedHost}`, err)
       } finally {
         // Clean up the pending promise
-        pendingAnalysis.delete(host)
+        pendingAnalysis.delete(resolvedHost)
       }
-    }
-
-    const matches = url?.match(/:\/\/(.*?)\//)
-    const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
-
-    let cachedColor = hostColors.find(hc => hc.host === host)?.color
-    if (cachedColor) {
-      setColor(limitHsl(cachedColor))
-      return
     }
 
     getColor()
@@ -143,15 +145,6 @@ async function performColorAnalysis(host: string, dispatch: any): Promise<string
       let saturation = hslArray[1]
       const lightness = hslArray[2]
       const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`
-
-      dispatch({
-        type: 'hostColors/createHostColor',
-        payload: {
-          host,
-          color
-        }
-      })
-
       return color
     }
   } catch (err) {
