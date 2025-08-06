@@ -457,6 +457,7 @@ export async function cacheCoverImage(item: Item, imageURL: string) {
 
 function* getNextItemToDecorate() {
   const isItemViable = (item: Item) => {
+    if (!item) return false
     const viable = item.isDecorated !== true &&
       (!item.decoration_failures || item.decoration_failures < MAX_DECORATION_FAILURES) &&
       !pendingDecoration.find(pd => pd._id === item._id)
