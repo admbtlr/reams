@@ -14,7 +14,7 @@ const isTest = () => process.env.NODE_ENV === 'test'
 // Main feature flags for Reanimated migration
 export const FEATURES = {
   // Phase 1: Animation Context and Vertical Scroll
-  USE_REANIMATED_SCROLL: true,         // FeedItem scroll handlers
+  USE_REANIMATED_SCROLL: true,         // Item scroll handlers
 
   // Phase 2: Button Animations
   USE_REANIMATED_BUTTONS: true,        // ButtonSet animations

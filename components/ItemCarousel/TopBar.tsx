@@ -31,7 +31,7 @@ import log from '@/utils/log'
 import Favicon from '@/components/Favicon'
 import { useColor } from '@/hooks/useColor'
 import { useAnimation } from './AnimationContext'
-import { useBufferedItems } from './BufferedItemsContext'
+import { useBufferStartIndex, useBufferedItem } from './bufferedItemsStore'
 
 const entities = require('entities')
 
@@ -40,7 +40,6 @@ interface TopBarProps {
     emit: (type: string) => null
   }
   isTitleOnly: Boolean | undefined,
-  item: ItemInflated,
   itemIndex: number,
   pageWidth: number,
 }
@@ -48,7 +47,6 @@ interface TopBarProps {
 export default function TopBar({
   emitter,
   isTitleOnly,
-  item,
   itemIndex,
   pageWidth,
 }: TopBarProps) {
@@ -58,9 +56,11 @@ export default function TopBar({
   // Animation context
   const { horizontalScroll, verticalScrolls, headerVisibles } = useAnimation()
 
-  const { bufferStartIndex } = useBufferedItems()
+  const item = useBufferedItem(itemIndex)
 
   const screenWidth = useWindowDimensions().width
+
+  if (!item) return null
 
   // Debug: Log when isVisible changes
   // useEffect(() => {
@@ -94,7 +94,11 @@ export default function TopBar({
     feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item.feed_id))
   }
 
-  const color = useColor(feed?.rootUrl || feed?.url || item.url)
+  const url = feed?.rootUrl || feed?.url || item.url
+  const matches = url?.match(/:\/\/(.*?)\//)
+  const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
+  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host))
+  const color = useColor(url)
   const statusBarHeight = getStatusBarHeight()
 
   useEffect(() => {
@@ -203,11 +207,7 @@ export default function TopBar({
 
   // Helper functions
   const getBackgroundColor = () => {
-    if (color) {
-      return color
-    } else {
-      return 'black'
-    }
+    return color ?? cachedColor ?? 'black'
   }
 
   const getForegroundColor = () => {
@@ -271,23 +271,15 @@ export default function TopBar({
             flexDirection: 'column',
             marginTop: 0,
           }}>
-            <Text
-              style={{
-                ...getStyles().feedName,
-                fontSize: 12 * fontSizeMultiplier(),
-                fontFamily: filter ?
-                  'IBMPlexSansCond' :
-                  'IBMPlexSansCond',
-                color: getForegroundColor(),
-                textAlign: 'left'
-              }}
-            >{filter?.type ?
-              (filter.type == 'category' ?
-                filter.title :
-                'Feed') :
-              (displayMode === ItemType.saved ?
-                'Library' :
-                'Unread Stories')} • {itemIndex + bufferStartIndex + 1} / {numItems}</Text>
+            <Counter
+              filter={filter}
+              displayMode={displayMode}
+              itemIndex={itemIndex}
+              numItems={numItems}
+              getForegroundColor={getForegroundColor}
+              fontSizeMultiplier={fontSizeMultiplier}
+              getStyles={getStyles}
+            />
             <Text
               numberOfLines={1}
               ellipsizeMode='tail'
@@ -365,7 +357,7 @@ export default function TopBar({
   return isOnboarding ? null :
     isTitleOnly ? (
       <Reanimated.View
-        key={item ? item._id : id()}
+        key={item._id}
         animatedProps={animatedPointerEvents}
         style={[
           {
@@ -392,7 +384,7 @@ export default function TopBar({
     ) : (
       <View>
         <Reanimated.View
-          key={item ? item._id : id()}
+          key={item._id}
           animatedProps={animatedPointerEvents}
           style={[
             {
@@ -519,6 +511,47 @@ const getStyles = () => {
       padding: 10
     }
   }
+}
+
+interface CounterProps {
+  filter: any
+  displayMode: ItemType
+  itemIndex: number
+  numItems: number
+  getForegroundColor: () => string
+  fontSizeMultiplier: () => number
+  getStyles: () => any
+}
+
+const Counter: React.FC<CounterProps> = ({
+  filter,
+  displayMode,
+  itemIndex,
+  numItems,
+  getForegroundColor,
+  fontSizeMultiplier,
+  getStyles
+}) => {
+  const bufferStartIndex = useBufferStartIndex()
+  return (
+    <Text
+      style={{
+        ...getStyles().feedName,
+        fontSize: 12 * fontSizeMultiplier(),
+        fontFamily: filter ?
+          'IBMPlexSansCond' :
+          'IBMPlexSansCond',
+        color: getForegroundColor(),
+        textAlign: 'left'
+      }}
+    >{filter?.type ?
+      (filter.type == 'category' ?
+        filter.title :
+        'Feed') :
+      (displayMode === ItemType.saved ?
+        'Library' :
+        'Unread Stories')} • {itemIndex + bufferStartIndex + 1} / {numItems}</Text>
+  )
 }
 
 export const getTopBarHeight = () => getStatusBarHeight()

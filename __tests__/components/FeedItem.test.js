@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
-import FeedItem from '../../components/FeedItem'
+import ItemComponent from '../../components/Item'
 import { Animated, Text, View } from 'react-native'
 
 // Mock useColor hook
@@ -213,7 +213,7 @@ class TestErrorBoundary extends React.Component {
   }
 }
 
-describe('FeedItem Component Simplified', () => {
+describe('Item Component Simplified', () => {
   it.skip('renders with basic props', async () => {
     const store = createMockStore()
 
@@ -226,9 +226,10 @@ describe('FeedItem Component Simplified', () => {
     const { getByTestId, debug, queryByTestId, UNSAFE_root } = render(
       <Provider store={store}>
         <TestErrorBoundary>
-          <FeedItem
+          <ItemComponent
             _id="1"
             emitter={mockEmitter}
+            itemIndex={0}
             panAnim={new Animated.Value(0)}
             onScrollEnd={() => { }}
             setScrollAnim={() => { }}

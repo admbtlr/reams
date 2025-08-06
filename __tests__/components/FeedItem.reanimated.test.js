@@ -1,5 +1,5 @@
 /**
- * FeedItem Reanimated Scroll Tests
+ * Item Reanimated Scroll Tests
  *
  * Tests for the new Reanimated scroll behavior that triggers UI changes
  * at scroll BEGIN rather than scroll END. This is the core improvement
@@ -11,7 +11,7 @@ import { render, fireEvent } from '@testing-library/react-native'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { Animated } from 'react-native'
-import FeedItem from '../../components/FeedItem'
+import ItemComponent from '../../components/Item'
 
 // Mock feature flags with control over scroll behavior
 const mockUseReanimatedScroll = jest.fn()
@@ -110,7 +110,7 @@ const createMockStore = () => {
   })
 }
 
-describe('FeedItem Reanimated Scroll Behavior', () => {
+describe('Item Reanimated Scroll Behavior', () => {
   let store
   let mockEmitter
 

@@ -32,7 +32,7 @@ import { useColor } from '@/hooks/useColor'
 import { useAnimation } from './AnimationContext'
 
 import ReamsButton from './ReamsButton'
-import { useBufferedItems } from './BufferedItemsContext'
+import { useBufferedItem } from './bufferedItemsStore'
 
 export const translateDistance = 80
 
@@ -41,14 +41,15 @@ export const translateDistance = 80
 // feed.color, feed.isMercury
 
 interface ButtonSetProps {
-  item: Item,
   itemIndex: number
 }
 
 export default function ButtonSet({
-  item,
   itemIndex,
 }: ButtonSetProps) {
+  // Get item from store using itemIndex
+  const item = useBufferedItem(itemIndex)
+
   // Early return if no item provided
   if (!item) {
     return null

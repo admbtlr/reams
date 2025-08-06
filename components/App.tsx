@@ -32,7 +32,7 @@ import CustomDrawerContent from './CustomDrawerContent'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import TopBars from './ItemCarousel/TopBars'
 import { AnimationProvider } from './ItemCarousel/AnimationContext'
-import { BufferedItemsProvider } from './ItemCarousel/BufferedItemsContext'
+
 
 const MainStack = createStackNavigator()
 
@@ -389,9 +389,7 @@ const App = (): JSX.Element => {
   console.log('RENDER APP')
 
   return <AnimationProvider>
-    <BufferedItemsProvider>
-      <Navigation />
-    </BufferedItemsProvider>
+    <Navigation />
   </AnimationProvider>
 
   // return (

@@ -117,7 +117,8 @@
     "split-on-first": "^1.0.0",
     "uuid": "^9.0.1",
     "web-streams-polyfill": "^4.1.0",
-    "yup": "^0.26.7"
+    "yup": "^0.26.7",
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

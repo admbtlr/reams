@@ -10,14 +10,17 @@ import Reanimated, {
   interpolate,
   useSharedValue,
 } from 'react-native-reanimated'
-import FeedItem from '@/components/FeedItem'
+import ItemComponent from '@/components/Item'
 import Onboarding from '@/components/onboarding/Onboarding'
 import { hslString } from '@/utils/colors'
 import { SessionContext } from '@/components/AuthProvider'
 import { useAnimation } from './AnimationContext'
 import { logAnimationEvent } from '@/utils/feature-flags'
-import { useBufferedItems } from './BufferedItemsContext'
+import { useBufferedItems, useBufferStartIndex, useBufferIndex, useSetBufferIndex } from './bufferedItemsStore'
+import { useBufferedItemsManager } from './useBufferedItemsManager'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@/store/reducers'
 
 interface SwipeableViewsReanimatedProps {
   isOnboarding?: boolean
@@ -36,7 +39,18 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
     // updateIndex,
   } = props
 
-  const { bufferedItems, bufferStartIndex, bufferIndexRef, setBufferIndex } = useBufferedItems()
+  // Initialize the buffered items manager
+  useBufferedItemsManager()
+
+  // Get data from Zustand store
+  const bufferedItems = useBufferedItems()
+  const bufferStartIndex = useBufferStartIndex()
+  const bufferIndex = useBufferIndex()
+  const setBufferIndex = useSetBufferIndex()
+
+  // Redux
+  const dispatch = useDispatch()
+  const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
 
   // Animation context for Reanimated shared values
   const { horizontalScroll } = useAnimation()
@@ -99,12 +113,12 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
 
   // Update index helper
   const updateBufferIndex = (newBufferIndex: number) => {
-    const indexDelta = newBufferIndex - bufferIndexRef.current
+    const indexDelta = newBufferIndex - bufferIndex
     if (indexDelta !== 0) {
       // Update Redux (for all app logic that depends on index changes)
       const newIndex = bufferStartIndex + newBufferIndex
 
-      setBufferIndex(newBufferIndex)
+      setBufferIndex(newBufferIndex, dispatch, displayMode)
       // updateIndex(newIndex)
 
       // Update buffer index: increment/decrement from current buffer position
@@ -159,9 +173,10 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
 
   // Render slide helper
   const renderSlide = ({ _id, index: itemIndex, isVisible, panAnim }: any) => (
-    <FeedItem
+    <ItemComponent
       _id={_id}
       emitter={emitter}
+      itemIndex={itemIndex}
       // setScrollAnim={setScrollAnim}
       onScrollEnd={onScrollEnd}
       panAnim={panAnim}
@@ -182,7 +197,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
       <Onboarding
         key={page}
         index={page}
-        isVisible={bufferIndexRef.current === pageIndex}
+        isVisible={bufferIndex === pageIndex}
         navigation={navigation}
       />
     ))
@@ -201,7 +216,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
       const panAnim = panAnimsRef.current[item._id] || new Animated.Value(1)
 
       return (
-        <FeedItem
+        <ItemComponent
           key={item._id}
           _id={item._id}
           emitter={emitter}

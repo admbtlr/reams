@@ -4,29 +4,25 @@ import {
 } from 'react-native'
 import ButtonSet from './ButtonSet'
 
-import { useBufferedItems } from './BufferedItemsContext'
+import { useBufferedItemsLength } from './bufferedItemsStore'
+import { useBufferedItemsManager } from './useBufferedItemsManager'
 
 const ButtonSets = (props) => {
   if (props.isOnboarding) {
     return null
   }
 
-  const {
-    bufferedItems,
-  } = useBufferedItems()
+  // Get buffered items length from Zustand store
+  const bufferedItemsLength = useBufferedItemsLength()
 
-  return bufferedItems ?
-    bufferedItems.map((item, i) => {
-      return item ? (
-        <ButtonSet
-          item={item}
-          key={`buttons: ${item._id}`}
-          itemIndex={i}
-        />
-      ) : null
-    })
-    :
-    null
+  if (bufferedItemsLength === 0) return null
+
+  return Array.from({ length: bufferedItemsLength }, (_, i) => (
+    <ButtonSet
+      key={`button-set-${i}`}
+      itemIndex={i}
+    />
+  ))
 }
 
 export default ButtonSets

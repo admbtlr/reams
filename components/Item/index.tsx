@@ -2,25 +2,25 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { ActivityIndicator, Animated, Dimensions, Platform, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native'
 import Reanimated, { useAnimatedScrollHandler, runOnJS, useSharedValue, withTiming, interpolate, useAnimatedStyle, useAnimatedReaction } from 'react-native-reanimated'
-import CoverImage from './CoverImage'
+import CoverImage from '../CoverImage'
 import ItemBody from './ItemBody'
-import ItemTitle from './ItemTitle'
-import { getCachedCoverImagePath } from '../utils/'
-import { getMargin, getStatusBarHeight } from '../utils/dimensions'
-import { hslString } from '../utils/colors'
+import ItemTitle from '../ItemTitle'
+import { getCachedCoverImagePath } from '../../utils/'
+import { getMargin, getStatusBarHeight } from '../../utils/dimensions'
+import { hslString } from '../../utils/colors'
 import { getItem as getItemSQLite } from "@/storage/sqlite"
 import { getItem as getItemIDB } from "@/storage/idb-storage"
-import log from '../utils/log'
-import Nudge from './Nudge'
-import { MAX_DECORATION_FAILURES } from '../sagas/decorate-items'
-import { Item, ItemInflated, SET_SCROLL_OFFSET } from '../store/items/types'
-import { HIDE_ALL_BUTTONS, SHOW_IMAGE_VIEWER, SHOW_ITEM_BUTTONS } from '../store/ui/types'
-import { getIndex, getItems, selectFilteredItems } from '../utils/get-item'
-import { useColor } from '../hooks/useColor'
-import type { RootState } from '../store/reducers'
+import log from '../../utils/log'
+import Nudge from '../Nudge'
+import { MAX_DECORATION_FAILURES } from '../../sagas/decorate-items'
+import { ItemInflated, SET_SCROLL_OFFSET } from '../../store/items/types'
+import { HIDE_ALL_BUTTONS, SHOW_IMAGE_VIEWER, SHOW_ITEM_BUTTONS } from '../../store/ui/types'
+import { getIndex, getItems, selectFilteredItems } from '../../utils/get-item'
+import { useColor } from '../../hooks/useColor'
+import type { RootState } from '../../store/reducers'
 import { useAnimation } from '@/components/ItemCarousel/AnimationContext'
-import { useReanimatedScroll, logAnimationEvent } from '../utils/feature-flags'
-import { useBufferedItems } from './ItemCarousel/BufferedItemsContext'
+import { useReanimatedScroll, logAnimationEvent } from '../../utils/feature-flags'
+import { useBufferedItem } from '../ItemCarousel/bufferedItemsStore'
 
 const entities = require('entities')
 
@@ -28,7 +28,7 @@ export const INITIAL_WEBVIEW_HEIGHT = 1000
 
 // Types
 
-interface FeedItemProps {
+interface ItemProps {
   _id: string;
   coverImageComponent?: React.ComponentType<any>;
   setTimerFunction?: (timer: number | null) => void;
@@ -42,7 +42,7 @@ interface FeedItemProps {
   // setScrollAnim: (anim: Animated.Value) => void;
 }
 
-export const FeedItem: React.FC<FeedItemProps> = (props) => {
+const Item: React.FC<ItemProps> = (props) => {
   const {
     _id,
     emitter,
@@ -52,8 +52,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
 
   const dispatch = useDispatch()
 
-  const inflatedItem = useBufferedItems().bufferedItems
-    .find(item => item._id === _id) as ItemInflated
+  const inflatedItem = useBufferedItem(itemIndex) as ItemInflated
 
   // Redux selectors
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
@@ -145,15 +144,6 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     dispatch({
       type: SHOW_IMAGE_VIEWER,
       url
-    })
-  }
-
-  const setScrollOffset = (item: Item, offset: number, totalHeight: number): void => {
-    dispatch({
-      type: SET_SCROLL_OFFSET,
-      item,
-      offset,
-      scrollRatio: Number(Number.parseFloat((offset / totalHeight).toString()).toPrecision(4))
     })
   }
 
@@ -331,7 +321,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
     })
   }
 
-  // reset the shared scroll animation values as soon as this FeedItem becomes visible
+  // reset the shared scroll animation values as soon as this Item becomes visible
   useAnimatedReaction(
     () => horizontalScroll.value,
     () => {
@@ -427,7 +417,7 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
       }
     },
     onMomentumEnd: (event) => {
-      // Only update shared values if this FeedItem is currently visible
+      // Only update shared values if this Item is currently visible
       isScrolling.value = false
 
       // Snap TopBar to fully visible or hidden based on last scroll direction
@@ -631,4 +621,4 @@ export const FeedItem: React.FC<FeedItemProps> = (props) => {
   )
 }
 
-export default FeedItem
+export default Item

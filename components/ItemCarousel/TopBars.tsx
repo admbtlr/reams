@@ -24,7 +24,8 @@ import { getStatusBarHeight } from '@/utils/dimensions'
 import { Item } from '@/store/items/types'
 import TopBar from './TopBar'
 import { useAnimation } from './AnimationContext'
-import { useBufferedItems } from './BufferedItemsContext'
+import { useBufferedItemsLength } from './bufferedItemsStore'
+import { useBufferedItemsManager } from './useBufferedItemsManager'
 import { useNavigation } from '@react-navigation/native'
 
 interface TopBarsProps {
@@ -39,22 +40,21 @@ function TopBars(props: TopBarsProps) {
   } = props
 
   const navigation = useNavigation()
-  const { bufferStartIndex, bufferedItems } = useBufferedItems()
   const screenWidth = useWindowDimensions().width
 
-  if (!bufferedItems) return null
+  // Get buffered items length from Zustand store
+  const bufferedItemsLength = useBufferedItemsLength()
 
-  const topBars = bufferedItems.map((item, i) => {
-    // Calculate horizontal opacity based on scroll position
-    const bufferItemIndex = i
+  if (bufferedItemsLength === 0) return null
+
+  const topBars = Array.from({ length: bufferedItemsLength }, (_, i) => {
     const pageWidth = screenWidth
 
     return (
       <TopBar
-        key={item ? item._id : i.toString()}
+        key={`top-bar-${i}`}
         emitter={emitter}
         isTitleOnly={isTitleOnly}
-        item={item}
         itemIndex={i}
         pageWidth={pageWidth}
       />
