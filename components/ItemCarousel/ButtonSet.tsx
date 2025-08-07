@@ -1,4 +1,4 @@
-import { Item, ItemInflated, ItemType, SAVE_ITEM, SET_KEEP_UNREAD, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '@/store/items/types'
+import { Item, ItemType, SAVE_ITEM, SET_KEEP_UNREAD, TOGGLE_MERCURY_VIEW, UNSAVE_ITEM } from '@/store/items/types'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -33,6 +33,7 @@ import { useAnimation } from './AnimationContext'
 
 import ReamsButton from './ReamsButton'
 import { useBufferedItem } from './bufferedItemsStore'
+import { getHost } from '@/utils'
 
 export const translateDistance = 80
 
@@ -55,8 +56,6 @@ export default function ButtonSet({
     return null
   }
 
-  const [itemInflated, setItemInflated] = useState<ItemInflated | undefined>(undefined)
-
   // Get animation context for button visibility with error handling
   const animationContext = useAnimation()
   const buttonsVisibles = animationContext.buttonsVisibles
@@ -64,12 +63,6 @@ export default function ButtonSet({
   const horizontalScroll = animationContext.horizontalScroll
 
   const pageWidth = useWindowDimensions().width
-
-  useEffect(() => {
-    Platform.OS === 'web' ?
-      getItemIDB(item).then(setItemInflated) :
-      getItemSQLite(item).then(setItemInflated)
-  }, [item])
 
   const itemFeed = useSelector((state: RootState) => {
     let feed: Feed | Newsletter | undefined
@@ -98,10 +91,10 @@ export default function ButtonSet({
 
   let isItemMercury: boolean | undefined
   useEffect(() => {
-    isItemMercury = itemInflated &&
+    isItemMercury = item &&
       (item.showMercuryContent || feed?.isMercury) &&
-      !!itemInflated?.content_mercury
-  }, [item, itemInflated, feed])
+      !!item?.content_mercury
+  }, [item, item, feed])
 
   let isKeepUnread: boolean | undefined
   useEffect(() => {
@@ -179,7 +172,12 @@ export default function ButtonSet({
     }
   }
 
-  const color = useColor((itemFeed && 'rootUrl' in itemFeed ? itemFeed.rootUrl : itemFeed?.url) || item.url)
+  // do we already have the color?
+  const host = getHost(item, feed)
+  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const hookColor = useColor(host, cachedColor === undefined)
+  const color = hookColor || cachedColor
+
   const borderColor = (isDarkMode || !color) ? hslString('rizzleText', 'ui') : color
   const backgroundColor = hslString('buttonBG')
   const borderWidth = 1
@@ -298,7 +296,7 @@ export default function ButtonSet({
   })
 
   const showShareButton = Platform.OS === 'ios'
-  const showMercuryButton = !!itemInflated?.content_mercury
+  const showMercuryButton = !!item?.content_mercury
 
   // Get styles function - simplified version of the original
   const getStyles = (allButtons: boolean) => {

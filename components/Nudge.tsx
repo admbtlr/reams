@@ -8,6 +8,7 @@ import { textInfoBoldItalicStyle, textInfoBoldStyle, textInfoItalicStyle, textIn
 import { DEACTIVATE_NUDGE, Feed, PAUSE_NUDGE } from '../store/feeds/types'
 import launchBrowser from '../utils/launch-browser'
 import { animateNextLayout } from '../utils/layout-animations'
+import { getHost } from '@/utils'
 
 export const NUDGE_FREQUENCY = 10
 
@@ -20,7 +21,7 @@ export default function Nudge({ feed_id, scrollAnim }: {
 }) {
   // Use useState to keep track of the height locally
   const [height, setHeight] = useState(nudgeHeight)
-  
+
   // Calculate the height when the component mounts
   useEffect(() => {
     const calculatedHeight = getMargin() * 3 + (24 * fontSizeMultiplier() * 2) + (32 * fontSizeMultiplier())
@@ -29,8 +30,13 @@ export default function Nudge({ feed_id, scrollAnim }: {
   }, [])
   const feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === feed_id) ??
     state.newsletters.newsletters.find(n => n._id === feed_id))
-  //@ts-ignore
-  const color = useColor(feed?.root_url ?? feed?.url) || 'black'
+
+  // do we already have the color?
+  const host = getHost(null, feed)
+  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const hookColor = useColor(host, cachedColor === undefined)
+  const color = hookColor || cachedColor
+
   const dispatch = useDispatch()
 
   if (!(feed?.readCount && feed?.nextNudge &&

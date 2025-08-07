@@ -12,6 +12,7 @@ import { useColor } from "../../hooks/useColor"
 import { decode } from "entities"
 import getFaviconUrl from "../../utils/get-favicon"
 import moment from "moment"
+import { getHost } from "@/utils"
 
 const TOP_BAR_HEIGHT = 60
 
@@ -50,18 +51,13 @@ export default function ItemView({ item }: { item: ItemInflated | undefined }) {
   //     }} /> :
   //   null
 
-  const matches = item.url.match(/:\/\/(.*?)\//)
-  const host = matches && matches.length > 1 ? matches[1] : null
 
-  const [feedColor, setFeedColor] = useState<string>('')
-
-  const color = useColor(feed?.url || host || '')
-  console.log('Color from useColor:', color)
-  useEffect(() => {
-    console.log('setting feedColor:', color)
-    if (!color) return
-    setFeedColor(color)
-  }, [color]);
+  // do we already have the color?
+  const host = getHost(item, feed)
+  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const hookColor = useColor(host, cachedColor === undefined)
+  const color = hookColor || cachedColor
+  const [feedColor, setFeedColor] = useState<string>(color || 'black')
 
   const fontSize = useSelector((state: RootState) => state.ui.fontSize)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)

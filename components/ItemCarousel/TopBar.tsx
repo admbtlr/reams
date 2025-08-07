@@ -16,7 +16,7 @@ import Reanimated, {
   Extrapolation,
 } from 'react-native-reanimated'
 import { useNavigation } from '@react-navigation/native'
-import { deepEqual, id } from '@/utils'
+import { deepEqual, getHost, id } from '@/utils'
 import { fontSizeMultiplier, getMargin, getStatusBarHeight, hasNotchOrIsland, isPortrait } from '@/utils/dimensions'
 import { hslString } from '@/utils/colors'
 import { getRizzleButtonIcon } from '@/utils/rizzle-button-icons'
@@ -94,11 +94,12 @@ export default function TopBar({
     feed = useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item.feed_id))
   }
 
-  const url = feed?.rootUrl || feed?.url || item.url
-  const matches = url?.match(/:\/\/(.*?)\//)
-  const host = matches?.length !== undefined && matches.length > 1 ? matches[1] : url
-  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host))
-  const color = useColor(url)
+  // do we already have the color?
+  const host = getHost(item, feed)
+  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const hookColor = useColor(host, cachedColor === undefined)
+  const color = hookColor || cachedColor
+
   const statusBarHeight = getStatusBarHeight()
 
   useEffect(() => {

@@ -11,8 +11,8 @@ import type { IOSImageColors } from "react-native-image-colors/build/types";
 // Map to store pending color analysis promises by host
 const pendingAnalysis = new Map<string, Promise<string | undefined>>()
 
-export function useColor(url: string | undefined) {
-  const [color, setColor] = React.useState<string>()
+export function useColor(url: string | undefined, shouldFetch = true) {
+  const [color, setColor] = React.useState<string | null>(null)
   const dispatch = useDispatch()
   const hostColors = useSelector(selectHostColors)
 
@@ -82,8 +82,10 @@ export function useColor(url: string | undefined) {
       }
     }
 
-    getColor()
-  }, [dispatch, hostColors, url])
+    if (shouldFetch) {
+      getColor()
+    }
+  }, [dispatch, hostColors, shouldFetch, url])
 
   const limitHsl = (hslString: string) => {
     // Use regex to extract the h, s, l values

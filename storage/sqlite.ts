@@ -144,31 +144,54 @@ export async function getItems(items: Item[]): Promise<ItemInflated[]> {
   // console.log('getItems')
   const toInflate: Item[] = JSON.parse(JSON.stringify(items))
   const query = `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`
-  const rows = await db.getAllAsync(query)
+  let rows = await db.getAllAsync(query)
+  rows = db.getAllSync(query)
   try {
     if (rows.length !== items.length) {
       log(new Error('Items missing from database'))
       throw new Error('Items missing from database')
     }
-    rows.forEach((flate: any) => {
-      let item = toInflate.find((item) => item._id === flate._id) as ItemInflated
-      if (item) {
-        item.content_html = flate.content_html
-        item.author = flate.author
-        item.date_published = flate.date_published
-        item.content_mercury = flate.content_mercury
-        item.excerpt = flate.excerpt
-        item.faceCentreNormalised = JSON.parse(flate.faceCentreNormalised)
-        item.scrollRatio = JSON.parse(flate.scrollRatio)
-        item.styles = JSON.parse(flate.styles)
-      }
-    })
-    // console.log('getItems done')
-    return toInflate as ItemInflated[]
+    return inflateItems(toInflate, rows)
   } catch (e) {
     log(e)
     throw e
   }
+}
+
+export function getItemsSync(items: Item[]): ItemInflated[] {
+  // console.log('getItems')
+  const toInflate: Item[] = JSON.parse(JSON.stringify(items))
+  const query = `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`
+  const rows = db.getAllSync(query)
+  try {
+    if (rows.length !== items.length) {
+      log(new Error('Items missing from database'))
+      throw new Error('Items missing from database')
+    }
+    return inflateItems(toInflate, rows)
+  } catch (e) {
+    log(e)
+    throw e
+  }
+}
+
+function inflateItems(toInflate: Item[], rows: unknown[]): ItemInflated[] {
+  let inflated: ItemInflated[] = []
+  rows.forEach((flate: any) => {
+    let item = toInflate.find((item) => item._id === flate._id) as ItemInflated
+    if (item) {
+      item.content_html = flate.content_html
+      item.author = flate.author
+      item.date_published = flate.date_published
+      item.content_mercury = flate.content_mercury
+      item.excerpt = flate.excerpt
+      item.faceCentreNormalised = JSON.parse(flate.faceCentreNormalised)
+      item.scrollRatio = JSON.parse(flate.scrollRatio)
+      item.styles = JSON.parse(flate.styles)
+    }
+    inflated.push(item)
+  })
+  return inflated
 }
 
 export async function getItem(item: Item): Promise<ItemInflated> {

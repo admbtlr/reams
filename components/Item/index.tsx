@@ -5,7 +5,7 @@ import Reanimated, { useAnimatedScrollHandler, runOnJS, useSharedValue, withTimi
 import CoverImage from '../CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitle from '../ItemTitle'
-import { getCachedCoverImagePath } from '../../utils/'
+import { getCachedCoverImagePath, getHost } from '../../utils/'
 import { getMargin, getStatusBarHeight } from '../../utils/dimensions'
 import { hslString } from '../../utils/colors'
 import { getItem as getItemSQLite } from "@/storage/sqlite"
@@ -83,8 +83,6 @@ const Item: React.FC<ItemProps> = (props) => {
     }
   }, [inflatedItem])
 
-  const color = useColor(inflatedItem?.url)
-
   // Find related feed or newsletter
   const feed = useSelector((state: RootState) =>
     state.feeds.feeds.find(f => f._id === inflatedItem?.feed_id)
@@ -92,6 +90,12 @@ const Item: React.FC<ItemProps> = (props) => {
   const newsletter = useSelector((state: RootState) =>
     state.newsletters.newsletters.find(n => n._id === inflatedItem?.feed_id)
   )
+
+  // do we already have the color?
+  const host = getHost(inflatedItem, feed)
+  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const hookColor = useColor(host, cachedColor === undefined)
+  const color = hookColor || cachedColor
 
   const showMercuryContent = inflatedItem?.showMercuryContent !== undefined ?
     inflatedItem.showMercuryContent :
@@ -111,13 +115,12 @@ const Item: React.FC<ItemProps> = (props) => {
   const scrollAnim = useRef(new Animated.Value(0)).current
   const anims = useRef<Animated.AnimatedInterpolation<number>[]>([])
   const prevPanAnim = useRef<Animated.Value | null>(null)
-  const isRevealing = useRef<boolean>(false)
+  const hasRendered = useRef<boolean>(false)
   const scrollEndTimer = useRef<NodeJS.Timeout | null>(null)
 
   // State
   const [webViewHeight, setWebViewHeight] = useState<number>(INITIAL_WEBVIEW_HEIGHT)
   // const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
-  const [hasRendered, setHasRendered] = useState<boolean>(false)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
@@ -175,10 +178,9 @@ const Item: React.FC<ItemProps> = (props) => {
 
   // Reveal animation effect
   useEffect(() => {
-    if (!hasRendered && (item?.isDecorated ||
+    if (!hasRendered.current && (item?.isDecorated ||
       (item?.decoration_failures && item?.decoration_failures >= MAX_DECORATION_FAILURES))) {
       const reveal = new Animated.Value(1)
-      isRevealing.current = true
 
       const animation = Animated.timing(reveal, {
         toValue: 0,
@@ -188,12 +190,11 @@ const Item: React.FC<ItemProps> = (props) => {
 
       animation.start(({ finished }) => {
         if (finished) {
-          isRevealing.current = false
-          setHasRendered(true)
+          hasRendered.current = true
         }
       })
     }
-  }, [hasRendered, item?.isDecorated, item?.decoration_failures])
+  }, [hasRendered.current, item?.isDecorated, item?.decoration_failures])
 
   const initAnimatedValues = (): void => {
     const newAnims = [0, 0, 0, 0, 0, 0].map((a, i) => {
@@ -481,7 +482,7 @@ const Item: React.FC<ItemProps> = (props) => {
     savedAt
   } = inflatedItem
 
-  const reveal = new Animated.Value(hasRendered ? 0 : 1)
+  const reveal = new Animated.Value(hasRendered.current ? 0 : 1)
 
   const isCoverInline = orientation !== 'landscape' && styles?.isCoverInline
 
@@ -602,7 +603,7 @@ const Item: React.FC<ItemProps> = (props) => {
           />
         </Animated.View>
       </Reanimated.ScrollView>
-      {!hasRendered &&
+      {/*{!hasRendered.current &&
         <Animated.View
           style={{
             backgroundColor: bodyColor,
@@ -616,9 +617,11 @@ const Item: React.FC<ItemProps> = (props) => {
         >
           {emptyState}
         </Animated.View>
-      }
+      }*/}
     </View>
   )
 }
+
+Item.whyDidYouRender = true
 
 export default Item

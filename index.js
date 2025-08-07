@@ -5,7 +5,6 @@ import 'core-js/actual/url'
 import 'core-js/actual/url-search-params'
 
 import { registerRootComponent } from 'expo'
-import { LogBox } from 'react-native'
 import Rizzle from './components/Rizzle'
 
 // AppRegistry.registerComponent('rizzle', () => Rizzle)

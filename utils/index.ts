@@ -6,6 +6,8 @@ import { Item } from '../store/items/types'
 import { hslString } from './colors'
 import log from './log'
 import { uuidv4, uuidv5 } from './uuid'
+import { Feed } from '@/store/feeds/types'
+import { Newsletter } from '@/store/newsletters/types'
 
 // const uuid = require('uuid')
 
@@ -205,4 +207,10 @@ export function pgTimestamp(date: Date = new Date(Date.now())) {
     .replace('T', ' ')
     .replace('Z', '')
     .replace(/\.\d{3}/, '')
+}
+
+export function getHost(item: Item | null, feed: Feed | Newsletter | undefined = undefined) {
+  const url = feed?.rootUrl || feed?.url || item?.url
+  const matches = url?.match(/:\/\/(.*?)\//)
+  return matches?.length !== undefined && matches.length > 1 ? matches[1] : url
 }

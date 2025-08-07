@@ -5,7 +5,7 @@ import { openLink } from '../../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './index'
 import { hslString } from '../../utils/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { id } from '../../utils'
+import { getHost, id } from '../../utils'
 import { RootState } from '../../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../../store/ui/types'
 import { ActiveHighlightContext } from '../ItemsScreen'
@@ -251,7 +251,11 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     data = coverImageUrl
   }
 
-  const feedColor = useColor(url)
+  // do we already have the color?
+  const host = getHost(item)
+  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const hookColor = useColor(host, cachedColor === undefined)
+  const feedColor = hookColor || cachedColor
 
   const { width, height } = Dimensions.get('window')
   const deviceWidth = height > width ? width : height

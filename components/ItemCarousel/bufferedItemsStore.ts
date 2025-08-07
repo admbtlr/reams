@@ -3,7 +3,7 @@ import { subscribeWithSelector } from 'zustand/middleware'
 import { Item, ItemInflated, ItemType, UPDATE_CURRENT_ITEM } from '@/store/items/types'
 import { Feed } from '@/store/feeds/types'
 import { BUFFER_LENGTH } from './constants'
-import { getItems as getItemsSqlite } from '@/storage/sqlite'
+import { getItemsSync as getItemsSyncSqlite } from '@/storage/sqlite'
 import { useSelector } from 'react-redux'
 import { store } from '@/store'
 
@@ -15,7 +15,7 @@ interface BufferedItemsStore {
   previouslyInflated: ItemInflated[]
 
   // Public API - called by manager and components
-  updateFromRedux: (items: Item[], feeds: Feed[], displayMode: ItemType, dispatch: any) => Promise<void>
+  updateFromRedux: (items: Item[], feeds: Feed[], displayMode: ItemType, dispatch: any) => void
   setBufferIndex: (index: number, dispatch: any, displayMode: ItemType) => void
   clearBuffer: () => void
 
@@ -26,8 +26,8 @@ interface BufferedItemsStore {
   // Internal methods (can call each other)
   shouldRebuildBuffer: () => boolean
   calculateNewBufferStart: () => number
-  rebuildBuffer: (displayMode: ItemType, newStartIndex?: number) => Promise<void>
-  inflateItems: (items: Item[], feeds: Feed[], displayMode: ItemType, bufferStart: number) => Promise<ItemInflated[]>
+  rebuildBuffer: (displayMode: ItemType, newStartIndex?: number) => void
+  inflateItems: (items: Item[], feeds: Feed[], displayMode: ItemType, bufferStart: number) => ItemInflated[]
 }
 
 export const useBufferedItemsStore = create<BufferedItemsStore>()(
@@ -39,7 +39,7 @@ export const useBufferedItemsStore = create<BufferedItemsStore>()(
     previouslyInflated: [],
 
     // Public API
-    updateFromRedux: async (items, feeds, displayMode, dispatch) => {
+    updateFromRedux: (items, feeds, displayMode, dispatch) => {
       if (items.length === 0) {
         get().clearBuffer()
         return
@@ -48,11 +48,11 @@ export const useBufferedItemsStore = create<BufferedItemsStore>()(
       const { bufferedItems } = get()
       if (bufferedItems.length === 0) {
         // First time initialization
-        await get().rebuildBuffer(displayMode, 0)
+        get().rebuildBuffer(displayMode, 0)
       } else if (get().shouldRebuildBuffer()) {
         // Buffer needs shifting
         const newStart = get().calculateNewBufferStart()
-        await get().rebuildBuffer(displayMode, newStart)
+        get().rebuildBuffer(displayMode, newStart)
       }
     },
 
@@ -119,14 +119,15 @@ export const useBufferedItemsStore = create<BufferedItemsStore>()(
       }
     },
 
-    rebuildBuffer: async (displayMode, newStartIndex) => {
+    rebuildBuffer: (displayMode, newStartIndex) => {
+      if (store === undefined) return
       const { bufferStartIndex } = get()
       const reduxState = store.getState()
       const items = reduxState[displayMode === 'unread' ? 'itemsUnread' : 'itemsSaved'].items
       const feeds = reduxState.feeds.feeds
       const startIndex = newStartIndex ?? bufferStartIndex
 
-      const inflated = await get().inflateItems(items, feeds, displayMode, startIndex)
+      const inflated = get().inflateItems(items, feeds, displayMode, startIndex)
 
       set({
         bufferedItems: inflated,
@@ -135,7 +136,7 @@ export const useBufferedItemsStore = create<BufferedItemsStore>()(
       })
     },
 
-    inflateItems: async (items, feeds, displayMode, bufferStart) => {
+    inflateItems: (items, feeds, displayMode, bufferStart) => {
       const { bufferedItems, previouslyInflated } = get()
       const previouslyInflatedMaxLength = 20
 
@@ -157,7 +158,7 @@ export const useBufferedItemsStore = create<BufferedItemsStore>()(
       const toInflate = buffered.filter(b => !('styles' in b))
       if (toInflate.length > 0) {
         const now = Date.now()
-        const inflated = await getItemsSqlite(toInflate)
+        const inflated = getItemsSyncSqlite(toInflate)
         console.log(`Time taken to inflate items: ${Date.now() - now}ms`)
 
         const newPreviouslyInflated = [...previouslyInflated, ...inflated]
