@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ItemType, SET_TITLE_FONT_SIZE } from '@/store/items/types'
 import { getMargin, isIpad, isPortrait } from '@/utils/dimensions'
 import { getTopBarHeight } from '@/components/ItemCarousel/TopBar'
+import { RootState } from '@/store/reducers'
 import CategoryToggles from '@/components/CategoryToggles'
-import { withUseColorHOC } from '@/components/withUseColorHOC'
 import Title from './Title'
 import Excerpt from './Excerpt'
 import Author from './Author'
@@ -14,6 +14,8 @@ import Date from './Date'
 import Bar from './Bar'
 import { useAnimationValues } from '../ItemCarousel/AnimationContext'
 import { interpolate, useAnimatedStyle } from 'react-native-reanimated'
+import { getHost } from '@/utils'
+import { useColor } from '@/hooks/useColor'
 
 interface FontStyle {
   fontFamily: string
@@ -41,22 +43,12 @@ interface ItemTitleProps {
   anims?: any
   addAnimation?: (style: any, anim: any, isVisible: boolean) => any
   excerpt?: string
-  color?: string
   styles?: any
   title?: string
   coverImageStyles?: any
   fontSize?: number
   font?: string
   layoutListener?: (height: number) => void
-}
-
-interface RootState {
-  ui: {
-    isDarkMode: boolean
-  }
-  itemsMeta: {
-    display: string
-  }
 }
 
 interface AnimationValues {
@@ -199,8 +191,7 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
     showCoverImage,
     anims,
     addAnimation,
-    excerpt,
-    color
+    excerpt
   } = props
 
   const { verticalScrolls } = useAnimationValues()
@@ -214,6 +205,12 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
   const styles = props.styles || (item?.styles?.title)
   const title = props.title ?? item?.title
   const isPortraitOrientation = isPortrait()
+
+  // do we already have the color?
+  const host = getHost(item)
+  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const hookColor = useColor(host, cachedColor === undefined)
+  const color = hookColor || cachedColor
 
   // Early return if not ready
   if (!styles || !item) return null
@@ -563,4 +560,4 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
   )
 }
 
-export default withUseColorHOC(ItemTitle)
+export default ItemTitle
