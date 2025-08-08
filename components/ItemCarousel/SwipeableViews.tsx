@@ -53,7 +53,14 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
 
   // Animation context for Reanimated shared values
-  const { horizontalScroll } = useAnimation()
+  const { horizontalScroll, headerVisibles, buttonsVisibles, verticalScrolls } = useAnimation()
+
+  // reset animation values when re-rendering
+  useEffect(() => {
+    headerVisibles.forEach(hv => hv.set(0))
+    buttonsVisibles.forEach(bv => bv.set(1))
+    verticalScrolls.forEach(vs => vs.set(0))
+  }, [bufferedItems])
 
   // Session context for onboarding logic
   const sessionContext = useContext(SessionContext)

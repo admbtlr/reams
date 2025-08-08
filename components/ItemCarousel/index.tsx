@@ -7,7 +7,6 @@ import {
 import TopBars from './TopBars'
 import { getClampedScrollAnim, onScrollEnd, setClampedScrollListener, setScrollListener } from '@/utils/animation-handlers'
 import EmptyCarousel from './EmptyCarousel'
-import { AnimationProvider } from './AnimationContext'
 import SwipeableViews from './SwipeableViews'
 import ButtonSets from './ButtonSets'
 import Emitter from './Emitter'
@@ -86,12 +85,10 @@ class ItemCarousel extends React.Component {
       )
     } else {
       return (
-        <AnimationProvider>
-          <EmptyCarousel
-            displayMode={displayMode}
-            navigation={navigation}
-          />
-        </AnimationProvider>
+        <EmptyCarousel
+          displayMode={displayMode}
+          navigation={navigation}
+        />
       )
     }
   }
