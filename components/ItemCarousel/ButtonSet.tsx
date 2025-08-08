@@ -76,7 +76,7 @@ export default function ButtonSet({
   })
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
-  const [feed, setFeed] = useState<Feed | Newsletter | undefined>()
+  const [feed, setFeed] = useState<Feed | Newsletter | undefined>(itemFeed)
 
   // the stringified items actually only consist of _ids
   // this allows us to keep track of the real state of items
@@ -411,3 +411,5 @@ export default function ButtonSet({
     </Reanimated.View>
   )
 }
+
+// ButtonSet.whyDidYouRender = true

@@ -20,7 +20,7 @@ import { useColor } from '../../hooks/useColor'
 import type { RootState } from '../../store/reducers'
 import { useAnimation } from '@/components/ItemCarousel/AnimationContext'
 import { useReanimatedScroll, logAnimationEvent } from '../../utils/feature-flags'
-import { useBufferedItem } from '../ItemCarousel/bufferedItemsStore'
+import { useBufferIndex, useBufferedItem } from '../ItemCarousel/bufferedItemsStore'
 
 const entities = require('entities')
 
@@ -118,11 +118,13 @@ const Item: React.FC<ItemProps> = (props) => {
   const hasRendered = useRef<boolean>(false)
   const scrollEndTimer = useRef<NodeJS.Timeout | null>(null)
 
+  const bufferIndex = useBufferIndex()
+
   // State
   const [webViewHeight, setWebViewHeight] = useState<number>(INITIAL_WEBVIEW_HEIGHT)
   // const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
-  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [isVisible, setIsVisible] = useState<boolean>(itemIndex === bufferIndex)
 
   // use a ref so that we can reference this value within a closure
   // i.e. the scrollToOffset function below
@@ -295,7 +297,14 @@ const Item: React.FC<ItemProps> = (props) => {
     if (!height || Math.abs(height - webViewHeight) < height * 0.1) {
       return
     }
-    setWebViewHeight(height)
+    // chill out on the re-renders
+    if (isVisible) {
+      setWebViewHeight(height)
+    } else {
+      setTimeout(() => {
+        setWebViewHeight(height)
+      }, 500)
+    }
   }
 
   const onNavigationStateChange = (event: { url: string; jsEvaluationValue: string }): void => {
@@ -579,7 +588,7 @@ const Item: React.FC<ItemProps> = (props) => {
           bodyStyle :
           bodyStyle}
         >
-          <View style={{
+          {/*<View style={{
             position: "absolute",
             top: 0,
             right: 0,
@@ -589,7 +598,7 @@ const Item: React.FC<ItemProps> = (props) => {
             backgroundColor: bodyColor
           }}>
             <ActivityIndicator size="large" color={hslString('rizzleFG')} />
-          </View>
+          </View>*/}
           <ItemBody
             bodyColor={bodyColor}
             item={{
@@ -621,7 +630,5 @@ const Item: React.FC<ItemProps> = (props) => {
     </View>
   )
 }
-
-Item.whyDidYouRender = true
 
 export default Item

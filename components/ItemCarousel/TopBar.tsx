@@ -556,3 +556,5 @@ const Counter: React.FC<CounterProps> = ({
 }
 
 export const getTopBarHeight = () => getStatusBarHeight()
+
+// TopBar.whyDidYouRender = true

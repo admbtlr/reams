@@ -628,4 +628,4 @@ function FeedContracted({
 
 FeedContracted.whyDidYouRender = true
 
-export default React.memo(FeedContracted, isEqual)
+export default FeedContracted //React.memo(FeedContracted, isEqual)
