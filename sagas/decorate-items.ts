@@ -276,23 +276,23 @@ function* applyBasicDecoration(result: { item: WholeItem, mercuryStuff: MercuryS
   yield call(InteractionManager.runAfterInteractions)
   const displayMode: string = yield select(getDisplay)
   const isSaved = result.item.isSaved
-  const decoratedItem = yield call(persistBasicDecoration, result)
-  const deflatedItem = deflateItem(decoratedItem)
-  yield put({
-    type: ITEM_DECORATION_SUCCESS,
-    item: deflatedItem,
-    mercuryStuff: result.mercuryStuff,
-    imageStuff: result.basicImageStuff,
-    isSaved,
-    displayMode
-  })
+  const deflatedItem = yield call(persistBasicDecoration, result)
+  // const deflatedItem = deflateItem(decoratedItem)
+  // yield put({
+  //   type: ITEM_DECORATION_SUCCESS,
+  //   item: deflatedItem,
+  //   mercuryStuff: result.mercuryStuff,
+  //   imageStuff: result.basicImageStuff,
+  //   isSaved,
+  //   displayMode
+  // })
 
   // Small delay to ensure Redux state is updated before removing from pending
-  yield delay(100)
+  // yield delay(100)
 
   // Check if Redux state was actually updated
-  const updatedItems: Item[] = yield select(getItems, isSaved ? ItemType.saved : ItemType.unread)
-  const updatedItem = updatedItems.find(i => i._id === decoratedItem._id)
+  // const updatedItems: Item[] = yield select(getItems, isSaved ? ItemType.saved : ItemType.unread)
+  // const updatedItem = updatedItems.find(i => i._id === decoratedItem._id)
 
   if (result.item) {
     pendingDecoration = pendingDecoration.filter(pending => pending._id !== result.item._id)
@@ -325,11 +325,12 @@ function* persistBasicDecoration(result: { item: WholeItem, mercuryStuff: Mercur
   } else {
     yield call(updateItemSQLite, wholeItem)
   }
+  const deflated = deflateItem(wholeItem)
   yield put({
     type: UPDATE_ITEM,
-    item: deflateItem(wholeItem)
+    item: deflated
   })
-  return wholeItem
+  return deflated
 }
 
 function* prepareBasicCoverImage(item: Item, mercuryStuff: MercuryStuff, stepTimings: { [key: string]: number }): Generator<any, BasicImageStuff, any> {
