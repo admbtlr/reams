@@ -626,6 +626,6 @@ function FeedContracted({
   )
 }
 
-FeedContracted.whyDidYouRender = true
+// FeedContracted.whyDidYouRender = true
 
 export default FeedContracted //React.memo(FeedContracted, isEqual)

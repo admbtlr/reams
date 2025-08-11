@@ -113,6 +113,8 @@ function FeedsScreen({ route }) {
 
   const { openModal } = useModal()
 
+  const headerHeight = useHeaderHeight()
+
   // Update header style based on dark mode changes
   useHeaderStyle({
     bgColor: 'rizzleBG',
@@ -453,7 +455,7 @@ function FeedsScreen({ route }) {
           </View>) :
           <ScrollView
             contentContainerStyle={{
-              paddingTop: useHeaderHeight() + getMargin() / 2
+              paddingTop: headerHeight + getMargin() / 2
             }}
             style={{
               flex: 1,
