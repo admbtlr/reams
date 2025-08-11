@@ -1,8 +1,17 @@
 import * as SQLite from "expo-sqlite";
 import { Item, ItemInflated } from "store/items/types";
 import log from "../utils/log";
+import { version } from "@babel/core";
 
 let db: SQLite.SQLiteDatabase
+
+const migrations = [
+  null,
+  {
+    'schema': 'ALTER TABLE items ADD COLUMN coverImageUrl TEXT;',
+    'data': 'UPDATE items SET coverImageUrl = ? WHERE _id = ?'
+  }
+]
 
 const columns = [
   'id',
@@ -44,10 +53,10 @@ const columns = [
 //   })
 // }
 
-export async function initSQLite() {
-  db = await SQLite.openDatabaseAsync("db.db")
+export function initSQLite() {
+  db = SQLite.openDatabaseSync("db.db")
   try {
-    await db.runAsync(`
+    db.runSync(`
     create table if not exists items (
       _id STRING PRIMARY KEY NOT NULL,
       author TEXT,
@@ -62,11 +71,46 @@ export async function initSQLite() {
       scrollRatio TEXT,
       styles TEXT
     );`)
-    await initSearchTable()
-    console.log('SQLite initialized, items count: ', await db.getFirstAsync('select count(*) from items;'))
+
+    doSchemaMigrations()
+
+    // don't need to wait for this to finish
+    initSearchTable()
+
+    console.log('SQLite initialized, items count: ', db.getFirstSync('select count(*) from items;'))
   } catch (error) {
     log('initSQLite', error)
     throw error
+  }
+}
+
+function doSchemaMigrations() {
+  const versionQuery: { user_version: number } | null = db.getFirstSync('PRAGMA user_version')
+  let version = versionQuery?.user_version ?? 1
+
+  // user_version starts at 1 which is confusing
+  // note that i doesn't get incremented on the first go round
+  let i = 1
+  for (const migration of migrations) {
+    if (i >= version && migration !== null) {
+      db.runSync(migration.schema)
+      i++
+    }
+  }
+  db.execSync(`PRAGMA user_version =  ${Math.max(version, i)}`)
+}
+
+// data should be { $columnName: value }[]
+export function doDataMigration(index: number, data: {}[]) {
+  const query = migrations[index]?.data
+  if (query) {
+    const preparedStmt = db.prepareSync(query)
+    db.runSync('BEGIN TRANSACTION')
+    for (const row of data) {
+      preparedStmt.executeSync(row)
+    }
+    preparedStmt.finalizeSync()
+    db.runSync('COMMIT')
   }
 }
 
@@ -145,7 +189,6 @@ export async function getItems(items: Item[]): Promise<ItemInflated[]> {
   const toInflate: Item[] = JSON.parse(JSON.stringify(items))
   const query = `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`
   let rows = await db.getAllAsync(query)
-  rows = db.getAllSync(query)
   try {
     if (rows.length !== items.length) {
       log(new Error('Items missing from database'))
