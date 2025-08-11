@@ -206,7 +206,8 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     styles.dropCapIsDrop ? 'dropCapIsDrop' : '',
     styles.dropCapIsBold ? 'dropCapIsBold' : '',
     styles.dropCapIsStroke ? 'dropCapIsStroke' : '',
-    (showMercuryContent && isMercuryCleaned) || isHtmlCleaned ? 'cleaned' : '',
+    (showMercuryContent && (isMercuryCleaned || cleanedMercuryContent !== undefined)) ||
+      (isHtmlCleaned || cleanedHtmlContent !== undefined) ? 'cleaned' : '',
     isPortrait() ? 'portrait' : 'landscapes'
   ].join(' ')
 
