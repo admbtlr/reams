@@ -98,11 +98,12 @@ function doSchemaMigrations() {
       i++
     }
   }
-  db.execSync(`PRAGMA user_version =  ${Math.max(version, i)}`)
+  db.runSync(`PRAGMA user_version =  ${Math.max(version, i)}`)
 }
 
 // data should be { $columnName: value }[]
 export function doDataMigration(index: number, data: {}[]) {
+  debugger
   const query = migrations[index]?.data
   if (query) {
     let preparedStmt
