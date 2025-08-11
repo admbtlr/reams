@@ -375,7 +375,7 @@ export const migrations = {
     }
   },
   // somehow my version number got screwed up :shrug:
-  23: (state: RootState) => {
+  25: (state: RootState) => {
     // move coverImageUrl to sqlite
     let unreadItems = state.itemsUnread.items
     let savedItems = state.itemsSaved.items

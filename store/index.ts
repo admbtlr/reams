@@ -57,7 +57,7 @@ const getPersistedReducer = () => {
     transforms: [messageQueueTransform, orientationTransform],
     // @ts-ignore
     migrate: createMigrate(migrations, { debug: true }),
-    version: 23
+    version: 25
   }
 
   return persistReducer(persistConfig, makeRootReducer())

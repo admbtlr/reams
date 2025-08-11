@@ -32,7 +32,6 @@ export function deflateItem(item) {
   const deflated = {
     _id: item._id,
     author: item.author,
-    coverImageUrl: item.coverImageUrl, // needed by the feed component
     content_length: item.content_length || (item.content_html
       ? stripTags(item.content_html).length
       : 0),

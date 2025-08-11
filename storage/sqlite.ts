@@ -17,6 +17,7 @@ const columns = [
   'id',
   '_id',
   'content_html',
+  'coverImageUrl',
   'author',
   'date_published',
   'content_mercury',
@@ -104,13 +105,18 @@ function doSchemaMigrations() {
 export function doDataMigration(index: number, data: {}[]) {
   const query = migrations[index]?.data
   if (query) {
-    const preparedStmt = db.prepareSync(query)
-    db.runSync('BEGIN TRANSACTION')
-    for (const row of data) {
-      preparedStmt.executeSync(row)
+    let preparedStmt
+    try {
+      preparedStmt = db.prepareSync(query)
+      for (const row of data) {
+        preparedStmt.executeSync(row)
+      }
+
+    } catch (e: any) {
+      console.error(e)
+    } finally {
+      if (preparedStmt !== undefined) preparedStmt.finalizeSync()
     }
-    preparedStmt.finalizeSync()
-    db.runSync('COMMIT')
   }
 }
 
