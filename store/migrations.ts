@@ -412,10 +412,10 @@ export const migrations = {
 
     const params: {}[] = []
     unreadItems.forEach((item, index) => {
-      params.push({ $_id: item._id, $imageDimensions: item.imageDimensions ?? '' })
+      params.push({ $_id: item._id, $imageDimensions: JSON.stringify(item.imageDimensions) ?? '' })
     })
     savedItems.forEach((item, index) => {
-      params.push({ $_id: item._id, $imageDimensions: item.imageDimensions ?? '' })
+      params.push({ $_id: item._id, $imageDimensions: JSON.stringify(item.imageDimensions) ?? '' })
     })
     doDataMigration(2, params)
 

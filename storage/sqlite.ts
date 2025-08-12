@@ -169,8 +169,8 @@ export async function setItems(items: ItemInflated[]) {
   for (const item of items) {
     try {
       await db.runAsync(`insert or replace into items (
-          id, _id, content_html, author, content_mercury, coverImageUrl, excerpt, faceCentreNormalised, scrollRatio, styles
-        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+          id, _id, content_html, author, content_mercury, coverImageUrl, excerpt, faceCentreNormalised, imageDimensions, scrollRatio, styles
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
         [
           item.id || null,
           item._id,
