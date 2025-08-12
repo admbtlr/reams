@@ -19,7 +19,6 @@ const columns = [
   'content_html',
   'coverImageUrl',
   'author',
-  'date_published',
   'content_mercury',
   'decoration_failures',
   'faceCentreNormalised',
@@ -63,7 +62,6 @@ export function initSQLite() {
       author TEXT,
       content_html TEXT,
       content_mercury TEXT,
-      date_published STRING,
       decoration_failures INT,
       excerpt TEXT,
       faceCentreNormalised TEXT,
@@ -168,14 +166,13 @@ export async function setItems(items: ItemInflated[]) {
   for (const item of items) {
     try {
       await db.runAsync(`insert or replace into items (
-          id, _id, content_html, author, date_published, content_mercury, excerpt, faceCentreNormalised, scrollRatio, styles
+          id, _id, content_html, author, content_mercury, excerpt, faceCentreNormalised, scrollRatio, styles
         ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
         [
           item.id || null,
           item._id,
           item.content_html || null,
           item.author || null,
-          item.date_published || null,
           item.content_mercury || null,
           item.excerpt || null,
           JSON.stringify(item.faceCentreNormalised),
@@ -232,7 +229,6 @@ function inflateItems(toInflate: Item[], rows: unknown[]): ItemInflated[] {
     if (item) {
       item.content_html = flate.content_html
       item.author = flate.author
-      item.date_published = flate.date_published
       item.content_mercury = flate.content_mercury
       item.excerpt = flate.excerpt
       item.faceCentreNormalised = JSON.parse(flate.faceCentreNormalised)

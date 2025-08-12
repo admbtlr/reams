@@ -110,7 +110,6 @@ const mapFeedwranglerItemToRizzleItem = (item) => {
     external_url: item.url,
     title: item.title,
     content_html: item.body,
-    date_published: item.published_at,
     created_at: item.created_at,
     author: item.author,
     feed_title: item.feed_name,

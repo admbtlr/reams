@@ -92,7 +92,6 @@ export interface ItemInflated extends Item {
   author?: string
   content_html?: string
   content_mercury?: string
-  date_published?: string
   excerpt?: string
   faceCentreNormalised?: {
     x: number
@@ -107,7 +106,6 @@ export interface MercuryStuff {
   message?: string
   author?: string
   content?: string
-  date_published?: string
   domain?: string
   excerpt?: string
   lead_image_url?: string

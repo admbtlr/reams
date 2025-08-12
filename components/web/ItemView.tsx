@@ -99,7 +99,7 @@ export default function ItemView({ item }: { item: ItemInflated | undefined }) {
 
   const fontStyles = document.getElementById('expo-generated-fonts')
 
-  const date = item.date_published || 0
+  const date = item.created_at || 0
   const momentDate = moment(date)
   const showYear = (momentDate.year() !== moment().year())
   const showTime = Date.now() - momentDate.milliseconds() < 1000 * 60 * 60 * 24 * 30
@@ -135,7 +135,7 @@ export default function ItemView({ item }: { item: ItemInflated | undefined }) {
         <h1>${item?.title}</h1>
         ${item?.excerpt ? `<p class="excerpt">${item?.excerpt}</p>` : ''}
         ${item?.author ? `<p><b>${item?.author}</b></p>` : ''}
-        ${item?.date_published ? `<p class="date-published">${(showToday ? 'Today' : formattedDate)}${showTime ? `, ${formattedTime}` : ''}</p>` : ''}
+        ${item?.created_at ? `<p class="date-published">${(showToday ? 'Today' : formattedDate)}${showTime ? `, ${formattedTime}` : ''}</p>` : ''}
       </div>
     </div>
     <div class="articleHolder">

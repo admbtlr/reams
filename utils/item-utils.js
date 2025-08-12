@@ -31,15 +31,14 @@ export function deflateItem(item) {
   // const compressed = LZString.compressToUTF16(JSON.stringify(compressStyles(item.styles)))
   const deflated = {
     _id: item._id,
-    author: item.author,
+    // author: item.author,
     content_length: item.content_length || (item.content_html
       ? stripTags(item.content_html).length
       : 0),
     created_at: item.created_at,
-    date_published: item.date_published,
     decoration_failures: item.decoration_failures,
     feed_id: item.feed_id,
-    feed_title: item.feed_title,
+    // feed_title: item.feed_title,
     // feed_color: item.feed_color,
     hasCoverImage: item.hasCoverImage,
     showCoverImage: item.showCoverImage,
@@ -121,7 +120,6 @@ export function addMercuryStuffToItem(item, mercury) {
       title: mercury.title,
       content_mercury: mercury.content,
       // body: mercury.content ? mercury.content : '',
-      date_published: mercury.date_published,
       author: mercury.author,
       feed_title: mercury.domain,
       coverImageUrl: mercury.lead_image_url,
@@ -141,7 +139,6 @@ export function addMercuryStuffToItem(item, mercury) {
     // body: content,
     content_mercury: mercury.content ? mercury.content : '',
     content_html: item.content_html ? item.content_html : '',
-    date_published: mercury.date_published || item.date_published,
     excerpt: mercury.excerpt,
     isDecorated: true
   }

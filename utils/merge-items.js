@@ -15,13 +15,13 @@ export const mergeItems = (oldItems, newItems, currentItem) => {
     }
   }
 
-  items.sort((a, b) => a.date_published - b.date_published)
+  items.sort((a, b) => a.created_at - b.created_at)
   const extracted = extractReadItems(items)
   return extracted
 }
 
-function mergeDedupe (oldItems, newItems) {
-  let items = [ ...oldItems ]
+function mergeDedupe(oldItems, newItems) {
+  let items = [...oldItems]
   newItems.forEach(newItem => {
     let match = false
     oldItems.forEach(oldItem => {
@@ -36,7 +36,7 @@ function mergeDedupe (oldItems, newItems) {
   return items
 }
 
-function extractReadItems (items) {
+function extractReadItems(items) {
   const unread = items.filter(item => !item.readAt)
   const read = items.filter(item => !!item.readAt)
   return { read, unread }

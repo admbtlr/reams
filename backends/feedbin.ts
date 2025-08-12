@@ -1,4 +1,4 @@
-import {decode, encode} from 'base-64'
+import { decode, encode } from 'base-64'
 import { getItemsByIds } from './utils'
 import { getFeedColor, id } from '../utils'
 import { Feed } from '../store/feeds/types'
@@ -30,9 +30,9 @@ interface FeedbinTagging {
   name: string
 }
 
-export async function init ({ username, password }: { username: string, password: string }) {
+export async function init({ username, password }: { username: string, password: string }) {
   if (!password) {
-    password = await PasswordStorage.getItem("feedbin_password")    
+    password = await PasswordStorage.getItem("feedbin_password")
   }
   credentials = { username, password }
 }
@@ -53,7 +53,7 @@ export const authenticate = async (username: string, password: string) => {
             message: 'unauthorized'
           }
         } else {
-          return  {
+          return {
             status: 'error',
             message: 'unknown error'
           }
@@ -65,7 +65,7 @@ export const authenticate = async (username: string, password: string) => {
     })
 }
 
-function getUrl (endpoint: string) {
+function getUrl(endpoint: string) {
   let feedbinUrl
   if (endpoint.startsWith('http')) {
     feedbinUrl = endpoint
@@ -75,24 +75,24 @@ function getUrl (endpoint: string) {
   return !!process.env.EXPO_PUBLIC_CORS_PROXY ? `${process.env.EXPO_PUBLIC_CORS_PROXY}?url=${feedbinUrl}` : feedbinUrl
 }
 
-function getFetchConfig () {
+function getFetchConfig() {
   return {
     headers: getBasicAuthHeader()
   }
 }
 
-function getBasicAuthHeader () {
+function getBasicAuthHeader() {
   const encoded = encode(`${credentials.username}:${credentials.password}`)
   return {
     Authorization: `Basic ${encoded}`
   }
 }
 
-function getRequest (endpoint: string) {
+function getRequest(endpoint: string) {
   return doRequest(getUrl(endpoint))
 }
 
-function postRequest (endpoint: string, body: string | {}) {
+function postRequest(endpoint: string, body: string | {}) {
   return doRequest(getUrl(endpoint), {
     //@ts-ignore
     method: 'POST',
@@ -100,7 +100,7 @@ function postRequest (endpoint: string, body: string | {}) {
   })
 }
 
-function deleteRequest (endpoint: string, body: string | {}, expectNoContent = false) {
+function deleteRequest(endpoint: string, body: string | {}, expectNoContent = false) {
   return doRequest(getUrl(endpoint), {
     //@ts-ignore
     method: 'DELETE',
@@ -108,8 +108,8 @@ function deleteRequest (endpoint: string, body: string | {}, expectNoContent = f
   }, expectNoContent)
 }
 
-async function doRequest (url: string, options: { 
-  headers?: Headers | { Authorization: string } | undefined ;
+async function doRequest(url: string, options: {
+  headers?: Headers | { Authorization: string } | undefined;
 } = {}, expectNoContent = false) {
   const getNextPage = (headers: Headers) => {
     const links = headers?.get('Links')?.split(',')
@@ -146,24 +146,24 @@ async function doRequest (url: string, options: {
   return expectNoContent || json
 }
 
-export async function fetchItems (
-  callback: () => void, 
-  type: string, 
-  lastUpdated: number, 
-  oldItems: Item[], 
-  feeds: Feed[], 
+export async function fetchItems(
+  callback: () => void,
+  type: string,
+  lastUpdated: number,
+  oldItems: Item[],
+  feeds: Feed[],
   maxNum: number
 ) {
   if (type === 'unread') {
-    await fetchUnreadItems (callback, lastUpdated, oldItems, feeds, maxNum)
+    await fetchUnreadItems(callback, lastUpdated, oldItems, feeds, maxNum)
   } else if (type === 'saved') {
-    await fetchSavedItems (callback, lastUpdated, oldItems, feeds, maxNum)
+    await fetchSavedItems(callback, lastUpdated, oldItems, feeds, maxNum)
   }
 }
 
-async function getPaginatedItems (
-  endpoint: string, 
-  maxNum: number, 
+async function getPaginatedItems(
+  endpoint: string,
+  maxNum: number,
   callback: (items: Item[]) => void
 ) {
   let items = []
@@ -184,7 +184,7 @@ async function getPaginatedItems (
   }
 }
 
-export async function getReadItems (oldItems: Item[]) {
+export async function getReadItems(oldItems: Item[]) {
   const endpoint = 'unread_entries.json'
   let unreadItemIds = await getRequest(endpoint)
   let readItems: Item[] = []
@@ -196,11 +196,11 @@ export async function getReadItems (oldItems: Item[]) {
   return readItems
 }
 
-async function fetchUnreadItems (
-  callback: () => void, 
-  lastUpdated: number, 
-  oldItems: Item[], 
-  feeds: Feed[], 
+async function fetchUnreadItems(
+  callback: () => void,
+  lastUpdated: number,
+  oldItems: Item[],
+  feeds: Feed[],
   maxNum: number
 ) {
   const date = lastUpdated ? new Date(lastUpdated) : null
@@ -218,11 +218,11 @@ async function fetchUnreadItems (
   // }
 }
 
-async function fetchSavedItems (
-  callback: () => void, 
-  lastUpdated: number, 
-  oldItems: Item[], 
-  feeds: Feed[], 
+async function fetchSavedItems(
+  callback: () => void,
+  lastUpdated: number,
+  oldItems: Item[],
+  feeds: Feed[],
   maxNum: number
 ) {
   const endpoint = 'starred_entries.json'
@@ -235,11 +235,11 @@ async function fetchSavedItems (
   }
 }
 
-export async function markItemRead (item: Item) {
+export async function markItemRead(item: Item) {
   return markItemsRead([item])
 }
 
-export async function markItemsRead (items: Item[]) {
+export async function markItemsRead(items: Item[]) {
   const endpoint = 'unread_entries.json'
   const body = {
     unread_entries: items.map(i => i.id)
@@ -247,7 +247,7 @@ export async function markItemsRead (items: Item[]) {
   let itemIds = await deleteRequest(endpoint, body, true)
 }
 
-export async function saveItem (item: Item) {
+export async function saveItem(item: Item) {
   const endpoint = 'starred_entries.json'
   const body = {
     starred_entries: [item.id]
@@ -256,7 +256,7 @@ export async function saveItem (item: Item) {
   return itemIds[0] === item.id
 }
 
-export async function unsaveItem (item: Item) {
+export async function unsaveItem(item: Item) {
   const endpoint = 'starred_entries.json'
   const body = {
     starred_entries: [item.id]
@@ -278,7 +278,7 @@ export async function saveExternalItem(item: Item) {
   }
 }
 
-export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
+export async function fetchFeeds(oldFeeds: Feed[]): Promise<Feed[]> {
   let feeds = await getRequest('subscriptions.json')
   if (oldFeeds) {
     const oldFeedIds = oldFeeds ? oldFeeds.map(of => of.feedbinId) : []
@@ -303,30 +303,30 @@ export async function fetchFeeds (oldFeeds: Feed[] ): Promise<Feed[]> {
 }
 
 // returns the feedbinId
-export async function addFeed (feed: {url: string}): Promise<string> {
+export async function addFeed(feed: { url: string }): Promise<string> {
   const f = await postRequest('subscriptions.json', {
     feed_url: feed.url
   })
   return f.feed_id
 }
 
-export async function removeFeed (feed: { subscription_id: string }) {
+export async function removeFeed(feed: { subscription_id: string }) {
   await deleteRequest(`subscriptions/${feed.subscription_id}.json`, {}, true)
 }
 
 export const markFeedRead = (feed: Feed, olderThan: number, items: Item[]) => {
 }
 
-export async function getFeedMeta (feed: Feed) {
+export async function getFeedMeta(feed: Feed) {
 }
 
-export async function getCategories () {
+export async function getCategories() {
   const taggings: FeedbinTagging[] = await getRequest('taggings.json')
   if (!taggings) return null
   const tags: FeedbinTag[] = await getRequest('tags.json')
   // convert from Feedbin's weird format
   let names = taggings.map(t => t.name)
-  names = [ ...new Set(names) ]
+  names = [...new Set(names)]
   return tags.map(tag => ({
     id: tag.id,
     name: tag.name,
@@ -334,12 +334,12 @@ export async function getCategories () {
   }))
 }
 
-export async function addCategory () {
+export async function addCategory() {
   // weirdly, this isn't a thing on Feedbin
 }
 
 // returns the category
-export async function updateCategory ({ id, name, feeds }: { id: string, name: string, feeds: Feed[] }) {
+export async function updateCategory({ id, name, feeds }: { id: string, name: string, feeds: Feed[] }) {
   const taggings: FeedbinTagging[] = await getRequest('taggings.json')
   let tags = await getRequest('tags.json')
   const oldTag = tags.find((t: { id: string }) => t.id === id)
@@ -388,8 +388,8 @@ export async function updateCategory ({ id, name, feeds }: { id: string, name: s
     feeds
   }
 }
-               
-export async function deleteCategory (category: Category) {
+
+export async function deleteCategory(category: Category) {
   await deleteRequest('tags.json', { "name": category.name }, true)
 }
 
@@ -403,7 +403,6 @@ const mapFeedbinItemToRizzleItem = (item: any) => {
     content_html: item.content,
     author: item.author,
     created_at: new Date(item.created_at).getTime() / 1000,
-    date_published: item.published,
-    }
+  }
   return mappedItem
 }
