@@ -59,28 +59,29 @@ const columns = [
 // }
 
 export function initSQLite() {
-  db = SQLite.openDatabaseSync("db.db")
   try {
-    db.runSync(`
-    create table if not exists items (
-      _id STRING PRIMARY KEY NOT NULL,
-      author TEXT,
-      content_html TEXT,
-      content_mercury TEXT,
-      decoration_failures INT,
-      excerpt TEXT,
-      faceCentreNormalised TEXT,
-      id INT,
-      readAt LONG,
-      scrollRatio TEXT,
-      styles TEXT
-    );`)
-
+    db = SQLite.openDatabaseSync("db.db")
+    const rows = db.getAllSync('SELECT name FROM sqlite_schema WHERE type="table" AND name="items";')
+    if (rows.length === 0) {
+      db.runSync(`
+        create table items (
+          _id STRING PRIMARY KEY NOT NULL,
+          author TEXT,
+          content_html TEXT,
+          content_mercury TEXT,
+          date_published STRING,
+          decoration_failures INT,
+          excerpt TEXT,
+          faceCentreNormalised TEXT,
+          id INT,
+          readAt LONG,
+          scrollRatio TEXT,
+          styles TEXT
+        );
+      `)
+      initSearchTable()
+    }
     doSchemaMigrations()
-
-    // don't need to wait for this to finish
-    initSearchTable()
-
     console.log('SQLite initialized, items count: ', db.getFirstSync('select count(*) from items;'))
   } catch (error) {
     log('initSQLite', error)
