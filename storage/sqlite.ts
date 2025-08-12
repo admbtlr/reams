@@ -166,7 +166,7 @@ export async function setItems(items: ItemInflated[]) {
   for (const item of items) {
     try {
       await db.runAsync(`insert or replace into items (
-          id, _id, content_html, author, content_mercury, excerpt, faceCentreNormalised, scrollRatio, styles
+          id, _id, content_html, author, content_mercury, coverImageUrl, excerpt, faceCentreNormalised, scrollRatio, styles
         ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
         [
           item.id || null,
@@ -174,6 +174,7 @@ export async function setItems(items: ItemInflated[]) {
           item.content_html || null,
           item.author || null,
           item.content_mercury || null,
+          item.coverImageUrl || null,
           item.excerpt || null,
           JSON.stringify(item.faceCentreNormalised),
           JSON.stringify(item.scrollRatio),
@@ -230,6 +231,7 @@ function inflateItems(toInflate: Item[], rows: unknown[]): ItemInflated[] {
       item.content_html = flate.content_html
       item.author = flate.author
       item.content_mercury = flate.content_mercury
+      item.coverImageUrl = flate.coverImageUrl
       item.excerpt = flate.excerpt
       item.faceCentreNormalised = JSON.parse(flate.faceCentreNormalised)
       item.scrollRatio = JSON.parse(flate.scrollRatio)
