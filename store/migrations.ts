@@ -417,7 +417,7 @@ export const migrations = {
     savedItems.forEach((item, index) => {
       params.push({ $_id: item._id, $imageDimensions: item.imageDimensions ?? '' })
     })
-    doDataMigration(1, params)
+    doDataMigration(2, params)
 
     const removeImageDimensions = (item: Item) => {
       const { imageDimensions, ...newItem } = item
