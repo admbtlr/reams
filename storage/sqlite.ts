@@ -94,7 +94,7 @@ function doSchemaMigrations() {
   let version = versionQuery?.user_version ?? 1
   for (let i = 0; i < migrations.length; i++) {
     const migration = migrations[i]
-    if (i >= version && migration !== null) {
+    if (i > version && migration !== null) {
       db.runSync(migration.schema)
       version++
     }

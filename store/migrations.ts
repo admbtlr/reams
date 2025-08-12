@@ -431,7 +431,7 @@ export const migrations = {
       },
       itemsSaved: {
         ...state.itemsSaved,
-        items: savedItems.map(removeCoverImageUrl)
+        items: savedItems.map(removeImageDimensions)
       }
     }
   }
