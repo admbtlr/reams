@@ -10,19 +10,24 @@ const migrations = [
   {
     'schema': 'ALTER TABLE items ADD COLUMN coverImageUrl TEXT;',
     'data': 'UPDATE items SET coverImageUrl = $coverImageUrl WHERE _id = $_id'
-  }
+  },
+  {
+    'schema': 'ALTER TABLE items ADD COLUMN imageDimensions TEXT;',
+    'data': 'UPDATE items SET imageDimensions = $imageDimensions WHERE _id = $_id'
+  },
 ]
 
 const columns = [
-  'id',
   '_id',
+  'author',
   'content_html',
   'coverImageUrl',
-  'author',
   'content_mercury',
   'decoration_failures',
-  'faceCentreNormalised',
   'excerpt',
+  'faceCentreNormalised',
+  'id',
+  'imageDimensions',
   'readAt',
   'scrollRatio',
   'styles',
@@ -86,17 +91,14 @@ export function initSQLite() {
 function doSchemaMigrations() {
   const versionQuery: { user_version: number } | null = db.getFirstSync('PRAGMA user_version')
   let version = versionQuery?.user_version ?? 1
-
-  // user_version starts at 1 which is confusing
-  // note that i doesn't get incremented on the first go round
-  let i = 1
-  for (const migration of migrations) {
+  for (let i = 0; i < migrations.length; i++) {
+    const migration = migrations[i]
     if (i >= version && migration !== null) {
       db.runSync(migration.schema)
-      i++
+      version++
     }
   }
-  db.runSync(`PRAGMA user_version =  ${Math.max(version, i)}`)
+  db.runSync(`PRAGMA user_version =  ${version}`)
 }
 
 // data should be { $columnName: value }[]
@@ -177,6 +179,7 @@ export async function setItems(items: ItemInflated[]) {
           item.coverImageUrl || null,
           item.excerpt || null,
           JSON.stringify(item.faceCentreNormalised),
+          JSON.stringify(item.imageDimensions),
           JSON.stringify(item.scrollRatio),
           JSON.stringify(item.styles)
         ]
@@ -234,6 +237,7 @@ function inflateItems(toInflate: Item[], rows: unknown[]): ItemInflated[] {
       item.coverImageUrl = flate.coverImageUrl
       item.excerpt = flate.excerpt
       item.faceCentreNormalised = JSON.parse(flate.faceCentreNormalised)
+      item.imageDimensions = JSON.parse(flate.imageDimensions)
       item.scrollRatio = JSON.parse(flate.scrollRatio)
       item.styles = JSON.parse(flate.styles)
     }

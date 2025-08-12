@@ -404,5 +404,35 @@ export const migrations = {
         items: savedItems.map(removeCoverImageUrl)
       }
     }
+  },
+  27: (state: RootState) => {
+    // move imageDimensions to sqlite
+    let unreadItems = state.itemsUnread.items
+    let savedItems = state.itemsSaved.items
+
+    const params: {}[] = []
+    unreadItems.forEach((item, index) => {
+      params.push({ $_id: item._id, $imageDimensions: item.imageDimensions ?? '' })
+    })
+    savedItems.forEach((item, index) => {
+      params.push({ $_id: item._id, $imageDimensions: item.imageDimensions ?? '' })
+    })
+    doDataMigration(1, params)
+
+    const removeImageDimensions = (item: Item) => {
+      const { imageDimensions, ...newItem } = item
+      return newItem
+    }
+    return {
+      ...state,
+      itemsUnread: {
+        ...state.itemsUnread,
+        items: unreadItems.map(removeImageDimensions)
+      },
+      itemsSaved: {
+        ...state.itemsSaved,
+        items: savedItems.map(removeCoverImageUrl)
+      }
+    }
   }
 }
