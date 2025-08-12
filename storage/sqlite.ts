@@ -9,7 +9,7 @@ const migrations = [
   null,
   {
     'schema': 'ALTER TABLE items ADD COLUMN coverImageUrl TEXT;',
-    'data': 'UPDATE items SET coverImageUrl = ? WHERE _id = ?'
+    'data': 'UPDATE items SET coverImageUrl = $coverImageUrl WHERE _id = $_id'
   }
 ]
 
