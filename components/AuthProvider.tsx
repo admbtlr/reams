@@ -10,6 +10,7 @@ import { RootState } from "../store/reducers"
 import { persistor } from "./Rizzle"
 import { getCodeName } from "../storage/supabase/user"
 import Purchases, { LOG_LEVEL } from 'react-native-purchases'
+import { deleteAllItems } from "@/storage/sqlite"
 
 interface SessionContext {
   session?: Session | null,
@@ -61,6 +62,7 @@ export const AuthProvider = (props: any) => {
             if (persistor !== undefined) {
               await persistor.purge()
             }
+            deleteAllItems()
           }, 0)
         }
       }

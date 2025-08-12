@@ -316,3 +316,8 @@ export function searchItems(term: string): ItemInflated[] {
   const query = `SELECT * FROM items WHERE content_html LIKE ${searchTerm} OR content_mercury LIKE ${searchTerm} OR excerpt LIKE ${searchTerm};`
   return db.getAllSync(query)
 }
+
+export function deleteAllItems() {
+  const query = 'DELETE FROM items'
+  return db.runSync(query)
+}
