@@ -25,8 +25,6 @@ import type { RootState } from '@/store/reducers'
 import type { Feed } from '@/store/feeds/types'
 import { ADD_ITEM_TO_CATEGORY } from '@/store/categories/types'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
-import { getItem as getItemSQLite } from "@/storage/sqlite"
-import { getItem as getItemIDB } from "@/storage/idb-storage"
 import type { Newsletter } from '@/store/newsletters/types'
 import { useColor } from '@/hooks/useColor'
 import { useAnimation } from './AnimationContext'

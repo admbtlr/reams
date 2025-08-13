@@ -5,8 +5,7 @@ import ItemView from './ItemView'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/reducers'
 import { Item, ItemInflated, ItemType, MARK_ITEM_READ, UPDATE_CURRENT_ITEM } from '../../store/items/types'
-import { getItems as getItemsSQLite } from "../../storage/sqlite"
-import { getItems as getItemsIDB } from "../../storage/idb-storage"
+import { getItems as getItemsStorage } from "@/storage"
 import log from '../../utils/log'
 import { getItems, getCurrentItemId, getNextItem, getPreviousItem, findItemIndexById } from '../../utils/get-item'
 
@@ -25,9 +24,7 @@ export default function ItemsScreen({ }) {
   useEffect(() => {
     const inflateAndSet = async (currentItem: Item) => {
       try {
-        const inflatedItems: ItemInflated[] | undefined = Platform.OS === 'web' ?
-          await getItemsIDB([currentItem]) :
-          await getItemsSQLite([currentItem])
+        const inflatedItems: ItemInflated[] | undefined = await getItemsStorage([currentItem])
         if (inflatedItems !== undefined && inflatedItems.length) {
           setCurrentItemInflated({
             ...currentItem,

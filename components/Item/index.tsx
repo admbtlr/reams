@@ -8,8 +8,6 @@ import ItemTitle from '../ItemTitle'
 import { getCachedCoverImagePath, getHost } from '../../utils/'
 import { getMargin, getStatusBarHeight } from '../../utils/dimensions'
 import { hslString } from '../../utils/colors'
-import { getItem as getItemSQLite } from "@/storage/sqlite"
-import { getItem as getItemIDB } from "@/storage/idb-storage"
 import log from '../../utils/log'
 import Nudge from '../Nudge'
 import { MAX_DECORATION_FAILURES } from '../../sagas/decorate-items'

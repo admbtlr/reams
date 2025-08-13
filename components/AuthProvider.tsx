@@ -10,7 +10,7 @@ import { RootState } from "../store/reducers"
 import { persistor } from "./Rizzle"
 import { getCodeName } from "../storage/supabase/user"
 import Purchases, { LOG_LEVEL } from 'react-native-purchases'
-import { deleteAllItems } from "@/storage/sqlite"
+import { deleteAllItems } from "@/storage"
 
 interface SessionContext {
   session?: Session | null,
