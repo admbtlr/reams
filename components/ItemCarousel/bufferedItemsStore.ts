@@ -67,7 +67,7 @@ export const useBufferedItemsStore = create<BufferedItemsStore>()(
         dispatch({
           type: UPDATE_CURRENT_ITEM,
           displayMode,
-          item: bufferedItems[bufferIndex]._id,
+          itemId: bufferedItems[bufferIndex]._id,
           previousItemId: previousItem?._id
         })
       }

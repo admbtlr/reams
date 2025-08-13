@@ -42,7 +42,6 @@ export function deflateItem(item) {
     // feed_color: item.feed_color,
     hasCoverImage: item.hasCoverImage,
     showCoverImage: item.showCoverImage,
-    imageDimensions: item.imageDimensions,
     isAnalysed: item.isAnalysed,
     isDecorated: item.isDecorated,
     isExternal: item.isExternal,
@@ -50,7 +49,6 @@ export function deflateItem(item) {
     isNewsletter: item.isNewsletter,
     id: item.id, // needed to match existing copy in store
     readAt: item.readAt,
-    // styles: item.styles,
     title: item.title,
     url: item.url,
     isSaved: item.isSaved,

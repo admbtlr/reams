@@ -93,6 +93,10 @@ async function openStore() {
   }
 }
 
+export function doDataMigration(migration: number, params: {}[]) {
+  // to do
+}
+
 export async function getItems(keys: (string | { _id: string })[]): Promise<ItemInflated[] | undefined> {
   if (typeof keys[0] === 'object') {
     keys = keys.map(item => typeof item === 'object' ? item._id : item)

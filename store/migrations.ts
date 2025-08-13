@@ -1,3 +1,4 @@
+import { Platform } from "react-native"
 import { state } from "../__mocks__/state-input"
 import { addFeed } from "../backends/reams"
 import { id } from "../utils"
@@ -8,7 +9,8 @@ import { Item } from "./items/types"
 import { RootState } from "./reducers"
 import { DarkModeSetting } from "./ui/types"
 import { Backend } from "./user/user"
-import { doDataMigration } from "@/storage/sqlite"
+import { doDataMigration as doDataMigrationSqlite } from "@/storage/sqlite"
+import { doDataMigration as doDataMigrationIDB } from "@/storage/idb-storage"
 
 export const migrations = {
   0: (state: RootState) => {
@@ -382,14 +384,21 @@ export const migrations = {
 
     const params: {}[] = []
     unreadItems.forEach((item, index) => {
+      // @ts-ignore
       params.push({ $_id: item._id, $coverImageUrl: item.coverImageUrl ?? '' })
     })
     savedItems.forEach((item, index) => {
+      // @ts-ignore
       params.push({ $_id: item._id, $coverImageUrl: item.coverImageUrl ?? '' })
     })
-    doDataMigration(1, params)
+    if (Platform.OS === 'web') {
+      doDataMigrationIDB(1, params)
+    } else {
+      doDataMigrationSqlite(1, params)
+    }
 
     const removeCoverImageUrl = (item: Item) => {
+      // @ts-ignore
       const { coverImageUrl, ...newItem } = item
       return newItem
     }
@@ -412,14 +421,21 @@ export const migrations = {
 
     const params: {}[] = []
     unreadItems.forEach((item, index) => {
+      // @ts-ignore
       params.push({ $_id: item._id, $imageDimensions: JSON.stringify(item.imageDimensions) ?? '' })
     })
     savedItems.forEach((item, index) => {
+      // @ts-ignore
       params.push({ $_id: item._id, $imageDimensions: JSON.stringify(item.imageDimensions) ?? '' })
     })
-    doDataMigration(2, params)
+    if (Platform.OS === 'web') {
+      doDataMigrationIDB(2, params)
+    } else {
+      doDataMigrationSqlite(2, params)
+    }
 
     const removeImageDimensions = (item: Item) => {
+      // @ts-ignore
       const { imageDimensions, ...newItem } = item
       return newItem
     }
