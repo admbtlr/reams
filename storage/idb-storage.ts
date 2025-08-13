@@ -61,8 +61,8 @@ function itemToRow(item: ItemInflated) {
     styles: JSON.stringify(item.styles)
   }
   Object.keys(row).forEach((key: string) => {
-    if (row[key] === undefined) {
-      delete row[key]
+    if ((row as any)[key] === undefined) {
+      delete (row as any)[key]
     }
   })
   return row
@@ -135,8 +135,8 @@ export async function updateItem(item: ItemInflated) {
     const record = records[0]
     const keys = Object.keys(record)
     keys.forEach((key: string) => {
-      if (record[key] !== item[key] && item[key] !== undefined) {
-        record[key] = item[key]
+      if ((record as any)[key] !== (item as any)[key] && (item as any)[key] !== undefined) {
+        (record as any)[key] = (item as any)[key]
       }
     })
     await db.put('items', itemToRow(record))

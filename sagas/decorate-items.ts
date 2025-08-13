@@ -27,18 +27,14 @@ import {
   getSavedItems
 } from './selectors'
 import {
-  getItems as getItemsSQLite,
-  updateItem as updateItemSQLite
-} from '../storage/sqlite'
-import {
-  getItems as getItemsIDB,
-  updateItem as updateItemIDB
-} from '../storage/idb-storage'
+  getItems as getStoredItems,
+  updateItem
+} from '../storage'
 import { Feed, Source } from '../store/feeds/types'
 import { Category } from '../store/categories/types'
 import { RootState } from '../store/reducers'
 import { Filter } from '../store/config/config'
-import { addCoverImageToItem, addMercuryStuffToItem, deflateItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils'
+import { addMercuryStuffToItem, deflateItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils'
 import log from '../utils/log'
 import { downloadContent } from '../backends/fastmail'
 import { Newsletter } from '../store/newsletters/types'
@@ -215,9 +211,7 @@ export function* assembleBasicDecoration(i: Item): Generator<any, { item: WholeI
   const startTime = Date.now()
   const stepTimings: { [key: string]: number } = {}
 
-  let items: ItemInflated[] = Platform.OS === 'web' ?
-    yield call(getItemsIDB, [i]) :
-    yield call(getItemsSQLite, [i])
+  let items: ItemInflated[] = yield call(getStoredItems, [i])
   let itemInflated = items[0]
   let item: WholeItem = { ...i, ...itemInflated }
 
@@ -234,11 +228,7 @@ export function* assembleBasicDecoration(i: Item): Generator<any, { item: WholeI
       content_html,
       url
     }
-    if (Platform.OS === 'web') {
-      yield call(updateItemIDB, item)
-    } else {
-      yield call(updateItemSQLite, item)
-    }
+    yield call(updateItem, item)
     yield put({
       type: UPDATE_ITEM,
       item: deflateItem(item)
@@ -320,11 +310,7 @@ function* persistBasicDecoration(result: { item: WholeItem, mercuryStuff: Mercur
   }
   // Mark item as decorated after basic decoration to prevent re-decoration
   wholeItem.isDecorated = true
-  if (Platform.OS === 'web') {
-    yield call(updateItemIDB, wholeItem)
-  } else {
-    yield call(updateItemSQLite, wholeItem)
-  }
+  yield call(updateItem, wholeItem)
   const deflated = deflateItem(wholeItem)
   yield put({
     type: UPDATE_ITEM,
@@ -358,9 +344,7 @@ function* prepareBasicCoverImage(item: Item, mercuryStuff: MercuryStuff, stepTim
 
 function* performImageAnalysisForItem(item: Item): Generator<any, { x: number, y: number } | undefined, any> {
   // Get the full item data from storage
-  let items: ItemInflated[] = Platform.OS === 'web' ?
-    yield call(getItemsIDB, [item]) :
-    yield call(getItemsSQLite, [item])
+  let items: ItemInflated[] = yield call(getStoredItems, [item])
   let itemInflated = items[0]
 
   const { imageDimensions } = itemInflated
@@ -388,20 +372,14 @@ function* applyImageAnalysis(item: Item, faceCentreNormalised: any) {
   yield call(InteractionManager.runAfterInteractions)
 
   // Get the full item data from storage
-  let items: ItemInflated[] = Platform.OS === 'web' ?
-    yield call(getItemsIDB, [item]) :
-    yield call(getItemsSQLite, [item])
+  let items: ItemInflated[] = yield call(getStoredItems, [item])
   let itemInflated = items[0]
 
   // Update item with face detection results
   itemInflated.faceCentreNormalised = faceCentreNormalised
   itemInflated.styles = adjustStylesWithFaceDetection(itemInflated.styles, faceCentreNormalised)
 
-  if (Platform.OS === 'web') {
-    yield call(updateItemIDB, itemInflated)
-  } else {
-    yield call(updateItemSQLite, itemInflated)
-  }
+  yield call(updateItem, itemInflated)
 }
 
 function adjustBasicStylesToCoverImage(item: WholeItem, mercuryStuff: MercuryStuff): {} {
@@ -487,11 +465,11 @@ function* getNextItemToDecorate() {
   let sourcesWithoutDecoration: Source[] = feeds.filter(feed => {
     // external items handle their own decoration
     return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === feed._id)
-      .find(item => typeof item.coverImageUrl !== 'undefined')
+      .find(item => item.isDecorated)
   })
   sourcesWithoutDecoration = sourcesWithoutDecoration.concat(newsletters.filter(nl => {
     return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === nl._id)
-      .find(item => typeof item.coverImageUrl !== 'undefined')
+      .find(item => item.isDecorated)
 
   }))
   let count = 0

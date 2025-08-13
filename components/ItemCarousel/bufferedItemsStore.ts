@@ -3,7 +3,7 @@ import { subscribeWithSelector } from 'zustand/middleware'
 import { Item, ItemInflated, ItemType, UPDATE_CURRENT_ITEM } from '@/store/items/types'
 import { Feed } from '@/store/feeds/types'
 import { BUFFER_LENGTH } from './constants'
-import { getItemsSync as getItemsSyncSqlite } from '@/storage/sqlite'
+import { getItemsSync } from '@/storage'
 import { useSelector } from 'react-redux'
 import { store } from '@/store'
 
@@ -158,7 +158,7 @@ export const useBufferedItemsStore = create<BufferedItemsStore>()(
       const toInflate = buffered.filter(b => !('styles' in b))
       if (toInflate.length > 0) {
         const now = Date.now()
-        const inflated = getItemsSyncSqlite(toInflate)
+        const inflated = getItemsSync(toInflate)
         console.log(`Time taken to inflate items: ${Date.now() - now}ms`)
 
         const newPreviouslyInflated = [...previouslyInflated, ...inflated]

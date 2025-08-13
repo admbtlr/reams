@@ -15,13 +15,9 @@ import { id } from "../../utils";
 import { createItemStyles } from "../../utils/createItemStyles";
 import { Platform } from "react-native";
 import {
-  setItems as setItemsSQLite,
-  deleteItems as deleteItemsSQLite
-} from '../../storage/sqlite'
-import {
-  setItems as setItemsIDB,
-  deleteItems as deleteItemsIDB
-} from '../../storage/idb-storage'
+  setItems,
+  deleteItems
+} from '../../storage'
 import { ITEMS_BATCH_FETCHED, ItemType, MARK_ITEM_READ } from "../items/types";
 import log from "../../utils/log";
 import { ADD_MESSAGE, REMOVE_MESSAGE } from "../ui/types";
@@ -84,7 +80,7 @@ export const fetchNewsletters = createAsyncThunk(
     })
     const lastQueryState = (getState() as RootState).newsletters.queryState
     const codeName = (getState() as RootState).user.codeName
-    let items
+    let items: any[]
     let queryState
     // let response
     try {
@@ -127,18 +123,14 @@ export const fetchNewsletters = createAsyncThunk(
     newsletters = (getState() as RootState).newsletters.newsletters
     if (items.length > 0) {
       try {
-        items.forEach((item) => {
+        items.forEach((item: any) => {
           item.feed_id = (getState() as RootState).newsletters.newsletters
             .find((newsletter) => newsletter.url === item.feed_url)?._id || ''
           item._id = id(item.feed_id + item.id)
           item.styles = createItemStyles(item)
         })
 
-        if (Platform.OS === 'web') {
-          await setItemsIDB(items)
-        } else {
-          await setItemsSQLite(items)
-        }
+        await setItems(items)
         const { feeds: { feeds }, newsletters: { newsletters }, config: { itemSort } } = (getState() as RootState)
         dispatch({
           type: ITEMS_BATCH_FETCHED,
