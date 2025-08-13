@@ -91,15 +91,18 @@ export function initSQLite() {
 
 function doSchemaMigrations() {
   const versionQuery: { user_version: number } | null = db.getFirstSync('PRAGMA user_version')
-  let version = versionQuery?.user_version ?? 1
+  const oldVersion = versionQuery?.user_version ?? 1
+  let newVersion = oldVersion
   for (let i = 0; i < migrations.length; i++) {
     const migration = migrations[i]
-    if (i > version && migration !== null) {
+    if (i > oldVersion && migration !== null) {
       db.runSync(migration.schema)
-      version++
+      newVersion = i
     }
   }
-  db.runSync(`PRAGMA user_version =  ${version}`)
+  if (newVersion !== oldVersion) {
+    db.runSync(`PRAGMA user_version =  ${newVersion}`)
+  }
 }
 
 // data should be { $columnName: value }[]

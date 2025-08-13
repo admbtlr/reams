@@ -6,8 +6,7 @@ import {
   MARK_ITEMS_READ,
   REMOVE_ITEMS
 } from '../store/items/types'
-import { getItem as getItemSqlite } from '@/storage/sqlite'
-import { getItem as getItemIDB } from '@/storage/idb-storage'
+import { getItem as getStoredItem } from '@/storage'
 import { getReadItemsFS } from '../storage/firestore'
 
 import { getItem, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems, getIndex } from './selectors'
@@ -24,11 +23,7 @@ export function* markPreviousItemReadIfDecorated(action) {
   if (!item) return
 
   let itemInflated
-  if (Platform.OS === 'web') {
-    itemInflated = yield call(getItemIDB, item)
-  } else {
-    itemInflated = yield call(getItemSqlite, item)
-  }
+  itemInflated = yield call(getStoredItem, item)
   const wholeItem = { ...item, ...itemInflated }
 
   if (!wholeItem.isDecorated &&

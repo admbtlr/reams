@@ -44,13 +44,10 @@ import {
 } from './selectors'
 import NetInfo from '@react-native-community/netinfo'
 import {
-  setItems as setItemsSQLite,
-  deleteItems as deleteItemsSQLite
-} from '../storage/sqlite'
-import {
-  setItems as setItemsIDB,
-  deleteItems as deleteItemsIDB
-} from '../storage/idb-storage'
+  setItems,
+  deleteItems
+} from '../storage'
+import { clearReadItems } from './mark-read'
 
 
 let feeds
@@ -124,6 +121,7 @@ export function* fetchItems(type = ItemType.unread) {
   if (type === ItemType.unread) {
     console.log('Calling getReadItemsFromBackendAndMarkRead')
     yield getReadItemsFromBackendAndMarkRead(lastUpdated)
+    yield clearReadItems()
   }
 
   // feedbin is paged, so we need to keep fetching until we get no items
@@ -335,17 +333,9 @@ function* createFeedsWhereNeededAndAddInfo(items, feeds) {
 }
 
 function* addToLocalDatabase(items) {
-  if (Platform.OS === 'web') {
-    yield call(setItemsIDB, items)
-  } else {
-    yield call(setItemsSQLite, items)
-  }
+  yield call(setItems, items)
 }
 
 function* removeFromLocalDatabase(items) {
-  if (Platform.OS === 'web') {
-    yield call(deleteItemsIDB, items)
-  } else {
-    yield call(deleteItemsSQLite, items)
-  }
+  yield call(deleteItems, items)
 }

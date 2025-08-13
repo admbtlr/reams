@@ -32,6 +32,10 @@ export function getItemsSync(items: Item[]): ItemInflated[] {
   return SQLiteStorage.getItemsSync(items)
 }
 
+export function getItemSync(item: Item): ItemInflated {
+  return getItemsSync([item])[0]
+}
+
 export async function getItem(item: Item): Promise<ItemInflated | undefined> {
   if (isWeb) {
     return IDBStorage.getItem(item)

@@ -13,11 +13,10 @@ import {
 } from '../store/categories/types'
 import { addCategory, deleteCategory, markItemRead, markItemsRead, updateCategory } from '../backends'
 import { getConfig, getRemoteActions, getUnreadItems } from './selectors'
-import { updateItem as updateItemSQLite } from '../storage/sqlite'
-import { updateItem as updateItemIDB } from '../storage/idb-storage'
+import { updateItem } from '../storage'
 import { incrementReadCountFeed, incrementReadCountNewsletter } from '@/storage/supabase'
 
-const INITIAL_INTERVAL = 2000
+const INITIAL_INTERVAL = 5000
 let interval = INITIAL_INTERVAL
 
 export function* executeRemoteActions() {
@@ -59,11 +58,7 @@ function* executeAction(action) {
               ...action.item,
               readAt: Date.now()
             }
-            if (Platform.OS === 'web') {
-              yield call(updateItemIDB, readItem)
-            } else {
-              yield call(updateItemSQLite, readItem)
-            }
+            yield call(updateItem, readItem)
             if (action.item.isNewsletter && action.item.feed_id) {
               yield call(incrementReadCountNewsletter, action.item.feed_id)
             } else if (action.item.feed_id) {

@@ -8,6 +8,7 @@ import { RootState } from '../store/reducers'
 import { useDispatch } from 'react-redux'
 import { REMOVE_CACHED_COVER_IMAGE, SET_CACHED_COVER_IMAGE } from '../store/feeds/types'
 import log from '../utils/log'
+import { getItemSync } from '@/storage'
 
 interface Props {
   feedId: string | undefined
@@ -28,13 +29,14 @@ export default function CardCoverImage({ feedId, itemId, width, height, testID }
   const cachedCoverImageId = !!feedId &&
     feedsLocal.feeds.find(fl => fl._id === feed?._id)?.cachedCoverImageId
   const coverImageItem = !!feedId ?
-    unreadItems.filter(i => i.feed_id === feedId).find(i => i.coverImageUrl) :
+    unreadItems.filter(i => i.feed_id === feedId).find(i => i.hasCoverImage) :
     item?.hasCoverImage ?
       item :
       undefined
+  const coverImageItemInflated = coverImageItem !== undefined ? getItemSync(coverImageItem) : undefined
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 }) // only used on web
-  if (Platform.OS === 'web' && coverImageItem?.coverImageUrl) {
-    Image.getSize(coverImageItem.coverImageUrl, (width, height) => {
+  if (Platform.OS === 'web' && coverImageItemInflated?.coverImageUrl) {
+    Image.getSize(coverImageItemInflated.coverImageUrl, (width, height) => {
       if (width !== imageDimensions.width || height !== imageDimensions.height) {
         setImageDimensions({ width, height })
       }
@@ -83,7 +85,7 @@ export default function CardCoverImage({ feedId, itemId, width, height, testID }
 
   const getCoverImagePath = () => {
     if (Platform.OS === 'web') {
-      return coverImageItem?.coverImageUrl
+      return coverImageItemInflated?.coverImageUrl
     } else {
       const imageId = cachedCoverImageId || coverImageItem?._id || item?._id
       return imageId ?
@@ -92,7 +94,7 @@ export default function CardCoverImage({ feedId, itemId, width, height, testID }
     }
   }
 
-  const coverImageDimensions = Platform.OS === 'web' ? imageDimensions : coverImageItem?.imageDimensions
+  const coverImageDimensions = Platform.OS === 'web' ? imageDimensions : coverImageItemInflated?.imageDimensions
   const color = feed ? feed.color : 'black'
 
   const coverImagePath = getCoverImagePath()
