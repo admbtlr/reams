@@ -26,8 +26,6 @@ import './public/fonts/IBMPlexSerif-BoldItalic.ttf'
 import './public/fonts/IBMPlexSerif-Italic.ttf'
 import './public/fonts/IBMPlexSerif-Light.ttf'
 import './public/fonts/IBMPlexSerif-LightItalic.ttf'
-import './public/fonts/IBMPlexSerif-Thin.ttf'
-import './public/fonts/IBMPlexSerif-ThinItalic.ttf'
 import './public/fonts/IBMPlexSerif.ttf'
 import './public/fonts/LibreBaskerville-Bold.ttf'
 import './public/fonts/LibreBaskerville-Italic.ttf'
@@ -55,195 +53,187 @@ import './public/fonts/Poppins-Regular.ttf'
 
 // import './web/fonts/fonts.css'
 
-const IBMPlexMonoBold = `@font-face { 
+const IBMPlexMonoBold = `@font-face {
   src: url('/public/fonts/IBMPlexMono-Bold.ttf');
   font-family: 'IBMPlexMono-Bold';
 }`
-const IBMPlexMonoBoldItalic = `@font-face { 
+const IBMPlexMonoBoldItalic = `@font-face {
   src: url('/public/fonts/IBMPlexMono-BoldItalic.ttf');
   font-family: 'IBMPlexMono-BoldItalic';
 }`
-const IBMPlexMonoItalic = `@font-face { 
+const IBMPlexMonoItalic = `@font-face {
   src: url('/public/fonts/IBMPlexMono-Italic.ttf');
   font-family: 'IBMPlexMono-Italic';
 }`
-const IBMPlexMonoLight = `@font-face { 
+const IBMPlexMonoLight = `@font-face {
   src: url('/public/fonts/IBMPlexMono-Light.ttf');
   font-family: 'IBMPlexMono-Light';
 }`
-const IBMPlexMonoLightItalic = `@font-face { 
+const IBMPlexMonoLightItalic = `@font-face {
   src: url('/public/fonts/IBMPlexMono-LightItalic.ttf');
   font-family: 'IBMPlexMono-LightItalic';
 }`
-const IBMPlexMono = `@font-face { 
+const IBMPlexMono = `@font-face {
   src: url('/public/fonts/IBMPlexMono.ttf');
   font-family: 'IBMPlexMono';
 }`
-const IBMPlexSansBold = `@font-face { 
+const IBMPlexSansBold = `@font-face {
   src: url('/public/fonts/IBMPlexSans-Bold.ttf');
   font-family: 'IBMPlexSans-Bold';
 }`
-const IBMPlexSansBoldItalic = `@font-face { 
+const IBMPlexSansBoldItalic = `@font-face {
   src: url('/public/fonts/IBMPlexSans-BoldItalic.ttf');
   font-family: 'IBMPlexSans-BoldItalic';
 }`
-const IBMPlexSansItalic = `@font-face { 
+const IBMPlexSansItalic = `@font-face {
   src: url('/public/fonts/IBMPlexSans-Italic.ttf');
   font-family: 'IBMPlexSans-Italic';
 }`
-const IBMPlexSansLight = `@font-face { 
+const IBMPlexSansLight = `@font-face {
   src: url('/public/fonts/IBMPlexSans-Light.ttf');
   font-family: 'IBMPlexSans-Light';
 }`
-const IBMPlexSansLightItalic = `@font-face { 
+const IBMPlexSansLightItalic = `@font-face {
   src: url('/public/fonts/IBMPlexSans-LightItalic.ttf');
   font-family: 'IBMPlexSans-LightItalic';
 }`
-const IBMPlexSans = `@font-face { 
+const IBMPlexSans = `@font-face {
   src: url('/public/fonts/IBMPlexSans.ttf');
   font-family: 'IBMPlexSans';
 }`
-const IBMPlexSansCondBold = `@font-face { 
+const IBMPlexSansCondBold = `@font-face {
   src: url('/public/fonts/IBMPlexSansCond-Bold.ttf');
   font-family: 'IBMPlexSansCond-Bold';
 }`
-const IBMPlexSansCondBoldItalic = `@font-face { 
+const IBMPlexSansCondBoldItalic = `@font-face {
   src: url('/public/fonts/IBMPlexSansCond-BoldItalic.ttf');
   font-family: 'IBMPlexSansCond-BoldItalic';
 }`
-const IBMPlexSansCondExtraLight = `@font-face { 
+const IBMPlexSansCondExtraLight = `@font-face {
   src: url('/public/fonts/IBMPlexSansCond-ExtraLight.ttf');
   font-family: 'IBMPlexSansCond-ExtraLight';
 }`
-const IBMPlexSansCondExtraLightItalic = `@font-face { 
+const IBMPlexSansCondExtraLightItalic = `@font-face {
   src: url('/public/fonts/IBMPlexSansCond-ExtraLightItalic.ttf');
   font-family: 'IBMPlexSansCond-ExtraLightItalic';
 }`
-const IBMPlexSansCond = `@font-face { 
+const IBMPlexSansCond = `@font-face {
   src: url('/public/fonts/IBMPlexSansCond.ttf');
   font-family: 'IBMPlexSansCond';
 }`
-const IBMPlexSerifBold = `@font-face { 
+const IBMPlexSerifBold = `@font-face {
   src: url('/public/fonts/IBMPlexSerif-Bold.ttf');
   font-family: 'IBMPlexSerif-Bold';
 }`
-const IBMPlexSerifBoldItalic = `@font-face { 
+const IBMPlexSerifBoldItalic = `@font-face {
   src: url('/public/fonts/IBMPlexSerif-BoldItalic.ttf');
   font-family: 'IBMPlexSerif-BoldItalic';
 }`
-const IBMPlexSerifItalic = `@font-face { 
+const IBMPlexSerifItalic = `@font-face {
   src: url('/public/fonts/IBMPlexSerif-Italic.ttf');
   font-family: 'IBMPlexSerif-Italic';
 }`
-const IBMPlexSerifLight = `@font-face { 
+const IBMPlexSerifLight = `@font-face {
   src: url('/public/fonts/IBMPlexSerif-Light.ttf');
   font-family: 'IBMPlexSerif-Light';
 }`
-const IBMPlexSerifLightItalic = `@font-face { 
+const IBMPlexSerifLightItalic = `@font-face {
   src: url('/public/fonts/IBMPlexSerif-LightItalic.ttf');
   font-family: 'IBMPlexSerif-LightItalic';
 }`
-const IBMPlexSerifThin = `@font-face { 
-  src: url('/public/fonts/IBMPlexSerif-Thin.ttf');
-  font-family: 'IBMPlexSerif-Thin';
-}`
-const IBMPlexSerifThinItalic = `@font-face { 
-  src: url('/public/fonts/IBMPlexSerif-ThinItalic.ttf');
-  font-family: 'IBMPlexSerif-ThinItalic';
-}`
-const IBMPlexSerif = `@font-face { 
+const IBMPlexSerif = `@font-face {
   src: url('/public/fonts/IBMPlexSerif.ttf');
   font-family: 'IBMPlexSerif';
 }`
-const LibreBaskervilleBold = `@font-face { 
+const LibreBaskervilleBold = `@font-face {
   src: url('/public/fonts/LibreBaskerville-Bold.ttf');
   font-family: 'LibreBaskerville-Bold';
 }`
-const LibreBaskervilleItalic = `@font-face { 
+const LibreBaskervilleItalic = `@font-face {
   src: url('/public/fonts/LibreBaskerville-Italic.ttf');
   font-family: 'LibreBaskerville-Italic';
 }`
-const LibreBaskervilleRegular = `@font-face { 
+const LibreBaskervilleRegular = `@font-face {
   src: url('/public/fonts/LibreBaskerville-Regular.ttf');
   font-family: 'LibreBaskerville-Regular';
 }`
-const MontserratBold = `@font-face { 
+const MontserratBold = `@font-face {
   src: url('/public/fonts/Montserrat-Bold.ttf');
   font-family: 'Montserrat-Bold';
 }`
-const MontserratBoldItalic = `@font-face { 
+const MontserratBoldItalic = `@font-face {
   src: url('/public/fonts/Montserrat-BoldItalic.ttf');
   font-family: 'Montserrat-BoldItalic';
 }`
-const MontserratLight = `@font-face { 
+const MontserratLight = `@font-face {
   src: url('/public/fonts/Montserrat-Light.ttf');
   font-family: 'Montserrat-Light';
 }`
-const MontserratLightItalic = `@font-face { 
+const MontserratLightItalic = `@font-face {
   src: url('/public/fonts/Montserrat-LightItalic.ttf');
   font-family: 'Montserrat-LightItalic';
 }`
-const PTSerifBold = `@font-face { 
+const PTSerifBold = `@font-face {
   src: url('/public/fonts/PTSerif-Bold.ttf');
   font-family: 'PTSerif-Bold';
 }`
-const PTSerifBoldItalic = `@font-face { 
+const PTSerifBoldItalic = `@font-face {
   src: url('/public/fonts/PTSerif-BoldItalic.ttf');
   font-family: 'PTSerif-BoldItalic';
 }`
-const PTSerifItalic = `@font-face { 
+const PTSerifItalic = `@font-face {
   src: url('/public/fonts/PTSerif-Italic.ttf');
   font-family: 'PTSerif-Italic';
 }`
-const PTSerifRegular = `@font-face { 
+const PTSerifRegular = `@font-face {
   src: url('/public/fonts/PTSerif-Regular.ttf');
   font-family: 'PTSerif';
 }`
-const PlayfairDisplayBlack = `@font-face { 
+const PlayfairDisplayBlack = `@font-face {
   src: url('/public/fonts/PlayfairDisplay-Black.ttf');
   font-family: 'PlayfairDisplay-Black';
 }`
-const PlayfairDisplayBlackItalic = `@font-face { 
+const PlayfairDisplayBlackItalic = `@font-face {
   src: url('/public/fonts/PlayfairDisplay-BlackItalic.ttf');
   font-family: 'PlayfairDisplay-BlackItalic';
 }`
-const PlayfairDisplayBold = `@font-face { 
+const PlayfairDisplayBold = `@font-face {
   src: url('/public/fonts/PlayfairDisplay-Bold.ttf');
   font-family: 'PlayfairDisplay-Bold';
 }`
-const PlayfairDisplayBoldItalic = `@font-face { 
+const PlayfairDisplayBoldItalic = `@font-face {
   src: url('/public/fonts/PlayfairDisplay-BoldItalic.ttf');
   font-family: 'PlayfairDisplay-BoldItalic';
 }`
-const PlayfairDisplayItalic = `@font-face { 
+const PlayfairDisplayItalic = `@font-face {
   src: url('/public/fonts/PlayfairDisplay-Italic.ttf');
   font-family: 'PlayfairDisplay-Italic';
 }`
-const PlayfairDisplayRegular = `@font-face { 
+const PlayfairDisplayRegular = `@font-face {
   src: url('/public/fonts/PlayfairDisplay-Regular.ttf');
   font-family: 'PlayfairDisplay-Regular';
 }`
-const PlayfairDisplaySCBold = `@font-face { 
+const PlayfairDisplaySCBold = `@font-face {
   src: url('/public/fonts/PlayfairDisplaySC-Bold.ttf');
   font-family: 'PlayfairDisplaySC-Bold';
 }`
-const PlayfairDisplaySCBoldItalic = `@font-face { 
+const PlayfairDisplaySCBoldItalic = `@font-face {
   src: url('/public/fonts/PlayfairDisplaySC-BoldItalic.ttf');
   font-family: 'PlayfairDisplaySC-BoldItalic';
 }`
-const PoppinsExtraBold = `@font-face { 
+const PoppinsExtraBold = `@font-face {
   src: url('/public/fonts/Poppins-ExtraBold.ttf');
   font-family: 'Poppins-ExtraBold';
 }`
-const PoppinsExtraBoldItalic = `@font-face { 
+const PoppinsExtraBoldItalic = `@font-face {
   src: url('/public/fonts/Poppins-ExtraBoldItalic.ttf');
   font-family: 'Poppins-ExtraBoldItalic';
 }`
-const PoppinsItalic = `@font-face { 
+const PoppinsItalic = `@font-face {
   src: url('/public/fonts/Poppins-Italic.ttf');
   font-family: 'Poppins-Italic';
 }`
-const PoppinsRegular = `@font-face { 
+const PoppinsRegular = `@font-face {
   src: url('/public/fonts/Poppins-Regular.ttf');
   font-family: 'Poppins-Regular';
 }`
@@ -276,8 +266,6 @@ ${IBMPlexSerifBoldItalic}
 ${IBMPlexSerifItalic}
 ${IBMPlexSerifLight}
 ${IBMPlexSerifLightItalic}
-${IBMPlexSerifThin}
-${IBMPlexSerifThinItalic}
 ${IBMPlexSerif}
 ${LibreBaskervilleBold}
 ${LibreBaskervilleItalic}
@@ -326,8 +314,6 @@ ${PoppinsRegular}
   style.appendChild(document.createTextNode(IBMPlexSerifItalic))
   style.appendChild(document.createTextNode(IBMPlexSerifLight))
   style.appendChild(document.createTextNode(IBMPlexSerifLightItalic))
-  style.appendChild(document.createTextNode(IBMPlexSerifThin))
-  style.appendChild(document.createTextNode(IBMPlexSerifThinItalic))
   style.appendChild(document.createTextNode(IBMPlexSerif))
   style.appendChild(document.createTextNode(LibreBaskervilleBold))
   style.appendChild(document.createTextNode(LibreBaskervilleItalic))
