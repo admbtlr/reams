@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { Animated, Image, type ScaledSize, Text, View, useWindowDimensions } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../../store/reducers"
@@ -19,24 +19,34 @@ const TOP_BAR_HEIGHT = 60
 export default function ItemView({ item }: { item: ItemInflated | undefined }) {
   if (!item?.styles?.fontClasses) return null
   const dispatch = useDispatch()
-  const dimensions: ScaledSize = useWindowDimensions()
+  const targetRef = useRef(null)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  useEffect(() => {
+    if (targetRef.current) {
+      targetRef.current.measure((x: number, y: number, width: number, height: number, pageX: number, pageY: number) => {
+        setDimensions({ width, height })
+      })
+    }
+  }, [])
   const [coverImageSize, setCoverImageSize] = useState({ width: 0, height: 0 })
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const feed = item?.isNewsletter ?
     useSelector((state: RootState) => state.newsletters.newsletters.find(f => f._id === item?.feed_id)) :
     useSelector((state: RootState) => state.feeds.feeds.find(f => f._id === item?.feed_id))
   const bodyColor = isDarkMode ? 'black' : hslString('rizzleBg')
-  if (item?.coverImageUrl) {
-    Image.getSize(item.coverImageUrl, (width, height) => {
-      if (width !== coverImageSize.width || height !== coverImageSize.height) {
-        setCoverImageSize({ width, height })
+  useEffect(() => {
+    if (item?.coverImageUrl) {
+      Image.getSize(item.coverImageUrl, (width, height) => {
+        if (width !== coverImageSize.width || height !== coverImageSize.height) {
+          setCoverImageSize({ width, height })
+        }
+      })
+    } else {
+      if (coverImageSize.height > 0) {
+        setCoverImageSize({ width: 0, height: 0 })
       }
-    })
-  } else {
-    if (coverImageSize.height > 0) {
-      setCoverImageSize({ width: 0, height: 0 })
     }
-  }
+  }, [item?.coverImageUrl])
   const coverImageHeight = coverImageSize.height > 0 ? Math.round(dimensions.width * (coverImageSize.height / coverImageSize.width)) : 0
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
@@ -154,10 +164,13 @@ export default function ItemView({ item }: { item: ItemInflated | undefined }) {
   </html>`
   return (
     item && (
-      <View style={{
-        backgroundColor: hslString('white'),
-        flex: 1,
-      }}>
+      <View
+        ref={targetRef}
+        style={{
+          backgroundColor: hslString('white'),
+          flex: 1,
+        }}
+      >
         <View style={{
           flex: -1,
           height: TOP_BAR_HEIGHT,

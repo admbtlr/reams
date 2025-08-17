@@ -4,44 +4,44 @@
   }
 
   &.hasCoverImage .coverHolder {
-    position: relative; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100vw;
     display: flex;
     align-items: flex-end;
   }
-  
+
   .itemTitle {
     margin: 1rem auto 0;
-    width: 27rem; // I assume there is 1rem of horizontal padding somewhere on the article 
+    width: 27rem; // I assume there is 1rem of horizontal padding somewhere on the article
     z-index: 2;
     position: relative;
-    
+
     h1, h2, h3, h4, h5 {
       line-height: 1.1;
     }
-  
+
     p {
       font-size: 0.7rem;
     }
-  
+
     .date-published {
       font-size: 0.6rem;
       font-family: "IBMPlexMono-Light" !important;
     }
-  
+
     &.center {
       text-align: center;
       margin-left: auto;
       margin-right: auto;
     }
-    
+
     &.isUpperCase h1 {
       text-transform: uppercase;
     }
-  
-  
+
+
     &.bg.hasCoverImage h1 {
       background-color: rgba(255,255,255,0.9);
       color: black;
@@ -51,7 +51,7 @@
     &.center::after {
       margin: 0 calc(50% - 50vw) 2rem;
     }
-  
+
   }
 
   &.hasCoverImage .itemTitle {
@@ -109,7 +109,7 @@
       }
     }
   }
-  
+
   .hasCoverImage .coverImage {
     position: fixed;
     top: 0;
@@ -121,41 +121,42 @@
     background-position: center;
     background-color: var(--feed-color);
   }
-  
+
   .articleHolder {
     background-color: hsl(60, 17%, 96%);
     position: relative;
     z-index: 2;
-  
+
     .dark-background & {
       background-color: hsl(240, 0%, 0%);
     }
   }
-  
+
   h1, h2, h3, h4 {
     font-weight: normal;
   }
-  
+
   .itemTitle h4 {
     font-size: 0.8rem;
   }
 
   .itemArticle {
     max-width: 28rem;
-    
+
     figure, img, video, iframe, pre {
       &:not(.specificity-breaker):not(.img-small):not(.img-tiny) {
         width: 100% !important;
+        height: auto;
         left: 0 !important;
         margin-right: 0 !important;
       }
     }
-    
+
     figcaption {
       padding: 0;
       margin: 0;
     }
-    
+
     table, th, td {
       max-width: 28rem !important;
     }
@@ -171,4 +172,3 @@
     outline: 1px solid rgba(255,255,255,0.3);
   }
 }
-
