@@ -44,7 +44,7 @@ let toDispatch = []
 
 const showLogs = true
 
-export const MAX_DECORATION_FAILURES = 1
+export const MAX_DECORATION_FAILURES = 3
 
 // Timing instrumentation
 interface TimingStats {
