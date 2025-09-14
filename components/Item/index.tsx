@@ -65,7 +65,7 @@ const Item: React.FC<ItemProps> = (props) => {
       inflatedItem?.content_html?.length > 0 ?
       inflatedItem.content_html :
       inflatedItem.content_mercury
-    if (content === undefined || content.length > 1000) return
+    if (content === undefined || content === null || content.length > 1000) return
     if (entities.decode(content.substring(0, 200))
       .replace(/<.*?>/g, '')
       .trim()
