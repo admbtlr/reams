@@ -4,23 +4,23 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXApplication (6.1.4):
     - ExpoModulesCore
-  - EXConstants (17.0.4):
+  - EXConstants (17.0.8):
     - ExpoModulesCore
   - EXJSONUtils (0.14.0)
-  - EXManifests (0.15.5):
+  - EXManifests (0.15.8):
     - ExpoModulesCore
   - Expo (52.0.27):
     - ExpoModulesCore
-  - expo-dev-client (5.0.10):
+  - expo-dev-client (5.0.20):
     - EXManifests
     - expo-dev-launcher
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
-  - expo-dev-launcher (5.0.25):
+  - expo-dev-launcher (5.0.35):
     - DoubleConversion
     - EXManifests
-    - expo-dev-launcher/Main (= 5.0.25)
+    - expo-dev-launcher/Main (= 5.0.35)
     - expo-dev-menu
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -46,7 +46,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-launcher/Main (5.0.25):
+  - expo-dev-launcher/Main (5.0.35):
     - DoubleConversion
     - EXManifests
     - expo-dev-launcher/Unsafe
@@ -75,7 +75,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-launcher/Unsafe (5.0.25):
+  - expo-dev-launcher/Unsafe (5.0.35):
     - DoubleConversion
     - EXManifests
     - expo-dev-menu
@@ -103,10 +103,10 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu (6.0.18):
+  - expo-dev-menu (6.0.25):
     - DoubleConversion
-    - expo-dev-menu/Main (= 6.0.18)
-    - expo-dev-menu/ReactNativeCompatibles (= 6.0.18)
+    - expo-dev-menu/Main (= 6.0.25)
+    - expo-dev-menu/ReactNativeCompatibles (= 6.0.25)
     - glog
     - hermes-engine
     - RCT-Folly (= 2024.11.18.00)
@@ -127,7 +127,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - expo-dev-menu-interface (1.9.3)
-  - expo-dev-menu/Main (6.0.18):
+  - expo-dev-menu/Main (6.0.25):
     - DoubleConversion
     - EXManifests
     - expo-dev-menu-interface
@@ -153,7 +153,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu/ReactNativeCompatibles (6.0.18):
+  - expo-dev-menu/ReactNativeCompatibles (6.0.25):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -174,7 +174,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu/SafeAreaView (6.0.18):
+  - expo-dev-menu/SafeAreaView (6.0.25):
     - DoubleConversion
     - ExpoModulesCore
     - glog
@@ -196,7 +196,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu/Vendored (6.0.18):
+  - expo-dev-menu/Vendored (6.0.25):
     - DoubleConversion
     - expo-dev-menu/SafeAreaView
     - glog
@@ -222,16 +222,16 @@ PODS:
     - ExpoModulesCore
   - ExpoBlur (14.0.3):
     - ExpoModulesCore
-  - ExpoDevice (7.0.2):
+  - ExpoDevice (7.0.3):
     - ExpoModulesCore
-  - ExpoFileSystem (18.0.7):
+  - ExpoFileSystem (18.0.12):
     - ExpoModulesCore
-  - ExpoFont (13.0.3):
+  - ExpoFont (13.0.4):
     - ExpoModulesCore
-  - ExpoGL (15.0.4):
+  - ExpoGL (15.0.5):
     - ExpoModulesCore
     - ReactCommon/turbomodule/core
-  - ExpoHead (4.0.17):
+  - ExpoHead (4.0.21):
     - ExpoModulesCore
   - ExpoKeepAwake (14.0.2):
     - ExpoModulesCore
@@ -261,7 +261,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ExpoSplashScreen (0.29.21):
+  - ExpoSplashScreen (0.29.24):
     - ExpoModulesCore
   - ExpoSQLite (15.2.10):
     - ExpoModulesCore
@@ -1516,7 +1516,7 @@ PODS:
     - React-Core
   - react-native-safe-area-context (5.1.0):
     - React-Core
-  - react-native-skia (1.11.8):
+  - react-native-skia (1.5.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2439,25 +2439,25 @@ SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   EXApplication: b28de982d44768fc593de9d19ca5a7a0e49685b1
-  EXConstants: cc788e18fb962b77999c16f6b90e551542b1bcf4
+  EXConstants: a1f35b9aabbb3c6791f8e67722579b1ffcdd3f18
   EXJSONUtils: 01fc7492b66c234e395dcffdd5f53439c5c29c93
-  EXManifests: 81324537a654111964f6e7994dbc351a4233dcfa
+  EXManifests: 77e77c283c4c53a50b9bddebed25abe93f0b48f1
   Expo: 7021c4880d0bbd02781e88e213b6786c1200ebdf
-  expo-dev-client: a02392060ef8016e11facebb6f81ff172b39775f
-  expo-dev-launcher: e7503af8512a8c5ffc90af93657e4815439fe171
-  expo-dev-menu: 19d3cfe992deaeaed49a7b0b4496847a5983958a
+  expo-dev-client: ca3ebc270cb0d3f26e6d9c3e1da19957ef4fcac1
+  expo-dev-launcher: 5b0632420a7fd5c69d43f1ba5e57788695bf73a9
+  expo-dev-menu: 72b484c6552a82ee7f417486bed6155eb66cd335
   expo-dev-menu-interface: 00dc42302a72722fdecec3fa048de84a9133bcc4
   ExpoAsset: 6cc988c426b5fc997859cc0f8f6728d1376bf53f
   ExpoBlur: 567af66164e3043a9a30069594aed1ddf0a88d97
-  ExpoDevice: 82da2577196c2ddee18189da65f754ea83003d2e
-  ExpoFileSystem: a0a5c44d3d3e8a2aa54fe7c70c7690df03cf4dd8
-  ExpoFont: 8b14db1afebf62e9774613a082e402985f4e747c
-  ExpoGL: ebc970e92af2580c08e2feff8b6a4bda52202f30
-  ExpoHead: 3d555eb5d0d68c478b9ea259337686c58de22c71
+  ExpoDevice: cf7419343b6e060209aaadd596defb1b6320597f
+  ExpoFileSystem: c8c19bf80d914c83dda3beb8569d7fb603be0970
+  ExpoFont: 773955186469acc5108ff569712a2d243857475f
+  ExpoGL: 42fa1bc49427696645e98c159f863cb6fd33ec04
+  ExpoHead: 1b9a42c4b1a2627b8c9ef478a48af59a2fb8c684
   ExpoKeepAwake: 1f74cdf53ab3b3aeb7110f18eb053c92e7c3e710
   ExpoLinearGradient: ee9efc5acb988b911320e964fab9b4cbdeb198c4
   ExpoModulesCore: 31fd95f046c79da70df0cd68f7e7c5b789be30d1
-  ExpoSplashScreen: 83f585abeb0506103f9309628634dbbcd9bc5573
+  ExpoSplashScreen: 1832984021b0795fda9302cf84ac62f0490eeadd
   ExpoSQLite: c092c9454ad72ba09e29c494470a4fe41996f741
   EXUpdatesInterface: 1dcebac98ac5dad4289e6ff2bd5616822e894397
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
@@ -2507,7 +2507,7 @@ SPEC CHECKSUMS:
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: f0a9899081c185db1de5bb2fdc1c88c202a059ac
   react-native-safe-area-context: 04803a01f39f31cc6605a5531280b477b48f8a88
-  react-native-skia: 605a729b3dd7903706b2718f2c94c25320e4b27a
+  react-native-skia: 09b41ffb00df6f38f33847c321b140c3bbaa7aa9
   react-native-webview: baeded9e09c67e757c83e900db5c6df1090eb37a
   React-nativeconfig: cd0fbb40987a9658c24dab5812c14e5522a64929
   React-NativeModulesApple: 45187d13c68d47250a7416b18ff082c7cc07bff7
