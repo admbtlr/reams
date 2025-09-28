@@ -32,7 +32,7 @@
     "@tensorflow/tfjs": "4.16.0",
     "@tensorflow/tfjs-react-native": "1.0.0",
     "@types/lodash.isequal": "^4.5.6",
-    "@welldone-software/why-did-you-render": "^8.0.0",
+    "@welldone-software/why-did-you-render": "^10.0.0",
     "babel-preset-expo": "~13.0.0",
     "base-64": "^1.0.0",
     "concurrently": "^7.5.0",
