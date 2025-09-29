@@ -24,8 +24,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store/reducers'
 import { getItems, getScrollRatio } from '@/utils/get-item'
 import { Feed } from '@/store/feeds/types'
-import { getItem as getItemSQLite } from "@/storage/sqlite"
-import { getItem as getItemIDB } from "@/storage/idb-storage"
 import { Newsletter } from '@/store/newsletters/types'
 import log from '@/utils/log'
 import Favicon from '@/components/Favicon'

@@ -1,5 +1,6 @@
+- looks like the undying read items might be down to prune-items.js:36, which only clears saved items
 - I can get rid of date_published in favour of created_at
-- check decorate-items for changes to index and currentItem
+- ~~check decorate-items for changes to index and currentItem~~
 - move webview out of scrollview
 - web
   - ~~open all links in new tab~~
@@ -30,6 +31,7 @@
 - how come mercury button disappears for Aeon articles?
   - it happens randomly
 - is substack img src sometimes an object? if so, pull src from the object
+  - also images on kottke.org in particular
 - handle blockquote within aside (Guardian)
 - maybe update image viewer
   - https://github.com/andresribeiro/react-native-reanimated-image-viewer

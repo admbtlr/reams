@@ -13,8 +13,7 @@ import { ITEM_BODY_CLEANED, ItemInflated, RESET_DECORATION_FALIURES, SAVE_ITEM }
 import { Category } from '../../store/categories/types'
 import isEqual from 'lodash.isequal'
 import { createAnnotation } from '../../store/annotations/annotations'
-import { updateItem as updateItemIDB } from '../../storage/idb-storage'
-import { updateItem as updateItemSQLite } from '../../storage/sqlite'
+import { updateItem } from '@/storage/'
 import log from '../../utils/log'
 import { textInfoBoldStyle } from '../../utils/styles'
 import TextButton from '../TextButton'
@@ -150,11 +149,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
       setCleanedHtmlContent(cleanedBody)
     }
     try {
-      if (Platform.OS === 'web') {
-        await updateItemIDB(cleanedItem)
-      } else {
-        await updateItemSQLite(cleanedItem)
-      }
+      await updateItem(cleanedItem)
       dispatch({
         type: ITEM_BODY_CLEANED,
         item: cleanedItem

@@ -1,5 +1,5 @@
 import { call, delay, put, select } from 'redux-saga/effects'
-import { 
+import {
   ITEM_DECORATION_FAILURE,
   ITEM_DECORATION_SUCCESS,
   SAVE_EXTERNAL_ITEM,
@@ -11,9 +11,9 @@ import { saveExternalItem } from '../backends'
 import { getConfig, getDisplay, getItems, getItem, getSavedItems } from './selectors'
 import { createItemStyles } from '../utils/createItemStyles'
 import { ADD_ITEM_TO_CATEGORY } from '../store/categories/types'
-import { setItems } from '../storage/sqlite'
+import { setItems } from '../storage'
 
-export function * saveExternalUrl (action) {
+export function* saveExternalUrl(action) {
   const savedItems = yield select(getSavedItems)
   let item = {
     url: action.url,
@@ -54,11 +54,10 @@ export function * saveExternalUrl (action) {
   }
 }
 
-export function * maybeUpsertSavedItem (action) {
+export function* maybeUpsertSavedItem(action) {
   if (!action.isSaved) return
   const backend = yield select(getConfig)
   if (backend !== 'rizzle') return
   const item = yield select(getItem, action.item._id, 'saved')
   saveExternalItem(item)
 }
-

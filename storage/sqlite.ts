@@ -1,19 +1,33 @@
 import * as SQLite from "expo-sqlite";
 import { Item, ItemInflated } from "store/items/types";
 import log from "../utils/log";
+import { version } from "@babel/core";
 
 let db: SQLite.SQLiteDatabase
 
+const migrations = [
+  null,
+  {
+    'schema': 'ALTER TABLE items ADD COLUMN coverImageUrl TEXT;',
+    'data': 'UPDATE items SET coverImageUrl = $coverImageUrl WHERE _id = $_id'
+  },
+  {
+    'schema': 'ALTER TABLE items ADD COLUMN imageDimensions TEXT;',
+    'data': 'UPDATE items SET imageDimensions = $imageDimensions WHERE _id = $_id'
+  },
+]
+
 const columns = [
-  'id',
   '_id',
-  'content_html',
   'author',
-  'date_published',
+  'content_html',
+  'coverImageUrl',
   'content_mercury',
   'decoration_failures',
-  'faceCentreNormalised',
   'excerpt',
+  'faceCentreNormalised',
+  'id',
+  'imageDimensions',
   'readAt',
   'scrollRatio',
   'styles',
@@ -44,29 +58,70 @@ const columns = [
 //   })
 // }
 
-export async function initSQLite() {
-  db = await SQLite.openDatabaseAsync("db.db")
+export function initSQLite() {
   try {
-    await db.runAsync(`
-    create table if not exists items (
-      _id STRING PRIMARY KEY NOT NULL,
-      author TEXT,
-      content_html TEXT,
-      content_mercury TEXT,
-      date_published STRING,
-      decoration_failures INT,
-      excerpt TEXT,
-      faceCentreNormalised TEXT,
-      id INT,
-      readAt LONG,
-      scrollRatio TEXT,
-      styles TEXT
-    );`)
-    await initSearchTable()
-    console.log('SQLite initialized, items count: ', await db.getFirstAsync('select count(*) from items;'))
+    db = SQLite.openDatabaseSync("db.db")
+    const rows = db.getAllSync('SELECT name FROM sqlite_schema WHERE type="table" AND name="items";')
+    if (rows.length === 0) {
+      db.runSync(`
+        create table items (
+          _id STRING PRIMARY KEY NOT NULL,
+          author TEXT,
+          content_html TEXT,
+          content_mercury TEXT,
+          date_published STRING,
+          decoration_failures INT,
+          excerpt TEXT,
+          faceCentreNormalised TEXT,
+          id INT,
+          readAt LONG,
+          scrollRatio TEXT,
+          styles TEXT
+        );
+      `)
+      initSearchTable()
+    }
+    doSchemaMigrations()
+    console.log('SQLite initialized, items count: ', db.getFirstSync('select count(*) from items;'))
   } catch (error) {
     log('initSQLite', error)
     throw error
+  }
+}
+
+function doSchemaMigrations() {
+  const versionQuery: { user_version: number } | null = db.getFirstSync('PRAGMA user_version')
+  const oldVersion = versionQuery?.user_version ?? 1
+  let newVersion = oldVersion
+  for (let i = 0; i < migrations.length; i++) {
+    const migration = migrations[i]
+    if (i > oldVersion && migration !== null) {
+      db.runSync(migration.schema)
+      newVersion = i
+    }
+  }
+  if (newVersion !== oldVersion) {
+    db.runSync(`PRAGMA user_version =  ${newVersion}`)
+  }
+}
+
+// data should be { $columnName: value }[]
+export function doDataMigration(index: number, data: {}[]) {
+  debugger
+  const query = migrations[index]?.data
+  if (query) {
+    let preparedStmt
+    try {
+      preparedStmt = db.prepareSync(query)
+      for (const row of data) {
+        preparedStmt.executeSync(row)
+      }
+
+    } catch (e: any) {
+      console.error(e)
+    } finally {
+      if (preparedStmt !== undefined) preparedStmt.finalizeSync()
+    }
   }
 }
 
@@ -117,17 +172,18 @@ export async function setItems(items: ItemInflated[]) {
   for (const item of items) {
     try {
       await db.runAsync(`insert or replace into items (
-          id, _id, content_html, author, date_published, content_mercury, excerpt, faceCentreNormalised, scrollRatio, styles
-        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+          id, _id, content_html, author, content_mercury, coverImageUrl, excerpt, faceCentreNormalised, imageDimensions, scrollRatio, styles
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
         [
           item.id || null,
           item._id,
           item.content_html || null,
           item.author || null,
-          item.date_published || null,
           item.content_mercury || null,
+          item.coverImageUrl || null,
           item.excerpt || null,
           JSON.stringify(item.faceCentreNormalised),
+          JSON.stringify(item.imageDimensions),
           JSON.stringify(item.scrollRatio),
           JSON.stringify(item.styles)
         ]
@@ -145,7 +201,6 @@ export async function getItems(items: Item[]): Promise<ItemInflated[]> {
   const toInflate: Item[] = JSON.parse(JSON.stringify(items))
   const query = `select * from items where _id in (${toInflate.map((item) => `"${item._id}"`).join(",")})`
   let rows = await db.getAllAsync(query)
-  rows = db.getAllSync(query)
   try {
     if (rows.length !== items.length) {
       log(new Error('Items missing from database'))
@@ -182,10 +237,11 @@ function inflateItems(toInflate: Item[], rows: unknown[]): ItemInflated[] {
     if (item) {
       item.content_html = flate.content_html
       item.author = flate.author
-      item.date_published = flate.date_published
       item.content_mercury = flate.content_mercury
+      item.coverImageUrl = flate.coverImageUrl
       item.excerpt = flate.excerpt
       item.faceCentreNormalised = JSON.parse(flate.faceCentreNormalised)
+      item.imageDimensions = JSON.parse(flate.imageDimensions)
       item.scrollRatio = JSON.parse(flate.scrollRatio)
       item.styles = JSON.parse(flate.styles)
     }
@@ -262,4 +318,9 @@ export function searchItems(term: string): ItemInflated[] {
   const searchTerm = `"%${term}%"`
   const query = `SELECT * FROM items WHERE content_html LIKE ${searchTerm} OR content_mercury LIKE ${searchTerm} OR excerpt LIKE ${searchTerm};`
   return db.getAllSync(query)
+}
+
+export function deleteAllItems() {
+  const query = 'DELETE FROM items'
+  return db.runSync(query)
 }

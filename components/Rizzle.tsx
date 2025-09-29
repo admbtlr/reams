@@ -21,7 +21,7 @@ import OrientationListener from './OrientationListener'
 import { PersistGate } from 'redux-persist/integration/react'
 import HelpTipProvider from './HelpTipProvider'
 import { AuthProvider } from './AuthProvider'
-import { initSQLite } from '../storage/sqlite'
+import { initStorage } from '../storage'
 import RizzleModal from './RizzleModal'
 import { ModalProvider } from './ModalProvider'
 import { hslString } from '../utils/colors'
@@ -67,7 +67,7 @@ const Rizzle = () => {
           log('Error loading Tensor Flow', error)
         }
       }
-      initSQLite()
+      initStorage()
       Sentry.init({
         dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
         debug: false //__DEV__

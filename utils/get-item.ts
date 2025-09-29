@@ -3,7 +3,7 @@ import { Item, ItemInflated, ItemType } from '../store/items/types'
 import { store } from '../store'
 import { RootState } from '../store/reducers'
 import { Platform } from 'react-native'
-import { searchItems } from '../storage/sqlite'
+import { searchItems } from '../storage'
 import { createSelector } from '@reduxjs/toolkit'
 
 const selectItems = (state: RootState) => {

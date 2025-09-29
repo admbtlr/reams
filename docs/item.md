@@ -5,7 +5,6 @@ content_html
 author
 created_at
 date_modified
-date_published
 feed_title
 feed_id
 coverImageUrl
@@ -22,7 +21,6 @@ content_html
 author
 created_at
 date_modified
-date_published
 feed_id
 feed_title
 feed_color
@@ -76,7 +74,6 @@ _id
 content_html
 author
 date_modified // scrap this
-date_published
 content_mercury
 excerpt
 showMercuryContent

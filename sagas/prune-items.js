@@ -6,12 +6,11 @@ import { getItems, getConfig, getSavedItems, getUnreadItems } from './selectors'
 
 import log from '../utils/log'
 import { removeCachedCoverImages } from '../utils/item-utils'
-import { deleteItems as deleteItemsSQLite } from '../storage/sqlite'
-import { deleteItems as deleteItemsIDB } from '../storage/idb-storage'
+import { deleteItems } from '../storage'
 
 const MAX_UNREAD = 1000
 
-export function * pruneItems (action) {
+export function* pruneItems(action) {
   const type = (action && action.itemType) || 'unread'
   if (type !== 'unread') return
   const config = yield select(getConfig)
@@ -34,7 +33,7 @@ export function * pruneItems (action) {
   removeItems({ items: toPrune })
 }
 
-export function * removeItems (action) {
+export function* removeItems(action) {
   const items = action.items
   yield call(InteractionManager.runAfterInteractions)
   const savedItems = yield select(getSavedItems)
@@ -43,21 +42,17 @@ export function * removeItems (action) {
   yield doRemoveItems(itemsToClear)
 }
 
-export function * removeAllItems () {
+export function* removeAllItems() {
   yield call(InteractionManager.runAfterInteractions)
   yield doRemoveItems()
 }
 
-function * doRemoveItems (items) {
+function* doRemoveItems(items) {
   console.log('Inside doRemoveItems')
   try {
-    if (Platform.OS === 'web') {
-      yield call(deleteItemsIDB, items)
-    } else {
-      yield call(deleteItemsSQLite, items)
-    }
-  console.log('doRemoveItems completed')
-  } catch(err) {
+    yield call(deleteItems, items)
+    console.log('doRemoveItems completed')
+  } catch (err) {
     log('deleteItems', err)
   }
   if (items) {
@@ -66,7 +61,7 @@ function * doRemoveItems (items) {
 }
 
 // trying to remediate a bug with duplidated saved items
-export function * dedupeSaved () {
+export function* dedupeSaved() {
   const savedItems = yield select(getSavedItems)
   let deduped = []
   savedItems.forEach((e) => {

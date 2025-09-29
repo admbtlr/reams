@@ -8,8 +8,6 @@ import ItemTitle from '../ItemTitle'
 import { getCachedCoverImagePath, getHost } from '../../utils/'
 import { getMargin, getStatusBarHeight } from '../../utils/dimensions'
 import { hslString } from '../../utils/colors'
-import { getItem as getItemSQLite } from "@/storage/sqlite"
-import { getItem as getItemIDB } from "@/storage/idb-storage"
 import log from '../../utils/log'
 import Nudge from '../Nudge'
 import { MAX_DECORATION_FAILURES } from '../../sagas/decorate-items'
@@ -67,7 +65,7 @@ const Item: React.FC<ItemProps> = (props) => {
       inflatedItem?.content_html?.length > 0 ?
       inflatedItem.content_html :
       inflatedItem.content_mercury
-    if (content === undefined || content.length > 1000) return
+    if (content === undefined || content === null || content.length > 1000) return
     if (entities.decode(content.substring(0, 200))
       .replace(/<.*?>/g, '')
       .trim()

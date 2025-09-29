@@ -18,7 +18,7 @@ import { RootState } from '../store/reducers'
 import {
   Feed
 } from '../store/feeds/types'
-import { getItemsSync, inflateItem } from '@/storage/sqlite'
+import { getItemsSync } from '@/storage/'
 
 interface FeedExpandedProps {
   route: {

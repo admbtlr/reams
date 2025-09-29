@@ -55,17 +55,12 @@ export interface Item {
   _id: string
   blobId: string | undefined // fastmail newsletters
   content_length: number | undefined
-  coverImageUrl: string | undefined
   created_at: number
   decoration_failures?: number | undefined
   feed_id: string
   feed_title: string
   hasCoverImage?: boolean | undefined
   hasShownMercury?: boolean | undefined
-  imageDimensions?: {
-    width: number
-    height: number
-  }
   isAnalysed?: boolean | undefined
   isDecorated?: boolean | undefined
   isExternal?: boolean | undefined
@@ -92,11 +87,15 @@ export interface ItemInflated extends Item {
   author?: string
   content_html?: string
   content_mercury?: string
-  date_published?: string
+  coverImageUrl: string | undefined
   excerpt?: string
   faceCentreNormalised?: {
     x: number
     y: number
+  }
+  imageDimensions?: {
+    width: number
+    height: number
   }
   readingTime?: number
   styles: ItemStyles
@@ -107,7 +106,6 @@ export interface MercuryStuff {
   message?: string
   author?: string
   content?: string
-  date_published?: string
   domain?: string
   excerpt?: string
   lead_image_url?: string

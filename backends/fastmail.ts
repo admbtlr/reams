@@ -196,7 +196,6 @@ const mapFastmailItemToRizzleItem = (item: FastmailItem) => {
     author: item.from[0]?.name,
     created_at: new Date(item.receivedAt).getTime(),
     date_modified: new Date(item.receivedAt).getTime(),
-    date_published: new Date(item.receivedAt).getTime(),
     feed_title: item.from[0].name,
     feed_id: item.headers.find(header => header.name === 'List-Id')?.value ||
       item.headers.find(header => header.name === 'X-EmailOctopus-List-Id')?.value ||

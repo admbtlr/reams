@@ -11,7 +11,6 @@ interface Row {
   _id: string;
   content_html: string | undefined;
   author: string | undefined;
-  date_published: string | undefined;
   content_mercury: string | undefined;
   decoration_failures: number | undefined;
   excerpt: string | undefined;
@@ -27,11 +26,11 @@ interface ItemsDB extends DBSchema {
   }
 }
 
-function rowToItem (row: Row) {
+function rowToItem(row: Row) {
   let styles
   try {
     styles = JSON.parse(row.styles)
-  } catch(e) {
+  } catch (e) {
     console.error(e)
   }
   return {
@@ -39,7 +38,6 @@ function rowToItem (row: Row) {
     _id: row._id,
     content_html: row.content_html,
     author: row.author,
-    date_published: row.date_published,
     content_mercury: row.content_mercury,
     decoration_failures: row.decoration_failures,
     excerpt: row.excerpt,
@@ -49,13 +47,12 @@ function rowToItem (row: Row) {
   }
 }
 
-function itemToRow (item: ItemInflated) {
+function itemToRow(item: ItemInflated) {
   const row = {
     id: item.id,
     _id: item._id,
     content_html: item.content_html,
     author: item.author,
-    date_published: item.date_published,
     content_mercury: item.content_mercury,
     decoration_failures: item.decoration_failures,
     excerpt: item.excerpt,
@@ -64,14 +61,14 @@ function itemToRow (item: ItemInflated) {
     styles: JSON.stringify(item.styles)
   }
   Object.keys(row).forEach((key: string) => {
-    if (row[key] === undefined) {
-      delete row[key]
+    if ((row as any)[key] === undefined) {
+      delete (row as any)[key]
     }
   })
   return row
 }
 
-async function openStore () {
+async function openStore() {
   try {
     const store = await openDB<ItemsDB>('items', 1, {
       upgrade(db) {
@@ -79,16 +76,16 @@ async function openStore () {
           keyPath: '_id'
         })
       },
-      blocked () {
+      blocked() {
         console.log('blocked')
       },
-      blocking () {
+      blocking() {
         console.log('blocking')
       },
-      terminated () {
+      terminated() {
         console.log('terminated')
       }
-    })  
+    })
     return store
   } catch (err) {
     log('openStore', err)
@@ -96,7 +93,11 @@ async function openStore () {
   }
 }
 
-export async function getItems (keys: (string | {_id: string})[]): Promise<ItemInflated[] | undefined> {
+export function doDataMigration(migration: number, params: {}[]) {
+  // to do
+}
+
+export async function getItems(keys: (string | { _id: string })[]): Promise<ItemInflated[] | undefined> {
   if (typeof keys[0] === 'object') {
     keys = keys.map(item => typeof item === 'object' ? item._id : item)
   }
@@ -110,7 +111,7 @@ export async function getItems (keys: (string | {_id: string})[]): Promise<ItemI
   }
 }
 
-export async function getItem (item: Item): Promise<ItemInflated | undefined> {
+export async function getItem(item: Item): Promise<ItemInflated | undefined> {
   let items
   try {
     items = await getItems([item])
@@ -119,12 +120,12 @@ export async function getItem (item: Item): Promise<ItemInflated | undefined> {
   }
   return items === undefined ? items : items[0]
 }
-    
-export async function setItem (item: Item) {
+
+export async function setItem(item: Item) {
 
 }
 
-export async function updateItem (item: ItemInflated) {
+export async function updateItem(item: ItemInflated) {
   try {
     const db = await openStore()
     const records = await getItems([item])
@@ -134,8 +135,8 @@ export async function updateItem (item: ItemInflated) {
     const record = records[0]
     const keys = Object.keys(record)
     keys.forEach((key: string) => {
-      if (record[key] !== item[key] && item[key] !== undefined) {
-        record[key] = item[key]
+      if ((record as any)[key] !== (item as any)[key] && (item as any)[key] !== undefined) {
+        (record as any)[key] = (item as any)[key]
       }
     })
     await db.put('items', itemToRow(record))
@@ -144,7 +145,7 @@ export async function updateItem (item: ItemInflated) {
   }
 }
 
-export async function updateItems (items: ItemInflated[]) {
+export async function updateItems(items: ItemInflated[]) {
   for (var item of items) {
     try {
       await updateItem(item)
@@ -156,7 +157,7 @@ export async function updateItems (items: ItemInflated[]) {
   return true
 }
 
-export async function setItems (items: ItemInflated[]) {
+export async function setItems(items: ItemInflated[]) {
   try {
     const db = await openStore()
     for (var item of items) {
@@ -168,7 +169,7 @@ export async function setItems (items: ItemInflated[]) {
   }
 }
 
-export async function deleteItem (key: string) {
+export async function deleteItem(key: string) {
   try {
     const db = await openStore()
     await db.delete('items', key)
@@ -177,7 +178,7 @@ export async function deleteItem (key: string) {
   }
 }
 
-export async function deleteItems (items: Item[]) {
+export async function deleteItems(items: Item[]) {
   for (var item in items) {
     try {
       await deleteItem(item)
@@ -187,7 +188,7 @@ export async function deleteItems (items: Item[]) {
   }
 }
 
-export async function clearItems (keys: string[]) {
+export async function clearItems(keys: string[]) {
   try {
     const db = await openStore()
     await db.clear('items')

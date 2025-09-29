@@ -188,7 +188,7 @@ const ItemListItem = ({ currentItem, feed, item, index, scrollRef }: ItemListIte
               fontFamily: 'IBMPlexSans',
               flex: 1,
               flexWrap: 'wrap',
-            }}>{item.author && `${item.author} • `}{item.date_published && new Date(item.date_published).toLocaleDateString()}</Text>
+            }}>{item.author && `${item.author} • `}{item.created_at && new Date(item.created_at).toLocaleDateString()}</Text>
           </View>
         </View>
       </View>

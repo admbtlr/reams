@@ -6,6 +6,7 @@ import {
   MARK_ITEMS_READ,
   REMOVE_ITEMS
 } from '../store/items/types'
+import { getItem as getStoredItem } from '@/storage'
 import { getReadItemsFS } from '../storage/firestore'
 
 import { getItem, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems, getIndex } from './selectors'
@@ -20,11 +21,16 @@ export function* markPreviousItemReadIfDecorated(action) {
   }
   const item = yield select(getItem, action.previousItemId, ItemType.unread)
   if (!item) return
-  if (!item.isDecorated &&
-    (item.decoration_failures === undefined || item.decoration_failures < MAX_DECORATION_FAILURES)) {
+
+  let itemInflated
+  itemInflated = yield call(getStoredItem, item)
+  const wholeItem = { ...item, ...itemInflated }
+
+  if (!wholeItem.isDecorated &&
+    (wholeItem.decoration_failures === undefined || wholeItem.decoration_failures < MAX_DECORATION_FAILURES)) {
     return
   }
-  if (!!item.isKeepUnread) {
+  if (!!wholeItem.isKeepUnread) {
     return
   }
   yield call(InteractionManager.runAfterInteractions)
@@ -36,7 +42,7 @@ export function* markPreviousItemReadIfDecorated(action) {
       title: item.title,
       id: item.id,
       url: item.url,
-      isNewsletter: item.isNewsletter
+      isNewsletter: wholeItem.isNewsletter
     }
   })
 }
