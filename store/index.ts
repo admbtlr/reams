@@ -1,5 +1,4 @@
 import { AsyncThunk, AsyncThunkPayloadCreator, Dispatch, EnhancedStore, configureStore } from '@reduxjs/toolkit'
-import createSagaMiddleware from 'redux-saga'
 import makeRootReducer, { RootState } from './reducers'
 import FilesystemStorage from 'redux-persist-filesystem-storage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -21,6 +20,9 @@ import { downloadsListenerMiddleware } from './listenerMiddleware'
 import devToolsEnhancer from 'redux-devtools-expo-dev-plugin'
 import { getStyle } from 'react-native-svg/lib/typescript/xml'
 import { getStoredState } from 'redux-persist/es/integration/getStoredStateMigrateV4'
+
+// https://github.com/redux-saga/redux-saga/issues/2709#issuecomment-2847140992
+const createSagaMiddleware = require('redux-saga').default
 
 let store: EnhancedStore | undefined = undefined
 let persistor: any = null

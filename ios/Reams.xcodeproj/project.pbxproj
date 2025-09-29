@@ -10,11 +10,7 @@
 		0914F37506D043FE89426E0F /* Reforma2018-BlancaItalica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D94456ED9F9C4BA7B312B1AF /* Reforma2018-BlancaItalica.ttf */; };
 		0A318D5E3DC347B8A70ED4DF /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC2FB0C9E904B1DA4378E1F /* Montserrat-Bold.ttf */; };
 		0A55833D9E8E4D9D92233A01 /* Reforma2018-Negra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC73A304BA1D4B93B8392D31 /* Reforma2018-Negra.ttf */; };
-		0D12A5D1410C70BF112FAB9B /* libPods-Reams Share2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DD06817940E3CDE7D0AEC0B /* libPods-Reams Share2.a */; };
-		0DD1634FB43D3A7E07C669A2 /* libPods-Reams.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE65D910590F280939486A5C /* libPods-Reams.a */; };
 		0FC2DDFA561E4E2C80E8E445 /* IBMPlexSansCond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F9C2F335D3D4AB3AD066690 /* IBMPlexSansCond.ttf */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		165F6C9F0D804EC790DC575E /* LibreBaskerville-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 823005F4E98141A58D61C4FD /* LibreBaskerville-Regular.ttf */; };
 		17E475145E6F4DB1A5140583 /* PlayfairDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30A12608F8894744820DBBB1 /* PlayfairDisplay-Regular.ttf */; };
 		1F3AFD1477774196851518C5 /* IBMPlexMono-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FBC8104B4E442A5B9FB054E /* IBMPlexMono-Light.ttf */; };
@@ -27,7 +23,6 @@
 		3879B63A958B4889A3DC58BD /* PlayfairDisplay-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A2059FC4694405B58CB023 /* PlayfairDisplay-Black.ttf */; };
 		3AEE388B45774C609A91ED85 /* IBMPlexSerif-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CE22BA4C5E9485ABF1718A0 /* IBMPlexSerif-Bold.ttf */; };
 		3D2EDB18D87743138E3C759A /* IBMPlexMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */; };
-		3D427D9BD8F88760988409EC /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A611DA766F9B0A5A5987B58B /* ExpoModulesProvider.swift */; };
 		45852DA026DE45819C2E6132 /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */; };
 		4AAA5F17F45748E2A58AD461 /* Reforma1969-BlancaItalica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82670BFB43334FC78C942FD6 /* Reforma1969-BlancaItalica.ttf */; };
 		5FF246E7404C4B1E893221EF /* IBMPlexSansCond-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F15F6A3A215A44BFA389AA06 /* IBMPlexSansCond-ExtraLight.ttf */; };
@@ -71,6 +66,7 @@
 		85171AA6C41749D98A737233 /* IBMPlexSerif-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E30329B12BD74B64ADFE7CB7 /* IBMPlexSerif-Light.ttf */; };
 		860615272CBA435FAA16F53E /* IBMPlexSansCond-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EFC7C78A6AC4E7F85713A83 /* IBMPlexSansCond-ExtraLightItalic.ttf */; };
 		8A62A54B0C4A4706906F114F /* Reforma1969-NegraItalica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56BCE9D293BD4191BB0E29A8 /* Reforma1969-NegraItalica.ttf */; };
+		8E797D04A70E900D2C42C309 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772ACCE932D675F27D6BB5AE /* ExpoModulesProvider.swift */; };
 		95B2E1EC57184AC288AE9F32 /* LibreBaskerville-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E3494F4F2894804ADE2C868 /* LibreBaskerville-Bold.ttf */; };
 		95BCA1ECFF20475CBE49AD69 /* IBMPlexSerif-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF48A00DF3FF432DA8BAB77F /* IBMPlexSerif-LightItalic.ttf */; };
 		95C2AD6B406B45DEBC897EA6 /* Reforma2018-Blanca.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94C9ECF42B5D423BA433EE44 /* Reforma2018-Blanca.ttf */; };
@@ -80,16 +76,19 @@
 		9959FEFBA8B64C37A69ED763 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2A58A1A800A4EFC8940698A /* Poppins-Italic.ttf */; };
 		999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A4E7B3216F441182F2D8AC /* libz.tbd */; };
 		9B29B4BC3A004A7489FE2344 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */; };
+		A191EC347F59CAA0F3A9A2AE /* libPods-Reams Share2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02AF5C33086D96EF171070B7 /* libPods-Reams Share2.a */; };
 		A942CCF1BEBD4BE085ED99E5 /* Reforma1969-Negra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4CFB86F834BA4FA1AC2D791F /* Reforma1969-Negra.ttf */; };
-		ABEE5A8402125CB1281EC990 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B763FC7144975E602D506EE /* ExpoModulesProvider.swift */; };
+		AB472B53803D5C6DBF3AEE4A /* libPods-Reams.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CE1A6EA35B6B21899D3595 /* libPods-Reams.a */; };
 		AD8EAC493E5347248406C346 /* IBMPlexMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A52A25ECE9284C6BB3598823 /* IBMPlexMono-LightItalic.ttf */; };
 		BEE8067138D948F88BB81DFA /* IBMPlexSansCond-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD3A2A9B12004B5495F86308 /* IBMPlexSansCond-BoldItalic.ttf */; };
 		C102E7B205024F1D94EE06FC /* IBMPlexSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */; };
 		C9AC296CCECC464AA04DAFC2 /* Reforma1969-Blanca.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F787B1F82AF4298A9FC50FE /* Reforma1969-Blanca.ttf */; };
 		CA950E66A737450B801A5604 /* LibreBaskerville-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6510B8E2ED0459A9D932B12 /* LibreBaskerville-Italic.ttf */; };
 		CCC549379A404E4784782CCA /* PTSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4482C6F8B594E3C9283CAF1 /* PTSerif-Italic.ttf */; };
+		E0D59535D819A6BE494209FA /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426B95F9E2A3E8CAA5685160 /* ExpoModulesProvider.swift */; };
 		EA14D3AC6EF74834BD9F374B /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97E5394F826B4A158A48E0BA /* Poppins-ExtraBold.ttf */; };
 		ED0C08A8085C4B4BA57149A6 /* IBMPlexSansCond-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85B493DBBCA44DE5918CB569 /* IBMPlexSansCond-Bold.ttf */; };
+		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 		F2E6111401F945D1A0E5D590 /* PlayfairDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */; };
 		FD144E0E7400439BA962AAEE /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */; };
 		FF0226A698404963886B7CB1 /* PlayfairDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47ADD74982BD43CD980B27AA /* PlayfairDisplay-Bold.ttf */; };
@@ -135,7 +134,9 @@
 
 /* Begin PBXFileReference section */
 		010B669A51A04C69A27F7271 /* PlayfairDisplaySC-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplaySC-Bold.ttf"; path = "../assets/fonts/PlayfairDisplaySC-Bold.ttf"; sourceTree = "<group>"; };
+		01CE1A6EA35B6B21899D3595 /* libPods-Reams.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		021E5CBE69A94E3590CA1E3B /* IBMPlexSerif-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Regular.ttf"; path = "../assets/fonts/IBMPlexSerif-Regular.ttf"; sourceTree = "<group>"; };
+		02AF5C33086D96EF171070B7 /* libPods-Reams Share2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams Share2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06F5F314CAEB4FF99200CCB4 /* IBMPlexSerif-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Italic.ttf"; path = "../assets/fonts/IBMPlexSerif-Italic.ttf"; sourceTree = "<group>"; };
 		073EBD75FE694B5ABE60ECA9 /* PlayfairDisplay-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Italic.ttf"; path = "../assets/fonts/PlayfairDisplay-Italic.ttf"; sourceTree = "<group>"; };
 		08245B2253D44286A4B4DD40 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
@@ -143,20 +144,16 @@
 		0F6EEEC401334B5AAECD02EF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		11CD500228D549F8B770CE5F /* libRNTextSize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextSize.a; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Reams.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reams.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = rizzle/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = rizzle/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rizzle/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rizzle/main.m; sourceTree = "<group>"; };
-		1428D3B7946EA40F62B927AC /* Pods-Reams Share2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams Share2.debug.xcconfig"; path = "Target Support Files/Pods-Reams Share2/Pods-Reams Share2.debug.xcconfig"; sourceTree = "<group>"; };
 		1C30A8E345C045BEB9F37E52 /* libRNSKBucket.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSKBucket.a; sourceTree = "<group>"; };
+		1FF2939BC85140B17B882912 /* Pods-Reams Share2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams Share2.release.xcconfig"; path = "Target Support Files/Pods-Reams Share2/Pods-Reams Share2.release.xcconfig"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D1D034C72594500896EBF90 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Regular.ttf"; path = "../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
 		30A12608F8894744820DBBB1 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-Regular.ttf"; path = "../assets/fonts/PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
-		3B5194F5FDB958FE98DB0F45 /* Pods-Reams.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.debug.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.debug.xcconfig"; sourceTree = "<group>"; };
 		3B66459C39B34EE98B6CC67F /* IBMPlexMono-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Bold.ttf"; path = "../assets/fonts/IBMPlexMono-Bold.ttf"; sourceTree = "<group>"; };
-		3B763FC7144975E602D506EE /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Reams Share2/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		3E3494F4F2894804ADE2C868 /* LibreBaskerville-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LibreBaskerville-Bold.ttf"; path = "../assets/fonts/LibreBaskerville-Bold.ttf"; sourceTree = "<group>"; };
 		3F9C2F335D3D4AB3AD066690 /* IBMPlexSansCond.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = IBMPlexSansCond.ttf; path = ../assets/fonts/IBMPlexSansCond.ttf; sourceTree = "<group>"; };
+		426B95F9E2A3E8CAA5685160 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Reams Share2/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		43E02F89082E4739AB0CC9AB /* IBMPlexSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Light.ttf"; path = "../assets/fonts/IBMPlexSans-Light.ttf"; sourceTree = "<group>"; };
 		43F2898DC4634206B445CDE8 /* PTSerif-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSerif-Regular.ttf"; path = "../assets/fonts/PTSerif-Regular.ttf"; sourceTree = "<group>"; };
 		46A6699A3AC4431BA53E862E /* Eczar-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Eczar-ExtraBold.ttf"; path = "../assets/fonts/Eczar-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -205,10 +202,11 @@
 		66BD764B72AE4B25A054E1FC /* PTSerif-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PTSerif-BoldItalic.ttf"; path = "../assets/fonts/PTSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
 		66F761A62BEA56A8006FF940 /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
 		6AED60936BF8443AB5272FC5 /* IBMPlexSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		74E94EA6CEC5DA36ECD16321 /* Pods-Reams.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.release.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.release.xcconfig"; sourceTree = "<group>"; };
+		772ACCE932D675F27D6BB5AE /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Reams/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		78D2BA048E8A4D53940A372C /* Arvo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Regular.ttf"; path = "../assets/fonts/Arvo-Regular.ttf"; sourceTree = "<group>"; };
 		790F17FBE061470490FC8FB8 /* BioRhyme-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BioRhyme-Regular.ttf"; path = "../assets/fonts/BioRhyme-Regular.ttf"; sourceTree = "<group>"; };
 		7A19FFC3D30464986EA54AC2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = rizzle/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		7A4F1C8C878000436299BF46 /* Pods-Reams Share2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams Share2.release.xcconfig"; path = "Target Support Files/Pods-Reams Share2/Pods-Reams Share2.release.xcconfig"; sourceTree = "<group>"; };
 		7AABBDC5CB6242DCA1F20FA4 /* IBMPlexSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Regular.ttf"; path = "../assets/fonts/IBMPlexSans-Regular.ttf"; sourceTree = "<group>"; };
 		7CE22BA4C5E9485ABF1718A0 /* IBMPlexSerif-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Bold.ttf"; path = "../assets/fonts/IBMPlexSerif-Bold.ttf"; sourceTree = "<group>"; };
 		7F787B1F82AF4298A9FC50FE /* Reforma1969-Blanca.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Reforma1969-Blanca.ttf"; path = "../assets/fonts/Reforma1969-Blanca.ttf"; sourceTree = "<group>"; };
@@ -218,10 +216,8 @@
 		8463AC662A634CF786B76B2A /* BioRhyme-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BioRhyme-ExtraBold.ttf"; path = "../assets/fonts/BioRhyme-ExtraBold.ttf"; sourceTree = "<group>"; };
 		85B493DBBCA44DE5918CB569 /* IBMPlexSansCond-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCond-Bold.ttf"; path = "../assets/fonts/IBMPlexSansCond-Bold.ttf"; sourceTree = "<group>"; };
 		8A29FE8B9F174E7EA2D65F2D /* Reforma2018-NegraItalica.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Reforma2018-NegraItalica.ttf"; path = "../assets/fonts/Reforma2018-NegraItalica.ttf"; sourceTree = "<group>"; };
-		8DD06817940E3CDE7D0AEC0B /* libPods-Reams Share2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams Share2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90D8A9F93BFD42328D7509E8 /* libOnePassword.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libOnePassword.a; sourceTree = "<group>"; };
 		930C4464DBC241C1BCBEFEC2 /* IBMPlexSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		94B63CDA2CAD4F9B975E4C38 /* Pods-Reams.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.release.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.release.xcconfig"; sourceTree = "<group>"; };
 		94C9ECF42B5D423BA433EE44 /* Reforma2018-Blanca.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Reforma2018-Blanca.ttf"; path = "../assets/fonts/Reforma2018-Blanca.ttf"; sourceTree = "<group>"; };
 		96B21CFF52F64D6083190F1E /* PlayfairDisplay-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplay-BoldItalic.ttf"; path = "../assets/fonts/PlayfairDisplay-BoldItalic.ttf"; sourceTree = "<group>"; };
 		97E5394F826B4A158A48E0BA /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -233,7 +229,6 @@
 		A2CCE64A198C460AB8A514F6 /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
 		A4065DB606644713A4246FC7 /* fonts.css */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = fonts.css; path = ../assets/fonts/fonts.css; sourceTree = "<group>"; };
 		A52A25ECE9284C6BB3598823 /* IBMPlexMono-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-LightItalic.ttf"; path = "../assets/fonts/IBMPlexMono-LightItalic.ttf"; sourceTree = "<group>"; };
-		A611DA766F9B0A5A5987B58B /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Reams/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AC6EDBC636954E61860CBE72 /* IBMPlexMono-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexMono-BoldItalic.ttf"; sourceTree = "<group>"; };
 		AC73A304BA1D4B93B8392D31 /* Reforma2018-Negra.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Reforma2018-Negra.ttf"; path = "../assets/fonts/Reforma2018-Negra.ttf"; sourceTree = "<group>"; };
 		ACBCB64F7E5E496FB5A8D863 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.ttf"; path = "../assets/fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
@@ -245,17 +240,20 @@
 		C1327B1D4C21489FBBCC6D7A /* Arvo-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arvo-Italic.ttf"; path = "../assets/fonts/Arvo-Italic.ttf"; sourceTree = "<group>"; };
 		C5AFA546AE564F3CA9C80D67 /* Eczar-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Eczar-Regular.ttf"; path = "../assets/fonts/Eczar-Regular.ttf"; sourceTree = "<group>"; };
 		C6510B8E2ED0459A9D932B12 /* LibreBaskerville-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LibreBaskerville-Italic.ttf"; path = "../assets/fonts/LibreBaskerville-Italic.ttf"; sourceTree = "<group>"; };
+		CBCB9D02142495A899531A72 /* Pods-Reams.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams.debug.xcconfig"; path = "Target Support Files/Pods-Reams/Pods-Reams.debug.xcconfig"; sourceTree = "<group>"; };
 		CD3A2A9B12004B5495F86308 /* IBMPlexSansCond-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCond-BoldItalic.ttf"; path = "../assets/fonts/IBMPlexSansCond-BoldItalic.ttf"; sourceTree = "<group>"; };
 		D8750C98ED0C4A18B4ADA801 /* IBMPlexSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Italic.ttf"; path = "../assets/fonts/IBMPlexSans-Italic.ttf"; sourceTree = "<group>"; };
 		D94456ED9F9C4BA7B312B1AF /* Reforma2018-BlancaItalica.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Reforma2018-BlancaItalica.ttf"; path = "../assets/fonts/Reforma2018-BlancaItalica.ttf"; sourceTree = "<group>"; };
+		DB46564508FD3F033FCFF5C0 /* Pods-Reams Share2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reams Share2.debug.xcconfig"; path = "Target Support Files/Pods-Reams Share2/Pods-Reams Share2.debug.xcconfig"; sourceTree = "<group>"; };
 		DEAE4CD40F9748418924D42E /* libRNReactNativeSharedGroupPreferences.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeSharedGroupPreferences.a; sourceTree = "<group>"; };
 		E30329B12BD74B64ADFE7CB7 /* IBMPlexSerif-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-Light.ttf"; path = "../assets/fonts/IBMPlexSerif-Light.ttf"; sourceTree = "<group>"; };
 		E38C85D741A44D3DA2F09A25 /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
 		E6A944200C054FE7A5F26C7D /* PlayfairDisplaySC-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PlayfairDisplaySC-BoldItalic.ttf"; path = "../assets/fonts/PlayfairDisplaySC-BoldItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		EE65D910590F280939486A5C /* libPods-Reams.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Reams.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF48A00DF3FF432DA8BAB77F /* IBMPlexSerif-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSerif-LightItalic.ttf"; path = "../assets/fonts/IBMPlexSerif-LightItalic.ttf"; sourceTree = "<group>"; };
 		EF696CF914ED4646AE79580C /* libRNMeasureText.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMeasureText.a; sourceTree = "<group>"; };
+		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = rizzle/AppDelegate.swift; sourceTree = "<group>"; };
+		F11748442D0722820044C1D9 /* Reams-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Reams-Bridging-Header.h"; path = "rizzle/Reams-Bridging-Header.h"; sourceTree = "<group>"; };
 		F15F6A3A215A44BFA389AA06 /* IBMPlexSansCond-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSansCond-ExtraLight.ttf"; path = "../assets/fonts/IBMPlexSansCond-ExtraLight.ttf"; sourceTree = "<group>"; };
 		F906B9E8B6C84E7E935D6DC0 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexSans-Bold.ttf"; path = "../assets/fonts/IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
 		FE500C58F03B4E759CEEF985 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
@@ -269,15 +267,15 @@
 			files = (
 				6679DB902DCA6F0E009FFD5A /* StoreKit.framework in Frameworks */,
 				999ECC739EBC41E3A401B8D8 /* libz.tbd in Frameworks */,
-				0DD1634FB43D3A7E07C669A2 /* libPods-Reams.a in Frameworks */,
+				AB472B53803D5C6DBF3AEE4A /* libPods-Reams.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6655FBF02BEA4BA300E8A4EF /* Frameworks */ = {
+		534EE0A55DC9F4785D3A9A26 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D12A5D1410C70BF112FAB9B /* libPods-Reams Share2.a in Frameworks */,
+				A191EC347F59CAA0F3A9A2AE /* libPods-Reams Share2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,18 +285,25 @@
 		13B07FAE1A68108700A75B9A /* Reams */ = {
 			isa = PBXGroup;
 			children = (
+				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
+				F11748442D0722820044C1D9 /* Reams-Bridging-Header.h */,
 				66737812204314A900572989 /* rizzle.entitlements */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				6673DB452D46A5BB00E603CD /* SplashScreen.storyboard */,
-				13B07FB71A68108700A75B9A /* main.m */,
 				664B4B271FAB59A9006C6DF9 /* webview */,
 				668CE9EC2158BE6A00CA3EDF /* icons.xcassets */,
 				66ADA0FB2527172B0021BE0F /* Reams-Bridging-Header.h */,
 				7A19FFC3D30464986EA54AC2 /* PrivacyInfo.xcprivacy */,
 			);
 			name = Reams;
+			sourceTree = "<group>";
+		};
+		14F9D1BFF8C5E2CA780337B8 /* Reams Share2 */ = {
+			isa = PBXGroup;
+			children = (
+				426B95F9E2A3E8CAA5685160 /* ExpoModulesProvider.swift */,
+			);
+			name = "Reams Share2";
 			sourceTree = "<group>";
 		};
 		2C43049EDC2C47639C4475E6 /* Resources */ = {
@@ -389,35 +394,10 @@
 				6679DB8F2DCA6F0E009FFD5A /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				EE65D910590F280939486A5C /* libPods-Reams.a */,
-				8DD06817940E3CDE7D0AEC0B /* libPods-Reams Share2.a */,
+				01CE1A6EA35B6B21899D3595 /* libPods-Reams.a */,
+				02AF5C33086D96EF171070B7 /* libPods-Reams Share2.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		3B3D5E2793399258C8ABEDC2 /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				41A8BDE96D778B05398892FB /* Reams */,
-				4C917832AD6E61AD4BA3A46C /* Reams Share2 */,
-			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
-		41A8BDE96D778B05398892FB /* Reams */ = {
-			isa = PBXGroup;
-			children = (
-				A611DA766F9B0A5A5987B58B /* ExpoModulesProvider.swift */,
-			);
-			name = Reams;
-			sourceTree = "<group>";
-		};
-		4C917832AD6E61AD4BA3A46C /* Reams Share2 */ = {
-			isa = PBXGroup;
-			children = (
-				3B763FC7144975E602D506EE /* ExpoModulesProvider.swift */,
-			);
-			name = "Reams Share2";
 			sourceTree = "<group>";
 		};
 		6655FBF42BEA4BA300E8A4EF /* Reams Share2 */ = {
@@ -495,8 +475,8 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				6687CA3C1F9FA05E0011FBE3 /* Recovered References */,
 				2C43049EDC2C47639C4475E6 /* Resources */,
-				AA0FE21719FC6FD686C85175 /* Pods */,
-				3B3D5E2793399258C8ABEDC2 /* ExpoModulesProviders */,
+				A78BAE1D8388E97A74C13DA4 /* Pods */,
+				F0A9DACB68C0155D9C665C9B /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -512,15 +492,33 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AA0FE21719FC6FD686C85175 /* Pods */ = {
+		A78BAE1D8388E97A74C13DA4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B5194F5FDB958FE98DB0F45 /* Pods-Reams.debug.xcconfig */,
-				94B63CDA2CAD4F9B975E4C38 /* Pods-Reams.release.xcconfig */,
-				1428D3B7946EA40F62B927AC /* Pods-Reams Share2.debug.xcconfig */,
-				7A4F1C8C878000436299BF46 /* Pods-Reams Share2.release.xcconfig */,
+				CBCB9D02142495A899531A72 /* Pods-Reams.debug.xcconfig */,
+				74E94EA6CEC5DA36ECD16321 /* Pods-Reams.release.xcconfig */,
+				DB46564508FD3F033FCFF5C0 /* Pods-Reams Share2.debug.xcconfig */,
+				1FF2939BC85140B17B882912 /* Pods-Reams Share2.release.xcconfig */,
 			);
+			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		AF33222F713F579C27BCB5A3 /* Reams */ = {
+			isa = PBXGroup;
+			children = (
+				772ACCE932D675F27D6BB5AE /* ExpoModulesProvider.swift */,
+			);
+			name = Reams;
+			sourceTree = "<group>";
+		};
+		F0A9DACB68C0155D9C665C9B /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				AF33222F713F579C27BCB5A3 /* Reams */,
+				14F9D1BFF8C5E2CA780337B8 /* Reams Share2 */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -530,7 +528,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Reams" */;
 			buildPhases = (
-				2535AF2C8C03DAF3D663F4DD /* [CP] Check Pods Manifest.lock */,
+				EA6F3F4D09A5A63D2CDAFA99 /* [CP] Check Pods Manifest.lock */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				96A1B6994F7C32C618118E35 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -538,8 +536,8 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				66E383BB1FC2C99F00B536D5 /* Embed App Extensions */,
 				4406A330C80C49ACAFA7A94F /* Upload Debug Symbols to Sentry */,
-				64ED1EB6DB3811FA97D5DD06 /* [CP] Embed Pods Frameworks */,
-				2BD7CAA5F05B92815C29C356 /* [CP] Copy Pods Resources */,
+				F76CF1E5951808068658B700 /* [CP] Embed Pods Frameworks */,
+				607FCB26F2F180C87AA1FEAF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -547,7 +545,7 @@
 				6655FBFC2BEA4BA300E8A4EF /* PBXTargetDependency */,
 			);
 			name = Reams;
-			productName = "Hello World";
+			productName = Reams;
 			productReference = 13B07F961A680F5B00A75B9A /* Reams.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -555,13 +553,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6655FBFE2BEA4BA300E8A4EF /* Build configuration list for PBXNativeTarget "Reams Share2" */;
 			buildPhases = (
-				188C66C74F7867496714C246 /* [CP] Check Pods Manifest.lock */,
+				DE1BD52BC4AD9303DF59EFBB /* [CP] Check Pods Manifest.lock */,
 				3CFECB89B1614765C4CE4143 /* [Expo] Configure project */,
 				6655FBEF2BEA4BA300E8A4EF /* Sources */,
-				6655FBF02BEA4BA300E8A4EF /* Frameworks */,
 				6655FBF12BEA4BA300E8A4EF /* Resources */,
 				66F761A82BEA5771006FF940 /* Bundle React Native code and images */,
-				9BD64F53E0151FD3474A963A /* [CP] Copy Pods Resources */,
+				534EE0A55DC9F4785D3A9A26 /* Frameworks */,
+				FADFEE3C21895BAC53AD78D4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -755,67 +753,6 @@
 			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n/bin/sh `\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode.sh'\"` `\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
 			showEnvVarsInLog = 0;
 		};
-		188C66C74F7867496714C246 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Reams Share2-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2535AF2C8C03DAF3D663F4DD /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Reams-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2BD7CAA5F05B92815C29C356 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3CFECB89B1614765C4CE4143 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -849,21 +786,21 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n\n../node_modules/@sentry/cli/bin/sentry-cli debug-files upload \"$DWARF_DSYM_FOLDER_PATH\"\n";
 		};
-		64ED1EB6DB3811FA97D5DD06 /* [CP] Embed Pods Frameworks */ = {
+		607FCB26F2F180C87AA1FEAF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		66F761A82BEA5771006FF940 /* Bundle React Native code and images */ = {
@@ -903,7 +840,68 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Reams/expo-configure-project.sh\"\n";
 		};
-		9BD64F53E0151FD3474A963A /* [CP] Copy Pods Resources */ = {
+		DE1BD52BC4AD9303DF59EFBB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Reams Share2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA6F3F4D09A5A63D2CDAFA99 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Reams-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F76CF1E5951808068658B700 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reams/Pods-Reams-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FADFEE3C21895BAC53AD78D4 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -927,9 +925,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				3D427D9BD8F88760988409EC /* ExpoModulesProvider.swift in Sources */,
+				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
+				8E797D04A70E900D2C42C309 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -939,7 +936,7 @@
 			files = (
 				66F761A72BEA56A8006FF940 /* ReactShareViewController.swift in Sources */,
 				6655FC032BEA4C9400E8A4EF /* ShareViewController.swift in Sources */,
-				ABEE5A8402125CB1281EC990 /* ExpoModulesProvider.swift in Sources */,
+				E0D59535D819A6BE494209FA /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,7 +972,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B5194F5FDB958FE98DB0F45 /* Pods-Reams.debug.xcconfig */;
+			baseConfigurationReference = CBCB9D02142495A899531A72 /* Pods-Reams.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1030,7 +1027,6 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Reams Dev";
-				SWIFT_OBJC_BRIDGING_HEADER = "Reams-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1040,7 +1036,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94B63CDA2CAD4F9B975E4C38 /* Pods-Reams.release.xcconfig */;
+			baseConfigurationReference = 74E94EA6CEC5DA36ECD16321 /* Pods-Reams.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1092,7 +1088,6 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Reams Dev";
-				SWIFT_OBJC_BRIDGING_HEADER = "Reams-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1101,7 +1096,7 @@
 		};
 		6655FBFF2BEA4BA300E8A4EF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1428D3B7946EA40F62B927AC /* Pods-Reams Share2.debug.xcconfig */;
+			baseConfigurationReference = DB46564508FD3F033FCFF5C0 /* Pods-Reams Share2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1157,7 +1152,7 @@
 		};
 		6655FC002BEA4BA300E8A4EF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A4F1C8C878000436299BF46 /* Pods-Reams Share2.release.xcconfig */;
+			baseConfigurationReference = 1FF2939BC85140B17B882912 /* Pods-Reams Share2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;

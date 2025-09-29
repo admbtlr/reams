@@ -79,13 +79,6 @@
       ]
     ],
     "jsEngine": "hermes",
-    "android": {
-      "package": "app.reams"
-    },
-    "ios": {
-      "bundleIdentifier": "com.adam-butler.rizzle",
-      "appleTeamId": "LQ43Q9L9MY"
-    },
     "web": {
       "output": "single",
       "bundler": "metro"
