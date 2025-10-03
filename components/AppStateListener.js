@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react'
-import {
-  AppState,
-  Platform
-} from 'react-native'
-import Clipboard from "@react-native-clipboard/clipboard"
+import { AppState, Platform } from 'react-native'
+import Clipboard from '@react-native-clipboard/clipboard'
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
 import { parseString } from 'react-native-xml2js'
 
@@ -44,44 +41,57 @@ class AppStateListener extends React.Component {
   async handleAppStateChange(nextAppState) {
     // console.log('NEXT APP STATE: ' + nextAppState)
     // console.log('PREV APP STATE: ' + this.props.appState)
-    if (this.props.appState.match(/inactive|background/) && nextAppState === 'active') {
+    if (
+      this.props.appState.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
       this.props.appWentActive()
 
       if (!this.props.isOnboarding) {
         await this.checkBuckets()
-        const lastUpdated = this.state?.lastUpdated && this.state.lastUpdated > this.props.lastUpdated ?
-          this.state.lastUdpated :
-          this.props.lastUpdated
+        const lastUpdated =
+          this.state?.lastUpdated &&
+          this.state.lastUpdated > this.props.lastUpdated
+            ? this.state.lastUdpated
+            : this.props.lastUpdated
         console.log(Date.now() - lastUpdated)
-        if (!global.isStarting && (Date.now() - lastUpdated > MINIMUM_UPDATE_INTERVAL)) {
+        if (
+          !global.isStarting &&
+          Date.now() - lastUpdated > MINIMUM_UPDATE_INTERVAL
+        ) {
           this.props.fetchData()
           this.setState({
-            lastUpdated: Date.now()
+            lastUpdated: Date.now(),
           })
         }
       }
-    } else if (this.props.appState.match(/active/) &&
-      (nextAppState === 'inactive' ||
-        nextAppState === 'background')) {
+    } else if (
+      this.props.appState.match(/active/) &&
+      (nextAppState === 'inactive' || nextAppState === 'background')
+    ) {
       this.props.appWentInactive()
     }
   }
 
   async checkClipboard() {
-    if (Platform.OS === 'web') return
+    if (Platform.OS === 'web' || Platform.OS === 'android') return
     // console.log('Checking clipboard')
     try {
       const hasUrl = await Clipboard.hasURL()
       if (!hasUrl) {
         return
       }
-      let contents = await Clipboard.getString() ?? ''
+      let contents = (await Clipboard.getString()) ?? ''
       // TODO make this more robust
       // right now we're ignoring any URLs that include 'rizzle.net'
       // this is due to links getting into clipboard during the email auth process
-      if (contents.substring(0, 4) === 'http' &&
-        contents.indexOf('rizzle.net') === -1) {
-        const alreadySaved = this.props.savedItems.find(item => item.url === contents)
+      if (
+        contents.substring(0, 4) === 'http' &&
+        contents.indexOf('rizzle.net') === -1
+      ) {
+        const alreadySaved = this.props.savedItems.find(
+          (item) => item.url === contents
+        )
         if (!alreadySaved) {
           this.showSavePageModal.call(this, contents, true)
         }
@@ -93,21 +103,19 @@ class AppStateListener extends React.Component {
   }
 
   async checkPageBucket() {
-    if (Platform.OS === 'web') return
+    if (Platform.OS === 'web' || Platform.OS === 'android') return
     try {
       const value = await SharedGroupPreferences.getItem('page', this.group)
       // console.log('CHECKING PAGE BUCKET: ' + value)
       if (value !== null && value !== 'null') {
         await SharedGroupPreferences.setItem('page', null, this.group)
         const parsed = JSON.parse(value)
-        const pages = typeof parsed === 'object' ?
-          parsed :
-          [parsed]
+        const pages = typeof parsed === 'object' ? parsed : [parsed]
         if (pages) {
           const that = this
           const savedItems = this.props.savedItems
-          pages.forEach(page => {
-            if (savedItems.find(item => item.url === page.url)) {
+          pages.forEach((page) => {
+            if (savedItems.find((item) => item.url === page.url)) {
               that.showAlreadySavedModal(page.url)
             } else {
               that.savePage(page)
@@ -130,32 +138,33 @@ class AppStateListener extends React.Component {
       modalText: [
         {
           text: 'Error Saving Article',
-          style: ['title']
+          style: ['title'],
         },
         {
           text: 'You’ve already saved this article:',
-          style: ['text']
+          style: ['text'],
         },
         {
           text: page.title || page.url || 'Unknown Article',
-          style: ['text']
+          style: ['text'],
         },
         {
           text: 'Saving it again is liable to make everything explode, so let’s just not do it, OK?',
-          style: ['text']
-        }
+          style: ['text'],
+        },
       ],
       modalHideCancel: true,
       modalShow: true,
-      modalOnOk: () => { }
+      modalOnOk: () => {},
     })
   }
 
   async checkFeedBucket() {
-    if (Platform.OS === 'web') return
+    if (Platform.OS === 'web' || Platform.OS === 'android') return
     try {
       const value = await SharedGroupPreferences.getItem('feed', this.group)
-      if (value !== null && value !== 'null') { // idk either
+      if (value !== null && value !== 'null') {
+        // idk either
         const url = value
         const that = this
         await SharedGroupPreferences.setItem('feed', null, this.group)
@@ -181,29 +190,37 @@ class AppStateListener extends React.Component {
               }
               let title, description
               if (result.rss) {
-                title = typeof result.rss.channel[0].title[0] === 'string' ?
-                  result.rss.channel[0].title[0] :
-                  result.rss.channel[0].title[0]._
-                description = result.rss.channel[0].description ?
-                  (typeof result.rss.channel[0].description[0] === 'string' ?
-                    result.rss.channel[0].description[0] :
-                    result.rss.channel[0].description[0]._) :
-                  ''
+                title =
+                  typeof result.rss.channel[0].title[0] === 'string'
+                    ? result.rss.channel[0].title[0]
+                    : result.rss.channel[0].title[0]._
+                description = result.rss.channel[0].description
+                  ? typeof result.rss.channel[0].description[0] === 'string'
+                    ? result.rss.channel[0].description[0]
+                    : result.rss.channel[0].description[0]._
+                  : ''
               } else if (result.feed) {
                 // atom
-                title = typeof result.feed.title[0] === 'string' ?
-                  result.feed.title[0] :
-                  result.feed.title[0]._
-                description = (result.feed.subtitle ?
-                  (typeof result.feed.subtitle[0] === 'string' ?
-                    result.feed.subtitle[0] :
-                    result.feed.subtitle[0]._) :
-                  '') || ''
+                title =
+                  typeof result.feed.title[0] === 'string'
+                    ? result.feed.title[0]
+                    : result.feed.title[0]._
+                description =
+                  (result.feed.subtitle
+                    ? typeof result.feed.subtitle[0] === 'string'
+                      ? result.feed.subtitle[0]
+                      : result.feed.subtitle[0]._
+                    : '') || ''
               }
-              this.showSaveFeedModal(url, title.trim(), description.trim(), that)
+              this.showSaveFeedModal(
+                url,
+                title.trim(),
+                description.trim(),
+                that
+              )
             })
           })
-          .catch(err => {
+          .catch((err) => {
             log('checkFeedBucket', err)
           })
       }
@@ -236,17 +253,17 @@ class AppStateListener extends React.Component {
     let modalText = [
       {
         text: 'Save this page?',
-        style: ['title']
+        style: ['title'],
       },
       {
         text: displayUrl,
-        style: ['em']
-      }
+        style: ['em'],
+      },
     ]
     if (isClipboard) {
       modalText.push({
         text: 'This URL was in your clipboard. Copying a URL is an easy way to save a page in Rizzle.',
-        style: ['hint']
+        style: ['hint'],
       })
     }
     const onOk = () => {
@@ -257,7 +274,7 @@ class AppStateListener extends React.Component {
       modalText,
       modalHideCancel: false,
       modalShow: true,
-      modalOnOk: onOk.bind(this)
+      modalOnOk: onOk.bind(this),
     })
   }
 
@@ -267,16 +284,16 @@ class AppStateListener extends React.Component {
       modalText: [
         {
           text: 'Add this feed?',
-          style: ['title']
+          style: ['title'],
         },
         {
           text: title,
-          style: ['em']
+          style: ['em'],
         },
         {
           text: description,
-          style: ['em', 'smaller']
-        }
+          style: ['em', 'smaller'],
+        },
       ],
       modalHideCancel: false,
       modalShow: true,
@@ -284,17 +301,15 @@ class AppStateListener extends React.Component {
         scope.props.addFeed({
           url,
           title,
-          description
+          description,
         })
         scope.props.fetchData()
-      }
+      },
     })
   }
 
   render() {
-    return <DarkModeListener>
-      {this.props.children}
-    </DarkModeListener>
+    return <DarkModeListener>{this.props.children}</DarkModeListener>
   }
 }
 
