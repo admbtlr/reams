@@ -77,6 +77,7 @@ const App = (): JSX.Element => {
       type: CLEAR_MESSAGES,
     })
   }, [])
+  const isLoggedIn = useSelector((state: RootState) => state.user.userId !== '')
 
   if (Platform.OS === 'web') {
     return (

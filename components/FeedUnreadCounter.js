@@ -46,4 +46,3 @@ class FeedUnreadCounter extends React.Component {
 }
 
 export default FeedUnreadCounter
-

@@ -1,12 +1,28 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useRef, useState } from 'react'
-import { Image, Keyboard, KeyboardAvoidingView, PixelRatio, Platform, Text, TextInput, View } from 'react-native'
+import {
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  PixelRatio,
+  Platform,
+  Text,
+  TextInput,
+  View,
+} from 'react-native'
 import { useSelector } from 'react-redux'
 import { useSession } from './AuthProvider'
 import { supabase } from '../storage/supabase'
 import { fontSizeMultiplier, getMargin } from '../utils/dimensions'
-import { opacitise, textInfoBoldStyle, textInfoStyle, textInputStyle } from '../utils/styles'
-import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication'
+import {
+  opacitise,
+  textInfoBoldStyle,
+  textInfoStyle,
+  textInputStyle,
+} from '../utils/styles'
+import appleAuth, {
+  AppleButton,
+} from '@invertase/react-native-apple-authentication'
 import TextButton from './TextButton'
 import { hslString } from '../utils/colors'
 import log from '../utils/log'
@@ -21,15 +37,15 @@ const Login = ({
   hideHeader,
   marginTop,
   backgroundColor,
-  focusCondition
+  focusCondition,
 }: {
-  inputRef: React.RefObject<TextInput>,
-  cta: string,
-  inputColor?: string,
-  textColor: string,
-  hideHeader: boolean | undefined,
-  marginTop: number | undefined,
-  backgroundColor: string | undefined,
+  inputRef: React.RefObject<TextInput>
+  cta: string
+  inputColor?: string
+  textColor: string
+  hideHeader: boolean | undefined
+  marginTop: number | undefined
+  backgroundColor: string | undefined
   focusCondition: boolean | undefined
 }) => {
   const navigation = useNavigation()
@@ -85,7 +101,7 @@ const Login = ({
       } catch (e) {
         console.log(e)
       } finally {
-        setIsSubmitting(false);
+        setIsSubmitting(false)
         if (result?.error) {
           console.log(result.error)
         }
@@ -100,11 +116,13 @@ const Login = ({
         requestedOperation: appleAuth.Operation.LOGIN,
         // Note: it appears putting FULL_NAME first is important, see issue #293
         requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-        nonce: 'apple'
+        nonce: 'apple',
       })
 
       // This method must be tested on a real device. On the iOS simulator it always throws an error.
-      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user)
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user
+      )
 
       // use credentialState response to ensure the user is authenticated
       if (credentialState === appleAuth.State.AUTHORIZED) {
@@ -133,32 +151,41 @@ const Login = ({
         marginBottom: 24 * fontSizeMultiplier(),
       }}
     >
-      <View style={{
-        flex: 1,
-        height: 1 / PixelRatio.get(),
-        backgroundColor: opacitise(textColor, 0.5)
-      }} />
-      <Text style={{
-        color: textColor,
-        fontSize: 16 * fontSizeMultiplier(),
-        fontFamily: 'IBMPlexSerif-Italic',
-        textAlign: 'center',
-        marginHorizontal: 12 * fontSizeMultiplier(),
-        marginBottom: 4,
-        padding: 0
-      }}>or</Text>
-      <View style={{
-        flex: 1,
-        height: 1 / PixelRatio.get(),
-        backgroundColor: opacitise(textColor, 0.5),
-      }} />
-    </View>)
+      <View
+        style={{
+          flex: 1,
+          height: 1 / PixelRatio.get(),
+          backgroundColor: opacitise(textColor, 0.5),
+        }}
+      />
+      <Text
+        style={{
+          color: textColor,
+          fontSize: 16 * fontSizeMultiplier(),
+          fontFamily: 'IBMPlexSerif-Italic',
+          textAlign: 'center',
+          marginHorizontal: 12 * fontSizeMultiplier(),
+          marginBottom: 4,
+          padding: 0,
+        }}
+      >
+        or
+      </Text>
+      <View
+        style={{
+          flex: 1,
+          height: 1 / PixelRatio.get(),
+          backgroundColor: opacitise(textColor, 0.5),
+        }}
+      />
+    </View>
+  )
 
   const textLargeStyle = {
     ...textInfoStyle(textColor),
     fontFamily: 'IBMPlexSerif-Light',
     fontWeight: 'light',
-    fontSize: 24 * fontSizeMultiplier()
+    fontSize: 24 * fontSizeMultiplier(),
   }
 
   return (
@@ -168,9 +195,9 @@ const Login = ({
         flex: 1,
         marginTop: marginTop || 0,
         paddingHorizontal: getMargin(),
-        paddingTop: hideHeader ?
-          10 * fontSizeMultiplier() : 0
-      }}>
+        paddingTop: hideHeader ? 10 * fontSizeMultiplier() : 0,
+      }}
+    >
       {hideHeader || (
         <Image
           source={require('../assets/images/ream.png')}
@@ -178,35 +205,47 @@ const Login = ({
             width: 128,
             height: 128,
             alignSelf: 'center',
-            margin: 32
+            margin: 32,
           }}
         />
       )}
-      <Text style={{
-        ...textLargeStyle,
-        textAlign: 'center',
-        marginBottom: 24 * fontSizeMultiplier(),
-      }}>{cta}</Text>
-      {session?.error ? (
-        <Text style={{
+      <Text
+        style={{
           ...textLargeStyle,
           textAlign: 'center',
-          marginBottom: 48 * fontSizeMultiplier(),
-          backgroundColor: 'red',
-        }}>Error: {session.error}. Please try again.</Text>
+          marginBottom: 24 * fontSizeMultiplier(),
+        }}
+      >
+        {cta}
+      </Text>
+      {session?.error ? (
+        <Text
+          style={{
+            ...textLargeStyle,
+            textAlign: 'center',
+            marginBottom: 48 * fontSizeMultiplier(),
+            backgroundColor: 'red',
+          }}
+        >
+          Error: {session.error}. Please try again.
+        </Text>
       ) : (
-        <Text style={{
-          ...textInfoStyle(textColor),
-          textAlign: 'center',
-          marginTop: 24 * fontSizeMultiplier(),
-          marginBottom: 12 * fontSizeMultiplier(),
-        }}>Enter your email, and we’ll send you a magic sign-in link:</Text>
+        <Text
+          style={{
+            ...textInfoStyle(textColor),
+            textAlign: 'center',
+            marginTop: 24 * fontSizeMultiplier(),
+            marginBottom: 12 * fontSizeMultiplier(),
+          }}
+        >
+          Enter your email, and we’ll send you a magic sign-in link:
+        </Text>
       )}
       <TextInput
-        autoCapitalize='none'
+        autoCapitalize="none"
         autoCorrect={false}
         editable={!isSubmitting}
-        keyboardType='email-address'
+        keyboardType="email-address"
         onChangeText={setEmail}
         ref={inputRef}
         selectionColor={inputColor}
@@ -218,26 +257,31 @@ const Login = ({
           marginBottom: 24 * fontSizeMultiplier(),
         }}
       />
-      {!!inlineMessage && !session.error ?
-        <Text style={{
-          ...textInfoBoldStyle(textColor),
-          fontSize: 18 * fontSizeMultiplier(),
-          textAlign: 'center',
-          marginVertical: 4 * fontSizeMultiplier(),
-        }}>{inlineMessage}</Text> :
-        (<TextButton
+      {!!inlineMessage && !session.error ? (
+        <Text
+          style={{
+            ...textInfoBoldStyle(textColor),
+            fontSize: 18 * fontSizeMultiplier(),
+            textAlign: 'center',
+            marginVertical: 4 * fontSizeMultiplier(),
+          }}
+        >
+          {inlineMessage}
+        </Text>
+      ) : (
+        <TextButton
           isDisabled={!isEmailValid || isSubmitting}
           buttonStylea={{
-            opacity: isEmailValid ? 1 : 0.5
+            opacity: isEmailValid ? 1 : 0.5,
           }}
           onPress={() => {
             Keyboard.dismiss()
             setIsSubmitting(true)
             sendMagicLink(email)
           }}
-          text='Send me a link'
-        />)
-      }
+          text="Send me a link"
+        />
+      )}
       {!!inlineMessage && !session.error ? null : (
         <>
           {orSeparator}
@@ -253,16 +297,20 @@ const Login = ({
             }}
             onPress={() => onAppleButtonPress()}
           />
-          {__DEV__ &&
+          {__DEV__ && (
             <>
               {orSeparator}
               <TextButton
-                onPress={() => supabase.auth.signInWithPassword({
-                  email: 'a@btlr.eu',
-                  password: 'Asdfasdf'
-                })}
-                text='Log in with password' />
-            </>}
+                onPress={() =>
+                  supabase.auth.signInWithPassword({
+                    email: 'a@btlr.eu',
+                    password: 'Asdfasdf',
+                  })
+                }
+                text="Log in with password"
+              />
+            </>
+          )}
         </>
       )}
     </View>

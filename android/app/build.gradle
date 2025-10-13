@@ -148,12 +148,10 @@ android {
             keyPassword 'android'
         }
         release {
-            if (project.hasProperty('REAMS_UPLOAD_STORE_FILE')) {
-                storeFile file(REAMS_UPLOAD_STORE_FILE)
-                storePassword REAMS_UPLOAD_STORE_PASSWORD
-                keyAlias REAMS_UPLOAD_KEY_ALIAS
-                keyPassword REAMS_UPLOAD_KEY_PASSWORD
-            }
+            storeFile file('/Users/me/reams.keystore')
+            storePassword '$prengy5t0ff!'
+            keyAlias 'reams'
+            keyPassword '$prengy5t0ff!'
         }
     }
     buildTypes {

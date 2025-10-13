@@ -7,7 +7,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import { useHeaderStyle } from '../hooks/useHeaderStyle'
 import NavButton from './NavButton'
@@ -23,38 +23,48 @@ import { useDispatch, useSelector, useStore } from 'react-redux'
 import { RootState } from 'store/reducers'
 import { useNavigation } from '@react-navigation/native'
 
-export default function InitialScreen({ }) {
+export default function InitialScreen({}) {
   const scrollAnim = new Animated.Value(0)
-  const backend = useSelector((state: RootState) => !!state.user.backends.find(b => b.name === 'feedbin') ? 'feedbin' : 'reams')
+  const backend = useSelector((state: RootState) =>
+    !!state.user.backends.find((b) => b.name === 'feedbin')
+      ? 'feedbin'
+      : 'reams'
+  )
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
-  const isOnboarding = useSelector((state: RootState) => state.config.isOnboarding)
-  const isPortrait = useSelector((state: RootState) => state.config.orientation === 'portrait')
+  const isOnboarding = useSelector(
+    (state: RootState) => state.config.isOnboarding
+  )
+  const isPortrait = useSelector(
+    (state: RootState) => state.config.orientation === 'portrait'
+  )
   const isLoggedIn = useSelector((state: RootState) => state.user.userId !== '')
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
-  const hasFeeds = useSelector((state: RootState) => state.feeds.feeds.length > 0)
+  const hasFeeds = useSelector(
+    (state: RootState) => state.feeds.feeds.length > 0
+  )
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  
+
   // Update header style based on dark mode changes
   useHeaderStyle({
     bgColor: 'rizzleBG',
-    textColor: 'rizzleText'
+    textColor: 'rizzleText',
   })
 
-  useEffect(() => {
-    if (!isOnboarding && !isLoggedIn) {
-      console.log('User is not logged in')
-      setTimeout(() => {
-        navigation.navigate('Login')
-      }, 1000)
-    } else if (isOnboarding) {
-      redirectToItems(true, true)
-    } else {
-      if (navigation.canGoBack()) {
-        navigation.popToTop()
-      }
-    }
-  }, [isLoggedIn, isOnboarding])
+  // useEffect(() => {
+  //   if (!isOnboarding && !isLoggedIn) {
+  //     console.log('User is not logged in')
+  //     setTimeout(() => {
+  //       navigation.navigate('Login')
+  //     }, 1000)
+  //   } else if (isOnboarding) {
+  //     redirectToItems(true, true)
+  //   } else {
+  //     if (navigation.canGoBack()) {
+  //       navigation.popToTop()
+  //     }
+  //   }
+  // }, [isLoggedIn, isOnboarding])
 
   // useEffect(() => {
   //   redirectToItems(false, true)
@@ -92,7 +102,7 @@ export default function InitialScreen({ }) {
       if (navigation.canGoBack()) {
         navigation.popToTop()
       }
-      args.forEach(arg => navigation.navigate(arg))
+      args.forEach((arg) => navigation.navigate(arg))
     }
 
     if (useTimeout) {
@@ -137,9 +147,7 @@ export default function InitialScreen({ }) {
   // }
 
   const { height, width } = Dimensions.get('window')
-  const buttonWidth = width > 950 ?
-    600 :
-    '100%'
+  const buttonWidth = width > 950 ? 600 : '100%'
 
   const margin = getMargin()
   const textStyles = (color) => ({
@@ -151,7 +159,7 @@ export default function InitialScreen({ }) {
     // padding: 8 * fontSizeMultiplier(),
   })
   const italicStyles = {
-    fontFamily: 'IBMPlexSans-Italic'
+    fontFamily: 'IBMPlexSans-Italic',
   }
   const textTipStyles = (color: string) => ({
     ...textStyles(color),
@@ -159,11 +167,11 @@ export default function InitialScreen({ }) {
     lineHeight: 26 * fontSizeMultiplier(),
     marginTop: 0,
     marginBottom: 0,
-    color
+    color,
   })
   const textTipStylesBold = (color: string) => ({
     ...textTipStyles(color),
-    fontFamily: 'IBMPlexSans-Bold'
+    fontFamily: 'IBMPlexSans-Bold',
   })
 
   // console.log(Config)
@@ -175,20 +183,23 @@ export default function InitialScreen({ }) {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: hslString('rizzleBG'),
-        marginBottom: 0
+        marginBottom: 0,
       }}
-      testID='initial-screen'
+      testID="initial-screen"
     >
       <StatusBar
         showHideTransition="slide"
-        backgroundColor='black'
-        barStyle={Platform.OS === 'ios' ? "dark-content" : 'light-content'} />
-      <View style={{
-        // marginBottom: 64,
-        minHeight: height - 55 - 64,
-        width: width - getInset() * (isPortrait ? 2 : 4),
-        marginHorizontal: getInset() * (isPortrait ? 1 : 2)
-      }}>
+        backgroundColor="black"
+        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+      />
+      <View
+        style={{
+          // marginBottom: 64,
+          minHeight: height - 55 - 64,
+          width: width - getInset() * (isPortrait ? 2 : 4),
+          marginHorizontal: getInset() * (isPortrait ? 1 : 2),
+        }}
+      >
         <View>
           <NavButton
             hasTopBorder={true}
@@ -197,39 +208,47 @@ export default function InitialScreen({ }) {
             onPress={() => {
               dispatch({
                 type: SET_DISPLAY_MODE,
-                displayMode: 'unread'
+                displayMode: 'unread',
               })
               navigation.navigate('Feed', { isSaved: false })
             }}
             scrollAnim={scrollAnim}
             index={0}
-            text='Feed'
+            text="Feed"
             viewStyle={{ paddingLeft: 5 }}
           />
           <NavButton
             hasBottomBorder={true}
-            icon={getRizzleButtonIcon('saved', hslString('rizzleText'), hslString('rizzleBG'))}
+            icon={getRizzleButtonIcon(
+              'saved',
+              hslString('rizzleText'),
+              hslString('rizzleBG')
+            )}
             onPress={() => {
               dispatch({
                 type: SET_DISPLAY_MODE,
-                displayMode: 'saved'
+                displayMode: 'saved',
               })
               navigation.navigate('Feed', { isSaved: true })
             }}
             scrollAnim={scrollAnim}
             index={1}
-            text='Library'
+            text="Library"
             viewStyle={{ paddingLeft: 5 }}
           />
           <NavButton
             hasBottomBorder={true}
-            icon={getRizzleButtonIcon('highlights', hslString('rizzleText'), hslString('rizzleBG'))}
+            icon={getRizzleButtonIcon(
+              'highlights',
+              hslString('rizzleText'),
+              hslString('rizzleBG')
+            )}
             onPress={() => {
               navigation.navigate('Highlights')
             }}
             scrollAnim={scrollAnim}
             index={1}
-            text='Highlights'
+            text="Highlights"
             viewStyle={{ paddingLeft: 5 }}
           />
         </View>
@@ -241,7 +260,7 @@ export default function InitialScreen({ }) {
           }}
           scrollAnim={scrollAnim}
           index={0}
-          text='Accounts'
+          text="Accounts"
           viewStyle={{ paddingLeft: 5 }}
         />
         <NavButton
@@ -252,31 +271,47 @@ export default function InitialScreen({ }) {
           }}
           scrollAnim={scrollAnim}
           index={0}
-          text='Settings'
+          text="Settings"
           viewStyle={{ paddingLeft: 5 }}
         />
-        <View style={{
-          position: 'absolute',
-          bottom: getMargin() * 2,
-          width: '100%',
-          alignItems: 'center',
-        }}>
-          <Text style={{
-            ...textInfoStyle('rizzleText'),
-            marginBottom: getMargin() * 0.5,
-          }}>Questions? Feedback?</Text>
-          <TouchableOpacity onPress={() => Linking.openURL('mailto:adam@reams.app')}>
-            <Text style={{
+        <View
+          style={{
+            position: 'absolute',
+            bottom: getMargin() * 2,
+            width: '100%',
+            alignItems: 'center',
+          }}
+        >
+          <Text
+            style={{
               ...textInfoStyle('rizzleText'),
-              textDecorationLine: 'underline',
-              marginBottom: getMargin() * 2,
-            }}>adam@reams.app</Text>
+              marginBottom: getMargin() * 0.5,
+            }}
+          >
+            Questions? Feedback?
+          </Text>
+          <TouchableOpacity
+            onPress={() => Linking.openURL('mailto:adam@reams.app')}
+          >
+            <Text
+              style={{
+                ...textInfoStyle('rizzleText'),
+                textDecorationLine: 'underline',
+                marginBottom: getMargin() * 2,
+              }}
+            >
+              adam@reams.app
+            </Text>
           </TouchableOpacity>
-          <Text style={{
-            ...textInfoBoldStyle('rizzleText'),
-            color: hslString('logo1')
-            // marginBottom: getMargin() * 0.5,
-          }}>Serious, joyful & open</Text>
+          <Text
+            style={{
+              ...textInfoBoldStyle('rizzleText'),
+              color: hslString('logo1'),
+              // marginBottom: getMargin() * 0.5,
+            }}
+          >
+            Serious, joyful & open
+          </Text>
         </View>
       </View>
     </View>

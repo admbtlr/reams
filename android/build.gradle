@@ -39,3 +39,16 @@ allprojects {
     maven { url 'https://www.jitpack.io' }
   }
 }
+
+// https://stackoverflow.com/a/78865504
+subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin("com.android.application") ||
+                project.plugins.hasPlugin("com.android.library")) {
+            project.android {
+                compileSdkVersion 35
+                buildToolsVersion "35.0.0"
+            }
+        }
+    }
+}
