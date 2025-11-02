@@ -1,7 +1,24 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { ActivityIndicator, Animated, Dimensions, Platform, ScrollView, StatusBar, View, useWindowDimensions } from 'react-native'
-import Reanimated, { useAnimatedScrollHandler, runOnJS, useSharedValue, withTiming, interpolate, useAnimatedStyle, useAnimatedReaction } from 'react-native-reanimated'
+import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  Platform,
+  ScrollView,
+  StatusBar,
+  View,
+  useWindowDimensions
+} from 'react-native'
+import Reanimated, {
+  useAnimatedScrollHandler,
+  runOnJS,
+  useSharedValue,
+  withTiming,
+  interpolate,
+  useAnimatedStyle,
+  useAnimatedReaction
+} from 'react-native-reanimated'
 import CoverImage from '../CoverImage'
 import ItemBody from './ItemBody'
 import ItemTitle from '../ItemTitle'
@@ -11,14 +28,28 @@ import { hslString } from '../../utils/colors'
 import log from '../../utils/log'
 import Nudge from '../Nudge'
 import { MAX_DECORATION_FAILURES } from '../../sagas/decorate-items'
-import { ItemInflated, SET_SCROLL_OFFSET } from '../../store/items/types'
-import { HIDE_ALL_BUTTONS, SHOW_IMAGE_VIEWER, SHOW_ITEM_BUTTONS } from '../../store/ui/types'
+import {
+  Item as TItem,
+  ItemInflated,
+  SET_SCROLL_OFFSET
+} from '../../store/items/types'
+import {
+  HIDE_ALL_BUTTONS,
+  SHOW_IMAGE_VIEWER,
+  SHOW_ITEM_BUTTONS
+} from '../../store/ui/types'
 import { getIndex, getItems, selectFilteredItems } from '../../utils/get-item'
 import { useColor } from '../../hooks/useColor'
 import type { RootState } from '../../store/reducers'
 import { useAnimation } from '@/components/ItemCarousel/AnimationContext'
-import { useReanimatedScroll, logAnimationEvent } from '../../utils/feature-flags'
-import { useBufferIndex, useBufferedItem } from '../ItemCarousel/bufferedItemsStore'
+import {
+  useReanimatedScroll,
+  logAnimationEvent
+} from '../../utils/feature-flags'
+import {
+  useBufferIndex,
+  useBufferedItem
+} from '../ItemCarousel/bufferedItemsStore'
 
 const entities = require('entities')
 
@@ -27,26 +58,21 @@ export const INITIAL_WEBVIEW_HEIGHT = 1000
 // Types
 
 interface ItemProps {
-  _id: string;
-  coverImageComponent?: React.ComponentType<any>;
-  setTimerFunction?: (timer: number | null) => void;
+  _id: string
+  coverImageComponent?: React.ComponentType<any>
+  setTimerFunction?: (timer: number | null) => void
   emitter: {
-    on: (event: string, callback: () => void, id?: string) => void;
-    off: (id: string) => void;
-  };
-  itemIndex: number;
-  panAnim: Animated.Value;
-  onScrollEnd: (offset: number) => void;
+    on: (event: string, callback: () => void, id?: string) => void
+    off: (id: string) => void
+  }
+  itemIndex: number
+  panAnim: Animated.Value
+  onScrollEnd: (offset: number) => void
   // setScrollAnim: (anim: Animated.Value) => void;
 }
 
 const Item: React.FC<ItemProps> = (props) => {
-  const {
-    _id,
-    emitter,
-    itemIndex,
-    onScrollEnd,
-  } = props
+  const { _id, emitter, itemIndex, onScrollEnd } = props
 
   const dispatch = useDispatch()
 
@@ -54,53 +80,71 @@ const Item: React.FC<ItemProps> = (props) => {
 
   // Redux selectors
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
-  const orientation = useSelector((state: RootState) => state.config.orientation)
+  const orientation = useSelector(
+    (state: RootState) => state.config.orientation
+  )
 
-  const [adjustedTitle, setAdjustedTitle] = useState<string | undefined>(inflatedItem.title)
-  const [adjustedExcerpt, setAdjustedExcerpt] = useState<string | undefined>(inflatedItem.excerpt)
+  const [adjustedTitle, setAdjustedTitle] = useState<string | undefined>(
+    inflatedItem.title
+  )
+  const [adjustedExcerpt, setAdjustedExcerpt] = useState<string | undefined>(
+    inflatedItem.excerpt
+  )
 
   useEffect(() => {
     // check whether title is first words of content
-    const content = inflatedItem?.content_html?.length !== undefined &&
-      inflatedItem?.content_html?.length > 0 ?
-      inflatedItem.content_html :
-      inflatedItem.content_mercury
-    if (content === undefined || content === null || content.length > 1000) return
-    if (entities.decode(content.substring(0, 200))
-      .replace(/<.*?>/g, '')
-      .trim()
-      .startsWith(inflatedItem?.title.replace('...', ''))) {
+    const content =
+      inflatedItem?.content_html?.length !== undefined &&
+      inflatedItem?.content_html?.length > 0
+        ? inflatedItem.content_html
+        : inflatedItem.content_mercury
+    if (content === undefined || content === null || content.length > 1000)
+      return
+    if (
+      entities
+        .decode(content.substring(0, 200))
+        .replace(/<.*?>/g, '')
+        .trim()
+        .startsWith(inflatedItem?.title.replace('...', ''))
+    ) {
       setAdjustedTitle('')
     }
-    if (inflatedItem?.excerpt != null && content
-      .substring(0, 200)
-      .replace(/<.*?>/g, '')
-      .trim()
-      .startsWith(inflatedItem.excerpt.replace('...', ''))) {
+    if (
+      inflatedItem?.excerpt != null &&
+      content
+        .substring(0, 200)
+        .replace(/<.*?>/g, '')
+        .trim()
+        .startsWith(inflatedItem.excerpt.replace('...', ''))
+    ) {
       setAdjustedExcerpt('')
     }
   }, [inflatedItem])
 
   // Find related feed or newsletter
   const feed = useSelector((state: RootState) =>
-    state.feeds.feeds.find(f => f._id === inflatedItem?.feed_id)
+    state.feeds.feeds.find((f) => f._id === inflatedItem?.feed_id)
   )
   const newsletter = useSelector((state: RootState) =>
-    state.newsletters.newsletters.find(n => n._id === inflatedItem?.feed_id)
+    state.newsletters.newsletters.find((n) => n._id === inflatedItem?.feed_id)
   )
 
   // do we already have the color?
   const host = getHost(inflatedItem, feed)
-  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const cachedColor = useSelector(
+    (state: RootState) =>
+      state.hostColors.hostColors.find((hc) => hc.host === host)?.color
+  )
   const hookColor = useColor(host, cachedColor === undefined)
   const color = hookColor || cachedColor
 
-  const showMercuryContent = inflatedItem?.showMercuryContent !== undefined ?
-    inflatedItem.showMercuryContent :
-    feed?.isMercury
+  const showMercuryContent =
+    inflatedItem?.showMercuryContent !== undefined
+      ? inflatedItem.showMercuryContent
+      : feed?.isMercury
 
   // Complete item with additional data
-  const item: Item | undefined = inflatedItem && {
+  const item: TItem | undefined = inflatedItem && {
     ...inflatedItem,
     showMercuryContent
   }
@@ -119,7 +163,9 @@ const Item: React.FC<ItemProps> = (props) => {
   const bufferIndex = useBufferIndex()
 
   // State
-  const [webViewHeight, setWebViewHeight] = useState<number>(INITIAL_WEBVIEW_HEIGHT)
+  const [webViewHeight, setWebViewHeight] = useState<number>(
+    INITIAL_WEBVIEW_HEIGHT
+  )
   // const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
   const [isVisible, setIsVisible] = useState<boolean>(itemIndex === bufferIndex)
@@ -178,8 +224,12 @@ const Item: React.FC<ItemProps> = (props) => {
 
   // Reveal animation effect
   useEffect(() => {
-    if (!hasRendered.current && (item?.isDecorated ||
-      (item?.decoration_failures && item?.decoration_failures >= MAX_DECORATION_FAILURES))) {
+    if (
+      !hasRendered.current &&
+      (item?.isDecorated ||
+        (item?.decoration_failures &&
+          item?.decoration_failures >= MAX_DECORATION_FAILURES))
+    ) {
       const reveal = new Animated.Value(1)
 
       const animation = Animated.timing(reveal, {
@@ -218,9 +268,9 @@ const Item: React.FC<ItemProps> = (props) => {
 
   interface StyleWithTransform {
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    transform?: Array<{ [key: string]: any }>;
+    transform?: Array<{ [key: string]: any }>
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    [key: string]: any;
+    [key: string]: any
   }
 
   const addAnimation = (
@@ -275,20 +325,24 @@ const Item: React.FC<ItemProps> = (props) => {
     if (!scrollView.current) return
     if (!item?.scrollRatio || typeof item?.scrollRatio !== 'object') return
 
-    const scrollRatio = item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
+    const scrollRatio =
+      item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
     if (!scrollRatio || scrollRatio === 0) return
 
-    setTimeout(() => {
-      if (scrollView.current) {
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        (scrollView.current as any).scrollTo({
-          x: 0,
-          // use the ref to escape the problem of webViewHeight being inside the closure
-          y: scrollRatio * webViewHeightRef.current,
-          animated: true
-        })
-      }
-    }, useTimeout ? 2000 : 0)
+    setTimeout(
+      () => {
+        if (scrollView.current) {
+          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+          ;(scrollView.current as any).scrollTo({
+            x: 0,
+            // use the ref to escape the problem of webViewHeight being inside the closure
+            y: scrollRatio * webViewHeightRef.current,
+            animated: true
+          })
+        }
+      },
+      useTimeout ? 2000 : 0
+    )
   }
 
   const updateWebViewHeight = (height: number): void => {
@@ -305,7 +359,10 @@ const Item: React.FC<ItemProps> = (props) => {
     }
   }
 
-  const onNavigationStateChange = (event: { url: string; jsEvaluationValue: string }): void => {
+  const onNavigationStateChange = (event: {
+    url: string
+    jsEvaluationValue: string
+  }): void => {
     // this means we're loading an image
     if (event.url.startsWith('react-js-navigation')) return
     const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
@@ -315,7 +372,13 @@ const Item: React.FC<ItemProps> = (props) => {
   }
 
   // SCROLL HANDLER
-  const { buttonsVisibles, headerVisibles, horizontalScroll, isScrolling, verticalScrolls } = useAnimation()
+  const {
+    buttonsVisibles,
+    headerVisibles,
+    horizontalScroll,
+    isScrolling,
+    verticalScrolls
+  } = useAnimation()
   const scrollBegin = useSharedValue(0)
   const lastScrollY = useSharedValue(0)
   const lastScrollDirection = useSharedValue(0) // 1 = down, -1 = up, 0 = none
@@ -341,7 +404,8 @@ const Item: React.FC<ItemProps> = (props) => {
         runOnJS(setIsVisible)(true)
         // runOnJS(initAnimatedValues)
       }
-    })
+    }
+  )
 
   const setStatusBarVisible = (isStatusBarVisible: boolean) => {
     StatusBar.setHidden(!isStatusBarVisible)
@@ -379,7 +443,8 @@ const Item: React.FC<ItemProps> = (props) => {
       }
 
       // Track scroll direction
-      if (Math.abs(deltaY) > 1) { // Only update direction for meaningful movement
+      if (Math.abs(deltaY) > 1) {
+        // Only update direction for meaningful movement
         lastScrollDirection.value = deltaY > 0 ? 1 : -1
       }
 
@@ -387,14 +452,18 @@ const Item: React.FC<ItemProps> = (props) => {
       // Scrolling down (positive delta) - hide header
       // Scrolling up (negative delta) - show header
       const currentOffset = headerVisibles[itemIndex].value
-      const newOffset = Math.max(0, Math.min(statusBarHeight, currentOffset + deltaY))
+      const newOffset = Math.max(
+        0,
+        Math.min(statusBarHeight, currentOffset + deltaY)
+      )
 
       headerVisibles[itemIndex].value = newOffset
       lastScrollY.value = currentY
     },
     onEndDrag: (event) => {
       isScrolling.value = false
-      buttonsVisibles[itemIndex].value = event.contentOffset.y > scrollBegin.value ? 0 : 1
+      buttonsVisibles[itemIndex].value =
+        event.contentOffset.y > scrollBegin.value ? 0 : 1
 
       runOnJS(setButtonsVisible)(buttonsVisibles[itemIndex].value === 1)
 
@@ -416,7 +485,9 @@ const Item: React.FC<ItemProps> = (props) => {
 
       runOnJS(setStatusBarVisible)(targetOffset === 0)
 
-      headerVisibles[itemIndex].value = withTiming(targetOffset, { duration: 200 })
+      headerVisibles[itemIndex].value = withTiming(targetOffset, {
+        duration: 200
+      })
 
       if (__DEV__) {
         runOnJS(logAnimationEvent)('scroll-end-drag', {
@@ -444,10 +515,14 @@ const Item: React.FC<ItemProps> = (props) => {
         targetOffset = currentOffset > threshold ? statusBarHeight : 0
       }
 
-      headerVisibles[itemIndex].value = withTiming(targetOffset, { duration: 200 })
+      headerVisibles[itemIndex].value = withTiming(targetOffset, {
+        duration: 200
+      })
 
       if (__DEV__) {
-        runOnJS(logAnimationEvent)('scroll-momentum-end', { offset: event.contentOffset.y })
+        runOnJS(logAnimationEvent)('scroll-momentum-end', {
+          offset: event.contentOffset.y
+        })
       }
     }
   })
@@ -455,7 +530,11 @@ const Item: React.FC<ItemProps> = (props) => {
 
   // ANIMATED STYLES
   const fakeBgOpacityStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(verticalScrolls[itemIndex].value, [0, 250, 251], [0, 0, 1])
+    opacity: interpolate(
+      verticalScrolls[itemIndex].value,
+      [0, 250, 251],
+      [0, 0, 1]
+    )
   }))
   // END ANIMATED STYLES
 
@@ -463,13 +542,15 @@ const Item: React.FC<ItemProps> = (props) => {
   if (!inflatedItem) return null
 
   const emptyState = (
-    <View style={{
-      width: screenDimensions.width,
-      height: screenDimensions.height,
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
+    <View
+      style={{
+        width: screenDimensions.width,
+        height: screenDimensions.height,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
       <ActivityIndicator size="large" color={hslString('rizzleFG')} />
     </View>
   )
@@ -494,28 +575,33 @@ const Item: React.FC<ItemProps> = (props) => {
   const isCoverInline = orientation !== 'landscape' && styles?.isCoverInline
 
   const colorArray = color?.match(/hsl\((\d+), (\d+)%, (\d+)%\)/)
-  const bodyColor = isDarkMode ?
-    'black' :
-    styles?.hasFeedBGColor && !!colorArray && !!colorArray[1] && JSON.stringify(color) !== '[0,0,0]' ?
-      `hsl(${(Number.parseInt(colorArray[1]) + 180) % 360}, 15%, 90%)` :
-      hslString('bodyBG')
+  const bodyColor = isDarkMode
+    ? 'black'
+    : styles?.hasFeedBGColor &&
+      !!colorArray &&
+      !!colorArray[1] &&
+      JSON.stringify(color) !== '[0,0,0]'
+    ? `hsl(${(Number.parseInt(colorArray[1]) + 180) % 360}, 15%, 90%)`
+    : hslString('bodyBG')
 
   if (!styles || Object.keys(styles).length === 0) {
     return emptyState
   }
 
-  const coverImage = showCoverImage ?
+  const coverImage = showCoverImage ? (
     <CoverImage
       styles={styles.coverImage}
       scrollAnim={scrollAnim}
-      imagePath={hasCoverImage ? getCachedCoverImagePath(inflatedItem) : undefined}
+      imagePath={
+        hasCoverImage ? getCachedCoverImagePath(inflatedItem) : undefined
+      }
       imageDimensions={hasCoverImage ? imageDimensions : undefined}
       faceCentreNormalised={faceCentreNormalised}
       orientation={orientation}
       isVisible={isVisible}
       itemIndex={itemIndex}
-    /> :
-    null
+    />
+  ) : null
 
   const bodyStyle: StyleWithTransform = {
     backgroundColor: bodyColor
@@ -530,15 +616,20 @@ const Item: React.FC<ItemProps> = (props) => {
         overflow: 'hidden'
       }}
     >
-      {(showCoverImage && !isCoverInline) && coverImage}
-      <Reanimated.View style={[{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        height: 250,
-        width: screenDimensions.width,
-        backgroundColor: bodyColor,
-      }, fakeBgOpacityStyle]} />
+      {showCoverImage && !isCoverInline && coverImage}
+      <Reanimated.View
+        style={[
+          {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            height: 250,
+            width: screenDimensions.width,
+            backgroundColor: bodyColor
+          },
+          fakeBgOpacityStyle
+        ]}
+      />
       <Reanimated.ScrollView
         onScroll={scrollHandler}
         // onMomentumScrollBegin={onMomentumScrollBegin}
@@ -556,13 +647,10 @@ const Item: React.FC<ItemProps> = (props) => {
           minWidth: 100
         }}
       >
-        {(isCoverInline || !showCoverImage || !coverImage) &&
-          <Nudge
-            feed_id={item.feed_id}
-            scrollAnim={scrollAnim}
-          />
-        }
-        {(showCoverImage && isCoverInline) && coverImage}
+        {(isCoverInline || !showCoverImage || !coverImage) && (
+          <Nudge feed_id={item.feed_id} scrollAnim={scrollAnim} />
+        )}
+        {showCoverImage && isCoverInline && coverImage}
         <ItemTitle
           anims={anims.current}
           // addAnimation={addAnimation}
@@ -580,11 +668,14 @@ const Item: React.FC<ItemProps> = (props) => {
           showCoverImage={showCoverImage}
           isCoverInline={isCoverInline}
         />
-        <Animated.View style={webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
-          (styles.coverImage?.isInline || !showCoverImage) ?
-          //addAnimation(bodyStyle, anims.current[5], isVisible) :
-          bodyStyle :
-          bodyStyle}
+        <Animated.View
+          style={
+            webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
+            (styles.coverImage?.isInline || !showCoverImage)
+              ? //addAnimation(bodyStyle, anims.current[5], isVisible) :
+                bodyStyle
+              : bodyStyle
+          }
         >
           {/*<View style={{
             position: "absolute",

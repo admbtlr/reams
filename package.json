@@ -52,6 +52,7 @@
     "expo-router": "~5.1.7",
     "expo-splash-screen": "~0.30.10",
     "expo-sqlite": "~15.2.14",
+    "expo-web-browser": "^15.0.8",
     "extract-text-webpack-plugin": "^2.1.0",
     "formik": "^2.2.9",
     "fuzzball": "^2.1.2",

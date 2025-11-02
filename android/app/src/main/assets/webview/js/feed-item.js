@@ -11,7 +11,7 @@ function replaceSectionsWithDivs() {
 function moveChildrenUpALevel(div) {
   var parent = div.parentNode
   var children = div.childNodes
-  children.forEach(child => {
+  children.forEach((child) => {
     parent.insertBefore(child.cloneNode(true), div)
   })
 }
@@ -34,16 +34,22 @@ function removeDivsWithImg(divs) {
   const toRemove = []
 
   // this is a New York Times thing...
-  divs.forEach(div => {
-    if (div.childNodes.length > 1 && div.childNodes[0].nodeType === 3 &&
-      div.childNodes[0].textContent === 'Image') {
+  divs.forEach((div) => {
+    if (
+      div.childNodes.length > 1 &&
+      div.childNodes[0].nodeType === 3 &&
+      div.childNodes[0].textContent === 'Image'
+    ) {
       div.removeChild(div.childNodes[0])
     }
   })
 
   const hasOnlyImgChild = function (el) {
-    return el.childNodes.length === 1 && el.childNodes[0].nodeType === 1 &&
+    return (
+      el.childNodes.length === 1 &&
+      el.childNodes[0].nodeType === 1 &&
       el.childNodes[0].tagName === 'IMG'
+    )
   }
   let divsWithImgs = Array.from(divs).filter(hasOnlyImgChild)
   while (divsWithImgs.length > 0) {
@@ -82,10 +88,10 @@ function removeSoloSurroundingDivs() {
   while (children.length === 1 && children[0].tagName === 'DIV') {
     children = getChildrenRemoveBlankTextNodes(children[0])
   }
-  article.childNodes.forEach(node => {
+  article.childNodes.forEach((node) => {
     article.removeChild(node)
   })
-  children.forEach(child => {
+  children.forEach((child) => {
     article.appendChild(child)
   })
   // const nodeList = document.querySelectorAll('article > *')
@@ -120,10 +126,11 @@ function removeDivsWithOrphanFigures() {
 function convertDivsToFigures() {
   const divs = document.querySelectorAll('div')
   Array.prototype.forEach.call(divs, function (div, i) {
-    if (div.childNodes.length === 2 &&
+    if (
+      div.childNodes.length === 2 &&
       div.childNodes[0].tagName === 'IMG' &&
-      (div.childNodes[1].tagName === 'P' ||
-        div.childNodes[1].nodeType === 3)) {
+      (div.childNodes[1].tagName === 'P' || div.childNodes[1].nodeType === 3)
+    ) {
       let figCaption = document.createElement('figcaption')
       figCaption.innerHTML = div.childNodes[1].textContent
       div.replaceChild(figCaption, div.childNodes[1])
@@ -138,8 +145,7 @@ function removeEmptyParagraphs() {
   const paras = document.querySelectorAll('p')
   let toRemove = []
   Array.prototype.forEach.call(paras, function (el, i) {
-    if (el.innerText.trim().length === 0 &&
-      el.childElementCount === 0) {
+    if (el.innerText.trim().length === 0 && el.childElementCount === 0) {
       toRemove.push(el)
     }
   })
@@ -153,11 +159,13 @@ function removeEmptyDivs() {
   const divs = document.querySelectorAll('article div')
   let toRemove = []
   Array.prototype.forEach.call(divs, function (el, i) {
-    if (el.innerText
-      // substack loves to add these
-      .replace(/[\u00ad\u034f\s]/g, '')
-      .trim().length === 0 &&
-      el.childElementCount === 0) {
+    if (
+      el.innerText
+        // substack loves to add these
+        .replace(/[\u00ad\u034f\s]/g, '')
+        .trim().length === 0 &&
+      el.childElementCount === 0
+    ) {
       toRemove.push(el)
     }
   })
@@ -171,7 +179,7 @@ function removeEmptyDivs() {
 // also, would need to wrap contiguous orphans into one p
 function wrapOrphanElementsInParagraphs() {
   var article = document.getElementsByTagName('article')[0]
-  article.childNodes.forEach(c => {
+  article.childNodes.forEach((c) => {
     if ((c.nodeType === 1 && c.tagName === 'A') || c.nodeType === 3) {
       var p = document.createElement('P')
       p.appendChild(c.cloneNode(true))
@@ -204,44 +212,48 @@ function markSingleCharParagraphs() {
 }
 
 function markImages() {
-  const imgs = document.querySelectorAll('img');
+  const imgs = document.querySelectorAll('img')
 
   imgs.forEach((el) => {
     const processImage = () => {
       if (el.naturalHeight >= el.naturalWidth) {
-        el.classList.add('img-portrait');
+        el.classList.add('img-portrait')
 
         // Adjust these thresholds to more reasonable values
-        const widthThreshold = document.body.clientWidth;
+        const widthThreshold = document.body.clientWidth
 
         if (el.naturalHeight < 50 || el.naturalWidth < widthThreshold * 0.2) {
-          el.classList.add('img-tiny');
-        } else if (el.naturalHeight < 200 || el.naturalWidth < widthThreshold * 0.6) {
-          el.classList.add('img-small');
+          el.classList.add('img-tiny')
+        } else if (
+          el.naturalHeight < 200 ||
+          el.naturalWidth < widthThreshold * 0.6
+        ) {
+          el.classList.add('img-small')
           if (el.parentElement.tagName === 'FIGURE') {
-            el.parentElement.classList.add('figure-small');
+            el.parentElement.classList.add('figure-small')
           }
         }
       }
-    };
+    }
 
     // Check if image is already loaded
     if (el.complete && el.naturalHeight !== 0) {
-      processImage();
+      processImage()
     } else {
-      el.addEventListener('load', processImage);
+      el.addEventListener('load', processImage)
       // Also handle error cases
       el.addEventListener('error', () => {
-        console.error('Failed to load image:', el.src);
-      });
+        console.error('Failed to load image:', el.src)
+      })
     }
-  });
+  })
 }
 function markShortBlockquotes() {
   const paras = document.querySelectorAll('blockquote')
-  const hasLongBlockquotes = Array.prototype.filter.call(paras, function (el) {
-    el.innerText.length >= 100
-  }).length > 0
+  const hasLongBlockquotes =
+    Array.prototype.filter.call(paras, function (el) {
+      el.innerText.length >= 100
+    }).length > 0
   Array.prototype.forEach.call(paras, function (el, i) {
     if (el.innerText.length < 100) {
       el.classList.add('short-blockquote')
@@ -292,13 +304,15 @@ function setFontSize(fontSize) {
   html.classList.remove(fontSizeClass)
   html.classList.add(`font-size-${fontSize}`)
   window.setTimeout(() => {
-    window.ReactNativeWebView && window.ReactNativeWebView.postMessage('resize:' + getHeight())
+    window.ReactNativeWebView &&
+      window.ReactNativeWebView.postMessage('resize:' + getHeight())
   }, 1000)
-
 }
 
 function getHeight() {
-  return Math.ceil(document.querySelector('article').getBoundingClientRect().height)
+  return Math.ceil(
+    document.querySelector('article').getBoundingClientRect().height
+  )
 }
 
 function toggleDarkMode(isDarkMode) {
@@ -325,10 +339,16 @@ function capitaliseFirstChildP(el) {
       var childNodes = p.childNodes
       for (var j = 0; j < childNodes.length; j++) {
         if (childNodes[j].nodeType === 3) {
-          childNodes[j].nodeValue = capitaliseText(childNodes[j].nodeValue, maxCaps)
+          childNodes[j].nodeValue = capitaliseText(
+            childNodes[j].nodeValue,
+            maxCaps
+          )
           maxCaps -= childNodes[j].nodeValue.length
         } else if (childNodes[j].innerText.length > 0) {
-          childNodes[j].innerText = capitaliseText(childNodes[j].innerText, maxCaps)
+          childNodes[j].innerText = capitaliseText(
+            childNodes[j].innerText,
+            maxCaps
+          )
           maxCaps -= childNodes[j].innerText.length
         }
         if (maxCaps <= 0) break
@@ -346,12 +366,13 @@ function capitaliseText(text, maxCaps) {
   } else {
     var splitted = text.split(' ')
     let totalLength = 0
-    return splitted.map((word, index) => {
-      totalLength += word.length
-      return totalLength < maxCaps ? word.toUpperCase() : word
-    }).join(' ')
+    return splitted
+      .map((word, index) => {
+        totalLength += word.length
+        return totalLength < maxCaps ? word.toUpperCase() : word
+      })
+      .join(' ')
   }
-
 }
 
 function removeSourceTags() {
@@ -377,8 +398,8 @@ function markPullQuotes() {
       bq.classList.add('is-quote')
     }
     if (bq.innerText.length > 200) return
-    var sibling = bq.previousElementSibling ||
-      bq.parentElement.previousElementSibling
+    var sibling =
+      bq.previousElementSibling || bq.parentElement.previousElementSibling
     if (sibling && sibling.innerText) {
       var prevPara = sibling.innerText
       if (prevPara.substring(prevPara.length - 1) !== ':') {
@@ -402,12 +423,16 @@ function createFigCaptions() {
   var nodes = article.childNodes
   var indexes = []
   nodes.forEach((node, index) => {
-    if (index !== 0 && node.nodeType === 3 && node.nodeValue.trim().length !== 0) {
+    if (
+      index !== 0 &&
+      node.nodeType === 3 &&
+      node.nodeValue.trim().length !== 0
+    ) {
       indexes.push(index)
     }
   })
 
-  indexes.forEach(index => {
+  indexes.forEach((index) => {
     var node = nodes[index]
     var previous = nodes[index - 1]
     if (onlyContentIsImg(previous)) {
@@ -440,8 +465,9 @@ function onlyContentIsImg(node) {
 }
 
 function getChildrenRemoveBlankTextNodes(node) {
-  return Array.from(node.childNodes)
-    .filter(node => node.nodeType !== 3 || node.nodeValue.trim().length > 0)
+  return Array.from(node.childNodes).filter(
+    (node) => node.nodeType !== 3 || node.nodeValue.trim().length > 0
+  )
 }
 
 function removeAllBrs() {
@@ -457,8 +483,8 @@ function removeAllBrs() {
 
 function remove1pxImages() {
   Array.from(document.querySelectorAll('img'))
-    .filter(img => img.getAttribute('height') === '1')
-    .forEach(img => {
+    .filter((img) => img.getAttribute('height') === '1')
+    .forEach((img) => {
       img.remove()
     })
 }
@@ -473,16 +499,21 @@ function removeWidows() {
 // obviously this doesn't work, cos it's the ScrollView that scrolls, not the WebView
 function fadeIntoView() {
   console.log('fadeIntoView')
-  var fadables = Array.from(document.querySelectorAll('figure'))
-    .concat(Array.from(document.querySelectorAll('blockquote')))
-  window.addEventListener('scroll', function (e) {
-    console.log("We're scrolling!")
-    fadables.forEach(function (fadable) {
-      if (isInViewport(fadable)) {
-        fadable.classList.add('in-viewport')
-      }
-    })
-  }, false)
+  var fadables = Array.from(document.querySelectorAll('figure')).concat(
+    Array.from(document.querySelectorAll('blockquote'))
+  )
+  window.addEventListener(
+    'scroll',
+    function (e) {
+      console.log("We're scrolling!")
+      fadables.forEach(function (fadable) {
+        if (isInViewport(fadable)) {
+          fadable.classList.add('in-viewport')
+        }
+      })
+    },
+    false
+  )
 }
 
 function addTapMessageToImages() {
@@ -500,6 +531,7 @@ function addTapMessageToElements(tag, msg, attr, fn) {
       window.ReactNativeWebView?.postMessage(msg + el.getAttribute(attr))
       fn && fn(el)
       event.stopPropagation()
+      event.stopImmediatePropagation()
       event.preventDefault()
       return false
     }
@@ -543,7 +575,9 @@ const substack = {
   removeEmptyDivs: () => {
     const divs = document.querySelectorAll('div')
     for (let i = divs.length - 1; i >= 0; i--) {
-      if (divs[i].innerText.replace(/[\s\u034F\u00AD\u0022]*/g, '').length === 0) {
+      if (
+        divs[i].innerText.replace(/[\s\u034F\u00AD\u0022]*/g, '').length === 0
+      ) {
         divs[i].remove()
       }
     }
@@ -558,7 +592,10 @@ const substack = {
   removeEmptyTds: () => {
     const tds = document.querySelectorAll('td')
     for (let i = tds.length - 1; i >= 0; i--) {
-      if (tds[i].innerText.replace(/[\s\u034F\u00AD\u0022]*/g, '').length === 0 && tds[i].childElementCount === 0) {
+      if (
+        tds[i].innerText.replace(/[\s\u034F\u00AD\u0022]*/g, '').length === 0 &&
+        tds[i].childElementCount === 0
+      ) {
         tds[i].remove()
       }
     }
@@ -575,19 +612,23 @@ function remove1x1Images() {
 }
 
 function removeSubstackPreamble() {
-  if (document.querySelector('html').classList.contains('newsletter') &&
-    document.querySelectorAll('.email-body-container').length === 1) {
+  if (
+    document.querySelector('html').classList.contains('newsletter') &&
+    document.querySelectorAll('.email-body-container').length === 1
+  ) {
     const emailBodyContainer = document.querySelector('.email-body-container')
     const article = document.querySelector('article')
     while (article.firstChild) {
-      article.removeChild(article.lastChild);
+      article.removeChild(article.lastChild)
     }
     article.appendChild(emailBodyContainer)
   }
 }
 
 function stopAutoplay() {
-  [].slice.call(document.getElementsByTagName('video')).forEach(v => v.removeAttribute('autoplay'))
+  ;[].slice
+    .call(document.getElementsByTagName('video'))
+    .forEach((v) => v.removeAttribute('autoplay'))
 }
 
 function highlightSelection() {
@@ -595,34 +636,49 @@ function highlightSelection() {
   const selection = selections[0]
   const text = selection.getText()
   const serialized = highlighter.serialize(selection)
-  window.ReactNativeWebView.postMessage("highlight:" + text + "++++++" + serialized)
+  window.ReactNativeWebView.postMessage(
+    'highlight:' + text + '++++++' + serialized
+  )
 }
 
 function deselectHighlight() {
-  document.querySelectorAll('.active-highlight').forEach(el => el.classList.remove('active-highlight'))
+  document
+    .querySelectorAll('.active-highlight')
+    .forEach((el) => el.classList.remove('active-highlight'))
 }
 
 function deleteSelectedHighlight() {
-  document.querySelectorAll('.active-highlight').forEach(el => el.classList.remove('active-highlight'))
-  document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'))
+  document
+    .querySelectorAll('.active-highlight')
+    .forEach((el) => el.classList.remove('active-highlight'))
+  document
+    .querySelectorAll('.highlight')
+    .forEach((el) => el.classList.remove('highlight'))
 }
 
 function addTapMessageToHighlights() {
   const highlighter = (el) => {
     const highlightId = el.getAttribute('data-id')
-    document.querySelectorAll(`[data-id="${highlightId}"]`).forEach(el => el.classList.add('active-highlight'))
+    document
+      .querySelectorAll(`[data-id="${highlightId}"]`)
+      .forEach((el) => el.classList.add('active-highlight'))
   }
-  addTapMessageToElements('.highlight', 'edit-highlight:', 'data-id', highlighter)
+  addTapMessageToElements(
+    '.highlight',
+    'edit-highlight:',
+    'data-id',
+    highlighter
+  )
 }
 
 function postMessage(msg) {
   const payload = JSON.stringify(msg)
   if (window.ReactNativeWebView) {
-    window.ReactNativeWebView.postMessage(payload);
+    window.ReactNativeWebView.postMessage(payload)
   } else if (window.parent) {
-    window.parent.postMessage(payload, '*');
+    window.parent.postMessage(payload, '*')
   } else {
-    window.postMessage(payload, '*');
+    window.postMessage(payload, '*')
   }
 }
 
@@ -667,26 +723,30 @@ function init() {
   if (!document.querySelector('article').classList.contains('cleaned')) {
     cleanSource()
     markImages()
-    addTapMessageToImages()
-    if (isWeb) addTargetToLinksOnWeb()
-    if (!isWeb) addTapMessageToLinks()
     removeAllBrs()
     stopAutoplay()
     const src = document.querySelector('article').innerHTML
     window.ReactNativeWebView?.postMessage(src)
   }
+  addTapMessageToImages()
+  if (isWeb) addTargetToLinksOnWeb()
+  if (!isWeb) addTapMessageToLinks()
   rangy.init()
   highlighter = rangy.createHighlighter()
-  highlighter.addClassApplier(rangy.createClassApplier("highlight", {
-    ignoreWhiteSpace: true,
-    tagNames: ["span", "a"]
-  }))
-  highlighter.addClassApplier(rangy.createClassApplier("highlight-pending", {
-    ignoreWhiteSpace: true,
-    tagNames: ["span", "a"]
-  }))
+  highlighter.addClassApplier(
+    rangy.createClassApplier('highlight', {
+      ignoreWhiteSpace: true,
+      tagNames: ['span', 'a']
+    })
+  )
+  highlighter.addClassApplier(
+    rangy.createClassApplier('highlight-pending', {
+      ignoreWhiteSpace: true,
+      tagNames: ['span', 'a']
+    })
+  )
   // biome-ignore lint/complexity/noForEach: <explanation>
-  highlights.forEach(highlight => {
+  highlights.forEach((highlight) => {
     highlighter.deserialize(highlight.serialized)
     // find the highlight and add the _id as an attribute
     const highlights = document.querySelectorAll('.highlight')
@@ -735,4 +795,4 @@ function init() {
   // })
 }
 
-window.addEventListener("load", init)
+window.addEventListener('load', init)

@@ -16,10 +16,7 @@ import {
   toggleMercuryViewAction
 } from './types'
 
-export const itemMarkRead = (
-  action: markItemReadAction,
-  state: ItemsState
-) => {
+export const itemMarkRead = (action: markItemReadAction, state: ItemsState) => {
   const items = state.items.map((i: Item) => {
     let item = { ...i }
     if (item._id === action.item._id) {
@@ -33,15 +30,12 @@ export const itemMarkRead = (
   }
 }
 
-export function itemsMarkRead(
-  action: markItemsReadAction,
-  state: ItemsState
-) {
+export function itemsMarkRead(action: markItemsReadAction, state: ItemsState) {
   if (action.items.length === 0) {
     return state
   }
-  const items = state.items.map(item => {
-    const readItem = action.items.find(ai => ai._id === item._id)
+  const items = state.items.map((item) => {
+    const readItem = action.items.find((ai) => ai._id === item._id)
     if (readItem) {
       item = {
         ...item,
@@ -64,21 +58,24 @@ export function itemSetScrollOffset(
     let item = {
       ...i,
       // need to gracefully migrate to new format
-      scrollRatio: i.scrollRatio ?
-        typeof i.scrollRatio === 'object' ?
-          { ...i.scrollRatio } :
-          {
+      scrollRatio: i.scrollRatio
+        ? typeof i.scrollRatio === 'object'
+          ? { ...i.scrollRatio }
+          : {
+              html: 0,
+              mercury: 0
+            }
+        : {
             html: 0,
             mercury: 0
-          } :
-        {
-          html: 0,
-          mercury: 0
-        }
+          }
     }
     if (item._id === action.item._id) {
       const content = item.showMercuryContent ? 'mercury' : 'html'
-      item.scrollRatio[content] = Math.max(action.scrollRatio, item.scrollRatio[content] || 0)
+      item.scrollRatio[content] = Math.max(
+        action.scrollRatio,
+        item.scrollRatio[content] || 0
+      )
     }
     return item
   })
@@ -116,9 +113,10 @@ export function itemDecorationSuccess(
       return {
         ...i,
         coverImageUrl: action.mercuryStuff?.lead_image_url,
-        hasCoverImage: Platform.OS === 'web' ?
-          !!action.mercuryStuff?.lead_image_url :
-          !!action.imageStuff?.imageDimensions,
+        hasCoverImage:
+          Platform.OS === 'web'
+            ? !!action.mercuryStuff?.lead_image_url
+            : !!action.imageStuff?.imageDimensions,
         imageDimensions: action.imageStuff?.imageDimensions,
         isDecorated: true
       }
@@ -130,18 +128,19 @@ export function itemDecorationSuccess(
     ...state,
     items
   }
-
 }
 
 export function imageAnalysisSuccess(
   action: imageAnalysisSuccessAction,
   state: ItemsState
 ) {
-  const items = state.items.map((i: Item) => (i._id === action.item._id) ?
-    {
-      ...i,
-      isAnalysed: true
-    } : i
+  const items = state.items.map((i: Item) =>
+    i._id === action.item._id
+      ? {
+          ...i,
+          isAnalysed: true
+        }
+      : i
   )
   return {
     ...state,
@@ -215,7 +214,7 @@ export function updateCurrentItemTitleFontSize(
   state: ItemsState
 ) {
   let stateChanged = false
-  const newItems = state.items.map(item => {
+  const newItems = state.items.map((item) => {
     if (item._id === action.item._id) {
       // if (item.styles && item.styles.title.fontSize !== action.fontSize) {
       //   item.styles.title.fontSize = action.fontSize
@@ -226,10 +225,10 @@ export function updateCurrentItemTitleFontSize(
     }
     return item
   })
-  return stateChanged ?
-    {
-      ...state,
-      items: newItems
-    } :
-    state
+  return stateChanged
+    ? {
+        ...state,
+        items: newItems
+      }
+    : state
 }

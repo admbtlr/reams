@@ -1,5 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, Dimensions, Linking, Platform, Text, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Dimensions,
+  Linking,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import { WebView, WebViewNavigation } from 'react-native-webview'
 import { openLink } from '../../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './index'
@@ -9,7 +17,12 @@ import { getHost, id } from '../../utils'
 import { RootState } from '../../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../../store/ui/types'
 import { ActiveHighlightContext } from '../ItemsScreen'
-import { ITEM_BODY_CLEANED, ItemInflated, RESET_DECORATION_FALIURES, SAVE_ITEM } from '../../store/items/types'
+import {
+  ITEM_BODY_CLEANED,
+  ItemInflated,
+  RESET_DECORATION_FALIURES,
+  SAVE_ITEM
+} from '../../store/items/types'
 import { Category } from '../../store/categories/types'
 import isEqual from 'lodash.isequal'
 import { createAnnotation } from '../../store/annotations/annotations'
@@ -19,6 +32,10 @@ import { textInfoBoldStyle } from '../../utils/styles'
 import TextButton from '../TextButton'
 import { getMargin, isPortrait } from '../../utils/dimensions'
 import { useColor } from '../../hooks/useColor'
+import {
+  selectItemById,
+  selectItemShowMercury
+} from '@/store/items/items-selectors'
 
 const injectedJavaScript = `
 window.ReactNativeWebView?.postMessage('loaded');
@@ -61,18 +78,45 @@ interface ItemBodyProps {
   webViewHeight: number
 }
 
-const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageViewer, updateWebViewHeight, webViewHeight }: ItemBodyProps) => {
+const ItemBody = ({
+  bodyColor,
+  item,
+  onTextSelection,
+  orientation,
+  showImageViewer,
+  updateWebViewHeight,
+  webViewHeight
+}: ItemBodyProps) => {
   const webViewRef = useRef(null)
   const dispatch = useDispatch()
-  const { activeHighlightId, setActiveHighlightId, activeHighlight } = React.useContext(ActiveHighlightContext)
-  const annotatedCategory: Category | undefined = useSelector((store: RootState) => store.categories.categories.find(c => c.name === 'annotated'), isEqual)
-  const [annotatedCategoryId, setAnnotatedCategoryId] = useState(annotatedCategory?._id)
+  const { activeHighlightId, setActiveHighlightId, activeHighlight } =
+    React.useContext(ActiveHighlightContext)
+  const annotatedCategory: Category | undefined = useSelector(
+    (store: RootState) =>
+      store.categories.categories.find((c) => c.name === 'annotated'),
+    isEqual
+  )
+  const [annotatedCategoryId, setAnnotatedCategoryId] = useState(
+    annotatedCategory?._id
+  )
   useEffect(() => {
     setAnnotatedCategoryId(annotatedCategory?._id)
   }, [annotatedCategory?._id])
   const [isLoaded, setIsLoaded] = useState(false)
-  const [cleanedHtmlContent, setCleanedHtmlContent] = useState<string | undefined>()
-  const [cleanedMercuryContent, setCleanedMercuryContent] = useState<string | undefined>()
+  const [cleanedHtmlContent, setCleanedHtmlContent] = useState<
+    string | undefined
+  >()
+  const [cleanedMercuryContent, setCleanedMercuryContent] = useState<
+    string | undefined
+  >()
+
+  // Get the item directly from Redux to ensure we have the latest showMercuryContent value
+  const reduxItem = useSelector((state: RootState) =>
+    selectItemById(state, item._id)
+  )
+
+  const isShowMercury = reduxItem?.showMercuryContent || false
+  console.log('isShowMercury', isShowMercury)
 
   useEffect(() => {
     if (activeHighlightId === null) {
@@ -92,18 +136,21 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   // called when HTML was loaded and injected JS executed
-  const onNavigationStateChange = useCallback((event: WebViewNavigation) => {
-    // this means we're loading an image
-    if (event.url.startsWith('react-js-navigation')) return
-    const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
-    if (calculatedHeight) {
-      updateWebViewHeight(calculatedHeight)
-    }
-  }, [updateWebViewHeight])
+  const onNavigationStateChange = useCallback(
+    (event: WebViewNavigation) => {
+      // this means we're loading an image
+      if (event.url.startsWith('react-js-navigation')) return
+      const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
+      if (calculatedHeight) {
+        updateWebViewHeight(calculatedHeight)
+      }
+    },
+    [updateWebViewHeight]
+  )
 
   const highlightSelection = () => {
     if (Platform.OS !== 'web' && webViewRef?.current) {
-      (webViewRef.current as any).injectJavaScript(`
+      ;(webViewRef.current as any).injectJavaScript(`
         highlightSelection();
         true;
       `)
@@ -112,7 +159,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   const deselectHighlight = () => {
     if (Platform.OS !== 'web' && webViewRef?.current) {
-      (webViewRef.current as any).injectJavaScript(`
+      ;(webViewRef.current as any).injectJavaScript(`
         deselectHighlight();
         true;
       `)
@@ -141,7 +188,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   const onBodyCleaned = async (cleanedBody: string) => {
     let cleanedItem = { ...item }
-    if (showMercuryContent) {
+    if (isShowMercury) {
       cleanedItem.content_mercury = cleanedBody
       setCleanedMercuryContent(cleanedBody)
     } else {
@@ -168,7 +215,6 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     isNewsletter,
     isSaved,
     showCoverImage,
-    showMercuryContent,
     styles,
     url
   } = item
@@ -178,7 +224,8 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
   const displayMode = useSelector((state: RootState) => state.itemsMeta.display)
   const annotations = useSelector(
-    (state: RootState) => state.annotations.annotations.filter(a => a?.item_id === _id),
+    (state: RootState) =>
+      state.annotations.annotations.filter((a) => a?.item_id === _id),
     (a1, a2) => JSON.stringify(a1) === JSON.stringify(a2)
   )
 
@@ -201,12 +248,18 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
     styles.dropCapIsDrop ? 'dropCapIsDrop' : '',
     styles.dropCapIsBold ? 'dropCapIsBold' : '',
     styles.dropCapIsStroke ? 'dropCapIsStroke' : '',
-    (showMercuryContent && (isMercuryCleaned || cleanedMercuryContent !== undefined)) ||
-      (isHtmlCleaned || cleanedHtmlContent !== undefined) ? 'cleaned' : '',
+    (isShowMercury &&
+      (isMercuryCleaned || cleanedMercuryContent !== undefined)) ||
+    isHtmlCleaned ||
+    cleanedHtmlContent !== undefined
+      ? 'cleaned'
+      : '',
     isPortrait() ? 'portrait' : 'landscapes'
   ].join(' ')
 
-  const blockquoteClass = styles.hasColorBlockquoteBG ? 'hasColorBlockquoteBG' : ''
+  const blockquoteClass = styles.hasColorBlockquoteBG
+    ? 'hasColorBlockquoteBG'
+    : ''
 
   const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 1 : webViewHeight
   let server = ''
@@ -225,7 +278,7 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   }
 
   const getBody = () => {
-    if (showMercuryContent) {
+    if (isShowMercury) {
       return content_mercury
     }
     if (!!content_html) {
@@ -249,7 +302,10 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
 
   // do we already have the color?
   const host = getHost(item)
-  const cachedColor = useSelector((state: RootState) => state.hostColors.hostColors.find(hc => hc.host === host)?.color)
+  const cachedColor = useSelector(
+    (state: RootState) =>
+      state.hostColors.hostColors.find((hc) => hc.host === host)?.color
+  )
   const hookColor = useColor(host, cachedColor === undefined)
   const feedColor = hookColor || cachedColor
 
@@ -257,7 +313,11 @@ const ItemBody = ({ bodyColor, item, onTextSelection, orientation, showImageView
   const deviceWidth = height > width ? width : height
   const deviceWidthToggle = deviceWidth > 600 ? 'tablet' : 'phone'
 
-  const html = `<html class="font-size-${fontSize} ${isDarkMode ? 'dark-background' : ''} ${orientation} ${deviceWidthToggle} ${Platform.OS} ${isNewsletter ? 'newsletter' : ''}">
+  const html = `<html class="font-size-${fontSize} ${
+    isDarkMode ? 'dark-background' : ''
+  } ${orientation} ${deviceWidthToggle} ${Platform.OS} ${
+    isNewsletter ? 'newsletter' : ''
+  }">
 <head>
   <style>
 :root {
@@ -313,15 +373,15 @@ html, body {
         allowFileAccessFromFileURLs
         allowUniversalAccessFromFileURLs
         allowFileAccess
-        androidLayerType='hardware'
+        androidLayerType="hardware"
         containerStyle={{
           backgroundColor: 'transparent',
           flex: 0,
-          height: webViewHeight,
+          height: webViewHeight
         }}
-        decelerationRate='normal'
+        decelerationRate="normal"
         injectedJavaScript={injectedJavaScript}
-        mixedContentMode='compatibility'
+        mixedContentMode="compatibility"
         menuItems={[
           {
             label: 'Highlight',
@@ -329,7 +389,7 @@ html, body {
           }
         ]}
         onContentProcessDidTerminate={() => {
-          webViewRef.current && (webViewRef.current as any).reload();
+          webViewRef.current && (webViewRef.current as any).reload()
         }}
         onCustomMenuSelection={({ nativeEvent }) => {
           if (nativeEvent?.key === 'highlight') {
@@ -350,9 +410,10 @@ html, body {
           } else if (msg.substring(0, 5) === 'link:') {
             const url = msg.substring(5)
             console.log('OPEN LINK: ' + url)
-            if (!__DEV__) {
-              Linking.openURL(url)
-            }
+            openLink(url)
+            // if (!__DEV__) {
+            //   Linking.openURL(url)
+            // }
           } else if (msg.substring(0, 7) === 'resize:') {
             updateWebViewHeight(parseInt(msg.substring(7)))
           } else if (msg.substring(0, 10) === 'highlight:') {
@@ -383,31 +444,35 @@ html, body {
           width,
           flex: 0,
           backgroundColor: bodyColor,
-          opacity: isLoaded ? 1 : 0,
+          opacity: isLoaded ? 1 : 0
         }}
         source={{
           html: html,
-          baseUrl: Platform.OS === 'android' ?
-            '' :
-            'web/'
+          baseUrl: Platform.OS === 'android' ? '' : 'web/'
         }}
-        testID='mock-webview'
+        testID="mock-webview"
         webviewDebuggingEnabled={true}
       />
     </>
   )
 }
 
-export default React.memo(ItemBody, (prevProps, nextProps) => (
-  prevProps === nextProps ||
-  isEqual(prevProps, nextProps)
-))
+export default React.memo(
+  ItemBody,
+  (prevProps, nextProps) =>
+    prevProps === nextProps || isEqual(prevProps, nextProps)
+)
 
-const EmptyState = ({ _id, bodyColor, decoration_failures, underlay }: {
-  _id: string,
-  bodyColor: string,
-  decoration_failures?: number,
-  underlay?: boolean,
+const EmptyState = ({
+  _id,
+  bodyColor,
+  decoration_failures,
+  underlay
+}: {
+  _id: string
+  bodyColor: string
+  decoration_failures?: number
+  underlay?: boolean
 }) => {
   const [yPos, setYPos] = useState<number | null>(null)
   const [view, setView] = useState<View | null>(null)
@@ -419,21 +484,30 @@ const EmptyState = ({ _id, bodyColor, decoration_failures, underlay }: {
 
   useEffect(() => {
     if (isLayedOut && view) {
-      view.measure((x: number, y: number, w: number, h: number, pageX: number, pageY: number) => {
-        if (pageY < height - 100) {
-          setViewHeight(height - pageY)
-        } else {
-          setViewHeight(200)
+      view.measure(
+        (
+          x: number,
+          y: number,
+          w: number,
+          h: number,
+          pageX: number,
+          pageY: number
+        ) => {
+          if (pageY < height - 100) {
+            setViewHeight(height - pageY)
+          } else {
+            setViewHeight(200)
+          }
         }
-      })
+      )
     }
   }, [isLayedOut, view])
   return (
     <View
-      onLayout={event => {
+      onLayout={(event) => {
         setIsLayedOut(true)
       }}
-      ref={view => setView(view)}
+      ref={(view) => setView(view)}
       style={{
         width,
         height: viewHeight,
@@ -442,36 +516,43 @@ const EmptyState = ({ _id, bodyColor, decoration_failures, underlay }: {
         justifyContent: 'center',
         backgroundColor: bodyColor,
         opacity: 1,
-        position: underlay ? 'absolute' : 'relative',
+        position: underlay ? 'absolute' : 'relative'
         // zIndex: underlay ? 0 : 1
       }}
     >
-      <View style={{
-        alignItems: 'center',
-        flex: 1,
-        justifyContent: 'center'
-      }}>
-        {(decoration_failures && decoration_failures === 5) ?
-          (
-            <>
-              <Text style={{
+      <View
+        style={{
+          alignItems: 'center',
+          flex: 1,
+          justifyContent: 'center'
+        }}
+      >
+        {decoration_failures && decoration_failures === 5 ? (
+          <>
+            <Text
+              style={{
                 ...textInfoBoldStyle(),
                 marginBottom: getMargin(),
                 textAlign: 'center'
-              }}>Oh no! Something went wrong downloading this article.</Text>
-              <TextButton
-                onPress={() => dispatch({
+              }}
+            >
+              Oh no! Something went wrong downloading this article.
+            </Text>
+            <TextButton
+              onPress={() =>
+                dispatch({
                   type: RESET_DECORATION_FALIURES,
                   itemId: _id
-                })}
-                text='Try again'
-              />
-            </>
-          ) :
-          (<View>
+                })
+              }
+              text="Try again"
+            />
+          </>
+        ) : (
+          <View>
             <ActivityIndicator size="large" color={hslString('rizzleFG')} />
-          </View>)
-        }
+          </View>
+        )}
       </View>
     </View>
   )

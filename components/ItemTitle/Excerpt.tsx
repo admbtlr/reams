@@ -59,20 +59,24 @@ const Excerpt: React.FC<ExcerptProps> = ({
   let excerptShadowStyle: TextStyle = {}
 
   if (showCoverImage && !isCoverInline) {
-    excerptBg = (styles.excerptInvertBG/* || styles.bg*/) ? {
-      backgroundColor: styles.bg ?
-        'rgba(255,255,255,0.95)' :
-        getForegroundColor(),
-      paddingLeft: getMargin() / 2,
-      paddingRight: getMargin() / 2,
-      paddingTop: getMargin() / 2,
-      paddingBottom: getMargin() / 2,
-      marginBottom: lineHeight
-    } : {}
+    excerptBg = styles.excerptInvertBG /* || styles.bg*/
+      ? {
+          backgroundColor: styles.bg
+            ? 'rgba(255,255,255,0.95)'
+            : getForegroundColor(),
+          paddingLeft: getMargin() / 2,
+          paddingRight: getMargin() / 2,
+          paddingTop: getMargin() / 2,
+          paddingBottom: getMargin() / 2,
+          marginBottom: lineHeight
+        }
+      : {}
 
-    excerptShadowStyle = styles.excerptInvertBG ? {
-      textShadowColor: 'transparent'
-    } : {}
+    excerptShadowStyle = styles.excerptInvertBG
+      ? {
+          textShadowColor: 'transparent'
+        }
+      : {}
   }
 
   const fixPadding: ViewStyle = styles.invertBG ? { paddingLeft: 0 } : {}
@@ -80,20 +84,26 @@ const Excerpt: React.FC<ExcerptProps> = ({
   // Inner view style for the excerpt container
   let innerViewStyle: ViewStyle = {
     borderWidth: 0,
-    paddingTop: !isCoverInline && (styles.borderWidth || styles.bg) ?
-      getMargin() / 2 : 0,
-    paddingBottom: !showCoverImage ? getMargin() :
-      (styles.borderWidth || styles.bg) ?
-        getMargin() / 2 : getMargin(),
+    paddingTop:
+      !isCoverInline && (styles.borderWidth || styles.bg) ? getMargin() / 2 : 0,
+    paddingBottom: !showCoverImage
+      ? getMargin()
+      : styles.borderWidth || styles.bg
+      ? getMargin() / 2
+      : getMargin(),
     ...excerptBg,
-    paddingLeft: isFullBleed && (styles.excerptInvertBG/* || styles.bg*/) ? getMargin() / 2 : 0,
+    paddingLeft:
+      isFullBleed && styles.excerptInvertBG /* || styles.bg*/
+        ? getMargin() / 2
+        : 0,
     marginTop: styles.bg && !styles.borderWidth ? 1 : 0,
     width: 'auto',
-    alignSelf: {
-      'left': 'flex-start',
-      'center': 'center',
-      'right': 'flex-end'
-    }[styles.excerptHorizontalAlign] || 'flex-start',
+    alignSelf:
+      {
+        left: 'flex-start',
+        center: 'center',
+        right: 'flex-end'
+      }[styles.excerptHorizontalAlign] || 'flex-start',
     marginLeft: getMargin(),
     marginRight: getMargin(),
     transform: []
@@ -128,17 +138,19 @@ const Excerpt: React.FC<ExcerptProps> = ({
   }
 
   return (
-    <View style={{
-      flex: 0,
-      flexDirection: 'row',
-      justifyContent: showCoverImage ? justifiers[styles.valign] || 'flex-start' : 'flex-start',
-      alignItems: styles.textAlign === 'center' ? 'center' : 'flex-start',
-    }}>
+    <View
+      style={{
+        flex: 0,
+        flexDirection: 'row',
+        justifyContent: showCoverImage
+          ? justifiers[styles.valign] || 'flex-start'
+          : 'flex-start',
+        alignItems: styles.textAlign === 'center' ? 'center' : 'flex-start',
+        marginVertical: getMargin()
+      }}
+    >
       <Animated.View style={innerViewStyle}>
-        <Animated.Text
-          maxFontSizeMultiplier={1.2}
-          style={fontStyle}
-        >
+        <Animated.Text maxFontSizeMultiplier={1.2} style={fontStyle}>
           {excerpt}
         </Animated.Text>
       </Animated.View>
