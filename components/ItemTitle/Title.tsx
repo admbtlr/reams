@@ -1,21 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import {
-  Animated,
-  Dimensions,
-  Platform,
-  Text,
-  View,
-  TextStyle,
-  ViewStyle
-} from 'react-native'
+import { Animated, Dimensions, Platform, Text, View, TextStyle, ViewStyle } from 'react-native'
 import rnTextSize from 'react-native-text-size'
 import quote from 'headline-quotes'
 import * as Sentry from '@sentry/react-native'
-import {
-  getMargin,
-  fontSizeMultiplier,
-  getSmallestDimension
-} from '@/utils/dimensions'
+import { getMargin, fontSizeMultiplier, getSmallestDimension } from '@/utils/dimensions'
 import { SET_TITLE_FONT_SIZE } from '@/store/items/types'
 import { useDispatch } from 'react-redux'
 import log from '@/utils/log'
@@ -41,10 +29,7 @@ interface TitleProps {
   justifiers: { [key: string]: string }
   aligners: { [key: string]: string }
   fontFamily: string
-  getFontFamily: (
-    weight?: string | null | undefined,
-    variant?: string | null | undefined
-  ) => string
+  getFontFamily: (weight?: string | null | undefined, variant?: string | null | undefined) => string
 }
 
 interface MeasureResult {
@@ -91,9 +76,7 @@ const Title: React.FC<TitleProps> = ({
 
   // Text processing pipeline
   const originalTitle = title
-  const decodedTitle = quote(
-    entities.decodeHTML(title || '').replace(/\n/g, '')
-  )
+  const decodedTitle = quote(entities.decodeHTML(title || '').replace(/\n/g, ''))
   const displayTitle = decodedTitle.replace(/<.*>/g, '')
 
   const getLetterSpacing = useCallback(() => {
@@ -142,8 +125,7 @@ const Title: React.FC<TitleProps> = ({
   const getLongestWord = useCallback(() => {
     const words = displayTitle.split(' ')
     return words.reduce(
-      (longest: string, word: string) =>
-        word.length > longest.length ? word : longest,
+      (longest: string, word: string) => (word.length > longest.length ? word : longest),
       ''
     )
   }, [displayTitle])
@@ -170,9 +152,7 @@ const Title: React.FC<TitleProps> = ({
     Promise.all(
       sizes.map((size) =>
         rnTextSize.measure({
-          text: styles.isUpperCase
-            ? displayTitle.toLocaleUpperCase()
-            : displayTitle,
+          text: styles.isUpperCase ? displayTitle.toLocaleUpperCase() : displayTitle,
           width: getInnerWidth(size, styles.isItalic),
           fontSize: size,
           fontFamily,
@@ -226,9 +206,7 @@ const Title: React.FC<TitleProps> = ({
 
       if (!optimal?.size) {
         Sentry.captureMessage(
-          `Optimal is not an object for "${displayTitle}": ${JSON.stringify(
-            optimal
-          )}`
+          `Optimal is not an object for "${displayTitle}": ${JSON.stringify(optimal)}`
         )
       }
 
@@ -265,9 +243,7 @@ const Title: React.FC<TitleProps> = ({
     return Promise.all(
       sizes.map((size) =>
         rnTextSize.measure({
-          text: styles.isUpperCase
-            ? longestWord.toLocaleUpperCase()
-            : longestWord,
+          text: styles.isUpperCase ? longestWord.toLocaleUpperCase() : longestWord,
           fontSize: size,
           fontFamily,
           width: 1000
@@ -326,9 +302,7 @@ const Title: React.FC<TitleProps> = ({
   if (!styles || !item || !originalTitle) return null
 
   const fontSize: number = optimalFontSize || styles.fontSize || 42
-  let lineHeight: number = Math.floor(
-    fontSize * (styles.lineHeightAsMultiplier || 1.2)
-  )
+  let lineHeight: number = Math.floor(fontSize * (styles.lineHeightAsMultiplier || 1.2))
   if (lineHeight < fontSize) lineHeight = fontSize
 
   const renderedTitle: string = getRenderedTitle(decodedTitle)
@@ -352,11 +326,9 @@ const Title: React.FC<TitleProps> = ({
   const invertBGPadding: number = 6
   let paddingTop: number = shouldSplitIntoWords() ? invertBGPadding : 0
   const paddingBottom: number = 0
-  let paddingLeft: number =
-    showCoverImage && styles.invertBG ? invertBGPadding : 0
+  let paddingLeft: number = showCoverImage && styles.invertBG ? invertBGPadding : 0
 
-  const extraPadding: number =
-    Platform.OS === 'ios' ? Math.round(fontSize / 9) : 0
+  const extraPadding: number = Platform.OS === 'ios' ? Math.round(fontSize / 9) : 0
   paddingTop += extraPadding
   const marginTop: number = 0 - extraPadding
 
@@ -397,33 +369,26 @@ const Title: React.FC<TitleProps> = ({
   // Inner view style
   const horizontalMargin: number = getMargin() * 0.8
   const widthPercentage: number = getWidthPercentage()
-  const maxWidth: number =
-    ((screenWidth - horizontalMargin * 2) * widthPercentage) / 100
+  const maxWidth: number = ((screenWidth - horizontalMargin * 2) * widthPercentage) / 100
 
   let innerViewStyle: ViewStyle = {
     marginLeft: getMargin(),
     marginRight: getMargin(),
-    marginBottom:
-      isFullBleed && (styles.bg || styles.hasBorder) ? getMargin() : 0,
+    // marginBottom: isFullBleed && (styles.bg || styles.hasBorder) ? getMargin() : 0,
     marginTop: getMargin() / 2,
-    paddingLeft:
-      isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : 0,
-    paddingRight:
-      isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : 0,
+    paddingLeft: isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : 0,
+    paddingRight: isFullBleed && (styles.hasBorder || styles.bg) ? getMargin() / 2 : 0,
     paddingBottom:
-      !showCoverImage || isCoverInline
-        ? getMargin() / 2
-        : styles.textAlign === 'center' || styles.borderWidth
-        ? getInnerVerticalPadding(fontSize)
-        : styles.bg
-        ? getMargin()
-        : getMargin() / 2,
-    paddingTop:
-      styles.hasBorder || styles.bg ? getMargin() / 2 : getMargin() / 2,
+      !showCoverImage || isCoverInline ?
+        getMargin() / 2 :
+        (styles.textAlign === 'center' || styles.borderWidth ?
+          getInnerVerticalPadding(fontSize) :
+          (styles.bg ?
+            getMargin() :
+            getMargin() / 2)),
+    paddingTop: styles.hasBorder || styles.bg ? getMargin() / 2 : getMargin() / 2,
     backgroundColor:
-      showCoverImage && !isCoverInline && styles.bg
-        ? 'rgba(255,255,255,0.95)'
-        : 'transparent',
+      showCoverImage && !isCoverInline && styles.bg ? 'rgba(255,255,255,0.95)' : 'transparent',
     overflow: 'visible',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -483,10 +448,7 @@ const Title: React.FC<TitleProps> = ({
 
   if (styles.interStyled && styles.interBolded) {
     wordStyles = styles.interBolded.map((isAlternateStyle: boolean) => {
-      const wordFontFamily = getFontFamily(
-        null,
-        isAlternateStyle ? 'alternate' : null
-      )
+      const wordFontFamily = getFontFamily(null, isAlternateStyle ? 'alternate' : null)
       return {
         fontFamily: wordFontFamily,
         fontSize,
@@ -569,14 +531,16 @@ const Title: React.FC<TitleProps> = ({
           style={{
             ...fontStyle,
             ...shadowStyle,
-            marginBottom: 0,
             paddingTop:
               typeof fontStyle.paddingTop === 'number'
                 ? fontStyle.paddingTop + 10
                 : Platform.OS === 'ios'
                 ? 10
                 : 0,
-            marginTop: Platform.OS === 'ios' ? -10 : 0
+            marginTop: Platform.OS === 'ios' ? -10 : 0,
+            // fix for cutoff descenders
+            marginBottom: -10,
+            paddingBottom: 10,
           }}
         >
           <Animated.Text>{finalRenderedTitle}</Animated.Text>
