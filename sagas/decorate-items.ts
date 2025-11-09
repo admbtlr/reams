@@ -15,7 +15,11 @@ import {
   ItemStyles
 } from '../store/items/types'
 import { getCachedCoverImagePath, getImageDimensions } from '../utils'
-import { setCoverInline, setCoverAlign, setTitleVAlign } from '../utils/createItemStyles'
+import {
+  setCoverInline,
+  setCoverAlign,
+  setTitleVAlign
+} from '../utils/createItemStyles'
 import { getCurrentItem, getItem, getNewsletters } from './selectors'
 import { faceDetection } from '../utils/face-detection'
 
@@ -26,15 +30,17 @@ import {
   getFeeds,
   getSavedItems
 } from './selectors'
-import {
-  getItems as getStoredItems,
-  updateItem
-} from '../storage'
+import { getItems as getStoredItems, updateItem } from '../storage'
 import { Feed, Source } from '../store/feeds/types'
 import { Category } from '../store/categories/types'
 import { RootState } from '../store/reducers'
 import { Filter } from '../store/config/config'
-import { addMercuryStuffToItem, deflateItem, removeCachedCoverImageDuplicate, setShowCoverImage } from '../utils/item-utils'
+import {
+  addMercuryStuffToItem,
+  deflateItem,
+  removeCachedCoverImageDuplicate,
+  setShowCoverImage
+} from '../utils/item-utils'
 import log from '../utils/log'
 import { downloadContent } from '../backends/fastmail'
 import { Newsletter } from '../store/newsletters/types'
@@ -62,17 +68,38 @@ const timingStats = {
   total: { count: 0, totalTime: 0, averageTime: 0 } as TimingStats
 }
 
-function logBasicDecorationStats(itemTitle: string, basicDuration: number, stepTimings: { [key: string]: number }) {
-  if (stepTimings.downloadContent) console.log(`  Download Content: ${stepTimings.downloadContent}ms`)
-  if (stepTimings.cacheImage) console.log(`  Cache Image: ${stepTimings.cacheImage}ms`)
+function logBasicDecorationStats(
+  itemTitle: string,
+  basicDuration: number,
+  stepTimings: { [key: string]: number }
+) {
+  if (stepTimings.downloadContent)
+    console.log(`  Download Content: ${stepTimings.downloadContent}ms`)
+  if (stepTimings.cacheImage)
+    console.log(`  Cache Image: ${stepTimings.cacheImage}ms`)
 }
 
 function logFullDecorationStats(itemTitle: string, faceDuration: number) {
-  console.log(`Image analysis complete for "${itemTitle}" - Face detection: ${faceDuration}ms`)
+  console.log(
+    `Image analysis complete for "${itemTitle}" - Face detection: ${faceDuration}ms`
+  )
   console.log(`Running averages:`)
-  console.log(`  Basic Decoration: ${timingStats.basicDecoration.averageTime.toFixed(0)}ms avg (${timingStats.basicDecoration.count} items)`)
-  console.log(`  Face Detection: ${timingStats.faceDetection.averageTime.toFixed(0)}ms avg (${timingStats.faceDetection.count} items)`)
-  console.log(`  Total (Basic + Face): ${(timingStats.basicDecoration.averageTime + timingStats.faceDetection.averageTime).toFixed(0)}ms avg`)
+  console.log(
+    `  Basic Decoration: ${timingStats.basicDecoration.averageTime.toFixed(
+      0
+    )}ms avg (${timingStats.basicDecoration.count} items)`
+  )
+  console.log(
+    `  Face Detection: ${timingStats.faceDetection.averageTime.toFixed(
+      0
+    )}ms avg (${timingStats.faceDetection.count} items)`
+  )
+  console.log(
+    `  Total (Basic + Face): ${(
+      timingStats.basicDecoration.averageTime +
+      timingStats.faceDetection.averageTime
+    ).toFixed(0)}ms avg`
+  )
 }
 
 function updateTimingStats(step: keyof typeof timingStats, duration: number) {
@@ -82,20 +109,46 @@ function updateTimingStats(step: keyof typeof timingStats, duration: number) {
   stats.averageTime = stats.totalTime / stats.count
 }
 
-function logTimingStats(itemTitle: string, stepTimings: { [key: string]: number }) {
+function logTimingStats(
+  itemTitle: string,
+  stepTimings: { [key: string]: number }
+) {
   console.log(`\n=== Decoration Timing for "${itemTitle}" ===`)
   console.log(`This item:`)
-  if (stepTimings.downloadContent) console.log(`  Download Content: ${stepTimings.downloadContent}ms`)
+  if (stepTimings.downloadContent)
+    console.log(`  Download Content: ${stepTimings.downloadContent}ms`)
   console.log(`  Mercury API: ${stepTimings.mercury}ms`)
-  if (stepTimings.cacheImage) console.log(`  Cache Image: ${stepTimings.cacheImage}ms`)
-  if (stepTimings.faceDetection) console.log(`  Face Detection: ${stepTimings.faceDetection}ms`)
+  if (stepTimings.cacheImage)
+    console.log(`  Cache Image: ${stepTimings.cacheImage}ms`)
+  if (stepTimings.faceDetection)
+    console.log(`  Face Detection: ${stepTimings.faceDetection}ms`)
   console.log(`  Total: ${stepTimings.total}ms`)
   console.log(`Running averages:`)
-  console.log(`  Download Content: ${timingStats.downloadContent.averageTime.toFixed(0)}ms avg (${timingStats.downloadContent.count} items)`)
-  console.log(`  Mercury API: ${timingStats.mercury.averageTime.toFixed(0)}ms avg (${timingStats.mercury.count} items)`)
-  console.log(`  Cache Image: ${timingStats.cacheImage.averageTime.toFixed(0)}ms avg (${timingStats.cacheImage.count} items)`)
-  console.log(`  Face Detection: ${timingStats.faceDetection.averageTime.toFixed(0)}ms avg (${timingStats.faceDetection.count} items)`)
-  console.log(`  Total Decoration: ${timingStats.total.averageTime.toFixed(0)}ms avg (${timingStats.total.count} items)`)
+  console.log(
+    `  Download Content: ${timingStats.downloadContent.averageTime.toFixed(
+      0
+    )}ms avg (${timingStats.downloadContent.count} items)`
+  )
+  console.log(
+    `  Mercury API: ${timingStats.mercury.averageTime.toFixed(0)}ms avg (${
+      timingStats.mercury.count
+    } items)`
+  )
+  console.log(
+    `  Cache Image: ${timingStats.cacheImage.averageTime.toFixed(0)}ms avg (${
+      timingStats.cacheImage.count
+    } items)`
+  )
+  console.log(
+    `  Face Detection: ${timingStats.faceDetection.averageTime.toFixed(
+      0
+    )}ms avg (${timingStats.faceDetection.count} items)`
+  )
+  console.log(
+    `  Total Decoration: ${timingStats.total.averageTime.toFixed(0)}ms avg (${
+      timingStats.total.count
+    } items)`
+  )
   console.log('=======================================\n')
 }
 
@@ -113,7 +166,7 @@ interface FullImageStuff extends BasicImageStuff {
   faceCentreNormalised?: any
 }
 
-interface WholeItem extends Item, ItemInflated { }
+interface WholeItem extends Item, ItemInflated {}
 
 export function* decorateItems() {
   let items
@@ -176,7 +229,6 @@ export function* analyseItem(item: Item) {
       item,
       isSaved: item.isSaved
     })
-
   } catch (error) {
     console.log(`Image analysis failed for "${item.title}":`, error)
   }
@@ -184,21 +236,29 @@ export function* analyseItem(item: Item) {
 
 function* decorationFailed(item: Item) {
   if (!item) return
-  consoleLog(`Error decorating item "${item.title}", trying again next time around`)
+  consoleLog(
+    `Error decorating item "${item.title}", trying again next time around`
+  )
   yield call(InteractionManager.runAfterInteractions)
   yield put({
     type: ITEM_DECORATION_FAILURE,
     item,
     isSaved: item.isSaved
   })
-  item = yield select(getItem, item._id, item.isSaved ? ItemType.saved : ItemType.unread)
+  item = yield select(
+    getItem,
+    item._id,
+    item.isSaved ? ItemType.saved : ItemType.unread
+  )
   // I don't think this is necessary anymore
   // if (Platform.OS === 'web') {
   //   yield call(updateItemIDB, item)
   // } else {
   //   yield call(updateItemSQLite, item)
   // }
-  pendingDecoration = pendingDecoration.filter(pending => pending._id !== item._id)
+  pendingDecoration = pendingDecoration.filter(
+    (pending) => pending._id !== item._id
+  )
 }
 
 function consoleLog(txt: string) {
@@ -207,13 +267,54 @@ function consoleLog(txt: string) {
   }
 }
 
-export function* assembleBasicDecoration(i: Item): Generator<any, { item: WholeItem, mercuryStuff: MercuryStuff, basicImageStuff: BasicImageStuff } | boolean, any> {
+export function* assembleBasicDecoration(i: Item): Generator<
+  any,
+  | {
+      item: WholeItem
+      mercuryStuff: MercuryStuff
+      basicImageStuff: BasicImageStuff
+    }
+  | boolean,
+  any
+> {
   const startTime = Date.now()
   const stepTimings: { [key: string]: number } = {}
 
   let items: ItemInflated[] = yield call(getStoredItems, [i])
   let itemInflated = items[0]
   let item: WholeItem = { ...i, ...itemInflated }
+
+  // Extract host with redirect resolution (native platforms only)
+  if (!item.host && Platform.OS !== 'web') {
+    try {
+      let resolvedUrl = item.url || item.feed_url
+      const response = yield call(fetch, resolvedUrl)
+      if (response.url !== resolvedUrl) {
+        resolvedUrl = response.url
+      }
+      const matches = resolvedUrl?.match(/:\/\/(.*?)\//)
+      const host =
+        matches?.length !== undefined && matches.length > 1
+          ? matches[1]
+          : resolvedUrl
+      item.host = host
+    } catch (err) {
+      console.error(`Error resolving host for item ${item._id}`, err)
+      // Fallback to extracting from original URL
+      const matches = item.url?.match(/:\/\/(.*?)\//)
+      item.host =
+        matches?.length !== undefined && matches.length > 1
+          ? matches[1]
+          : item.url
+    }
+  } else if (!item.host) {
+    // Web platform: just extract from URL without redirect resolution
+    const matches = item.url?.match(/:\/\/(.*?)\//)
+    item.host =
+      matches?.length !== undefined && matches.length > 1
+        ? matches[1]
+        : item.url
+  }
 
   // Step 1: Download content (newsletters only)
   if (item.blobId) {
@@ -247,7 +348,12 @@ export function* assembleBasicDecoration(i: Item): Generator<any, { item: WholeI
   }
 
   // Step 3: Basic image preparation (cache only, no face detection)
-  const basicImageStuff: BasicImageStuff = yield call(prepareBasicCoverImage, item, mercuryStuff, stepTimings)
+  const basicImageStuff: BasicImageStuff = yield call(
+    prepareBasicCoverImage,
+    item,
+    mercuryStuff,
+    stepTimings
+  )
 
   // Calculate basic decoration time and log stats
   const basicDuration = Date.now() - startTime
@@ -262,7 +368,11 @@ export function* assembleBasicDecoration(i: Item): Generator<any, { item: WholeI
   }
 }
 
-function* applyBasicDecoration(result: { item: WholeItem, mercuryStuff: MercuryStuff, basicImageStuff: BasicImageStuff }) {
+function* applyBasicDecoration(result: {
+  item: WholeItem
+  mercuryStuff: MercuryStuff
+  basicImageStuff: BasicImageStuff
+}) {
   yield call(InteractionManager.runAfterInteractions)
   const displayMode: string = yield select(getDisplay)
   const isSaved = result.item.isSaved
@@ -285,11 +395,17 @@ function* applyBasicDecoration(result: { item: WholeItem, mercuryStuff: MercuryS
   // const updatedItem = updatedItems.find(i => i._id === decoratedItem._id)
 
   if (result.item) {
-    pendingDecoration = pendingDecoration.filter(pending => pending._id !== result.item._id)
+    pendingDecoration = pendingDecoration.filter(
+      (pending) => pending._id !== result.item._id
+    )
   }
 }
 
-function* persistBasicDecoration(result: { item: WholeItem, mercuryStuff: MercuryStuff, basicImageStuff: BasicImageStuff }) {
+function* persistBasicDecoration(result: {
+  item: WholeItem
+  mercuryStuff: MercuryStuff
+  basicImageStuff: BasicImageStuff
+}) {
   const { basicImageStuff, item, mercuryStuff } = result
   const isWeb = Platform.OS === 'web'
   const decorated = addMercuryStuffToItem(item, mercuryStuff)
@@ -297,7 +413,9 @@ function* persistBasicDecoration(result: { item: WholeItem, mercuryStuff: Mercur
     ...item,
     ...decorated
   }
-  const hasCoverImage = !!basicImageStuff.imageDimensions?.height || (isWeb && !!wholeItem.coverImageUrl)
+  const hasCoverImage =
+    !!basicImageStuff.imageDimensions?.height ||
+    (isWeb && !!wholeItem.coverImageUrl)
   if (hasCoverImage) {
     wholeItem.hasCoverImage = true
     wholeItem.imageDimensions = basicImageStuff.imageDimensions
@@ -319,18 +437,29 @@ function* persistBasicDecoration(result: { item: WholeItem, mercuryStuff: Mercur
   return deflated
 }
 
-function* prepareBasicCoverImage(item: Item, mercuryStuff: MercuryStuff, stepTimings: { [key: string]: number }): Generator<any, BasicImageStuff, any> {
+function* prepareBasicCoverImage(
+  item: Item,
+  mercuryStuff: MercuryStuff,
+  stepTimings: { [key: string]: number }
+): Generator<any, BasicImageStuff, any> {
   let imageStuff: BasicImageStuff = {}
   if (mercuryStuff.lead_image_url && Platform.OS !== 'web') {
     const cacheStart = Date.now()
-    let coverImageFile = yield call(cacheCoverImage, item, mercuryStuff.lead_image_url)
+    let coverImageFile = yield call(
+      cacheCoverImage,
+      item,
+      mercuryStuff.lead_image_url
+    )
     const cacheDuration = Date.now() - cacheStart
     stepTimings.cacheImage = cacheDuration
     updateTimingStats('cacheImage', cacheDuration)
 
     if (coverImageFile) {
       try {
-        const imageDimensions = yield call(getImageDimensions, getCachedCoverImagePath(item))
+        const imageDimensions = yield call(
+          getImageDimensions,
+          getCachedCoverImagePath(item)
+        )
         imageStuff = {
           imageDimensions
         }
@@ -342,7 +471,9 @@ function* prepareBasicCoverImage(item: Item, mercuryStuff: MercuryStuff, stepTim
   return imageStuff
 }
 
-function* performImageAnalysisForItem(item: Item): Generator<any, { x: number, y: number } | undefined, any> {
+function* performImageAnalysisForItem(
+  item: Item
+): Generator<any, { x: number; y: number } | undefined, any> {
   // Get the full item data from storage
   let items: ItemInflated[] = yield call(getStoredItems, [item])
   let itemInflated = items[0]
@@ -357,7 +488,9 @@ function* performImageAnalysisForItem(item: Item): Generator<any, { x: number, y
     // console.log(`Starting face detection for "${item.title}"`)
     // Face detection timing
     const faceStart = Date.now()
-    const faceCentreNormalised = yield call(() => faceDetection(coverImageFile!, imageDimensions!))
+    const faceCentreNormalised = yield call(() =>
+      faceDetection(coverImageFile!, imageDimensions!)
+    )
     const faceDuration = Date.now() - faceStart
     updateTimingStats('faceDetection', faceDuration)
     // console.log(`Face detection completed for "${item.title}" in ${faceDuration}ms`)
@@ -377,16 +510,23 @@ function* applyImageAnalysis(item: Item, faceCentreNormalised: any) {
 
   // Update item with face detection results
   itemInflated.faceCentreNormalised = faceCentreNormalised
-  itemInflated.styles = adjustStylesWithFaceDetection(itemInflated.styles, faceCentreNormalised)
+  itemInflated.styles = adjustStylesWithFaceDetection(
+    itemInflated.styles,
+    faceCentreNormalised
+  )
 
   yield call(updateItem, itemInflated)
 }
 
-function adjustBasicStylesToCoverImage(item: WholeItem, mercuryStuff: MercuryStuff): {} {
+function adjustBasicStylesToCoverImage(
+  item: WholeItem,
+  mercuryStuff: MercuryStuff
+): {} {
   let styles = { ...item.styles }
 
-  const setImageInline = () => Math.random() > 0.5
-    || (mercuryStuff.excerpt && mercuryStuff.excerpt.length > 180)
+  const setImageInline = () =>
+    Math.random() > 0.5 ||
+    (mercuryStuff.excerpt && mercuryStuff.excerpt.length > 180)
 
   if (setImageInline()) {
     styles = setCoverInline(styles)
@@ -398,11 +538,13 @@ function adjustBasicStylesToCoverImage(item: WholeItem, mercuryStuff: MercuryStu
   return styles
 }
 
-function adjustStylesWithFaceDetection(styles: ItemStyles, faceCentreNormalised: any): any {
+function adjustStylesWithFaceDetection(
+  styles: ItemStyles,
+  faceCentreNormalised: any
+): any {
   if (faceCentreNormalised) {
     const { x, y } = faceCentreNormalised
-    const hAlign = x < 0.333 ? 'left' :
-      x < 0.666 ? 'center' : 'right'
+    const hAlign = x < 0.333 ? 'left' : x < 0.666 ? 'center' : 'right'
     const vAlign = y < 0.5 ? 'bottom' : 'top'
     styles = setCoverAlign(hAlign, styles)
     styles = setTitleVAlign(vAlign, styles)
@@ -437,9 +579,11 @@ export async function cacheCoverImage(item: Item, imageURL: string) {
 function* getNextItemToDecorate() {
   const isItemViable = (item: Item) => {
     if (!item) return false
-    const viable = item.isDecorated !== true &&
-      (!item.decoration_failures || item.decoration_failures < MAX_DECORATION_FAILURES) &&
-      !pendingDecoration.find(pd => pd._id === item._id)
+    const viable =
+      item.isDecorated !== true &&
+      (!item.decoration_failures ||
+        item.decoration_failures < MAX_DECORATION_FAILURES) &&
+      !pendingDecoration.find((pd) => pd._id === item._id)
 
     return viable
   }
@@ -462,49 +606,69 @@ function* getNextItemToDecorate() {
   const index: number = yield select(getIndex, ItemType.unread)
   const feeds: Feed[] = yield select(getFeeds)
   const newsletters: Newsletter[] = yield select(getNewsletters)
-  let sourcesWithoutDecoration: Source[] = feeds.filter(feed => {
+  let sourcesWithoutDecoration: Source[] = feeds.filter((feed) => {
     // external items handle their own decoration
-    return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === feed._id)
-      .find(item => item.isDecorated)
+    return !items
+      .filter((i) => !i.readAt && !i.isExternal && i.feed_id === feed._id)
+      .find((item) => item.isDecorated)
   })
-  sourcesWithoutDecoration = sourcesWithoutDecoration.concat(newsletters.filter(nl => {
-    return !items.filter(i => !i.readAt && !i.isExternal && i.feed_id === nl._id)
-      .find(item => item.isDecorated)
-
-  }))
+  sourcesWithoutDecoration = sourcesWithoutDecoration.concat(
+    newsletters.filter((nl) => {
+      return !items
+        .filter((i) => !i.readAt && !i.isExternal && i.feed_id === nl._id)
+        .find((item) => item.isDecorated)
+    })
+  )
   let count = 0
-  const candidateItems = items.filter(item => {
-    return item.isDecorated !== true &&
+  const candidateItems = items.filter((item) => {
+    return (
+      item.isDecorated !== true &&
       (!item.decoration_failures || item.decoration_failures < 3) &&
       // !item.readAt &&
       items.indexOf(item) >= index &&
       items.indexOf(item) < index + 20
+    )
   })
   if (candidateItems.length) {
-    nextItem = candidateItems.find(item => item.isDecorated !== true
-      && !pendingDecoration.find(pd => pd._id === item._id))
+    nextItem = candidateItems.find(
+      (item) =>
+        item.isDecorated !== true &&
+        !pendingDecoration.find((pd) => pd._id === item._id)
+    )
     // if (nextItem) {
     //   console.log(`Selected candidate item for decoration: "${nextItem.title}" (isDecorated: ${nextItem.isDecorated})`)
     // }
   }
   if (!nextItem) {
-    while (sourcesWithoutDecoration.length > 0 && count < sourcesWithoutDecoration.length && !nextItem) {
+    while (
+      sourcesWithoutDecoration.length > 0 &&
+      count < sourcesWithoutDecoration.length &&
+      !nextItem
+    ) {
       const feed = sourcesWithoutDecoration[count++]
-      nextItem = items.find(i => !i.readAt &&
-        i.feed_id === feed._id &&
-        i.isDecorated !== true &&
-        (i.decoration_failures ? i.decoration_failures < MAX_DECORATION_FAILURES : true) &&
-        !pendingDecoration.find(pd => pd._id === i._id))
+      nextItem = items.find(
+        (i) =>
+          !i.readAt &&
+          i.feed_id === feed._id &&
+          i.isDecorated !== true &&
+          (i.decoration_failures
+            ? i.decoration_failures < MAX_DECORATION_FAILURES
+            : true) &&
+          !pendingDecoration.find((pd) => pd._id === i._id)
+      )
       // if (nextItem) {
       //   console.log(`Selected feed item for decoration: "${nextItem.title}" (isDecorated: ${nextItem.isDecorated})`)
       // }
     }
   }
   if (!nextItem) {
-    nextItem = savedItems.find(item => item.isDecorated !== true &&
-      item.decoration_failures &&
-      item.decoration_failures < MAX_DECORATION_FAILURES &&
-      !pendingDecoration.find(pd => pd._id === item._id))
+    nextItem = savedItems.find(
+      (item) =>
+        item.isDecorated !== true &&
+        item.decoration_failures &&
+        item.decoration_failures < MAX_DECORATION_FAILURES &&
+        !pendingDecoration.find((pd) => pd._id === item._id)
+    )
     // if (nextItem) {
     //   console.log(`Selected saved item for decoration: "${nextItem.title}" (isDecorated: ${nextItem.isDecorated})`)
     // }
@@ -520,9 +684,7 @@ function* getNextItemToAnalyse(): Generator<any, Item | null, any> {
 
   // Check if an item needs analysis (decorated but no face analysis yet)
   const needsAnalysis = (item: Item) => {
-    return item.isDecorated === true &&
-      !item.isAnalysed &&
-      !!item.hasCoverImage
+    return item.isDecorated === true && !item.isAnalysed && !!item.hasCoverImage
   }
 
   // First check current display mode items

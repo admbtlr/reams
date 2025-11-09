@@ -13,7 +13,7 @@ import { openLink } from '../../utils/open-link'
 import { INITIAL_WEBVIEW_HEIGHT } from './index'
 import { hslString } from '../../utils/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { getHost, id } from '../../utils'
+import { id } from '../../utils'
 import { RootState } from '../../store/reducers'
 import { HIDE_ALL_BUTTONS } from '../../store/ui/types'
 import { ActiveHighlightContext } from '../ItemsScreen'
@@ -300,14 +300,15 @@ const ItemBody = ({
     data = coverImageUrl
   }
 
-  // do we already have the color?
-  const host = getHost(item)
-  const cachedColor = useSelector(
-    (state: RootState) =>
-      state.hostColors.hostColors.find((hc) => hc.host === host)?.color
-  )
-  const hookColor = useColor(host, cachedColor === undefined)
-  const feedColor = hookColor || cachedColor
+  // // do we already have the color?
+  // const host = item.host
+  // const cachedColor = useSelector(
+  //   (state: RootState) =>
+  //     state.hostColors.hostColors.find((hc) => hc.host === host)?.color
+  // )
+  // const hookColor = useColor(host, cachedColor === undefined)
+  // const feedColor = hookColor || cachedColor
+  const feedColor = useColor(item.host)
 
   const { width, height } = Dimensions.get('window')
   const deviceWidth = height > width ? width : height

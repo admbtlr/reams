@@ -61,6 +61,7 @@ export interface Item {
   feed_title: string
   hasCoverImage?: boolean | undefined
   hasShownMercury?: boolean | undefined
+  host?: string | undefined
   isAnalysed?: boolean | undefined
   isDecorated?: boolean | undefined
   isExternal?: boolean | undefined
