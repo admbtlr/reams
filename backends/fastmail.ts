@@ -177,7 +177,7 @@ interface FastmailItem {
 
 const mapFastmailItemToRizzleItem = (item: FastmailItem) => {
   // console.log(item)
-  let feed_url = item.headers.find(header => header.name === 'List-URL')?.value.replace(/[<> ]/g, '') ||
+  let feed_url = item.headers.find(header => header.name === 'List-Url')?.value.replace(/[<> ]/g, '') ||
     'https://www.' + item.from[0].email.trim().split('@')[1]
   if (feed_url === 'https://www.ghost.io') {
     const listUnsubscribe = item.headers.find(h => h.name === 'List-Unsubscribe')?.value
