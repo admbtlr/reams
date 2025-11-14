@@ -202,7 +202,7 @@ body, body a, body a:active, body a:visited {
   width: 100vw;
   max-width: 100vw;
   width: 100vw !important;
-  left: -4vw;
+  left: calc(-4vw - 1px);
   overflow: scroll;
 }
 @media (min-width: 600px) {
@@ -238,6 +238,7 @@ body.landscape .itemArticle img:not(.img-portrait):not(.img-small):not(.img-tiny
   margin: 0.5rem 0 1rem;
   max-width: calc(100vw - 1rem) !important;
   width: auto !important;
+  height: auto;
 }
 .itemArticle figure img.img-portrait, .itemArticle figure img.img-small {
   width: calc(100% - 1rem);
