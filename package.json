@@ -160,7 +160,7 @@
     "jest-mock-extended": "^3.0.5",
     "metro-react-native-babel-preset": "^0.76.8",
     "patch-package": "^6.4.7",
-    "prettier": "^2.4.1",
+    "prettier": "^3.1.0",
     "react-devtools": "^6.0.0",
     "react-native-dotenv": "^3.4.11",
     "react-native-typescript-transformer": "^1.2.13",
