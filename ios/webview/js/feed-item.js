@@ -759,13 +759,6 @@ function init() {
   })
   addTapMessageToHighlights()
 
-  let lastScrollPosition = 0
-  window.addEventListener('scrollend', (e) => {
-    const didScrollDown = window.scrollY > lastScrollPosition
-    postMessage(didScrollDown ? 'scroll-down' : 'scroll-up')
-    lastScrollPosition = window.scrollY
-  })
-
   if (substack.is()) {
     substack.fixFigures()
   }
