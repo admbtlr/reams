@@ -40,8 +40,6 @@ import { ItemType, SET_DISPLAY_MODE } from '../store/items/types'
 import { useModal } from './ModalProvider'
 import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 import SearchBar from './SearchBar'
-import { headerOptions } from './App'
-import DrawerButton from './DrawerButton'
 import { useHeaderHeight } from '@react-navigation/elements'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -441,44 +439,6 @@ function FeedsScreen({ route }) {
 
   return (
     <>
-      {/* <View style={{
-        position: 'absolute',
-        zIndex: 500,
-        flex: 0,
-        height: getStatusBarHeight(),
-        width: '100%',
-        // top: getStatusBarHeight() - 45,
-        right: 0,
-        backgroundColor: hslString('rizzleBG', undefined, 0.8),
-        paddingBottom: getMargin() / 2
-      }}>
-        <View style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          height: '100%',
-          paddingHorizontal: getMargin()
-        }}>
-          <DrawerButton isLight={false} onPress={() => navigation.openDrawer()} />
-          <Text style={{
-            ...headerOptions.headerTitleStyle
-          }}>{isSaved ? 'Library' : 'Feed'}</Text>
-          <TouchableOpacity
-            testID="search-button"
-            onPress={() => {
-              LayoutAnimation.configureNext({
-                duration: 500,
-                create: { type: 'linear', property: 'opacity' },
-                update: { type: 'spring', springDamping: 0.6 },
-                delete: { duration: 100, type: 'linear', property: 'opacity' }
-              })
-              setShowSearch(!showSearch)
-            }}>
-            {getRizzleButtonIcon('search', hslString('rizzleText'))}
-          </TouchableOpacity>
-        </View>
-      </View> */}
       <View
         style={{
           flex: 1,
@@ -543,7 +503,7 @@ function FeedsScreen({ route }) {
         ) : (
           <ScrollView
             contentContainerStyle={{
-              paddingTop: headerHeight + getMargin() / 2
+              paddingTop: Platform.OS === 'ios' ? headerHeight + getMargin() / 2 : 0
             }}
             style={{
               flex: 1,
@@ -582,6 +542,6 @@ function FeedsScreen({ route }) {
   )
 }
 
-FeedsScreen.whyDidYouRender = true
+FeedsScreen.whyDidYouRender = __DEV__
 
 export default React.memo(FeedsScreen, isEqual)

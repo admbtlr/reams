@@ -44,7 +44,7 @@ import TopBars from './ItemCarousel/TopBars'
 import { AnimationProvider } from './ItemCarousel/AnimationContext'
 
 export const headerOptions = {
-  headerTransparent: true,
+  headerTransparent: Platform.OS === 'ios',
   headerBlurEffect: 'regular' as const,
   headerShadowVisible: false,
 
