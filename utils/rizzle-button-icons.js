@@ -79,9 +79,8 @@ export function getRizzleButtonIcon(iconName, borderColor, backgroundColor, isEn
         strokeLinejoin='round'
         style={{
           position: 'absolute',
-          left: fontScale(10),
-          top: fontScale(11),
-          transform: [{ rotate: '180deg' }]
+          left: fontScale(8),
+          top: fontScale(7),
         }}
       >
         <Path d="M7 28L7 7" strokeWidth={3} />
@@ -423,11 +422,8 @@ export function getRizzleButtonIcon(iconName, borderColor, backgroundColor, isEn
         strokeLinejoin='round'
         style={{
           position: 'absolute',
-          left: 8,
-          top: 12,
-          transform: [{
-            rotate: '180deg'
-          }]
+          left: 11,
+          top: 8,
         }}
       >
         <Path d='M5 14a12 12 0 0 1 12 13' />
@@ -539,7 +535,7 @@ export function getRizzleButtonIcon(iconName, borderColor, backgroundColor, isEn
       width={fontScale(32)}
       height={fontScale(32)}
       viewBox='0 0 24 24'
-      fill='none' 
+      fill='none'
       stroke={borderColor}
       strokeLinecap='round'
       strokeLinejoin='round'

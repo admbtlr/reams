@@ -56,7 +56,7 @@ const ReamsButton = (props) => {
       setToggleState(newToggleState)
 
       toggleAnim.value = withTiming(newToggleState ? 1 : 0, {
-        duration: 300
+        duration: 1000
       })
     }
 
@@ -74,9 +74,9 @@ const ReamsButton = (props) => {
       top: 0,
       width: 50,
       height: 50,
-      transform: [{
-        rotate: interpolate(toggleAnim.value, [0, 1], [0, 180]) + 'deg'
-      }]
+      // transform: [{
+      //   rotate: `${interpolate(toggleAnim.value, [0, 1], [0, 180])}deg`
+      // }]
     }
 
     const onAnimatedStyle = useAnimatedStyle(() => {
