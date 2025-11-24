@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Animated, Dimensions, View, StyleSheet, useWindowDimensions, Platform } from 'react-native'
+import { Animated, Dimensions, View, StyleSheet, useWindowDimensions, Platform, FlexAlignType, DimensionValue } from 'react-native'
 import Reanimated, { interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 import {
@@ -106,14 +106,15 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
   }
   const inline = {
     flex: 1,
-    alignItems: 'center',
-    width: '100%',
+    alignItems: 'center' as FlexAlignType,
+    width: '100%' as DimensionValue,
     marginTop: getStatusBarHeight(),
     top: -1,
     marginBottom: -1
   }
 
-  if (imageDimensions.width === 0 || imageDimensions.height === 0 || !imageDimensions.width || !imageDimensions.height) {
+  // for some reason imageDimensions is sometimes undefined
+  if (!imageDimensions || imageDimensions.width === 0 || imageDimensions.height === 0 || !imageDimensions.width || !imageDimensions.height) {
     return <View style={inline} />
   }
 
