@@ -709,7 +709,7 @@ function cleanSource() {
   removeNodes('time')
   removeSoloSurroundingDivs()
   createFigCaptions()
-  // removeSrcSets()
+  removeSrcSets()
   removeEmptyDivs()
   removeDivsWithImg()
   convertDivsToFigures()
