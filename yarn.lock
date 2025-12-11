@@ -13769,9 +13769,9 @@ react-refresh@^0.4.0:
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
 
 react-server-dom-webpack@~19.0.0:
-  version "19.0.0"
-  resolved "https://registry.yarnpkg.com/react-server-dom-webpack/-/react-server-dom-webpack-19.0.0.tgz#c60819b6cb54e317e675ddc0c5959ff915b789d0"
-  integrity sha512-hLug9KEXLc8vnU9lDNe2b2rKKDaqrp5gNiES4uyu2Up3FZfZJZmdwLFXlWzdA9gTB/6/cWduSB2K1Lfag2pSvw==
+  version "19.0.2"
+  resolved "https://registry.yarnpkg.com/react-server-dom-webpack/-/react-server-dom-webpack-19.0.2.tgz#bd2d512405df83610c1129ab598e4b4fd6a2348b"
+  integrity sha512-niMxdagxhrZYniMzN2QqXKdfL/MOgV54V2KjDLB9TUHR+wt2BWwROzW47RQV1XihQBP0hVxcoPWmy2s1JilcUg==
   dependencies:
     acorn-loose "^8.3.0"
     neo-async "^2.6.1"
