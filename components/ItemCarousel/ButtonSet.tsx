@@ -362,7 +362,7 @@ export default function ButtonSet({
       >
         {displayMode === ItemType.saved && getRizzleButtonIcon('trash', borderColor, backgroundColor, true, false)}
       </ReamsButton>
-      {displayMode == ItemType.unread && __DEV__ && (
+      {displayMode == ItemType.unread && (
         <ReamsButton
           backgroundColor={backgroundColor}
           borderColor={borderColor}
