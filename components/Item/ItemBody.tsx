@@ -116,7 +116,6 @@ const ItemBody = ({
   )
 
   const isShowMercury = reduxItem?.showMercuryContent || false
-  console.log('isShowMercury', isShowMercury)
 
   useEffect(() => {
     if (activeHighlightId === null) {

@@ -51,7 +51,6 @@ function* executeAction(action) {
         try {
           if (action.item) {
             yield call(InteractionManager.runAfterInteractions)
-            console.log('Calling markItemRead from saga')
             yield call(markItemRead, action.item)
             yield call(InteractionManager.runAfterInteractions)
             const readItem = {

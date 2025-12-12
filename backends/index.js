@@ -100,7 +100,6 @@ export function fetchUnreadIds() {
 }
 
 export async function markItemRead(item) {
-  console.log('Calling markItemRead on backend')
   if (backend === 'feedbin') {
     await feedbin.markItemRead(item)
   }
