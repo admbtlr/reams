@@ -9,6 +9,7 @@ import { DEACTIVATE_NUDGE, Feed, PAUSE_NUDGE } from '../store/feeds/types'
 import launchBrowser from '../utils/launch-browser'
 import { animateNextLayout } from '../utils/layout-animations'
 import { getHost } from '@/utils'
+const entities = require('entities')
 
 export const NUDGE_FREQUENCY = 10
 
@@ -97,7 +98,7 @@ export default function Nudge({ feed_id, scrollAnim }: {
             flex: 0,
             paddingHorizontal: getMargin(),
             opacity: 1
-          }}>This is the {feed?.readCount + suffix} article you’ve read from <Text style={textInfoBoldItalicStyle('hsl(0, 0%, 100%)', 0)}>{feed?.title}</Text>. How about supporting them?</Text>
+          }}>This is the {feed?.readCount + suffix} article you’ve read from <Text style={textInfoBoldItalicStyle('hsl(0, 0%, 100%)', 0)}>{entities.decodeHTML(feed?.title || '')}</Text>. How about supporting them?</Text>
           <View style={{
             flex: 0,
             flexDirection: 'row',
