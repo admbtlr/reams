@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useContext } from 'react'
 import {
   Animated,
   Dimensions,
@@ -104,11 +104,12 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
     }
   }, [bufferedItems, isOnboarding])
 
-  // Set initial scroll position
-  useEffect(() => {
+  // Set initial scroll position synchronously before paint
+  useLayoutEffect(() => {
     if (scrollViewRef.current) {
       // Calculate initial scroll position from Redux index
       const x = screenWidth * (bufferStartIndex === 0 ? 0 : 1)
+      
       scrollViewRef.current.scrollTo({
         x,
         y: 0,
@@ -116,7 +117,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
       })
       horizontalScroll.value = x
     }
-  }, [bufferedItems, screenWidth, bufferStartIndex])
+  }, [bufferedItems, screenWidth, bufferStartIndex, horizontalScroll])
 
   // Update index helper
   const updateBufferIndex = (newBufferIndex: number) => {
