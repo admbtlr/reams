@@ -92,6 +92,9 @@
       }
     },
     "owner": "admbtlr",
-    "version": "1.2.2"
+    "version": "1.2.2",
+    "ios": {
+      "appleTeamId": "LQ43Q9L9MY"
+    }
   }
 }
