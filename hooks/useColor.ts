@@ -136,7 +136,9 @@ async function performColorAnalysis(
       }
     }
   } else if (colors.platform === 'web' || colors.platform === 'android') {
-    bestColor = colors.dominant
+    const dominantHsl = hexToHsl(colors.dominant.substring(1))
+    const vibrantHsl = hexToHsl(colors.vibrant.substring(1))
+    bestColor = dominantHsl[2] < vibrantHsl[2] ? colors.dominant : colors.vibrant
   }
 
   if (bestColor) {
