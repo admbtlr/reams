@@ -7,8 +7,10 @@ import { getStatusBarHeight } from '@/utils/dimensions'
 import { getMargin } from '@/utils/dimensions'
 import { fontSizeMultiplier } from '@/utils/dimensions'
 import { useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
 
-const EmptyCarousel = ({ displayMode, navigation }) => {
+const EmptyCarousel = ({ displayMode }) => {
+  const navigation = useNavigation()
   const filter = useSelector(state => state.config.filter)
   return <Fragment>
     <BackButton style={{

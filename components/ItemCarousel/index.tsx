@@ -87,7 +87,6 @@ class ItemCarousel extends React.Component {
       return (
         <EmptyCarousel
           displayMode={displayMode}
-          navigation={navigation}
         />
       )
     }
