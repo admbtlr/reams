@@ -73,10 +73,10 @@ function logBasicDecorationStats(
   basicDuration: number,
   stepTimings: { [key: string]: number }
 ) {
-  if (stepTimings.downloadContent)
-    console.log(`  Download Content: ${stepTimings.downloadContent}ms`)
-  if (stepTimings.cacheImage)
-    console.log(`  Cache Image: ${stepTimings.cacheImage}ms`)
+  // if (stepTimings.downloadContent)
+    // console.log(`  Download Content: ${stepTimings.downloadContent}ms`)
+  // if (stepTimings.cacheImage)
+    // console.log(`  Cache Image: ${stepTimings.cacheImage}ms`)
 }
 
 function logFullDecorationStats(itemTitle: string, faceDuration: number) {
@@ -566,7 +566,7 @@ export async function cacheCoverImage(item: Item, imageURL: string) {
     const downloadStart = Date.now()
     await FileSystem.downloadAsync(imageURL, fileName)
     const downloadDuration = Date.now() - downloadStart
-    console.log(`Image download took ${downloadDuration}ms for ${item._id}`)
+    // console.log(`Image download took ${downloadDuration}ms for ${item._id}`)
 
     return fileName
   } catch (err) {

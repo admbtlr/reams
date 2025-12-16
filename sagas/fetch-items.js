@@ -119,7 +119,7 @@ export function* fetchItems(type = ItemType.unread) {
   const feedsWithIsNew = type === ItemType.unread ? yield call(addIsNewToFeeds) : null
   const oldItems = yield select(getItems, type)
   if (type === ItemType.unread) {
-    console.log('Calling getReadItemsFromBackendAndMarkRead')
+    // console.log('Calling getReadItemsFromBackendAndMarkRead')
     yield getReadItemsFromBackendAndMarkRead(lastUpdated)
     yield clearReadItems()
   }
@@ -185,13 +185,13 @@ function fetchItemsChannel(type, lastUpdated, oldItems, feeds) {
         logger('fetchItemsChannel', err)
       })
     return () => {
-      console.log('Channel closed')
+      // console.log('Channel closed')
     }
   })
 }
 
 function* receiveItems(items, type) {
-  console.log('Received ' + items.length + ' new items')
+  // console.log('Received ' + items.length + ' new items')
   const feeds = yield select(getFeeds)
   const newsletters = yield select(getNewsletters)
   const config = yield select(getConfig)

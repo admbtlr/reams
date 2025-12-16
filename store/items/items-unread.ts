@@ -197,7 +197,6 @@ export function itemsUnread(
     //   }
 
     case MARK_ITEM_READ:
-      console.log('Received MARK_ITEM_READ action in items-unread reducer')
       return itemMarkRead(action, state)
 
     case MARK_ITEMS_READ:

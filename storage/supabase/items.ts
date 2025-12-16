@@ -22,7 +22,7 @@ export const getSavedItems = async (currentItems: {
     data: undefined,
     error: undefined
   }
-  console.log('saved items', data)
+  // console.log('saved items', data)
   if (error) {
     throw error
   }

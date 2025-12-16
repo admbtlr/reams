@@ -90,9 +90,7 @@ export async function fetchItems(
       // let unreadItemArrays = await fetchUnreadItems(feeds, lastUpdated)
       // unreadItemArrays = extractErroredFeeds(unreadItemArrays)
       // let newItems = unreadItemArrays.reduce((accum, unread) => accum.concat(unread), [])
-      console.log('fetching new items')
       let newItems: Item[] = await fetchUnreadItemsBatched(feeds, lastUpdated)
-      console.log('got items' + newItems.length)
       newItems = newItems.map((item: Item) => ({
         ...item,
         _id: id(item.url)
@@ -162,7 +160,6 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
   }))
   // chunk into 10 at a time and do a Promise.all
   // to avoid body size restriction on server
-  console.log(`getting items for ${bodyFeeds.length} feeds`)
   let chunked = bodyFeeds.reduce((acc: any[], val, index) => {
     const key = Math.floor(index / 10)
     if (!acc[key]) {
@@ -171,7 +168,6 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
     acc[key].push(val)
     return acc
   }, [])
-  console.log(`chunked into ${chunked.length}`)
   const promises = Object.values(chunked).map(async (feeds: bodyFeed[]) => {
     try {
       const apiUrl = EXPO_PUBLIC_API_URL //https://ead3-92-77-119-73.ngrok-free.app/api'
@@ -185,7 +181,6 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
         },
         body: JSON.stringify({ feeds })
       })
-      console.log('got a chunk')
       const json = await res.json()
       return json
     } catch (err) {
@@ -194,7 +189,6 @@ const fetchUnreadItemsBatched = (feeds: FeedWithIsNew[], lastUpdated: number) =>
   })
   return Promise.all(promises)
     .then(chunkedItems => {
-      console.log('got all chunks')
       const items = chunkedItems.reduce((items, chunk) => items.concat(chunk), [])
         .filter((item: Item) => !!item?.feed_id) // just ignore errors
       return items

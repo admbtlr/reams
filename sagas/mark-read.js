@@ -14,7 +14,6 @@ import { getItem, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnread
 import { MAX_DECORATION_FAILURES } from './decorate-items'
 
 export function* markPreviousItemReadIfDecorated(action) {
-  console.log('Calling markPreviousItemReadIfDecorated')
   yield call(InteractionManager.runAfterInteractions)
   if (!action.previousItemId) {
     return

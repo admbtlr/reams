@@ -24,13 +24,13 @@ export const FEATURES = {
   USE_REANIMATED_TOPBAR: false,        // TopBar animations
 
   // Debug and Development flags
-  ENABLE_ANIMATION_DEBUG: isDevelopment(),  // Show animation debug info
-  ENABLE_ANIMATION_LOGGING: isDevelopment(), // Log animation events
+  ENABLE_ANIMATION_DEBUG: false, //isDevelopment(),  // Show animation debug info
+  ENABLE_ANIMATION_LOGGING: false, //isDevelopment(), // Log animation events
   SHOW_ANIMATION_OVERLAY: false,       // Visual debugging overlay
 
   // Performance flags
   USE_NATIVE_DRIVER_FALLBACK: true,    // Use native driver for old animations
-  ENABLE_ANIMATION_PROFILING: isDevelopment(), // Profile animation performance
+  ENABLE_ANIMATION_PROFILING: false, //isDevelopment(), // Profile animation performance
 
   // Compatibility flags
   BRIDGE_OLD_AND_NEW_SYSTEMS: true,    // Enable compatibility layer
