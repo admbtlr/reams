@@ -31,18 +31,18 @@ export const AuthProvider = (props: any) => {
   const [session, setSession] = useState<SessionContext>({})
   const [isRevenueCatConfigured, setIsRevenueCatConfigured] = useState(false)
   const dispatch = useDispatch()
-  let lastSessionChange = 0
+  const lastSessionChange = React.useRef(0)
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event: AuthChangeEvent, session: Session | null) => {
         if (!!session) {
-          if (Date.now() - lastSessionChange < 10000) {
+          if (Date.now() - lastSessionChange.current < 10000) {
             console.log('Date.now() - lastSessionChange < 10000')
-            console.log(`lastSessionChange: ${lastSessionChange}`)
+            console.log(`lastSessionChange: ${lastSessionChange.current}`)
             return
           }
-          lastSessionChange = Date.now()
+          lastSessionChange.current = Date.now()
           setSession({ session })
           // https://supabase.com/docs/reference/javascript/auth-onauthstatechange
           setTimeout(async () => {
