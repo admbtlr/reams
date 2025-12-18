@@ -16,7 +16,7 @@ import { hslString } from '@/utils/colors'
 import { SessionContext } from '@/components/AuthProvider'
 import { useAnimation } from './AnimationContext'
 import { logAnimationEvent } from '@/utils/feature-flags'
-import { useBufferedItems, useBufferStartIndex, useBufferIndex, useSetBufferIndex } from './bufferedItemsStore'
+import { useBufferedItems, useBufferStartIndex, useSetBufferIndex } from './bufferedItemsStore'
 import { useBufferedItemsManager } from './useBufferedItemsManager'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -45,8 +45,10 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
   // Get data from Zustand store
   const bufferedItems = useBufferedItems()
   const bufferStartIndex = useBufferStartIndex()
-  const bufferIndex = useBufferIndex()
   const setBufferIndex = useSetBufferIndex()
+
+  // Track current buffer index locally with a ref to avoid re-renders on every swipe
+  const bufferIndexRef = useRef(0)
 
   // Redux
   const dispatch = useDispatch()
@@ -54,13 +56,6 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
 
   // Animation context for Reanimated shared values
   const { horizontalScroll, headerVisibles, buttonsVisibles, verticalScrolls } = useAnimation()
-
-  // reset animation values when re-rendering
-  useEffect(() => {
-    headerVisibles.forEach(hv => hv.set(0))
-    buttonsVisibles.forEach(bv => bv.set(1))
-    verticalScrolls.forEach(vs => vs.set(0))
-  }, [bufferedItems])
 
   // Session context for onboarding logic
   const sessionContext = useContext(SessionContext)
@@ -74,6 +69,29 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
   // Screen dimensions
   const screenWidth = Dimensions.get('window').width
   const pageWidth = screenWidth
+
+  // Calculate the correct scroll position during render
+  const scrollPosition = React.useMemo(() => {
+    if (bufferedItems.length === 0) return 0
+    const expectedBufferIndex = bufferStartIndex === 0 ? 0 : 1
+    return screenWidth * expectedBufferIndex
+  }, [bufferedItems, bufferStartIndex, screenWidth])
+
+  // Sync the ref and shared value when buffer is rebuilt - this runs during render
+  if (bufferedItems.length > 0) {
+    const expectedBufferIndex = bufferStartIndex === 0 ? 0 : 1
+    bufferIndexRef.current = expectedBufferIndex
+    
+    // Update shared value during render so TopBar calculations use correct value
+    horizontalScroll.value = scrollPosition
+  }
+
+  // reset animation values when re-rendering
+  useEffect(() => {
+    headerVisibles.forEach(hv => hv.set(0))
+    buttonsVisibles.forEach(bv => bv.set(1))
+    verticalScrolls.forEach(vs => vs.set(0))
+  }, [bufferedItems])
 
   // Update current index ref and context values
   // useEffect(() => {
@@ -104,36 +122,27 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
     }
   }, [bufferedItems, isOnboarding])
 
-  // Set initial scroll position synchronously before paint
+  // Set scroll position in layoutEffect when buffer rebuilds
   useLayoutEffect(() => {
-    if (scrollViewRef.current) {
-      // Calculate initial scroll position from Redux index
-      const x = screenWidth * (bufferStartIndex === 0 ? 0 : 1)
-      
+    if (scrollViewRef.current && bufferedItems.length > 0) {
+      const x = screenWidth * bufferIndexRef.current
       scrollViewRef.current.scrollTo({
         x,
         y: 0,
         animated: false
       })
-      horizontalScroll.value = x
     }
-  }, [bufferedItems, screenWidth, bufferStartIndex, horizontalScroll])
+  }, [bufferedItems, screenWidth])
 
   // Update index helper
   const updateBufferIndex = (newBufferIndex: number) => {
-    const indexDelta = newBufferIndex - bufferIndex
+    const indexDelta = newBufferIndex - bufferIndexRef.current
     if (indexDelta !== 0) {
-      // Update Redux (for all app logic that depends on index changes)
-      const newIndex = bufferStartIndex + newBufferIndex
+      // Update local ref
+      bufferIndexRef.current = newBufferIndex
 
+      // Update Zustand store (which triggers buffer rebuild if needed)
       setBufferIndex(newBufferIndex, dispatch, displayMode)
-      // updateIndex(newIndex)
-
-      // Update buffer index: increment/decrement from current buffer position
-
-      // if (__DEV__) {
-      //   console.log(`[SwipeableViews] updateIndex: oldIndex=${newBufferIndex - indexDelta}, newBufferIndex=${newBufferIndex}, newBufferIndex=${newBufferIndex}`)
-      // }
     }
   }
 
@@ -205,7 +214,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
       <Onboarding
         key={page}
         index={page}
-        isVisible={bufferIndex === pageIndex}
+        isVisible={bufferIndexRef.current === pageIndex}
         navigation={navigation}
       />
     ))
@@ -242,6 +251,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
       ref={scrollViewRef}
       bounces={false}
       contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
+      contentOffset={{ x: scrollPosition, y: 0 }}
       decelerationRate={Platform.OS === 'ios' ? 'fast' : 0.9}
       disableIntervalMomentum={true}
       disableScrollViewPanResponder={Platform.OS === 'android'}

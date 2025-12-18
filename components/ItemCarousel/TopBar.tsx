@@ -156,9 +156,9 @@ export default function TopBar({
       -headerVisibles[itemIndex].value *
       (Math.round(horizontalScroll.value / screenWidth) === itemIndex ? 1 : 0)
 
+    // Hide TopBars during JS thread render to prevent showing wrong TopBar
+    // They become visible on UI thread with correct opacity values
     return {
-      // useAnimatedStyle is called once on the JS thread and then on the UI thread
-      // this leads to a flash of the wrong TopBar when the carousel is re-rendered
       opacity: global._WORKLET ? opacity : 0,
       transform: [{ translateY }],
     }
