@@ -5,7 +5,8 @@ import RizzleImageViewer from '../components/RizzleImageViewer.js'
 const mapStateToProps = (state) => {
   return {
     isVisible: state.ui.imageViewerVisible,
-    url: state.ui.imageViewerUrl
+    url: state.ui.imageViewerUrl,
+    itemId: state.ui.imageViewerItemId
   }
 }
 

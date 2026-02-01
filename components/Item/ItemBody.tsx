@@ -36,6 +36,7 @@ import {
   selectItemById,
   selectItemShowMercury
 } from '@/store/items/items-selectors'
+import { cacheImagesForItem } from '../../utils/imageCache'
 
 const injectedJavaScript = `
 window.ReactNativeWebView?.postMessage('loaded');
@@ -427,6 +428,11 @@ html, body {
             endHighlight()
           } else if (msg.substring(0, 6) === 'loaded') {
             setIsLoaded(true)
+          } else if (msg.substring(0, 13) === 'cache-images:') {
+            const imageUrls = JSON.parse(msg.substring(13))
+            cacheImagesForItem(_id, imageUrls).catch((error) => {
+              console.error('Failed to cache images:', error)
+            })
           } else if (rawMsg && rawMsg !== '') {
             onBodyCleaned(rawMsg)
           }

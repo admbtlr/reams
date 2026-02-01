@@ -33,6 +33,7 @@ const initialState = {
   helpTipKey: '',
   hiddenModals: [],
   imageViewerUrl: '',
+  imageViewerItemId: '',
   imageViewerVisible: false,
   isActive: true,
   showButtonLabels: false,
@@ -130,14 +131,16 @@ export function ui(
       return {
         ...state,
         imageViewerVisible: true,
-        imageViewerUrl: action.url
+        imageViewerUrl: action.url,
+        imageViewerItemId: action.itemId
       }
 
     case HIDE_IMAGE_VIEWER:
       return {
         ...state,
         imageViewerVisible: false,
-        imageViewerUrl: ''
+        imageViewerUrl: '',
+        imageViewerItemId: ''
       }
 
     case INCREASE_FONT_SIZE:

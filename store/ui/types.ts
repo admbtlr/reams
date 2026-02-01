@@ -32,6 +32,7 @@ export interface UIState {
   readonly helpTipKey: string
   readonly hiddenModals: any[]
   readonly imageViewerUrl: string
+  readonly imageViewerItemId: string
   readonly imageViewerVisible: boolean
   readonly isActive: boolean
   readonly isDarkMode: boolean
@@ -93,6 +94,7 @@ interface hideLoadingAnimationAction {
 interface showImageViewerAction {
   type: typeof SHOW_IMAGE_VIEWER
   url: string
+  itemId: string
 }
 
 interface hideImageViewerAction {

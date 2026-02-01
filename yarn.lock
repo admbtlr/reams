@@ -13499,22 +13499,10 @@ react-native-image-colors@^2.4.0:
   dependencies:
     node-vibrant "3.1.6"
 
-react-native-image-pan-zoom@^2.1.12:
-  version "2.1.12"
-  resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz#eb98bf56fb5610379bdbfdb63219cc1baca98fd2"
-  integrity sha512-BF66XeP6dzuANsPmmFsJshM2Jyh/Mo1t8FsGc1L9Q9/sVP8MJULDabB1hms+eAoqgtyhMr5BuXV3E1hJ5U5H6Q==
-
 react-native-image-resizer@^1.4.5:
   version "1.4.5"
   resolved "https://registry.yarnpkg.com/react-native-image-resizer/-/react-native-image-resizer-1.4.5.tgz#5a520aa8baa07638b1894a1d87d4d9a0945c8d58"
   integrity sha512-33EgL3C9pyvjKpullAB6fWyD5QhoYEpNNB9rxNvUsrpAnL2mHBW7PTrUCCZudJeB6Weg7nbweKrSw1nnto5aqg==
-
-react-native-image-zoom-viewer@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-image-zoom-viewer/-/react-native-image-zoom-viewer-3.0.1.tgz#a2bd5fb3bda15e0686ce88fcde8576726495d7fb"
-  integrity sha512-la6s5DNSuq4GCRLsi5CZ29FPjgTpdCuGIRdO5T9rUrAtxrlpBPhhSnHrbmPVxsdtOUvxHacTh2Gfa9+RraMZQA==
-  dependencies:
-    react-native-image-pan-zoom "^2.1.12"
 
 react-native-inappbrowser-reborn@^3.7.0:
   version "3.7.0"
@@ -13566,6 +13554,11 @@ react-native-purchases@^8.9.6:
   integrity sha512-hjJ7xC1IdA3mcqectdTYBJToYUUaqIUynSOAYCTcGgRmF61aT0lq4LKfqmI2AhvPTTeduyPU6az60Et/zOfwWg==
   dependencies:
     "@revenuecat/purchases-typescript-internal" "13.29.1"
+
+react-native-reanimated-image-viewer@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated-image-viewer/-/react-native-reanimated-image-viewer-1.0.2.tgz#05b6e6e1a4dc5dff8c3dae25f2f5f634088aa84c"
+  integrity sha512-XLWwmzzHy2gD+IA7AC5wBqs+gmyl/i7dEGkuHOkMjczcJFlQqVe9sHM44ZlrRsTf2+5X9+wxavQb/2H+ezrLiw==
 
 react-native-reanimated@~3.17.4:
   version "3.17.5"

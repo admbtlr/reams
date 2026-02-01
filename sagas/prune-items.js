@@ -7,6 +7,7 @@ import { getItems, getConfig, getSavedItems, getUnreadItems } from './selectors'
 import log from '../utils/log'
 import { removeCachedCoverImages } from '../utils/item-utils'
 import { deleteItems } from '../storage'
+import { clearCacheForItem } from '../utils/imageCache'
 
 const MAX_UNREAD = 1000
 
@@ -57,6 +58,12 @@ function* doRemoveItems(items) {
   }
   if (items) {
     removeCachedCoverImages(items)
+    // Clear cached images for removed items
+    items.forEach((item) => {
+      clearCacheForItem(item._id).catch((err) => {
+        log('clearCacheForItem', err)
+      })
+    })
   }
 }
 

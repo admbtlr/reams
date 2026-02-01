@@ -192,7 +192,8 @@ const Item: React.FC<ItemProps> = (props) => {
   const showImageViewer = (url: string): void => {
     dispatch({
       type: SHOW_IMAGE_VIEWER,
-      url
+      url,
+      itemId: item._id
     })
   }
 

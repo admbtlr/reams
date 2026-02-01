@@ -716,6 +716,20 @@ function cleanSource() {
   removeSubstackPreamble()
 }
 
+function extractImageUrls() {
+  const images = document.querySelectorAll('article img')
+  const imageUrls = []
+  images.forEach((img) => {
+    const src = img.src || img.getAttribute('src')
+    if (src && !src.startsWith('data:')) {
+      imageUrls.push(src)
+    }
+  })
+  if (imageUrls.length > 0) {
+    window.ReactNativeWebView?.postMessage('cache-images:' + JSON.stringify(imageUrls))
+  }
+}
+
 function init() {
   const html = document.getElementsByTagName('html')[0]
   const isWeb = html.classList.contains('web')
@@ -728,6 +742,10 @@ function init() {
     const src = document.querySelector('article').innerHTML
     window.ReactNativeWebView?.postMessage(src)
   }
+  
+  // Extract and send image URLs for caching
+  extractImageUrls()
+  
   addTapMessageToImages()
   if (isWeb) addTargetToLinksOnWeb()
   if (!isWeb) addTapMessageToLinks()
