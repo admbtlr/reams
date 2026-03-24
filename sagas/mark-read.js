@@ -1,15 +1,18 @@
 import { InteractionManager, Platform } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
-import {
-  ItemType,
-  MARK_ITEM_READ,
-  MARK_ITEMS_READ,
-  REMOVE_ITEMS
-} from '../store/items/types'
+import { ItemType, MARK_ITEM_READ, MARK_ITEMS_READ, REMOVE_ITEMS } from '../store/items/types'
 import { getItem as getStoredItem } from '@/storage'
 import { getReadItemsFS } from '../storage/firestore'
 
-import { getItem, getCurrentItem, getFeeds, getDisplay, getSavedItems, getUnreadItems, getIndex } from './selectors'
+import {
+  getItem,
+  getCurrentItem,
+  getFeeds,
+  getDisplay,
+  getSavedItems,
+  getUnreadItems,
+  getIndex
+} from './selectors'
 
 import { MAX_DECORATION_FAILURES } from './decorate-items'
 
@@ -25,8 +28,11 @@ export function* markPreviousItemReadIfDecorated(action) {
   itemInflated = yield call(getStoredItem, item)
   const wholeItem = { ...item, ...itemInflated }
 
-  if (!wholeItem.isDecorated &&
-    (wholeItem.decoration_failures === undefined || wholeItem.decoration_failures < MAX_DECORATION_FAILURES)) {
+  if (
+    !wholeItem.isDecorated &&
+    (wholeItem.decoration_failures === undefined ||
+      wholeItem.decoration_failures < MAX_DECORATION_FAILURES)
+  ) {
     return
   }
   if (!!wholeItem.isKeepUnread) {
@@ -50,7 +56,7 @@ export function* markItemsRead(action) {
   yield delay(500)
   yield call(InteractionManager.runAfterInteractions)
   const display = yield select(getDisplay)
-  if (display !== 'unread' || typeof (action.lastIndex) === 'undefined') {
+  if (display !== 'unread' || typeof action.lastIndex === 'undefined') {
     return
   }
 }
@@ -60,12 +66,12 @@ export function* clearReadItems() {
   const items = yield select(getUnreadItems)
   const savedItems = yield select(getSavedItems)
   const displayMode = yield select(getDisplay)
-  const readItems = items.filter(item => !!item.readAt)
+  const readItems = items.filter((item) => !!item.readAt)
   const currentItem = yield select(getCurrentItem, displayMode)
   const index = yield select(getIndex, displayMode)
   let itemsToClear = readItems
     // .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
-    .filter(item => currentItem && (item._id !== currentItem._id))
+    .filter((item) => !currentItem || item._id !== currentItem._id)
 
   // need to redo this logic in the right order
   // 0. remove the current item from the list to remove (done above)
@@ -102,10 +108,10 @@ export function* clearReadItems() {
 export function* filterItemsForRead() {
   const items = yield select(getUnreadItems)
   const readItemsObj = getReadItemsFS()
-  const itemsToMarkRead = items.filter(item => readItemsObj[item._id] !== undefined)
+  const itemsToMarkRead = items.filter((item) => readItemsObj[item._id] !== undefined)
   yield put({
     type: MARK_ITEMS_READ,
-    items: itemsToMarkRead.map(i => ({
+    items: itemsToMarkRead.map((i) => ({
       _id: i._id,
       id: i.id,
       feed_id: i.feed_id
