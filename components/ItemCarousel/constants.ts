@@ -1,1 +1,1 @@
-export const BUFFER_LENGTH = 3
+export const BUFFER_LENGTH = 4
