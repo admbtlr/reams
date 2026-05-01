@@ -428,8 +428,8 @@ html, body {
             endHighlight()
           } else if (msg.substring(0, 6) === 'loaded') {
             setIsLoaded(true)
-          } else if (msg.substring(0, 13) === 'cache-images:') {
-            const imageUrls = JSON.parse(msg.substring(13))
+          } else if (rawMsg.substring(0, 13) === 'cache-images:') {
+            const imageUrls = JSON.parse(rawMsg.substring(13))
             cacheImagesForItem(_id, imageUrls).catch((error) => {
               console.error('Failed to cache images:', error)
             })
