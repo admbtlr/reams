@@ -153,8 +153,8 @@ export function* initSagas() {
   yield takeEvery(REMOVE_FEED_FROM_CATEGORY, updateCategory)
 
   yield takeEvery('annotations/createAnnotation', createAnnotation)
-  yield takeEvery('annotations/updateAnnotiation', updateAnnotation)
-  yield takeEvery('annotations/deleteAnnotiation', deleteAnnotation)
+  yield takeEvery('annotations/updateAnnotation', updateAnnotation)
+  yield takeEvery('annotations/deleteAnnotation', deleteAnnotation)
 
   // reading timer
   yield takeEvery(UPDATE_CURRENT_ITEM, currentItemChanged)
