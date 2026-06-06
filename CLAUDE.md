@@ -394,7 +394,7 @@ Several packages require patches (applied via `patch-package` on `postinstall`):
 - **redux-persist v5**: Should be upgraded to v6. The migration system and transforms would need updating.
 - **`serializableCheck` / `immutableCheck` disabled**: Re-enabling these after fixing the old reducers would catch a class of bugs.
 
-- **`store/categories/categories.ts`**: Dead code, can be deleted.
+
 - **`.js` saga files**: Half the saga files are plain JS. Converting to TypeScript would improve safety.
 - **No `.pending` / `.rejected` handlers in RTK thunks**: All async thunks silently ignore errors.
 - **`reading-timer.js` module-level state**: Reading time is tracked via closure variables outside Redux, invisible to Redux DevTools.
