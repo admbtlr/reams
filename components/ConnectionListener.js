@@ -3,7 +3,7 @@ import NetInfo from '@react-native-community/netinfo'
 import { useDispatch } from 'react-redux'
 import { IS_ONLINE } from '../store/config/types'
 
-export default ConnectionListener = () => {
+const ConnectionListener = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(({isInternetReachable}) => {
@@ -17,3 +17,5 @@ export default ConnectionListener = () => {
 
   return null
 }
+
+export default ConnectionListener

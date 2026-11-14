@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { getColors } from 'react-native-image-colors'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import { fileExists } from '../utils'
 import { hexToHsl } from '../utils/colors'
 import { useDispatch, useSelector } from 'react-redux'

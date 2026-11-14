@@ -1,5 +1,6 @@
 {
   "expo.jsEngine": "hermes",
-  "newArchEnabled": "false",
-  "expo.sqlite.enableFTS": "true"
+  "newArchEnabled": "true",
+  "expo.sqlite.enableFTS": "true",
+  "ios.deploymentTarget": "15.1"
 }

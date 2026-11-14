@@ -15,7 +15,7 @@ import { hasNotchOrIsland } from '../utils/dimensions'
 const screenWidth = Dimensions.get('window').width
 const margin = screenWidth * 0.03
 
-export default SwitchRow = ({help, icon, label, value, onValueChange, testID}) => <View testID={testID} style={{
+const SwitchRow = ({help, icon, label, value, onValueChange, testID}) => <View testID={testID} style={{
   flex: 0,
   flexDirection: 'column',
   marginBottom: margin,
@@ -60,3 +60,5 @@ export default SwitchRow = ({help, icon, label, value, onValueChange, testID}) =
     />
   </View>
 </View>
+
+export default SwitchRow

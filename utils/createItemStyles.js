@@ -310,7 +310,8 @@ const titleVariance = (words) => {
 
 const shouldInterBold = (title) => {
   const words = title.split(' ')
-  let common = uncommon = 0
+  let uncommon = 0
+  let common = 0
   words.forEach(word => {
     if (commonWords.find(cw => cw === word.toLowerCase())) {
       common++

@@ -1,6 +1,6 @@
 import { call, delay, put, select, spawn } from 'redux-saga/effects'
 import { loadMercuryStuff } from '../backends'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import { InteractionManager, Platform } from 'react-native'
 import {
   ITEM_DECORATION_FAILURE,
@@ -239,7 +239,7 @@ function* decorationFailed(item: Item) {
   consoleLog(
     `Error decorating item "${item.title}", trying again next time around`
   )
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   yield put({
     type: ITEM_DECORATION_FAILURE,
     item,
@@ -373,7 +373,7 @@ function* applyBasicDecoration(result: {
   mercuryStuff: MercuryStuff
   basicImageStuff: BasicImageStuff
 }) {
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   const displayMode: string = yield select(getDisplay)
   const isSaved = result.item.isSaved
   const deflatedItem = yield call(persistBasicDecoration, result)
@@ -502,7 +502,7 @@ function* performImageAnalysisForItem(
 }
 
 function* applyImageAnalysis(item: Item, faceCentreNormalised: any) {
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
 
   // Get the full item data from storage
   let items: ItemInflated[] = yield call(getStoredItems, [item])

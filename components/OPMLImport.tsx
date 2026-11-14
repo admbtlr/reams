@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import { parseString } from 'react-native-xml2js'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import { 
   ADD_MESSAGE, 
   REMOVE_MESSAGE

@@ -15,7 +15,7 @@ import { getRizzleButtonIcon } from '../utils/rizzle-button-icons'
 
 const expansionRatio = 0.1
 
-export default NavButton = ({ children, icon, onPress, text, hasBottomBorder, hasTopBorder, viewStyle={}, index, scrollAnim }) => (
+const NavButton = ({ children, icon, onPress, text, hasBottomBorder, hasTopBorder, viewStyle={}, index, scrollAnim }) => (
   <Animated.View style={{
     marginTop: 1,
     transform: [{
@@ -94,3 +94,5 @@ export default NavButton = ({ children, icon, onPress, text, hasBottomBorder, ha
     }
   </Animated.View>
 )
+
+export default NavButton

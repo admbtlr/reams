@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, Image, View } from 'react-native'
+import { Platform, Image, View, Animated } from 'react-native'
 import { render, waitFor } from '@testing-library/react-native'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -20,29 +20,37 @@ jest.mock('@/utils/log', () => ({
   default: jest.fn()
 }))
 
-// Mock react-native's Image.getSize
-jest.mock('react-native/Libraries/Image/Image', () => {
-  const originalImage = jest.requireActual('react-native/Libraries/Image/Image');
-  return {
-    ...originalImage,
-    getSize: jest.fn((uri, success) => {
-      success(1024, 768);
-      return null;
-    }),
-  };
-});
+// Mock storage to avoid sqlite initialization issues
+jest.mock('@/storage', () => ({
+  getItemsSync: jest.fn(() => [{
+    _id: 'item-123',
+    feed_id: 'feed-123',
+    title: 'Test Item',
+    coverImageUrl: 'https://example.com/image.jpg',
+    hasCoverImage: true,
+    imageDimensions: { width: 800, height: 600 }
+  }]),
+  getItemSync: jest.fn(() => ({
+    _id: 'item-123',
+    feed_id: 'feed-123',
+    title: 'Test Item',
+    coverImageUrl: 'https://example.com/image.jpg',
+    hasCoverImage: true,
+    imageDimensions: { width: 800, height: 600 }
+  })),
+  getFeedSync: jest.fn(() => ({ _id: 'feed-123', title: 'Test Feed', color: '#FF0000' }))
+}))
 
-// Mock Animated components
-jest.mock('react-native', () => {
-  const reactNative = jest.requireActual('react-native');
-  reactNative.Animated.Image = function MockAnimatedImage({ style, source, testID }) {
-    return <reactNative.View testID={testID} style={style} />;
-  };
-  reactNative.Animated.View = function MockAnimatedView({ children, style, testID }) {
-    return <reactNative.View testID={testID} style={style}>{children}</reactNative.View>;
-  };
-  return reactNative;
-});
+// Mock Image.getSize for web platform tests
+beforeAll(() => {
+  Image.getSize = jest.fn((uri, success) => {
+    success(1024, 768)
+    return { then: jest.fn() }
+  })
+  // Mock Animated components to render as plain Views
+  Animated.View = View
+  Animated.Image = View
+})
 
 // Set up test state with feeds and items
 const mockFeed = {

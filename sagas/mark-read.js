@@ -17,7 +17,7 @@ import {
 import { MAX_DECORATION_FAILURES } from './decorate-items'
 
 export function* markPreviousItemReadIfDecorated(action) {
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   if (!action.previousItemId) {
     return
   }
@@ -38,7 +38,7 @@ export function* markPreviousItemReadIfDecorated(action) {
   if (!!wholeItem.isKeepUnread) {
     return
   }
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   yield put({
     type: MARK_ITEM_READ,
     item: {
@@ -54,7 +54,7 @@ export function* markPreviousItemReadIfDecorated(action) {
 
 export function* markItemsRead(action) {
   yield delay(500)
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   const display = yield select(getDisplay)
   if (display !== 'unread' || typeof action.lastIndex === 'undefined') {
     return
@@ -62,7 +62,7 @@ export function* markItemsRead(action) {
 }
 
 export function* clearReadItems() {
-  // yield call(InteractionManager.runAfterInteractions)
+  // yield call(InteractionManager.runAfterInteractions, () => {})
   const items = yield select(getUnreadItems)
   const savedItems = yield select(getSavedItems)
   const displayMode = yield select(getDisplay)
@@ -79,14 +79,14 @@ export function* clearReadItems() {
   // 2. remove from sqlite
   // 3. remove from filesystem
 
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   yield put({
     type: REMOVE_ITEMS,
     items: itemsToClear
   })
   // everything below here is done by a saga that listens for REMOVE_ITEMS
   // implemetation in sagas/prune-items.js
-  // yield call(InteractionManager.runAfterInteractions)
+  // yield call(InteractionManager.runAfterInteractions, () => {})
   // itemsToClear = itemsToClear.filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
   // try {
   //   if (Platform.OS === 'web') {

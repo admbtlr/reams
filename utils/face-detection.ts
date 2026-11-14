@@ -1,5 +1,5 @@
 import ImageResizer from 'react-native-image-resizer'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import { decodeJpeg } from '@tensorflow/tfjs-react-native'
 import * as tf from '@tensorflow/tfjs'
 import log from './log'

@@ -41,7 +41,10 @@ jest.mock('@/utils/dimensions', () => ({
 
 jest.mock('@/utils', () => ({
   deepEqual: jest.fn(() => false),
-  diff: jest.fn(() => ({}))
+  diff: jest.fn(() => ({})),
+  getHost: jest.fn(() => 'example.com'),
+  fileExists: jest.fn(() => Promise.resolve(true)),
+  getCachedFeedIconPath: jest.fn((id) => `/mock/${id}.png`)
 }))
 
 jest.mock('@/components/ItemCarousel/TopBar', () => ({
@@ -51,6 +54,38 @@ jest.mock('@/components/ItemCarousel/TopBar', () => ({
 // Mock Sentry
 jest.mock('@sentry/react-native', () => ({
   captureMessage: jest.fn()
+}))
+
+// Mock AnimationContext (ItemTitle uses useAnimation and useAnimationValues)
+jest.mock('@/components/ItemCarousel/AnimationContext', () => ({
+  useAnimation: jest.fn(() => ({
+    headerVisible: { value: 1 },
+    buttonsVisible: { value: 1 },
+    verticalScroll: { value: 0 },
+    horizontalScroll: { value: 0 },
+    currentIndex: { value: 0 },
+    scrollDirection: { value: 0 },
+    isScrolling: { value: false },
+    scrollVelocity: { value: 0 },
+    bufferIndex: 1,
+    setBufferIndex: jest.fn()
+  })),
+  useAnimationValues: jest.fn(() => ({
+    verticalScrolls: [{ value: 0 }],
+    headerVisible: { value: 1 },
+    buttonsVisible: { value: 1 },
+    verticalScroll: { value: 0 },
+    horizontalScroll: { value: 0 },
+    currentIndex: { value: 0 },
+    scrollDirection: { value: 0 },
+    isScrolling: { value: false },
+    scrollVelocity: { value: 0 },
+    bufferIndex: 1,
+    setBufferIndex: jest.fn()
+  })),
+  AnimationProvider: ({ children }: { children: React.ReactNode }) => children,
+  __esModule: true,
+  default: require('react').createContext(null)
 }))
 
 // Create a mock CategoryToggles component

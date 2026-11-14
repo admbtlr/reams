@@ -88,7 +88,7 @@ export const fetchNewsletters = createAsyncThunk(
       items = response.items
       queryState = response.queryState
     } catch (e: any) {
-      if (e.message === 'tooManyChanges') {
+      if (e.message === 'tooManyChanges' || e.message === 'cannotCalculateChanges') {
         // reset the query state so that we try again with a straight query next time
         dispatch(updateQueryState(undefined))
         dispatch({

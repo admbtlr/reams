@@ -7,7 +7,7 @@ import { hslString } from '../utils/colors'
 import XButton from './XButton'
 import BackButton from './BackButton'
 
-export default Heading = ({title, isBigger, isWhite, showClose, onClose, showBack, onBack}) => {
+const Heading = ({title, isBigger, isWhite, showClose, onClose, showBack, onBack}) => {
   const color = isWhite ? hslString('white') : hslString('rizzleText')
   const xStyle = !showClose ?
     {} :
@@ -52,3 +52,5 @@ export default Heading = ({title, isBigger, isWhite, showClose, onClose, showBac
     }} />
   </Fragment>
 }
+
+export default Heading

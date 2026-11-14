@@ -1,5 +1,5 @@
 const fuzz = require('fuzzball')
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 const sanitizeHtml = require('sanitize-html')
 import {
   createItemStyles,

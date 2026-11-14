@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { SET_ORIENTATION } from '../store/config/types'
 import { isPortrait } from '../utils/dimensions'
 
-export default OrientationListener = () => {
+const OrientationListener = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     Dimensions.addEventListener('change', () => {
@@ -20,3 +20,5 @@ export default OrientationListener = () => {
 
   return null
 }
+
+export default OrientationListener

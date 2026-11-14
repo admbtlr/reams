@@ -3,7 +3,6 @@
     "name": "Reams",
     "slug": "reams",
     "plugins": [
-      "expo-dev-launcher",
       "expo-router",
       [
         "expo-sqlite",
@@ -73,7 +72,15 @@
             "./assets/fonts/Poppins-ExtraBold.ttf",
             "./assets/fonts/Poppins-ExtraBoldItalic.ttf",
             "./assets/fonts/Poppins-Italic.ttf",
-            "./assets/fonts/Poppins-Regular.ttf"
+            "./assets/fonts/Poppins-Regular.ttf",
+            "./assets/fonts/Reforma1969-Blanca.ttf",
+            "./assets/fonts/Reforma1969-BlancaItalica.ttf",
+            "./assets/fonts/Reforma1969-Negra.ttf",
+            "./assets/fonts/Reforma1969-NegraItalica.ttf",
+            "./assets/fonts/Reforma2018-Blanca.ttf",
+            "./assets/fonts/Reforma2018-BlancaItalica.ttf",
+            "./assets/fonts/Reforma2018-Negra.ttf",
+            "./assets/fonts/Reforma2018-NegraItalica.ttf"
           ]
         }
       ]
@@ -94,7 +101,18 @@
     "owner": "admbtlr",
     "version": "1.2.2",
     "ios": {
-      "appleTeamId": "LQ43Q9L9MY"
+      "appleTeamId": "LQ43Q9L9MY",
+      "bundleIdentifier": "com.adam-butler.rizzle",
+      "deploymentTarget": "15.1",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "NSAllowsLocalNetworking": true
+        }
+      }
+    },
+    "android": {
+      "package": "com.adambutler.rizzle"
     }
   }
 }

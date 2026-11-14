@@ -215,6 +215,11 @@ const Title: React.FC<TitleProps> = ({
 
       updateFontSize(optimal.size)
       setOptimalFontSize(optimal.size)
+    }).catch((err) => {
+      log('Title.measureSizes', err, {
+        font: fontFamily,
+        title: displayTitle
+      })
     })
   }
 

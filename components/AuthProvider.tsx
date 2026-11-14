@@ -148,12 +148,12 @@ export const AuthProvider = (props: any) => {
       }
     }
 
-    if (session.session?.user.id && !isRevenueCatConfigured) {
-      Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG)
-      if (Platform.OS === 'ios') {
-        configureRevenueCat()
-      }
-    }
+    // if (session.session?.user.id && !isRevenueCatConfigured) {
+    //   Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG)
+    //   if (Platform.OS === 'ios') {
+    //     configureRevenueCat()
+    //   }
+    // }
   }, [session?.session?.user.id])
 
   return <SessionContext.Provider value={session} {...props} />

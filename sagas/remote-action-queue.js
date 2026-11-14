@@ -44,15 +44,15 @@ function* executeOldestAction() {
 }
 
 function* executeAction(action) {
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   try {
     switch (action.type) {
       case MARK_ITEM_READ:
         try {
           if (action.item) {
-            yield call(InteractionManager.runAfterInteractions)
+            yield call(InteractionManager.runAfterInteractions, () => {})
             yield call(markItemRead, action.item)
-            yield call(InteractionManager.runAfterInteractions)
+            yield call(InteractionManager.runAfterInteractions, () => {})
             const readItem = {
               ...action.item,
               readAt: Date.now()
@@ -64,7 +64,7 @@ function* executeAction(action) {
               yield call(incrementReadCountFeed, action.item.feed_id)
             }
           }
-          yield call(InteractionManager.runAfterInteractions)
+          yield call(InteractionManager.runAfterInteractions, () => {})
           yield put({
             type: REMOTE_ACTION_COMPLETED,
             action
@@ -102,9 +102,9 @@ function* execute(type, action) {
   const params = type === markItemsRead ? [action.items, action.feedId, action.olderThan] :
     [action.category]
   try {
-    yield call(InteractionManager.runAfterInteractions)
+    yield call(InteractionManager.runAfterInteractions, () => {})
     const ret = yield call(type, ...params)
-    yield call(InteractionManager.runAfterInteractions)
+    yield call(InteractionManager.runAfterInteractions, () => {})
     yield put({
       type: REMOTE_ACTION_COMPLETED,
       action

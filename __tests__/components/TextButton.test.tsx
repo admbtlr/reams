@@ -24,10 +24,13 @@ jest.mock('@/components/BackgroundGradient', () => ({
   BackgroundGradient: () => null
 }))
 
-// Mock LayoutAnimation to avoid test errors
+// Mock LayoutAnimation to avoid test errors (RN 0.81 uses .default export)
 jest.mock('react-native/Libraries/LayoutAnimation/LayoutAnimation', () => ({
-  configureNext: jest.fn(),
-  Presets: { spring: {} }
+  __esModule: true,
+  default: {
+    configureNext: jest.fn(),
+    Presets: { spring: {}, linear: {}, easeInEaseOut: {} }
+  }
 }))
 
 describe('TextButton Component', () => {

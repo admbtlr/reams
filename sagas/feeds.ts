@@ -27,7 +27,7 @@ import { addFeed as addFeedBackend, fetchFeeds, getFeedMeta, removeFeed, updateF
 import { id, getFeedColor, getImageDimensions } from '../utils'
 import { hexToHsl, rgbToHsl } from '../utils/colors'
 import feeds from '../utils/seedfeeds.js'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 
 import { getConfig, getFeeds, getFeedsLocal, getIndex, getItems, getUnreadItems, getUser } from './selectors'
 import { Backend, UserState } from '../store/user/user'
@@ -150,7 +150,7 @@ export function * markFeedRead (action: { feed: Feed, olderThan?: number }) {
         feed_id: item.feed_id,
         title: item.title
       }))
-    yield call(InteractionManager.runAfterInteractions)
+    yield call(InteractionManager.runAfterInteractions, () => {})
     yield put({
       type: MARK_ITEMS_READ,
       items: itemsToMarkRead.map((i: Item) => ({
@@ -159,7 +159,7 @@ export function * markFeedRead (action: { feed: Feed, olderThan?: number }) {
         feed_id: i.feed_id
       }))
     })
-    yield call(InteractionManager.runAfterInteractions)
+    yield call(InteractionManager.runAfterInteractions, () => {})
     yield put({
       type: CLEAR_READ_ITEMS
     })
@@ -192,7 +192,7 @@ export function * inflateFeeds () {
       }
     }
     inflatedFeed.color = inflatedFeed.color ? convertColorIfNecessary(inflatedFeed.color) : [0, 0, 0]
-    yield call(InteractionManager.runAfterInteractions)
+    yield call(InteractionManager.runAfterInteractions, () => {})
     yield put({
       type: UPDATE_FEED,
       feed: inflatedFeed
@@ -242,7 +242,7 @@ function * cacheFeedFavicons () {
         const fileName = yield call(downloadFeedFavicon, feed)
         // @ts-ignore
         const dimensions = yield call(getImageDimensions, fileName)
-        yield call(InteractionManager.runAfterInteractions)
+        yield call(InteractionManager.runAfterInteractions, () => {})
         yield put({
           type: SET_CACHED_FEED_ICON,
           cachedIconPath: fileName,

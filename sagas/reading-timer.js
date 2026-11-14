@@ -12,7 +12,7 @@ let currentItem
 let itemsScreenActive = false
 
 export function * currentItemChanged (action) {
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   const display = yield select(getDisplay)
   if (display !== 'unread') return
   const prevItem = currentItem
@@ -57,7 +57,7 @@ export function * appInactive () {
 function * logReadingTime (item) {
   const now = Date.now()
   const readingTime = Math.round((now - startTime + accumulatedTime) / 1000)
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   yield put ({
     type: ADD_readingTime,
     item: item,

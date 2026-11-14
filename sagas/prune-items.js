@@ -19,7 +19,7 @@ export function* pruneItems(action) {
   const toPrune = unreadItems.slice(MAX_UNREAD)
   if (toPrune.length === 0) return
 
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   yield put({
     type: PRUNE_UNREAD,
     maxItems: MAX_UNREAD,
@@ -30,13 +30,13 @@ export function* pruneItems(action) {
       title: item.title
     }))
   })
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   removeItems({ items: toPrune })
 }
 
 export function* removeItems(action) {
   const items = action.items
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   const savedItems = yield select(getSavedItems)
   const itemsToClear = items
     .filter(item => savedItems.find(saved => item._id === saved._id) === undefined)
@@ -44,7 +44,7 @@ export function* removeItems(action) {
 }
 
 export function* removeAllItems() {
-  yield call(InteractionManager.runAfterInteractions)
+  yield call(InteractionManager.runAfterInteractions, () => {})
   yield doRemoveItems()
 }
 

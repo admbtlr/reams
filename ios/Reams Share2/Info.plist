@@ -36,6 +36,8 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
 	</dict>
+	<key>RCTNewArchEnabled</key>
+	<true/>
 	<key>ReactShareViewBackgroundColor</key>
 	<dict>
 		<key>Alpha</key>

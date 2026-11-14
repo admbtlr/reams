@@ -196,8 +196,11 @@ function* receiveItems(items, type) {
   const newsletters = yield select(getNewsletters)
   const config = yield select(getConfig)
   const sortDirection = config.itemSort
+  let updatedFeeds
   if (type === ItemType.unread) {
-    items = yield updateFeeds(items)
+    const result = yield updateFeeds(items)
+    items = result.items
+    updatedFeeds = result.feeds
   }
   items = yield cleanUpItems(items, type)
   // yield call(InteractionManager.runAfterInteractions)
@@ -234,13 +237,12 @@ function* receiveItems(items, type) {
 function* updateFeeds(items) {
   const feeds = yield select(getFeeds)
   const updated = yield createFeedsWhereNeededAndAddInfo(items, [...feeds])
-  updatedFeeds = updated.feeds
   yield put({
     type: UPDATE_FEEDS,
-    feeds: updatedFeeds,
+    feeds: updated.feeds,
     skipFetchItems: true
   })
-  return updated.items
+  return { items: updated.items, feeds: updated.feeds }
 }
 
 export function* cleanUpItems(items, type) {
