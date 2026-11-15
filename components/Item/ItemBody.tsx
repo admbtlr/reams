@@ -380,7 +380,7 @@ html, body {
           flex: 0,
           height: webViewHeight
         }}
-        decelerationRate="normal"
+        decelerationRate={Platform.OS === 'ios' ? 'normal' : 0.9}
         injectedJavaScript={injectedJavaScript}
         mixedContentMode="compatibility"
         menuItems={[

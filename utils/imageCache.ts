@@ -50,7 +50,12 @@ export const cacheImagesForItem = async (
     const itemCacheDir = `${CACHE_DIR}/${itemId}`
     const exists = await ReactNativeBlobUtil.fs.exists(itemCacheDir)
     if (!exists) {
-      await ReactNativeBlobUtil.fs.mkdir(itemCacheDir)
+      try {
+        await ReactNativeBlobUtil.fs.mkdir(itemCacheDir)
+      } catch (e) {
+        // folder created by a concurrent call — already exists is fine
+        if (!String(e).includes('already exists')) throw e
+      }
     }
     
     // Download all images in parallel
