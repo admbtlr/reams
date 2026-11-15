@@ -103,7 +103,7 @@ export default function Message (props) {
         marginLeft: getMargin(),
         marginRight: getMargin(),
         paddingLeft: 0,
-        paddingRight: 0,
+        paddingRight: 20 * fontSizeMultiplier(),
         paddingTop: 10,
         paddingBottom: 8,
         borderRadius: (18 * fontSizeMultiplier() + 28) / 2,
@@ -114,7 +114,8 @@ export default function Message (props) {
           width: 0,
           height: 5
         },
-    flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'baseline'
       }}>
         <Text 
           numberOfLines={1}
@@ -122,9 +123,17 @@ export default function Message (props) {
             ...textInfoBoldStyle('rizzleFG'),
             fontSize: 14 * fontSizeMultiplier(),
             lineHeight: 20 * fontSizeMultiplier(),
-          }}>{visibleMessage}{isNextMessageEllipsis && <AnimatedEllipsis style={{ 
-            ...textInfoBoldStyle('rizzleFG', 0)
-        }} />}</Text>
+            marginRight: 0,
+          }}>{visibleMessage}</Text>
+        {isNextMessageEllipsis && (
+          <AnimatedEllipsis style={{ 
+            ...textInfoBoldStyle('rizzleFG', 0),
+            fontSize: 14 * fontSizeMultiplier(),
+            lineHeight: 20 * fontSizeMultiplier(),
+            marginLeft: 0,
+            marginRight: 0,
+          }} />
+        )}
       </View>
     </Animated.View>
   )
