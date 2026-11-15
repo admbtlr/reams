@@ -114,8 +114,12 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
   }
 
   // for some reason imageDimensions is sometimes undefined
+  // (deflateItem doesn't persist it, so items reloaded from the DB lack it).
+  // In full-bleed mode this placeholder must be absolutely positioned —
+  // using the inline (flex: 1) style here makes it a sibling of the
+  // ScrollView and splits the screen in half.
   if (!imageDimensions || imageDimensions.width === 0 || imageDimensions.height === 0 || !imageDimensions.width || !imageDimensions.height) {
-    return <View style={inline} />
+    return <View style={isReallyInline ? inline : absolute} />
   }
 
   const position = isReallyInline ? inline : absolute
