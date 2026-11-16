@@ -399,3 +399,19 @@ Several packages require patches (applied via `patch-package` on `postinstall`):
 - **No `.pending` / `.rejected` handlers in RTK thunks**: All async thunks silently ignore errors.
 - **`reading-timer.js` module-level state**: Reading time is tracked via closure variables outside Redux, invisible to Redux DevTools.
 - **Web full-text search**: Not implemented — `searchItems` throws on web.
+
+---
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked as local markdown files under `.scratch/` in this repo. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five-role vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout: one `GLOSSARY.md` at the repo root plus `docs/adr/`. See `docs/agents/domain.md`.
