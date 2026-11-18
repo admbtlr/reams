@@ -3,6 +3,7 @@
     "name": "Reams",
     "slug": "reams",
     "plugins": [
+      "./plugins/withWebviewAssets",
       "expo-router",
       [
         "expo-sqlite",
@@ -99,7 +100,7 @@
       }
     },
     "owner": "admbtlr",
-    "version": "1.2.2",
+    "version": "1.3.0",
     "ios": {
       "appleTeamId": "LQ43Q9L9MY",
       "bundleIdentifier": "com.adam-butler.rizzle",
