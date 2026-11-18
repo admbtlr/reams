@@ -1,9 +1,8 @@
 /**
  * AnimationContext Tests
  *
- * Tests for the new Reanimated-based animation context system.
- * This verifies that our new animation infrastructure works correctly
- * before we start migrating components to use it.
+ * Tests for the Reanimated-based animation context system with per-item
+ * shared values keyed by item _id (Map-based, lazily created).
  */
 
 import React from 'react'
@@ -20,9 +19,13 @@ jest.mock('react-native-reanimated', () => {
   const mockUseSharedValue = (initialValue) => ({
     value: initialValue
   })
+  const mockMakeMutable = (initialValue) => ({
+    value: initialValue
+  })
 
   return {
     useSharedValue: mockUseSharedValue,
+    makeMutable: mockMakeMutable,
     useAnimatedStyle: jest.fn(() => ({})),
     useAnimatedScrollHandler: jest.fn(() => jest.fn()),
     runOnJS: jest.fn((fn) => fn),
@@ -51,10 +54,11 @@ describe('AnimationContext', () => {
 
       expect(contextValue).toBeDefined()
       expect(contextValue).toHaveProperty('horizontalScroll')
-      expect(contextValue).toHaveProperty('verticalScrolls')
-      expect(contextValue).toHaveProperty('headerVisibles')
-      expect(contextValue).toHaveProperty('buttonsVisibles')
       expect(contextValue).toHaveProperty('currentIndex')
+      expect(contextValue).toHaveProperty('getVerticalScroll')
+      expect(contextValue).toHaveProperty('getHeaderVisible')
+      expect(contextValue).toHaveProperty('getButtonsVisible')
+      expect(contextValue).toHaveProperty('pruneAnimationValues')
       expect(contextValue).toHaveProperty('scrollDirection')
       expect(contextValue).toHaveProperty('isScrolling')
       expect(contextValue).toHaveProperty('scrollVelocity')
@@ -75,13 +79,75 @@ describe('AnimationContext', () => {
       )
 
       expect(contextValue.horizontalScroll.value).toBe(0)
-      expect(contextValue.verticalScrolls[0].value).toBe(0)
-      expect(contextValue.headerVisibles[0].value).toBe(0) // visible by default
-      expect(contextValue.buttonsVisibles[0].value).toBe(1) // visible by default
       expect(contextValue.currentIndex.value).toBe(0)
       expect(contextValue.scrollDirection.value).toBe(0) // no direction
       expect(contextValue.isScrolling.value).toBe(false)
       expect(contextValue.scrollVelocity.value).toBe(0)
+    })
+  })
+
+  describe('per-item shared values keyed by item id', () => {
+    test('creates shared values lazily per item id with correct defaults', () => {
+      let contextValue = null
+
+      const TestComponent = () => {
+        contextValue = useAnimation()
+        return <Text>Test</Text>
+      }
+
+      render(
+        <AnimationProvider>
+          <TestComponent />
+        </AnimationProvider>
+      )
+
+      expect(contextValue.getVerticalScroll('a').value).toBe(0)
+      expect(contextValue.getHeaderVisible('a').value).toBe(0)
+      expect(contextValue.getButtonsVisible('a').value).toBe(1) // visible by default
+    })
+
+    test('returns the same shared value for the same id', () => {
+      let contextValue = null
+
+      const TestComponent = () => {
+        contextValue = useAnimation()
+        return <Text>Test</Text>
+      }
+
+      render(
+        <AnimationProvider>
+          <TestComponent />
+        </AnimationProvider>
+      )
+
+      expect(contextValue.getVerticalScroll('a')).toBe(contextValue.getVerticalScroll('a'))
+      expect(contextValue.getVerticalScroll('a')).not.toBe(contextValue.getVerticalScroll('b'))
+      expect(contextValue.getHeaderVisible('a')).not.toBe(contextValue.getVerticalScroll('a'))
+    })
+
+    test('pruneAnimationValues removes entries not in keepIds', () => {
+      let contextValue = null
+
+      const TestComponent = () => {
+        contextValue = useAnimation()
+        return <Text>Test</Text>
+      }
+
+      render(
+        <AnimationProvider>
+          <TestComponent />
+        </AnimationProvider>
+      )
+
+      const beforeA = contextValue.getVerticalScroll('a')
+      contextValue.getVerticalScroll('b')
+      contextValue.getHeaderVisible('b')
+      contextValue.pruneAnimationValues(['a'])
+
+      // 'a' survives, 'b' is pruned and re-created fresh on next access
+      expect(contextValue.getVerticalScroll('a')).toBe(beforeA)
+      const recreatedB = contextValue.getVerticalScroll('b')
+      expect(recreatedB.value).toBe(0)
     })
   })
 
@@ -137,9 +203,10 @@ describe('AnimationContext', () => {
       )
 
       expect(animationValues).toHaveProperty('horizontalScroll')
-      expect(animationValues).toHaveProperty('verticalScrolls')
-      expect(animationValues).toHaveProperty('headerVisibles')
-      expect(animationValues).toHaveProperty('buttonsVisibles')
+      expect(animationValues).toHaveProperty('getVerticalScroll')
+      expect(animationValues).toHaveProperty('getHeaderVisible')
+      expect(animationValues).toHaveProperty('getButtonsVisible')
+      expect(animationValues).toHaveProperty('pruneAnimationValues')
       expect(animationValues).toHaveProperty('currentIndex')
       expect(animationValues).toHaveProperty('scrollDirection')
       expect(animationValues).toHaveProperty('isScrolling')
@@ -176,52 +243,7 @@ describe('AnimationContext', () => {
 
       // Both components should get the same context reference
       expect(contextValue1.horizontalScroll).toBe(contextValue2.horizontalScroll)
-      expect(contextValue1.verticalScroll).toBe(contextValue2.verticalScroll)
-      expect(contextValue1.headerVisibles[0]).toBe(contextValue2.headerVisibles[0])
-      expect(contextValue1.buttonsVisibles[0]).toBe(contextValue2.buttonsVisibles[0])
-    })
-  })
-
-  describe('Context value stability', () => {
-    test('context value remains stable across child component renders', () => {
-      let contextValue1 = null
-      let contextValue2 = null
-      let renders = 0
-
-      const TestComponent = ({ counter }) => {
-        renders++
-        const context = useAnimation()
-        if (renders === 1) {
-          contextValue1 = context
-        } else if (renders === 2) {
-          contextValue2 = context
-        }
-        return <Text>Render {renders} - Counter {counter}</Text>
-      }
-
-      // Keep the same provider, only rerender the children
-      const { rerender } = render(
-        <AnimationProvider>
-          <TestComponent counter={1} />
-        </AnimationProvider>
-      )
-
-      rerender(
-        <AnimationProvider>
-          <TestComponent counter={2} />
-        </AnimationProvider>
-      )
-
-      expect(renders).toBe(2)
-      expect(contextValue1).toBeDefined()
-      expect(contextValue2).toBeDefined()
-
-      // Note: With our mock, we can't test object reference stability
-      // but we can test that the values are consistent
-      expect(contextValue1.horizontalScroll.value).toBe(0)
-      expect(contextValue2.horizontalScroll.value).toBe(0)
-      expect(contextValue1.verticalScrolls[0].value).toBe(0)
-      expect(contextValue2.verticalScrolls[0].value).toBe(0)
+      expect(contextValue1.getVerticalScroll('x')).toBe(contextValue2.getVerticalScroll('x'))
     })
   })
 })

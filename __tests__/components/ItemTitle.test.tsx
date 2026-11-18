@@ -56,32 +56,29 @@ jest.mock('@sentry/react-native', () => ({
   captureMessage: jest.fn()
 }))
 
-// Mock AnimationContext (ItemTitle uses useAnimation and useAnimationValues)
+// Mock AnimationContext (ItemTitle uses useAnimationValues with _id-keyed getters)
 jest.mock('@/components/ItemCarousel/AnimationContext', () => ({
   useAnimation: jest.fn(() => ({
-    headerVisible: { value: 1 },
-    buttonsVisible: { value: 1 },
-    verticalScroll: { value: 0 },
+    getVerticalScroll: jest.fn(() => ({ value: 0 })),
+    getHeaderVisible: jest.fn(() => ({ value: 0 })),
+    getButtonsVisible: jest.fn(() => ({ value: 1 })),
+    pruneAnimationValues: jest.fn(),
     horizontalScroll: { value: 0 },
     currentIndex: { value: 0 },
     scrollDirection: { value: 0 },
     isScrolling: { value: false },
-    scrollVelocity: { value: 0 },
-    bufferIndex: 1,
-    setBufferIndex: jest.fn()
+    scrollVelocity: { value: 0 }
   })),
   useAnimationValues: jest.fn(() => ({
-    verticalScrolls: [{ value: 0 }],
-    headerVisible: { value: 1 },
-    buttonsVisible: { value: 1 },
-    verticalScroll: { value: 0 },
+    getVerticalScroll: jest.fn(() => ({ value: 0 })),
+    getHeaderVisible: jest.fn(() => ({ value: 0 })),
+    getButtonsVisible: jest.fn(() => ({ value: 1 })),
+    pruneAnimationValues: jest.fn(),
     horizontalScroll: { value: 0 },
     currentIndex: { value: 0 },
     scrollDirection: { value: 0 },
     isScrolling: { value: false },
-    scrollVelocity: { value: 0 },
-    bufferIndex: 1,
-    setBufferIndex: jest.fn()
+    scrollVelocity: { value: 0 }
   })),
   AnimationProvider: ({ children }: { children: React.ReactNode }) => children,
   __esModule: true,
@@ -215,6 +212,7 @@ describe('ItemTitle Component', () => {
     const props = {
       title: 'Test Item Title',
       item: mockItem,
+      itemId: 'item-123',
       styles: mockStyles,
       color: '#000000',
       showCoverImage: false,
@@ -242,6 +240,7 @@ describe('ItemTitle Component', () => {
     const props = {
       title: 'Test Item Title',
       item: mockItem,
+      itemId: 'item-123',
       styles: mockStyles,
       color: '#000000',
       showCoverImage: false,
@@ -269,6 +268,7 @@ describe('ItemTitle Component', () => {
     const props = {
       title: 'Test Item Title',
       item: mockItem,
+      itemId: 'item-123',
       excerpt: 'This is a test excerpt for the item.',
       styles: mockStyles,
       color: '#000000',
@@ -308,6 +308,7 @@ describe('ItemTitle Component', () => {
     const props = {
       title: 'Test Item Title',
       item: mockItem,
+      itemId: 'item-123',
       date: Date.now(),
       styles: mockStyles,
       color: '#000000',
@@ -340,6 +341,7 @@ describe('ItemTitle Component', () => {
     const props = {
       title: 'Test Item Title',
       item: mockItem,
+      itemId: 'item-123',
       styles: mockStyles,
       color: '#000000',
       showCoverImage: false,
@@ -371,6 +373,7 @@ describe('ItemTitle Component', () => {
     const props = {
       title: 'Test Item Title',
       item: mockItem,
+      itemId: 'item-123',
       styles: mockStyles,
       color: '#000000',
       showCoverImage: true,

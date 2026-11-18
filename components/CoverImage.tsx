@@ -37,7 +37,7 @@ interface CoverImageProps {
     height: number
   } | undefined
   isVisible: boolean
-  itemIndex: number
+  itemId: string
   orientation: string
   scrollAnim?: Animated.Value
   faceCentreNormalised?: {
@@ -92,7 +92,7 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
     faceCentreNormalised,
     imageDimensions,
     isVisible,
-    itemIndex
+    itemId
   } = props
 
   const isReallyInline = props.orientation === 'landscape' ? false : isInline
@@ -125,16 +125,17 @@ const CoverImage: React.FC<CoverImageProps> = (props) => {
   const position = isReallyInline ? inline : absolute
   const imageHeight = screenWidth / imageDimensions.width * imageDimensions.height
 
-  const { verticalScrolls } = useAnimation()
+  const { getVerticalScroll } = useAnimation()
+  const verticalScroll = getVerticalScroll(itemId)
   const animatedStyles = useAnimatedStyle(() => {
     const scale = isReallyInline ?
-      interpolate(verticalScrolls[itemIndex].value, [-imageHeight, 0, 1], [2, 1, 1]) :
-      interpolate(verticalScrolls[itemIndex].value, [-100, 0, screenHeight], [1.3, 1, 0.8])
+      interpolate(verticalScroll.value, [-imageHeight, 0, 1], [2, 1, 1]) :
+      interpolate(verticalScroll.value, [-100, 0, screenHeight], [1.3, 1, 0.8])
     const translateY = isReallyInline ?
-      interpolate(verticalScrolls[itemIndex].value, [-1, 0, 1], [-.5, 0, 0]) :
-      interpolate(verticalScrolls[itemIndex].value, [-1, 0, 1], [0, 0, -0.333])
-    const opacity = interpolate(verticalScrolls[itemIndex].value, [0, screenHeight * 0.75, screenHeight], [1, 1, 0])
-    const blurOpacity = interpolate(verticalScrolls[itemIndex].value, [-100, -50, 0, 200], [0, 0.8, 1, 0])
+      interpolate(verticalScroll.value, [-1, 0, 1], [-.5, 0, 0]) :
+      interpolate(verticalScroll.value, [-1, 0, 1], [0, 0, -0.333])
+    const opacity = interpolate(verticalScroll.value, [0, screenHeight * 0.75, screenHeight], [1, 1, 0])
+    const blurOpacity = interpolate(verticalScroll.value, [-100, -50, 0, 200], [0, 0.8, 1, 0])
     return isVisible ?
       {
         opacity,

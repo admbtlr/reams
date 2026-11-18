@@ -18,17 +18,17 @@ const mockUseReanimatedButtons = jest.fn(() => true)
 const mockLogAnimationEvent = jest.fn()
 
 // Mock AnimationContext with controllable shared values
+const mockButtonsVisible = { value: 1 } // 1 = visible, 0 = hidden
 const mockAnimationContext = {
-  buttonsVisible: { value: 1 }, // 1 = visible, 0 = hidden
-  headerVisible: { value: 1 },
-  verticalScroll: { value: 0 },
+  getButtonsVisible: jest.fn(() => mockButtonsVisible),
+  getHeaderVisible: jest.fn(() => ({ value: 0 })),
+  getVerticalScroll: jest.fn(() => ({ value: 0 })),
+  pruneAnimationValues: jest.fn(),
   horizontalScroll: { value: 0 },
   currentIndex: { value: 0 },
   scrollDirection: { value: 0 },
   isScrolling: { value: false },
-  scrollVelocity: { value: 0 },
-  bufferIndex: 1,
-  setBufferIndex: jest.fn()
+  scrollVelocity: { value: 0 }
 }
 
 jest.mock('@/components/ItemCarousel/AnimationContext', () => ({
@@ -36,6 +36,21 @@ jest.mock('@/components/ItemCarousel/AnimationContext', () => ({
   AnimationProvider: ({ children }) => children,
   __esModule: true,
   default: require('react').createContext(null)
+}))
+
+// Mock the slot-based item store
+const mockStoreItem = {
+  _id: '1',
+  url: 'https://example.com/article',
+  title: 'Test Article',
+  isSaved: false,
+  isKeepUnread: false,
+  showMercuryContent: false,
+  feed_id: 'feed1'
+}
+
+jest.mock('@/components/ItemCarousel/bufferedItemsStore', () => ({
+  useItemAtSlot: jest.fn(() => mockStoreItem)
 }))
 
 // Mock functions for tracking animation calls
@@ -132,6 +147,13 @@ const createMockStore = (customState = {}) => {
     categories: {
       categories: []
     },
+    hostColors: {
+      hostColors: []
+    },
+    config: {
+      orientation: 'portrait',
+      filter: null
+    },
     ...customState
   }
 
@@ -198,7 +220,7 @@ describe('ButtonSetReanimated', () => {
 
     // Reset mocks
     jest.clearAllMocks()
-    mockAnimationContext.buttonsVisible.value = 1 // Visible by default
+    mockButtonsVisible.value = 1 // Visible by default
   })
 
   describe('Basic Rendering', () => {
@@ -207,8 +229,7 @@ describe('ButtonSetReanimated', () => {
         <Provider store={store}>
           <AnimationProvider>
             <ButtonSetReanimated
-              item={testItem}
-              itemIndex={0}
+              slotIndex={0}
             />
           </AnimationProvider>
         </Provider>
@@ -217,12 +238,11 @@ describe('ButtonSetReanimated', () => {
       expect(UNSAFE_root).toBeTruthy()
     })
 
-    test('renders without crashing with different itemIndex', () => {
+    test('renders without crashing with different slotIndex', () => {
       const { UNSAFE_root } = render(
         <Provider store={store}>
           <ButtonSetReanimated
-            item={testItem}
-            itemIndex={1}
+            slotIndex={1}
           />
         </Provider>
       )
@@ -231,12 +251,14 @@ describe('ButtonSetReanimated', () => {
     })
 
     test('does not render when item is null', () => {
+      const { useItemAtSlot } = require('@/components/ItemCarousel/bufferedItemsStore')
+      useItemAtSlot.mockReturnValueOnce(null)
+
       const { UNSAFE_root } = render(
         <Provider store={store}>
           <AnimationProvider>
             <ButtonSetReanimated
-              item={null}
-              itemIndex={0}
+              slotIndex={0}
             />
           </AnimationProvider>
         </Provider>
@@ -247,20 +269,20 @@ describe('ButtonSetReanimated', () => {
   })
 
   describe('Animation Context Integration', () => {
-    test('uses mockAnimationContext for button visibility', () => {
+    test('uses item _id-keyed shared values for button visibility', () => {
       render(
         <Provider store={store}>
           <AnimationProvider>
             <ButtonSetReanimated
-              item={testItem}
-              itemIndex={0}
+              slotIndex={0}
             />
           </AnimationProvider>
         </Provider>
       )
 
-      // Verify the component rendered (useAnimatedStyle from reanimated mock is called internally)
-      expect(mockAnimationContext.buttonsVisible).toBeDefined()
+      // The component should look up the buttons shared value by item _id
+      expect(mockAnimationContext.getButtonsVisible).toHaveBeenCalledWith('1')
+      expect(mockButtonsVisible).toBeDefined()
     })
 
     // test('responds to buttonsVisible shared value changes', () => {

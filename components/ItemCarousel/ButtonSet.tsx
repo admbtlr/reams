@@ -30,7 +30,7 @@ import { useColor } from '@/hooks/useColor'
 import { useAnimation } from './AnimationContext'
 
 import ReamsButton from './ReamsButton'
-import { useBufferedItem } from './bufferedItemsStore'
+import { useItemAtSlot } from './bufferedItemsStore'
 import { getHost } from '@/utils'
 
 export const translateDistance = 80
@@ -40,25 +40,25 @@ export const translateDistance = 80
 // feed.color, feed.isMercury
 
 interface ButtonSetProps {
-  itemIndex: number
+  slotIndex: number
 }
 
 export default function ButtonSet({
-  itemIndex,
+  slotIndex,
 }: ButtonSetProps) {
-  // Get item from store using itemIndex
-  const item = useBufferedItem(itemIndex)
+  // Get item from store using slotIndex
+  const item = useItemAtSlot(slotIndex)
+
+  // Get animation context for button visibility
+  const animationContext = useAnimation()
+  const screenWidth = useWindowDimensions().width
+  const horizontalScroll = animationContext.horizontalScroll
+  const buttonsVisible = animationContext.getButtonsVisible(item?._id ?? `slot-${slotIndex}`)
 
   // Early return if no item provided
   if (!item) {
     return null
   }
-
-  // Get animation context for button visibility with error handling
-  const animationContext = useAnimation()
-  const buttonsVisibles = animationContext.buttonsVisibles
-  const screenWidth = useWindowDimensions().width
-  const horizontalScroll = animationContext.horizontalScroll
 
   const pageWidth = useWindowDimensions().width
 
@@ -183,11 +183,11 @@ export default function ButtonSet({
   // Reanimated animated style for button visibility
   // This replaces the old visibleAnim Animated.Value approach
   const buttonContainerStyle = useAnimatedStyle(() => {
-    // Horizontal opacity animation (fading between pages)
-    let inputRange = [pageWidth * itemIndex, pageWidth * (itemIndex + 1)]
+    // Horizontal opacity animation (fading between pages) - slot indices
+    let inputRange = [pageWidth * slotIndex, pageWidth * (slotIndex + 1)]
     let outputRange = [1, 0]
-    if (itemIndex > 0) {
-      inputRange.unshift(pageWidth * (itemIndex - 1))
+    if (slotIndex > 0) {
+      inputRange.unshift(pageWidth * (slotIndex - 1))
       outputRange.unshift(0)
     }
 
@@ -203,16 +203,16 @@ export default function ButtonSet({
       // this leads to a flash of the wrong ButtonSet when the carousel is re-rendered
       opacity: global._WORKLET ? horizontalOpacity : 0
     }
-  }, [itemIndex, pageWidth, screenWidth])
+  }, [slotIndex, pageWidth, screenWidth])
 
   // Individual button animated styles with staggered timing
   const duration = 150
   const staggerDelay = 100 // ms between each button animation
   const shareButtonStyle = useAnimatedStyle(() => {
-    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === itemIndex
+    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === slotIndex
     if (!isCurrent) return {}
 
-    const isVisible = buttonsVisibles[itemIndex].value === 1
+    const isVisible = buttonsVisible.value === 1
 
     return {
       transform: [{
@@ -222,13 +222,13 @@ export default function ButtonSet({
         )
       }]
     }
-  }, [itemIndex, screenWidth])
+  }, [slotIndex, screenWidth])
 
   const saveButtonStyle = useAnimatedStyle(() => {
-    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === itemIndex
+    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === slotIndex
     if (!isCurrent) return {}
 
-    const isVisible = buttonsVisibles[itemIndex].value === 1
+    const isVisible = buttonsVisible.value === 1
 
     return {
       transform: [{
@@ -238,13 +238,13 @@ export default function ButtonSet({
         ))
       }]
     }
-  }, [itemIndex, screenWidth])
+  }, [slotIndex, screenWidth])
 
   const keepUnreadButtonStyle = useAnimatedStyle(() => {
-    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === itemIndex
+    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === slotIndex
     if (!isCurrent) return {}
 
-    const isVisible = buttonsVisibles[itemIndex].value === 1
+    const isVisible = buttonsVisible.value === 1
 
     return {
       transform: [{
@@ -254,13 +254,13 @@ export default function ButtonSet({
         ))
       }]
     }
-  }, [itemIndex, screenWidth])
+  }, [slotIndex, screenWidth])
 
   const browserButtonStyle = useAnimatedStyle(() => {
-    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === itemIndex
+    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === slotIndex
     if (!isCurrent) return {}
 
-    const isVisible = buttonsVisibles[itemIndex].value === 1
+    const isVisible = buttonsVisible.value === 1
 
     return {
       transform: [{
@@ -270,13 +270,13 @@ export default function ButtonSet({
         ))
       }]
     }
-  }, [itemIndex, screenWidth])
+  }, [slotIndex, screenWidth])
 
   const mercuryButtonStyle = useAnimatedStyle(() => {
-    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === itemIndex
+    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === slotIndex
     if (!isCurrent) return {}
 
-    const isVisible = buttonsVisibles[itemIndex].value === 1
+    const isVisible = buttonsVisible.value === 1
 
     return {
       transform: [{
@@ -286,10 +286,10 @@ export default function ButtonSet({
         ))
       }]
     }
-  }, [itemIndex, screenWidth])
+  }, [slotIndex, screenWidth])
 
   const animatedPointerEvents = useAnimatedProps(() => {
-    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === itemIndex
+    const isCurrent = Math.round(horizontalScroll.value / screenWidth) === slotIndex
     return { pointerEvents: isCurrent ? ('box-none' as const) : ('none' as const) }
   })
 

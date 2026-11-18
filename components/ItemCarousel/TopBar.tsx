@@ -40,7 +40,7 @@ import log from '@/utils/log'
 import Favicon from '@/components/Favicon'
 import { useColor } from '@/hooks/useColor'
 import { useAnimation } from './AnimationContext'
-import { useBufferStartIndex, useBufferedItem } from './bufferedItemsStore'
+import { useItemAtSlot } from './bufferedItemsStore'
 
 const entities = require('entities')
 
@@ -49,23 +49,25 @@ interface TopBarProps {
     emit: (type: string) => null
   }
   isTitleOnly: Boolean | undefined
-  itemIndex: number
+  slotIndex: number
   pageWidth: number
 }
 
 export default function TopBar({
   emitter,
   isTitleOnly,
-  itemIndex,
+  slotIndex,
   pageWidth,
 }: TopBarProps) {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  // Animation context
-  const { horizontalScroll, verticalScrolls, headerVisibles } = useAnimation()
+  // Animation context - per-item shared values keyed by item _id
+  const { horizontalScroll, getVerticalScroll, getHeaderVisible } = useAnimation()
 
-  const item = useBufferedItem(itemIndex)
+  const item = useItemAtSlot(slotIndex)
+  const verticalScroll = getVerticalScroll(item?._id ?? `slot-${slotIndex}`)
+  const headerVisible = getHeaderVisible(item?._id ?? `slot-${slotIndex}`)
 
   const screenWidth = useWindowDimensions().width
 
@@ -130,17 +132,17 @@ export default function TopBar({
     setIsBackgroundTransparent(!!item.showCoverImage && !isCoverInline)
   }, [item, orientation])
 
-  // Animated styles
+  // Animated styles - interpolation ranges use slot indices directly
   const containerStyle = useAnimatedStyle(() => {
     // Horizontal opacity animation (fading between pages)
     let inputRange = [
-      pageWidth * itemIndex,
-      pageWidth * (itemIndex + 0.5),
-      pageWidth * (itemIndex + 1),
+      pageWidth * slotIndex,
+      pageWidth * (slotIndex + 0.5),
+      pageWidth * (slotIndex + 1),
     ]
     let outputRange = [1, 1, 0]
-    if (itemIndex > 0) {
-      inputRange.unshift(pageWidth * (itemIndex - 1))
+    if (slotIndex > 0) {
+      inputRange.unshift(pageWidth * (slotIndex - 1))
       outputRange.unshift(0)
     }
 
@@ -153,8 +155,8 @@ export default function TopBar({
 
     // Direct scroll tracking using headerVisible offset (only for visible TopBar)
     const translateY =
-      -headerVisibles[itemIndex].value *
-      (Math.round(horizontalScroll.value / screenWidth) === itemIndex ? 1 : 0)
+      -headerVisible.value *
+      (Math.round(horizontalScroll.value / screenWidth) === slotIndex ? 1 : 0)
 
     return {
       // useAnimatedStyle is called once on the JS thread and then on the UI thread
@@ -162,14 +164,14 @@ export default function TopBar({
       opacity: global._WORKLET ? opacity : 0,
       transform: [{ translateY }],
     }
-  }, [itemIndex, pageWidth, screenWidth])
+  }, [slotIndex, pageWidth, screenWidth])
 
   const titleTransformStyle = useAnimatedStyle(() => {
     // Title transform animation based on horizontal scroll
-    let inputRange = [pageWidth * itemIndex, pageWidth * (itemIndex + 1)]
+    let inputRange = [pageWidth * slotIndex, pageWidth * (slotIndex + 1)]
     let outputRange = [0, -20]
-    if (itemIndex > 0) {
-      inputRange = [0, pageWidth * (itemIndex - 1)].concat(inputRange)
+    if (slotIndex > 0) {
+      inputRange = [0, pageWidth * (slotIndex - 1)].concat(inputRange)
       outputRange = [30, 30].concat(outputRange)
     }
 
@@ -183,14 +185,14 @@ export default function TopBar({
     return {
       transform: [{ translateY }],
     }
-  }, [itemIndex, pageWidth])
+  }, [slotIndex, pageWidth])
 
   const backgroundOpacityStyle = useAnimatedStyle(() => {
     const isVisible =
-      Math.round(horizontalScroll.value / screenWidth) === itemIndex
+      Math.round(horizontalScroll.value / screenWidth) === slotIndex
     if (isBackgroundTransparent && isVisible) {
       const opacity = interpolate(
-        verticalScrolls[itemIndex].value,
+        verticalScroll.value,
         [0, statusBarHeight, statusBarHeight + 50],
         [0, 0, 1],
         Extrapolate.CLAMP
@@ -200,41 +202,41 @@ export default function TopBar({
       return { opacity: 0 }
     }
     return { opacity: 1 }
-  }, [itemIndex, screenWidth, isBackgroundTransparent, statusBarHeight])
+  }, [slotIndex, screenWidth, isBackgroundTransparent, statusBarHeight])
 
   const feedInfoOpacityStyle = useAnimatedStyle(() => {
     const isVisible =
-      Math.round(horizontalScroll.value / screenWidth) === itemIndex
+      Math.round(horizontalScroll.value / screenWidth) === slotIndex
     if (!isVisible) return { opacity: 1 }
 
     const opacity = interpolate(
-      verticalScrolls[itemIndex].value,
+      verticalScroll.value,
       [0, 120, 160],
       [1, 1, 0],
       Extrapolate.CLAMP
     )
 
     return { opacity }
-  }, [itemIndex, screenWidth])
+  }, [slotIndex, screenWidth])
 
   const titleOpacityStyle = useAnimatedStyle(() => {
     const isVisible =
-      Math.round(horizontalScroll.value / screenWidth) === itemIndex
+      Math.round(horizontalScroll.value / screenWidth) === slotIndex
     if (!isVisible) return { opacity: 0 }
 
     const opacity = interpolate(
-      verticalScrolls[itemIndex].value,
+      verticalScroll.value,
       [0, 100, 140],
       [0, 0, 1],
       Extrapolate.CLAMP
     )
 
     return { opacity }
-  }, [itemIndex, screenWidth])
+  }, [slotIndex, screenWidth])
 
   const animatedPointerEvents = useAnimatedProps(() => {
     const isVisible =
-      Math.round(horizontalScroll.value / screenWidth) === itemIndex
+      Math.round(horizontalScroll.value / screenWidth) === slotIndex
     return { pointerEvents: isVisible ? ('auto' as const) : ('none' as const) }
   })
 
@@ -321,7 +323,7 @@ export default function TopBar({
             <Counter
               filter={filter}
               displayMode={displayMode}
-              itemIndex={itemIndex}
+              slotIndex={slotIndex}
               numItems={numItems}
               getForegroundColor={getForegroundColor}
               fontSizeMultiplier={fontSizeMultiplier}
@@ -582,7 +584,7 @@ const getStyles = () => {
 interface CounterProps {
   filter: any
   displayMode: ItemType
-  itemIndex: number
+  slotIndex: number
   numItems: number
   getForegroundColor: () => string
   fontSizeMultiplier: () => number
@@ -592,13 +594,12 @@ interface CounterProps {
 const Counter: React.FC<CounterProps> = ({
   filter,
   displayMode,
-  itemIndex,
+  slotIndex,
   numItems,
   getForegroundColor,
   fontSizeMultiplier,
   getStyles,
 }) => {
-  const bufferStartIndex = useBufferStartIndex()
   return (
     <Text
       style={{
@@ -616,7 +617,7 @@ const Counter: React.FC<CounterProps> = ({
         : displayMode === ItemType.saved
         ? 'Library'
         : 'Unread Stories'}{' '}
-      • {itemIndex + bufferStartIndex + 1} / {numItems}
+      • {slotIndex + 1} / {numItems}
     </Text>
   )
 }

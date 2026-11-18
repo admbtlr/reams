@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 import ButtonSet from './ButtonSet'
 
-import { useBufferedItemsLength } from './bufferedItemsStore'
+import { useRenderedWindow } from './bufferedItemsStore'
 import { useBufferedItemsManager } from './useBufferedItemsManager'
 
 const ButtonSets = (props) => {
@@ -12,15 +12,15 @@ const ButtonSets = (props) => {
     return null
   }
 
-  // Get buffered items length from Zustand store
-  const bufferedItemsLength = useBufferedItemsLength()
+  // One ButtonSet per rendered window slot only (≤ window size)
+  const renderedWindow = useRenderedWindow()
 
-  if (bufferedItemsLength === 0) return null
+  if (renderedWindow.length === 0) return null
 
-  return Array.from({ length: bufferedItemsLength }, (_, i) => (
+  return renderedWindow.map(({ slotIndex }) => (
     <ButtonSet
-      key={`button-set-${i}`}
-      itemIndex={i}
+      key={`button-set-${slotIndex}`}
+      slotIndex={slotIndex}
     />
   ))
 }

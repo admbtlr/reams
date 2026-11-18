@@ -37,7 +37,7 @@ interface ItemTitleProps {
   isCoverInline?: boolean
   isVisible?: boolean
   item: any
-  itemIndex: number
+  itemId: string
   scrollOffset: Animated.Value
   showCoverImage?: boolean
   anims?: any
@@ -186,7 +186,7 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
     isCoverInline,
     isVisible,
     item,
-    itemIndex,
+    itemId,
     scrollOffset,
     showCoverImage,
     anims,
@@ -194,11 +194,12 @@ const ItemTitle: React.FC<ItemTitleProps> = (props) => {
     excerpt
   } = props
 
-  const { verticalScrolls } = useAnimationValues()
+  const { getVerticalScroll } = useAnimationValues()
+  const verticalScroll = getVerticalScroll(itemId)
   const animatedOpacity = useAnimatedStyle(() => ({
     opacity: isCoverInline || !showCoverImage || !isVisible ?
       1 :
-      interpolate(verticalScrolls[itemIndex].value, [-100, -10, 0, 100, 200], [0, 1, 1, 1, 0])
+      interpolate(verticalScroll.value, [-100, -10, 0, 100, 200], [0, 1, 1, 1, 0])
   }))
 
   // Extract styles and title from props/item

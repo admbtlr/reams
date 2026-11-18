@@ -47,8 +47,8 @@ import {
   logAnimationEvent
 } from '../../utils/feature-flags'
 import {
-  useBufferIndex,
-  useBufferedItem
+  useCurrentSlot,
+  useItemAtSlot
 } from '../ItemCarousel/bufferedItemsStore'
 
 const entities = require('entities')
@@ -65,18 +65,18 @@ interface ItemProps {
     on: (event: string, callback: () => void, id?: string) => void
     off: (id: string) => void
   }
-  itemIndex: number
+  slotIndex: number
   panAnim: Animated.Value
   onScrollEnd: (offset: number) => void
   // setScrollAnim: (anim: Animated.Value) => void;
 }
 
 const Item: React.FC<ItemProps> = (props) => {
-  const { _id, emitter, itemIndex, onScrollEnd } = props
+  const { _id, emitter, slotIndex, onScrollEnd, panAnim } = props
 
   const dispatch = useDispatch()
 
-  const inflatedItem = useBufferedItem(itemIndex) as ItemInflated
+  const inflatedItem = useItemAtSlot(slotIndex) as ItemInflated
 
   // Redux selectors
   const isDarkMode = useSelector((state: RootState) => state.ui.isDarkMode)
@@ -160,7 +160,7 @@ const Item: React.FC<ItemProps> = (props) => {
   const hasRendered = useRef<boolean>(false)
   const scrollEndTimer = useRef<NodeJS.Timeout | null>(null)
 
-  const bufferIndex = useBufferIndex()
+  const currentSlot = useCurrentSlot()
 
   // State
   const [webViewHeight, setWebViewHeight] = useState<number>(
@@ -168,7 +168,7 @@ const Item: React.FC<ItemProps> = (props) => {
   )
   // const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
-  const [isVisible, setIsVisible] = useState<boolean>(itemIndex === bufferIndex)
+  const [isVisible, setIsVisible] = useState<boolean>(slotIndex === currentSlot)
 
   // use a ref so that we can reference this value within a closure
   // i.e. the scrollToOffset function below
@@ -374,12 +374,16 @@ const Item: React.FC<ItemProps> = (props) => {
 
   // SCROLL HANDLER
   const {
-    buttonsVisibles,
-    headerVisibles,
+    getButtonsVisible,
+    getHeaderVisible,
+    getVerticalScroll,
     horizontalScroll,
-    isScrolling,
-    verticalScrolls
+    isScrolling
   } = useAnimation()
+  // Per-item shared values keyed by this item's _id
+  const verticalScroll = getVerticalScroll(_id)
+  const headerVisible = getHeaderVisible(_id)
+  const buttonsVisible = getButtonsVisible(_id)
   const scrollBegin = useSharedValue(0)
   const lastScrollY = useSharedValue(0)
   const lastScrollDirection = useSharedValue(0) // 1 = down, -1 = up, 0 = none
@@ -397,10 +401,10 @@ const Item: React.FC<ItemProps> = (props) => {
   useAnimatedReaction(
     () => horizontalScroll.value,
     () => {
-      if (horizontalScroll.value / screenWidth === itemIndex) {
+      if (horizontalScroll.value / screenWidth === slotIndex) {
         // buttonsVisible.value = 1
-        // headerVisibles[itemIndex].value = 0
-        // verticalScrolls[itemIndex].value = 0
+        // headerVisible.value = 0
+        // verticalScroll.value = 0
         runOnJS(setButtonsVisible)(true)
         runOnJS(setIsVisible)(true)
         // runOnJS(initAnimatedValues)
@@ -420,7 +424,7 @@ const Item: React.FC<ItemProps> = (props) => {
     },
     onScroll: (event) => {
       // Update scroll position
-      verticalScrolls[itemIndex].value = event.contentOffset.y
+      verticalScroll.value = event.contentOffset.y
 
       // Track relative scroll movement for TopBar
       const currentY = event.contentOffset.y
@@ -431,7 +435,7 @@ const Item: React.FC<ItemProps> = (props) => {
 
       // Don't update header when at top of page to prevent bounce issues
       if (currentY < 10) {
-        headerVisibles[itemIndex].value = 0 // Keep header visible at top
+        headerVisible.value = 0 // Keep header visible at top
         lastScrollY.value = currentY
         return
       }
@@ -452,24 +456,24 @@ const Item: React.FC<ItemProps> = (props) => {
       // Update header offset based on scroll direction
       // Scrolling down (positive delta) - hide header
       // Scrolling up (negative delta) - show header
-      const currentOffset = headerVisibles[itemIndex].value
+      const currentOffset = headerVisible.value
       const newOffset = Math.max(
         0,
         Math.min(statusBarHeight, currentOffset + deltaY)
       )
 
-      headerVisibles[itemIndex].value = newOffset
+      headerVisible.value = newOffset
       lastScrollY.value = currentY
     },
     onEndDrag: (event) => {
       isScrolling.value = false
-      buttonsVisibles[itemIndex].value =
+      buttonsVisible.value =
         event.contentOffset.y > scrollBegin.value ? 0 : 1
 
-      runOnJS(setButtonsVisible)(buttonsVisibles[itemIndex].value === 1)
+      runOnJS(setButtonsVisible)(buttonsVisible.value === 1)
 
       // Snap TopBar to fully visible or hidden based on last scroll direction
-      const currentOffset = headerVisibles[itemIndex].value
+      const currentOffset = headerVisible.value
       const threshold = statusBarHeight / 2
 
       let targetOffset = 0
@@ -486,7 +490,7 @@ const Item: React.FC<ItemProps> = (props) => {
 
       runOnJS(setStatusBarVisible)(targetOffset === 0)
 
-      headerVisibles[itemIndex].value = withTiming(targetOffset, {
+      headerVisible.value = withTiming(targetOffset, {
         duration: 200
       })
 
@@ -501,7 +505,7 @@ const Item: React.FC<ItemProps> = (props) => {
       isScrolling.value = false
 
       // Snap TopBar to fully visible or hidden based on last scroll direction
-      const currentOffset = headerVisibles[itemIndex].value
+      const currentOffset = headerVisible.value
       const threshold = statusBarHeight / 2
 
       let targetOffset = 0
@@ -516,7 +520,7 @@ const Item: React.FC<ItemProps> = (props) => {
         targetOffset = currentOffset > threshold ? statusBarHeight : 0
       }
 
-      headerVisibles[itemIndex].value = withTiming(targetOffset, {
+      headerVisible.value = withTiming(targetOffset, {
         duration: 200
       })
 
@@ -532,7 +536,7 @@ const Item: React.FC<ItemProps> = (props) => {
   // ANIMATED STYLES
   const fakeBgOpacityStyle = useAnimatedStyle(() => ({
     opacity: interpolate(
-      verticalScrolls[itemIndex].value,
+      verticalScroll.value,
       [0, 250, 251],
       [0, 0, 1]
     )
@@ -600,7 +604,7 @@ const Item: React.FC<ItemProps> = (props) => {
       faceCentreNormalised={faceCentreNormalised}
       orientation={orientation}
       isVisible={isVisible}
-      itemIndex={itemIndex}
+      itemId={_id}
     />
   ) : null
 
@@ -658,7 +662,7 @@ const Item: React.FC<ItemProps> = (props) => {
           backgroundColor={bodyColor}
           item={inflatedItem}
           isVisible={isVisible}
-          itemIndex={itemIndex}
+          itemId={_id}
           title={adjustedTitle}
           excerpt={adjustedExcerpt}
           date={savedAt ? savedAt * 1000 : created_at}

@@ -24,7 +24,7 @@ import { getStatusBarHeight } from '@/utils/dimensions'
 import { Item } from '@/store/items/types'
 import TopBar from './TopBar'
 import { useAnimation } from './AnimationContext'
-import { useBufferedItemsLength } from './bufferedItemsStore'
+import { useRenderedWindow } from './bufferedItemsStore'
 import { useBufferedItemsManager } from './useBufferedItemsManager'
 import { useNavigation } from '@react-navigation/native'
 
@@ -42,20 +42,20 @@ function TopBars(props: TopBarsProps) {
   const navigation = useNavigation()
   const screenWidth = useWindowDimensions().width
 
-  // Get buffered items length from Zustand store
-  const bufferedItemsLength = useBufferedItemsLength()
+  // One TopBar per rendered window slot only (≤ window size)
+  const renderedWindow = useRenderedWindow()
 
-  if (bufferedItemsLength === 0) return null
+  if (renderedWindow.length === 0) return null
 
-  const topBars = Array.from({ length: bufferedItemsLength }, (_, i) => {
+  const topBars = renderedWindow.map(({ slotIndex }) => {
     const pageWidth = screenWidth
 
     return (
       <TopBar
-        key={`top-bar-${i}`}
+        key={`top-bar-${slotIndex}`}
         emitter={emitter}
         isTitleOnly={isTitleOnly}
-        itemIndex={i}
+        slotIndex={slotIndex}
         pageWidth={pageWidth}
       />
     )
