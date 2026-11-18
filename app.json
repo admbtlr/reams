@@ -87,9 +87,16 @@
       ]
     ],
     "jsEngine": "hermes",
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/ream@3x.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "web": {
       "output": "single",
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/images/icon.png"
     },
     "extra": {
       "router": {
@@ -105,6 +112,8 @@
       "appleTeamId": "LQ43Q9L9MY",
       "bundleIdentifier": "com.adam-butler.rizzle",
       "deploymentTarget": "15.1",
+      "supportsTablet": true,
+      "icon": "./assets/images/icon.png",
       "infoPlist": {
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true,
@@ -113,7 +122,12 @@
       }
     },
     "android": {
-      "package": "com.adambutler.rizzle"
+      "package": "com.adambutler.rizzle",
+      "icon": "./assets/images/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#ffffff"
+      }
     }
   }
 }

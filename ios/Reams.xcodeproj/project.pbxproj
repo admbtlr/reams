@@ -73,6 +73,7 @@
 		F1SCENE01D0307B40044C1D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1SCENE00D0307B40044C1D9 /* SceneDelegate.swift */; };
 		FA10FE7BC1644901A5B085D1 /* Reforma2018-Blanca.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F667A8F58F446BFA2A78A0A /* Reforma2018-Blanca.ttf */; };
 		FA839D9B4B1A455796E7341F /* IBMPlexSansCond-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83034852D2024D9BAA740696 /* IBMPlexSansCond-Bold.ttf */; };
+		D68697D192ED49799FC10205 = {isa = PBXBuildFile; fileRef = 518DD909BEA54FDB8F644EDF; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -148,6 +149,7 @@
 		F11748442D0722820044C1D9 /* Reams-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Reams-Bridging-Header.h"; path = "Reams/Reams-Bridging-Header.h"; sourceTree = "<group>"; };
 		F1SCENE00D0307B40044C1D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = Reams/SceneDelegate.swift; sourceTree = "<group>"; };
 		F291AF1243974E35950A6117 /* LibreBaskerville-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 528880241785; includeInIndex = 0; lastKnownFileType = unknown; name = "LibreBaskerville-Regular.ttf"; path = "../assets/fonts/LibreBaskerville-Regular.ttf"; sourceTree = "<group>"; };
+		518DD909BEA54FDB8F644EDF = {isa = PBXFileReference; lastKnownFileType = folder; name = webview; path = webview; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +230,7 @@
 				D7FDBD4CB9374C988E38A39B /* Resources */,
 				1BE8039255EAC845E0FD6E7F /* Pods */,
 				163DBFD099C5692385BF38E5 /* ExpoModulesProviders */,
+				518DD909BEA54FDB8F644EDF /* webview */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				130396EAC646476491ABE727 /* Reforma2018-BlancaItalica.ttf in Resources */,
 				DCF6F79E929E499B8CA7815E /* Reforma2018-Negra.ttf in Resources */,
 				8DE78F0576E4453383A4B217 /* Reforma2018-NegraItalica.ttf in Resources */,
+				D68697D192ED49799FC10205 /* webview in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,7 +645,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
-				PRODUCT_NAME = Reams;
+				PRODUCT_NAME = "Reams";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Reams/Reams-Bridging-Header.h";
@@ -675,7 +679,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam-butler.rizzle";
-				PRODUCT_NAME = Reams;
+				PRODUCT_NAME = "Reams";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Reams/Reams-Bridging-Header.h";

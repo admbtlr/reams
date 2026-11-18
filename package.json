@@ -174,7 +174,7 @@
     "typescript": "~5.9.2"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.18.0"
   },
   "expo": {
     "install": {
