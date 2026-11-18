@@ -4,8 +4,6 @@ import {
   ActivityIndicator,
   Animated,
   Dimensions,
-  Platform,
-  ScrollView,
   StatusBar,
   View,
   useWindowDimensions
@@ -52,8 +50,6 @@ import {
 } from '../ItemCarousel/bufferedItemsStore'
 
 const entities = require('entities')
-
-export const INITIAL_WEBVIEW_HEIGHT = 1000
 
 // Types
 
@@ -150,7 +146,6 @@ const Item: React.FC<ItemProps> = (props) => {
   }
 
   // Refs
-  const scrollView = useRef<ScrollView>(null)
   const view = useRef<View>(null)
 
   // Animation refs
@@ -163,20 +158,15 @@ const Item: React.FC<ItemProps> = (props) => {
   const currentSlot = useCurrentSlot()
 
   // State
-  const [webViewHeight, setWebViewHeight] = useState<number>(
-    INITIAL_WEBVIEW_HEIGHT
-  )
+  // height of the Underlay (cover + title), measured via onLayout; drives
+  // the WebView's native paddingTop. In full-bleed mode the Underlay is a
+  // full screen, so the padding is the screen height.
+  const [underlayHeight, setUnderlayHeight] = useState<number | null>(null)
+  // bumped to re-trigger in-page scroll restoration inside the WebView
+  const [restoreScrollNonce, setRestoreScrollNonce] = useState<number>(0)
   // const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
   const [isVisible, setIsVisible] = useState<boolean>(slotIndex === currentSlot)
-
-  // use a ref so that we can reference this value within a closure
-  // i.e. the scrollToOffset function below
-  const webViewHeightRef = useRef(webViewHeight)
-  // Update the ref whenever webViewHeight changes
-  useEffect(() => {
-    webViewHeightRef.current = webViewHeight
-  }, [webViewHeight])
 
   // Other refs to replace class properties
   const screenDimensions = useRef(Dimensions.get('window')).current
@@ -323,53 +313,19 @@ const Item: React.FC<ItemProps> = (props) => {
 
   const scrollToOffset = (isOverridable = false, useTimeout = true): void => {
     if (isOverridable && hasBegunScroll.current) return
-    if (!scrollView.current) return
     if (!item?.scrollRatio || typeof item?.scrollRatio !== 'object') return
 
     const scrollRatio =
       item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
     if (!scrollRatio || scrollRatio === 0) return
 
+    // the WebView scrolls itself; restoration happens in-page (see ItemBody)
     setTimeout(
       () => {
-        if (scrollView.current) {
-          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          ;(scrollView.current as any).scrollTo({
-            x: 0,
-            // use the ref to escape the problem of webViewHeight being inside the closure
-            y: scrollRatio * webViewHeightRef.current,
-            animated: true
-          })
-        }
+        setRestoreScrollNonce(Date.now())
       },
       useTimeout ? 2000 : 0
     )
-  }
-
-  const updateWebViewHeight = (height: number): void => {
-    if (!height || Math.abs(height - webViewHeight) < height * 0.1) {
-      return
-    }
-    // chill out on the re-renders
-    if (isVisible) {
-      setWebViewHeight(height)
-    } else {
-      setTimeout(() => {
-        setWebViewHeight(height)
-      }, 500)
-    }
-  }
-
-  const onNavigationStateChange = (event: {
-    url: string
-    jsEvaluationValue: string
-  }): void => {
-    // this means we're loading an image
-    if (event.url.startsWith('react-js-navigation')) return
-    const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
-    if (calculatedHeight) {
-      updateWebViewHeight(calculatedHeight)
-    }
   }
 
   // SCROLL HANDLER
@@ -541,6 +497,11 @@ const Item: React.FC<ItemProps> = (props) => {
       [0, 0, 1]
     )
   }))
+  // the Underlay scrolls away 1:1 with the WebView's scroll offset, as if
+  // it were still inside the (now removed) ScrollView
+  const underlayStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: -verticalScroll.value }]
+  }))
   // END ANIMATED STYLES
 
   // Early return if item not found
@@ -578,6 +539,11 @@ const Item: React.FC<ItemProps> = (props) => {
   const reveal = new Animated.Value(hasRendered.current ? 0 : 1)
 
   const isCoverInline = orientation !== 'landscape' && styles?.isCoverInline
+  const isFullBleed = !!showCoverImage && !isCoverInline
+  const scrollRatio =
+    item?.scrollRatio && typeof item.scrollRatio === 'object'
+      ? item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
+      : undefined
 
   const colorArray = color?.match(/hsl\((\d+), (\d+)%, (\d+)%\)/)
   const bodyColor = isDarkMode
@@ -608,10 +574,6 @@ const Item: React.FC<ItemProps> = (props) => {
     />
   ) : null
 
-  const bodyStyle: StyleWithTransform = {
-    backgroundColor: bodyColor
-  }
-
   return (
     <View
       ref={view}
@@ -621,7 +583,9 @@ const Item: React.FC<ItemProps> = (props) => {
         overflow: 'hidden'
       }}
     >
-      {showCoverImage && !isCoverInline && coverImage}
+      {/* full-bleed cover stays fixed; the ItemBody slides over it */}
+      {isFullBleed && coverImage}
+      {/* fades bodyColor over the cover as you scroll */}
       <Reanimated.View
         style={[
           {
@@ -635,22 +599,21 @@ const Item: React.FC<ItemProps> = (props) => {
           fakeBgOpacityStyle
         ]}
       />
-      <Reanimated.ScrollView
-        onScroll={scrollHandler}
-        // onMomentumScrollBegin={onMomentumScrollBegin}
-        // onMomentumScrollEnd={onMomentumScrollEnd}
-        // onScrollBeginDrag={() => {
-        //   hasBegunScroll.current = true
-        // }}
-        // onScrollEndDrag={onScrollEndDrag}
-        pinchGestureEnabled={false}
-        ref={scrollView}
-        scrollEventThrottle={16}
-        style={{
-          flex: 1,
-          minHeight: 100,
-          minWidth: 100
-        }}
+      {/* Underlay: cover (inline) + title, scrolls away 1:1 with the WebView.
+          Its measured height becomes the WebView's transparent paddingTop. */}
+      <Reanimated.View
+        style={[
+          {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0
+          },
+          underlayStyle
+        ]}
+        onLayout={(event) =>
+          setUnderlayHeight(event.nativeEvent.layout.height)
+        }
       >
         {(isCoverInline || !showCoverImage || !coverImage) && (
           <Nudge feed_id={item.feed_id} scrollAnim={scrollAnim} />
@@ -673,39 +636,25 @@ const Item: React.FC<ItemProps> = (props) => {
           showCoverImage={showCoverImage}
           isCoverInline={isCoverInline}
         />
-        <Animated.View
-          style={
-            webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
-            (styles.coverImage?.isInline || !showCoverImage)
-              ? //addAnimation(bodyStyle, anims.current[5], isVisible) :
-                bodyStyle
-              : bodyStyle
-          }
-        >
-          {/*<View style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            paddingTop: 100,
-            backgroundColor: bodyColor
-          }}>
-            <ActivityIndicator size="large" color={hslString('rizzleFG')} />
-          </View>*/}
-          <ItemBody
-            bodyColor={bodyColor}
-            item={{
-              ...inflatedItem,
-              ...item
-            }}
-            orientation={orientation}
-            showImageViewer={showImageViewer}
-            updateWebViewHeight={updateWebViewHeight}
-            webViewHeight={webViewHeight}
-          />
-        </Animated.View>
-      </Reanimated.ScrollView>
+      </Reanimated.View>
+      {/* ItemBody: a self-scrolling WebView on top, transparent paddingTop
+          reveals the Underlay through the top window */}
+      <ItemBody
+        bodyColor={bodyColor}
+        item={{
+          ...inflatedItem,
+          ...item
+        }}
+        orientation={orientation}
+        showImageViewer={showImageViewer}
+        paddingTop={
+          isFullBleed ? screenDimensions.height : (underlayHeight ?? 0)
+        }
+        underlayReady={isFullBleed || underlayHeight !== null}
+        onScroll={scrollHandler}
+        scrollRatio={scrollRatio}
+        restoreScrollNonce={restoreScrollNonce}
+      />
       {/*{!hasRendered.current &&
         <Animated.View
           style={{

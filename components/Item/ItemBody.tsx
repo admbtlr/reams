@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   Dimensions,
@@ -8,9 +8,8 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { WebView, WebViewNavigation } from 'react-native-webview'
+import { WebView } from 'react-native-webview'
 import { openLink } from '../../utils/open-link'
-import { INITIAL_WEBVIEW_HEIGHT } from './index'
 import { hslString } from '../../utils/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { id } from '../../utils'
@@ -40,18 +39,6 @@ import { cacheImagesForItem } from '../../utils/imageCache'
 
 const injectedJavaScript = `
 window.ReactNativeWebView?.postMessage('loaded');
-window.setTimeout(() => {
-  if (document.body && document.body.scrollHeight) {
-    const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
-    window.ReactNativeWebView?.postMessage('resize:' + height);
-  }
-}, 500);
-window.onload = () => {
-  if (document.body && document.body.scrollHeight) {
-    const height = Math.ceil(document.querySelector('article').getBoundingClientRect().height)
-    window.ReactNativeWebView?.postMessage('resize:' + height);
-  }
-};
 true;`
 
 const stripInlineStyles = (html: string | undefined) => {
@@ -75,8 +62,12 @@ interface ItemBodyProps {
   item: ItemInflated
   orientation: string
   showImageViewer: (image: string) => void
-  updateWebViewHeight: (height: number) => void
-  webViewHeight: number
+  paddingTop: number
+  underlayReady: boolean
+  // biome-ignore lint/suspicious/noExplicitAny: reanimated scroll handler
+  onScroll?: (event: any) => void
+  scrollRatio?: number
+  restoreScrollNonce?: number
 }
 
 const ItemBody = ({
@@ -85,8 +76,11 @@ const ItemBody = ({
   onTextSelection,
   orientation,
   showImageViewer,
-  updateWebViewHeight,
-  webViewHeight
+  paddingTop,
+  underlayReady,
+  onScroll,
+  scrollRatio,
+  restoreScrollNonce
 }: ItemBodyProps) => {
   const webViewRef = useRef(null)
   const dispatch = useDispatch()
@@ -104,6 +98,18 @@ const ItemBody = ({
     setAnnotatedCategoryId(annotatedCategory?._id)
   }, [annotatedCategory?._id])
   const [isLoaded, setIsLoaded] = useState(false)
+
+  // Restore the saved scroll position inside the page once the body has
+  // loaded. The WebView owns its own scroll offset, so this is done with
+  // injected JS rather than a native scrollTo.
+  useEffect(() => {
+    if (isLoaded && scrollRatio && webViewRef.current) {
+      ;(webViewRef.current as any).injectJavaScript(
+        `window.scrollTo(0, ${scrollRatio} * document.documentElement.scrollHeight); true;`
+      )
+    }
+    // biome-ignore lint/correctness/useExhaustiveDependencies: restoreScrollNonce is a deliberate trigger
+  }, [isLoaded, restoreScrollNonce])
   const [cleanedHtmlContent, setCleanedHtmlContent] = useState<
     string | undefined
   >()
@@ -134,19 +140,6 @@ const ItemBody = ({
       return true
     }
   }
-
-  // called when HTML was loaded and injected JS executed
-  const onNavigationStateChange = useCallback(
-    (event: WebViewNavigation) => {
-      // this means we're loading an image
-      if (event.url.startsWith('react-js-navigation')) return
-      const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
-      if (calculatedHeight) {
-        updateWebViewHeight(calculatedHeight)
-      }
-    },
-    [updateWebViewHeight]
-  )
 
   const highlightSelection = () => {
     if (Platform.OS !== 'web' && webViewRef?.current) {
@@ -261,7 +254,9 @@ const ItemBody = ({
     ? 'hasColorBlockquoteBG'
     : ''
 
-  const minHeight = webViewHeight === INITIAL_WEBVIEW_HEIGHT ? 1 : webViewHeight
+  // the article must fill at least one viewport so its background covers
+  // the whole (self-scrolling) WebView
+  const minHeight = Dimensions.get('window').height
   let server = ''
   if (Platform.OS === 'android') {
     server = 'file:///android_asset/'
@@ -375,12 +370,8 @@ html, body {
         allowUniversalAccessFromFileURLs
         allowFileAccess
         androidLayerType="hardware"
-        containerStyle={{
-          backgroundColor: 'transparent',
-          flex: 0,
-          height: webViewHeight
-        }}
         decelerationRate={Platform.OS === 'ios' ? 'normal' : 0.9}
+        onScroll={onScroll}
         injectedJavaScript={injectedJavaScript}
         mixedContentMode="compatibility"
         menuItems={[
@@ -416,7 +407,7 @@ html, body {
             //   Linking.openURL(url)
             // }
           } else if (msg.substring(0, 7) === 'resize:') {
-            updateWebViewHeight(parseInt(msg.substring(7)))
+            // no-op: the WebView owns its own height and scrolls itself now
           } else if (msg.substring(0, 10) === 'highlight:') {
             const selectedText = msg.substring(10)
             const split = selectedText.split('++++++')
@@ -437,20 +428,16 @@ html, body {
             onBodyCleaned(rawMsg)
           }
         }}
-        onNavigationStateChange={onNavigationStateChange}
         {...openLinksExternallyProp}
         originWhitelist={['*']}
         ref={process.env.NODE_ENV === 'test' ? undefined : webViewRef}
         scalesPageToFit={false}
-        scrollEnabled={false}
         style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: webViewHeight,
           width,
-          flex: 0,
-          backgroundColor: bodyColor,
-          opacity: isLoaded ? 1 : 0
+          flex: 1,
+          backgroundColor: 'transparent',
+          paddingTop,
+          opacity: isLoaded && underlayReady ? 1 : 0
         }}
         source={{
           html: html,
