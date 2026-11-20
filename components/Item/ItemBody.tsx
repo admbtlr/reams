@@ -342,7 +342,9 @@ const ItemBody = ({
 --device-width: ${deviceWidth};
 }
 html, body {
-  background-color: transparent;
+  /* !important: output.css (loaded after this block) sets an opaque
+     background on body, which would hide the native Underlay */
+  background-color: transparent !important;
 }
 article {
   background-color: ${bodyColor};
