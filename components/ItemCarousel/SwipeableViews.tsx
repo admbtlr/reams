@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import Reanimated, {
   useAnimatedScrollHandler,
+  useAnimatedProps,
   runOnJS,
 } from 'react-native-reanimated'
 import ItemComponent from '@/components/Item'
@@ -57,7 +58,14 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
   const numItems = useSelector((state: RootState) => getItems(state).length)
 
   // Animation context for Reanimated shared values
-  const { horizontalScroll, pruneAnimationValues } = useAnimation()
+  const { horizontalScroll, isScrolling, pruneAnimationValues } = useAnimation()
+
+  // Gesture locking: while the visible item's WebView is vertically
+  // scrolling, disable the carousel so a single gesture can only scroll
+  // along one axis (vertical in the WebView XOR horizontal carousel).
+  const carouselAnimatedProps = useAnimatedProps(() => ({
+    scrollEnabled: !isScrolling.value,
+  }))
 
   // Session context for onboarding logic
   const sessionContext = useContext(SessionContext)
@@ -203,6 +211,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
   return (
     <Reanimated.ScrollView
       ref={scrollViewRef}
+      animatedProps={carouselAnimatedProps}
       bounces={false}
       contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
       decelerationRate={Platform.OS === 'ios' ? 'fast' : 0.9}
