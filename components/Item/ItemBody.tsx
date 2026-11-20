@@ -274,9 +274,10 @@ const ItemBody = ({
     ? 'hasColorBlockquoteBG'
     : ''
 
-  // the article must fill at least one viewport so its background covers
-  // the whole (self-scrolling) WebView
-  const minHeight = Dimensions.get('window').height
+  // the article's opaque background should fill the part of the viewport
+  // below the body padding-top (the Underlay window), so the total page
+  // never has a forced minimum of padding + a full screen
+  const minHeight = Math.max(Dimensions.get('window').height - paddingTop, 0)
   let server = ''
   if (Platform.OS === 'android') {
     server = 'file:///android_asset/'
