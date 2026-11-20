@@ -118,6 +118,18 @@ const ItemBody = ({
     }
     // biome-ignore lint/correctness/useExhaustiveDependencies: restoreScrollNonce is a deliberate trigger
   }, [isLoaded, restoreScrollNonce])
+
+  // Push Underlay height changes into the loaded page as CSS padding.
+  // The WebView itself stays full-screen and transparent; the padding lives
+  // in the CSS so the top of the page shows the native Underlay through the
+  // WebView and the whole screen remains scrollable/touchable.
+  useEffect(() => {
+    if (isLoaded && webViewRef.current) {
+      ;(webViewRef.current as any).injectJavaScript(
+        `document.body.style.paddingTop = '${paddingTop}px'; true;`
+      )
+    }
+  }, [isLoaded, paddingTop])
   const [cleanedHtmlContent, setCleanedHtmlContent] = useState<
     string | undefined
   >()
@@ -330,6 +342,9 @@ const ItemBody = ({
 --device-width: ${deviceWidth};
 }
 html, body {
+  background-color: transparent;
+}
+article {
   background-color: ${bodyColor};
 }
   </style>
@@ -337,7 +352,7 @@ html, body {
   <link rel="stylesheet" type="text/css" href="${server}webview/css/fonts.css">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 </head>
-<body class="${blockquoteClass} ${displayMode}" style="background-color: ${bodyColor}" data-cover="${data}">
+<body class="${blockquoteClass} ${displayMode}" style="padding-top: ${paddingTop}px" data-cover="${data}">
   <article
     class="${articleClasses}"
     style="min-height: ${minHeight}px; width: 100vw;">
@@ -444,7 +459,6 @@ html, body {
           width,
           flex: 1,
           backgroundColor: 'transparent',
-          paddingTop,
           opacity: isLoaded && underlayReady ? 1 : 0
         }}
         source={{
