@@ -266,7 +266,7 @@ function markShortBlockquotes() {
 // viewport. Styles live in item-styles.scss (.scroll-fade / .is-visible).
 function initScrollFadeIns() {
   const els = document.querySelectorAll(
-    'article figure, article blockquote, article > img'
+    'article figure, article blockquote, article .pullquote, article > img'
   )
   if (!('IntersectionObserver' in window)) {
     return
