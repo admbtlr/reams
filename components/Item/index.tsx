@@ -389,23 +389,21 @@ const Item: React.FC<ItemProps> = (props) => {
   >(
     {
       onScroll: (event, ctx) => {
-        const rawY = event.contentOffset.y
+        const currentY = event.contentOffset.y
         const maxScrollY =
           event.contentSize.height - event.layoutMeasurement.height
 
-        // Ignore overscroll (rubber-banding): negative y and beyond-max y
-        // are bounces, not scrolling — treating them as movement hides the
-        // TopBar/buttons when the WebView bounces back.
-        if (rawY < 0 || rawY > maxScrollY) {
-          ctx.lastY = Math.max(0, Math.min(rawY, maxScrollY))
-          verticalScroll.value = ctx.lastY
+        // Update scroll position with the raw offset (including negative
+        // overscroll) so the Underlay/fake-bg keep their rubber-band bounce
+        verticalScroll.value = currentY
+
+        // ...but ignore out-of-range offsets for gesture logic: negative y
+        // and beyond-max y are bounces, not scrolling — treating them as
+        // movement hides the TopBar/buttons when the WebView bounces back.
+        if (currentY < 0 || currentY > maxScrollY) {
+          ctx.lastY = currentY
           return
         }
-
-        const currentY = rawY
-
-        // Update scroll position
-        verticalScroll.value = currentY
 
         const deltaY = currentY - (ctx.lastY ?? 0)
         ctx.lastY = currentY
