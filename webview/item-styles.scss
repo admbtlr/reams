@@ -88,8 +88,8 @@ body {
 // scroll-triggered fade-in (see initScrollFadeIns in feed-item.js)
 .scroll-fade {
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 
   &.is-visible {
     opacity: 1;
