@@ -373,61 +373,54 @@ const Item: React.FC<ItemProps> = (props) => {
 
   // Runs on the UI thread via the WebView's native onScroll (the WebView is
   // wrapped in Reanimated.createAnimatedComponent in ItemBody). The WebView
-  // only emits onScroll — no begin/end drag — so scroll end is detected by
-  // a frame callback checking the time since the last meaningful scroll
-  // event, and only then crosses the bridge (runOnJS) to snap the header
-  // and toggle buttons/status bar.
+  // only emits onScroll — no begin/end drag — so all gesture state
+  // (direction, carousel lock, scroll-end) is derived per-frame from
+  // verticalScroll in the frame callback below, using frameInfo.timestamp.
   const lastScrollTime = useSharedValue(0)
+  const lastFrameY = useSharedValue(0)
   const scrollDirection = useSharedValue(0) // 1 = down, -1 = up, 0 = none
 
-  interface ScrollContext {
-    lastY: number
-  }
+  const scrollHandler = useAnimatedScrollHandler<NativeScrollEvent>(
+    (event) => {
+      verticalScroll.value = event.contentOffset.y
 
-  const scrollHandler = useAnimatedScrollHandler<
-    NativeScrollEvent,
-    ScrollContext
-  >(
-    {
-      onScroll: (event, ctx) => {
-        const currentY = event.contentOffset.y
-
-        // Update scroll position
-        verticalScroll.value = currentY
-
-        const deltaY = currentY - (ctx.lastY ?? 0)
-        const maxScrollY =
-          event.contentSize.height - event.layoutMeasurement.height
-
-        // Only lock the carousel to the vertical axis once the gesture has
-        // meaningful vertical movement — horizontal swipes must pass through
-        if (Math.abs(deltaY) > 1) {
-          isScrolling.value = true
-          lastScrollTime.value = Date.now()
-          scrollDirection.value = deltaY > 0 ? 1 : -1
-        }
-
-        // Don't update header when at top/bottom to prevent bounce issues
-        if (currentY >= 10 && currentY <= maxScrollY - 10) {
-          // Update header offset based on scroll direction
-          // Scrolling down (positive delta) - hide header
-          // Scrolling up (negative delta) - show header
-          headerVisible.value = Math.max(
-            0,
-            Math.min(statusBarHeight, headerVisible.value + deltaY)
-          )
-        }
-        ctx.lastY = currentY
+      // Don't update header when at top/bottom to prevent bounce issues
+      const currentY = event.contentOffset.y
+      const maxScrollY =
+        event.contentSize.height - event.layoutMeasurement.height
+      if (currentY >= 10 && currentY <= maxScrollY - 10) {
+        // header offset follows the scroll delta; computed per frame below
       }
     },
     []
   )
 
-  // Scroll-end detection on the UI thread: if no meaningful scroll event
-  // has arrived for 120ms, the gesture is over — release the carousel lock
-  // and snap the header.
-  useFrameCallback(() => {
-    if (isScrolling.value && Date.now() - lastScrollTime.value > 120) {
+  useFrameCallback((frameInfo) => {
+    const currentY = verticalScroll.value
+    const deltaY = currentY - lastFrameY.value
+    lastFrameY.value = currentY
+
+    // Only lock the carousel to the vertical axis once the gesture has
+    // meaningful vertical movement — horizontal swipes must pass through
+    if (Math.abs(deltaY) > 1) {
+      isScrolling.value = true
+      lastScrollTime.value = frameInfo.timestamp
+      scrollDirection.value = deltaY > 0 ? 1 : -1
+    }
+
+    // Update header offset based on scroll direction
+    // Scrolling down (positive delta) - hide header
+    // Scrolling up (negative delta) - show header
+    if (Math.abs(deltaY) > 0) {
+      headerVisible.value = Math.max(
+        0,
+        Math.min(statusBarHeight, headerVisible.value + deltaY)
+      )
+    }
+
+    // Scroll-end detection on the UI thread: if no meaningful movement for
+    // 120ms, the gesture is over — release the carousel lock and snap.
+    if (isScrolling.value && frameInfo.timestamp - lastScrollTime.value > 120) {
       isScrolling.value = false
 
       // Snap TopBar to fully visible or hidden based on last direction
@@ -448,9 +441,7 @@ const Item: React.FC<ItemProps> = (props) => {
       runOnJS(setStatusBarVisible)(targetOffset === 0)
 
       if (__DEV__) {
-        runOnJS(logAnimationEvent)('scroll-end', {
-          offset: verticalScroll.value
-        })
+        runOnJS(logAnimationEvent)('scroll-end', { offset: currentY })
       }
     }
   })
