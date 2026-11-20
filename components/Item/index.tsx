@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import Reanimated, {
   useAnimatedScrollHandler,
+  useAnimatedProps,
   runOnJS,
   useSharedValue,
   withTiming,
@@ -335,8 +336,15 @@ const Item: React.FC<ItemProps> = (props) => {
     getHeaderVisible,
     getVerticalScroll,
     horizontalScroll,
-    isScrolling
+    isScrolling,
+    isHorizontalScrolling
   } = useAnimation()
+  // Gesture lock, WebView side: while the carousel is scrolling horizontally,
+  // the WebView must not scroll vertically in the same gesture
+  const webViewAnimatedProps = useAnimatedProps(() => ({
+    scrollEnabled: !isHorizontalScrolling.value
+  }))
+
   // Per-item shared values keyed by this item's _id
   const verticalScroll = getVerticalScroll(_id)
   const headerVisible = getHeaderVisible(_id)
@@ -422,7 +430,10 @@ const Item: React.FC<ItemProps> = (props) => {
         // Only lock the carousel to the vertical axis once the gesture has
         // meaningful vertical movement — horizontal swipes must pass through
         if (Math.abs(deltaY) > 1) {
+          // vertical axis wins this gesture: lock the carousel, make sure
+          // the WebView itself is not locked by a horizontal gesture
           isScrolling.value = true
+          isHorizontalScrolling.value = false
           scrollDirection.value = deltaY > 0 ? 1 : -1
 
           // (re)schedule scroll-end detection on the UI thread
@@ -624,6 +635,7 @@ const Item: React.FC<ItemProps> = (props) => {
         }
         underlayReady={isFullBleed || underlayHeight !== null}
         onScroll={scrollHandler}
+        animatedProps={webViewAnimatedProps}
         scrollRatio={scrollRatio}
         restoreScrollNonce={restoreScrollNonce}
       />

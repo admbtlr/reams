@@ -74,6 +74,8 @@ interface ItemBodyProps {
   underlayReady: boolean
   // biome-ignore lint/suspicious/noExplicitAny: reanimated scroll handler
   onScroll?: (event: any) => void
+  // biome-ignore lint/suspicious/noExplicitAny: reanimated animated props (scrollEnabled lock)
+  animatedProps?: any
   scrollRatio?: number
   restoreScrollNonce?: number
 }
@@ -87,6 +89,7 @@ const ItemBody = ({
   paddingTop,
   underlayReady,
   onScroll,
+  animatedProps,
   scrollRatio,
   restoreScrollNonce
 }: ItemBodyProps) => {
@@ -398,6 +401,7 @@ article {
         underlay
       /> */}
       <AnimatedWebView
+        animatedProps={animatedProps}
         allowsFullscreenVideo={true}
         allowsLinkPreview={true}
         allowFileAccessFromFileURLs

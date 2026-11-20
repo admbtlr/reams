@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useContext, useState } from 
 import {
   Animated,
   Dimensions,
+  NativeScrollEvent,
   Platform,
   View,
 } from 'react-native'
@@ -58,7 +59,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
   const numItems = useSelector((state: RootState) => getItems(state).length)
 
   // Animation context for Reanimated shared values
-  const { horizontalScroll, isScrolling, pruneAnimationValues } = useAnimation()
+  const { horizontalScroll, isScrolling, isHorizontalScrolling, pruneAnimationValues } = useAnimation()
 
   // Gesture locking: while the visible item's WebView is vertically
   // scrolling, disable the carousel so a single gesture can only scroll
@@ -143,12 +144,25 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
   }
 
   // Reanimated scroll handler for horizontal paging
-  const reanimatedScrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
+  const reanimatedScrollHandler = useAnimatedScrollHandler<
+    NativeScrollEvent,
+    { lastX: number }
+  >({
+    onScroll: (event, ctx) => {
       // Update horizontal scroll position in shared value
       horizontalScroll.value = event.contentOffset.x
+
+      // Gesture lock, horizontal side: meaningful horizontal movement means
+      // this gesture belongs to the carousel — flag it so the WebView's
+      // scrollEnabled is disabled for the rest of the gesture
+      const deltaX = event.contentOffset.x - (ctx.lastX ?? event.contentOffset.x)
+      ctx.lastX = event.contentOffset.x
+      if (Math.abs(deltaX) > 1) {
+        isHorizontalScrolling.value = true
+      }
     },
     onEndDrag: (event) => {
+      isHorizontalScrolling.value = false
       // only update the slot if the drag ended on a snap point
       // otherwise there will be some momentum happening
       if (event.contentOffset.x % screenWidth === 0) {
@@ -157,6 +171,7 @@ const SwipeableViewsReanimated: React.FC<SwipeableViewsReanimatedProps> = (props
       }
     },
     onMomentumEnd: (event) => {
+      isHorizontalScrolling.value = false
       const newSlot = Math.round(event.contentOffset.x / screenWidth)
       runOnJS(updateSlot)(newSlot)
 
