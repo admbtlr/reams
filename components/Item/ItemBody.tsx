@@ -148,7 +148,8 @@ const ItemBody = ({
     if (activeHighlightId === null) {
       deselectHighlight()
     }
-  }, [activeHighlightId])
+    // re-run once the page has loaded so the initial deselect isn't skipped
+  }, [activeHighlightId, isLoaded])
 
   const openLinksExternallyProp = /*__DEV__ ? {} :*/ {
     onShouldStartLoadWithRequest: (e: any) => {
@@ -162,7 +163,10 @@ const ItemBody = ({
   }
 
   const highlightSelection = () => {
-    if (Platform.OS !== 'web' && webViewRef?.current) {
+    // only inject once the page (and feed-item.js, which defines these
+    // functions) has loaded — injecting earlier throws
+    // "Can't find variable" in the WebView
+    if (Platform.OS !== 'web' && isLoaded && webViewRef?.current) {
       ;(webViewRef.current as any).injectJavaScript(`
         highlightSelection();
         true;
@@ -171,7 +175,7 @@ const ItemBody = ({
   }
 
   const deselectHighlight = () => {
-    if (Platform.OS !== 'web' && webViewRef?.current) {
+    if (Platform.OS !== 'web' && isLoaded && webViewRef?.current) {
       ;(webViewRef.current as any).injectJavaScript(`
         deselectHighlight();
         true;
