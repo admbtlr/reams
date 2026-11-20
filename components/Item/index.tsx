@@ -389,17 +389,28 @@ const Item: React.FC<ItemProps> = (props) => {
   >(
     {
       onScroll: (event, ctx) => {
-        const currentY = event.contentOffset.y
+        const rawY = event.contentOffset.y
+        const maxScrollY =
+          event.contentSize.height - event.layoutMeasurement.height
+
+        // Ignore overscroll (rubber-banding): negative y and beyond-max y
+        // are bounces, not scrolling — treating them as movement hides the
+        // TopBar/buttons when the WebView bounces back.
+        if (rawY < 0 || rawY > maxScrollY) {
+          ctx.lastY = Math.max(0, Math.min(rawY, maxScrollY))
+          verticalScroll.value = ctx.lastY
+          return
+        }
+
+        const currentY = rawY
 
         // Update scroll position
         verticalScroll.value = currentY
 
         const deltaY = currentY - (ctx.lastY ?? 0)
         ctx.lastY = currentY
-        const maxScrollY =
-          event.contentSize.height - event.layoutMeasurement.height
 
-        // Don't update header when at top/bottom to prevent bounce issues
+        // Don't update header when near top/bottom to prevent bounce issues
         if (currentY >= 10 && currentY <= maxScrollY - 10) {
           // Update header offset based on scroll direction
           // Scrolling down (positive delta) - hide header
