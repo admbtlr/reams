@@ -345,9 +345,13 @@ html, body {
   /* !important: output.css (loaded after this block) sets an opaque
      background on body, which would hide the native Underlay */
   background-color: transparent !important;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 article {
   background-color: ${bodyColor};
+  max-width: 100vw;
+  overflow-x: hidden;
 }
   </style>
   <link rel="stylesheet" type="text/css" href="${server}webview/css/output.css">
@@ -459,7 +463,9 @@ article {
         scalesPageToFit={false}
         style={{
           width,
+          maxWidth: width,
           flex: 1,
+          overflow: 'hidden',
           backgroundColor: 'transparent',
           opacity: isLoaded && underlayReady ? 1 : 0
         }}
