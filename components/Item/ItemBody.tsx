@@ -9,7 +9,6 @@ import {
   View
 } from 'react-native'
 import { WebView } from 'react-native-webview'
-import Reanimated from 'react-native-reanimated'
 import { openLink } from '../../utils/open-link'
 import { hslString } from '../../utils/colors'
 import { useDispatch, useSelector } from 'react-redux'
@@ -37,12 +36,6 @@ import {
   selectItemShowMercury
 } from '@/store/items/items-selectors'
 import { cacheImagesForItem } from '../../utils/imageCache'
-
-// wrapped in createAnimatedComponent so a Reanimated scroll handler can be
-// attached to onScroll (a plain prop would be deep-frozen by RN in dev,
-// crashing WorkletEventHandler.updateEventHandler on re-render)
-// biome-ignore lint/suspicious/noExplicitAny: WebView class component typing
-const AnimatedWebView = Reanimated.createAnimatedComponent(WebView) as any
 
 const injectedJavaScript = `
 window.ReactNativeWebView?.postMessage('loaded');
@@ -370,7 +363,7 @@ html, body {
         decoration_failures={decoration_failures}
         underlay
       /> */}
-      <AnimatedWebView
+      <WebView
         allowsFullscreenVideo={true}
         allowsLinkPreview={true}
         allowFileAccessFromFileURLs

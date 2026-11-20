@@ -4,12 +4,13 @@ import {
   ActivityIndicator,
   Animated,
   Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   StatusBar,
   View,
   useWindowDimensions
 } from 'react-native'
 import Reanimated, {
-  useAnimatedScrollHandler,
   runOnJS,
   useSharedValue,
   withTiming,
@@ -340,9 +341,6 @@ const Item: React.FC<ItemProps> = (props) => {
   const verticalScroll = getVerticalScroll(_id)
   const headerVisible = getHeaderVisible(_id)
   const buttonsVisible = getButtonsVisible(_id)
-  const scrollBegin = useSharedValue(0)
-  const lastScrollY = useSharedValue(0)
-  const lastScrollDirection = useSharedValue(0) // 1 = down, -1 = up, 0 = none
   const statusBarHeight = getStatusBarHeight()
 
   const screenWidth = useWindowDimensions().width
@@ -372,121 +370,90 @@ const Item: React.FC<ItemProps> = (props) => {
     StatusBar.setHidden(!isStatusBarVisible)
   }
 
-  const scrollHandler = useAnimatedScrollHandler({
-    onBeginDrag: (event) => {
-      isScrolling.value = true
-      scrollBegin.value = event.contentOffset.y
-      lastScrollY.value = event.contentOffset.y
-    },
-    onScroll: (event) => {
-      // Update scroll position
-      verticalScroll.value = event.contentOffset.y
+  // The WebView only emits onScroll (no begin/end drag events), so this is
+  // a plain JS handler that writes to the Reanimated shared values directly.
+  // Scroll-end behaviour (header snap, buttons) is approximated with a
+  // debounce: no scroll events for 150ms means the scroll has ended.
+  const scrollEndTimeout = useRef<NodeJS.Timeout | null>(null)
+  const scrollBeginY = useRef(0)
+  const lastY = useRef(0)
+  const lastDirection = useRef(0) // 1 = down, -1 = up, 0 = none
 
-      // Track relative scroll movement for TopBar
-      const currentY = event.contentOffset.y
-      const deltaY = currentY - lastScrollY.value
-      const contentHeight = event.contentSize.height
-      const layoutHeight = event.layoutMeasurement.height
-      const maxScrollY = contentHeight - layoutHeight
+  const handleScrollEnd = (finalY: number): void => {
+    isScrolling.value = false
+    buttonsVisible.value = finalY > scrollBeginY.current ? 0 : 1
+    setButtonsVisible(buttonsVisible.value === 1)
 
-      // Don't update header when at top of page to prevent bounce issues
-      if (currentY < 10) {
-        headerVisible.value = 0 // Keep header visible at top
-        lastScrollY.value = currentY
-        return
-      }
+    // Snap TopBar to fully visible or hidden based on last scroll direction
+    const currentOffset = headerVisible.value
+    const threshold = statusBarHeight / 2
 
-      // Don't update header when at bottom of page to prevent bounce issues
-      if (currentY > maxScrollY - 10) {
-        // Keep current header state when at bottom to avoid bounce effects
-        lastScrollY.value = currentY
-        return
-      }
+    let targetOffset = 0
+    if (lastDirection.current > 0) {
+      // Was scrolling down - snap to hidden
+      targetOffset = statusBarHeight
+    } else if (lastDirection.current < 0) {
+      // Was scrolling up - snap to visible
+      targetOffset = 0
+    } else {
+      // No clear direction - snap based on current position
+      targetOffset = currentOffset > threshold ? statusBarHeight : 0
+    }
 
+    setStatusBarVisible(targetOffset === 0)
+
+    headerVisible.value = withTiming(targetOffset, {
+      duration: 200
+    })
+
+    if (__DEV__) {
+      logAnimationEvent('scroll-end', { offset: finalY })
+    }
+  }
+
+  const scrollHandler = (
+    event: NativeSyntheticEvent<NativeScrollEvent>
+  ): void => {
+    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent
+    const currentY = contentOffset.y
+
+    // Update scroll position
+    verticalScroll.value = currentY
+    isScrolling.value = true
+    if (lastY.current === 0) {
+      scrollBeginY.current = currentY
+    }
+
+    // Track relative scroll movement for TopBar
+    const deltaY = currentY - lastY.current
+    const maxScrollY = contentSize.height - layoutMeasurement.height
+
+    // Don't update header when at top of page to prevent bounce issues
+    if (currentY >= 10 && currentY <= maxScrollY - 10) {
       // Track scroll direction
       if (Math.abs(deltaY) > 1) {
         // Only update direction for meaningful movement
-        lastScrollDirection.value = deltaY > 0 ? 1 : -1
+        lastDirection.current = deltaY > 0 ? 1 : -1
       }
 
       // Update header offset based on scroll direction
       // Scrolling down (positive delta) - hide header
       // Scrolling up (negative delta) - show header
       const currentOffset = headerVisible.value
-      const newOffset = Math.max(
+      headerVisible.value = Math.max(
         0,
         Math.min(statusBarHeight, currentOffset + deltaY)
       )
-
-      headerVisible.value = newOffset
-      lastScrollY.value = currentY
-    },
-    onEndDrag: (event) => {
-      isScrolling.value = false
-      buttonsVisible.value =
-        event.contentOffset.y > scrollBegin.value ? 0 : 1
-
-      runOnJS(setButtonsVisible)(buttonsVisible.value === 1)
-
-      // Snap TopBar to fully visible or hidden based on last scroll direction
-      const currentOffset = headerVisible.value
-      const threshold = statusBarHeight / 2
-
-      let targetOffset = 0
-      if (lastScrollDirection.value > 0) {
-        // Was scrolling down - snap to hidden
-        targetOffset = statusBarHeight
-      } else if (lastScrollDirection.value < 0) {
-        // Was scrolling up - snap to visible
-        targetOffset = 0
-      } else {
-        // No clear direction - snap based on current position
-        targetOffset = currentOffset > threshold ? statusBarHeight : 0
-      }
-
-      runOnJS(setStatusBarVisible)(targetOffset === 0)
-
-      headerVisible.value = withTiming(targetOffset, {
-        duration: 200
-      })
-
-      if (__DEV__) {
-        runOnJS(logAnimationEvent)('scroll-end-drag', {
-          offset: event.contentOffset.y
-        })
-      }
-    },
-    onMomentumEnd: (event) => {
-      // Only update shared values if this Item is currently visible
-      isScrolling.value = false
-
-      // Snap TopBar to fully visible or hidden based on last scroll direction
-      const currentOffset = headerVisible.value
-      const threshold = statusBarHeight / 2
-
-      let targetOffset = 0
-      if (lastScrollDirection.value > 0) {
-        // Was scrolling down - snap to hidden
-        targetOffset = statusBarHeight
-      } else if (lastScrollDirection.value < 0) {
-        // Was scrolling up - snap to visible
-        targetOffset = 0
-      } else {
-        // No clear direction - snap based on current position
-        targetOffset = currentOffset > threshold ? statusBarHeight : 0
-      }
-
-      headerVisible.value = withTiming(targetOffset, {
-        duration: 200
-      })
-
-      if (__DEV__) {
-        runOnJS(logAnimationEvent)('scroll-momentum-end', {
-          offset: event.contentOffset.y
-        })
-      }
     }
-  })
+    lastY.current = currentY
+
+    if (scrollEndTimeout.current) {
+      clearTimeout(scrollEndTimeout.current)
+    }
+    scrollEndTimeout.current = setTimeout(() => {
+      handleScrollEnd(currentY)
+    }, 150)
+  }
   // END SCROLL HANDLER
 
   // ANIMATED STYLES
