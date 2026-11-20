@@ -337,7 +337,8 @@ const Item: React.FC<ItemProps> = (props) => {
     getVerticalScroll,
     horizontalScroll,
     isScrolling,
-    isHorizontalScrolling
+    isHorizontalScrolling,
+    isTouchActive
   } = useAnimation()
   // Gesture lock, WebView side: while the carousel is scrolling horizontally,
   // the WebView must not scroll vertically in the same gesture
@@ -436,11 +437,18 @@ const Item: React.FC<ItemProps> = (props) => {
           isHorizontalScrolling.value = false
           scrollDirection.value = deltaY > 0 ? 1 : -1
 
-          // (re)schedule scroll-end detection on the UI thread
+          // (re)schedule scroll-end detection on the UI thread. A pause
+          // while the finger is still down is NOT the end of the gesture —
+          // only release once the touch has ended and scrolling went idle,
+          // otherwise a mid-gesture pause would let the carousel swipe.
           if (ctx.endTimeout !== undefined) {
             clearTimeout(ctx.endTimeout)
           }
-          ctx.endTimeout = setTimeout(() => {
+          const checkEnd = () => {
+            if (isTouchActive.value) {
+              ctx.endTimeout = setTimeout(checkEnd, 150)
+              return
+            }
             isScrolling.value = false
 
             // Snap TopBar to fully visible or hidden based on last direction
@@ -464,7 +472,8 @@ const Item: React.FC<ItemProps> = (props) => {
             if (__DEV__) {
               runOnJS(logAnimationEvent)('scroll-end', { offset: currentY })
             }
-          }, 150)
+          }
+          ctx.endTimeout = setTimeout(checkEnd, 150)
         }
       }
     },
@@ -636,6 +645,15 @@ const Item: React.FC<ItemProps> = (props) => {
         underlayReady={isFullBleed || underlayHeight !== null}
         onScroll={scrollHandler}
         animatedProps={webViewAnimatedProps}
+        onTouchStart={() => {
+          isTouchActive.value = true
+        }}
+        onTouchEnd={() => {
+          isTouchActive.value = false
+        }}
+        onTouchCancel={() => {
+          isTouchActive.value = false
+        }}
         scrollRatio={scrollRatio}
         restoreScrollNonce={restoreScrollNonce}
       />

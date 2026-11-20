@@ -16,6 +16,7 @@ interface AnimationContextType {
   scrollDirection: SharedValue<number>
   isScrolling: SharedValue<boolean>
   isHorizontalScrolling: SharedValue<boolean>
+  isTouchActive: SharedValue<boolean>
   scrollVelocity: SharedValue<number>
 }
 
@@ -75,6 +76,7 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = ({ children }
   const scrollDirection = useSharedValue(0) // 1 = down, -1 = up, 0 = none
   const isScrolling = useSharedValue(false)
   const isHorizontalScrolling = useSharedValue(false)
+  const isTouchActive = useSharedValue(false)
   const scrollVelocity = useSharedValue(0)
 
   const value = useMemo(() => ({
@@ -90,8 +92,9 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = ({ children }
     scrollDirection,
     isScrolling,
     isHorizontalScrolling,
+    isTouchActive,
     scrollVelocity,
-  }), [horizontalScroll, currentIndex, getVerticalScroll, getHeaderVisible, getButtonsVisible, pruneAnimationValues, scrollDirection, isScrolling, isHorizontalScrolling, scrollVelocity])
+  }), [horizontalScroll, currentIndex, getVerticalScroll, getHeaderVisible, getButtonsVisible, pruneAnimationValues, scrollDirection, isScrolling, isHorizontalScrolling, isTouchActive, scrollVelocity])
 
   return (
     <AnimationContext.Provider value={value}>

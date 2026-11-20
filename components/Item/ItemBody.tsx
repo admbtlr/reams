@@ -76,6 +76,9 @@ interface ItemBodyProps {
   onScroll?: (event: any) => void
   // biome-ignore lint/suspicious/noExplicitAny: reanimated animated props (scrollEnabled lock)
   animatedProps?: any
+  onTouchStart?: () => void
+  onTouchEnd?: () => void
+  onTouchCancel?: () => void
   scrollRatio?: number
   restoreScrollNonce?: number
 }
@@ -90,6 +93,9 @@ const ItemBody = ({
   underlayReady,
   onScroll,
   animatedProps,
+  onTouchStart,
+  onTouchEnd,
+  onTouchCancel,
   scrollRatio,
   restoreScrollNonce
 }: ItemBodyProps) => {
@@ -403,6 +409,9 @@ article {
       <AnimatedWebView
         animatedProps={animatedProps}
         allowsFullscreenVideo={true}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        onTouchCancel={onTouchCancel}
         allowsLinkPreview={true}
         allowFileAccessFromFileURLs
         allowUniversalAccessFromFileURLs
