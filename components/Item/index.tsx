@@ -5,12 +5,12 @@ import {
   Animated,
   Dimensions,
   NativeScrollEvent,
-  NativeSyntheticEvent,
   StatusBar,
   View,
   useWindowDimensions
 } from 'react-native'
 import Reanimated, {
+  useAnimatedScrollHandler,
   runOnJS,
   useSharedValue,
   withTiming,
@@ -370,90 +370,91 @@ const Item: React.FC<ItemProps> = (props) => {
     StatusBar.setHidden(!isStatusBarVisible)
   }
 
-  // The WebView only emits onScroll (no begin/end drag events), so this is
-  // a plain JS handler that writes to the Reanimated shared values directly.
-  // Scroll-end behaviour (header snap, buttons) is approximated with a
-  // debounce: no scroll events for 150ms means the scroll has ended.
-  const scrollEndTimeout = useRef<NodeJS.Timeout | null>(null)
-  const scrollBeginY = useRef(0)
-  const lastY = useRef(0)
-  const lastDirection = useRef(0) // 1 = down, -1 = up, 0 = none
-
-  const handleScrollEnd = (finalY: number): void => {
-    isScrolling.value = false
-    buttonsVisible.value = finalY > scrollBeginY.current ? 0 : 1
-    setButtonsVisible(buttonsVisible.value === 1)
-
-    // Snap TopBar to fully visible or hidden based on last scroll direction
-    const currentOffset = headerVisible.value
-    const threshold = statusBarHeight / 2
-
-    let targetOffset = 0
-    if (lastDirection.current > 0) {
-      // Was scrolling down - snap to hidden
-      targetOffset = statusBarHeight
-    } else if (lastDirection.current < 0) {
-      // Was scrolling up - snap to visible
-      targetOffset = 0
-    } else {
-      // No clear direction - snap based on current position
-      targetOffset = currentOffset > threshold ? statusBarHeight : 0
-    }
-
-    setStatusBarVisible(targetOffset === 0)
-
-    headerVisible.value = withTiming(targetOffset, {
-      duration: 200
-    })
-
-    if (__DEV__) {
-      logAnimationEvent('scroll-end', { offset: finalY })
-    }
+  // Runs on the UI thread via the WebView's native onScroll (the WebView is
+  // wrapped in Reanimated.createAnimatedComponent in ItemBody). The WebView
+  // only emits onScroll — no begin/end drag — so scroll end is detected in
+  // the worklet via idle frames, and only then crosses the bridge (runOnJS)
+  // to snap the header and toggle buttons/status bar.
+  interface ScrollContext {
+    lastY: number
+    direction: number // 1 = down, -1 = up, 0 = none
+    idleFrames: number
+    beginY: number
   }
 
-  const scrollHandler = (
-    event: NativeSyntheticEvent<NativeScrollEvent>
-  ): void => {
-    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent
-    const currentY = contentOffset.y
+  const scrollHandler = useAnimatedScrollHandler<
+    NativeScrollEvent,
+    ScrollContext
+  >(
+    {
+      onScroll: (event, ctx) => {
+        const currentY = event.contentOffset.y
 
-    // Update scroll position
-    verticalScroll.value = currentY
-    isScrolling.value = true
-    if (lastY.current === 0) {
-      scrollBeginY.current = currentY
-    }
+        // Update scroll position
+        verticalScroll.value = currentY
+        isScrolling.value = true
+        if (ctx.beginY === undefined || ctx.beginY === 0) {
+          ctx.beginY = currentY
+        }
 
-    // Track relative scroll movement for TopBar
-    const deltaY = currentY - lastY.current
-    const maxScrollY = contentSize.height - layoutMeasurement.height
+        // Track relative scroll movement for TopBar
+        const deltaY = currentY - (ctx.lastY ?? 0)
+        const maxScrollY =
+          event.contentSize.height - event.layoutMeasurement.height
 
-    // Don't update header when at top of page to prevent bounce issues
-    if (currentY >= 10 && currentY <= maxScrollY - 10) {
-      // Track scroll direction
-      if (Math.abs(deltaY) > 1) {
-        // Only update direction for meaningful movement
-        lastDirection.current = deltaY > 0 ? 1 : -1
+        // Don't update header when at top/bottom to prevent bounce issues
+        if (currentY >= 10 && currentY <= maxScrollY - 10) {
+          if (Math.abs(deltaY) > 1) {
+            // Only update direction for meaningful movement
+            ctx.direction = deltaY > 0 ? 1 : -1
+          }
+
+          // Update header offset based on scroll direction
+          // Scrolling down (positive delta) - hide header
+          // Scrolling up (negative delta) - show header
+          headerVisible.value = Math.max(
+            0,
+            Math.min(statusBarHeight, headerVisible.value + deltaY)
+          )
+        }
+        ctx.lastY = currentY
+
+        // scroll-end detection: a few consecutive idle frames means the
+        // scroll has stopped
+        if (Math.abs(deltaY) > 0.5) {
+          ctx.idleFrames = 0
+        } else {
+          ctx.idleFrames = (ctx.idleFrames ?? 0) + 1
+          if (ctx.idleFrames === 5) {
+            isScrolling.value = false
+
+            // Snap TopBar to fully visible or hidden based on last direction
+            const threshold = statusBarHeight / 2
+            let targetOffset = 0
+            if ((ctx.direction ?? 0) > 0) {
+              targetOffset = statusBarHeight
+            } else if ((ctx.direction ?? 0) < 0) {
+              targetOffset = 0
+            } else {
+              targetOffset =
+                headerVisible.value > threshold ? statusBarHeight : 0
+            }
+            headerVisible.value = withTiming(targetOffset, { duration: 200 })
+
+            const buttonsShown = currentY <= (ctx.beginY ?? 0)
+            buttonsVisible.value = buttonsShown ? 1 : 0
+            runOnJS(setButtonsVisible)(buttonsShown)
+            runOnJS(setStatusBarVisible)(targetOffset === 0)
+
+            if (__DEV__) {
+              runOnJS(logAnimationEvent)('scroll-end', { offset: currentY })
+            }
+          }
+        }
       }
-
-      // Update header offset based on scroll direction
-      // Scrolling down (positive delta) - hide header
-      // Scrolling up (negative delta) - show header
-      const currentOffset = headerVisible.value
-      headerVisible.value = Math.max(
-        0,
-        Math.min(statusBarHeight, currentOffset + deltaY)
-      )
-    }
-    lastY.current = currentY
-
-    if (scrollEndTimeout.current) {
-      clearTimeout(scrollEndTimeout.current)
-    }
-    scrollEndTimeout.current = setTimeout(() => {
-      handleScrollEnd(currentY)
-    }, 150)
-  }
+    },
+    []
+  )
   // END SCROLL HANDLER
 
   // ANIMATED STYLES

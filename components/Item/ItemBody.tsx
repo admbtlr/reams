@@ -9,6 +9,7 @@ import {
   View
 } from 'react-native'
 import { WebView } from 'react-native-webview'
+import Reanimated from 'react-native-reanimated'
 import { openLink } from '../../utils/open-link'
 import { hslString } from '../../utils/colors'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,6 +37,13 @@ import {
   selectItemShowMercury
 } from '@/store/items/items-selectors'
 import { cacheImagesForItem } from '../../utils/imageCache'
+
+// wrapped in createAnimatedComponent so a Reanimated useAnimatedScrollHandler
+// can be attached to onScroll and fire on the UI thread, without crossing
+// the JS bridge per scroll frame. Requires the getScrollableNode() patch
+// in patches/react-native-webview+13.15.0.patch for event registration.
+// biome-ignore lint/suspicious/noExplicitAny: WebView forwardRef typing
+const AnimatedWebView = Reanimated.createAnimatedComponent(WebView) as any
 
 const injectedJavaScript = `
 window.ReactNativeWebView?.postMessage('loaded');
@@ -363,7 +371,7 @@ html, body {
         decoration_failures={decoration_failures}
         underlay
       /> */}
-      <WebView
+      <AnimatedWebView
         allowsFullscreenVideo={true}
         allowsLinkPreview={true}
         allowFileAccessFromFileURLs
