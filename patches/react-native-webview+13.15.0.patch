@@ -1,0 +1,48 @@
+diff --git a/node_modules/react-native-webview/src/WebView.android.tsx b/node_modules/react-native-webview/src/WebView.android.tsx
+index edf06fa..c69a950 100644
+--- a/node_modules/react-native-webview/src/WebView.android.tsx
++++ b/node_modules/react-native-webview/src/WebView.android.tsx
+@@ -7,7 +7,7 @@ import React, {
+   useRef,
+ } from 'react';
+ 
+-import { Image, View, ImageSourcePropType, HostComponent } from 'react-native';
++import { Image, View, ImageSourcePropType, HostComponent, findNodeHandle } from 'react-native';
+ 
+ import BatchedBridge from 'react-native/Libraries/BatchedBridge/BatchedBridge';
+ import EventEmitter from 'react-native/Libraries/vendor/emitter/EventEmitter';
+@@ -179,6 +179,10 @@ const WebViewComponent = forwardRef<{}, AndroidWebViewProps>(
+           Commands.clearCache(webViewRef.current, includeDiskFiles),
+         clearHistory: () =>
+           webViewRef.current && Commands.clearHistory(webViewRef.current),
++        // lets react-native-reanimated's createAnimatedComponent register
++        // native event handlers (e.g. onScroll) without calling
++        // findNodeHandle on this imperative handle
++        getScrollableNode: () => findNodeHandle(webViewRef.current),
+       }),
+       [setViewState, webViewRef]
+     );
+diff --git a/node_modules/react-native-webview/src/WebView.ios.tsx b/node_modules/react-native-webview/src/WebView.ios.tsx
+index deb179b..a2f3e37 100644
+--- a/node_modules/react-native-webview/src/WebView.ios.tsx
++++ b/node_modules/react-native-webview/src/WebView.ios.tsx
+@@ -4,7 +4,7 @@ import React, {
+   useImperativeHandle,
+   useRef,
+ } from 'react';
+-import { Image, View, ImageSourcePropType, HostComponent } from 'react-native';
++import { Image, View, ImageSourcePropType, HostComponent, findNodeHandle } from 'react-native';
+ import invariant from 'invariant';
+ 
+ import RNCWebView, { Commands, NativeProps } from './RNCWebViewNativeComponent';
+@@ -159,6 +159,10 @@ const WebViewComponent = forwardRef<{}, IOSWebViewProps>(
+         clearCache: (includeDiskFiles: boolean) =>
+           webViewRef.current &&
+           Commands.clearCache(webViewRef.current, includeDiskFiles),
++        // lets react-native-reanimated's createAnimatedComponent register
++        // native event handlers (e.g. onScroll) without calling
++        // findNodeHandle on this imperative handle
++        getScrollableNode: () => findNodeHandle(webViewRef.current),
+       }),
+       [setViewState, webViewRef]
+     );

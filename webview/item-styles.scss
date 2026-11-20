@@ -85,6 +85,26 @@ body {
   margin: 0;
 }
 
+// scroll-triggered fade-in (see initScrollFadeIns in feed-item.js)
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-fade {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 .cover, .body {
   position: relative;
   margin: 0;

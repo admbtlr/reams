@@ -4,14 +4,14 @@ import {
   ActivityIndicator,
   Animated,
   Dimensions,
-  Platform,
-  ScrollView,
+  NativeScrollEvent,
   StatusBar,
   View,
   useWindowDimensions
 } from 'react-native'
 import Reanimated, {
   useAnimatedScrollHandler,
+  useAnimatedProps,
   runOnJS,
   useSharedValue,
   withTiming,
@@ -52,8 +52,6 @@ import {
 } from '../ItemCarousel/bufferedItemsStore'
 
 const entities = require('entities')
-
-export const INITIAL_WEBVIEW_HEIGHT = 1000
 
 // Types
 
@@ -150,7 +148,6 @@ const Item: React.FC<ItemProps> = (props) => {
   }
 
   // Refs
-  const scrollView = useRef<ScrollView>(null)
   const view = useRef<View>(null)
 
   // Animation refs
@@ -163,20 +160,15 @@ const Item: React.FC<ItemProps> = (props) => {
   const currentSlot = useCurrentSlot()
 
   // State
-  const [webViewHeight, setWebViewHeight] = useState<number>(
-    INITIAL_WEBVIEW_HEIGHT
-  )
+  // height of the Underlay (cover + title), measured via onLayout; drives
+  // the WebView's native paddingTop. In full-bleed mode the Underlay is a
+  // full screen, so the padding is the screen height.
+  const [underlayHeight, setUnderlayHeight] = useState<number | null>(null)
+  // bumped to re-trigger in-page scroll restoration inside the WebView
+  const [restoreScrollNonce, setRestoreScrollNonce] = useState<number>(0)
   // const [inflatedItem, setInflatedItem] = useState<ItemInflated | null>(null)
   const [animsUpdated, setAnimsUpdated] = useState<number>(Date.now())
   const [isVisible, setIsVisible] = useState<boolean>(slotIndex === currentSlot)
-
-  // use a ref so that we can reference this value within a closure
-  // i.e. the scrollToOffset function below
-  const webViewHeightRef = useRef(webViewHeight)
-  // Update the ref whenever webViewHeight changes
-  useEffect(() => {
-    webViewHeightRef.current = webViewHeight
-  }, [webViewHeight])
 
   // Other refs to replace class properties
   const screenDimensions = useRef(Dimensions.get('window')).current
@@ -323,53 +315,19 @@ const Item: React.FC<ItemProps> = (props) => {
 
   const scrollToOffset = (isOverridable = false, useTimeout = true): void => {
     if (isOverridable && hasBegunScroll.current) return
-    if (!scrollView.current) return
     if (!item?.scrollRatio || typeof item?.scrollRatio !== 'object') return
 
     const scrollRatio =
       item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
     if (!scrollRatio || scrollRatio === 0) return
 
+    // the WebView scrolls itself; restoration happens in-page (see ItemBody)
     setTimeout(
       () => {
-        if (scrollView.current) {
-          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          ;(scrollView.current as any).scrollTo({
-            x: 0,
-            // use the ref to escape the problem of webViewHeight being inside the closure
-            y: scrollRatio * webViewHeightRef.current,
-            animated: true
-          })
-        }
+        setRestoreScrollNonce(Date.now())
       },
       useTimeout ? 2000 : 0
     )
-  }
-
-  const updateWebViewHeight = (height: number): void => {
-    if (!height || Math.abs(height - webViewHeight) < height * 0.1) {
-      return
-    }
-    // chill out on the re-renders
-    if (isVisible) {
-      setWebViewHeight(height)
-    } else {
-      setTimeout(() => {
-        setWebViewHeight(height)
-      }, 500)
-    }
-  }
-
-  const onNavigationStateChange = (event: {
-    url: string
-    jsEvaluationValue: string
-  }): void => {
-    // this means we're loading an image
-    if (event.url.startsWith('react-js-navigation')) return
-    const calculatedHeight = Number.parseInt(event.jsEvaluationValue)
-    if (calculatedHeight) {
-      updateWebViewHeight(calculatedHeight)
-    }
   }
 
   // SCROLL HANDLER
@@ -378,15 +336,20 @@ const Item: React.FC<ItemProps> = (props) => {
     getHeaderVisible,
     getVerticalScroll,
     horizontalScroll,
-    isScrolling
+    isScrolling,
+    isHorizontalScrolling,
+    isTouchActive
   } = useAnimation()
+  // Gesture lock, WebView side: while the carousel is scrolling horizontally,
+  // the WebView must not scroll vertically in the same gesture
+  const webViewAnimatedProps = useAnimatedProps(() => ({
+    scrollEnabled: !isHorizontalScrolling.value
+  }))
+
   // Per-item shared values keyed by this item's _id
   const verticalScroll = getVerticalScroll(_id)
   const headerVisible = getHeaderVisible(_id)
   const buttonsVisible = getButtonsVisible(_id)
-  const scrollBegin = useSharedValue(0)
-  const lastScrollY = useSharedValue(0)
-  const lastScrollDirection = useSharedValue(0) // 1 = down, -1 = up, 0 = none
   const statusBarHeight = getStatusBarHeight()
 
   const screenWidth = useWindowDimensions().width
@@ -416,121 +379,106 @@ const Item: React.FC<ItemProps> = (props) => {
     StatusBar.setHidden(!isStatusBarVisible)
   }
 
-  const scrollHandler = useAnimatedScrollHandler({
-    onBeginDrag: (event) => {
-      isScrolling.value = true
-      scrollBegin.value = event.contentOffset.y
-      lastScrollY.value = event.contentOffset.y
+  // Runs on the UI thread via the WebView's native onScroll (the WebView is
+  // wrapped in Reanimated.createAnimatedComponent in ItemBody). The WebView
+  // only emits onScroll — no begin/end drag — so scroll end is detected with
+  // a UI-runtime setTimeout (150ms after the last meaningful movement), and
+  // only then crosses the bridge (runOnJS) to snap the header and toggle
+  // buttons/status bar.
+  const scrollDirection = useSharedValue(0) // 1 = down, -1 = up, 0 = none
+
+  interface ScrollContext {
+    lastY: number
+    endTimeout?: number
+  }
+
+  const scrollHandler = useAnimatedScrollHandler<
+    NativeScrollEvent,
+    ScrollContext
+  >(
+    {
+      onScroll: (event, ctx) => {
+        const currentY = event.contentOffset.y
+        const maxScrollY =
+          event.contentSize.height - event.layoutMeasurement.height
+
+        // Update scroll position with the raw offset (including negative
+        // overscroll) so the Underlay/fake-bg keep their rubber-band bounce
+        verticalScroll.value = currentY
+
+        // ...but ignore out-of-range offsets for gesture logic: negative y
+        // and beyond-max y are bounces, not scrolling — treating them as
+        // movement hides the TopBar/buttons when the WebView bounces back.
+        if (currentY < 0 || currentY > maxScrollY) {
+          ctx.lastY = currentY
+          return
+        }
+
+        const deltaY = currentY - (ctx.lastY ?? 0)
+        ctx.lastY = currentY
+
+        // Don't update header when near top/bottom to prevent bounce issues
+        if (currentY >= 10 && currentY <= maxScrollY - 10) {
+          // Update header offset based on scroll direction
+          // Scrolling down (positive delta) - hide header
+          // Scrolling up (negative delta) - show header
+          headerVisible.value = Math.max(
+            0,
+            Math.min(statusBarHeight, headerVisible.value + deltaY)
+          )
+        }
+
+        // Only lock the carousel to the vertical axis once the gesture has
+        // meaningful vertical movement — horizontal swipes must pass through
+        if (Math.abs(deltaY) > 1) {
+          // vertical axis wins this gesture: lock the carousel, make sure
+          // the WebView itself is not locked by a horizontal gesture
+          isScrolling.value = true
+          isHorizontalScrolling.value = false
+          scrollDirection.value = deltaY > 0 ? 1 : -1
+
+          // (re)schedule scroll-end detection on the UI thread. A pause
+          // while the finger is still down is NOT the end of the gesture —
+          // only release once the touch has ended and scrolling went idle,
+          // otherwise a mid-gesture pause would let the carousel swipe.
+          if (ctx.endTimeout !== undefined) {
+            clearTimeout(ctx.endTimeout)
+          }
+          const checkEnd = () => {
+            if (isTouchActive.value) {
+              ctx.endTimeout = setTimeout(checkEnd, 150)
+              return
+            }
+            isScrolling.value = false
+
+            // Snap TopBar to fully visible or hidden based on last direction
+            const threshold = statusBarHeight / 2
+            let targetOffset = 0
+            if (scrollDirection.value > 0) {
+              targetOffset = statusBarHeight
+            } else if (scrollDirection.value < 0) {
+              targetOffset = 0
+            } else {
+              targetOffset =
+                headerVisible.value > threshold ? statusBarHeight : 0
+            }
+            headerVisible.value = withTiming(targetOffset, { duration: 200 })
+
+            const buttonsShown = scrollDirection.value <= 0
+            buttonsVisible.value = buttonsShown ? 1 : 0
+            runOnJS(setButtonsVisible)(buttonsShown)
+            runOnJS(setStatusBarVisible)(targetOffset === 0)
+
+            if (__DEV__) {
+              runOnJS(logAnimationEvent)('scroll-end', { offset: currentY })
+            }
+          }
+          ctx.endTimeout = setTimeout(checkEnd, 150)
+        }
+      }
     },
-    onScroll: (event) => {
-      // Update scroll position
-      verticalScroll.value = event.contentOffset.y
-
-      // Track relative scroll movement for TopBar
-      const currentY = event.contentOffset.y
-      const deltaY = currentY - lastScrollY.value
-      const contentHeight = event.contentSize.height
-      const layoutHeight = event.layoutMeasurement.height
-      const maxScrollY = contentHeight - layoutHeight
-
-      // Don't update header when at top of page to prevent bounce issues
-      if (currentY < 10) {
-        headerVisible.value = 0 // Keep header visible at top
-        lastScrollY.value = currentY
-        return
-      }
-
-      // Don't update header when at bottom of page to prevent bounce issues
-      if (currentY > maxScrollY - 10) {
-        // Keep current header state when at bottom to avoid bounce effects
-        lastScrollY.value = currentY
-        return
-      }
-
-      // Track scroll direction
-      if (Math.abs(deltaY) > 1) {
-        // Only update direction for meaningful movement
-        lastScrollDirection.value = deltaY > 0 ? 1 : -1
-      }
-
-      // Update header offset based on scroll direction
-      // Scrolling down (positive delta) - hide header
-      // Scrolling up (negative delta) - show header
-      const currentOffset = headerVisible.value
-      const newOffset = Math.max(
-        0,
-        Math.min(statusBarHeight, currentOffset + deltaY)
-      )
-
-      headerVisible.value = newOffset
-      lastScrollY.value = currentY
-    },
-    onEndDrag: (event) => {
-      isScrolling.value = false
-      buttonsVisible.value =
-        event.contentOffset.y > scrollBegin.value ? 0 : 1
-
-      runOnJS(setButtonsVisible)(buttonsVisible.value === 1)
-
-      // Snap TopBar to fully visible or hidden based on last scroll direction
-      const currentOffset = headerVisible.value
-      const threshold = statusBarHeight / 2
-
-      let targetOffset = 0
-      if (lastScrollDirection.value > 0) {
-        // Was scrolling down - snap to hidden
-        targetOffset = statusBarHeight
-      } else if (lastScrollDirection.value < 0) {
-        // Was scrolling up - snap to visible
-        targetOffset = 0
-      } else {
-        // No clear direction - snap based on current position
-        targetOffset = currentOffset > threshold ? statusBarHeight : 0
-      }
-
-      runOnJS(setStatusBarVisible)(targetOffset === 0)
-
-      headerVisible.value = withTiming(targetOffset, {
-        duration: 200
-      })
-
-      if (__DEV__) {
-        runOnJS(logAnimationEvent)('scroll-end-drag', {
-          offset: event.contentOffset.y
-        })
-      }
-    },
-    onMomentumEnd: (event) => {
-      // Only update shared values if this Item is currently visible
-      isScrolling.value = false
-
-      // Snap TopBar to fully visible or hidden based on last scroll direction
-      const currentOffset = headerVisible.value
-      const threshold = statusBarHeight / 2
-
-      let targetOffset = 0
-      if (lastScrollDirection.value > 0) {
-        // Was scrolling down - snap to hidden
-        targetOffset = statusBarHeight
-      } else if (lastScrollDirection.value < 0) {
-        // Was scrolling up - snap to visible
-        targetOffset = 0
-      } else {
-        // No clear direction - snap based on current position
-        targetOffset = currentOffset > threshold ? statusBarHeight : 0
-      }
-
-      headerVisible.value = withTiming(targetOffset, {
-        duration: 200
-      })
-
-      if (__DEV__) {
-        runOnJS(logAnimationEvent)('scroll-momentum-end', {
-          offset: event.contentOffset.y
-        })
-      }
-    }
-  })
+    []
+  )
   // END SCROLL HANDLER
 
   // ANIMATED STYLES
@@ -540,6 +488,11 @@ const Item: React.FC<ItemProps> = (props) => {
       [0, 250, 251],
       [0, 0, 1]
     )
+  }))
+  // the Underlay scrolls away 1:1 with the WebView's scroll offset, as if
+  // it were still inside the (now removed) ScrollView
+  const underlayStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: -verticalScroll.value }]
   }))
   // END ANIMATED STYLES
 
@@ -578,6 +531,11 @@ const Item: React.FC<ItemProps> = (props) => {
   const reveal = new Animated.Value(hasRendered.current ? 0 : 1)
 
   const isCoverInline = orientation !== 'landscape' && styles?.isCoverInline
+  const isFullBleed = !!showCoverImage && !isCoverInline
+  const scrollRatio =
+    item?.scrollRatio && typeof item.scrollRatio === 'object'
+      ? item.scrollRatio[item.showMercuryContent ? 'mercury' : 'html']
+      : undefined
 
   const colorArray = color?.match(/hsl\((\d+), (\d+)%, (\d+)%\)/)
   const bodyColor = isDarkMode
@@ -608,10 +566,6 @@ const Item: React.FC<ItemProps> = (props) => {
     />
   ) : null
 
-  const bodyStyle: StyleWithTransform = {
-    backgroundColor: bodyColor
-  }
-
   return (
     <View
       ref={view}
@@ -621,7 +575,9 @@ const Item: React.FC<ItemProps> = (props) => {
         overflow: 'hidden'
       }}
     >
-      {showCoverImage && !isCoverInline && coverImage}
+      {/* full-bleed cover stays fixed; the ItemBody slides over it */}
+      {isFullBleed && coverImage}
+      {/* fades bodyColor over the cover as you scroll */}
       <Reanimated.View
         style={[
           {
@@ -635,22 +591,21 @@ const Item: React.FC<ItemProps> = (props) => {
           fakeBgOpacityStyle
         ]}
       />
-      <Reanimated.ScrollView
-        onScroll={scrollHandler}
-        // onMomentumScrollBegin={onMomentumScrollBegin}
-        // onMomentumScrollEnd={onMomentumScrollEnd}
-        // onScrollBeginDrag={() => {
-        //   hasBegunScroll.current = true
-        // }}
-        // onScrollEndDrag={onScrollEndDrag}
-        pinchGestureEnabled={false}
-        ref={scrollView}
-        scrollEventThrottle={16}
-        style={{
-          flex: 1,
-          minHeight: 100,
-          minWidth: 100
-        }}
+      {/* Underlay: cover (inline) + title, scrolls away 1:1 with the WebView.
+          Its measured height becomes the WebView's transparent paddingTop. */}
+      <Reanimated.View
+        style={[
+          {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0
+          },
+          underlayStyle
+        ]}
+        onLayout={(event) =>
+          setUnderlayHeight(event.nativeEvent.layout.height)
+        }
       >
         {(isCoverInline || !showCoverImage || !coverImage) && (
           <Nudge feed_id={item.feed_id} scrollAnim={scrollAnim} />
@@ -673,39 +628,35 @@ const Item: React.FC<ItemProps> = (props) => {
           showCoverImage={showCoverImage}
           isCoverInline={isCoverInline}
         />
-        <Animated.View
-          style={
-            webViewHeight !== INITIAL_WEBVIEW_HEIGHT && // avoid https://sentry.io/organizations/adam-butler/issues/1608223243/
-            (styles.coverImage?.isInline || !showCoverImage)
-              ? //addAnimation(bodyStyle, anims.current[5], isVisible) :
-                bodyStyle
-              : bodyStyle
-          }
-        >
-          {/*<View style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            paddingTop: 100,
-            backgroundColor: bodyColor
-          }}>
-            <ActivityIndicator size="large" color={hslString('rizzleFG')} />
-          </View>*/}
-          <ItemBody
-            bodyColor={bodyColor}
-            item={{
-              ...inflatedItem,
-              ...item
-            }}
-            orientation={orientation}
-            showImageViewer={showImageViewer}
-            updateWebViewHeight={updateWebViewHeight}
-            webViewHeight={webViewHeight}
-          />
-        </Animated.View>
-      </Reanimated.ScrollView>
+      </Reanimated.View>
+      {/* ItemBody: a self-scrolling WebView on top, transparent paddingTop
+          reveals the Underlay through the top window */}
+      <ItemBody
+        bodyColor={bodyColor}
+        item={{
+          ...inflatedItem,
+          ...item
+        }}
+        orientation={orientation}
+        showImageViewer={showImageViewer}
+        paddingTop={
+          isFullBleed ? screenDimensions.height : (underlayHeight ?? 0)
+        }
+        underlayReady={isFullBleed || underlayHeight !== null}
+        onScroll={scrollHandler}
+        animatedProps={webViewAnimatedProps}
+        onTouchStart={() => {
+          isTouchActive.value = true
+        }}
+        onTouchEnd={() => {
+          isTouchActive.value = false
+        }}
+        onTouchCancel={() => {
+          isTouchActive.value = false
+        }}
+        scrollRatio={scrollRatio}
+        restoreScrollNonce={restoreScrollNonce}
+      />
       {/*{!hasRendered.current &&
         <Animated.View
           style={{

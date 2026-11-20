@@ -261,6 +261,31 @@ function markShortBlockquotes() {
   })
 }
 
+// Fade images and blockquotes in when they scroll into view. Works because
+// the WebView owns scrolling, so IntersectionObserver tracks the real
+// viewport. Styles live in item-styles.scss (.scroll-fade / .is-visible).
+function initScrollFadeIns() {
+  const els = document.querySelectorAll(
+    'article figure, article blockquote, article .pullquote, article > img'
+  )
+  if (!('IntersectionObserver' in window)) {
+    return
+  }
+  els.forEach((el) => el.classList.add('scroll-fade'))
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { root: null, rootMargin: '0px 0px -20% 0px', threshold: 0.2 }
+  )
+  els.forEach((el) => observer.observe(el))
+}
+
 function markContentHoldingDivs() {
   const divs = document.querySelectorAll('div')
   let isContentHolder
@@ -787,6 +812,8 @@ function init() {
   }
 
   remove1x1Images()
+
+  initScrollFadeIns()
 
   // let currentSelectionText = ''
   // document.addEventListener('selectionchange', () => {
